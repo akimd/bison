@@ -24,17 +24,18 @@ AT_BANNER([[Push Parsing Tests]])
 AT_SETUP([[Memory Leak for Early Deletion]])
 
 # Requires Valgrind.
-
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %{
   #include <assert.h>
   #include <stdio.h>
   #define YYINITDEPTH 1
-  void yyerror (char const *msg);
+]AT_YYERROR_DECLARE[
 %}
 
-%define api.pure %define api.push-pull push
+%define api.pure
+%define api.push-pull push
 
 %%
 
@@ -42,11 +43,7 @@ start: 'a' 'b' 'c' ;
 
 %%
 
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
+]AT_YYERROR_DEFINE[
 
 int
 main (void)
@@ -71,6 +68,7 @@ main (void)
   return 0;
 }
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
@@ -85,13 +83,14 @@ AT_CLEANUP
 AT_SETUP([[Multiple impure instances]])
 
 m4_pushdef([AT_MULTIPLE_IMPURE_INSTANCES_CHECK], [
+AT_BISON_OPTION_PUSHDEFS([%define api.push-pull $1])
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %{
   #include <assert.h>
   #include <stdio.h>
-  void yyerror (char const *msg);
-  int yylex (void);
+]AT_YYERROR_DECLARE[
+]m4_if([$1], [[both]], [AT_YYLEX_DECLARE([])])[
 %}
 
 %define api.push-pull ]$1[
@@ -101,28 +100,16 @@ AT_DATA_GRAMMAR([[input.y]],
 start: ;
 
 %%
-
-void
-yyerror (char const *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
-int
-yylex (void)
-{
-  return 0;
-}
+]AT_YYERROR_DEFINE[
+]m4_if([$1], [[both]], [AT_YYLEX_DEFINE([])])[
 
 int
 main (void)
 {
-  yypstate *ps;
   int i;
-
   for (i = 0; i < 2; ++i)
     {
-      ps = yypstate_new ();
+      yypstate *ps = yypstate_new ();
       assert (ps);
       assert (yypstate_new () == YY_NULL);
       ]m4_if([$1], [[both]], [[assert (yyparse () == 2)]])[;
@@ -140,6 +127,7 @@ main (void)
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
+AT_BISON_OPTION_POPDEFS
 ])
 
 AT_MULTIPLE_IMPURE_INSTANCES_CHECK([[both]])
@@ -155,12 +143,14 @@ AT_CLEANUP
 
 AT_SETUP([[Unsupported Skeletons]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA([[input.y]],
 [[%glr-parser
 %define api.push-pull push
 %%
 start: ;
 ]])
+AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[input.y]], [[1]], [],
 [[input.y:2.9-21: %define variable 'api.push-pull' is not used

@@ -35,8 +35,8 @@ AT_DATA_GRAMMAR([glr-regr1.y],
 
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
-]AT_YYLEX_DECLARE[
 ]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
 %}
 
 
@@ -81,12 +81,12 @@ yylex (void)
     {
       int ch;
       if (feof (stdin))
-        abort ();
+	abort ();
       ch = getchar ();
       if (ch == EOF)
-        return 0;
+	return 0;
       else if (ch == 'B' || ch == 'P')
-        return ch;
+	return ch;
     }
 }
 ]])
@@ -128,8 +128,8 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
-  ]AT_YYLEX_DECLARE[
   ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 %}
 
 %glr-parser
@@ -339,7 +339,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Duplicate representation of merged trees.  See                            ##
+## Duplicate representation of merged trees.  See			     ##
 ## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.     ##
 ## ------------------------------------------------------------------------- ##
 
@@ -430,7 +430,7 @@ AT_CLEANUP
 
 
 ## -------------------------------------------------------------------------- ##
-## User destructor for unresolved GLR semantic value.  See                    ##
+## User destructor for unresolved GLR semantic value.  See		      ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html>.   ##
 ## -------------------------------------------------------------------------- ##
 
@@ -490,7 +490,7 @@ AT_CLEANUP
 
 
 ## -------------------------------------------------------------------------- ##
-## User destructor after an error during a split parse.  See                  ##
+## User destructor after an error during a split parse.  See		      ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html>.   ##
 ## -------------------------------------------------------------------------- ##
 
@@ -519,18 +519,8 @@ AT_DATA_GRAMMAR([glr-regr6.y],
 start: 'a' | 'a' ;
 
 %%
-
-static int
-yylex (void)
-{
-  static char const input[] = "a";
-  static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
-  return input[toknum++];
-}
-
 ]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(a)[
 int
 main (void)
 {
@@ -554,7 +544,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Duplicated user destructor for lookahead.  See                            ##
+## Duplicated user destructor for lookahead.  See			     ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00035.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
@@ -642,7 +632,7 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## Incorrect default location for empty right-hand sides.  Adapted from bug  ##
-## report by Claudia Hermann.                                                ##
+## report by Claudia Hermann.						     ##
 ## See http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00069.html and ##
 ## http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00072.html         ##
 ## ------------------------------------------------------------------------- ##
@@ -657,7 +647,6 @@ AT_DATA_GRAMMAR([glr-regr8.y],
   #include <stdlib.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-  ]AT_YYERROR_DECLARE[
 %}
 
 %token T_CONSTANT
@@ -669,25 +658,25 @@ AT_DATA_GRAMMAR([glr-regr8.y],
 %%
 
 
-PortClause      : T_PORT InterfaceDeclaration T_PORT
-                { printf("%d/%d - %d/%d - %d/%d\n",
-                         @1.first_column, @1.last_column,
-                         @2.first_column, @2.last_column,
-                         @3.first_column, @3.last_column); }
-        ;
+PortClause	: T_PORT InterfaceDeclaration T_PORT
+		{ printf("%d/%d - %d/%d - %d/%d\n",
+			 @1.first_column, @1.last_column,
+			 @2.first_column, @2.last_column,
+			 @3.first_column, @3.last_column); }
+	;
 
-InterfaceDeclaration    : OptConstantWord       %dprec 1
-        | OptSignalWord %dprec 2
-        ;
+InterfaceDeclaration	: OptConstantWord	%dprec 1
+	| OptSignalWord	%dprec 2
+	;
 
-OptConstantWord : /* empty */
-        | T_CONSTANT
-        ;
+OptConstantWord	: /* empty */
+	| T_CONSTANT
+	;
 
-OptSignalWord   : /* empty */
-                { printf("empty: %d/%d\n", @$.first_column, @$.last_column); }
-        | T_SIGNAL
-        ;
+OptSignalWord	: /* empty */
+		{ printf("empty: %d/%d\n", @$.first_column, @$.last_column); }
+	| T_SIGNAL
+	;
 
 %%
 
@@ -738,7 +727,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## No users destructors if stack 0 deleted.  See                             ##
+## No users destructors if stack 0 deleted.  See			     ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-09/msg00109.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
@@ -816,7 +805,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Corrupted semantic options if user action cuts parse.                     ##
+## Corrupted semantic options if user action cuts parse.	             ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Corrupted semantic options if user action cuts parse])
@@ -845,16 +834,8 @@ start:
   ;
 
 %%
-
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return 0;
-}
+]AT_YYLEX_DEFINE()[
 
 int
 main (void)
@@ -878,7 +859,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Undesirable destructors if user action cuts parse.                        ##
+## Undesirable destructors if user action cuts parse.			     ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Undesirable destructors if user action cuts parse])
@@ -936,7 +917,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Leaked semantic values if user action cuts parse.                         ##
+## Leaked semantic values if user action cuts parse.			     ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Leaked semantic values if user action cuts parse])
@@ -1064,7 +1045,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Incorrect lookahead during deterministic GLR.  See                        ##
+## Incorrect lookahead during deterministic GLR.  See			     ##
 ## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00017.html> and  ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00060.html>.  ##
 ## ------------------------------------------------------------------------- ##
@@ -1161,10 +1142,10 @@ print_lookahead (char const *reduction)
     {
       printf ("'%c', yylval='", yychar);
       if (yylval.value > ' ')
-        printf ("%c", yylval.value);
+	printf ("%c", yylval.value);
       printf ("', yylloc=(%d,%d),(%d,%d)",
-              yylloc.first_line, yylloc.first_column,
-              yylloc.last_line, yylloc.last_column);
+	      yylloc.first_line, yylloc.first_column,
+	      yylloc.last_line, yylloc.last_column);
     }
   printf ("\n");
 }
@@ -1199,7 +1180,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Incorrect lookahead during nondeterministic GLR.                          ##
+## Incorrect lookahead during nondeterministic GLR.			     ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Incorrect lookahead during nondeterministic GLR])
@@ -1260,7 +1241,7 @@ merge:
   | conflict defstate_look 'a' nonconflict2 'b' defstate_shift %dprec 2 {
     USE ($3); USE ($5);
     print_lookahead ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
-                      " defstate_shift");
+		      " defstate_shift");
   }
   ;
 
@@ -1307,7 +1288,7 @@ alt1:
     USE ($1);
     if (yychar != 'd' && yychar != YYEOF)
       {
-        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
       }
   }
   ;
@@ -1316,7 +1297,7 @@ alt2:
     USE ($1);
     if (yychar != 'd' && yychar != YYEOF)
       {
-        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
       }
   }
   ;
@@ -1325,7 +1306,7 @@ alt3:
     USE ($1);
     if (yychar != 'd' && yychar != YYEOF)
       {
-        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
       }
   }
   ;
@@ -1333,8 +1314,8 @@ no_look:
   {
     if (yychar != YYEMPTY)
       {
-        fprintf (stderr,
-                 "Found lookahead where shouldn't during stack explosion.\n");
+	fprintf (stderr,
+		 "Found lookahead where shouldn't during stack explosion.\n");
       }
   }
   ;
@@ -1367,10 +1348,10 @@ print_lookahead (char const *reduction)
     {
       printf ("'%c', yylval='", yychar);
       if (yylval.value > ' ')
-        printf ("%c", yylval.value);
+	printf ("%c", yylval.value);
       printf ("', yylloc=(%d,%d),(%d,%d)",
-              yylloc.first_line, yylloc.first_column,
-              yylloc.last_line, yylloc.last_column);
+	      yylloc.first_line, yylloc.first_column,
+	      yylloc.last_line, yylloc.last_column);
     }
   printf ("\n");
 }
@@ -1416,7 +1397,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Leaked semantic values when reporting ambiguity.                          ##
+## Leaked semantic values when reporting ambiguity.			     ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Leaked semantic values when reporting ambiguity])
@@ -1468,16 +1449,8 @@ ambiguity1: ;
 ambiguity2: ;
 
 %%
-
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return 0;
-}
+]AT_YYLEX_DEFINE()[
 
 int
 main (void)
@@ -1506,7 +1479,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Leaked lookahead after nondeterministic parse syntax error.               ##
+## Leaked lookahead after nondeterministic parse syntax error.		     ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Leaked lookahead after nondeterministic parse syntax error])
@@ -1573,7 +1546,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Uninitialized location when reporting ambiguity.                          ##
+## Uninitialized location when reporting ambiguity.			     ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Uninitialized location when reporting ambiguity])
@@ -1675,7 +1648,7 @@ AT_DATA_GRAMMAR([glr-regr18.y],
 %{
   #include <stdlib.h>
   ]AT_YYERROR_DECLARE[
-  static int yylex ();
+  ]AT_YYLEX_DECLARE[
 %}
 
 %union {
@@ -1695,7 +1668,6 @@ sym3: %merge<merge> { $$ = 0; } ;
 %type <type3> sym3;
 
 %%
-
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE()[
 int

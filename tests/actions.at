@@ -150,14 +150,8 @@ two: { $$.val = 2; } ;
 sum: { printf ("%d\n", $0.val + $-1.val + $-2.val); } ;
 
 %%
-
-static int
-yylex (void)
-{
-  return 0;
-}
-
 ]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE()[
 int
 main (void)
 {
@@ -211,8 +205,8 @@ m4_ifval([$6], [%union
 }])
 AT_LALR1_CC_IF([%define global_tokens_and_yystype])
 m4_ifval([$6], [[%code provides {]], [[%code {]])
-AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])
-[static int yylex (]AT_LEX_FORMALS[);
+AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
+]AT_YYLEX_DECLARE[
 ]AT_LALR1_CC_IF([], [AT_YYERROR_DECLARE])
 [}
 
@@ -315,8 +309,8 @@ thing:
 /* Alias to ARGV[1]. */
 const char *source = YY_NULL;
 
-static int
-yylex (]AT_LEX_FORMALS[)
+static
+]AT_YYLEX_PROTOTYPE[
 {
   static unsigned int counter = 0;
 
@@ -680,7 +674,7 @@ Reading a token: Next token is token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Shifting token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Entering state 6
 Reading a token: Now at end of input.
-syntax error, unexpected $end, expecting 'e'
+1.5-4: syntax error, unexpected $end, expecting 'e'
 Error: popping token 'd' (1.4-1.4: <> printer for 'd' @ 4)
 Stack now 0 1 3 5
 Error: popping token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)

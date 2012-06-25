@@ -6265,7 +6265,7 @@ For instance:
 @end example
 
 @noindent
-results in the following signature:
+results in the following signatures:
 
 @example
 int yylex   (scanner_mode *mode, environment_type *env);

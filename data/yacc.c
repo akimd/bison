@@ -317,8 +317,8 @@ m4_if(b4_prefix, [yy], [],
 #define yylval          ]b4_prefix[lval
 #define yychar          ]b4_prefix[char
 #define yydebug         ]b4_prefix[debug
-#define yynerrs         ]b4_prefix[nerrs
-]b4_locations_if([[#define yylloc          ]b4_prefix[lloc]])])[
+#define yynerrs         ]b4_prefix[nerrs]b4_locations_if([[
+#define yylloc          ]b4_prefix[lloc]])])[
 
 /* Copy the first part of user declarations.  */
 ]b4_user_pre_prologue[
@@ -1999,8 +1999,6 @@ b4_copyright([Bison interface for Yacc-like parsers in C])[
 
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations[
-]b4_pure_if([], [[extern YYSTYPE ]b4_prefix[lval;
-]b4_locations_if([[extern YYLTYPE ]b4_prefix[lloc;]])])[
 ]b4_cpp_guard_close([b4_spec_defines_file])[
 ]])dnl b4_defines_if
 m4_divert_pop(0)

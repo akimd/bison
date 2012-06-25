@@ -462,11 +462,7 @@ AT_DATA_GRAMMAR([input.y],
 %%
 exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 %%
-void
-yyerror (char const *s)
-{
-  fprintf (stderr, "%s\n", s);
-}
+]AT_YYERROR_DEFINE[
 
 int
 yylex (void)
@@ -892,15 +888,9 @@ member: STRING
    | INVALID
    ;
 %%
-AT_LALR1_CC_IF(
-[/* A C++ error reporting function. */
-void
-yy::parser::error (const std::string& m)
-{
-  std::cerr << m << std::endl;
-}
-
-int
+AT_YYERROR_DEFINE[
+]AT_LALR1_CC_IF(
+[int
 yyparse ()
 {
   yy::parser parser;
@@ -909,12 +899,7 @@ yyparse ()
 #endif
   return parser.parse ();
 }
-],
-[static void
-yyerror (const char *s)
-{
-  fprintf (stderr, "%s\n", s);
-}])
+])
 
 static int
 yylex (AT_LALR1_CC_IF([int *lval], [void]))

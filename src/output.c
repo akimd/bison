@@ -586,8 +586,8 @@ output_skeleton (void)
   char *m4sugar = xconcatenated_filename (datadir, "m4sugar/m4sugar.m4", NULL);
   char *m4bison = xconcatenated_filename (datadir, "bison.m4", NULL);
   char *skel = (IS_PATH_WITH_DIR (skeleton)
-		? xstrdup (skeleton)
-		: xconcatenated_filename (datadir, skeleton, NULL));
+                ? xstrdup (skeleton)
+                : xconcatenated_filename (datadir, skeleton, NULL));
 
   /* Test whether m4sugar.m4 is readable, to check for proper
      installation.  A faulty installation can cause deadlock, so a

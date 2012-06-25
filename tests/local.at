@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# We want a recent Autotest.
 m4_version_prereq([2.58])
 
 
@@ -108,6 +107,10 @@ m4_pushdef([AT_SKEL_CC_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_SKEL_JAVA_IF],
 [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
+m4_pushdef([AT_LANG],
+[AT_SKEL_JAVA_IF([java],
+                 [AT_SKEL_CC_IF([c++],
+                                [c])])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
@@ -135,11 +138,11 @@ m4_pushdef([AT_GLR_OR_PARAM_IF],
 [m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [%name-prefix ".*"],
-           [m4_bregexp([$3], [name-prefix "\([^""]*\)"], [\1])],
+           [m4_bregexp([$3], [%name-prefix "\([^""]*\)"], [\1])],
            [yy])])
 m4_pushdef([AT_API_PREFIX],
-[m4_bmatch([$3], [%define api\.prefix ".*"],
-           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
+[m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) ".*"],
+           [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
            [yy])])
 m4_pushdef([AT_TOKEN_PREFIX],
 [m4_bmatch([$3], [%define api.tokens.prefix ".*"],
@@ -165,24 +168,24 @@ m4_pushdef([AT_PURE_LEX_IF],
 AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [(*llocp)])
  m4_pushdef([AT_VAL], [(*lvalp)])
- m4_pushdef([AT_LEX_FORMALS],
+ m4_pushdef([AT_YYLEX_FORMALS],
             [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
- m4_pushdef([AT_LEX_ARGS],
+ m4_pushdef([AT_YYLEX_ARGS],
             [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
             [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
- m4_pushdef([AT_LEX_PRE_FORMALS],
-            [AT_LEX_FORMALS, ])
- m4_pushdef([AT_LEX_PRE_ARGS],
-            [AT_LEX_ARGS, ])
+ m4_pushdef([AT_YYLEX_PRE_FORMALS],
+	    [AT_YYLEX_FORMALS, ])
+ m4_pushdef([AT_YYLEX_PRE_ARGS],
+	    [AT_YYLEX_ARGS, ])
 ],
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
- m4_pushdef([AT_LEX_FORMALS],     [void])
- m4_pushdef([AT_LEX_ARGS],        [])
+ m4_pushdef([AT_YYLEX_FORMALS],     [void])
+ m4_pushdef([AT_YYLEX_ARGS],        [])
  m4_pushdef([AT_USE_LEX_ARGS],    [])
- m4_pushdef([AT_LEX_PRE_FORMALS], [])
- m4_pushdef([AT_LEX_PRE_ARGS],    [])
+ m4_pushdef([AT_YYLEX_PRE_FORMALS], [])
+ m4_pushdef([AT_YYLEX_PRE_ARGS],    [])
 ])
 
 # Handle the different types of location components.
@@ -201,11 +204,11 @@ AT_GLR_IF([AT_KEYWORDS([glr])])
 # AT_BISON_OPTION_POPDEFS
 # -----------------------
 m4_define([AT_BISON_OPTION_POPDEFS],
-[m4_popdef([AT_LEX_PRE_ARGS])
-m4_popdef([AT_LEX_PRE_FORMALS])
+[m4_popdef([AT_YYLEX_PRE_ARGS])
+m4_popdef([AT_YYLEX_PRE_FORMALS])
 m4_popdef([AT_USE_LEX_ARGS])
-m4_popdef([AT_LEX_ARGS])
-m4_popdef([AT_LEX_FORMALS])
+m4_popdef([AT_YYLEX_ARGS])
+m4_popdef([AT_YYLEX_FORMALS])
 m4_popdef([AT_VAL])
 m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
@@ -222,6 +225,7 @@ m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
 m4_popdef([AT_GLR_IF])
 m4_popdef([AT_SKEL_CC_IF])
+m4_popdef([AT_LANG])
 m4_popdef([AT_SKEL_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
@@ -277,12 +281,17 @@ m4_define([AT_DATA_GRAMMAR],
 $2])
 ])
 
+# AT_YYLEX_PROTOTYPE
 # AT_YYLEX_DECLARE_EXTERN
 # AT_YYLEX_DECLARE
 # AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
 # ---------------------------------------
+m4_define([AT_YYLEX_PROTOTYPE],
+[int AT_API_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
+])
+
 m4_define([AT_YYLEX_DECLARE_EXTERN],
-[int AT_API_PREFIX[]lex (void);dnl
+[AT_YYLEX_PROTOTYPE;dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE],
@@ -291,8 +300,8 @@ m4_define([AT_YYLEX_DECLARE],
 
 m4_define([AT_YYLEX_DEFINE],
 [[#include <stdlib.h> /* abort */
-static int
-]AT_API_PREFIX[lex (void)
+static
+]AT_YYLEX_PROTOTYPE[
 {
   static char const input[] = "$1";
   static size_t toknum = 0;
@@ -307,35 +316,70 @@ static int
 }]dnl
 ])
 
+# AT_YYERROR_PROTOTYPE
 # AT_YYERROR_DECLARE_EXTERN
 # AT_YYERROR_DECLARE
 # AT_YYERROR_DEFINE
 # -------------------------
-# Beware that must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS
-# pair.
+# Must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS pair.
+m4_define([AT_YYERROR_FORMALS],
+[m4_case(AT_LANG,
+[c], [AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg]])[]dnl
+])
+
+m4_define([AT_YYERROR_PROTOTYPE],
+[m4_case(AT_LANG,
+[c], [[void ]AT_API_PREFIX[error (]AT_YYERROR_FORMALS[)]])[]dnl
+])
+
 m4_define([AT_YYERROR_DECLARE_EXTERN],
-[void AT_API_PREFIX[]error (const char *msg);dnl
+[m4_case(AT_LANG,
+[c], [AT_YYERROR_PROTOTYPE;])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE],
-[static AT_YYERROR_DECLARE_EXTERN[]dnl
+[m4_case(AT_LANG,
+[c], [static AT_YYERROR_DECLARE_EXTERN])[]dnl
 ])
 
 m4_define([AT_YYERROR_DEFINE],
-[AT_SKEL_JAVA_IF([[public void yyerror (String msg)
+[m4_case(AT_LANG,
+[c], [[#include <stdio.h>
+/* A C error reporting function.  */
+static
+]AT_YYERROR_PROTOTYPE[
 {
-  System.err.println (msg);
-}]], [AT_SKEL_CC_IF([[void
-yy::parser::error (]AT_LOCATION_IF([[const yy::location &, ]])[std::string const &msg)
-{
-  std::cerr << msg << std::endl;
-}]], [[#include <stdio.h>
-static void
-]AT_API_PREFIX[error (char const *msg)
-{
+]AT_YYERROR_SEES_LOC_IF([[
+  fprintf (stderr, "%d.%d",
+           ]AT_LOC_FIRST_LINE[, ]AT_LOC_FIRST_COLUMN[);
+  if (]AT_LOC_FIRST_LINE[ != ]AT_LOC_LAST_LINE[)
+    fprintf (stderr, "-%d.%d",
+             ]AT_LOC_LAST_LINE[,  ]AT_LOC_LAST_COLUMN[ - 1);
+  else if (]AT_LOC_FIRST_COLUMN[ != ]AT_LOC_LAST_COLUMN[ - 1)
+    fprintf (stderr, "-%d",
+             ]AT_LOC_LAST_COLUMN[ - 1);
+  fprintf (stderr, ": ");]])[
   fprintf (stderr, "%s\n", msg);
+}]],
+[c++], [[/* A C++ error reporting function.  */
+void
+]AT_NAME_PREFIX[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
+{  std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << std::endl;
+}]],
+[java], [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)
+{
+    if (l == null)
+      System.err.println (s);
+    else
+      System.err.println (l + ": " + s);
+  }
+]], [[
+  public void yyerror (String s)
+  {
+    System.err.println (s);
 }]])])dnl
 ])
+
 
 ## --------------- ##
 ## Running Bison.  ##
@@ -519,10 +563,19 @@ AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 
 # is not installed.
 m4_define([AT_JAVA_COMPILE],
 [AT_KEYWORDS(java)
-AT_CHECK([[test -n "$CONF_JAVA" || exit 77
-           test -n "$CONF_JAVAC" || exit 77]])
+AT_SKIP_IF([[test -z "$CONF_JAVA$CONF_JAVAC"]])
 AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
          [[0]], [ignore], [ignore])])
+
+# AT_LANG_COMPILE(OUTPUT, [SOURCES = OUTPUT.c]
+# --------------------------------------------
+m4_define([AT_LANG_COMPILE],
+[m4_case(AT_LANG,
+[c],    [AT_COMPILE([$1], [$2])],
+[c++],  [AT_COMPILE_CXX([$1], [$2])],
+[java], [AT_JAVA_COMPILE([$1.java], [$2])],
+        [m4_fatal([unknown language: ]m4_defn([AT_LANG]))])[]dnl
+])
 
 # AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2])
 # -------------------------------------------
@@ -531,31 +584,29 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
 # OUTPUT.java along with it.  Relies on AT_SKEL_CC_IF and
 # AT_SKEL_JAVA_IF.
-m4_define([AT_FULL_COMPILE], [
-  AT_SKEL_JAVA_IF([
-    AT_BISON_CHECK([-o $1.java $1.y])
-    AT_JAVA_COMPILE([$1.java],
+m4_define([AT_FULL_COMPILE],
+[m4_case(AT_LANG,
+[java],
+  [AT_BISON_CHECK([-o $1.java $1.y])
+   AT_LANG_COMPILE([$1],
                     m4_join([ ],
                             [$1.java],
                             m4_ifval($2, [[$1-$2.java]]),
-                            m4_ifval($3, [[$1-$3.java]])))
-  ], [
-    AT_SKEL_CC_IF([
-      AT_BISON_CHECK([-o $1.cc $1.y])
-      AT_COMPILE_CXX([$1],
+                           m4_ifval($3, [[$1-$3.java]])))],
+[c++],
+  [AT_BISON_CHECK([-o $1.cc $1.y])
+   AT_LANG_COMPILE([$1],
                      m4_join([ ],
                              [$1.cc],
                              m4_ifval($2, [[$1-$2.cc]]),
-                             m4_ifval($3, [[$1-$3.cc]])))
-    ], [
-      AT_BISON_CHECK([-o $1.c $1.y])
-      AT_COMPILE([$1],
+                           m4_ifval($3, [[$1-$3.cc]])))],
+[c],
+  [AT_BISON_CHECK([-o $1.c $1.y])
+   AT_LANG_COMPILE([$1],
                   m4_join([ ],
                           [$1.c],
                           m4_ifval($2, [[$1-$2.c]]),
-                          m4_ifval($3, [[$1-$3.c]])))
-    ])
-  ])
+                           m4_ifval($3, [[$1-$3.c]])))])
 ])
 
 
