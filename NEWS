@@ -65,6 +65,11 @@ GNU Bison NEWS
   header, are removed, as they prevent the possibility of including several
   generated headers from a single compilation unit.
 
+*** YYLSP_NEEDED
+
+  For the same reasons, the undocumented and unused macro YYLSP_NEEDED is no
+  longer defined.
+
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
 ** Future changes:

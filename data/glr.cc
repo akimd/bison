@@ -239,9 +239,6 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 ]b4_percent_define_ifdef([[location_type]], [],
                          [[#include "location.hh"]])[
 
-/* Using locations.  */
-#define YYLSP_NEEDED ]b4_locations_flag[
-
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG ]b4_debug_flag[

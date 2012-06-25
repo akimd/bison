@@ -126,12 +126,6 @@ The code bw glr.c and yacc.c is really alike, we can certainly factor
 some parts.
 
 
-* Yacc.c: CPP Macros
-
-Do some people use YYPURE, YYLSP_NEEDED like we do in the test suite?
-They should not: it is not documented.  But if they need to, let's
-find something clean (not like YYLSP_NEEDED...).
-
 * Report
 
 ** Figures
