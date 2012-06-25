@@ -41,7 +41,7 @@ program: 'x';
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o])
 AT_COMPILE([input.o], [-DYYDEBUG -c input.c])
 
 AT_CLEANUP
@@ -71,7 +71,7 @@ program: { $$ = ""; };
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o])
 
 AT_CLEANUP
 
@@ -111,7 +111,7 @@ exp: MY_TOKEN;
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-y -o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o])
 
 AT_CLEANUP
 
@@ -156,7 +156,7 @@ exp: MY_TOKEN;
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o])
 
 AT_CLEANUP
 
@@ -527,7 +527,7 @@ exp:
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o])
 AT_CLEANUP
 
 

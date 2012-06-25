@@ -537,21 +537,37 @@ m4_define([AT_QUELL_VALGRIND],
 
 # AT_COMPILE(OUTPUT, [SOURCES = OUTPUT.c])
 # ----------------------------------------
-# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
-# assume that we are linking too; this is a hack.
+# Compile SOURCES into OUTPUT.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing .o removed, and ".c" appended.
 m4_define([AT_COMPILE],
-[AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.c])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
+[AT_CHECK(m4_join([ ],
+                  [$CC $CFLAGS $CPPFLAGS],
+                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
+                  [-o $1],
+                  [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).c])],
+                  [m4_bmatch([$1], [[.]], [], [$LIBS])]),
 	   0, [ignore], [ignore])])
 
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
-# --------------------------------------------
-# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
-# assume that we are linking too; this is a hack.
-# If the C++ compiler does not work, ignore the test.
+# ---------------------------------------------
+# Compile SOURCES into OUTPUT.  If the C++ compiler does not work,
+# ignore the test.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing .o removed, and ".cc" appended.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
 AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
-AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
+AT_CHECK(m4_join([ ],
+                 [$CXX $CXXFLAGS $CPPFLAGS],
+                 [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
+                 [-o $1],
+                 [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).cc])],
+                 [m4_bmatch([$1], [[.]], [], [$LIBS])]),
 	 0, [ignore], [ignore])])
 
 # AT_JAVA_COMPILE(SOURCES)
@@ -566,6 +582,11 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 
 # AT_LANG_COMPILE(OUTPUT, [SOURCES = OUTPUT.c]
 # --------------------------------------------
+# Compile SOURCES into OUTPUT.  Skip if compiler does not work.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing .o removed, and ".c"/".cc" appended.
 m4_define([AT_LANG_COMPILE],
 [m4_case(AT_LANG,
 [c],    [AT_COMPILE([$1], [$2])],
