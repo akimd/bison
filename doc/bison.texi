@@ -11216,7 +11216,8 @@ Reporting Function @code{yyerror}}.
 An obsolete macro that you define with @code{#define} in the prologue
 to request verbose, specific error message strings
 when @code{yyerror} is called.  It doesn't matter what definition you
-use for @code{YYERROR_VERBOSE}, just whether you define it.  Using
+use for @code{YYERROR_VERBOSE}, just whether you define it.
+Supported by the C skeletons only; using
 @code{%error-verbose} is preferred.  @xref{Error Reporting}.
 @end deffn
 

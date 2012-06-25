@@ -62,19 +62,6 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
 # define YYDEBUG ]b4_debug_flag[
 #endif
 
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE ]b4_error_verbose_flag[
-#endif
-
-/* Enabling the token table.  */
-#ifndef YYTOKEN_TABLE
-# define YYTOKEN_TABLE ]b4_token_table[
-#endif
-
 ]b4_namespace_open[
 
   /// A Bison parser.
@@ -211,17 +198,15 @@ b4_user_stype
     /// For a rule, its LHS.
     static const ]b4_int_type_for([b4_r1])[ yyr1_[];
     /// For a rule, its RHS length.
-    static const ]b4_int_type_for([b4_r2])[ yyr2_[];
-
-#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
-    /// For a symbol, its name in clear.
-    static const char* const yytname_[];
-#endif]b4_error_verbose_if([
+    static const ]b4_int_type_for([b4_r2])[ yyr2_[]; ]b4_error_verbose_if([
 
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
     static std::string yytnamerr_ (const char *n);])[
 
-#if YYDEBUG
+]b4_token_table_if([], [[#if YYDEBUG]])[
+    /// For a symbol, its name in clear.
+    static const char* const yytname_[];
+]b4_token_table_if([[#if YYDEBUG]])[
     /// A type to store symbol numbers and -1.
     typedef ]b4_int_type_for([b4_rhs])[ rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
@@ -1051,7 +1036,7 @@ b4_error_verbose_if([int yystate, int yytoken],
     ]b4_r2[
   };
 
-#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+]b4_token_table_if([], [[#if YYDEBUG]])[
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   const char*
@@ -1059,9 +1044,8 @@ b4_error_verbose_if([int yystate, int yytoken],
   {
     ]b4_tname[
   };
-#endif
 
-#if YYDEBUG
+]b4_token_table_if([[#if YYDEBUG]])[
   /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
   const ]b4_parser_class_name[::rhs_number_type
   ]b4_parser_class_name[::yyrhs_[] =
