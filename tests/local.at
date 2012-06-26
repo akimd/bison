@@ -90,7 +90,8 @@ m4_popdef([AT_LOC_LAST_COLUMN])])
 # AT_BISON_OPTION_PUSHDEFS([BISON-OPTIONS])
 # -----------------------------------------
 m4_define([AT_BISON_OPTION_PUSHDEFS],
-[_AT_BISON_OPTION_PUSHDEFS($[1], $[2], [$1])])
+[m4_divert_text([KILL],
+                [_AT_BISON_OPTION_PUSHDEFS($[1], $[2], [$1])])])
 
 
 # _AT_BISON_OPTION_PUSHDEFS($1, $2, [BISON-OPTIONS])
@@ -207,6 +208,7 @@ AT_SKEL_CC_IF(
 # AT_BISON_OPTION_POPDEFS
 # -----------------------
 m4_define([AT_BISON_OPTION_POPDEFS],
+[m4_divert_text([KILL],
 [m4_popdef([AT_YYLEX_PRE_ARGS])
 m4_popdef([AT_YYLEX_PRE_FORMALS])
 m4_popdef([AT_USE_LEX_ARGS])
@@ -235,7 +237,7 @@ m4_popdef([AT_SKEL_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
-AT_LOC_POPDEF
+AT_LOC_POPDEF])dnl
 ])# AT_BISON_OPTION_POPDEFS
 
 
