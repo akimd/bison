@@ -162,11 +162,19 @@ m4_pushdef([AT_PURE_LEX_IF],
 [AT_PURE_IF([$1],
 	    [AT_SKEL_CC_IF([$1], [$2])])])
 
+m4_pushdef([AT_YYSTYPE],
+[AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::semantic_type]],
+               [[YYSTYPE]])])
+m4_pushdef([AT_YYLTYPE],
+[AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::location_type]],
+               [[YYLTYPE]])])
+
+
 AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [(*llocp)])
  m4_pushdef([AT_VAL], [(*lvalp)])
  m4_pushdef([AT_YYLEX_FORMALS],
-	    [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
+	    [AT_YYSTYPE *lvalp[]AT_LOCATION_IF([, AT_YYLTYPE *llocp])])
  m4_pushdef([AT_YYLEX_ARGS],
 	    [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
@@ -204,6 +212,8 @@ m4_popdef([AT_YYLEX_PRE_FORMALS])
 m4_popdef([AT_USE_LEX_ARGS])
 m4_popdef([AT_YYLEX_ARGS])
 m4_popdef([AT_YYLEX_FORMALS])
+m4_popdef([AT_YYLTYPE])
+m4_popdef([AT_YYSTYPE])
 m4_popdef([AT_VAL])
 m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
@@ -301,12 +311,13 @@ static
   static char const input[] = "$1";
   static size_t toknum = 0;
   int res;
+  ]AT_USE_LEX_ARGS[;
   if (! (toknum < sizeof input))
     abort ();
   res = input[toknum++];
-  ]$2;[]AT_LOCATION_IF([[
-  ]AT_NAME_PREFIX[lloc.first_line = ]AT_NAME_PREFIX[lloc.last_line = 1;
-  ]AT_NAME_PREFIX[lloc.first_column = ]AT_NAME_PREFIX[lloc.last_column = toknum;]])[
+  ]$2[;]AT_LOCATION_IF([[
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = toknum;]])[
   return res;
 }]dnl
 ])
