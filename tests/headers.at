@@ -111,8 +111,8 @@ main (void)
 
 # Link and execute, just to make sure everything is fine (and in
 # particular, that MY_LLOC is indeed defined somewhere).
-AT_COMPILE([caller.o], [-c caller.c])
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([caller.o])
+AT_COMPILE([input.o])
 AT_COMPILE([caller], [caller.o input.o])
 AT_PARSER_CHECK([./caller])
 

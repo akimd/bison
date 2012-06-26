@@ -56,6 +56,7 @@ AT_DATA_GRAMMAR([input.y],
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #define YYERROR_VERBOSE 1
 ]AT_YYERROR_DEFINE[
@@ -66,8 +67,7 @@ static int
 yylex (void)
 {
   static size_t toknum;
-  if (! (toknum <= strlen (input)))
-    abort ();
+  assert (toknum <= strlen (input));
   return input[toknum++];
 }
 

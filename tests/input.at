@@ -533,6 +533,7 @@ char apostrophe = '\'';
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 %}
 /* %{ and %} can be here too. */
 
@@ -600,8 +601,7 @@ yylex (void)
 #output "; /* "
   */
   static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   yylval = value_as_yystype (input[toknum]);
   return input[toknum++];
 }
@@ -624,8 +624,8 @@ main (void)
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-d -v -o input.c input.y])
-AT_COMPILE([input.o], [-c input.c])
-AT_COMPILE([main.o], [-c main.c])
+AT_COMPILE([input.o])
+AT_COMPILE([main.o])
 AT_COMPILE([input], [input.o main.o])
 AT_PARSER_CHECK([./input], 0,
 [[[@<:@],
@@ -745,7 +745,7 @@ input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash
 AT_BISON_CHECK([-o input.c input.y])
 
 # Make sure we don't export silly token identifiers with periods or dashes.
-AT_COMPILE([input.o], [-c input.c])
+AT_COMPILE([input.o])
 
 
 # Periods are genuine letters, they can start identifiers.

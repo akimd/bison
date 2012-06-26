@@ -90,7 +90,8 @@ m4_popdef([AT_LOC_LAST_COLUMN])])
 # AT_BISON_OPTION_PUSHDEFS([BISON-OPTIONS])
 # -----------------------------------------
 m4_define([AT_BISON_OPTION_PUSHDEFS],
-[_AT_BISON_OPTION_PUSHDEFS($[1], $[2], [$1])])
+[m4_divert_text([KILL],
+                [_AT_BISON_OPTION_PUSHDEFS($[1], $[2], [$1])])])
 
 
 # _AT_BISON_OPTION_PUSHDEFS($1, $2, [BISON-OPTIONS])
@@ -137,16 +138,16 @@ m4_pushdef([AT_PURE_AND_LOC_IF],
 m4_pushdef([AT_GLR_OR_PARAM_IF],
 [m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
-[m4_bmatch([$3], [%name-prefix ".*"],
-           [m4_bregexp([$3], [%name-prefix "\([^""]*\)"], [\1])],
-           [yy])])
-m4_pushdef([AT_API_PREFIX],
 [m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) ".*"],
            [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
            [yy])])
 m4_pushdef([AT_TOKEN_PREFIX],
 [m4_bmatch([$3], [%define api.tokens.prefix ".*"],
            [m4_bregexp([$3], [%define api.tokens.prefix "\(.*\)"], [\1])])])
+m4_pushdef([AT_API_prefix],
+[m4_bmatch([$3], [%define api\.prefix ".*"],
+           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
+           [yy])])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
@@ -165,19 +166,27 @@ m4_pushdef([AT_PURE_LEX_IF],
 [AT_PURE_IF([$1],
             [AT_SKEL_CC_IF([$1], [$2])])])
 
+m4_pushdef([AT_YYSTYPE],
+[AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::semantic_type]],
+               [[YYSTYPE]])])
+m4_pushdef([AT_YYLTYPE],
+[AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::location_type]],
+               [[YYLTYPE]])])
+
+
 AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [(*llocp)])
  m4_pushdef([AT_VAL], [(*lvalp)])
  m4_pushdef([AT_YYLEX_FORMALS],
-            [YYSTYPE *lvalp[]AT_LOCATION_IF([, YYLTYPE *llocp])])
+            [AT_YYSTYPE *lvalp[]AT_LOCATION_IF([, AT_YYLTYPE *llocp])])
  m4_pushdef([AT_YYLEX_ARGS],
             [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
             [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
  m4_pushdef([AT_YYLEX_PRE_FORMALS],
-	    [AT_YYLEX_FORMALS, ])
+            [AT_YYLEX_FORMALS, ])
  m4_pushdef([AT_YYLEX_PRE_ARGS],
-	    [AT_YYLEX_ARGS, ])
+            [AT_YYLEX_ARGS, ])
 ],
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
@@ -204,17 +213,20 @@ AT_GLR_IF([AT_KEYWORDS([glr])])
 # AT_BISON_OPTION_POPDEFS
 # -----------------------
 m4_define([AT_BISON_OPTION_POPDEFS],
+[m4_divert_text([KILL],
 [m4_popdef([AT_YYLEX_PRE_ARGS])
 m4_popdef([AT_YYLEX_PRE_FORMALS])
 m4_popdef([AT_USE_LEX_ARGS])
 m4_popdef([AT_YYLEX_ARGS])
 m4_popdef([AT_YYLEX_FORMALS])
+m4_popdef([AT_YYLTYPE])
+m4_popdef([AT_YYSTYPE])
 m4_popdef([AT_VAL])
 m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
 m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
-m4_popdef([AT_API_PREFIX])
+m4_popdef([AT_API_prefix])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])
 m4_popdef([AT_PURE_AND_LOC_IF])
@@ -230,7 +242,7 @@ m4_popdef([AT_SKEL_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
-AT_LOC_POPDEF
+AT_LOC_POPDEF])dnl
 ])# AT_BISON_OPTION_POPDEFS
 
 
@@ -287,7 +299,7 @@ $2])
 # AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
 # ---------------------------------------
 m4_define([AT_YYLEX_PROTOTYPE],
-[int AT_API_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
+[int AT_NAME_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE_EXTERN],
@@ -299,19 +311,19 @@ m4_define([AT_YYLEX_DECLARE],
 ])
 
 m4_define([AT_YYLEX_DEFINE],
-[[#include <stdlib.h> /* abort */
+[[#include <assert.h>
 static
 ]AT_YYLEX_PROTOTYPE[
 {
   static char const input[] = "$1";
   static size_t toknum = 0;
   int res;
-  if (! (toknum < sizeof input))
-    abort ();
+  ]AT_USE_LEX_ARGS[;
+  assert (toknum < sizeof input);
   res = input[toknum++];
-  ]$2;[]AT_LOCATION_IF([[
-  ]AT_API_PREFIX[lloc.first_line = ]AT_API_PREFIX[lloc.last_line = 1;
-  ]AT_API_PREFIX[lloc.first_column = ]AT_API_PREFIX[lloc.last_column = toknum;]])[
+  ]$2[;]AT_LOCATION_IF([[
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = toknum;]])[
   return res;
 }]dnl
 ])
@@ -329,7 +341,7 @@ m4_define([AT_YYERROR_FORMALS],
 
 m4_define([AT_YYERROR_PROTOTYPE],
 [m4_case(AT_LANG,
-[c], [[void ]AT_API_PREFIX[error (]AT_YYERROR_FORMALS[)]])[]dnl
+[c], [[void ]AT_NAME_PREFIX[error (]AT_YYERROR_FORMALS[)]])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE_EXTERN],
@@ -540,21 +552,37 @@ m4_define([AT_QUELL_VALGRIND],
 
 # AT_COMPILE(OUTPUT, [SOURCES = OUTPUT.c])
 # ----------------------------------------
-# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
-# assume that we are linking too; this is a hack.
+# Compile SOURCES into OUTPUT.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing .o removed, and ".c" appended.
 m4_define([AT_COMPILE],
-[AT_CHECK([$CC $CFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.c])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
+[AT_CHECK(m4_join([ ],
+                  [$CC $CFLAGS $CPPFLAGS],
+                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
+                  [-o $1],
+                  [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).c])],
+                  [m4_bmatch([$1], [[.]], [], [$LIBS])]),
            0, [ignore], [ignore])])
 
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
-# --------------------------------------------
-# Compile SOURCES into OUTPUT.  If OUTPUT does not contain '.',
-# assume that we are linking too; this is a hack.
-# If the C++ compiler does not work, ignore the test.
+# ---------------------------------------------
+# Compile SOURCES into OUTPUT.  If the C++ compiler does not work,
+# ignore the test.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing .o removed, and ".cc" appended.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
 AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
-AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS m4_bmatch([$1], [[.]], [], [$LDFLAGS ])-o $1 m4_default([$2], [$1.cc])[]m4_bmatch([$1], [[.]], [], [ $LIBS])],
+AT_CHECK(m4_join([ ],
+                 [$CXX $CXXFLAGS $CPPFLAGS],
+                 [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
+                 [-o $1],
+                 [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).cc])],
+                 [m4_bmatch([$1], [[.]], [], [$LIBS])]),
          0, [ignore], [ignore])])
 
 # AT_JAVA_COMPILE(SOURCES)
@@ -569,6 +597,11 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 
 # AT_LANG_COMPILE(OUTPUT, [SOURCES = OUTPUT.c]
 # --------------------------------------------
+# Compile SOURCES into OUTPUT.  Skip if compiler does not work.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing .o removed, and ".c"/".cc" appended.
 m4_define([AT_LANG_COMPILE],
 [m4_case(AT_LANG,
 [c],    [AT_COMPILE([$1], [$2])],

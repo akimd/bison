@@ -113,19 +113,33 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Future changes:
+** Future changes
 
-  The next major release will drop support for generating parsers in K&R C,
-  and remove the definitions of yystype and yyltype (removal announced since
-  Bison 1.875).  YYPARSE_PARAM and YYLEX_PARAM, which were deprecated in
-  favor of %parse-param and %lex-param (introduced in Bison 1.875 too), will
-  no longer be supported.
+  The next major release of Bison will drop support for the following
+  deprecated features.  Please report disagreements to bug-bison@gnu.org.
 
-** The generated header is included (yacc.c)
+*** K&C parsers
+
+  Support for generating parsers in K&R C will be removed.  Parsers
+  generated for C supprt ISO C90, and are tested with ISO C99 and ISO C11
+  compilers.
+
+*** Deprecated features
+
+  The definitions of yystype and yyltype will be removed, as announced since
+  Bison 1.875.  Use YYSTYPE and YYLTYPE only.
+
+  YYPARSE_PARAM and YYLEX_PARAM, which were deprecated in favor of
+  %parse-param and %lex-param (introduced in Bison 1.875), will no longer be
+  supported.
+
+*** The generated header will be included (yacc.c)
 
   Instead of duplicating the content of the generated header (definition of
-  YYSTYPE, yyltype etc.), the generated parser now includes it, as was
-  already the case for GLR or C++ parsers.
+  YYSTYPE, yyparse declaration etc.), the generated parser will include it,
+  as is already the case for GLR or C++ parsers.  This change is deferred
+  because existing versions of ylwrap (e.g., Automake 1.12.1) do not support
+  it.
 
 ** Headers (yacc.c, glr.c, glr.cc)
 
@@ -191,10 +205,10 @@ GNU Bison NEWS
   The header files such as "parser.hh", "location.hh", etc. used a constant
   name for preprocessor guards, for instance:
 
-  #ifndef BISON_LOCATION_HH
-  # define BISON_LOCATION_HH
-  ...
-  #endif // !BISON_LOCATION_HH
+    #ifndef BISON_LOCATION_HH
+    # define BISON_LOCATION_HH
+    ...
+    #endif // !BISON_LOCATION_HH
 
   The inclusion guard is now computed from "PREFIX/FILE-NAME", where lower
   case characters are converted to upper case, and series of
@@ -202,10 +216,10 @@ GNU Bison NEWS
 
   With "bison -o lang++/parser.cc", "location.hh" would now include:
 
-  #ifndef YY_LANG_LOCATION_HH
-  # define YY_LANG_LOCATION_HH
-  ...
-  #endif // !YY_LANG_LOCATION_HH
+    #ifndef YY_LANG_LOCATION_HH
+    # define YY_LANG_LOCATION_HH
+    ...
+    #endif // !YY_LANG_LOCATION_HH
 
 *** C++ locations:
 
@@ -436,33 +450,33 @@ GNU Bison NEWS
   to use it.  If, for instance, your location structure has "first"
   and "last" members, instead of
 
-      # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
-        do                                                                 \
-          if (N)                                                           \
-            {                                                              \
-              (Current).first = (Rhs)[1].location.first;                   \
-              (Current).last  = (Rhs)[N].location.last;                    \
-            }                                                              \
-          else                                                             \
-            {                                                              \
-              (Current).first = (Current).last = (Rhs)[0].location.last;   \
-            }                                                              \
-        while (false)
+    # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
+      do                                                                 \
+        if (N)                                                           \
+          {                                                              \
+            (Current).first = (Rhs)[1].location.first;                   \
+            (Current).last  = (Rhs)[N].location.last;                    \
+          }                                                              \
+        else                                                             \
+          {                                                              \
+            (Current).first = (Current).last = (Rhs)[0].location.last;   \
+          }                                                              \
+      while (false)
 
   use:
 
-      # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
-        do                                                                 \
-          if (N)                                                           \
-            {                                                              \
-              (Current).first = YYRHSLOC (Rhs, 1).first;                   \
-              (Current).last  = YYRHSLOC (Rhs, N).last;                    \
-            }                                                              \
-          else                                                             \
-            {                                                              \
-              (Current).first = (Current).last = YYRHSLOC (Rhs, 0).last;   \
-            }                                                              \
-        while (false)
+    # define YYLLOC_DEFAULT(Current, Rhs, N)                             \
+      do                                                                 \
+        if (N)                                                           \
+          {                                                              \
+            (Current).first = YYRHSLOC (Rhs, 1).first;                   \
+            (Current).last  = YYRHSLOC (Rhs, N).last;                    \
+          }                                                              \
+        else                                                             \
+          {                                                              \
+            (Current).first = (Current).last = YYRHSLOC (Rhs, 0).last;   \
+          }                                                              \
+      while (false)
 
 ** YYLLOC_DEFAULT in C++:
 
@@ -1462,9 +1476,9 @@ GNU Bison NEWS
 ** Incorrect "Token not used"
   On a grammar such as
 
-           %token useless useful
-           %%
-           exp: '0' %prec useful;
+    %token useless useful
+    %%
+    exp: '0' %prec useful;
 
   where a token was used to set the precedence of the last rule,
   bison reported both "useful" and "useless" as useless tokens.
@@ -1483,9 +1497,9 @@ GNU Bison NEWS
   the user symbol is used in the reports, the graphs, and the verbose
   error messages instead of "$end", which remains being the default.
   For instance
-     %token MYEOF 0
+    %token MYEOF 0
   or
-     %token MYEOF 0 "end of file"
+    %token MYEOF 0 "end of file"
 
 ** Semantic parser
   This old option, which has been broken for ages, is removed.
@@ -1521,9 +1535,9 @@ GNU Bison NEWS
   Previous versions don't complain when there is a type clash on
   the default action if the rule has a mid-rule action, such as in:
 
-      %type <foo> bar
-      %%
-      bar: '0' {} '0';
+    %type <foo> bar
+    %%
+    bar: '0' {} '0';
 
   This is fixed.
 

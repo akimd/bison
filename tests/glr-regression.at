@@ -32,6 +32,7 @@ AT_DATA_GRAMMAR([glr-regr1.y],
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #define YYSTYPE int
 static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
@@ -80,8 +81,7 @@ yylex (void)
   for (;;)
     {
       int ch;
-      if (feof (stdin))
-	abort ();
+      assert (!feof (stdin));
       ch = getchar ();
       if (ch == EOF)
 	return 0;
@@ -128,6 +128,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
+  #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 %}
@@ -177,8 +178,7 @@ yylex (void)
 {
   char buf[50];
   char *s;
-  if (feof (stdin))
-    abort ();
+  assert (!feof (stdin));
   switch (fscanf (input, " %1[a-z,]", buf))
   {
   case 1:
@@ -190,8 +190,7 @@ yylex (void)
   }
   if (fscanf (input, "%49s", buf) != 1)
     return 0;
-  if (sizeof buf - 1 <= strlen (buf))
-    abort ();
+  assert (strlen (buf) < sizeof buf - 1);
   s = (char *) malloc (strlen (buf) + 1);
   strcpy (s, buf);
   yylval = s;
@@ -242,6 +241,7 @@ AT_DATA_GRAMMAR([glr-regr3.y],
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <assert.h>
 
 static int MergeRule (int x0, int x1);
 ]AT_YYERROR_DECLARE[
@@ -302,8 +302,7 @@ int T[] = { T1, T2, T3, T4 };
 int yylex (void)
 {
   char inp[3];
-  if (feof (stdin))
-    abort ();
+  assert (!feof (stdin));
   if (fscanf (input, "%2s", inp) == EOF)
     return 0;
   switch (inp[0])
@@ -935,6 +934,7 @@ AT_DATA_GRAMMAR([glr-regr12.y],
 
 %{
 # include <stdlib.h>
+# include <assert.h>
   static int merge (YYSTYPE, YYSTYPE);
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
@@ -1003,8 +1003,7 @@ yylex (void)
 {
   static int const input[] = { PARENT_RHS_AFTER, 0 };
   static size_t toknum;
-  if (! (toknum < sizeof input / sizeof *input))
-    abort ();
+  assert (toknum < sizeof input / sizeof *input);
   if (input[toknum] == PARENT_RHS_AFTER)
     parent_rhs_after_value = 1;
   return input[toknum++];
@@ -1064,6 +1063,7 @@ AT_DATA_GRAMMAR([glr-regr13.y],
 
 %{
   #include <stdio.h>
+  #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
   static void print_lookahead (char const *);
@@ -1122,8 +1122,7 @@ yylex (void)
 {
   static char const input[] = "ab";
   static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   yylloc.first_line = yylloc.last_line = 1;
   yylloc.first_column = yylloc.last_column = toknum + 1;
   yylval.value = input[toknum] + 'A' - 'a';
@@ -1212,6 +1211,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
 %{
   #include <stdlib.h>
   #include <stdio.h>
+  #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
   static void print_lookahead (char const *);
@@ -1328,8 +1328,7 @@ yylex (void)
 {
   static char const input[] = "abcdddd";
   static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   yylloc.first_line = yylloc.last_line = 1;
   yylloc.first_column = yylloc.last_column = toknum + 1;
   yylval.value = input[toknum] + 'A' - 'a';
@@ -1492,6 +1491,7 @@ AT_DATA_GRAMMAR([glr-regr16.y],
 
 %{
 # include <stdlib.h>
+# include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
   static int lookahead_value = 0;
@@ -1512,8 +1512,7 @@ yylex (void)
 {
   static char const input[] = "ab";
   static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   if (input[toknum] == 'b')
     lookahead_value = 1;
   return input[toknum++];
@@ -1551,7 +1550,8 @@ AT_CLEANUP
 
 AT_SETUP([Uninitialized location when reporting ambiguity])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations %define api.pure])
+
 AT_DATA_GRAMMAR([glr-regr17.y],
 [[
 %glr-parser
@@ -1562,8 +1562,8 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 %union { int dummy; }
 
 %{
-  static void yyerror (YYLTYPE *, char const *);
-  static int yylex (YYSTYPE *, YYLTYPE *);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 %}
 
 %initial-action {
@@ -1593,21 +1593,15 @@ empty1: ;
 empty2: ;
 
 %%
+# include <assert.h>
 
-static void
-yyerror (YYLTYPE *locp, char const *msg)
-{
-  fprintf (stderr, "%d.%d-%d.%d: %s.\n", locp->first_line,
-           locp->first_column, locp->last_line, locp->last_column, msg);
-}
-
+]AT_YYERROR_DEFINE[
 static int
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
   static char const input[] = "ab";
   static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   lvalp->dummy = 0;
   llocp->first_line = llocp->last_line = 2;
   llocp->first_column = toknum + 1;
@@ -1629,7 +1623,7 @@ AT_BISON_CHECK([[-o glr-regr17.c glr-regr17.y]], 0, [],
 AT_COMPILE([glr-regr17])
 
 AT_PARSER_CHECK([[./glr-regr17]], 0, [],
-[1.1-2.3: syntax is ambiguous.
+[1.1-2.2: syntax is ambiguous
 ])
 
 AT_CLEANUP

@@ -56,6 +56,7 @@ print <<EOF;
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #define MAX $max
 ]AT_YYLEX_DECLARE[
 ]AT_YYERROR_DECLARE[
@@ -77,8 +78,8 @@ for my $size (1 .. $max)
 print <<EOF;
 %%
 input:
-  exp        { if (\@S|@1 != 0) abort (); \$\$ = \@S|@1; }
-| input exp  { if (\@S|@2 != \@S|@1 + 1) abort (); \$\$ = \@S|@2; }
+  exp        { assert (\@S|@1 == 0); \$\$ = \@S|@1; }
+| input exp  { assert (\@S|@2 == \@S|@1 + 1); \$\$ = \@S|@2; }
 ;
 
 exp:
@@ -192,6 +193,7 @@ print
 
 print <<\EOF;
 %%
+#include <assert.h>
 ]AT_YYERROR_DEFINE[
 static int
 yylex (void)
@@ -199,8 +201,7 @@ yylex (void)
   static int counter = 1;
   if (counter <= MAX)
     return counter++;
-  if (counter++ != MAX + 1)
-    abort ();
+  assert (counter++ == MAX + 1);
   return 0;
 }
 
@@ -328,8 +329,7 @@ yylex (void)
   static int counter = 1;
   if (counter > MAX)
     {
-      if (counter++ != MAX + 1)
-	abort ();
+      assert (counter++ == MAX + 1);
       return 0;
     }
   if (return_token)
@@ -401,11 +401,11 @@ AT_DATA([input.y],
 exp: WAIT_FOR_EOF exp | ;
 %%
 ]AT_YYERROR_DEFINE[
+#include <assert.h>
 static int
 yylex (void)
 {
-  if (yylval < 0)
-    abort ();
+  assert (0 <= yylval);
   if (yylval--)
     return WAIT_FOR_EOF;
   else
@@ -417,13 +417,12 @@ main (int argc, const char **argv)
 {
   char *endp;
   YYSTYPE yylval_init;
-  if (argc != 2)
-    abort ();
+  assert (argc == 2);
   yylval_init = strtol (argv[1], &endp, 10);
-  if (! (argv[1] != endp
-	 && 0 <= yylval_init && yylval_init <= INT_MAX
-	 && errno != ERANGE))
-    abort ();
+  assert (argv[1] != endp);
+  assert (0 <= yylval_init);
+  assert (yylval_init <= INT_MAX);
+  assert (errno != ERANGE);
   yydebug = 1;
   {
     int count;
@@ -438,8 +437,7 @@ main (int argc, const char **argv)
 [[        new_status = yypull_parse (ps);
 ]],
 [[        new_status = yyparse ();
-]])[        if (count > 0 && new_status != status)
-          abort ();
+]])[        assert (0 <= count || new_status == status);
         status = new_status;
       }
 ]m4_bmatch([$2], [%push-],

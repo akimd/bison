@@ -122,12 +122,12 @@ declarator : ID
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <assert.h>
 
 int
 main (int argc, char **argv)
 {
-  if (argc != 2)
-    abort ();
+  assert (argc == 2);
   if (!freopen (argv[1], "r", stdin))
     return 3;
   return yyparse ();
@@ -152,8 +152,7 @@ main (int argc, char **argv)
 
   while (1)
     {
-      if (feof (stdin))
-        abort ();
+      assert (!feof (stdin));
       c = getchar ();
       switch (c)
         {
@@ -182,8 +181,7 @@ main (int argc, char **argv)
                   {
                     buffer[i++] = c;
                     colNum += 1;
-                    if (i == sizeof buffer - 1)
-                      abort ();
+                    assert (i != sizeof buffer - 1);
                     c = getchar ();
                   }
                 while (isalnum (c) || c == '_');

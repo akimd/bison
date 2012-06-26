@@ -1009,4 +1009,3 @@ default_tagless_code_props_set (code_props_type kind, code_props const *code)
     }
   default_tagless_code_props[kind] = *code;
 }
-

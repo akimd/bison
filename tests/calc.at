@@ -45,7 +45,7 @@ m4_define([_AT_DATA_CALC_Y],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 
 m4_pushdef([AT_CALC_MAIN],
-[#include <stdlib.h> /* abort */
+[#include <assert.h>
 #if HAVE_UNISTD_H
 # include <unistd.h>
 #else
@@ -98,10 +98,8 @@ main (int argc, const char **argv)
   status = ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([[&result, &count]])[);
   if (fclose (input))
     perror ("fclose");
-  if (global_result != result)
-    abort ();
-  if (global_count != count)
-    abort ();
+  assert (global_result == result);
+  assert (global_count == count);
   return status;
 }
 ]])
