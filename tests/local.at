@@ -137,12 +137,12 @@ m4_pushdef([AT_PURE_AND_LOC_IF],
 m4_pushdef([AT_GLR_OR_PARAM_IF],
 [m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
-[m4_bmatch([$3], [%name-prefix ".*"],
-           [m4_bregexp([$3], [%name-prefix "\([^""]*\)"], [\1])],
-           [yy])])
-m4_pushdef([AT_API_PREFIX],
 [m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) ".*"],
            [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
+           [yy])])
+m4_pushdef([AT_API_prefix],
+[m4_bmatch([$3], [%define api\.prefix ".*"],
+           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
            [yy])])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
@@ -209,7 +209,7 @@ m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
 m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
-m4_popdef([AT_API_PREFIX])
+m4_popdef([AT_API_prefix])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])
 m4_popdef([AT_PURE_AND_LOC_IF])
@@ -282,7 +282,7 @@ $2])
 # AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
 # ---------------------------------------
 m4_define([AT_YYLEX_PROTOTYPE],
-[int AT_API_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
+[int AT_NAME_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE_EXTERN],
@@ -305,8 +305,8 @@ static
     abort ();
   res = input[toknum++];
   ]$2;[]AT_LOCATION_IF([[
-  ]AT_API_PREFIX[lloc.first_line = ]AT_API_PREFIX[lloc.last_line = 1;
-  ]AT_API_PREFIX[lloc.first_column = ]AT_API_PREFIX[lloc.last_column = toknum;]])[
+  ]AT_NAME_PREFIX[lloc.first_line = ]AT_NAME_PREFIX[lloc.last_line = 1;
+  ]AT_NAME_PREFIX[lloc.first_column = ]AT_NAME_PREFIX[lloc.last_column = toknum;]])[
   return res;
 }]dnl
 ])
@@ -324,7 +324,7 @@ m4_define([AT_YYERROR_FORMALS],
 
 m4_define([AT_YYERROR_PROTOTYPE],
 [m4_case(AT_LANG,
-[c], [[void ]AT_API_PREFIX[error (]AT_YYERROR_FORMALS[)]])[]dnl
+[c], [[void ]AT_NAME_PREFIX[error (]AT_YYERROR_FORMALS[)]])[]dnl
 ])
 
 m4_define([AT_YYERROR_DECLARE_EXTERN],
