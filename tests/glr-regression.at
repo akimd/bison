@@ -1550,7 +1550,8 @@ AT_CLEANUP
 
 AT_SETUP([Uninitialized location when reporting ambiguity])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations %define api.pure])
+
 AT_DATA_GRAMMAR([glr-regr17.y],
 [[
 %glr-parser
@@ -1561,8 +1562,8 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 %union { int dummy; }
 
 %{
-  static void yyerror (YYLTYPE *, char const *);
-  static int yylex (YYSTYPE *, YYLTYPE *);
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
 %}
 
 %initial-action {
@@ -1594,13 +1595,7 @@ empty2: ;
 %%
 # include <assert.h>
 
-static void
-yyerror (YYLTYPE *locp, char const *msg)
-{
-  fprintf (stderr, "%d.%d-%d.%d: %s.\n", locp->first_line,
-           locp->first_column, locp->last_line, locp->last_column, msg);
-}
-
+]AT_YYERROR_DEFINE[
 static int
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
@@ -1628,7 +1623,7 @@ AT_BISON_CHECK([[-o glr-regr17.c glr-regr17.y]], 0, [],
 AT_COMPILE([glr-regr17])
 
 AT_PARSER_CHECK([[./glr-regr17]], 0, [],
-[1.1-2.3: syntax is ambiguous.
+[1.1-2.2: syntax is ambiguous
 ])
 
 AT_CLEANUP

@@ -174,11 +174,12 @@ AT_CLEANUP
 ## Printers and Destructors.  ##
 ## -------------------------- ##
 
-# _AT_CHECK_PRINTER_AND_DESTRUCTOR($1, $2, $3, $4, BISON-DIRECTIVE, UNION-FLAG)
-# -----------------------------------------------------------------------------
+# _AT_CHECK_PRINTER_AND_DESTRUCTOR($1, $2, $3, $4,
+#                                  BISON-DIRECTIVE, UNION-FLAG)
+# -------------------------------------------------------------
 m4_define([_AT_CHECK_PRINTER_AND_DESTRUCTOR],
 [# Make sure complex $n work.
-m4_if([$1$2$3], $[1]$[2]$[3], [],
+m4_if([$1$2$3$4], $[1]$[2]$[3]$[4], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 
 # Be sure to pass all the %directives to this macro to have correct
@@ -193,13 +194,16 @@ AT_DATA_GRAMMAR([[input.y]],
 
 #define YYINITDEPTH 10
 #define YYMAXDEPTH 10
-]AT_LALR1_CC_IF(
-  [#define RANGE(Location) (Location).begin.line, (Location).end.line],
-  [#define RANGE(Location) (Location).first_line, (Location).last_line])
-[}
+#define RANGE(Location) ]AT_LALR1_CC_IF([(Location).begin.line, (Location).end.line],
+      [(Location).first_line, (Location).last_line])[
 
-$5]
-m4_ifval([$6], [%union
+/* Display the symbol type Symbol.  */
+#define V(Symbol, Value, Location, Sep) \
+   fprintf (stderr, #Symbol " (%d@%d-%d)" Sep, Value, RANGE(Location))
+}
+
+$5
+]m4_ifval([$6], [%union
 {
   int ival;
 }])
@@ -221,28 +225,28 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
   input line thing 'x' 'y'
 
 %destructor
-  { printf ("Freeing nterm input (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing nterm input (%d@%d-%d)\n", $$, RANGE (@$)); }
   input
 
 %destructor
-  { printf ("Freeing nterm line (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing nterm line (%d@%d-%d)\n", $$, RANGE (@$)); }
   line
 
 %destructor
-  { printf ("Freeing nterm thing (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing nterm thing (%d@%d-%d)\n", $$, RANGE (@$)); }
   thing
 
 %destructor
-  { printf ("Freeing token 'x' (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing token 'x' (%d@%d-%d)\n", $$, RANGE (@$)); }
   'x'
 
 %destructor
-  { printf ("Freeing token 'y' (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing token 'y' (%d@%d-%d)\n", $$, RANGE (@$)); }
   'y'
 
 %token END 0
 %destructor
-  { printf ("Freeing token END (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing token END (%d@%d-%d)\n", $$, RANGE (@$)); }
   END
 
 %%
@@ -257,14 +261,15 @@ input:
   /* Nothing. */
     {
       $$ = 0;
-      printf ("input (%d@%d-%d): /* Nothing */\n", $$, RANGE (@$));
+      V(input, $$, @$, ": /* Nothing */\n");
     }
 | line input /* Right recursive to load the stack so that popping at
 		END can	be exercised.  */
     {
       $$ = 2;
-      printf ("input (%d@%d-%d): line (%d@%d-%d) input (%d@%d-%d)\n",
-	      $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2));
+      V(input, $$, @$, ": ");
+      V(line,  $1, @1, " ");
+      V(input, $2, @2, "\n");
     }
 ;
 
@@ -272,28 +277,36 @@ line:
   thing thing thing ';'
     {
       $$ = $1;
-      printf ("line (%d@%d-%d): thing (%d@%d-%d) thing (%d@%d-%d) thing (%d@%d-%d) ';' (%d@%d-%d)\n",
-              $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2),
-              $3, RANGE (@3), $4, RANGE (@4));
+      V(line,  $$, @$, ": ");
+      V(thing, $1, @1, " ");
+      V(thing, $2, @2, " ");
+      V(thing, $3, @3, " ");
+      V(;,     $4, @4, "\n");
     }
 | '(' thing thing ')'
     {
       $$ = $1;
-      printf ("line (%d@%d-%d): '(' (%d@%d-%d) thing (%d@%d-%d) thing (%d@%d-%d) ')' (%d@%d-%d)\n",
-              $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2),
-              $3, RANGE (@3), $4, RANGE (@4));
+      V(line,  $$, @$, ": ");
+      V('(',   $1, @1, " ");
+      V(thing, $2, @2, " ");
+      V(thing, $3, @3, " ");
+      V(')',   $4, @4, "\n");
     }
 | '(' thing ')'
     {
       $$ = $1;
-      printf ("line (%d@%d-%d): '(' (%d@%d-%d) thing (%d@%d-%d) ')' (%d@%d-%d)\n",
-              $$, RANGE (@$), $1, RANGE (@1), $2, RANGE (@2), $3, RANGE (@3));
+      V(line,  $$, @$, ": ");
+      V('(',   $1, @1, " ");
+      V(thing, $2, @2, " ");
+      V(')',   $3, @3, "\n");
     }
 | '(' error ')'
     {
       $$ = -1;
-      printf ("line (%d@%d-%d): '(' (%d@%d-%d) error (@%d-%d) ')' (%d@%d-%d)\n",
-              $$, RANGE (@$), $1, RANGE (@1), RANGE (@2), $3, RANGE (@3));
+      V(line,  $$, @$, ": ");
+      V('(',   $1, @1, " ");
+      fprintf (stderr, "error (@%d-%d) ", RANGE(@2));
+      V(')',   $3, @3, "\n");
     }
 ;
 
@@ -301,13 +314,15 @@ thing:
   'x'
     {
       $$ = $1;
-      printf ("thing (%d@%d-%d): 'x' (%d@%d-%d)\n",
-              $$, RANGE (@$), $1, RANGE (@1));
+      V(thing, $$, @$, ": ");
+      V('x',   $1, @1, "\n");
     }
 ;
 %%
 /* Alias to ARGV[1]. */
 const char *source = YY_NULL;
+
+]AT_YYERROR_DEFINE[
 
 static
 ]AT_YYLEX_PROTOTYPE[
@@ -316,32 +331,18 @@ static
 
   int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
   /* As in BASIC, line numbers go from 10 to 10.  */
-]AT_LALR1_CC_IF(
-[ AT_LOC.begin.line = AT_LOC.begin.column = 10 * c;
-  AT_LOC.end.line = AT_LOC.end.column = AT_LOC.begin.line + 9;
-],
-[ AT_LOC.first_line = AT_LOC.first_column = 10 * c;
-  AT_LOC.last_line = AT_LOC.last_column = AT_LOC.first_line + 9;
-])[
-
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = 10 * c;
+  ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
   assert (0 <= c && c <= strlen (source));
   if (source[c])
-    printf ("sending: '%c'", source[c]);
+    fprintf (stderr, "sending: '%c'", source[c]);
   else
-    printf ("sending: END");
-  printf (" (%d@%d-%d)\n", c, RANGE (]AT_LOC[));
+    fprintf (stderr, "sending: END");
+  fprintf (stderr, " (%d@%d-%d)\n", c, RANGE (]AT_LOC[));
   return source[c];
 }
-
 ]AT_LALR1_CC_IF(
-[/* A C++ error reporting function. */
-void
-yy::parser::error (const location& l, const std::string& m)
-{
-  printf ("%d-%d: %s\n", RANGE (l), m.c_str());
-}
-
-static bool yydebug;
+[static bool yydebug;
 int
 yyparse ()
 {
@@ -349,12 +350,7 @@ yyparse ()
   parser.set_debug_level (yydebug);
   return parser.parse ();
 }
-],
-[static void
-yyerror (const char *msg)
-{
-  printf ("%d-%d: %s\n", RANGE (yylloc), msg);
-}])[
+])[
 
 int
 main (int argc, const char *argv[])
@@ -366,9 +362,9 @@ main (int argc, const char *argv[])
   status = yyparse ();
   switch (status)
     {
-      case 0: printf ("Successful parse.\n"); break;
-      case 1: printf ("Parsing FAILED.\n"); break;
-      default: printf ("Parsing FAILED (status %d).\n", status); break;
+      case 0: fprintf (stderr, "Successful parse.\n"); break;
+      case 1: fprintf (stderr, "Parsing FAILED.\n"); break;
+      default: fprintf (stderr, "Parsing FAILED (status %d).\n", status); break;
     }
   return status;
 }
@@ -382,7 +378,7 @@ AT_FULL_COMPILE([input])
 # I.e., epsilon-reductions, as in "(x)" which ends by reducing
 # an empty "line" nterm.
 # FIXME: This location is not satisfying.  Depend on the lookahead?
-AT_PARSER_CHECK([./input '(x)'], 0,
+AT_PARSER_CHECK([./input '(x)'], 0, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -401,10 +397,10 @@ Successful parse.
 # ---------------------------------
 # '(y)' is an error, but can be recovered from.  But what's the location
 # of the error itself ('y'), and of the resulting reduction ('(error)').
-AT_PARSER_CHECK([./input '(y)'], 0,
+AT_PARSER_CHECK([./input '(y)'], 0, [],
 [[sending: '(' (0@0-9)
 sending: 'y' (1@10-19)
-10-19: syntax error, unexpected 'y', expecting 'x'
+10.10-19.18: syntax error, unexpected 'y', expecting 'x'
 Freeing token 'y' (1@10-19)
 sending: ')' (2@20-29)
 line (-1@0-29): '(' (0@0-9) error (@10-19) ')' (2@20-29)
@@ -431,14 +427,14 @@ Successful parse.
 #     '(', 'x', ')',
 #     '(', 'x', ')',
 #     'y'
-AT_PARSER_CHECK([./input '(xxxxx)(x)(x)y'], 1,
+AT_PARSER_CHECK([./input '(xxxxx)(x)(x)y'], 1, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
 sending: 'x' (2@20-29)
 thing (2@20-29): 'x' (2@20-29)
 sending: 'x' (3@30-39)
-30-39: syntax error, unexpected 'x', expecting ')'
+30.30-39.38: syntax error, unexpected 'x', expecting ')'
 Freeing nterm thing (2@20-29)
 Freeing nterm thing (1@10-19)
 Freeing token 'x' (3@30-39)
@@ -463,7 +459,7 @@ input (0@129-129): /* Nothing */
 input (2@100-129): line (10@100-129) input (0@129-129)
 input (2@70-129): line (7@70-99) input (2@100-129)
 input (2@0-129): line (-1@0-69) input (2@70-129)
-130-139: syntax error, unexpected 'y', expecting END
+130.130-139.138: syntax error, unexpected 'y', expecting END
 Freeing nterm input (2@0-129)
 Freeing token 'y' (13@130-139)
 Parsing FAILED.
@@ -479,7 +475,7 @@ Parsing FAILED.
 #     '(', 'x', ')',
 #     '(', 'x', ')',
 #     'x'
-AT_PARSER_CHECK([./input '(x)(x)x'], 1,
+AT_PARSER_CHECK([./input '(x)(x)x'], 1, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -493,7 +489,7 @@ line (3@30-59): '(' (3@30-39) thing (4@40-49) ')' (5@50-59)
 sending: 'x' (6@60-69)
 thing (6@60-69): 'x' (6@60-69)
 sending: END (7@70-79)
-70-79: syntax error, unexpected END, expecting 'x'
+70.70-79.78: syntax error, unexpected END, expecting 'x'
 Freeing nterm thing (6@60-69)
 Freeing nterm line (3@30-59)
 Freeing nterm line (0@0-29)
@@ -507,7 +503,7 @@ Parsing FAILED.
 # Upon stack overflow, all symbols on the stack should be destroyed.
 # Only check for yacc.c.
 AT_YACC_IF([
-AT_PARSER_CHECK([./input '(x)(x)(x)(x)(x)(x)(x)'], 2,
+AT_PARSER_CHECK([./input '(x)(x)(x)(x)(x)(x)(x)'], 2, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -542,7 +538,7 @@ sending: '(' (18@180-189)
 sending: 'x' (19@190-199)
 thing (19@190-199): 'x' (19@190-199)
 sending: ')' (20@200-209)
-200-209: memory exhausted
+200.200-209.208: memory exhausted
 Freeing nterm thing (19@190-199)
 Freeing nterm line (15@150-179)
 Freeing nterm line (12@120-149)
@@ -1201,7 +1197,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %debug
 
 ]$1[ {
-  printf ("%d\n", @$.first_line);
+  fprintf (stderr, "%d\n", @$.first_line);
 } ]m4_if($1, [%initial-action], [], [[start]])[
 
 %%
