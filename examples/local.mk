@@ -20,7 +20,7 @@ TEST_LOG_COMPILER = $(top_srcdir)/examples/test
 ## Extracting.  ##
 ## ------------ ##
 
-doc = $(top_srcdir)/doc/bison.texinfo
+doc = $(top_srcdir)/doc/bison.texi
 extexi = $(top_srcdir)/examples/extexi
 extract = VERSION="$(VERSION)" $(PERL) -f $(extexi) $(doc) --
 extracted =

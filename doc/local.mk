@@ -14,7 +14,7 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AM_MAKEINFOFLAGS = --no-split
-info_TEXINFOS = doc/bison.texinfo
+info_TEXINFOS = doc/bison.texi
 doc_bison_TEXINFOS =                            \
   $(CROSS_OPTIONS_TEXI)                         \
   doc/fdl.texi                                  \
