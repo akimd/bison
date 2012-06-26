@@ -28,7 +28,7 @@ $(BISON): $(BISON_IN)
 ## Extracting.  ##
 ## ------------ ##
 
-doc = $(top_srcdir)/doc/bison.texinfo
+doc = $(top_srcdir)/doc/bison.texi
 extexi = $(top_srcdir)/examples/extexi
 # Extract in src.
 $(srcdir)/calc.stamp: $(doc) $(extexi)
@@ -36,7 +36,7 @@ $(srcdir)/calc.stamp: $(doc) $(extexi)
 	$(AM_V_at)touch $@.tmp
 	$(AM_V_at)cd $(srcdir) && \
 	   $(AWK) -f ../extexi -v VERSION="$(VERSION)" \
-	     ../../doc/bison.texinfo -- calc++-parser.yy \
+	     ../../doc/bison.texi -- calc++-parser.yy \
 	     calc++-scanner.ll calc++.cc calc++-driver.hh calc++-driver.cc
 	$(AM_V_at)mv $@.tmp $@
 

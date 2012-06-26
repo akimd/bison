@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 AM_MAKEINFOFLAGS = --no-split
-info_TEXINFOS = bison.texinfo
+info_TEXINFOS = bison.texi
 bison_TEXINFOS = $(srcdir)/cross-options.texi gpl-3.0.texi fdl.texi
 
 CLEANFILES = bison.fns
