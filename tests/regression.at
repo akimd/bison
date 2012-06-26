@@ -910,6 +910,7 @@ yyparse ()
 }
 ])
 
+#include <assert.h>
 static int
 yylex (AT_LALR1_CC_IF([int *lval], [void]))
 [{
@@ -919,8 +920,7 @@ yylex (AT_LALR1_CC_IF([int *lval], [void]))
     };
   static size_t toknum;
   ]AT_LALR1_CC_IF([*lval = 0; /* Pacify GCC.  */])[
-  if (! (toknum < sizeof tokens / sizeof *tokens))
-    abort ();
+  assert (toknum < sizeof tokens / sizeof *tokens);
   return tokens[toknum++];
 }]
 
@@ -995,6 +995,7 @@ yyparse ()
 }
 ])[
 
+#include <assert.h>
 static int
 yylex (]AT_LALR1_CC_IF([int *lval], [void])[)
 {
@@ -1004,8 +1005,7 @@ yylex (]AT_LALR1_CC_IF([int *lval], [void])[)
     };
   static size_t toknum;
   ]AT_LALR1_CC_IF([*lval = 0; /* Pacify GCC.  */])[
-  if (! (toknum < sizeof tokens / sizeof *tokens))
-    abort ();
+  assert (toknum < sizeof tokens / sizeof *tokens);
   return tokens[toknum++];
 }
 

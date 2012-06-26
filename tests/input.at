@@ -442,6 +442,7 @@ char apostrophe = '\'';
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 %}
 /* %{ and %} can be here too. */
 
@@ -509,8 +510,7 @@ yylex (void)
 #output "; /* "
   */
   static size_t toknum;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   yylval = value_as_yystype (input[toknum]);
   return input[toknum++];
 }

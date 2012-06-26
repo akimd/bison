@@ -304,7 +304,7 @@ m4_define([AT_YYLEX_DECLARE],
 ])
 
 m4_define([AT_YYLEX_DEFINE],
-[[#include <stdlib.h> /* abort */
+[[#include <assert.h>
 static
 ]AT_YYLEX_PROTOTYPE[
 {
@@ -312,8 +312,7 @@ static
   static size_t toknum = 0;
   int res;
   ]AT_USE_LEX_ARGS[;
-  if (! (toknum < sizeof input))
-    abort ();
+  assert (toknum < sizeof input);
   res = input[toknum++];
   ]$2[;]AT_LOCATION_IF([[
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;

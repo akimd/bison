@@ -324,8 +324,7 @@ static
   AT_LOC.last_line = AT_LOC.last_column = AT_LOC.first_line + 9;
 ])[
 
-  if (! (0 <= c && c <= strlen (source)))
-    abort ();
+  assert (0 <= c && c <= strlen (source));
   if (source[c])
     printf ("sending: '%c'", source[c]);
   else
