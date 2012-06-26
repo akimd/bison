@@ -269,7 +269,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   {
   public:
     /// Symbol semantic values.
-#ifndef YYSTYPE
+#ifndef ]b4_api_PREFIX[STYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
     {
@@ -277,9 +277,9 @@ b4_user_stype
     };],
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],
-[[    typedef YYSTYPE semantic_type;]])])[
+[[    typedef ]b4_api_PREFIX[STYPE semantic_type;]])])[
 #else
-    typedef YYSTYPE semantic_type;
+    typedef ]b4_api_PREFIX[STYPE semantic_type;
 #endif
     /// Symbol locations.
     typedef ]b4_percent_define_get([[location_type]],
@@ -350,11 +350,11 @@ b4_user_stype
 b4_percent_define_flag_if([[global_tokens_and_yystype]],
 [b4_token_defines(b4_tokens)])
 [
-#ifndef YYSTYPE
-# define YYSTYPE ]b4_namespace_ref[::]b4_parser_class_name[::semantic_type
+#ifndef ]b4_api_PREFIX[STYPE
+# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class_name[::semantic_type
 #endif
-#ifndef YYLTYPE
-# define YYLTYPE ]b4_namespace_ref[::]b4_parser_class_name[::location_type
+#ifndef ]b4_api_PREFIX[LTYPE
+# define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class_name[::location_type
 #endif
 
 ]b4_namespace_close[

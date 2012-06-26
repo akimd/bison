@@ -69,7 +69,7 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
   {
   public:
     /// Symbol semantic values.
-#ifndef YYSTYPE
+#ifndef ]b4_api_PREFIX[STYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
     {
@@ -77,9 +77,9 @@ b4_user_stype
     };],
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],
-[[    typedef YYSTYPE semantic_type;]])])[
+[[    typedef ]b4_api_PREFIX[STYPE semantic_type;]])])[
 #else
-    typedef YYSTYPE semantic_type;
+    typedef ]b4_api_PREFIX[STYPE semantic_type;
 #endif
     /// Symbol locations.
     typedef ]b4_percent_define_get([[location_type]],
@@ -262,9 +262,9 @@ b4_user_stype
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
 [b4_token_defines(b4_tokens)
 
-#ifndef YYSTYPE
+#ifndef ]b4_api_PREFIX[STYPE
  /* Redirection for backward compatibility.  */
-# define YYSTYPE b4_namespace_ref::b4_parser_class_name::semantic_type
+# define ]b4_api_PREFIX[STYPE b4_namespace_ref::b4_parser_class_name::semantic_type
 #endif
 ])[
 ]b4_percent_code_get([[provides]])[
@@ -597,7 +597,7 @@ m4_popdef([b4_at_dollar])])dnl
       {
 	YYCDEBUG << "Reading a token: ";
 	yychar = ]b4_c_function_call([yylex], [int],
-				     [[YYSTYPE*], [&yylval]][]dnl
+				     [b4_api_PREFIX[STYPE*], [&yylval]][]dnl
 b4_locations_if([, [[location*], [&yylloc]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }

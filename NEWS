@@ -70,6 +70,60 @@ GNU Bison NEWS
   For the same reasons, the undocumented and unused macro YYLSP_NEEDED is no
   longer defined.
 
+** New %define variable: api.prefix
+
+  Now that the generated headers are more complete and properly protected
+  against multiple inclusions, constant names, such as YYSTYPE are a
+  problem.  While yyparse and others are properly renamed by %name-prefix,
+  YYSTYPE, YYDEBUG and others have never been affected by it.  Because it
+  would introduce backward compatibility issues in projects not expecting
+  YYSTYPE to be renamed, instead of changing the behavior of %name-prefix,
+  it is deprecated in favor of a new %define variable: api.prefix.
+
+  The following examples compares both:
+
+    %name-prefix "bar_"               | %define api.prefix "bar_"
+    %token <ival> FOO                   %token <ival> FOO
+    %union { int ival; }                %union { int ival; }
+    %%                                  %%
+    exp: 'a';                           exp: 'a';
+
+  bison generates:
+
+    #ifndef BAR_FOO_H                   #ifndef BAR_FOO_H
+    # define BAR_FOO_H                  # define BAR_FOO_H
+
+    /* Enabling traces.  */             /* Enabling traces.  */
+    # ifndef YYDEBUG                    # ifndef YYDEBUG
+    #  define YYDEBUG 0                 #  define YYDEBUG 0
+    # endif                             # endif
+    # if YYDEBUG                        # if YYDEBUG
+    extern int bar_debug;               extern int bar_debug;
+    # endif                             # endif
+
+    /* Tokens.  */                      /* Tokens.  */
+    # ifndef YYTOKENTYPE              | # ifndef BAR_TOKENTYPE
+    #  define YYTOKENTYPE             | #  define BAR_TOKENTYPE
+       enum yytokentype {             |    enum bar_tokentype {
+         FOO = 258                           FOO = 258
+       };                                  };
+    # endif                             # endif
+
+    #if ! defined YYSTYPE \           | #if ! defined BAR_STYPE \
+     && ! defined YYSTYPE_IS_DECLARED |  && ! defined BAR_STYPE_IS_DECLARED
+    typedef union YYSTYPE             | typedef union BAR_STYPE
+    {                                   {
+     int ival;                           int ival;
+    } YYSTYPE;                        | } BAR_STYPE;
+    # define YYSTYPE_IS_DECLARED 1    | # define BAR_STYPE_IS_DECLARED 1
+    #endif                              #endif
+
+    extern YYSTYPE bar_lval;          | extern BAR_STYPE bar_lval;
+
+    int bar_parse (void);               int bar_parse (void);
+
+    #endif /* !BAR_FOO_H  */            #endif /* !BAR_FOO_H  */
+
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
 ** Future changes:
