@@ -463,15 +463,7 @@ AT_DATA_GRAMMAR([input.y],
 exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 %%
 ]AT_YYERROR_DEFINE[
-
-int
-yylex (void)
-{
-  static int called;
-  if (called++)
-    abort ();
-  return SPECIAL;
-}
+]AT_YYLEX_DEFINE([{ SPECIAL }])[
 
 int
 main (void)
@@ -846,13 +838,11 @@ AT_CLEANUP
 # so that possible bound checking compilers could check all the skeletons.
 m4_define([_AT_DATA_DANCER_Y],
 [AT_DATA_GRAMMAR([dancer.y],
-[%{
-static int yylex (AT_LALR1_CC_IF([int *], [void]));
-AT_LALR1_CC_IF([],
-[#include <stdlib.h>
-#include <stdio.h>
-]AT_YYERROR_DECLARE[])
-%}
+[[%code provides
+{
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
 $1
 %token ARROW INVALID NUMBER STRING DATA
 %defines
@@ -897,7 +887,8 @@ member: STRING
    | INVALID
    ;
 %%
-AT_YYERROR_DEFINE[
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([":"])[
 ]AT_LALR1_CC_IF(
 [int
 yyparse ()
@@ -908,28 +899,14 @@ yyparse ()
 #endif
   return parser.parse ();
 }
-])
-
-#include <assert.h>
-static int
-yylex (AT_LALR1_CC_IF([int *lval], [void]))
-[{
-  static int const tokens[] =
-    {
-      ':', -1
-    };
-  static size_t toknum;
-  ]AT_LALR1_CC_IF([*lval = 0; /* Pacify GCC.  */])[
-  assert (toknum < sizeof tokens / sizeof *tokens);
-  return tokens[toknum++];
-}]
+])[
 
 int
 main (void)
 {
   return yyparse ();
 }
-])
+]])
 ])# _AT_DATA_DANCER_Y
 
 
@@ -1071,13 +1048,8 @@ start:
 %printer { fprintf (yyoutput, "PRINTER"); } 'a';
 
 %%
-
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  return 'a';
-}
+]AT_YYLEX_DEFINE(["a"])[
 
 int
 main (void)
@@ -1210,13 +1182,7 @@ sr_conflict:
 %%
 
 ]AT_YYERROR_DEFINE[
-int
-yylex (void)
-{
-  static int const input[] = { 1, 2, 3, 0 };
-  static int const *inputp = input;
-  return *inputp++;
-}
+]AT_YYLEX_DEFINE([{ 1, 2, 3, 0 }])[
 
 int
 main (void)

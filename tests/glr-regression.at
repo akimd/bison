@@ -998,16 +998,9 @@ merge (YYSTYPE s1, YYSTYPE s2)
 }
 
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static int const input[] = { PARENT_RHS_AFTER, 0 };
-  static size_t toknum;
-  assert (toknum < sizeof input / sizeof *input);
-  if (input[toknum] == PARENT_RHS_AFTER)
-    parent_rhs_after_value = 1;
-  return input[toknum++];
-}
+]AT_YYLEX_DEFINE([{ PARENT_RHS_AFTER, 0 }],
+ [if (res == PARENT_RHS_AFTER)
+    parent_rhs_after_value = 1;])[
 
 int
 main (void)
@@ -1117,17 +1110,8 @@ change_lookahead:
 %%
 
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static char const input[] = "ab";
-  static size_t toknum;
-  assert (toknum < sizeof input);
-  yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = toknum + 1;
-  yylval.value = input[toknum] + 'A' - 'a';
-  return input[toknum++];
-}
+]AT_YYLEX_DEFINE(["ab"],
+                 [yylval.value = res + 'A' - 'a'])[
 
 static void
 print_lookahead (char const *reduction)
@@ -1507,16 +1491,9 @@ alt2: ;
 %%
 
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
-{
-  static char const input[] = "ab";
-  static size_t toknum;
-  assert (toknum < sizeof input);
-  if (input[toknum] == 'b')
-    lookahead_value = 1;
-  return input[toknum++];
-}
+]AT_YYLEX_DEFINE(["ab"],
+  [if (res == 'b')
+    lookahead_value = 1])[
 
 int
 main (void)

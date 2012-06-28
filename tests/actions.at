@@ -1417,7 +1417,7 @@ AT_DATA_GRAMMAR([input.y],
 # include <assert.h>
 
   ]AT_YYERROR_DECLARE[
-  static int yylex (YYSTYPE *yylval);
+  ]AT_YYLEX_DECLARE[
 }
 %%
 input:
@@ -1432,15 +1432,7 @@ exp:
 
 %%
 ]AT_YYERROR_DEFINE[
-static int
-yylex (YYSTYPE *yylval)
-{
-  static char const input[] = "bcd";
-  static size_t toknum;
-  assert (toknum < sizeof input);
-  *yylval = (toknum + 1) * 10;
-  return input[toknum++];
-}
+]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (toknum + 1) * 10])[
 
 int
 main (void)
