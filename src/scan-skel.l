@@ -141,7 +141,8 @@ static void fail_for_invalid_at (char const *at);
 
 <SC_AT_DIRECTIVE_ARGS,SC_AT_DIRECTIVE_SKIP_WS>{
   <<EOF>> {
-    fatal (_("unclosed %s directive in skeleton"), at_directive_argv[0]);
+    complain (fatal, _("unclosed %s directive in skeleton"),
+              at_directive_argv[0]);
   }
 }
 
@@ -188,34 +189,36 @@ at_directive_perform (int at_directive_argc,
            || STREQ (at_directive_argv[0], "@complain")
            || STREQ (at_directive_argv[0], "@fatal"))
     {
-      void (*func)(char const *, ...);
+      warnings complaint_flag;
       switch (at_directive_argv[0][1])
         {
-          case 'w': func = warn; break;
-          case 'c': func = complain; break;
-          case 'f': func = fatal; break;
-          default: aver (false); break;
+        case 'w': complaint_flag = Wother; break;
+        case 'c': complaint_flag = complaint; break;
+        case 'f': complaint_flag = fatal; break;
+        default: aver (false); break;
         }
       switch (at_directive_argc)
         {
           case 2:
-            func (_(at_directive_argv[1]));
+            complain (complaint_flag, "%s", _(at_directive_argv[1]));
             break;
           case 3:
-            func (_(at_directive_argv[1]), at_directive_argv[2]);
+            complain (complaint_flag, _(at_directive_argv[1]),
+                      at_directive_argv[2]);
             break;
           case 4:
-            func (_(at_directive_argv[1]), at_directive_argv[2],
-                  at_directive_argv[3]);
+            complain (complaint_flag, _(at_directive_argv[1]),
+                      at_directive_argv[2], at_directive_argv[3]);
             break;
           case 5:
-            func (_(at_directive_argv[1]), at_directive_argv[2],
-                  at_directive_argv[3], at_directive_argv[4]);
+            complain (complaint_flag, _(at_directive_argv[1]),
+                      at_directive_argv[2], at_directive_argv[3],
+                      at_directive_argv[4]);
             break;
           case 6:
-            func (_(at_directive_argv[1]), at_directive_argv[2],
-                  at_directive_argv[3], at_directive_argv[4],
-                  at_directive_argv[5]);
+            complain (complaint_flag, _(at_directive_argv[1]),
+                      at_directive_argv[2], at_directive_argv[3],
+                      at_directive_argv[4], at_directive_argv[5]);
             break;
           default:
             fail_for_at_directive_too_many_args (at_directive_argv[0]);
@@ -226,39 +229,41 @@ at_directive_perform (int at_directive_argc,
            || STREQ (at_directive_argv[0], "@complain_at")
            || STREQ (at_directive_argv[0], "@fatal_at"))
     {
-      void (*func)(location, char const *, ...);
+      warnings complaint_flag;
       location loc;
       if (at_directive_argc < 4)
         fail_for_at_directive_too_few_args (at_directive_argv[0]);
       switch (at_directive_argv[0][1])
         {
-          case 'w': func = warn_at; break;
-          case 'c': func = complain_at; break;
-          case 'f': func = fatal_at; break;
-          default: aver (false); break;
+        case 'w': complaint_flag = Wother; break;
+        case 'c': complaint_flag = complaint; break;
+        case 'f': complaint_flag = fatal; break;
+        default: aver (false); break;
         }
       boundary_set_from_string (&loc.start, at_directive_argv[1]);
       boundary_set_from_string (&loc.end, at_directive_argv[2]);
       switch (at_directive_argc)
         {
           case 4:
-            func (loc, _(at_directive_argv[3]));
+            complain_at (loc, complaint_flag, "%s", _(at_directive_argv[3]));
             break;
           case 5:
-            func (loc, _(at_directive_argv[3]), at_directive_argv[4]);
+            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
+                      at_directive_argv[4]);
             break;
           case 6:
-            func (loc, _(at_directive_argv[3]), at_directive_argv[4],
-                  at_directive_argv[5]);
+            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
+                      at_directive_argv[4], at_directive_argv[5]);
             break;
           case 7:
-            func (loc, _(at_directive_argv[3]), at_directive_argv[4],
-                  at_directive_argv[5], at_directive_argv[6]);
+            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
+                      at_directive_argv[4], at_directive_argv[5],
+                      at_directive_argv[6]);
             break;
           case 8:
-            func (loc, _(at_directive_argv[3]), at_directive_argv[4],
-                  at_directive_argv[5], at_directive_argv[6],
-                  at_directive_argv[7]);
+            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
+                      at_directive_argv[4], at_directive_argv[5],
+                      at_directive_argv[6], at_directive_argv[7]);
             break;
           default:
             fail_for_at_directive_too_many_args (at_directive_argv[0]);
@@ -286,19 +291,19 @@ at_directive_perform (int at_directive_argc,
 static void
 fail_for_at_directive_too_few_args (char const *at_directive_name)
 {
-  fatal (_("too few arguments for %s directive in skeleton"),
+  complain (fatal, _("too few arguments for %s directive in skeleton"),
          at_directive_name);
 }
 
 static void
 fail_for_at_directive_too_many_args (char const *at_directive_name)
 {
-  fatal (_("too many arguments for %s directive in skeleton"),
-         at_directive_name);
+  complain (fatal, _("too many arguments for %s directive in skeleton"),
+            at_directive_name);
 }
 
 static void
 fail_for_invalid_at (char const *at)
 {
-  fatal ("invalid @ in skeleton: %s", at);
+  complain (fatal, "invalid @ in skeleton: %s", at);
 }

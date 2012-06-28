@@ -164,7 +164,9 @@ splice   (\\[ \f\t\v]*\n)*
 <INITIAL,SC_AFTER_IDENTIFIER,SC_BRACKETED_ID,SC_RETURN_BRACKETED_ID>
 {
   /* Comments and white space.  */
-  ","          warn_at (*loc, _("stray ',' treated as white space"));
+  "," {
+     complain_at (*loc, Wother, _("stray ',' treated as white space"));
+  }
   [ \f\n\t\v]  |
   "//".*       ;
   "/*" {
@@ -239,7 +241,7 @@ splice   (\\[ \f\t\v]*\n)*
   "%yacc"                           return PERCENT_YACC;
 
   {directive} {
-    complain_at (*loc, _("invalid directive: %s"), quote (yytext));
+    complain_at (*loc, complaint, _("invalid directive: %s"), quote (yytext));
   }
 
   "="                     return EQUAL;
@@ -265,7 +267,7 @@ splice   (\\[ \f\t\v]*\n)*
   /* Identifiers may not start with a digit.  Yet, don't silently
      accept "1FOO" as "1 FOO".  */
   {int}{id} {
-    complain_at (*loc, _("invalid identifier: %s"), quote (yytext));
+    complain_at (*loc, complaint, _("invalid identifier: %s"), quote (yytext));
   }
 
   /* Characters.  */
@@ -323,7 +325,7 @@ splice   (\\[ \f\t\v]*\n)*
   }
 
   . {
-    complain_at (*loc, _("invalid character: %s"), quote (yytext));
+    complain_at (*loc, complaint, _("invalid character: %s"), quote (yytext));
   }
 
   <<EOF>> {
@@ -340,7 +342,7 @@ splice   (\\[ \f\t\v]*\n)*
 
 <SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_TAG>
 {
-  \0        complain_at (*loc, _("invalid null character"));
+  \0        complain_at (*loc, complaint, _("invalid null character"));
 }
 
 
@@ -392,7 +394,8 @@ splice   (\\[ \f\t\v]*\n)*
   {id} {
     if (bracketed_id_str)
       {
-        complain_at (*loc, _("unexpected identifier in bracketed name: %s"),
+        complain_at (*loc, complaint,
+                     _("unexpected identifier in bracketed name: %s"),
                      quote (yytext));
       }
     else
@@ -414,10 +417,10 @@ splice   (\\[ \f\t\v]*\n)*
           }
       }
     else
-      complain_at (*loc, _("an identifier expected"));
+      complain_at (*loc, complaint, _("an identifier expected"));
   }
   . {
-    complain_at (*loc, _("invalid character in bracketed name: %s"),
+    complain_at (*loc, complaint, _("invalid character in bracketed name: %s"),
                  quote (yytext));
   }
   <<EOF>> {
@@ -515,12 +518,13 @@ splice   (\\[ \f\t\v]*\n)*
       /* FIXME: Eventually, make these errors.  */
       if (last_string[0] == '\0')
         {
-          warn_at (*loc, _("empty character literal"));
+          complain_at (*loc, Wother, _("empty character literal"));
           /* '\0' seems dangerous even if we are about to complain.  */
           val->character = '\'';
         }
       else if (last_string[1] != '\0')
-        warn_at (*loc, _("extra characters in character literal"));
+        complain_at (*loc, Wother,
+                  _("extra characters in character literal"));
     }
     if (yytext[0] == '\n')
       unexpected_newline (token_start, "'");
@@ -536,12 +540,13 @@ splice   (\\[ \f\t\v]*\n)*
       /* FIXME: Eventually, make these errors.  */
       if (last_string[0] == '\0')
         {
-          warn_at (*loc, _("empty character literal"));
+          complain_at (*loc, Wother, _("empty character literal"));
           /* '\0' seems dangerous even if we are about to complain.  */
           val->character = '\'';
         }
       else if (last_string[1] != '\0')
-        warn_at (*loc, _("extra characters in character literal"));
+        complain_at (*loc, Wother,
+                  _("extra characters in character literal"));
     }
     unexpected_eof (token_start, "'");
     STRING_FREE;
@@ -594,7 +599,7 @@ splice   (\\[ \f\t\v]*\n)*
   \\[0-7]{1,3} {
     unsigned long int c = strtoul (yytext + 1, NULL, 8);
     if (!c || UCHAR_MAX < c)
-      complain_at (*loc, _("invalid number after \\-escape: %s"),
+      complain_at (*loc, complaint, _("invalid number after \\-escape: %s"),
                    yytext+1);
     else
       obstack_1grow (&obstack_for_string, c);
@@ -604,7 +609,7 @@ splice   (\\[ \f\t\v]*\n)*
     verify (UCHAR_MAX < ULONG_MAX);
     unsigned long int c = strtoul (yytext + 2, NULL, 16);
     if (!c || UCHAR_MAX < c)
-      complain_at (*loc, _("invalid number after \\-escape: %s"),
+      complain_at (*loc, complaint, _("invalid number after \\-escape: %s"),
                    yytext+1);
     else
       obstack_1grow (&obstack_for_string, c);
@@ -624,7 +629,7 @@ splice   (\\[ \f\t\v]*\n)*
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
     int c = convert_ucn_to_byte (yytext);
     if (c <= 0)
-      complain_at (*loc, _("invalid number after \\-escape: %s"),
+      complain_at (*loc, complaint, _("invalid number after \\-escape: %s"),
                    yytext+1);
     else
       obstack_1grow (&obstack_for_string, c);
@@ -636,7 +641,8 @@ splice   (\\[ \f\t\v]*\n)*
       p = quote (p);
     else
       p = quotearg_style_mem (escape_quoting_style, p, 1);
-    complain_at (*loc, _("invalid character after \\-escape: %s"), p);
+    complain_at (*loc, complaint, _("invalid character after \\-escape: %s"),
+                 p);
   }
 }
 
@@ -867,7 +873,8 @@ scan_integer (char const *number, int base, location loc)
 
   if (INT_MAX < num)
     {
-      complain_at (loc, _("integer out of range: %s"), quote (number));
+      complain_at (loc, complaint, _("integer out of range: %s"),
+                   quote (number));
       num = INT_MAX;
     }
 
@@ -945,7 +952,7 @@ handle_syncline (char *args, location loc)
   *strchr (file, '"') = '\0';
   if (INT_MAX <= lineno)
     {
-      warn_at (loc, _("line number overflow"));
+      complain_at (loc, Wother, _("line number overflow"));
       lineno = INT_MAX;
     }
   current_file = uniqstr_new (file);
@@ -969,7 +976,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
   // Instead of '\'', display "'".
   if (STREQ (token_end, "'\\''"))
     token_end = "\"'\"";
-  complain_at (loc, _(msgid), token_end);
+  complain_at (loc, complaint, _(msgid), token_end);
 }
 
 

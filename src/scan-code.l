@@ -198,12 +198,12 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     need_semicolon = true;
   }
   "$"  {
-    warn_at (*loc, _("stray '$'"));
+    complain_at (*loc, Wother, _("stray '$'"));
     obstack_sgrow (&obstack_for_string, "$][");
     need_semicolon = true;
   }
   "@"  {
-    warn_at (*loc, _("stray '@'"));
+    complain_at (*loc, Wother, _("stray '@'"));
     obstack_sgrow (&obstack_for_string, "@@");
     need_semicolon = true;
   }
@@ -228,8 +228,10 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     if (outer_brace && !yacc_flag && language_prio == default_prio
         && skeleton_prio == default_prio && need_semicolon && ! in_cpp)
       {
-        warn_at (*loc, _("a ';' might be needed at the end of action code"));
-        warn_at (*loc, _("future versions of Bison will not add the ';'"));
+        complain_at (*loc, Wother,
+                     _("a ';' might be needed at the end of action code"));
+        complain_at (*loc, Wother,
+                     _("future versions of Bison will not add the ';'"));
         obstack_1grow (&obstack_for_string, ';');
       }
 
@@ -251,8 +253,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
      2.4.2.  */
   YYFAIL {
     STRING_GROW; need_semicolon = true;
-    warn_at (*loc, _("use of YYFAIL, which is deprecated and will be"
-                     " removed"));
+    complain_at (*loc, Wother,
+                 _("use of YYFAIL, which is deprecated and will be removed"));
   }
 
   /* The sole purpose of this is to make sure identifiers that merely
@@ -436,11 +438,13 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
       if (var->err == 0)
         {
           if (is_warning)
-            warn_at_indent (var->loc, &indent, _("refers to: %c%s at %s"),
-                            dollar_or_at, var->id, at_spec);
+            complain_at_indent (var->loc, Wother, &indent,
+                                _("refers to: %c%s at %s"), dollar_or_at,
+                                var->id, at_spec);
           else
-            complain_at_indent (var->loc, &indent, _("refers to: %c%s at %s"),
-                                dollar_or_at, var->id, at_spec);
+            complain_at_indent (var->loc, complaint, &indent,
+                                _("refers to: %c%s at %s"), dollar_or_at,
+                                var->id, at_spec);
         }
       else
         {
@@ -483,10 +487,10 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
 
           obstack_1grow (&msg_buf, '\0');
           if (is_warning)
-            warn_at_indent (id_loc, &indent, "%s",
-                            (char *) obstack_finish (&msg_buf));
+            complain_at_indent (id_loc, Wother, &indent, "%s",
+                                (char *) obstack_finish (&msg_buf));
           else
-            complain_at_indent (id_loc, &indent, "%s",
+            complain_at_indent (id_loc, complaint, &indent, "%s",
                                 (char *) obstack_finish (&msg_buf));
           obstack_free (&msg_buf, 0);
         }
@@ -529,7 +533,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         return num;
       else
         {
-          complain_at (text_loc, _("integer out of range: %s"),
+          complain_at (text_loc, complaint, _("integer out of range: %s"),
                        quote (text));
           return INVALID_REF;
         }
@@ -618,8 +622,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
           cp_end - cp : ref_tail_fields - cp;
         unsigned indent = 0;
 
-        complain_at_indent (text_loc, &indent, _("invalid reference: %s"),
-                            quote (text));
+        complain_at_indent (text_loc, complaint, &indent,
+                            _("invalid reference: %s"), quote (text));
         indent += SUB_INDENT;
         if (len == 0)
           {
@@ -629,20 +633,21 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
             const char *format =
               _("syntax error after '%c', expecting integer, letter,"
                 " '_', '[', or '$'");
-            complain_at_indent (sym_loc, &indent, format, dollar_or_at);
+            complain_at_indent (sym_loc, complaint, &indent, format,
+                                dollar_or_at);
           }
         else if (midrule_rhs_index)
           {
             const char *format =
               _("symbol not found in production before $%d: %.*s");
-            complain_at_indent (rule->location, &indent, format,
+            complain_at_indent (rule->location, complaint, &indent, format,
                                 midrule_rhs_index, len, cp);
           }
         else
           {
             const char *format =
               _("symbol not found in production: %.*s");
-            complain_at_indent (rule->location, &indent, format,
+            complain_at_indent (rule->location, complaint, &indent, format,
                                 len, cp);
           }
 
@@ -656,8 +661,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         unsigned indent = 0;
         if (variant_count > 1)
           {
-            warn_at_indent (text_loc, &indent, _("misleading reference: %s"),
-                            quote (text));
+            complain_at_indent (text_loc, Wother, &indent,
+                                _("misleading reference: %s"), quote (text));
             show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
                                dollar_or_at, true, indent + SUB_INDENT);
           }
@@ -671,8 +676,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     default:
       {
         unsigned indent = 0;
-        complain_at_indent (text_loc, &indent, _("ambiguous reference: %s"),
-                            quote (text));
+        complain_at_indent (text_loc, complaint, &indent,
+                            _("ambiguous reference: %s"), quote (text));
         show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
                            dollar_or_at, false, indent + SUB_INDENT);
         return INVALID_REF;
@@ -730,7 +735,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       gt_ptr = cp;
       ++cp;
       if (untyped_var_seen)
-        complain_at (dollar_loc, _("explicit type given in untyped grammar"));
+        complain_at (dollar_loc, complaint,
+                  _("explicit type given in untyped grammar"));
       tag_seen = true;
     }
 
@@ -754,13 +760,14 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
           if (union_seen | tag_seen)
             {
               if (rule->midrule_parent_rule)
-                complain_at (dollar_loc,
+                complain_at (dollar_loc, complaint,
                              _("$$ for the midrule at $%d of %s"
                                " has no declared type"),
                              rule->midrule_parent_rhs_index,
                              quote (effective_rule->content.sym->tag));
               else
-                complain_at (dollar_loc, _("$$ of %s has no declared type"),
+                complain_at (dollar_loc, complaint,
+                             _("$$ of %s has no declared type"),
                              quote (rule->content.sym->tag));
             }
           else
@@ -782,8 +789,9 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       if (!type_name)
         {
           if (union_seen | tag_seen)
-            complain_at (dollar_loc, _("$%s of %s has no declared type"),
-                         cp, quote (effective_rule->content.sym->tag));
+            complain_at (dollar_loc, complaint,
+                         _("$%s of %s has no declared type"), cp,
+                         quote (effective_rule->content.sym->tag));
           else
             untyped_var_seen = true;
           type_name = "";
