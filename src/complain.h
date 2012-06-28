@@ -25,6 +25,25 @@
 extern "C" {
 # endif
 
+/*-------------.
+| --warnings.  |
+`-------------*/
+
+enum warnings
+  {
+    Wnone             = 0,      /**< Issue no warnings.  */
+    Werror            = 1 << 0, /**< Warnings are treated as errors.  */
+    Wmidrule_values   = 1 << 1, /**< Unset or unused midrule values.  */
+    Wyacc             = 1 << 2, /**< POSIXME.  */
+    Wconflicts_sr     = 1 << 3, /**< S/R conflicts.  */
+    Wconflicts_rr     = 1 << 4, /**< R/R conflicts.  */
+    Wother            = 1 << 5, /**< All other warnings.  */
+    Wall              = ~Werror /**< All above warnings.  */
+  };
+
+/** What warnings are issued.  */
+extern int warnings_flag;
+
 /** Record that a warning is about to be issued, and treat it as an
     error if <tt>warnings_flag & Werror</tt>.  This is exported
     only for the sake of Yacc-compatible conflict reports in conflicts.c.
