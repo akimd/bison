@@ -100,9 +100,6 @@ m4_define([b4_identification],
 
 /* Pull parsers.  */
 #define YYPULL ]b4_pull_flag])[
-
-/* Using locations.  */
-#define YYLSP_NEEDED ]b4_locations_if([1], [0])[
 ]])
 
 

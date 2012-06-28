@@ -317,9 +317,9 @@ m4_define([b4_define_flag_if],
 
 # _b4_define_flag_if($1, $2, FLAG)
 # --------------------------------
-# This macro works around the impossibility to define macros
-# inside macros, because issuing `[$1]' is not possible in M4 :(.
-# This sucks hard, GNU M4 should really provide M5 like $$1.
+# Work around the impossibility to define macros inside macros,
+# because issuing `[$1]' is not possible in M4.  GNU M4 should provide
+# $$1 a la M5/TeX.
 m4_define([_b4_define_flag_if],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
@@ -333,7 +333,11 @@ m4_define([b4_$3_if],
 b4_define_flag_if([defines])            # Whether headers are requested.
 b4_define_flag_if([glr])                # Whether a GLR parser is requested.
 b4_define_flag_if([nondeterministic])   # Whether conflicts should be handled.
+b4_define_flag_if([token_table])        # Whether yytoken_table is demanded.
 b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
+
+# yytoken_table is needed to support verbose errors.
+b4_error_verbose_if([m4_define([b4_token_table_flag], [1])])
 
 
 ## --------- ##

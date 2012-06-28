@@ -51,7 +51,7 @@ exp:     { putchar ('0'); }
    ;
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(123456789)[
+]AT_YYLEX_DEFINE(["123456789"])[
 int
 main (void)
 {
@@ -116,7 +116,7 @@ sum_of_the_five_previous_values:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([])[
+]AT_YYLEX_DEFINE[
 int
 main (void)
 {
@@ -151,7 +151,7 @@ sum: { printf ("%d\n", $0.val + $-1.val + $-2.val); } ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE()[
+]AT_YYLEX_DEFINE[
 int
 main (void)
 {
@@ -636,7 +636,7 @@ start: 'a' 'b' 'c' 'd' 'e' { $$ = 'S'; USE(($1, $2, $3, $4, $5)); } ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([abcd], [[yylval = res]])[
+]AT_YYLEX_DEFINE(["abcd"], [[yylval = res]])[
 
 int
 main (void)
@@ -748,7 +748,7 @@ start:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([abcdef])[
+]AT_YYLEX_DEFINE(["abcdef"])[
 
 int
 main (void)
@@ -966,7 +966,7 @@ start:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([abd], [yylval = res])[
+]AT_YYLEX_DEFINE(["abd"], [yylval = res])[
 int
 main (void)
 {
@@ -1066,7 +1066,7 @@ start: { USE($$); } ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([])[
+]AT_YYLEX_DEFINE[
 int
 main (void)
 {
@@ -1121,7 +1121,7 @@ start:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([])[
+]AT_YYLEX_DEFINE[
 int
 main (void)
 {
@@ -1381,7 +1381,7 @@ accept: /*empty*/ {
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([a])[
+]AT_YYLEX_DEFINE(["a"])[
 int
 main (void)
 {
@@ -1417,7 +1417,7 @@ AT_DATA_GRAMMAR([input.y],
 # include <assert.h>
 
   ]AT_YYERROR_DECLARE[
-  static int yylex (YYSTYPE *yylval);
+  ]AT_YYLEX_DECLARE[
 }
 %%
 input:
@@ -1432,15 +1432,7 @@ exp:
 
 %%
 ]AT_YYERROR_DEFINE[
-static int
-yylex (YYSTYPE *yylval)
-{
-  static char const input[] = "bcd";
-  static size_t toknum;
-  assert (toknum < sizeof input);
-  *yylval = (toknum + 1) * 10;
-  return input[toknum++];
-}
+]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (toknum + 1) * 10])[
 
 int
 main (void)

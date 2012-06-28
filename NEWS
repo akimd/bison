@@ -124,14 +124,16 @@ GNU Bison NEWS
   generated for C supprt ISO C90, and are tested with ISO C99 and ISO C11
   compilers.
 
-*** Deprecated features
+*** Features deprecated since Bison 1.875
 
-  The definitions of yystype and yyltype will be removed, as announced since
-  Bison 1.875.  Use YYSTYPE and YYLTYPE only.
+  The definitions of yystype and yyltype will be removed; use YYSTYPE and
+  YYLTYPE.
 
-  YYPARSE_PARAM and YYLEX_PARAM, which were deprecated in favor of
-  %parse-param and %lex-param (introduced in Bison 1.875), will no longer be
-  supported.
+  YYPARSE_PARAM and YYLEX_PARAM, deprecated in favor of %parse-param and
+  %lex-param, will no longer be supported.
+
+  Support for the preprocessor symbol YYERROR_VERBOSE will be removed, use
+  %error-verbose.
 
 *** The generated header will be included (yacc.c)
 
@@ -141,9 +143,9 @@ GNU Bison NEWS
   because existing versions of ylwrap (e.g., Automake 1.12.1) do not support
   it.
 
-** Headers (yacc.c, glr.c, glr.cc)
+** Headers
 
-*** Guards
+*** Guards (yacc.c, glr.c, glr.cc)
 
   The generated headers are now guarded, as is already the case for C++
   parsers (lalr1.cc).  For intance, with --defines=foo.h:
@@ -153,7 +155,7 @@ GNU Bison NEWS
     ...
     #endif /* !YY_FOO_H  */
 
-*** New declarations
+*** New declarations (yacc.c, glr.c)
 
   The generated header now declares yydebug and yyparse.  Both honor
   --name-prefix=bar_, and yield
@@ -167,6 +169,17 @@ GNU Bison NEWS
 
   in order to facilitate the inclusion of several parser headers inside a
   single compilation unit.
+
+*** Exported symbols in C++
+
+  The symbols YYTOKEN_TABLE and YYERROR_VERBOSE, which were defined in the
+  header, are removed, as they prevent the possibility of including several
+  generated headers from a single compilation unit.
+
+*** YYLSP_NEEDED
+
+  For the same reasons, the undocumented and unused macro YYLSP_NEEDED is no
+  longer defined.
 
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 

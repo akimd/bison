@@ -101,7 +101,7 @@ start: ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]m4_if([$1], [[both]], [AT_YYLEX_DEFINE([])])[
+]m4_if([$1], [[both]], [AT_YYLEX_DEFINE])[
 
 int
 main (void)

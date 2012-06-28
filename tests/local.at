@@ -296,8 +296,11 @@ $2])
 # AT_YYLEX_PROTOTYPE
 # AT_YYLEX_DECLARE_EXTERN
 # AT_YYLEX_DECLARE
-# AT_YYLEX_DEFINE(INPUT-STRING, [ACTION])
-# ---------------------------------------
+# AT_YYLEX_DEFINE([INPUT], [ACTION])
+# ----------------------------------
+# INPUT can be empty, or in double quotes, or a list (in braces).
+# ACTION may compute yylval for instance, using "res" as token type,
+# and "toknum" as the number of calls to yylex (starting at 0).
 m4_define([AT_YYLEX_PROTOTYPE],
 [int AT_NAME_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
 ])
@@ -315,7 +318,9 @@ m4_define([AT_YYLEX_DEFINE],
 static
 ]AT_YYLEX_PROTOTYPE[
 {
-  static char const input[] = "$1";
+  ]m4_bmatch([$1], [^\(".*"\)?$],
+             [[static char const input[] = ]m4_default([$1], [""])],
+             [[static int const input[] = ]$1])[;
   static size_t toknum = 0;
   int res;
   ]AT_USE_LEX_ARGS[;

@@ -485,7 +485,7 @@ reduce-nonassoc: %prec 'a';
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([aaa])[
+]AT_YYLEX_DEFINE(["aaa"])[
 
 int
 main (void)
