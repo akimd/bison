@@ -114,14 +114,14 @@ extern int trace_flag;
 
 enum warnings
   {
-    warnings_none             = 0,      /**< Issue no warnings.  */
-    warnings_error            = 1 << 0, /**< Warnings are treated as errors.  */
-    warnings_midrule_values   = 1 << 1, /**< Unset or unused midrule values.  */
-    warnings_yacc             = 1 << 2, /**< POSIXME.  */
-    warnings_conflicts_sr     = 1 << 3, /**< S/R conflicts.  */
-    warnings_conflicts_rr     = 1 << 4, /**< R/R conflicts.  */
-    warnings_other            = 1 << 5, /**< All other warnings.  */
-    warnings_all              = ~warnings_error /**< All above warnings.  */
+    Wnone             = 0,      /**< Issue no warnings.  */
+    Werror            = 1 << 0, /**< Warnings are treated as errors.  */
+    Wmidrule_values   = 1 << 1, /**< Unset or unused midrule values.  */
+    Wyacc             = 1 << 2, /**< POSIXME.  */
+    Wconflicts_sr     = 1 << 3, /**< S/R conflicts.  */
+    Wconflicts_rr     = 1 << 4, /**< R/R conflicts.  */
+    Wother            = 1 << 5, /**< All other warnings.  */
+    Wall              = ~Werror /**< All above warnings.  */
   };
 /** What warnings are issued.  */
 extern int warnings_flag;

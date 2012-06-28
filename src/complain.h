@@ -26,14 +26,14 @@ extern "C" {
 # endif
 
 /** Record that a warning is about to be issued, and treat it as an
-    error if <tt>warnings_flag & warnings_error</tt>.  This is exported
+    error if <tt>warnings_flag & Werror</tt>.  This is exported
     only for the sake of Yacc-compatible conflict reports in conflicts.c.
     All other warnings should be implemented in complain.c and should use
     the normal warning format.  */
 void set_warning_issued (void);
 
 /** Informative messages, but we proceed.  Report iff
-    <tt>warnings_flag & warnings_other</tt>.  */
+    <tt>warnings_flag & Wother</tt>.  */
 
 void warn (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
@@ -70,7 +70,7 @@ void yacc_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
 
 /** A midrule-value warning.  Report iff
-    <tt>warnings_flag & warnings_midrule_values</tt>.  */
+    <tt>warnings_flag & Wmidrule_values</tt>.  */
 
 void midrule_value_at (location loc, char const *format, ...)
   __attribute__ ((__format__ (__printf__, 2, 3)));
