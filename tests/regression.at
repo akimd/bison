@@ -1312,7 +1312,7 @@ syntax_error:
 /* Induce two syntax error messages (which requires full error
    recovery by shifting 3 tokens) in order to detect any loss of the
    reallocated buffer.  */
-]AT_YYLEX_DEFINE([abc])[
+]AT_YYLEX_DEFINE(["abc"])[
 int
 main (void)
 {
@@ -1419,7 +1419,7 @@ syntax_error2:
 ]AT_YYERROR_DEFINE[
 /* Induce two syntax error messages (which requires full error
    recovery by shifting 3 tokens).  */
-]AT_YYLEX_DEFINE([abc])[
+]AT_YYLEX_DEFINE(["abc"])[
 int
 main (void)
 {
@@ -1569,7 +1569,7 @@ A: /*empty*/ | 'a' ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([$1])[
+]AT_YYLEX_DEFINE(["$1"])[
 int
 main (void)
 {
