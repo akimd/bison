@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.5.1.779-71bff.  */
+/* A Bison parser, made by GNU Bison 2.5.1.815-22b0.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -223,6 +223,7 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
 
+
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
@@ -238,6 +239,5 @@ int gram_parse (void);
 int gram_parse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
-
 
 #endif /* !GRAM_______SRC_PARSE_GRAM_H  */
