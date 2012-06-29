@@ -39,6 +39,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ARRAY_CARDINALITY(Array) (sizeof (Array) / sizeof *(Array))
 #define STREQ(L, R)  (strcmp(L, R) == 0)
 #define STRNEQ(L, R) (!STREQ(L, R))
 

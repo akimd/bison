@@ -31,20 +31,25 @@ extern "C" {
 
 typedef enum
   {
-    Wnone             = 0,      /**< Issue no warnings.  */
-    Werror            = 1 << 0, /**< Warnings are treated as errors.  */
-    Wmidrule_values   = 1 << 1, /**< Unset or unused midrule values.  */
-    Wyacc             = 1 << 2, /**< POSIXME.  */
-    Wconflicts_sr     = 1 << 3, /**< S/R conflicts.  */
-    Wconflicts_rr     = 1 << 4, /**< R/R conflicts.  */
-    Wother            = 1 << 5, /**< All other warnings.  */
-    complaint         = 1 << 6, /**< All complaints.  */
-    fatal             = 1 << 7, /**< All fatal errors.  */
-    Wall              = ~Werror /**< All above warnings.  */
+    Wnone             = 0,       /**< Issue no warnings.  */
+    Wmidrule_values   = 1 << 0,  /**< Unset or unused midrule values.  */
+    Wyacc             = 1 << 1,  /**< POSIXME.  */
+    Wconflicts_sr     = 1 << 2,  /**< S/R conflicts.  */
+    Wconflicts_rr     = 1 << 3,  /**< R/R conflicts.  */
+    Wother            = 1 << 4,  /**< All other warnings.  */
+
+    Werror            = 1 << 10, /**< Warnings are treated as errors.  */
+    complaint         = 1 << 11, /**< All complaints.  */
+    fatal             = 1 << 12, /**< All fatal errors.  */
+    silent            = 1 << 13, /**< Do not display the warning type.  */
+    Wall              = ~Werror  /**< All above warnings.  */
   } warnings;
 
 /** What warnings are issued.  */
 extern warnings warnings_flag;
+
+/** Display a "[-Wyacc]" like message on stderr.  */
+void warnings_print_categories (warnings warn_flags);
 
 /** Record that a warning is about to be issued, and treat it as an
     error if <tt>warnings_flag & Werror</tt>.  This is exported
