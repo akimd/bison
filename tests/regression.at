@@ -209,7 +209,7 @@ exp: '(' exp ')' | NUM ;
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-v -o input.c input.y], 0, [],
-[[input.y:6.8-14: warning: symbol "<=" used more than once as a literal string
+[[input.y:6.8-14: warning: symbol "<=" used more than once as a literal string [-Wother]
 ]])
 
 AT_CLEANUP
@@ -478,8 +478,8 @@ AT_BISON_OPTION_POPDEFS
 # C-string literal.  Also notice that unnecessary escaping, such as "\?", from
 # the user specification is eliminated.
 AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
-[[input.y:22.8-14: warning: symbol SPECIAL redeclared
-input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string
+[[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
+input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
 ]])
 AT_COMPILE([input])
 
@@ -1184,8 +1184,8 @@ main (void)
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
-[[input.y:23.5-19: warning: rule useless in parser due to conflicts: start: start
-input.y:27.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias"
+[[input.y:23.5-19: warning: rule useless in parser due to conflicts: start: start [-Wother]
+input.y:27.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias" [-Wother]
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])

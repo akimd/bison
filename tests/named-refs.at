@@ -253,10 +253,10 @@ exp:
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:50.51-60: invalid reference: '$<ival>lo9'
 test.y:50.3-68:      symbol not found in production: lo9
-test.y:51.51-60: warning: misleading reference: '$<ival>exp'
-test.y:42.1-3:       warning: refers to: $exp at $$
-test.y:51.7:         warning: possibly meant: $x, hiding $exp at $1
-test.y:51.41:        warning: possibly meant: $r, hiding $exp at $4
+test.y:51.51-60: warning: misleading reference: '$<ival>exp' [-Wother]
+test.y:42.1-3:       warning: refers to: $exp at $$ [-Wother]
+test.y:51.7:         warning: possibly meant: $x, hiding $exp at $1 [-Wother]
+test.y:51.41:        warning: possibly meant: $r, hiding $exp at $4 [-Wother]
 test.y:52.51-52: $l of 'exp' has no declared type
 test.y:55.46-49: invalid reference: '$r12'
 test.y:55.3-53:      symbol not found in production: r12
@@ -277,9 +277,9 @@ foo: '1'
 foo.bar: '2'
 ]])
 AT_BISON_CHECK([-o test.c test.y], 0, [],
-[[test.y:11.22-29: warning: misleading reference: '$foo.bar'
-test.y:11.8-10:      warning: refers to: $foo at $1
-test.y:11.12-18:     warning: possibly meant: $[foo.bar] at $2
+[[test.y:11.22-29: warning: misleading reference: '$foo.bar' [-Wother]
+test.y:11.8-10:      warning: refers to: $foo at $1 [-Wother]
+test.y:11.12-18:     warning: possibly meant: $[foo.bar] at $2 [-Wother]
 ]])
 AT_CLEANUP
 
@@ -573,7 +573,7 @@ start:
 ;
 ]])
 AT_BISON_CHECK([[test.y]], [[0]], [],
-[[test.y:4.9: warning: stray '$'
-test.y:5.9: warning: stray '@'
+[[test.y:4.9: warning: stray '$' [-Wother]
+test.y:5.9: warning: stray '@' [-Wother]
 ]])
 AT_CLEANUP

@@ -88,16 +88,16 @@ exp: useful;
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
-[[input.y: warning: 9 nonterminals useless in grammar
-input.y:4.8-15: warning: nonterminal useless in grammar: useless1
-input.y:5.8-15: warning: nonterminal useless in grammar: useless2
-input.y:6.8-15: warning: nonterminal useless in grammar: useless3
-input.y:7.8-15: warning: nonterminal useless in grammar: useless4
-input.y:8.8-15: warning: nonterminal useless in grammar: useless5
-input.y:9.8-15: warning: nonterminal useless in grammar: useless6
-input.y:10.8-15: warning: nonterminal useless in grammar: useless7
-input.y:11.8-15: warning: nonterminal useless in grammar: useless8
-input.y:12.8-15: warning: nonterminal useless in grammar: useless9
+[[input.y: warning: 9 nonterminals useless in grammar [-Wother]
+input.y:4.8-15: warning: nonterminal useless in grammar: useless1 [-Wother]
+input.y:5.8-15: warning: nonterminal useless in grammar: useless2 [-Wother]
+input.y:6.8-15: warning: nonterminal useless in grammar: useless3 [-Wother]
+input.y:7.8-15: warning: nonterminal useless in grammar: useless4 [-Wother]
+input.y:8.8-15: warning: nonterminal useless in grammar: useless5 [-Wother]
+input.y:9.8-15: warning: nonterminal useless in grammar: useless6 [-Wother]
+input.y:10.8-15: warning: nonterminal useless in grammar: useless7 [-Wother]
+input.y:11.8-15: warning: nonterminal useless in grammar: useless8 [-Wother]
+input.y:12.8-15: warning: nonterminal useless in grammar: useless9 [-Wother]
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -143,26 +143,26 @@ useless9: '9';
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
-[[input.y: warning: 9 nonterminals useless in grammar
-input.y: warning: 9 rules useless in grammar
-input.y:6.1-8: warning: nonterminal useless in grammar: useless1
-input.y:7.1-8: warning: nonterminal useless in grammar: useless2
-input.y:8.1-8: warning: nonterminal useless in grammar: useless3
-input.y:9.1-8: warning: nonterminal useless in grammar: useless4
-input.y:10.1-8: warning: nonterminal useless in grammar: useless5
-input.y:11.1-8: warning: nonterminal useless in grammar: useless6
-input.y:12.1-8: warning: nonterminal useless in grammar: useless7
-input.y:13.1-8: warning: nonterminal useless in grammar: useless8
-input.y:14.1-8: warning: nonterminal useless in grammar: useless9
-input.y:6.11-13: warning: rule useless in grammar: useless1: '1'
-input.y:7.11-13: warning: rule useless in grammar: useless2: '2'
-input.y:8.11-13: warning: rule useless in grammar: useless3: '3'
-input.y:9.11-13: warning: rule useless in grammar: useless4: '4'
-input.y:10.11-13: warning: rule useless in grammar: useless5: '5'
-input.y:11.11-13: warning: rule useless in grammar: useless6: '6'
-input.y:12.11-13: warning: rule useless in grammar: useless7: '7'
-input.y:13.11-13: warning: rule useless in grammar: useless8: '8'
-input.y:14.11-13: warning: rule useless in grammar: useless9: '9'
+[[input.y: warning: 9 nonterminals useless in grammar [-Wother]
+input.y: warning: 9 rules useless in grammar [-Wother]
+input.y:6.1-8: warning: nonterminal useless in grammar: useless1 [-Wother]
+input.y:7.1-8: warning: nonterminal useless in grammar: useless2 [-Wother]
+input.y:8.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
+input.y:9.1-8: warning: nonterminal useless in grammar: useless4 [-Wother]
+input.y:10.1-8: warning: nonterminal useless in grammar: useless5 [-Wother]
+input.y:11.1-8: warning: nonterminal useless in grammar: useless6 [-Wother]
+input.y:12.1-8: warning: nonterminal useless in grammar: useless7 [-Wother]
+input.y:13.1-8: warning: nonterminal useless in grammar: useless8 [-Wother]
+input.y:14.1-8: warning: nonterminal useless in grammar: useless9 [-Wother]
+input.y:6.11-13: warning: rule useless in grammar: useless1: '1' [-Wother]
+input.y:7.11-13: warning: rule useless in grammar: useless2: '2' [-Wother]
+input.y:8.11-13: warning: rule useless in grammar: useless3: '3' [-Wother]
+input.y:9.11-13: warning: rule useless in grammar: useless4: '4' [-Wother]
+input.y:10.11-13: warning: rule useless in grammar: useless5: '5' [-Wother]
+input.y:11.11-13: warning: rule useless in grammar: useless6: '6' [-Wother]
+input.y:12.11-13: warning: rule useless in grammar: useless7: '7' [-Wother]
+input.y:13.11-13: warning: rule useless in grammar: useless8: '8' [-Wother]
+input.y:14.11-13: warning: rule useless in grammar: useless9: '9' [-Wother]
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -239,13 +239,13 @@ non_productive: non_productive useless_token
 ]])
 
 AT_BISON_CHECK([[not-reduced.y]], 0, [],
-[[not-reduced.y: warning: 2 nonterminals useless in grammar
-not-reduced.y: warning: 3 rules useless in grammar
-not-reduced.y:14.1-13: warning: nonterminal useless in grammar: not_reachable
-not-reduced.y:11.6-19: warning: nonterminal useless in grammar: non_productive
-not-reduced.y:11.6-57: warning: rule useless in grammar: exp: non_productive
-not-reduced.y:14.16-56: warning: rule useless in grammar: not_reachable: useful
-not-reduced.y:17.17-18.63: warning: rule useless in grammar: non_productive: non_productive useless_token
+[[not-reduced.y: warning: 2 nonterminals useless in grammar [-Wother]
+not-reduced.y: warning: 3 rules useless in grammar [-Wother]
+not-reduced.y:14.1-13: warning: nonterminal useless in grammar: not_reachable [-Wother]
+not-reduced.y:11.6-19: warning: nonterminal useless in grammar: non_productive [-Wother]
+not-reduced.y:11.6-57: warning: rule useless in grammar: exp: non_productive [-Wother]
+not-reduced.y:14.16-56: warning: rule useless in grammar: not_reachable: useful [-Wother]
+not-reduced.y:17.17-18.63: warning: rule useless in grammar: non_productive: non_productive useless_token [-Wother]
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
@@ -314,13 +314,13 @@ indirection: underivable;
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
-[[input.y: warning: 2 nonterminals useless in grammar
-input.y: warning: 3 rules useless in grammar
-input.y:5.15-25: warning: nonterminal useless in grammar: underivable
-input.y:6.14-24: warning: nonterminal useless in grammar: indirection
-input.y:5.15-25: warning: rule useless in grammar: exp: underivable
-input.y:6.14-24: warning: rule useless in grammar: underivable: indirection
-input.y:7.14-24: warning: rule useless in grammar: indirection: underivable
+[[input.y: warning: 2 nonterminals useless in grammar [-Wother]
+input.y: warning: 3 rules useless in grammar [-Wother]
+input.y:5.15-25: warning: nonterminal useless in grammar: underivable [-Wother]
+input.y:6.14-24: warning: nonterminal useless in grammar: indirection [-Wother]
+input.y:5.15-25: warning: rule useless in grammar: exp: underivable [-Wother]
+input.y:6.14-24: warning: rule useless in grammar: underivable: indirection [-Wother]
+input.y:7.14-24: warning: rule useless in grammar: indirection: underivable [-Wother]
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -350,8 +350,8 @@ exp: exp;
 ]])
 
 AT_BISON_CHECK([[input.y]], 1, [],
-[[input.y: warning: 2 nonterminals useless in grammar
-input.y: warning: 2 rules useless in grammar
+[[input.y: warning: 2 nonterminals useless in grammar [-Wother]
+input.y: warning: 2 rules useless in grammar [-Wother]
 input.y:3.1-3: fatal error: start symbol exp does not derive any sentence
 ]])
 

@@ -1948,7 +1948,7 @@ dnl without being followed by "of".)
 [[VARIABLE, '=', LABEL, LEFT, DOT_X]],
 
 dnl BISON-STDERR
-[[input.y:470.11-48: warning: rule useless in parser due to conflicts: path: ORDINAL LAST object_type relative_path
+[[input.y:470.11-48: warning: rule useless in parser due to conflicts: path: ORDINAL LAST object_type relative_path [-Wother]
 ]],
 
 dnl LAST-STATE

@@ -37,7 +37,7 @@ e: 'e' | /* Nothing. */;
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 0, [],
-[[input.y:4.9: warning: rule useless in parser due to conflicts: e: /* empty */
+[[input.y:4.9: warning: rule useless in parser due to conflicts: e: /* empty */ [-Wother]
 ]])
 
 AT_CLEANUP
@@ -785,7 +785,7 @@ cond:
 
 AT_BISON_CHECK([-o input.c input.y], 0, [],
 [[input.y: conflicts: 1 shift/reduce
-input.y:12.3-18: warning: rule useless in parser due to conflicts: cond: cond "then" cond
+input.y:12.3-18: warning: rule useless in parser due to conflicts: cond: cond "then" cond [-Wother]
 ]])
 
 AT_CLEANUP
@@ -829,7 +829,7 @@ id : '0';
 
 AT_BISON_CHECK([-o input.c --report=all input.y], 0, [],
 [[input.y: conflicts: 1 reduce/reduce
-input.y:4.6-8: warning: rule useless in parser due to conflicts: id: '0'
+input.y:4.6-8: warning: rule useless in parser due to conflicts: id: '0' [-Wother]
 ]])
 
 # Check the contents of the report.
@@ -1149,13 +1149,13 @@ reported_conflicts:
 
 AT_BISON_CHECK([[--report=all input.y]], 0, [],
 [[input.y: conflicts: 1 shift/reduce, 1 reduce/reduce
-input.y:12.5-20: warning: rule useless in parser due to conflicts: resolved_conflict: 'a' unreachable1
-input.y:20.5-20: warning: rule useless in parser due to conflicts: unreachable1: 'a' unreachable2
-input.y:21.4: warning: rule useless in parser due to conflicts: unreachable1: /* empty */
-input.y:25.13: warning: rule useless in parser due to conflicts: unreachable2: /* empty */
-input.y:25.16: warning: rule useless in parser due to conflicts: unreachable2: /* empty */
-input.y:31.5-7: warning: rule useless in parser due to conflicts: reported_conflicts: 'a'
-input.y:32.4: warning: rule useless in parser due to conflicts: reported_conflicts: /* empty */
+input.y:12.5-20: warning: rule useless in parser due to conflicts: resolved_conflict: 'a' unreachable1 [-Wother]
+input.y:20.5-20: warning: rule useless in parser due to conflicts: unreachable1: 'a' unreachable2 [-Wother]
+input.y:21.4: warning: rule useless in parser due to conflicts: unreachable1: /* empty */ [-Wother]
+input.y:25.13: warning: rule useless in parser due to conflicts: unreachable2: /* empty */ [-Wother]
+input.y:25.16: warning: rule useless in parser due to conflicts: unreachable2: /* empty */ [-Wother]
+input.y:31.5-7: warning: rule useless in parser due to conflicts: reported_conflicts: 'a' [-Wother]
+input.y:32.4: warning: rule useless in parser due to conflicts: reported_conflicts: /* empty */ [-Wother]
 ]])
 
 AT_CHECK([[cat input.output]], 0,
@@ -1301,10 +1301,10 @@ AT_CHECK([[cat input.y >> input-keep.y]])
 
 AT_BISON_CHECK([[input-keep.y]], 0, [],
 [[input-keep.y: conflicts: 2 shift/reduce, 2 reduce/reduce
-input-keep.y:22.4: warning: rule useless in parser due to conflicts: unreachable1: /* empty */
-input-keep.y:26.16: warning: rule useless in parser due to conflicts: unreachable2: /* empty */
-input-keep.y:32.5-7: warning: rule useless in parser due to conflicts: reported_conflicts: 'a'
-input-keep.y:33.4: warning: rule useless in parser due to conflicts: reported_conflicts: /* empty */
+input-keep.y:22.4: warning: rule useless in parser due to conflicts: unreachable1: /* empty */ [-Wother]
+input-keep.y:26.16: warning: rule useless in parser due to conflicts: unreachable2: /* empty */ [-Wother]
+input-keep.y:32.5-7: warning: rule useless in parser due to conflicts: reported_conflicts: 'a' [-Wother]
+input-keep.y:33.4: warning: rule useless in parser due to conflicts: reported_conflicts: /* empty */ [-Wother]
 ]])
 
 AT_CLEANUP

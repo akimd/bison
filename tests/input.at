@@ -60,9 +60,9 @@ exp: foo { $$; } foo { $2; } foo
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:5.12-13: $$ for the midrule at $2 of 'exp' has no declared type
 input.y:5.24-25: $2 of 'exp' has no declared type
-input.y:5.6-32: warning: type clash on default action: <bar> != <>
-input.y:6.6-8: warning: type clash on default action: <bar> != <>
-input.y:7.5: warning: empty rule for typed nonterminal, and no action
+input.y:5.6-32: warning: type clash on default action: <bar> != <> [-Wother]
+input.y:6.6-8: warning: type clash on default action: <bar> != <> [-Wother]
+input.y:7.5: warning: empty rule for typed nonterminal, and no action [-Wother]
 ]])
 
 AT_CLEANUP
@@ -113,39 +113,39 @@ _AT_UNUSED_VALUES_DECLARATIONS])
 )
 
 AT_BISON_CHECK(m4_ifval($2, [ --warnings=midrule-values ])[ input.y], [0], [],
-[[input.y:11.10-32: warning: unset value: $]$[
-input.y:11.10-32: warning: unused value: $]1[
-input.y:11.10-32: warning: unused value: $]3[
-input.y:11.10-32: warning: unused value: $]5[
-input.y:12.9: warning: empty rule for typed nonterminal, and no action
-]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $$
-input.y:13.26-41: warning: unset value: $$
-]]])[[input.y:13.10-62: warning: unset value: $]$[
-input.y:13.10-62: warning: unused value: $]3[
-input.y:13.10-62: warning: unused value: $]5[
-]]m4_ifval($2, [[[input.y:14.14-16: warning: unset value: $$
-]]])[[input.y:14.10-49: warning: unset value: $]$[
-input.y:14.10-49: warning: unused value: $]3[
-input.y:14.10-49: warning: unused value: $]5[
-input.y:15.10-37: warning: unset value: $]$[
-input.y:15.10-37: warning: unused value: $]3[
-input.y:15.10-37: warning: unused value: $]5[
-input.y:17.10-58: warning: unset value: $]$[
-input.y:17.10-58: warning: unused value: $]1[
-]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]2[
-]]])[[input.y:17.10-58: warning: unused value: $]3[
-]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]4[
-]]])[[input.y:17.10-58: warning: unused value: $]5[
-input.y:18.10-72: warning: unset value: $]$[
-input.y:18.10-72: warning: unused value: $]1[
-input.y:18.10-72: warning: unused value: $]3[
-]]m4_ifval($2, [[[input.y:18.10-72: warning: unused value: $]4[
-]]])[[input.y:18.10-72: warning: unused value: $]5[
-]]m4_ifval($2, [[[input.y:20.10-55: warning: unused value: $]3[
-]]])[[input.y:21.10-68: warning: unset value: $]$[
-input.y:21.10-68: warning: unused value: $]1[
-input.y:21.10-68: warning: unused value: $]2[
-]]m4_ifval($2, [[[input.y:21.10-68: warning: unused value: $]4[
+[[input.y:11.10-32: warning: unset value: $]$[ [-Wother]
+input.y:11.10-32: warning: unused value: $]1[ [-Wother]
+input.y:11.10-32: warning: unused value: $]3[ [-Wother]
+input.y:11.10-32: warning: unused value: $]5[ [-Wother]
+input.y:12.9: warning: empty rule for typed nonterminal, and no action [-Wother]
+]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $$ [-Wmidrule-values]
+input.y:13.26-41: warning: unset value: $$ [-Wmidrule-values]
+]]])[[input.y:13.10-62: warning: unset value: $]$[ [-Wother]
+input.y:13.10-62: warning: unused value: $]3[ [-Wother]
+input.y:13.10-62: warning: unused value: $]5[ [-Wother]
+]]m4_ifval($2, [[[input.y:14.14-16: warning: unset value: $$ [-Wmidrule-values]
+]]])[[input.y:14.10-49: warning: unset value: $]$[ [-Wother]
+input.y:14.10-49: warning: unused value: $]3[ [-Wother]
+input.y:14.10-49: warning: unused value: $]5[ [-Wother]
+input.y:15.10-37: warning: unset value: $]$[ [-Wother]
+input.y:15.10-37: warning: unused value: $]3[ [-Wother]
+input.y:15.10-37: warning: unused value: $]5[ [-Wother]
+input.y:17.10-58: warning: unset value: $]$[ [-Wother]
+input.y:17.10-58: warning: unused value: $]1[ [-Wother]
+]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]2[ [-Wmidrule-values]
+]]])[[input.y:17.10-58: warning: unused value: $]3[ [-Wother]
+]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]4[ [-Wmidrule-values]
+]]])[[input.y:17.10-58: warning: unused value: $]5[ [-Wother]
+input.y:18.10-72: warning: unset value: $]$[ [-Wother]
+input.y:18.10-72: warning: unused value: $]1[ [-Wother]
+input.y:18.10-72: warning: unused value: $]3[ [-Wother]
+]]m4_ifval($2, [[[input.y:18.10-72: warning: unused value: $]4[ [-Wmidrule-values]
+]]])[[input.y:18.10-72: warning: unused value: $]5[ [-Wother]
+]]m4_ifval($2, [[[input.y:20.10-55: warning: unused value: $]3[ [-Wmidrule-values]
+]]])[[input.y:21.10-68: warning: unset value: $]$[ [-Wother]
+input.y:21.10-68: warning: unused value: $]1[ [-Wother]
+input.y:21.10-68: warning: unused value: $]2[ [-Wother]
+]]m4_ifval($2, [[[input.y:21.10-68: warning: unused value: $]4[ [-Wmidrule-values]
 ]]]))])
 
 
@@ -287,8 +287,8 @@ exp: bar;
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.16-18: symbol bar is used, but is not defined as a token and has no rules
-input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules
-input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules
+input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules [-Wother]
+input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules [-Wother]
 ]])
 
 AT_CLEANUP
@@ -316,8 +316,8 @@ tag2: "a" { $$; }
 ]])
 
 AT_BISON_CHECK([input.y], [0], [],
-[[input.y:4.22-28: warning: type <type3> is used, but is not associated to any symbol
-input.y:5.25-31: warning: type <type4> is used, but is not associated to any symbol
+[[input.y:4.22-28: warning: type <type3> is used, but is not associated to any symbol [-Wother]
+input.y:5.25-31: warning: type <type4> is used, but is not associated to any symbol [-Wother]
 ]])
 
 AT_CLEANUP
@@ -360,8 +360,8 @@ exp: "a";
 ]])
 
 AT_BISON_CHECK([input.y], [0], [],
-[[input.y:16.13-19: warning: useless %printer for type <type1>
-input.y:17.16-22: warning: useless %destructor for type <type2>
+[[input.y:16.13-19: warning: useless %printer for type <type1> [-Wother]
+input.y:17.16-22: warning: useless %destructor for type <type2> [-Wother]
 ]])
 
 
@@ -386,9 +386,9 @@ tagged: { } ;
 ]])
 
 AT_BISON_CHECK([input.y], [0], [],
-[[input.y:6.8-45: warning: unset value: $$
-input.y:6.8-45: warning: unused value: $2
-input.y:7.6-8: warning: unset value: $$
+[[input.y:6.8-45: warning: unset value: $$ [-Wother]
+input.y:6.8-45: warning: unused value: $2 [-Wother]
+input.y:7.6-8: warning: unset value: $$ [-Wother]
 ]])
 
 AT_DATA([[input.y]],
@@ -403,8 +403,8 @@ tagged: { } ;
 ]])
 
 AT_BISON_CHECK([input.y], [0], [],
-[[input.y:6.8-45: warning: unused value: $4
-input.y:8.9-11: warning: unset value: $$
+[[input.y:6.8-45: warning: unused value: $4 [-Wother]
+input.y:8.9-11: warning: unset value: $$ [-Wother]
 ]])
 
 AT_CLEANUP
@@ -427,9 +427,9 @@ end: { }  ;
 ]])
 
 AT_BISON_CHECK([input.y], [0], [],
-[[input.y:6.8-22: warning: unset value: $$
-input.y:6.8-22: warning: unused value: $2
-input.y:7.6-8: warning: unset value: $$
+[[input.y:6.8-22: warning: unset value: $$ [-Wother]
+input.y:6.8-22: warning: unused value: $2 [-Wother]
+input.y:7.6-8: warning: unset value: $$ [-Wother]
 ]])
 
 AT_CLEANUP
@@ -731,14 +731,14 @@ AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc input.y], [1], [],
-[[input.y:9.8-16: POSIX Yacc forbids dashes in symbol names: WITH-DASH
-input.y:18.8-16: POSIX Yacc forbids dashes in symbol names: with-dash
+[[input.y:9.8-16: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
+input.y:18.8-16: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
 ]])
 
 # So warn about them.
 AT_BISON_CHECK([-Wyacc input.y], [], [],
-[[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH
-input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash
+[[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
+input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
 ]])
 
 # Dashes are fine for GNU Bison.
@@ -906,7 +906,7 @@ start: %prec PREC ;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[0]], [],
-[[input.y:2.8-17: warning: token for %prec is not defined: PREC
+[[input.y:2.8-17: warning: token for %prec is not defined: PREC [-Wother]
 ]])
 
 AT_CLEANUP
@@ -1299,10 +1299,10 @@ start: '
 AT_CHECK([[perl -e "print 'start: \'';" >> empty.y || exit 77]])
 
 AT_BISON_CHECK([empty.y], [1], [],
-[[empty.y:2.8-9: warning: empty character literal
-empty.y:3.8-4.0: warning: empty character literal
+[[empty.y:2.8-9: warning: empty character literal [-Wother]
+empty.y:3.8-4.0: warning: empty character literal [-Wother]
 empty.y:3.8-4.0: missing "'" at end of line
-empty.y:4.8: warning: empty character literal
+empty.y:4.8: warning: empty character literal [-Wother]
 empty.y:4.8: missing "'" at end of file
 ]])
 
@@ -1314,10 +1314,10 @@ start: 'ab
 AT_CHECK([[perl -e "print 'start: \'ab';" >> two.y || exit 77]])
 
 AT_BISON_CHECK([two.y], [1], [],
-[[two.y:2.8-11: warning: extra characters in character literal
-two.y:3.8-4.0: warning: extra characters in character literal
+[[two.y:2.8-11: warning: extra characters in character literal [-Wother]
+two.y:3.8-4.0: warning: extra characters in character literal [-Wother]
 two.y:3.8-4.0: missing "'" at end of line
-two.y:4.8-10: warning: extra characters in character literal
+two.y:4.8-10: warning: extra characters in character literal [-Wother]
 two.y:4.8-10: missing "'" at end of file
 ]])
 
@@ -1329,10 +1329,10 @@ start: 'abc
 AT_CHECK([[perl -e "print 'start: \'abc';" >> three.y || exit 77]])
 
 AT_BISON_CHECK([three.y], [1], [],
-[[three.y:2.8-12: warning: extra characters in character literal
-three.y:3.8-4.0: warning: extra characters in character literal
+[[three.y:2.8-12: warning: extra characters in character literal [-Wother]
+three.y:3.8-4.0: warning: extra characters in character literal [-Wother]
 three.y:3.8-4.0: missing "'" at end of line
-three.y:4.8-11: warning: extra characters in character literal
+three.y:4.8-11: warning: extra characters in character literal [-Wother]
 three.y:4.8-11: missing "'" at end of file
 ]])
 
@@ -1360,25 +1360,25 @@ AT_CHECK([[perl -e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y \
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.9-12: invalid number after \-escape: 777
-input.y:2.8-13: warning: empty character literal
+input.y:2.8-13: warning: empty character literal [-Wother]
 input.y:2.16-17: invalid number after \-escape: 0
-input.y:2.15-18: warning: empty character literal
+input.y:2.15-18: warning: empty character literal [-Wother]
 input.y:2.21-25: invalid number after \-escape: xfff
-input.y:2.20-26: warning: empty character literal
+input.y:2.20-26: warning: empty character literal [-Wother]
 input.y:2.29-31: invalid number after \-escape: x0
-input.y:2.28-32: warning: empty character literal
+input.y:2.28-32: warning: empty character literal [-Wother]
 input.y:3.9-14: invalid number after \-escape: uffff
-input.y:3.8-15: warning: empty character literal
+input.y:3.8-15: warning: empty character literal [-Wother]
 input.y:3.18-23: invalid number after \-escape: u0000
-input.y:3.17-24: warning: empty character literal
+input.y:3.17-24: warning: empty character literal [-Wother]
 input.y:3.27-36: invalid number after \-escape: Uffffffff
-input.y:3.26-37: warning: empty character literal
+input.y:3.26-37: warning: empty character literal [-Wother]
 input.y:3.40-49: invalid number after \-escape: U00000000
-input.y:3.39-50: warning: empty character literal
+input.y:3.39-50: warning: empty character literal [-Wother]
 input.y:4.9-10: invalid character after \-escape: ' '
-input.y:4.8-11: warning: empty character literal
+input.y:4.8-11: warning: empty character literal [-Wother]
 input.y:4.14-15: invalid character after \-escape: A
-input.y:4.13-16: warning: empty character literal
+input.y:4.13-16: warning: empty character literal [-Wother]
 input.y:5.9-16: invalid character after \-escape: \t
 input.y:5.17: invalid character after \-escape: \f
 input.y:5.18: invalid character after \-escape: \0
@@ -1423,20 +1423,20 @@ foo-bar: ;
 
 # -Werror is not enabled by -Wall or equivalent.
 AT_BISON_CHECK([[-Wall input.y]], [[0]], [[]],
-[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar
+[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
 ]])
 AT_BISON_CHECK([[-W input.y]], [[0]], [[]],
-[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar
+[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
 ]])
 AT_BISON_CHECK([[-Wno-none input.y]], [[0]], [[]],
-[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar
+[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
 ]])
 
 # -Werror is not disabled by -Wnone or equivalent.
 AT_BISON_CHECK([[-Werror,none,yacc input.y]], [[1]], [[]], [[stderr]])
 AT_CHECK([[sed 's/^.*bison:/bison:/' stderr]], [[0]],
 [[bison: warnings being treated as errors
-input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar
+input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
 ]])
 [mv stderr experr]
 AT_BISON_CHECK([[-Werror,no-all,yacc input.y]], [[1]], [[]], [[experr]])

@@ -2,7 +2,15 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Warnings about useless semantic types
+** Warnings
+
+*** Warning categories are now diplayed in warnings
+
+  For instance:
+
+  foo.y:4.6: warning: type clash on default action: <foo> != <bar> [-Wother]
+
+*** Useless semantic types
 
   Bison now warns about useless (uninhabited) semantic types.  Since
   semantic types are not declared to Bison (they are defined in the opaque
@@ -19,7 +27,7 @@ GNU Bison NEWS
     3.28-34: warning: type <type3> is used, but is not associated to any symbol
     4.28-34: warning: type <type4> is used, but is not associated to any symbol
 
-** Warnings about undeclared symbols
+*** Undeclared symbols
 
   Bison used to raise an error for %printer and %destructor directives for
   undefined symbols.
@@ -31,7 +39,7 @@ GNU Bison NEWS
 
   This is now only a warning.
 
-** Warnings about useless destructors or printers
+*** Useless destructors or printers
 
   Bison now warns about useless destructors or printers.  In the following
   example, the printer for <type1>, and the destructor for <type2> are

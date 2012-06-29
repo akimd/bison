@@ -165,22 +165,22 @@ AT_CLEANUP
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [], [--graph="foo.tab.c"],
-[foo.y: warning: conflicting outputs to file 'foo.tab.c'
-])
+[[foo.y: warning: conflicting outputs to file 'foo.tab.c' [-Wother]
+]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [%defines "foo.output"], [-v],
-[foo.y: warning: conflicting outputs to file 'foo.output'
-])
+[[foo.y: warning: conflicting outputs to file 'foo.output' [-Wother]
+]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 [%skeleton "lalr1.cc" %defines %locations], [--graph="location.hh"],
-[foo.y: warning: conflicting outputs to file 'location.hh'
-])
+[[foo.y: warning: conflicting outputs to file 'location.hh' [-Wother]
+]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
-[foo.y: refusing to overwrite the input file 'foo.y'
-], 1)
+[[foo.y: refusing to overwrite the input file 'foo.y'
+]], 1)
 
 
 # AT_CHECK_OUTPUT_FILE_NAME(FILE-NAME-PREFIX, [ADDITIONAL-TESTS])
