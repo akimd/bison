@@ -229,9 +229,6 @@ size_t rule_rhs_length (rule *r);
 /* Print this rule's RHS on OUT.  */
 void rule_rhs_print (rule *r, FILE *out);
 
-/* Print this rule on OUT.  */
-void rule_print (rule *r, FILE *out);
-
 
 
 
