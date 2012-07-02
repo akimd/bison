@@ -166,7 +166,8 @@ AT_BISON_OPTION_POPDEFS
 ])
 
 AT_DATA([main.cc],
-[[extern "C"
+[[#define ECHO(S) std::cerr << #S": " << S << std::endl;
+extern "C"
 {
   #include "x1.h"
   #include "x2.h"
@@ -175,18 +176,18 @@ AT_DATA([main.cc],
 }
 #include "x5.hh"
 //#include "x6.hh"
+
 int
 main (void)
 {
-  int errs = 0;
-  errs += x1_parse();
-  errs += x2_parse();
-  errs += x3_parse();
-  errs += x4_parse();
+  ECHO(x1_parse());
+  ECHO(x2_parse());
+  ECHO(x3_parse());
+  ECHO(x4_parse());
   x5_::parser p5;
-  errs += p5.parse();
-//  errs += x6_parse();
-  return !!errs;
+  ECHO(p5.parse());
+//  ECHO(x6_parse());
+  return 0;
 }
 ]])
 
@@ -204,6 +205,12 @@ x2
 x3
 x4
 x5
+]],
+[[x1_parse(): 0
+x2_parse(): 0
+x3_parse(): 0
+x4_parse(): 0
+p5.parse(): 0
 ]])
 
 AT_CLEANUP
