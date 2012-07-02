@@ -234,10 +234,10 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 ]b4_percent_code_get([[requires]])[
 
-#include <string>
-#include <iostream>
+# include <string>
+# include <iostream>
 ]b4_percent_define_ifdef([[location_type]], [],
-                         [[#include "location.hh"]])[
+                         [[# include "location.hh"]])[
 
 ]b4_YYDEBUG_define[
 
@@ -245,8 +245,8 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
    If N is 0, then set CURRENT to the empty location which ends
    the previous symbol: RHS[0] (always defined).  */
 
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
+# ifndef YYLLOC_DEFAULT
+#  define YYLLOC_DEFAULT(Current, Rhs, N)                               \
     do                                                                  \
       if (N)                                                            \
         {                                                               \
@@ -258,7 +258,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
           (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
         }                                                               \
     while (/*CONSTCOND*/ 0)
-#endif
+# endif
 
 ]b4_namespace_open[
   /// A Bison parser.
@@ -266,7 +266,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
   {
   public:
     /// Symbol semantic values.
-#ifndef ]b4_api_PREFIX[STYPE
+# ifndef ]b4_api_PREFIX[STYPE
 ]m4_ifdef([b4_stype],
 [    union semantic_type
     {
@@ -275,9 +275,9 @@ b4_user_stype
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],
 [[    typedef ]b4_api_PREFIX[STYPE semantic_type;]])])[
-#else
+# else
     typedef ]b4_api_PREFIX[STYPE semantic_type;
-#endif
+# endif
     /// Symbol locations.
     typedef ]b4_percent_define_get([[location_type]],
                                    [[location]])[ location_type;
