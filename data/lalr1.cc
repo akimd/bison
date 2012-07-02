@@ -145,16 +145,14 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
 ]b4_cpp_guard_open([b4_spec_defines_file])[
-
 ]b4_percent_code_get([[requires]])[
-
-]b4_parse_assert_if([#include <cassert>])[
-#include <stdexcept>
-#include <string>
-#include <iostream>
-#include "stack.hh"
+]b4_parse_assert_if([# include <cassert>])[
+# include <stdexcept>
+# include <string>
+# include <iostream>
+# include "stack.hh"
 ]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
-                                          [[#include "location.hh"]])])[
+                                          [[# include "location.hh"]])])[
 
 ]b4_variant_if([b4_namespace_open
 b4_variant_define
@@ -686,7 +684,7 @@ b4_percent_code_get[]dnl
     /// $$ and @@$.
     stack_symbol_type yylhs;
 
-    /// The return value of parse().
+    /// The return value of parse ().
     int yyresult;
 
     YYCDEBUG << "Starting parse" << std::endl;
