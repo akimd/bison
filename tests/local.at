@@ -148,6 +148,8 @@ m4_pushdef([AT_API_prefix],
 [m4_bmatch([$3], [%define api\.prefix ".*"],
            [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
            [yy])])
+m4_pushdef([AT_API_PREFIX],
+[m4_toupper(AT_API_prefix)])
 # yyerror receives the location if %location & %pure & (%glr or %parse-param).
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
@@ -168,10 +170,10 @@ m4_pushdef([AT_PURE_LEX_IF],
 
 m4_pushdef([AT_YYSTYPE],
 [AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::semantic_type]],
-               [[YYSTYPE]])])
+               [AT_API_PREFIX[STYPE]])])
 m4_pushdef([AT_YYLTYPE],
 [AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::location_type]],
-               [[YYLTYPE]])])
+               [AT_API_PREFIX[LTYPE]])])
 
 
 AT_PURE_LEX_IF(
@@ -226,6 +228,7 @@ m4_popdef([AT_LOC])
 m4_popdef([AT_PURE_LEX_IF])
 m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
+m4_popdef([AT_API_PREFIX])
 m4_popdef([AT_API_prefix])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])

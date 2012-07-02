@@ -116,7 +116,7 @@ m4_ifdef([b4_stype],
     };],
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],
-[[    typedef YYSTYPE semantic_type;]])])])
+[[    typedef ]b4_api_PREFIX[STYPE semantic_type;]])])])
 
 
 # b4_public_types_declare
@@ -124,10 +124,10 @@ m4_ifdef([b4_stype],
 # Define the public types: token, semantic value, location, and so forth.
 # Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
-[[#ifndef YYSTYPE
+[[#ifndef ]b4_api_PREFIX[STYPE
 ]b4_semantic_type_declare[
 #else
-    typedef YYSTYPE semantic_type;
+    typedef ]b4_api_PREFIX[STYPE semantic_type;
 #endif]b4_locations_if([
     /// Symbol locations.
     typedef b4_percent_define_get([[location_type]],

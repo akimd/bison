@@ -129,7 +129,7 @@ GNU Bison NEWS
 *** K&C parsers
 
   Support for generating parsers in K&R C will be removed.  Parsers
-  generated for C supprt ISO C90, and are tested with ISO C99 and ISO C11
+  generated for C support ISO C90, and are tested with ISO C99 and ISO C11
   compilers.
 
 *** Features deprecated since Bison 1.875
@@ -156,7 +156,7 @@ GNU Bison NEWS
 *** Guards (yacc.c, glr.c, glr.cc)
 
   The generated headers are now guarded, as is already the case for C++
-  parsers (lalr1.cc).  For intance, with --defines=foo.h:
+  parsers (lalr1.cc).  For instance, with --defines=foo.h:
 
     #ifndef YY_FOO_H
     # define YY_FOO_H
@@ -188,6 +188,60 @@ GNU Bison NEWS
 
   For the same reasons, the undocumented and unused macro YYLSP_NEEDED is no
   longer defined.
+
+** New %define variable: api.prefix
+
+  Now that the generated headers are more complete and properly protected
+  against multiple inclusions, constant names, such as YYSTYPE are a
+  problem.  While yyparse and others are properly renamed by %name-prefix,
+  YYSTYPE, YYDEBUG and others have never been affected by it.  Because it
+  would introduce backward compatibility issues in projects not expecting
+  YYSTYPE to be renamed, instead of changing the behavior of %name-prefix,
+  it is deprecated in favor of a new %define variable: api.prefix.
+
+  The following examples compares both:
+
+    %name-prefix "bar_"               | %define api.prefix "bar_"
+    %token <ival> FOO                   %token <ival> FOO
+    %union { int ival; }                %union { int ival; }
+    %%                                  %%
+    exp: 'a';                           exp: 'a';
+
+  bison generates:
+
+    #ifndef BAR_FOO_H                   #ifndef BAR_FOO_H
+    # define BAR_FOO_H                  # define BAR_FOO_H
+
+    /* Enabling traces.  */             /* Enabling traces.  */
+    # ifndef YYDEBUG                    # ifndef YYDEBUG
+    #  define YYDEBUG 0                 #  define YYDEBUG 0
+    # endif                             # endif
+    # if YYDEBUG                        # if YYDEBUG
+    extern int bar_debug;               extern int bar_debug;
+    # endif                             # endif
+
+    /* Tokens.  */                      /* Tokens.  */
+    # ifndef YYTOKENTYPE              | # ifndef BAR_TOKENTYPE
+    #  define YYTOKENTYPE             | #  define BAR_TOKENTYPE
+       enum yytokentype {             |    enum bar_tokentype {
+         FOO = 258                           FOO = 258
+       };                                  };
+    # endif                             # endif
+
+    #if ! defined YYSTYPE \           | #if ! defined BAR_STYPE \
+     && ! defined YYSTYPE_IS_DECLARED |  && ! defined BAR_STYPE_IS_DECLARED
+    typedef union YYSTYPE             | typedef union BAR_STYPE
+    {                                   {
+     int ival;                           int ival;
+    } YYSTYPE;                        | } BAR_STYPE;
+    # define YYSTYPE_IS_DECLARED 1    | # define BAR_STYPE_IS_DECLARED 1
+    #endif                              #endif
+
+    extern YYSTYPE bar_lval;          | extern BAR_STYPE bar_lval;
+
+    int bar_parse (void);               int bar_parse (void);
+
+    #endif /* !BAR_FOO_H  */            #endif /* !BAR_FOO_H  */
 
 * Noteworthy changes in release 2.5.1 (2012-06-05) [stable]
 
@@ -1357,7 +1411,7 @@ GNU Bison NEWS
 
   - a single argument only can be added,
   - their types are weak (void *),
-  - this context is not passed to anciliary functions such as yyerror,
+  - this context is not passed to ancillary functions such as yyerror,
   - only yacc.c parsers support them.
 
   The new %parse-param/%lex-param directives provide a more precise control.
@@ -1855,9 +1909,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  struct yystype DJGPP lex param Haible NUM alloca YYSTACK NUL goto
  LocalWords:  YYMAXDEPTH Unescaped UCNs YYLTYPE's yyltype typedefs inline Yaccs
  LocalWords:  Heriyanto Reenable dprec Hilfinger Eggert MYEOF Folle Menezes EOF
- LocalWords:  Lackovic define's itemset Groff Gettext malloc NEWS'ed YYDEBUG
+ LocalWords:  Lackovic define's itemset Groff Gettext malloc NEWS'ed YYDEBUG YY
  LocalWords:  namespaces strerror const autoconfiguration Dconst Autoconf's FDL
- LocalWords:  Automake TMPDIR LESSEQ
+ LocalWords:  Automake TMPDIR LESSEQ ylwrap endif yydebug YYTOKEN YYLSP ival hh
+ LocalWords:  extern YYTOKENTYPE TOKENTYPE yytokentype tokentype STYPE lval pdf
+ LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp
 
 Local Variables:
 mode: outline

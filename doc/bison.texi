@@ -5452,6 +5452,20 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @c namespace
 
 
+@c ================================================== api.prefix
+@item api.prefix
+@findex %define api.prefix
+
+@itemize @bullet
+@item Language(s): All
+
+@item Purpose: Rename exported symbols
+@xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
+
+@item Accepted Values: String
+
+@item Default Value: @code{yy}
+@end itemize
 
 @c ================================================== api.pure
 @item api.pure
@@ -5830,34 +5844,62 @@ of the standard Bison skeletons.
 @section Multiple Parsers in the Same Program
 
 Most programs that use Bison parse only one language and therefore contain
-only one Bison parser.  But what if you want to parse more than one
-language with the same program?  Then you need to avoid a name conflict
-between different definitions of @code{yyparse}, @code{yylval}, and so on.
+only one Bison parser.  But what if you want to parse more than one language
+with the same program?  Then you need to avoid name conflicts between
+different definitions of functions and variables such as @code{yyparse},
+@code{yylval}.  To use different parsers from the same compilation unit, you
+also need to avoid conflicts on types and macros (e.g., @code{YYSTYPE})
+exported in the generated header.
 
-The easy way to do this is to use the option @samp{-p @var{prefix}}
-(@pxref{Invocation, ,Invoking Bison}).  This renames the interface
-functions and variables of the Bison parser to start with @var{prefix}
-instead of @samp{yy}.  You can use this to give each parser distinct
-names that do not conflict.
+The easy way to do this is to define the @code{%define} variable
+@code{api.prefix} (possibly using the option
+@samp{-Dapi.prefix=@var{prefix}}, see @ref{Invocation, ,Invoking Bison}).
+This renames the interface functions and variables of the Bison parser to
+start with @var{prefix} instead of @samp{yy}, and all the macros to start by
+@var{PREFIX} (i.e., @var{prefix} upper cased) instead of @samp{YY}.  You can
+use this to give each parser distinct names that do not conflict.
 
-The precise list of symbols renamed is @code{yyparse}, @code{yylex},
-@code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yylloc},
-@code{yychar} and @code{yydebug}.  If you use a push parser,
-@code{yypush_parse}, @code{yypull_parse}, @code{yypstate},
-@code{yypstate_new} and @code{yypstate_delete} will also be renamed.
-For example, if you use @samp{-p c}, the names become @code{cparse},
-@code{clex}, and so on.
+The renamed symbols include @code{yyparse}, @code{yylex}, @code{yyerror},
+@code{yynerrs}, @code{yylval}, @code{yylloc}, @code{yychar} and
+@code{yydebug}.  If you use a push parser, @code{yypush_parse},
+@code{yypull_parse}, @code{yypstate}, @code{yypstate_new} and
+@code{yypstate_delete} will also be renamed.  The renamed macros include
+@code{YYSTYPE}, @code{YYSTYPE_IS_TRIVIAL}, @code{YYSTYPE_IS_DECLARED},
+@code{YYLTYPE}, @code{YYLTYPE_IS_TRIVIAL}, and @code{YYLTYPE_IS_DECLARED}.
 
-@strong{All the other variables and macros associated with Bison are not
-renamed.} These others are not global; there is no conflict if the same
-name is used in different parsers.  For example, @code{YYSTYPE} is not
-renamed, but defining this in different ways in different parsers causes
-no trouble (@pxref{Value Type, ,Data Types of Semantic Values}).
+For example, if you use @samp{%define api.prefix c}, the names become
+@code{cparse}, @code{clex}, @dots{}, @code{CSTYPE}, @code{CLTYPE}, and so
+on.
 
-The @samp{-p} option works by adding macro definitions to the
-beginning of the parser implementation file, defining @code{yyparse}
-as @code{@var{prefix}parse}, and so on.  This effectively substitutes
-one name for the other in the entire parser implementation file.
+The @code{%define} variable @code{api.prefix} works in two different ways.
+In the implementation file, it works by adding macro definitions to the
+beginning of the parser implementation file, defining @code{yyparse} as
+@code{@var{prefix}parse}, and so on:
+
+@example
+#define YYSTYPE CTYPE
+#define yyparse cparse
+#define yylval  clval
+...
+YYSTYPE yylval;
+int yyparse (void);
+@end example
+
+This effectively substitutes one name for the other in the entire parser
+implementation file, thus the ``original'' names (@code{yylex},
+@code{YYSTYPE}, @dots{}) are also usable in the parser implementation file.
+
+However, in the parser header file, the symbols are defined renamed, for
+instance:
+
+@example
+extern CSTYPE clval;
+int cparse (void);
+@end example
+
+Previously, a similar feature was provided by the obsoleted directive
+@code{%name-prefix} (@pxref{Table of Symbols, ,Bison Symbols}) and option
+@code{--name-prefix} (@pxref{Bison Options}).
 
 @node Interface
 @chapter Parser C-Language Interface
@@ -9238,8 +9280,9 @@ Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
 
 @item -p @var{prefix}
 @itemx --name-prefix=@var{prefix}
-Pretend that @code{%name-prefix "@var{prefix}"} was specified.
-@xref{Decl Summary}.
+Pretend that @code{%name-prefix "@var{prefix}"} was specified (@pxref{Decl
+Summary}).  Obsoleted by @code{-Dapi.prefix=@var{prefix}}.  @xref{Multiple
+Parsers, ,Multiple Parsers in the Same Program}.
 
 @item -l
 @itemx --no-lines
@@ -11701,8 +11744,23 @@ function is applied to the two semantic values to get a single result.
 @end deffn
 
 @deffn {Directive} %name-prefix "@var{prefix}"
-Bison declaration to rename the external symbols.  @xref{Decl Summary}.
+Obsoleted by the @code{%define} variable @code{api.prefix} (@pxref{Multiple
+Parsers, ,Multiple Parsers in the Same Program}).
+
+Rename the external symbols (variables and functions) used in the parser so
+that they start with @var{prefix} instead of @samp{yy}.  Contrary to
+@code{api.prefix}, do no rename types and macros.
+
+The precise list of symbols renamed in C parsers is @code{yyparse},
+@code{yylex}, @code{yyerror}, @code{yynerrs}, @code{yylval}, @code{yychar},
+@code{yydebug}, and (if locations are used) @code{yylloc}.  If you use a
+push parser, @code{yypush_parse}, @code{yypull_parse}, @code{yypstate},
+@code{yypstate_new} and @code{yypstate_delete} will also be renamed.  For
+example, if you use @samp{%name-prefix "c_"}, the names become
+@code{c_parse}, @code{c_lex}, and so on.  For C++ parsers, see the
+@code{%define namespace} documentation in this section.
 @end deffn
+
 
 @ifset defaultprec
 @deffn {Directive} %no-default-prec

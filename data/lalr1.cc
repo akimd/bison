@@ -342,9 +342,9 @@ b4_public_types_define])[
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
 [b4_token_defines(b4_tokens)
 
-#ifndef YYSTYPE
+#ifndef ]b4_api_PREFIX[STYPE
  /* Redirection for backward compatibility.  */
-# define YYSTYPE b4_namespace_ref::b4_parser_class_name::semantic_type
+# define ]b4_api_PREFIX[STYPE b4_namespace_ref::b4_parser_class_name::semantic_type
 #endif
 ])[
 ]b4_percent_code_get([[provides]])[
@@ -734,7 +734,7 @@ m4_popdef([b4_at_dollar])])dnl
 [          yyla = b4_c_function_call([yylex], [symbol_type],
                                      m4_ifdef([b4_lex_param], b4_lex_param));],
 [          yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
-                                     [[YYSTYPE*], [&yyla.value]][]dnl
+                                     [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
         }
