@@ -4,7 +4,7 @@ GNU Bison NEWS
 
 ** Warnings
 
-*** Warning categories are now diplayed in warnings
+*** Warning categories are now displayed in warnings
 
   For instance:
 
@@ -117,7 +117,7 @@ GNU Bison NEWS
   YYERROR) if the expression evaluates to 0, and are evaluated immediately
   in GLR parsers, rather than being deferred.  The result is that they
   allow the programmer to prune possible parses based on the values of
-  runtime expressions.
+  run-time expressions.
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
@@ -1913,7 +1913,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  namespaces strerror const autoconfiguration Dconst Autoconf's FDL
  LocalWords:  Automake TMPDIR LESSEQ ylwrap endif yydebug YYTOKEN YYLSP ival hh
  LocalWords:  extern YYTOKENTYPE TOKENTYPE yytokentype tokentype STYPE lval pdf
- LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp
+ LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp Wother nterm arg init
+ LocalWords:  TOK
 
 Local Variables:
 mode: outline
