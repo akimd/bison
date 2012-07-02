@@ -57,10 +57,7 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
 
 ]b4_null_define[
 
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG ]b4_debug_flag[
-#endif
+]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
 
@@ -100,7 +97,7 @@ b4_user_stype
     /// \returns  0 iff parsing succeeded.
     virtual int parse ();
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     /// The current debugging stream.
     std::ostream& debug_stream () const;
     /// Set the current debugging stream.
@@ -125,7 +122,7 @@ b4_user_stype
     /// \param tok     the lookahead token.
     virtual std::string yysyntax_error_ (int yystate, int tok);
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     /// \brief Report a symbol value on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.
@@ -203,10 +200,10 @@ b4_user_stype
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
     static std::string yytnamerr_ (const char *n);])[
 
-]b4_token_table_if([], [[#if YYDEBUG]])[
+]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
-]b4_token_table_if([[#if YYDEBUG]])[
+]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
     /// A type to store symbol numbers and -1.
     typedef ]b4_int_type_for([b4_rhs])[ rhs_number_type;
     /// A `-1'-separated list of the rules' RHS.
@@ -325,7 +322,7 @@ b4_percent_code_get[]dnl
 #define YYUSE(e) ((void) (e))
 
 /* Enable debugging if requested.  */
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 
 /* A pseudo ostream that takes yydebug_ into account.  */
 # define YYCDEBUG if (yydebug_) (*yycdebug_)
@@ -352,14 +349,14 @@ do {					\
     yystack_print_ ();			\
 } while (false)
 
-#else /* !YYDEBUG */
+#else /* !]b4_api_PREFIX[DEBUG */
 
 # define YYCDEBUG if (false) std::cerr
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 # define YY_REDUCE_PRINT(Rule)
 # define YY_STACK_PRINT()
 
-#endif /* !YYDEBUG */
+#endif /* !]b4_api_PREFIX[DEBUG */
 
 #define yyerrok		(yyerrstatus_ = 0)
 #define yyclearin	(yychar = yyempty_)
@@ -412,7 +409,7 @@ do {					\
   /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
     :])[
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
       yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
@@ -423,7 +420,7 @@ do {					\
   {
   }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   /*--------------------------------.
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
@@ -484,7 +481,7 @@ do {					\
     yylocation_stack_.pop (n);
   }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   std::ostream&
   ]b4_parser_class_name[::debug_stream () const
   {
@@ -1012,7 +1009,7 @@ b4_error_verbose_if([int yystate, int yytoken],
     ]b4_stos[
   };
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
      to YYLEX-NUM.  */
   const ]b4_int_type_for([b4_toknum])[
@@ -1036,7 +1033,7 @@ b4_error_verbose_if([int yystate, int yytoken],
     ]b4_r2[
   };
 
-]b4_token_table_if([], [[#if YYDEBUG]])[
+]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   const char*
@@ -1045,7 +1042,7 @@ b4_error_verbose_if([int yystate, int yytoken],
     ]b4_tname[
   };
 
-]b4_token_table_if([[#if YYDEBUG]])[
+]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
   /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
   const ]b4_parser_class_name[::rhs_number_type
   ]b4_parser_class_name[::yyrhs_[] =
@@ -1095,7 +1092,7 @@ b4_error_verbose_if([int yystate, int yytoken],
 		       &]b4_rhs_value(yynrhs, yyi + 1)[,
 		       &]b4_rhs_location(yynrhs, yyi + 1)[);
   }
-#endif // YYDEBUG
+#endif // ]b4_api_PREFIX[DEBUG
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
   ]b4_parser_class_name[::token_number_type

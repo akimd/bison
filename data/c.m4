@@ -581,14 +581,32 @@ b4_pure_if([], [[extern ]b4_api_PREFIX[STYPE ]b4_prefix[lval;
 ]b4_locations_if([[extern ]b4_api_PREFIX[LTYPE ]b4_prefix[lloc;]])])[]dnl
 ])
 
+# b4_YYDEBUG_define
+# ------------------
+m4_define([b4_YYDEBUG_define],
+[[/* Enabling traces.  */
+]m4_if(b4_api_prefix, [yy],
+[[#ifndef YYDEBUG
+# define YYDEBUG ]b4_debug_flag[
+#endif]],
+[[#ifndef ]b4_api_PREFIX[DEBUG
+# if defined YYDEBUG
+#  if YYDEBUG
+#   define ]b4_api_PREFIX[DEBUG 1
+#  else
+#   define ]b4_api_PREFIX[DEBUG 0
+#  endif
+# else /* ! defined YYDEBUG */
+#  define ]b4_api_PREFIX[DEBUG ]b4_debug_flag[
+# endif /* ! defined ]b4_api_PREFIX[DEBUG */
+#endif  /* ! defined ]b4_api_PREFIX[DEBUG */]])[]dnl
+])
+
 # b4_declare_yydebug
 # ------------------
 m4_define([b4_declare_yydebug],
-[[/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG ]b4_debug_flag[
-#endif
-#if YYDEBUG
+[b4_YYDEBUG_define[
+#if ]b4_api_PREFIX[DEBUG
 extern int ]b4_prefix[debug;
 #endif][]dnl
 ])

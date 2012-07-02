@@ -127,7 +127,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 [  /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
     :])[
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
       yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
@@ -144,7 +144,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
     return ::yyparse (*this]b4_user_args[);
   }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   /*--------------------.
   | Print this symbol.  |
   `--------------------*/
@@ -239,10 +239,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 ]b4_percent_define_ifdef([[location_type]], [],
                          [[#include "location.hh"]])[
 
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG ]b4_debug_flag[
-#endif
+]b4_YYDEBUG_define[
 
 /* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
    If N is 0, then set CURRENT to the empty location which ends
@@ -321,7 +318,7 @@ b4_user_stype
     virtual void error (const location_type& loc, const std::string& msg);
   private:
 
-#if YYDEBUG
+# if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
     /// \param yytype       The token type.
@@ -341,7 +338,7 @@ b4_user_stype
     /* Debugging.  */
     int yydebug_;
     std::ostream* yycdebug_;
-#endif
+# endif
 
 ]b4_parse_param_vars[
   };

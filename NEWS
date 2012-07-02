@@ -94,10 +94,19 @@ GNU Bison NEWS
     # define BAR_FOO_H                  # define BAR_FOO_H
 
     /* Enabling traces.  */             /* Enabling traces.  */
-    # ifndef YYDEBUG                    # ifndef YYDEBUG
-    #  define YYDEBUG 0                 #  define YYDEBUG 0
-    # endif                             # endif
-    # if YYDEBUG                        # if YYDEBUG
+    # ifndef YYDEBUG                  | # ifndef BAR_DEBUG
+                                      > #  if defined YYDEBUG
+                                      > #   if YYDEBUG
+                                      > #    define BAR_DEBUG 1
+                                      > #   else
+                                      > #    define BAR_DEBUG 0
+                                      > #   endif
+                                      > #  else
+    #  define YYDEBUG 0               | #   define BAR_DEBUG 0
+                                      > #  endif
+    # endif                           | # endif
+
+    # if YYDEBUG                      | # if BAR_DEBUG
     extern int bar_debug;               extern int bar_debug;
     # endif                             # endif
 
