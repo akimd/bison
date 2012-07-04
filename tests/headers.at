@@ -130,7 +130,7 @@ AT_SETUP([Several parsers])
 # the header (but YYDEBUG and YYPARSE_PARAM).
 m4_define([AT_DATA_GRAMMAR_SEVERAL],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
-AT_DATA_GRAMMAR([AT_SKEL_CC_IF([$1.yy], [$1.y])],
+AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
 [[%define api.prefix "$1_"
 $2
 %union
@@ -166,8 +166,8 @@ AT_BISON_OPTION_POPDEFS
 ])
 
 AT_DATA([main.cc],
-[[#define ECHO(S) std::cerr << #S": " << S << std::endl;
-extern "C"
+[AT_DATA_SOURCE_PROLOGUE
+[extern "C"
 {
   #include "x1.h"
   #include "x2.h"
@@ -176,6 +176,8 @@ extern "C"
 }
 #include "x5.hh"
 //#include "x6.hh"
+
+#define ECHO(S) std::cerr << #S": " << S << std::endl;
 
 int
 main (void)
