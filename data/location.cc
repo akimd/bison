@@ -29,9 +29,9 @@ b4_copyright([Positions for Bison parsers in C++],
 
 ]b4_cpp_guard_open([b4_dir_prefix[]position.hh])[
 
-# include <iostream>
+# include <algorithm> // std::max
+# include <iosfwd>
 # include <string>
-# include <algorithm>
 
 ]b4_null_define[
 

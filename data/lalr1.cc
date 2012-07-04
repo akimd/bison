@@ -55,8 +55,6 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
 ]b4_percent_define_ifdef([[location_type]], [],
                          [[#include "location.hh"]])[
 
-]b4_null_define[
-
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
@@ -277,16 +275,18 @@ m4_if(b4_prefix, [yy], [],
 #define yylex   b4_prefix[]lex])[
 
 /* First part of user declarations.  */
-]b4_user_pre_prologue
+]b4_user_pre_prologue[
 
-b4_defines_if([[
+]b4_defines_if([[
 #include "@basename(]b4_spec_defines_file[@)"]])[
 
 /* User implementation prologue.  */
-]b4_user_post_prologue
-b4_percent_code_get[]dnl
+]b4_user_post_prologue[
+]b4_percent_code_get[
 
-[#ifndef YY_
+]b4_null_define[
+
+#ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* FIXME: INFRINGES ON USER NAME SPACE */
