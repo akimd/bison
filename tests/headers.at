@@ -160,7 +160,14 @@ exp:
 AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
 # C++ output relies on namespaces and still uses yy a lot.
 AT_SKEL_CC_IF([],
-  [AT_CHECK([$EGREP -i yy $1.h | $EGREP -v 'YY(DEBUG|PARSE_PARAM)'], [1])])
+  [AT_CHECK([$EGREP yy $1.h], [1])])
+
+# Ignore comments. Ignore YYPARSE_PARAM.  YYDEBUG (not renamed) can be
+# read, but not changed.
+AT_CHECK([[sed -ne 's,/\*[^*]*\*/,,g;s,//.*,,' \
+                -e '/YY/p' ]$1.AT_SKEL_CC_IF([hh], [h])[ |
+         $EGREP -wv '(YYPARSE_PARAM|defined YYDEBUG|if YYDEBUG)']],
+         [1])
 AT_LANG_COMPILE([$1.o])
 AT_BISON_OPTION_POPDEFS
 ])
