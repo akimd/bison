@@ -90,11 +90,13 @@ m4_define([b4_yy_symbol_print_generate],
 ]])
 
 
-# Declare yyerror.
+# Hijack the post prologue to insert early definition of YYLLOC_DEFAULT
+# and declaration of yyerror.
 m4_append([b4_post_prologue],
-[b4_syncline([@oline@], [@ofile@])
-
-b4_c_ansi_function_decl([yyerror],
+[b4_syncline([@oline@], [@ofile@])[
+]b4_yylloc_default_define[
+#define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
+]b4_c_ansi_function_decl([yyerror],
     [static void],
     [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
                         [yylocationp]],
@@ -240,25 +242,6 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
                          [[# include "location.hh"]])[
 
 ]b4_YYDEBUG_define[
-
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-# ifndef YYLLOC_DEFAULT
-#  define YYLLOC_DEFAULT(Current, Rhs, N)                               \
-    do                                                                  \
-      if (N)                                                            \
-        {                                                               \
-          (Current).begin  = YYRHSLOC (Rhs, 1).begin;                   \
-          (Current).end    = YYRHSLOC (Rhs, N).end;                     \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
-        }                                                               \
-    while (/*CONSTCOND*/ 0)
-# endif
 
 ]b4_namespace_open[
   /// A Bison parser.

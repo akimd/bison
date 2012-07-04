@@ -174,3 +174,32 @@ m4_define([b4_cc_var_decls],
 ], [$@])])
 m4_define([b4_cc_var_decl],
 	  [    $1;])
+
+
+## ---------##
+## Values.  ##
+## ---------##
+
+# b4_yylloc_default_define
+# ------------------------
+# Define YYLLOC_DEFAULT.
+m4_define([b4_yylloc_default_define],
+[[/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+# ifndef YYLLOC_DEFAULT
+#  define YYLLOC_DEFAULT(Current, Rhs, N)                               \
+    do                                                                  \
+      if (N)                                                            \
+        {                                                               \
+          (Current).begin  = YYRHSLOC (Rhs, 1).begin;                   \
+          (Current).end    = YYRHSLOC (Rhs, N).end;                     \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
+        }                                                               \
+    while (/*CONSTCOND*/ false)
+# endif
+]])
