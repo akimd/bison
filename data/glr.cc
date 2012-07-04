@@ -78,9 +78,9 @@ m4_define([b4_yy_symbol_print_generate],
     [static void],
     [[FILE *],               []],
     [[int yytype],           [yytype]],
-    [[const b4_namespace_ref::b4_parser_class_name::semantic_type *yyvaluep],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::semantic_type *yyvaluep],
                              [yyvaluep]],
-    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                              [yylocationp]],
     b4_parse_param)[
 {
@@ -98,13 +98,14 @@ m4_append([b4_post_prologue],
 #define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
 ]b4_c_ansi_function_decl([yyerror],
     [static void],
-    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])])
 
 
-# Define yyerror.
+# Hijack the epilogue to define implementations (yyerror, parser member
+# functions etc.).
 m4_append([b4_epilogue],
 [b4_syncline([@oline@], [@ofile@])[
 /*------------------.
@@ -113,7 +114,7 @@ m4_append([b4_epilogue],
 
 ]b4_c_ansi_function_def([yyerror],
     [static void],
-    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])[
@@ -217,10 +218,10 @@ b4_namespace_close[
 # Let glr.c believe that the user arguments include the parser itself.
 m4_ifset([b4_parse_param],
 [m4_pushdef([b4_parse_param],
-            m4_dquote([[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]],]
-m4_defn([b4_parse_param])))],
+            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]],]
+m4_defn([b4_parse_param]))],
 [m4_pushdef([b4_parse_param],
-            [[[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]]]])
+            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
 ])
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])

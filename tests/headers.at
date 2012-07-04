@@ -188,7 +188,8 @@ main (void)
   ECHO(x4_parse());
   x5_::parser p5;
   ECHO(p5.parse());
-//  ECHO(x6_parse());
+//  x6_::parser p6;
+//  ECHO(p6.parse());
   return 0;
 }
 ]])
@@ -198,7 +199,7 @@ AT_DATA_GRAMMAR_SEVERAL([x2], [%locations %debug])
 AT_DATA_GRAMMAR_SEVERAL([x3], [%glr-parser])
 AT_DATA_GRAMMAR_SEVERAL([x4], [%locations %debug %glr-parser])
 AT_DATA_GRAMMAR_SEVERAL([x5], [%locations %debug %language "c++"])
-#AT_DATA_GRAMMAR_SEVERAL([x6], [%locations %language "c++"])
+#AT_DATA_GRAMMAR_SEVERAL([x5], [%locations %language "c++" %glr-parser])
 
 AT_COMPILE_CXX([parser], [x1.o x2.o x3.o x4.o x5.o main.cc])
 AT_CHECK([./parser], [0],
