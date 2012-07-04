@@ -618,14 +618,61 @@ b4_pure_if([], [[extern ]b4_api_PREFIX[STYPE ]b4_prefix[lval;
 ]b4_locations_if([[extern ]b4_api_PREFIX[LTYPE ]b4_prefix[lloc;]])])[]dnl
 ])
 
+# b4_YYDEBUG_define
+# ------------------
+m4_define([b4_YYDEBUG_define],
+[[/* Enabling traces.  */
+]m4_if(b4_api_prefix, [yy],
+[[#ifndef YYDEBUG
+# define YYDEBUG ]b4_parse_trace_if([1], [0])[
+#endif]],
+[[#ifndef ]b4_api_PREFIX[DEBUG
+# if defined YYDEBUG
+#if YYDEBUG
+#   define ]b4_api_PREFIX[DEBUG 1
+#  else
+#   define ]b4_api_PREFIX[DEBUG 0
+#  endif
+# else /* ! defined YYDEBUG */
+#  define ]b4_api_PREFIX[DEBUG ]b4_parse_trace_if([1], [0])[
+# endif /* ! defined ]b4_api_PREFIX[DEBUG */
+#endif  /* ! defined ]b4_api_PREFIX[DEBUG */]])[]dnl
+])
+
 # b4_declare_yydebug
 # ------------------
 m4_define([b4_declare_yydebug],
-[[/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG ]b4_parse_trace_if([1], [0])[
-#endif
-#if YYDEBUG
+[b4_YYDEBUG_define[
+#if ]b4_api_PREFIX[DEBUG
 extern int ]b4_prefix[debug;
 #endif][]dnl
 ])
+
+# b4_yylloc_default_define
+# ------------------------
+# Define YYLLOC_DEFAULT.
+m4_define([b4_yylloc_default_define],
+[[/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+#ifndef YYLLOC_DEFAULT
+# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
+    do                                                                  \
+      if (YYID (N))                                                     \
+        {                                                               \
+          (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;        \
+          (Current).first_column = YYRHSLOC (Rhs, 1).first_column;      \
+          (Current).last_line    = YYRHSLOC (Rhs, N).last_line;         \
+          (Current).last_column  = YYRHSLOC (Rhs, N).last_column;       \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          (Current).first_line   = (Current).last_line   =              \
+            YYRHSLOC (Rhs, 0).last_line;                                \
+          (Current).first_column = (Current).last_column =              \
+            YYRHSLOC (Rhs, 0).last_column;                              \
+        }                                                               \
+    while (YYID (0))
+#endif
+]])

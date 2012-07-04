@@ -130,7 +130,7 @@ AT_SETUP([Several parsers])
 # the header (but YYDEBUG and YYPARSE_PARAM).
 m4_define([AT_DATA_GRAMMAR_SEVERAL],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
-AT_DATA_GRAMMAR([AT_SKEL_CC_IF([$1.yy], [$1.y])],
+AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
 [[%define api.prefix "$1_"
 $2
 %union
@@ -160,13 +160,22 @@ exp:
 AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
 # C++ output relies on namespaces and still uses yy a lot.
 AT_SKEL_CC_IF([],
-  [AT_CHECK([$EGREP -i yy $1.h | $EGREP -v 'YY(DEBUG|PARSE_PARAM)'], [1])])
+  [AT_CHECK([$EGREP yy $1.h], [1])])
+
+# Ignore comments. Ignore YYPARSE_PARAM.  YYDEBUG (not renamed) can be
+# read, but not changed.
+AT_CHECK([[$PERL -0777 -e 's{/\*.*?\*/}{}sg;s,//.*,,;' \
+            ]$1.AT_SKEL_CC_IF([hh], [h])[ |
+         grep 'YY' |
+         $EGREP -wv '(YYPARSE_PARAM|defined YYDEBUG|if YYDEBUG)']],
+         [1])
 AT_LANG_COMPILE([$1.o])
 AT_BISON_OPTION_POPDEFS
 ])
 
 AT_DATA([main.cc],
-[[extern "C"
+[AT_DATA_SOURCE_PROLOGUE
+[extern "C"
 {
   #include "x1.h"
   #include "x2.h"
@@ -175,18 +184,21 @@ AT_DATA([main.cc],
 }
 #include "x5.hh"
 //#include "x6.hh"
+
+#define ECHO(S) std::cerr << #S": " << S << std::endl;
+
 int
 main (void)
 {
-  int errs = 0;
-  errs += x1_parse();
-  errs += x2_parse();
-  errs += x3_parse();
-  errs += x4_parse();
+  ECHO(x1_parse());
+  ECHO(x2_parse());
+  ECHO(x3_parse());
+  ECHO(x4_parse());
   x5_::parser p5;
-  errs += p5.parse();
-//  errs += x6_parse();
-  return !!errs;
+  ECHO(p5.parse());
+//  x6_::parser p6;
+//  ECHO(p6.parse());
+  return 0;
 }
 ]])
 
@@ -195,7 +207,7 @@ AT_DATA_GRAMMAR_SEVERAL([x2], [%locations %debug])
 AT_DATA_GRAMMAR_SEVERAL([x3], [%glr-parser])
 AT_DATA_GRAMMAR_SEVERAL([x4], [%locations %debug %glr-parser])
 AT_DATA_GRAMMAR_SEVERAL([x5], [%locations %debug %language "c++"])
-#AT_DATA_GRAMMAR_SEVERAL([x6], [%locations %language "c++"])
+#AT_DATA_GRAMMAR_SEVERAL([x5], [%locations %language "c++" %glr-parser])
 
 AT_COMPILE_CXX([parser], [x1.o x2.o x3.o x4.o x5.o main.cc])
 AT_CHECK([./parser], [0],
@@ -204,6 +216,12 @@ x2
 x3
 x4
 x5
+]],
+[[x1_parse(): 0
+x2_parse(): 0
+x3_parse(): 0
+x4_parse(): 0
+p5.parse(): 0
 ]])
 
 AT_CLEANUP

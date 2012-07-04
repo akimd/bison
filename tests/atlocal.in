@@ -75,8 +75,9 @@ CONF_JAVA='@CONF_JAVA@'
 # Empty if no xsltproc was found
 : ${XSLTPROC='@XSLTPROC@'}
 
-# We need egrep.
+# We need egrep and perl.
 : ${EGREP='@EGREP@'}
+: ${PERL='@PERL@'}
 
 # Use simple quotes (lib/quote.c).
 LC_CTYPE=C

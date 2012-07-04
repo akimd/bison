@@ -76,9 +76,9 @@ m4_define([b4_yy_symbol_print_generate],
     [static void],
     [[FILE *],               []],
     [[int yytype],           [yytype]],
-    [[const b4_namespace_ref::b4_parser_class_name::semantic_type *yyvaluep],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::semantic_type *yyvaluep],
                              [yyvaluep]],
-    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                              [yylocationp]],
     b4_parse_param)[
 {
@@ -88,19 +88,22 @@ m4_define([b4_yy_symbol_print_generate],
 ]])
 
 
-# Declare yyerror.
+# Hijack the post prologue to insert early definition of YYLLOC_DEFAULT
+# and declaration of yyerror.
 m4_append([b4_post_prologue],
-[b4_syncline([@oline@], [@ofile@])
-
-b4_c_ansi_function_decl([yyerror],
+[b4_syncline([@oline@], [@ofile@])[
+]b4_yylloc_default_define[
+#define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
+]b4_c_ansi_function_decl([yyerror],
     [static void],
-    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])])
 
 
-# Define yyerror.
+# Hijack the epilogue to define implementations (yyerror, parser member
+# functions etc.).
 m4_append([b4_epilogue],
 [b4_syncline([@oline@], [@ofile@])[
 /*------------------.
@@ -109,7 +112,7 @@ m4_append([b4_epilogue],
 
 ]b4_c_ansi_function_def([yyerror],
     [static void],
-    [[const b4_namespace_ref::b4_parser_class_name::location_type *yylocationp],
+    [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],
     b4_parse_param,
     [[const char* msg], [msg]])[
@@ -125,7 +128,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 [  /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
     :])[
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     ]m4_ifset([b4_parse_param], [  ], [ :])[yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
   {
@@ -141,7 +144,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
     return ::yyparse (*this]b4_user_args[);
   }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   /*--------------------.
   | Print this symbol.  |
   `--------------------*/
@@ -211,10 +214,10 @@ b4_namespace_close[
 # Let glr.c believe that the user arguments include the parser itself.
 m4_ifset([b4_parse_param],
 [m4_pushdef([b4_parse_param],
-            m4_dquote([[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]],]
-m4_defn([b4_parse_param])))],
+            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]],]
+m4_defn([b4_parse_param]))],
 [m4_pushdef([b4_parse_param],
-            [[[[b4_namespace_ref::b4_parser_class_name& yyparser], [[yyparser]]]]])
+            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
 ])
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
@@ -236,29 +239,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 ]b4_percent_define_ifdef([[location_type]], [],
                          [[#include "location.hh"]])[
 
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG ]b4_parse_trace_if([1], [0])[
-#endif
-
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
-    do                                                                  \
-      if (N)                                                            \
-        {                                                               \
-          (Current).begin  = YYRHSLOC (Rhs, 1).begin;                   \
-          (Current).end    = YYRHSLOC (Rhs, N).end;                     \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
-        }                                                               \
-    while (/*CONSTCOND*/ 0)
-#endif
+]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
   /// A Bison parser.
@@ -293,7 +274,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
     /// \param msg    a description of the syntax error.
     virtual void error (const location_type& loc, const std::string& msg);
 
-#if YYDEBUG
+# if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
     /// \param yytype       The token type.

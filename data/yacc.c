@@ -310,12 +310,8 @@ b4_copyright([Bison implementation for Yacc-like parsers in C])[
 b4_percent_code_get([[top]])[]dnl
 m4_if(b4_api_prefix, [yy], [],
 [[/* Substitute the type names.  */
-#define YYSTYPE              ]b4_api_PREFIX[STYPE
-#define YYSTYPE_IS_TRIVIAL   ]b4_api_PREFIX[STYPE_IS_TRIVIAL
-#define YYSTYPE_IS_DECLARED  ]b4_api_PREFIX[STYPE_IS_DECLARED]b4_locations_if([[
-#define YYLTYPE              ]b4_api_PREFIX[LTYPE
-#define YYLTYPE_IS_TRIVIAL   ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
-#define YYLTYPE_IS_DECLARED  ]b4_api_PREFIX[LTYPE_IS_DECLARED]])])[
+#define YYSTYPE         ]b4_api_PREFIX[STYPE]b4_locations_if([[
+#define YYLTYPE         ]b4_api_PREFIX[LTYPE]])])[
 ]m4_if(b4_prefix, [yy], [],
 [[/* Substitute the variable and function names.  */]b4_pull_if([[
 #define yyparse         ]b4_prefix[parse]])b4_push_if([[
@@ -499,8 +495,8 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 
 #if (! defined yyoverflow \
      && (! defined __cplusplus \
-         || (]b4_locations_if([[defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL \
-             && ]])[defined YYSTYPE_IS_TRIVIAL && YYSTYPE_IS_TRIVIAL)))
+         || (]b4_locations_if([[defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL \
+             && ]])[defined ]b4_api_PREFIX[STYPE_IS_TRIVIAL && ]b4_api_PREFIX[STYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
@@ -592,12 +588,12 @@ static const ]b4_int_type_for([b4_translate])[ yytranslate[] =
   ]b4_translate[
 };
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 ]b4_integral_parser_table_define([rline], [b4_rline],
      [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || ]b4_token_table_flag[
+#if ]b4_api_PREFIX[DEBUG || YYERROR_VERBOSE || ]b4_token_table_flag[
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
@@ -676,39 +672,16 @@ while (YYID (0))
 #define YYTERROR        1
 #define YYERRCODE       256
 
-
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
+]b4_locations_if([[
+]b4_yylloc_default_define[
 #define YYRHSLOC(Rhs, K) ((Rhs)[K])
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
-    do                                                                  \
-      if (YYID (N))                                                    \
-        {                                                               \
-          (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;        \
-          (Current).first_column = YYRHSLOC (Rhs, 1).first_column;      \
-          (Current).last_line    = YYRHSLOC (Rhs, N).last_line;         \
-          (Current).last_column  = YYRHSLOC (Rhs, N).last_column;       \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          (Current).first_line   = (Current).last_line   =              \
-            YYRHSLOC (Rhs, 0).last_line;                                \
-          (Current).first_column = (Current).last_column =              \
-            YYRHSLOC (Rhs, 0).last_column;                              \
-        }                                                               \
-    while (YYID (0))
-#endif]b4_locations_if([[
-
 
 /* YY_LOCATION_PRINT -- Print the location on the stream.
    This macro was not mandated originally: define only if we know
    we won't break user code: when these are the locations we know.  */
 
 #ifndef YY_LOCATION_PRINT
-# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
+# if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
 #  define YY_LOCATION_PRINT(File, Loc)                  \
      fprintf (File, "%d.%d-%d.%d",                      \
               (Loc).first_line, (Loc).first_column,     \
@@ -735,7 +708,7 @@ while (YYID (0))
 #endif
 
 /* Enable debugging if requested.  */
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 
 # ifndef YYFPRINTF
 #  include <stdio.h> /* INFRINGES ON USER NAME SPACE */
@@ -824,12 +797,12 @@ do {                                    \
 /* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
 int yydebug;
-#else /* !YYDEBUG */
+#else /* !]b4_api_PREFIX[DEBUG */
 # define YYDPRINTF(Args)
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 # define YY_STACK_PRINT(Bottom, Top)
 # define YY_REDUCE_PRINT(Rule)
-#endif /* !YYDEBUG */
+#endif /* !]b4_api_PREFIX[DEBUG */
 
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
@@ -860,7 +833,7 @@ int yydebug;
    required.  Return 1 if memory is exhausted.  */
 static int
 yy_lac_stack_realloc (YYSIZE_T *yycapacity, YYSIZE_T yyadd,
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
                       char const *yydebug_prefix,
                       char const *yydebug_suffix,
 #endif
@@ -966,7 +939,7 @@ do {                                                             \
    the parser stacks to try to find a new initial context in which the
    current lookahead is syntactically acceptable.  If it fails to find
    such a context, it discards the lookahead.  */
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 # define YY_LAC_DISCARD(Event)                                           \
 do {                                                                     \
   if (yy_lac_established)                                                \
@@ -1069,7 +1042,7 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
         else
           {
             if (yy_lac_stack_realloc (yyes_capacity, 1,
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
                                       " (", ")",
 #endif
                                       yyes, yyesa, &yyesp, yyes_prev))
@@ -1276,7 +1249,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yysize = yysize1;
               }
         }]b4_lac_if([[
-# if YYDEBUG
+# if ]b4_api_PREFIX[DEBUG
       else if (yydebug)
         YYFPRINTF (stderr, "No expected tokens.\n");
 # endif]])[
@@ -1519,7 +1492,7 @@ b4_c_function_def([[yyparse]], [[int]], b4_parse_param)[
   yyvsp = yyvs;]b4_locations_if([[
   yylsp = yyls;
 
-#if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
+#if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
   /* Initialize the default location before parsing starts.  */
   yylloc.first_line   = yylloc.last_line   = ]b4_location_initial_line[;
   yylloc.first_column = yylloc.last_column = ]b4_location_initial_column[;

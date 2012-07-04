@@ -18,7 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-m4_include(b4_pkgdatadir/[c.m4])
+# If we are loaded by glr.cc, do not override c++.m4 definitions by
+# those of c.m4.
+m4_if(b4_skeleton, ["glr.c"],
+      [m4_include(b4_pkgdatadir/[c.m4])])
 
 ## ---------------- ##
 ## Default values.  ##
@@ -198,12 +201,8 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 b4_percent_code_get([[top]])[
 ]m4_if(b4_api_prefix, [yy], [],
 [[/* Substitute the type names.  */
-#define YYSTYPE              ]b4_api_PREFIX[STYPE
-#define YYSTYPE_IS_TRIVIAL   ]b4_api_PREFIX[STYPE_IS_TRIVIAL
-#define YYSTYPE_IS_DECLARED  ]b4_api_PREFIX[STYPE_IS_DECLARED]b4_locations_if([[
-#define YYLTYPE              ]b4_api_PREFIX[LTYPE
-#define YYLTYPE_IS_TRIVIAL   ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
-#define YYLTYPE_IS_DECLARED  ]b4_api_PREFIX[LTYPE_IS_DECLARED]])])[
+#define YYSTYPE ]b4_api_PREFIX[STYPE]b4_locations_if([[
+#define YYLTYPE ]b4_api_PREFIX[LTYPE]])])[
 ]m4_if(b4_prefix, [yy], [],
 [[/* Substitute the variable and function names.  */
 #define yyparse ]b4_prefix[parse
@@ -357,7 +356,7 @@ static const ]b4_int_type_for([b4_translate])[ yytranslate[] =
   ]b4_translate[
 };
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const ]b4_int_type_for([b4_rline])[ yyrline[] =
 {
@@ -365,7 +364,7 @@ static const ]b4_int_type_for([b4_rline])[ yyrline[] =
 };
 #endif
 
-#if YYDEBUG || YYERROR_VERBOSE || ]b4_token_table_flag[
+#if ]b4_api_PREFIX[DEBUG || YYERROR_VERBOSE || ]b4_token_table_flag[
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
@@ -420,30 +419,10 @@ dnl We probably ought to introduce a type for confl.
 /* Error token number */
 #define YYTERROR 1
 
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
 ]b4_locations_if([[
-#define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
 #ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                                \
-    do                                                                  \
-      if (YYID (N))                                                     \
-        {                                                               \
-          (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;        \
-          (Current).first_column = YYRHSLOC (Rhs, 1).first_column;      \
-          (Current).last_line    = YYRHSLOC (Rhs, N).last_line;         \
-          (Current).last_column  = YYRHSLOC (Rhs, N).last_column;       \
-        }                                                               \
-      else                                                              \
-        {                                                               \
-          (Current).first_line   = (Current).last_line   =              \
-            YYRHSLOC (Rhs, 0).last_line;                                \
-          (Current).first_column = (Current).last_column =              \
-            YYRHSLOC (Rhs, 0).last_column;                              \
-        }                                                               \
-    while (YYID (0))
+]b4_yylloc_default_define[
+# define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
 
 /* YY_LOCATION_PRINT -- Print the location on the stream.
    This macro was not mandated originally: define only if we know
@@ -463,7 +442,6 @@ dnl We probably ought to introduce a type for confl.
 #ifndef YY_LOCATION_PRINT
 # define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 #endif
-
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
 #define YYLEX ]b4_c_function_call([yylex], [int], b4_lex_param)[
@@ -501,7 +479,7 @@ typedef enum { yyok, yyaccept, yyabort, yyerr } YYRESULTTAG;
       return yychk_flag;                        \
   } while (YYID (0))
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 
 # ifndef YYFPRINTF
 #  define YYFPRINTF fprintf
@@ -529,12 +507,12 @@ typedef enum { yyok, yyaccept, yyabort, yyerr } YYRESULTTAG;
    multiple parsers can coexist.  */
 int yydebug;
 
-#else /* !YYDEBUG */
+#else /* !]b4_api_PREFIX[DEBUG */
 
 # define YYDPRINTF(Args)
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)
 
-#endif /* !YYDEBUG */
+#endif /* !]b4_api_PREFIX[DEBUG */
 
 /* YYINITDEPTH -- initial size of the parser's stacks.  */
 #ifndef YYINITDEPTH
@@ -767,7 +745,7 @@ yyMemoryExhausted (yyGLRStack* yystackp)
   YYLONGJMP (yystackp->yyexception_buffer, 2);
 }
 
-#if YYDEBUG || YYERROR_VERBOSE
+#if ]b4_api_PREFIX[DEBUG || YYERROR_VERBOSE
 /** A printable representation of TOKEN.  */
 static inline const char*
 yytokenName (yySymbol yytoken)
@@ -790,7 +768,7 @@ yyfillin (yyGLRStackItem *yyvsp, int yylow0, int yylow1)
   yyGLRState *s = yyvsp[yylow0].yystate.yypred;
   for (i = yylow0-1; i >= yylow1; i -= 1)
     {
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
       yyvsp[i].yystate.yylrState = s->yylrState;
 #endif
       yyvsp[i].yystate.yyresolved = s->yyresolved;
@@ -911,7 +889,7 @@ yydestroyGLRState (char const *yymsg, yyGLRState *yys]b4_user_formals[)
                 &yys->yysemantics.yysval]b4_locuser_args([&yys->yyloc])[);
   else
     {
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
       if (yydebug)
         {
           if (yys->yysemantics.yyfirstVal)
@@ -1292,7 +1270,7 @@ yyglrShiftDefer (yyGLRStack* yystackp, size_t yyk, yyStateNum yylrState,
   yyaddDeferredAction (yystackp, yyk, yynewState, yyrhs, yyrule);
 }
 
-#if !YYDEBUG
+#if !]b4_api_PREFIX[DEBUG
 # define YY_REDUCE_PRINT(Args)
 #else
 # define YY_REDUCE_PRINT(Args)          \
@@ -1668,7 +1646,7 @@ yyresolveAction (yySemanticOption* yyopt, yyGLRStack* yystackp,
   return yyflag;
 }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 static void
 yyreportTree (yySemanticOption* yyx, int yyindent)
 {
@@ -1723,7 +1701,7 @@ yyreportAmbiguity (yySemanticOption* yyx0,
   YYUSE (yyx0);
   YYUSE (yyx1);
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   YYFPRINTF (stderr, "Ambiguity detected.\n");
   YYFPRINTF (stderr, "Option 1,\n");
   yyreportTree (yyx0, 2);
@@ -2310,7 +2288,7 @@ yyrecoverSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
   yychar = YYEMPTY;
   yylval = yyval_default;
 ]b4_locations_if([
-#if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
+#if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
   yylloc.first_line   = yylloc.last_line   = ]b4_location_initial_line[;
   yylloc.first_column = yylloc.last_column = ]b4_location_initial_column[;
 #endif
@@ -2542,7 +2520,7 @@ m4_popdef([b4_at_dollar])])dnl
 }
 
 /* DEBUGGING ONLY */
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 static void yypstack (yyGLRStack* yystackp, size_t yyk)
   __attribute__ ((__unused__));
 static void yypdumpstack (yyGLRStack* yystackp) __attribute__ ((__unused__));

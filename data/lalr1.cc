@@ -158,12 +158,7 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 b4_variant_define
 b4_namespace_close])[
 
-]b4_null_define[
-
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG ]b4_parse_trace_if([1], [0])[
-#endif
+]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
 
@@ -180,7 +175,7 @@ b4_namespace_close])[
     /// \returns  0 iff parsing succeeded.
     virtual int parse ();
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     /// The current debugging stream.
     std::ostream& debug_stream () const;
     /// Set the current debugging stream.
@@ -235,10 +230,10 @@ b4_namespace_close])[
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
     static std::string yytnamerr_ (const char *n);])[
 
-]b4_token_table_if([], [[#if YYDEBUG]])[
+]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
-]b4_token_table_if([[#if YYDEBUG]])[
+]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
 ]b4_integral_parser_table_declare([rline], [b4_rline],
      [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[
     /// Report on the debug stream that the rule \a r is going to be reduced.
@@ -249,12 +244,12 @@ b4_namespace_close])[
     // Debugging.
     int yydebug_;
     std::ostream* yycdebug_;
-#endif // YYDEBUG
+#endif // ]b4_api_PREFIX[DEBUG
 
     /// Convert a scanner token number \a t to a symbol number.
     static inline token_number_type yytranslate_ (]b4_lex_symbol_if([token_type], [int])[ t);
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     /// \brief Display a symbol type, value and location.
     /// \param yyo    The output stream.
     /// \param yysym  The symbol.
@@ -361,10 +356,12 @@ m4_if(b4_prefix, [yy], [],
 #include "@basename(]b4_spec_defines_file[@)"
 
 /* User implementation prologue.  */
-]b4_user_post_prologue
-b4_percent_code_get[]dnl
+]b4_user_post_prologue[
+]b4_percent_code_get[
 
-[#ifndef YY_
+]b4_null_define[
+
+#ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* FIXME: INFRINGES ON USER NAME SPACE */
@@ -377,31 +374,14 @@ b4_percent_code_get[]dnl
 #endif
 
 ]b4_locations_if([dnl
-[/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-#define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)                               \
- do                                                                    \
-   if (N)                                                              \
-     {                                                                 \
-       (Current).begin = YYRHSLOC (Rhs, 1).begin;                      \
-       (Current).end   = YYRHSLOC (Rhs, N).end;                        \
-     }                                                                 \
-   else                                                                \
-     {                                                                 \
-       (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;        \
-     }                                                                 \
- while (false)
-#endif]])[
+[#define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
+]b4_yylloc_default_define])[
 
 /* Suppress unused-variable warnings by "using" E.  */
 #define YYUSE(e) ((void) (e))
 
 /* Enable debugging if requested.  */
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
 
 /* A pseudo ostream that takes yydebug_ into account.  */
 # define YYCDEBUG if (yydebug_) (*yycdebug_)
@@ -428,14 +408,14 @@ b4_percent_code_get[]dnl
       yystack_print_ ();                \
   } while (false)
 
-#else /* !YYDEBUG */
+#else /* !]b4_api_PREFIX[DEBUG */
 
 # define YYCDEBUG if (false) std::cerr
 # define YY_SYMBOL_PRINT(Title, Symbol)  YYUSE(Symbol)
 # define YY_REDUCE_PRINT(Rule)           static_cast<void>(0)
 # define YY_STACK_PRINT()                static_cast<void>(0)
 
-#endif /* !YYDEBUG */
+#endif /* !]b4_api_PREFIX[DEBUG */
 
 #define yyerrok         (yyerrstatus_ = 0)
 #define yyclearin       (yyempty = true)
@@ -488,7 +468,7 @@ b4_percent_code_get[]dnl
   /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
     :])[
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
     ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
       yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
@@ -550,7 +530,7 @@ b4_percent_code_get[]dnl
   b4_symbol_variant([[yytype]], [[yysym.value]], [[template destroy]])])[
   }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   template <typename Exact>
   void
   ]b4_parser_class_name[::yy_print_ (std::ostream& yyo,
@@ -612,7 +592,7 @@ b4_percent_code_get[]dnl
     yystack_.pop (n);
   }
 
-#if YYDEBUG
+#if ]b4_api_PREFIX[DEBUG
   std::ostream&
   ]b4_parser_class_name[::debug_stream () const
   {
@@ -637,7 +617,7 @@ b4_percent_code_get[]dnl
   {
     yydebug_ = l;
   }
-#endif // YYDEBUG
+#endif // ]b4_api_PREFIX[DEBUG
 
   inline ]b4_parser_class_name[::state_type
   ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yylhs)
@@ -1082,7 +1062,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
 
 ]b4_parser_tables_define[
 
-]b4_token_table_if([], [[#if YYDEBUG]])[
+]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   const char*
@@ -1091,7 +1071,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
   ]b4_tname[
   };
 
-]b4_token_table_if([[#if YYDEBUG]])[
+]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
 ]b4_integral_parser_table_define([rline], [b4_rline])[
 
   // Print the state stack on the debug stream.
@@ -1121,7 +1101,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
       YY_SYMBOL_PRINT ("   $" << yyi + 1 << " =",
                        ]b4_rhs_data(yynrhs, yyi + 1)[);
   }
-#endif // YYDEBUG
+#endif // ]b4_api_PREFIX[DEBUG
 
 ]b4_lex_symbol_if([], [b4_yytranslate_define])[
 ]b4_namespace_close[
