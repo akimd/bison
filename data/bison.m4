@@ -576,3 +576,11 @@ m4_define_default([b4_parse_param], [])
 # The initial column and line.
 m4_define_default([b4_location_initial_column], [1])
 m4_define_default([b4_location_initial_line],   [1])
+
+# Sanity checks.
+b4_percent_define_ifdef([api.prefix],
+[m4_ifdef([b4_prefix],
+[b4_complain_at(b4_percent_define_get_loc([api.prefix]),
+                [['%s' and '%s' cannot be used together]],
+                [%name-prefix],
+                [%define api.prefix])])])
