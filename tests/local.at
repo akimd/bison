@@ -339,7 +339,7 @@ static
 # Must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS pair.
 m4_define([AT_YYERROR_FORMALS],
 [m4_case(AT_LANG,
-[c], [AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])[const char *msg]])[]dnl
+[c], [AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE *llocp, ])[const char *msg]])[]dnl
 ])
 
 m4_define([AT_YYERROR_PROTOTYPE],

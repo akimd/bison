@@ -5790,9 +5790,9 @@ function is available if either the @code{%define api.push-pull push} or
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
-The value returned by @code{yypush_parse} is the same as for yyparse with the
-following exception.  @code{yypush_parse} will return YYPUSH_MORE if more input
-is required to finish parsing the grammar.
+The value returned by @code{yypush_parse} is the same as for yyparse with
+the following exception: it returns @code{YYPUSH_MORE} if more input is
+required to finish parsing the grammar.
 @end deftypefun
 
 @node Pull Parser Function

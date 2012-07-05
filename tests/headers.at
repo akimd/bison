@@ -124,15 +124,16 @@ AT_CLEANUP
 
 AT_SETUP([Several parsers])
 
-# AT_DATA_GRAMMAR_SEVERAL([PREFIX], [DIRECTIVES])
-# -----------------------------------------------
+# AT_TEST([PREFIX], [DIRECTIVES])
+# -------------------------------
 # Generate and compile to *.o.  Make sure there is no YY* nor yy* in
 # the header (but YYDEBUG and YYPARSE_PARAM).
-m4_define([AT_DATA_GRAMMAR_SEVERAL],
+m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
 AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
 [[%define api.prefix "$1_"
 $2
+%error-verbose
 %union
 {
   int integer;
@@ -150,6 +151,8 @@ exp:
 | 'x' '4' { printf ("x4\n"); }
 | 'x' '5' { printf ("x5\n"); }
 | 'x' '6' { printf ("x6\n"); }
+| 'x' '7' { printf ("x7\n"); }
+| 'x' '8' { printf ("x8\n"); }
 ;
 
 %%
@@ -162,15 +165,20 @@ AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
 AT_SKEL_CC_IF([],
   [AT_CHECK([$EGREP yy $1.h], [1])])
 
-# Ignore comments. Ignore YYPARSE_PARAM.  YYDEBUG (not renamed) can be
-# read, but not changed.
+# Ignore comments. Ignore YYPARSE_PARAM (obsolete) and
+# YYPUSH_MORE(_DEFINED)? (whose definition is constant).
+#
+# YYDEBUG (not renamed) can be read, but not changed.
 AT_CHECK([[sed -ne 's,/\*[^*]*\*/,,g;s,//.*,,' \
                 -e '/YY/p' ]$1.AT_SKEL_CC_IF([hh], [h])[ |
-         $EGREP -wv '(YYPARSE_PARAM|defined YYDEBUG|if YYDEBUG)']],
+     $EGREP -wv 'YY(PARSE_PARAM|PUSH_MORE(_DEFINED)?)|(defined|if) YYDEBUG']],
          [1])
 AT_LANG_COMPILE([$1.o])
+
+AT_CHECK([[echo "$1" >>expout]])
+
 AT_BISON_OPTION_POPDEFS
-])
+])# AT_TEST
 
 AT_DATA([main.cc],
 [AT_DATA_SOURCE_PROLOGUE
@@ -180,47 +188,51 @@ AT_DATA([main.cc],
   #include "x2.h"
   #include "x3.h"
   #include "x4.h"
+  #include "x6.h"
+  #include "x7.h"
+  #include "x8.h"
 }
 #include "x5.hh"
 //#include "x6.hh"
 
-#define ECHO(S) std::cerr << #S": " << S << std::endl;
+#define RUN(S)                                  \
+  do {                                          \
+    int res = S;                                \
+    if (res)                                    \
+      std::cerr << #S": " << res << std::endl;  \
+  } while (false)
 
 int
 main (void)
 {
-  ECHO(x1_parse());
-  ECHO(x2_parse());
-  ECHO(x3_parse());
-  ECHO(x4_parse());
+  RUN(x1_parse());
+  RUN(x2_parse());
+  RUN(x3_parse());
+  RUN(x4_parse());
   x5_::parser p5;
-  ECHO(p5.parse());
+  RUN(p5.parse());
+  RUN(x6_parse());
+  RUN(x7_parse());
+  RUN(x8_parse());
 //  x6_::parser p6;
-//  ECHO(p6.parse());
+//  RUN(p6.parse());
   return 0;
 }
-]])
+]])# main.cc
 
-AT_DATA_GRAMMAR_SEVERAL([x1], [])
-AT_DATA_GRAMMAR_SEVERAL([x2], [%locations %debug])
-AT_DATA_GRAMMAR_SEVERAL([x3], [%glr-parser])
-AT_DATA_GRAMMAR_SEVERAL([x4], [%locations %debug %glr-parser])
-AT_DATA_GRAMMAR_SEVERAL([x5], [%locations %debug %language "c++"])
-#AT_DATA_GRAMMAR_SEVERAL([x5], [%locations %language "c++" %glr-parser])
+AT_TEST([x1], [])
+AT_TEST([x2], [%locations %debug])
+AT_TEST([x3], [%glr-parser])
+AT_TEST([x4], [%locations %debug %glr-parser])
+AT_TEST([x5], [%locations %debug %language "c++"])
+AT_TEST([x6], [%define api.pure])
+AT_TEST([x7], [%define api.push-pull both])
+AT_TEST([x8], [%define api.pure %define api.push-pull both])
+#AT_TEST([x5], [%locations %language "c++" %glr-parser])
 
-AT_COMPILE_CXX([parser], [x1.o x2.o x3.o x4.o x5.o main.cc])
-AT_CHECK([./parser], [0],
-[[x1
-x2
-x3
-x4
-x5
-]],
-[[x1_parse(): 0
-x2_parse(): 0
-x3_parse(): 0
-x4_parse(): 0
-p5.parse(): 0
-]])
+AT_COMPILE_CXX([parser], [[x[1-8].o main.cc]])
+AT_CHECK([./parser], [0], [[expout]])
+
+m4_popdef([AT_TEST])
 
 AT_CLEANUP
