@@ -8,9 +8,12 @@
 /config.rpath
 /config.sub
 /depcomp
+/do-release-commit-and-tag
 /gendocs.sh
 /git-version-gen
 /gitlog-to-changelog
+/gnu-web-doc-update
+/gnupload
 /install-sh
 /javacomp.sh.in
 /javaexec.sh.in
@@ -23,6 +26,3 @@
 /vc-list-files
 /warn-on-use.h
 /ylwrap
-/do-release-commit-and-tag
-/gnu-web-doc-update
-/gnupload
