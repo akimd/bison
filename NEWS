@@ -124,6 +124,8 @@ GNU Bison NEWS
 
 * Noteworthy changes in release 2.5.90 (2012-07-05) [beta]
 
+** Future changes:
+
   The next major release of Bison will drop support for the following
   deprecated features.  Please report disagreements to bug-bison@gnu.org.
 

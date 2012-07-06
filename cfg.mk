@@ -63,7 +63,7 @@ $(call exclude,								\
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
   prohibit_always-defined_macros+=?|^tests/regression.at$$		\
   prohibit_empty_lines_at_EOF=^src/parse-gram.h$$			\
-  prohibit_strcmp=^doc/bison\.texinfo$$					\
+  prohibit_strcmp=^doc/bison\.texi$$					\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
   space_tab=^tests/(input|c\+\+)\.at$$					\
   unmarked_diagnostics=^(djgpp/|doc/bison.texi$$)			\
