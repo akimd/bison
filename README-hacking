@@ -249,7 +249,10 @@ that the skeletons insert into generated parsers, and check all
 occurrences of PACKAGE_COPYRIGHT_YEAR in configure.ac.
 
 ** Update NEWS, commit and tag.
-See do-release-commit-and-tag in README-release.
+See do-release-commit-and-tag in README-release.  For a while, we used
+beta names such as "2.6_rc1".  Now that we use gnulib in the release
+procedure, we must use "2.5.90", which has the additional benefit of
+being properly sorted in "git tag -l".
 
 ** make alpha, beta, or stable
 See README-release.
