@@ -127,7 +127,9 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
                              yy::parser::location_type* yylloc)
 #endif
 {
+#ifndef USE_LEX_SYMBOL
   typedef yy::parser::token token;
+#endif
   typedef yy::parser::location_type location_type;
   static int stage = -1;
   ++stage;
