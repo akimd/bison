@@ -66,5 +66,5 @@ $(call exclude,								\
   prohibit_strcmp=^doc/bison\.texinfo$$					\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
   space_tab=^tests/(input|c\+\+)\.at$$					\
-  unmarked_diagnostics=^djgpp/						\
+  unmarked_diagnostics=^(djgpp/|doc/bison.texi$$)			\
 )

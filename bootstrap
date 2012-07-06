@@ -1,6 +1,6 @@
 #! /bin/sh
 # Print a version string.
-scriptversion=2012-05-15.06; # UTC
+scriptversion=2012-07-03.20; # UTC
 
 # Bootstrap this package from checked-out sources.
 
@@ -215,7 +215,7 @@ find_tool ()
   eval "export $find_tool_envvar"
 }
 
-# Find sha1sum, named gsha1sum on MacPorts, and shasum on MacOS 10.6.
+# Find sha1sum, named gsha1sum on MacPorts, and shasum on Mac OS X 10.6.
 find_tool SHA1SUM sha1sum gsha1sum shasum
 
 # Override the default configuration, if necessary.
@@ -230,7 +230,6 @@ esac
 test -z "${gnulib_extra_files}" && \
   gnulib_extra_files="
         $build_aux/install-sh
-        $build_aux/missing
         $build_aux/mdate-sh
         $build_aux/texinfo.tex
         $build_aux/depcomp
@@ -855,7 +854,8 @@ echo "$0: $gnulib_tool $gnulib_tool_options --import ..."
 $gnulib_tool $gnulib_tool_options --import $gnulib_modules &&
 
 for file in $gnulib_files; do
-  symlink_to_dir "$GNULIB_SRCDIR" $file || exit
+  symlink_to_dir "$GNULIB_SRCDIR" $file \
+    || { echo "$0: failed to symlink $file" 1>&2; exit 1; }
 done
 
 bootstrap_post_import_hook \
@@ -896,7 +896,8 @@ for file in $gnulib_extra_files; do
   build-aux/*) dst=$build_aux/${file#build-aux/};;
   *) dst=$file;;
   esac
-  symlink_to_dir "$GNULIB_SRCDIR" $file $dst || exit
+  symlink_to_dir "$GNULIB_SRCDIR" $file $dst \
+    || { echo "$0: failed to symlink $file" 1>&2; exit 1; }
 done
 
 if test $with_gettext = yes; then

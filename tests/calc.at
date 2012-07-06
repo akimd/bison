@@ -59,7 +59,7 @@ int
 ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([semantic_value *result, int *count]))[
 {
   ]AT_NAME_PREFIX[::parser parser]AT_PARAM_IF([ (result, count)])[;
-#if YYDEBUG
+#if ]AT_API_PREFIX[DEBUG
   parser.set_debug_level (1);
 #endif
   return parser.parse ();
@@ -113,7 +113,7 @@ static int get_char (]AT_YYLEX_FORMALS[);
 static void unget_char (]AT_YYLEX_PRE_FORMALS[ int c);
 
 ]AT_LOCATION_IF([
-static YYLTYPE last_yylloc;
+static AT_YYLTYPE last_yylloc;
 ])[
 static int
 get_char (]AT_YYLEX_FORMALS[)
@@ -264,15 +264,11 @@ AT_SKEL_CC_IF(
 
 %code provides
 {
-#include <stdio.h>
-/* The input.  */
-extern FILE *input;
-extern semantic_value global_result;
-extern int global_count;]AT_SKEL_CC_IF([[
-#ifndef YYLTYPE
-# define YYLTYPE ]AT_NAME_PREFIX[::parser::location_type
-#endif
-]])[
+  #include <stdio.h>
+  /* The input.  */
+  extern FILE *input;
+  extern semantic_value global_result;
+  extern int global_count;
 }
 
 %code
@@ -285,7 +281,7 @@ FILE *input;
 static int power (int base, int exponent);
 
 ]AT_SKEL_CC_IF(,
-[static void yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
+[static void yyerror (AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE *llocp, ])
                      AT_PARAM_IF([semantic_value *result, int *count, ])
                      const char *s
                      );])[
@@ -373,7 +369,7 @@ power (int base, int exponent)
 AT_YYERROR_DEFINE],
 [/* A C error reporting function.  */
 static void
-yyerror (AT_YYERROR_ARG_LOC_IF([YYLTYPE *llocp, ])
+yyerror (AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE *llocp, ])
          AT_PARAM_IF([semantic_value *result, int *count, ])
          const char *s)
 {
@@ -631,16 +627,17 @@ AT_CHECK_CALC_LALR([%define api.pure %locations])
 AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure %locations])
 AT_CHECK_CALC_LALR([%define parse.error verbose %locations])
 
-AT_CHECK_CALC_LALR([%define parse.error verbose %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%define parse.error verbose %locations %defines %define api.prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR([%define parse.error verbose %locations %defines %name-prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%define api.pure %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
-AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure %define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR([%define api.pure %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_LALR([%define api.pure %define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 # ----------------------- #
@@ -662,6 +659,7 @@ AT_CHECK_CALC_GLR()
 AT_CHECK_CALC_GLR([%defines])
 AT_CHECK_CALC_GLR([%locations])
 AT_CHECK_CALC_GLR([%name-prefix "calc"])
+AT_CHECK_CALC_GLR([%define api.prefix "calc"])
 AT_CHECK_CALC_GLR([%verbose])
 AT_CHECK_CALC_GLR([%yacc])
 AT_CHECK_CALC_GLR([%define parse.error verbose])
@@ -673,11 +671,12 @@ AT_CHECK_CALC_GLR([%define parse.error verbose %locations %defines %name-prefix 
 
 AT_CHECK_CALC_GLR([%debug])
 AT_CHECK_CALC_GLR([%define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
-AT_CHECK_CALC_GLR([%define parse.error verbose %debug %locations %defines %name-prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
+AT_CHECK_CALC_GLR([%define parse.error verbose %debug %locations %defines %define api.prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_GLR([%define api.pure %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR([%define api.pure %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_GLR([%define api.pure %define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 # ----------------------------- #
@@ -701,12 +700,14 @@ AT_CHECK_CALC_LALR1_CC([%locations])
 AT_CHECK_CALC_LALR1_CC([%locations %define location_type Span])
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %name-prefix "calc" %verbose %yacc])
 
+AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %define api.prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc])
-AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %name-prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
 
 
@@ -729,6 +730,7 @@ m4_define([AT_CHECK_CALC_GLR_CC],
 AT_CHECK_CALC_GLR_CC([])
 AT_CHECK_CALC_GLR_CC([%define location_type Span])
 AT_CHECK_CALC_GLR_CC([%define parse.error verbose %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_GLR_CC([%define parse.error verbose %define api.prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%debug])
 AT_CHECK_CALC_GLR_CC([%define parse.error verbose %debug %name-prefix "calc" %verbose %yacc])
@@ -737,3 +739,4 @@ AT_CHECK_CALC_GLR_CC([%pure-parser %define parse.error verbose %debug %name-pref
 AT_CHECK_CALC_GLR_CC([%pure-parser %define parse.error verbose %debug %name-prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
 
 AT_CHECK_CALC_GLR_CC([%pure-parser %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+AT_CHECK_CALC_GLR_CC([%pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])

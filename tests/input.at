@@ -1442,3 +1442,32 @@ input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wya
 AT_BISON_CHECK([[-Werror,no-all,yacc input.y]], [[1]], [[]], [[experr]])
 
 AT_CLEANUP
+
+
+## ------------------------------------------------------ ##
+## %name-prefix and %define api.prefix are incompatible.  ##
+## ------------------------------------------------------ ##
+
+AT_SETUP([[%name-prefix and %define api.prefix are incompatible]])
+
+# AT_TEST(DIRECTIVES, OPTIONS, ERROR-LOCATION)
+# --------------------------------------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[$1
+%%
+exp:;
+]])
+AT_BISON_CHECK([[$2 input.y]], [[1]], [[]],
+[[$3: '%name-prefix' and '%define api.prefix' cannot be used together
+]])
+])
+
+AT_TEST([%define api.prefix foo %name-prefix "bar"], [], [input.y:1.9-18])
+AT_TEST([], [-Dapi.prefix=foo -p bar], [<command line>:2])
+AT_TEST([%name-prefix "bar"], [-Dapi.prefix=foo], [<command line>:2])
+AT_TEST([%define api.prefix foo], [-p bar], [input.y:1.9-18])
+
+m4_popdef([AT_TEST])
+
+AT_CLEANUP

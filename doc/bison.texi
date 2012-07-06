@@ -5156,7 +5156,7 @@ default location or at the location specified by @var{qualifier}.
 @end deffn
 
 @deffn {Directive} %debug
-Instrument the output parser for traces.  Obsoleted by @samp{%define
+Instrument the parser for traces.  Obsoleted by @samp{%define
 parse.trace}.
 @xref{Tracing, ,Tracing Your Parser}.
 @end deffn
@@ -5465,6 +5465,8 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @item Accepted Values: String
 
 @item Default Value: @code{yy}
+
+@item History: introduced in Bison 2.6
 @end itemize
 
 @c ================================================== api.pure
@@ -5690,12 +5692,16 @@ syntax error handling.  @xref{LAC}.
 @findex %define parse.trace
 
 @itemize
-@item Languages(s): C, C++
+@item Languages(s): C, C++, Java
 
 @item Purpose: Require parser instrumentation for tracing.
-In C/C++, define the macro @code{YYDEBUG} to 1 in the parser implementation
+@xref{Tracing, ,Tracing Your Parser}.
+
+In C/C++, define the macro @code{YYDEBUG} (or @code{@var{prefix}DEBUG} with
+@samp{%define api.prefix @var{prefix}}), see @ref{Multiple Parsers,
+,Multiple Parsers in the Same Program}) to 1 in the parser implementation
 file if it is not already defined, so that the debugging facilities are
-compiled.  @xref{Tracing, ,Tracing Your Parser}.
+compiled.
 
 @item Accepted Values: Boolean
 
@@ -5852,20 +5858,22 @@ also need to avoid conflicts on types and macros (e.g., @code{YYSTYPE})
 exported in the generated header.
 
 The easy way to do this is to define the @code{%define} variable
-@code{api.prefix} (possibly using the option
-@samp{-Dapi.prefix=@var{prefix}}, see @ref{Invocation, ,Invoking Bison}).
-This renames the interface functions and variables of the Bison parser to
-start with @var{prefix} instead of @samp{yy}, and all the macros to start by
-@var{PREFIX} (i.e., @var{prefix} upper cased) instead of @samp{YY}.  You can
-use this to give each parser distinct names that do not conflict.
+@code{api.prefix}.  With different @code{api.prefix}s it is guaranteed that
+headers do not conflict when included together, and that compiled objects
+can be linked together too.  Specifying @samp{%define api.prefix
+@var{prefix}} (or passing the option @samp{-Dapi.prefix=@var{prefix}}, see
+@ref{Invocation, ,Invoking Bison}) renames the interface functions and
+variables of the Bison parser to start with @var{prefix} instead of
+@samp{yy}, and all the macros to start by @var{PREFIX} (i.e., @var{prefix}
+upper-cased) instead of @samp{YY}.
 
 The renamed symbols include @code{yyparse}, @code{yylex}, @code{yyerror},
 @code{yynerrs}, @code{yylval}, @code{yylloc}, @code{yychar} and
 @code{yydebug}.  If you use a push parser, @code{yypush_parse},
 @code{yypull_parse}, @code{yypstate}, @code{yypstate_new} and
 @code{yypstate_delete} will also be renamed.  The renamed macros include
-@code{YYSTYPE}, @code{YYSTYPE_IS_TRIVIAL}, @code{YYSTYPE_IS_DECLARED},
-@code{YYLTYPE}, @code{YYLTYPE_IS_TRIVIAL}, and @code{YYLTYPE_IS_DECLARED}.
+@code{YYSTYPE}, @code{YYLTYPE}, and @code{YYDEBUG}, which is treated
+specifically --- more about this below.
 
 For example, if you use @samp{%define api.prefix c}, the names become
 @code{cparse}, @code{clex}, @dots{}, @code{CSTYPE}, @code{CLTYPE}, and so
@@ -5897,9 +5905,33 @@ extern CSTYPE clval;
 int cparse (void);
 @end example
 
-Previously, a similar feature was provided by the obsoleted directive
-@code{%name-prefix} (@pxref{Table of Symbols, ,Bison Symbols}) and option
-@code{--name-prefix} (@pxref{Bison Options}).
+The macro @code{YYDEBUG} is commonly used to enable the tracing support in
+parsers.  To comply with this tradition, when @code{api.prefix} is used,
+@code{YYDEBUG} (not renamed) is used as a default value:
+
+@example
+/* Enabling traces.  */
+#ifndef CDEBUG
+# if defined YYDEBUG
+#  if YYDEBUG
+#   define CDEBUG 1
+#  else
+#   define CDEBUG 0
+#  endif
+# else
+#  define CDEBUG 0
+# endif
+#endif
+#if CDEBUG
+extern int cdebug;
+#endif
+@end example
+
+@sp 2
+
+Prior to Bison 2.6, a feature similar to @code{api.prefix} was provided by
+the obsolete directive @code{%name-prefix} (@pxref{Table of Symbols, ,Bison
+Symbols}) and the option @code{--name-prefix} (@pxref{Bison Options}).
 
 @node Interface
 @chapter Parser C-Language Interface
@@ -6015,9 +6047,9 @@ function is available if either the @samp{%define api.push-pull push} or
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *yyps)
-The value returned by @code{yypush_parse} is the same as for yyparse with the
-following exception.  @code{yypush_parse} will return YYPUSH_MORE if more input
-is required to finish parsing the grammar.
+The value returned by @code{yypush_parse} is the same as for yyparse with
+the following exception: it returns @code{YYPUSH_MORE} if more input is
+required to finish parsing the grammar.
 @end deftypefun
 
 @node Pull Parser Function
@@ -8788,9 +8820,17 @@ parser.  This is compliant with POSIX Yacc.  You could use
 YYDEBUG 1} in the prologue of the grammar file (@pxref{Prologue, , The
 Prologue}).
 
-@item the option @option{-t}, @option{--debug}
-Use the @samp{-t} option when you run Bison (@pxref{Invocation,
-,Invoking Bison}).  This is POSIX compliant too.
+If the @code{%define} variable @code{api.prefix} is used (@xref{Multiple
+Parsers, ,Multiple Parsers in the Same Program}), for instance @samp{%define
+api.prefix x}, then if @code{CDEBUG} is defined, its value controls the
+tracing feature (enabled iff nonzero); otherwise tracing is enabled iff
+@code{YYDEBUG} is nonzero.
+
+@item the option @option{-t} (POSIX Yacc compliant)
+@itemx the option @option{--debug} (Bison extension)
+Use the @samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking
+Bison}).  With @samp{%define api.prefix c}, it defines @code{CDEBUG} to 1,
+otherwise it defines @code{YYDEBUG} to 1.
 
 @item the directive @samp{%debug}
 @findex %debug
