@@ -74,6 +74,7 @@ gen-ChangeLog:
 	    --strip-cherry-pick				\
 	    --no-cluster				\
 	    --amend=$(srcdir)/build-aux/git-log-fix	\
+	    --srcdir=$(srcdir)				\
 	    --since=$(gen_start_date) > $$cl.tmp &&	\
 	  mv -f $$cl.tmp $$cl;				\
 	fi
