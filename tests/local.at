@@ -53,6 +53,8 @@ m4_divert_text([PREPARE_TESTS],
 {
   for at_save_file in stderr experr expout
   do
+    test ! -f at-bison-check-$at_save_file.bak ||
+      as_fn_error 1 "fatal error: back-up on top of a back-up"
     test ! -f $at_save_file || mv $at_save_file at-bison-check-$at_save_file.bak
   done
 }
