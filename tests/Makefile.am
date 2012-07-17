@@ -73,20 +73,20 @@ check-local: atconfig atlocal $(TESTSUITE)
 check_SCRIPTS = bison
 
 # Run the test suite on the *installed* tree.
-installcheck-local:
+installcheck-local: atconfig atlocal $(TESTSUITE)
 	$(TESTSUITE) AUTOTEST_PATH="$(bindir)" $(TESTSUITEFLAGS)
 
 # Be real mean with it.
 .PHONY: maintainer-check-g++
-maintainer-check-g++: $(TESTSUITE)
+maintainer-check-g++: atconfig atlocal $(TESTSUITE)
 	$(TESTSUITE) $(TESTSUITEFLAGS) --compile-c-with-cxx
 
 .PHONY: maintainer-check-posix
-maintainer-check-posix: $(TESTSUITE)
+maintainer-check-posix: atconfig atlocal $(TESTSUITE)
 	$(TESTSUITE) $(TESTSUITEFLAGS) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
-maintainer-check-valgrind: $(TESTSUITE)
+maintainer-check-valgrind: atconfig atlocal $(TESTSUITE)
 	test -z '$(VALGRIND)' ||					\
 	  $(TESTSUITE) $(TESTSUITEFLAGS)				\
 	  PREBISON='$(VALGRIND_PREBISON)' PREPARSER='$(VALGRIND) -q'	\
