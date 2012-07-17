@@ -1,6 +1,3 @@
-A directory of tools provided to people using CVS Bison.  None of
-these is distributed.
-
 * bench.pl
 A primitive Perl script to run benches.  Currently its only bench is
 the usual calculator: it has a lightweight processing part (but not
