@@ -89,7 +89,7 @@ maintainer-check-posix: $(TESTSUITE)
 maintainer-check-valgrind: $(TESTSUITE)
 	test -z '$(VALGRIND)' ||					\
 	  $(TESTSUITE) $(TESTSUITEFLAGS)				\
-	  PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'		\
+	  PREBISON='$(VALGRIND_PREBISON)' PREPARSER='$(VALGRIND) -q'	\
 	  VALGRIND_OPTS='--leak-check=full --show-reachable=yes'
 
 .PHONY: maintainer-check

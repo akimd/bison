@@ -163,6 +163,16 @@ AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/Makefile tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 AC_CHECK_PROGS([VALGRIND], [valgrind])
+case $VALGRIND:$host_os in
+  '':*) ;;
+  *:darwin*)
+    # See README-hacking.
+    # VALGRIND+=' --suppressions=$(abs_top_srcdir)/build-aux/darwin11.4.0.valgrind'
+    VALGRIND=;;
+  *:*)
+    AC_SUBST([VALGRIND_PREBISON], [$VALGRIND -q]);;
+esac
+
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
