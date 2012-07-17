@@ -8498,7 +8498,7 @@ parser.  This is compliant with POSIX Yacc.  You could use
 YYDEBUG 1} in the prologue of the grammar file (@pxref{Prologue, , The
 Prologue}).
 
-If the @code{%define} variable @code{api.prefix} is used (@xref{Multiple
+If the @code{%define} variable @code{api.prefix} is used (@pxref{Multiple
 Parsers, ,Multiple Parsers in the Same Program}), for instance @samp{%define
 api.prefix x}, then if @code{CDEBUG} is defined, its value controls the
 tracing feature (enabled iff nonzero); otherwise tracing is enabled iff
