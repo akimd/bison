@@ -20,6 +20,15 @@
 m4_version_prereq([2.58])
 
 
+# m4_null_if(VAL, IF-TRUE, IF-FALSE)
+# ----------------------------------
+# If VAL evaluates to empty or 0, run IF-TRUE, otherwise IF-FALSE.
+m4_define([m4_null_if],
+[m4_case(m4_quote($1),
+         [0], [$2],
+         [],  [$2],
+         [$3])])
+
 ## ------------- ##
 ## Basic tests.  ##
 ## ------------- ##
@@ -404,6 +413,9 @@ void
 
 # AT_BISON_CHECK(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # -------------------------------------------------
+# High-level routine that may call bison several times, under different
+# conditions.
+#
 # Check Bison by invoking `bison BISON_ARGS'.  BISON_ARGS should not contain
 # shell constructs (such as redirection or pipes) that would prevent
 # appending additional command-line arguments for bison. OTHER_AT_CHECK_ARGS
@@ -424,12 +436,19 @@ void
 #
 #   4. If stderr contains a warning, -Wnone and --warnings=none suppress it.
 m4_define([AT_BISON_CHECK],
-[m4_if(m4_quote($2), [0], [AT_BISON_CHECK_XML($@)],
-       m4_quote($2), [], [AT_BISON_CHECK_XML($@)])
+[m4_null_if([$2], [AT_BISON_CHECK_XML($@)])
 AT_BISON_CHECK_NO_XML($@)])
 
 m4_define([AT_BISON_WERROR_MSG],
           [[bison: warnings being treated as errors]])
+
+
+# AT_BISON_CHECK_(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
+# --------------------------------------------------
+# Low-level macro to run bison once.
+m4_define([AT_BISON_CHECK_],
+[AT_CHECK(AT_QUELL_VALGRIND[[ bison ]]$@)])
+
 
 # AT_BISON_CHECK_NO_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # --------------------------------------------------------
@@ -451,8 +470,7 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
           ]AT_DATA([expout], [$3])[
 
           # Run with -Werror.
-          ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ -Werror]],
-                    [[1]], [expout], [stderr])[
+          ]AT_BISON_CHECK_([$1[ -Werror]], [[1]], [expout], [stderr])[
 
           # Build expected stderr up to and including the "warnings being
           # treated as errors" message.
@@ -486,16 +504,13 @@ m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
 
           # Now check --warnings=error.
           cp stderr experr
-          ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ --warnings=error]],
-                    [[1]], [expout], [experr])[
+          ]AT_BISON_CHECK_([$1[ --warnings=error]], [[1]], [expout], [experr])[
 
           # Now check -Wnone and --warnings=none by making sure that
           # -Werror doesn't change the exit status when -Wnone or
           # --warnings=none is specified.
-          ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ -Wnone -Werror]],
-                    [[0]], [expout])[
-          ]AT_CHECK(AT_QUELL_VALGRIND[[ bison ]$1[ --warnings=none \
-                    -Werror]], [[0]], [expout])[
+          ]AT_BISON_CHECK_([$1[ -Wnone -Werror]], [[0]], [expout])[
+          ]AT_BISON_CHECK_([$1[ --warnings=none -Werror]], [[0]], [expout])[
 
           ]AT_RESTORE_SPECIAL_FILES[
         fi
@@ -518,11 +533,11 @@ m4_define([AT_BISON_CHECK_XML],
                             [--xml=[^][ ]*], [])])dnl
   # Don't combine these Bison invocations since we want to be sure that
   # --report=all isn't required to get the full XML file.
-  AT_CHECK([[bison --report=all --report-file=xml-tests/test.output \
-             --graph=xml-tests/test.dot ]]AT_BISON_ARGS,
-           [[0]], [ignore], [ignore])
-  AT_CHECK([[bison --xml=xml-tests/test.xml ]]AT_BISON_ARGS,
-           [[0]], [ignore], [ignore])
+  AT_BISON_CHECK_([[--report=all --report-file=xml-tests/test.output \
+                  --graph=xml-tests/test.dot ]]AT_BISON_ARGS,
+                  [[0]], [ignore], [ignore])
+  AT_BISON_CHECK_([[--xml=xml-tests/test.xml ]]AT_BISON_ARGS,
+                 [[0]], [ignore], [ignore])
   m4_popdef([AT_BISON_ARGS])dnl
   [cp xml-tests/test.output expout]
   AT_CHECK([[$XSLTPROC \
