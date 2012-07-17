@@ -450,72 +450,79 @@ m4_define([AT_BISON_CHECK_],
 [AT_CHECK(AT_QUELL_VALGRIND[[ bison ]]$@)])
 
 
+# AT_BISON_CHECK_WARNINGS(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
+# ----------------------------------------------------------
+# Check that warnings (if some are expected) are correctly
+# turned into errors with -Werror, etc.
+m4_define([AT_BISON_CHECK_WARNINGS],
+[m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
+      [m4_null_if([$2], [AT_BISON_CHECK_WARNINGS_($@)])])])
+
+m4_define([AT_BISON_CHECK_WARNINGS_],
+[[# Defining POSIXLY_CORRECT causes bison to complain if options
+# are added after the grammar file name, so skip these checks
+# in that case.
+if test -z "${POSIXLY_CORRECT+set}"; then
+  ]AT_SAVE_SPECIAL_FILES[
+
+  # To avoid expanding it repeatedly, store specified stdout.
+  ]AT_DATA([expout], [$3])[
+
+  # Run with -Werror.
+  ]AT_BISON_CHECK_([$1[ -Werror]], [[1]], [expout], [stderr])[
+
+  # Build expected stderr up to and including the "warnings being
+  # treated as errors" message.
+  ]AT_DATA([[at-bison-check-warnings]], [$4])[
+  at_bison_check_first=`sed -n \
+    '/: warning: /{=;q;}' at-bison-check-warnings`
+  : ${at_bison_check_first:=1}
+  at_bison_check_first_tmp=`sed -n \
+    '/conflicts: [0-9].*reduce$/{=;q;}' at-bison-check-warnings`
+  : ${at_bison_check_first_tmp:=1}
+  if test $at_bison_check_first_tmp -lt $at_bison_check_first; then
+    at_bison_check_first=$at_bison_check_first_tmp
+  fi
+  if test $at_bison_check_first -gt 1; then
+    sed -n "1,`expr $at_bison_check_first - 1`"p \
+      at-bison-check-warnings > experr
+  fi
+  echo ']AT_BISON_WERROR_MSG[' >> experr
+
+  # Finish building expected stderr and check.  Unlike warnings,
+  # complaints cause bison to exit early.  Thus, with -Werror, bison
+  # does not necessarily report all warnings that it does without
+  # -Werror, but it at least reports one.
+  at_bison_check_last=`sed -n '$=' stderr`
+  : ${at_bison_check_last:=1}
+  at_bison_check_last=`expr $at_bison_check_last - 1`
+  sed -n "$at_bison_check_first,$at_bison_check_last"p \
+    at-bison-check-warnings >> experr
+  ]AT_CHECK([[sed 's,.*/\(]AT_BISON_WERROR_MSG[\)$,\1,' \
+              stderr 1>&2]], [[0]], [[]], [experr])[
+
+  # Now check --warnings=error.
+  cp stderr experr
+  ]AT_BISON_CHECK_([$1[ --warnings=error]], [[1]], [expout], [experr])[
+
+  # Now check -Wnone and --warnings=none by making sure that
+  # -Werror doesn't change the exit status when -Wnone or
+  # --warnings=none is specified.
+  ]AT_BISON_CHECK_([$1[ -Wnone -Werror]], [[0]], [expout])[
+  ]AT_BISON_CHECK_([$1[ --warnings=none -Werror]], [[0]], [expout])[
+
+  ]AT_RESTORE_SPECIAL_FILES[
+fi]dnl
+])
+
 # AT_BISON_CHECK_NO_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # --------------------------------------------------------
 # Same as AT_BISON_CHECK except don't perform XML/XSLT checks.  This is useful
 # when a tortured grammar's XML is known to be too large for xsltproc to
 # handle.
 m4_define([AT_BISON_CHECK_NO_XML],
-[AT_CHECK(m4_if(m4_quote($2), [0], [], m4_quote($2), [], [],
-                [AT_QUELL_VALGRIND ])[[bison ]]$@)
-m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
-      m4_quote(m4_if(m4_quote($2), [], [0], [$2])), [0], [[
-        # Defining POSIXLY_CORRECT causes bison to complain if options
-        # are added after the grammar file name, so skip these checks
-        # in that case.
-        if test -z "${POSIXLY_CORRECT+set}"; then
-          ]AT_SAVE_SPECIAL_FILES[
-
-          # To avoid expanding it repeatedly, store specified stdout.
-          ]AT_DATA([expout], [$3])[
-
-          # Run with -Werror.
-          ]AT_BISON_CHECK_([$1[ -Werror]], [[1]], [expout], [stderr])[
-
-          # Build expected stderr up to and including the "warnings being
-          # treated as errors" message.
-          ]AT_DATA([[at-bison-check-warnings]], [$4])[
-          at_bison_check_first=`sed -n \
-            '/: warning: /{=;q;}' at-bison-check-warnings`
-          : ${at_bison_check_first:=1}
-          at_bison_check_first_tmp=`sed -n \
-            '/conflicts: [0-9].*reduce$/{=;q;}' at-bison-check-warnings`
-          : ${at_bison_check_first_tmp:=1}
-          if test $at_bison_check_first_tmp -lt $at_bison_check_first; then
-            at_bison_check_first=$at_bison_check_first_tmp
-          fi
-          if test $at_bison_check_first -gt 1; then
-            sed -n "1,`expr $at_bison_check_first - 1`"p \
-              at-bison-check-warnings > experr
-          fi
-          echo ']AT_BISON_WERROR_MSG[' >> experr
-
-          # Finish building expected stderr and check.  Unlike warnings,
-          # complaints cause bison to exit early.  Thus, with -Werror, bison
-          # does not necessarily report all warnings that it does without
-          # -Werror, but it at least reports one.
-          at_bison_check_last=`sed -n '$=' stderr`
-          : ${at_bison_check_last:=1}
-          at_bison_check_last=`expr $at_bison_check_last - 1`
-          sed -n "$at_bison_check_first,$at_bison_check_last"p \
-            at-bison-check-warnings >> experr
-          ]AT_CHECK([[sed 's,.*/\(]AT_BISON_WERROR_MSG[\)$,\1,' \
-                      stderr 1>&2]], [[0]], [[]], [experr])[
-
-          # Now check --warnings=error.
-          cp stderr experr
-          ]AT_BISON_CHECK_([$1[ --warnings=error]], [[1]], [expout], [experr])[
-
-          # Now check -Wnone and --warnings=none by making sure that
-          # -Werror doesn't change the exit status when -Wnone or
-          # --warnings=none is specified.
-          ]AT_BISON_CHECK_([$1[ -Wnone -Werror]], [[0]], [expout])[
-          ]AT_BISON_CHECK_([$1[ --warnings=none -Werror]], [[0]], [expout])[
-
-          ]AT_RESTORE_SPECIAL_FILES[
-        fi
-      ]])
-])
+[AT_CHECK(m4_null_if([$2], [], [AT_QUELL_VALGRIND ])[[bison ]]$@)
+AT_BISON_CHECK_WARNINGS($@)])
 
 # AT_BISON_CHECK_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
 # -----------------------------------------------------
@@ -564,6 +571,8 @@ m4_define([AT_BISON_CHECK_XML],
 # fail to make sure you notice.
 m4_define([AT_QUELL_VALGRIND],
 [[[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS;]]])
+
+
 
 ## ------------------------ ##
 ## Compiling C, C++ Files.  ##
