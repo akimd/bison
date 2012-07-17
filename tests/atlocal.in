@@ -49,10 +49,13 @@ BISON_CXX_WORKS='@BISON_CXX_WORKS@'
 
 # Handle --compile-c-with-cxx here, once CXX and CXXFLAGS are known.
 if "$at_arg_compile_c_with_cxx"; then
+  CC_IS_CXX=1
   CC=$CXX
   O0CFLAGS=$O0CXXFLAGS
   NO_WERROR_CFLAGS=$NO_WERROR_CXXFLAGS
   CFLAGS=$CXXFLAGS
+else
+  CC_IS_CXX=0
 fi
 
 
