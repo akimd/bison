@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-EXTRA_DIST = 					\
-  cross-options.pl 				\
+EXTRA_DIST =					\
+  cross-options.pl				\
   darwin11.4.0.valgrind				\
-  prev-version.txt 				\
+  prev-version.txt				\
   update-b4-copyright
