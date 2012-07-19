@@ -183,8 +183,12 @@ AT_BISON_OPTION_POPDEFS
 
 AT_DATA([main.cc],
 [AT_DATA_SOURCE_PROLOGUE
-[extern "C"
+[// If we are compiling with CC=$CXX, then do not load the C headers
+// inside extern "C", since they were _not_ compiled this way.
+#if ! CC_IS_CXX
+extern "C"
 {
+#endif
   #include "x1.h"
   #include "x2.h"
   #include "x3.h"
@@ -192,7 +196,9 @@ AT_DATA([main.cc],
   #include "x6.h"
   #include "x7.h"
   #include "x8.h"
+#if ! CC_IS_CXX
 }
+#endif
 #include "x5.hh"
 //#include "x6.hh"
 
@@ -231,7 +237,7 @@ AT_TEST([x7], [%define api.push-pull both])
 AT_TEST([x8], [%define api.pure %define api.push-pull both])
 #AT_TEST([x5], [%locations %language "c++" %glr-parser])
 
-AT_COMPILE_CXX([parser], [[x[1-8].o main.cc]])
+AT_COMPILE_CXX([parser], [[x[1-8].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
 AT_CHECK([./parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])

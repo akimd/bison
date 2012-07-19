@@ -54,7 +54,8 @@ update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
 
-exclude = $(foreach a,$(1),$(eval exclude_file_name_regexp--sc_$(a)))
+exclude = \
+  $(foreach a,$(1),$(eval $(subst $$,$$$$,exclude_file_name_regexp--sc_$(a))))
 $(call exclude,								\
   bindtextdomain=^lib/main.c$$						\
   program_name=^lib/main.c$$						\
@@ -62,6 +63,7 @@ $(call exclude,								\
   prohibit_always-defined_macros+=?|^lib/timevar.c$$			\
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
   prohibit_always-defined_macros+=?|^tests/regression.at$$		\
+  prohibit_defined_have_decl_tests=?|^lib/timevar.c$$			\
   prohibit_empty_lines_at_EOF=^src/parse-gram.h$$			\
   prohibit_strcmp=^doc/bison\.texi$$					\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\

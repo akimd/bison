@@ -34,6 +34,7 @@
 /fprintf-posix.m4
 /frexp.m4
 /frexpl.m4
+/fseterr.m4
 /fstat.m4
 /getdtablesize.m4
 /getopt.m4
@@ -180,6 +181,3 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
-/off_t.m4
-/sys_types_h.m4
-/fseterr.m4

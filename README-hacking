@@ -1,5 +1,3 @@
--*- outline -*-
-
 This file attempts to describe the rules to use when hacking Bison.
 Don't put this file into the distribution.
 
@@ -67,8 +65,8 @@ tools we depend upon, including:
 - Rsync <http://samba.anu.edu.au/rsync/>
 - Tar <http://www.gnu.org/software/tar/>
 
-Valgrind <http://valgrind.org/> is also highly recommended, if
-Valgrind supports your architecture.
+Valgrind <http://valgrind.org/> is also highly recommended, if it supports
+your architecture.
 
 Bison is written using Bison grammars, so there are bootstrapping
 issues.  The bootstrap script attempts to discover when the C code
@@ -131,7 +129,7 @@ import requests for updated submodules.  A simple "git diff" will
 reveal if the current version of the submodule (i.e., the actual
 contents of the gnulib directory) and the current request from the
 subscriber (i.e., the reference of the version of gnulib that the
-Bison reporitory requests) differ.  To upgrade the submodules (i.e.,
+Bison repository requests) differ.  To upgrade the submodules (i.e.,
 to check out the version that is actually requested by the subscriber,
 run "git submodule update".
 
@@ -162,7 +160,7 @@ formal release, see the ChangeLog in the latest gnulib snapshot at:
 
         http://erislabs.net/ianb/projects/gnulib/
 
-The autoconf files we use are currently:
+The Autoconf files we use are currently:
 
         m4/m4.m4
         lib/m4sugar/m4sugar.m4
@@ -176,6 +174,23 @@ decide whether to update.
 
 ** make check
 Use liberally.
+
+** make maintainer-check-valgrind
+This target uses valgrind both to check bison, and the generated parsers.
+
+This is not mature on Mac OS X.  First, Valgrind does support the way bison
+calls m4, so Valgrind cannot be used to check bison on Mac OS X.
+
+Second, there are many errors that come from the platform itself, not from
+bison.  build-aux/darwin11.4.0.valgrind addresses some of them.
+
+Third, valgrind issues warnings such as:
+
+  --99312:0:syswrap- WARNING: Ignoring sigreturn( ..., UC_RESET_ALT_STACK );
+
+which cause the test to fail uselessly.  It is hard to ignore these errors
+with a major overhaul of the way instrumentation is performed in the test
+suite.  So currently, do not try to run valgrind on Mac OS X.
 
 ** Release checks
 Try to run the test suite with more severe conditions before a
@@ -387,7 +402,6 @@ spaces):
 
 Push these changes.
 
-
 -----
 
 Copyright (C) 2002-2005, 2007-2012 Free Software Foundation, Inc.
@@ -406,3 +420,14 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ LocalWords:  Automake Autoconf Gettext Gzip Rsync Valgrind gnulib submodules
+ LocalWords:  submodule init cd distcheck checkin ChangeLog valgrind sigreturn
+ LocalWords:  UC gcc DGNULIB POSIXCHECK xml XSLT glr lalr README po runtime rc
+ LocalWords:  gnupload gnupg gpg keyserver BDF ncftp filename clearsign cvs dir
+ LocalWords:  symlinks vti html lt POSIX Cc'ed
+
+Local Variables:
+mode: outline
+fill-column: 76
+End:
