@@ -74,6 +74,9 @@ run ()
 }
 
 # We have cd'd one level deeper.
-. "../$1"
+case $1 in
+  /*) . "$1";;
+  *)  . "../$1";;
+esac
 
 $exit
