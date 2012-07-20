@@ -10,7 +10,7 @@ GNU Bison NEWS
   The next major release of Bison will drop support for the following
   deprecated features.  Please report disagreements to bug-bison@gnu.org.
 
-*** K&C parsers
+*** K&R C parsers
 
   Support for generating parsers in K&R C will be removed.  Parsers
   generated for C support ISO C90, and are tested with ISO C99 and ISO C11
