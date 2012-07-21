@@ -170,7 +170,7 @@ case $VALGRIND:$host_os in
     # VALGRIND+=' --suppressions=$(abs_top_srcdir)/build-aux/darwin11.4.0.valgrind'
     VALGRIND=;;
   *:*)
-    AC_SUBST([VALGRIND_PREBISON], [$VALGRIND -q]);;
+    AC_SUBST([VALGRIND_PREBISON], ["$VALGRIND -q"]);;
 esac
 
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
