@@ -41,7 +41,7 @@ extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
 /* Line 1982 of yacc.c  */
-#line 221 "src/parse-gram.y"
+#line 222 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -183,7 +183,7 @@ extern int gram_debug;
 typedef union YYSTYPE
 {
 /* Line 1982 of yacc.c  */
-#line 107 "src/parse-gram.y"
+#line 108 "src/parse-gram.y"
 
   assoc assoc;
   char *code;
@@ -196,13 +196,16 @@ typedef union YYSTYPE
   unsigned char character;
 
 /* Line 1982 of yacc.c  */
-#line 245 "src/parse-gram.y"
+#line 246 "src/parse-gram.y"
 
   param_type param;
 
+/* Line 1982 of yacc.c  */
+#line 420 "src/parse-gram.y"
+code_props_type code_type;
 
 /* Line 1982 of yacc.c  */
-#line 206 "src/parse-gram.h"
+#line 209 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
