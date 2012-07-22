@@ -2,8 +2,6 @@
 ** Variable names.
 What should we name `variant' and `lex_symbol'?
 
-** Update the documentation on gnu.org
-
 ** Get rid of fake #lines [Bison: ...]
 Possibly as simple as checking whether the column number is nonnegative.
 
@@ -34,10 +32,6 @@ as lr0.cc, why upper case?
 Enhance bench.pl with %b to run different bisons.
 
 * Various
-** Warnings
-Warnings about type tags that are used in printer and dtors, but not
-for symbols?
-
 ** YYERRCODE
 Defined to 256, but not used, not documented.  Probably the token
 number for the error token, which POSIX wants to be 256, but which
