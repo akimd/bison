@@ -254,7 +254,7 @@ static const b4_int_type_for([$2]) yy$1[[]] =
 # --------------------------
 # Output the definition of this token as #define.
 m4_define([b4_token_define],
-[b4_token_format_([#define %s %s], [$1])])
+[b4_token_format([#define %s %s], [$1])])
 
 # b4_token_defines
 # ----------------
@@ -269,7 +269,7 @@ m4_join([
 # ------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[b4_token_format_([  %s = %s], [$1])])
+[b4_token_format([  %s = %s], [$1])])
 
 
 # b4_token_enums
