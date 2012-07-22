@@ -890,7 +890,7 @@ code_props_none_init (code_props *self)
   *self = code_props_none;
 }
 
-code_props const code_props_none = CODE_PROPS_NONE_INIT;
+code_props code_props_none = CODE_PROPS_NONE_INIT;
 
 void
 code_props_plain_init (code_props *self, char const *code,

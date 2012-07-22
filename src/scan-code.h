@@ -103,7 +103,7 @@ void code_props_none_init (code_props *self);
   }
 
 /** Initialized by \c CODE_PROPS_NONE_INIT with no further modification.  */
-extern code_props const code_props_none;
+extern code_props code_props_none;
 
 /**
  * \pre

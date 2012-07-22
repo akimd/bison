@@ -181,8 +181,7 @@ void symbol_code_props_set (symbol *sym, code_props_type kind,
 /** Get the computed \c \%destructor or \c %printer for \c sym, which was
     initialized with \c code_props_none_init if there's no \c \%destructor or
     \c %printer.  */
-code_props const *symbol_code_props_get (symbol const *sym,
-                                         code_props_type kind);
+code_props *symbol_code_props_get (symbol *sym, code_props_type kind);
 
 /** Set the \c precedence associated with \c sym.
 
