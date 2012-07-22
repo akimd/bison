@@ -133,7 +133,7 @@ b4_locations_if([[
     /** Token returned by the scanner to signal the end of its input.  */
     public static final int EOF = 0;
 
-]b4_token_enums(b4_tokens)[
+]b4_token_enums[
 
     ]b4_locations_if([[/**
      * Method to retrieve the beginning position of the last scanned token.

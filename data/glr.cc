@@ -300,7 +300,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 ]dnl Redirections for glr.c.
 b4_percent_define_flag_if([[global_tokens_and_yystype]],
-[b4_token_defines(b4_tokens)])
+[b4_token_defines])
 [
 #ifndef ]b4_api_PREFIX[STYPE
 # define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class_name[::semantic_type
