@@ -179,15 +179,15 @@ void symbol_code_props_set (symbol *sym, code_props_type kind,
                             code_props const *destructor);
 
 /** Get the computed \c \%destructor or \c %printer for \c sym, which was
-initialized with \c code_props_none_init if there's no \c \%destructor or
-\c %printer.  */
+    initialized with \c code_props_none_init if there's no \c \%destructor or
+    \c %printer.  */
 code_props const *symbol_code_props_get (symbol const *sym,
                                          code_props_type kind);
 
-/* Set the \c precedence associated with \c sym.
+/** Set the \c precedence associated with \c sym.
 
-   Ensure that \a symbol is a terminal.
-   Do nothing if invoked with \c undef_assoc as \c assoc.  */
+    Ensure that \a symbol is a terminal.
+    Do nothing if invoked with \c undef_assoc as \c assoc.  */
 void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 
 /** Set the \c class associated with \c sym.  */

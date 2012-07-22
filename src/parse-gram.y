@@ -503,9 +503,9 @@ symbols.prec:
 ;
 
 symbol.prec:
-    symbol { $$ = $1; }
-  | symbol INT { $$ = $1; symbol_user_token_number_set ($1, $2, @2); }
-  ;
+  symbol     { $$ = $1; }
+| symbol INT { $$ = $1; symbol_user_token_number_set ($1, $2, @2); }
+;
 
 /* One or more symbols to be %typed. */
 symbols.1:
