@@ -250,57 +250,54 @@ static const b4_int_type_for([$2]) yy$1[[]] =
 ## Assigning token numbers.  ##
 ## ------------------------- ##
 
-# b4_token_define(TOKEN-NAME, TOKEN-NUMBER)
-# -----------------------------------------
+# b4_token_define(TOKEN-NUM)
+# --------------------------
 # Output the definition of this token as #define.
 m4_define([b4_token_define],
-[#define b4_percent_define_get([api.tokens.prefix])$1 $2
-])
+[b4_token_format([#define %s %s], [$1])])
 
-
-# b4_token_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
-# -------------------------------------------------------
-# Output the definition of the tokens (if there are) as #defines.
+# b4_token_defines
+# ----------------
+# Output the definition of the tokens.
 m4_define([b4_token_defines],
-[m4_if([$#$1], [1], [],
-[/* Tokens.  */
-m4_map([b4_token_define], [$@])])
-])
+[b4_any_token_visible_if([/* Tokens.  */
+m4_join([
+], b4_symbol_map([b4_token_define]))
+])])
 
 
-# b4_token_enum(TOKEN-NAME, TOKEN-NUMBER)
-# ---------------------------------------
+# b4_token_enum(TOKEN-NUM)
+# ------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[b4_percent_define_get([api.tokens.prefix])$1 = $2])
+[b4_token_format([%s = %s], [$1])])
 
 
-# b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
-# -----------------------------------------------------
+# b4_token_enums
+# --------------
 # Output the definition of the tokens (if there are) as enums.
 m4_define([b4_token_enums],
-[m4_if([$#$1], [1], [],
-[[/* Tokens.  */
+[b4_any_token_visible_if([[/* Tokens.  */
 #ifndef ]b4_api_PREFIX[TOKENTYPE
 # define ]b4_api_PREFIX[TOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum ]b4_api_prefix[tokentype {
-]m4_map_sep([     b4_token_enum], [,
-],
-           [$@])
-   };[
+  /* Put the tokens into the symbol table, so that GDB and other debuggers
+     know about them.  */
+  enum ]b4_api_prefix[tokentype
+  {
+    ]m4_join([,
+    ],
+             b4_symbol_map([b4_token_enum]))[
+  };
 #endif
 ]])])
 
 
-# b4_token_enums_defines(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
-# -------------------------------------------------------------
-# Output the definition of the tokens (if there are any) as enums and, if POSIX
-# Yacc is enabled, as #defines.
+# b4_token_enums_defines
+# ----------------------
+# Output the definition of the tokens (if there are any) as enums and,
+# if POSIX Yacc is enabled, as #defines.
 m4_define([b4_token_enums_defines],
-[b4_token_enums($@)b4_yacc_if([b4_token_defines($@)], [])
-])
+[b4_token_enums[]b4_yacc_if([b4_token_defines])])
 
 
 ## ----------------- ##

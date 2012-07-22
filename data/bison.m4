@@ -326,6 +326,13 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 ## Symbols.  ##
 ## --------- ##
 
+# In order to unify the handling of the various aspects of symbols
+# (tag, type_name, whether terminal, etc.), bison.exe defines one
+# macro per (token, field), where field can has_id, id, etc.: see
+# src/output.c:prepare_symbols_definitions().
+#
+# The following macros provide access to these values.
+
 # b4_symbol_(NUM, FIELD)
 # ----------------------
 # Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
@@ -405,6 +412,45 @@ m4_define([b4_symbol_case_],
 # Invoke MACRO(SYMBOL-NUM) for each SYMBOL-NUM.
 m4_define([b4_symbol_foreach],
           [m4_map([$1], m4_defn([b4_symbol_numbers]))])
+
+# b4_symbol_map(MACRO)
+# --------------------
+# Return a list (possibly empty elements) of MACRO invoked for each
+# SYMBOL-NUM.
+m4_define([b4_symbol_map],
+[m4_map_args_sep([$1(], [)], [,], b4_symbol_numbers)])
+
+
+# b4_token_visible_if(NUM, IF-TRUE, IF-FALSE)
+# -------------------------------------------
+# Whether NUM denotes a token that has an exported definition (i.e.,
+# shows in enum yytokentype).
+m4_define([b4_token_visible_if],
+[b4_symbol_if([$1], [is_token],
+              [b4_symbol_if([$1], [has_id], [$2], [$3])],
+              [$3])])
+
+# b4_token_has_definition(NUM)
+# ----------------------------
+# 1 if NUM is visible, nothing otherwise.
+m4_define([b4_token_has_definition],
+[b4_token_visible_if([$1], [1])])
+
+# b4_any_token_visible_if([IF-TRUE], [IF-FALSE])
+# ----------------------------------------------
+# Whether there is a token that needs to be defined.
+m4_define([b4_any_token_visible_if],
+[m4_ifval(b4_symbol_foreach([b4_token_has_definition]),
+          [$1], [$2])])
+
+
+# b4_token_format(FORMAT, NUM)
+# ----------------------------
+m4_define([b4_token_format],
+[b4_token_visible_if([$2],
+[m4_quote(m4_format([$1],
+                     [b4_symbol([$2], [id])],
+                     [b4_symbol([$2], [user_number])]))])])
 
 
 ## ------- ##

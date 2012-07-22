@@ -142,23 +142,20 @@ m4_define([b4_integral_parser_table_define],
 ## Assigning token numbers.  ##
 ## ------------------------- ##
 
-# b4_token_enum(TOKEN-NAME, TOKEN-NUMBER)
-# ---------------------------------------
+# b4_token_enum(TOKEN-NUM)
+# ------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[    /** Token number, to be returned by the scanner.  */
-    static final int b4_percent_define_get([api.tokens.prefix])$1 = $2;
-])
+[b4_token_format([    /** Token number, to be returned by the scanner.  */
+    static final int %s = %s;
+], [$1])])
 
-
-# b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
-# -----------------------------------------------------
+# b4_token_enums
+# --------------
 # Output the definition of the tokens (if there are) as enums.
 m4_define([b4_token_enums],
-[m4_if([$#$1], [1], [],
-[/* Tokens.  */
-m4_map([b4_token_enum], [$@])])
-])
+[b4_any_token_visible_if([/* Tokens.  */
+b4_symbol_foreach([b4_token_enum])])])
 
 # b4-case(ID, CODE)
 # -----------------
