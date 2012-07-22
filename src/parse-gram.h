@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.5.1.815-22b0.  */
+/* A Bison parser, made by GNU Bison 2.5.1.885-485b-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef GRAM_______SRC_PARSE_GRAM_H
-# define GRAM_______SRC_PARSE_GRAM_H
+#ifndef GRAM_SRC_PARSE_GRAM_H
+# define GRAM_SRC_PARSE_GRAM_H
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -40,7 +40,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-/* Line 1996 of yacc.c  */
+/* Line 1982 of yacc.c  */
 #line 221 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
@@ -55,71 +55,72 @@ extern int gram_debug;
 # endif
 
 
-/* Line 1996 of yacc.c  */
+/* Line 1982 of yacc.c  */
 #line 60 "src/parse-gram.h"
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     GRAM_EOF = 0,
-     STRING = 258,
-     INT = 259,
-     PERCENT_TOKEN = 260,
-     PERCENT_NTERM = 261,
-     PERCENT_TYPE = 262,
-     PERCENT_DESTRUCTOR = 263,
-     PERCENT_PRINTER = 264,
-     PERCENT_LEFT = 265,
-     PERCENT_RIGHT = 266,
-     PERCENT_NONASSOC = 267,
-     PERCENT_PRECEDENCE = 268,
-     PERCENT_PREC = 269,
-     PERCENT_DPREC = 270,
-     PERCENT_MERGE = 271,
-     PERCENT_CODE = 272,
-     PERCENT_DEFAULT_PREC = 273,
-     PERCENT_DEFINE = 274,
-     PERCENT_DEFINES = 275,
-     PERCENT_ERROR_VERBOSE = 276,
-     PERCENT_EXPECT = 277,
-     PERCENT_EXPECT_RR = 278,
-     PERCENT_FLAG = 279,
-     PERCENT_FILE_PREFIX = 280,
-     PERCENT_GLR_PARSER = 281,
-     PERCENT_INITIAL_ACTION = 282,
-     PERCENT_LANGUAGE = 283,
-     PERCENT_NAME_PREFIX = 284,
-     PERCENT_NO_DEFAULT_PREC = 285,
-     PERCENT_NO_LINES = 286,
-     PERCENT_NONDETERMINISTIC_PARSER = 287,
-     PERCENT_OUTPUT = 288,
-     PERCENT_REQUIRE = 289,
-     PERCENT_SKELETON = 290,
-     PERCENT_START = 291,
-     PERCENT_TOKEN_TABLE = 292,
-     PERCENT_VERBOSE = 293,
-     PERCENT_YACC = 294,
-     BRACED_CODE = 295,
-     BRACED_PREDICATE = 296,
-     BRACKETED_ID = 297,
-     CHAR = 298,
-     EPILOGUE = 299,
-     EQUAL = 300,
-     ID = 301,
-     ID_COLON = 302,
-     PERCENT_PERCENT = 303,
-     PIPE = 304,
-     PROLOGUE = 305,
-     SEMICOLON = 306,
-     TAG = 307,
-     TAG_ANY = 308,
-     TAG_NONE = 309,
-     PERCENT_PARAM = 310,
-     PERCENT_UNION = 311
-   };
+  /* Put the tokens into the symbol table, so that GDB and other debuggers
+     know about them.  */
+  enum yytokentype
+  {
+    GRAM_EOF = 0,
+    STRING = 258,
+    INT = 259,
+    PERCENT_TOKEN = 260,
+    PERCENT_NTERM = 261,
+    PERCENT_TYPE = 262,
+    PERCENT_DESTRUCTOR = 263,
+    PERCENT_PRINTER = 264,
+    PERCENT_LEFT = 265,
+    PERCENT_RIGHT = 266,
+    PERCENT_NONASSOC = 267,
+    PERCENT_PRECEDENCE = 268,
+    PERCENT_PREC = 269,
+    PERCENT_DPREC = 270,
+    PERCENT_MERGE = 271,
+    PERCENT_CODE = 272,
+    PERCENT_DEFAULT_PREC = 273,
+    PERCENT_DEFINE = 274,
+    PERCENT_DEFINES = 275,
+    PERCENT_ERROR_VERBOSE = 276,
+    PERCENT_EXPECT = 277,
+    PERCENT_EXPECT_RR = 278,
+    PERCENT_FLAG = 279,
+    PERCENT_FILE_PREFIX = 280,
+    PERCENT_GLR_PARSER = 281,
+    PERCENT_INITIAL_ACTION = 282,
+    PERCENT_LANGUAGE = 283,
+    PERCENT_NAME_PREFIX = 284,
+    PERCENT_NO_DEFAULT_PREC = 285,
+    PERCENT_NO_LINES = 286,
+    PERCENT_NONDETERMINISTIC_PARSER = 287,
+    PERCENT_OUTPUT = 288,
+    PERCENT_REQUIRE = 289,
+    PERCENT_SKELETON = 290,
+    PERCENT_START = 291,
+    PERCENT_TOKEN_TABLE = 292,
+    PERCENT_VERBOSE = 293,
+    PERCENT_YACC = 294,
+    BRACED_CODE = 295,
+    BRACED_PREDICATE = 296,
+    BRACKETED_ID = 297,
+    CHAR = 298,
+    EPILOGUE = 299,
+    EQUAL = 300,
+    ID = 301,
+    ID_COLON = 302,
+    PERCENT_PERCENT = 303,
+    PIPE = 304,
+    PROLOGUE = 305,
+    SEMICOLON = 306,
+    TAG = 307,
+    TAG_ANY = 308,
+    TAG_NONE = 309,
+    PERCENT_PARAM = 310,
+    PERCENT_UNION = 311
+  };
 #endif
 /* Tokens.  */
 #define GRAM_EOF 0
@@ -178,12 +179,10 @@ extern int gram_debug;
 #define PERCENT_PARAM 310
 #define PERCENT_UNION 311
 
-
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 1996 of yacc.c  */
+/* Line 1982 of yacc.c  */
 #line 107 "src/parse-gram.y"
 
   assoc assoc;
@@ -196,14 +195,14 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1996 of yacc.c  */
+/* Line 1982 of yacc.c  */
 #line 245 "src/parse-gram.y"
 
   param_type param;
 
 
-/* Line 1996 of yacc.c  */
-#line 207 "src/parse-gram.h"
+/* Line 1982 of yacc.c  */
+#line 206 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -240,4 +239,4 @@ int gram_parse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !GRAM_______SRC_PARSE_GRAM_H  */
+#endif /* !GRAM_SRC_PARSE_GRAM_H  */
