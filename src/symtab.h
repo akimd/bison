@@ -277,16 +277,4 @@ void symbols_check_defined (void);
    #token_translations.  */
 void symbols_pack (void);
 
-
-/*---------------------------------------.
-| Default %destructor's and %printer's.  |
-`---------------------------------------*/
-
-/** Set the default \c \%destructor or \c \%printer for tagged values.  */
-void default_tagged_code_props_set (code_props_type kind,
-                                    code_props const *code);
-/** Set the default \c \%destructor or \c \%printer for tagless values.  */
-void default_tagless_code_props_set (code_props_type kind,
-                                     code_props const *destructor);
-
 #endif /* !SYMTAB_H_ */

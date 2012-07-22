@@ -523,8 +523,8 @@ generic_symlist:
 generic_symlist_item:
   symbol    { $$ = symbol_list_sym_new ($1, @1); }
 | TAG       { $$ = symbol_list_type_new ($1, @1); }
-| "<*>"     { $$ = symbol_list_default_tagged_new (@1); }
-| "<>"      { $$ = symbol_list_default_tagless_new (@1); }
+| "<*>"     { $$ = symbol_list_type_new ("*", @1); }
+| "<>"      { $$ = symbol_list_type_new ("", @1); }
 ;
 
 /* One token definition.  */

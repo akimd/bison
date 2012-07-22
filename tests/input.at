@@ -200,29 +200,29 @@ start: ;
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:1.13-29: redeclaration for default tagged %destructor
+[[input.y:1.13-29: %destructor redeclaration for <*>
 input.y:1.13-29: previous declaration
-input.y:2.10-24: redeclaration for default tagged %printer
+input.y:2.10-24: %printer redeclaration for <*>
 input.y:2.10-24: previous declaration
-input.y:4.13-29: redeclaration for default tagged %destructor
+input.y:4.13-29: %destructor redeclaration for <*>
 input.y:1.13-29: previous declaration
-input.y:5.10-24: redeclaration for default tagged %printer
+input.y:5.10-24: %printer redeclaration for <*>
 input.y:2.10-24: previous declaration
-input.y:7.13-29: redeclaration for default tagless %destructor
+input.y:7.13-29: %destructor redeclaration for <>
 input.y:7.13-29: previous declaration
-input.y:8.10-24: redeclaration for default tagless %printer
+input.y:8.10-24: %printer redeclaration for <>
 input.y:8.10-24: previous declaration
-input.y:10.13-29: redeclaration for default tagless %destructor
+input.y:10.13-29: %destructor redeclaration for <>
 input.y:7.13-29: previous declaration
-input.y:11.10-24: redeclaration for default tagless %printer
+input.y:11.10-24: %printer redeclaration for <>
 input.y:8.10-24: previous declaration
-input.y:17.13-29: redeclaration for default tagged %destructor
+input.y:17.13-29: %destructor redeclaration for <*>
 input.y:4.13-29: previous declaration
-input.y:18.10-24: redeclaration for default tagged %printer
+input.y:18.10-24: %printer redeclaration for <*>
 input.y:5.10-24: previous declaration
-input.y:20.13-29: redeclaration for default tagless %destructor
+input.y:20.13-29: %destructor redeclaration for <>
 input.y:10.13-29: previous declaration
-input.y:21.10-24: redeclaration for default tagless %printer
+input.y:21.10-24: %printer redeclaration for <>
 input.y:11.10-24: previous declaration
 ]])
 
@@ -329,8 +329,16 @@ AT_CLEANUP
 
 AT_SETUP([Useless printers or destructors])
 
-AT_DATA([[input.y]],
-[[%token <type1> token1
+# AT_TEST([INPUT], [STDERR])
+# --------------------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[$1
+])
+AT_BISON_CHECK([input.y], [0], [], [$2
+])])
+
+AT_TEST([[%token <type1> token1
 %token <type2> token2
 %token <type3> token3
 %token <type4> token4
@@ -356,14 +364,26 @@ AT_DATA([[input.y]],
 %destructor {} <type7>
 
 %%
-exp: "a";
-]])
-
-AT_BISON_CHECK([input.y], [0], [],
+exp: "a";]],
 [[input.y:16.13-19: warning: useless %printer for type <type1> [-Wother]
-input.y:17.16-22: warning: useless %destructor for type <type2> [-Wother]
-]])
+input.y:17.16-22: warning: useless %destructor for type <type2> [-Wother]]])
 
+# If everybody is typed, <> is useless.
+AT_TEST([[%type <type> exp
+%token <type> a
+%printer {} <> <*>
+%%
+exp: a;]],
+[[input.y:3.13-14: warning: useless %printer for type <> [-Wother]]])
+
+# If nobody is is typed, <*> is useless.
+AT_TEST([[%token a
+%printer {} <> <*>
+%%
+exp: a;]],
+[[input.y:2.16-18: warning: useless %printer for type <*> [-Wother]]])
+
+m4_popdef([AT_TEST])
 
 AT_CLEANUP
 

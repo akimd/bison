@@ -1,4 +1,4 @@
-# Executing Actions.                               -*- Autotest -*-
+e# Executing Actions.                               -*- Autotest -*-
 
 # Copyright (C) 2001-2012 Free Software Foundation, Inc.
 
@@ -646,7 +646,10 @@ main (void)
 }
 ]])
 
-AT_BISON_CHECK([-o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y], [], [],
+[[input.y:27.3-5: warning: useless %destructor for type <*> [-Wother]
+input.y:27.3-5: warning: useless %printer for type <*> [-Wother]
+]])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[<> destructor for 'd' @ 4.
@@ -758,7 +761,10 @@ main (void)
 }
 ]])
 
-AT_BISON_CHECK([-o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y], [], [],
+[[input.y:22.3-4: warning: useless %destructor for type <> [-Wother]
+input.y:22.3-4: warning: useless %printer for type <> [-Wother]
+]])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
 [[<*>/<field2>/e destructor.
@@ -817,9 +823,9 @@ AT_CLEANUP
 
 AT_SETUP([Default %printer and %destructor for user-defined end token])
 
-# _AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(TYPED)
-# -------------------------------------------------------------
-m4_define([_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN],
+# AT_TEST(TYPED)
+# --------------
+m4_pushdef([AT_TEST],
 [m4_if($1, 0,
   [m4_pushdef([kind], []) m4_pushdef([not_kind], [*])],
   [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [])])
@@ -891,8 +897,17 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([-o input$1.c input$1.y])
+AT_BISON_CHECK([-o input$1.c input$1.y], [], [],
+[m4_if([$1], [0],
+[[input0.y:27.3-5: warning: useless %destructor for type <*> [-Wother]
+input0.y:27.3-5: warning: useless %printer for type <*> [-Wother]
+]],
+[[input1.y:27.3-4: warning: useless %destructor for type <> [-Wother]
+input1.y:27.3-4: warning: useless %printer for type <> [-Wother]
+]])])
+
 AT_COMPILE([input$1])
+
 AT_PARSER_CHECK([./input$1], 0,
 [[<]]kind[[> for 'E' @ 1.
 <]]kind[[> for 'S' @ 1.
@@ -915,8 +930,10 @@ m4_popdef([kind])
 m4_popdef([not_kind])
 ])
 
-_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(0)
-_AT_CHECK_DEFAULT_PRINTER_AND_DESTRUCTOR_FOR_END_TOKEN(1)
+AT_TEST(0)
+AT_TEST(1)
+
+m4_popdef([AT_TEST])
 
 AT_CLEANUP
 
@@ -976,7 +993,10 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([-o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y], [], [],
+[[input.y:21.6-8: warning: useless %destructor for type <*> [-Wother]
+input.y:21.6-8: warning: useless %printer for type <*> [-Wother]
+]])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], [1], [],
 [[Starting parse
@@ -1075,7 +1095,10 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([-o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y], [], [],
+[[input.y:22.3-4: warning: useless %destructor for type <> [-Wother]
+input.y:22.3-4: warning: useless %printer for type <> [-Wother]
+]])
 AT_COMPILE([input])
 
 AT_CLEANUP
@@ -1132,7 +1155,9 @@ main (void)
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y], 0,,
-[[input.y:33.3-23: warning: unset value: $$ [-Wother]
+[[input.y:24.70-72: warning: useless %destructor for type <*> [-Wother]
+input.y:24.70-72: warning: useless %printer for type <*> [-Wother]
+input.y:33.3-23: warning: unset value: $$ [-Wother]
 input.y:30.3-35.37: warning: unused value: $3 [-Wother]
 ]])
 
