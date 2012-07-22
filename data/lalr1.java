@@ -728,11 +728,6 @@ m4_popdef([b4_at_dollar])])dnl
     if (yyErrorVerbose)
       {
         /* There are many possibilities here to consider:
-           - Assume YYFAIL is not used.  It's too flawed to consider.
-             See
-             <http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html>
-             for details.  YYERROR is fine as it does not invoke this
-             function.
            - If this state is a consistent state with a default action,
              then the only way this function was invoked is if the
              default action is an error action.  In that case, don't

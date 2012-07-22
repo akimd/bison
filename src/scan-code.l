@@ -248,20 +248,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   {splice}  STRING_GROW;
   [\n\r]    STRING_GROW; if (in_cpp) in_cpp = need_semicolon = false;
   [ \t\f]   STRING_GROW;
-
-  /* YYFAIL is undocumented and was formally deprecated in Bison
-     2.4.2.  */
-  YYFAIL {
-    STRING_GROW; need_semicolon = true;
-    complain_at (*loc, Wother,
-                 _("use of YYFAIL, which is deprecated and will be removed"));
-  }
-
-  /* The sole purpose of this is to make sure identifiers that merely
-     contain YYFAIL don't produce the above warning.  */
-  [A-Za-z_][0-9A-Za-z_]* STRING_GROW; need_semicolon = true;
-
-  . STRING_GROW; need_semicolon = true;
+  .         STRING_GROW; need_semicolon = true;
 }
 
 <SC_SYMBOL_ACTION>

@@ -77,9 +77,6 @@ so both 256 and 257 are "mysterious".
   "\"end of command\"", "error", "$undefined", "\"=\"", "\"break\"",
 
 
-** YYFAIL
-It is seems to be *really* obsolete now, shall we remove it?
-
 ** yychar == yyempty_
 The code in yyerrlab reads:
 
