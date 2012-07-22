@@ -86,17 +86,17 @@ m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
              [::\([^][:]\|:[^:]\)*], [} ])[} // ]b4_namespace_ref])])
 
 
-# b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
-# -----------------------------------------------------
+# b4_token_enums
+# --------------
 # Output the definition of the tokens as enums.
 m4_define([b4_token_enums],
-[/* Tokens.  */
-   enum yytokentype {
-m4_map_sep([     b4_token_enum], [,
-],
-           [$@])
-   };
-])
+[[/* Tokens.  */
+    enum yytokentype {
+    ]m4_join([,
+      ],
+             b4_symbol_map([b4_token_enum]))[
+    };
+]])
 
 
 
@@ -143,7 +143,7 @@ m4_define([b4_public_types_declare],
     /// Tokens.
     struct token
     {
-      ]b4_token_enums(b4_tokens)[
+      ]b4_token_enums[
     };
 
     /// Token type.
