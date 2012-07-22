@@ -381,7 +381,7 @@ m4_define([b4_symbol_action],
                      b4_symbol_if([$1], [has_type],
                                   [b4_symbol([$1], [type])]))])dnl
 m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
-      b4_symbol_case_([$1])
+      b4_symbol_case_([$1])[]dnl
 b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
         b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
