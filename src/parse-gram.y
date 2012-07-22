@@ -186,30 +186,30 @@ static char const *char_name (char);
 %token TAG_NONE        "<>"
 
 %type <character> CHAR
-%printer { fputs (char_name ($$), stderr); } CHAR
+%printer { fputs (char_name ($$), yyo); } CHAR
 
 /* braceless is not to be used for rule or symbol actions, as it
    calls code_props_plain_init.  */
 %type <chars> STRING "%{...%}" EPILOGUE braceless content.opt
 %type <code> "{...}" "%?{...}"
-%printer { fputs (quotearg_style (c_quoting_style, $$), stderr); }
+%printer { fputs (quotearg_style (c_quoting_style, $$), yyo); }
          STRING
-%printer { fprintf (stderr, "{\n%s\n}", $$); }
+%printer { fprintf (yyo, "{\n%s\n}", $$); }
          braceless content.opt "{...}" "%{...%}" EPILOGUE
 
 %type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
-%printer { fputs ($$, stderr); } <uniqstr>
-%printer { fprintf (stderr, "[%s]", $$); } BRACKETED_ID
-%printer { fprintf (stderr, "%s:", $$); } ID_COLON
-%printer { fprintf (stderr, "%%%s", $$); } PERCENT_FLAG
-%printer { fprintf (stderr, "<%s>", $$); } TAG tag
+%printer { fputs ($$, yyo); } <uniqstr>
+%printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
+%printer { fprintf (yyo, "%s:", $$); } ID_COLON
+%printer { fprintf (yyo, "%%%s", $$); } PERCENT_FLAG
+%printer { fprintf (yyo, "<%s>", $$); } TAG tag
 
 %type <integer> INT
-%printer { fprintf (stderr, "%d", $$); } <integer>
+%printer { fprintf (yyo, "%d", $$); } <integer>
 
 %type <symbol> id id_colon string_as_id symbol symbol.prec
-%printer { fprintf (stderr, "%s", $$->tag); } <symbol>
-%printer { fprintf (stderr, "%s:", $$->tag); } id_colon
+%printer { fprintf (yyo, "%s", $$->tag); } <symbol>
+%printer { fprintf (yyo, "%s:", $$->tag); } id_colon
 
 %type <assoc> precedence_declarator
 %type <list>  symbols.1 symbols.prec generic_symlist generic_symlist_item
@@ -418,7 +418,7 @@ grammar_declaration:
 
 %type <code_type> code_props_type;
 %union {code_props_type code_type;};
-%printer { fprintf (stderr, "%s", code_props_type_string ($$)); } <code_type>;
+%printer { fprintf (yyo, "%s", code_props_type_string ($$)); } <code_type>;
 code_props_type:
   "%destructor"  { $$ = destructor; }
 | "%printer"     { $$ = printer; }
