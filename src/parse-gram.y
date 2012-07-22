@@ -30,6 +30,7 @@
 #include "quotearg.h"
 #include "reader.h"
 #include "symlist.h"
+#include "symtab.h"
 #include "scan-gram.h"
 #include "scan-code.h"
 #include "xmemdup0.h"
@@ -386,18 +387,11 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2, @2);
     }
-| "%destructor" "{...}" generic_symlist
+| code_props_type "{...}" generic_symlist
     {
       symbol_list *list;
       for (list = $3; list; list = list->next)
         symbol_list_code_props_set (list, $1, @2, $2);
-      symbol_list_free ($3);
-    }
-| "%printer" "{...}" generic_symlist
-    {
-      symbol_list *list;
-      for (list = $3; list; list = list->next)
-        symbol_list_code_props_set (list, printer, @2, $2);
       symbol_list_free ($3);
     }
 | "%default-prec"
@@ -422,6 +416,13 @@ grammar_declaration:
     }
 ;
 
+%type <code_type> code_props_type;
+%union {code_props_type code_type;};
+%printer { fprintf (stderr, "%s", code_props_type_string ($$)); } <code_type>;
+code_props_type:
+  "%destructor"  { $$ = destructor; }
+| "%printer"     { $$ = printer; }
+;
 
 /*---------.
 | %union.  |
