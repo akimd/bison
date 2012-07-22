@@ -40,8 +40,9 @@ do
       # post-processes the synclines on y.tab.c itself.  Don't let it
       # do it.  Besides, it leaves "parse-gram.y" as the source,
       # dropping the src/ part.
-      $PERL -pi -e 's{"y\.tab\.}{"src/parse-gram.}g;'    \
-                -e 's{".*/(parse-gram\.y)"}{"src/$1"}g;' \
+      $PERL -pi -e 's{"y\.tab\.}{"src/parse-gram.}g;'           \
+                -e 's{".*/(parse-gram\.y)"}{"src/$1"}g;'        \
+                -e 's{GRAM_Y_TAB_H}{GRAM_SRC_PARSE_GRAM_H}g;'        \
            y.tab.[ch]
     fi
     ;;
