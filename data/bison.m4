@@ -463,7 +463,7 @@ m4_define([b4_token_format],
 # Skip NUMS that have no type-name.
 m4_define([b4_type_action_],
 [b4_symbol_if([$1], [has_type],
-[m4_map([b4_symbol_case_], [$@])[]dnl
+[m4_map_args([b4_symbol_case_], $@)[]dnl
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
                          [b4_symbol([$1], [type])]);

@@ -69,7 +69,7 @@ m4_define([b4_char_sizeof_],
 m4_define([b4_char_sizeof],
 [b4_symbol_if([$1], [has_type],
 [
-m4_map([b4_char_sizeof_], [$@])dnl
+m4_map_args([b4_char_sizeof_], $@)dnl
       char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type])])@};
 ])])
 

@@ -260,7 +260,7 @@ m4_define([b4_lex_param_decl],
           [$1])])
 
 m4_define([b4_param_decls],
-          [m4_map([b4_param_decl], [$@])])
+          [m4_map_args([b4_param_decl], $@)])
 m4_define([b4_param_decl], [, $1])
 
 m4_define([b4_remove_comma], [m4_ifval(m4_quote($1), [$1, ], [])m4_shift2($@)])
@@ -287,7 +287,7 @@ m4_define([b4_lex_param_call],
                                      b4_param_calls(b4_lex_param))],
                     [$1])])
 m4_define([b4_param_calls],
-          [m4_map([b4_param_call], [$@])])
+          [m4_map_args([b4_param_call], $@)])
 m4_define([b4_param_call], [, $2])
 
 
@@ -300,7 +300,7 @@ m4_define([b4_parse_param_cons],
                     [b4_constructor_calls(b4_parse_param)])])
 
 m4_define([b4_constructor_calls],
-          [m4_map([b4_constructor_call], [$@])])
+          [m4_map_args([b4_constructor_call], $@)])
 m4_define([b4_constructor_call],
           [this.$2 = $2;
           ])
