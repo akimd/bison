@@ -333,7 +333,7 @@ b4_public_types_define])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
-[b4_token_defines(b4_tokens)
+[b4_token_defines
 
 #ifndef ]b4_api_PREFIX[STYPE
  /* Redirection for backward compatibility.  */
