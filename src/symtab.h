@@ -149,7 +149,7 @@ symbol *dummy_symbol_get (location loc);
 `--------------------*/
 
 /** Print a symbol (for debugging). */
-void symbol_print (symbol *s, FILE *f);
+void symbol_print (symbol const *s, FILE *f);
 
 /** Is this a dummy nonterminal?  */
 bool symbol_is_dummy (const symbol *sym);
