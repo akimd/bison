@@ -196,12 +196,12 @@ static char const *char_name (char);
 %printer { fprintf (stderr, "{\n%s\n}", $$); }
          braceless content.opt "{...}" "%{...%}" EPILOGUE
 
-%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG variable
+%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
 %printer { fputs ($$, stderr); } <uniqstr>
 %printer { fprintf (stderr, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (stderr, "%s:", $$); } ID_COLON
 %printer { fprintf (stderr, "%%%s", $$); } PERCENT_FLAG
-%printer { fprintf (stderr, "<%s>", $$); } TAG
+%printer { fprintf (stderr, "<%s>", $$); } TAG tag
 
 %type <integer> INT
 %printer { fprintf (stderr, "%d", $$); } <integer>
@@ -390,7 +390,7 @@ grammar_declaration:
     {
       symbol_list *list;
       for (list = $3; list; list = list->next)
-        symbol_list_code_props_set (list, destructor, @2, $2);
+        symbol_list_code_props_set (list, $1, @2, $2);
       symbol_list_free ($3);
     }
 | "%printer" "{...}" generic_symlist
@@ -522,9 +522,13 @@ generic_symlist:
 
 generic_symlist_item:
   symbol    { $$ = symbol_list_sym_new ($1, @1); }
-| TAG       { $$ = symbol_list_type_new ($1, @1); }
-| "<*>"     { $$ = symbol_list_type_new ("*", @1); }
-| "<>"      { $$ = symbol_list_type_new ("", @1); }
+| tag       { $$ = symbol_list_type_new ($1, @1); }
+;
+
+tag:
+  TAG
+| "<*>" { $$ = uniqstr_new ("*"); }
+| "<>"  { $$ = uniqstr_new (""); }
 ;
 
 /* One token definition.  */
