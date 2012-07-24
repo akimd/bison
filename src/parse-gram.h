@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.5.1.899-d02b0-dirty.  */
+/* A Bison parser, made by GNU Bison 2.5.1.899-007c5.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -208,7 +208,6 @@ code_props_type code_type;
 #line 209 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
@@ -220,7 +219,6 @@ typedef struct YYLTYPE
   int last_line;
   int last_column;
 } YYLTYPE;
-# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
