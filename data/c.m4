@@ -594,7 +594,6 @@ m4_define([b4_declare_yylstype],
 [m4_if(b4_tag_seen_flag, 0,
 [[typedef int ]b4_api_PREFIX[STYPE;
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1]])])[
-# define ]b4_api_prefix[stype ]b4_api_PREFIX[STYPE /* obsolescent; will be withdrawn */
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif]b4_locations_if([[
 
@@ -606,7 +605,6 @@ typedef struct ]b4_api_PREFIX[LTYPE
   int last_line;
   int last_column;
 } ]b4_api_PREFIX[LTYPE;
-# define ]b4_api_prefix[ltype ]b4_api_PREFIX[LTYPE /* obsolescent; will be withdrawn */
 # define ]b4_api_PREFIX[LTYPE_IS_DECLARED 1
 # define ]b4_api_PREFIX[LTYPE_IS_TRIVIAL 1
 #endif]])
