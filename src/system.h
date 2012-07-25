@@ -160,36 +160,36 @@ typedef size_t uintptr_t;
 # define obstack_chunk_free  free
 # include <obstack.h>
 
-# define obstack_sgrow(Obs, Str) \
+# define obstack_sgrow(Obs, Str)                \
   obstack_grow (Obs, Str, strlen (Str))
 
-# define obstack_fgrow1(Obs, Format, Arg1)	\
-do {						\
-  char buf[4096];				\
-  sprintf (buf, Format, Arg1);			\
-  obstack_grow (Obs, buf, strlen (buf));	\
-} while (0)
+# define obstack_fgrow1(Obs, Format, Arg1)      \
+  do {                                          \
+    char buf[4096];                             \
+    sprintf (buf, Format, Arg1);                \
+    obstack_grow (Obs, buf, strlen (buf));      \
+  } while (0)
 
-# define obstack_fgrow2(Obs, Format, Arg1, Arg2)	\
-do {						\
-  char buf[4096];				\
-  sprintf (buf, Format, Arg1, Arg2);		\
-  obstack_grow (Obs, buf, strlen (buf));	\
-} while (0)
+# define obstack_fgrow2(Obs, Format, Arg1, Arg2)        \
+  do {                                                  \
+    char buf[4096];                                     \
+    sprintf (buf, Format, Arg1, Arg2);                  \
+    obstack_grow (Obs, buf, strlen (buf));              \
+  } while (0)
 
-# define obstack_fgrow3(Obs, Format, Arg1, Arg2, Arg3)	\
-do {							\
-  char buf[4096];					\
-  sprintf (buf, Format, Arg1, Arg2, Arg3);		\
-  obstack_grow (Obs, buf, strlen (buf));		\
-} while (0)
+# define obstack_fgrow3(Obs, Format, Arg1, Arg2, Arg3)  \
+  do {                                                  \
+    char buf[4096];                                     \
+    sprintf (buf, Format, Arg1, Arg2, Arg3);            \
+    obstack_grow (Obs, buf, strlen (buf));              \
+  } while (0)
 
-# define obstack_fgrow4(Obs, Format, Arg1, Arg2, Arg3, Arg4)	\
-do {								\
-  char buf[4096];						\
-  sprintf (buf, Format, Arg1, Arg2, Arg3, Arg4);		\
-  obstack_grow (Obs, buf, strlen (buf));			\
-} while (0)
+# define obstack_fgrow4(Obs, Format, Arg1, Arg2, Arg3, Arg4)    \
+  do {                                                          \
+    char buf[4096];                                             \
+    sprintf (buf, Format, Arg1, Arg2, Arg3, Arg4);              \
+    obstack_grow (Obs, buf, strlen (buf));                      \
+  } while (0)
 
 
 
@@ -215,15 +215,15 @@ do {								\
 | Free a linked list.  |
 `---------------------*/
 
-# define LIST_FREE(Type, List)			\
-do {						\
-  Type *_node, *_next;				\
-  for (_node = List; _node; _node = _next)	\
-    {						\
-      _next = _node->next;			\
-      free (_node);				\
-    }						\
-} while (0)
+# define LIST_FREE(Type, List)                  \
+  do {                                          \
+    Type *_node, *_next;                        \
+    for (_node = List; _node; _node = _next)    \
+      {                                         \
+        _next = _node->next;                    \
+        free (_node);                           \
+      }                                         \
+  } while (0)
 
 
 /*---------------------------------------------.

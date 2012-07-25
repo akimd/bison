@@ -181,19 +181,17 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 <SC_RULE_ACTION>
 {
   "$"("<"{tag}">")?{ref}  {
-    ref_tail_fields = 0;
+    ref_tail_fields = NULL;
     handle_action_dollar (self->rule, yytext, *loc);
-    if (ref_tail_fields) {
+    if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
-    }
     need_semicolon = true;
   }
   "@"{ref} {
-    ref_tail_fields = 0;
+    ref_tail_fields = NULL;
     handle_action_at (self->rule, yytext, *loc);
-    if (ref_tail_fields) {
+    if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
-    }
     need_semicolon = true;
   }
   "$"  {
@@ -345,7 +343,7 @@ typedef struct
    not visible from current midrule. */
 #define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 2)
 
-static variant *variant_table = 0;
+static variant *variant_table = NULL;
 static unsigned variant_table_size = 0;
 static unsigned variant_count = 0;
 
@@ -367,7 +365,7 @@ static void
 variant_table_free (void)
 {
   free (variant_table);
-  variant_table = 0;
+  variant_table = NULL;
   variant_table_size = variant_count = 0;
 }
 
@@ -410,7 +408,7 @@ variant_add (uniqstr id, location id_loc, unsigned symbol_index,
 }
 
 static const char *
-get_at_spec(unsigned symbol_index)
+get_at_spec (unsigned symbol_index)
 {
   static char at_buf[20];
   if (symbol_index == 0)
@@ -826,7 +824,7 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
   locations_flag = true;
 
   n = parse_ref (cp, effective_rule, effective_rule_length,
-		       rule->midrule_parent_rhs_index, text, at_loc, '@');
+                 rule->midrule_parent_rhs_index, text, at_loc, '@');
   switch (n)
     {
     case INVALID_REF:
