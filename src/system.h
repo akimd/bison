@@ -192,6 +192,27 @@ typedef size_t uintptr_t;
   } while (0)
 
 
+/* Output Str escaped for our postprocessing (i.e., escape M4 special
+   characters).
+
+   For instance "[foo]" -> "@{foo@}", "$$" -> "$][$][". */
+
+# define obstack_escape(Obs, Str)                       \
+  do {                                                  \
+    char const *p;                                      \
+    for (p = Str; *p; p++)                              \
+      switch (*p)                                       \
+        {                                               \
+        case '$': obstack_sgrow (Obs, "$]["); break;    \
+        case '@': obstack_sgrow (Obs, "@@" ); break;    \
+        case '[': obstack_sgrow (Obs, "@{" ); break;    \
+        case ']': obstack_sgrow (Obs, "@}" ); break;    \
+        default:  obstack_1grow (Obs, *p   ); break;    \
+        }                                               \
+  } while (0)
+
+
+
 
 /*-----------------------------------------.
 | Extensions to use for the output files.  |

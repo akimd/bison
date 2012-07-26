@@ -64,30 +64,15 @@ extern struct obstack muscle_obstack;
 
 #define MUSCLE_INSERT_STRING(Key, Value)                        \
   do {                                                          \
-    MUSCLE_OBSTACK_SGROW (&muscle_obstack, Value);              \
+    obstack_escape (&muscle_obstack, Value);                    \
     obstack_1grow (&muscle_obstack, 0);                         \
     muscle_insert (Key, obstack_finish (&muscle_obstack));      \
   } while (0)
 
-#define MUSCLE_OBSTACK_SGROW(Obstack, Value)                    \
-  do {                                                          \
-    char const *p;                                              \
-    for (p = Value; *p; p++)                                    \
-      switch (*p)                                               \
-        {                                                       \
-        case '$': obstack_sgrow (Obstack, "$]["); break;        \
-        case '@': obstack_sgrow (Obstack, "@@" ); break;        \
-        case '[': obstack_sgrow (Obstack, "@{" ); break;        \
-        case ']': obstack_sgrow (Obstack, "@}" ); break;        \
-        default: obstack_1grow (Obstack, *p); break;            \
-        }                                                       \
-  } while (0)
-
 #define MUSCLE_INSERT_C_STRING(Key, Value)                      \
   do {                                                          \
-    MUSCLE_OBSTACK_SGROW (&muscle_obstack,                      \
-                          quotearg_style (c_quoting_style,      \
-                                          Value));              \
+    obstack_escape (&muscle_obstack,                            \
+                    quotearg_style (c_quoting_style, Value));   \
     obstack_1grow (&muscle_obstack, 0);                         \
     muscle_insert (Key, obstack_finish (&muscle_obstack));      \
   } while (0)
