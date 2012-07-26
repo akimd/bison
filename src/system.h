@@ -205,10 +205,6 @@ typedef size_t uintptr_t;
 #  define TAB_EXT ".tab"
 # endif
 
-# ifndef DEFAULT_TMPDIR
-#  define DEFAULT_TMPDIR "/tmp"
-# endif
-
 
 
 /*---------------------.
