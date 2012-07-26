@@ -764,8 +764,9 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             untyped_var_seen = true;
         }
 
-      obstack_fgrow1 (&obstack_for_string,
-		      "]b4_lhs_value([%s])[", type_name);
+      obstack_sgrow (&obstack_for_string, "]b4_lhs_value(");
+      obstack_quote (&obstack_for_string, type_name);
+      obstack_sgrow (&obstack_for_string, ")[");
       rule->action_props.is_value_used = true;
       break;
 
@@ -784,9 +785,10 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             untyped_var_seen = true;
         }
 
-      obstack_fgrow3 (&obstack_for_string,
-		      "]b4_rhs_value(%d, %d, [%s])[",
-		      effective_rule_length, n, type_name);
+      obstack_fgrow2 (&obstack_for_string,
+		      "]b4_rhs_value(%d, %d, ", effective_rule_length, n);
+      obstack_quote (&obstack_for_string, type_name);
+      obstack_sgrow (&obstack_for_string, ")[");
       if (n > 0)
 	symbol_list_n_get (effective_rule, n)->action_props.is_value_used =
 	  true;

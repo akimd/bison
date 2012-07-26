@@ -1369,3 +1369,54 @@ AT_TEST([%define api.prefix foo], [-p bar], [input.y:1.9-18])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
+
+
+## ---------------- ##
+## Code injection.  ##
+## ---------------- ##
+
+
+AT_SETUP([[Code injection]])
+
+m4_pattern_allow([^m4_errprintn$])
+
+# AT_TEST([MACRO])
+# ----------------
+# Try to have MACRO be run by bison.
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[%type <$1(DEAD %type)> exp
+%token <$1(DEAD %token)> a
+%initial-action
+{
+  $$;
+  $<$1(DEAD %initial-action)>$
+};
+%%
+exp:
+  a a[last]
+  {
+    $$;
+    $][1;
+    $<$1(DEAD action 1)>$
+    $<$1(DEAD action 2)>1
+    $<$1(DEAD action 3)>last
+    $<$1(DEAD action 4)>0
+    ;
+  };
+]])
+
+# FIXME: Provide a means to iterate over all the skeletons.
+AT_BISON_CHECK([[-d               input.y]])
+AT_BISON_CHECK([[-d -S glr.c      input.y]])
+AT_BISON_CHECK([[-d -S lalr1.cc   input.y]])
+AT_BISON_CHECK([[-d -S glr.cc     input.y]])
+AT_BISON_CHECK([[   -S lalr1.java input.y]])
+])
+
+AT_TEST([m4_errprintn])
+AT_TEST([@:>@m4_errprintn])
+
+m4_popdef([AT_TEST])
+
+AT_CLEANUP
