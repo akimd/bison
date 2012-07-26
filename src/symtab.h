@@ -62,21 +62,23 @@ struct symbol
 
   /** Its \c \%type.  */
   uniqstr type_name;
+
   /** Its \c \%type's location.  */
   location type_location;
 
   /** Any \c \%destructor declared specifically for this symbol.
 
-     Access this field only through <tt>symbol</tt>'s interface functions.  For
-     example, if <tt>symbol::destructor = NULL</tt>, a default \c \%destructor
-     or a per-type \c \%destructor might be appropriate, and
-     \c symbol_destructor_get will compute the correct one.  */
+      Access this field only through <tt>symbol</tt>'s interface
+      functions.  For example, if <tt>symbol::destructor = NULL</tt>, a
+      default \c \%destructor or a per-type \c \%destructor might be
+      appropriate, and \c symbol_destructor_get will compute the
+      correct one.  */
   code_props destructor;
 
   /** Any \c \%printer declared specifically for this symbol.
 
-     Access this field only through <tt>symbol</tt>'s interface functions.
-     \sa symbol::destructor  */
+      Access this field only through <tt>symbol</tt>'s interface functions.
+      \sa symbol::destructor  */
   code_props printer;
 
   symbol_number number;
