@@ -46,6 +46,9 @@ YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
 
+static char *fetch_type_name (char *cp, char const **type_name,
+                              location dollar_loc);
+
 static void handle_action_dollar (symbol_list *rule, char *cp,
 				  location dollar_loc);
 static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
@@ -686,6 +689,31 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 int max_left_semantic_context = 0;
 
 
+/* If CP points to a typename (i.e., <.*?>), set TYPE_NAME to its
+   beginning (i.e., after the opening "<", and return the pointer
+   immediately after it.  */
+
+static
+char *
+fetch_type_name (char *cp, char const **type_name,
+                 location dollar_loc)
+{
+  if (*cp == '<')
+    {
+      *type_name = ++cp;
+      while (*cp != '>')
+	++cp;
+
+      /* The '>' symbol will be later replaced by '\0'. Original
+	 'text' is needed for error messages. */
+      ++cp;
+      if (untyped_var_seen)
+	complain_at (dollar_loc, _("explicit type given in untyped grammar"));
+      tag_seen = true;
+    }
+  return cp;
+}
+
 /*------------------------------------------------------------------.
 | TEXT is pointing to a wannabee semantic value (i.e., a '$').      |
 |                                                                   |
@@ -699,7 +727,6 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 {
   char const *type_name = NULL;
   char *cp = text + 1;
-  char *gt_ptr = 0;
   symbol_list *effective_rule;
   int effective_rule_length;
   int n;
@@ -716,26 +743,14 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
     }
 
   /* Get the type name if explicit. */
-  if (*cp == '<')
-    {
-      type_name = ++cp;
-      while (*cp != '>')
-	++cp;
-
-      /* The '>' symbol will be later replaced by '\0'. Original
-	 'text' is needed for error messages. */
-      gt_ptr = cp;
-      ++cp;
-      if (untyped_var_seen)
-	complain_at (dollar_loc, _("explicit type given in untyped grammar"));
-      tag_seen = true;
-    }
+  cp = fetch_type_name (cp, &type_name, dollar_loc);
 
   n = parse_ref (cp, effective_rule, effective_rule_length,
 		 rule->midrule_parent_rhs_index, text, dollar_loc, '$');
 
-  if (gt_ptr)
-    *gt_ptr = '\0';
+  /* End type_name. */
+  if (type_name)
+    cp[-1] = '\0';
 
   switch (n)
     {
