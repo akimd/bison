@@ -1,6 +1,6 @@
 #! /bin/sh
 # Print a version string.
-scriptversion=2012-07-10.09; # UTC
+scriptversion=2012-07-19.14; # UTC
 
 # Bootstrap this package from checked-out sources.
 
@@ -214,6 +214,8 @@ use_git=true
 # otherwise find the first of the NAMES that can be run (i.e.,
 # supports --version).  If found, set ENVVAR to the program name,
 # die otherwise.
+#
+# FIXME: code duplication, see also gnu-web-doc-update.
 find_tool ()
 {
   find_tool_envvar=$1
