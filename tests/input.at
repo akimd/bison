@@ -1392,6 +1392,19 @@ m4_pushdef([AT_TEST],
   $$;
   $<$1(DEAD %initial-action)>$
 };
+%printer
+{
+  $$
+  $<$1(DEAD %printer)>$
+} <> <*>;
+%lex-param
+{
+  $1(DEAD %lex-param)
+};
+%parse-param
+{
+  $1(DEAD %parse-param)
+};
 %%
 exp:
   a a[last]

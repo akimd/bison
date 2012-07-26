@@ -60,7 +60,12 @@ struct symbol
   /** The location of its first occurrence.  */
   location location;
 
-  /** Its \c \%type.  */
+  /** Its \c \%type.
+
+      Beware that this is the type_name as was entered by the user,
+      including silly things such as "]" if she entered "%token <]> t".
+      Therefore, when outputting type_name to M4, be sure to escape it
+      into "@}".  See quoted_output for instance.  */
   uniqstr type_name;
 
   /** Its \c \%type's location.  */
