@@ -762,7 +762,6 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             }
           else
             untyped_var_seen = true;
-          type_name = "";
         }
 
       obstack_fgrow1 (&obstack_for_string,
@@ -783,7 +782,6 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
                          cp, quote (effective_rule->content.sym->tag));
           else
             untyped_var_seen = true;
-          type_name = "";
         }
 
       obstack_fgrow3 (&obstack_for_string,

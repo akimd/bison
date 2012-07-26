@@ -212,6 +212,28 @@ typedef size_t uintptr_t;
   } while (0)
 
 
+/* Output Str both quoted for M4 (i.e., embed in [[...]]), and escaped
+   for our postprocessing (i.e., escape M4 special characters).  If
+   Str is empty (or NULL), output "[]" instead of "[[]]" as it make M4
+   programming easier (m4_ifval can be used).
+
+   For instance "[foo]" -> "[[@{foo@}]]", "$$" -> "[[$][$][]]". */
+
+# define obstack_quote(Obs, Str)                \
+  do {                                          \
+    char const* obstack_quote_p = Str;          \
+    if (obstack_quote_p && obstack_quote_p[0])  \
+      {                                         \
+        obstack_sgrow (Obs, "[[");              \
+        obstack_escape (Obs, obstack_quote_p);  \
+        obstack_sgrow (Obs, "]]");              \
+      }                                         \
+    else                                        \
+      obstack_sgrow (Obs, "[]");                \
+  } while (0)
+
+
+
 
 
 /*-----------------------------------------.
