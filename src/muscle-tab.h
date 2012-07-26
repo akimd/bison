@@ -97,14 +97,6 @@ void muscle_code_grow (const char *key, const char *value, location loc);
 void muscle_pair_list_grow (const char *muscle,
                             const char *a1, const char *a2);
 
-/* In the format `[[file_name:line.column]], [[file_name:line.column]]', append
-   LOC to MUSCLE.  Use digraphs for special characters in each file name.  */
-void muscle_location_grow (char const *key, location loc);
-
-/* In the format `file_name:line.column', append BOUND to MUSCLE.  Use digraphs
-   for special characters in the file name.  */
-void muscle_boundary_grow (char const *key, boundary bound);
-
 /* Grow KEY for the occurrence of the name USER_NAME at LOC appropriately for
    use with b4_check_user_names in ../data/bison.m4.  USER_NAME is not escaped
    with digraphs, so it must not contain `[' or `]'.  */
