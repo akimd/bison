@@ -333,7 +333,7 @@ static
   static size_t toknum = 0;
   int res;
   ]AT_USE_LEX_ARGS[;
-  assert (toknum < sizeof input);
+  assert (toknum < sizeof input / sizeof input[0]);
   res = input[toknum++];
   ]$2[;]AT_LOCATION_IF([[
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
