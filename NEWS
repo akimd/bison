@@ -6,7 +6,9 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  Type names are now properly escaped.
+*** Type names are now properly escaped.
+
+*** glr.cc: set_debug_level and debug_level work as expected.
 
 * Noteworthy changes in release 2.6 (2012-07-19) [stable]
 
