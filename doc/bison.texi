@@ -4592,11 +4592,11 @@ symbol is automatically discarded.
 @deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
 @findex %destructor
 Invoke the braced @var{code} whenever the parser discards one of the
-@var{symbols}.
-Within @var{code}, @code{$$} designates the semantic value associated
-with the discarded symbol, and @code{@@$} designates its location.
-The additional parser parameters are also available (@pxref{Parser Function, ,
-The Parser Function @code{yyparse}}).
+@var{symbols}.  Within @var{code}, @code{$$} (or @code{$<@var{tag}>$})
+designates the semantic value associated with the discarded symbol, and
+@code{@@$} designates its location.  The additional parser parameters are
+also available (@pxref{Parser Function, , The Parser Function
+@code{yyparse}}).
 
 When a symbol is listed among @var{symbols}, its @code{%destructor} is called a
 per-symbol @code{%destructor}.
@@ -4734,10 +4734,11 @@ Decl, , Freeing Discarded Symbols}).
 @c This is the same text as for %destructor.
 Invoke the braced @var{code} whenever the parser displays one of the
 @var{symbols}.  Within @var{code}, @code{yyoutput} denotes the output stream
-(a @code{FILE*} in C, and an @code{std::ostream&} in C++),
-@code{$$} designates the semantic value associated with the symbol, and
-@code{@@$} its location.  The additional parser parameters are also
-available (@pxref{Parser Function, , The Parser Function @code{yyparse}}).
+(a @code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
+@code{$<@var{tag}>$}) designates the semantic value associated with the
+symbol, and @code{@@$} its location.  The additional parser parameters are
+also available (@pxref{Parser Function, , The Parser Function
+@code{yyparse}}).
 
 The @var{symbols} are defined as for @code{%destructor} (@pxref{Destructor
 Decl, , Freeing Discarded Symbols}.): they can be per-type (e.g.,

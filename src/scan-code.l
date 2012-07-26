@@ -264,8 +264,12 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_SYMBOL_ACTION>
 {
-  "$$" {
-    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
+  "$"("<"{tag}">")?"$" {
+    const char *type_name = NULL;
+    fetch_type_name (yytext + 1, &type_name, *loc)[-1] = 0;
+    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar(");
+    obstack_quote (&obstack_for_string, type_name);
+    obstack_sgrow (&obstack_for_string, ")[");
     self->is_value_used = true;
   }
   "@$" {

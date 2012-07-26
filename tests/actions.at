@@ -1230,6 +1230,143 @@ AT_CHECK_ACTION_LOCATIONS([[%destructor]])
 AT_CHECK_ACTION_LOCATIONS([[%printer]])
 
 
+## ------------------------- ##
+## Qualified $$ in actions.  ##
+## ------------------------- ##
+
+# Check that we can used qualified $$ (v.g., $<type>$) not only in
+# rule actions, but also where $$ is valid: %printer and %destructor.
+#
+# FIXME: Not actually checking %desctructor, but it's the same code as
+# %printer...
+#
+# To do that, use a semantic value that has two fields (sem_type),
+# declare symbols to have only one of these types (INT, float), and
+# use $<type>$ to get the other one.  Including for symbols that are
+# not typed (UNTYPED).
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([[Qualified $$ in actions: $1]])
+
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1"])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%skeleton "$1"
+%defines   // FIXME: Mandated by lalr1.cc in Bison 2.6.
+%locations // FIXME: Mandated by lalr1.cc in Bison 2.6.
+%debug
+%code requires
+{
+# include <stdio.h>
+
+  typedef struct sem_type
+  {
+    int ival;
+    float fval;
+  } sem_type;
+
+# define YYSTYPE sem_type
+
+#ifdef __cplusplus
+# include <iostream>
+  static void
+  report (std::ostream& yyo, int ival, float fval)
+  {
+    yyo << "ival: " << ival << ", fval: " <<  fval;
+  }
+#else
+  static void
+  report (FILE* yyo, int ival, float fval)
+  {
+    fprintf (yyo, "ival: %d, fval: %1.1f", ival, fval);
+  }
+#endif
+}
+
+%code
+{
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+
+%token UNTYPED
+%token <ival> INT
+%type <fval> float
+%printer { report (yyo, $$,       $<fval>$); } <ival>;
+%printer { report (yyo, $<ival>$, $$      ); } <fval>;
+%printer { report (yyo, $<ival>$, $<fval>$); } <>;
+
+]AT_SKEL_CC_IF([[
+/* The lalr1.cc skeleton, for backward compatibility, defines
+   a constructor for position that initializes the filename.  The
+   glr.cc skeleton does not (and in fact cannot: location/position
+   are stored in a union, from which objects with constructors are
+   excluded in C++). */
+%initial-action {
+  @$.initialize ();
+}
+]])[
+
+// %initial-action
+// {
+//   $<ival>$ = 42;
+//   $<fval>$ = 4.2;
+// }
+
+%%
+float: UNTYPED INT
+{
+  $$       = $<fval>1 + $<fval>2;
+  $<ival>$ = $<ival>1 + $][2;
+};
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(AT_SKEL_CC_IF([[{yy::parser::token::UNTYPED,
+                                 yy::parser::token::INT,
+                                  EOF}]],
+                               [[{UNTYPED, INT, EOF}]]),
+                 [AT_VAL.ival = toknum * 10; AT_VAL.fval = toknum / 10.0;])[
+int
+main (void)
+{]AT_SKEL_CC_IF([[
+  yy::parser p;
+  p.set_debug_level(1);
+  return p.parse ();]], [[
+  yydebug = 1;
+  return yyparse ();]])[
+}
+]])
+
+AT_FULL_COMPILE([[input]])
+AT_PARSER_CHECK([./input], 0, [], [stderr])
+# Don't be too picky on the traces, GLR is not exactly the same.  Keep
+# only the lines from the printer.
+#
+# Don't care about locations.  FIXME: remove their removal when Bison
+# supports C++ without locations.
+AT_CHECK([[sed -ne 's/([-0-9.]*: /(/;/ival:/p' stderr]], 0,
+[[Reading a token: Next token is token UNTYPED (ival: 10, fval: 0.1)
+Shifting token UNTYPED (ival: 10, fval: 0.1)
+Reading a token: Next token is token INT (ival: 20, fval: 0.2)
+Shifting token INT (ival: 20, fval: 0.2)
+   $][1 = token UNTYPED (ival: 10, fval: 0.1)
+   $][2 = token INT (ival: 20, fval: 0.2)
+-> $$ = nterm float (ival: 30, fval: 0.3)
+Cleanup: popping nterm float (ival: 30, fval: 0.3)
+]])
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])
+
+AT_TEST([yacc.c])
+AT_TEST([glr.c])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
+
+m4_popdef([AT_TEST])
+
 ## ----------------------------------------------- ##
 ## Fix user actions without a trailing semicolon.  ##
 ## ----------------------------------------------- ##

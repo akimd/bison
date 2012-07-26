@@ -417,13 +417,28 @@ m4_define([b4_case],
 $2
     break;])
 
+# b4_dollar_dollar_(NAME, FIELD, DEFAULT-FIELD)
+# ---------------------------------------------
+# If FIELD (or DEFAULT-FIELD) is non-null, read it in pointer NAME,
+# otherwise just dereference.
+m4_define([b4_dollar_dollar_],
+[m4_if([$2], [[]],
+       [m4_ifval([$3], [($1->$3)],
+                 [(*$1)])],
+       [($1->$2)])])
+
+
 # b4_symbol_actions(FILENAME, LINENO,
 #                   SYMBOL-TAG, SYMBOL-NUM,
 #                   SYMBOL-ACTION, SYMBOL-TYPENAME)
 # -------------------------------------------------
+# Issue the code for a symbol action (e.g., %printer).
+#
+# Define b4_dollar_dollar([TYPE-NAME]), and b4_at_dollar, which are
+# invoked where $<TYPE-NAME>$ and @$ were specified by the user.
 m4_define([b4_symbol_actions],
 [m4_pushdef([b4_dollar_dollar],
-   [m4_ifval([$6], [(yyvaluep->$6)], [(*yyvaluep)])])dnl
+   [b4_dollar_dollar_([yyvaluep], m4_dquote($][1), [$6])])dnl
 m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])

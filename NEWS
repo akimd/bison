@@ -10,6 +10,16 @@ GNU Bison NEWS
 
 *** glr.cc: set_debug_level and debug_level work as expected.
 
+** Type names in printers and destructors
+
+  For consistency with rule actions, it is now possible to qualify $$ by a
+  type-name in printers and destructors.  For instance:
+
+    %printer { fprintf (yyo, "(%d, %f)", $<ival>$, $<fval>$); } <*> <>;
+
+  will display two values for each typed and untyped symbol (provided
+  that YYSTYPE supports it).
+
 * Noteworthy changes in release 2.6 (2012-07-19) [stable]
 
 ** Future Changes

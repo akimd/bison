@@ -288,16 +288,16 @@ static int power (int base, int exponent);
 ]AT_YYLEX_DECLARE_EXTERN[
 }
 
-]AT_SKEL_CC_IF([AT_LOCATION_TYPE_IF([], [
+]AT_SKEL_CC_IF([AT_LOCATION_TYPE_IF([], [[
 /* The lalr1.cc skeleton, for backward compatibility, defines
    a constructor for position that initializes the filename.  The
    glr.cc skeleton does not (and in fact cannot: location/position
    are stored in a union, from which objects with constructors are
-   excluded in C++. */
+   excluded in C++). */
 %initial-action {
   @$.initialize ();
 }
-])])[
+]])])[
 
 /* Bison Declarations */
 %token CALC_EOF 0 "end of input"
