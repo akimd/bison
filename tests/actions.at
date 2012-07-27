@@ -1257,8 +1257,6 @@ AT_DATA_GRAMMAR([[input.y]],
 %debug
 %code requires
 {
-# include <stdio.h>
-
   typedef struct sem_type
   {
     int ival;
@@ -1267,20 +1265,21 @@ AT_DATA_GRAMMAR([[input.y]],
 
 # define YYSTYPE sem_type
 
-#ifdef __cplusplus
+]AT_SKEL_CC_IF([[
 # include <iostream>
   static void
   report (std::ostream& yyo, int ival, float fval)
   {
     yyo << "ival: " << ival << ", fval: " <<  fval;
   }
-#else
+]], [[
+# include <stdio.h>
   static void
   report (FILE* yyo, int ival, float fval)
   {
     fprintf (yyo, "ival: %d, fval: %1.1f", ival, fval);
   }
-#endif
+]])[
 }
 
 %code
