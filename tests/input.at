@@ -1371,6 +1371,36 @@ m4_popdef([AT_TEST])
 AT_CLEANUP
 
 
+## -------------- ##
+## Stray $ or @.  ##
+## -------------- ##
+
+AT_SETUP([[Stray $ or @]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%token TOK
+%destructor     { $%; @%; } <*>;
+%initial-action { $%; @%; };
+%printer        { $%; @%; } <*>;
+%%
+exp: TOK        { $%; @%; };
+]])
+
+AT_BISON_CHECK([[input.y]], 0, [],
+[[input.y:10.19: warning: stray '$'
+input.y:10.23: warning: stray '@'
+input.y:11.19: warning: stray '$'
+input.y:11.23: warning: stray '@'
+input.y:12.19: warning: stray '$'
+input.y:12.23: warning: stray '@'
+input.y:14.19: warning: stray '$'
+input.y:14.23: warning: stray '@'
+]])
+
+AT_CLEANUP
+
+
+
 ## ---------------- ##
 ## Code injection.  ##
 ## ---------------- ##

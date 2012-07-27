@@ -103,7 +103,10 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
      ';', or a C preprocessor directive, and that whitespaces and
      comments do not affect this flag.  Note that '{' does not need a
      semicolon because of '{}'.  A semicolon may be needed before a
-     cpp directive, but don't bother.  */
+     cpp directive, but don't bother.
+
+     While it is maintained in several start-conditions (factoring
+     opportunities), it is meaningful only for SC_RULE_ACTION. */
   bool need_semicolon = false;
 
   /* Whether in a C preprocessor directive.  Don't use a start condition
@@ -181,6 +184,15 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     STRING_GROW;
     BEGIN SC_LINE_COMMENT;
   }
+  [$@]  {
+    warn_at (*loc, _("stray '%s'"), yytext);
+    obstack_escape (&obstack_for_string, yytext);
+    need_semicolon = true;
+  }
+  [\[\]]  {
+    obstack_escape (&obstack_for_string, yytext);
+    need_semicolon = true;
+  }
 }
 
 <SC_RULE_ACTION>
@@ -197,24 +209,6 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     handle_action_at (self->rule, yytext, *loc);
     if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
-    need_semicolon = true;
-  }
-  "$"  {
-    warn_at (*loc, _("stray '$'"));
-    obstack_sgrow (&obstack_for_string, "$][");
-    need_semicolon = true;
-  }
-  "@"  {
-    warn_at (*loc, _("stray '@'"));
-    obstack_sgrow (&obstack_for_string, "@@");
-    need_semicolon = true;
-  }
-  "["  {
-    obstack_sgrow (&obstack_for_string, "@{");
-    need_semicolon = true;
-  }
-  "]"  {
-    obstack_sgrow (&obstack_for_string, "@}");
     need_semicolon = true;
   }
 
@@ -281,29 +275,17 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 }
 
 
-  /*-----------------------------------------.
-  | Escape M4 quoting characters in C code.  |
-  `-----------------------------------------*/
-
 <*>
 {
-  \$	obstack_sgrow (&obstack_for_string, "$][");
-  \@	obstack_sgrow (&obstack_for_string, "@@");
-  \[	obstack_sgrow (&obstack_for_string, "@{");
-  \]	obstack_sgrow (&obstack_for_string, "@}");
+  /* Escape M4 quoting characters in C code.  */
+  [$@\[\]]    obstack_escape (&obstack_for_string, yytext);
+
+  /* By default, grow the string obstack with the input.  */
+  .|\n        STRING_GROW;
+
+  /* End of processing. */
+  <<EOF>>     STRING_FINISH; return last_string;
 }
-
-  /*-----------------------------------------------------.
-  | By default, grow the string obstack with the input.  |
-  `-----------------------------------------------------*/
-
-<*>.|\n	STRING_GROW;
-
- /* End of processing. */
-<*><<EOF>>	 {
-                   STRING_FINISH;
-                   return last_string;
-                 }
 
 %%
 

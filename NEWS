@@ -22,6 +22,12 @@ GNU Bison NEWS
 
 *** glr.cc: set_debug_level and debug_level work as expected.
 
+*** Stray @ or $ in actions
+
+  While Bison used to warn about stray $ or @ in action rules, it did not
+  for other actions such as printers, destructors, or initial actions.  It
+  now does.
+
 ** Type names in printers and destructors
 
   For consistency with rule actions, it is now possible to qualify $$ by a
