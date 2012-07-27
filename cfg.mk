@@ -65,12 +65,14 @@ exclude = \
 $(call exclude,								\
   bindtextdomain=^lib/main.c$$						\
   program_name=^lib/main.c$$						\
-  prohibit_always-defined_macros=^data/yacc.c|^djgpp/			\
+  prohibit_always-defined_macros=^data/yacc.c$$|^djgpp/			\
   prohibit_always-defined_macros+=?|^lib/timevar.c$$			\
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
   prohibit_always-defined_macros+=?|^tests/regression.at$$		\
   prohibit_defined_have_decl_tests=?|^lib/timevar.c$$			\
   prohibit_empty_lines_at_EOF=^src/parse-gram.[ch]$$			\
+  prohibit_magic_number_exit=^doc/bison.texi$$				\
+  prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$	\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
   space_tab=^tests/(input|c\+\+)\.at$$					\
   trailing_blank=^src/parse-gram.[ch]$$					\
