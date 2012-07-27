@@ -72,8 +72,8 @@ static void fail_for_invalid_at (char const *at);
 "@@" fputc ('@', yyout);
 "@{" fputc ('[', yyout);
 "@}" fputc (']', yyout);
-"@`" /* Empty.  Used by b4_cat in ../data/bison.m4.  */
-@\n  /* Likewise.  */
+"@`" continue;  /* Used by b4_cat in ../data/bison.m4.  */
+@\n  continue;
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
 "@ofile@"  QPUTS (outname);
@@ -87,11 +87,11 @@ static void fail_for_invalid_at (char const *at);
 }
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}`(\n]* fail_for_invalid_at (yytext);
-\n	   out_lineno++; ECHO;
-[^@\n]+	   ECHO;
+@[^@{}`(\n]*  fail_for_invalid_at (yytext);
+\n            out_lineno++; ECHO;
+[^@\n]+       ECHO;
 
-<INITIAL><<EOF>> {
+<<EOF>> {
   if (outname)
     {
       free (outname);
@@ -100,15 +100,15 @@ static void fail_for_invalid_at (char const *at);
   return EOF;
 }
 
-<SC_AT_DIRECTIVE_ARGS>{
-  [^@]+ { STRING_GROW; }
+<SC_AT_DIRECTIVE_ARGS>
+{
+  [^@]+  STRING_GROW;
 
-  "@@" { obstack_1grow (&obstack_for_string, '@'); }
-  "@{" { obstack_1grow (&obstack_for_string, '['); }
-  "@}" { obstack_1grow (&obstack_for_string, ']'); }
-  "@`" /* Empty.  Useful for starting an argument
-          that begins with whitespace. */
-  @\n  /* Empty.  */
+  "@@"   obstack_1grow (&obstack_for_string, '@');
+  "@{"   obstack_1grow (&obstack_for_string, '[');
+  "@}"   obstack_1grow (&obstack_for_string, ']');
+  "@`"   continue; /* For starting an argument that begins with whitespace. */
+  @\n    continue;
 
   @[,)] {
     if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)
@@ -131,15 +131,17 @@ static void fail_for_invalid_at (char const *at);
       }
   }
 
-  @.? { fail_for_invalid_at (yytext); }
+  @.?  fail_for_invalid_at (yytext);
 }
 
-<SC_AT_DIRECTIVE_SKIP_WS>{
-  [ \t\r\n]
-  . { yyless (0); BEGIN SC_AT_DIRECTIVE_ARGS; }
+<SC_AT_DIRECTIVE_SKIP_WS>
+{
+  [ \t\r\n]    continue;
+  .            { yyless (0); BEGIN SC_AT_DIRECTIVE_ARGS; }
 }
 
-<SC_AT_DIRECTIVE_ARGS,SC_AT_DIRECTIVE_SKIP_WS>{
+<SC_AT_DIRECTIVE_ARGS,SC_AT_DIRECTIVE_SKIP_WS>
+{
   <<EOF>> {
     fatal (_("unclosed %s directive in skeleton"), at_directive_argv[0]);
   }

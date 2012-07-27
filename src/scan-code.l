@@ -98,11 +98,12 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   int braces_level = 0;
 
   /* Whether a semicolon is probably needed.
-     The heuristic is that a semicolon is not needed after '{', '}', ';',
-     or a C preprocessor directive, and that whitespaces and comments
-     do not affect this flag.
-     Note that '{' does not need a semicolon because of '{}'.
-     A semicolon may be needed before a cpp direcive, but don't bother.  */
+
+     The heuristic is that a semicolon is not needed after '{', '}',
+     ';', or a C preprocessor directive, and that whitespaces and
+     comments do not affect this flag.  Note that '{' does not need a
+     semicolon because of '{}'.  A semicolon may be needed before a
+     cpp directive, but don't bother.  */
   bool need_semicolon = false;
 
   /* Whether in a C preprocessor directive.  Don't use a start condition
@@ -160,7 +161,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 }
 
 
-<SC_RULE_ACTION,SC_SYMBOL_ACTION>{
+<SC_RULE_ACTION,SC_SYMBOL_ACTION>
+{
   "'" {
     STRING_GROW;
     BEGIN SC_CHARACTER;
