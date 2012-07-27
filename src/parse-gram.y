@@ -347,17 +347,27 @@ grammar_declaration:
     }
 | "%destructor" "{...}" generic_symlist
     {
-      symbol_list *list;
-      for (list = $3; list; list = list->next)
-	symbol_list_destructor_set (list, $2, @2);
-      symbol_list_free ($3);
+      code_props code;
+      code_props_symbol_action_init (&code, $2, @2);
+      code_props_translate_code (&code);
+      {
+        symbol_list *list;
+        for (list = $3; list; list = list->next)
+          symbol_list_destructor_set (list, &code);
+        symbol_list_free ($3);
+      }
     }
 | "%printer" "{...}" generic_symlist
     {
-      symbol_list *list;
-      for (list = $3; list; list = list->next)
-	symbol_list_printer_set (list, $2, @2);
-      symbol_list_free ($3);
+      code_props code;
+      code_props_symbol_action_init (&code, $2, @2);
+      code_props_translate_code (&code);
+      {
+        symbol_list *list;
+        for (list = $3; list; list = list->next)
+          symbol_list_printer_set (list, &code);
+        symbol_list_free ($3);
+      }
     }
 | "%default-prec"
     {

@@ -1377,13 +1377,16 @@ AT_CLEANUP
 
 AT_SETUP([[Stray $ or @]])
 
+# Give %printer and %destructor "<*> exp TOK" instead of "<*>" to
+# check that the warnings are reported once, not three times.
+
 AT_DATA_GRAMMAR([[input.y]],
 [[%token TOK
-%destructor     { $%; @%; } <*>;
+%destructor     { $%; @%; } <*> exp TOK;
 %initial-action { $%; @%; };
-%printer        { $%; @%; } <*>;
+%printer        { $%; @%; } <*> exp TOK;
 %%
-exp: TOK        { $%; @%; };
+exp: TOK        { $%; @%; $$ = $1; };
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
