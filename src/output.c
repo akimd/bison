@@ -108,27 +108,37 @@ GENERATE_MUSCLE_INSERT_TABLE(muscle_insert_symbol_number_table, symbol_number)
 GENERATE_MUSCLE_INSERT_TABLE(muscle_insert_state_number_table, state_number)
 
 
-/*--------------------------------------------------------------------.
-| Print to OUT a representation of STRING escaped both for C and M4.  |
-`--------------------------------------------------------------------*/
+/*----------------------------------------------------------------.
+| Print to OUT a representation of CP quoted and escaped for M4.  |
+`----------------------------------------------------------------*/
 
 static void
-escaped_output (FILE *out, char const *string)
+quoted_output (FILE *out, char const *cp)
 {
-  char const *p;
   fprintf (out, "[[");
 
-  for (p = quotearg_style (c_quoting_style, string); *p; p++)
-    switch (*p)
+  for (; *cp; cp++)
+    switch (*cp)
       {
       case '$': fputs ("$][", out); break;
       case '@': fputs ("@@",  out); break;
       case '[': fputs ("@{",  out); break;
       case ']': fputs ("@}",  out); break;
-      default: fputc (*p, out); break;
+      default:  fputc (*cp,   out); break;
       }
 
   fprintf (out, "]]");
+}
+
+/*----------------------------------------------------------------.
+| Print to OUT a representation of STRING quoted and escaped both |
+| for C and M4.                                                   |
+`----------------------------------------------------------------*/
+
+static void
+string_output (FILE *out, char const *string)
+{
+  quoted_output (out, quotearg_style (c_quoting_style, string));
 }
 
 
@@ -174,7 +184,7 @@ prepare_symbols (void)
 
         if (i)
           obstack_1grow (&format_obstack, ' ');
-        MUSCLE_OBSTACK_SGROW (&format_obstack, cp);
+        obstack_escape (&format_obstack, cp);
         free (cp);
         obstack_1grow (&format_obstack, ',');
         j += width;
@@ -355,7 +365,7 @@ user_actions_output (FILE *out)
         fprintf (out, "b4_%scase(%d, [b4_syncline(%d, ",
                  rules[r].is_predicate ? "predicate_" : "",
                  r + 1, rules[r].action_location.start.line);
-        escaped_output (out, rules[r].action_location.start.file);
+        string_output (out, rules[r].action_location.start.file);
         fprintf (out, ")\n[    %s]])\n\n", rules[r].action);
       }
   fputs ("])\n\n", out);

@@ -202,6 +202,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   void
   ]b4_parser_class_name[::set_debug_level (debug_level_type l)
   {
+    // Actually, it is yydebug which is really used.
     yydebug = l;
   }
 

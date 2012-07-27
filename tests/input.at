@@ -1491,3 +1491,102 @@ AT_TEST([%define api.prefix foo], [-p bar], [input.y:1.9-18])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
+
+
+## -------------- ##
+## Stray $ or @.  ##
+## -------------- ##
+
+AT_SETUP([[Stray $ or @]])
+
+# Give %printer and %destructor "<*> exp TOK" instead of "<*>" to
+# check that the warnings are reported once, not three times.
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%type <TYPE> exp
+%token <TYPE> TOK TOK2
+%destructor     { $%; @%; } <*> exp TOK;
+%initial-action { $%; @%; };
+%printer        { $%; @%; } <*> exp TOK;
+%%
+exp: TOK        { $%; @%; $$ = $1; };
+]])
+
+AT_BISON_CHECK([[input.y]], 0, [],
+[[input.y:11.19: warning: stray '$' [-Wother]
+input.y:11.23: warning: stray '@' [-Wother]
+input.y:12.19: warning: stray '$' [-Wother]
+input.y:12.23: warning: stray '@' [-Wother]
+input.y:13.19: warning: stray '$' [-Wother]
+input.y:13.23: warning: stray '@' [-Wother]
+input.y:15.19: warning: stray '$' [-Wother]
+input.y:15.23: warning: stray '@' [-Wother]
+]])
+
+AT_CLEANUP
+
+
+
+## ---------------- ##
+## Code injection.  ##
+## ---------------- ##
+
+
+AT_SETUP([[Code injection]])
+
+m4_pattern_allow([^m4_errprintn$])
+
+# AT_TEST([MACRO])
+# ----------------
+# Try to have MACRO be run by bison.
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[%type <$1(DEAD %type)> exp
+%token <$1(DEAD %token)> a
+%token b
+%initial-action
+{
+  $$;
+  $<$1(DEAD %initial-action)>$
+};
+%printer
+{
+  $$
+  $<$1(DEAD %printer)>$
+} <> <*>;
+%lex-param
+{
+  $1(DEAD %lex-param)
+};
+%parse-param
+{
+  $1(DEAD %parse-param)
+};
+%%
+exp:
+  a a[name] b
+  {
+    $$;
+    $][1;
+    $<$1(DEAD action 1)>$
+    $<$1(DEAD action 2)>1
+    $<$1(DEAD action 3)>name
+    $<$1(DEAD action 4)>0
+    ;
+  };
+]])
+
+# FIXME: Provide a means to iterate over all the skeletons.
+AT_BISON_CHECK([[-d               input.y]])
+AT_BISON_CHECK([[-d -S glr.c      input.y]])
+AT_BISON_CHECK([[-d -S lalr1.cc   input.y]])
+AT_BISON_CHECK([[-d -S glr.cc     input.y]])
+AT_BISON_CHECK([[   -S lalr1.java input.y]])
+])
+
+AT_TEST([m4_errprintn])
+AT_TEST([@:>@m4_errprintn])
+
+m4_popdef([AT_TEST])
+
+AT_CLEANUP

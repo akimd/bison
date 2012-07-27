@@ -98,19 +98,19 @@ m4_define([b4_rhs_location],
 # Same as in C, but using references instead of pointers.
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
-[m4_pushdef([b4_dollar_dollar],
-    [b4_symbol_value_template([yysym.value],
-                              b4_symbol_if([$1], [has_type],
-                                           [b4_symbol([$1], [type])]))])dnl
-m4_pushdef([b4_at_dollar], [yysym.location])dnl
+[m4_pushdef([b4_symbol_value], m4_defn([b4_symbol_value_template]))[]dnl
+b4_dollar_pushdef([yysym.value],
+                   b4_symbol_if([$1], [has_type],
+                                [m4_dquote(b4_symbol([$1], [type]))]),
+                   [yysym.location])dnl
       b4_symbol_case_([$1])
 b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
         b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
         break;
 
-m4_popdef([b4_at_dollar])dnl
-m4_popdef([b4_dollar_dollar])dnl
+m4_popdef([b4_symbol_value])[]dnl
+b4_dollar_popdef[]dnl
 ])])
 
 
@@ -670,12 +670,10 @@ m4_if(b4_prefix, [yy], [],
     YYCDEBUG << "Starting parse" << std::endl;
 
 ]m4_ifdef([b4_initial_action], [
-m4_pushdef([b4_at_dollar],     [yyla.location])dnl
-m4_pushdef([b4_dollar_dollar], [yyla.value])dnl
+b4_dollar_pushdef([yyla.value], [], [yyla.location])dnl
     /* User initialization code.  */
     b4_user_initial_action
-m4_popdef([b4_dollar_dollar])dnl
-m4_popdef([b4_at_dollar])])dnl
+b4_dollar_popdef])[]dnl
 
   [  /* Initialize the stack.  The initial state will be set in
        yynewstate, since the latter expects the semantical and the

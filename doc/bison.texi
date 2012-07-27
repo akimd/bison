@@ -110,7 +110,7 @@ Reference sections:
 * Glossary::            Basic concepts are explained.
 * Copying This Manual:: License for copying this manual.
 * Bibliography::        Publications cited in this manual.
-* Index::               Cross-references to the text.
+* Index of Terms::      Cross-references to the text.
 
 @detailmenu
  --- The Detailed Node Listing ---
@@ -4634,9 +4634,9 @@ code.
 @deffn {Directive} %initial-action @{ @var{code} @}
 @findex %initial-action
 Declare that the braced @var{code} must be invoked before parsing each time
-@code{yyparse} is called.  The @var{code} may use @code{$$} and
-@code{@@$} --- initial value and location of the lookahead --- and the
-@code{%parse-param}.
+@code{yyparse} is called.  The @var{code} may use @code{$$} (or
+@code{$<@var{tag}>$}) and @code{@@$} --- initial value and location of the
+lookahead --- and the @code{%parse-param}.
 @end deffn
 
 For instance, if your locations use a file name, you may use
@@ -4674,11 +4674,11 @@ symbol is automatically discarded.
 @deffn {Directive} %destructor @{ @var{code} @} @var{symbols}
 @findex %destructor
 Invoke the braced @var{code} whenever the parser discards one of the
-@var{symbols}.
-Within @var{code}, @code{$$} designates the semantic value associated
-with the discarded symbol, and @code{@@$} designates its location.
-The additional parser parameters are also available (@pxref{Parser Function, ,
-The Parser Function @code{yyparse}}).
+@var{symbols}.  Within @var{code}, @code{$$} (or @code{$<@var{tag}>$})
+designates the semantic value associated with the discarded symbol, and
+@code{@@$} designates its location.  The additional parser parameters are
+also available (@pxref{Parser Function, , The Parser Function
+@code{yyparse}}).
 
 When a symbol is listed among @var{symbols}, its @code{%destructor} is called a
 per-symbol @code{%destructor}.
@@ -4816,10 +4816,11 @@ Decl, , Freeing Discarded Symbols}).
 @c This is the same text as for %destructor.
 Invoke the braced @var{code} whenever the parser displays one of the
 @var{symbols}.  Within @var{code}, @code{yyoutput} denotes the output stream
-(a @code{FILE*} in C, and an @code{std::ostream&} in C++),
-@code{$$} designates the semantic value associated with the symbol, and
-@code{@@$} its location.  The additional parser parameters are also
-available (@pxref{Parser Function, , The Parser Function @code{yyparse}}).
+(a @code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
+@code{$<@var{tag}>$}) designates the semantic value associated with the
+symbol, and @code{@@$} its location.  The additional parser parameters are
+also available (@pxref{Parser Function, , The Parser Function
+@code{yyparse}}).
 
 The @var{symbols} are defined as for @code{%destructor} (@pxref{Destructor
 Decl, , Freeing Discarded Symbols}.): they can be per-type (e.g.,
@@ -12375,8 +12376,8 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @uref{http://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps}
 @end table
 
-@node Index
-@unnumbered Index
+@node Index of Terms
+@unnumbered Index of Terms
 
 @printindex cp
 

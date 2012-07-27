@@ -47,6 +47,9 @@ YY_DECL;
 
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
 
+static char *fetch_type_name (char *cp, char const **type_name,
+                              location dollar_loc);
+
 static void handle_action_dollar (symbol_list *rule, char *cp,
                                   location dollar_loc);
 static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
@@ -96,11 +99,15 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   int braces_level = 0;
 
   /* Whether a semicolon is probably needed.
-     The heuristic is that a semicolon is not needed after '{', '}', ';',
-     or a C preprocessor directive, and that whitespaces and comments
-     do not affect this flag.
-     Note that '{' does not need a semicolon because of '{}'.
-     A semicolon may be needed before a cpp direcive, but don't bother.  */
+
+     The heuristic is that a semicolon is not needed after '{', '}',
+     ';', or a C preprocessor directive, and that whitespaces and
+     comments do not affect this flag.  Note that '{' does not need a
+     semicolon because of '{}'.  A semicolon may be needed before a
+     cpp directive, but don't bother.
+
+     While it is maintained in several start-conditions (factoring
+     opportunities), it is meaningful only for SC_RULE_ACTION. */
   bool need_semicolon = false;
 
   /* Whether in a C preprocessor directive.  Don't use a start condition
@@ -158,7 +165,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 }
 
 
-<SC_RULE_ACTION,SC_SYMBOL_ACTION>{
+<SC_RULE_ACTION,SC_SYMBOL_ACTION>
+{
   "'" {
     STRING_GROW;
     BEGIN SC_CHARACTER;
@@ -177,42 +185,31 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     STRING_GROW;
     BEGIN SC_LINE_COMMENT;
   }
+  [$@]  {
+    complain_at (*loc, Wother, _("stray '%s'"), yytext);
+    obstack_escape (&obstack_for_string, yytext);
+    need_semicolon = true;
+  }
+  [\[\]]  {
+    obstack_escape (&obstack_for_string, yytext);
+    need_semicolon = true;
+  }
 }
 
 <SC_RULE_ACTION>
 {
   "$"("<"{tag}">")?{ref}  {
-    ref_tail_fields = 0;
+    ref_tail_fields = NULL;
     handle_action_dollar (self->rule, yytext, *loc);
-    if (ref_tail_fields) {
+    if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
-    }
     need_semicolon = true;
   }
   "@"{ref} {
-    ref_tail_fields = 0;
+    ref_tail_fields = NULL;
     handle_action_at (self->rule, yytext, *loc);
-    if (ref_tail_fields) {
+    if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
-    }
-    need_semicolon = true;
-  }
-  "$"  {
-    complain_at (*loc, Wother, _("stray '$'"));
-    obstack_sgrow (&obstack_for_string, "$][");
-    need_semicolon = true;
-  }
-  "@"  {
-    complain_at (*loc, Wother, _("stray '@'"));
-    obstack_sgrow (&obstack_for_string, "@@");
-    need_semicolon = true;
-  }
-  "["  {
-    obstack_sgrow (&obstack_for_string, "@{");
-    need_semicolon = true;
-  }
-  "]"  {
-    obstack_sgrow (&obstack_for_string, "@}");
     need_semicolon = true;
   }
 
@@ -253,8 +250,12 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_SYMBOL_ACTION>
 {
-  "$$" {
-    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar[");
+  "$"("<"{tag}">")?"$" {
+    const char *type_name = NULL;
+    fetch_type_name (yytext + 1, &type_name, *loc)[-1] = 0;
+    obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar(");
+    obstack_quote (&obstack_for_string, type_name);
+    obstack_sgrow (&obstack_for_string, ")[");
     self->is_value_used = true;
   }
   "@$" {
@@ -264,29 +265,17 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 }
 
 
-  /*-----------------------------------------.
-  | Escape M4 quoting characters in C code.  |
-  `-----------------------------------------*/
-
 <*>
 {
-  \$    obstack_sgrow (&obstack_for_string, "$][");
-  \@    obstack_sgrow (&obstack_for_string, "@@");
-  \[    obstack_sgrow (&obstack_for_string, "@{");
-  \]    obstack_sgrow (&obstack_for_string, "@}");
-}
+  /* Escape M4 quoting characters in C code.  */
+  [$@\[\]]    obstack_escape (&obstack_for_string, yytext);
 
-  /*-----------------------------------------------------.
-  | By default, grow the string obstack with the input.  |
-  `-----------------------------------------------------*/
-
-<*>.|\n STRING_GROW;
+  /* By default, grow the string obstack with the input.  */
+  .|\n        STRING_GROW;
 
  /* End of processing. */
-<*><<EOF>>       {
-                   STRING_FINISH;
-                   return last_string;
-                 }
+  <<EOF>>     STRING_FINISH; return last_string;
+}
 
 %%
 
@@ -335,7 +324,7 @@ typedef struct
    not visible from current midrule. */
 #define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 2)
 
-static variant *variant_table = 0;
+static variant *variant_table = NULL;
 static unsigned variant_table_size = 0;
 static unsigned variant_count = 0;
 
@@ -357,7 +346,7 @@ static void
 variant_table_free (void)
 {
   free (variant_table);
-  variant_table = 0;
+  variant_table = NULL;
   variant_table_size = variant_count = 0;
 }
 
@@ -681,6 +670,32 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 int max_left_semantic_context = 0;
 
 
+/* If CP points to a typename (i.e., <.*?>), set TYPE_NAME to its
+   beginning (i.e., after the opening "<", and return the pointer
+   immediately after it.  */
+
+static
+char *
+fetch_type_name (char *cp, char const **type_name,
+                 location dollar_loc)
+{
+  if (*cp == '<')
+    {
+      *type_name = ++cp;
+      while (*cp != '>')
+        ++cp;
+
+      /* The '>' symbol will be later replaced by '\0'. Original
+         'text' is needed for error messages. */
+      ++cp;
+      if (untyped_var_seen)
+        complain_at (dollar_loc, complaint,
+                     _("explicit type given in untyped grammar"));
+      tag_seen = true;
+    }
+  return cp;
+}
+
 /*------------------------------------------------------------------.
 | TEXT is pointing to a wannabee semantic value (i.e., a '$').      |
 |                                                                   |
@@ -694,7 +709,6 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 {
   char const *type_name = NULL;
   char *cp = text + 1;
-  char *gt_ptr = 0;
   symbol_list *effective_rule;
   int effective_rule_length;
   int n;
@@ -711,27 +725,14 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
     }
 
   /* Get the type name if explicit. */
-  if (*cp == '<')
-    {
-      type_name = ++cp;
-      while (*cp != '>')
-        ++cp;
-
-      /* The '>' symbol will be later replaced by '\0'. Original
-         'text' is needed for error messages. */
-      gt_ptr = cp;
-      ++cp;
-      if (untyped_var_seen)
-        complain_at (dollar_loc, complaint,
-                  _("explicit type given in untyped grammar"));
-      tag_seen = true;
-    }
+  cp = fetch_type_name (cp, &type_name, dollar_loc);
 
   n = parse_ref (cp, effective_rule, effective_rule_length,
                  rule->midrule_parent_rhs_index, text, dollar_loc, '$');
 
-  if (gt_ptr)
-    *gt_ptr = '\0';
+  /* End type_name. */
+  if (type_name)
+    cp[-1] = '\0';
 
   switch (n)
     {
@@ -759,11 +760,11 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             }
           else
             untyped_var_seen = true;
-          type_name = "";
         }
 
-      obstack_fgrow1 (&obstack_for_string,
-                      "]b4_lhs_value([%s])[", type_name);
+      obstack_sgrow (&obstack_for_string, "]b4_lhs_value(");
+      obstack_quote (&obstack_for_string, type_name);
+      obstack_sgrow (&obstack_for_string, ")[");
       rule->action_props.is_value_used = true;
       break;
 
@@ -781,12 +782,12 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
                          quote (effective_rule->content.sym->tag));
           else
             untyped_var_seen = true;
-          type_name = "";
         }
 
-      obstack_fgrow3 (&obstack_for_string,
-                      "]b4_rhs_value(%d, %d, [%s])[",
-                      effective_rule_length, n, type_name);
+      obstack_fgrow2 (&obstack_for_string,
+                      "]b4_rhs_value(%d, %d, ", effective_rule_length, n);
+      obstack_quote (&obstack_for_string, type_name);
+      obstack_sgrow (&obstack_for_string, ")[");
       if (n > 0)
         symbol_list_n_get (effective_rule, n)->action_props.is_value_used =
           true;

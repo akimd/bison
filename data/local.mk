@@ -18,6 +18,7 @@ dist_pkgdata_DATA =                             \
   data/bison.m4                                 \
   data/c++-skel.m4                              \
   data/c++.m4                                   \
+  data/c-like.m4                                \
   data/c-skel.m4                                \
   data/c.m4                                     \
   data/glr.c                                    \

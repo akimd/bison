@@ -191,15 +191,12 @@ symbol_list_null (symbol_list *node)
 
 void
 symbol_list_code_props_set (symbol_list *node, code_props_type kind,
-                            location loc, char const *code)
+                            code_props const *cprops)
 {
-  code_props cprops;
-  code_props_symbol_action_init (&cprops, code, loc);
-  code_props_translate_code (&cprops);
   switch (node->content_type)
     {
       case SYMLIST_SYMBOL:
-        symbol_code_props_set (node->content.sym, kind, &cprops);
+        symbol_code_props_set (node->content.sym, kind, cprops);
         if (node->content.sym->status == undeclared)
           node->content.sym->status = used;
         break;
@@ -207,7 +204,7 @@ symbol_list_code_props_set (symbol_list *node, code_props_type kind,
         semantic_type_code_props_set
           (semantic_type_get (node->content.sem_type->tag,
                               &node->content.sem_type->location),
-           kind, &cprops);
+           kind, cprops);
         if (node->content.sem_type->status == undeclared)
           node->content.sem_type->status = used;
         break;

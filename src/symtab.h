@@ -92,8 +92,14 @@ struct symbol
   /** The location of its first occurrence.  */
   location location;
 
-  /** Its \c \%type.  */
+  /** Its \c \%type.
+
+      Beware that this is the type_name as was entered by the user,
+      including silly things such as "]" if she entered "%token <]> t".
+      Therefore, when outputting type_name to M4, be sure to escape it
+      into "@}".  See quoted_output for instance.  */
   uniqstr type_name;
+
   /** Its \c \%type's location.  */
   location type_location;
 
@@ -101,9 +107,9 @@ struct symbol
       symbol.
 
       Access this field only through <tt>symbol</tt>'s interface functions. For
-      Example, if <tt>symbol::destructor = NULL</tt> (resp. <tt>symbol::printer
+      example, if <tt>symbol::destructor = NULL</tt> (resp. <tt>symbol::printer
       = NULL</tt>), a default \c \%destructor (resp. \%printer) or a per-type
-      \c symbol_destructor_printer_get will compute the corect one. */
+      \c symbol_destructor_printer_get will compute the correct one. */
   code_props props[CODE_PROPS_SIZE];
 
   symbol_number number;

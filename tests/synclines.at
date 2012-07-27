@@ -27,6 +27,11 @@ AT_BANNER([[User Actions.]])
 # errors.
 m4_define([AT_SYNCLINES_COMPILE],
 [AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1], [ignore], [], [stderr])
+
+# Transform stderr into something like this:
+#
+#   input.y:4: #error "4"
+#
 # In case GCC displays column information, strip it down.
 #
 #   input.y:4:2: #error "4"    or
@@ -42,6 +47,11 @@ m4_define([AT_SYNCLINES_COMPILE],
 # =>
 #   input.y:4: #error "8"
 #
+# The message may include a caret-error:
+#
+#   input.y:1:2: error: #error "1"
+#    #error "1"
+#     ^
 #
 # And possibly distcc adds its bits.
 #
@@ -54,12 +64,15 @@ m4_define([AT_SYNCLINES_COMPILE],
 #   distcc[35882] (dcc_connect_by_name) ERROR: failed to look up host "chrisimac": Unknown host
 #   distcc[35882] Warning: failed to distribute input.c to chrisimac/4, running locally instead
 
-AT_CHECK([[sed -e '/^distcc\[[0-9]*\] /d'                            \
-               -e 's/^\([^:]*:[^:.]*\)[.:][^:]*:\(.*\)$/\1:\2/'      \
-               -e 's/^\([^:]*:[^:]*:\)[^@%:@]*\( @%:@error\)/\1\2/'  \
-               -e "/^[^:]*: In function '[^\']*':$/d"                \
-            stderr]],
-         0, [stdout])
+AT_CHECK([[perl -p -0777 -f - stderr <<\EOF
+ s/^distcc\[\d+\] .*\n//gm;
+ s/^([^:]*:\d+)[.:][^:]*:(.*)$/$][1:$][2/gm;
+ s/^([^:]*:\d+:)[^#]*( #error)/$][1$][2/gm;
+ s/^[^:]*: In function '[^']*':\n//gm;
+ s/^\ +#error.*\n\ *\^\n//gm;
+EOF
+]],
+ 0, [stdout])
 ])
 
 # AT_TEST_SYNCLINE(TITLE, INPUT, ERROR-MSG)

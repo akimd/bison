@@ -376,19 +376,17 @@ m4_define([b4_symbol_action_location],
 # Same as in C, but using references instead of pointers.
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
-[m4_pushdef([b4_dollar_dollar],
-    [b4_symbol_value([(*yyvaluep)],
-                     b4_symbol_if([$1], [has_type],
-                                  [b4_symbol([$1], [type])]))])dnl
-m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
+[b4_dollar_pushdef([(*yyvaluep)],
+                   b4_symbol_if([$1], [has_type],
+                                [m4_dquote(b4_symbol([$1], [type]))]),
+                   [(*yylocationp)])dnl
       b4_symbol_case_([$1])[]dnl
 b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
         b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
         break;
 
-m4_popdef([b4_at_dollar])dnl
-m4_popdef([b4_dollar_dollar])dnl
+b4_dollar_popdef[]dnl
 ])])
 
 

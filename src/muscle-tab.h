@@ -35,63 +35,48 @@ void muscle_free (void);
 extern struct obstack muscle_obstack;
 
 #define MUSCLE_INSERT_BOOL(Key, Value)                          \
-do {                                                            \
-  int v__ = Value;                                              \
-  MUSCLE_INSERT_INT (Key, v__);                                 \
-} while(0)
+  do {                                                          \
+    int v__ = Value;                                            \
+    MUSCLE_INSERT_INT (Key, v__);                               \
+  } while (0)
 
 #define MUSCLE_INSERT_INT(Key, Value)                           \
-do {                                                            \
-  obstack_fgrow1 (&muscle_obstack, "%d", Value);                \
-  obstack_1grow (&muscle_obstack, 0);                           \
-  muscle_insert (Key, obstack_finish (&muscle_obstack));        \
-} while(0)
+  do {                                                          \
+    obstack_fgrow1 (&muscle_obstack, "%d", Value);              \
+    obstack_1grow (&muscle_obstack, 0);                         \
+    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+  } while (0)
 
 #define MUSCLE_INSERT_LONG_INT(Key, Value)                      \
-do {                                                            \
-  obstack_fgrow1 (&muscle_obstack, "%ld", Value);               \
-  obstack_1grow (&muscle_obstack, 0);                           \
-  muscle_insert (Key, obstack_finish (&muscle_obstack));        \
-} while(0)
+  do {                                                          \
+    obstack_fgrow1 (&muscle_obstack, "%ld", Value);             \
+    obstack_1grow (&muscle_obstack, 0);                         \
+    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+  } while (0)
 
 /* Key -> Value, but don't apply escaping to Value. */
 #define MUSCLE_INSERT_STRING_RAW(Key, Value)                    \
-do {                                                            \
-  obstack_sgrow (&muscle_obstack, Value);                       \
-  obstack_1grow (&muscle_obstack, 0);                           \
-  muscle_insert (Key, obstack_finish (&muscle_obstack));        \
-} while(0)
+  do {                                                          \
+    obstack_sgrow (&muscle_obstack, Value);                     \
+    obstack_1grow (&muscle_obstack, 0);                         \
+    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+  } while (0)
 
 /* Key -> Value, applying M4 escaping to Value. */
 #define MUSCLE_INSERT_STRING(Key, Value)                        \
-do {                                                            \
-  MUSCLE_OBSTACK_SGROW (&muscle_obstack, Value);                \
-  obstack_1grow (&muscle_obstack, 0);                           \
-  muscle_insert (Key, obstack_finish (&muscle_obstack));        \
-} while(0)
-
-#define MUSCLE_OBSTACK_SGROW(Obstack, Value)            \
-do {                                                    \
-  char const *p__;                                      \
-  for (p__ = Value; *p__; p__++)                        \
-    switch (*p__)                                       \
-      {                                                 \
-      case '$': obstack_sgrow (Obstack, "$]["); break;  \
-      case '@': obstack_sgrow (Obstack, "@@" ); break;  \
-      case '[': obstack_sgrow (Obstack, "@{" ); break;  \
-      case ']': obstack_sgrow (Obstack, "@}" ); break;  \
-      default: obstack_1grow (Obstack, *p__); break;    \
-      }                                                 \
-} while(0)
+  do {                                                          \
+    obstack_escape (&muscle_obstack, Value);                    \
+    obstack_1grow (&muscle_obstack, 0);                         \
+    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+  } while (0)
 
 #define MUSCLE_INSERT_C_STRING(Key, Value)                      \
-do {                                                            \
-  MUSCLE_OBSTACK_SGROW (&muscle_obstack,                        \
-                        quotearg_style (c_quoting_style,        \
-                                        Value));                \
-  obstack_1grow (&muscle_obstack, 0);                           \
-  muscle_insert (Key, obstack_finish (&muscle_obstack));        \
-} while(0)
+  do {                                                          \
+    obstack_escape (&muscle_obstack,                            \
+                    quotearg_style (c_quoting_style, Value));   \
+    obstack_1grow (&muscle_obstack, 0);                         \
+    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+  } while (0)
 
 /* Append VALUE to the current value of KEY.  If KEY did not already
    exist, create it.  Use MUSCLE_OBSTACK.  De-allocate the previously
@@ -112,14 +97,6 @@ void muscle_code_grow (const char *key, const char *value, location loc);
    of quotes to reach the list itself.  */
 void muscle_pair_list_grow (const char *muscle,
                             const char *a1, const char *a2);
-
-/* In the format `[[file_name:line.column]], [[file_name:line.column]]', append
-   LOC to MUSCLE.  Use digraphs for special characters in each file name.  */
-void muscle_location_grow (char const *key, location loc);
-
-/* In the format `file_name:line.column', append BOUND to MUSCLE.  Use digraphs
-   for special characters in the file name.  */
-void muscle_boundary_grow (char const *key, boundary bound);
 
 /* Grow KEY for the occurrence of the name USER_NAME at LOC appropriately for
    use with b4_check_user_names in ../data/bison.m4.  USER_NAME is not escaped

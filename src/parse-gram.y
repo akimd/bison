@@ -389,10 +389,15 @@ grammar_declaration:
     }
 | code_props_type "{...}" generic_symlist
     {
-      symbol_list *list;
-      for (list = $3; list; list = list->next)
-        symbol_list_code_props_set (list, $1, @2, $2);
-      symbol_list_free ($3);
+      code_props code;
+      code_props_symbol_action_init (&code, $2, @2);
+      code_props_translate_code (&code);
+      {
+        symbol_list *list;
+        for (list = $3; list; list = list->next)
+          symbol_list_code_props_set (list, $1, &code);
+        symbol_list_free ($3);
+      }
     }
 | "%default-prec"
     {

@@ -11,6 +11,7 @@
 /INSTALL
 /Makefile
 /Makefile.in
+/README-release
 /_*
 /a.exe
 /a.out
@@ -31,4 +32,3 @@
 /patches
 /releases
 /stamp-h*
-/README-release
