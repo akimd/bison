@@ -1307,11 +1307,11 @@ AT_DATA_GRAMMAR([[input.y]],
 }
 ]])[
 
-// %initial-action
-// {
-//   $<ival>$ = 42;
-//   $<fval>$ = 4.2;
-// }
+%initial-action
+{
+  $<ival>$ = 42;
+  $<fval>$ = 4.2;
+}
 
 %%
 float: UNTYPED INT

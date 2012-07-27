@@ -4552,9 +4552,9 @@ code.
 @deffn {Directive} %initial-action @{ @var{code} @}
 @findex %initial-action
 Declare that the braced @var{code} must be invoked before parsing each time
-@code{yyparse} is called.  The @var{code} may use @code{$$} and
-@code{@@$} --- initial value and location of the lookahead --- and the
-@code{%parse-param}.
+@code{yyparse} is called.  The @var{code} may use @code{$$} (or
+@code{$<@var{tag}>$}) and @code{@@$} --- initial value and location of the
+lookahead --- and the @code{%parse-param}.
 @end deffn
 
 For instance, if your locations use a file name, you may use

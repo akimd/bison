@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 dist_pkgdata_DATA = README bison.m4 \
+   c-like.m4 \
    c-skel.m4 c.m4 yacc.c glr.c \
    c++-skel.m4 c++.m4 location.cc lalr1.cc glr.cc stack.hh \
    java-skel.m4 java.m4 lalr1.java

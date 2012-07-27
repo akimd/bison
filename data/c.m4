@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+m4_include(b4_pkgdatadir/[c-like.m4])
 
 # b4_tocpp(STRING)
 # ----------------
@@ -417,32 +418,6 @@ m4_define([b4_case],
 $2
     break;])
 
-# b4_dollar_dollar_(NAME, FIELD, DEFAULT-FIELD)
-# ---------------------------------------------
-# If FIELD (or DEFAULT-FIELD) is non-null, read it in pointer NAME,
-# otherwise just dereference.
-m4_define([b4_dollar_dollar_],
-[m4_if([$2], [[]],
-       [m4_ifval([$3], [($1->$3)],
-                 [(*$1)])],
-       [($1->$2)])])
-
-# b4_dollar_pushdef(VALUE, DEFAULT-FIELD, LOCATION)
-# b4_dollar_popdef
-# -------------------------------------------------
-# Define b4_dollar_dollar for VALUE and DEFAULT-FIELD,
-# and b4_at_dollar for LOCATION.
-m4_define([b4_dollar_pushdef],
-[m4_pushdef([b4_dollar_dollar],
-   [b4_dollar_dollar_([$1], m4_dquote($][1), [$2])])dnl
-m4_pushdef([b4_at_dollar], [(*yylocationp)])dnl
-])
-m4_define([b4_dollar_popdef],
-[m4_popdef([b4_at_dollar])dnl
-m4_popdef([b4_dollar_dollar])dnl
-])
-
-
 # b4_symbol_actions(FILENAME, LINENO,
 #                   SYMBOL-TAG, SYMBOL-NUM,
 #                   SYMBOL-ACTION, SYMBOL-TYPENAME)
@@ -452,7 +427,7 @@ m4_popdef([b4_dollar_dollar])dnl
 # Define b4_dollar_dollar([TYPE-NAME]), and b4_at_dollar, which are
 # invoked where $<TYPE-NAME>$ and @$ were specified by the user.
 m4_define([b4_symbol_actions],
-[b4_dollar_pushdef([yyvaluep], [$6], [(*yylocationp)])dnl
+[b4_dollar_pushdef([(*yyvaluep)], [$6], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])
 	$5;

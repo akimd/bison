@@ -28,15 +28,15 @@ GNU Bison NEWS
   for other actions such as printers, destructors, or initial actions.  It
   now does.
 
-** Type names in printers and destructors
+** Type names in actions
 
   For consistency with rule actions, it is now possible to qualify $$ by a
-  type-name in printers and destructors.  For instance:
+  type-name in destructors, printers, and initial actions.  For instance:
 
     %printer { fprintf (yyo, "(%d, %f)", $<ival>$, $<fval>$); } <*> <>;
 
   will display two values for each typed and untyped symbol (provided
-  that YYSTYPE supports it).
+  that YYSTYPE has both "ival" and "fval" fields).
 
 * Noteworthy changes in release 2.6 (2012-07-19) [stable]
 
