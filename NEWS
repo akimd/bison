@@ -4,6 +4,18 @@ GNU Bison NEWS
 
  Bison no longer executes user-specified M4 code when processing a grammar.
 
+** Future Changes
+
+  In addition to the removal of the features announced in Bison 2.6, the
+  next major release will remove the "Temporary hack for adding a semicolon
+  to the user action", as announced in the release 2.5.  Instead of:
+
+    exp: exp "+" exp { $$ = $1 + $3 };
+
+  write:
+
+    exp: exp "+" exp { $$ = $1 + $3; };
+
 ** Bug fixes
 
 *** Type names are now properly escaped.
