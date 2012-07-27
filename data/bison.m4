@@ -259,8 +259,8 @@ m4_define([b4_basename],
 # b4_syncline(LINE, FILE)
 # -----------------------
 m4_define([b4_syncline],
-[b4_flag_if([synclines], [
-b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])
+[b4_flag_if([synclines],
+[b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])
 b4_sync_start([$1], [$2])])])
 
 m4_define([b4_sync_end], [b4_comment([Line $1 of $2])])
