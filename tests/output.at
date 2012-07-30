@@ -22,24 +22,30 @@ AT_BANNER([[Output file names.]])
 #                 [ADDITIONAL-TESTS], [PRE-TESTS])
 # -----------------------------------------------------------------------------
 m4_define([AT_CHECK_OUTPUT],
-[AT_SETUP([[Output files: ]$2 $3 $5])
-$7
-for file in $1 $4; do
-  case "$file" in
-    */*) mkdir -p `echo "$file" | sed 's,/.*,,'`;;
+[AT_SETUP([[Output files: ]$2 $3 $5])[
+]$7[
+for file in ]$1 $4[; do
+  case $file in
+    */*) mkdir -p `echo "$file" | sed 's,/[^/]*,,'`;;
   esac
 done
-AT_DATA([$1],
+]AT_DATA([$1],
 [$2[
 %%
 foo: {};
-]])
+]])[
 
-AT_BISON_CHECK([$3 $1 $5], 0)
-AT_CHECK([ls $4], [], [ignore])
-$6
-AT_CLEANUP
-])
+]AT_BISON_CHECK([$3 $1 $5], 0)[
+# Ignore the files non-generated files
+]AT_CHECK([find . -type f -and -not -path './$1' -and -not -path './testsuite.log' |
+           sed 's,\./,,' |
+           sort |
+           xargs echo],
+          [], [$4
+])[
+]$6[
+]AT_CLEANUP[
+]])
 
 AT_CHECK_OUTPUT([foo.y], [], [-dv],
                 [foo.output foo.tab.c foo.tab.h])
@@ -76,11 +82,11 @@ AT_CHECK_OUTPUT([foo.yy], [%defines %verbose %yacc],[],
 AT_CHECK_OUTPUT([foo.y], [%file-prefix "bar" %defines %verbose],      [],
                 [bar.output bar.tab.c bar.tab.h])
 AT_CHECK_OUTPUT([foo.y], [%output="bar.c" %defines %verbose %yacc],[],
-                [bar.output bar.c bar.h])
+                [bar.c bar.h bar.output])
 AT_CHECK_OUTPUT([foo.y],
                 [%file-prefix="baz" %output "bar.c" %defines %verbose %yacc],
                 [],
-                [bar.output bar.c bar.h])
+                [bar.c bar.h bar.output])
 
 
 # Check priorities of extension control.
@@ -114,35 +120,35 @@ AT_CHECK([grep 'include .subdir/' $1.hh], 1, [])
 ])
 
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose], [],
-                [foo.tab.cc foo.output])
+                [foo.output foo.tab.cc])
 
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
-                [foo.tab.cc foo.tab.hh foo.output])
+                [foo.output foo.tab.cc foo.tab.hh stack.hh])
 
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose %locations], [],
-                [foo.tab.cc foo.output])
+                [foo.output foo.tab.cc])
 
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations], [],
-                [foo.tab.cc foo.tab.hh foo.output location.hh stack.hh position.hh])
+                [foo.output foo.tab.cc foo.tab.hh location.hh position.hh stack.hh])
 
 AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
-                [foo.tab.cc foo.tab.hh foo.output stack.hh],
+                [foo.output foo.tab.cc foo.tab.hh stack.hh],
                 [], [AT_CHECK_NO_SUBDIR_PART([foo.tab])])
 
 AT_CHECK_OUTPUT([subdir/foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations],
                 [-o subdir/foo.cc],
-                [subdir/foo.cc subdir/foo.hh subdir/foo.output subdir/location.hh subdir/stack.hh subdir/position.hh],
+                [subdir/foo.cc subdir/foo.hh subdir/foo.output subdir/location.hh subdir/position.hh subdir/stack.hh],
                 [], [AT_CHECK_NO_SUBDIR_PART([subdir/foo])])
 
 AT_CHECK_OUTPUT([gram_dir/foo.yy],
                 [%skeleton "lalr1.cc" %defines %verbose %file-prefix "output_dir/foo"],
                 [],
-                [output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/foo.output output_dir/stack.hh])
+                [output_dir/foo.output output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/stack.hh])
 
 AT_CHECK_OUTPUT([gram_dir/foo.yy],
                 [%skeleton "lalr1.cc" %defines %locations %verbose %file-prefix "output_dir/foo"],
                 [],
-                [output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/foo.output output_dir/location.hh output_dir/stack.hh output_dir/position.hh])
+                [output_dir/foo.output output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/location.hh output_dir/position.hh output_dir/stack.hh])
 
 
 # AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR,
