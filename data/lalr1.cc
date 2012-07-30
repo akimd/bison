@@ -336,7 +336,8 @@ b4_public_types_define])[
 
 # We do want M4 expansion after # for CPP macros.
 m4_changecom()
-m4_divert_push(0)dnl
+b4_defines_if(
+[m4_divert_push(0)dnl
 @output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 [
@@ -350,6 +351,11 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations[
 ]b4_cpp_guard_close([b4_spec_defines_file])
+m4_divert_pop(0)dnl
+])
+
+
+m4_divert_push(0)dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])
 b4_percent_code_get([[top]])[]dnl
@@ -363,7 +369,8 @@ m4_if(b4_prefix, [yy], [],
 
 ]b4_null_define[
 
-#include "@basename(]b4_spec_defines_file[@)"
+]b4_defines_if([[#include "@basename(]b4_spec_defines_file[@)"]],
+               [b4_shared_declarations])[
 
 /* User implementation prologue.  */
 ]b4_user_post_prologue[

@@ -693,12 +693,12 @@ AT_CHECK_CALC([%skeleton "lalr1.cc" %defines])
 # Start a testing chunk which compiles `calc' grammar with
 # the C++ skeleton, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_LALR1_CC],
-[AT_CHECK_CALC([%language "C++" %defines] $@)])
+[AT_CHECK_CALC([%language "C++"] $@)])
 
 AT_CHECK_CALC_LALR1_CC([])
 AT_CHECK_CALC_LALR1_CC([%locations])
 AT_CHECK_CALC_LALR1_CC([%locations %define location_type Span])
-AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %define api.prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc])
@@ -706,10 +706,10 @@ AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %debug %name-pref
 AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %define api.tokens.prefix "TOK_" %verbose %yacc])
 
-AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} {int *count}])
+AT_CHECK_CALC_LALR1_CC([%defines %locations %pure-parser %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} {int *count}])
 
 AT_CHECK_CALC_LALR1_CC([%pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} {int *count}])
-AT_CHECK_CALC_LALR1_CC([%locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} {int *count}])
+AT_CHECK_CALC_LALR1_CC([%defines %locations %pure-parser %define parse.error verbose %debug %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} {int *count}])
 
 
 
