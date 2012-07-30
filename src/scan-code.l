@@ -443,30 +443,30 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
 	  /* Create the explanation message. */
 	  obstack_init (&msg_buf);
 
-	  obstack_fgrow1 (&msg_buf, _("possibly meant: %c"), dollar_or_at);
+	  obstack_printf (&msg_buf, _("possibly meant: %c"), dollar_or_at);
 	  if (contains_dot_or_dash (id))
-	    obstack_fgrow1 (&msg_buf, "[%s]", id);
+	    obstack_printf (&msg_buf, "[%s]", id);
 	  else
 	    obstack_sgrow (&msg_buf, id);
 	  obstack_sgrow (&msg_buf, tail);
 
 	  if (var->err & VARIANT_HIDDEN)
 	    {
-	      obstack_fgrow1 (&msg_buf, _(", hiding %c"), dollar_or_at);
+	      obstack_printf (&msg_buf, _(", hiding %c"), dollar_or_at);
 	      if (contains_dot_or_dash (var->id))
-		obstack_fgrow1 (&msg_buf, "[%s]", var->id);
+		obstack_printf (&msg_buf, "[%s]", var->id);
 	      else
 		obstack_sgrow (&msg_buf, var->id);
 	      obstack_sgrow (&msg_buf, tail);
 	    }
 
-	  obstack_fgrow1 (&msg_buf, _(" at %s"), at_spec);
+	  obstack_printf (&msg_buf, _(" at %s"), at_spec);
 
 	  if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
             {
               const char *format =
                 _(", cannot be accessed from mid-rule action at $%d");
-              obstack_fgrow1 (&msg_buf, format, midrule_rhs_index);
+              obstack_printf (&msg_buf, format, midrule_rhs_index);
             }
 
 	  obstack_1grow (&msg_buf, '\0');
@@ -788,7 +788,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             untyped_var_seen = true;
         }
 
-      obstack_fgrow2 (&obstack_for_string,
+      obstack_printf (&obstack_for_string,
 		      "]b4_rhs_value(%d, %d, ", effective_rule_length, n);
       obstack_quote (&obstack_for_string, type_name);
       obstack_sgrow (&obstack_for_string, ")[");
@@ -838,7 +838,7 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
       break;
 
     default:
-      obstack_fgrow2 (&obstack_for_string, "]b4_rhs_location(%d, %d)[",
+      obstack_printf (&obstack_for_string, "]b4_rhs_location(%d, %d)[",
 		      effective_rule_length, n);
       break;
     }

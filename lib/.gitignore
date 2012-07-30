@@ -268,3 +268,4 @@
 /xmemdup0.c
 /xmemdup0.h
 /sys_types.in.h
+/obstack_printf.c

@@ -179,3 +179,4 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+/obstack-printf.m4
