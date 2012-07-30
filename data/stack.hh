@@ -18,23 +18,10 @@
 m4_pushdef([b4_copyright_years],
            [2002-2012])
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
-@output(b4_dir_prefix[]stack.hh@)@
-b4_copyright([Stack handling for Bison parsers in C++])[
-
-/**
- ** \file ]b4_dir_prefix[stack.hh
- ** Define the ]b4_namespace_ref[::stack class.
- */
-
-]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
-
-# include <deque>
-
-]b4_namespace_open[
-  template <class T, class S = std::deque<T> >
+# b4_stack_define
+# ---------------
+m4_define([b4_stack_define],
+[[  template <class T, class S = std::deque<T> >
   class stack
   {
   public:
@@ -129,9 +116,30 @@ b4_copyright([Stack handling for Bison parsers in C++])[
     const S& stack_;
     unsigned int range_;
   };
+]])
+
+b4_defines_if(
+[# We do want M4 expansion after # for CPP macros.
+m4_changecom()
+m4_divert_push(0)dnl
+@output(b4_dir_prefix[]stack.hh@)@
+b4_copyright([Stack handling for Bison parsers in C++])[
+
+/**
+ ** \file ]b4_dir_prefix[stack.hh
+ ** Define the ]b4_namespace_ref[::stack class.
+ */
+
+]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
+
+# include <deque>
+
+]b4_namespace_open[
+]b4_stack_define[
 ]b4_namespace_close[
 
 ]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])
 m4_divert_pop(0)
 m4_popdef([b4_copyright_years])dnl
 m4_changecom([#])
+])

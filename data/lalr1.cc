@@ -134,20 +134,22 @@ b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([# include <cassert>])[
-# include <stdexcept>
-# include <string>
+# include <deque>
 # include <iostream>
+# include <stdexcept>
+# include <string>]b4_defines_if([[
+# include "stack.hh"
+]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+                                          [[# include "location.hh"]])])])[
 
 ]b4_YYDEBUG_define[
 
-# include "stack.hh"
-]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
-    [b4_defines_if([[# include "location.hh"]])])])[
-
 ]b4_namespace_open[
 
-]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
-  [b4_defines_if([], [b4_position_define
+]b4_defines_if([],
+[b4_stack_define
+b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+                                         [b4_position_define
 b4_location_define])])])[
 
 ]b4_variant_if([b4_variant_define])[

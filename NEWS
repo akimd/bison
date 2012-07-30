@@ -87,7 +87,8 @@ GNU Bison NEWS
 *** parser header (%defines) is no longer mandatory (lalr1.cc)
 
   In which case, if needed, the support classes are defined in the generated
-  parser, instead of additional files such as position.hh and location.hh.
+  parser, instead of additional files (location.hh, position.hh and
+  stack.hh).
 
 *** locations are no longer mandatory (lalr1.cc, glr.cc)
 

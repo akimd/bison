@@ -10,6 +10,11 @@ b4_parser_declaration for instance.
 ** glr.cc: %defines
 it should not be mandatory.
 
+** stack.hh
+Get rid of it.  The original idea is nice, but actually it makes
+the code harder to follow, and uselessly different from the other
+skeletons.
+
 ** Variable names.
 What should we name `variant' and `lex_symbol'?
 
