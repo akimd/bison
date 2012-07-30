@@ -189,10 +189,10 @@ b4_namespace_close])[
     void set_debug_level (debug_level_type l);
 #endif
 
-    /// Report a syntax error.]b4_locations_if([
-    /// \param loc    where the syntax error is found.])[
+    /// Report a syntax error.]b4_locations_if([[
+    /// \param loc    where the syntax error is found.]])[
     /// \param msg    a description of the syntax error.
-    virtual void error (]b4_locations_if([const location_type& loc, ])[const std::string& msg);
+    virtual void error (]b4_locations_if([[const location_type& loc, ]])[const std::string& msg);
 
     /// Report a syntax error.
     void error (const syntax_error& err);

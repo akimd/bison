@@ -1273,12 +1273,11 @@ AT_CHECK_ACTION_LOCATIONS([[%printer]])
 m4_pushdef([AT_TEST],
 [AT_SETUP([[Qualified $$ in actions: $1]])
 
-AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1"])
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "$1"
 %defines   // FIXME: Mandated by lalr1.cc in Bison 2.6.
-%locations // FIXME: Mandated by lalr1.cc in Bison 2.6.
 %debug
 %code requires
 {
@@ -1321,17 +1320,6 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer { report (yyo, $<ival>$, $$      ); } <fval>;
 %printer { report (yyo, $<ival>$, $<fval>$); } <>;
 
-]AT_SKEL_CC_IF([[
-/* The lalr1.cc skeleton, for backward compatibility, defines
-   a constructor for position that initializes the filename.  The
-   glr.cc skeleton does not (and in fact cannot: location/position
-   are stored in a union, from which objects with constructors are
-   excluded in C++). */
-%initial-action {
-  @$.initialize ();
-}
-]])[
-
 %initial-action
 {
   $<ival>$ = 42;
@@ -1366,10 +1354,7 @@ AT_FULL_COMPILE([[input]])
 AT_PARSER_CHECK([./input], 0, [], [stderr])
 # Don't be too picky on the traces, GLR is not exactly the same.  Keep
 # only the lines from the printer.
-#
-# Don't care about locations.  FIXME: remove their removal when Bison
-# supports C++ without locations.
-AT_CHECK([[sed -ne 's/([-0-9.]*: /(/;/ival:/p' stderr]], 0,
+AT_CHECK([[sed -ne '/ival:/p' stderr]], 0,
 [[Reading a token: Next token is token UNTYPED (ival: 10, fval: 0.1)
 Shifting token UNTYPED (ival: 10, fval: 0.1)
 Reading a token: Next token is token INT (ival: 20, fval: 0.2)

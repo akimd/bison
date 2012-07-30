@@ -12,7 +12,7 @@ GNU Bison NEWS
 
 ** Warnings
 
-*** Warning categories are now displayed in warnings
+*** Warning categories are now displayed
 
   For instance:
 
@@ -82,7 +82,13 @@ GNU Bison NEWS
   Also, it is possible to add code to the parser's constructors using
   "%code init" and "%define init_throws".
 
-** C++ skeleton improvements
+** C++ skeletons improvements
+
+*** locations are no longer mandatory (lalr1.cc, glr.cc)
+
+  Both lalr1.cc and glr.cc no longer require %location.
+
+*** syntax_error exception (lalr1.cc)
 
   The C++ parser features a syntax_error exception, which can be
   thrown from the scanner or from user rules to raise syntax errors.

@@ -43,8 +43,7 @@
 #   user must initialize the first positions (in particular the
 #   filename member).
 
-# We require a pure interface using locations.
-m4_define([b4_percent_define(locations)], [])
+# We require a pure interface.
 m4_define([b4_pure_flag],      [1])
 
 # The header is mandatory.
@@ -74,12 +73,13 @@ m4_define([b4_yy_symbol_print_generate],
 
 ]b4_c_ansi_function_def([yy_symbol_print],
     [static void],
-    [[FILE *],               []],
-    [[int yytype],           [yytype]],
+    [[FILE *],      []],
+    [[int yytype],  [yytype]],
     [[const ]b4_namespace_ref::b4_parser_class_name[::semantic_type *yyvaluep],
-                             [yyvaluep]],
+                    [yyvaluep]][]dnl
+b4_locations_if([,
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
-                             [yylocationp]],
+                    [yylocationp]]]),
     b4_parse_param)[
 {
 ]b4_parse_param_use[]dnl
@@ -95,9 +95,9 @@ m4_append([b4_post_prologue],
 ]b4_yylloc_default_define[
 #define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
 ]b4_c_ansi_function_decl([yyerror],
-    [static void],
+    [static void],b4_locations_if([
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
-                        [yylocationp]],
+                        [yylocationp]],])
     b4_parse_param,
     [[const char* msg], [msg]])])
 
@@ -111,14 +111,14 @@ m4_append([b4_epilogue],
 `------------------*/
 
 ]b4_c_ansi_function_def([yyerror],
-    [static void],
+    [static void],b4_locations_if([
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
-                        [yylocationp]],
+                        [yylocationp]],])
     b4_parse_param,
     [[const char* msg], [msg]])[
 {
 ]b4_parse_param_use[]dnl
-[  yyparser.error (*yylocationp, msg);
+[  yyparser.error (]b4_locations_if([[*yylocationp, ]])[msg);
 }
 
 
@@ -151,10 +151,10 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   inline void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
-                           const semantic_type* yyvaluep,
-                           const location_type* yylocationp)
-  {
-    YYUSE (yylocationp);
+                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const location_type* yylocationp]])[)
+  {]b4_locations_if([[
+    YYUSE (yylocationp);]])[
     YYUSE (yyvaluep);
     std::ostream& yyoutput = debug_stream ();
     std::ostream& yyo = yyoutput;
@@ -170,13 +170,13 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   void
   ]b4_parser_class_name[::yy_symbol_print_ (int yytype,
-                           const semantic_type* yyvaluep,
-                           const location_type* yylocationp)
+                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const location_type* yylocationp]])[)
   {
     *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
-               << ' ' << yytname[yytype] << " ("
-               << *yylocationp << ": ";
-    yy_symbol_value_print_ (yytype, yyvaluep, yylocationp);
+               << ' ' << yytname[yytype] << " ("]b4_locations_if([[
+               << *yylocationp << ": "]])[;
+    yy_symbol_value_print_ (yytype, yyvaluep]b4_locations_if([[, yylocationp]])[);
     *yycdebug_ << ')';
   }
 
@@ -270,27 +270,27 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
     void set_debug_level (debug_level_type l);
 
   public:
-    /// Report a syntax error.
-    /// \param loc    where the syntax error is found.
+    /// Report a syntax error.]b4_locations_if([[
+    /// \param loc    where the syntax error is found.]])[
     /// \param msg    a description of the syntax error.
-    virtual void error (const location_type& loc, const std::string& msg);
+    virtual void error (]b4_locations_if([[const location_type& loc, ]])[const std::string& msg);
 
 # if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
     /// \param yytype       The token type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
+    /// \param yyvaluep     Its semantic value.]b4_locations_if([[
+    /// \param yylocationp  Its location.]])[
     virtual void yy_symbol_value_print_ (int yytype,
-                                         const semantic_type* yyvaluep,
-                                         const location_type* yylocationp);
+                                         const semantic_type* yyvaluep]b4_locations_if([[,
+                                         const location_type* yylocationp]])[);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
-    /// \param yyvaluep     Its semantic value.
-    /// \param yylocationp  Its location.
+    /// \param yyvaluep     Its semantic value.]b4_locations_if([[
+    /// \param yylocationp  Its location.]])[
     virtual void yy_symbol_print_ (int yytype,
-                                   const semantic_type* yyvaluep,
-                                   const location_type* yylocationp);
+                                   const semantic_type* yyvaluep]b4_locations_if([[,
+                                   const location_type* yylocationp]])[);
   private:
     /* Debugging.  */
     std::ostream* yycdebug_;
