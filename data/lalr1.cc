@@ -120,10 +120,6 @@ m4_pushdef([b4_copyright_years],
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
 
-# The header is mandatory.
-b4_defines_if([],
-              [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
-
 b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
   [# Backward compatibility.
    m4_define([b4_location_constructors])
@@ -141,17 +137,20 @@ m4_define([b4_shared_declarations],
 # include <stdexcept>
 # include <string>
 # include <iostream>
-# include "stack.hh"
-]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
-                                          [[# include "location.hh"]])])[
-
-]b4_variant_if([b4_namespace_open
-b4_variant_define
-b4_namespace_close])[
 
 ]b4_YYDEBUG_define[
 
+# include "stack.hh"
+]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+    [b4_defines_if([[# include "location.hh"]])])])[
+
 ]b4_namespace_open[
+
+]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+  [b4_defines_if([], [b4_position_define
+b4_location_define])])])[
+
+]b4_variant_if([b4_variant_define])[
 
   /// A Bison parser.
   class ]b4_parser_class_name[

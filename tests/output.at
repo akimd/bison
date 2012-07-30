@@ -113,8 +113,14 @@ AT_CHECK([grep 'include .subdir/' $1.cc], 1, [])
 AT_CHECK([grep 'include .subdir/' $1.hh], 1, [])
 ])
 
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose], [],
+                [foo.tab.cc foo.output stack.hh])
+
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose], [],
                 [foo.tab.cc foo.tab.hh foo.output stack.hh])
+
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose %locations], [],
+                [foo.tab.cc foo.output stack.hh])
 
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %defines %verbose %locations], [],
                 [foo.tab.cc foo.tab.hh foo.output location.hh stack.hh position.hh])

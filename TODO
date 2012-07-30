@@ -7,6 +7,9 @@ show_sub_messages should call show_sub_message.
 b4_shared_declarations is no longer what it is.  Make it
 b4_parser_declaration for instance.
 
+** glr.cc: %defines
+it should not be mandatory.
+
 ** Variable names.
 What should we name `variant' and `lex_symbol'?
 

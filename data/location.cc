@@ -18,27 +18,11 @@
 m4_pushdef([b4_copyright_years],
            [2002-2012])
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
-@output(b4_dir_prefix[]position.hh@)@
-b4_copyright([Positions for Bison parsers in C++])[
-
-/**
- ** \file ]b4_dir_prefix[position.hh
- ** Define the ]b4_namespace_ref[::position class.
- */
-
-]b4_cpp_guard_open([b4_dir_prefix[]position.hh])[
-
-# include <algorithm> // std::max
-# include <iosfwd>
-# include <string>
-
-]b4_null_define[
-
-]b4_namespace_open[
-  /// Abstract a position.
+# b4_position_define
+# ------------------
+# Define class position.
+m4_define([b4_position_define],
+[[  /// Abstract a position.
   class position
   {
   public:
@@ -147,26 +131,13 @@ b4_copyright([Positions for Bison parsers in C++])[
       ostr << *pos.filename << ':';
     return ostr << pos.line << '.' << pos.column;
   }
+]])
 
-]b4_namespace_close[
-]b4_cpp_guard_close([b4_dir_prefix[]position.hh])
-@output(b4_dir_prefix[]location.hh@)@
-b4_copyright([Locations for Bison parsers in C++])[
 
-/**
- ** \file ]b4_dir_prefix[location.hh
- ** Define the ]b4_namespace_ref[::location class.
- */
-
-]b4_cpp_guard_open([b4_dir_prefix[]location.hh])[
-
-# include <iostream>
-# include <string>
-# include "position.hh"
-
-]b4_namespace_open[
-
-  /// Abstract a location.
+# b4_location_define
+# ------------------
+m4_define([b4_location_define],
+[[  /// Abstract a location.
   class location
   {
   public:
@@ -291,10 +262,52 @@ b4_copyright([Locations for Bison parsers in C++])[
       ostr << '-' << last.column;
     return ostr;
   }
+]])
 
+
+# We do want M4 expansion after # for CPP macros.
+m4_changecom()
+b4_defines_if([
+m4_divert_push(0)dnl
+@output(b4_dir_prefix[]position.hh@)@
+b4_copyright([Positions for Bison parsers in C++])[
+
+/**
+ ** \file ]b4_dir_prefix[position.hh
+ ** Define the ]b4_namespace_ref[::position class.
+ */
+
+]b4_cpp_guard_open([b4_dir_prefix[]position.hh])[
+
+# include <algorithm> // std::max
+# include <iosfwd>
+# include <string>
+
+]b4_null_define[
+
+]b4_namespace_open[
+]b4_position_define[
 ]b4_namespace_close[
+]b4_cpp_guard_close([b4_dir_prefix[]position.hh])
+@output(b4_dir_prefix[]location.hh@)@
+b4_copyright([Locations for Bison parsers in C++])[
 
+/**
+ ** \file ]b4_dir_prefix[location.hh
+ ** Define the ]b4_namespace_ref[::location class.
+ */
+
+]b4_cpp_guard_open([b4_dir_prefix[]location.hh])[
+
+# include <iostream>
+# include <string>
+# include "position.hh"
+
+]b4_namespace_open[
+]b4_location_define[
+]b4_namespace_close[
 ]b4_cpp_guard_close([b4_dir_prefix[]location.hh])
 m4_divert_pop(0)
+])# b4_defines_if
 m4_popdef([b4_copyright_years])dnl
 m4_changecom([#])
