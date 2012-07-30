@@ -358,16 +358,16 @@ m4_if(b4_prefix, [yy], [],
 // Take the name prefix into account.
 #define yylex   b4_prefix[]lex])[
 
-/* First part of user declarations.  */
+// First part of user declarations.
 ]b4_user_pre_prologue[
+
+]b4_null_define[
 
 #include "@basename(]b4_spec_defines_file[@)"
 
 /* User implementation prologue.  */
 ]b4_user_post_prologue[
 ]b4_percent_code_get[
-
-]b4_null_define[
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
