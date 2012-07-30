@@ -91,7 +91,7 @@ static void fail_for_invalid_at (char const *at);
 \n            out_lineno++; ECHO;
 [^@\n]+       ECHO;
 
-<<EOF>> {
+<INITIAL><<EOF>> {
   if (outname)
     {
       free (outname);
