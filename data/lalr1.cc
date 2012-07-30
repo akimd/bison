@@ -131,21 +131,12 @@ b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
 m4_include(b4_pkgdatadir/[stack.hh])
 b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
-@output(b4_spec_defines_file@)@
-b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
-[
-/**
- ** \file ]b4_spec_defines_file[
- ** Define the ]b4_namespace_ref[::parser class.
- */
-
-/* C++ LALR(1) parser skeleton written by Akim Demaille.  */
-
-]b4_cpp_guard_open([b4_spec_defines_file])[
-]b4_percent_code_get([[requires]])[
+# b4_shared_declarations
+# ----------------------
+# Declaration that might either go into the header (if --defines)
+# or open coded in the parser body.
+m4_define([b4_shared_declarations],
+[b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([# include <cassert>])[
 # include <stdexcept>
 # include <string>
@@ -341,6 +332,23 @@ b4_public_types_define])[
 #endif
 ])[
 ]b4_percent_code_get([[provides]])[
+]])
+
+# We do want M4 expansion after # for CPP macros.
+m4_changecom()
+m4_divert_push(0)dnl
+@output(b4_spec_defines_file@)@
+b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
+[
+/**
+ ** \file ]b4_spec_defines_file[
+ ** Define the ]b4_namespace_ref[::parser class.
+ */
+
+/* C++ LALR(1) parser skeleton written by Akim Demaille.  */
+
+]b4_cpp_guard_open([b4_spec_defines_file])[
+]b4_shared_declarations[
 ]b4_cpp_guard_close([b4_spec_defines_file])
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])

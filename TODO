@@ -3,6 +3,10 @@
 Avoid variables for format strings, as then GCC cannot check them.
 show_sub_messages should call show_sub_message.
 
+** m4 names
+b4_shared_declarations is no longer what it is.  Make it
+b4_parser_declaration for instance.
+
 ** Variable names.
 What should we name `variant' and `lex_symbol'?
 
