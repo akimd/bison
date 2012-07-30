@@ -1,6 +1,6 @@
 GNU Bison NEWS
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 2.6.1 (2012-07-30) [stable]
 
  Bison no longer executes user-specified M4 code when processing a grammar.
 
