@@ -917,7 +917,6 @@ m4_define([AT_CHECK_DANCER],
 [AT_SETUP([Dancer $1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_DANCER_Y([$1])
-AT_BISON_CHECK([-o dancer.c dancer.y])
 AT_FULL_COMPILE([dancer])
 AT_PARSER_CHECK([./dancer], 1, [],
 [syntax error, unexpected ':'
@@ -1002,7 +1001,6 @@ m4_define([AT_CHECK_EXPECT2],
 [AT_SETUP([Expecting two tokens $1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_EXPECT2_Y([$1])
-AT_BISON_CHECK([-o expect2.c expect2.y])
 AT_FULL_COMPILE([expect2])
 AT_PARSER_CHECK([./expect2], 1, [],
 [syntax error, unexpected '+', expecting A or B
