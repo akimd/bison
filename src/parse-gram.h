@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.6.29-cd73-dirty.  */
+/* A Bison parser, made by GNU Bison 2.6.1.6-b045.  */
 
 /* Bison interface for Yacc-like parsers in C
    
