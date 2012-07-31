@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Spaces in %lex- and %parse-param (lalr1.cc, glr.cc)
+
+  Trailing end-of-lines in %parse-param or %lex-param would result in
+  invalid C++.  This is fixed.
 
 * Noteworthy changes in release 2.6.1 (2012-07-30) [stable]
 
