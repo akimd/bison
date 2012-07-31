@@ -376,7 +376,7 @@ AT_TEST([[%type <type> exp
 exp: a;]],
 [[input.y:3.13-14: warning: useless %printer for type <> [-Wother]]])
 
-# If nobody is is typed, <*> is useless.
+# If nobody is typed, <*> is useless.
 AT_TEST([[%token a
 %printer {} <> <*>
 %%
