@@ -64,7 +64,7 @@ m4_define([AT_SYNCLINES_COMPILE],
 #   distcc[35882] (dcc_connect_by_name) ERROR: failed to look up host "chrisimac": Unknown host
 #   distcc[35882] Warning: failed to distribute input.c to chrisimac/4, running locally instead
 
-AT_CHECK([[perl -p -0777 -f - stderr <<\EOF
+AT_CHECK([[perl -p -0777 - stderr <<\EOF
  s/^distcc\[\d+\] .*\n//gm;
  s/^([^:]*:\d+)[.:][^:]*:(.*)$/$][1:$][2/gm;
  s/^([^:]*:\d+:)[^#]*( #error)/$][1$][2/gm;
