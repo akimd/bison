@@ -116,12 +116,12 @@ AT_CLEANUP
 ])
 
 
-## --------------------- ##
-## Prologue synch line.  ##
-## --------------------- ##
+## ------------------- ##
+## Prologue syncline.  ##
+## ------------------- ##
 
 
-AT_TEST([Prologue synch line],
+AT_TEST([Prologue syncline],
 [[%{
 #error "2"
 ]AT_YYERROR_DECLARE_EXTERN[
@@ -135,11 +135,11 @@ exp: '0';
 ])
 
 
-## ------------------- ##
-## %union synch line.  ##
-## ------------------- ##
+## ----------------- ##
+## %union syncline.  ##
+## ----------------- ##
 
-AT_TEST([%union synch line],
+AT_TEST([%union syncline],
 [[%union {
 #error "2"
   char dummy;
@@ -156,11 +156,11 @@ exp: '0';
 ])
 
 
-## ------------------------- ##
-## Postprologue synch line.  ##
-## ------------------------- ##
+## ----------------------- ##
+## Postprologue syncline.  ##
+## ----------------------- ##
 
-AT_TEST([Postprologue synch line],
+AT_TEST([Postprologue syncline],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
@@ -180,11 +180,11 @@ exp: '0';
 ])
 
 
-## ------------------- ##
-## Action synch line.  ##
-## ------------------- ##
+## ----------------- ##
+## Action syncline.  ##
+## ----------------- ##
 
-AT_TEST([Action synch line],
+AT_TEST([Action syncline],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
@@ -199,11 +199,11 @@ exp:
 ])
 
 
-## --------------------- ##
-## Epilogue synch line.  ##
-## --------------------- ##
+## ------------------- ##
+## Epilogue syncline.  ##
+## ------------------- ##
 
-AT_TEST([Epilogue synch line],
+AT_TEST([Epilogue syncline],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
