@@ -2,6 +2,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Buffer overruns, complaints from Flex, and portability issues in the test
+  suite have been fixed.
+
 ** Spaces in %lex- and %parse-param (lalr1.cc, glr.cc)
 
   Trailing end-of-lines in %parse-param or %lex-param would result in
