@@ -71,7 +71,7 @@ m4_define([b4_yy_symbol_print_generate],
 | Print this symbol.  |
 `--------------------*/
 
-]b4_c_function_def([yy_symbol_print],
+]b4_function_define([yy_symbol_print],
     [static void],
     [[FILE *],      []],
     [[int yytype],  [yytype]],
@@ -94,7 +94,7 @@ m4_append([b4_post_prologue],
 [b4_syncline([@oline@], [@ofile@])[
 ]b4_yylloc_default_define[
 #define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
-]b4_c_function_decl([yyerror],
+]b4_function_declare([yyerror],
     [static void],b4_locations_if([
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],])
@@ -110,7 +110,7 @@ m4_append([b4_epilogue],
 | Report an error.  |
 `------------------*/
 
-]b4_c_function_def([yyerror],
+]b4_function_define([yyerror],
     [static void],b4_locations_if([
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],])

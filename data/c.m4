@@ -50,7 +50,7 @@ m4_define([b4_cpp_guard_close],
 ## ---------------- ##
 
 # b4_comment_(TEXT, OPEN, CONTINUE, END)
-# -------------------------------------
+# --------------------------------------
 # Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
 # Avoid adding indentation to the first line, as the indentation comes
 # from OPEN.  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
@@ -61,21 +61,15 @@ m4_define([b4_comment_], [$2[]m4_bpatsubst([$1], [
 $3\1])$4])
 
 
-# b4_c_comment(TEXT, [PREFIX])
-# ----------------------------
+# b4_comment(TEXT, [PREFIX])
+# --------------------------
 # Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
 # Avoid adding indentation to the first line, as the indentation comes
 # from "/*".  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
 #
 # Prefix all the output lines with PREFIX.
-m4_define([b4_c_comment],
+m4_define([b4_comment],
 [b4_comment_([$1], [$2/* ], [$2   ], [$2  */])])
-
-
-# b4_comment(TEXT, [PREFIX])
-# --------------------------
-# By default, C comments.
-m4_define([b4_comment], [b4_c_comment($@)])
 
 
 # b4_identification
@@ -134,7 +128,7 @@ m4_define_default([b4_union_name], [b4_api_PREFIX[]STYPE])
 # b4_user_args
 # ------------
 m4_define([b4_user_args],
-[m4_ifset([b4_parse_param], [, b4_c_args(b4_parse_param)])])
+[m4_ifset([b4_parse_param], [, b4_args(b4_parse_param)])])
 
 
 # b4_parse_param
@@ -239,7 +233,7 @@ m4_define([b4_null], [YY_NULL])
 # -------------------------------------------------------------
 # Define "yy<TABLE-NAME>" which contents is CONTENT.
 m4_define([b4_integral_parser_table_define],
-[m4_ifvaln([$3], [b4_c_comment([$3], [  ])])dnl
+[m4_ifvaln([$3], [b4_comment([$3], [  ])])dnl
 static const b4_int_type_for([$2]) yy$1[[]] =
 {
   $2
@@ -322,24 +316,24 @@ m4_define([b4_symbol_value],
 ## ---------------------- ##
 
 
-# b4_c_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# ----------------------------------------------------------
+# b4_function_define(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# -----------------------------------------------------------
 # Declare the function NAME in C.
-m4_define([b4_c_function_def],
+m4_define([b4_function_define],
 [$2
-$1 (b4_c_formals(m4_shift2($@)))[]dnl
+$1 (b4_formals(m4_shift2($@)))[]dnl
 ])
 
 
-# b4_c_formals([DECL1, NAME1], ...)
-# ---------------------------------
+# b4_formals([DECL1, NAME1], ...)
+# -------------------------------
 # The formal arguments of a C function definition.
-m4_define([b4_c_formals],
+m4_define([b4_formals],
 [m4_if([$#], [0], [void],
        [$#$1], [1], [void],
-               [m4_map_sep([b4_c_formal], [, ], [$@])])])
+               [m4_map_sep([b4_formal], [, ], [$@])])])
 
-m4_define([b4_c_formal],
+m4_define([b4_formal],
 [$1])
 
 
@@ -349,11 +343,11 @@ m4_define([b4_c_formal],
 ## ----------------------- ##
 
 
-# b4_c_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# -----------------------------------------------------------
+# b4_function_declare(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# ------------------------------------------------------------
 # Declare the function NAME.
-m4_define([b4_c_function_decl],
-[$2 $1 (b4_c_formals(m4_shift2($@)));[]dnl
+m4_define([b4_function_declare],
+[$2 $1 (b4_formals(m4_shift2($@)));[]dnl
 ])
 
 
@@ -364,21 +358,21 @@ m4_define([b4_c_function_decl],
 ## --------------------- ##
 
 
-# b4_c_function_call(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# b4_function_call(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # -----------------------------------------------------------
 # Call the function NAME with arguments NAME1, NAME2 etc.
-m4_define([b4_c_function_call],
-[$1 (b4_c_args(m4_shift2($@)))[]dnl
+m4_define([b4_function_call],
+[$1 (b4_args(m4_shift2($@)))[]dnl
 ])
 
 
-# b4_c_args([DECL1, NAME1], ...)
-# ------------------------------
+# b4_args([DECL1, NAME1], ...)
+# ----------------------------
 # Output the arguments NAME1, NAME2...
-m4_define([b4_c_args],
-[m4_map_sep([b4_c_arg], [, ], [$@])])
+m4_define([b4_args],
+[m4_map_sep([b4_arg], [, ], [$@])])
 
-m4_define([b4_c_arg],
+m4_define([b4_arg],
 [$2])
 
 
@@ -387,7 +381,7 @@ m4_define([b4_c_arg],
 ## ----------- ##
 
 # b4_sync_start(LINE, FILE)
-# -----------------------
+# -------------------------
 m4_define([b4_sync_start], [[#]line $1 $2])
 
 
@@ -416,7 +410,7 @@ b4_syncline([@oline@], [@ofile@])
 # b4_yydestruct_generate(FUNCTION-DECLARATOR)
 # -------------------------------------------
 # Generate the "yydestruct" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_c_function_def".
+# FUNCTION-DECLARATOR, which may be "b4_function_define".
 m4_define_default([b4_yydestruct_generate],
 [[/*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -449,7 +443,7 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 # b4_yy_symbol_print_generate(FUNCTION-DECLARATOR)
 # ------------------------------------------------
 # Generate the "yy_symbol_print" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_c_function_def".
+# FUNCTION-DECLARATOR, which may be "b4_function_define".
 m4_define_default([b4_yy_symbol_print_generate],
 [[
 /*--------------------------------.

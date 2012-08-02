@@ -22,7 +22,7 @@ m4_include(b4_pkgdatadir/[c++.m4])
 # --------------------------------------------------------------
 # Declare "parser::yy<TABLE-NAME>_" which contents is CONTENT.
 m4_define([b4_integral_parser_table_declare],
-[m4_ifval([$3], [b4_c_comment([$3], [  ])
+[m4_ifval([$3], [b4_comment([$3], [  ])
 ])dnl
   static const b4_int_type_for([$2]) yy$1_[[]];dnl
 ])
@@ -723,9 +723,9 @@ b4_dollar_popdef])[]dnl
         try
         {
 ]b4_lex_symbol_if(
-[          yyla = b4_c_function_call([yylex], [symbol_type],
+[          yyla = b4_function_call([yylex], [symbol_type],
                                      m4_ifdef([b4_lex_param], b4_lex_param));],
-[          yyla.type = yytranslate_ (b4_c_function_call([yylex], [int],
+[          yyla.type = yytranslate_ (b4_function_call([yylex], [int],
                                      [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
