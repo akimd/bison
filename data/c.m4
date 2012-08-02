@@ -407,17 +407,16 @@ b4_syncline([@oline@], [@ofile@])
     break;])
 
 
-# b4_yydestruct_generate(FUNCTION-DECLARATOR)
-# -------------------------------------------
-# Generate the "yydestruct" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_function_define".
+# b4_yydestruct_generate
+# ----------------------
+# Define the "yydestruct" function.
 m4_define_default([b4_yydestruct_generate],
 [[/*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
 /*ARGSUSED*/
-]$1([yydestruct],
+]b4_function_define([yydestruct],
     [static void],
     [[const char *yymsg],    [yymsg]],
     [[int yytype],           [yytype]],
@@ -440,10 +439,9 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 ])
 
 
-# b4_yy_symbol_print_generate(FUNCTION-DECLARATOR)
-# ------------------------------------------------
-# Generate the "yy_symbol_print" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_function_define".
+# b4_yy_symbol_print_generate
+# ---------------------------
+# Define the "yy_symbol_print" function.
 m4_define_default([b4_yy_symbol_print_generate],
 [[
 /*--------------------------------.
@@ -451,7 +449,7 @@ m4_define_default([b4_yy_symbol_print_generate],
 `--------------------------------*/
 
 /*ARGSUSED*/
-]$1([yy_symbol_value_print],
+]b4_function_define([yy_symbol_value_print],
     [static void],
                [[FILE *yyoutput],                       [yyoutput]],
                [[int yytype],                           [yytype]],
@@ -483,7 +481,7 @@ m4_if(b4_skeleton, ["yacc.c"],
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
 
-]$1([yy_symbol_print],
+]b4_function_define([yy_symbol_print],
     [static void],
                [[FILE *yyoutput],                       [yyoutput]],
                [[int yytype],                           [yytype]],
