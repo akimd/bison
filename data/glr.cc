@@ -61,11 +61,11 @@ m4_define([b4_parser_class_name],
 m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
 
 
-# b4_yy_symbol_print_generate
+# b4_yy_symbol_print_define
 # ---------------------------
 # Bypass the default implementation to generate the "yy_symbol_print"
 # and "yy_symbol_value_print" functions.
-m4_define([b4_yy_symbol_print_generate],
+m4_define([b4_yy_symbol_print_define],
 [[
 /*--------------------.
 | Print this symbol.  |

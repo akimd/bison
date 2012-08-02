@@ -407,10 +407,10 @@ b4_syncline([@oline@], [@ofile@])
     break;])
 
 
-# b4_yydestruct_generate
-# ----------------------
+# b4_yydestruct_define
+# --------------------
 # Define the "yydestruct" function.
-m4_define_default([b4_yydestruct_generate],
+m4_define_default([b4_yydestruct_define],
 [[/*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
@@ -439,10 +439,10 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 ])
 
 
-# b4_yy_symbol_print_generate
-# ---------------------------
+# b4_yy_symbol_print_define
+# -------------------------
 # Define the "yy_symbol_print" function.
-m4_define_default([b4_yy_symbol_print_generate],
+m4_define_default([b4_yy_symbol_print_define],
 [[
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
