@@ -12084,13 +12084,6 @@ parse a single token.  @xref{Push Parser Function, ,The Push Parser Function
 More user feedback will help to stabilize it.)
 @end deffn
 
-@deffn {Macro} YYPARSE_PARAM
-An obsolete macro for specifying the name of a parameter that
-@code{yyparse} should accept.  The use of this macro is deprecated, and
-is supported only for Yacc like parsers.  @xref{Pure Calling,, Calling
-Conventions for Pure Parsers}.
-@end deffn
-
 @deffn {Macro} YYRECOVERING
 The expression @code{YYRECOVERING ()} yields 1 when the parser
 is recovering from a syntax error, and 0 otherwise.

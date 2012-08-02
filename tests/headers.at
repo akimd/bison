@@ -127,7 +127,7 @@ AT_SETUP([Several parsers])
 # AT_TEST([PREFIX], [DIRECTIVES])
 # -------------------------------
 # Generate and compile to *.o.  Make sure there is no YY* nor yy* in
-# the header (but YYDEBUG and YYPARSE_PARAM).
+# the header (but YYDEBUG).
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
 AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
@@ -165,14 +165,14 @@ AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
 AT_SKEL_CC_IF([],
   [AT_CHECK([$EGREP yy $1.h], [1])])
 
-# Ignore comments. Ignore YYPARSE_PARAM (obsolete) and
-# YYPUSH_MORE(_DEFINED)? (whose definition is constant).
+# Ignore comments. Ignore YYPUSH_MORE(_DEFINED)? (whose definition
+# is constant).
 #
 # YYDEBUG (not renamed) can be read, but not changed.
 AT_CHECK([[$PERL -0777 -e 's{/\*.*?\*/}{}sg;s,//.*,,;' \
             ]$1.AT_SKEL_CC_IF([hh], [h])[ |
          grep 'YY' |
-     $EGREP -wv 'YY(PARSE_PARAM|PUSH_MORE(_DEFINED)?)|(defined|if) YYDEBUG']],
+     $EGREP -wv 'YYPUSH_MORE(_DEFINED)?|(defined|if) YYDEBUG']],
          [1])
 AT_LANG_COMPILE([$1.o])
 

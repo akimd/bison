@@ -6,9 +6,10 @@ GNU Bison NEWS
 
 *** Obsolete features
 
-  Support for YYFAIL is removed, as announced since Bison 2.4.2.
+  Support for YYFAIL is removed (deprecated in Bison 2.4.2).
   Support for yystype and yyltype (instead of YYSTYPE and YYLTYPE)
-  is removed, as announced in Bison 1.875.
+  is removed (deprecated in Bison 1.875).
+  Support for YYPARSE_PARAM is removed (deprecated in Bison 1.875).
 
 ** Warnings
 
