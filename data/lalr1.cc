@@ -1104,5 +1104,5 @@ b4_error_verbose_if([int yystate, int yytoken],
   const ]b4_parser_class_name[::token_number_type ]b4_parser_class_name[::yyundef_token_ = ]b4_undef_token_number[;
 
 ]b4_namespace_close[
-]b4_epilogue
+]b4_epilogue[]dnl
 m4_divert_pop(0)

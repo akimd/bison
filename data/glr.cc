@@ -211,9 +211,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
 #endif
 ]m4_popdef([b4_parse_param])dnl
-b4_namespace_close[
-
-]])
+b4_namespace_close])
 
 
 # Let glr.c believe that the user arguments include the parser itself.

@@ -7,6 +7,10 @@ GNU Bison NEWS
   Trailing end-of-lines in %parse-param or %lex-param would result in
   invalid C++.  This is fixed.
 
+** Spurious spaces and end-of-lines
+
+  The generated files no longer end (nor start) with empty lines.
+
 * Noteworthy changes in release 2.6.1 (2012-07-30) [stable]
 
  Bison no longer executes user-specified M4 code when processing a grammar.
