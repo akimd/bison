@@ -317,106 +317,43 @@ m4_define([b4_symbol_value],
 
 
 
-## --------------------------------------------- ##
-## Defining C functions in both K&R and ANSI-C.  ##
-## --------------------------------------------- ##
+## ---------------------- ##
+## Defining C functions.  ##
+## ---------------------- ##
 
-
-# b4_modern_c
-# -----------
-# A predicate useful in #if to determine whether C is ancient or modern.
-#
-# If __STDC__ is defined, the compiler is modern.  IBM xlc 7.0 when run
-# as 'cc' doesn't define __STDC__ (or __STDC_VERSION__) for pedantic
-# reasons, but it defines __C99__FUNC__ so check that as well.
-# Microsoft C normally doesn't define these macros, but it defines _MSC_VER.
-# Consider a C++ compiler to be modern if it defines __cplusplus.
-#
-m4_define([b4_c_modern],
-  [[(defined __STDC__ || defined __C99__FUNC__ \
-     || defined __cplusplus || defined _MSC_VER)]])
 
 # b4_c_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # ----------------------------------------------------------
-# Declare the function NAME.
+# Declare the function NAME in C.
 m4_define([b4_c_function_def],
-[#if b4_c_modern
-b4_c_ansi_function_def($@)
-#else
-$2
-$1 (b4_c_knr_formal_names(m4_shift2($@)))
-b4_c_knr_formal_decls(m4_shift2($@))
-#endif[]dnl
-])
-
-
-# b4_c_ansi_function_def(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# ---------------------------------------------------------------
-# Declare the function NAME in ANSI.
-m4_define([b4_c_ansi_function_def],
 [$2
-$1 (b4_c_ansi_formals(m4_shift2($@)))[]dnl
+$1 (b4_c_formals(m4_shift2($@)))[]dnl
 ])
 
 
-# b4_c_ansi_formals([DECL1, NAME1], ...)
-# --------------------------------------
-# Output the arguments ANSI-C definition.
-m4_define([b4_c_ansi_formals],
+# b4_c_formals([DECL1, NAME1], ...)
+# ---------------------------------
+# The formal arguments of a C function definition.
+m4_define([b4_c_formals],
 [m4_if([$#], [0], [void],
        [$#$1], [1], [void],
-               [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
+               [m4_map_sep([b4_c_formal], [, ], [$@])])])
 
-m4_define([b4_c_ansi_formal],
+m4_define([b4_c_formal],
 [$1])
 
 
-# b4_c_knr_formal_names([DECL1, NAME1], ...)
-# ------------------------------------------
-# Output the argument names.
-m4_define([b4_c_knr_formal_names],
-[m4_map_sep([b4_c_knr_formal_name], [, ], [$@])])
 
-m4_define([b4_c_knr_formal_name],
-[$2])
-
-
-# b4_c_knr_formal_decls([DECL1, NAME1], ...)
-# ------------------------------------------
-# Output the K&R argument declarations.
-m4_define([b4_c_knr_formal_decls],
-[m4_map_sep([b4_c_knr_formal_decl],
-            [
-],
-            [$@])])
-
-m4_define([b4_c_knr_formal_decl],
-[    $1;])
-
-
-
-## ------------------------------------------------------------ ##
-## Declaring (prototyping) C functions in both K&R and ANSI-C.  ##
-## ------------------------------------------------------------ ##
+## ----------------------- ##
+## Declaring C functions.  ##
+## ----------------------- ##
 
 
 # b4_c_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # -----------------------------------------------------------
 # Declare the function NAME.
 m4_define([b4_c_function_decl],
-[#if b4_c_modern
-b4_c_ansi_function_decl($@)
-#else
-$2 $1 ();
-#endif[]dnl
-])
-
-
-# b4_c_ansi_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# ----------------------------------------------------------------
-# Declare the function NAME.
-m4_define([b4_c_ansi_function_decl],
-[$2 $1 (b4_c_ansi_formals(m4_shift2($@)));[]dnl
+[$2 $1 (b4_c_formals(m4_shift2($@)));[]dnl
 ])
 
 
@@ -479,8 +416,7 @@ b4_syncline([@oline@], [@ofile@])
 # b4_yydestruct_generate(FUNCTION-DECLARATOR)
 # -------------------------------------------
 # Generate the "yydestruct" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_c_ansi_function_def" for ISO C
-# or "b4_c_function_def" for K&R.
+# FUNCTION-DECLARATOR, which may be "b4_c_function_def".
 m4_define_default([b4_yydestruct_generate],
 [[/*-----------------------------------------------.
 | Release the memory associated to this symbol.  |
@@ -513,8 +449,7 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 # b4_yy_symbol_print_generate(FUNCTION-DECLARATOR)
 # ------------------------------------------------
 # Generate the "yy_symbol_print" function, which declaration is issued using
-# FUNCTION-DECLARATOR, which may be "b4_c_ansi_function_def" for ISO C
-# or "b4_c_function_def" for K&R.
+# FUNCTION-DECLARATOR, which may be "b4_c_function_def".
 m4_define_default([b4_yy_symbol_print_generate],
 [[
 /*--------------------------------.
