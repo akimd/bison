@@ -233,7 +233,7 @@ m4_define([b4_symbol_constructor_declare_],
 [    static inline
     symbol_type
     make_[]b4_symbol_([$1], [id]) (dnl
-b4_args(b4_symbol_if([$1], [has_type],
+b4_join(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])));
 
@@ -257,11 +257,11 @@ m4_define([b4_symbol_constructor_define_],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [  b4_parser_class_name::symbol_type
   b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
-b4_args(b4_symbol_if([$1], [has_type],
+b4_join(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])))
   {
-    return symbol_type (b4_args([token::b4_symbol([$1], [id])],
+    return symbol_type (b4_join([token::b4_symbol([$1], [id])],
                                 b4_symbol_if([$1], [has_type], [v]),
                                 b4_locations_if([l])));
   }

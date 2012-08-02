@@ -158,7 +158,7 @@ m4_define([b4_public_types_declare],
 
       /// Constructor.]b4_locations_if([
       inline symbol_base_type (const location_type& l)])[;
-      inline symbol_base_type (]b4_args(
+      inline symbol_base_type (]b4_join(
         [const semantic_type& v],
         b4_locations_if([const location_type& l]))[);
 
@@ -186,12 +186,12 @@ m4_define([b4_public_types_declare],
       inline symbol_type ();
 
       /// Constructor for tokens with semantic value.
-      inline symbol_type (]b4_args([token_type t],
+      inline symbol_type (]b4_join([token_type t],
                                    [const semantic_type& v],
                                    b4_locations_if([const location_type& l]))[);
 
       /// Constructor for valueless tokens.
-      inline symbol_type (]b4_args([token_type t],
+      inline symbol_type (]b4_join([token_type t],
                                    b4_locations_if([const location_type& l]))[);
 
       /// The symbol type.
@@ -235,7 +235,7 @@ m4_define([b4_public_types_define],
 
   template <typename Exact>
   inline
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_args(
+  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_join(
           [const semantic_type& v],
           b4_locations_if([const location_type& l]))[)
     : value(v)]b4_locations_if([
@@ -276,7 +276,7 @@ m4_define([b4_public_types_define],
   }
 
   inline
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_join(
                 [token_type t],
                 b4_locations_if([const location_type& l]))[)
     : super_type (]b4_locations_if([l])[)
@@ -285,7 +285,7 @@ m4_define([b4_public_types_define],
   }
 
   inline
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_args(
+  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_join(
                  [token_type t],
                  [const semantic_type& v],
                  b4_locations_if([const location_type& l]))[)

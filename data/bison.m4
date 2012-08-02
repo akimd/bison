@@ -206,23 +206,23 @@ m4_define([b4_subtract],
            [m4_eval([$1 - $2])],
            [($1) - ($2)])])
 
-# b4_args(ARG1, ...)
-# _b4_args(ARG1, ...)
+# b4_join(ARG1, ...)
+# _b4_join(ARG1, ...)
 # -------------------
 # Join with comma, skipping empty arguments.
-# b4_args calls itself recursively until it sees the first non-empty
-# argument, then calls _b4_args which prepends each non-empty argument
+# b4_join calls itself recursively until it sees the first non-empty
+# argument, then calls _b4_join which prepends each non-empty argument
 # with a comma.
-m4_define([b4_args],
+m4_define([b4_join],
 [m4_if([$#$1],
        [1], [],
        [m4_ifval([$1],
                  [$1[]_$0(m4_shift($@))],
                  [$0(m4_shift($@))])])])
 
-# _b4_args(ARGS1, ...)
+# _b4_join(ARGS1, ...)
 # --------------------
-m4_define([_b4_args],
+m4_define([_b4_join],
 [m4_if([$#$1],
        [1], [],
        [m4_ifval([$1], [, $1])[]$0(m4_shift($@))])])
