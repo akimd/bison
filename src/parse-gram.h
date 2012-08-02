@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.5.1.931-4323e-dirty.  */
+/* A Bison parser, made by GNU Bison 2.6.1.828-a3c9.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -40,7 +40,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-/* Line 1962 of yacc.c  */
+/* Line 1949 of yacc.c  */
 #line 222 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
@@ -55,7 +55,7 @@ extern int gram_debug;
 # endif
 
 
-/* Line 1962 of yacc.c  */
+/* Line 1949 of yacc.c  */
 #line 60 "src/parse-gram.h"
 
 /* Tokens.  */
@@ -182,7 +182,7 @@ extern int gram_debug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 1962 of yacc.c  */
+/* Line 1949 of yacc.c  */
 #line 108 "src/parse-gram.y"
 
   assoc assoc;
@@ -195,16 +195,16 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1962 of yacc.c  */
+/* Line 1949 of yacc.c  */
 #line 246 "src/parse-gram.y"
 
   param_type param;
 
-/* Line 1962 of yacc.c  */
+/* Line 1949 of yacc.c  */
 #line 425 "src/parse-gram.y"
 code_props_type code_type;
 
-/* Line 1962 of yacc.c  */
+/* Line 1949 of yacc.c  */
 #line 209 "src/parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
@@ -224,20 +224,6 @@ typedef struct YYLTYPE
 #endif
 
 
-#ifdef YYPARSE_PARAM
-#if (defined __STDC__ || defined __C99__FUNC__ \
-     || defined __cplusplus || defined _MSC_VER)
-int gram_parse (void *YYPARSE_PARAM);
-#else
-int gram_parse ();
-#endif
-#else /* ! YYPARSE_PARAM */
-#if (defined __STDC__ || defined __C99__FUNC__ \
-     || defined __cplusplus || defined _MSC_VER)
 int gram_parse (void);
-#else
-int gram_parse ();
-#endif
-#endif /* ! YYPARSE_PARAM */
 
 #endif /* !GRAM_SRC_PARSE_GRAM_H  */
