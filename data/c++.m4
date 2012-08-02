@@ -157,7 +157,7 @@ m4_define([b4_public_types_declare],
       inline symbol_base_type ();
 
       /// Constructor.]b4_locations_if([
-      inline symbol_base_type (const location_type& l)])[;
+      inline symbol_base_type (const location_type& l);])[
       inline symbol_base_type (]b4_join(
         [const semantic_type& v],
         b4_locations_if([const location_type& l]))[);
