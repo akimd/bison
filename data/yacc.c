@@ -1933,7 +1933,6 @@ yypushreturn:]])[
 #endif
   return yyresult;
 }
-
 ]b4_epilogue[]dnl
 b4_defines_if(
 [@output(b4_spec_defines_file@)@

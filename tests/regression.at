@@ -908,7 +908,6 @@ m4_define([AT_CHECK_DANCER],
 [AT_SETUP([Dancer $1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_DANCER_Y([$1])
-AT_BISON_CHECK([-o dancer.c dancer.y])
 AT_FULL_COMPILE([dancer])
 AT_PARSER_CHECK([./dancer], 1, [],
 [syntax error, unexpected ':'
@@ -993,7 +992,6 @@ m4_define([AT_CHECK_EXPECT2],
 [AT_SETUP([Expecting two tokens $1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_EXPECT2_Y([$1])
-AT_BISON_CHECK([-o expect2.c expect2.y])
 AT_FULL_COMPILE([expect2])
 AT_PARSER_CHECK([./expect2], 1, [],
 [syntax error, unexpected '+', expecting A or B
@@ -1578,3 +1576,87 @@ Stack now 0
 m4_popdef([AT_LAC_CHECK])
 
 AT_CLEANUP
+
+
+## ---------------------- ##
+## Lex and parse params.  ##
+## ---------------------- ##
+
+# AT_TEST(SKELETON)
+# -----------------
+# Check that the identifier of the params is properly fetched
+# even when there are trailing blanks.
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([[Lex and parse params: $1]])
+
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton $1])
+
+## FIXME: Improve parsing of parse-param and use the generated
+## yyerror.
+AT_DATA_GRAMMAR([input.y],
+[[%defines
+%locations
+%skeleton $1
+%union { int ival; }
+%parse-param { int x }
+// Spaces, tabs, and new lines.
+%parse-param { @&t@
+	 int y	 @&t@
+         @&t@
+ @&t@
+}
+
+%{
+#include <stdio.h>
+#include <stdlib.h>
+
+]AT_SKEL_CC_IF([], [[
+static
+void
+yyerror (int x, int y, const char *msg)
+{
+  fprintf (stderr, "x: %d, y: %d, %s\n", x, y, msg);
+}]])[
+
+  ]AT_YYLEX_DECLARE[
+%}
+
+%%
+exp: 'a' { fprintf (stdout, "x: %d, y: %d\n", x, y); };
+%%
+]AT_YYLEX_DEFINE(["a"])[
+
+]AT_SKEL_CC_IF(
+[AT_YYERROR_DEFINE
+
+int
+yyparse (int x, int y)
+{
+  yy::parser parser(x, y);
+  return parser.parse ();
+}
+])[
+
+int
+main (void)
+{
+  return !!yyparse(1, 2);
+}
+]])
+
+AT_FULL_COMPILE([input])
+AT_CHECK([./input], 0, [[x: 1, y: 2
+]])
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])
+
+## FIXME: test Java, and iterate over skeletons.
+AT_TEST("yacc.c")
+AT_TEST("glr.c")
+AT_TEST("lalr1.cc")
+AT_TEST("glr.cc")
+
+m4_popdef([AT_TEST])

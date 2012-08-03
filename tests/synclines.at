@@ -64,22 +64,22 @@ m4_define([AT_SYNCLINES_COMPILE],
 #   distcc[35882] (dcc_connect_by_name) ERROR: failed to look up host "chrisimac": Unknown host
 #   distcc[35882] Warning: failed to distribute input.c to chrisimac/4, running locally instead
 
-AT_CHECK([[perl -p -0777 -f - stderr <<\EOF
- s/^distcc\[\d+\] .*\n//gm;
- s/^([^:]*:\d+)[.:][^:]*:(.*)$/$][1:$][2/gm;
- s/^([^:]*:\d+:)[^#]*( #error)/$][1$][2/gm;
- s/^[^:]*: In function '[^']*':\n//gm;
- s/^\ +#error.*\n\ *\^\n//gm;
+AT_CHECK([[perl -p -0777 - stderr <<\EOF
+  s/^distcc\[\d+\] .*\n//gm;
+  s/^([^:]+:\d+)[.:][^:]+:(.+)$/$][1:$][2/gm;
+  s/^([^:]+:\d+):[^#]*( #error)/$][1:$][2/gm;
+  s/^[^:]*: In function '[^']+':\n//gm;
+  s/^\ +#error.*\n\ *\^\n//gm;
 EOF
 ]],
- 0, [stdout])
+  0, [stdout])
 ])
 
-# AT_TEST_SYNCLINE(TITLE, INPUT, ERROR-MSG)
-# -----------------------------------------
+# AT_TEST(TITLE, INPUT, ERROR-MSG)
+# --------------------------------
 # Check that compiling the parser produced from INPUT cause GCC
 # to issue ERROR-MSG.
-m4_define([AT_TEST_SYNCLINE],
+m4_pushdef([AT_TEST],
 [AT_SETUP([$1])
 AT_BISON_OPTION_PUSHDEFS
 # It seems impossible to find a generic scheme to check the location
@@ -116,12 +116,12 @@ AT_CLEANUP
 ])
 
 
-## --------------------- ##
-## Prologue synch line.  ##
-## --------------------- ##
+## ------------------- ##
+## Prologue syncline.  ##
+## ------------------- ##
 
 
-AT_TEST_SYNCLINE([Prologue synch line],
+AT_TEST([Prologue syncline],
 [[%{
 #error "2"
 ]AT_YYERROR_DECLARE_EXTERN[
@@ -135,11 +135,11 @@ exp: '0';
 ])
 
 
-## ------------------- ##
-## %union synch line.  ##
-## ------------------- ##
+## ----------------- ##
+## %union syncline.  ##
+## ----------------- ##
 
-AT_TEST_SYNCLINE([%union synch line],
+AT_TEST([%union syncline],
 [[%union {
 #error "2"
   char dummy;
@@ -156,11 +156,11 @@ exp: '0';
 ])
 
 
-## ------------------------- ##
-## Postprologue synch line.  ##
-## ------------------------- ##
+## ----------------------- ##
+## Postprologue syncline.  ##
+## ----------------------- ##
 
-AT_TEST_SYNCLINE([Postprologue synch line],
+AT_TEST([Postprologue syncline],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
@@ -180,11 +180,11 @@ exp: '0';
 ])
 
 
-## ------------------- ##
-## Action synch line.  ##
-## ------------------- ##
+## ----------------- ##
+## Action syncline.  ##
+## ----------------- ##
 
-AT_TEST_SYNCLINE([Action synch line],
+AT_TEST([Action syncline],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
@@ -199,11 +199,11 @@ exp:
 ])
 
 
-## --------------------- ##
-## Epilogue synch line.  ##
-## --------------------- ##
+## ------------------- ##
+## Epilogue syncline.  ##
+## ------------------- ##
 
-AT_TEST_SYNCLINE([Epilogue synch line],
+AT_TEST([Epilogue syncline],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
@@ -215,3 +215,5 @@ exp: '0';
 ]],
 [input.y:8: #error "8"
 ])
+
+m4_popdef([AT_TEST])

@@ -64,7 +64,6 @@ $(call exclude,								\
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
   prohibit_always-defined_macros+=?|^tests/regression.at$$		\
   prohibit_defined_have_decl_tests=?|^lib/timevar.c$$			\
-  prohibit_empty_lines_at_EOF=^src/parse-gram.h$$			\
   prohibit_magic_number_exit=^doc/bison.texi$$				\
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$	\
   prohibit_strcmp=^doc/bison\.texi$$					\

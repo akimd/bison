@@ -775,11 +775,13 @@ add_param (param_type type, char *decl, location loc)
 
     /* Strip the surrounding '{' and '}', and any blanks just inside
        the braces.  */
-    while (*--p == ' ' || *p == '\t')
-      continue;
+    --p;
+    while (isspace ((unsigned char) *p))
+      --p;
     p[1] = '\0';
-    while (*++decl == ' ' || *decl == '\t')
-      continue;
+    ++decl;
+    while (isspace ((unsigned char) *decl))
+      ++decl;
   }
 
   if (! name_start)

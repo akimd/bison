@@ -143,6 +143,22 @@ GNU Bison NEWS
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
 
+* Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
+
+** Bug fixes
+
+  Buffer overruns, complaints from Flex, and portability issues in the test
+  suite have been fixed.
+
+** Spaces in %lex- and %parse-param (lalr1.cc, glr.cc)
+
+  Trailing end-of-lines in %parse-param or %lex-param would result in
+  invalid C++.  This is fixed.
+
+** Spurious spaces and end-of-lines
+
+  The generated files no longer end (nor start) with empty lines.
+
 * Noteworthy changes in release 2.6.1 (2012-07-30) [stable]
 
  Bison no longer executes user-specified M4 code when processing a grammar.
