@@ -506,7 +506,9 @@ m4_define([AT_CHECK_SPACES],
 [# No initial empty lines.
 AT_CHECK([sed -ne '/./q;=;p;' $1])
 # No trailing spaces.
-# FIXME: For 2.7: AT_CHECK([sed -ne '/[ ]$/{=;p;}' $1])
+AT_CHECK([sed -ne '/[ ]$/{=;p;}' $1])
+# No tabulations.
+AT_CHECK([sed -ne '/[	]/{=;p;}' $1])
 # No final empty lines.
 AT_CHECK([sed -ne '${/^$/{=;p;};}' $1])
 ])
