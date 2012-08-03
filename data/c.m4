@@ -195,12 +195,11 @@ m4_define([b4_int_type_for],
 # --------------------------------------------
 # Without inducing a comparison warning from the compiler, check if the
 # literal value LITERAL equals VALUE from table TABLE, which must have
-# TABLE_min and TABLE_max defined.  YYID must be defined as an identity
-# function that suppresses warnings about constant conditions.
+# TABLE_min and TABLE_max defined.
 m4_define([b4_table_value_equals],
 [m4_if(m4_eval($3 < m4_indir([b4_]$1[_min])
                || m4_indir([b4_]$1[_max]) < $3), [1],
-       [[YYID (0)]],
+       [[0]],
        [[((]$2[) == (]$3[))]])])
 
 
@@ -415,7 +414,6 @@ m4_define_default([b4_yydestruct_define],
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
-/*ARGSUSED*/
 ]b4_function_define([yydestruct],
     [static void],
     [[const char *yymsg],    [yymsg]],
@@ -448,7 +446,6 @@ m4_define_default([b4_yy_symbol_print_define],
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
 
-/*ARGSUSED*/
 ]b4_function_define([yy_symbol_value_print],
     [static void],
                [[FILE *yyoutput],                       [yyoutput]],
@@ -582,7 +579,7 @@ m4_define([b4_yylloc_default_define],
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N)                                \
     do                                                                  \
-      if (YYID (N))                                                     \
+      if (N)                                                            \
         {                                                               \
           (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;        \
           (Current).first_column = YYRHSLOC (Rhs, 1).first_column;      \
@@ -596,6 +593,6 @@ m4_define([b4_yylloc_default_define],
           (Current).first_column = (Current).last_column =              \
             YYRHSLOC (Rhs, 0).last_column;                              \
         }                                                               \
-    while (YYID (0))
+    while (0)
 #endif
 ]])
