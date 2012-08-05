@@ -36,7 +36,7 @@
 #include "reader.h"
 #include "uniqstr.h"
 
-#include <ctype.h>
+#include <c-ctype.h>
 #include <mbswidth.h>
 #include <quote.h>
 
@@ -560,7 +560,7 @@ splice	 (\\[ \f\t\v]*\n)*
   \\(.|\n)	{
     char const *p = yytext + 1;
     /* Quote only if escaping won't make the character visible.  */
-    if (isspace ((unsigned char) *p) && isprint ((unsigned char) *p))
+    if (c_isspace ((unsigned char) *p) && c_isprint ((unsigned char) *p))
       p = quote (p);
     else
       p = quotearg_style_mem (escape_quoting_style, p, 1);
