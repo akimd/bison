@@ -1,7 +1,4 @@
 * Short term
-** scan-code.l
-Avoid variables for format strings, as then GCC cannot check them.
-
 ** m4 names
 b4_shared_declarations is no longer what it is.  Make it
 b4_parser_declaration for instance.
