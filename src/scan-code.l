@@ -400,6 +400,72 @@ get_at_spec(unsigned symbol_index)
 }
 
 static void
+show_sub_message (const char* cp, bool explicit_bracketing,
+                  int midrule_rhs_index, char dollar_or_at,
+                  bool is_warning, unsigned indent,
+                  const variant *var)
+{
+  const char *at_spec = get_at_spec (var->symbol_index);
+
+  if (var->err == 0)
+    {
+      if (is_warning)
+        complain_at_indent (var->loc, Wother, &indent,
+                            _("refers to: %c%s at %s"), dollar_or_at,
+                            var->id, at_spec);
+      else
+        complain_at_indent (var->loc, complaint, &indent,
+                            _("refers to: %c%s at %s"), dollar_or_at,
+                            var->id, at_spec);
+    }
+  else
+    {
+      static struct obstack msg_buf;
+      const char *tail = explicit_bracketing ? "" : cp + strlen (var->id);
+      const char *id = var->hidden_by ? var->hidden_by->id : var->id;
+      location id_loc = var->hidden_by ? var->hidden_by->loc : var->loc;
+
+      /* Create the explanation message. */
+      obstack_init (&msg_buf);
+
+      obstack_printf (&msg_buf, _("possibly meant: %c"), dollar_or_at);
+      if (contains_dot_or_dash (id))
+        obstack_printf (&msg_buf, "[%s]", id);
+      else
+        obstack_sgrow (&msg_buf, id);
+      obstack_sgrow (&msg_buf, tail);
+
+      if (var->err & VARIANT_HIDDEN)
+        {
+          obstack_printf (&msg_buf, _(", hiding %c"), dollar_or_at);
+          if (contains_dot_or_dash (var->id))
+            obstack_printf (&msg_buf, "[%s]", var->id);
+          else
+            obstack_sgrow (&msg_buf, var->id);
+          obstack_sgrow (&msg_buf, tail);
+        }
+
+      obstack_printf (&msg_buf, _(" at %s"), at_spec);
+
+      if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
+        {
+          const char *format =
+            _(", cannot be accessed from mid-rule action at $%d");
+          obstack_printf (&msg_buf, format, midrule_rhs_index);
+        }
+
+      obstack_1grow (&msg_buf, '\0');
+      if (is_warning)
+        complain_at_indent (id_loc, Wother, &indent, "%s",
+                            (char *) obstack_finish (&msg_buf));
+      else
+        complain_at_indent (id_loc, complaint, &indent, "%s",
+                            (char *) obstack_finish (&msg_buf));
+      obstack_free (&msg_buf, 0);
+    }
+}
+
+static void
 show_sub_messages (const char* cp, bool explicit_bracketing,
                    int midrule_rhs_index, char dollar_or_at,
                    bool is_warning, unsigned indent)
@@ -407,70 +473,9 @@ show_sub_messages (const char* cp, bool explicit_bracketing,
   unsigned i;
 
   for (i = 0; i < variant_count; ++i)
-    {
-      const variant *var = &variant_table[i];
-      const char *at_spec = get_at_spec (var->symbol_index);
-
-      if (var->err == 0)
-        {
-          if (is_warning)
-            complain_at_indent (var->loc, Wother, &indent,
-                                _("refers to: %c%s at %s"), dollar_or_at,
-                                var->id, at_spec);
-          else
-            complain_at_indent (var->loc, complaint, &indent,
-                                _("refers to: %c%s at %s"), dollar_or_at,
-                                var->id, at_spec);
-        }
-      else
-        {
-          static struct obstack msg_buf;
-          const char *tail = explicit_bracketing ? "" :
-            cp + strlen (var->id);
-          const char *id = var->hidden_by ? var->hidden_by->id :
-            var->id;
-          location id_loc = var->hidden_by ? var->hidden_by->loc :
-            var->loc;
-
-          /* Create the explanation message. */
-          obstack_init (&msg_buf);
-
-          obstack_printf (&msg_buf, _("possibly meant: %c"), dollar_or_at);
-          if (contains_dot_or_dash (id))
-            obstack_printf (&msg_buf, "[%s]", id);
-          else
-            obstack_sgrow (&msg_buf, id);
-          obstack_sgrow (&msg_buf, tail);
-
-          if (var->err & VARIANT_HIDDEN)
-            {
-              obstack_printf (&msg_buf, _(", hiding %c"), dollar_or_at);
-              if (contains_dot_or_dash (var->id))
-                obstack_printf (&msg_buf, "[%s]", var->id);
-              else
-                obstack_sgrow (&msg_buf, var->id);
-              obstack_sgrow (&msg_buf, tail);
-            }
-
-          obstack_printf (&msg_buf, _(" at %s"), at_spec);
-
-          if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
-            {
-              const char *format =
-                _(", cannot be accessed from mid-rule action at $%d");
-              obstack_printf (&msg_buf, format, midrule_rhs_index);
-            }
-
-          obstack_1grow (&msg_buf, '\0');
-          if (is_warning)
-            complain_at_indent (id_loc, Wother, &indent, "%s",
-                                (char *) obstack_finish (&msg_buf));
-          else
-            complain_at_indent (id_loc, complaint, &indent, "%s",
-                                (char *) obstack_finish (&msg_buf));
-          obstack_free (&msg_buf, 0);
-        }
-    }
+    show_sub_message (cp, explicit_bracketing,
+                      midrule_rhs_index, dollar_or_at,
+                      is_warning, indent, &variant_table[i]);
 }
 
 /* Returned from "parse_ref" when the reference
