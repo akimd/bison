@@ -41,11 +41,7 @@
 #define YY_DECL static int skel_lex (void)
 YY_DECL;
 
-#define QPUTS(String) \
-   fputs (quotearg_style (c_quoting_style, String), yyout)
-
-static void at_directive_perform (int at_directive_argc,
-                                  char *at_directive_argv[],
+static void at_directive_perform (int argc, char *argv[],
                                   char **outnamep, int *out_linenop);
 static void fail_for_at_directive_too_many_args (char const *at_directive_name);
 static void fail_for_at_directive_too_few_args (char const *at_directive_name);
@@ -63,10 +59,10 @@ static void fail_for_invalid_at (char const *at);
 
   /* Currently, only the @warn, @complain, @fatal, @warn_at, @complain_at, and
      @fatal_at directives take multiple arguments, and the last three already
-     can't take more than 7.  at_directive_argv[0] is the directive name.  */
-  #define AT_DIRECTIVE_ARGC_MAX 8
-  int at_directive_argc = 0;
-  char *at_directive_argv[AT_DIRECTIVE_ARGC_MAX];
+     can't take more than 7.  argv[0] is the directive name.  */
+  #define ARGC_MAX 8
+  int argc = 0;
+  char *argv[ARGC_MAX];
 %}
 
 "@@" fputc ('@', yyout);
@@ -76,12 +72,12 @@ static void fail_for_invalid_at (char const *at);
 @\n  continue;
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
-"@ofile@"  QPUTS (outname);
+"@ofile@"  fputs (quotearg_style (c_quoting_style, outname), yyout);
 
 @[a-z_]+"(" {
   yytext[yyleng-1] = '\0';
   obstack_grow (&obstack_for_string, yytext, yyleng);
-  at_directive_argv[at_directive_argc++] = obstack_finish (&obstack_for_string);
+  argv[argc++] = obstack_finish (&obstack_for_string);
   BEGIN SC_AT_DIRECTIVE_ARGS;
 }
 
@@ -110,21 +106,19 @@ static void fail_for_invalid_at (char const *at);
   @\n    continue;
 
   @[,)] {
-    if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)
-      fail_for_at_directive_too_many_args (at_directive_argv[0]);
+    if (argc >= ARGC_MAX)
+      fail_for_at_directive_too_many_args (argv[0]);
 
-    at_directive_argv[at_directive_argc++] =
-      obstack_finish0 (&obstack_for_string);
+    argv[argc++] = obstack_finish0 (&obstack_for_string);
 
     /* Like M4, skip whitespace after a comma.  */
     if (yytext[1] == ',')
       BEGIN SC_AT_DIRECTIVE_SKIP_WS;
     else
       {
-        at_directive_perform (at_directive_argc, at_directive_argv,
-                              &outname, &out_lineno);
-        obstack_free (&obstack_for_string, at_directive_argv[0]);
-        at_directive_argc = 0;
+        at_directive_perform (argc, argv, &outname, &out_lineno);
+        obstack_free (&obstack_for_string, argv[0]);
+        argc = 0;
         BEGIN INITIAL;
       }
   }
@@ -135,15 +129,12 @@ static void fail_for_invalid_at (char const *at);
 <SC_AT_DIRECTIVE_SKIP_WS>
 {
   [ \t\r\n]    continue;
-  . { yyless (0); BEGIN SC_AT_DIRECTIVE_ARGS; }
+  .            yyless (0); BEGIN SC_AT_DIRECTIVE_ARGS;
 }
 
 <SC_AT_DIRECTIVE_ARGS,SC_AT_DIRECTIVE_SKIP_WS>
 {
-  <<EOF>> {
-    complain (fatal, _("unclosed %s directive in skeleton"),
-              at_directive_argv[0]);
-  }
+  <<EOF>>  complain (fatal, _("unclosed %s directive in skeleton"), argv[0]);
 }
 
 %%
@@ -174,125 +165,110 @@ skel_scanner_free (void)
   yylex_destroy ();
 }
 
-static void
-at_directive_perform (int at_directive_argc,
-                      char *at_directive_argv[],
-                      char **outnamep, int *out_linenop)
+static inline warnings
+flag (const char *arg)
 {
-  if (STREQ (at_directive_argv[0], "@basename"))
+  switch (arg[1])
     {
-      if (at_directive_argc > 2)
-        fail_for_at_directive_too_many_args (at_directive_argv[0]);
-      fputs (last_component (at_directive_argv[1]), yyout);
+    case 'w': return Wother;
+    case 'c': return complaint;
+    case 'f': return fatal;
+    default: aver (false); break;
     }
-  else if (STREQ (at_directive_argv[0], "@warn")
-           || STREQ (at_directive_argv[0], "@complain")
-           || STREQ (at_directive_argv[0], "@fatal"))
+}
+
+static void
+at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
+{
+  if (STREQ (argv[0], "@basename"))
     {
-      warnings complaint_flag;
-      switch (at_directive_argv[0][1])
-        {
-        case 'w': complaint_flag = Wother; break;
-        case 'c': complaint_flag = complaint; break;
-        case 'f': complaint_flag = fatal; break;
-        default: aver (false); break;
-        }
-      switch (at_directive_argc)
+      if (argc > 2)
+        fail_for_at_directive_too_many_args (argv[0]);
+      fputs (last_component (argv[1]), yyout);
+    }
+  else if (STREQ (argv[0], "@warn")
+           || STREQ (argv[0], "@complain")
+           || STREQ (argv[0], "@fatal"))
+    {
+      warnings w = flag (argv[0]);
+      switch (argc)
         {
           case 2:
-            complain (complaint_flag, "%s", _(at_directive_argv[1]));
+            complain (w, "%s", _(argv[1]));
             break;
           case 3:
-            complain (complaint_flag, _(at_directive_argv[1]),
-                      at_directive_argv[2]);
+            complain (w, _(argv[1]), argv[2]);
             break;
           case 4:
-            complain (complaint_flag, _(at_directive_argv[1]),
-                      at_directive_argv[2], at_directive_argv[3]);
+            complain (w, _(argv[1]), argv[2], argv[3]);
             break;
           case 5:
-            complain (complaint_flag, _(at_directive_argv[1]),
-                      at_directive_argv[2], at_directive_argv[3],
-                      at_directive_argv[4]);
+            complain (w, _(argv[1]), argv[2], argv[3], argv[4]);
             break;
           case 6:
-            complain (complaint_flag, _(at_directive_argv[1]),
-                      at_directive_argv[2], at_directive_argv[3],
-                      at_directive_argv[4], at_directive_argv[5]);
+            complain (w, _(argv[1]), argv[2], argv[3], argv[4], argv[5]);
             break;
           default:
-            fail_for_at_directive_too_many_args (at_directive_argv[0]);
+            fail_for_at_directive_too_many_args (argv[0]);
             break;
         }
     }
-  else if (STREQ (at_directive_argv[0], "@warn_at")
-           || STREQ (at_directive_argv[0], "@complain_at")
-           || STREQ (at_directive_argv[0], "@fatal_at"))
+  else if (STREQ (argv[0], "@warn_at")
+           || STREQ (argv[0], "@complain_at")
+           || STREQ (argv[0], "@fatal_at"))
     {
-      warnings complaint_flag;
+      warnings w = flag (argv[0]);
       location loc;
-      if (at_directive_argc < 4)
-        fail_for_at_directive_too_few_args (at_directive_argv[0]);
-      switch (at_directive_argv[0][1])
-        {
-        case 'w': complaint_flag = Wother; break;
-        case 'c': complaint_flag = complaint; break;
-        case 'f': complaint_flag = fatal; break;
-        default: aver (false); break;
-        }
-      boundary_set_from_string (&loc.start, at_directive_argv[1]);
-      boundary_set_from_string (&loc.end, at_directive_argv[2]);
-      switch (at_directive_argc)
+      if (argc < 4)
+        fail_for_at_directive_too_few_args (argv[0]);
+      boundary_set_from_string (&loc.start, argv[1]);
+      boundary_set_from_string (&loc.end, argv[2]);
+      switch (argc)
         {
           case 4:
-            complain_at (loc, complaint_flag, "%s", _(at_directive_argv[3]));
+            complain_at (loc, w, "%s", _(argv[3]));
             break;
           case 5:
-            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
-                      at_directive_argv[4]);
+            complain_at (loc, w, _(argv[3]), argv[4]);
             break;
           case 6:
-            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
-                      at_directive_argv[4], at_directive_argv[5]);
+            complain_at (loc, w, _(argv[3]), argv[4], argv[5]);
             break;
           case 7:
-            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
-                      at_directive_argv[4], at_directive_argv[5],
-                      at_directive_argv[6]);
+            complain_at (loc, w, _(argv[3]), argv[4], argv[5], argv[6]);
             break;
           case 8:
-            complain_at (loc, complaint_flag, _(at_directive_argv[3]),
-                      at_directive_argv[4], at_directive_argv[5],
-                      at_directive_argv[6], at_directive_argv[7]);
+            complain_at (loc, w, _(argv[3]), argv[4], argv[5], argv[6],
+                         argv[7]);
             break;
           default:
-            fail_for_at_directive_too_many_args (at_directive_argv[0]);
+            fail_for_at_directive_too_many_args (argv[0]);
             break;
         }
     }
-  else if (STREQ (at_directive_argv[0], "@output"))
+  else if (STREQ (argv[0], "@output"))
     {
-      if (at_directive_argc > 2)
-        fail_for_at_directive_too_many_args (at_directive_argv[0]);
+      if (argc > 2)
+        fail_for_at_directive_too_many_args (argv[0]);
       if (*outnamep)
         {
           free (*outnamep);
           xfclose (yyout);
         }
-      *outnamep = xstrdup (at_directive_argv[1]);
+      *outnamep = xstrdup (argv[1]);
       output_file_name_check (outnamep);
       yyout = xfopen (*outnamep, "w");
       *out_linenop = 1;
     }
   else
-    fail_for_invalid_at (at_directive_argv[0]);
+    fail_for_invalid_at (argv[0]);
 }
 
 static void
 fail_for_at_directive_too_few_args (char const *at_directive_name)
 {
   complain (fatal, _("too few arguments for %s directive in skeleton"),
-         at_directive_name);
+            at_directive_name);
 }
 
 static void
