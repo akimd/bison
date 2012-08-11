@@ -40,42 +40,34 @@ extern struct obstack muscle_obstack;
     MUSCLE_INSERT_INT (Key, v__);                               \
   } while (0)
 
-#define MUSCLE_INSERT_INT(Key, Value)                           \
+#define MUSCLE_INSERTF(Key, Format, Value)                      \
   do {                                                          \
-    obstack_printf (&muscle_obstack, "%d", Value);              \
-    obstack_1grow (&muscle_obstack, 0);                         \
-    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+    obstack_printf (&muscle_obstack, Format, Value);            \
+    muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
   } while (0)
 
+#define MUSCLE_INSERT_INT(Key, Value)                           \
+  MUSCLE_INSERTF(Key, "%d", Value)
+
 #define MUSCLE_INSERT_LONG_INT(Key, Value)                      \
-  do {                                                          \
-    obstack_printf (&muscle_obstack, "%ld", Value);             \
-    obstack_1grow (&muscle_obstack, 0);                         \
-    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
-  } while (0)
+  MUSCLE_INSERTF(Key, "%ld", Value)
 
 /* Key -> Value, but don't apply escaping to Value. */
 #define MUSCLE_INSERT_STRING_RAW(Key, Value)                    \
-  do {                                                          \
-    obstack_sgrow (&muscle_obstack, Value);                     \
-    obstack_1grow (&muscle_obstack, 0);                         \
-    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
-  } while (0)
+  MUSCLE_INSERTF(Key, "%s", Value)
 
 /* Key -> Value, applying M4 escaping to Value. */
 #define MUSCLE_INSERT_STRING(Key, Value)                        \
   do {                                                          \
     obstack_escape (&muscle_obstack, Value);                    \
-    obstack_1grow (&muscle_obstack, 0);                         \
-    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+    muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
   } while (0)
 
 #define MUSCLE_INSERT_C_STRING(Key, Value)                      \
   do {                                                          \
     obstack_escape (&muscle_obstack,                            \
                     quotearg_style (c_quoting_style, Value));   \
-    obstack_1grow (&muscle_obstack, 0);                         \
-    muscle_insert (Key, obstack_finish (&muscle_obstack));      \
+    muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
   } while (0)
 
 /* Append VALUE to the current value of KEY.  If KEY did not already

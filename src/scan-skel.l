@@ -81,8 +81,7 @@ static void fail_for_invalid_at (char const *at);
 @[a-z_]+"(" {
   yytext[yyleng-1] = '\0';
   obstack_grow (&obstack_for_string, yytext, yyleng);
-  at_directive_argv[at_directive_argc++] =
-    obstack_finish (&obstack_for_string);
+  at_directive_argv[at_directive_argc++] = obstack_finish (&obstack_for_string);
   BEGIN SC_AT_DIRECTIVE_ARGS;
 }
 
@@ -114,9 +113,8 @@ static void fail_for_invalid_at (char const *at);
     if (at_directive_argc >= AT_DIRECTIVE_ARGC_MAX)
       fail_for_at_directive_too_many_args (at_directive_argv[0]);
 
-    obstack_1grow (&obstack_for_string, '\0');
     at_directive_argv[at_directive_argc++] =
-      obstack_finish (&obstack_for_string);
+      obstack_finish0 (&obstack_for_string);
 
     /* Like M4, skip whitespace after a comma.  */
     if (yytext[1] == ',')

@@ -173,6 +173,8 @@ typedef size_t uintptr_t;
 #define obstack_chunk_free  free
 #include <obstack.h>
 
+/* String-grow: append Str to Obs.  */
+
 #define obstack_sgrow(Obs, Str) \
   obstack_grow (Obs, Str, strlen (Str))
 
@@ -216,6 +218,11 @@ typedef size_t uintptr_t;
       obstack_sgrow (Obs, "[]");                \
   } while (0)
 
+
+/* Append the ending 0, finish Obs, and return the string.  */
+
+# define obstack_finish0(Obs)                           \
+  (obstack_1grow (Obs, '\0'), (char *) obstack_finish (Obs))
 
 
 

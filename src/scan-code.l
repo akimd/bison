@@ -445,9 +445,8 @@ show_sub_message (const char* cp, bool explicit_bracketing,
                         _(", cannot be accessed from mid-rule action at $%d"),
                         midrule_rhs_index);
 
-      obstack_1grow (&msg_buf, '\0');
       complain_at_indent (id_loc, wflags, &indent, "%s",
-                          (char *) obstack_finish (&msg_buf));
+                          obstack_finish0 (&msg_buf));
       obstack_free (&msg_buf, 0);
     }
 }
