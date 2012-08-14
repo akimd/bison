@@ -1259,10 +1259,11 @@ AT_CHECK_ACTION_LOCATIONS([[%printer]])
 ## Qualified $$ in actions.  ##
 ## ------------------------- ##
 
-# Check that we can used qualified $$ (v.g., $<type>$) not only in
-# rule actions, but also where $$ is valid: %printer and %destructor.
+# Check that we can use qualified $$ (v.g., $<type>$) not only in rule
+# actions, but also where $$ is valid: %destructor/%printer and
+# %initial-action.
 #
-# FIXME: Not actually checking %desctructor, but it's the same code as
+# FIXME: Not actually checking %destructor, but it's the same code as
 # %printer...
 #
 # To do that, use a semantic value that has two fields (sem_type),

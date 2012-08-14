@@ -62,7 +62,7 @@ m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
 
 
 # b4_yy_symbol_print_define
-# ---------------------------
+# -------------------------
 # Bypass the default implementation to generate the "yy_symbol_print"
 # and "yy_symbol_value_print" functions.
 m4_define([b4_yy_symbol_print_define],
@@ -123,7 +123,7 @@ m4_append([b4_epilogue],
 
 
 ]b4_namespace_open[
-]dnl In this section, the parse param are the original parse_params.
+]dnl In this section, the parse params are the original parse_params.
 m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 [  /// Build a parser object.
   ]b4_parser_class_name::b4_parser_class_name[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [

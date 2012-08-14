@@ -54,13 +54,12 @@ typedef struct symbol symbol;
 /* Declaration status of a symbol.
 
    First, it is "undeclared".  Then, if "undeclared" and used in a
-   %printer/%destructor, it is "used".  If not "declared" by used in a
-   rule, it is "needed".  Finally, if declared (via a rule for
-   nonterminals, or %oken), it is "declared".
+   %printer/%destructor, it is "used".  If not "declared" but used in
+   a rule, it is "needed".  Finally, if declared (via a rule for
+   nonterminals, or %token), it is "declared".
 
    When status are checked at the end, "declared" symbols are fine,
-   "used" symbols trigger warnings, otherwise it's an error.
-*/
+   "used" symbols trigger warnings, otherwise it's an error.  */
 
 typedef enum
   {
