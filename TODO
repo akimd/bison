@@ -7,9 +7,6 @@ sure to check that the initial-action is performed once per parsing.
 b4_shared_declarations is no longer what it is.  Make it
 b4_parser_declaration for instance.
 
-** glr.cc: %defines
-it should not be mandatory.
-
 ** $ and others in epilogue
 A stray $ is a warning in the actions, but an error in the epilogue.
 IMHO, it should not even be a warning in the epilogue.

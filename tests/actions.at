@@ -1278,7 +1278,6 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "$1"
-%defines   // FIXME: Mandated by glr.cc.
 %debug
 %code requires
 {

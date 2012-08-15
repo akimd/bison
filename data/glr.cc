@@ -46,13 +46,9 @@
 # We require a pure interface.
 m4_define([b4_pure_flag],      [1])
 
-# The header is mandatory.
-b4_defines_if([],
-              [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
-
 m4_include(b4_pkgdatadir/[c++.m4])
-b4_percent_define_ifdef([[location_type]], [],
-                        [m4_include(b4_pkgdatadir/[location.cc])])
+b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+                [m4_include(b4_pkgdatadir/[location.cc])])])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
@@ -208,37 +204,32 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
 #endif
 ]m4_popdef([b4_parse_param])dnl
-b4_namespace_close])
-
-
-# Let glr.c believe that the user arguments include the parser itself.
-m4_ifset([b4_parse_param],
-[m4_pushdef([b4_parse_param],
-            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]],]
-m4_defn([b4_parse_param]))],
-[m4_pushdef([b4_parse_param],
-            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
+b4_namespace_close
 ])
-m4_include(b4_pkgdatadir/[glr.c])
-m4_popdef([b4_parse_param])
-
 
 # b4_shared_declarations
 # ----------------------
 # Declaration that might either go into the header (if --defines)
 # or open coded in the parser body.
 m4_define([b4_shared_declarations],
-[b4_percent_code_get([[requires]])[
+[dnl In this section, the parse params are the original parse_params.
+m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
+b4_percent_code_get([[requires]])[
 
 #include <stdexcept>
 #include <string>
-#include <iostream>
-]b4_percent_define_ifdef([[location_type]], [],
-                         [[#include "location.hh"]])[
+#include <iostream>]b4_defines_if([
+b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+                                         [[#include "location.hh"]])])])[
 
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
+]b4_defines_if([],
+[b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+                                          [b4_position_define
+b4_location_define])])])[
+
   /// A Bison parser.
   class ]b4_parser_class_name[
   {
@@ -308,9 +299,12 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 
 ]b4_namespace_close[
 ]b4_percent_code_get([[provides]])[
-]])
+]m4_popdef([b4_parse_param])dnl
+])
 
-m4_divert_push(0)
+b4_defines_if(
+[m4_changecom()dnl
+m4_divert_push(0)dnl
 @output(b4_spec_defines_file@)@
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2012])[
@@ -321,3 +315,16 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 ]b4_shared_declarations[
 ]b4_cpp_guard_close([b4_spec_defines_file])[
 ]m4_divert_pop(0)
+m4_changecom[#])])
+
+# Let glr.c (and b4_shared_declarations) believe that the user
+# arguments include the parser itself.
+m4_ifset([b4_parse_param],
+[m4_pushdef([b4_parse_param],
+            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]],]
+m4_defn([b4_parse_param]))],
+[m4_pushdef([b4_parse_param],
+            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
+])
+m4_include(b4_pkgdatadir/[glr.c])
+m4_popdef([b4_parse_param])

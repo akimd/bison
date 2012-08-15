@@ -85,13 +85,13 @@ GNU Bison NEWS
 
 ** C++ skeletons improvements
 
-*** parser header (%defines) is no longer mandatory (lalr1.cc)
+*** The parser header is no longer mandatory (lalr1.cc, glr.cc)
 
-  In which case, if needed, the support classes are defined in the generated
-  parser, instead of additional files (location.hh, position.hh and
-  stack.hh).
+  Using %defines is now optional.  Without it, the needed support classes
+  are defined in the generated parser, instead of additional files (such as
+  location.hh, position.hh and stack.hh).
 
-*** locations are no longer mandatory (lalr1.cc, glr.cc)
+*** Locations are no longer mandatory (lalr1.cc, glr.cc)
 
   Both lalr1.cc and glr.cc no longer require %location.
 
