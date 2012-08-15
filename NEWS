@@ -36,17 +36,16 @@ GNU Bison NEWS
     3.28-34: warning: type <type3> is used, but is not associated to any symbol
     4.28-34: warning: type <type4> is used, but is not associated to any symbol
 
-*** Undeclared symbols
+*** Undefined but unused symbols
 
-  Bison used to raise an error for %printer and %destructor directives for
-  undefined symbols.
+  Bison used to raise an error for undefined symbols that are not used in
+  the grammar.  This is now only a warning.
 
     %printer    {} symbol1
     %destructor {} symbol2
+    %type <type>   symbol3
     %%
     exp: "a";
-
-  This is now only a warning.
 
 *** Useless destructors or printers
 

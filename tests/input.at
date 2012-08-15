@@ -271,16 +271,16 @@ input.y:5.10-24: previous declaration
 
 AT_CLEANUP
 
-## ----------------------------------------------------- ##
-## Undeclared symbols used for a printer or destructor.  ##
-## ----------------------------------------------------- ##
+## ------------------- ##
+## Undefined symbols.  ##
+## ------------------- ##
 
-AT_SETUP([Undeclared symbols used for a printer or destructor])
+AT_SETUP([Undefined symbols])
 
 AT_DATA([[input.y]],
 [[%printer {} foo baz
 %destructor {} bar
-
+%type <foo> qux
 %%
 exp: bar;
 ]])
@@ -289,6 +289,7 @@ AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.16-18: symbol bar is used, but is not defined as a token and has no rules
 input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules [-Wother]
 input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules [-Wother]
+input.y:3.13-15: warning: symbol qux is used, but is not defined as a token and has no rules [-Wother]
 ]])
 
 AT_CLEANUP
