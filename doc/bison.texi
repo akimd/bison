@@ -9247,6 +9247,10 @@ unexpected number of conflicts is an error, and an expected number of
 conflicts is not reported, so @option{-W} and @option{--warning} then have
 no effect on the conflict report.
 
+@item deprecated
+Deprecated constructs whose support will be removed in future versions of
+Bison.
+
 @item other
 All warnings not categorized above.  These warnings are enabled by default.
 

@@ -32,7 +32,8 @@ typedef enum
     Wyacc             = 1 << 1,  /**< POSIXME.  */
     Wconflicts_sr     = 1 << 2,  /**< S/R conflicts.  */
     Wconflicts_rr     = 1 << 3,  /**< R/R conflicts.  */
-    Wother            = 1 << 4,  /**< All other warnings.  */
+    Wdeprecated       = 1 << 4,  /**< Obsolete constructs.  */
+    Wother            = 1 << 5,  /**< All other warnings.  */
 
     Werror            = 1 << 10, /**< Warnings are treated as errors.  */
     complaint         = 1 << 11, /**< All complaints.  */

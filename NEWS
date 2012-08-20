@@ -13,6 +13,12 @@ GNU Bison NEWS
 
 ** Warnings
 
+*** Deprecated constructs
+
+  A new warning category, 'deprecated', is used to flag obsolete constructs
+  whose support will be discontinued.  It is enabled by default.  These
+  warnings used to be reported as 'other' warnings.
+
 *** Warning categories are now displayed
 
   For instance:

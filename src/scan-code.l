@@ -225,9 +225,9 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     if (outer_brace && !yacc_flag && language_prio == default_prio
         && skeleton_prio == default_prio && need_semicolon && ! in_cpp)
       {
-        complain_at (*loc, Wother,
+        complain_at (*loc, Wdeprecated,
                      _("a ';' might be needed at the end of action code"));
-        complain_at (*loc, Wother,
+        complain_at (*loc, Wdeprecated,
                      _("future versions of Bison will not add the ';'"));
         obstack_1grow (&obstack_for_string, ';');
       }
