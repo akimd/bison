@@ -21,10 +21,6 @@
 
 # include "location.h"
 
-# ifdef __cplusplus
-extern "C" {
-# endif
-
 /*-------------.
 | --warnings.  |
 `-------------*/
@@ -73,9 +69,5 @@ void complain_at_indent (location loc, warnings flags, unsigned *indent,
 
 /** Whether an error was reported.  */
 extern bool complaint_issued;
-
-# ifdef __cplusplus
-}
-# endif
 
 #endif /* !COMPLAIN_H_ */
