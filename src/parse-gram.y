@@ -86,14 +86,14 @@ static char const *char_name (char);
   #define YYTYPE_UINT8 uint_fast8_t
 }
 
-%debug
 %verbose
 %defines
-%locations
-%pure-parser
-%define parse.error "verbose"
+%define locations
+%define api.pure
+%define parse.error verbose
 %define parse.lac full
-%name-prefix="gram_"
+%define parse.trace
+%name-prefix "gram_"
 %expect 0
 
 %initial-action
