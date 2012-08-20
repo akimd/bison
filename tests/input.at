@@ -1180,7 +1180,8 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-21: invalid value for %define variable 'api.push-pull': 'neither'
+[[input.y:1.9-21: warning: deprecated %define variable name: 'api.push_pull', use 'api.push-pull' [-Wdeprecated]
+input.y:1.9-21: invalid value for %define variable 'api.push-pull': 'neither'
 input.y:1.9-21: accepted value: 'pull'
 input.y:1.9-21: accepted value: 'push'
 input.y:1.9-21: accepted value: 'both'
@@ -1192,7 +1193,8 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-34: invalid value for %define Boolean variable 'lr.keep-unreachable-states'
+[[input.y:1.9-34: warning: deprecated %define variable name: 'lr.keep_unreachable_states', use 'lr.keep-unreachable-states' [-Wdeprecated]
+input.y:1.9-34: invalid value for %define Boolean variable 'lr.keep-unreachable-states'
 ]])
 
 AT_DATA([[input.y]],
@@ -1202,7 +1204,8 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:2.9-21: %define variable 'api.namespace' redefined
+[[input.y:1.9-17: warning: deprecated %define variable name: 'namespace', use 'api.namespace' [-Wdeprecated]
+input.y:2.9-21: %define variable 'api.namespace' redefined
 input.y:1.9-17: previous definition
 ]])
 
