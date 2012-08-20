@@ -10320,9 +10320,8 @@ tags.
 No @code{%destructor} is needed to enable memory deallocation during error
 recovery; the memory, for strings for instance, will be reclaimed by the
 regular destructors.  All the values are printed using their
-@code{operator<<}.
+@code{operator<<} (@pxref{Printer Decl, , Printing Semantic Values}).
 
-@c FIXME: Document %printer, and mention that it takes a braced-code operand.
 @comment file: calc++-parser.yy
 @example
 %printer @{ yyoutput << $$; @} <*>;
