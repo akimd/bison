@@ -15,9 +15,9 @@ GNU Bison NEWS
 
 *** Deprecated constructs
 
-  A new warning category, 'deprecated', is used to flag obsolete constructs
-  whose support will be discontinued.  It is enabled by default.  These
-  warnings used to be reported as 'other' warnings.
+  The new 'deprecated' warning category flags obsolete constructs whose
+  support will be discontinued.  It is enabled by default.  These warnings
+  used to be reported as 'other' warnings.
 
 *** Warning categories are now displayed
 
@@ -84,9 +84,9 @@ GNU Bison NEWS
 
 ** Java skeleton improvements
 
-  The constants for token names were moved to the Lexer interface.
-  Also, it is possible to add code to the parser's constructors using
-  "%code init" and "%define init_throws".
+  The constants for token names were moved to the Lexer interface.  Also, it
+  is possible to add code to the parser's constructors using "%code init"
+  and "%define init_throws".
 
 ** C++ skeletons improvements
 
@@ -127,23 +127,23 @@ GNU Bison NEWS
 
 ** Variable api.namespace
 
-  The "namespace" variable is renamed "api.namespace".  Backward
+  The 'namespace' variable is renamed 'api.namespace'.  Backward
   compatibility is ensured, but upgrading is recommended.
 
 ** Variable parse.error
 
-  The variable error controls the verbosity of error messages.  The
-  use of the %error-verbose directive is deprecated in favor of
-  %define parse.error "verbose".
+  This variable controls the verbosity of error messages.  The use of the
+  %error-verbose directive is deprecated in favor of "%define parse.error
+  verbose".
 
 ** Semantic predicates
 
-  The new, experimental, semantic-predicate feature allows actions of
-  the form %?{ BOOLEAN-EXPRESSION }, which cause syntax errors (as for
+  The new, experimental, semantic-predicate feature allows actions of the
+  form "%?{ BOOLEAN-EXPRESSION }", which cause syntax errors (as for
   YYERROR) if the expression evaluates to 0, and are evaluated immediately
-  in GLR parsers, rather than being deferred.  The result is that they
-  allow the programmer to prune possible parses based on the values of
-  run-time expressions.
+  in GLR parsers, rather than being deferred.  The result is that they allow
+  the programmer to prune possible parses based on the values of run-time
+  expressions.
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
