@@ -427,20 +427,20 @@ main (int argc, const char **argv)
   {
     int count;
     int status;
-]m4_bmatch([$2], [%push-],
+]m4_bmatch([$2], [api.push-pull both],
 [[    yypstate *ps = yypstate_new ();
 ]])[    for (count = 0; count < 2; ++count)
       {
         int new_status;
         yylval = yylval_init;
-]m4_bmatch([$2], [%push-],
+]m4_bmatch([$2], [api.push-pull both],
 [[        new_status = yypull_parse (ps);
 ]],
 [[        new_status = yyparse ();
 ]])[        assert (0 <= count || new_status == status);
         status = new_status;
       }
-]m4_bmatch([$2], [%push-],
+]m4_bmatch([$2], [api.push-pull both],
 [[    yypstate_delete (ps);
 ]])[    return status;
   }
