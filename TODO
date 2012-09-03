@@ -1,4 +1,8 @@
 * Short term
+** push-parser
+Check it too when checking the different kinds of parsers.  And be
+sure to check that the initial-action is performed once per parsing.
+
 ** m4 names
 b4_shared_declarations is no longer what it is.  Make it
 b4_parser_declaration for instance.
