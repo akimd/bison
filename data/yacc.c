@@ -1404,7 +1404,7 @@ b4_function_define([[yyparse]], [[int]], b4_parse_param)[
   int yyn;
   int yyresult;
   /* Lookahead token as an internal (translated) token number.  */
-  int yytoken;
+  int yytoken = 0;
   /* The variables used to return semantic value and location from the
      action routines.  */
   YYSTYPE yyval;]b4_locations_if([[
@@ -1429,7 +1429,6 @@ b4_function_define([[yyparse]], [[int]], b4_parse_param)[
       goto yyread_pushed_token;
     }]])[
 
-  yytoken = 0;
   yyss = yyssa;
   yyvs = yyvsa;]b4_locations_if([[
   yyls = yylsa;]])[

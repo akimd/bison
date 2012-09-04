@@ -52,10 +52,6 @@
 #define STRPREFIX_LIT(Literal, S)               \
   (STRNCMP_LIT (S, Literal) == 0)
 
-#if HAVE_SYS_TYPES_H
-# include <sys/types.h>
-#endif
-
 #include <unistd.h>
 #include <inttypes.h>
 
@@ -118,7 +114,6 @@ typedef size_t uintptr_t;
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-#define FUNCTION_PRINT() fprintf (stderr, "%s: ", __func__)
 
 /*------.
 | NLS.  |

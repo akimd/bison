@@ -412,38 +412,44 @@ yylex (void)
     return EOF;
 }
 
+/* Return argv[1] as an int. */
+static int
+get_args (int argc, const char **argv)
+{
+  int res;
+  char *endp;
+  assert (argc == 2);
+  res = strtol (argv[1], &endp, 10);
+  assert (argv[1] != endp);
+  assert (0 <= res);
+  assert (res <= INT_MAX);
+  assert (errno != ERANGE);
+  return res;
+}
+
 int
 main (int argc, const char **argv)
 {
-  char *endp;
-  YYSTYPE yylval_init;
-  assert (argc == 2);
-  yylval_init = strtol (argv[1], &endp, 10);
-  assert (argv[1] != endp);
-  assert (0 <= yylval_init);
-  assert (yylval_init <= INT_MAX);
-  assert (errno != ERANGE);
-  yydebug = 1;
-  {
-    int count;
-    int status;
-]m4_bmatch([$2], [%push-],
-[[    yypstate *ps = yypstate_new ();
-]])[    for (count = 0; count < 2; ++count)
-      {
-        int new_status;
-        yylval = yylval_init;
-]m4_bmatch([$2], [%push-],
-[[        new_status = yypull_parse (ps);
-]],
-[[        new_status = yyparse ();
-]])[        assert (0 <= count || new_status == status);
+  YYSTYPE yylval_init = get_args (argc, argv);
+  int status;
+  int count;
+]m4_bmatch([$2], [api.push-pull both],
+[[  yypstate *ps = yypstate_new ();
+]])[  yydebug = 1;
+  for (count = 0; count < 2; ++count)
+    {
+      int new_status;
+      yylval = yylval_init;
+      new_status = ]m4_bmatch([$2], [api.push-pull both],
+                              [[yypull_parse (ps)]],
+                              [[yyparse ()]])[;
+      if (count == 0)
         status = new_status;
-      }
-]m4_bmatch([$2], [%push-],
-[[    yypstate_delete (ps);
-]])[    return status;
-  }
+      else
+        assert (new_status == status);
+    }]m4_bmatch([$2], [api.push-pull both],[[
+  yypstate_delete (ps);]])[
+  return status;
 }
 ]])
 AT_BISON_OPTION_POPDEFS([$2])
