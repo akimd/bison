@@ -1,4 +1,3 @@
-/*.info*
 /*~
 /.dirstamp
 /Makefile
@@ -10,6 +9,7 @@
 /bison.dvi
 /bison.fn
 /bison.html
+/bison.info
 /bison.ky
 /bison.log
 /bison.pdf
