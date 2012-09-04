@@ -38,11 +38,6 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <string.h>
-
-# if HAVE_SYS_TYPES_H
-#  include <sys/types.h>
-# endif
-
 # include <unistd.h>
 # include <inttypes.h>
 
@@ -105,7 +100,6 @@ typedef size_t uintptr_t;
 #  define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 # endif
 
-# define FUNCTION_PRINT() fprintf (stderr, "%s: ", __func__)
 
 /*------.
 | NLS.  |
