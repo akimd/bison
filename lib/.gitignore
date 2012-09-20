@@ -269,3 +269,6 @@
 /xmemdup0.h
 /sys_types.in.h
 /obstack_printf.c
+/binary-io.c
+/mbuiter.c
+/xsize.c

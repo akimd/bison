@@ -180,3 +180,4 @@
 /xsize.m4
 /xstrndup.m4
 /obstack-printf.m4
+/extern-inline.m4
