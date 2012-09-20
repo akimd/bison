@@ -7,6 +7,29 @@ sure to check that the initial-action is performed once per parsing.
 b4_shared_declarations is no longer what it is.  Make it
 b4_parser_declaration for instance.
 
+** yychar in lalr1.cc
+There is a large difference bw maint and master on the handling of
+yychar (which was removed in lalr1.cc).  See what needs to be
+back-ported.
+
+
+    /* User semantic actions sometimes alter yychar, and that requires
+       that yytoken be updated with the new translation.  We take the
+       approach of translating immediately before every use of yytoken.
+       One alternative is translating here after every semantic action,
+       but that translation would be missed if the semantic action
+       invokes YYABORT, YYACCEPT, or YYERROR immediately after altering
+       yychar.  In the case of YYABORT or YYACCEPT, an incorrect
+       destructor might then be invoked immediately.  In the case of
+       YYERROR, subsequent parser actions might lead to an incorrect
+       destructor call or verbose syntax error message before the
+       lookahead is translated.  */
+
+    /* Make sure we have latest lookahead translation.  See comments at
+       user semantic actions for why this is necessary.  */
+    yytoken = yytranslate_ (yychar);
+
+
 ** $ and others in epilogue
 A stray $ is a warning in the actions, but an error in the epilogue.
 IMHO, it should not even be a warning in the epilogue.
