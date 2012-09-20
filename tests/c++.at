@@ -66,7 +66,7 @@ typedef std::list<std::string> strings_type;
     operator<<(std::ostream& o, const strings_type& s)
     {
       o << '(';
-      for (strings_type::const_iterator i = s.begin(); i != s.end (); ++i)
+      for (strings_type::const_iterator i = s.begin (); i != s.end (); ++i)
         {
           if (i != s.begin ())
             o << ", ";
@@ -84,7 +84,7 @@ typedef std::list<std::string> strings_type;
   {
     std::ostringstream o;
     o << t;
-    return o.str();
+    return o.str ();
   }
 }
 
@@ -98,7 +98,7 @@ typedef std::list<std::string> strings_type;
 // digraph for the left square bracket.
 %type <::std::list<std::string>> list result;
 
-%printer { debug_stream() << $][$; }
+%printer { yyo << $][$; }
   <int> <::std::string> <::std::list<std::string>>;
 %%
 
@@ -108,23 +108,23 @@ result:
 
 list:
   /* nothing */ { /* Generates an empty string list */ }
-| list item     { std::swap($][$,$][1); $$.push_back($][2); }
-| list error    { std::swap($][$,$][1); }
+| list item     { std::swap ($][$,$][1); $$.push_back ($][2); }
+| list error    { std::swap ($][$,$][1); }
 ;
 
 item:
-  TEXT          { std::swap($][$,$][1); }
-| NUMBER        { if ($][1 == 3) YYERROR; else $][$ = string_cast($][1); }
+  TEXT          { std::swap ($][$,$][1); }
+| NUMBER        { if ($][1 == 3) YYERROR; else $][$ = string_cast ($][1); }
 ;
 %%
 
 #define STAGE_MAX 5
 static
 #if defined USE_LEX_SYMBOL
-yy::parser::symbol_type yylex()
+yy::parser::symbol_type yylex ()
 #else
-yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
-                             yy::parser::location_type* yylloc)
+yy::parser::token_type yylex (yy::parser::semantic_type* yylval,
+                              yy::parser::location_type* yylloc)
 #endif
 {
 #ifndef USE_LEX_SYMBOL
@@ -148,7 +148,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
       return yy::parser::make_NUMBER (stage, location_type ());
 #else
 # if defined ONE_STAGE_BUILD
-      yylval->build(stage);
+      yylval->build (stage);
 # else
       yylval->build<int>() = stage;
 # endif
@@ -170,12 +170,12 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
       return token::TEXT;
 #endif
     }
-  abort();
+  abort ();
 }
 
 void
-yy::parser::error(const yy::parser::location_type&,
-                  const std::string& message)
+yy::parser::error (const yy::parser::location_type&,
+                   const std::string& message)
 {
   std::cerr << message << std::endl;
 }
@@ -184,8 +184,8 @@ int
 main ()
 {
   yy::parser p;
-  p.set_debug_level(!!getenv("YYDEBUG"));
-  return p.parse();
+  p.set_debug_level (!!getenv ("YYDEBUG"));
+  return p.parse ();
 }
 ]])
 
@@ -487,7 +487,7 @@ item:
   'a'
 | 's'
   {
-    throw yy::parser::syntax_error("invalid expression");
+    throw yy::parser::syntax_error ("invalid expression");
   }
 
 %%
@@ -500,7 +500,7 @@ yylex (yy::parser::semantic_type *)
   switch (int res = *input++)
   {
     case 'l':
-      throw yy::parser::syntax_error("invalid character");
+      throw yy::parser::syntax_error ("invalid character");
     default:
       return res;
   }
@@ -516,7 +516,7 @@ int
 main ()
 {
   yy::parser parser;
-  parser.set_debug_level(!!getenv("YYDEBUG"));
+  parser.set_debug_level (!!getenv ("YYDEBUG"));
   return parser.parse ();
 }
 ]])

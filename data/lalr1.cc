@@ -721,20 +721,20 @@ b4_dollar_popdef])[]dnl
       {
         YYCDEBUG << "Reading a token: ";
         try
-        {
+          {
 ]b4_lex_symbol_if(
-[          yyla = b4_function_call([yylex], [symbol_type],
+[            yyla = b4_function_call([yylex], [symbol_type],
                                      m4_ifdef([b4_lex_param], b4_lex_param));],
-[          yyla.type = yytranslate_ (b4_function_call([yylex], [int],
+[            yyla.type = yytranslate_ (b4_function_call([yylex], [int],
                                      [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
-        }
+          }
         catch (const syntax_error& yyexc)
-        {
-          error (yyexc);
-          goto yyerrlab1;
-        }
+          {
+            error (yyexc);
+            goto yyerrlab1;
+          }
         yyempty = false;
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
@@ -807,19 +807,19 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
     try
-    {
-      switch (yyn)
       {
+        switch (yyn)
+          {
 ]b4_user_actions[
-        default:
-          break;
+          default:
+            break;
+          }
       }
-    }
     catch (const syntax_error& yyexc)
-    {
-      error (yyexc);
-      YYERROR;
-    }
+      {
+        error (yyexc);
+        YYERROR;
+      }
     YY_SYMBOL_PRINT ("-> $$ =", yylhs);
 ]b4_variant_if([[
     // Destroy the rhs symbols.
