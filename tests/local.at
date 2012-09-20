@@ -405,7 +405,8 @@ void
   public void yyerror (String s)
   {
     System.err.println (s);
-  }]])])dnl
+  }]])],
+[m4_fatal([$0: invalid language: ]AT_LANG)])dnl
 ])
 
 

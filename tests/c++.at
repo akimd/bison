@@ -1,4 +1,4 @@
-# Checking the output filenames.                    -*- Autotest -*-
+# Checking the C++ Features.                    -*- Autotest -*-
 
 # Copyright (C) 2004-2005, 2007, 2009-2012 Free Software Foundation,
 # Inc.
@@ -30,6 +30,7 @@ m4_define([AT_CHECK_DOXYGEN],
 	 [m4_fatal([invalid argument: $1])])
 AT_SETUP([Doxygen $1 Documentation])
 
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 AT_DATA([input.yy],
 [[%skeleton "lalr1.cc"
 %locations
@@ -38,10 +39,7 @@ AT_DATA([input.yy],
 %%
 exp:;
 %%
-yy::parser::error (const location& l, const std::string& m)
-{
-  std::cerr << l << s << std::endl;
-}
+]AT_YYERROR_DEFINE[
 ]])
 
 AT_BISON_CHECK([-o input.cc input.yy], 0)
@@ -94,6 +92,7 @@ EXTRACT_STATIC         = AT_DOXYGEN_PRIVATE
 AT_CHECK([doxygen --version || exit 77], 0, ignore)
 AT_CHECK([doxygen], 0, [], [ignore])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 m4_popdef([AT_DOXYGEN_PRIVATE])
