@@ -181,3 +181,144 @@ AT_CHECK_NAMESPACE([[foo[3]::bar::baz]], [[-]])
 AT_CHECK_NAMESPACE([[foo::bar,baz]], [[-]])
 AT_CHECK_NAMESPACE([[foo::bar::(baz]], [[-]])
 AT_CLEANUP
+
+
+## ------------------ ##
+## Exception safety.  ##
+## ------------------ ##
+
+AT_SETUP([[Exception safety]])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+
+AT_DATA_GRAMMAR([[input.yy]],
+[[%skeleton "lalr1.cc"
+%defines // FIXME: Mandated in 2.6.
+%debug
+
+%code requires
+{
+  #include <cstdlib> // size_t and getenv.
+  #include <iostream>
+
+  int debug = 0;
+
+  struct Object
+  {
+    static size_t counter;
+
+    Object ()
+    {
+      ++counter;
+      if (debug)
+        std::cerr << "Object::Object() => counter == " << counter << std::endl;
+    }
+
+    ~Object ()
+    {
+      --counter;
+      if (debug)
+        std::cerr << "Object::~Object() => counter == " << counter << std::endl;
+    }
+  };
+}
+
+%code
+{
+  #include <cassert>
+  #include <stdexcept>
+  int yylex (yy::parser::semantic_type *);
+  size_t Object::counter = 0;
+  static char const *input;
+}
+
+%union
+{
+  Object* obj;
+}
+
+%destructor { delete $$; } <obj>;
+%printer { yyo << "counter == " << $$->counter; } <obj>;
+
+%token <obj> 'a' 's'
+%type  <obj> list item
+
+%%
+
+start: list { delete $1; };
+
+list:
+  item       { $$ = $1; }
+| item list  { $$ = $1; delete $2; } /* Right recursion to load the stack. */
+;
+
+item:
+  'a'
+  {
+    std::swap ($$, $1);
+  }
+| 's'
+  {
+    std::swap ($$, $1);
+    throw std::runtime_error ("invalid expression");
+  }
+
+%%
+
+int
+yylex (yy::parser::semantic_type *lvalp)
+{
+  // 'l': lexical exception, 's': syntactic exception.
+  switch (int res = *input++)
+  {
+    case 'l':
+      throw std::runtime_error ("invalid character");
+    default:
+      lvalp->obj = new Object;
+      // Fall through.
+    case 0:
+      return res;
+  }
+}
+
+]AT_YYERROR_DEFINE[
+
+int
+main (int argc, const char *argv[])
+{
+  assert (argc == 2);
+  input = argv[1];
+  yy::parser parser;
+  debug = !!getenv ("YYDEBUG");
+  parser.set_debug_level (debug);
+  int res = 2;
+  try
+  {
+    res = parser.parse ();
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << "exception caught: " << e.what () << std::endl;
+  }
+  catch (...)
+  {
+    std::cerr << "unknown exception caught" << std::endl;
+  }
+  assert (Object::counter == 0);
+  return res;
+}
+]])
+AT_BISON_CHECK([[-o input.cc input.yy]])
+AT_COMPILE_CXX([[input]])
+
+AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
+[[exception caught: invalid expression
+]])
+
+AT_PARSER_CHECK([[./input aaaal]], [[2]], [[]],
+[[exception caught: invalid character
+]])
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
