@@ -533,6 +533,10 @@ do {					\
 
     int yyresult;
 
+    // FIXME: This shoud be completely indented.  It is not yet to
+    // avoid gratuitous conflicts when merging into the master branch.
+    try
+      {
     YYCDEBUG << "Starting parse" << std::endl;
 
 ]m4_ifdef([b4_initial_action], [
@@ -573,13 +577,12 @@ b4_dollar_popdef])[]dnl
     /* Read a lookahead token.  */
     if (yychar == yyempty_)
       {
-	YYCDEBUG << "Reading a token: ";
-	yychar = ]b4_c_function_call([yylex], [int],
-				     [b4_api_PREFIX[STYPE*], [&yylval]][]dnl
+        YYCDEBUG << "Reading a token: ";
+        yychar = ]b4_c_function_call([yylex], [int],
+                                     [b4_api_PREFIX[STYPE*], [&yylval]][]dnl
 b4_locations_if([, [[location*], [&yylloc]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
-
 
     /* Convert token to internal form.  */
     if (yychar <= yyeof_)
@@ -651,17 +654,21 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     else
       yyval = yysemantic_stack_[0];
 
+    // Compute the default @@$.
     {
       slice<location_type, location_stack_type> slice (yylocation_stack_, yylen);
       YYLLOC_DEFAULT (yyloc, slice, yylen);
     }
+
+    // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
-	]b4_user_actions[
-	default:
-          break;
+        ]b4_user_actions[
+      default:
+        break;
       }
+
     /* User semantic actions sometimes alter yychar, and that requires
        that yytoken be updated with the new translation.  We take the
        approach of translating immediately before every use of yytoken.
@@ -831,6 +838,30 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
 
     return yyresult;
+    }
+    catch (...)
+      {
+        YYCDEBUG << "Exception caught" << std::endl;
+        if (yychar != yyempty_)
+          {
+            /* Make sure we have latest lookahead translation.  See
+               comments at user semantic actions for why this is
+               necessary.  */
+            yytoken = yytranslate_ (yychar);
+            yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval,
+                         &yylloc);
+          }
+
+        while (yystate_stack_.height () != 1)
+          {
+            yydestruct_ ("Cleanup: popping",
+                         yystos_[yystate_stack_[0]],
+                         &yysemantic_stack_[0],
+                         &yylocation_stack_[0]);
+            yypop_ ();
+          }
+        throw;
+      }
   }
 
   // Generate an error message.
