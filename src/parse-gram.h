@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.6.1.12-3153-dirty.  */
+/* A Bison parser, made by GNU Bison 2.6.2.13-429e.  */
 
 /* Bison interface for Yacc-like parsers in C
    
@@ -167,8 +167,8 @@ extern int gram_debug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 2049 of yacc.c  */
-#line 114 "parse-gram.y"
+/* Line 2050 of yacc.c  */
+#line 115 "parse-gram.y"
 
   symbol *symbol;
   symbol_list *list;
@@ -181,7 +181,7 @@ typedef union YYSTYPE
   named_ref *named_ref;
 
 
-/* Line 2049 of yacc.c  */
+/* Line 2050 of yacc.c  */
 #line 186 "parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
