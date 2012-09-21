@@ -2,6 +2,17 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Bugs in the test suite have been fixed.
+
+  Some errors in translations have been addressed, and --help now directs
+  users to the appropriate place to report them.
+
+  Stray Info files shipped by accident are removed.
+
+  Incorrect definitions of YY_, issued by yacc.c when no parser header is
+  generated, are removed.
 
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 

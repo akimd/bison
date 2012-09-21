@@ -36,13 +36,15 @@ m4_define([b4_cpp_guard],
 # b4_cpp_guard_open(FILE)
 # b4_cpp_guard_close(FILE)
 # ------------------------
-# Open/close CPP inclusion guards for FILE.
+# If FILE does not expand to nothing, open/close CPP inclusion guards for FILE.
 m4_define([b4_cpp_guard_open],
+[m4_ifval(m4_quote($1),
 [#ifndef b4_cpp_guard([$1])
-# define b4_cpp_guard([$1])])
+# define b4_cpp_guard([$1])])])
 
 m4_define([b4_cpp_guard_close],
-[#endif b4_comment([!b4_cpp_guard([$1])])])
+[m4_ifval(m4_quote($1),
+[#endif b4_comment([!b4_cpp_guard([$1])])])])
 
 
 ## ---------------- ##
