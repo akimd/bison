@@ -424,8 +424,8 @@ dnl don't like even `print $!4;'.
 
 dnl BISON-STDERR
 [AT_COND_CASE([[canonical LR]],
-[[input.y: conflicts: 265 shift/reduce]],
-[[input.y: conflicts: 65 shift/reduce]])[
+[[input.y: warning: 265 shift/reduce conflicts [-Wconflicts-sr]]],
+[[input.y: warning: 65 shift/reduce conflicts [-Wconflicts-sr]]])[
 ]],
 
 dnl LAST-STATE
@@ -1365,8 +1365,10 @@ dnl INPUT
 
 dnl BISON-STDERR
 [AT_COND_CASE([[canonical LR]],
-[[input.y: conflicts: 1876 shift/reduce, 144 reduce/reduce]],
-[[input.y: conflicts: 78 shift/reduce, 10 reduce/reduce]])[
+[[input.y: warning: 1876 shift/reduce conflicts [-Wconflicts-sr]
+input.y: warning: 144 reduce/reduce conflicts [-Wconflicts-rr]]],
+[[input.y: warning: 78 shift/reduce conflicts [-Wconflicts-sr]
+input.y: warning: 10 reduce/reduce conflicts [-Wconflicts-rr]]])[
 ]],
 
 dnl LAST-STATE

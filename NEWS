@@ -67,6 +67,53 @@ GNU Bison NEWS
     %printer    {} token1 <type1> <type3>
     %destructor {} token2 <type2> <type4>
 
+*** Conflicts
+
+  The warnings and error messages about shift/reduce and reduce/reduce
+  conflicts have been normalized.  For instance on the following foo.y file:
+
+    %glr-parser
+    %%
+    exp: exp '+' exp | '0' | '0';
+
+  compare the previous version of bison:
+
+    $ bison foo.y
+    foo.y: conflicts: 1 shift/reduce, 2 reduce/reduce
+    $ bison -Werror foo.y
+    bison: warnings being treated as errors
+    foo.y: conflicts: 1 shift/reduce, 2 reduce/reduce
+
+  with the new behavior:
+
+    $ bison foo.y
+    foo.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+    foo.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
+    $ bison -Werror foo.y
+    bison: warnings being treated as errors
+    foo.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+    foo.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
+
+  When %expect or %expect-rr is used, such as with bar.y:
+
+    %expect 0
+    %glr-parser
+    %%
+    exp: exp '+' exp | '0' | '0';
+
+  Former behavior:
+
+    $ bison bar.y
+    bar.y: conflicts: 1 shift/reduce, 2 reduce/reduce
+    bar.y: expected 0 shift/reduce conflicts
+    bar.y: expected 0 reduce/reduce conflicts
+
+  New one:
+
+    $ bison bar.y
+    bar.y: shift/reduce conflicts: 1 found, 0 expected
+    bar.y: reduce/reduce conflicts: 2 found, 0 expected
+
 ** Additional yylex/yyparse arguments
 
   The new directive %param declares additional arguments to both yylex and

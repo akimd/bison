@@ -1461,7 +1461,7 @@ main (void)
 AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
                  -Dparse.lac.memory-trace=full \
                  -t -o input.c input.y]], [[0]], [],
-[[input.y: conflicts: 21 shift/reduce
+[[input.y: warning: 21 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input > stdout.txt 2> stderr.txt]], [[1]])
@@ -1537,7 +1537,7 @@ main (void)
 
 AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
                  -t -o input.c input.y]], [[0]], [],
-[[input.y: conflicts: 8 shift/reduce
+[[input.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
 AT_BISON_OPTION_POPDEFS

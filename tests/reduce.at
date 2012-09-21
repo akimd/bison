@@ -1191,7 +1191,7 @@ dnl INPUT
 
 dnl BISON-STDERR
 [AT_COND_CASE([[LALR]],
-[[input.y: conflicts: 1 reduce/reduce
+[[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
 ]], [])],
 
 dnl TABLES
