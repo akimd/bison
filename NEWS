@@ -145,6 +145,11 @@ GNU Bison NEWS
   the programmer to prune possible parses based on the values of run-time
   expressions.
 
+** The directive %expect-rr is now an error in non GLR mode
+
+  It used to be an error only if used in non GLR mode, _and_ if there are
+  reduce/reduce conflicts.
+
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
 

@@ -1459,9 +1459,40 @@ state 1
 AT_CLEANUP
 
 
-## --------------------------------- ##
-## -W versus %expect and %expect-rr  ##
-## --------------------------------- ##
+## -------------------- ##
+## %expect-rr non GLR.  ##
+## -------------------- ##
+
+AT_SETUP([[%expect-rr non GLR]])
+
+AT_DATA([[1.y]],
+[[%expect-rr 0
+%%
+exp: 'a'
+]])
+
+AT_BISON_CHECK([[1.y]], [[0]], [],
+[[1.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+]])
+
+AT_DATA([[2.y]],
+[[%expect-rr 1
+%%
+exp: 'a' | 'a';
+]])
+
+AT_BISON_CHECK([[2.y]], [[0]], [],
+[[2.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+2.y: conflicts: 1 reduce/reduce
+2.y:3.12-14: warning: rule useless in parser due to conflicts: exp: 'a' [-Wother]
+]])
+
+AT_CLEANUP
+
+
+## ---------------------------------- ##
+## -W versus %expect and %expect-rr.  ##
+## ---------------------------------- ##
 
 AT_SETUP([[-W versus %expect and %expect-rr]])
 
