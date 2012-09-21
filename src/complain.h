@@ -35,22 +35,15 @@ typedef enum
     Wdeprecated       = 1 << 4,  /**< Obsolete constructs.  */
     Wother            = 1 << 5,  /**< All other warnings.  */
 
-    /* Deprecated, this option now uses a second instance of this enum */
     Werror            = 1 << 10, /**< Warnings are treated as errors.  */
-
     complaint         = 1 << 11, /**< All complaints.  */
     fatal             = 1 << 12, /**< All fatal errors.  */
     silent            = 1 << 13, /**< Do not display the warning type.  */
-
-    /**< All above warnings.  */
-    Wall              = ~complaint & ~fatal & ~silent 
+    Wall              = ~Werror  /**< All above warnings.  */
   } warnings;
 
 /** What warnings are issued.  */
 extern warnings warnings_flag;
-
-/** What warnings are made errors.  */
-extern warnings errors_flag;
 
 /** Display a "[-Wyacc]" like message on stderr.  */
 void warnings_print_categories (warnings warn_flags);
@@ -60,7 +53,7 @@ void warnings_print_categories (warnings warn_flags);
     only for the sake of Yacc-compatible conflict reports in conflicts.c.
     All other warnings should be implemented in complain.c and should use
     the normal warning format.  */
-void set_warning_issued (warnings warning);
+void set_warning_issued (void);
 
 /** Make a complaint, but don't specify any location.  */
 void complain (warnings flags, char const *message, ...)
