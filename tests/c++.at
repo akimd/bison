@@ -195,33 +195,62 @@ AT_DATA_GRAMMAR([[input.yy]],
 [[%skeleton "lalr1.cc"
 %defines // FIXME: Mandated in 2.6.
 %debug
+%error-verbose
 
 %code requires
 {
+  #include <cassert>
   #include <cstdlib> // size_t and getenv.
   #include <iostream>
+  #include <list>
 
-  int debug = 0;
+  bool debug = false;
 
   /// A class that counts its number of instances.
   struct Object
   {
-    static size_t counter;
-    int val;
+    typedef std::list<const Object*> objects;
+    static objects instances;
+    char val;
 
-    Object (int v)
+    static bool
+    empty ()
+    {
+      return instances.empty();
+    }
+
+    static void
+    log (Object const *o, const std::string& msg)
+    {
+      if (debug)
+        {
+          if (o)
+            std::cerr << o << "->";
+          std::cerr << msg << " {";
+          const char* sep = " ";
+          for (objects::const_iterator i = instances.begin(),
+                                       i_end = instances.end();
+               i != i_end;
+               ++i)
+            {
+              std::cerr << sep << *i;
+              sep = ", ";
+            }
+          std::cerr << " }" << std::endl;
+        }
+    }
+
+    Object (char v)
       : val (v)
     {
-      ++counter;
-      if (debug)
-        std::cerr << "Object::Object() => counter == " << counter << std::endl;
+      instances.push_back(this);
+      log (this, "Object::Object");
     }
 
     ~Object ()
     {
-      --counter;
-      if (debug)
-        std::cerr << "Object::~Object() => counter == " << counter << std::endl;
+      instances.remove(this);
+      log (this, "Object::~Object");
     }
   };
 }
@@ -232,13 +261,13 @@ AT_DATA_GRAMMAR([[input.yy]],
   #include <cstring> // strchr
   #include <stdexcept>
   int yylex (yy::parser::semantic_type *);
-  size_t Object::counter = 0;
+  Object::objects Object::instances;
   static char const *input;
 }
 
 %union
 {
-  Object* obj;
+  Object *obj;
 }
 
 %initial-action
@@ -250,12 +279,12 @@ AT_DATA_GRAMMAR([[input.yy]],
 %destructor { delete $$; } <obj>;
 %printer
 {
-  yyo << "counter == " << $$->counter;
+  yyo << $$ << " '" << $$->val << '\'';
   if ($$->val == 'p')
     throw std::runtime_error ("printer");
 } <obj>;
 
-%token <obj> 'a' 'p' 's'
+%token <obj> 'a' 'E' 'e' 'p' 'R' 's' 'T'
 %type  <obj> list item
 
 %%
@@ -268,23 +297,30 @@ list:
 ;
 
 item:
-  'a'  { std::swap ($$, $1); }
-| 'p'  { std::swap ($$, $1); }
-| 's'
-  {
-    std::swap ($$, $1);
-    throw std::runtime_error ("reduction");
-  }
-
+  'a'  { $$ = $1; }
+| 'e'  { YYUSE ($$); YYUSE($1); error (location_type(), "syntax error"); }
+// Not just 'E', otherwise we reduce when 'E' is the lookahead, and
+// then the stack is emptied, defeating the point of the test.
+| 'E' 'a' { YYUSE($1); $$ = $2; }
+| 'R'  { $$ = YY_NULL; delete $1; YYERROR; }
+| 'p'  { $$ = $1; }
+| 's'  { $$ = $1; throw std::runtime_error ("reduction"); }
+| 'T'  { $$ = YY_NULL; delete $1; YYABORT; }
+| error { $$ = YY_NULL; yyerrok; }
+;
 %%
 
 int
 yylex (yy::parser::semantic_type *lvalp)
 {
   // 'a': no error.
+  // 'e': user action calls error.
+  // 'E': syntax error, with yyerror that throws.
   // 'i': initial action throws.
   // 'l': yylex throws.
+  // 'R': call YYERROR in the action
   // 's': reduction throws.
+  // 'T': call YYABORT in the action
   switch (int res = *input++)
   {
     case 'l':
@@ -297,7 +333,13 @@ yylex (yy::parser::semantic_type *lvalp)
   }
 }
 
-]AT_YYERROR_DEFINE[
+/* A C++ error reporting function.  */
+void
+yy::parser::error (const location_type& l, const std::string& m)
+{
+  YYUSE (l);
+  throw std::runtime_error (m);
+}
 
 int
 main (int argc, const char *argv[])
@@ -332,11 +374,12 @@ main (int argc, const char *argv[])
   {
     std::cerr << "unknown exception caught" << std::endl;
   }
-  assert (Object::counter == 0);
+  Object::log (YY_NULL, "end");
+  assert (Object::empty());
   return res;
 }
 ]])
-AT_BISON_CHECK([[-o input.cc input.yy]])
+AT_BISON_CHECK([[-o input.cc --report=all input.yy]])
 AT_COMPILE_CXX([[input]])
 
 AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
@@ -355,6 +398,19 @@ AT_PARSER_CHECK([[./input aaaap]])
 
 AT_PARSER_CHECK([[./input --debug aaaap]], [[2]], [[]], [[stderr]])
 AT_PARSER_CHECK([[grep '^exception caught: printer$' stderr]], [], [ignore])
+
+AT_PARSER_CHECK([[./input aaaae]], [[2]], [[]],
+[[exception caught: syntax error
+]])
+
+AT_PARSER_CHECK([[./input aaaaE]], [[2]], [[]],
+[[exception caught: syntax error, unexpected $end, expecting 'a'
+]])
+
+AT_PARSER_CHECK([[./input aaaaT]], [[1]])
+
+# There is error-recovery, so exit success.
+AT_PARSER_CHECK([[./input aaaaR]], [[0]])
 
 AT_BISON_OPTION_POPDEFS
 
