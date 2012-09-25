@@ -226,6 +226,7 @@ AT_DATA_GRAMMAR([[input.yy]],
 %code
 {
   #include <cassert>
+  #include <cstring> // strchr
   #include <stdexcept>
   int yylex (yy::parser::semantic_type *);
   size_t Object::counter = 0;
@@ -235,6 +236,12 @@ AT_DATA_GRAMMAR([[input.yy]],
 %union
 {
   Object* obj;
+}
+
+%initial-action
+{
+  if (strchr (input, 'i'))
+    throw std::runtime_error ("initial-action");
 }
 
 %destructor { delete $$; } <obj>;
@@ -260,7 +267,7 @@ item:
 | 's'
   {
     std::swap ($$, $1);
-    throw std::runtime_error ("invalid expression");
+    throw std::runtime_error ("reduction");
   }
 
 %%
@@ -268,11 +275,14 @@ item:
 int
 yylex (yy::parser::semantic_type *lvalp)
 {
-  // 'l': lexical exception, 's': syntactic exception.
+  // 'a': no error.
+  // 'i': initial action throws.
+  // 'l': yylex throws.
+  // 's': reduction throws.
   switch (int res = *input++)
   {
     case 'l':
-      throw std::runtime_error ("invalid character");
+      throw std::runtime_error ("yylex");
     default:
       lvalp->obj = new Object;
       // Fall through.
@@ -312,11 +322,15 @@ AT_BISON_CHECK([[-o input.cc input.yy]])
 AT_COMPILE_CXX([[input]])
 
 AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
-[[exception caught: invalid expression
+[[exception caught: reduction
 ]])
 
 AT_PARSER_CHECK([[./input aaaal]], [[2]], [[]],
-[[exception caught: invalid character
+[[exception caught: yylex
+]])
+
+AT_PARSER_CHECK([[./input i]], [[2]], [[]],
+[[exception caught: initial-action
 ]])
 
 AT_BISON_OPTION_POPDEFS

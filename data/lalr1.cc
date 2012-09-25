@@ -828,7 +828,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
-    while (yystate_stack_.height () != 1)
+    while (1 < yystate_stack_.height ())
       {
         yydestruct_ ("Cleanup: popping",
                      yystos_[yystate_stack_[0]],
@@ -852,7 +852,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
                          &yylloc);
           }
 
-        while (yystate_stack_.height () != 1)
+        while (1 < yystate_stack_.height ())
           {
             yydestruct_ ("Cleanup: popping",
                          yystos_[yystate_stack_[0]],
