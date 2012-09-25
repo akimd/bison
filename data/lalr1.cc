@@ -227,6 +227,7 @@ b4_user_stype
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, do not display the symbol, just free it.
     /// \param yytype       The symbol type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
@@ -446,7 +447,8 @@ do {					\
     YYUSE (yymsg);
     YYUSE (yyvaluep);
 
-    YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+    if (yymsg)
+      YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
     switch (yytype)
       {
@@ -841,20 +843,22 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
     }
     catch (...)
       {
-        YYCDEBUG << "Exception caught" << std::endl;
+        YYCDEBUG << "Exception caught: cleaning lookahead and stack"
+                 << std::endl;
+        // Do not try to display the values of the reclaimed symbols,
+        // as their printer might throw an exception.
         if (yychar != yyempty_)
           {
             /* Make sure we have latest lookahead translation.  See
                comments at user semantic actions for why this is
                necessary.  */
             yytoken = yytranslate_ (yychar);
-            yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval,
-                         &yylloc);
+            yydestruct_ (YY_NULL, yytoken, &yylval, &yylloc);
           }
 
         while (1 < yystate_stack_.height ())
           {
-            yydestruct_ ("Cleanup: popping",
+            yydestruct_ (YY_NULL,
                          yystos_[yystate_stack_[0]],
                          &yysemantic_stack_[0],
                          &yylocation_stack_[0]);

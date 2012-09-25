@@ -203,11 +203,14 @@ AT_DATA_GRAMMAR([[input.yy]],
 
   int debug = 0;
 
+  /// A class that counts its number of instances.
   struct Object
   {
     static size_t counter;
+    int val;
 
-    Object ()
+    Object (int v)
+      : val (v)
     {
       ++counter;
       if (debug)
@@ -245,9 +248,14 @@ AT_DATA_GRAMMAR([[input.yy]],
 }
 
 %destructor { delete $$; } <obj>;
-%printer { yyo << "counter == " << $$->counter; } <obj>;
+%printer
+{
+  yyo << "counter == " << $$->counter;
+  if ($$->val == 'p')
+    throw std::runtime_error ("printer");
+} <obj>;
 
-%token <obj> 'a' 's'
+%token <obj> 'a' 'p' 's'
 %type  <obj> list item
 
 %%
@@ -256,14 +264,12 @@ start: list { delete $1; };
 
 list:
   item       { $$ = $1; }
-| item list  { $$ = $1; delete $2; } /* Right recursion to load the stack. */
+| item list  { $$ = $1; delete $2; } // Right recursion to load the stack.
 ;
 
 item:
-  'a'
-  {
-    std::swap ($$, $1);
-  }
+  'a'  { std::swap ($$, $1); }
+| 'p'  { std::swap ($$, $1); }
 | 's'
   {
     std::swap ($$, $1);
@@ -284,7 +290,7 @@ yylex (yy::parser::semantic_type *lvalp)
     case 'l':
       throw std::runtime_error ("yylex");
     default:
-      lvalp->obj = new Object;
+      lvalp->obj = new Object (res);
       // Fall through.
     case 0:
       return res;
@@ -296,10 +302,22 @@ yylex (yy::parser::semantic_type *lvalp)
 int
 main (int argc, const char *argv[])
 {
-  assert (argc == 2);
-  input = argv[1];
+  switch (argc)
+  {
+    case 2:
+      input = argv[1];
+      break;
+    case 3:
+      assert (!strcmp (argv[1], "--debug"));
+      debug = 1;
+      input = argv[2];
+      break;
+    default:
+      abort ();
+  }
+
   yy::parser parser;
-  debug = !!getenv ("YYDEBUG");
+  debug |= !!getenv ("YYDEBUG");
   parser.set_debug_level (debug);
   int res = 2;
   try
@@ -332,6 +350,11 @@ AT_PARSER_CHECK([[./input aaaal]], [[2]], [[]],
 AT_PARSER_CHECK([[./input i]], [[2]], [[]],
 [[exception caught: initial-action
 ]])
+
+AT_PARSER_CHECK([[./input aaaap]])
+
+AT_PARSER_CHECK([[./input --debug aaaap]], [[2]], [[]], [[stderr]])
+AT_PARSER_CHECK([[grep '^exception caught: printer$' stderr]], [], [ignore])
 
 AT_BISON_OPTION_POPDEFS
 
