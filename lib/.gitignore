@@ -271,3 +271,5 @@
 /xsize.h
 /xstrndup.c
 /xstrndup.h
+/binary-io.c
+/xsize.c
