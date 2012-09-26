@@ -25,6 +25,9 @@
 extern "C" {
 # endif
 
+/* Sub-messages indent. */
+#define SUB_INDENT (4)
+
 /** Record that a warning is about to be issued, and treat it as an
     error if <tt>warnings_flag & warnings_error</tt>.  This is exported
     only for the sake of Yacc-compatible conflict reports in conflicts.c.

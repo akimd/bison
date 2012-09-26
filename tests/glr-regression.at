@@ -1651,9 +1651,9 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr18.c glr-regr18.y]], 1, [],
 [glr-regr18.y:26.18-24: result type clash on merge function 'merge': <type2> != <type1>
-glr-regr18.y:25.18-24: previous declaration
+glr-regr18.y:25.18-24:     previous declaration
 glr-regr18.y:27.13-19: result type clash on merge function 'merge': <type3> != <type2>
-glr-regr18.y:26.18-24: previous declaration
+glr-regr18.y:26.18-24:     previous declaration
 ])
 
 AT_CLEANUP
