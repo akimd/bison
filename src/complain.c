@@ -122,7 +122,9 @@ complains (const location *loc, warnings flags, const char *message,
 {
   if (flags & complaint)
     {
-      error_message (loc, complaint, NULL, message, args);
+      error_message (loc, complaint,
+                     indent_ptr && *indent_ptr ? NULL : _("error"),
+                     message, args);
       complaint_issued = true;
     }
   else if (flags & fatal)
@@ -140,13 +142,17 @@ complains (const location *loc, warnings flags, const char *message,
       else if (warnings_flag & Wyacc)
         {
           set_warning_issued ();
-          error_message (loc, flags, _("warning"), message, args);
+          error_message (loc, flags,
+                         indent_ptr && *indent_ptr ? NULL : _("warning"),
+                         message, args);
         }
     }
   else if (warnings_flag & flags)
     {
       set_warning_issued ();
-      error_message (loc, flags, _("warning"), message, args);
+      error_message (loc, flags,
+                     indent_ptr && *indent_ptr ? NULL : _("warning"),
+                     message, args);
     }
 }
 
@@ -178,6 +184,7 @@ void complain_at_indent (location loc, warnings flags, unsigned *indent,
   complains (&loc, flags, message, args);
   va_end (args);
 }
+
 
 /*--------------------------------.
 | Report a warning, and proceed.  |

@@ -211,6 +211,18 @@ GNU Bison NEWS
   Incorrect definitions of YY_, issued by yacc.c when no parser header is
   generated, are removed.
 
+** Changes in the format of errors and exceptions output
+
+  This used to be the format of many error reports:
+
+    foo.y:5.10-24: result type clash on merge function 'merge': <t3> != <t2>
+    foo.y:4.13-27: previous declaration
+
+  It is now:
+
+    foo.y:5.10-25: result type clash on merge function 'merge': <t3> != <t2>
+    foo.y:4.13-27:     previous declaration
+
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
 ** Bug fixes

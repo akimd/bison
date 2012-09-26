@@ -945,7 +945,7 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
-[[input.y: shift/reduce conflicts: 1 found, 0 expected
+[[input.y: error: shift/reduce conflicts: 1 found, 0 expected
 ]])
 AT_CLEANUP
 
@@ -981,7 +981,7 @@ exp: exp OP exp | NUM;
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
-[[input.y: shift/reduce conflicts: 1 found, 2 expected
+[[input.y: error: shift/reduce conflicts: 1 found, 2 expected
 ]])
 AT_CLEANUP
 
@@ -1000,7 +1000,7 @@ a: 'a';
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
-[[input.y: reduce/reduce conflicts: 1 found, 0 expected
+[[input.y: error: reduce/reduce conflicts: 1 found, 0 expected
 ]])
 AT_CLEANUP
 
@@ -1584,12 +1584,12 @@ for gram in sr-rr sr rr; do
           if test -z "$sr_exp_i" && test "$sr_count" -ne 0; then
             echo "warning: $sr_count shift/reduce conflicts"
           elif test "$sr_exp_i" -ne "$sr_count"; then
-            echo "shift/reduce conflicts: $sr_count found, $sr_exp_i expected"
+            echo "error: shift/reduce conflicts: $sr_count found, $sr_exp_i expected"
           fi
           if test -z "$rr_exp_i" && test "$rr_count" -ne 0; then
             echo "warning: $rr_count reduce/reduce conflicts"
           elif test "$rr_exp_i" -ne "$rr_count"; then
-            echo "reduce/reduce conflicts: $rr_count found, $rr_exp_i expected"
+            echo "error: reduce/reduce conflicts: $rr_count found, $rr_exp_i expected"
           fi
         } | sed -e "s/^/$file: /" > experr
         ]AT_BISON_CHECK([[-Wnone $file]], [[1]], [[]], [[experr]])[

@@ -193,16 +193,24 @@ static void
 symbol_redeclaration (symbol *s, const char *what, location first,
                       location second)
 {
-  complain_at (second, complaint, _("%s redeclaration for %s"), what, s->tag);
-  complain_at (first, complaint, _("previous declaration"));
+  unsigned i = 0;
+  complain_at_indent (second, complaint, &i,
+                      _("%s redeclaration for %s"), what, s->tag);
+  i += SUB_INDENT;
+  complain_at_indent (first, complaint, &i,
+                      _("previous declaration"));
 }
 
 static void
 semantic_type_redeclaration (semantic_type *s, const char *what, location first,
                              location second)
 {
-  complain_at (second, complaint, _("%s redeclaration for <%s>"), what, s->tag);
-  complain_at (first, complaint, _("previous declaration"));
+  unsigned i = 0;
+  complain_at_indent (second, complaint, &i,
+                      _("%s redeclaration for <%s>"), what, s->tag);
+  i += SUB_INDENT;
+  complain_at_indent (first, complaint, &i,
+                      _("previous declaration"));
 }
 
 
@@ -546,6 +554,7 @@ symbol_pack_processor (void *this, void *null ATTRIBUTE_UNUSED)
 static void
 user_token_number_redeclaration (int num, symbol *first, symbol *second)
 {
+  unsigned i = 0;
   /* User token numbers are not assigned during the parsing, but in a
      second step, via a traversal of the symbol table sorted on tag.
 
@@ -557,11 +566,12 @@ user_token_number_redeclaration (int num, symbol *first, symbol *second)
       first = second;
       second = tmp;
     }
-  complain_at (second->location, complaint,
-               _("user token number %d redeclaration for %s"),
-               num, second->tag);
-  complain_at (first->location, complaint, _("previous declaration for %s"),
-               first->tag);
+  complain_at_indent (second->location, complaint, &i,
+                      _("user token number %d redeclaration for %s"),
+                      num, second->tag);
+  complain_at_indent (first->location, complaint, &i,
+                      _("previous declaration for %s"),
+                      first->tag);
 }
 
 /*--------------------------------------------------.

@@ -439,12 +439,16 @@ muscle_percent_define_insert (char const *variable, location variable_loc,
       && muscle_find_const (name))
     {
       muscle_percent_define_how how_old = atoi (muscle_find_const (how_name));
+      unsigned i = 0;
       if (how_old == MUSCLE_PERCENT_DEFINE_F)
         return;
-      complain_at (variable_loc, complaint, _("%%define variable %s redefined"),
-                   quote (variable));
-      location loc = muscle_percent_define_get_loc (variable);
-      complain_at (loc, complaint, _("previous definition"));
+      complain_at_indent (variable_loc, complaint, &i,
+                          _("%%define variable %s redefined"),
+                          quote (variable));
+      i += SUB_INDENT;
+      complain_at_indent (muscle_percent_define_get_loc (variable),
+                          complaint, &i,
+                          _("previous definition"));
     }
 
   MUSCLE_INSERT_STRING (name, value);
@@ -600,13 +604,16 @@ muscle_percent_define_check_values (char const * const *values)
             }
           if (!*values)
             {
+              unsigned i = 0;
               location loc = muscle_percent_define_get_loc (*variablep);
-              complain_at (loc, complaint,
-                           _("invalid value for %%define variable %s: %s"),
-                           quote (*variablep), quote_n (1, value));
+              complain_at_indent
+                (loc, complaint, &i,
+                 _("invalid value for %%define variable %s: %s"),
+                 quote (*variablep), quote_n (1, value));
+              i += SUB_INDENT;
               for (values = variablep + 1; *values; ++values)
-                complain_at (loc, complaint, _("accepted value: %s"),
-                             quote (*values));
+                complain_at_indent (loc, complaint, &i, _("accepted value: %s"),
+                                    quote (*values));
             }
           else
             {

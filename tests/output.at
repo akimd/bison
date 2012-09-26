@@ -191,7 +191,7 @@ AT_CHECK_CONFLICTING_OUTPUT([foo.y],
 ]])
 
 AT_CHECK_CONFLICTING_OUTPUT([foo.y], [], [-o foo.y],
-[[foo.y: refusing to overwrite the input file 'foo.y'
+[[foo.y: error: refusing to overwrite the input file 'foo.y'
 ]], 1)
 
 
