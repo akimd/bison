@@ -1033,12 +1033,13 @@ start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
 [[input.y:1.9-29: invalid value for %define variable 'lr.default-reductions': 'bogus'
-input.y:1.9-29: accepted value: 'most'
-input.y:1.9-29: accepted value: 'consistent'
-input.y:1.9-29: accepted value: 'accepting'
+input.y:1.9-29:     accepted value: 'most'
+input.y:1.9-29:     accepted value: 'consistent'
+input.y:1.9-29:     accepted value: 'accepting'
 ]])
 
 # Back-end.
+# FIXME: these should be indented, but we shouldn't mess with the m4 yet
 AT_DATA([[input.y]],
 [[%define api.push-pull neither
 %%
