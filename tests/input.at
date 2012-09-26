@@ -928,9 +928,9 @@ start: ;
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
 [[input-redefined.y:2.9-11: %define variable 'var' redefined
-input-redefined.y:1.9-11: previous definition
+input-redefined.y:1.9-11:     previous definition
 input-redefined.y:3.10-12: %define variable 'var' redefined
-input-redefined.y:2.9-11: previous definition
+input-redefined.y:2.9-11:      previous definition
 ]])
 
 AT_DATA([input-unused.y],
@@ -985,7 +985,7 @@ start: ;
 ]])
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.9-11: %define variable 'var' redefined
-<command line>:2: previous definition
+<command line>:2:      previous definition
 ]])
 
 AT_DATA([[input-unused.y]],
