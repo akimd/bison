@@ -401,15 +401,15 @@ default: 'a' }
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:2.1: invalid character: '?'
-input.y:3.14: invalid character: '}'
-input.y:4.1: invalid character: '%'
-input.y:4.2: invalid character: '&'
-input.y:5.1-17: invalid directive: '%a-does-not-exist'
-input.y:6.1: invalid character: '%'
-input.y:6.2: invalid character: '-'
-input.y:7.1-8.0: missing '%}' at end of file
-input.y:7.1-8.0: syntax error, unexpected %{...%}
+[[input.y:2.1: error: invalid character: '?'
+input.y:3.14: error: invalid character: '}'
+input.y:4.1: error: invalid character: '%'
+input.y:4.2: error: invalid character: '&'
+input.y:5.1-17: error: invalid directive: '%a-does-not-exist'
+input.y:6.1: error: invalid character: '%'
+input.y:6.2: error: invalid character: '-'
+input.y:7.1-8.0: error: missing '%}' at end of file
+input.y:7.1-8.0: error: syntax error, unexpected %{...%}
 ]])
 
 AT_CLEANUP
@@ -428,7 +428,7 @@ AT_DATA([input.y],
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:3.1-15: syntax error, unexpected %initial-action, expecting {...}
+[[input.y:3.1-15: error: syntax error, unexpected %initial-action, expecting {...}
 ]])
 
 AT_CLEANUP

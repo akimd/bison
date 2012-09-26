@@ -896,7 +896,7 @@ exp: exp OP exp | NUM;
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
 [input.y: conflicts: 1 shift/reduce
-input.y: expected 0 shift/reduce conflicts
+input.y: error: expected 0 shift/reduce conflicts
 ])
 AT_CLEANUP
 
@@ -933,7 +933,7 @@ exp: exp OP exp | NUM;
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
 [input.y: conflicts: 1 shift/reduce
-input.y: expected 2 shift/reduce conflicts
+input.y: error: expected 2 shift/reduce conflicts
 ])
 AT_CLEANUP
 
@@ -953,7 +953,7 @@ a: 'a';
 
 AT_BISON_CHECK([-o input.c input.y], 1, [],
 [input.y: conflicts: 1 reduce/reduce
-input.y: expected 0 reduce/reduce conflicts
+input.y: error: expected 0 reduce/reduce conflicts
 ])
 AT_CLEANUP
 
@@ -1494,11 +1494,11 @@ AT_BISON_CHECK([[-Wno-conflicts-rr sr-rr.y]], [[0]], [[]],
         echo "$file: conflicts: $conflicts" > experr
         if test $sr_count -ne $sr_exp; then
           if test $sr_exp -ne 1; then s=s; else s= ; fi
-          echo "$file: expected $sr_exp shift/reduce conflict$s" >> experr
+          echo "$file: error: expected $sr_exp shift/reduce conflict$s" >> experr
         fi
         if test $rr_count -ne $rr_exp; then
           if test $rr_exp -ne 1; then s=s; else s= ; fi
-          echo "$file: expected $rr_exp reduce/reduce conflict$s" >> experr
+          echo "$file: error: expected $rr_exp reduce/reduce conflict$s" >> experr
         fi
         ]AT_BISON_CHECK([[-Wnone $file]], [[1]], [[]], [[experr]])[
         ]AT_BISON_CHECK([[-Werror $file]], [[1]], [[]], [[experr]])[
