@@ -90,9 +90,8 @@ GNU Bison NEWS
     foo.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
     foo.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
     $ bison -Werror foo.y
-    bison: warnings being treated as errors
-    foo.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-    foo.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
+    foo.y: error: 1 shift/reduce conflict [-Werror=conflicts-sr]
+    foo.y: error: 2 reduce/reduce conflicts [-Werror=conflicts-rr]
 
   When %expect or %expect-rr is used, such as with bar.y:
 
@@ -111,8 +110,8 @@ GNU Bison NEWS
   New one:
 
     $ bison bar.y
-    bar.y: shift/reduce conflicts: 1 found, 0 expected
-    bar.y: reduce/reduce conflicts: 2 found, 0 expected
+    bar.y: error: shift/reduce conflicts: 1 found, 0 expected
+    bar.y: error: reduce/reduce conflicts: 2 found, 0 expected
 
 ** Additional yylex/yyparse arguments
 
