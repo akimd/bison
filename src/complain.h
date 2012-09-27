@@ -21,6 +21,9 @@
 
 # include "location.h"
 
+/* Sub-messages indent. */
+#define SUB_INDENT (4)
+
 /*-------------.
 | --warnings.  |
 `-------------*/
@@ -53,16 +56,6 @@ extern warnings errors_flag;
 
 /** Display a "[-Wyacc]" like message on stderr.  */
 void warnings_print_categories (warnings warn_flags);
-
-/* Sub-messages indent. */
-#define SUB_INDENT (4)
-
-/** Record that a warning is about to be issued, and treat it as an
-    error if <tt>warnings_flag & Werror</tt>.  This is exported
-    only for the sake of Yacc-compatible conflict reports in conflicts.c.
-    All other warnings should be implemented in complain.c and should use
-    the normal warning format.  */
-void set_warning_issued (warnings warning);
 
 /** Make a complaint, but don't specify any location.  */
 void complain (warnings flags, char const *message, ...)

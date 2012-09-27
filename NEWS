@@ -39,25 +39,24 @@ GNU Bison NEWS
   Yacc-like behavior (e.g., always generate y.tab.c), but to report
   incompatibilities as warnings: "-y -Wno-error=yacc".
 
-*** Warning categories are now displayed and prefix changes
+*** The display of warnings is now richer
 
-  For instance:
+  The option that controls a given warning is now displayed:
 
-  foo.y:4.6: warning: type clash on default action: <foo> != <bar> [-Wother]
+    foo.y:4.6: warning: type clash on default action: <foo> != <bar> [-Wother]
 
-  In the case of warnings treated as errors, the suffix is displayed, in a
-  manner similar to gcc, as [-Werror=CATEGORY]. Also, the prefix is changed
-  from "warning: " to "error: ".
+  In the case of warnings treated as errors, the prefix is changed from
+  "warning: " to "error: ", and the suffix is displayed, in a manner similar
+  to gcc, as [-Werror=CATEGORY].
 
-  For instance, considering the above change, an output for -Werror=other
-  would have been:
-
-    bison: warnings being treated as errors
-    input.y:1.1: warning: stray ',' treated as white space [-Wother]
-
-  But it is actually:
+  For instance, where the previous version of Bison would report (and exit
+  with failure):
 
     bison: warnings being treated as errors
+    input.y:1.1: warning: stray ',' treated as white space
+
+  it now reports:
+
     input.y:1.1: error: stray ',' treated as white space [-Werror=other]
 
 *** Deprecated constructs

@@ -1460,8 +1460,7 @@ AT_BISON_CHECK([[-Wno-none input.y]], [[0]], [[]],
 # -Werror is not disabled by -Wnone or equivalent.
 AT_BISON_CHECK([[-Werror,none,yacc input.y]], [[1]], [[]], [[stderr]])
 AT_CHECK([[sed 's/^.*bison:/bison:/' stderr]], [[0]],
-[[bison: warnings being treated as errors
-input.y:2.1-7: error: POSIX Yacc forbids dashes in symbol names: foo-bar [-Werror=yacc]
+[[input.y:2.1-7: error: POSIX Yacc forbids dashes in symbol names: foo-bar [-Werror=yacc]
 ]])
 [mv stderr experr]
 AT_BISON_CHECK([[-Werror,no-all,yacc input.y]], [[1]], [[]], [[experr]])
