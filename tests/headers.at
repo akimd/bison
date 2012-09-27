@@ -167,13 +167,14 @@ AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
 AT_SKEL_CC_IF([],
   [AT_CHECK([$EGREP yy $1.h], [1])])
 
-# Ignore comments. Ignore YYPARSE_PARAM (obsolete) and
-# YYPUSH_MORE(_DEFINED)? (whose definition is constant).
+# Check there is not 'YY' left.
+# Ignore comments, YYPARSE_PARAM (obsolete), YYPUSH_MORE(_DEFINED)?
+# (constant definition), YY_\w+_INCLUDED (header guards).
 #
 # YYDEBUG (not renamed) can be read, but not changed.
 AT_CHECK([[sed -ne 's,/\*[^*]*\*/,,g;s,//.*,,' \
                 -e '/YY/p' ]$1.AT_SKEL_CC_IF([hh], [h])[ |
-     $EGREP -wv 'YY(PARSE_PARAM|PUSH_MORE(_DEFINED)?)|(defined|if) YYDEBUG']],
+     $EGREP -wv 'YY(PARSE_PARAM|PUSH_MORE(_DEFINED)?|_[0-9A-Z_]+_INCLUDED)|(defined|if) YYDEBUG']],
          [1])
 
 AT_LANG_COMPILE([$1.o])
