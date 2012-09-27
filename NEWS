@@ -14,7 +14,7 @@ GNU Bison NEWS
   Incorrect definitions of YY_, issued by yacc.c when no parser header is
   generated, are removed.
 
-** Changes in the format of errors and exceptions output
+** Changes in the format of error messages
 
   This used to be the format of many error reports:
 
