@@ -751,9 +751,9 @@ without_period: "WITHOUT.PERIOD";
 AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
-AT_BISON_CHECK([--yacc input.y], [1], [],
-[[input.y:9.8-16: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
-input.y:18.8-16: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
+AT_BISON_CHECK([--yacc -Wno-error input.y], [], [],
+[[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
+input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
 ]])
 
 # So warn about them.
@@ -1461,7 +1461,7 @@ AT_BISON_CHECK([[-Wno-none input.y]], [[0]], [[]],
 AT_BISON_CHECK([[-Werror,none,yacc input.y]], [[1]], [[]], [[stderr]])
 AT_CHECK([[sed 's/^.*bison:/bison:/' stderr]], [[0]],
 [[bison: warnings being treated as errors
-input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
+input.y:2.1-7: error: POSIX Yacc forbids dashes in symbol names: foo-bar [-Werror=yacc]
 ]])
 [mv stderr experr]
 AT_BISON_CHECK([[-Werror,no-all,yacc input.y]], [[1]], [[]], [[experr]])

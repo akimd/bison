@@ -13,17 +13,58 @@ GNU Bison NEWS
 
 ** Warnings
 
+*** Enhancements of the -Werror option
+
+  The -Werror=CATEGORY option is now recognized, and will treat specified
+  warnings as errors. The warnings need not have been explictly activated
+  using the -W option, this is similar to what gcc 4.7 does.
+
+  For example, given the following command line, Bison will treat both
+  warnings related to POSIX Yacc incompatiblities and S/R conflicts as
+  errors (and only those):
+
+    $ bison -Werror=yacc,error=conflicts-sr input.y
+
+  If no categories are specified, -Werror will make all active warnings into
+  errors. For example, the following line does the same the previous example:
+
+    $ bison -Werror -Wnone -Wyacc -Wconflicts-sr input.y
+
+  (By default -Wconflicts-sr,conflicts-rr,deprecated,other is enabled.)
+
+  Note that the categories in this -Werror option may not be prefixed with
+  "no-". However, -Wno-error[=CATEGORY] is valid.
+
+  Note that -y enables -Werror=yacc. Therefore it is now possible to require
+  Yacc-like behavior (e.g., always generate y.tab.c), but to report
+  incompatibilities as warnings: "-y -Wno-error=yacc".
+
+*** Warning categories are now displayed and prefix changes
+
+  For instance:
+
+  foo.y:4.6: warning: type clash on default action: <foo> != <bar> [-Wother]
+
+  In the case of warnings treated as errors, the suffix is displayed, in a
+  manner similar to gcc, as [-Werror=CATEGORY]. Also, the prefix is changed
+  from "warning: " to "error: ".
+
+  For instance, considering the above change, an output for -Werror=other
+  would have been:
+
+    bison: warnings being treated as errors
+    input.y:1.1: warning: stray ',' treated as white space [-Wother]
+
+  But it is actually:
+
+    bison: warnings being treated as errors
+    input.y:1.1: error: stray ',' treated as white space [-Werror=other]
+
 *** Deprecated constructs
 
   The new 'deprecated' warning category flags obsolete constructs whose
   support will be discontinued.  It is enabled by default.  These warnings
   used to be reported as 'other' warnings.
-
-*** Warning categories are now displayed
-
-  For instance:
-
-  foo.y:4.6: warning: type clash on default action: <foo> != <bar> [-Wother]
 
 *** Useless semantic types
 
