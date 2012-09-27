@@ -26,6 +26,17 @@ GNU Bison NEWS
     foo.y:5.10-25: result type clash on merge function 'merge': <t3> != <t2>
     foo.y:4.13-27:     previous declaration
 
+** Header guards (yacc.c, glr.c, glr.cc)
+
+  In order to avoid collisions, the header guards are now
+  YY_<PREFIX>_<FILE>_INCLUDED, instead of merely <PREFIX>_<FILE>.
+  For instance the header generated from
+
+    %define api.prefix "calc"
+    %defines "lib/parse.h"
+
+  will use YY_CALC_LIB_PARSE_H_INCLUDED as guard.
+
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
 ** Bug fixes

@@ -30,7 +30,7 @@ m4_define([b4_tocpp],
 # ------------------
 # A valid C macro name to use as a CPP header guard for FILE.
 m4_define([b4_cpp_guard],
-[b4_tocpp(m4_defn([b4_prefix])/[$1])])
+[[YY_]b4_tocpp(m4_defn([b4_prefix])/[$1])[_INCLUDED]])
 
 
 # b4_cpp_guard_open(FILE)
