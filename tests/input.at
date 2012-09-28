@@ -805,9 +805,9 @@ start: DECIMAL_1 HEXADECIMAL_2;
 
 AT_BISON_CHECK([redecl.y], [1], [],
 [[redecl.y:10.10-22: error: user token number 11259375 redeclaration for HEXADECIMAL_1
-redecl.y:9.8-16:   previous declaration for DECIMAL_1
+redecl.y:9.8-16:       previous declaration for DECIMAL_1
 redecl.y:12.10-18: error: user token number 16702650 redeclaration for DECIMAL_2
-redecl.y:11.10-22: previous declaration for HEXADECIMAL_2
+redecl.y:11.10-22:     previous declaration for HEXADECIMAL_2
 ]])
 
 AT_DATA_GRAMMAR([too-large.y],
