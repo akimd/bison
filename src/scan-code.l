@@ -186,7 +186,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     BEGIN SC_LINE_COMMENT;
   }
   [$@]  {
-    complain_at (*loc, Wother, _("stray '%s'"), yytext);
+    complain (loc, Wother, _("stray '%s'"), yytext);
     obstack_escape (&obstack_for_string, yytext);
     need_semicolon = true;
   }
@@ -225,10 +225,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     if (outer_brace && !yacc_flag && language_prio == default_prio
         && skeleton_prio == default_prio && need_semicolon && ! in_cpp)
       {
-        complain_at (*loc, Wdeprecated,
-                     _("a ';' might be needed at the end of action code"));
-        complain_at (*loc, Wdeprecated,
-                     _("future versions of Bison will not add the ';'"));
+        complain (loc, Wdeprecated, _("a ';' might be needed at the end of action code"));
+        complain (loc, Wdeprecated, _("future versions of Bison will not add the ';'"));
         obstack_1grow (&obstack_for_string, ';');
       }
 
@@ -499,8 +497,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         return num;
       else
         {
-          complain_at (text_loc, complaint, _("integer out of range: %s"),
-                       quote (text));
+          complain (&text_loc, complaint, _("integer out of range: %s"),
+                    quote (text));
           return INVALID_REF;
         }
     }
@@ -673,8 +671,8 @@ fetch_type_name (char *cp, char const **type_name,
          'text' is needed for error messages. */
       ++cp;
       if (untyped_var_seen)
-        complain_at (dollar_loc, complaint,
-                     _("explicit type given in untyped grammar"));
+        complain (&dollar_loc, complaint,
+                  _("explicit type given in untyped grammar"));
       tag_seen = true;
     }
   return cp;
@@ -732,15 +730,15 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
           if (union_seen | tag_seen)
             {
               if (rule->midrule_parent_rule)
-                complain_at (dollar_loc, complaint,
+                complain (&dollar_loc, complaint,
                              _("$$ for the midrule at $%d of %s"
                                " has no declared type"),
                              rule->midrule_parent_rhs_index,
                              quote (effective_rule->content.sym->tag));
               else
-                complain_at (dollar_loc, complaint,
-                             _("$$ of %s has no declared type"),
-                             quote (rule->content.sym->tag));
+                complain (&dollar_loc, complaint,
+                          _("$$ of %s has no declared type"),
+                          quote (rule->content.sym->tag));
             }
           else
             untyped_var_seen = true;
@@ -761,9 +759,9 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       if (!type_name)
         {
           if (union_seen | tag_seen)
-            complain_at (dollar_loc, complaint,
-                         _("$%s of %s has no declared type"), cp,
-                         quote (effective_rule->content.sym->tag));
+            complain (&dollar_loc, complaint,
+                      _("$%s of %s has no declared type"), cp,
+                      quote (effective_rule->content.sym->tag));
           else
             untyped_var_seen = true;
         }

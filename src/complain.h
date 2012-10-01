@@ -57,12 +57,8 @@ extern warnings errors_flag;
 /** Display a "[-Wyacc]" like message on stderr.  */
 void warnings_print_categories (warnings warn_flags);
 
-/** Make a complaint, but don't specify any location.  */
-void complain (warnings flags, char const *message, ...)
-  __attribute__ ((__format__ (__printf__, 2, 3)));
-
-/** Make a complaint with location.  */
-void complain_at (location loc, warnings flags, char const *message, ...)
+/** Make a complaint, with maybe a location.  */
+void complain (location const* loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));
 
 /** Make a complaint with location and some indentation.  */

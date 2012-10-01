@@ -786,8 +786,7 @@ add_param (param_type type, char *decl, location loc)
   }
 
   if (! name_start)
-    complain_at (loc, complaint,
-                 _("missing identifier in parameter declaration"));
+    complain (&loc, complaint, _("missing identifier in parameter declaration"));
   else
     {
       char *name = xmemdup0 (name_start, strspn (name_start, alphanum));
@@ -807,8 +806,8 @@ version_check (location const *loc, char const *version)
 {
   if (strverscmp (version, PACKAGE_VERSION) > 0)
     {
-      complain_at (*loc, complaint, "require bison %s, but have %s",
-                   version, PACKAGE_VERSION);
+      complain (loc, complaint, "require bison %s, but have %s",
+                version, PACKAGE_VERSION);
       exit (EX_MISMATCH);
     }
 }
@@ -816,7 +815,7 @@ version_check (location const *loc, char const *version)
 static void
 gram_error (location const *loc, char const *msg)
 {
-  complain_at (*loc, complaint, "%s", msg);
+  complain (loc, complaint, "%s", msg);
 }
 
 char const *

@@ -134,7 +134,7 @@ static void fail_for_invalid_at (char const *at);
 
 <SC_AT_DIRECTIVE_ARGS,SC_AT_DIRECTIVE_SKIP_WS>
 {
-  <<EOF>>  complain (fatal, _("unclosed %s directive in skeleton"), argv[0]);
+  <<EOF>>  complain (NULL, fatal, _("unclosed %s directive in skeleton"), argv[0]);
 }
 
 %%
@@ -194,19 +194,19 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
       switch (argc)
         {
           case 2:
-            complain (w, "%s", _(argv[1]));
+            complain (NULL, w, "%s", _(argv[1]));
             break;
           case 3:
-            complain (w, _(argv[1]), argv[2]);
+            complain (NULL, w, _(argv[1]), argv[2]);
             break;
           case 4:
-            complain (w, _(argv[1]), argv[2], argv[3]);
+            complain (NULL, w, _(argv[1]), argv[2], argv[3]);
             break;
           case 5:
-            complain (w, _(argv[1]), argv[2], argv[3], argv[4]);
+            complain (NULL, w, _(argv[1]), argv[2], argv[3], argv[4]);
             break;
           case 6:
-            complain (w, _(argv[1]), argv[2], argv[3], argv[4], argv[5]);
+            complain (NULL, w, _(argv[1]), argv[2], argv[3], argv[4], argv[5]);
             break;
           default:
             fail_for_at_directive_too_many_args (argv[0]);
@@ -226,19 +226,19 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
       switch (argc)
         {
           case 4:
-            complain_at (loc, w, "%s", _(argv[3]));
+            complain (&loc, w, "%s", _(argv[3]));
             break;
           case 5:
-            complain_at (loc, w, _(argv[3]), argv[4]);
+            complain (&loc, w, _(argv[3]), argv[4]);
             break;
           case 6:
-            complain_at (loc, w, _(argv[3]), argv[4], argv[5]);
+            complain (&loc, w, _(argv[3]), argv[4], argv[5]);
             break;
           case 7:
-            complain_at (loc, w, _(argv[3]), argv[4], argv[5], argv[6]);
+            complain (&loc, w, _(argv[3]), argv[4], argv[5], argv[6]);
             break;
           case 8:
-            complain_at (loc, w, _(argv[3]), argv[4], argv[5], argv[6],
+            complain (&loc, w, _(argv[3]), argv[4], argv[5], argv[6],
                          argv[7]);
             break;
           default:
@@ -267,19 +267,19 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
 static void
 fail_for_at_directive_too_few_args (char const *at_directive_name)
 {
-  complain (fatal, _("too few arguments for %s directive in skeleton"),
+  complain (NULL, fatal, _("too few arguments for %s directive in skeleton"),
             at_directive_name);
 }
 
 static void
 fail_for_at_directive_too_many_args (char const *at_directive_name)
 {
-  complain (fatal, _("too many arguments for %s directive in skeleton"),
+  complain (NULL, fatal, _("too many arguments for %s directive in skeleton"),
             at_directive_name);
 }
 
 static void
 fail_for_invalid_at (char const *at)
 {
-  complain (fatal, "invalid @ in skeleton: %s", at);
+  complain (NULL, fatal, "invalid @ in skeleton: %s", at);
 }
