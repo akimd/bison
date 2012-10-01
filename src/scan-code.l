@@ -402,13 +402,12 @@ get_at_spec(unsigned symbol_index)
 static void
 show_sub_message (const char* cp, bool explicit_bracketing,
                   int midrule_rhs_index, char dollar_or_at,
-                  warnings wflags, unsigned indent,
-                  const variant *var)
+                  unsigned indent, const variant *var)
 {
   const char *at_spec = get_at_spec (var->symbol_index);
 
   if (var->err == 0)
-    complain_at_indent (var->loc, wflags, &indent,
+    complain_at_indent (var->loc, silent, &indent,
                         _("refers to: %c%s at %s"), dollar_or_at,
                         var->id, at_spec);
   else
@@ -445,7 +444,7 @@ show_sub_message (const char* cp, bool explicit_bracketing,
                         _(", cannot be accessed from mid-rule action at $%d"),
                         midrule_rhs_index);
 
-      complain_at_indent (id_loc, wflags, &indent, "%s",
+      complain_at_indent (id_loc, silent, &indent, "%s",
                           obstack_finish0 (&msg_buf));
       obstack_free (&msg_buf, 0);
     }
@@ -454,14 +453,14 @@ show_sub_message (const char* cp, bool explicit_bracketing,
 static void
 show_sub_messages (const char* cp, bool explicit_bracketing,
                    int midrule_rhs_index, char dollar_or_at,
-                   warnings wflags, unsigned indent)
+                   unsigned indent)
 {
   unsigned i;
 
   for (i = 0; i < variant_count; ++i)
     show_sub_message (cp, explicit_bracketing,
                       midrule_rhs_index, dollar_or_at,
-                      wflags, indent, &variant_table[i]);
+                      indent, &variant_table[i]);
 }
 
 /* Returned from "parse_ref" when the reference
@@ -614,7 +613,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 
         if (variant_count > 0)
           show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
-                             dollar_or_at, complaint, indent);
+                             dollar_or_at, indent);
         return INVALID_REF;
       }
     case 1:
@@ -625,7 +624,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
             complain_at_indent (text_loc, Wother, &indent,
                                 _("misleading reference: %s"), quote (text));
             show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
-                               dollar_or_at, Wother, indent + SUB_INDENT);
+                               dollar_or_at, indent + SUB_INDENT);
           }
         {
           unsigned symbol_index =
@@ -640,7 +639,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         complain_at_indent (text_loc, complaint, &indent,
                             _("ambiguous reference: %s"), quote (text));
         show_sub_messages (cp, explicit_bracketing, midrule_rhs_index,
-                           dollar_or_at, complaint, indent + SUB_INDENT);
+                           dollar_or_at, indent + SUB_INDENT);
         return INVALID_REF;
       }
     }
