@@ -126,8 +126,8 @@ AT_SETUP([Several parsers])
 
 # AT_TEST([PREFIX], [DIRECTIVES])
 # -------------------------------
-# Generate and compile to *.o.  Make sure there is no YY* nor yy* in
-# the header (but YYDEBUG).
+# Generate and compile to *.o.  Make sure there is no (allowed) YY*
+# nor yy* identifiers in the header.
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
 AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
@@ -161,21 +161,24 @@ exp:
 ]])
 
 AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
+
+# Check there is no 'yy' left.
 # C++ output relies on namespaces and still uses yy a lot.
 AT_SKEL_CC_IF([],
   [AT_CHECK([$EGREP yy $1.h], [1])])
 
-# Ignore comments. Ignore YYPUSH_MORE(_DEFINED)? (whose definition
-# is constant).
+# Check there is not 'YY' left.
+# Ignore comments, YYPUSH_MORE(_DEFINED)?  (constant definition),
+# YY_\w+_INCLUDED (header guards).
 #
 # YYDEBUG (not renamed) can be read, but not changed.
 AT_CHECK([[$PERL -0777 -e 's{/\*.*?\*/}{}sg;s,//.*,,;' \
             ]$1.AT_SKEL_CC_IF([hh], [h])[ |
          grep 'YY' |
-     $EGREP -wv 'YYPUSH_MORE(_DEFINED)?|(defined|if) YYDEBUG']],
+     $EGREP -wv 'YY(PUSH_MORE(_DEFINED)?|_[0-9A-Z_]+_INCLUDED)|(defined|if) YYDEBUG']],
          [1])
-AT_LANG_COMPILE([$1.o])
 
+AT_LANG_COMPILE([$1.o])
 AT_CHECK([[echo "$1" >>expout]])
 
 AT_BISON_OPTION_POPDEFS
