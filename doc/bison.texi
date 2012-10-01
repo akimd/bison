@@ -4701,6 +4701,10 @@ incoming terminals during the second phase of error recovery,
 the current lookahead and the entire stack (except the current
 right-hand side symbols) when the parser returns immediately, and
 @item
+the current lookahead and the entire stack (including the current right-hand
+side symbols) when the C++ parser (@file{lalr1.cc}) catches an exception in
+@code{parse},
+@item
 the start symbol, when the parser succeeds.
 @end itemize
 
@@ -9415,6 +9419,11 @@ Build a new parser object.  There are no arguments by default, unless
 
 @deftypemethod {parser} {int} parse ()
 Run the syntactic analysis, and return 0 on success, 1 otherwise.
+
+@cindex exceptions
+The whole function is wrapped in a @code{try}/@code{catch} block, so that
+when an exception is thrown, the @code{%destructor}s are called to release
+the lookahead symbol, and the symbols pushed on the stack.
 @end deftypemethod
 
 @deftypemethod {parser} {std::ostream&} debug_stream ()
