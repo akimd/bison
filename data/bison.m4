@@ -82,30 +82,16 @@ _m4eof
 ])dnl
 m4_if(m4_sysval, [0], [], [m4_fatal([$0: cannot write to stdout])])])
 
-# b4_error(KIND, FORMAT, [ARG1], [ARG2], ...)
-# -------------------------------------------
-# Write @KIND(FORMAT@,ARG1@,ARG2@,...@) to stdout.
+# b4_error(KIND, START, END, FORMAT, [ARG1], [ARG2], ...)
+# -------------------------------------------------------
+# Write @KIND(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to stdout.
 #
 # For example:
 #
-#   b4_error([[warn]], [[invalid value for '%s': %s]], [[foo]], [[3]])
+#   b4_error([[complain]], [[input.y:2.3]], [[input.y:5.4]],
+#            [[invalid %s]], [[foo]])
 m4_define([b4_error],
-[b4_cat([[@]$1[(]$2[]]dnl
-[m4_if([$#], [2], [],
-       [m4_foreach([b4_arg],
-                   m4_dquote(m4_shift(m4_shift($@))),
-                   [[@,]b4_arg])])[@)]])])
-
-# b4_error_at(KIND, START, END, FORMAT, [ARG1], [ARG2], ...)
-# ----------------------------------------------------------
-# Write @KIND_at(START@,END@,FORMAT@,ARG1@,ARG2@,...@) to stdout.
-#
-# For example:
-#
-#   b4_error_at([[complain]], [[input.y:2.3]], [[input.y:5.4]],
-#               [[invalid %s]], [[foo]])
-m4_define([b4_error_at],
-[b4_cat([[@]$1[_at(]$2[@,]$3[@,]$4[]]dnl
+[b4_cat([[@]$1[(]$2[@,]$3[@,]$4[]]dnl
 [m4_if([$#], [4], [],
        [m4_foreach([b4_arg],
                    m4_dquote(m4_shift(m4_shift(m4_shift(m4_shift($@))))),
@@ -125,21 +111,21 @@ m4_define([b4_error_at],
 #   m4_define([asdf], [ASDF])
 #   m4_define([fsa], [FSA])
 #   m4_define([fdsa], [FDSA])
-#   b4_warn([[[asdf), asdf]]], [[[fsa), fsa]]], [[[fdsa), fdsa]]])
-#   b4_warn([[asdf), asdf]], [[fsa), fsa]], [[fdsa), fdsa]])
-#   b4_warn()
-#   b4_warn(1)
-#   b4_warn(1, 2)
+#   b4_warn_at([[[asdf), asdf]]], [[[fsa), fsa]]], [[[fdsa), fdsa]]])
+#   b4_warn_at([[asdf), asdf]], [[fsa), fsa]], [[fdsa), fdsa]])
+#   b4_warn_at()
+#   b4_warn_at(1)
+#   b4_warn_at(1, 2)
 #
 # Should produce this without newlines:
 #
-#   @warn([asdf), asdf]@,[fsa), fsa]@,[fdsa), fdsa]@)
-#   @warn(asdf), asdf@,fsa), fsa@,fdsa), fdsa@)
+#   @warn_at([asdf), asdf]@,@,@,[fsa), fsa]@,[fdsa), fdsa]@)
+#   @warn(asdf), asdf@,@,@,fsa), fsa@,fdsa), fdsa@)
 #   @warn(@)
 #   @warn(1@)
 #   @warn(1@,2@)
 m4_define([b4_warn],
-[b4_error([[warn]], $@)])
+[b4_error([[warn]], [], [], $@)])
 
 # b4_warn_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ---------------------------------------------------
@@ -149,15 +135,15 @@ m4_define([b4_warn],
 #
 #   b4_warn_at([[input.y:2.3]], [[input.y:5.4]], [[invalid %s]], [[foo]])
 m4_define([b4_warn_at],
-[b4_error_at([[warn]], $@)])
+[b4_error([[warn]], $@)])
 
 # b4_complain(FORMAT, [ARG1], [ARG2], ...)
 # ----------------------------------------
-# Write @complain(FORMAT@,ARG1@,ARG2@,...@) to stdout.
+# Bounce to b4_complain_at.
 #
 # See b4_warn example.
 m4_define([b4_complain],
-[b4_error([[complain]], $@)])
+[b4_error([[complain]], [], [], $@)])
 
 # b4_complain_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------------------------
@@ -165,15 +151,15 @@ m4_define([b4_complain],
 #
 # See b4_warn_at example.
 m4_define([b4_complain_at],
-[b4_error_at([[complain]], $@)])
+[b4_error([[complain]], $@)])
 
 # b4_fatal(FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------
-# Write @fatal(FORMAT@,ARG1@,ARG2@,...@) to stdout and exit.
+# Bounce to b4_fatal_at.
 #
 # See b4_warn example.
 m4_define([b4_fatal],
-[b4_error([[fatal]], $@)dnl
+[b4_error([[fatal]], [], [], $@)dnl
 m4_exit(1)])
 
 # b4_fatal_at(START, END, FORMAT, [ARG1], [ARG2], ...)
@@ -182,7 +168,7 @@ m4_exit(1)])
 #
 # See b4_warn_at example.
 m4_define([b4_fatal_at],
-[b4_error_at([[fatal]], $@)dnl
+[b4_error([[fatal]], $@)dnl
 m4_exit(1)])
 
 

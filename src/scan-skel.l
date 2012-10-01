@@ -186,25 +186,23 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
         fail_for_at_directive_too_many_args (argv[0]);
       fputs (last_component (argv[1]), yyout);
     }
-  else if (STREQ (argv[0], "@warn") || STREQ (argv[0], "@warn_at")
-           || STREQ (argv[0], "@complain") || STREQ (argv[0], "@complain_at")
-           || STREQ (argv[0], "@fatal") || STREQ (argv[0], "@fatal_at"))
+  else if (STREQ (argv[0], "@warn")
+           || STREQ (argv[0], "@complain")
+           || STREQ (argv[0], "@fatal"))
     {
       warnings w = flag (*argv);
       location loc;
       location *locp = NULL;
-      if (STREQ (*argv + strlen (*argv) - 3, "_at"))
+      if (argc < 4)
+        fail_for_at_directive_too_few_args (argv[0]);
+      if (argv[1] && argv[1][0])
         {
-          if (argc < 4)
-            fail_for_at_directive_too_few_args (argv[0]);
           boundary_set_from_string (&loc.start, argv[1]);
           boundary_set_from_string (&loc.end, argv[2]);
-          argc -= 2;
-          argv += 2;
           locp = &loc;
         }
-      else if (argc < 2)
-        fail_for_at_directive_too_few_args (argv[0]);
+      argc -= 2;
+      argv += 2;
       complain_args (locp, w, argc, argv);
     }
   else if (STREQ (argv[0], "@output"))
