@@ -186,65 +186,26 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
         fail_for_at_directive_too_many_args (argv[0]);
       fputs (last_component (argv[1]), yyout);
     }
-  else if (STREQ (argv[0], "@warn")
-           || STREQ (argv[0], "@complain")
-           || STREQ (argv[0], "@fatal"))
+  else if (STREQ (argv[0], "@warn") || STREQ (argv[0], "@warn_at")
+           || STREQ (argv[0], "@complain") || STREQ (argv[0], "@complain_at")
+           || STREQ (argv[0], "@fatal") || STREQ (argv[0], "@fatal_at"))
     {
-      warnings w = flag (argv[0]);
-      switch (argc)
-        {
-          case 2:
-            complain (NULL, w, "%s", _(argv[1]));
-            break;
-          case 3:
-            complain (NULL, w, _(argv[1]), argv[2]);
-            break;
-          case 4:
-            complain (NULL, w, _(argv[1]), argv[2], argv[3]);
-            break;
-          case 5:
-            complain (NULL, w, _(argv[1]), argv[2], argv[3], argv[4]);
-            break;
-          case 6:
-            complain (NULL, w, _(argv[1]), argv[2], argv[3], argv[4], argv[5]);
-            break;
-          default:
-            fail_for_at_directive_too_many_args (argv[0]);
-            break;
-        }
-    }
-  else if (STREQ (argv[0], "@warn_at")
-           || STREQ (argv[0], "@complain_at")
-           || STREQ (argv[0], "@fatal_at"))
-    {
-      warnings w = flag (argv[0]);
+      warnings w = flag (*argv);
       location loc;
-      if (argc < 4)
-        fail_for_at_directive_too_few_args (argv[0]);
-      boundary_set_from_string (&loc.start, argv[1]);
-      boundary_set_from_string (&loc.end, argv[2]);
-      switch (argc)
+      location *locp = NULL;
+      if (STREQ (*argv + strlen (*argv) - 3, "_at"))
         {
-          case 4:
-            complain (&loc, w, "%s", _(argv[3]));
-            break;
-          case 5:
-            complain (&loc, w, _(argv[3]), argv[4]);
-            break;
-          case 6:
-            complain (&loc, w, _(argv[3]), argv[4], argv[5]);
-            break;
-          case 7:
-            complain (&loc, w, _(argv[3]), argv[4], argv[5], argv[6]);
-            break;
-          case 8:
-            complain (&loc, w, _(argv[3]), argv[4], argv[5], argv[6],
-                         argv[7]);
-            break;
-          default:
-            fail_for_at_directive_too_many_args (argv[0]);
-            break;
+          if (argc < 4)
+            fail_for_at_directive_too_few_args (argv[0]);
+          boundary_set_from_string (&loc.start, argv[1]);
+          boundary_set_from_string (&loc.end, argv[2]);
+          argc -= 2;
+          argv += 2;
+          locp = &loc;
         }
+      else if (argc < 2)
+        fail_for_at_directive_too_few_args (argv[0]);
+      complain_args (locp, w, argc, argv);
     }
   else if (STREQ (argv[0], "@output"))
     {
