@@ -127,7 +127,8 @@ AT_SETUP([Several parsers])
 # AT_TEST([PREFIX], [DIRECTIVES])
 # -------------------------------
 # Generate and compile to *.o.  Make sure there is no (allowed) YY*
-# nor yy* identifiers in the header.
+# nor yy* identifiers in the header.  Check that headers are
+# self-contained, and can be compiled by a C++ compiler.
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
 AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
@@ -241,6 +242,18 @@ AT_TEST([x8], [%define api.pure %define api.push-pull both])
 
 AT_COMPILE_CXX([parser], [[x[1-8].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
 AT_CHECK([./parser], [0], [[expout]])
+
+# Check that the headers are self-contained, and protected against
+# multiple inclusions.  While at it, check they are sane for C++.
+for h in *.h *.hh
+do
+  # No shell expansion with AT_DATA.
+  cat >$h.cc <<EOF
+#include "$h"
+#include "$h"
+EOF
+  AT_COMPILE_CXX([$h.o])
+done
 
 m4_popdef([AT_TEST])
 
