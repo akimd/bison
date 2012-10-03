@@ -14,6 +14,8 @@ GNU Bison NEWS
   Incorrect definitions of YY_, issued by yacc.c when no parser header is
   generated, are removed.
 
+  All the generated headers are self-contained.
+
 ** Changes in the format of error messages
 
   This used to be the format of many error reports:
@@ -1894,7 +1896,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  namespaces strerror const autoconfiguration Dconst Autoconf's FDL
  LocalWords:  Automake TMPDIR LESSEQ ylwrap endif yydebug YYTOKEN YYLSP ival hh
  LocalWords:  extern YYTOKENTYPE TOKENTYPE yytokentype tokentype STYPE lval pdf
- LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp
+ LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp calc yyo fval
 
 Local Variables:
 mode: outline
