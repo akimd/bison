@@ -9072,13 +9072,23 @@ separated list of @var{things} among:
 Description of the grammar, conflicts (resolved and unresolved), and
 parser's automaton.
 
+@item itemset
+Implies @code{state} and augments the description of the automaton with
+the full set of items for each state, instead of its core only.
+
 @item lookahead
 Implies @code{state} and augments the description of the automaton with
 each rule's lookahead set.
 
-@item itemset
-Implies @code{state} and augments the description of the automaton with
-the full set of items for each state, instead of its core only.
+@item solved
+Implies @code{state}.  Explain how conflicts were solved thanks to
+precedence and associativity directives.
+
+@item all
+Enable all the items.
+
+@item none
+Do not generate the report.
 @end table
 
 @item --report-file=@var{file}
