@@ -41,8 +41,10 @@
 #define YY_DECL static int skel_lex (void)
 YY_DECL;
 
-static void at_basename (int argc, char *argv[]);
-static void at_complain (int argc, char *argv[]);
+typedef void (*at_directive)(int, char**, char **, int*);
+static void at_init (int *argc, char *argv[], at_directive *at_ptr, at_directive fun);
+static void at_basename (int argc, char *argv[], char**, int*);
+static void at_complain (int argc, char *argv[], char**, int*);
 static void at_output (int argc, char *argv[], char **name, int *lineno);
 static void fail_for_at_directive_too_many_args (char const *at_directive_name);
 static void fail_for_at_directive_too_few_args (char const *at_directive_name);
@@ -56,7 +58,7 @@ static void fail_for_invalid_at (char const *at);
 
 %{
   int out_lineno PACIFY_CC (= 0);
-  char *outname = NULL;
+  char *out_name = NULL;
 
   /* Currently, only the @complain directive takes multiple arguments, and
      never more than 7, with argv[0] being the directive name and argv[1]
@@ -64,6 +66,7 @@ static void fail_for_invalid_at (char const *at);
 #define ARGC_MAX 9
   int argc = 0;
   char *argv[ARGC_MAX];
+  at_directive at_ptr = NULL;
 %}
 
 "@@" fputc ('@', yyout);
@@ -73,14 +76,12 @@ static void fail_for_invalid_at (char const *at);
 @\n  continue;
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
-"@ofile@"  fputs (quotearg_style (c_quoting_style, outname), yyout);
+"@ofile@"  fputs (quotearg_style (c_quoting_style, out_name), yyout);
 
-@[a-z_]+"(" {
-  yytext[yyleng-1] = '\0';
-  obstack_grow (&obstack_for_string, yytext, yyleng);
-  argv[argc++] = obstack_finish (&obstack_for_string);
-  BEGIN SC_AT_DIRECTIVE_ARGS;
-}
+@basename"("    at_init (&argc, argv, &at_ptr, &at_basename);
+@complain"("    at_init (&argc, argv, &at_ptr, &at_complain);
+@output"("      at_init (&argc, argv, &at_ptr, &at_output);
+@[a-z_]+"("     at_init (&argc, argv, &at_ptr, NULL);
 
   /* This pattern must not match more than the previous @ patterns. */
 @[^@{}`(\n]* fail_for_invalid_at (yytext);
@@ -88,9 +89,9 @@ static void fail_for_invalid_at (char const *at);
 [^@\n]+    ECHO;
 
 <INITIAL><<EOF>> {
-  if (outname)
+  if (out_name)
     {
-      free (outname);
+      free (out_name);
       xfclose (yyout);
     }
   return EOF;
@@ -117,12 +118,8 @@ static void fail_for_invalid_at (char const *at);
       BEGIN SC_AT_DIRECTIVE_SKIP_WS;
     else
       {
-        if (STREQ (argv[0], "@basename"))
-          at_basename (argc, argv);
-        else if (STREQ (argv[0], "@complain"))
-          at_complain (argc, argv);
-        else if (STREQ (argv[0], "@output"))
-          at_output (argc, argv, &outname, &out_lineno);
+        if (at_ptr)
+          at_ptr (argc, argv, &out_name, &out_lineno);
         else
           fail_for_invalid_at (argv[0]);
 
@@ -147,6 +144,16 @@ static void fail_for_invalid_at (char const *at);
 }
 
 %%
+
+static void
+at_init (int *argc, char *argv[], at_directive *at_ptr, at_directive fun)
+{
+  *at_ptr = fun;
+  yytext[yyleng-1] = '\0';
+  obstack_grow (&obstack_for_string, yytext, yyleng);
+  argv[(*argc)++] = obstack_finish (&obstack_for_string);
+  BEGIN SC_AT_DIRECTIVE_ARGS;
+}
 
 /*------------------------.
 | Scan a Bison skeleton.  |
@@ -191,23 +198,28 @@ flag (const char *arg)
 }
 
 static void
-at_basename (int argc, char *argv[])
+at_basename (int argc, char *argv[], char **out_namep, int *out_linenop)
 {
+  (void) out_namep;
+  (void) out_linenop;
   if (2 < argc)
     fail_for_at_directive_too_many_args (argv[0]);
   fputs (last_component (argv[1]), yyout);
 }
 
 static void
-at_complain (int argc, char *argv[])
+at_complain (int argc, char *argv[], char **out_namep, int *out_linenop)
 {
   static unsigned indent;
   warnings w = flag (argv[1]);
   location loc;
   location *locp = NULL;
 
+  (void) out_namep;
+  (void) out_linenop;
+
   if (argc < 4)
-    fail_for_at_directive_too_few_args (argv[1]);
+    fail_for_at_directive_too_few_args (argv[0]);
   if (argv[2] && argv[2][0])
     {
       boundary_set_from_string (&loc.start, argv[2]);
@@ -224,18 +236,18 @@ at_complain (int argc, char *argv[])
 }
 
 static void
-at_output (int argc, char *argv[], char **outnamep, int *out_linenop)
+at_output (int argc, char *argv[], char **out_namep, int *out_linenop)
 {
   if (2 < argc)
     fail_for_at_directive_too_many_args (argv[0]);
-  if (*outnamep)
+  if (*out_namep)
     {
-      free (*outnamep);
+      free (*out_namep);
       xfclose (yyout);
     }
-  *outnamep = xstrdup (argv[1]);
-  output_file_name_check (outnamep);
-  yyout = xfopen (*outnamep, "w");
+  *out_namep = xstrdup (argv[1]);
+  output_file_name_check (out_namep);
+  yyout = xfopen (*out_namep, "w");
   *out_linenop = 1;
 }
 
