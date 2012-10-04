@@ -62,7 +62,8 @@ void complain (location const *loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));
 
 /** Likewise, but with an \a argc/argv interface.  */
-void complain_args (location const *loc, warnings w, int argc, char *arg[]);
+void complain_args (location const *loc, warnings w, unsigned *indent,
+                    int argc, char *arg[]);
 
 /** Make a complaint with location and some indentation.  */
 void complain_indent (location const *loc, warnings flags, unsigned *indent,

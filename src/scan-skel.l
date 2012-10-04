@@ -175,6 +175,8 @@ flag (const char *arg)
     return complaint;
   else if (STREQ (arg, "fatal"))
     return fatal;
+  else if (STREQ (arg, "note"))
+    return silent;
   else
     aver (false);
 }
@@ -190,9 +192,12 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
     }
   else if (STREQ (argv[0], "@complain"))
     {
+      static unsigned indent;
       if (argc < 4)
         fail_for_at_directive_too_few_args (argv[0]);
       warnings w = flag (argv[1]);
+      if ((w & silent) != silent)
+        indent = 0;
       location loc;
       location *locp = NULL;
       if (argv[2] && argv[2][0])
@@ -201,8 +206,12 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
           boundary_set_from_string (&loc.end, argv[3]);
           locp = &loc;
         }
-      complain_args (locp, w, argc - 3, argv + 3);
-    }
+      if (w & silent)
+        indent += SUB_INDENT;
+      complain_args (locp, w, &indent, argc - 3, argv + 3);
+      if (w & silent)
+        indent -= SUB_INDENT;
+     }
   else if (STREQ (argv[0], "@output"))
     {
       if (argc > 2)

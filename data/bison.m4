@@ -743,7 +743,7 @@ m4_define([_b4_percent_define_check_values],
                          [$1],
                          m4_dquote(m4_indir([b4_percent_define(]$1[)])))
           m4_foreach([b4_value], m4_dquote(m4_shift($@)),
-                     [b4_complain_at(b4_percent_define_get_loc([$1]),
+                     [b4_error([[note]], b4_percent_define_get_loc([$1]), []
                                      [[accepted value: '%s']],
                                      m4_dquote(b4_value))])])dnl
    m4_popdef([b4_good_value])],

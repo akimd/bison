@@ -1,8 +1,4 @@
 * Short term
-** erroneous test
-src/complains.c changed the output of errors (prefixes), but the m4 macros
-have not been changed to reflect this change.
-Fix the message "an identifier expected" (m4) in tests/input.at.
 
 ** push-parser
 Check it too when checking the different kinds of parsers.  And be

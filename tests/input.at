@@ -1159,9 +1159,9 @@ start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
 [[input.y:1.9-21: error: invalid value for %define variable 'api.push-pull': 'neither'
-input.y:1.9-21: error: accepted value: 'pull'
-input.y:1.9-21: error: accepted value: 'push'
-input.y:1.9-21: error: accepted value: 'both'
+input.y:1.9-21:     accepted value: 'pull'
+input.y:1.9-21:     accepted value: 'push'
+input.y:1.9-21:     accepted value: 'both'
 ]])
 
 AT_CLEANUP
@@ -1183,9 +1183,9 @@ start: ;
 AT_BISON_CHECK([[input.y]], [1], [],
 [[input.y:1.9-21: warning: deprecated %define variable name: 'api.push_pull', use 'api.push-pull' [-Wdeprecated]
 input.y:1.9-21: error: invalid value for %define variable 'api.push-pull': 'neither'
-input.y:1.9-21: error: accepted value: 'pull'
-input.y:1.9-21: error: accepted value: 'push'
-input.y:1.9-21: error: accepted value: 'both'
+input.y:1.9-21:     accepted value: 'pull'
+input.y:1.9-21:     accepted value: 'push'
+input.y:1.9-21:     accepted value: 'both'
 ]])
 
 AT_DATA([[input.y]],
