@@ -175,6 +175,19 @@ decide whether to update.
 ** make check
 Use liberally.
 
+** Typical errors
+If the test suite shows failures such as the following one
+
+  .../bison/lib/getopt.h:196:8: error: redefinition of 'struct option'
+  /usr/include/getopt.h:54:8: error: previous definition of 'struct option'
+
+it probably means that some file was compiled without
+AT_DATA_SOURCE_PROLOGUE.  This error is due to the fact that our -I options
+pick up gnulib's replacement headers, such as getopt.h, and this will go
+wrong if config.h was not included first.
+
+See tests/local.at for details.
+
 ** make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
 
