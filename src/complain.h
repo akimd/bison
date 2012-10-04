@@ -58,15 +58,15 @@ extern warnings errors_flag;
 void warnings_print_categories (warnings warn_flags);
 
 /** Make a complaint, with maybe a location.  */
-void complain (location const* loc, warnings flags, char const *message, ...)
+void complain (location const *loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));
 
 /** Likewise, but with an \a argc/argv interface.  */
 void complain_args (location const *loc, warnings w, int argc, char *arg[]);
 
 /** Make a complaint with location and some indentation.  */
-void complain_at_indent (location loc, warnings flags, unsigned *indent,
-                         char const *message, ...)
+void complain_indent (location const *loc, warnings flags, unsigned *indent,
+                      char const *message, ...)
   __attribute__ ((__format__ (__printf__, 4, 5)));
 
 /** Whether an error was reported.  */
