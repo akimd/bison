@@ -175,9 +175,9 @@ If the test suite shows failures such as the following one
   /usr/include/getopt.h:54:8: error: previous definition of 'struct option'
 
 it probably means that some file was compiled without
-AT_DATA_SOURCE_PROLOGUE.  This error is due to the fact that our -I pick up
-gnulib's replacement headers, such as getopt.h, which will go if config.h
-was not included first.
+AT_DATA_SOURCE_PROLOGUE.  This error is due to the fact that our -I options
+pick up gnulib's replacement headers, such as getopt.h, and this will go
+wrong if config.h was not included first.
 
 See tests/local.at for details.
 
