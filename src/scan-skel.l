@@ -78,15 +78,14 @@ static void fail_for_invalid_at (char const *at);
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
 "@ofile@"  fputs (quotearg_style (c_quoting_style, out_name), yyout);
 
-@basename"("    at_init (&argc, argv, &at_ptr, &at_basename);
-@complain"("    at_init (&argc, argv, &at_ptr, &at_complain);
-@output"("      at_init (&argc, argv, &at_ptr, &at_output);
-@[a-z_]+"("     at_init (&argc, argv, &at_ptr, NULL);
+"@basename("    at_init (&argc, argv, &at_ptr, &at_basename);
+"@complain("    at_init (&argc, argv, &at_ptr, &at_complain);
+"@output("      at_init (&argc, argv, &at_ptr, &at_output);
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}`(\n]* fail_for_invalid_at (yytext);
-\n         out_lineno++; ECHO;
-[^@\n]+    ECHO;
+@[^@{}`(\n]*    fail_for_invalid_at (yytext);
+\n              out_lineno++; ECHO;
+[^@\n]+         ECHO;
 
 <INITIAL><<EOF>> {
   if (out_name)
@@ -118,11 +117,8 @@ static void fail_for_invalid_at (char const *at);
       BEGIN SC_AT_DIRECTIVE_SKIP_WS;
     else
       {
-        if (at_ptr)
-          at_ptr (argc, argv, &out_name, &out_lineno);
-        else
-          fail_for_invalid_at (argv[0]);
-
+        aver (at_ptr);
+        at_ptr (argc, argv, &out_name, &out_lineno);
         obstack_free (&obstack_for_string, argv[0]);
         argc = 0;
         BEGIN INITIAL;
