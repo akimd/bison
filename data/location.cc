@@ -159,8 +159,6 @@ b4_copyright([Locations for Bison parsers in C++],
 
 ]b4_cpp_guard_open([b4_dir_prefix[]location.hh])[
 
-# include <iostream>
-# include <string>
 # include "position.hh"
 
 ]b4_namespace_open[
