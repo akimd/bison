@@ -41,8 +41,9 @@
 #define YY_DECL static int skel_lex (void)
 YY_DECL;
 
-static void at_directive_perform (int argc, char *argv[],
-                                  char **outnamep, int *out_linenop);
+static void at_basename (int argc, char *argv[]);
+static void at_complain (int argc, char *argv[]);
+static void at_output (int argc, char *argv[], char **name, int *lineno);
 static void fail_for_at_directive_too_many_args (char const *at_directive_name);
 static void fail_for_at_directive_too_few_args (char const *at_directive_name);
 static void fail_for_invalid_at (char const *at);
@@ -116,7 +117,15 @@ static void fail_for_invalid_at (char const *at);
       BEGIN SC_AT_DIRECTIVE_SKIP_WS;
     else
       {
-        at_directive_perform (argc, argv, &outname, &out_lineno);
+        if (STREQ (argv[0], "@basename"))
+          at_basename (argc, argv);
+        else if (STREQ (argv[0], "@complain"))
+          at_complain (argc, argv);
+        else if (STREQ (argv[0], "@output"))
+          at_output (argc, argv, &outname, &out_lineno);
+        else
+          fail_for_invalid_at (argv[0]);
+
         obstack_free (&obstack_for_string, argv[0]);
         argc = 0;
         BEGIN INITIAL;
@@ -169,68 +178,68 @@ static inline warnings
 flag (const char *arg)
 {
   /* compare with values issued from b4_error */
-  if (STREQ (arg, "warn"))
-    return Wother;
-  else if (STREQ (arg, "complain"))
+  if (STREQ (arg, "complain"))
     return complaint;
   else if (STREQ (arg, "fatal"))
     return fatal;
   else if (STREQ (arg, "note"))
     return silent;
+  else if (STREQ (arg, "warn"))
+    return Wother;
   else
     aver (false);
 }
 
 static void
-at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
+at_basename (int argc, char *argv[])
 {
-  if (STREQ (argv[0], "@basename"))
-    {
-      if (argc > 2)
-        fail_for_at_directive_too_many_args (argv[0]);
-      fputs (last_component (argv[1]), yyout);
-    }
-  else if (STREQ (argv[0], "@complain"))
-    {
-      static unsigned indent;
-      if (argc < 4)
-        fail_for_at_directive_too_few_args (argv[0]);
-      warnings w = flag (argv[1]);
-      if ((w & silent) != silent)
-        indent = 0;
-      location loc;
-      location *locp = NULL;
-      if (argv[2] && argv[2][0])
-        {
-          boundary_set_from_string (&loc.start, argv[2]);
-          boundary_set_from_string (&loc.end, argv[3]);
-          locp = &loc;
-        }
-      if (w & silent)
-        indent += SUB_INDENT;
-      complain_args (locp, w, &indent, argc - 3, argv + 3);
-      if (w & silent)
-        indent -= SUB_INDENT;
-     }
-  else if (STREQ (argv[0], "@output"))
-    {
-      if (argc > 2)
-        fail_for_at_directive_too_many_args (argv[0]);
-      if (*outnamep)
-        {
-          free (*outnamep);
-          xfclose (yyout);
-        }
-      *outnamep = xstrdup (argv[1]);
-      output_file_name_check (outnamep);
-      yyout = xfopen (*outnamep, "w");
-      *out_linenop = 1;
-    }
-  else
-    fail_for_invalid_at (argv[0]);
+  if (2 < argc)
+    fail_for_at_directive_too_many_args (argv[0]);
+  fputs (last_component (argv[1]), yyout);
 }
 
 static void
+at_complain (int argc, char *argv[])
+{
+  static unsigned indent;
+  warnings w = flag (argv[1]);
+  location loc;
+  location *locp = NULL;
+
+  if (argc < 4)
+    fail_for_at_directive_too_few_args (argv[1]);
+  if (argv[2] && argv[2][0])
+    {
+      boundary_set_from_string (&loc.start, argv[2]);
+      boundary_set_from_string (&loc.end, argv[3]);
+      locp = &loc;
+    }
+  if (w & silent)
+    indent += SUB_INDENT;
+  else
+    indent = 0;
+  complain_args (locp, w, &indent, argc - 3, argv + 3);
+  if (w & silent)
+    indent -= SUB_INDENT;
+}
+
+static void
+at_output (int argc, char *argv[], char **outnamep, int *out_linenop)
+{
+  if (2 < argc)
+    fail_for_at_directive_too_many_args (argv[0]);
+  if (*outnamep)
+    {
+      free (*outnamep);
+      xfclose (yyout);
+    }
+  *outnamep = xstrdup (argv[1]);
+  output_file_name_check (outnamep);
+  yyout = xfopen (*outnamep, "w");
+  *out_linenop = 1;
+}
+
+  static void
 fail_for_at_directive_too_few_args (char const *at_directive_name)
 {
   complain (NULL, fatal, _("too few arguments for %s directive in skeleton"),
