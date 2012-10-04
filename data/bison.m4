@@ -91,7 +91,7 @@ m4_if(m4_sysval, [0], [], [m4_fatal([$0: cannot write to stdout])])])
 #   b4_error([[complain]], [[input.y:2.3]], [[input.y:5.4]],
 #            [[invalid %s]], [[foo]])
 m4_define([b4_error],
-[b4_cat([[@]$1[(]$2[@,]$3[@,]$4[]]dnl
+[b4_cat([[@complain][(]$1[@,]$2[@,]$3[@,]$4[]]dnl
 [m4_if([$#], [4], [],
        [m4_foreach([b4_arg],
                    m4_dquote(m4_shift(m4_shift(m4_shift(m4_shift($@))))),

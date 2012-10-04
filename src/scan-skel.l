@@ -57,10 +57,10 @@ static void fail_for_invalid_at (char const *at);
   int out_lineno PACIFY_CC (= 0);
   char *outname = NULL;
 
-  /* Currently, only the @warn, @complain, @fatal, @warn_at, @complain_at, and
-     @fatal_at directives take multiple arguments, and the last three already
-     can't take more than 7.  argv[0] is the directive name.  */
-  #define ARGC_MAX 8
+  /* Currently, only the @complain directive takes multiple arguments, and
+     never more than 7, with argv[0] being the directive name and argv[1]
+     being the type of complaint to dispatch. */
+#define ARGC_MAX 9
   int argc = 0;
   char *argv[ARGC_MAX];
 %}
@@ -168,13 +168,15 @@ skel_scanner_free (void)
 static inline warnings
 flag (const char *arg)
 {
-  switch (arg[1])
-    {
-    case 'w': return Wother;
-    case 'c': return complaint;
-    case 'f': return fatal;
-    default: aver (false); break;
-    }
+  /* compare with values issued from b4_error */
+  if (STREQ (arg, "warn"))
+    return Wother;
+  else if (STREQ (arg, "complain"))
+    return complaint;
+  else if (STREQ (arg, "fatal"))
+    return fatal;
+  else
+    aver (false);
 }
 
 static void
@@ -186,24 +188,20 @@ at_directive_perform (int argc, char *argv[], char **outnamep, int *out_linenop)
         fail_for_at_directive_too_many_args (argv[0]);
       fputs (last_component (argv[1]), yyout);
     }
-  else if (STREQ (argv[0], "@warn")
-           || STREQ (argv[0], "@complain")
-           || STREQ (argv[0], "@fatal"))
+  else if (STREQ (argv[0], "@complain"))
     {
-      warnings w = flag (*argv);
-      location loc;
-      location *locp = NULL;
       if (argc < 4)
         fail_for_at_directive_too_few_args (argv[0]);
-      if (argv[1] && argv[1][0])
+      warnings w = flag (argv[1]);
+      location loc;
+      location *locp = NULL;
+      if (argv[2] && argv[2][0])
         {
-          boundary_set_from_string (&loc.start, argv[1]);
-          boundary_set_from_string (&loc.end, argv[2]);
+          boundary_set_from_string (&loc.start, argv[2]);
+          boundary_set_from_string (&loc.end, argv[3]);
           locp = &loc;
         }
-      argc -= 2;
-      argv += 2;
-      complain_args (locp, w, argc, argv);
+      complain_args (locp, w, argc - 3, argv + 3);
     }
   else if (STREQ (argv[0], "@output"))
     {
