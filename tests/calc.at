@@ -503,12 +503,15 @@ AT_CHECK([cat stderr], 0, [expout])
 # Make sure we did not introduce bad spaces.  Checked here because all
 # the skeletons are (or should be) exercized here.
 m4_define([AT_CHECK_SPACES],
-[# No initial empty lines.
-AT_CHECK([sed -ne '/./q;=;p;' $1])
-# No trailing spaces.
-# FIXME: For 2.7: AT_CHECK([sed -ne '/[ ]$/{=;p;}' $1])
-# No final empty lines.
-AT_CHECK([sed -ne '${/^$/{=;p;};}' $1])
+[AT_CHECK([perl -ne '
+  chomp;
+  print "$.: {$_}\n"
+    if (# No starting/ending empty lines.
+        (eof || $. == 1) && /^\s*$/
+        # No trailing space.  FIXME: not ready for "maint".
+        # || /\s$/
+        )' $1
+])dnl
 ])
 
 
