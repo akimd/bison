@@ -4,7 +4,7 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  Bugs in the test suite have been fixed.
+  Bugs and portability issues in the test suite have been fixed.
 
   Some errors in translations have been addressed, and --help now directs
   users to the appropriate place to report them.
