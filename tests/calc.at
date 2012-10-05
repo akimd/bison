@@ -503,7 +503,7 @@ AT_CHECK([cat stderr], 0, [expout])
 # Make sure we did not introduce bad spaces.  Checked here because all
 # the skeletons are (or should be) exercized here.
 m4_define([AT_CHECK_SPACES],
-[AT_CHECK([perl -ne '
+[AT_CHECK([$PERL -ne '
   chomp;
   print "$.: {$_}\n"
     if (# No starting/ending empty lines.

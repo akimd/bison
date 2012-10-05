@@ -1194,7 +1194,7 @@ AT_DATA([empty.y],
 start: '';
 start: '
 ]])
-AT_CHECK([[perl -e "print 'start: \'';" >> empty.y || exit 77]])
+AT_CHECK([[$PERL -e "print 'start: \'';" >> empty.y || exit 77]])
 
 AT_BISON_CHECK([empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal
@@ -1209,7 +1209,7 @@ AT_DATA([two.y],
 start: 'ab';
 start: 'ab
 ]])
-AT_CHECK([[perl -e "print 'start: \'ab';" >> two.y || exit 77]])
+AT_CHECK([[$PERL -e "print 'start: \'ab';" >> two.y || exit 77]])
 
 AT_BISON_CHECK([two.y], [1], [],
 [[two.y:2.8-11: warning: extra characters in character literal
@@ -1224,7 +1224,7 @@ AT_DATA([three.y],
 start: 'abc';
 start: 'abc
 ]])
-AT_CHECK([[perl -e "print 'start: \'abc';" >> three.y || exit 77]])
+AT_CHECK([[$PERL -e "print 'start: \'abc';" >> three.y || exit 77]])
 
 AT_BISON_CHECK([three.y], [1], [],
 [[three.y:2.8-12: warning: extra characters in character literal
@@ -1253,7 +1253,7 @@ start: '\777' '\0' '\xfff' '\x0'
 # Beside we cannot even expect "echo '\0'" to output two characters
 # (well three with \n): at least Bash 3.2 converts the two-character
 # sequence "\0" into a single NUL character.
-AT_CHECK([[perl -e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y \
+AT_CHECK([[$PERL -e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y \
            || exit 77]])
 
 AT_BISON_CHECK([input.y], [1], [],
