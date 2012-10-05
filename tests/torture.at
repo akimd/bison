@@ -125,7 +125,7 @@ EOF
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
+AT_CHECK([$PERL -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
 ])
 
@@ -214,7 +214,7 @@ main (void)
 EOF
 ]])
 
-AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
+AT_CHECK([$PERL -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
 AT_BISON_OPTION_POPDEFS
 ])
@@ -350,7 +350,7 @@ main (void)
 EOF
 ]])
 
-AT_CHECK([perl -w ./gengram.pl $2 || exit 77], 0, [stdout])
+AT_CHECK([$PERL -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
 AT_BISON_OPTION_POPDEFS
 ])

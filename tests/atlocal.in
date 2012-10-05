@@ -63,20 +63,11 @@ fi
 ## Other.  ##
 ## ------- ##
 
-# Are special link options needed?
-LDFLAGS='@LDFLAGS@'
-
-# Are special libraries needed?
-LIBS="$abs_top_builddir/lib/libbison.a @LIBS@ @INTLLIBS@"
-
 # Empty if no javac was found
 CONF_JAVAC='@CONF_JAVAC@'
 
 # Empty if no Java VM was found
 CONF_JAVA='@CONF_JAVA@'
-
-# Empty if no xsltproc was found
-: ${XSLTPROC='@XSLTPROC@'}
 
 # We need egrep.
 : ${EGREP='@EGREP@'}
@@ -84,3 +75,14 @@ CONF_JAVA='@CONF_JAVA@'
 # Use simple quotes (lib/quote.c).
 LC_CTYPE=C
 export LC_CTYPE
+
+# Are special link options needed?
+LDFLAGS='@LDFLAGS@'
+
+# Are special libraries needed?
+LIBS="$abs_top_builddir/lib/libbison.a @LIBS@ @INTLLIBS@"
+
+# Empty if no xsltproc was found
+: ${XSLTPROC='@XSLTPROC@'}
+
+: ${PERL='@PERL@'}

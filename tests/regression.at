@@ -1481,17 +1481,17 @@ AT_CHECK([[grep 'syntax error,' stderr.txt]], [[0]],
 
 # Check number of default reductions in inconsistent states to be sure
 # syntax error is detected before unnecessary reductions are performed.
-AT_CHECK([[perl -0777 -ne 'print s/inconsistent default reduction//g;' \
+AT_CHECK([[$PERL -0777 -ne 'print s/inconsistent default reduction//g;' \
            < stdout.txt || exit 77]], [[0]], [[14]])
 
 # Check number of default reductions in consistent states to be sure
 # it is performed before the syntax error is detected.
-AT_CHECK([[perl -0777 -ne 'print s/\bconsistent default reduction//g;' \
+AT_CHECK([[$PERL -0777 -ne 'print s/\bconsistent default reduction//g;' \
            < stdout.txt || exit 77]], [[0]], [[2]])
 
 # Check number of reallocs to be sure reallocated memory isn't somehow
 # lost between LAC invocations.
-AT_CHECK([[perl -0777 -ne 'print s/\(realloc//g;' < stderr.txt \
+AT_CHECK([[$PERL -0777 -ne 'print s/\(realloc//g;' < stderr.txt \
            || exit 77]], [[0]], [[3]])
 
 AT_BISON_OPTION_POPDEFS
