@@ -35,7 +35,10 @@ dnl time comes, just use sed to drop the line numbers.  For now, as LR(1)
 dnl support is rapidly evolving, let's keep that information to be careful.
 dnl However, we don't do diffs for canonical LR(1) because the diff is huge.
 m4_pushdef([AT_LALR1_DIFF_CHECK],
-[AT_CHECK([[sed 's/^%define lr.type .*$//' input.y > input-lalr.y]])
+[dnl We need diff -u, which is not portable.
+AT_CHECK([diff -u /dev/null /dev/null || exit 77], [0], [ignore])
+
+AT_CHECK([[sed 's/^%define lr.type .*$//' input.y > input-lalr.y]])
 AT_BISON_CHECK([[--report=all input-lalr.y]], [[0]], [ignore], [ignore])
 AT_CHECK([[diff -u input-lalr.output input.output \
            | sed -n '/^@@/,$p' | sed 's/^ $//']],
