@@ -27,7 +27,7 @@ GNU Bison NEWS
 
   will use YY_CALC_LIB_PARSE_H_INCLUDED as guard.
 
-** Fix compiler warnings in the generated parser (yacc.c)
+** Fix compiler warnings in the generated parser (yacc.c, glr.c)
 
   The compilation of pure parsers (%define api.pure) can trigger GCC
   warnings such as:
@@ -39,6 +39,10 @@ GNU Bison NEWS
                 ^
 
   This is now fixed; pragmas to avoid these warnings are no longer needed.
+
+  Warnings from clang ("equality comparison with extraneous parentheses" and
+  "function declared 'noreturn' should not return") have also been
+  addressed.
 
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
