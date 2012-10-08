@@ -48,6 +48,19 @@ GNU Bison NEWS
   This feature is somewhat experimental.  User feedback would be
   appreciated.
 
+** Fix compiler warnings in the generated parser (yacc.c)
+
+  The compilation of pure parsers (%define api.pure) can trigger GCC
+  warnings such as:
+
+    input.c: In function 'yyparse':
+    input.c:1503:12: warning: 'yylval' may be used uninitialized in this
+                              function [-Wmaybe-uninitialized]
+       *++yyvsp = yylval;
+                ^
+
+  This is now fixed; pragmas to avoid these warnings are no longer needed.
+
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
 ** Bug fixes
