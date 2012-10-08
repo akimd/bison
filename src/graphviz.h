@@ -46,4 +46,8 @@ void output_edge (int source, int destination, char const *label,
 /// \param fout  output stream.
 void finish_graph (FILE *fout);
 
+/// Escape a lookahead token.
+/// \param name         the token.
+char const *escape (char const *name);
+
 #endif /* ! GRAPHVIZ_H_ */
