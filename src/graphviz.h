@@ -22,6 +22,8 @@
 #ifndef GRAPHVIZ_H_
 # define GRAPHVIZ_H_
 
+#include "state.h"
+
 /// Begin a Dot graph.
 /// \param fout   output stream.
 void start_graph (FILE *fout);
@@ -40,7 +42,13 @@ void output_node (int id, char const *label, FILE *fout);
 /// \param style        Dot style of the edge (e.g., "dotted" or "solid").
 /// \param fout         output stream.
 void output_edge (int source, int destination, char const *label,
-		  char const *style, FILE *fout);
+                  char const *style, FILE *fout);
+
+/// Output a reduction.
+/// \param s            current state
+/// \param reds         the set of reductions
+/// \param fout         output stream.
+void output_red (state const *s, reductions const *reds, FILE *fout);
 
 /// End a Dot graph.
 /// \param fout  output stream.
