@@ -54,7 +54,7 @@ b4_defines_if([],
               [b4_fatal([b4_skeleton[: using %%defines is mandatory]])])
 
 m4_include(b4_pkgdatadir/[c++.m4])
-b4_percent_define_ifdef([[location_type]], [],
+b4_percent_define_ifdef([[api.location.type]], [],
                         [m4_include(b4_pkgdatadir/[location.cc])])
 
 m4_define([b4_parser_class_name],
@@ -238,7 +238,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 # include <string>
 # include <iostream>
-]b4_percent_define_ifdef([[location_type]], [],
+]b4_percent_define_ifdef([[api.location.type]], [],
                          [[# include "location.hh"]])[
 
 ]b4_YYDEBUG_define[
@@ -262,7 +262,7 @@ b4_user_stype
     typedef ]b4_api_PREFIX[STYPE semantic_type;
 # endif
     /// Symbol locations.
-    typedef ]b4_percent_define_get([[location_type]],
+    typedef ]b4_percent_define_get([[api.location.type]],
                                    [[location]])[ location_type;
     /// Tokens.
     struct token

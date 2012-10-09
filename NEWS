@@ -65,6 +65,21 @@ GNU Bison NEWS
   "function declared 'noreturn' should not return") have also been
   addressed.
 
+** New %define variable: api.location.type (glr.cc, lalr1.cc)
+
+  The %define variable api.location.type defines the name of the type to use
+  for locations.  When defined, Bison no longer generates the position.hh
+  and location.hh files, nor does the parser will include them: the user is
+  then responsible to define her type.
+
+  This can be used in programs with several parsers to factor their location
+  and position files: let one of them generate them, and let the others
+  simply resue these types and files.
+
+  This feature was actually introduced, but not documented, in Bison 2.5,
+  under the name "location_type" (which is maintained for backward
+  compatibility).
+
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
 ** Bug fixes

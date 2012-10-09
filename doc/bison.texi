@@ -327,6 +327,7 @@ C++ Location Values
 
 * C++ position::                One point in the source file
 * C++ location::                Two points in the source file
+* User Defined Location Type::  Required interface for locations
 
 A Complete C++ Example
 
@@ -5325,6 +5326,23 @@ Unaccepted @var{variable}s produce an error.
 Some of the accepted @var{variable}s are:
 
 @itemize @bullet
+@c ================================================== api.location.type
+@item @code{api.location.type}
+@findex %define api.location.type
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose: Define the location type.
+@xref{User Defined Location Type}.
+
+@item Accepted Values: String
+
+@item Default Value: none
+
+@item History: introduced in Bison 2.7
+@end itemize
+
 @c ================================================== api.prefix
 @item @code{api.prefix}
 @findex %define api.prefix
@@ -5332,7 +5350,7 @@ Some of the accepted @var{variable}s are:
 @itemize @bullet
 @item Language(s): All
 
-@item Purpose: Rename exported symbols
+@item Purpose: Rename exported symbols.
 @xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
 
 @item Accepted Values: String
@@ -9210,8 +9228,9 @@ generated in the following files:
 @table @file
 @item position.hh
 @itemx location.hh
-The definition of the classes @code{position} and @code{location},
-used for location tracking.  @xref{C++ Location Values}.
+The definition of the classes @code{position} and @code{location}, used for
+location tracking.  These files are not generated if the @code{%define}
+variable @code{api.location.type} is defined.  @xref{C++ Location Values}.
 
 @item stack.hh
 An auxiliary class @code{stack} used by the parser.
@@ -9267,18 +9286,22 @@ Symbols}.
 @c - %define filename_type "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
-location tracking, see @ref{Tracking Locations}.  Two auxiliary classes
-define a @code{position}, a single point in a file, and a @code{location}, a
-range composed of a pair of @code{position}s (possibly spanning several
-files).
+location tracking, see @ref{Tracking Locations}.
+
+By default, two auxiliary classes define a @code{position}, a single point
+in a file, and a @code{location}, a range composed of a pair of
+@code{position}s (possibly spanning several files).  But if the
+@code{%define} variable @code{api.location.type} is defined, then these
+classes will not be generated, and the user defined type will be used.
 
 @tindex uint
 In this section @code{uint} is an abbreviation for @code{unsigned int}: in
 genuine code only the latter is used.
 
 @menu
-* C++ position::         One point in the source file
-* C++ location::         Two points in the source file
+* C++ position::                One point in the source file
+* C++ location::                Two points in the source file
+* User Defined Location Type::  Required interface for locations
 @end menu
 
 @node C++ position
@@ -9381,6 +9404,63 @@ positions.
 Report @var{p} on @var{o}, taking care of special cases such as: no
 @code{filename} defined, or equal filename/line or column.
 @end deftypefun
+
+@node User Defined Location Type
+@subsubsection User Defined Location Type
+@findex %define api.location.type
+
+Instead of using the built-in types you may use the @code{%define} variable
+@code{api.location.type} to specify your own type:
+
+@example
+%define api.location.type @var{LocationType}
+@end example
+
+The requirements over your @var{LocationType} are:
+@itemize
+@item
+it must be copyable;
+
+@item
+in order to compute the (default) value of @code{@@$} in a reduction, the
+parser basically runs
+@example
+@@$.begin = @@$1.begin;
+@@$.end   = @@$@var{N}.end; // The location of last right-hand side symbol.
+@end example
+@noindent
+so there must be copyable @code{begin} and @code{end} members;
+
+@item
+alternatively you may redefine the computation of the default location, in
+which case these members are not required (@pxref{Location Default Action});
+
+@item
+if traces are enabled, then there must exist an @samp{std::ostream&
+  operator<< (std::ostream& o, const @var{LocationType}& s)} function.
+@end itemize
+
+@sp 1
+
+In programs with several C++ parsers, you may also use the @code{%define}
+variable @code{api.location.type} to share a common set of built-in
+definitions for @code{position} and @code{location}.  For instance, one
+parser @file{master/parser.yy} might use:
+
+@example
+%defines
+%locations
+%define namespace "master::"
+@end example
+
+@noindent
+to generate the @file{master/position.hh} and @file{master/location.hh}
+files, reused by other parsers as follows:
+
+@example
+%define location_type "master::location"
+%code requires @{ #include <master/location.hh> @}
+@end example
 
 @node C++ Parser Interface
 @subsection C++ Parser Interface

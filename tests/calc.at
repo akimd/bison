@@ -713,7 +713,7 @@ m4_define([AT_CHECK_CALC_LALR1_CC],
 [AT_CHECK_CALC([%language "C++" %defines %locations] $@)])
 
 AT_CHECK_CALC_LALR1_CC([])
-AT_CHECK_CALC_LALR1_CC([%define location_type Span])
+AT_CHECK_CALC_LALR1_CC([%define api.location.type Span])
 AT_CHECK_CALC_LALR1_CC([%error-verbose %name-prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR1_CC([%error-verbose %define api.prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR1_CC([%error-verbose %debug %name-prefix "calc" %verbose %yacc])
@@ -742,7 +742,7 @@ m4_define([AT_CHECK_CALC_GLR_CC],
 [AT_CHECK_CALC([%language "C++" %glr-parser %defines %locations] $@)])
 
 AT_CHECK_CALC_GLR_CC([])
-AT_CHECK_CALC_GLR_CC([%define location_type Span])
+AT_CHECK_CALC_GLR_CC([%define api.location.type Span])
 AT_CHECK_CALC_GLR_CC([%error-verbose %name-prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_GLR_CC([%error-verbose %define api.prefix "calc" %verbose %yacc])
 

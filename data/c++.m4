@@ -29,7 +29,7 @@ b4_percent_define_default([[parser_class_name]], [[parser]])
 # Don't do that so that we remember whether we're using a user
 # request, or the default value.
 #
-# b4_percent_define_default([[location_type]], [[location]])
+# b4_percent_define_default([[api.location.type]], [[location]])
 
 b4_percent_define_default([[filename_type]], [[std::string]])
 b4_percent_define_default([[namespace]], m4_defn([b4_prefix]))
