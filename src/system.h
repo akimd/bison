@@ -202,7 +202,10 @@ typedef size_t uintptr_t;
   } while (0)
 
 
+/* Append the ending 0, finish Obs, and return the string.  */
 
+# define obstack_finish0(Obs)                           \
+  (obstack_1grow (Obs, '\0'), (char *) obstack_finish (Obs))
 
 
 /*-----------------------------------------.
