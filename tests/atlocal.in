@@ -29,16 +29,10 @@ CPPFLAGS="-I$abs_top_builddir/lib @CPPFLAGS@"
 # Is the compiler GCC?
 GCC='@GCC@'
 
-# We want no optimization, as they uncover warnings (therefore,
-# failures) about uninitialized variables in the test suite.  FIXME:
-# fix the warnings, not the flags.
-  O0CFLAGS=`echo '@CFLAGS@'   | sed 's/-O[0-9s] *//g'`
-O0CXXFLAGS=`echo '@CXXFLAGS@' | sed 's/-O[0-9s] *//g'`
-
 # Sometimes a test group needs to ignore gcc warnings, so it locally
 # sets CFLAGS to this.
-  NO_WERROR_CFLAGS="$O0CFLAGS   @WARN_CFLAGS@   @WARN_CFLAGS_TEST@"
-NO_WERROR_CXXFLAGS="$O0CXXFLAGS @WARN_CXXFLAGS@ @WARN_CXXFLAGS_TEST@"
+  NO_WERROR_CFLAGS='@CFLAGS@   @WARN_CFLAGS@   @WARN_CFLAGS_TEST@'
+NO_WERROR_CXXFLAGS='@CXXFLAGS@ @WARN_CXXFLAGS@ @WARN_CXXFLAGS_TEST@'
 
 # But most of the time, we want -Werror.
   CFLAGS="$NO_WERROR_CFLAGS   @WERROR_CFLAGS@"
@@ -51,7 +45,6 @@ BISON_CXX_WORKS='@BISON_CXX_WORKS@'
 if "$at_arg_compile_c_with_cxx"; then
   CC_IS_CXX=1
   CC=$CXX
-  O0CFLAGS=$O0CXXFLAGS
   NO_WERROR_CFLAGS=$NO_WERROR_CXXFLAGS
   CFLAGS=$CXXFLAGS
 else
@@ -63,20 +56,11 @@ fi
 ## Other.  ##
 ## ------- ##
 
-# Are special link options needed?
-LDFLAGS='@LDFLAGS@'
-
-# Are special libraries needed?
-LIBS="$abs_top_builddir/lib/libbison.a @LIBS@ @INTLLIBS@"
-
 # Empty if no javac was found
 CONF_JAVAC='@CONF_JAVAC@'
 
 # Empty if no Java VM was found
 CONF_JAVA='@CONF_JAVA@'
-
-# Empty if no xsltproc was found
-: ${XSLTPROC='@XSLTPROC@'}
 
 # We need egrep and perl.
 : ${EGREP='@EGREP@'}
@@ -85,6 +69,15 @@ CONF_JAVA='@CONF_JAVA@'
 # Use simple quotes (lib/quote.c).
 LC_CTYPE=C
 export LC_CTYPE
+
+# Are special link options needed?
+LDFLAGS='@LDFLAGS@'
+
+# Are special libraries needed?
+LIBS="$abs_top_builddir/lib/libbison.a @LIBS@ @INTLLIBS@"
+
+# Empty if no xsltproc was found
+: ${XSLTPROC='@XSLTPROC@'}
 
 
 # Handle --compile-c-with-cxx here, once CXX and CXXFLAGS are known.

@@ -315,7 +315,7 @@ print '@output(@,@)', "\n";
 (print "garbage"x10, "\n") for (1..1000);
 print "${M4}_divert_pop(0)\n";
 ]])
-AT_CHECK([[perl gen-skel.pl > skel.c || exit 77]])
+AT_CHECK([[$PERL gen-skel.pl > skel.c || exit 77]])
 
 AT_DATA([[input.y]],
 [[%skeleton "./skel.c"

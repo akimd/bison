@@ -240,7 +240,7 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  Bugs in the test suite have been fixed.
+  Bugs and portability issues in the test suite have been fixed.
 
   Some errors in translations have been addressed, and --help now directs
   users to the appropriate place to report them.
@@ -274,6 +274,32 @@ GNU Bison NEWS
     %defines "lib/parse.h"
 
   will use YY_CALC_LIB_PARSE_H_INCLUDED as guard.
+
+** Exception safety (lalr1.cc)
+
+  The parse function now catches exceptions, uses the %destructors to
+  release memory (the lookahead symbol and the symbols pushed on the stack)
+  before rethrowing the exception.
+
+  This feature is somewhat experimental.  User feedback would be
+  appreciated.
+
+** Fix compiler warnings in the generated parser (yacc.c, glr.c)
+
+  The compilation of pure parsers (%define api.pure) can trigger GCC
+  warnings such as:
+
+    input.c: In function 'yyparse':
+    input.c:1503:12: warning: 'yylval' may be used uninitialized in this
+                              function [-Wmaybe-uninitialized]
+       *++yyvsp = yylval;
+                ^
+
+  This is now fixed; pragmas to avoid these warnings are no longer needed.
+
+  Warnings from clang ("equality comparison with extraneous parentheses" and
+  "function declared 'noreturn' should not return") have also been
+  addressed.
 
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 

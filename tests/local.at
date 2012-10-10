@@ -38,7 +38,7 @@ m4_define([m4_null_if],
 # Expect COUNT matches of the PERL-REGEXP in FILE.  The file is
 # taken in "slurp" mode, i.e., one can match end-of-lines.
 m4_define([AT_MATCHES_CHECK],
-[AT_CHECK([perl -0777 -ne '
+[AT_CHECK([$PERL -0777 -ne '
 my $count = 0;
 s{$2}{ ++$count; "" }gem;
 printf "$count\n";' $1], [0], [$3
@@ -408,7 +408,8 @@ void
   public void yyerror (String s)
   {
     System.err.println (s);
-}]])])dnl
+  }]])],
+[m4_fatal([$0: invalid language: ]AT_LANG)])dnl
 ])
 
 

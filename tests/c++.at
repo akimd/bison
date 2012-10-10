@@ -1,4 +1,4 @@
-# Checking the output filenames.                    -*- Autotest -*-
+# Checking the C++ Features.                    -*- Autotest -*-
 
 # Copyright (C) 2004-2005, 2007-2012 Free Software Foundation, Inc.
 
@@ -216,6 +216,7 @@ m4_define([AT_CHECK_DOXYGEN],
          [m4_fatal([invalid argument: $1])])
 AT_SETUP([Doxygen $1 Documentation])
 
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 AT_DATA([input.yy],
 [[%skeleton "lalr1.cc"
 %locations
@@ -224,10 +225,7 @@ AT_DATA([input.yy],
 %%
 exp:;
 %%
-yy::parser::error (const location& l, const std::string& m)
-{
-  std::cerr << l << s << std::endl;
-}
+]AT_YYERROR_DEFINE[
 ]])
 
 AT_BISON_CHECK([-o input.cc input.yy], 0)
@@ -280,6 +278,7 @@ EXTRACT_STATIC         = AT_DOXYGEN_PRIVATE
 AT_CHECK([doxygen --version || exit 77], 0, ignore)
 AT_CHECK([doxygen], 0, [], [ignore])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 m4_popdef([AT_DOXYGEN_PRIVATE])
@@ -529,5 +528,238 @@ caught error
 error: invalid character
 caught error
 ]])
+
+AT_CLEANUP
+
+
+## ------------------ ##
+## Exception safety.  ##
+## ------------------ ##
+
+AT_SETUP([[Exception safety]])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+
+AT_DATA_GRAMMAR([[input.yy]],
+[[%skeleton "lalr1.cc"
+%defines // FIXME: Mandated in 2.6.
+%debug
+%error-verbose
+
+%code requires
+{
+  #include <cassert>
+  #include <cstdlib> // size_t and getenv.
+  #include <iostream>
+  #include <list>
+
+  bool debug = false;
+
+  /// A class that counts its number of instances.
+  struct Object
+  {
+    typedef std::list<const Object*> objects;
+    static objects instances;
+    char val;
+
+    static bool
+    empty ()
+    {
+      return instances.empty();
+    }
+
+    static void
+    log (Object const *o, const std::string& msg)
+    {
+      if (debug)
+        {
+          if (o)
+            std::cerr << o << "->";
+          std::cerr << msg << " {";
+          const char* sep = " ";
+          for (objects::const_iterator i = instances.begin(),
+                                       i_end = instances.end();
+               i != i_end;
+               ++i)
+            {
+              std::cerr << sep << *i;
+              sep = ", ";
+            }
+          std::cerr << " }" << std::endl;
+        }
+    }
+
+    Object (char v)
+      : val (v)
+    {
+      instances.push_back(this);
+      log (this, "Object::Object");
+    }
+
+    ~Object ()
+    {
+      instances.remove(this);
+      log (this, "Object::~Object");
+    }
+  };
+}
+
+%code
+{
+  #include <cassert>
+  #include <cstring> // strchr
+  #include <stdexcept>
+  int yylex (yy::parser::semantic_type *);
+  Object::objects Object::instances;
+  static char const *input;
+}
+
+%union
+{
+  Object *obj;
+}
+
+%initial-action
+{
+  if (strchr (input, 'i'))
+    throw std::runtime_error ("initial-action");
+}
+
+%destructor { delete $$; } <obj>;
+%printer
+{
+  yyo << $$ << " '" << $$->val << '\'';
+  if ($$->val == 'p')
+    throw std::runtime_error ("printer");
+} <obj>;
+
+%token <obj> 'a' 'E' 'e' 'p' 'R' 's' 'T'
+%type  <obj> list item
+
+%%
+
+start: list { delete $1; };
+
+list:
+  item       { $$ = $1; }
+| item list  { $$ = $1; delete $2; } // Right recursion to load the stack.
+;
+
+item:
+  'a'  { $$ = $1; }
+| 'e'  { YYUSE ($$); YYUSE($1); error ("syntax error"); }
+// Not just 'E', otherwise we reduce when 'E' is the lookahead, and
+// then the stack is emptied, defeating the point of the test.
+| 'E' 'a' { YYUSE($1); $$ = $2; }
+| 'R'  { $$ = YY_NULL; delete $1; YYERROR; }
+| 'p'  { $$ = $1; }
+| 's'  { $$ = $1; throw std::runtime_error ("reduction"); }
+| 'T'  { $$ = YY_NULL; delete $1; YYABORT; }
+| error { $$ = YY_NULL; yyerrok; }
+;
+%%
+
+int
+yylex (yy::parser::semantic_type *lvalp)
+{
+  // 'a': no error.
+  // 'e': user action calls error.
+  // 'E': syntax error, with yyerror that throws.
+  // 'i': initial action throws.
+  // 'l': yylex throws.
+  // 'R': call YYERROR in the action
+  // 's': reduction throws.
+  // 'T': call YYABORT in the action
+  switch (int res = *input++)
+  {
+    case 'l':
+      throw std::runtime_error ("yylex");
+    default:
+      lvalp->obj = new Object (res);
+      // Fall through.
+    case 0:
+      return res;
+  }
+}
+
+/* A C++ error reporting function.  */
+void
+yy::parser::error (const std::string& m)
+{
+  throw std::runtime_error (m);
+}
+
+int
+main (int argc, const char *argv[])
+{
+  switch (argc)
+  {
+    case 2:
+      input = argv[1];
+      break;
+    case 3:
+      assert (!strcmp (argv[1], "--debug"));
+      debug = 1;
+      input = argv[2];
+      break;
+    default:
+      abort ();
+  }
+
+  yy::parser parser;
+  debug |= !!getenv ("YYDEBUG");
+  parser.set_debug_level (debug);
+  int res = 2;
+  try
+  {
+    res = parser.parse ();
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << "exception caught: " << e.what () << std::endl;
+  }
+  catch (...)
+  {
+    std::cerr << "unknown exception caught" << std::endl;
+  }
+  Object::log (YY_NULL, "end");
+  assert (Object::empty());
+  return res;
+}
+]])
+AT_BISON_CHECK([[-o input.cc --report=all input.yy]])
+AT_COMPILE_CXX([[input]])
+
+AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
+[[exception caught: reduction
+]])
+
+AT_PARSER_CHECK([[./input aaaal]], [[2]], [[]],
+[[exception caught: yylex
+]])
+
+AT_PARSER_CHECK([[./input i]], [[2]], [[]],
+[[exception caught: initial-action
+]])
+
+AT_PARSER_CHECK([[./input aaaap]])
+
+AT_PARSER_CHECK([[./input --debug aaaap]], [[2]], [[]], [[stderr]])
+AT_PARSER_CHECK([[grep '^exception caught: printer$' stderr]], [], [ignore])
+
+AT_PARSER_CHECK([[./input aaaae]], [[2]], [[]],
+[[exception caught: syntax error
+]])
+
+AT_PARSER_CHECK([[./input aaaaE]], [[2]], [[]],
+[[exception caught: syntax error, unexpected $end, expecting 'a'
+]])
+
+AT_PARSER_CHECK([[./input aaaaT]], [[1]])
+
+# There is error-recovery, so exit success.
+AT_PARSER_CHECK([[./input aaaaR]], [[0]])
+
+AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP

@@ -683,6 +683,10 @@ m4_if(b4_prefix, [yy], [],
     /// The return value of parse ().
     int yyresult;
 
+    // FIXME: This shoud be completely indented.  It is not yet to
+    // avoid gratuitous conflicts when merging into the master branch.
+    try
+      {
     YYCDEBUG << "Starting parse" << std::endl;
 
 ]m4_ifdef([b4_initial_action], [
@@ -955,13 +959,30 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
-    while (yystack_.size () != 1)
+    while (1 < yystack_.size ())
       {
         yy_destroy_ ("Cleanup: popping", yystack_[0]);
         yypop_ ();
       }
 
     return yyresult;
+  }
+    catch (...)
+      {
+        YYCDEBUG << "Exception caught: cleaning lookahead and stack"
+                 << std::endl;
+        // Do not try to display the values of the reclaimed symbols,
+        // as their printer might throw an exception.
+        if (!yyempty)
+          yy_destroy_ (YY_NULL, yyla);
+
+        while (1 < yystack_.size ())
+          {
+            yy_destroy_ (YY_NULL, yystack_[0]);
+            yypop_ ();
+          }
+        throw;
+      }
   }
 
   void
