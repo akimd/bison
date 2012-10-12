@@ -719,8 +719,8 @@ AT_SETUP([Java stype, position_class and location_class])
 AT_CHECK_JAVA_MINIMAL([[
 %define stype "java.awt.Color"
 %type<java.awt.Color> start;
-%define location_type "MyLoc"
-%define position_type "MyPos"
+%define api.location.type "MyLoc"
+%define api.position.type "MyPos"
 %code { class MyPos {} }]], [[$$ = $<java.awt.Color>1;]], [[MyPos]])
 AT_CHECK([[grep 'java.awt.Color' YYParser.java]], [0], [ignore])
 AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Position']], [1], [ignore])
@@ -729,8 +729,8 @@ AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Location']], [1], [ignore])
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %define stype "java.awt.Color"
 %type<java.awt.Color> start;
-%define location_type "MyLoc"
-%define position_type "MyPos"
+%define api.location.type "MyLoc"
+%define api.position.type "MyPos"
 %code { class MyPos {} }]], [], [[return EOF;]], [],
 [[$$ = $<java.awt.Color>1;]],
 [[java.awt.Color]], [[MyPos]], [[MyLoc]])

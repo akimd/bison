@@ -5331,7 +5331,7 @@ Some of the accepted @var{variable}s are:
 @findex %define api.location.type
 
 @itemize @bullet
-@item Language(s): C++
+@item Language(s): C++, Java
 
 @item Purpose: Define the location type.
 @xref{User Defined Location Type}.
@@ -9458,7 +9458,7 @@ to generate the @file{master/position.hh} and @file{master/location.hh}
 files, reused by other parsers as follows:
 
 @example
-%define location_type "master::location"
+%define api.location.type "master::location"
 %code requires @{ #include <master/location.hh> @}
 @end example
 
@@ -10175,11 +10175,11 @@ class defines a @dfn{position}, a single point in a file; Bison itself
 defines a class representing a @dfn{location}, a range composed of a pair of
 positions (possibly spanning several files).  The location class is an inner
 class of the parser; the name is @code{Location} by default, and may also be
-renamed using @code{%define location_type "@var{class-name}"}.
+renamed using @code{%define api.location.type "@var{class-name}"}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
-with @code{%define position_type "@var{class-name}"}.  This class must
+with @code{%define api.position.type "@var{class-name}"}.  This class must
 be supplied by the user.
 
 
@@ -10314,7 +10314,7 @@ In both cases, the scanner has to implement the following methods.
 @deftypemethod {Lexer} {void} yyerror (Location @var{loc}, String @var{msg})
 This method is defined by the user to emit an error message.  The first
 parameter is omitted if location tracking is not active.  Its type can be
-changed using @code{%define location_type "@var{class-name}".}
+changed using @code{%define api.location.type "@var{class-name}".}
 @end deftypemethod
 
 @deftypemethod {Lexer} {int} yylex ()
@@ -10332,7 +10332,7 @@ Return respectively the first position of the last token that
 @code{yylex} returned, and the first position beyond it.  These
 methods are not needed unless location tracking is active.
 
-The return type can be changed using @code{%define position_type
+The return type can be changed using @code{%define api.position.type
 "@var{class-name}".}
 @end deftypemethod
 
@@ -10577,10 +10577,11 @@ comma-separated list.  Default is @code{java.io.IOException}.
 @xref{Java Scanner Interface}.
 @end deffn
 
-@deffn {Directive} {%define location_type} "@var{class}"
+@deffn {Directive} {%define api.location.type} "@var{class}"
 The name of the class used for locations (a range between two
 positions).  This class is generated as an inner class of the parser
 class by @command{bison}.  Default is @code{Location}.
+Formerly named @code{location_type}.
 @xref{Java Location Values}.
 @end deffn
 
@@ -10595,9 +10596,10 @@ The name of the parser class.  Default is @code{YYParser} or
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define position_type} "@var{class}"
+@deffn {Directive} {%define api.position.type} "@var{class}"
 The name of the class used for positions. This class must be supplied by
 the user.  Default is @code{Position}.
+Formerly named @code{position_type}.
 @xref{Java Location Values}.
 @end deffn
 
@@ -11881,9 +11883,10 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett LALR's
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
-@c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate
+@c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType
 
 @c Local Variables:
 @c ispell-dictionary: "american"
 @c fill-column: 76
 @c End:
+@c  LocalWords:  errorVerbose
