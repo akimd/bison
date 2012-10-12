@@ -131,7 +131,7 @@ AT_SETUP([Several parsers])
 # self-contained, and can be compiled by a C++ compiler.
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix "$1_" $2])
-AT_DATA_GRAMMAR([$1.AT_SKEL_CC_IF([yy], [y])],
+AT_DATA_GRAMMAR([$1.y],
 [[%define api.prefix "$1_"
 $2
 %error-verbose
@@ -161,7 +161,7 @@ exp:
 ]AT_YYLEX_DEFINE(["$1"])[
 ]])
 
-AT_BISON_CHECK([-d -o AT_SKEL_CC_IF([$1.cc $1.yy], [$1.c $1.y])])
+AT_BISON_CHECK([-d -o $1.AT_SKEL_CC_IF([cc], [c]) $1.y])
 
 # Check there is no 'yy' left.
 # C++ output relies on namespaces and still uses yy a lot.
