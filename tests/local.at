@@ -137,7 +137,7 @@ m4_pushdef([AT_LEXPARAM_IF],
 m4_pushdef([AT_LOCATION_IF],
 [m4_bmatch([$3], [%locations], [$1], [$2])])
 m4_pushdef([AT_LOCATION_TYPE_IF],
-[m4_bmatch([$3], [%define location_type], [$1], [$2])])
+[m4_bmatch([$3], [%define \(api\.location\.type\|location_type\)], [$1], [$2])])
 m4_pushdef([AT_PARAM_IF],
 [m4_bmatch([$3], [%parse-param], [$1], [$2])])
 m4_pushdef([AT_PURE_IF],

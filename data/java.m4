@@ -197,8 +197,8 @@ m4_define([b4_throws], [b4_percent_define_get([[throws]])])
 b4_percent_define_default([[init_throws]], [])
 m4_define([b4_init_throws], [b4_percent_define_get([[init_throws]])])
 
-b4_percent_define_default([[location_type]], [Location])
-m4_define([b4_location_type], [b4_percent_define_get([[location_type]])])
+b4_percent_define_default([[api.location.type]], [Location])
+m4_define([b4_location_type], [b4_percent_define_get([[api.location.type]])])
 
 b4_percent_define_default([[position_type]], [Position])
 m4_define([b4_position_type], [b4_percent_define_get([[position_type]])])

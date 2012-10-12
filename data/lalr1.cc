@@ -120,7 +120,7 @@ m4_pushdef([b4_copyright_years],
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
 
-b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [],
   [# Backward compatibility.
    m4_define([b4_location_constructors])
    m4_include(b4_pkgdatadir/[location.cc])])])
@@ -139,7 +139,7 @@ m4_define([b4_shared_declarations],
 # include <stdexcept>
 # include <string>]b4_defines_if([[
 # include "stack.hh"
-]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+]b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [],
                                           [[# include "location.hh"]])])])[
 
 ]b4_YYDEBUG_define[
@@ -148,7 +148,7 @@ m4_define([b4_shared_declarations],
 
 ]b4_defines_if([],
 [b4_stack_define
-b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [],
                                          [b4_position_define
 b4_location_define])])])[
 

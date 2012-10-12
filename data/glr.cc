@@ -47,7 +47,7 @@
 m4_define([b4_pure_flag],      [1])
 
 m4_include(b4_pkgdatadir/[c++.m4])
-b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [],
                 [m4_include(b4_pkgdatadir/[location.cc])])])
 
 m4_define([b4_parser_class_name],
@@ -219,14 +219,14 @@ b4_percent_code_get([[requires]])[
 #include <stdexcept>
 #include <string>
 #include <iostream>]b4_defines_if([
-b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [],
                                          [[#include "location.hh"]])])])[
 
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
 ]b4_defines_if([],
-[b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+[b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [],
                                           [b4_position_define
 b4_location_define])])])[
 

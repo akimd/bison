@@ -398,6 +398,7 @@ muscle_percent_variable_update (char const *variable, location variable_loc)
   const conversion_type conversion[] =
     {
       { "api.push_pull", "api.push-pull", },
+      { "location_type", "api.location.type", },
       { "lr.keep_unreachable_states", "lr.keep-unreachable-states", },
       { "namespace", "api.namespace", },
     };
@@ -416,23 +417,17 @@ muscle_percent_variable_update (char const *variable, location variable_loc)
 }
 
 void
-muscle_percent_define_insert (char const *variable, location variable_loc,
+muscle_percent_define_insert (char const *var, location variable_loc,
                               char const *value,
                               muscle_percent_define_how how)
 {
-  char const *name;
-  char const *loc_name;
-  char const *syncline_name;
-  char const *how_name;
-
-  /* Permit certain names with underscores for backward compatibility.  */
-  variable = muscle_percent_variable_update (variable, variable_loc);
-
-  name = UNIQSTR_CONCAT ("percent_define(", variable, ")");
-  loc_name = UNIQSTR_CONCAT ("percent_define_loc(", variable, ")");
-  syncline_name =
+  /* Backward compatibility.  */
+  char const *variable = muscle_percent_variable_update (var, variable_loc);
+  char const *name = UNIQSTR_CONCAT ("percent_define(", variable, ")");
+  char const *loc_name = UNIQSTR_CONCAT ("percent_define_loc(", variable, ")");
+  char const *syncline_name =
     UNIQSTR_CONCAT ("percent_define_syncline(", variable, ")");
-  how_name = UNIQSTR_CONCAT ("percent_define_how(", variable, ")");
+  char const *how_name = UNIQSTR_CONCAT ("percent_define_how(", variable, ")");
 
   /* Command-line options are processed before the grammar file.  */
   if (how == MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE

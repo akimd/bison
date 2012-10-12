@@ -28,7 +28,7 @@ b4_percent_define_default([[parser_class_name]], [[parser]])
 # Don't do that so that we remember whether we're using a user
 # request, or the default value.
 #
-# b4_percent_define_default([[location_type]], [[location]])
+# b4_percent_define_default([[api.location.type]], [[location]])
 
 b4_percent_define_default([[filename_type]], [[std::string]])
 b4_percent_define_default([[api.namespace]], m4_defn([b4_prefix]))
@@ -130,7 +130,7 @@ m4_define([b4_public_types_declare],
     typedef ]b4_api_PREFIX[STYPE semantic_type;
 #endif]b4_locations_if([
     /// Symbol locations.
-    typedef b4_percent_define_get([[location_type]],
+    typedef b4_percent_define_get([[api.location.type]],
                                   [[location]]) location_type;])[
 
     /// Syntax errors thrown from user actions.

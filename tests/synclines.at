@@ -216,4 +216,54 @@ exp: '0';
 [input.y:8: #error "8"
 ])
 
+## -------------------- ##
+## %code top syncline.  ##
+## -------------------- ##
+
+AT_TEST([%code top syncline],
+[[%code top {
+#error "2"
+}
+%{
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
+%}
+%%
+exp: '0';
+%%
+]],
+[input.y:2: #error "2"
+])
+
+m4_popdef([AT_TEST])
+
+## ----------- ##
+## %no-lines.  ##
+## ----------- ##
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([%no-lines])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1" %defines])
+AT_DATA_GRAMMAR([input.y],
+[%skeleton "$1" %defines
+%{
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
+%}
+%%
+exp: '0'
+])
+AT_BISON_CHECK([--no-lines -o input.AT_SKEL_CC_IF([cc], [c]) -d input.y])
+AT_CHECK([[grep '#line' ]AT_SKEL_CC_IF([*.cc *.hh], [*.c *.h])], 1)
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])
+
+AT_TEST([yacc.c])
+AT_TEST([glr.c])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
+
 m4_popdef([AT_TEST])

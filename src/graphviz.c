@@ -25,12 +25,14 @@
 #include <quotearg.h>
 
 #include "files.h"
+#include "gram.h"
 #include "graphviz.h"
+#include "tables.h"
 
 /* Return an unambiguous printable representation for NAME, suitable
    for C strings.  Use slot 2 since the user may use slots 0 and 1.  */
 
-static char const *
+static char *
 quote (char const *name)
 {
   return quotearg_n_style (2, c_quoting_style, name);
@@ -51,12 +53,13 @@ start_graph (FILE *fout)
            "digraph %s\n"
            "{\n",
            quote (grammar_file));
+  fprintf (fout, "node [shape=box]\n");
 }
 
 void
 output_node (int id, char const *label, FILE *fout)
 {
-  fprintf (fout, "  %d [label=%s]\n", id, quote (label));
+  fprintf (fout, "  %d [label=\"%s\"]\n", id, label);
 }
 
 void
@@ -67,6 +70,98 @@ output_edge (int source, int destination, char const *label,
   if (label)
     fprintf (fout, " label=%s", quote (label));
   fputs ("]\n", fout);
+}
+
+char const *
+escape (char const *name)
+{
+  char *q = quote (name);
+  q[strlen (q) - 1] = '\0';
+  return q + 1;
+}
+
+static void
+no_reduce_bitset_init (state const *s, bitset *no_reduce_set)
+{
+  int n;
+  *no_reduce_set = bitset_create (ntokens, BITSET_FIXED);
+  bitset_zero (*no_reduce_set);
+  FOR_EACH_SHIFT (s->transitions, n)
+    bitset_set (*no_reduce_set, TRANSITION_SYMBOL (s->transitions, n));
+  for (n = 0; n < s->errs->num; ++n)
+    if (s->errs->symbols[n])
+      bitset_set (*no_reduce_set, s->errs->symbols[n]->number);
+}
+
+static bool
+print_token (struct obstack *out, bool first, char const *tok)
+{
+  char const *q = escape (tok);
+
+  if (! first)
+    obstack_sgrow (out, ",");
+  obstack_sgrow (out, q);
+  return false;
+}
+
+void
+output_red (state const *s, reductions const *reds, FILE *fout)
+{
+  bitset no_reduce_set;
+  int j;
+  int source = s->number;
+  struct obstack oout;
+
+  no_reduce_bitset_init (s, &no_reduce_set);
+  obstack_init (&oout);
+
+  for (j = 0; j < reds->num; ++j)
+    {
+      bool disabled = false;
+      bool first = true;
+      int ruleno = reds->rules[j]->user_number;
+      rule *default_reduction = NULL;
+
+      if (yydefact[s->number] != 0)
+        default_reduction = &rules[yydefact[s->number] - 1];
+
+      /* First, print the edges that represent each possible reduction for
+         the given state. */
+      obstack_printf (&oout, "  %1$d -> \"%1$dR%2$d\" [label=\"",
+                      source, ruleno);
+      if (default_reduction && default_reduction == reds->rules[j])
+        first = print_token (&oout, true, "$default");
+      else
+        {
+          int i;
+          for (i = 0; i < ntokens; i++)
+            if (bitset_test (reds->lookahead_tokens[j], i))
+              {
+                first = print_token (&oout, first, symbols[i]->tag);
+                if (bitset_test (no_reduce_set, i))
+                  disabled = true;
+              }
+        }
+      obstack_sgrow (&oout, "\" style=solid]\n");
+
+      /* Then, print the reduction's representation. Done later since
+         we need to know whether this reduction is disabled. */
+      obstack_printf (&oout,
+                      " \"%dR%d\" "
+                      "[style=filled shape=diamond fillcolor=%s "
+                      "label=\"R%d\"]\n",
+                      source, ruleno,
+                      disabled ? "firebrick1" : "yellowgreen",
+                      ruleno);
+
+      /* If no lookahead tokens were valid transitions, this reduction is
+         actually disabled, so don't print it. */
+      if (first)
+        (void) obstack_finish0 (&oout);
+      else
+        fprintf (fout, obstack_finish0 (&oout));
+    }
+  obstack_free (&oout, 0);
 }
 
 void
