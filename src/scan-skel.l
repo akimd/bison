@@ -226,7 +226,7 @@ at_complain (int argc, char *argv[], char **out_namep, int *out_linenop)
     indent += SUB_INDENT;
   else
     indent = 0;
-  complain_args (locp, w, &indent, argc - 3, argv + 3);
+  complain_args (locp, w, &indent, argc - 4, argv + 4);
   if (w & silent)
     indent -= SUB_INDENT;
 }
