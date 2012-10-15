@@ -247,7 +247,7 @@ at_output (int argc, char *argv[], char **out_namep, int *out_linenop)
   *out_linenop = 1;
 }
 
-  static void
+static void
 fail_for_at_directive_too_few_args (char const *at_directive_name)
 {
   complain (NULL, fatal, _("too few arguments for %s directive in skeleton"),
