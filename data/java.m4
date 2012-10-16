@@ -155,24 +155,24 @@ m4_define([b4_case], [  case $1:
 ## ---------------- ##
 
 m4_define([b4_yystype], [b4_percent_define_get([[stype]])])
-b4_percent_define_default([[stype]], [[Object]])])
+b4_percent_define_default([[stype]], [[Object]])
 
 # %name-prefix
 m4_define_default([b4_prefix], [[YY]])
 
-b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])])
+b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])
 m4_define([b4_parser_class_name], [b4_percent_define_get([[parser_class_name]])])
 
-b4_percent_define_default([[lex_throws]], [[java.io.IOException]])])
+b4_percent_define_default([[lex_throws]], [[java.io.IOException]])
 m4_define([b4_lex_throws], [b4_percent_define_get([[lex_throws]])])
 
-b4_percent_define_default([[throws]], [])])
+b4_percent_define_default([[throws]], [])
 m4_define([b4_throws], [b4_percent_define_get([[throws]])])
 
-b4_percent_define_default([[api.location.type]], [Location])])
+b4_percent_define_default([[api.location.type]], [Location])
 m4_define([b4_location_type], [b4_percent_define_get([[api.location.type]])])
 
-b4_percent_define_default([[api.position.type]], [Position])])
+b4_percent_define_default([[api.position.type]], [Position])
 m4_define([b4_position_type], [b4_percent_define_get([[api.position.type]])])
 
 
@@ -219,9 +219,9 @@ m4_define([b4_rhs_location],
 # it to be single quoted.  Same for b4_parse_param.
 
 # TODO: should be in bison.m4
-m4_define_default([b4_lex_param], [[]]))
-m4_define([b4_lex_param], b4_lex_param))
-m4_define([b4_parse_param], b4_parse_param))
+m4_define_default([b4_lex_param], [[]])
+m4_define([b4_lex_param], b4_lex_param)
+m4_define([b4_parse_param], b4_parse_param)
 
 # b4_lex_param_decl
 # -------------------
