@@ -283,7 +283,7 @@ GNU Bison NEWS
 
   The parse function now catches exceptions, uses the %destructors to
   release memory (the lookahead symbol and the symbols pushed on the stack)
-  before rethrowing the exception.
+  before re-throwing the exception.
 
   This feature is somewhat experimental.  User feedback would be
   appreciated.
@@ -305,7 +305,7 @@ GNU Bison NEWS
   "function declared 'noreturn' should not return") have also been
   addressed.
 
-** New %define variable: api.location.type (glr.cc, lalr1.cc)
+** New %define variable: api.location.type (glr.cc, lalr1.cc, lalr1.java)
 
   The %define variable api.location.type defines the name of the type to use
   for locations.  When defined, Bison no longer generates the position.hh
@@ -319,6 +319,10 @@ GNU Bison NEWS
   This feature was actually introduced, but not documented, in Bison 2.5,
   under the name "location_type" (which is maintained for backward
   compatibility).
+
+  For consistency, lalr1.java's %define variables location_type and
+  position_type are deprecated in favor of api.location.type and
+  api.position.type.
 
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
