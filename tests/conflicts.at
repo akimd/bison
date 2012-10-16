@@ -117,10 +117,10 @@ AT_NONASSOC_AND_EOF_CHECK([], [[incorrect]])
 
 # We must disable default reductions in inconsistent states in order to
 # have an explicit list of all expected tokens.
-AT_NONASSOC_AND_EOF_CHECK([[-Dlr.default-reductions=consistent]],
+AT_NONASSOC_AND_EOF_CHECK([[-Dlr.default-reduction=consistent]],
                           [[correct]])
 
-# lr.default-reductions=consistent happens to work for this test case.
+# lr.default-reduction=consistent happens to work for this test case.
 # However, for other grammars, lookahead sets can be merged for
 # different left contexts, so it is still possible to have an incorrect
 # expected list.  Canonical LR is almost a general solution (that is, it
@@ -310,12 +310,12 @@ AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
 
 # Even canonical LR doesn't foresee the error for 'a'!
 AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
-                             %define lr.default-reductions consistent]],
+                             %define lr.default-reduction consistent]],
                            [AT_PREVIOUS_STATE_GRAMMAR],
                            [AT_PREVIOUS_STATE_INPUT],
                            [[$end]], [[ab]])
 AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
-                             %define lr.default-reductions accepting]],
+                             %define lr.default-reduction accepting]],
                            [AT_PREVIOUS_STATE_GRAMMAR],
                            [AT_PREVIOUS_STATE_INPUT],
                            [[$end]], [[ab]])
@@ -396,13 +396,13 @@ AT_CONSISTENT_ERRORS_CHECK([[%glr-parser]],
                            [['b']], [[none]])
 # No C++ or Java test because yychar cannot be manipulated by users.
 
-AT_CONSISTENT_ERRORS_CHECK([[%define lr.default-reductions consistent]],
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.default-reduction consistent]],
                            [AT_USER_ACTION_GRAMMAR],
                            [AT_USER_ACTION_INPUT],
                            [['b']], [[none]])
 
 # Canonical LR doesn't foresee the error for 'a'!
-AT_CONSISTENT_ERRORS_CHECK([[%define lr.default-reductions accepting]],
+AT_CONSISTENT_ERRORS_CHECK([[%define lr.default-reduction accepting]],
                            [AT_USER_ACTION_GRAMMAR],
                            [AT_USER_ACTION_INPUT],
                            [[$end]], [[a]])
@@ -416,7 +416,7 @@ AT_CONSISTENT_ERRORS_CHECK([[%define parse.lac full]],
                            [AT_USER_ACTION_INPUT],
                            [['b']], [[none]])
 AT_CONSISTENT_ERRORS_CHECK([[%define parse.lac full
-                             %define lr.default-reductions accepting]],
+                             %define lr.default-reduction accepting]],
                            [AT_USER_ACTION_GRAMMAR],
                            [AT_USER_ACTION_INPUT],
                            [[$end]], [[none]])
@@ -1293,7 +1293,7 @@ state 7
 ]])
 
 AT_DATA([[input-keep.y]],
-[[%define lr.keep-unreachable-states
+[[%define lr.keep-unreachable-state
 ]])
 AT_CHECK([[cat input.y >> input-keep.y]])
 

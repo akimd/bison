@@ -5608,10 +5608,10 @@ Boolean.
 @c lex_symbol
 
 
-@c ================================================== lr.default-reductions
+@c ================================================== lr.default-reduction
 
-@item lr.default-reductions
-@findex %define lr.default-reductions
+@item lr.default-reduction
+@findex %define lr.default-reduction
 
 @itemize @bullet
 @item Language(s): all
@@ -5627,12 +5627,15 @@ feedback will help to stabilize it.)
 @item @code{accepting} if @code{lr.type} is @code{canonical-lr}.
 @item @code{most} otherwise.
 @end itemize
+@item History:
+introduced as @code{lr.default-reduction} in 2.5, renamed as
+@code{lr.default-reduction} in 2.8.
 @end itemize
 
-@c ============================================ lr.keep-unreachable-states
+@c ============================================ lr.keep-unreachable-state
 
-@item lr.keep-unreachable-states
-@findex %define lr.keep-unreachable-states
+@item lr.keep-unreachable-state
+@findex %define lr.keep-unreachable-state
 
 @itemize @bullet
 @item Language(s): all
@@ -5641,7 +5644,10 @@ remain in the parser tables.  @xref{Unreachable States}.
 @item Accepted Values: Boolean
 @item Default Value: @code{false}
 @end itemize
-@c lr.keep-unreachable-states
+introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
+@code{lr.keep-unreachable-state} in 2.5, and as
+@code{lr.keep-unreachable-state} in 2.8.
+@c lr.keep-unreachable-state
 
 @c ================================================== lr.type
 
@@ -7685,7 +7691,7 @@ and the benefits of IELR, @pxref{Bibliography,,Denny 2008 March}, and
 @node Default Reductions
 @subsection Default Reductions
 @cindex default reductions
-@findex %define lr.default-reductions
+@findex %define lr.default-reduction
 @findex %nonassoc
 
 After parser table construction, Bison identifies the reduction with the
@@ -7767,9 +7773,9 @@ token for which there is a conflict.  The correct action in this case is to
 split the parse instead.
 
 To adjust which states have default reductions enabled, use the
-@code{%define lr.default-reductions} directive.
+@code{%define lr.default-reduction} directive.
 
-@deffn {Directive} {%define lr.default-reductions @var{WHERE}}
+@deffn {Directive} {%define lr.default-reduction @var{WHERE}}
 Specify the kind of states that are permitted to contain default reductions.
 The accepted values of @var{WHERE} are:
 @itemize
@@ -7892,7 +7898,7 @@ parser community for years, for the publication that introduces LAC,
 
 @node Unreachable States
 @subsection Unreachable States
-@findex %define lr.keep-unreachable-states
+@findex %define lr.keep-unreachable-state
 @cindex unreachable states
 
 If there exists no sequence of transitions from the parser's start state to
@@ -7905,7 +7911,7 @@ resolution because they are useless in the generated parser.  However,
 keeping unreachable states is sometimes useful when trying to understand the
 relationship between the parser and the grammar.
 
-@deffn {Directive} {%define lr.keep-unreachable-states @var{VALUE}}
+@deffn {Directive} {%define lr.keep-unreachable-state @var{VALUE}}
 Request that Bison allow unreachable states to remain in the parser tables.
 @var{VALUE} must be a Boolean.  The default is @code{false}.
 @end deffn

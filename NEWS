@@ -211,10 +211,14 @@ GNU Bison NEWS
   use these prefixed token names, although the grammar itself still
   uses the short names (as in the sample rule given above).
 
-** Variable api.namespace
+** Renamed %define variables
 
-  The 'namespace' variable is renamed 'api.namespace'.  Backward
+  The following variables have been renamed for consistency.  Backward
   compatibility is ensured, but upgrading is recommended.
+
+    lr.default-reductions      -> lr.default-reduction
+    lr.keep-unreachable-states -> lr.keep-unreachable-state
+    namespace                  -> api.namespace
 
 ** Variable parse.error
 

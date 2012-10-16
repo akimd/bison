@@ -1139,15 +1139,15 @@ AT_SETUP([[%define enum variables]])
 
 # Front-end.
 AT_DATA([[input.y]],
-[[%define lr.default-reductions bogus
+[[%define lr.default-reduction bogus
 %%
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:1.9-29: error: invalid value for %define variable 'lr.default-reductions': 'bogus'
-input.y:1.9-29:     accepted value: 'most'
-input.y:1.9-29:     accepted value: 'consistent'
-input.y:1.9-29:     accepted value: 'accepting'
+[[input.y:1.9-28: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
+input.y:1.9-28:     accepted value: 'most'
+input.y:1.9-28:     accepted value: 'consistent'
+input.y:1.9-28:     accepted value: 'accepting'
 ]])
 
 # Back-end.
@@ -1194,8 +1194,8 @@ AT_DATA([[input.y]],
 start: ;
 ]])
 AT_BISON_CHECK([[input.y]], [1], [],
-[[input.y:1.9-34: warning: deprecated %define variable name: 'lr.keep_unreachable_states', use 'lr.keep-unreachable-states' [-Wdeprecated]
-input.y:1.9-34: error: invalid value for %define Boolean variable 'lr.keep-unreachable-states'
+[[input.y:1.9-34: warning: deprecated %define variable name: 'lr.keep_unreachable_states', use 'lr.keep-unreachable-state' [-Wdeprecated]
+input.y:1.9-34: error: invalid value for %define Boolean variable 'lr.keep-unreachable-state'
 ]])
 
 AT_DATA([[input.y]],

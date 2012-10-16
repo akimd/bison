@@ -396,7 +396,7 @@ AT_TEST_LR_TYPE([[Single State Split]],
 [[%left 'a'
 // Conflict resolution renders state 12 unreachable for canonical LR(1).  We
 // keep it so that the paser table diff is easier to code.
-%define lr.keep-unreachable-states]],
+%define lr.keep-unreachable-state]],
 [[
 S: 'a' A 'a' /* rule 1 */
  | 'b' A 'b' /* rule 2 */
@@ -629,7 +629,7 @@ AT_TEST_LR_TYPE([[Lane Split]],
 [[%left 'a'
 // Conflict resolution renders state 16 unreachable for canonical LR(1).  We
 // keep it so that the paser table diff is easier to code.
-%define lr.keep-unreachable-states]],
+%define lr.keep-unreachable-state]],
 [[
 /* Similar to the last test case set but two states must be split.  */
 S: 'a' A 'a' /* rule 1 */
@@ -873,7 +873,7 @@ AT_TEST_LR_TYPE([[Complex Lane Split]],
 [[%left 'a'
 // Conflict resolution renders state 16 unreachable for canonical LR(1).  We
 // keep it so that the paser table diff is easier to code.
-%define lr.keep-unreachable-states]],
+%define lr.keep-unreachable-state]],
 [[
 /* Similar to the last test case set but forseeing the S/R conflict from the
    first state that must be split is becoming difficult.  Imagine if B were
@@ -1139,7 +1139,7 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 ]])])
 
 AT_TEST_LR_TYPE([[Split During Added Lookahead Propagation]],
-[[%define lr.keep-unreachable-states]],
+[[%define lr.keep-unreachable-state]],
 [[
 /* The partial state chart diagram below is for LALR(1).  State 0 is the start
    state.  States are iterated for successor construction in numerical order.
@@ -1443,28 +1443,28 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 
 
 ## ------------------------------- ##
-## %define lr.default-reductions.  ##
+## %define lr.default-reduction.  ##
 ## ------------------------------- ##
 
 # AT_TEST_LR_DEFAULT_REDUCTIONS(GRAMMAR, INPUT, TABLES)
 # -----------------------------------------------------
 m4_define([AT_TEST_LR_DEFAULT_REDUCTIONS],
 [
-AT_TEST_TABLES_AND_PARSE([[no %define lr.default-reductions]],
+AT_TEST_TABLES_AND_PARSE([[no %define lr.default-reduction]],
                          [[most]], [[]],
                          [[]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions most]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reduction most]],
                          [[most]], [[]],
-                         [[%define lr.default-reductions most]],
+                         [[%define lr.default-reduction most]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions consistent]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reduction consistent]],
                          [[consistent]], [[]],
-                         [[%define lr.default-reductions consistent]],
+                         [[%define lr.default-reduction consistent]],
                          [$1], [$2], [[]], [$3])
-AT_TEST_TABLES_AND_PARSE([[%define lr.default-reductions accepting]],
+AT_TEST_TABLES_AND_PARSE([[%define lr.default-reduction accepting]],
                          [[accepting]], [[]],
-                         [[%define lr.default-reductions accepting]],
+                         [[%define lr.default-reduction accepting]],
                          [$1], [$2], [[]], [$3])
 ])
 
