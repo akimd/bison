@@ -461,7 +461,7 @@ AT_CHECK_JAVA_GREP([[class YYParser]])
 AT_CHECK_JAVA_MINIMAL([[%name-prefix "Prefix"]])
 AT_CHECK_JAVA_GREP([[class PrefixParser]])
 
-AT_CHECK_JAVA_MINIMAL([[%define api.tokens.prefix "TOK_"]])
+AT_CHECK_JAVA_MINIMAL([[%define api.token.prefix "TOK_"]])
 AT_CHECK_JAVA_GREP([[.*TOK_END.*]])
 
 AT_CHECK_JAVA_MINIMAL([[%define parser_class_name "ParserClassName"]])

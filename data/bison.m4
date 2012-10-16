@@ -333,7 +333,7 @@ m4_define([b4_symbol_],
 # undefined.  If FIELD = id, prepend the prefix.
 m4_define([b4_symbol],
 [m4_case([$2],
-         [id],    [m4_do([b4_percent_define_get([api.tokens.prefix])],
+         [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
                          [b4_symbol_([$1], [id])])],
          [b4_symbol_($@)])])
 
@@ -790,8 +790,8 @@ m4_define([b4_percent_code_ifdef],
 
 # Default values for %define.
 # ---------------------------
-# If the api.tokens.prefix, it is empty.
-m4_percent_define_default([[api.tokens.prefix]], [[]])
+# If the api.token.prefix, it is empty.
+m4_percent_define_default([[api.token.prefix]], [[]])
 
 # b4_parse_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])

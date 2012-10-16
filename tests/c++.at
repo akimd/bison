@@ -202,7 +202,7 @@ AT_CHECK_VARIANTS([])
 AT_CHECK_VARIANTS([%define parse.assert])
 AT_CHECK_VARIANTS([[%define parse.assert %code {\n#define ONE_STAGE_BUILD\n}]])
 AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n}]])
-AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n} %define api.tokens.prefix "TOK_"]])
+AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n} %define api.token.prefix "TOK_"]])
 
 
 ## ----------------------- ##

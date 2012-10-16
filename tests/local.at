@@ -153,8 +153,8 @@ m4_pushdef([AT_NAME_PREFIX],
            [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
            [yy])])
 m4_pushdef([AT_TOKEN_PREFIX],
-[m4_bmatch([$3], [%define api.tokens.prefix ".*"],
-           [m4_bregexp([$3], [%define api.tokens.prefix "\(.*\)"], [\1])])])
+[m4_bmatch([$3], [%define api.token.prefix ".*"],
+           [m4_bregexp([$3], [%define api.token.prefix "\(.*\)"], [\1])])])
 m4_pushdef([AT_API_prefix],
 [m4_bmatch([$3], [%define api\.prefix ".*"],
            [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],

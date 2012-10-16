@@ -5546,9 +5546,9 @@ More user feedback will help to stabilize it.)
 
 
 
-@c ================================================== api.tokens.prefix
-@item api.tokens.prefix
-@findex %define api.tokens.prefix
+@c ================================================== api.token.prefix
+@item api.token.prefix
+@findex %define api.token.prefix
 
 @itemize
 @item Languages(s): all
@@ -5559,7 +5559,7 @@ target language.  For instance
 
 @example
 %token FILE for ERROR
-%define api.tokens.prefix "TOK_"
+%define api.token.prefix "TOK_"
 %%
 start: FILE for ERROR;
 @end example
@@ -5580,8 +5580,10 @@ letters, underscores, and ---not at the beginning--- digits).
 
 @item Default Value:
 empty
+@item History:
+introduced in Bison 2.8
 @end itemize
-@c api.tokens.prefix
+@c api.token.prefix
 
 
 @c ================================================== lex_symbol
@@ -10098,7 +10100,7 @@ So for each token type, Bison generates named constructors as follows.
 @deftypemethod {symbol_type} {} make_@var{token} (const @var{value_type}& @var{value}, const location_type& @var{location})
 @deftypemethodx {symbol_type} {} make_@var{token} (const location_type& @var{location})
 Build a complete terminal symbol for the token type @var{token} (not
-including the @code{api.tokens.prefix}) whose possible semantic value is
+including the @code{api.token.prefix}) whose possible semantic value is
 @var{value} of adequate @var{value_type}.  If location tracking is enabled,
 also pass the @var{location}.
 @end deftypemethod
@@ -10106,7 +10108,7 @@ also pass the @var{location}.
 For instance, given the following declarations:
 
 @example
-%define api.tokens.prefix "TOK_"
+%define api.token.prefix "TOK_"
 %token <std::string> IDENTIFIER;
 %token <int> INTEGER;
 %token COLON;
@@ -10428,11 +10430,11 @@ The token numbered as 0 corresponds to end of file; the following line
 allows for nicer error messages referring to ``end of file'' instead of
 ``$end''.  Similarly user friendly names are provided for each symbol.  To
 avoid name clashes in the generated files (@pxref{Calc++ Scanner}), prefix
-tokens with @code{TOK_} (@pxref{%define Summary,,api.tokens.prefix}).
+tokens with @code{TOK_} (@pxref{%define Summary,,api.token.prefix}).
 
 @comment file: calc++-parser.yy
 @example
-%define api.tokens.prefix "TOK_"
+%define api.token.prefix "TOK_"
 %token
   END  0  "end of file"
   ASSIGN  ":="

@@ -195,14 +195,14 @@ GNU Bison NEWS
   used by the scanner, or rejecting invalid combinations from a
   factory invoked by the user actions).
 
-** Variable api.tokens.prefix
+** Variable api.token.prefix
 
-  The variable api.tokens.prefix changes the way tokens are identified in
+  The variable api.token.prefix changes the way tokens are identified in
   the generated files.  This is especially useful to avoid collisions
   with identifiers in the target language.  For instance
 
     %token FILE for ERROR
-    %define api.tokens.prefix "TOK_"
+    %define api.token.prefix "TOK_"
     %%
     start: FILE for ERROR;
 
