@@ -489,7 +489,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
      $default  reduce using rule 45 (statement)
 +
 +
-+state 320
++State 320
 +
 +  139 non_post_simp_exp: . '!' simp_exp
 +  140                  | . '(' exp r_paren
@@ -527,7 +527,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    variable           go to state 63
 +
 +
-+state 321
++State 321
 +
 +  146 non_post_simp_exp: INCREMENT . variable
 +  154 variable: . NAME
@@ -540,7 +540,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    variable  go to state 50
 +
 +
-+state 322
++State 322
 +
 +  147 non_post_simp_exp: DECREMENT . variable
 +  154 variable: . NAME
@@ -553,7 +553,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    variable  go to state 51
 +
 +
-+state 323
++State 323
 +
 +  130 simp_exp: . non_post_simp_exp
 +  131         | . simp_exp '^' simp_exp
@@ -601,7 +601,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    variable           go to state 57
 +
 +
-+state 324
++State 324
 +
 +  130 simp_exp: . non_post_simp_exp
 +  131         | . simp_exp '^' simp_exp
@@ -649,7 +649,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    variable           go to state 57
 +
 +
-+state 325
++State 325
 +
 +  130 simp_exp: . non_post_simp_exp
 +  131         | . simp_exp '^' simp_exp
@@ -697,7 +697,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    variable           go to state 57
 +
 +
-+state 326
++State 326
 +
 +  131 simp_exp: simp_exp . '^' simp_exp
 +  132         | simp_exp . '*' simp_exp
@@ -718,7 +718,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    Conflict between rule 151 and token '-' resolved as reduce ('-' < UNARY).
 +
 +
-+state 327
++State 327
 +
 +  131 simp_exp: simp_exp . '^' simp_exp
 +  132         | simp_exp . '*' simp_exp
@@ -739,7 +739,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 +    Conflict between rule 150 and token '-' resolved as reduce ('-' < UNARY).
 +
 +
-+state 328
++State 328
 +
 +  131 simp_exp: simp_exp . '^' simp_exp
 +  132         | simp_exp . '*' simp_exp
@@ -2040,7 +2040,7 @@ dnl   - 383 -> 427
      nth_primitive          go to state 105
 @@ -3256,7 +3256,7 @@
 
- state 102
+ State 102
 
 -  146 place: label .  [$end, LABEL, VARIABLE, NUMBER, TEXT, ORDINAL, LEFT_ARROW_HEAD, RIGHT_ARROW_HEAD, DOUBLE_ARROW_HEAD, LAST, UP, DOWN, LEFT, RIGHT, HEIGHT, RADIUS, WIDTH, DIAMETER, FROM, TO, AT, WITH, BY, THEN, SOLID, DOTTED, DASHED, CHOP, SAME, INVISIBLE, LJUST, RJUST, ABOVE, BELOW, AND, HERE, DOT_X, DOT_Y, DOT_HT, DOT_WID, DOT_RAD, SIN, COS, ATAN2, LOG, EXP, SQRT, K_MAX, K_MIN, INT, RAND, SRAND, CW, CCW, THICKNESS, FILL, COLORED, OUTLINED, SHADED, ALIGNED, SPRINTF, '(', '`', ',', '>', '+', '-', '!', ';', '}', '@:>@', ')']
 +  146 place: label .  [$end, LABEL, VARIABLE, NUMBER, TEXT, ORDINAL, LEFT_ARROW_HEAD, RIGHT_ARROW_HEAD, DOUBLE_ARROW_HEAD, LAST, UP, DOWN, LEFT, RIGHT, HEIGHT, RADIUS, WIDTH, DIAMETER, FROM, TO, AT, WITH, BY, THEN, SOLID, DOTTED, DASHED, CHOP, SAME, INVISIBLE, LJUST, RJUST, ABOVE, BELOW, HERE, DOT_X, DOT_Y, DOT_HT, DOT_WID, DOT_RAD, SIN, COS, ATAN2, LOG, EXP, SQRT, K_MAX, K_MIN, INT, RAND, SRAND, CW, CCW, THICKNESS, FILL, COLORED, OUTLINED, SHADED, ALIGNED, SPRINTF, '(', '`', '+', '-', '!', ';', '}', '@:>@']
@@ -2205,7 +2205,7 @@ dnl   - 383 -> 427
 +    expr                   go to state 424
 
 
- state 165
+ State 165
 @@ -7987,7 +7987,7 @@
      text_expr              go to state 112
      text                   go to state 113
@@ -2322,7 +2322,7 @@ dnl   - 383 -> 427
 +    between  go to state 425
 
 
- state 193
+ State 193
 @@ -10152,7 +10152,7 @@
 
      expr_pair              go to state 317
@@ -2490,7 +2490,7 @@ dnl   - 383 -> 427
 +    expr                   go to state 424
 
 
- state 238
+ State 238
 @@ -12937,7 +12937,7 @@
      '!'           shift, and go to state 94
 
@@ -2577,7 +2577,7 @@ dnl   - 383 -> 427
 +    expr                   go to state 424
 
 
- state 315
+ State 315
 @@ -16124,7 +16124,7 @@
 
      $default  reduce using rule 239 (expr)
@@ -2628,7 +2628,7 @@ dnl   - 383 -> 427
 +    expr                   go to state 424
 
 
- state 383
+ State 383
 @@ -18071,7 +18071,7 @@
      '!'           shift, and go to state 94
 
@@ -2671,7 +2671,7 @@ dnl   - 383 -> 427
      $default  reduce using rule 29 (placeless_element)
 +
 +
-+state 423
++State 423
 +
 +  146 place: label .  [$end, AND, DOT_X, DOT_Y, DOT_HT, DOT_WID, DOT_RAD, ',', '>', '+', '-', ';', '}', '@:>@', ')']
 +  147      | label . corner
@@ -2742,7 +2742,7 @@ dnl   - 383 -> 427
 +    corner  go to state 205
 +
 +
-+state 424
++State 424
 +
 +  140 position_not_place: expr . between position AND position
 +  141                   | expr . '<' position ',' position '>'
@@ -2785,7 +2785,7 @@ dnl   - 383 -> 427
 +    between  go to state 425
 +
 +
-+state 425
++State 425
 +
 +  134 position: . position_not_place
 +  135         | . place
@@ -2941,7 +2941,7 @@ dnl   - 383 -> 427
 +    expr                   go to state 424
 +
 +
-+state 426
++State 426
 +
 +  137 position_not_place: position . '+' expr_pair
 +  138                   | position . '-' expr_pair
@@ -2952,7 +2952,7 @@ dnl   - 383 -> 427
 +    '-'  shift, and go to state 198
 +
 +
-+state 427
++State 427
 +
 +  134 position: . position_not_place
 +  135         | . place

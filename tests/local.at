@@ -868,9 +868,9 @@ m4_if(m4_index(m4_quote($3), [no-xml]), -1,
                                [0], [], m4_dquote($7))
 
 m4_if(m4_index(m4_quote($3), [last-state]), -1,
-      [AT_CHECK([[sed -n '/^state 0$/,$p' input.output]], [[0]],
+      [AT_CHECK([[sed -n '/^State 0$/,$p' input.output]], [[0]],
                 m4_dquote($8))],
-      [AT_CHECK([[sed -n 's/^state //p' input.output | tail -1]], [[0]],
+      [AT_CHECK([[sed -n 's/^State //p' input.output | tail -1]], [[0]],
                 m4_dquote($8)[[
 ]])])
 
