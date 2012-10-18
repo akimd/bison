@@ -1,4 +1,17 @@
 * Short term
+** Graphviz display code thoughts
+The code for the --graph option is over two files: print_graph, and
+graphviz. I believe this is because Bison used to also produce VCG graphs,
+but since this is no longer true, maybe we could consider these files for
+fusion.
+
+Little effort factoring seems to have been given to factoring in these files,
+and their print-xml and print counterpart. We would very much like to re-use
+the pretty format of states from .output in the .dot
+
+Also, the underscore in print_graph.[ch] isn't very fitting considering
+the dashes in the other filenames.
+
 ** Variable names.
 What should we name `variant' and `lex_symbol'?
 

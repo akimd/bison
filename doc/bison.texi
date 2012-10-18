@@ -294,6 +294,7 @@ Handling Context Dependencies
 Debugging Your Parser
 
 * Understanding::     Understanding the structure of your parser.
+* Graphviz::          Getting a visual representation of the parser.
 * Tracing::           Tracing the execution of your parser.
 
 Tracing Your Parser
@@ -8093,6 +8094,7 @@ automaton, and how to enable and understand the parser run-time traces.
 
 @menu
 * Understanding::     Understanding the structure of your parser.
+* Graphviz::          Getting a visual representation of the parser.
 * Tracing::           Tracing the execution of your parser.
 @end menu
 
@@ -8509,6 +8511,114 @@ precedence of @samp{/} with respect to @samp{+}, @samp{-}, and
 @samp{*}, but also because the
 associativity of @samp{/} is not specified.
 
+@c ================================================= Graphical Representation
+
+@node Graphviz
+@section Visualizing Your Parser
+@cindex dot
+
+As another means to gain better understanding of the shift/reduce
+automaton corresponding to the Bison parser, a DOT file can be generated. Note
+that debugging a real grammar with this is tedious at best, and impractical
+most of the times, because the generated files are huge (the generation of
+a PDF or PNG file from it will take very long, and more often than not it will
+fail due to memory exhaustion). This option was rather designed for beginners,
+to help them understand LR parsers.
+
+This file is generated when the @option{--graph} option is specified (see
+@pxref{Invocation, , Invoking Bison}).  Its name is made by removing
+@samp{.tab.c} or @samp{.c} from the parser implementation file name, and
+adding @samp{.dot} instead.  If the grammar file is @file{foo.y}, the
+Graphviz output file is called @file{foo.dot}.
+
+The following grammar file, @file{rr.y}, will be used in the sequel:
+
+@example
+%%
+@group
+exp: a ";" | b ".";
+a: "0";
+b: "0";
+@end group
+@end example
+
+The graphical output is very similar to the textual one, and as such it is
+easier understood by making direct comparisons between them. See
+@ref{Debugging, , Debugging Your Parser} for a detailled analysis of the
+textual report.
+
+@subheading Graphical Representation of States
+
+The items (pointed rules) for each state are grouped together in graph nodes.
+Their numbering is the same as in the verbose file. See the following points,
+about transitions, for examples
+
+When invoked with @option{--report=lookaheads}, the lookahead tokens, when
+needed, are shown next to the relevant rule between square brackets as a
+comma separated list. This is the case in the figure for the representation of
+reductions, below.
+
+@sp 1
+
+The transitions are represented as directed edges between the current and
+the target states.
+
+@subheading Graphical Representation of Shifts
+
+Shifts are shown as solid arrows, labelled with the lookahead token for that
+shift. The following describes a reduction in the @file{rr.output} file:
+
+@example
+@group
+state 3
+
+    1 exp: a . ";"
+
+    ";"  shift, and go to state 6
+@end group
+@end example
+
+A Graphviz rendering of this portion of the graph could be:
+
+@center @image{figs/example-shift, 100pt}
+
+@subheading Graphical Representation of Reductions
+
+Reductions are shown as solid arrows, leading to a diamond-shaped node
+bearing the number of the reduction rule. The arrow is labelled with the
+appropriate comma separated lookahead tokens. If the reduction is the default
+action for the given state, there is no such label.
+
+This is how reductions are represented in the verbose file @file{rr.output}:
+@example
+state 1
+
+    3 a: "0" .  [";"]
+    4 b: "0" .  ["."]
+
+    "."       reduce using rule 4 (b)
+    $default  reduce using rule 3 (a)
+@end example
+
+A Graphviz rendering of this portion of the graph could be:
+
+@center @image{figs/example-reduce, 120pt}
+
+When unresolved conflicts are present, because in deterministic parsing
+a single decision can be made, Bison can arbitrarily choose to disable a
+reduction, see @ref{Shift/Reduce, , Shift/Reduce Conflicts}.  Discarded actions
+are distinguished by a red filling color on these nodes, just like how they are
+reported between square brackets in the verbose file.
+
+The reduction corresponding to the rule number 0 is the acceptation state. It
+is shown as a blue diamond, labelled "Acc".
+
+@subheading Graphical representation of go tos
+
+The @samp{go to} jump transitions are represented as dotted lines bearing
+the name of the rule being jumped to.
+
+@c ================================================= Tracing
 
 @node Tracing
 @section Tracing Your Parser

@@ -84,6 +84,15 @@ GNU Bison NEWS
   position_type are deprecated in favor of api.location.type and
   api.position.type.
 
+** Graphviz improvements
+
+  The graphical presentation of the states is more readable: their shape is
+  now rectangular, the state number is clearly displayed, and the items are
+  numbered and left-justified.
+
+  The reductions are now explicitly represented as transitions to other
+  diamond shaped nodes.
+
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
 ** Bug fixes
