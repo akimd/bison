@@ -637,7 +637,7 @@ AT_CHECK_CALC_LALR()
 AT_CHECK_CALC_LALR([%defines])
 AT_CHECK_CALC_LALR([%locations])
 
-AT_CHECK_CALC_LALR([%name-prefix="calc"]) dnl test deprecated `='
+AT_CHECK_CALC_LALR([%name-prefix "calc"])
 AT_CHECK_CALC_LALR([%verbose])
 AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%define parse.error verbose])

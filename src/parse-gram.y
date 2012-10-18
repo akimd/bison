@@ -317,7 +317,6 @@ prologue_declaration:
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
 | "%file-prefix" STRING            { spec_file_prefix = $2; }
-| "%file-prefix" "=" STRING        { spec_file_prefix = $3; } /* deprecated */
 | "%glr-parser"
     {
       nondeterministic_parser = true;
@@ -334,11 +333,9 @@ prologue_declaration:
     }
 | "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
 | "%name-prefix" STRING         { spec_name_prefix = $2; }
-| "%name-prefix" "=" STRING     { spec_name_prefix = $3; } /* deprecated */
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
-| "%output" "=" STRING          { spec_outfile = $3; }  /* deprecated */
 | "%param" { current_param = $1; } params { current_param = param_none; }
 | "%require" STRING             { version_check (&@2, $2); }
 | "%skeleton" STRING
@@ -723,7 +720,6 @@ epilogue.opt:
 ;
 
 %%
-
 
 /* Return the location of the left-hand side of a rule whose
    right-hand side is RHS[1] ... RHS[N].  Ignore empty nonterminals in

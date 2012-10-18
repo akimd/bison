@@ -81,10 +81,10 @@ AT_CHECK_OUTPUT([foo.yy], [%defines %verbose %yacc],[],
 # Exercise %output and %file-prefix including deprecated '='
 AT_CHECK_OUTPUT([foo.y], [%file-prefix "bar" %defines %verbose],      [],
                 [bar.output bar.tab.c bar.tab.h])
-AT_CHECK_OUTPUT([foo.y], [%output="bar.c" %defines %verbose %yacc],[],
+AT_CHECK_OUTPUT([foo.y], [%output "bar.c" %defines %verbose %yacc],[],
                 [bar.c bar.h bar.output])
 AT_CHECK_OUTPUT([foo.y],
-                [%file-prefix="baz" %output "bar.c" %defines %verbose %yacc],
+                [%file-prefix "baz" %output "bar.c" %defines %verbose %yacc],
                 [],
                 [bar.c bar.h bar.output])
 
