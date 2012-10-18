@@ -231,3 +231,368 @@ AT_CHECK_OUTPUT_FILE_NAME([[@{]])
 AT_CHECK_OUTPUT_FILE_NAME([[@}]])
 AT_CHECK_OUTPUT_FILE_NAME([[@<:@]])
 AT_CHECK_OUTPUT_FILE_NAME([[@:>@]])
+
+
+# AT_TEST(SETUP-NAME, GRAMMAR, DOT-BODY)
+# --------------------------------------
+# Check that the DOT graph for GRAMMAR is DOT-BODY.
+m4_pushdef([AT_TEST],
+[AT_SETUP([$1])
+AT_KEYWORDS([[graph]])
+AT_DATA([[input.y]], [$2])
+AT_BISON_CHECK([[-rall --graph input.y]], [0], [[]], [[ignore]])
+AT_CHECK([[grep -v // input.dot]], [0],
+[[
+digraph "input.y"
+{
+  node [fontname = courier, shape = box, colorscheme = paired6]
+  edge [fontname = courier]
+  ]$3[}
+]])
+AT_CLEANUP
+])
+
+
+## ------------------------ ##
+## Graph with no conflicts. ##
+## ------------------------ ##
+
+AT_TEST([Graph with no conflicts],
+[[%%
+exp: a '?' b;
+a: ;
+b: 'b';
+]],
+[[
+  0 [label="State 0\n  0 $accept: . exp $end\l  1 exp: . a '?' b\l  2 a: .\l"]
+  0 -> "0R2e" [style = solid]
+ "0R2e" [style = filled, shape = diamond, fillcolor = 3, label = "R2"]
+  0 -> 1 [style=dashed label="exp"]
+  0 -> 2 [style=dashed label="a"]
+  1 [label="State 1\n  0 $accept: exp . $end\l"]
+  1 -> 3 [style=solid label="$end"]
+  2 [label="State 2\n  1 exp: a . '?' b\l"]
+  2 -> 4 [style=solid label="'?'"]
+  3 [label="State 3\n  0 $accept: exp $end .\l"]
+  3 -> "3R0e" [style = solid]
+ "3R0e" [style = filled, shape = diamond, fillcolor = 1, label = "Acc"]
+  4 [label="State 4\n  1 exp: a '?' . b\l  3 b: . 'b'\l"]
+  4 -> 5 [style=solid label="'b'"]
+  4 -> 6 [style=dashed label="b"]
+  5 [label="State 5\n  3 b: 'b' .\l"]
+  5 -> "5R3e" [style = solid]
+ "5R3e" [style = filled, shape = diamond, fillcolor = 3, label = "R3"]
+  6 [label="State 6\n  1 exp: a '?' b .\l"]
+  6 -> "6R1e" [style = solid]
+ "6R1e" [style = filled, shape = diamond, fillcolor = 3, label = "R1"]
+]])
+
+## ------------------------ ##
+## Graph with unsolved S/R. ##
+## ------------------------ ##
+
+AT_TEST([Graph with unsolved S/R],
+[[%%
+start:
+    'a'
+  | empty_a 'a'
+  | 'b'
+  | empty_b 'b'
+  | 'c'
+  | empty_c 'c'
+  ;
+empty_a: %prec 'a';
+empty_b: %prec 'b';
+empty_c: %prec 'c';
+]],
+[[
+  0 [label="State 0\n  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: .  ['a']\l  8 empty_b: .  ['b']\l  9 empty_c: .  ['c']\l"]
+  0 -> "0R7d" [label = "['a']" style = solid]
+ "0R7d" [style = filled, shape = diamond, fillcolor = 5, label = "R7"]
+  0 -> "0R8d" [label = "['b']" style = solid]
+ "0R8d" [style = filled, shape = diamond, fillcolor = 5, label = "R8"]
+  0 -> "0R9d" [label = "['c']" style = solid]
+ "0R9d" [style = filled, shape = diamond, fillcolor = 5, label = "R9"]
+  0 -> 1 [style=solid label="'a'"]
+  0 -> 2 [style=solid label="'b'"]
+  0 -> 3 [style=solid label="'c'"]
+  0 -> 4 [style=dashed label="start"]
+  0 -> 5 [style=dashed label="empty_a"]
+  0 -> 6 [style=dashed label="empty_b"]
+  0 -> 7 [style=dashed label="empty_c"]
+  1 [label="State 1\n  1 start: 'a' .\l"]
+  1 -> "1R1e" [style = solid]
+ "1R1e" [style = filled, shape = diamond, fillcolor = 3, label = "R1"]
+  2 [label="State 2\n  3 start: 'b' .\l"]
+  2 -> "2R3e" [style = solid]
+ "2R3e" [style = filled, shape = diamond, fillcolor = 3, label = "R3"]
+  3 [label="State 3\n  5 start: 'c' .\l"]
+  3 -> "3R5e" [style = solid]
+ "3R5e" [style = filled, shape = diamond, fillcolor = 3, label = "R5"]
+  4 [label="State 4\n  0 $accept: start . $end\l"]
+  4 -> 8 [style=solid label="$end"]
+  5 [label="State 5\n  2 start: empty_a . 'a'\l"]
+  5 -> 9 [style=solid label="'a'"]
+  6 [label="State 6\n  4 start: empty_b . 'b'\l"]
+  6 -> 10 [style=solid label="'b'"]
+  7 [label="State 7\n  6 start: empty_c . 'c'\l"]
+  7 -> 11 [style=solid label="'c'"]
+  8 [label="State 8\n  0 $accept: start $end .\l"]
+  8 -> "8R0e" [style = solid]
+ "8R0e" [style = filled, shape = diamond, fillcolor = 1, label = "Acc"]
+  9 [label="State 9\n  2 start: empty_a 'a' .\l"]
+  9 -> "9R2e" [style = solid]
+ "9R2e" [style = filled, shape = diamond, fillcolor = 3, label = "R2"]
+  10 [label="State 10\n  4 start: empty_b 'b' .\l"]
+  10 -> "10R4e" [style = solid]
+ "10R4e" [style = filled, shape = diamond, fillcolor = 3, label = "R4"]
+  11 [label="State 11\n  6 start: empty_c 'c' .\l"]
+  11 -> "11R6e" [style = solid]
+ "11R6e" [style = filled, shape = diamond, fillcolor = 3, label = "R6"]
+]])
+
+## ---------------------- ##
+## Graph with solved S/R. ##
+## ---------------------- ##
+
+AT_TEST([Graph with solved S/R],
+[[%left 'a'
+%right 'b'
+%right 'c'
+%%
+start:
+    'a'
+  | empty_a 'a'
+  | 'b'
+  | empty_b 'b'
+  | 'c'
+  | empty_c 'c'
+  ;
+empty_a: %prec 'a';
+empty_b: %prec 'b';
+empty_c: %prec 'c';
+]],
+[[
+  0 [label="State 0\n  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: .  ['a']\l  8 empty_b: .  []\l  9 empty_c: .  []\l"]
+  0 -> "0R7e" [style = solid]
+ "0R7e" [style = filled, shape = diamond, fillcolor = 3, label = "R7"]
+  0 -> 1 [style=solid label="'b'"]
+  0 -> 2 [style=solid label="'c'"]
+  0 -> 3 [style=dashed label="start"]
+  0 -> 4 [style=dashed label="empty_a"]
+  0 -> 5 [style=dashed label="empty_b"]
+  0 -> 6 [style=dashed label="empty_c"]
+  1 [label="State 1\n  3 start: 'b' .\l"]
+  1 -> "1R3e" [style = solid]
+ "1R3e" [style = filled, shape = diamond, fillcolor = 3, label = "R3"]
+  2 [label="State 2\n  5 start: 'c' .\l"]
+  2 -> "2R5e" [style = solid]
+ "2R5e" [style = filled, shape = diamond, fillcolor = 3, label = "R5"]
+  3 [label="State 3\n  0 $accept: start . $end\l"]
+  3 -> 7 [style=solid label="$end"]
+  4 [label="State 4\n  2 start: empty_a . 'a'\l"]
+  4 -> 8 [style=solid label="'a'"]
+  5 [label="State 5\n  4 start: empty_b . 'b'\l"]
+  5 -> 9 [style=solid label="'b'"]
+  6 [label="State 6\n  6 start: empty_c . 'c'\l"]
+  6 -> 10 [style=solid label="'c'"]
+  7 [label="State 7\n  0 $accept: start $end .\l"]
+  7 -> "7R0e" [style = solid]
+ "7R0e" [style = filled, shape = diamond, fillcolor = 1, label = "Acc"]
+  8 [label="State 8\n  2 start: empty_a 'a' .\l"]
+  8 -> "8R2e" [style = solid]
+ "8R2e" [style = filled, shape = diamond, fillcolor = 3, label = "R2"]
+  9 [label="State 9\n  4 start: empty_b 'b' .\l"]
+  9 -> "9R4e" [style = solid]
+ "9R4e" [style = filled, shape = diamond, fillcolor = 3, label = "R4"]
+  10 [label="State 10\n  6 start: empty_c 'c' .\l"]
+  10 -> "10R6e" [style = solid]
+ "10R6e" [style = filled, shape = diamond, fillcolor = 3, label = "R6"]
+]])
+
+## ---------------- ##
+## Graph with  R/R. ##
+## ---------------- ##
+
+AT_TEST([Graph with R/R],
+[[%%
+exp: a | b;
+a: ;
+b: ;
+]],
+[[
+  0 [label="State 0\n  0 $accept: . exp $end\l  1 exp: . a\l  2    | . b\l  3 a: .  [$end]\l  4 b: .  [$end]\l"]
+  0 -> "0R3e" [style = solid]
+ "0R3e" [style = filled, shape = diamond, fillcolor = 3, label = "R3"]
+  0 -> "0R4d" [label = "[$end]" style = solid]
+ "0R4d" [style = filled, shape = diamond, fillcolor = 5, label = "R4"]
+  0 -> 1 [style=dashed label="exp"]
+  0 -> 2 [style=dashed label="a"]
+  0 -> 3 [style=dashed label="b"]
+  1 [label="State 1\n  0 $accept: exp . $end\l"]
+  1 -> 4 [style=solid label="$end"]
+  2 [label="State 2\n  1 exp: a .\l"]
+  2 -> "2R1e" [style = solid]
+ "2R1e" [style = filled, shape = diamond, fillcolor = 3, label = "R1"]
+  3 [label="State 3\n  2 exp: b .\l"]
+  3 -> "3R2e" [style = solid]
+ "3R2e" [style = filled, shape = diamond, fillcolor = 3, label = "R2"]
+  4 [label="State 4\n  0 $accept: exp $end .\l"]
+  4 -> "4R0e" [style = solid]
+ "4R0e" [style = filled, shape = diamond, fillcolor = 1, label = "Acc"]
+]])
+
+## ---------------------------------------- ##
+## Graph with reductions with multiple LAT. ##
+## ---------------------------------------- ##
+
+AT_TEST([Graph with reductions with multiple LAT],
+[[%%
+exp: a ';' | a ';' | a '.' | b '?' | b '!' | c '?' | c ';';
+a: ;
+b: ;
+c: ;
+]],
+[[
+  0 [label="State 0\n  0 $accept: . exp $end\l  1 exp: . a ';'\l  2    | . a ';'\l  3    | . a '.'\l  4    | . b '?'\l  5    | . b '!'\l  6    | . c '?'\l  7    | . c ';'\l  8 a: .  [';', '.']\l  9 b: .  ['?', '!']\l 10 c: .  [';', '?']\l"]
+  0 -> "0R8e" [style = solid]
+ "0R8e" [style = filled, shape = diamond, fillcolor = 3, label = "R8"]
+  0 -> "0R9e" [label = "['?', '!']" style = solid]
+ "0R9e" [style = filled, shape = diamond, fillcolor = 3, label = "R9"]
+  0 -> "0R10d" [label = "[';', '?']" style = solid]
+ "0R10d" [style = filled, shape = diamond, fillcolor = 5, label = "R10"]
+  0 -> 1 [style=dashed label="exp"]
+  0 -> 2 [style=dashed label="a"]
+  0 -> 3 [style=dashed label="b"]
+  0 -> 4 [style=dashed label="c"]
+  1 [label="State 1\n  0 $accept: exp . $end\l"]
+  1 -> 5 [style=solid label="$end"]
+  2 [label="State 2\n  1 exp: a . ';'\l  2    | a . ';'\l  3    | a . '.'\l"]
+  2 -> 6 [style=solid label="';'"]
+  2 -> 7 [style=solid label="'.'"]
+  3 [label="State 3\n  4 exp: b . '?'\l  5    | b . '!'\l"]
+  3 -> 8 [style=solid label="'?'"]
+  3 -> 9 [style=solid label="'!'"]
+  4 [label="State 4\n  6 exp: c . '?'\l  7    | c . ';'\l"]
+  4 -> 10 [style=solid label="';'"]
+  4 -> 11 [style=solid label="'?'"]
+  5 [label="State 5\n  0 $accept: exp $end .\l"]
+  5 -> "5R0e" [style = solid]
+ "5R0e" [style = filled, shape = diamond, fillcolor = 1, label = "Acc"]
+  6 [label="State 6\n  1 exp: a ';' .  [$end]\l  2    | a ';' .  [$end]\l"]
+  6 -> "6R1e" [style = solid]
+ "6R1e" [style = filled, shape = diamond, fillcolor = 3, label = "R1"]
+  6 -> "6R2d" [label = "[$end]" style = solid]
+ "6R2d" [style = filled, shape = diamond, fillcolor = 5, label = "R2"]
+  7 [label="State 7\n  3 exp: a '.' .\l"]
+  7 -> "7R3e" [style = solid]
+ "7R3e" [style = filled, shape = diamond, fillcolor = 3, label = "R3"]
+  8 [label="State 8\n  4 exp: b '?' .\l"]
+  8 -> "8R4e" [style = solid]
+ "8R4e" [style = filled, shape = diamond, fillcolor = 3, label = "R4"]
+  9 [label="State 9\n  5 exp: b '!' .\l"]
+  9 -> "9R5e" [style = solid]
+ "9R5e" [style = filled, shape = diamond, fillcolor = 3, label = "R5"]
+  10 [label="State 10\n  7 exp: c ';' .\l"]
+  10 -> "10R7e" [style = solid]
+ "10R7e" [style = filled, shape = diamond, fillcolor = 3, label = "R7"]
+  11 [label="State 11\n  6 exp: c '?' .\l"]
+  11 -> "11R6e" [style = solid]
+ "11R6e" [style = filled, shape = diamond, fillcolor = 3, label = "R6"]
+]])
+
+## ------------------------------------------------------ ##
+## Graph with a reduction rule both enabled and disabled. ##
+## ------------------------------------------------------ ##
+
+AT_TEST([Graph with a reduction rule both enabled and disabled],
+[[%%
+exp: ifexp | opexp | imm;
+ifexp: "if" exp "then" exp elseexp;
+elseexp: "else" exp | ;
+opexp: exp '+' exp;
+imm: '0';
+]],
+[[
+  0 [label="State 0\n  0 $accept: . exp $end\l  1 exp: . ifexp\l  2    | . opexp\l  3    | . imm\l  4 ifexp: . \"if\" exp \"then\" exp elseexp\l  7 opexp: . exp '+' exp\l  8 imm: . '0'\l"]
+  0 -> 1 [style=solid label="\"if\""]
+  0 -> 2 [style=solid label="'0'"]
+  0 -> 3 [style=dashed label="exp"]
+  0 -> 4 [style=dashed label="ifexp"]
+  0 -> 5 [style=dashed label="opexp"]
+  0 -> 6 [style=dashed label="imm"]
+  1 [label="State 1\n  1 exp: . ifexp\l  2    | . opexp\l  3    | . imm\l  4 ifexp: . \"if\" exp \"then\" exp elseexp\l  4      | \"if\" . exp \"then\" exp elseexp\l  7 opexp: . exp '+' exp\l  8 imm: . '0'\l"]
+  1 -> 1 [style=solid label="\"if\""]
+  1 -> 2 [style=solid label="'0'"]
+  1 -> 7 [style=dashed label="exp"]
+  1 -> 4 [style=dashed label="ifexp"]
+  1 -> 5 [style=dashed label="opexp"]
+  1 -> 6 [style=dashed label="imm"]
+  2 [label="State 2\n  8 imm: '0' .\l"]
+  2 -> "2R8e" [style = solid]
+ "2R8e" [style = filled, shape = diamond, fillcolor = 3, label = "R8"]
+  3 [label="State 3\n  0 $accept: exp . $end\l  7 opexp: exp . '+' exp\l"]
+  3 -> 8 [style=solid label="$end"]
+  3 -> 9 [style=solid label="'+'"]
+  4 [label="State 4\n  1 exp: ifexp .\l"]
+  4 -> "4R1e" [style = solid]
+ "4R1e" [style = filled, shape = diamond, fillcolor = 3, label = "R1"]
+  5 [label="State 5\n  2 exp: opexp .\l"]
+  5 -> "5R2e" [style = solid]
+ "5R2e" [style = filled, shape = diamond, fillcolor = 3, label = "R2"]
+  6 [label="State 6\n  3 exp: imm .\l"]
+  6 -> "6R3e" [style = solid]
+ "6R3e" [style = filled, shape = diamond, fillcolor = 3, label = "R3"]
+  7 [label="State 7\n  4 ifexp: \"if\" exp . \"then\" exp elseexp\l  7 opexp: exp . '+' exp\l"]
+  7 -> 10 [style=solid label="\"then\""]
+  7 -> 9 [style=solid label="'+'"]
+  8 [label="State 8\n  0 $accept: exp $end .\l"]
+  8 -> "8R0e" [style = solid]
+ "8R0e" [style = filled, shape = diamond, fillcolor = 1, label = "Acc"]
+  9 [label="State 9\n  1 exp: . ifexp\l  2    | . opexp\l  3    | . imm\l  4 ifexp: . \"if\" exp \"then\" exp elseexp\l  7 opexp: . exp '+' exp\l  7      | exp '+' . exp\l  8 imm: . '0'\l"]
+  9 -> 1 [style=solid label="\"if\""]
+  9 -> 2 [style=solid label="'0'"]
+  9 -> 11 [style=dashed label="exp"]
+  9 -> 4 [style=dashed label="ifexp"]
+  9 -> 5 [style=dashed label="opexp"]
+  9 -> 6 [style=dashed label="imm"]
+  10 [label="State 10\n  1 exp: . ifexp\l  2    | . opexp\l  3    | . imm\l  4 ifexp: . \"if\" exp \"then\" exp elseexp\l  4      | \"if\" exp \"then\" . exp elseexp\l  7 opexp: . exp '+' exp\l  8 imm: . '0'\l"]
+  10 -> 1 [style=solid label="\"if\""]
+  10 -> 2 [style=solid label="'0'"]
+  10 -> 12 [style=dashed label="exp"]
+  10 -> 4 [style=dashed label="ifexp"]
+  10 -> 5 [style=dashed label="opexp"]
+  10 -> 6 [style=dashed label="imm"]
+  11 [label="State 11\n  7 opexp: exp . '+' exp\l  7      | exp '+' exp .  [$end, \"then\", \"else\", '+']\l"]
+  11 -> "11R7e" [style = solid]
+ "11R7e" [style = filled, shape = diamond, fillcolor = 3, label = "R7"]
+  11 -> "11R7d" [label = "['+']" style = solid]
+ "11R7d" [style = filled, shape = diamond, fillcolor = 5, label = "R7"]
+  11 -> 9 [style=solid label="'+'"]
+  12 [label="State 12\n  4 ifexp: \"if\" exp \"then\" exp . elseexp\l  5 elseexp: . \"else\" exp\l  6        | .  [$end, \"then\", \"else\", '+']\l  7 opexp: exp . '+' exp\l"]
+  12 -> "12R6e" [style = solid]
+ "12R6e" [style = filled, shape = diamond, fillcolor = 3, label = "R6"]
+  12 -> "12R6d" [label = "[\"else\", '+']" style = solid]
+ "12R6d" [style = filled, shape = diamond, fillcolor = 5, label = "R6"]
+  12 -> 13 [style=solid label="\"else\""]
+  12 -> 9 [style=solid label="'+'"]
+  12 -> 14 [style=dashed label="elseexp"]
+  13 [label="State 13\n  1 exp: . ifexp\l  2    | . opexp\l  3    | . imm\l  4 ifexp: . \"if\" exp \"then\" exp elseexp\l  5 elseexp: \"else\" . exp\l  7 opexp: . exp '+' exp\l  8 imm: . '0'\l"]
+  13 -> 1 [style=solid label="\"if\""]
+  13 -> 2 [style=solid label="'0'"]
+  13 -> 15 [style=dashed label="exp"]
+  13 -> 4 [style=dashed label="ifexp"]
+  13 -> 5 [style=dashed label="opexp"]
+  13 -> 6 [style=dashed label="imm"]
+  14 [label="State 14\n  4 ifexp: \"if\" exp \"then\" exp elseexp .\l"]
+  14 -> "14R4e" [style = solid]
+ "14R4e" [style = filled, shape = diamond, fillcolor = 3, label = "R4"]
+  15 [label="State 15\n  5 elseexp: \"else\" exp .  [$end, \"then\", \"else\", '+']\l  7 opexp: exp . '+' exp\l"]
+  15 -> "15R5e" [style = solid]
+ "15R5e" [style = filled, shape = diamond, fillcolor = 3, label = "R5"]
+  15 -> "15R5d" [label = "['+']" style = solid]
+ "15R5d" [style = filled, shape = diamond, fillcolor = 5, label = "R5"]
+  15 -> 9 [style=solid label="'+'"]
+]])
+
+m4_popdef([AT_TEST])
