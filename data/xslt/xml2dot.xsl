@@ -55,7 +55,11 @@
   <xsl:call-template name="escape">
     <xsl:with-param name="subject" select="$filename"/>
   </xsl:call-template>
-  <xsl:text>"&#10;{&#10;</xsl:text>
+  <xsl:text>&#10;{
+  node [fontname = courier, shape = box, colorscheme = paired6]
+  edge [fontname = courier]
+
+</xsl:text>
   <xsl:apply-templates select="state"/>
   <xsl:text>}&#10;</xsl:text>
 </xsl:template>
