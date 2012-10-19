@@ -43,16 +43,17 @@ These requirements do not apply when building from a distribution tarball.
 
 ** Requirements
 
-We've opted to keep only the highest-level sources in the repository.
-This eases our maintenance burden, (fewer merges etc.), but imposes more
+We've opted to keep only the highest-level sources in the repository.  This
+eases our maintenance burden, (fewer merges etc.), but imposes more
 requirements on anyone wishing to build from the just-checked-out sources.
 For example, you have to use the latest stable versions of the maintainer
 tools we depend upon, including:
 
-- Automake <http://www.gnu.org/software/automake/>
 - Autoconf <http://www.gnu.org/software/autoconf/>
+- Automake <http://www.gnu.org/software/automake/>
 - Flex <http://www.gnu.org/software/flex/>
 - Gettext <http://www.gnu.org/software/gettext/>
+- Graphviz <http://www.graphviz.org>
 - Gzip <http://www.gnu.org/software/gzip/>
 - Perl <http://www.cpan.org/>
 - Rsync <http://samba.anu.edu.au/rsync/>
@@ -61,16 +62,16 @@ tools we depend upon, including:
 Valgrind <http://valgrind.org/> is also highly recommended, if it supports
 your architecture.
 
-Bison is written using Bison grammars, so there are bootstrapping
-issues.  The bootstrap script attempts to discover when the C code
-generated from the grammars is out of date, and to bootstrap with an
-out-of-date version of the C code, but the process is not foolproof.
-Also, you may run into similar problems yourself if you modify Bison.
+Bison is written using Bison grammars, so there are bootstrapping issues.
+The bootstrap script attempts to discover when the C code generated from the
+grammars is out of date, and to bootstrap with an out-of-date version of the
+C code, but the process is not foolproof.  Also, you may run into similar
+problems yourself if you modify Bison.
 
-Only building the initial full source tree will be a bit painful.
-Later, after synchronizing from the repository a plain 'make' should
-be sufficient.  Note, however, that when gnulib is updated, running
-'./bootstrap' again might be needed.
+Only building the initial full source tree will be a bit painful.  Later,
+after synchronizing from the repository a plain 'make' should be sufficient.
+Note, however, that when gnulib is updated, running './bootstrap' again
+might be needed.
 
 ** First checkout
 

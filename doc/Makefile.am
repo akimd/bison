@@ -101,26 +101,29 @@ nodist_man_MANS = yacc.1
 ## ----------------------------- ##
 
 CLEANDIRS += figs
-EXTRA_DIST += figs/example-reduce.dot figs/example-shift.dot
+FIGS_DOT = figs/example-reduce.dot figs/example-shift.dot
+EXTRA_DIST +=								\
+  $(FIGS_DOT)								\
+  $(FIGS_DOT:.dot=.eps) $(FIGS_DOT:.dot=.pdf) $(FIGS_DOT:.dot=.png)
 SUFFIXES += .dot .eps .pdf .png
 
-bison.dvi: figs/example-reduce.eps figs/example-shift.eps
-bison.html: figs/example-reduce.png figs/example-shift.png
-bison.pdf: figs/example-reduce.pdf figs/example-shift.pdf
+bison.dvi:  $(FIGS_DOT:.dot=.eps)
+bison.html: $(FIGS_DOT:.dot=.png)
+bison.pdf:  $(FIGS_DOT:.dot=.pdf)
 
 .dot.eps:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
-	$(AM_V_at) dot -Teps $< >$@.tmp
+	$(AM_V_at) $(DOT) -Gmargin=0 -Teps $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
 .dot.pdf:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
-	$(AM_V_at) dot -Tpdf -Gmargin=0 $< >$@.tmp
+	$(AM_V_at) $(DOT) -Gmargin=0 -Tpdf $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
 .dot.png:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
-	$(AM_V_at) dot -Tpng $< >$@.tmp
+	$(AM_V_at) $(DOT) -Gmargin=0 -Tpng $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
 ## -------------- ##

@@ -115,6 +115,7 @@ AC_SUBST([YACC_SCRIPT])
 AC_SUBST([YACC_LIBRARY])
 
 # Checks for programs.
+AM_MISSING_PROG([DOT], [dot])
 AC_PROG_LEX
 $LEX_IS_FLEX || AC_MSG_ERROR([Flex is required])
 AC_PROG_YACC
