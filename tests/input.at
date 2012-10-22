@@ -1594,3 +1594,121 @@ AT_TEST([@:>@m4_errprintn])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
+
+##----------------------- ##
+## Deprecated directives. ##
+## ---------------------- ##
+
+AT_SETUP([[Deprecated directives]])
+
+AT_KEYWORDS([[deprec]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%default_prec
+%error_verbose
+%expect_rr 42
+%file-prefix = "foo"
+%file-prefix
+ =
+"bar"
+%fixed-output_files
+%fixed_output-files
+%fixed-output-files
+%name-prefix= "foo"
+%no-default_prec
+%no_default-prec
+%no_lines
+%output = "foo"
+%pure_parser
+%token_table
+%% exp : '0'
+]])
+
+AT_BISON_CHECK([[input.y]], [[0]], [[]],
+[[input.y:10.1-13: warning: deprecated directive: '%default_prec', use '%default-prec' [-Wdeprecated]
+input.y:11.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
+input.y:12.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
+input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
+input.y:14.1-15.2: warning: deprecated directive: '%file-prefix\n =', use '%file-prefix' [-Wdeprecated]
+input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
+input.y:18.1-19: warning: deprecated directive: '%fixed_output-files', use '%fixed-output-files' [-Wdeprecated]
+input.y:20.1-13: warning: deprecated directive: '%name-prefix=', use '%name-prefix' [-Wdeprecated]
+input.y:21.1-16: warning: deprecated directive: '%no-default_prec', use '%no-default-prec' [-Wdeprecated]
+input.y:22.1-16: warning: deprecated directive: '%no_default-prec', use '%no-default-prec' [-Wdeprecated]
+input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wdeprecated]
+input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
+input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
+input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
+input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+]])
+
+AT_CLEANUP
+
+## ---------------------------- ##
+## Unput's effect on locations. ##
+## ---------------------------- ##
+dnl When the scanner detects a deprecated construct, it unputs the correct
+dnl version, but it should *not* have any impact on the scanner cursor. If it
+dnl does, the locations of directives on the same line become erroneous.
+
+AT_SETUP([[Unput's effect on locations]])
+
+AT_KEYWORDS([[deprec]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%glr-parser
+%expect_rr 42 %expect_rr 42
+              %expect_rr 42
+%error_verbose %error_verbose
+               %error_verbose
+%% exp: '0'
+]])
+
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[[input.y:11.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
+input.y:11.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
+input.y:12.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
+input.y:13.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
+input.y:13.16-29: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
+input.y:13.11-21: error: %define variable 'parse.error' redefined
+input.y:13-6:         previous definition
+input.y:14.16-29: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
+input.y:14.11-21: error: %define variable 'parse.error' redefined
+input.y:13.11-21:     previous definition
+]])
+
+AT_CLEANUP
+
+##--------------------------- ##
+## Non-deprecated directives. ##
+## -------------------------- ##
+
+AT_SETUP([[Non-deprecated directives]])
+
+AT_KEYWORDS([[deprec]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%default-prec
+%error-verbose
+%expect-rr 42
+%file-prefix "foo"
+%file-prefix
+"bar"
+%fixed-output-files
+%name-prefix "foo"
+%no-default-prec
+%no-lines
+%output "foo"
+%pure-parser
+%token-table
+%% exp : '0'
+]])
+
+AT_BISON_CHECK([[input.y]], [[0]], [[]],
+[[input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+]])
+
+AT_CLEANUP
