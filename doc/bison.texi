@@ -11994,9 +11994,9 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
 @c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType
+@c LocalWords: errorVerbose
 
 @c Local Variables:
 @c ispell-dictionary: "american"
 @c fill-column: 76
 @c End:
-@c  LocalWords:  errorVerbose

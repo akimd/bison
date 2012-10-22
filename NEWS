@@ -2,20 +2,6 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Bug fixes
-
-  Bugs and portability issues in the test suite have been fixed.
-
-  Some errors in translations have been addressed, and --help now directs
-  users to the appropriate place to report them.
-
-  Stray Info files shipped by accident are removed.
-
-  Incorrect definitions of YY_, issued by yacc.c when no parser header is
-  generated, are removed.
-
-  All the generated headers are self-contained.
-
 ** Changes in the format of error messages
 
   This used to be the format of many error reports:
@@ -28,17 +14,6 @@ GNU Bison NEWS
     foo.y:5.10-25: result type clash on merge function 'merge': <t3> != <t2>
     foo.y:4.13-27:     previous declaration
 
-** Header guards (yacc.c, glr.c, glr.cc)
-
-  In order to avoid collisions, the header guards are now
-  YY_<PREFIX>_<FILE>_INCLUDED, instead of merely <PREFIX>_<FILE>.
-  For instance the header generated from
-
-    %define api.prefix "calc"
-    %defines "lib/parse.h"
-
-  will use YY_CALC_LIB_PARSE_H_INCLUDED as guard.
-
 ** Exception safety (lalr1.cc)
 
   The parse function now catches exceptions, uses the %destructors to
@@ -47,23 +22,6 @@ GNU Bison NEWS
 
   This feature is somewhat experimental.  User feedback would be
   appreciated.
-
-** Fix compiler warnings in the generated parser (yacc.c, glr.c)
-
-  The compilation of pure parsers (%define api.pure) can trigger GCC
-  warnings such as:
-
-    input.c: In function 'yyparse':
-    input.c:1503:12: warning: 'yylval' may be used uninitialized in this
-                              function [-Wmaybe-uninitialized]
-       *++yyvsp = yylval;
-                ^
-
-  This is now fixed; pragmas to avoid these warnings are no longer needed.
-
-  Warnings from clang ("equality comparison with extraneous parentheses" and
-  "function declared 'noreturn' should not return") have also been
-  addressed.
 
 ** New %define variable: api.location.type (glr.cc, lalr1.cc, lalr1.java)
 
@@ -92,6 +50,50 @@ GNU Bison NEWS
 
   The reductions are now explicitly represented as transitions to other
   diamond shaped nodes.
+
+* Noteworthy changes in release 2.6.3 (2012-10-22) [stable]
+
+** Bug fixes
+
+  Bugs and portability issues in the test suite have been fixed.
+
+  Some errors in translations have been addressed, and --help now directs
+  users to the appropriate place to report them.
+
+  Stray Info files shipped by accident are removed.
+
+  Incorrect definitions of YY_, issued by yacc.c when no parser header is
+  generated, are removed.
+
+  All the generated headers are self-contained.
+
+** Header guards (yacc.c, glr.c, glr.cc)
+
+  In order to avoid collisions, the header guards are now
+  YY_<PREFIX>_<FILE>_INCLUDED, instead of merely <PREFIX>_<FILE>.
+  For instance the header generated from
+
+    %define api.prefix "calc"
+    %defines "lib/parse.h"
+
+  will use YY_CALC_LIB_PARSE_H_INCLUDED as guard.
+
+** Fix compiler warnings in the generated parser (yacc.c, glr.c)
+
+  The compilation of pure parsers (%define api.pure) can trigger GCC
+  warnings such as:
+
+    input.c: In function 'yyparse':
+    input.c:1503:12: warning: 'yylval' may be used uninitialized in this
+                              function [-Wmaybe-uninitialized]
+       *++yyvsp = yylval;
+                ^
+
+  This is now fixed; pragmas to avoid these warnings are no longer needed.
+
+  Warnings from clang ("equality comparison with extraneous parentheses" and
+  "function declared 'noreturn' should not return") have also been
+  addressed.
 
 * Noteworthy changes in release 2.6.2 (2012-08-03) [stable]
 
