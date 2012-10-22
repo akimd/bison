@@ -42,7 +42,7 @@ GNU Bison NEWS
   position_type are deprecated in favor of api.location.type and
   api.position.type.
 
-** Graphviz improvements
+** Graph improvements in DOT and XSLT
 
   The graphical presentation of the states is more readable: their shape is
   now rectangular, the state number is clearly displayed, and the items are
@@ -50,6 +50,11 @@ GNU Bison NEWS
 
   The reductions are now explicitly represented as transitions to other
   diamond shaped nodes.
+
+  These changes are present in both --graph output and xml2dot.xsl XSLT
+  processing, with minor (documented) differences.
+
+  Two nodes were added to the documentation: Xml and Graphviz.
 
 * Noteworthy changes in release 2.6.5 (2012-11-07) [stable]
 
