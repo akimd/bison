@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.6.2.13-429e.  */
+/* A Bison parser, made by GNU Bison 2.6.3.3-b10d3.  */
 
 /* Bison interface for Yacc-like parsers in C
    
@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef GRAM__________SRC_PARSE_GRAM_H
-# define GRAM__________SRC_PARSE_GRAM_H
+#ifndef YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED
+# define YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -167,7 +167,7 @@ extern int gram_debug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 2050 of yacc.c  */
+/* Line 2077 of yacc.c  */
 #line 115 "parse-gram.y"
 
   symbol *symbol;
@@ -181,7 +181,7 @@ typedef union YYSTYPE
   named_ref *named_ref;
 
 
-/* Line 2050 of yacc.c  */
+/* Line 2077 of yacc.c  */
 #line 186 "parse-gram.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
@@ -217,4 +217,4 @@ int gram_parse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !GRAM__________SRC_PARSE_GRAM_H  */
+#endif /* !YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED  */
