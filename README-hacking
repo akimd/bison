@@ -175,6 +175,28 @@ decide whether to update.
 ** make check
 Use liberally.
 
+** TESTSUITEFLAGS
+
+The default is for make check to run all tests sequentially. This can be
+very time consumming when checking repeatedly or on slower setups. This can
+be sped up in two ways:
+
+Using -j, in a make-like fashion, for example:
+  $ make check TESTSUITEFLAGS='-j8'
+
+Running only the tests of a certain category, as specified in the AT files
+with AT_KEYWORDS([[category]]). Categories include:
+  - c++, for c++ parsers
+  - deprec, for tests concerning deprecated constructs.
+  - glr, for glr parsers
+  - java, for java parsers
+  - report, for automaton dumps
+
+To run a specific set of tests, use -k (for "keyword"). For example:
+  $ make check TESTSUITEFLAGS='-k c++'
+
+Both can be combined.
+
 ** Typical errors
 If the test suite shows failures such as the following one
 
