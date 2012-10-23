@@ -1,6 +1,6 @@
 GNU Bison NEWS
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 2.6.4 (2012-10-23) [stable]
 
   Bison 2.6.3's --version was incorrect.  This release fixes this issue.
 
