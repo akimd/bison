@@ -8639,8 +8639,8 @@ another alternative is to output an XML file that may then be, with
 @command{xsltproc}, rendered as either a raw text format equivalent to the
 verbose file, or as an HTML version of the same file, with clickable
 transitions, or even as a DOT. The @file{.output} and DOT files obtained via
-XSLT have no difference whatsoever with those obtained by invoking bison
-with options @option{--verbose} or @option{--graph}.
+XSLT have no difference whatsoever with those obtained by invoking
+@command{bison} with options @option{--verbose} or @option{--graph}.
 
 The textual file is generated when the options @option{-x} or
 @option{--xml[=FILE]} are specified, see @ref{Invocation,,Invoking Bison}.
@@ -8654,8 +8654,7 @@ files to apply to the XML file. Their names are non-ambiguous:
 
 @table @file
 @item xml2dot.xsl
-Used to output a DOT version of the automaton. This might not be exactly the
-same as the one obtained through @option{--graph}.
+Used to output a copy of the DOT visualization of the automaton.
 @item xml2text.xsl
 Used to output a copy of the .output file.
 @item xml2xhtml.xsl

@@ -230,7 +230,7 @@
 <xsl:template match="automaton/state">
   <xsl:param name="pad"/>
   <xsl:text>&#10;&#10;</xsl:text>
-  <xsl:text>state </xsl:text>
+  <xsl:text>State </xsl:text>
   <xsl:value-of select="@number"/>
   <xsl:text>&#10;&#10;</xsl:text>
   <xsl:apply-templates select="itemset/item">
