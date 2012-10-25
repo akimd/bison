@@ -94,14 +94,14 @@ current_lhs(symbol *sym, location loc, named_ref *ref)
 %}
 
 %debug
-%verbose
-%defines
-%locations
-%pure-parser
-%error-verbose
+%define api.prefix "gram_"
+%define api.pure
 %define parse.lac full
-%name-prefix="gram_"
+%defines
+%error-verbose
 %expect 0
+%locations
+%verbose
 
 %initial-action
 {
