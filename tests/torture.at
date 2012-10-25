@@ -431,7 +431,7 @@ int
 main (int argc, const char **argv)
 {
   YYSTYPE yylval_init = get_args (argc, argv);
-  int status;
+  int status = 0;
   int count;
 ]m4_bmatch([$2], [api.push-pull both],
 [[  yypstate *ps = yypstate_new ();
