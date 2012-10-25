@@ -462,10 +462,14 @@ m4_define([AT_BISON_CHECK_WARNINGS],
       [m4_null_if([$2], [AT_BISON_CHECK_WARNINGS_($@)])])])
 
 m4_define([AT_BISON_CHECK_WARNINGS_],
-[[# Defining POSIXLY_CORRECT causes bison to complain if options
-# are added after the grammar file name, so skip these checks
-# in that case.
-if test -z "${POSIXLY_CORRECT+set}"; then
+[[# Defining POSIXLY_CORRECT causes bison to complain if options are
+# added after the grammar file name, so skip these checks in that
+# case.
+#
+# Don't just check if $POSIXLY_CORRECT is set, as Bash, when launched
+# as /bin/sh, sets the shell variable POSIXLY_CORRECT to y, but not
+# the environment variable.
+if env | grep '^POSIXLY_CORRECT=' >/dev/null; then :; else
   ]AT_SAVE_SPECIAL_FILES[
 
   # To avoid expanding it repeatedly, store specified stdout.
