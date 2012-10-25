@@ -475,53 +475,53 @@ m4_define([AT_BISON_CHECK_WARNINGS_],
 if env | grep '^POSIXLY_CORRECT=' >/dev/null; then :; else
           ]AT_SAVE_SPECIAL_FILES[
 
-          # To avoid expanding it repeatedly, store specified stdout.
-          ]AT_DATA([expout], [$3])[
+  # To avoid expanding it repeatedly, store specified stdout.
+  ]AT_DATA([expout], [$3])[
 
-          # Run with -Werror.
+  # Run with -Werror.
   ]AT_BISON_CHECK_([$1[ -Werror]], [[1]], [expout], [stderr])[
 
-          # Build expected stderr up to and including the "warnings being
-          # treated as errors" message.
-          ]AT_DATA([[at-bison-check-warnings]], [$4])[
-          at_bison_check_first=`sed -n \
-            '/: warning: /{=;q;}' at-bison-check-warnings`
-          : ${at_bison_check_first:=1}
-          at_bison_check_first_tmp=`sed -n \
-            '/conflicts: [0-9].*reduce$/{=;q;}' at-bison-check-warnings`
-          : ${at_bison_check_first_tmp:=1}
-          if test $at_bison_check_first_tmp -lt $at_bison_check_first; then
-            at_bison_check_first=$at_bison_check_first_tmp
-          fi
-          if test $at_bison_check_first -gt 1; then
-            sed -n "1,`expr $at_bison_check_first - 1`"p \
-              at-bison-check-warnings > experr
-          fi
-          echo ']AT_BISON_WERROR_MSG[' >> experr
+  # Build expected stderr up to and including the "warnings being
+  # treated as errors" message.
+  ]AT_DATA([[at-bison-check-warnings]], [$4])[
+  at_bison_check_first=`sed -n \
+    '/: warning: /{=;q;}' at-bison-check-warnings`
+  : ${at_bison_check_first:=1}
+  at_bison_check_first_tmp=`sed -n \
+    '/conflicts: [0-9].*reduce$/{=;q;}' at-bison-check-warnings`
+  : ${at_bison_check_first_tmp:=1}
+  if test $at_bison_check_first_tmp -lt $at_bison_check_first; then
+    at_bison_check_first=$at_bison_check_first_tmp
+  fi
+  if test $at_bison_check_first -gt 1; then
+    sed -n "1,`expr $at_bison_check_first - 1`"p \
+      at-bison-check-warnings > experr
+  fi
+  echo ']AT_BISON_WERROR_MSG[' >> experr
 
-          # Finish building expected stderr and check.  Unlike warnings,
-          # complaints cause bison to exit early.  Thus, with -Werror, bison
-          # does not necessarily report all warnings that it does without
-          # -Werror, but it at least reports one.
-          at_bison_check_last=`sed -n '$=' stderr`
-          : ${at_bison_check_last:=1}
-          at_bison_check_last=`expr $at_bison_check_last - 1`
-          sed -n "$at_bison_check_first,$at_bison_check_last"p \
-            at-bison-check-warnings >> experr
-          ]AT_CHECK([[sed 's,.*/\(]AT_BISON_WERROR_MSG[\)$,\1,' \
-                      stderr 1>&2]], [[0]], [[]], [experr])[
+  # Finish building expected stderr and check.  Unlike warnings,
+  # complaints cause bison to exit early.  Thus, with -Werror, bison
+  # does not necessarily report all warnings that it does without
+  # -Werror, but it at least reports one.
+  at_bison_check_last=`sed -n '$=' stderr`
+  : ${at_bison_check_last:=1}
+  at_bison_check_last=`expr $at_bison_check_last - 1`
+  sed -n "$at_bison_check_first,$at_bison_check_last"p \
+    at-bison-check-warnings >> experr
+  ]AT_CHECK([[sed 's,.*/\(]AT_BISON_WERROR_MSG[\)$,\1,' \
+              stderr 1>&2]], [[0]], [[]], [experr])[
 
-          # Now check --warnings=error.
-          cp stderr experr
+  # Now check --warnings=error.
+  cp stderr experr
   ]AT_BISON_CHECK_([$1[ --warnings=error]], [[1]], [expout], [experr])[
 
-          # Now check -Wnone and --warnings=none by making sure that
-          # -Werror doesn't change the exit status when -Wnone or
-          # --warnings=none is specified.
+  # Now check -Wnone and --warnings=none by making sure that
+  # -Werror doesn't change the exit status when -Wnone or
+  # --warnings=none is specified.
   ]AT_BISON_CHECK_([$1[ -Wnone -Werror]], [[0]], [expout])[
   ]AT_BISON_CHECK_([$1[ --warnings=none -Werror]], [[0]], [expout])[
 
-          ]AT_RESTORE_SPECIAL_FILES[
+  ]AT_RESTORE_SPECIAL_FILES[
 fi]dnl
 ])
 
