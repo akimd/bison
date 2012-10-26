@@ -70,7 +70,18 @@ void complain_indent (location const *loc, warnings flags, unsigned *indent,
                       char const *message, ...)
   __attribute__ ((__format__ (__printf__, 4, 5)));
 
+
+/** Warnings treated as errors shouldn't stop the execution as regular errors
+    should (because due to their nature, it is safe to go on). Thus, there are
+    three possible execution statuses.  */
+typedef enum
+  {
+    status_none,
+    status_warning_as_error,
+    status_complaint
+  } err_status;
+
 /** Whether an error was reported.  */
-extern bool complaint_issued;
+extern err_status complaint_status;
 
 #endif /* !COMPLAIN_H_ */
