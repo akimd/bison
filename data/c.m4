@@ -643,3 +643,19 @@ m4_define([b4_yylloc_default_define],
     while (YYID (0))
 #endif
 ]])
+
+# b4_yyloc_default_define
+# ------------------------
+# Define yyloc_default, which can be used to initialize location
+# variables.
+m4_define([b4_yyloc_default_define],
+[[static YYLTYPE yyloc_default
+# if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
+  = { ]m4_join([, ],
+               m4_defn([b4_location_initial_line]),
+               m4_defn([b4_location_initial_column]),
+               m4_defn([b4_location_initial_line]),
+               m4_defn([b4_location_initial_column]))[ }
+# endif
+  ;]dnl
+])
