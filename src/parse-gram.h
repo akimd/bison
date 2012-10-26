@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.6.2.950-7c7ce-dirty.  */
+/* A Bison parser, made by GNU Bison 2.6.2.957-b074-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -33,14 +33,22 @@
 #ifndef YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
 # define YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
 /* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 1
-#endif
+#ifndef GRAM_DEBUG
+# if defined YYDEBUG
 #if YYDEBUG
+#   define GRAM_DEBUG 1
+#  else
+#   define GRAM_DEBUG 0
+#  endif
+# else /* ! defined YYDEBUG */
+#  define GRAM_DEBUG 1
+# endif /* ! defined YYDEBUG */
+#endif  /* ! defined GRAM_DEBUG */
+#if GRAM_DEBUG
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-/* Line 1965 of yacc.c  */
+/* Line 1961 of yacc.c  */
 #line 223 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
@@ -55,15 +63,15 @@ extern int gram_debug;
 # endif
 
 
-/* Line 1965 of yacc.c  */
-#line 60 "src/parse-gram.h"
+/* Line 1961 of yacc.c  */
+#line 68 "src/parse-gram.h"
 
 /* Tokens.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
+#ifndef GRAM_TOKENTYPE
+# define GRAM_TOKENTYPE
   /* Put the tokens into the symbol table, so that GDB and other debuggers
      know about them.  */
-  enum yytokentype
+  enum gram_tokentype
   {
     GRAM_EOF = 0,
     STRING = 258,
@@ -179,10 +187,10 @@ extern int gram_debug;
 #define PERCENT_PARAM 310
 #define PERCENT_UNION 311
 
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
+#if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
+typedef union GRAM_STYPE
 {
-/* Line 1965 of yacc.c  */
+/* Line 1961 of yacc.c  */
 #line 109 "src/parse-gram.y"
 
   assoc assoc;
@@ -195,32 +203,32 @@ typedef union YYSTYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1965 of yacc.c  */
+/* Line 1961 of yacc.c  */
 #line 247 "src/parse-gram.y"
 
   param_type param;
 
-/* Line 1965 of yacc.c  */
+/* Line 1961 of yacc.c  */
 #line 423 "src/parse-gram.y"
 code_props_type code_type;
 
-/* Line 1965 of yacc.c  */
-#line 209 "src/parse-gram.h"
-} YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
+/* Line 1961 of yacc.c  */
+#line 217 "src/parse-gram.h"
+} GRAM_STYPE;
+# define GRAM_STYPE_IS_TRIVIAL 1
+# define GRAM_STYPE_IS_DECLARED 1
 #endif
 
-#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
-typedef struct YYLTYPE
+#if ! defined GRAM_LTYPE && ! defined GRAM_LTYPE_IS_DECLARED
+typedef struct GRAM_LTYPE
 {
   int first_line;
   int first_column;
   int last_line;
   int last_column;
-} YYLTYPE;
-# define YYLTYPE_IS_DECLARED 1
-# define YYLTYPE_IS_TRIVIAL 1
+} GRAM_LTYPE;
+# define GRAM_LTYPE_IS_DECLARED 1
+# define GRAM_LTYPE_IS_TRIVIAL 1
 #endif
 
 
