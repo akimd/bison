@@ -55,7 +55,11 @@
   <xsl:call-template name="escape">
     <xsl:with-param name="subject" select="$filename"/>
   </xsl:call-template>
-  <xsl:text>"&#10;{&#10;</xsl:text>
+  <xsl:text>&#10;{
+  node [fontname = courier, shape = box, colorscheme = paired6]
+  edge [fontname = courier]
+
+</xsl:text>
   <xsl:apply-templates select="state"/>
   <xsl:text>}&#10;</xsl:text>
 </xsl:template>
@@ -124,20 +128,20 @@
     <xsl:with-param name="dst" select="@state"/>
     <xsl:with-param name="style">
       <xsl:choose>
-        <xsl:when test="@symbol = 'error'">
-          <xsl:text>dotted</xsl:text>
-        </xsl:when>
-        <xsl:when test="@type = 'shift'">
-          <xsl:text>solid</xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:text>dashed</xsl:text>
-        </xsl:otherwise>
+	<xsl:when test="@symbol = 'error'">
+	  <xsl:text>dotted</xsl:text>
+	</xsl:when>
+	<xsl:when test="@type = 'shift'">
+	  <xsl:text>solid</xsl:text>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:text>dashed</xsl:text>
+	</xsl:otherwise>
       </xsl:choose>
     </xsl:with-param>
     <xsl:with-param name="label">
       <xsl:if test="not(@symbol = 'error')">
-        <xsl:value-of select="@symbol"/>
+	<xsl:value-of select="@symbol"/>
       </xsl:if>
     </xsl:with-param>
   </xsl:call-template>

@@ -32,7 +32,7 @@ void gram_scanner_last_string_free (void);
 extern FILE *gram_out;
 extern int gram_lineno;
 
-# define GRAM_LEX_DECL int gram_lex (YYSTYPE *val, location *loc)
+# define GRAM_LEX_DECL int gram_lex (GRAM_STYPE *val, location *loc)
 GRAM_LEX_DECL;
 
 #endif /* !SCAN_GRAM_H_ */

@@ -75,6 +75,18 @@ if test "$enable_gcc_warnings" = yes; then
   warn_cxx='-Wnoexcept'
 
   AC_LANG_PUSH([C])
+  # Clang supports many of GCC's -W options, but only issues warnings
+  # on the ones it does not recognize.  In that case, gl_WARN_ADD
+  # thinks the option is supported, and unknown options are then added
+  # to CFLAGS.  But then, when -Werror is added in the test suite for
+  # instance, the warning about the unknown option turns into an
+  # error.
+  #
+  # This should be addressed by gnulib's gl_WARN_ADD, but in the
+  # meanwhile, turn warnings about unknown options into errors in
+  # CFLAGS, and restore CFLAGS after the tests.
+  save_CFLAGS=$CFLAGS
+  gl_WARN_ADD([-Werror=unknown-warning-option], [CFLAGS])
   for i in $warn_common $warn_c;
   do
     gl_WARN_ADD([$i], [WARN_CFLAGS])
@@ -83,9 +95,12 @@ if test "$enable_gcc_warnings" = yes; then
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CFLAGS_TEST])
   gl_WARN_ADD([-pedantic], [WARN_CFLAGS_TEST])
+  CFLAGS=$save_CFLAGS
   AC_LANG_POP([C])
 
   AC_LANG_PUSH([C++])
+  save_CXXFLAGS=$CXXFLAGS
+  gl_WARN_ADD([-Werror=unknown-warning-option], [CXXFLAGS])
   for i in $warn_common $warn_cxx;
   do
     gl_WARN_ADD([$i], [WARN_CXXFLAGS])
@@ -96,6 +111,7 @@ if test "$enable_gcc_warnings" = yes; then
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CXXFLAGS_TEST])
   gl_WARN_ADD([-pedantic], [WARN_CXXFLAGS_TEST])
+  CXXFLAGS=$save_CXXFLAGS
   AC_LANG_POP([C++])
 fi
 
@@ -118,6 +134,7 @@ AC_SUBST([YACC_SCRIPT])
 AC_SUBST([YACC_LIBRARY])
 
 # Checks for programs.
+AM_MISSING_PROG([DOT], [dot])
 AC_PROG_LEX
 $LEX_IS_FLEX || AC_MSG_ERROR([Flex is required])
 AC_PROG_YACC

@@ -24,6 +24,7 @@ regen: _version
 
 # Used in maint.mk's web-manual rule
 manual_title = The Yacc-compatible Parser Generator
+gendocs_options_ = -I $(abs_top_srcdir)/doc -I $(abs_top_builddir)/doc
 
 # It's useful to run maintainer-*check* targets during development, but we
 # don't want to wait on a recompile because of an update to $(VERSION).  Thus,

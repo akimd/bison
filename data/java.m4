@@ -200,7 +200,7 @@ m4_define([b4_init_throws], [b4_percent_define_get([[init_throws]])])
 b4_percent_define_default([[api.location.type]], [Location])
 m4_define([b4_location_type], [b4_percent_define_get([[api.location.type]])])
 
-b4_percent_define_default([[api.position.type]], [Position])])
+b4_percent_define_default([[api.position.type]], [Position])
 m4_define([b4_position_type], [b4_percent_define_get([[api.position.type]])])
 
 

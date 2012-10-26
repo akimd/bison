@@ -557,7 +557,7 @@ m4_define([b4_YYDEBUG_define],
 #  endif
 # else /* ! defined YYDEBUG */
 #  define ]b4_api_PREFIX[DEBUG ]b4_parse_trace_if([1], [0])[
-# endif /* ! defined ]b4_api_PREFIX[DEBUG */
+# endif /* ! defined YYDEBUG */
 #endif  /* ! defined ]b4_api_PREFIX[DEBUG */]])[]dnl
 ])
 

@@ -112,6 +112,36 @@ $(top_srcdir)/doc/bison.1: doc/bison.help doc/bison.x $(top_srcdir)/configure
 
 nodist_man_MANS = doc/yacc.1
 
+## ----------------------------- ##
+## Graphviz examples generation. ##
+## ----------------------------- ##
+
+CLEANDIRS += doc/figs
+FIGS_DOT = doc/figs/example-reduce.dot doc/figs/example-shift.dot
+EXTRA_DIST +=								\
+  $(FIGS_DOT)								\
+  $(FIGS_DOT:.dot=.eps) $(FIGS_DOT:.dot=.pdf) $(FIGS_DOT:.dot=.png)
+SUFFIXES += .dot .eps .pdf .png
+
+bison.dvi:  $(FIGS_DOT:.dot=.eps)
+bison.html: $(FIGS_DOT:.dot=.png)
+bison.pdf:  $(FIGS_DOT:.dot=.pdf)
+
+.dot.eps:
+	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
+	$(AM_V_at) $(DOT) -Gmargin=0 -Teps $< >$@.tmp
+	$(AM_V_at) mv $@.tmp $@
+
+.dot.pdf:
+	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
+	$(AM_V_at) $(DOT) -Gmargin=0 -Tpdf $< >$@.tmp
+	$(AM_V_at) mv $@.tmp $@
+
+.dot.png:
+	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
+	$(AM_V_at) $(DOT) -Gmargin=0 -Tpng $< >$@.tmp
+	$(AM_V_at) mv $@.tmp $@
+
 ## -------------- ##
 ## Doxygenation.  ##
 ## -------------- ##

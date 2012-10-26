@@ -685,18 +685,14 @@ while (0)
 # else
 #  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 # endif
-#endif]], [[
-
-
-/* This macro is provided for backward compatibility. */
-
+#endif]],
+[[/* This macro is provided for backward compatibility. */
 #ifndef YY_LOCATION_PRINT
 # define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 #endif]])[
 
 
 /* YYLEX -- calling `yylex' with the right arguments.  */
-
 #ifdef YYLEX_PARAM
 # define YYLEX yylex (]b4_pure_if([&yylval[]b4_locations_if([, &yylloc]), ])[YYLEX_PARAM)
 #else

@@ -87,15 +87,15 @@ static char const *char_name (char);
   #define YYTYPE_UINT8 uint_fast8_t
 }
 
-%verbose
-%defines
-%define locations
+%define api.prefix "gram_"
 %define api.pure
+%define locations
 %define parse.error verbose
 %define parse.lac full
 %define parse.trace
-%name-prefix "gram_"
+%defines
 %expect 0
+%verbose
 
 %initial-action
 {
