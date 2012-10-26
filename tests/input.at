@@ -1607,7 +1607,7 @@ AT_DATA_GRAMMAR([[input.y]],
 [[
 %default_prec
 %error_verbose
-%expect_rr 42
+%expect_rr 0
 %file-prefix = "foo"
 %file-prefix
  =
@@ -1622,6 +1622,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %output = "foo"
 %pure_parser
 %token_table
+%glr-parser
 %% exp : '0'
 ]])
 
@@ -1640,7 +1641,6 @@ input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wd
 input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
 input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
-input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
 ]])
 
 AT_CLEANUP
