@@ -123,9 +123,9 @@ EXTRA_DIST +=								\
   $(FIGS_DOT:.dot=.eps) $(FIGS_DOT:.dot=.pdf) $(FIGS_DOT:.dot=.png)
 SUFFIXES += .dot .eps .pdf .png
 
-bison.dvi:  $(FIGS_DOT:.dot=.eps)
-bison.html: $(FIGS_DOT:.dot=.png)
-bison.pdf:  $(FIGS_DOT:.dot=.pdf)
+doc/bison.dvi:  $(FIGS_DOT:.dot=.eps)
+doc/bison.html: $(FIGS_DOT:.dot=.png)
+doc/bison.pdf:  $(FIGS_DOT:.dot=.pdf)
 
 .dot.eps:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
