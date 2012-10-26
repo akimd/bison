@@ -51,9 +51,9 @@ void grammar_current_rule_prec_set (symbol *precsym, location loc);
 void grammar_current_rule_dprec_set (int dprec, location loc);
 void grammar_current_rule_merge_set (uniqstr name, location loc);
 void grammar_current_rule_symbol_append (symbol *sym, location loc,
-					 named_ref *named_ref);
+					 named_ref *nref);
 void grammar_current_rule_action_append (const char *action, location loc,
-					 named_ref *named_ref);
+					 named_ref *nref);
 void reader (void);
 void free_merger_functions (void);
 

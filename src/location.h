@@ -88,7 +88,7 @@ typedef struct
 
 } location;
 
-#define YYLTYPE location
+#define GRAM_LTYPE location
 
 #define EMPTY_LOCATION_INIT {{NULL, 0, 0}, {NULL, 0, 0}}
 extern location const empty_location;

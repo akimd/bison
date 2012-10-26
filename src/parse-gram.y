@@ -94,14 +94,14 @@ current_lhs(symbol *sym, location loc, named_ref *ref)
 %}
 
 %debug
-%verbose
-%defines
-%locations
-%pure-parser
-%error-verbose
+%define api.prefix "gram_"
+%define api.pure
 %define parse.lac full
-%name-prefix="gram_"
+%defines
+%error-verbose
 %expect 0
+%locations
+%verbose
 
 %initial-action
 {
@@ -252,7 +252,7 @@ prologue_declaration:
                         plain_code.code, @1);
       code_scanner_last_string_free ();
     }
-| "%debug"                         { debug_flag = true; }
+| "%debug"                         { debug = true; }
 | "%define" variable content.opt
     {
       muscle_percent_define_insert ($2, @2, $3,
