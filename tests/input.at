@@ -20,6 +20,60 @@ AT_BANNER([[Input Processing.]])
 # Mostly test that we are robust to mistakes.
 
 
+## ---------------- ##
+## Invalid inputs.  ##
+## ---------------- ##
+
+AT_SETUP([Invalid inputs])
+
+AT_DATA([input.y],
+[[%%
+?
+default: 'a' }
+%&
+%a-does-not-exist
+%-
+%{
+]])
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:2.1: invalid character: '?'
+input.y:3.14: invalid character: '}'
+input.y:4.1: invalid character: '%'
+input.y:4.2: invalid character: '&'
+input.y:5.1-17: invalid directive: '%a-does-not-exist'
+input.y:6.1: invalid character: '%'
+input.y:6.2: invalid character: '-'
+input.y:7.1-8.0: missing '%}' at end of file
+input.y:7.1-8.0: syntax error, unexpected %{...%}
+]])
+
+AT_CLEANUP
+
+
+AT_SETUP([Invalid inputs with {}])
+
+# We used to SEGV here.  See
+# http://lists.gnu.org/archive/html/bug-bison/2005-07/msg00053.html
+
+AT_DATA([input.y],
+[[
+%destructor
+%initial-action
+%lex-param
+%parse-param
+%printer
+%union
+]])
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:3.1-15: syntax error, unexpected %initial-action, expecting {...}
+]])
+
+AT_CLEANUP
+
+
+
 ## ------------ ##
 ## Invalid $n.  ##
 ## ------------ ##
