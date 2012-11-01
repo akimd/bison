@@ -38,7 +38,10 @@ typedef std::list<std::string> strings_type;
 #include <sstream>
 
   // Prototype of the yylex function providing subsequent tokens.
-  static yy::parser::symbol_type yylex ();
+  namespace yy
+  {
+    static parser::symbol_type yylex ();
+  }
 
   // Printing a list of strings.
   // Koening look up will look into std, since that's an std::list.
@@ -91,41 +94,44 @@ item:
 ;
 %%
 
-// The yylex function providing subsequent tokens:
-// TEXT         "I have three numbers for you:"
-// NUMBER       1
-// NUMBER       2
-// NUMBER       3
-// TEXT         " and that's all!"
-// END_OF_FILE
-
-static
-yy::parser::symbol_type
-yylex ()
+namespace yy
 {
-  static int stage = -1;
-  ++stage;
-  yy::parser::location_type loc(0, stage + 1, stage + 1);
-  switch (stage)
+  // The yylex function providing subsequent tokens:
+  // TEXT         "I have three numbers for you."
+  // NUMBER       1
+  // NUMBER       2
+  // NUMBER       3
+  // TEXT         "And that's all!"
+  // END_OF_FILE
+
+  static
+  parser::symbol_type
+  yylex ()
   {
-    case 0:
-      return yy::parser::make_TEXT ("I have three numbers for you.", loc);
-    case 1:
-    case 2:
-    case 3:
-      return yy::parser::make_NUMBER (stage, loc);
-    case 4:
-      return yy::parser::make_TEXT ("And that's all!", loc);
-    default:
-      return yy::parser::make_END_OF_FILE (loc);
+    static int stage = -1;
+    ++stage;
+    parser::location_type loc(0, stage + 1, stage + 1);
+    switch (stage)
+      {
+      case 0:
+        return parser::make_TEXT ("I have three numbers for you.", loc);
+      case 1:
+      case 2:
+      case 3:
+        return parser::make_NUMBER (stage, loc);
+      case 4:
+        return parser::make_TEXT ("And that's all!", loc);
+      default:
+        return parser::make_END_OF_FILE (loc);
+      }
   }
-}
 
-// Mandatory error function
-void
-yy::parser::error (const yy::parser::location_type& loc, const std::string& msg)
-{
-  std::cerr << loc << ": " << msg << std::endl;
+  // Mandatory error function
+  void
+  parser::error (const parser::location_type& loc, const std::string& msg)
+  {
+    std::cerr << loc << ": " << msg << std::endl;
+  }
 }
 
 int
