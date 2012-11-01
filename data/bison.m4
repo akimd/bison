@@ -697,17 +697,18 @@ m4_define([b4_percent_define_default],
             m4_define([b4_percent_define_syncline(]$1[)], [[]])])])
 
 
-# b4_percent_define_if_define(VARIABLE)
-# -------------------------------------
-# Define b4_VARIABLE_if that executes its $1 or $2 depending whether
+# b4_percent_define_if_define(NAME, [VARIABLE = NAME])
+# ----------------------------------------------------
+# Define b4_NAME_if that executes its $1 or $2 depending whether
 # VARIABLE was %defined.  The characters `.' and `-' in VARIABLE are mapped
 # to `_'.
 m4_define([b4_percent_define_if_define_],
 [m4_define(m4_bpatsubst([b4_$1_if], [[-.]], [_]),
-           [b4_percent_define_flag_if([$1], [$2], [$3])])])
+           [b4_percent_define_flag_if(m4_default([$2], [$1]),
+                                      [$3], [$4])])])
 m4_define([b4_percent_define_if_define],
-[b4_percent_define_default([[$1]], [[false]])
-b4_percent_define_if_define_([$1], $[1], $[2])])
+[b4_percent_define_default([m4_default([$2], [$1])], [[false]])
+b4_percent_define_if_define_([$1], [$2], $[1], $[2])])
 
 
 # b4_percent_define_check_values(VALUES)
