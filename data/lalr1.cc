@@ -510,12 +510,12 @@ do {					\
     int yychar = yyempty_;
     int yytoken = 0;
 
-    /* State.  */
+    // State.
     int yyn;
     int yylen = 0;
     int yystate = 0;
 
-    /* Error handling.  */
+    // Error handling.
     int yynerrs_ = 0;
     int yyerrstatus_ = 0;
 
@@ -579,7 +579,6 @@ b4_dollar_popdef])[]dnl
 b4_locations_if([, [[location*], [&yylloc]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))[;
       }
-
 
     /* Convert token to internal form.  */
     if (yychar <= yyeof_)
