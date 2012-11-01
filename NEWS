@@ -14,6 +14,8 @@ GNU Bison NEWS
 
   Other issues in the test suite have been addressed.
 
+  Nul characters are correctly displayed in error messages.
+
 * Noteworthy changes in release 2.6.4 (2012-10-23) [stable]
 
   Bison 2.6.3's --version was incorrect.  This release fixes this issue.

@@ -443,14 +443,19 @@ AT_SETUP([Stray symbols in brackets])
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
-start: foo[ /* aaa */ *&-.+ ] bar
+start: foo[ /* aaa */ *&-.+\000\001\002\377 ] bar
   { s = $foo; }
 ]])
+AT_CHECK([[$PERL -pi -e 's/\\(\d{3})/chr(oct($1))/ge' test.y || exit 77]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.23: invalid character in bracketed name: '*'
 test.y:11.24: invalid character in bracketed name: '&'
 test.y:11.25: invalid character in bracketed name: '-'
 test.y:11.27: invalid character in bracketed name: '+'
+test.y:11.28: invalid character in bracketed name: '\0'
+test.y:11.28: invalid character in bracketed name: '\001'
+test.y:11.28: invalid character in bracketed name: '\002'
+test.y:11.28: invalid character in bracketed name: '\377'
 ]])
 AT_CLEANUP
 

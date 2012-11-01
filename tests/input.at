@@ -27,7 +27,8 @@ AT_BANNER([[Input Processing.]])
 AT_SETUP([Invalid inputs])
 
 AT_DATA([input.y],
-[[%%
+[[\000\001\002\377?
+%%
 ?
 default: 'a' }
 %&
@@ -35,17 +36,23 @@ default: 'a' }
 %-
 %{
 ]])
+AT_CHECK([[$PERL -pi -e 's/\\(\d{3})/chr(oct($1))/ge' input.y || exit 77]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:2.1: invalid character: '?'
-input.y:3.14: invalid character: '}'
-input.y:4.1: invalid character: '%'
-input.y:4.2: invalid character: '&'
-input.y:5.1-17: invalid directive: '%a-does-not-exist'
-input.y:6.1: invalid character: '%'
-input.y:6.2: invalid character: '-'
-input.y:7.1-8.0: missing '%}' at end of file
-input.y:7.1-8.0: syntax error, unexpected %{...%}
+[[input.y:1.1: invalid character: '\0'
+input.y:1.1: invalid character: '\001'
+input.y:1.1: invalid character: '\002'
+input.y:1.1: invalid character: '\377'
+input.y:1.2: invalid character: '?'
+input.y:3.1: invalid character: '?'
+input.y:4.14: invalid character: '}'
+input.y:5.1: invalid character: '%'
+input.y:5.2: invalid character: '&'
+input.y:6.1-17: invalid directive: '%a-does-not-exist'
+input.y:7.1: invalid character: '%'
+input.y:7.2: invalid character: '-'
+input.y:8.1-9.0: missing '%}' at end of file
+input.y:8.1-9.0: syntax error, unexpected %{...%}
 ]])
 
 AT_CLEANUP
