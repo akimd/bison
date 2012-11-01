@@ -5547,6 +5547,30 @@ More user feedback will help to stabilize it.)
 
 
 
+@c ================================================== api.token.constructor
+@item api.token.constructor
+@findex %define api.token.constructor
+
+@itemize @bullet
+@item Language(s):
+C++
+
+@item Purpose:
+When variant-based semantic values are enabled (@pxref{C++ Variants}),
+request that symbols be handled as a whole (type, value, and possibly
+location) in the scanner.  @xref{Complete Symbols}, for details.
+
+@item Accepted Values:
+Boolean.
+
+@item Default Value:
+@code{false}
+@item History:
+introduced in Bison 2.8
+@end itemize
+@c api.token.constructor
+
+
 @c ================================================== api.token.prefix
 @item api.token.prefix
 @findex %define api.token.prefix
@@ -5585,28 +5609,6 @@ empty
 introduced in Bison 2.8
 @end itemize
 @c api.token.prefix
-
-
-@c ================================================== lex_symbol
-@item lex_symbol
-@findex %define lex_symbol
-
-@itemize @bullet
-@item Language(s):
-C++
-
-@item Purpose:
-When variant-based semantic values are enabled (@pxref{C++ Variants}),
-request that symbols be handled as a whole (type, value, and possibly
-location) in the scanner.  @xref{Complete Symbols}, for details.
-
-@item Accepted Values:
-Boolean.
-
-@item Default Value:
-@code{false}
-@end itemize
-@c lex_symbol
 
 
 @c ================================================== lr.default-reduction
@@ -10194,7 +10196,8 @@ or
 @node Complete Symbols
 @subsubsection Complete Symbols
 
-If you specified both @code{%define variant} and @code{%define lex_symbol},
+If you specified both @code{%define variant} and
+@code{%define api.token.constructor},
 the @code{parser} class also defines the class @code{parser::symbol_type}
 which defines a @emph{complete} symbol, aggregating its type (i.e., the
 traditional value returned by @code{yylex}), its semantic value (i.e., the
@@ -10456,18 +10459,18 @@ the grammar for.
 @end example
 
 @noindent
+@findex %define api.token.constructor
 @findex %define variant
-@findex %define lex_symbol
 This example will use genuine C++ objects as semantic values, therefore, we
 require the variant-based interface.  To make sure we properly use it, we
 enable assertions.  To fully benefit from type-safety and more natural
-definition of ``symbol'', we enable @code{lex_symbol}.
+definition of ``symbol'', we enable @code{api.token.constructor}.
 
 @comment file: calc++-parser.yy
 @example
-%define variant
+%define api.token.constructor
 %define parse.assert
-%define lex_symbol
+%define variant
 @end example
 
 @noindent

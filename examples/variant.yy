@@ -18,9 +18,9 @@
 %debug
 %skeleton "lalr1.cc"
 %defines
+%define api.token.constructor
 %define parse.assert
 %define variant
-%define lex_symbol
 %locations
 
 %code requires // *.hh

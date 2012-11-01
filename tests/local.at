@@ -152,6 +152,8 @@ m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) ".*"],
            [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
            [yy])])
+m4_pushdef([AT_TOKEN_CTOR_IF],
+[m4_bmatch([$3], [%define api.token.constructor], [$1], [$2])])
 m4_pushdef([AT_TOKEN_PREFIX],
 [m4_bmatch([$3], [%define api.token.prefix ".*"],
            [m4_bregexp([$3], [%define api.token.prefix "\(.*\)"], [\1])])])
@@ -241,6 +243,8 @@ m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
 m4_popdef([AT_API_PREFIX])
 m4_popdef([AT_API_prefix])
+m4_popdef([AT_TOKEN_PREFIX])
+m4_popdef([AT_TOKEN_CTOR_IF])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_GLR_OR_PARAM_IF])
 m4_popdef([AT_PURE_AND_LOC_IF])

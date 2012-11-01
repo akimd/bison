@@ -239,7 +239,7 @@ b4_location_define])])])[
 #endif // ]b4_api_PREFIX[DEBUG
 
     /// Convert a scanner token number \a t to a symbol number.
-    static inline token_number_type yytranslate_ (]b4_lex_symbol_if([token_type], [int])[ t);
+    static inline token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
 
 #if ]b4_api_PREFIX[DEBUG
     /// \brief Display a symbol type, value and location.
@@ -320,7 +320,7 @@ b4_location_define])])])[
 ]b4_parse_param_vars[
   };
 
-]b4_lex_symbol_if([b4_yytranslate_define
+]b4_token_ctor_if([b4_yytranslate_define
 b4_public_types_define])[
 ]b4_namespace_close[
 
@@ -500,7 +500,7 @@ m4_if(b4_prefix, [yy], [],
   | Symbol types.  |
   `---------------*/
 
-]b4_lex_symbol_if([], [b4_public_types_define])[
+]b4_token_ctor_if([], [b4_public_types_define])[
 
   // stack_symbol_type.
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
@@ -726,7 +726,7 @@ b4_dollar_popdef])[]dnl
         YYCDEBUG << "Reading a token: ";
         try
           {
-]b4_lex_symbol_if(
+]b4_token_ctor_if(
 [            yyla = b4_function_call([yylex], [symbol_type],
                                      m4_ifdef([b4_lex_param], b4_lex_param));],
 [            yyla.type = yytranslate_ (b4_function_call([yylex], [int],
@@ -1138,7 +1138,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
   }
 #endif // ]b4_api_PREFIX[DEBUG
 
-]b4_lex_symbol_if([], [b4_yytranslate_define])[
+]b4_token_ctor_if([], [b4_yytranslate_define])[
 ]b4_namespace_close[
 ]b4_epilogue[]dnl
 m4_divert_pop(0)

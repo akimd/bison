@@ -22,12 +22,13 @@ AT_BANNER([[C++ Features.]])
 ## Variants.  ##
 ## ---------- ##
 
-# AT_CHECK_VARIANTS([DIRECTIVES])
-# -------------------------------
+# AT_TEST([DIRECTIVES])
+# ---------------------
 # Check the support of variants in C++, with the additional DIRECTIVES.
-m4_define([AT_CHECK_VARIANTS],
+m4_pushdef([AT_TEST],
 [AT_SETUP([Variants $1])
 
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 # Store strings and integers in a list of strings.
 AT_DATA_GRAMMAR([list.yy],
 [[%debug
@@ -50,13 +51,13 @@ typedef std::list<std::string> strings_type;
 #include <iostream>
 #include <sstream>
 
-  static
-#if defined USE_LEX_SYMBOL
-  yy::parser::symbol_type yylex ();
-#else
-  yy::parser::token_type yylex (yy::parser::semantic_type* yylval,
-                                yy::parser::location_type* yylloc);
-#endif
+  namespace yy
+  {
+    static]AT_TOKEN_CTOR_IF([[
+    parser::symbol_type yylex ()]], [[
+    parser::token_type yylex (parser::semantic_type* yylval,
+                              parser::location_type* yylloc)]])[;
+  }
 
   // Printing a list of strings (for %printer).
   // Koening look up will look into std, since that's an std::list.
@@ -118,66 +119,51 @@ item:
 ;
 %%
 
-#define STAGE_MAX 5
-static
-#if defined USE_LEX_SYMBOL
-yy::parser::symbol_type yylex ()
+#ifdef TWO_STAGE_BUILD
+# define BUILD(Type, Value) build<Type> () = Value
 #else
-yy::parser::token_type yylex (yy::parser::semantic_type* yylval,
-                              yy::parser::location_type* yylloc)
+# define BUILD(Type, Value) build (Value)
 #endif
-{
-#ifndef USE_LEX_SYMBOL
-  typedef yy::parser::token token;
-#endif
-  typedef yy::parser::location_type location_type;
-  static int stage = -1;
-  ++stage;
-  if (stage == STAGE_MAX)
-    {
-#if defined USE_LEX_SYMBOL
-      return yy::parser::make_END_OF_FILE (location_type ());
-#else
-      *yylloc = location_type ();
-      return token::END_OF_FILE;
-#endif
-    }
-  else if (stage % 2)
-    {
-#if defined USE_LEX_SYMBOL
-      return yy::parser::make_NUMBER (stage, location_type ());
-#else
-# if defined ONE_STAGE_BUILD
-      yylval->build (stage);
-# else
-      yylval->build<int>() = stage;
-# endif
-      *yylloc = location_type ();
-      return token::NUMBER;
-#endif
-    }
-  else
-    {
-#if defined USE_LEX_SYMBOL
-      return yy::parser::make_TEXT (string_cast (stage), location_type ());
-#else
-# if defined ONE_STAGE_BUILD
-      yylval->build (string_cast (stage));
-# else
-      yylval->build<std::string>() = string_cast (stage);
-# endif
-      *yylloc = location_type ();
-      return token::TEXT;
-#endif
-    }
-  abort ();
-}
 
-void
-yy::parser::error (const yy::parser::location_type&,
-                   const std::string& message)
+#define STAGE_MAX 5
+namespace yy
 {
-  std::cerr << message << std::endl;
+  static]AT_TOKEN_CTOR_IF([[
+  parser::symbol_type yylex ()]], [[
+  parser::token_type yylex (parser::semantic_type* yylval,
+                            parser::location_type* yylloc)]])[
+  {
+    typedef parser::location_type location;
+    static int stage = -1;
+    ++stage;
+    if (stage == STAGE_MAX)
+      {]AT_TOKEN_CTOR_IF([[
+        return parser::make_END_OF_FILE (location ());]], [[
+        *yylloc = location ();
+        return parser::token::END_OF_FILE;]])[
+      }
+    else if (stage % 2)
+      {]AT_TOKEN_CTOR_IF([[
+        return parser::make_NUMBER (stage, location ());]], [[
+        yylval->BUILD (int, stage);
+        *yylloc = location ();
+        return parser::token::NUMBER;]])[
+      }
+    else
+      {]AT_TOKEN_CTOR_IF([[
+        return parser::make_TEXT (string_cast (stage), location ());]], [[
+        yylval->BUILD (std::string, string_cast (stage));
+        *yylloc = location ();
+        return parser::token::TEXT;]])[
+      }
+    abort ();
+  }
+
+  void
+  parser::error (const parser::location_type&, const std::string& message)
+  {
+    std::cerr << message << std::endl;
+  }
 }
 
 int
@@ -195,14 +181,17 @@ AT_CHECK([./list], 0,
          [(0, 1, 2, 4)
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_CHECK_VARIANTS([])
-AT_CHECK_VARIANTS([%define parse.assert])
-AT_CHECK_VARIANTS([[%define parse.assert %code {\n#define ONE_STAGE_BUILD\n}]])
-AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n}]])
-AT_CHECK_VARIANTS([[%define parse.assert %define lex_symbol %code {\n#define USE_LEX_SYMBOL\n} %define api.token.prefix "TOK_"]])
+AT_TEST([])
+AT_TEST([%define parse.assert])
+AT_TEST([[%define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
+AT_TEST([[%define parse.assert %define api.token.constructor]])
+AT_TEST([[%define parse.assert %define api.token.constructor %define api.token.prefix "TOK_"]])
+
+m4_popdef([AT_TEST])
 
 
 ## ----------------------- ##

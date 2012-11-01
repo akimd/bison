@@ -579,7 +579,7 @@ sub generate_grammar_list ($$@)
   my ($base, $max, @directive) = @_;
   my $directives = directives ($base, @directive);
   my $variant = grep { /%define "?variant"?/ } @directive;
-  my $lex_symbol = grep { /%define "?lex_symbol"?/ } @directive;
+  my $token_ctor = grep { /%define "?api.token.constructor"?/ } @directive;
   my $out = new IO::File ">$base.y"
     or die;
   print $out <<EOF;
@@ -601,12 +601,12 @@ $directives
 
 #define STAGE_MAX    ($max * 10) // max = $max
 
-#define USE_LEX_SYMBOL $lex_symbol
+#define USE_TOKEN_CTOR $token_ctor
 #define USE_VARIANTS $variant
 
   // Prototype of the yylex function providing subsequent tokens.
   static
-#if USE_LEX_SYMBOL
+#if USE_TOKEN_CTOR
   yy::parser::symbol_type yylex();
 #else
   yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
@@ -678,7 +678,7 @@ EOF
 #
 
 static
-#if USE_LEX_SYMBOL
+#if USE_TOKEN_CTOR
 yy::parser::symbol_type yylex()
 #else
 yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
@@ -691,7 +691,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
   ++stage;
   if (stage == STAGE_MAX)
     {
-#if USE_LEX_SYMBOL
+#if USE_TOKEN_CTOR
       return yy::parser::make_END_OF_FILE (location_type ());
 #else
       *yylloc = location_type ();
@@ -700,7 +700,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
     }
   else if (stage % 2)
     {
-#if USE_LEX_SYMBOL
+#if USE_TOKEN_CTOR
       return yy::parser::make_NUMBER (stage, location_type ());
 #else
 # if defined ONE_STAGE_BUILD
@@ -716,7 +716,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
     }
   else
     {
-#if USE_LEX_SYMBOL
+#if USE_TOKEN_CTOR
       return yy::parser::make_TEXT ("A string.", location_type ());
 #else
 # if defined ONE_STAGE_BUILD
@@ -914,7 +914,7 @@ sub bench_variant_parser ()
             [
               %d variant
               &
-              [ #d ONE_STAGE_BUILD | %d lex_symbol ]
+              [ #d ONE_STAGE_BUILD | %d api.token.constructor ]
             ]
          )
     );

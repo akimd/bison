@@ -300,7 +300,7 @@ m4_define([b4_public_types_define],
   {
     return type;
   }
-]b4_lex_symbol_if([[
+]b4_token_ctor_if([[
   inline
   ]b4_parser_class_name[::token_type
   ]b4_parser_class_name[::symbol_type::token () const
@@ -335,7 +335,7 @@ m4_define([b4_symbol_constructor_define], [])
 m4_define([b4_yytranslate_define],
 [[  // Symbol number corresponding to token number t.
   ]b4_parser_class_name[::token_number_type
-  ]b4_parser_class_name[::yytranslate_ (]b4_lex_symbol_if([token_type],
+  ]b4_parser_class_name[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)
   {
     static
