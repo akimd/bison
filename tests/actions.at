@@ -159,8 +159,7 @@ main (void)
 }
 ]])
 
-AT_BISON_CHECK([[-o input.c input.y]])
-AT_COMPILE([[input]])
+AT_FULL_COMPILE([input])
 AT_PARSER_CHECK([[./input]], [[0]],
 [[6
 ]])
@@ -305,7 +304,7 @@ line:
       $$ = -1;
       V(line,  $$, @$, ": ");
       V('(',   $1, @1, " ");
-      fprintf (stderr, "error (@%d-%d) ", RANGE(@2));
+      fprintf (stderr, "error (@%d-%d) ", RANGE (@2));
       V(')',   $3, @3, "\n");
     }
 ;
@@ -595,10 +594,6 @@ AT_DATA_GRAMMAR([[input.y]],
 [[%error-verbose
 %debug
 %locations
-%initial-action {
-  @$.first_line = @$.last_line = 1;
-  @$.first_column = @$.last_column = 1;
-}
 
 %{
 # include <stdio.h>
@@ -1237,7 +1232,7 @@ AT_CHECK_ACTION_LOCATIONS([[%printer]])
 # Check that we can used qualified $$ (v.g., $<type>$) not only in
 # rule actions, but also where $$ is valid: %printer and %destructor.
 #
-# FIXME: Not actually checking %desctructor, but it's the same code as
+# FIXME: Not actually checking %destructor, but it's the same code as
 # %printer...
 #
 # To do that, use a semantic value that has two fields (sem_type),
