@@ -87,7 +87,7 @@ b4_copyright([Positions for Bison parsers in C++],
   };
 
   /// Add and assign a position.
-  inline const position&
+  inline position&
   operator+= (position& res, const int width)
   {
     res.columns (width);
@@ -103,7 +103,7 @@ b4_copyright([Positions for Bison parsers in C++],
   }
 
   /// Add and assign a position.
-  inline const position&
+  inline position&
   operator-= (position& res, const int width)
   {
     return res += -width;
