@@ -388,10 +388,10 @@ static
 AT_YYERROR_SEES_LOC_IF([[
   fprintf (stderr, "%d.%d",
            ]AT_LOC_FIRST_LINE[, ]AT_LOC_FIRST_COLUMN[);
-  if (]AT_LOC_FIRST_LINE[ != ]AT_LOC_LAST_LINE[)
+  if (]AT_LOC_FIRST_LINE[ < ]AT_LOC_LAST_LINE[)
     fprintf (stderr, "-%d.%d",
              ]AT_LOC_LAST_LINE[,  ]AT_LOC_LAST_COLUMN[ - 1);
-  else if (]AT_LOC_FIRST_COLUMN[ != ]AT_LOC_LAST_COLUMN[ - 1)
+  else if (]AT_LOC_FIRST_COLUMN[ < ]AT_LOC_LAST_COLUMN[ - 1)
     fprintf (stderr, "-%d",
              ]AT_LOC_LAST_COLUMN[ - 1);
   fprintf (stderr, ": ");]])[
