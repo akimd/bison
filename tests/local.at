@@ -386,14 +386,7 @@ static
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\), *], [
   YYUSE(\1);])dnl
 AT_YYERROR_SEES_LOC_IF([[
-  fprintf (stderr, "%d.%d",
-           ]AT_LOC_FIRST_LINE[, ]AT_LOC_FIRST_COLUMN[);
-  if (]AT_LOC_FIRST_LINE[ < ]AT_LOC_LAST_LINE[)
-    fprintf (stderr, "-%d.%d",
-             ]AT_LOC_LAST_LINE[,  ]AT_LOC_LAST_COLUMN[ - 1);
-  else if (]AT_LOC_FIRST_COLUMN[ < ]AT_LOC_LAST_COLUMN[ - 1)
-    fprintf (stderr, "-%d",
-             ]AT_LOC_LAST_COLUMN[ - 1);
+  YY_LOCATION_PRINT (stderr, ]AT_LOC[);
   fprintf (stderr, ": ");]])[
   fprintf (stderr, "%s\n", msg);
 }]],
