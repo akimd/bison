@@ -69,6 +69,76 @@ AT_PARSER_CHECK([./input], 0,
 AT_CLEANUP
 
 
+## ------------------ ##
+## Initial location.  ##
+## ------------------ ##
+
+# AT_TEST(SKELETON-NAME, DIRECTIVES)
+# ----------------------------------
+# Check the the initial location is correct.
+m4_pushdef([AT_TEST],
+[AT_SETUP([Initial location: $1 $2])
+
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2 %parse-param { int x }])
+AT_DATA_GRAMMAR([[input.y]],
+[[%defines /* FIXME: Required by lalr1.cc in Bison 2.6. */
+%locations
+%debug
+%skeleton "$1"
+$2
+%parse-param { int x } // Useless, but used to force yyerror purity.
+%code
+{
+# include <stdio.h>
+# include <stdlib.h> // getenv
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+%%
+exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << std::endl]],
+                      [[YY_LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
+%%
+]AT_YYERROR_DEFINE[
+
+]AT_YYLEX_PROTOTYPE[
+{]AT_PURE_IF([
+  YYUSE(lvalp);
+  YYUSE(llocp);], [AT_SKEL_CC_IF([
+  YYUSE(lvalp);
+  YYUSE(llocp);])])[
+  return 'x';
+}
+
+int
+main (void)
+{]AT_SKEL_CC_IF([[
+  yy::parser p (0);
+  p.set_debug_level (!!getenv("YYDEBUG"));
+  return p.parse ();]], [[
+  yydebug = !!getenv("YYDEBUG");
+  return !!yyparse (0);]])[
+}
+]])
+
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([./input], 1, [],
+[[1.1
+1.1: syntax error
+]])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+## FIXME: test Java, and iterate over skeletons.
+AT_TEST([yacc.c])
+AT_TEST([yacc.c], [%define api.pure])
+AT_TEST([yacc.c], [%define api.push-pull both])
+AT_TEST([yacc.c], [%define api.push-pull both %define api.pure])
+AT_TEST([glr.c])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
+
+m4_popdef([AT_TEST])
 
 
 
@@ -159,8 +229,7 @@ main (void)
 }
 ]])
 
-AT_BISON_CHECK([[-o input.c input.y]])
-AT_COMPILE([[input]])
+AT_FULL_COMPILE([input])
 AT_PARSER_CHECK([[./input]], [[0]],
 [[6
 ]])
@@ -557,7 +626,7 @@ AT_BISON_OPTION_POPDEFS
 # AT_CHECK_PRINTER_AND_DESTRUCTOR([BISON-OPTIONS], [UNION-FLAG], [SKIP_FLAG])
 # ---------------------------------------------------------------------------
 m4_define([AT_CHECK_PRINTER_AND_DESTRUCTOR],
-[AT_SETUP([Printers and Destructors $2: $1])
+[AT_SETUP([Printers and Destructors$2]m4_ifval([$1], [[: $1]]))
 
 $3
 _AT_CHECK_PRINTER_AND_DESTRUCTOR($[1], $[2], $[3], $[4],
@@ -595,10 +664,6 @@ AT_DATA_GRAMMAR([[input.y]],
 [[%define parse.error verbose
 %debug
 %locations
-%initial-action {
-  @$.first_line = @$.last_line = 1;
-  @$.first_column = @$.last_column = 1;
-}
 
 %{
 # include <stdio.h>
@@ -647,8 +712,8 @@ main (void)
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], [], [],
-[[input.y:27.3-5: warning: useless %destructor for type <*> [-Wother]
-input.y:27.3-5: warning: useless %printer for type <*> [-Wother]
+[[input.y:23.3-5: warning: useless %destructor for type <*> [-Wother]
+input.y:23.3-5: warning: useless %printer for type <*> [-Wother]
 ]])
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,
@@ -659,29 +724,29 @@ AT_PARSER_CHECK([./input], 1,
 ]],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token 'a' (1.1-1.1: <> printer for 'a' @ 1)
-Shifting token 'a' (1.1-1.1: <> printer for 'a' @ 1)
+Reading a token: Next token is token 'a' (1.1: <> printer for 'a' @ 1)
+Shifting token 'a' (1.1: <> printer for 'a' @ 1)
 Entering state 1
-Reading a token: Next token is token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
-Shifting token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
+Reading a token: Next token is token 'b' (1.2: 'b'/'c' printer for 'b' @ 2)
+Shifting token 'b' (1.2: 'b'/'c' printer for 'b' @ 2)
 Entering state 3
-Reading a token: Next token is token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
-Shifting token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
+Reading a token: Next token is token 'c' (1.3: 'b'/'c' printer for 'c' @ 3)
+Shifting token 'c' (1.3: 'b'/'c' printer for 'c' @ 3)
 Entering state 5
-Reading a token: Next token is token 'd' (1.4-1.4: <> printer for 'd' @ 4)
-Shifting token 'd' (1.4-1.4: <> printer for 'd' @ 4)
+Reading a token: Next token is token 'd' (1.4: <> printer for 'd' @ 4)
+Shifting token 'd' (1.4: <> printer for 'd' @ 4)
 Entering state 6
 Reading a token: Now at end of input.
-1.5-4: syntax error, unexpected $end, expecting 'e'
-Error: popping token 'd' (1.4-1.4: <> printer for 'd' @ 4)
+1.5: syntax error, unexpected $end, expecting 'e'
+Error: popping token 'd' (1.4: <> printer for 'd' @ 4)
 Stack now 0 1 3 5
-Error: popping token 'c' (1.3-1.3: 'b'/'c' printer for 'c' @ 3)
+Error: popping token 'c' (1.3: 'b'/'c' printer for 'c' @ 3)
 Stack now 0 1 3
-Error: popping token 'b' (1.2-1.2: 'b'/'c' printer for 'b' @ 2)
+Error: popping token 'b' (1.2: 'b'/'c' printer for 'b' @ 2)
 Stack now 0 1
-Error: popping token 'a' (1.1-1.1: <> printer for 'a' @ 1)
+Error: popping token 'a' (1.1: <> printer for 'a' @ 1)
 Stack now 0
-Cleanup: discarding lookahead token $end (1.5-1.5: )
+Cleanup: discarding lookahead token $end (1.5: )
 Stack now 0
 ]])
 
@@ -835,10 +900,6 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 [[%define parse.error verbose
 %debug
 %locations
-%initial-action {
-  @$.first_line = @$.last_line = 1;
-  @$.first_column = @$.last_column = 1;
-}
 
 %{
 # include <stdio.h>
@@ -899,11 +960,11 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input$1.c input$1.y], [], [],
 [m4_if([$1], [0],
-[[input0.y:27.3-5: warning: useless %destructor for type <*> [-Wother]
-input0.y:27.3-5: warning: useless %printer for type <*> [-Wother]
+[[input0.y:23.3-5: warning: useless %destructor for type <*> [-Wother]
+input0.y:23.3-5: warning: useless %printer for type <*> [-Wother]
 ]],
-[[input1.y:27.3-4: warning: useless %destructor for type <> [-Wother]
-input1.y:27.3-4: warning: useless %printer for type <> [-Wother]
+[[input1.y:23.3-4: warning: useless %destructor for type <> [-Wother]
+input1.y:23.3-4: warning: useless %printer for type <> [-Wother]
 ]])])
 
 AT_COMPILE([input$1])
@@ -914,16 +975,16 @@ AT_PARSER_CHECK([./input$1], 0,
 ]],
 [[Starting parse
 Entering state 0
-Reducing stack by rule 1 (line 46):
--> $$ = nterm start (1.1-1.1: <]]kind[[> for 'S' @ 1)
+Reducing stack by rule 1 (line 42):
+-> $$ = nterm start (1.1: <]]kind[[> for 'S' @ 1)
 Stack now 0
 Entering state 1
 Reading a token: Now at end of input.
-Shifting token END (1.1-1.1: <]]kind[[> for 'E' @ 1)
+Shifting token END (1.1: <]]kind[[> for 'E' @ 1)
 Entering state 2
 Stack now 0 1 2
-Cleanup: popping token END (1.1-1.1: <]]kind[[> for 'E' @ 1)
-Cleanup: popping nterm start (1.1-1.1: <]]kind[[> for 'S' @ 1)
+Cleanup: popping token END (1.1: <]]kind[[> for 'E' @ 1)
+Cleanup: popping nterm start (1.1: <]]kind[[> for 'S' @ 1)
 ]])
 
 m4_popdef([kind])

@@ -376,7 +376,7 @@ m4_define([_AT_GLR_STDERR],
 ]])
 
 m4_define([_AT_GLR_STDERR_WITH_LOC],
-[[17.5-4: syntax error
+[[17.5: syntax error
 ]])
 
 m4_define([_AT_VERBOSE_GLR_STDERR],
@@ -384,7 +384,7 @@ m4_define([_AT_VERBOSE_GLR_STDERR],
 ]])
 
 m4_define([_AT_VERBOSE_GLR_STDERR_WITH_LOC],
-[[17.5-4: syntax error, unexpected ID, expecting '=' or '+' or ')'
+[[17.5: syntax error, unexpected ID, expecting '=' or '+' or ')'
 ]])
 
 ## ---------------------------------------------------- ##

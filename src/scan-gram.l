@@ -354,7 +354,8 @@ eqopt    ([[:space:]]*=)?
   }
 
   . {
-    complain (loc, complaint, _("invalid character: %s"), quote (yytext));
+    complain (loc, complaint, _("invalid character: %s"),
+              quote_mem (yytext, yyleng));
   }
 
   <<EOF>> {
@@ -450,7 +451,7 @@ eqopt    ([[:space:]]*=)?
   }
   . {
     complain (loc, complaint, _("invalid character in bracketed name: %s"),
-                 quote (yytext));
+              quote_mem (yytext, yyleng));
   }
   <<EOF>> {
     BEGIN bracketed_id_context_state;

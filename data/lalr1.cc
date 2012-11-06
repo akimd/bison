@@ -663,11 +663,11 @@ m4_if(b4_prefix, [yy], [],
     /// Whether yyla contains a lookahead.
     bool yyempty = true;
 
-    /* State.  */
+    // State.
     int yyn;
     int yylen = 0;
 
-    /* Error handling.  */
+    // Error handling.
     int yynerrs_ = 0;
     int yyerrstatus_ = 0;
 

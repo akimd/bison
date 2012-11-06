@@ -73,7 +73,7 @@ m4_define([b4_position_define],
   };
 
   /// Add and assign a position.
-  inline const position&
+  inline position&
   operator+= (position& res, const int width)
   {
     res.columns (width);
@@ -89,7 +89,7 @@ m4_define([b4_position_define],
   }
 
   /// Add and assign a position.
-  inline const position&
+  inline position&
   operator-= (position& res, const int width)
   {
     return res += -width;

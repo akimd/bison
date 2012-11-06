@@ -291,6 +291,25 @@ GNU Bison NEWS
   The reductions are now explicitly represented as transitions to other
   diamond shaped nodes.
 
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+  We consider compiler warnings about Bison generated parsers to be bugs.
+  Rather than working around them in your own project, please consider
+  reporting them to us.
+
+** Bug fixes
+
+  Warnings about uninitialized yylval and/or yylloc for push parsers with a
+  pure interface have been fixed for GCC 4.0 up to 4.8, and Clang 2.9 to
+  3.2.
+
+  Other issues in the test suite have been addressed.
+
+  Nul characters are correctly displayed in error messages.
+
+  When possible, yylloc is correctly initialized before calling yylex.  It
+  is no longer necessary to initialize it in the %initial-action.
+
 * Noteworthy changes in release 2.6.4 (2012-10-23) [stable]
 
   Bison 2.6.3's --version was incorrect.  This release fixes this issue.
