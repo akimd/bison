@@ -87,12 +87,17 @@ m4_define([b4_yy_symbol_print_generate],
 ]b4_parse_param_use[]dnl
 [  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_locations_if([, yylocationp])[);
 }
-]])
+]])[
 
+# Hijack the initial action to initialize the locations.
+]b4_locations_if([b4_percent_define_ifdef([[location_type]], [],
+[m4_define([b4_initial_action],
+[yylloc.initialize ();]m4_ifdef([b4_initial_action], [
+m4_defn([b4_initial_action])]))])])[
 
 # Hijack the post prologue to insert early definition of YYLLOC_DEFAULT
 # and declaration of yyerror.
-m4_append([b4_post_prologue],
+]m4_append([b4_post_prologue],
 [b4_syncline([@oline@], [@ofile@])[
 ]b4_yylloc_default_define[
 #define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)

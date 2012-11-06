@@ -69,6 +69,76 @@ AT_PARSER_CHECK([./input], 0,
 AT_CLEANUP
 
 
+## ------------------ ##
+## Initial location.  ##
+## ------------------ ##
+
+# AT_TEST(SKELETON-NAME, DIRECTIVES)
+# ----------------------------------
+# Check the the initial location is correct.
+m4_pushdef([AT_TEST],
+[AT_SETUP([Initial location: $1 $2])
+
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2 %parse-param { int x }])
+AT_DATA_GRAMMAR([[input.y]],
+[[%defines /* FIXME: Required by lalr1.cc in Bison 2.6. */
+%locations
+%debug
+%skeleton "$1"
+$2
+%parse-param { int x } // Useless, but used to force yyerror purity.
+%code
+{
+# include <stdio.h>
+# include <stdlib.h> // getenv
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+%%
+exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << std::endl]],
+                      [[YY_LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
+%%
+]AT_YYERROR_DEFINE[
+
+]AT_YYLEX_PROTOTYPE[
+{]AT_PURE_IF([
+  YYUSE(lvalp);
+  YYUSE(llocp);], [AT_SKEL_CC_IF([
+  YYUSE(lvalp);
+  YYUSE(llocp);])])[
+  return 'x';
+}
+
+int
+main (void)
+{]AT_SKEL_CC_IF([[
+  yy::parser p (0);
+  p.set_debug_level (!!getenv("YYDEBUG"));
+  return p.parse ();]], [[
+  yydebug = !!getenv("YYDEBUG");
+  return !!yyparse (0);]])[
+}
+]])
+
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([./input], 1, [],
+[[1.1
+1.1: syntax error
+]])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+## FIXME: test Java, and iterate over skeletons.
+AT_TEST([yacc.c])
+AT_TEST([yacc.c], [%define api.pure])
+AT_TEST([yacc.c], [%define api.push-pull both])
+AT_TEST([yacc.c], [%define api.push-pull both %define api.pure])
+AT_TEST([glr.c])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
+
+m4_popdef([AT_TEST])
 
 
 
