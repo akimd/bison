@@ -240,9 +240,6 @@ AT_TEST([x7], [%define api.push-pull both])
 AT_TEST([x8], [%define api.pure %define api.push-pull both])
 #AT_TEST([x5], [%locations %language "c++" %glr-parser])
 
-AT_COMPILE_CXX([parser], [[x[1-8].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
-AT_CHECK([./parser], [0], [[expout]])
-
 # Check that the headers are self-contained, and protected against
 # multiple inclusions.  While at it, check they are sane for C++.
 for h in *.h *.hh
@@ -255,6 +252,12 @@ AT_DATA_SOURCE_PROLOGUE
 EOF
   AT_COMPILE_CXX([$h.o])
 done
+
+# Do this late, so that other checks have been performed.
+AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
+
+AT_COMPILE_CXX([parser], [[x[1-8].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
+AT_CHECK([./parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])
 
