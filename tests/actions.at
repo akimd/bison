@@ -894,10 +894,6 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 [[%error-verbose
 %debug
 %locations
-%initial-action {
-  @$.first_line = @$.last_line = 1;
-  @$.first_column = @$.last_column = 1;
-}
 
 %{
 # include <stdio.h>
@@ -964,7 +960,7 @@ AT_PARSER_CHECK([./input$1], 0,
 ]],
 [[Starting parse
 Entering state 0
-Reducing stack by rule 1 (line 46):
+Reducing stack by rule 1 (line 42):
 -> $$ = nterm start (1.1: <]]kind[[> for 'S' @ 1)
 Stack now 0
 Entering state 1
@@ -1359,17 +1355,6 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer { report (yyo, $$,       $<fval>$); } <ival>;
 %printer { report (yyo, $<ival>$, $$      ); } <fval>;
 %printer { report (yyo, $<ival>$, $<fval>$); } <>;
-
-]AT_SKEL_CC_IF([[
-/* The lalr1.cc skeleton, for backward compatibility, defines
-   a constructor for position that initializes the filename.  The
-   glr.cc skeleton does not (and in fact cannot: location/position
-   are stored in a union, from which objects with constructors are
-   excluded in C++). */
-%initial-action {
-  @$.initialize ();
-}
-]])[
 
 %initial-action
 {
