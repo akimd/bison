@@ -1543,13 +1543,6 @@ AT_DATA_GRAMMAR([glr-regr17.y],
   ]AT_YYLEX_DECLARE[
 %}
 
-%initial-action {
-  @$.first_line = 1;
-  @$.first_column = 1;
-  @$.last_line = 1;
-  @$.last_column = 1;
-}
-
 %%
 
 /* Tests the case of an empty RHS that has inherited the location of the

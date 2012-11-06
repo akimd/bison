@@ -643,3 +643,46 @@ m4_define([b4_yylloc_default_define],
     while (YYID (0))
 #endif
 ]])
+
+# b4_yy_location_print_define
+# ---------------------------
+# Define YY_LOCATION_PRINT.
+m4_define([b4_yy_location_print_define],
+[b4_locations_if([[
+/* YY_LOCATION_PRINT -- Print the location on the stream.
+   This macro was not mandated originally: define only if we know
+   we won't break user code: when these are the locations we know.  */
+
+#ifndef YY_LOCATION_PRINT
+# if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
+#  define YY_LOCATION_PRINT(File, Loc)                                   \
+  do {                                                                   \
+    fprintf (File, "%d.%d", (Loc).first_line, (Loc).first_column);       \
+    if ((Loc).first_line < (Loc).last_line)                              \
+      fprintf (File, "-%d.%d", (Loc).last_line,  (Loc).last_column - 1); \
+    else if ((Loc).first_column < (Loc).last_column - 1)                 \
+      fprintf (File, "-%d", (Loc).last_column - 1);                      \
+  } while (0)
+# else
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif
+#endif]],
+[[/* This macro is provided for backward compatibility. */
+#ifndef YY_LOCATION_PRINT
+# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+#endif]])
+])
+
+# b4_yyloc_default
+# ----------------
+# Expand to a possible default value for yylloc.
+m4_define([b4_yyloc_default],
+[[
+# if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
+  = { ]m4_join([, ],
+               m4_defn([b4_location_initial_line]),
+               m4_defn([b4_location_initial_column]),
+               m4_defn([b4_location_initial_line]),
+               m4_defn([b4_location_initial_column]))[ }
+# endif
+]])

@@ -178,18 +178,7 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
 
 ]AT_YYLEX_PROTOTYPE[
 {
-  static int init = 1;
   int c;
-
-  if (init)
-    {
-      init = 0;
-]AT_LOCATION_IF([
-      AT_LOC_LAST_COLUMN = 1;
-      AT_LOC_LAST_LINE = 1;
-])[
-    }
-
   /* Skip current token, then white spaces.  */
   do
     {
@@ -261,6 +250,8 @@ AT_SKEL_CC_IF(
 {
   semantic_value ival;
 };
+%printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
+                          [[fprintf (yyoutput, "%d", $$)]])[; } <ival>;
 
 %code provides
 {
@@ -280,24 +271,16 @@ AT_SKEL_CC_IF(
 FILE *input;
 static int power (int base, int exponent);
 
-]AT_SKEL_CC_IF(,
-[static void yyerror (AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE *llocp, ])
-                     AT_PARAM_IF([semantic_value *result, int *count, ])
-                     const char *s
-                     );])[
+]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE_EXTERN[
 }
 
-]AT_SKEL_CC_IF([AT_LOCATION_TYPE_IF([], [[
-/* The lalr1.cc skeleton, for backward compatibility, defines
-   a constructor for position that initializes the filename.  The
-   glr.cc skeleton does not (and in fact cannot: location/position
-   are stored in a union, from which objects with constructors are
-   excluded in C++). */
-%initial-action {
-  @$.initialize ();
-}
-]])])[
+]AT_SKEL_CC_IF([AT_LOCATION_TYPE_IF([[
+%initial-action
+{
+  @$.first.l = @$.first.c = 1;
+  @$.last = @$.first;
+}]])])[
 
 /* Bison Declarations */
 %token CALC_EOF 0 "end of input"
@@ -365,27 +348,8 @@ power (int base, int exponent)
       o << '-' << s.last.c - 1;
     return o;
   }
-]])
-AT_YYERROR_DEFINE],
-[/* A C error reporting function.  */
-static void
-yyerror (AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE *llocp, ])
-         AT_PARAM_IF([semantic_value *result, int *count, ])
-         const char *s)
-{
-AT_PARAM_IF([(void) result; (void) count;])
-AT_YYERROR_SEES_LOC_IF([
-  fprintf (stderr, "%d.%d",
-           AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);
-  if (AT_LOC_FIRST_LINE != AT_LOC_LAST_LINE)
-    fprintf (stderr, "-%d.%d",
-             AT_LOC_LAST_LINE,  AT_LOC_LAST_COLUMN - 1);
-  else if (AT_LOC_FIRST_COLUMN != AT_LOC_LAST_COLUMN - 1)
-    fprintf (stderr, "-%d",
-             AT_LOC_LAST_COLUMN - 1);
-  fprintf (stderr, ": ");])
-  fprintf (stderr, "%s\n", s);
-}])[
+]])])[
+]AT_YYERROR_DEFINE[
 ]AT_DEFINES_IF([],
 [AT_CALC_LEX
 AT_CALC_MAIN])])
@@ -550,7 +514,7 @@ _AT_CHECK_CALC([$1],
                [842])
 
 # Some syntax errors.
-_AT_CHECK_CALC_ERROR([$1], [1], [0 0], [15],
+_AT_CHECK_CALC_ERROR([$1], [1], [1 2], [15],
                      [1.3: syntax error, unexpected number])
 _AT_CHECK_CALC_ERROR([$1], [1], [1//2], [20],
                      [1.3: syntax error, unexpected '/', expecting number or '-' or '(' or '!'])
@@ -594,10 +558,10 @@ calc: error: 4444 != 1])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the lookahead causing the error should not be discarded.
-_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [102],
+_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1], [102],
 [1.10: syntax error, unexpected number
 calc: error: 2222 != 1])
-_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (0 0) = 1], [113],
+_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1], [113],
 [1.4: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 1.12: syntax error, unexpected number
 calc: error: 2222 != 1])

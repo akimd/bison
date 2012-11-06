@@ -291,7 +291,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
 
   . {
-    complain_at (*loc, _("invalid character: %s"), quote (yytext));
+    complain_at (*loc, _("invalid character: %s"), quote_mem (yytext, yyleng));
   }
 
   <<EOF>> {
@@ -375,7 +375,7 @@ splice	 (\\[ \f\t\v]*\n)*
   }
   . {
     complain_at (*loc, _("invalid character in bracketed name: %s"),
-		 quote (yytext));
+		 quote_mem (yytext, yyleng));
   }
   <<EOF>> {
     BEGIN bracketed_id_context_state;

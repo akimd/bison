@@ -20,6 +20,67 @@ AT_BANNER([[Input Processing.]])
 # Mostly test that we are robust to mistakes.
 
 
+## ---------------- ##
+## Invalid inputs.  ##
+## ---------------- ##
+
+AT_SETUP([Invalid inputs])
+
+AT_DATA([input.y],
+[[\000\001\002\377?
+%%
+?
+default: 'a' }
+%&
+%a-does-not-exist
+%-
+%{
+]])
+AT_CHECK([[$PERL -pi -e 's/\\(\d{3})/chr(oct($1))/ge' input.y || exit 77]])
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:1.1: error: invalid character: '\0'
+input.y:1.1: error: invalid character: '\001'
+input.y:1.1: error: invalid character: '\002'
+input.y:1.1: error: invalid character: '\377'
+input.y:1.2: error: invalid character: '?'
+input.y:3.1: error: invalid character: '?'
+input.y:4.14: error: invalid character: '}'
+input.y:5.1: error: invalid character: '%'
+input.y:5.2: error: invalid character: '&'
+input.y:6.1-17: error: invalid directive: '%a-does-not-exist'
+input.y:7.1: error: invalid character: '%'
+input.y:7.2: error: invalid character: '-'
+input.y:8.1-9.0: error: missing '%}' at end of file
+input.y:8.1-9.0: error: syntax error, unexpected %{...%}
+]])
+
+AT_CLEANUP
+
+
+AT_SETUP([Invalid inputs with {}])
+
+# We used to SEGV here.  See
+# http://lists.gnu.org/archive/html/bug-bison/2005-07/msg00053.html
+
+AT_DATA([input.y],
+[[
+%destructor
+%initial-action
+%lex-param
+%parse-param
+%printer
+%union
+]])
+
+AT_BISON_CHECK([input.y], [1], [],
+[[input.y:3.1-15: error: syntax error, unexpected %initial-action, expecting {...}
+]])
+
+AT_CLEANUP
+
+
+
 ## ------------ ##
 ## Invalid $n.  ##
 ## ------------ ##
