@@ -178,18 +178,7 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
 
 ]AT_YYLEX_PROTOTYPE[
 {
-  static int init = 1;
   int c;
-
-  if (init)
-    {
-      init = 0;
-]AT_LOCATION_IF([
-      AT_LOC_LAST_COLUMN = 1;
-      AT_LOC_LAST_LINE = 1;
-])[
-    }
-
   /* Skip current token, then white spaces.  */
   do
     {
@@ -261,6 +250,8 @@ AT_SKEL_CC_IF(
 {
   semantic_value ival;
 };
+%printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
+                          [[fprintf (yyoutput, "%d", $$)]])[; } <ival>;
 
 %code provides
 {
@@ -283,6 +274,13 @@ static int power (int base, int exponent);
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE_EXTERN[
 }
+
+]AT_SKEL_CC_IF([AT_LOCATION_TYPE_IF([[
+%initial-action
+{
+  @$.first.l = @$.first.c = 1;
+  @$.last = @$.first;
+}]])])[
 
 /* Bison Declarations */
 %token CALC_EOF 0 "end of input"
@@ -516,7 +514,7 @@ _AT_CHECK_CALC([$1],
                [842])
 
 # Some syntax errors.
-_AT_CHECK_CALC_ERROR([$1], [1], [0 0], [15],
+_AT_CHECK_CALC_ERROR([$1], [1], [1 2], [15],
                      [1.3: syntax error, unexpected number])
 _AT_CHECK_CALC_ERROR([$1], [1], [1//2], [20],
                      [1.3: syntax error, unexpected '/', expecting number or '-' or '(' or '!'])
@@ -560,10 +558,10 @@ calc: error: 4444 != 1])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the lookahead causing the error should not be discarded.
-_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (0 0) = 1], [102],
+_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1], [102],
 [1.10: syntax error, unexpected number
 calc: error: 2222 != 1])
-_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (0 0) = 1], [113],
+_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1], [113],
 [1.4: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 1.12: syntax error, unexpected number
 calc: error: 2222 != 1])
