@@ -522,18 +522,6 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template name="space">
-  <xsl:param name="repeat">0</xsl:param>
-  <xsl:param name="fill" select="' '"/>
-  <xsl:if test="number($repeat) &gt;= 1">
-    <xsl:call-template name="space">
-      <xsl:with-param name="repeat" select="$repeat - 1"/>
-      <xsl:with-param name="fill" select="$fill"/>
-    </xsl:call-template>
-    <xsl:value-of select="$fill"/>
-  </xsl:if>
-</xsl:template>
-
 <xsl:template name="line-wrap">
   <xsl:param name="line-length"/> <!-- required -->
   <xsl:param name="first-line-length" select="$line-length"/>

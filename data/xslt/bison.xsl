@@ -90,4 +90,16 @@
   <xsl:value-of select="string-length(translate($conflict-data, 's', ''))"/>
 </xsl:template>
 
+<xsl:template name="space">
+  <xsl:param name="repeat">0</xsl:param>
+  <xsl:param name="fill" select="' '"/>
+  <xsl:if test="number($repeat) &gt;= 1">
+    <xsl:call-template name="space">
+      <xsl:with-param name="repeat" select="$repeat - 1"/>
+      <xsl:with-param name="fill" select="$fill"/>
+    </xsl:call-template>
+    <xsl:value-of select="$fill"/>
+  </xsl:if>
+</xsl:template>
+
 </xsl:stylesheet>
