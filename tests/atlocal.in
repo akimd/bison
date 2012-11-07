@@ -79,3 +79,13 @@ LIBS="$abs_top_builddir/lib/libbison.a @LIBS@ @INTLLIBS@"
 : ${XSLTPROC='@XSLTPROC@'}
 
 : ${PERL='@PERL@'}
+
+# Don't just check if $POSIXLY_CORRECT is set, as Bash, when launched
+# as /bin/sh, sets the shell variable POSIXLY_CORRECT to y, but not
+# the environment variable.
+: ${C_COMPILER_POSIXLY_CORRECT='@C_COMPILER_POSIXLY_CORRECT@'}
+if env | grep '^POSIXLY_CORRECT=' >/dev/null; then
+  POSIXLY_CORRECT_IS_EXPORTED=true
+else
+  POSIXLY_CORRECT_IS_EXPORTED=false
+fi
