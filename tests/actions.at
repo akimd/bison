@@ -75,7 +75,7 @@ AT_CLEANUP
 
 # AT_TEST(SKELETON-NAME, DIRECTIVES)
 # ----------------------------------
-# Check the the initial location is correct.
+# Check that the initial location is correct.
 m4_pushdef([AT_TEST],
 [AT_SETUP([Initial location: $1 $2])
 
