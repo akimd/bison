@@ -67,9 +67,13 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
   return 0;
 }
 
+const char *input = NULL;
+
 int
-main (void)
+main (int argc, const char* argv[])
 {
+  assert (argc == 2);
+  input = argv[1];
   return yyparse ();
 }
 
@@ -78,16 +82,7 @@ main (void)
 int
 yylex (void)
 {
-  for (;;)
-    {
-      int ch;
-      assert (!feof (stdin));
-      ch = getchar ();
-      if (ch == EOF)
-	return 0;
-      else if (ch == 'B' || ch == 'P')
-	return ch;
-    }
+  return *input++;
 }
 ]])
 AT_BISON_OPTION_POPDEFS
@@ -96,7 +91,7 @@ AT_BISON_CHECK([[-o glr-regr1.c glr-regr1.y]], 0, [],
 [glr-regr1.y: conflicts: 1 shift/reduce
 ])
 AT_COMPILE([glr-regr1])
-AT_PARSER_CHECK([[echo BPBPB | ./glr-regr1]], 0,
+AT_PARSER_CHECK([[./glr-regr1 BPBPB]], 0,
 [[E -> 'B'
 E -> 'B'
 E -> E 'P' E
@@ -212,16 +207,27 @@ AT_BISON_CHECK([[-o glr-regr2a.c glr-regr2a.y]], 0, [],
 ])
 AT_COMPILE([glr-regr2a])
 
-AT_PARSER_CHECK([[echo s VARIABLE_1 t v x q | ./glr-regr2a]], 0,
+AT_DATA([input1.txt],
+[[s VARIABLE_1 t v x q
+]])
+AT_PARSER_CHECK([[./glr-regr2a input1.txt]], 0,
 [[Variable: 'VARIABLE_1'
-]], [])
-AT_PARSER_CHECK([[echo s VARIABLE_1 , ANOTHER_VARIABLE_2 t e | ./glr-regr2a]],
+]])
+
+AT_DATA([input2.txt],
+[[s VARIABLE_1 , ANOTHER_VARIABLE_2 t e
+]])
+AT_PARSER_CHECK([[./glr-regr2a input2.txt]],
 0,
 [[Varlist: 'VARIABLE_1,ANOTHER_VARIABLE_2'
 ]])
-AT_PARSER_CHECK([[echo s VARIABLE_3 t v x | ./glr-regr2a]], 0,
+
+AT_DATA([input3.txt],
+[[s VARIABLE_3 t v x
+]])
+AT_PARSER_CHECK([[./glr-regr2a input3.txt]], 0,
 [[Variable: 'VARIABLE_3'
-]], [])
+]])
 
 
 AT_CLEANUP
@@ -329,10 +335,13 @@ AT_BISON_CHECK([[-o glr-regr3.c glr-regr3.y]], 0, [],
 ])
 AT_COMPILE([glr-regr3])
 
-AT_PARSER_CHECK([[echo p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2 | ./glr-regr3]],
+AT_DATA([input.txt],
+[[p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2
+]])
+AT_PARSER_CHECK([[./glr-regr3 input.txt]],
 0,
 [[Result: 1c04
-]], [])
+]])
 
 AT_CLEANUP
 
