@@ -177,8 +177,8 @@ main ()
 
 AT_BISON_CHECK([-o list.cc list.yy])
 AT_COMPILE_CXX([list])
-AT_CHECK([./list], 0,
-         [(0, 1, 2, 4)
+AT_PARSER_CHECK([./list], 0,
+[(0, 1, 2, 4)
 ])
 
 AT_BISON_OPTION_POPDEFS
@@ -687,7 +687,7 @@ main (int argc, const char *argv[])
       input = argv[1];
       break;
     case 3:
-      assert (!strcmp (argv[1], "--debug"));
+      assert (std::string(argv[1]) == "--debug");
       debug = 1;
       input = argv[2];
       break;
