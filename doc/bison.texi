@@ -8856,8 +8856,8 @@ a PDF or PNG file from it will take very long, and more often than not it will
 fail due to memory exhaustion). This option was rather designed for beginners,
 to help them understand LR parsers.
 
-This file is generated when the @option{--graph} option is specified (see
-@pxref{Invocation, , Invoking Bison}).  Its name is made by removing
+This file is generated when the @option{--graph} option is specified
+(@pxref{Invocation, , Invoking Bison}).  Its name is made by removing
 @samp{.tab.c} or @samp{.c} from the parser implementation file name, and
 adding @samp{.dot} instead.  If the grammar file is @file{foo.y}, the
 Graphviz output file is called @file{foo.dot}.

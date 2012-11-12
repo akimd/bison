@@ -734,7 +734,7 @@ AT_PARSER_CHECK([[./input i]], [[2]], [[]],
 AT_PARSER_CHECK([[./input aaaap]])
 
 AT_PARSER_CHECK([[./input --debug aaaap]], [[2]], [[]], [[stderr]])
-AT_PARSER_CHECK([[grep '^exception caught: printer$' stderr]], [], [ignore])
+AT_CHECK([[grep '^exception caught: printer$' stderr]], [], [ignore])
 
 AT_PARSER_CHECK([[./input aaaae]], [[2]], [[]],
 [[exception caught: syntax error

@@ -697,7 +697,7 @@ AT_COMPILE([c-only.o], [c-only.c])
 AT_COMPILE_CXX([cxx-only.o], [cxx-only.cc])
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS $LDFLAGS c-only.o cxx-only.o -o c-and-cxx ||
           exit 77], [ignore], [ignore])
-AT_CHECK([./c-and-cxx])
+AT_PARSER_CHECK([./c-and-cxx])
 ])
 
 
