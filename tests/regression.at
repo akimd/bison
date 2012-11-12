@@ -1645,7 +1645,7 @@ main (void)
 ]])
 
 AT_FULL_COMPILE([input])
-AT_CHECK([./input], 0, [[x: 1, y: 2
+AT_PARSER_CHECK([./input], 0, [[x: 1, y: 2
 ]])
 AT_BISON_OPTION_POPDEFS
 
