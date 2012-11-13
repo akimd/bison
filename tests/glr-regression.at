@@ -196,8 +196,12 @@ int
 main (int argc, char **argv)
 {
   input = stdin;
-  if (argc == 2 && !(input = fopen (argv[1], "r"))) return 3;
-  return yyparse ();
+  if (argc == 2 && !(input = fopen (argv[1], "r")))
+    return 3;
+  int res = yyparse ();
+  if (argc == 2 && fclose (input))
+    return 4;
+  return res;
 }
 ]])
 AT_BISON_OPTION_POPDEFS
@@ -324,8 +328,12 @@ int
 main(int argc, char* argv[])
 {
   input = stdin;
-  if (argc == 2 && !(input = fopen (argv[1], "r"))) return 3;
-  return yyparse ();
+  if (argc == 2 && !(input = fopen (argv[1], "r")))
+    return 3;
+  int res = yyparse ();
+  if (argc == 2 && fclose (input))
+    return 4;
+  return res;
 }
 ]])
 AT_BISON_OPTION_POPDEFS

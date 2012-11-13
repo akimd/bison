@@ -437,7 +437,7 @@ dnl BISON-STDERR
 [],
 
 dnl TABLES
-[[state 0
+[[State 0
 
     0 $accept: . S $end
     1 S: . 'a' A 'a'
@@ -451,7 +451,7 @@ dnl TABLES
     S  go to state 4
 
 
-state 1
+State 1
 
     1 S: 'a' . A 'a'
     4 A: . 'a' 'a'
@@ -462,7 +462,7 @@ state 1
     A  go to state 6
 
 
-state 2
+State 2
 
     2 S: 'b' . A 'b'
     4 A: . 'a' 'a'
@@ -473,7 +473,7 @@ state 2
     A  go to state 7
 
 
-state 3
+State 3
 
     3 S: 'c' . c
     4 A: . 'a' 'a'
@@ -487,14 +487,14 @@ state 3
     c  go to state 10
 
 
-state 4
+State 4
 
     0 $accept: S . $end
 
     $end  shift, and go to state 11
 
 
-state 5
+State 5
 
     4 A: 'a' . 'a'
     5  | 'a' .  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
@@ -505,21 +505,21 @@ state 5
     Conflict between rule 5 and token 'a' resolved as reduce (%left 'a').
 
 
-state 6
+State 6
 
     1 S: 'a' A . 'a'
 
     'a'  shift, and go to state 13
 
 
-state 7
+State 7
 
     2 S: 'b' A . 'b'
 
     'b'  shift, and go to state 14
 
 
-state 8
+State 8
 
     4 A: 'a' . 'a'
     5  | 'a' .  [$end]
@@ -533,7 +533,7 @@ state 8
                   [[$default]])[  reduce using rule 5 (A)
 
 
-state 9
+State 9
 
     7 c: A .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -541,7 +541,7 @@ state 9
                   [[$default]])[  reduce using rule 7 (c)
 
 
-state 10
+State 10
 
     3 S: 'c' c .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -549,14 +549,14 @@ state 10
                   [[$default]])[  reduce using rule 3 (S)
 
 
-state 11
+State 11
 
     0 $accept: S $end .
 
     $default  accept
 
 
-state 12
+State 12
 
     4 A: 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
 
@@ -564,7 +564,7 @@ state 12
                   [[$default]])[  reduce using rule 4 (A)
 
 
-state 13
+State 13
 
     1 S: 'a' A 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -572,7 +572,7 @@ state 13
                   [[$default]])[  reduce using rule 1 (S)
 
 
-state 14
+State 14
 
     2 S: 'b' A 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -580,7 +580,7 @@ state 14
                   [[$default]])[  reduce using rule 2 (S)
 
 
-state 15
+State 15
 
     6 c: 'a' 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -589,7 +589,7 @@ state 15
                                                                        [[]], [[
 
 
-state 16
+State 16
 
     4 A: 'a' . 'a'
     5  | 'a' .  ['b']
@@ -601,14 +601,14 @@ state 16
                   [[$default]])[  reduce using rule 5 (A)]AT_COND_CASE([[canonical LR]], [[
 
 
-state 17
+State 17
 
     4 A: 'a' 'a' .  [$end]
 
     $end  reduce using rule 4 (A)
 
 
-state 18
+State 18
 
     4 A: 'a' 'a' .  ['b']
 
@@ -653,7 +653,7 @@ dnl BISON-STDERR
 [],
 
 dnl TABLES
-[[state 0
+[[State 0
 
     0 $accept: . S $end
     1 S: . 'a' A 'a'
@@ -667,7 +667,7 @@ dnl TABLES
     S  go to state 4
 
 
-state 1
+State 1
 
     1 S: 'a' . A 'a'
     4 A: . 'a' 'a' 'a'
@@ -678,7 +678,7 @@ state 1
     A  go to state 6
 
 
-state 2
+State 2
 
     2 S: 'b' . A 'b'
     4 A: . 'a' 'a' 'a'
@@ -689,7 +689,7 @@ state 2
     A  go to state 7
 
 
-state 3
+State 3
 
     3 S: 'c' . c
     4 A: . 'a' 'a' 'a'
@@ -703,14 +703,14 @@ state 3
     c  go to state 10
 
 
-state 4
+State 4
 
     0 $accept: S . $end
 
     $end  shift, and go to state 11
 
 
-state 5
+State 5
 
     4 A: 'a' . 'a' 'a'
     5  | 'a' . 'a'
@@ -718,21 +718,21 @@ state 5
     'a'  shift, and go to state 12
 
 
-state 6
+State 6
 
     1 S: 'a' A . 'a'
 
     'a'  shift, and go to state 13
 
 
-state 7
+State 7
 
     2 S: 'b' A . 'b'
 
     'b'  shift, and go to state 14
 
 
-state 8
+State 8
 
     4 A: 'a' . 'a' 'a'
     5  | 'a' . 'a'
@@ -741,7 +741,7 @@ state 8
     'a'  shift, and go to state 15
 
 
-state 9
+State 9
 
     7 c: A .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -749,7 +749,7 @@ state 9
                   [[$default]])[  reduce using rule 7 (c)
 
 
-state 10
+State 10
 
     3 S: 'c' c .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -757,14 +757,14 @@ state 10
                   [[$default]])[  reduce using rule 3 (S)
 
 
-state 11
+State 11
 
     0 $accept: S $end .
 
     $default  accept
 
 
-state 12
+State 12
 
     4 A: 'a' 'a' . 'a'
     5  | 'a' 'a' .  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
@@ -775,7 +775,7 @@ state 12
     Conflict between rule 5 and token 'a' resolved as reduce (%left 'a').
 
 
-state 13
+State 13
 
     1 S: 'a' A 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -783,7 +783,7 @@ state 13
                   [[$default]])[  reduce using rule 1 (S)
 
 
-state 14
+State 14
 
     2 S: 'b' A 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -791,7 +791,7 @@ state 14
                   [[$default]])[  reduce using rule 2 (S)
 
 
-state 15
+State 15
 
     4 A: 'a' 'a' . 'a'
     5  | 'a' 'a' .  [$end]
@@ -805,7 +805,7 @@ state 15
                   [[$default]])[  reduce using rule 5 (A)
 
 
-state 16
+State 16
 
     4 A: 'a' 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
 
@@ -813,7 +813,7 @@ state 16
                   [[$default]])[  reduce using rule 4 (A)
 
 
-state 17
+State 17
 
     6 c: 'a' 'a' 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -822,7 +822,7 @@ state 17
                                                                        [[]], [[
 
 
-state 18
+State 18
 
     4 A: 'a' . 'a' 'a'
     5  | 'a' . 'a'
@@ -831,7 +831,7 @@ state 18
                                               [[19]])[
 
 
-state 19]AT_COND_CASE([[canonical LR]], [[
+State 19]AT_COND_CASE([[canonical LR]], [[
 
     4 A: 'a' 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -839,7 +839,7 @@ state 19]AT_COND_CASE([[canonical LR]], [[
                   [[$default]])[  reduce using rule 4 (A)
 
 
-state 20]])[
+State 20]])[
 
     4 A: 'a' 'a' . 'a'
     5  | 'a' 'a' .  ['b']
@@ -851,7 +851,7 @@ state 20]])[
                   [[$default]])[  reduce using rule 5 (A)]AT_COND_CASE([[canonical LR]], [[
 
 
-state 21
+State 21
 
     4 A: 'a' 'a' 'a' .]AT_COND_CASE([[canonical LR]], [[  ['b']]])[
 
@@ -900,7 +900,7 @@ dnl BISON-STDERR
 [],
 
 dnl TABLES
-[[state 0
+[[State 0
 
     0 $accept: . S $end
     1 S: . 'a' A 'a'
@@ -914,7 +914,7 @@ dnl TABLES
     S  go to state 4
 
 
-state 1
+State 1
 
     1 S: 'a' . A 'a'
     4 A: . 'a' 'a' B
@@ -924,7 +924,7 @@ state 1
     A  go to state 6
 
 
-state 2
+State 2
 
     2 S: 'b' . A 'b'
     4 A: . 'a' 'a' B
@@ -934,7 +934,7 @@ state 2
     A  go to state 7
 
 
-state 3
+State 3
 
     3 S: 'c' . c
     4 A: . 'a' 'a' B
@@ -947,35 +947,35 @@ state 3
     c  go to state 10
 
 
-state 4
+State 4
 
     0 $accept: S . $end
 
     $end  shift, and go to state 11
 
 
-state 5
+State 5
 
     4 A: 'a' . 'a' B
 
     'a'  shift, and go to state 12
 
 
-state 6
+State 6
 
     1 S: 'a' A . 'a'
 
     'a'  shift, and go to state 13
 
 
-state 7
+State 7
 
     2 S: 'b' A . 'b'
 
     'b'  shift, and go to state 14
 
 
-state 8
+State 8
 
     4 A: 'a' . 'a' B
     7 c: 'a' . 'a' 'b'
@@ -983,7 +983,7 @@ state 8
     'a'  shift, and go to state 15
 
 
-state 9
+State 9
 
     8 c: A .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -991,7 +991,7 @@ state 9
                   [[$default]])[  reduce using rule 8 (c)
 
 
-state 10
+State 10
 
     3 S: 'c' c .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -999,14 +999,14 @@ state 10
                   [[$default]])[  reduce using rule 3 (S)
 
 
-state 11
+State 11
 
     0 $accept: S $end .
 
     $default  accept
 
 
-state 12
+State 12
 
     4 A: 'a' 'a' . B
     5 B: . 'a'
@@ -1020,7 +1020,7 @@ state 12
     Conflict between rule 6 and token 'a' resolved as reduce (%left 'a').
 
 
-state 13
+State 13
 
     1 S: 'a' A 'a' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1028,7 +1028,7 @@ state 13
                   [[$default]])[  reduce using rule 1 (S)
 
 
-state 14
+State 14
 
     2 S: 'b' A 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1036,7 +1036,7 @@ state 14
                   [[$default]])[  reduce using rule 2 (S)
 
 
-state 15
+State 15
 
     4 A: 'a' 'a' . B
     5 B: . 'a'
@@ -1053,7 +1053,7 @@ state 15
     B  go to state ]AT_COND_CASE([[canonical LR]], [[21]], [[17]])[
 
 
-state 16
+State 16
 
     5 B: 'a' .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
 
@@ -1061,7 +1061,7 @@ state 16
                   [[$default]])[  reduce using rule 5 (B)
 
 
-state 17
+State 17
 
     4 A: 'a' 'a' B .]AT_COND_CASE([[canonical LR]], [[  ['a']]])[
 
@@ -1069,7 +1069,7 @@ state 17
                   [[$default]])[  reduce using rule 4 (A)
 
 
-state 18
+State 18
 
     7 c: 'a' 'a' 'b' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1077,7 +1077,7 @@ state 18
                   [[$default]])[  reduce using rule 7 (c)]AT_COND_CASE([[LALR]], [], [[
 
 
-state 19
+State 19
 
     4 A: 'a' . 'a' B
 
@@ -1085,21 +1085,21 @@ state 19
                                               [[20]])[
 
 
-state 20]AT_COND_CASE([[canonical LR]], [[
+State 20]AT_COND_CASE([[canonical LR]], [[
 
     5 B: 'a' .  [$end]
 
     $end  reduce using rule 5 (B)
 
 
-state 21
+State 21
 
     4 A: 'a' 'a' B .  [$end]
 
     $end  reduce using rule 4 (A)
 
 
-state 22]])[
+State 22]])[
 
     4 A: 'a' 'a' . B
     5 B: . 'a'
@@ -1114,14 +1114,14 @@ state 22]])[
     B  go to state ]AT_COND_CASE([[canonical LR]], [[24
 
 
-state 23
+State 23
 
     5 B: 'a' .  ['b']
 
     'b'  reduce using rule 5 (B)
 
 
-state 24
+State 24
 
     4 A: 'a' 'a' B .  ['b']
 
@@ -1195,7 +1195,7 @@ dnl BISON-STDERR
 ]], [])],
 
 dnl TABLES
-[[state 0
+[[State 0
 
     0 $accept: . S $end
     1 S: . 'a' A 'f'
@@ -1213,7 +1213,7 @@ dnl TABLES
     S  go to state 4
 
 
-state 1
+State 1
 
     1 S: 'a' . A 'f'
     2  | 'a' . B
@@ -1226,7 +1226,7 @@ state 1
     B  go to state 7
 
 
-state 2
+State 2
 
     3 S: 'b' . A 'f'
     4  | 'b' . B 'g'
@@ -1240,7 +1240,7 @@ state 2
     B  go to state 10
 
 
-state 3
+State 3
 
     6 S: 'c' . 'c' A 'g'
     7  | 'c' . 'c' B
@@ -1248,14 +1248,14 @@ state 3
     'c'  shift, and go to state 11
 
 
-state 4
+State 4
 
     0 $accept: S . $end
 
     $end  shift, and go to state 12
 
 
-state 5
+State 5
 
     8 A: 'd' . 'e'
     9 B: 'd' . 'e'
@@ -1265,14 +1265,14 @@ state 5
                                                [[20]])[
 
 
-state 6
+State 6
 
     1 S: 'a' A . 'f'
 
     'f'  shift, and go to state 14
 
 
-state 7
+State 7
 
     2 S: 'a' B .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1280,7 +1280,7 @@ state 7
                   [[$default]])[  reduce using rule 2 (S)
 
 
-state 8
+State 8
 
     5 S: 'b' 'd' .  [$end]
     8 A: 'd' . 'e'
@@ -1293,21 +1293,21 @@ state 8
                   [[$default]])[  reduce using rule 5 (S)
 
 
-state 9
+State 9
 
     3 S: 'b' A . 'f'
 
     'f'  shift, and go to state 15
 
 
-state 10
+State 10
 
     4 S: 'b' B . 'g'
 
     'g'  shift, and go to state 16
 
 
-state 11
+State 11
 
     6 S: 'c' 'c' . A 'g'
     7  | 'c' 'c' . B
@@ -1321,14 +1321,14 @@ state 11
     B  go to state 18
 
 
-state 12
+State 12
 
     0 $accept: S $end .
 
     $default  accept]AT_COND_CASE([[LALR]], [[
 
 
-state 13
+State 13
 
     8 A: 'd' 'e' .  ['f', 'g']
     9 B: 'd' 'e' .  [$end, 'g']
@@ -1339,7 +1339,7 @@ state 13
     $default  reduce using rule 8 (A)]], [[
 
 
-state 13
+State 13
 
     8 A: 'd' 'e' .  ['f']
     9 B: 'd' 'e' .  ]AT_COND_CASE([[canonical LR]], [[[$end]]], [[['g']]])[
@@ -1350,7 +1350,7 @@ state 13
                   [[$default]])[  reduce using rule 8 (A)]])[
 
 
-state 14
+State 14
 
     1 S: 'a' A 'f' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1358,7 +1358,7 @@ state 14
                   [[$default]])[  reduce using rule 1 (S)
 
 
-state 15
+State 15
 
     3 S: 'b' A 'f' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1366,7 +1366,7 @@ state 15
                   [[$default]])[  reduce using rule 3 (S)
 
 
-state 16
+State 16
 
     4 S: 'b' B 'g' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1374,14 +1374,14 @@ state 16
                   [[$default]])[  reduce using rule 4 (S)
 
 
-state 17
+State 17
 
     6 S: 'c' 'c' A . 'g'
 
     'g'  shift, and go to state 19
 
 
-state 18
+State 18
 
     7 S: 'c' 'c' B .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1389,7 +1389,7 @@ state 18
                   [[$default]])[  reduce using rule 7 (S)
 
 
-state 19
+State 19
 
     6 S: 'c' 'c' A 'g' .]AT_COND_CASE([[canonical LR]], [[  [$end]]])[
 
@@ -1398,7 +1398,7 @@ state 19
                                                                        [[]], [[
 
 
-state 20]AT_COND_CASE([[canonical LR]], [[
+State 20]AT_COND_CASE([[canonical LR]], [[
 
     8 A: 'd' 'e' .  ['f']
     9 B: 'd' 'e' .  ['g']
@@ -1407,7 +1407,7 @@ state 20]AT_COND_CASE([[canonical LR]], [[
     'g'  reduce using rule 9 (B)
 
 
-state 21
+State 21
 
     8 A: 'd' . 'e'
     9 B: 'd' . 'e'
@@ -1415,7 +1415,7 @@ state 21
     'e'  shift, and go to state 22
 
 
-state 22
+State 22
 
     8 A: 'd' 'e' .  ['g']
     9 B: 'd' 'e' .  [$end]
@@ -1491,7 +1491,7 @@ c: ;
 ]],
 dnl Visit each state mentioned above.
 [['a', 'a']],
-[[state 0
+[[State 0
 
     0 $accept: . start $end
     1 start: . a b
@@ -1505,7 +1505,7 @@ dnl Visit each state mentioned above.
     a      go to state 3
 
 
-state 1
+State 1
 
     4 a: 'a' .]AT_COND_CASE([[accepting]], [[  [$end, 'a', 'b']
 
@@ -1516,14 +1516,14 @@ state 1
     $default  reduce using rule 4 (a)]])[
 
 
-state 2
+State 2
 
     0 $accept: start . $end
 
     $end  shift, and go to state 4
 
 
-state 3
+State 3
 
     1 start: a . b
     2      | a . b 'a'
@@ -1542,14 +1542,14 @@ state 3
     c  go to state 6
 
 
-state 4
+State 4
 
     0 $accept: start $end .
 
     $default  accept
 
 
-state 5
+State 5
 
     1 start: a b .  [$end]
     2      | a b . 'a'
@@ -1560,14 +1560,14 @@ state 5
                   [[$end]])[  reduce using rule 1 (start)
 
 
-state 6
+State 6
 
     3 start: a c . 'b'
 
     'b'  shift, and go to state 8
 
 
-state 7
+State 7
 
     2 start: a b 'a' .]AT_COND_CASE([[accepting]], [[  [$end]
 
@@ -1576,7 +1576,7 @@ state 7
     $default  reduce using rule 2 (start)]])[
 
 
-state 8
+State 8
 
     3 start: a c 'b' .]AT_COND_CASE([[accepting]], [[  [$end]
 

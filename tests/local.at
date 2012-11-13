@@ -537,10 +537,10 @@ m4_define([AT_BISON_CHECK_XML],
   AT_CHECK([[$XSLTPROC \
              `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2text.xsl \
              xml-tests/test.xml]], [[0]], [expout])
-  [cp xml-tests/test.dot expout]
+  [sort xml-tests/test.dot > expout]
   AT_CHECK([[$XSLTPROC \
              `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2dot.xsl \
-             xml-tests/test.xml]], [[0]], [expout])
+             xml-tests/test.xml | sort]], [[0]], [expout])
   [rm -rf xml-tests expout]
   AT_RESTORE_SPECIAL_FILES
 [fi]])
@@ -849,9 +849,9 @@ m4_if(m4_index(m4_quote($3), [no-xml]), -1,
                                [0], [], m4_dquote($7))
 
 m4_if(m4_index(m4_quote($3), [last-state]), -1,
-      [AT_CHECK([[sed -n '/^state 0$/,$p' input.output]], [[0]],
+      [AT_CHECK([[sed -n '/^State 0$/,$p' input.output]], [[0]],
                 m4_dquote($8))],
-      [AT_CHECK([[sed -n 's/^state //p' input.output | tail -1]], [[0]],
+      [AT_CHECK([[sed -n 's/^State //p' input.output | tail -1]], [[0]],
                 m4_dquote($8)[[
 ]])])
 
