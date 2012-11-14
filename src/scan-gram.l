@@ -148,7 +148,7 @@ splice	 (\\[ \f\t\v]*\n)*
   /* Comments and white space.  */
   ","          warn_at (*loc, _("stray ',' treated as white space"));
   [ \f\n\t\v]  |
-  "//".*       ;
+  "//".*       continue;
   "/*" {
     token_start = loc->start;
     context_state = YY_START;
@@ -403,7 +403,7 @@ splice	 (\\[ \f\t\v]*\n)*
 <SC_YACC_COMMENT>
 {
   "*/"     BEGIN context_state;
-  .|\n	   ;
+  .|\n	   continue;
   <<EOF>>  unexpected_eof (token_start, "*/"); BEGIN context_state;
 }
 
