@@ -1469,12 +1469,22 @@ start: '
 ]])
 AT_CHECK([[$PERL -e "print 'start: \'';" >> empty.y || exit 77]])
 
-AT_BISON_CHECK([empty.y], [1], [],
+AT_BISON_CHECK([-fcaret empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal [-Wother]
-empty.y:3.8-4.0: warning: empty character literal [-Wother]
+ start: '';
+        ^^
 empty.y:3.8-4.0: error: missing "'" at end of line
-empty.y:4.8: warning: empty character literal [-Wother]
+ start: '
+        ^
+empty.y:3.8-4.0: warning: empty character literal [-Wother]
+ start: '
+        ^
 empty.y:4.8: error: missing "'" at end of file
+ start: '
+        ^
+empty.y:4.8: warning: empty character literal [-Wother]
+ start: '
+        ^
 ]])
 
 AT_DATA([two.y],
@@ -1486,10 +1496,10 @@ AT_CHECK([[$PERL -e "print 'start: \'ab';" >> two.y || exit 77]])
 
 AT_BISON_CHECK([two.y], [1], [],
 [[two.y:2.8-11: warning: extra characters in character literal [-Wother]
-two.y:3.8-4.0: warning: extra characters in character literal [-Wother]
 two.y:3.8-4.0: error: missing "'" at end of line
-two.y:4.8-10: warning: extra characters in character literal [-Wother]
+two.y:3.8-4.0: warning: extra characters in character literal [-Wother]
 two.y:4.8-10: error: missing "'" at end of file
+two.y:4.8-10: warning: extra characters in character literal [-Wother]
 ]])
 
 AT_DATA([three.y],
@@ -1501,10 +1511,10 @@ AT_CHECK([[$PERL -e "print 'start: \'abc';" >> three.y || exit 77]])
 
 AT_BISON_CHECK([three.y], [1], [],
 [[three.y:2.8-12: warning: extra characters in character literal [-Wother]
-three.y:3.8-4.0: warning: extra characters in character literal [-Wother]
 three.y:3.8-4.0: error: missing "'" at end of line
-three.y:4.8-11: warning: extra characters in character literal [-Wother]
+three.y:3.8-4.0: warning: extra characters in character literal [-Wother]
 three.y:4.8-11: error: missing "'" at end of file
+three.y:4.8-11: warning: extra characters in character literal [-Wother]
 ]])
 
 AT_CLEANUP
