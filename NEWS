@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Warnings about uninitialized yylloc in yyparse have been fixed.
+
 ** Documentation
 
   The sections about shift/reduce and reduce/reduce conflicts resolution
