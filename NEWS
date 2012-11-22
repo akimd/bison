@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Documentation
+
+  The sections about shift/reduce and reduce/reduce conflicts resolution
+  have been fixed and extended.
 
 * Noteworthy changes in release 2.6.5 (2012-11-07) [stable]
 

@@ -7117,6 +7117,58 @@ redirects:
 @end group
 @end example
 
+Yet this proposal introduces another kind of ambiguity!  The input
+@samp{word word} can be parsed as a single @code{words} composed of two
+@samp{word}s, or as two one-@code{word} @code{words} (and likewise for
+@code{redirect}/@code{redirects}).  However this ambiguity is now a
+shift/reduce conflict, and therefore it can now be addressed with precedence
+directives.
+
+To simplify the matter, we will proceed with @code{word} and @code{redirect}
+being tokens: @code{"word"} and @code{"redirect"}.
+
+To prefer the longest @code{words}, the conflict between the token
+@code{"word"} and the rule @samp{sequence: sequence words} must be resolved
+as a shift.  To this end, we use the same techniques as exposed above, see
+@ref{Non Operators,, Using Precedence For Non Operators}.  One solution
+relies on precedences: use @code{%prec} to give a lower precedence to the
+rule:
+
+@example
+%nonassoc "word"
+%nonassoc "sequence"
+%%
+@group
+sequence:
+  /* empty */
+| sequence word      %prec "sequence"
+| sequence redirect  %prec "sequence"
+;
+@end group
+
+@group
+words:
+  word
+| words "word"
+;
+@end group
+@end example
+
+Another solution relies on associativity: provide both the token and the
+rule with the same precedence, but make them right-associative:
+
+@example
+%right "word" "redirect"
+%%
+@group
+sequence:
+  /* empty */
+| sequence word      %prec "word"
+| sequence redirect  %prec "redirect"
+;
+@end group
+@end example
+
 @node Mysterious Conflicts
 @section Mysterious Conflicts
 @cindex Mysterious Conflicts
@@ -11835,6 +11887,10 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
 @c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate
+@c LocalWords: parsers parser's
+@c LocalWords: associativity subclasses precedences unresolvable runnable
+@c LocalWords: allocators subunit initializations unreferenced untyped
+@c LocalWords: errorVerbose subtype subtypes
 
 @c Local Variables:
 @c ispell-dictionary: "american"
