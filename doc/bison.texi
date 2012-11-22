@@ -6994,30 +6994,38 @@ reduce/reduce conflict must be studied and usually eliminated.  Here is the
 proper way to define @code{sequence}:
 
 @example
+@group
 sequence:
   /* empty */    @{ printf ("empty sequence\n"); @}
 | sequence word  @{ printf ("added word %s\n", $2); @}
 ;
+@end group
 @end example
 
 Here is another common error that yields a reduce/reduce conflict:
 
 @example
 sequence:
+@group
   /* empty */
 | sequence words
 | sequence redirects
 ;
+@end group
 
+@group
 words:
   /* empty */
 | words word
 ;
+@end group
 
+@group
 redirects:
   /* empty */
 | redirects redirect
 ;
+@end group
 @end example
 
 @noindent
