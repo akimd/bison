@@ -6574,7 +6574,7 @@ expr:
 term:
   '(' expr ')'
 | term '!'
-| NUMBER
+| "number"
 ;
 @end group
 @end example
@@ -6613,20 +6613,20 @@ statements, with a pair of rules like this:
 @example
 @group
 if_stmt:
-  IF expr THEN stmt
-| IF expr THEN stmt ELSE stmt
+  "if" expr "then" stmt
+| "if" expr "then" stmt "else" stmt
 ;
 @end group
 @end example
 
 @noindent
-Here we assume that @code{IF}, @code{THEN} and @code{ELSE} are
-terminal symbols for specific keyword tokens.
+Here @code{"if"}, @code{"then"} and @code{"else"} are terminal symbols for
+specific keyword tokens.
 
-When the @code{ELSE} token is read and becomes the lookahead token, the
+When the @code{"else"} token is read and becomes the lookahead token, the
 contents of the stack (assuming the input is valid) are just right for
 reduction by the first rule.  But it is also legitimate to shift the
-@code{ELSE}, because that would lead to eventual reduction by the second
+@code{"else"}, because that would lead to eventual reduction by the second
 rule.
 
 This situation, where either a shift or a reduction would be valid, is
@@ -6635,14 +6635,14 @@ these conflicts by choosing to shift, unless otherwise directed by
 operator precedence declarations.  To see the reason for this, let's
 contrast it with the other alternative.
 
-Since the parser prefers to shift the @code{ELSE}, the result is to attach
+Since the parser prefers to shift the @code{"else"}, the result is to attach
 the else-clause to the innermost if-statement, making these two inputs
 equivalent:
 
 @example
-if x then if y then win (); else lose;
+if x then if y then win; else lose;
 
-if x then do; if y then win (); else lose; end;
+if x then do; if y then win; else lose; end;
 @end example
 
 But if the parser chose to reduce when possible rather than shift, the
@@ -6650,9 +6650,9 @@ result would be to attach the else-clause to the outermost if-statement,
 making these two inputs equivalent:
 
 @example
-if x then if y then win (); else lose;
+if x then if y then win; else lose;
 
-if x then do; if y then win (); end; else lose;
+if x then do; if y then win; end; else lose;
 @end example
 
 The conflict exists because the grammar as written is ambiguous: either
@@ -6678,7 +6678,6 @@ the conflict:
 
 @example
 @group
-%token IF THEN ELSE variable
 %%
 @end group
 @group
@@ -6690,13 +6689,13 @@ stmt:
 
 @group
 if_stmt:
-  IF expr THEN stmt
-| IF expr THEN stmt ELSE stmt
+  "if" expr "then" stmt
+| "if" expr "then" stmt "else" stmt
 ;
 @end group
 
 expr:
-  variable
+  "identifier"
 ;
 @end example
 
@@ -6802,15 +6801,10 @@ would declare them in groups of equal precedence.  For example, @code{'+'} is
 declared with @code{'-'}:
 
 @example
-%left '<' '>' '=' NE LE GE
+%left '<' '>' '=' "!=" "<=" ">="
 %left '+' '-'
 %left '*' '/'
 @end example
-
-@noindent
-(Here @code{NE} and so on stand for the operators for ``not equal''
-and so on.  We assume that these tokens are more than one character long
-and therefore are represented by names, not character literals.)
 
 @node How Precedence
 @subsection How Precedence Works
@@ -7087,8 +7081,6 @@ Here is an example:
 
 @example
 @group
-%token ID
-
 %%
 def: param_spec return_spec ',';
 param_spec:
@@ -7103,10 +7095,10 @@ return_spec:
 ;
 @end group
 @group
-type: ID;
+type: "id";
 @end group
 @group
-name: ID;
+name: "id";
 name_list:
   name
 | name ',' name_list
@@ -7114,16 +7106,16 @@ name_list:
 @end group
 @end example
 
-It would seem that this grammar can be parsed with only a single token
-of lookahead: when a @code{param_spec} is being read, an @code{ID} is
-a @code{name} if a comma or colon follows, or a @code{type} if another
-@code{ID} follows.  In other words, this grammar is LR(1).
+It would seem that this grammar can be parsed with only a single token of
+lookahead: when a @code{param_spec} is being read, an @code{"id"} is a
+@code{name} if a comma or colon follows, or a @code{type} if another
+@code{"id"} follows.  In other words, this grammar is LR(1).
 
 @cindex LR
 @cindex LALR
 However, for historical reasons, Bison cannot by default handle all
 LR(1) grammars.
-In this grammar, two contexts, that after an @code{ID} at the beginning
+In this grammar, two contexts, that after an @code{"id"} at the beginning
 of a @code{param_spec} and likewise at the beginning of a
 @code{return_spec}, are similar enough that Bison assumes they are the
 same.
@@ -7154,27 +7146,24 @@ distinct.  In the above example, adding one rule to
 
 @example
 @group
-%token BOGUS
-@dots{}
-%%
 @dots{}
 return_spec:
   type
 | name ':' type
-| ID BOGUS       /* This rule is never used.  */
+| "id" "bogus"       /* This rule is never used.  */
 ;
 @end group
 @end example
 
 This corrects the problem because it introduces the possibility of an
-additional active rule in the context after the @code{ID} at the beginning of
+additional active rule in the context after the @code{"id"} at the beginning of
 @code{return_spec}.  This rule is not active in the corresponding context
 in a @code{param_spec}, so the two contexts receive distinct parser states.
-As long as the token @code{BOGUS} is never generated by @code{yylex},
+As long as the token @code{"bogus"} is never generated by @code{yylex},
 the added rule cannot alter the way actual input is parsed.
 
 In this particular example, there is another way to solve the problem:
-rewrite the rule for @code{return_spec} to use @code{ID} directly
+rewrite the rule for @code{return_spec} to use @code{"id"} directly
 instead of via @code{name}.  This also causes the two confusing
 contexts to have different sets of active rules, because the one for
 @code{return_spec} activates the altered rule for @code{return_spec}
@@ -7187,7 +7176,7 @@ param_spec:
 ;
 return_spec:
   type
-| ID ':' type
+| "id" ':' type
 ;
 @end example
 
