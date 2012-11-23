@@ -49,18 +49,18 @@ static int power (int base, int exponent);
 %nonassoc '='   /* comparison	       */
 %left '-' '+'
 %left '*' '/'
-%left NEG /* negation--unary minus */
+%left NEG       /* negation--unary minus */
 %right '^'      /* exponentiation        */
 
 %%
 input:
   line
-| input line         {  }
+| input line         {}
 ;
 
 line:
   '\n'
-| exp '\n'           {  }
+| exp '\n'           {}
 ;
 
 exp:
@@ -69,15 +69,15 @@ exp:
   {
     if ($l != $r)
       fprintf (stderr, "calc: error: %d != %d\n", $l, $r);
-   $$ = $l;
+    $$ = $l;
   }
 | exp[x] '+' { $<ival>$ = $x; } [l] exp[r]  { $$ = $<ival>l + $r;    }
-| exp[l] '-' exp[r]        { $$ = $l - $r;        }
-| exp[l] '*' exp[r]        { $$ = $l * $r;        }
+| exp[l] '-' exp[r]  { $$ = $l - $r;        }
+| exp[l] '*' exp[r]  { $$ = $l * $r;        }
 | exp[l] '/' exp[r]  { $$ = $l / $r;        }
 | '-' exp  %prec NEG { $$ = -$2;            }
-| exp[l] '^' exp[r]        { $$ = power ($l, $r); }
-| '(' exp[e] ')'        { $$ = $e;           }
+| exp[l] '^' exp[r]  { $$ = power ($l, $r); }
+| '(' exp[e] ')'     { $$ = $e;           }
 | '(' error ')'      { $$ = 1111; yyerrok;  }
 | '!'                { $$ = 0; YYERROR;     }
 | '-' error          { $$ = 0; YYERROR;     }
@@ -214,18 +214,18 @@ static int power (int base, int exponent);
 %nonassoc '='   /* comparison	       */
 %left '-' '+'
 %left '*' '/'
-%left NEG /* negation--unary minus */
+%left NEG       /* negation--unary minus */
 %right '^'      /* exponentiation        */
 
 %%
 input:
   line
-| input line         {  }
+| input line         {}
 ;
 
 line:
   '\n'
-| exp '\n'           {  }
+| exp '\n'           {}
 ;
 
 exp:
@@ -234,14 +234,14 @@ exp:
   {
     if ($l != $r)
       fprintf (stderr, "calc: error: %d != %d\n", $l, $r);
-   $$ = $l;
+    $$ = $l;
   }
 | exp[x] '+' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>lo9 + $r; }
 | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
 | exp[x] '*' { $<ival>$ = $x; } [l] exp[r] { $$ = $l * $r; }
 | exp[l] '/' exp[r]  { $$ = $l / $r;        }
 | '-' exp  %prec NEG { $$ = -$2;            }
-| exp[l] '^' exp[r]        { $$ = power ($l, $r12); }
+| exp[l] '^' exp[r]  { $$ = power ($l, $r12); }
 | '(' exp ')'        { $$ = $expo;           }
 | '(' error ')'      { $$ = 1111; yyerrok;  }
 | '!'                { $$ = 0; YYERROR;     }
@@ -258,8 +258,8 @@ test.y:42.1-3:       refers to: $exp at $$
 test.y:51.7:         possibly meant: $x, hiding $exp at $1
 test.y:51.41:        possibly meant: $r, hiding $exp at $4
 test.y:52.51-52: error: $l of 'exp' has no declared type
-test.y:55.46-49: error: invalid reference: '$r12'
-test.y:55.3-53:      symbol not found in production: r12
+test.y:55.40-43: error: invalid reference: '$r12'
+test.y:55.3-47:      symbol not found in production: r12
 test.y:56.29-33: error: invalid reference: '$expo'
 test.y:56.3-46:      symbol not found in production: expo
 ]])
