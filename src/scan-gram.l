@@ -103,9 +103,9 @@ static void unexpected_newline (boundary, char const *);
  /* Bracketed identifiers support. */
 %x SC_BRACKETED_ID SC_RETURN_BRACKETED_ID
 
-letter	  [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+letter	   [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+notletter [^.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]{-}[%\{]
 id	  {letter}({letter}|[-0-9])*
-directive %{id}
 int	  [0-9]+
 
 /* POSIX says that a tag must be both an id and a C union member, but
@@ -218,7 +218,7 @@ splice	 (\\[ \f\t\v]*\n)*
   "%verbose"                        return PERCENT_VERBOSE;
   "%yacc"                           return PERCENT_YACC;
 
-  {directive} {
+  "%"{id}|"%"{notletter}([[:graph:]])+ {
     complain_at (*loc, _("invalid directive: %s"), quote (yytext));
   }
 
@@ -290,8 +290,10 @@ splice	 (\\[ \f\t\v]*\n)*
     BEGIN SC_BRACKETED_ID;
   }
 
-  . {
-    complain_at (*loc, _("invalid character: %s"), quote_mem (yytext, yyleng));
+  [^\[%A-Za-z0-9_<>{}\"\'*;|=/, \f\n\t\v]+|. {
+    complain_at (*loc, "%s: %s",
+                 ngettext ("invalid character", "invalid characters", yyleng),
+                 quote_mem (yytext, yyleng));
   }
 
   <<EOF>> {
@@ -373,10 +375,14 @@ splice	 (\\[ \f\t\v]*\n)*
     else
       complain_at (*loc, _("an identifier expected"));
   }
-  . {
-    complain_at (*loc, _("invalid character in bracketed name: %s"),
-		 quote_mem (yytext, yyleng));
+
+  [^\].A-Za-z0-9_/ \f\n\t\v]+|. {
+    complain_at (*loc, "%s: %s",
+                 ngettext ("invalid character in bracketed name",
+                           "invalid characters in bracketed name", yyleng),
+                 quote_mem (yytext, yyleng));
   }
+
   <<EOF>> {
     BEGIN bracketed_id_context_state;
     unexpected_eof (bracketed_id_start, "]");
