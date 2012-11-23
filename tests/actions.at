@@ -79,7 +79,7 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([Initial location: $1 $2])
 
-AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2 %parse-param { int x }])
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2])
 AT_DATA_GRAMMAR([[input.y]],
 [[%defines /* FIXME: Required by lalr1.cc in Bison 2.6. */
 %locations
@@ -87,7 +87,6 @@ AT_DATA_GRAMMAR([[input.y]],
 %skeleton "$1"
 ]$2[
 ]$3[
-%parse-param { int x } // Useless, but used to force yyerror purity.
 %code
 {
 # include <stdio.h>
@@ -113,11 +112,11 @@ exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << std::endl]],
 int
 main (void)
 {]AT_SKEL_CC_IF([[
-  yy::parser p (0);
+  yy::parser p;
   p.set_debug_level (!!getenv("YYDEBUG"));
   return p.parse ();]], [[
   yydebug = !!getenv("YYDEBUG");
-  return !!yyparse (0);]])[
+  return !!yyparse (]AT_PARAM_IF([0])[);]])[
 }
 ]])
 
@@ -132,10 +131,12 @@ AT_CLEANUP
 
 ## FIXME: test Java, and iterate over skeletons.
 AT_TEST([yacc.c])
-AT_TEST([yacc.c], [%define api.pure])
+AT_TEST([yacc.c], [%define api.pure full])
+AT_TEST([yacc.c], [%define api.pure %parse-param { int x }])
 AT_TEST([yacc.c], [%define api.push-pull both])
-AT_TEST([yacc.c], [%define api.push-pull both %define api.pure])
+AT_TEST([yacc.c], [%define api.push-pull both %define api.pure full])
 AT_TEST([glr.c])
+AT_TEST([glr.c], [%define api.pure])
 AT_TEST([lalr1.cc])
 AT_TEST([glr.cc])
 
@@ -146,7 +147,7 @@ AT_TEST([glr.cc])
 ## Weirdly enough, to trigger the warning with GCC 4.7, we must not
 ## use fprintf, so run the test twice: once to check the warning
 ## (absence thereof), and another time to check the value.
-AT_TEST([yacc.c], [%define api.pure],
+AT_TEST([yacc.c], [%define api.pure full],
 [[%{
 # define YYLTYPE int
 # define YY_LOCATION_PRINT(Stream, Loc)      \
@@ -157,7 +158,7 @@ AT_TEST([yacc.c], [%define api.pure],
 ]],
 [@&t@])
 
-AT_TEST([yacc.c], [%define api.pure],
+AT_TEST([yacc.c], [%define api.pure full],
 [[%{
 # define YYLTYPE int
 # define YY_LOCATION_PRINT(Stream, Loc)      \

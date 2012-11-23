@@ -168,6 +168,7 @@ m4_pushdef([AT_API_PREFIX],
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_LOCATION_IF([AT_PURE_IF([m4_bmatch([$3],
                                        m4_quote(m4_join([\|],
+                                                        [%define api.pure "?full"?],
                                                         [%glr-parser],
                                                         [%parse-param],
                                                         [%skeleton "?glr.c"?])),
@@ -355,6 +356,7 @@ static
 }]dnl
 ])
 
+# AT_YYERROR_FORMALS
 # AT_YYERROR_PROTOTYPE
 # AT_YYERROR_DECLARE_EXTERN
 # AT_YYERROR_DECLARE
