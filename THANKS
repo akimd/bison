@@ -1,8 +1,9 @@
 Bison was originally written by Robert Corbett.  It would not be what
 it is today without the invaluable help of these people:
 
+Аскар Сафин              safinaskar@mail.ru
 Airy Andre                Airy.Andre@edf.fr
-Akim Demaille             akim@freefriends.org
+Akim Demaille             akim@lrde.epita.fr
 Albert Chin-A-Young       china@thewrittenword.com
 Alexander Belopolsky      alexb@rentec.com
 Alexandre Duret-Lutz      adl@lrde.epita.fr
@@ -88,6 +89,7 @@ Pascal Bart               pascal.bart@epita.fr
 Paul Eggert               eggert@cs.ucla.edu
 Paul Hilfinger            Hilfinger@CS.Berkeley.EDU
 Per Allansson             per@appgate.com
+Peter Eisentraut          peter_e@gmx.net
 Peter Fales               psfales@lucent.com
 Peter Hamorsky            hamo@upjs.sk
 Peter Simons              simons@cryp.to

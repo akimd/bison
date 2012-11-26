@@ -276,6 +276,7 @@ Operator Precedence
 * Using Precedence::  How to specify precedence in Bison grammars.
 * Precedence Examples::  How these features are used in the previous example.
 * How Precedence::    How they work.
+* Non Operators::     Using precedence for general conflicts.
 
 Tuning LR
 
@@ -6598,7 +6599,7 @@ expr:
 term:
   '(' expr ')'
 | term '!'
-| NUMBER
+| "number"
 ;
 @end group
 @end example
@@ -6637,20 +6638,20 @@ statements, with a pair of rules like this:
 @example
 @group
 if_stmt:
-  IF expr THEN stmt
-| IF expr THEN stmt ELSE stmt
+  "if" expr "then" stmt
+| "if" expr "then" stmt "else" stmt
 ;
 @end group
 @end example
 
 @noindent
-Here we assume that @code{IF}, @code{THEN} and @code{ELSE} are
-terminal symbols for specific keyword tokens.
+Here @code{"if"}, @code{"then"} and @code{"else"} are terminal symbols for
+specific keyword tokens.
 
-When the @code{ELSE} token is read and becomes the lookahead token, the
+When the @code{"else"} token is read and becomes the lookahead token, the
 contents of the stack (assuming the input is valid) are just right for
 reduction by the first rule.  But it is also legitimate to shift the
-@code{ELSE}, because that would lead to eventual reduction by the second
+@code{"else"}, because that would lead to eventual reduction by the second
 rule.
 
 This situation, where either a shift or a reduction would be valid, is
@@ -6659,14 +6660,14 @@ these conflicts by choosing to shift, unless otherwise directed by
 operator precedence declarations.  To see the reason for this, let's
 contrast it with the other alternative.
 
-Since the parser prefers to shift the @code{ELSE}, the result is to attach
+Since the parser prefers to shift the @code{"else"}, the result is to attach
 the else-clause to the innermost if-statement, making these two inputs
 equivalent:
 
 @example
-if x then if y then win (); else lose;
+if x then if y then win; else lose;
 
-if x then do; if y then win (); else lose; end;
+if x then do; if y then win; else lose; end;
 @end example
 
 But if the parser chose to reduce when possible rather than shift, the
@@ -6674,9 +6675,9 @@ result would be to attach the else-clause to the outermost if-statement,
 making these two inputs equivalent:
 
 @example
-if x then if y then win (); else lose;
+if x then if y then win; else lose;
 
-if x then do; if y then win (); end; else lose;
+if x then do; if y then win; end; else lose;
 @end example
 
 The conflict exists because the grammar as written is ambiguous: either
@@ -6689,11 +6690,16 @@ This particular ambiguity was first encountered in the specifications of
 Algol 60 and is called the ``dangling @code{else}'' ambiguity.
 
 To avoid warnings from Bison about predictable, legitimate shift/reduce
-conflicts, use the @code{%expect @var{n}} declaration.
+conflicts, you can use the @code{%expect @var{n}} declaration.
 There will be no warning as long as the number of shift/reduce conflicts
 is exactly @var{n}, and Bison will report an error if there is a
 different number.
-@xref{Expect Decl, ,Suppressing Conflict Warnings}.
+@xref{Expect Decl, ,Suppressing Conflict Warnings}.  However, we don't
+recommend the use of @code{%expect} (except @samp{%expect 0}!), as an equal
+number of conflicts does not mean that they are the @emph{same}.  When
+possible, you should rather use precedence directives to @emph{fix} the
+conflicts explicitly (@pxref{Non Operators,, Using Precedence For Non
+Operators}).
 
 The definition of @code{if_stmt} above is solely to blame for the
 conflict, but the conflict does not actually appear without additional
@@ -6702,7 +6708,6 @@ the conflict:
 
 @example
 @group
-%token IF THEN ELSE variable
 %%
 @end group
 @group
@@ -6714,13 +6719,13 @@ stmt:
 
 @group
 if_stmt:
-  IF expr THEN stmt
-| IF expr THEN stmt ELSE stmt
+  "if" expr "then" stmt
+| "if" expr "then" stmt "else" stmt
 ;
 @end group
 
 expr:
-  variable
+  "identifier"
 ;
 @end example
 
@@ -6739,6 +6744,7 @@ shift and when to reduce.
 * Using Precedence::  How to specify precedence in Bison grammars.
 * Precedence Examples::  How these features are used in the previous example.
 * How Precedence::    How they work.
+* Non Operators::     Using precedence for general conflicts.
 @end menu
 
 @node Why Precedence
@@ -6826,15 +6832,10 @@ would declare them in groups of equal precedence.  For example, @code{'+'} is
 declared with @code{'-'}:
 
 @example
-%left '<' '>' '=' NE LE GE
+%left '<' '>' '=' "!=" "<=" ">="
 %left '+' '-'
 %left '*' '/'
 @end example
-
-@noindent
-(Here @code{NE} and so on stand for the operators for ``not equal''
-and so on.  We assume that these tokens are more than one character long
-and therefore are represented by names, not character literals.)
 
 @node How Precedence
 @subsection How Precedence Works
@@ -6857,6 +6858,44 @@ resolved.
 
 Not all rules and not all tokens have precedence.  If either the rule or
 the lookahead token has no precedence, then the default is to shift.
+
+@node Non Operators
+@subsection Using Precedence For Non Operators
+
+Using properly precedence and associativity directives can help fixing
+shift/reduce conflicts that do not involve arithmetics-like operators.  For
+instance, the ``dangling @code{else}'' problem (@pxref{Shift/Reduce, ,
+Shift/Reduce Conflicts}) can be solved elegantly in two different ways.
+
+In the present case, the conflict is between the token @code{"else"} willing
+to be shifted, and the rule @samp{if_stmt: "if" expr "then" stmt}, asking
+for reduction.  By default, the precedence of a rule is that of its last
+token, here @code{"then"}, so the conflict will be solved appropriately
+by giving @code{"else"} a precedence higher than that of @code{"then"}, for
+instance as follows:
+
+@example
+@group
+%nonassoc "then"
+%nonassoc "else"
+@end group
+@end example
+
+Alternatively, you may give both tokens the same precedence, in which case
+associativity is used to solve the conflict.  To preserve the shift action,
+use right associativity:
+
+@example
+%right "then" "else"
+@end example
+
+Neither solution is perfect however.  Since Bison does not provide, so far,
+support for ``scoped'' precedence, both force you to declare the precedence
+of these keywords with respect to the other operators your grammar.
+Therefore, instead of being warned about new conflicts you would be unaware
+of (e.g., a shift/reduce conflict due to @samp{if test then 1 else 2 + 3}
+being ambiguous: @samp{if test then 1 else (2 + 3)} or @samp{(if test then 1
+else 2) + 3}?), the conflict will be already ``fixed''.
 
 @node Contextual Precedence
 @section Context-Dependent Precedence
@@ -7018,30 +7057,38 @@ reduce/reduce conflict must be studied and usually eliminated.  Here is the
 proper way to define @code{sequence}:
 
 @example
+@group
 sequence:
   /* empty */    @{ printf ("empty sequence\n"); @}
 | sequence word  @{ printf ("added word %s\n", $2); @}
 ;
+@end group
 @end example
 
 Here is another common error that yields a reduce/reduce conflict:
 
 @example
 sequence:
+@group
   /* empty */
 | sequence words
 | sequence redirects
 ;
+@end group
 
+@group
 words:
   /* empty */
 | words word
 ;
+@end group
 
+@group
 redirects:
   /* empty */
 | redirects redirect
 ;
+@end group
 @end example
 
 @noindent
@@ -7094,6 +7141,58 @@ redirects:
 @end group
 @end example
 
+Yet this proposal introduces another kind of ambiguity!  The input
+@samp{word word} can be parsed as a single @code{words} composed of two
+@samp{word}s, or as two one-@code{word} @code{words} (and likewise for
+@code{redirect}/@code{redirects}).  However this ambiguity is now a
+shift/reduce conflict, and therefore it can now be addressed with precedence
+directives.
+
+To simplify the matter, we will proceed with @code{word} and @code{redirect}
+being tokens: @code{"word"} and @code{"redirect"}.
+
+To prefer the longest @code{words}, the conflict between the token
+@code{"word"} and the rule @samp{sequence: sequence words} must be resolved
+as a shift.  To this end, we use the same techniques as exposed above, see
+@ref{Non Operators,, Using Precedence For Non Operators}.  One solution
+relies on precedences: use @code{%prec} to give a lower precedence to the
+rule:
+
+@example
+%nonassoc "word"
+%nonassoc "sequence"
+%%
+@group
+sequence:
+  /* empty */
+| sequence word      %prec "sequence"
+| sequence redirect  %prec "sequence"
+;
+@end group
+
+@group
+words:
+  word
+| words "word"
+;
+@end group
+@end example
+
+Another solution relies on associativity: provide both the token and the
+rule with the same precedence, but make them right-associative:
+
+@example
+%right "word" "redirect"
+%%
+@group
+sequence:
+  /* empty */
+| sequence word      %prec "word"
+| sequence redirect  %prec "redirect"
+;
+@end group
+@end example
+
 @node Mysterious Conflicts
 @section Mysterious Conflicts
 @cindex Mysterious Conflicts
@@ -7103,8 +7202,6 @@ Here is an example:
 
 @example
 @group
-%token ID
-
 %%
 def: param_spec return_spec ',';
 param_spec:
@@ -7119,10 +7216,10 @@ return_spec:
 ;
 @end group
 @group
-type: ID;
+type: "id";
 @end group
 @group
-name: ID;
+name: "id";
 name_list:
   name
 | name ',' name_list
@@ -7130,16 +7227,16 @@ name_list:
 @end group
 @end example
 
-It would seem that this grammar can be parsed with only a single token
-of lookahead: when a @code{param_spec} is being read, an @code{ID} is
-a @code{name} if a comma or colon follows, or a @code{type} if another
-@code{ID} follows.  In other words, this grammar is LR(1).
+It would seem that this grammar can be parsed with only a single token of
+lookahead: when a @code{param_spec} is being read, an @code{"id"} is a
+@code{name} if a comma or colon follows, or a @code{type} if another
+@code{"id"} follows.  In other words, this grammar is LR(1).
 
 @cindex LR
 @cindex LALR
 However, for historical reasons, Bison cannot by default handle all
 LR(1) grammars.
-In this grammar, two contexts, that after an @code{ID} at the beginning
+In this grammar, two contexts, that after an @code{"id"} at the beginning
 of a @code{param_spec} and likewise at the beginning of a
 @code{return_spec}, are similar enough that Bison assumes they are the
 same.
@@ -7170,27 +7267,24 @@ distinct.  In the above example, adding one rule to
 
 @example
 @group
-%token BOGUS
-@dots{}
-%%
 @dots{}
 return_spec:
   type
 | name ':' type
-| ID BOGUS       /* This rule is never used.  */
+| "id" "bogus"       /* This rule is never used.  */
 ;
 @end group
 @end example
 
 This corrects the problem because it introduces the possibility of an
-additional active rule in the context after the @code{ID} at the beginning of
+additional active rule in the context after the @code{"id"} at the beginning of
 @code{return_spec}.  This rule is not active in the corresponding context
 in a @code{param_spec}, so the two contexts receive distinct parser states.
-As long as the token @code{BOGUS} is never generated by @code{yylex},
+As long as the token @code{"bogus"} is never generated by @code{yylex},
 the added rule cannot alter the way actual input is parsed.
 
 In this particular example, there is another way to solve the problem:
-rewrite the rule for @code{return_spec} to use @code{ID} directly
+rewrite the rule for @code{return_spec} to use @code{"id"} directly
 instead of via @code{name}.  This also causes the two confusing
 contexts to have different sets of active rules, because the one for
 @code{return_spec} activates the altered rule for @code{return_spec}
@@ -7203,7 +7297,7 @@ param_spec:
 ;
 return_spec:
   type
-| ID ':' type
+| "id" ':' type
 ;
 @end example
 
@@ -12047,7 +12141,10 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
 @c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType
-@c LocalWords: errorVerbose
+@c LocalWords: parsers parser's
+@c LocalWords: associativity subclasses precedences unresolvable runnable
+@c LocalWords: allocators subunit initializations unreferenced untyped
+@c LocalWords: errorVerbose subtype subtypes
 
 @c Local Variables:
 @c ispell-dictionary: "american"

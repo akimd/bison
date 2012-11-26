@@ -56,6 +56,17 @@ GNU Bison NEWS
 
   Two nodes were added to the documentation: Xml and Graphviz.
 
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+** Bug fixes
+
+  Warnings about uninitialized yylloc in yyparse have been fixed.
+
+** Documentation
+
+  The sections about shift/reduce and reduce/reduce conflicts resolution
+  have been fixed and extended.
+
 * Noteworthy changes in release 2.6.5 (2012-11-07) [stable]
 
   We consider compiler warnings about Bison generated parsers to be bugs.

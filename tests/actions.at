@@ -73,8 +73,8 @@ AT_CLEANUP
 ## Initial location.  ##
 ## ------------------ ##
 
-# AT_TEST(SKELETON-NAME, DIRECTIVES)
-# ----------------------------------
+# AT_TEST(SKELETON-NAME, DIRECTIVES, [MORE-DIRECTIVES], [LOCATION = 1.1])
+# -----------------------------------------------------------------------
 # Check that the initial location is correct.
 m4_pushdef([AT_TEST],
 [AT_SETUP([Initial location: $1 $2])
@@ -85,7 +85,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %locations
 %debug
 %skeleton "$1"
-$2
+]$2[
+]$3[
 %parse-param { int x } // Useless, but used to force yyerror purity.
 %code
 {
@@ -122,8 +123,8 @@ main (void)
 
 AT_FULL_COMPILE([input])
 AT_PARSER_CHECK([./input], 1, [],
-[[1.1
-1.1: syntax error
+[m4_default([$4], [1.1])
+m4_default([$4], [1.1])[: syntax error
 ]])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -137,6 +138,36 @@ AT_TEST([yacc.c], [%define api.push-pull both %define api.pure])
 AT_TEST([glr.c])
 AT_TEST([lalr1.cc])
 AT_TEST([glr.cc])
+
+## A very different test, based on PostgreSQL's implementation of the
+## locations.  See
+## http://lists.gnu.org/archive/html/bug-bison/2012-11/msg00023.html
+##
+## Weirdly enough, to trigger the warning with GCC 4.7, we must not
+## use fprintf, so run the test twice: once to check the warning
+## (absence thereof), and another time to check the value.
+AT_TEST([yacc.c], [%define api.pure],
+[[%{
+# define YYLTYPE int
+# define YY_LOCATION_PRINT(Stream, Loc)      \
+   (void) (Loc)
+# define YYLLOC_DEFAULT(Current, Rhs, N)    \
+  (Current) = ((Rhs)[N ? 1 : 0])
+%}
+]],
+[@&t@])
+
+AT_TEST([yacc.c], [%define api.pure],
+[[%{
+# define YYLTYPE int
+# define YY_LOCATION_PRINT(Stream, Loc)      \
+    fprintf ((Stream), "%d", (Loc))
+# define YYLLOC_DEFAULT(Current, Rhs, N)    \
+  (Current) = ((Rhs)[N ? 1 : 0])
+%}
+]],
+[0])
+
 
 m4_popdef([AT_TEST])
 
