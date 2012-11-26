@@ -131,8 +131,8 @@ static void unexpected_newline (boundary, char const *);
 %x SC_BRACKETED_ID SC_RETURN_BRACKETED_ID
 
 letter    [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+notletter [^.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]{-}[%\{]
 id        {letter}({letter}|[-0-9])*
-directive %{id}
 int       [0-9]+
 
 /* POSIX says that a tag must be both an id and a C union member, but
@@ -184,7 +184,7 @@ eqopt    ([[:space:]]*=)?
      complain (loc, Wother, _("stray ',' treated as white space"));
   }
   [ \f\n\t\v]  |
-  "//".*       ;
+  "//".*       continue;
   "/*" {
     token_start = loc->start;
     context_state = YY_START;
@@ -269,7 +269,7 @@ eqopt    ([[:space:]]*=)?
   "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
   "%token"[-_]"table"               DEPRECATED("%token-table");
 
-  {directive} {
+  "%"{id}|"%"{notletter}([[:graph:]])+ {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
   }
 
@@ -353,8 +353,9 @@ eqopt    ([[:space:]]*=)?
     BEGIN SC_BRACKETED_ID;
   }
 
-  . {
-    complain (loc, complaint, _("invalid character: %s"),
+  [^\[%A-Za-z0-9_<>{}\"\'*;|=/, \f\n\t\v]+|. {
+    complain (loc, complaint, "%s: %s",
+              ngettext ("invalid character", "invalid characters", yyleng),
               quote_mem (yytext, yyleng));
   }
 
@@ -449,10 +450,14 @@ eqopt    ([[:space:]]*=)?
     else
       complain (loc, complaint, _("an identifier expected"));
   }
-  . {
-    complain (loc, complaint, _("invalid character in bracketed name: %s"),
+
+  [^\].A-Za-z0-9_/ \f\n\t\v]+|. {
+    complain (loc, complaint, "%s: %s",
+              ngettext ("invalid character in bracketed name",
+                        "invalid characters in bracketed name", yyleng),
               quote_mem (yytext, yyleng));
   }
+
   <<EOF>> {
     BEGIN bracketed_id_context_state;
     unexpected_eof (bracketed_id_start, "]");
@@ -479,7 +484,7 @@ eqopt    ([[:space:]]*=)?
 <SC_YACC_COMMENT>
 {
   "*/"     BEGIN context_state;
-  .|\n     ;
+  .|\n     continue;
   <<EOF>>  unexpected_eof (token_start, "*/"); BEGIN context_state;
 }
 

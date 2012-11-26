@@ -39,11 +39,7 @@ default: 'a' }
 AT_CHECK([[$PERL -pi -e 's/\\(\d{3})/chr(oct($1))/ge' input.y || exit 77]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:1.1: error: invalid character: '\0'
-input.y:1.1: error: invalid character: '\001'
-input.y:1.1: error: invalid character: '\002'
-input.y:1.1: error: invalid character: '\377'
-input.y:1.2: error: invalid character: '?'
+[[input.y:1.1-2: error: invalid characters: '\0\001\002\377?'
 input.y:3.1: error: invalid character: '?'
 input.y:4.14: error: invalid character: '}'
 input.y:5.1: error: invalid character: '%'
