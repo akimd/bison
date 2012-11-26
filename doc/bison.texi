@@ -896,10 +896,7 @@ parses a vastly simplified form of Pascal type declarations.
 @end group
 
 %%
-
-@group
 type_decl: TYPE ID '=' type ';' ;
-@end group
 
 @group
 type:
@@ -1869,9 +1866,7 @@ here is the definition we will use:
 
 @comment file: rpcalc.y
 @example
-@group
 #include <stdio.h>
-@end group
 
 @group
 /* Called by yyparse on error.  */
@@ -2641,9 +2636,7 @@ operators in @code{yylex}.
 
 @comment file: mfcalc.y: 3
 @example
-@group
 #include <ctype.h>
-@end group
 
 @group
 int
@@ -3395,9 +3388,7 @@ one of your tokens with a @code{%token} declaration.
 A Bison grammar rule has the following general form:
 
 @example
-@group
 @var{result}: @var{components}@dots{};
-@end group
 @end example
 
 @noindent
@@ -3408,9 +3399,7 @@ are put together by this rule (@pxref{Symbols}).
 For example,
 
 @example
-@group
 exp: exp '+' exp;
-@end group
 @end example
 
 @noindent
@@ -3714,9 +3703,7 @@ difference with tools like Flex, for which @samp{|} stands for either
 following example, the action is triggered only when @samp{b} is found:
 
 @example
-@group
 a-or-b: 'a'|'b'   @{ a_or_b_found = 1; @};
-@end group
 @end example
 
 @cindex default action
@@ -6984,9 +6971,7 @@ rules.  Here is a complete Bison grammar file that actually manifests
 the conflict:
 
 @example
-@group
 %%
-@end group
 @group
 stmt:
   expr
@@ -7205,8 +7190,8 @@ instance as follows:
 
 @example
 @group
-%nonassoc "then"
-%nonassoc "else"
+%precedence "then"
+%precedence "else"
 @end group
 @end example
 
@@ -7219,7 +7204,7 @@ use right associativity:
 @end example
 
 Neither solution is perfect however.  Since Bison does not provide, so far,
-support for ``scoped'' precedence, both force you to declare the precedence
+``scoped'' precedence, both force you to declare the precedence
 of these keywords with respect to the other operators your grammar.
 Therefore, instead of being warned about new conflicts you would be unaware
 of (e.g., a shift/reduce conflict due to @samp{if test then 1 else 2 + 3}
@@ -7397,8 +7382,8 @@ sequence:
 Here is another common error that yields a reduce/reduce conflict:
 
 @example
-sequence:
 @group
+sequence:
   /* empty */
 | sequence words
 | sequence redirects
@@ -7488,8 +7473,8 @@ relies on precedences: use @code{%prec} to give a lower precedence to the
 rule:
 
 @example
-%nonassoc "word"
-%nonassoc "sequence"
+%precedence "word"
+%precedence "sequence"
 %%
 @group
 sequence:
@@ -7538,15 +7523,16 @@ param_spec:
 | name_list ':' type
 ;
 @end group
+
 @group
 return_spec:
   type
 | name ':' type
 ;
 @end group
-@group
+
 type: "id";
-@end group
+
 @group
 name: "id";
 name_list:
@@ -7620,14 +7606,19 @@ contexts to have different sets of active rules, because the one for
 rather than the one for @code{name}.
 
 @example
+@group
 param_spec:
   type
 | name_list ':' type
 ;
+@end group
+
+@group
 return_spec:
   type
 | "id" ':' type
 ;
+@end group
 @end example
 
 For a more detailed exposition of LALR(1) parsers and parser
@@ -7732,7 +7723,8 @@ There are at least two scenarios where LALR can be worthwhile:
 
 @cindex GLR with LALR
 When employing GLR parsers (@pxref{GLR Parsers}), if you do not resolve any
-conflicts statically (for example, with @code{%left} or @code{%prec}), then
+conflicts statically (for example, with @code{%left} or @code{%precedence}),
+then
 the parser explores all potential parses of any given input.  In this case,
 the choice of parser table construction algorithm is guaranteed not to alter
 the language accepted by the parser.  LALR parser tables are the smallest
