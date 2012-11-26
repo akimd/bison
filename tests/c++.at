@@ -176,7 +176,7 @@ main ()
 ]])
 
 AT_BISON_CHECK([-o list.cc list.yy])
-AT_COMPILE_CXX([list])
+AT_COMPILE_CXX([list], [$NO_STRICT_ALIAS_CXXFLAGS list.cc])
 AT_PARSER_CHECK([./list], 0,
 [(0, 1, 2, 4)
 ])

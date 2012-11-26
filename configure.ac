@@ -111,6 +111,8 @@ if test "$enable_gcc_warnings" = yes; then
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CXXFLAGS_TEST])
   gl_WARN_ADD([-pedantic], [WARN_CXXFLAGS_TEST])
+  # Variants break strict aliasing analysis.
+  gl_WARN_ADD([-fno-strict-aliasing], [NO_STRICT_ALIAS_CXXFLAGS])
   CXXFLAGS=$save_CXXFLAGS
   AC_LANG_POP([C++])
 fi
