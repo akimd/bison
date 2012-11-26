@@ -4866,6 +4866,7 @@ may override this restriction with the @code{%start} declaration as follows:
 @cindex reentrant parser
 @cindex pure parser
 @findex %define api.pure
+@findex %define api.pure full
 
 A @dfn{reentrant} program is one which does not alter in the course of
 execution; in other words, it consists entirely of @dfn{pure} (read-only)
@@ -4885,7 +4886,7 @@ declaration @code{%define api.pure} says that you want the parser to be
 reentrant.  It looks like this:
 
 @example
-%define api.pure
+%define api.pure full
 @end example
 
 The result is that the communication variables @code{yylval} and
@@ -4935,7 +4936,7 @@ compatibility with the impure Yacc pull mode interface.  Unless you know
 what you are doing, your declarations should look like this:
 
 @example
-%define api.pure
+%define api.pure full
 %define api.push-pull push
 @end example
 
@@ -5008,8 +5009,8 @@ yypull_parse (ps); /* Will call the lexer */
 yypstate_delete (ps);
 @end example
 
-Adding the @code{%define api.pure} declaration does exactly the same thing to
-the generated parser with @code{%define api.push-pull both} as it did for
+Adding the @code{%define api.pure full} declaration does exactly the same thing
+to the generated parser with @code{%define api.push-pull both} as it did for
 @code{%define api.push-pull push}.
 
 @node Decl Summary
@@ -5373,9 +5374,40 @@ Some of the accepted @var{variable}s are:
 @item Purpose: Request a pure (reentrant) parser program.
 @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 
-@item Accepted Values: Boolean
+@item Accepted Values: @code{true}, @code{false}, @code{full}
+
+The value may be omitted: this is equivalent to specifying @code{true}, as is
+the case for Boolean values.
+
+When @code{%define api.pure full} is used, the parser is made reentrant. This
+changes the signature for yylex (@pxref{Pure Calling}), and also that of
+yyerror when the tracking of locations has been activated, as shown below.
+
+The @code{true} value is very similar to the @code{full} value, the only
+difference is in the signature of @code{yyerror} on Yacc parsers without
+@code{%parse-param}, for historical reasons.
+
+I.e., if @samp{%locations %define api.pure} is passed then the prototypes for
+@code{yyerror} are:
+
+@example
+void yyerror (char const *msg);                 /* Yacc parsers.  */
+void yyerror (YYLTYPE *locp, char const *msg);  /* GLR parsers.  */
+@end example
+
+But if @samp{%locations %define api.pure %parse-param @{int *nastiness@}} is
+used, then both parsers have the same signature:
+
+@example
+void yyerror (YYLTYPE *llocp, int *nastiness, char const *msg);
+@end example
+
+(@pxref{Error Reporting, ,The Error
+Reporting Function @code{yyerror}})
 
 @item Default Value: @code{false}
+
+@item History: the @code{full} value was introduced in Bison 2.7
 @end itemize
 
 @c ================================================== api.push-pull
@@ -5820,6 +5852,27 @@ In the grammar actions, use expressions like this to refer to the data:
 exp: @dots{}    @{ @dots{}; *randomness += 1; @dots{} @}
 @end example
 
+@noindent
+Using the following:
+@example
+%parse-param @{int *randomness@}
+@end example
+
+Results in these signatures:
+@example
+void yyerror (int *randomness, const char *msg);
+int  yyparse (int *randomness);
+@end example
+
+@noindent
+Or, if both @code{%define api.pure full} (or just @code{%define api.pure})
+and @code{%locations} are used:
+
+@example
+void yyerror (YYLTYPE *llocp, int *randomness, const char *msg);
+int  yyparse (int *randomness);
+@end example
+
 @node Push Parser Function
 @section The Push Parser Function @code{yypush_parse}
 @findex yypush_parse
@@ -6071,7 +6124,7 @@ The data type of @code{yylloc} has the name @code{YYLTYPE}.
 @node Pure Calling
 @subsection Calling Conventions for Pure Parsers
 
-When you use the Bison declaration @code{%define api.pure} to request a
+When you use the Bison declaration @code{%define api.pure full} to request a
 pure, reentrant parser, the global communication variables @code{yylval}
 and @code{yylloc} cannot be used.  (@xref{Pure Decl, ,A Pure (Reentrant)
 Parser}.)  In such parsers the two global variables are replaced by
@@ -6106,35 +6159,25 @@ Declare that the braced-code @var{argument-declaration} is an
 additional @code{yylex} argument declaration.
 @end deffn
 
+@noindent
 For instance:
 
 @example
-%parse-param @{int *nastiness@}
 %lex-param   @{int *nastiness@}
-%parse-param @{int *randomness@}
 @end example
 
 @noindent
-results in the following signatures:
+results in the following signature:
 
 @example
-int yylex   (int *nastiness);
-int yyparse (int *nastiness, int *randomness);
-@end example
-
-If @code{%define api.pure} is added:
-
-@example
-int yylex   (YYSTYPE *lvalp, int *nastiness);
-int yyparse (int *nastiness, int *randomness);
+int yylex (int *nastiness);
 @end example
 
 @noindent
-and finally, if both @code{%define api.pure} and @code{%locations} are used:
+If @code{%define api.pure full} (or just @code{%define api.pure}) is added:
 
 @example
-int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
-int yyparse (int *nastiness, int *randomness);
+int yylex (YYSTYPE *lvalp, int *nastiness);
 @end example
 
 @node Error Reporting
@@ -6194,50 +6237,16 @@ error recovery if you have written suitable error recovery grammar rules
 immediately return 1.
 
 Obviously, in location tracking pure parsers, @code{yyerror} should have
-an access to the current location.
-This is indeed the case for the GLR
-parsers, but not for the Yacc parser, for historical reasons.  I.e., if
-@samp{%locations %define api.pure} is passed then the prototypes for
-@code{yyerror} are:
+an access to the current location. With @code{%define api.pure}, this is
+indeed the case for the GLR parsers, but not for the Yacc parser, for
+historical reasons, and this is the why @code{%define api.pure full} should be
+prefered over @code{%define api.pure}.
+
+When @code{%locations %define api.pure full} is used, @code{yyerror} has the
+following signature:
 
 @example
-void yyerror (char const *msg);                 /* Yacc parsers.  */
-void yyerror (YYLTYPE *locp, char const *msg);  /* GLR parsers.   */
-@end example
-
-If @samp{%parse-param @{int *nastiness@}} is used, then:
-
-@example
-void yyerror (int *nastiness, char const *msg);  /* Yacc parsers.  */
-void yyerror (int *nastiness, char const *msg);  /* GLR parsers.   */
-@end example
-
-Finally, GLR and Yacc parsers share the same @code{yyerror} calling
-convention for absolutely pure parsers, i.e., when the calling
-convention of @code{yylex} @emph{and} the calling convention of
-@code{%define api.pure} are pure.
-I.e.:
-
-@example
-/* Location tracking.  */
-%locations
-/* Pure yylex.  */
-%define api.pure
-%lex-param   @{int *nastiness@}
-/* Pure yyparse.  */
-%parse-param @{int *nastiness@}
-%parse-param @{int *randomness@}
-@end example
-
-@noindent
-results in the following signatures for all the parser kinds:
-
-@example
-int yylex (YYSTYPE *lvalp, YYLTYPE *llocp, int *nastiness);
-int yyparse (int *nastiness, int *randomness);
-void yyerror (YYLTYPE *locp,
-              int *nastiness, int *randomness,
-              char const *msg);
+void yyerror (YYLTYPE *locp, char const *msg);
 @end example
 
 @noindent
@@ -9790,7 +9799,7 @@ described by @var{m}.
 
 The parser invokes the scanner by calling @code{yylex}.  Contrary to C
 parsers, C++ parsers are always pure: there is no point in using the
-@code{%define api.pure} directive.  Therefore the interface is as follows.
+@code{%define api.pure full} directive.  Therefore the interface is as follows.
 
 @deftypemethod {parser} {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
 Return the next token.  Its type is the return value, its semantic
@@ -10353,7 +10362,7 @@ You can create documentation for generated parsers using Javadoc.
 Contrary to C parsers, Java parsers do not use global variables; the
 state of the parser is always local to an instance of the parser class.
 Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
-and @code{%define api.pure} directives does not do anything when used in
+and @code{%define api.pure full} directives does not do anything when used in
 Java.
 
 Push parsers are currently unsupported in Java and @code{%define
@@ -10936,7 +10945,7 @@ or
 @quotation
 My parser includes support for an @samp{#include}-like feature, in
 which case I run @code{yyparse} from @code{yyparse}.  This fails
-although I did specify @samp{%define api.pure}.
+although I did specify @samp{%define api.pure full}.
 @end quotation
 
 These problems typically come not from Bison itself, but from
