@@ -35,7 +35,6 @@ AT_DATA_GRAMMAR([list.yy],
 %skeleton "lalr1.cc"
 %defines
 %define variant
-%locations
 ]m4_bpatsubst([$1], [\\n], [
 ])[
 
@@ -48,6 +47,7 @@ typedef std::list<std::string> strings_type;
 
 %code // code for the .cc file
 {
+#include <cstdlib> // abort, getenv
 #include <iostream>
 #include <sstream>
 
@@ -55,8 +55,8 @@ typedef std::list<std::string> strings_type;
   {
     static]AT_TOKEN_CTOR_IF([[
     parser::symbol_type yylex ()]], [[
-    parser::token_type yylex (parser::semantic_type* yylval,
-                              parser::location_type* yylloc)]])[;
+    parser::token_type yylex (parser::semantic_type* yylval]AT_LOCATION_IF([,
+                              parser::location_type* yylloc])[)]])[;
   }
 
   // Printing a list of strings (for %printer).
@@ -130,41 +130,39 @@ namespace yy
 {
   static]AT_TOKEN_CTOR_IF([[
   parser::symbol_type yylex ()]], [[
-  parser::token_type yylex (parser::semantic_type* yylval,
-                            parser::location_type* yylloc)]])[
-  {
-    typedef parser::location_type location;
+  parser::token_type yylex (parser::semantic_type* yylval]AT_LOCATION_IF([,
+                            parser::location_type* yylloc])[)]])[
+  {]AT_LOCATION_IF([
+    typedef parser::location_type location;])[
     static int stage = -1;
     ++stage;
     if (stage == STAGE_MAX)
       {]AT_TOKEN_CTOR_IF([[
-        return parser::make_END_OF_FILE (location ());]], [[
-        *yylloc = location ();
+        return parser::make_END_OF_FILE (]AT_LOCATION_IF([location ()])[);]],
+[AT_LOCATION_IF([
+        *yylloc = location ();])[
         return parser::token::END_OF_FILE;]])[
       }
     else if (stage % 2)
       {]AT_TOKEN_CTOR_IF([[
-        return parser::make_NUMBER (stage, location ());]], [[
-        yylval->BUILD (int, stage);
-        *yylloc = location ();
+        return parser::make_NUMBER (stage]AT_LOCATION_IF([, location ()])[);]],
+[[
+        yylval->BUILD (int, stage);]AT_LOCATION_IF([
+        *yylloc = location ();])[
         return parser::token::NUMBER;]])[
       }
     else
       {]AT_TOKEN_CTOR_IF([[
-        return parser::make_TEXT (string_cast (stage), location ());]], [[
-        yylval->BUILD (std::string, string_cast (stage));
-        *yylloc = location ();
+        return parser::make_TEXT (string_cast (stage)]AT_LOCATION_IF([, location ()])[);]], [[
+        yylval->BUILD (std::string, string_cast (stage));]AT_LOCATION_IF([
+        *yylloc = location ();])[
         return parser::token::TEXT;]])[
       }
     abort ();
   }
-
-  void
-  parser::error (const parser::location_type&, const std::string& message)
-  {
-    std::cerr << message << std::endl;
-  }
 }
+
+]AT_YYERROR_DEFINE[
 
 int
 main ()
@@ -187,9 +185,11 @@ AT_CLEANUP
 
 AT_TEST([])
 AT_TEST([%define parse.assert])
+AT_TEST([%locations %define parse.assert])
 AT_TEST([[%define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
 AT_TEST([[%define parse.assert %define api.token.constructor]])
 AT_TEST([[%define parse.assert %define api.token.constructor %define api.token.prefix "TOK_"]])
+AT_TEST([[%locations %define parse.assert %define api.token.constructor %define api.token.prefix "TOK_"]])
 
 m4_popdef([AT_TEST])
 
