@@ -4866,7 +4866,6 @@ may override this restriction with the @code{%start} declaration as follows:
 @cindex reentrant parser
 @cindex pure parser
 @findex %define api.pure
-@findex %define api.pure full
 
 A @dfn{reentrant} program is one which does not alter in the course of
 execution; in other words, it consists entirely of @dfn{pure} (read-only)
@@ -7364,7 +7363,7 @@ mysterious behavior altogether.  You simply need to activate a more powerful
 parser table construction algorithm by using the @code{%define lr.type}
 directive.
 
-@deffn {Directive} {%define lr.type @var{TYPE}}
+@deffn {Directive} {%define lr.type} @var{TYPE}
 Specify the type of parser tables within the LR(1) family.  The accepted
 values for @var{TYPE} are:
 
@@ -7553,7 +7552,7 @@ split the parse instead.
 To adjust which states have default reductions enabled, use the
 @code{%define lr.default-reductions} directive.
 
-@deffn {Directive} {%define lr.default-reductions @var{WHERE}}
+@deffn {Directive} {%define lr.default-reductions} @var{WHERE}
 Specify the kind of states that are permitted to contain default reductions.
 The accepted values of @var{WHERE} are:
 @itemize
@@ -7593,7 +7592,7 @@ that solves these problems for canonical LR, IELR, and LALR without
 sacrificing @code{%nonassoc}, default reductions, or state merging.  You can
 enable LAC with the @code{%define parse.lac} directive.
 
-@deffn {Directive} {%define parse.lac @var{VALUE}}
+@deffn {Directive} {%define parse.lac} @var{VALUE}
 Enable LAC to improve syntax error handling.
 @itemize
 @item @code{none} (default)
@@ -7689,7 +7688,7 @@ resolution because they are useless in the generated parser.  However,
 keeping unreachable states is sometimes useful when trying to understand the
 relationship between the parser and the grammar.
 
-@deffn {Directive} {%define lr.keep-unreachable-states @var{VALUE}}
+@deffn {Directive} {%define lr.keep-unreachable-states} @var{VALUE}
 Request that Bison allow unreachable states to remain in the parser tables.
 @var{VALUE} must be a Boolean.  The default is @code{false}.
 @end deffn
