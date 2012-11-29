@@ -2452,7 +2452,7 @@ function that initializes the symbol table.  Here it is, and
 void
 yyerror (char const *s)
 @{
-  printf ("%s\n", s);
+  fprintf (stderr, "%s\n", s);
 @}
 @end group
 
@@ -5379,8 +5379,9 @@ The value may be omitted: this is equivalent to specifying @code{true}, as is
 the case for Boolean values.
 
 When @code{%define api.pure full} is used, the parser is made reentrant. This
-changes the signature for yylex (@pxref{Pure Calling}), and also that of
-yyerror when the tracking of locations has been activated, as shown below.
+changes the signature for @code{yylex} (@pxref{Pure Calling}), and also that of
+@code{yyerror} when the tracking of locations has been activated, as shown
+below.
 
 The @code{true} value is very similar to the @code{full} value, the only
 difference is in the signature of @code{yyerror} on Yacc parsers without
@@ -7363,9 +7364,9 @@ mysterious behavior altogether.  You simply need to activate a more powerful
 parser table construction algorithm by using the @code{%define lr.type}
 directive.
 
-@deffn {Directive} {%define lr.type} @var{TYPE}
+@deffn {Directive} {%define lr.type} @var{type}
 Specify the type of parser tables within the LR(1) family.  The accepted
-values for @var{TYPE} are:
+values for @var{type} are:
 
 @itemize
 @item @code{lalr} (default)
@@ -7552,9 +7553,9 @@ split the parse instead.
 To adjust which states have default reductions enabled, use the
 @code{%define lr.default-reductions} directive.
 
-@deffn {Directive} {%define lr.default-reductions} @var{WHERE}
+@deffn {Directive} {%define lr.default-reductions} @var{where}
 Specify the kind of states that are permitted to contain default reductions.
-The accepted values of @var{WHERE} are:
+The accepted values of @var{where} are:
 @itemize
 @item @code{most} (default for LALR and IELR)
 @item @code{consistent}
@@ -7592,7 +7593,7 @@ that solves these problems for canonical LR, IELR, and LALR without
 sacrificing @code{%nonassoc}, default reductions, or state merging.  You can
 enable LAC with the @code{%define parse.lac} directive.
 
-@deffn {Directive} {%define parse.lac} @var{VALUE}
+@deffn {Directive} {%define parse.lac} @var{value}
 Enable LAC to improve syntax error handling.
 @itemize
 @item @code{none} (default)
@@ -7688,9 +7689,9 @@ resolution because they are useless in the generated parser.  However,
 keeping unreachable states is sometimes useful when trying to understand the
 relationship between the parser and the grammar.
 
-@deffn {Directive} {%define lr.keep-unreachable-states} @var{VALUE}
+@deffn {Directive} {%define lr.keep-unreachable-states} @var{value}
 Request that Bison allow unreachable states to remain in the parser tables.
-@var{VALUE} must be a Boolean.  The default is @code{false}.
+@var{value} must be a Boolean.  The default is @code{false}.
 @end deffn
 
 There are a few caveats to consider:
