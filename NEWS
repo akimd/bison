@@ -242,6 +242,17 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New value for %define variable: api.pure full
+
+  The %define variable api.pure requests a pure (reentrant) parser. However,
+  for historical reasons, using it in a location-tracking Yacc parser resulted
+  in an yyerror function that did not take a location as a parameter. With this
+  new value, the user may request a better pure parser, where yyerror does take
+  a location as a parameter (in location-tracking parsers).
+
+  The use of "%define api.pure true" is deprecated in favor of this new
+  "%define api.pure full".
+
 ** Changes in the format of error messages
 
   This used to be the format of many error reports:

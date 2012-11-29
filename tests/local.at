@@ -152,10 +152,6 @@ m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
            [m4_bmatch([$3], [%define  *api\.pure *"?false"?], [$2], [$1])],
            [$2])])
-m4_pushdef([AT_PURE_AND_LOC_IF],
-[m4_bmatch([$3], [%locations], [AT_PURE_IF($@)], [$2])])
-m4_pushdef([AT_GLR_OR_PARAM_IF],
-[m4_bmatch([$3], [%glr-parser\|%parse-param], [$1], [$2])])
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) ".*"],
            [m4_bregexp([$3], [\(%define api\.prefix\|%name-prefix\) "\([^""]*\)"], [\2])],
@@ -171,14 +167,26 @@ m4_pushdef([AT_API_prefix],
            [yy])])
 m4_pushdef([AT_API_PREFIX],
 [m4_toupper(AT_API_prefix)])
-# yyerror receives the location if %location & %pure & (%glr or %parse-param).
+# yyerror receives the location if %location, and if the parser is pure. For
+# historical reasons, with the "yacc.c" skeleton, the location is not passed
+# unless an additional "%parse-param" is present, or if the purity is defined
+# as "full".
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
-[AT_GLR_OR_PARAM_IF([AT_PURE_AND_LOC_IF([$1], [$2])],
+[AT_LOCATION_IF([AT_PURE_IF([m4_bmatch([$3],
+                                       m4_quote(m4_join([\|],
+                                                        [%define api.pure "?full"?],
+                                                        [%glr-parser],
+                                                        [%parse-param],
+                                                        [%skeleton "?glr.c"?])),
+                                       [$1], [$2])],
+                            [$2])],
                     [$2])])
-# yyerror always sees the locations (when activated), except if
-# (yacc & pure & !param).  FIXME: This is wrong.  See the manual.
+
+# yyerror always sees the locations (when activated) if the parser is impure.
+# When the parser is pure, yyerror sees the location if it is received as an
+# argument.
 m4_pushdef([AT_YYERROR_SEES_LOC_IF],
-[AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_PARAM_IF([$1], [$2])],
+[AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_YYERROR_ARG_LOC_IF([$1], [$2])],
                                         [$1])],
                             [$1])],
                 [$2])])
@@ -254,8 +262,6 @@ m4_popdef([AT_API_prefix])
 m4_popdef([AT_TOKEN_PREFIX])
 m4_popdef([AT_TOKEN_CTOR_IF])
 m4_popdef([AT_NAME_PREFIX])
-m4_popdef([AT_GLR_OR_PARAM_IF])
-m4_popdef([AT_PURE_AND_LOC_IF])
 m4_popdef([AT_LOCATION_TYPE_IF])
 m4_popdef([AT_LOCATION_IF])
 m4_popdef([AT_PARSE_PARAMS])
@@ -360,6 +366,7 @@ static
 }]dnl
 ])
 
+# AT_YYERROR_FORMALS
 # AT_YYERROR_PROTOTYPE
 # AT_YYERROR_DECLARE_EXTERN
 # AT_YYERROR_DECLARE
@@ -368,7 +375,7 @@ static
 # Must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS pair.
 m4_define([AT_YYERROR_FORMALS],
 [m4_case(AT_LANG,
-[c], [AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE *llocp, ])AT_PARSE_PARAMS [const char *msg]])[]dnl
+[c], [AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE const * const llocp, ])AT_PARSE_PARAMS [const char *msg]])[]dnl
 ])
 
 m4_define([AT_YYERROR_PROTOTYPE],

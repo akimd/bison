@@ -606,8 +606,8 @@ AT_CHECK_CALC_LALR([%verbose])
 AT_CHECK_CALC_LALR([%yacc])
 AT_CHECK_CALC_LALR([%define parse.error verbose])
 
-AT_CHECK_CALC_LALR([%define api.pure %locations])
-AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure %locations])
+AT_CHECK_CALC_LALR([%define api.pure full %locations])
+AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure full %locations])
 AT_CHECK_CALC_LALR([%define parse.error verbose %locations])
 
 AT_CHECK_CALC_LALR([%define parse.error verbose %locations %defines %define api.prefix "calc" %verbose %yacc])
@@ -617,8 +617,8 @@ AT_CHECK_CALC_LALR([%debug])
 AT_CHECK_CALC_LALR([%define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_LALR([%define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc])
 
-AT_CHECK_CALC_LALR([%define api.pure %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
-AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure %define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%define api.pure full %define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_LALR([%define api.push-pull both %define api.pure full %define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR([%define api.pure %define parse.error verbose %debug %locations %defines %define api.prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
