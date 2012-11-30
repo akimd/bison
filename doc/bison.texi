@@ -5170,8 +5170,6 @@ Specify the programming language for the generated parser.  Currently
 supported languages include C, C++, and Java.
 @var{language} is case-insensitive.
 
-This directive is experimental and its effect may be modified in future
-releases.
 @end deffn
 
 @deffn {Directive} %locations
@@ -9288,9 +9286,6 @@ Specify the programming language for the generated parser, as if
 @code{%language} was specified (@pxref{Decl Summary, , Bison Declaration
 Summary}).  Currently supported languages include C, C++, and Java.
 @var{language} is case-insensitive.
-
-This option is experimental and its effect may be modified in future
-releases.
 
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
