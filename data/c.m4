@@ -163,7 +163,7 @@ m4_define([b4_int_type],
 
        m4_eval([0 <= $1]),                [1], [unsigned int],
 
-					       [int])])
+                                               [int])])
 
 
 # b4_int_type_for(NAME)
@@ -256,7 +256,7 @@ m4_define([b4_token_enums],
    enum ]b4_api_prefix[tokentype {
 ]m4_map_sep([     b4_token_enum], [,
 ],
-	   [$@])[
+           [$@])[
    };
 #endif
 ]])])
@@ -320,7 +320,7 @@ $1 (b4_c_ansi_formals(m4_shift2($@)))[]dnl
 m4_define([b4_c_ansi_formals],
 [m4_if([$#], [0], [void],
        [$#$1], [1], [void],
-	       [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
+               [m4_map_sep([b4_c_ansi_formal], [, ], [$@])])])
 
 m4_define([b4_c_ansi_formal],
 [$1])
@@ -341,9 +341,9 @@ m4_define([b4_c_knr_formal_name],
 # Output the K&R argument declarations.
 m4_define([b4_c_knr_formal_decls],
 [m4_map_sep([b4_c_knr_formal_decl],
-	    [
+            [
 ],
-	    [$@])])
+            [$@])])
 
 m4_define([b4_c_knr_formal_decl],
 [    $1;])
@@ -355,9 +355,18 @@ m4_define([b4_c_knr_formal_decl],
 ## ------------------------------------------------------------ ##
 
 
+# b4_c_ansi_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# ----------------------------------------------------------------
+# Declare the function NAME ANSI C style.
+m4_define([b4_c_ansi_function_decl],
+[$2 $1 (b4_c_ansi_formals(m4_shift2($@)));[]dnl
+])
+
+
+
 # b4_c_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
 # -----------------------------------------------------------
-# Declare the function NAME.
+# Declare the function NAME in both K&R and ANSI C.
 m4_define([b4_c_function_decl],
 [#if defined __STDC__ || defined __cplusplus
 b4_c_ansi_function_decl($@)
@@ -365,15 +374,6 @@ b4_c_ansi_function_decl($@)
 $2 $1 ();
 #endif[]dnl
 ])
-
-
-# b4_c_ansi_function_decl(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# ----------------------------------------------------------------
-# Declare the function NAME.
-m4_define([b4_c_ansi_function_decl],
-[$2 $1 (b4_c_ansi_formals(m4_shift2($@)));[]dnl
-])
-
 
 
 
@@ -432,9 +432,9 @@ m4_define([b4_symbol_actions],
 [b4_dollar_pushdef([(*yyvaluep)], [$6], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])
-	$5;
+        $5;
 b4_syncline([@oline@], [@ofile@])
-	break;
+        break;
 b4_dollar_popdef[]dnl
 ])
 
@@ -471,7 +471,7 @@ b4_parse_param_use[]dnl
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
       default:
-	break;
+        break;
     }
 }]dnl
 ])
@@ -491,9 +491,9 @@ m4_define_default([b4_yy_symbol_print_generate],
 /*ARGSUSED*/
 ]$1([yy_symbol_value_print],
     [static void],
-	       [[FILE *yyoutput],                       [yyoutput]],
-	       [[int yytype],                           [yytype]],
-	       [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
+               [[FILE *yyoutput],                       [yyoutput]],
+               [[int yytype],                           [yytype]],
+               [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
@@ -514,7 +514,7 @@ b4_parse_param_use[]dnl
     {
 ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
 [      default:
-	break;
+        break;
     }
 }
 
@@ -525,9 +525,9 @@ b4_parse_param_use[]dnl
 
 ]$1([yy_symbol_print],
     [static void],
-	       [[FILE *yyoutput],                       [yyoutput]],
-	       [[int yytype],                           [yytype]],
-	       [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
+               [[FILE *yyoutput],                       [yyoutput]],
+               [[int yytype],                           [yytype]],
+               [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {

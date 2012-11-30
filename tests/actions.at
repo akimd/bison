@@ -365,7 +365,7 @@ input:
       V(input, $$, @$, ": /* Nothing */\n");
     }
 | line input /* Right recursive to load the stack so that popping at
-		END can	be exercised.  */
+                END can be exercised.  */
     {
       $$ = 2;
       V(input, $$, @$, ": ");
