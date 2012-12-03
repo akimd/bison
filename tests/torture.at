@@ -269,6 +269,7 @@ print <<EOF;
 %error-verbose
 %debug
 %{
+]AT_DATA_SOURCE_PROLOGUE[
 # include <stdio.h>
 # include <stdlib.h>
 # include <assert.h>
@@ -383,7 +384,7 @@ m4_define([AT_DATA_STACK_TORTURE],
 [AT_BISON_OPTION_PUSHDEFS([$2])
 # A grammar of parens growing the stack thanks to right recursion.
 # exp:
-AT_DATA([input.y],
+AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <errno.h>
 #include <limits.h>

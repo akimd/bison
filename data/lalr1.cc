@@ -352,12 +352,11 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations[
 ]b4_cpp_guard_close([b4_spec_defines_file])
-m4_divert_pop(0)dnl
+b4_output_end()
 ])
 
 
-m4_divert_push(0)dnl
-@output(b4_parser_file_name@)@
+b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])
 b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
@@ -1141,5 +1140,7 @@ b4_error_verbose_if([state_type yystate, int yytoken],
 ]b4_token_ctor_if([], [b4_yytranslate_define])[
 ]b4_namespace_close[
 ]b4_epilogue[]dnl
-m4_divert_pop(0)
+b4_output_end()
+
+
 m4_popdef([b4_copyright_years])dnl

@@ -114,10 +114,10 @@ main (void)
 }
 ]])
 
-AT_DATA([[input-cmd-line.y]],
+AT_DATA_GRAMMAR([[input-cmd-line.y]],
 [AT_GRAM])
 
-AT_DATA([[input-gram.y]],
+AT_DATA_GRAMMAR([[input-gram.y]],
 [[%skeleton "yacc.c"]
 AT_GRAM])
 

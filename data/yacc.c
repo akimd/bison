@@ -326,10 +326,7 @@ m4_define([b4_shared_declarations],
 ## Output files.  ##
 ## -------------- ##
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
-@output(b4_parser_file_name@)@
+b4_output_begin([b4_parser_file_name])
 b4_copyright([Bison implementation for Yacc-like parsers in C])[
 
 /* C LALR(1) parser skeleton written by Richard Stallman, by
@@ -1941,11 +1938,12 @@ yypushreturn:]])[
   return yyresult;
 }
 ]b4_epilogue[]dnl
+b4_output_end()
+
 b4_defines_if(
-[@output(b4_spec_defines_file@)@
-b4_copyright([Bison interface for Yacc-like parsers in C])[
+[b4_output_begin([b4_spec_defines_file])[
+]b4_copyright([Bison interface for Yacc-like parsers in C])[
 
 ]b4_shared_declarations[
-]])dnl b4_defines_if
-m4_divert_pop(0)
-m4_popdef([b4_copyright_years])
+]b4_output_end()
+])# b4_defines_if

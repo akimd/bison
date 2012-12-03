@@ -175,6 +175,81 @@ m4_popdef([AT_TEST])
 
 
 ## ---------------- ##
+## Location Print.  ##
+## ---------------- ##
+
+# AT_TEST(SKELETON-NAME, DIRECTIVES, [MORE-DIRECTIVES], [LOCATION = 1.1])
+# -----------------------------------------------------------------------
+# Check that the initial location is correct.
+m4_pushdef([AT_TEST],
+[AT_SETUP([Location print: $1 $2])
+
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2])
+AT_DATA_GRAMMAR([[input.y]],
+[[%defines /* FIXME: Required by lalr1.cc in Bison 2.6. */
+%locations
+%debug
+%skeleton "$1"
+]$2[
+]$3[
+%code
+{
+# include <stdio.h>
+# include <stdlib.h> // getenv
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+%%
+exp:;
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+
+int
+main (void)
+{
+#define TEST(L1, C1, L2, C2)          \
+  ]AT_LOC_FIRST_LINE[ = L1;           \
+  ]AT_LOC_FIRST_COLUMN[ = C1;         \
+  ]AT_LOC_LAST_LINE[ = L2;            \
+  ]AT_LOC_LAST_COLUMN[ = C2;          \
+  ]YY_LOCATION_PRINT(stdout, AT_LOC)[;\
+  putchar ('\n');
+
+  TEST(1, 1, 1, 1);
+  TEST(2, 1, 2, 10);
+  TEST(3, 1, 4, 1);
+  TEST(5, 1, 6, 10);
+
+  TEST(7, 2, 0, 2);
+  TEST(8, 0, 8, 0);
+}
+]])
+
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([./input], 0,
+[[1.1
+2.1-9
+3.1-4.0
+5.1-6.9
+7.2
+8.0
+]])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+## FIXME: test Java, and iterate over skeletons.
+AT_TEST([yacc.c])
+AT_TEST([glr.c])
+#AT_TEST([lalr1.cc])
+#AT_TEST([glr.cc])
+
+m4_popdef([AT_TEST])
+
+
+
+## ---------------- ##
 ## Exotic Dollars.  ##
 ## ---------------- ##
 

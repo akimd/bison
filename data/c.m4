@@ -610,14 +610,40 @@ m4_define([b4_yy_location_print_define],
 
 #ifndef YY_LOCATION_PRINT
 # if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
+
+/* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
+
+__attribute__((__unused__))
+]b4_function_define([yy_location_print_],
+    [static unsigned],
+               [[FILE *yyo],                    [yyo]],
+               [[YYLTYPE const * const yylocp], [yylocp]])[
+{
+  unsigned res = 0;
+  int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
+  if (0 <= yylocp->first_line)
+    {
+      res += fprintf (yyo, "%d", yylocp->first_line);
+      if (0 <= yylocp->first_column)
+        res += fprintf (yyo, ".%d", yylocp->first_column);
+    }
+  if (0 <= yylocp->last_line)
+    {
+      if (yylocp->first_line < yylocp->last_line)
+        {
+          res += fprintf (yyo, "-%d", yylocp->last_line);
+          if (0 <= end_col)
+            res += fprintf (yyo, ".%d", end_col);
+        }
+      else if (0 <= end_col && yylocp->first_column < end_col)
+        res += fprintf (yyo, "-%d", end_col);
+    }
+  return res;
+ }
+
 #  define YY_LOCATION_PRINT(File, Loc)                                   \
-  do {                                                                   \
-    fprintf (File, "%d.%d", (Loc).first_line, (Loc).first_column);       \
-    if ((Loc).first_line < (Loc).last_line)                              \
-      fprintf (File, "-%d.%d", (Loc).last_line,  (Loc).last_column - 1); \
-    else if ((Loc).first_column < (Loc).last_column - 1)                 \
-      fprintf (File, "-%d", (Loc).last_column - 1);                      \
-  } while (0)
+  yy_location_print_ (File, &(Loc))
+
 # else
 #  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 # endif

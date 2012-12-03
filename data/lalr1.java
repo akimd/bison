@@ -30,8 +30,7 @@ m4_define([b4_symbol_no_destructor_assert],
                         [b4_symbol_action_location([$1], [destructor])])])])
 b4_symbol_foreach([b4_symbol_no_destructor_assert])
 
-m4_divert_push(0)dnl
-@output(b4_parser_file_name@)@
+b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
              [2007-2012])
 
@@ -874,4 +873,4 @@ b4_percent_code_get[]dnl
 }
 
 b4_epilogue[]dnl
-m4_divert_pop(0)dnl
+b4_output_end()

@@ -193,7 +193,7 @@ eqopt    ([[:space:]]*=)?
 
   /* #line directives are not documented, and may be withdrawn or
      modified in future versions of Bison.  */
-  ^"#line "{int}" \"".*"\"\n" {
+  ^"#line "{int}(" \"".*"\"")?"\n" {
     handle_syncline (yytext + sizeof "#line " - 1, *loc);
   }
 }
@@ -974,23 +974,27 @@ convert_ucn_to_byte (char const *ucn)
 }
 
 
-/*----------------------------------------------------------------.
-| Handle '#line INT "FILE"'.  ARGS has already skipped '#line '.  |
-`----------------------------------------------------------------*/
+/*---------------------------------------------------------------------.
+| Handle '#line INT( "FILE")?\n'.  ARGS has already skipped '#line '.  |
+`---------------------------------------------------------------------*/
 
 static void
 handle_syncline (char *args, location loc)
 {
-  char *after_num;
-  unsigned long int lineno = strtoul (args, &after_num, 10);
-  char *file = strchr (after_num, '"') + 1;
-  *strchr (file, '"') = '\0';
+  char *file;
+  unsigned long int lineno = strtoul (args, &file, 10);
   if (INT_MAX <= lineno)
     {
       complain (&loc, Wother, _("line number overflow"));
       lineno = INT_MAX;
     }
-  current_file = uniqstr_new (file);
+
+  file = strchr (file, '"');
+  if (file)
+    {
+      *strchr (file + 1, '"') = '\0';
+      current_file = uniqstr_new (file + 1);
+    }
   boundary_set (&scanner_cursor, current_file, lineno, 1);
 }
 
