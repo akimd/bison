@@ -462,14 +462,14 @@ AT_CHECK([cat stderr], 0, [expout])
 ])
 
 
-# AT_CHECK_SPACES([FILE])
-# -----------------------
+# AT_CHECK_SPACES([FILES])
+# ------------------------
 # Make sure we did not introduce bad spaces.  Checked here because all
 # the skeletons are (or should be) exercized here.
 m4_define([AT_CHECK_SPACES],
 [AT_CHECK([$PERL -ne '
   chomp;
-  print "$.: {$_}\n"
+  print "$ARGV:$.: {$_}\n"
     if (# No starting/ending empty lines.
         (eof || $. == 1) && /^\s*$/
         # No trailing space.
@@ -495,8 +495,9 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
 AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]]))
-AT_CHECK_SPACES([calc.AT_SKEL_CC_IF([cc], [c])])
-AT_DEFINES_IF([AT_CHECK_SPACES([calc.AT_SKEL_CC_IF([hh], [h])])])
+AT_CHECK_SPACES(m4_join([ ],
+                        [calc.AT_SKEL_CC_IF([cc], [c])],
+                        [AT_DEFINES_IF([calc.AT_SKEL_CC_IF([hh], [h])])]))
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],
