@@ -1304,6 +1304,15 @@ AT_BISON_CHECK([-o input.c input.y], 0,,
 input.y:30.3-35.37: warning: unused value: $3
 ]])
 
+AT_BISON_CHECK([-fcaret -o input.c input.y], 0,,
+[[input.y:33.3-23: warning: unset value: $$
+   {           @$ = 4; } // Only used.
+   ^^^^^^^^^^^^^^^^^^^^^
+input.y:30.3-35.37: warning: unused value: $3
+   {           @$ = 1; } // Not set or used.
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]])
+
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,,
 [[Starting parse

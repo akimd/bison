@@ -813,6 +813,25 @@ input.y:19.13-20.0: error: missing '}' at end of file
 input.y:20.1: error: syntax error, unexpected end of file
 ]])
 
+AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
+[[input.y:1.10-2.0: error: missing '"' at end of line
+ %token A "a
+          ^^
+input.y:4.10-5.0: error: missing "'" at end of line
+ %token C '1
+          ^^
+input.y:14.11-15.0: error: missing "'" at end of line
+ %type <f> 'a
+           ^^
+input.y:16.11-17.0: error: missing '"' at end of line
+ %type <f> "a
+           ^^
+input.y:19.13-20.0: error: missing '}' at end of file
+ %destructor { free ($$)
+             ^^^^^^^^^^^
+input.y:20.1: error: syntax error, unexpected end of file
+]])
+
 AT_CLEANUP
 
 
@@ -1043,6 +1062,18 @@ start: ;
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.9-11: error: %define variable 'var' redefined
 <command line>:1:      previous definition
+]])
+
+AT_DATA([[input-dg.y]],
+[[%define var "gram"
+%%
+start: ;
+]])
+AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
+[[input-dg.y:1.9-11: error: %define variable 'var' redefined
+ %define var "gram"
+         ^^^
+<command line>:2:      previous definition
 ]])
 
 AT_DATA([[input-unused.y]],
