@@ -30,11 +30,8 @@ b4_percent_define_ifdef([[api.location.type]], [],
   m4_include(b4_pkgdatadir/[location.cc])])
 m4_include(b4_pkgdatadir/[stack.hh])
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
 b4_defines_if(
-[@output(b4_spec_defines_file@)@
+[b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
              [2002-2012])
 [
@@ -265,8 +262,11 @@ b4_user_stype
 ])[
 ]b4_percent_code_get([[provides]])[
 ]b4_cpp_guard_close([b4_spec_defines_file])
-])dnl
-@output(b4_parser_file_name@)@
+b4_output_end()
+])
+
+
+b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
              [2002-2012])
 b4_percent_code_get([[top]])[]dnl
@@ -1140,4 +1140,4 @@ b4_error_verbose_if([int yystate, int yytoken],
 
 ]b4_namespace_close[
 ]b4_epilogue[]dnl
-m4_divert_pop(0)
+b4_output_end()

@@ -15,10 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
-@output(b4_dir_prefix[]position.hh@)@
+
+b4_output_begin([b4_dir_prefix[]position.hh])
 b4_copyright([Positions for Bison parsers in C++],
              [2002-2007, 2009-2012])[
 
@@ -148,7 +146,10 @@ b4_copyright([Positions for Bison parsers in C++],
 
 ]b4_namespace_close[
 ]b4_cpp_guard_close([b4_dir_prefix[]position.hh])
-@output(b4_dir_prefix[]location.hh@)@
+b4_output_end()
+
+
+b4_output_begin([b4_dir_prefix[]location.hh])
 b4_copyright([Locations for Bison parsers in C++],
              [2002-2007, 2009-2012])[
 
@@ -292,5 +293,4 @@ b4_copyright([Locations for Bison parsers in C++],
 ]b4_namespace_close[
 
 ]b4_cpp_guard_close([b4_dir_prefix[]location.hh])
-m4_divert_pop(0)
-m4_changecom([#])
+b4_output_end()

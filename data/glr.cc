@@ -230,8 +230,7 @@ m4_defn([b4_parse_param]))],
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
 
-m4_divert_push(0)
-@output(b4_spec_defines_file@)@
+b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2006, 2009-2012])[
 
@@ -344,4 +343,4 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 ]b4_namespace_close[
 ]b4_percent_code_get([[provides]])[
 ]b4_cpp_guard_close([b4_spec_defines_file])[
-]m4_divert_pop(0)
+]b4_output_end()

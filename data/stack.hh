@@ -18,10 +18,7 @@
 m4_pushdef([b4_copyright_years],
            [2002-2012])
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
-m4_divert_push(0)dnl
-@output(b4_dir_prefix[]stack.hh@)@
+b4_output_begin([b4_dir_prefix[]stack.hh])
 b4_copyright([Stack handling for Bison parsers in C++],
              [2002-2012])[
 
@@ -119,6 +116,6 @@ b4_copyright([Stack handling for Bison parsers in C++],
 ]b4_namespace_close[
 
 ]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])
-m4_divert_pop(0)
-m4_popdef([b4_copyright_years])dnl
-m4_changecom([#])
+b4_output_end()
+
+m4_popdef([b4_copyright_years])

@@ -58,6 +58,30 @@ This special exception was added by the Free Software Foundation in
 version 2.2 of Bison.])])
 
 
+## -------- ##
+## Output.  ##
+## -------- ##
+
+# b4_output_begin(FILE)
+# ---------------------
+# Enable output, i.e., send to diversion 0, expand after "#", and
+# generate the tag to output into FILE.  Must be followed by EOL.
+m4_define([b4_output_begin],
+[m4_changecom()
+m4_divert_push(0)dnl
+@output(m4_unquote([$1])@)@dnl
+])
+
+
+# b4_output_end()
+# ---------------
+# Output nothing, restore # as comment character (no expansions after #).
+m4_define([b4_output_end],
+[m4_divert_pop(0)
+m4_changecom([#])
+])
+
+
 ## ---------------- ##
 ## Error handling.  ##
 ## ---------------- ##

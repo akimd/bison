@@ -22,8 +22,7 @@ m4_ifval(m4_defn([b4_symbol_destructors]),
         [b4_fatal([%s: %%destructor does not make sense in Java], [b4_skeleton])],
         [])
 
-m4_divert_push(0)dnl
-@output(b4_parser_file_name@)@
+b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
              [2007-2012])
 
@@ -925,4 +924,4 @@ b4_percent_code_get[]dnl
 }
 
 b4_epilogue
-m4_divert_pop(0)dnl
+b4_output_end()
