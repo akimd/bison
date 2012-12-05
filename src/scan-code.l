@@ -221,12 +221,16 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
     /* As an undocumented Bison extension, append ';' before the last
        brace in braced code, so that the user code can omit trailing
        ';'.  But do not append ';' if emulating Yacc, since Yacc does
-       not append one.  */
+       not append one.  This is deprecated since release 2.4.1.  */
     if (outer_brace && !yacc_flag && language_prio == default_prio
         && skeleton_prio == default_prio && need_semicolon && ! in_cpp)
       {
-        complain (loc, Wdeprecated, _("a ';' might be needed at the end of action code"));
-        complain (loc, Wdeprecated, _("future versions of Bison will not add the ';'"));
+        unsigned int indent = 0;
+        complain_indent (loc, Wdeprecated, &indent,
+                         _("a ';' might be needed at the end of action code"));
+        indent += SUB_INDENT;
+        complain_indent (loc, Wdeprecated | silent, &indent,
+                         _("future versions of Bison will not add the ';'"));
         obstack_1grow (&obstack_for_string, ';');
       }
 
@@ -471,9 +475,6 @@ show_sub_messages (warnings warning,
 /* Returned from "parse_ref" when the reference
    points to LHS ($$) of the current rule or midrule. */
 #define LHS_REF (INT_MIN + 1)
-
-/* Sub-messages indent. */
-#define SUB_INDENT (4)
 
 /* Parse named or positional reference. In case of positional
    references, can return negative values for $-n "deep" stack

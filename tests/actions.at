@@ -1607,41 +1607,41 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], [0], [],
 [[input.y:8.48: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:8.48: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:8.48:     future versions of Bison will not add the ';'
 input.y:9.48: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:9.48: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:9.48:     future versions of Bison will not add the ';'
 input.y:10.48: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:10.48: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:10.48:     future versions of Bison will not add the ';'
 input.y:11.48: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:11.48: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:11.48:     future versions of Bison will not add the ';'
 input.y:12.48: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:12.48: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:12.48:     future versions of Bison will not add the ';'
 input.y:13.48: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:13.48: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:13.48:     future versions of Bison will not add the ';'
 input.y:20.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:20.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:20.1:     future versions of Bison will not add the ';'
 input.y:21.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:21.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:21.1:     future versions of Bison will not add the ';'
 input.y:22.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:22.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:22.1:     future versions of Bison will not add the ';'
 input.y:23.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:23.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:23.1:     future versions of Bison will not add the ';'
 input.y:24.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:24.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:24.1:     future versions of Bison will not add the ';'
 input.y:25.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:25.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:25.1:     future versions of Bison will not add the ';'
 input.y:31.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:31.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:31.1:     future versions of Bison will not add the ';'
 input.y:32.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:32.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:32.1:     future versions of Bison will not add the ';'
 input.y:33.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:33.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:33.1:     future versions of Bison will not add the ';'
 input.y:34.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:34.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:34.1:     future versions of Bison will not add the ';'
 input.y:35.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:35.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:35.1:     future versions of Bison will not add the ';'
 input.y:36.1: warning: a ';' might be needed at the end of action code [-Wdeprecated]
-input.y:36.1: warning: future versions of Bison will not add the ';' [-Wdeprecated]
+input.y:36.1:     future versions of Bison will not add the ';'
 ]])
 
 AT_MATCHES_CHECK([input.c], [[/\* TEST:N:2 \*/ \}$]],       [[3]])

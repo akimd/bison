@@ -242,6 +242,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** %language is no longer an experimental feature.
+
+  The introduction of this feature, in 2.4, was four years ago. The --language
+  option and the %language directive are no longer experimental.
+
 ** New value for %define variable: api.pure full
 
   The %define variable api.pure requests a pure (reentrant) parser. However,

@@ -321,7 +321,6 @@ Operation modes:\n\
       fputs (_("\
 Parser:\n\
   -L, --language=LANGUAGE          specify the output programming language\n\
-                                   (this is an experimental feature)\n\
   -S, --skeleton=FILE              specify the skeleton to use\n\
   -t, --debug                      instrument the parser for tracing\n\
                                    same as `-Dparse.trace'\n\
@@ -572,7 +571,7 @@ command_line_location (void)
 {
   location res;
   /* "<command line>" is used in GCC's messages about -D. */
-  boundary_set (&res.start, uniqstr_new ("<command line>"), optind, -1);
+  boundary_set (&res.start, uniqstr_new ("<command line>"), optind - 1, -1);
   res.end = res.start;
   return res;
 }
