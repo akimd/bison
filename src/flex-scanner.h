@@ -23,18 +23,18 @@
 
 /* Whether this version of Flex is (strictly) greater than
    Major.Minor.Subminor.  */
-#define FLEX_VERSION_GT(Major, Minor, Subminor)                         \
-  (defined YY_FLEX_MAJOR_VERSION                                        \
-   && (Major < YY_FLEX_MAJOR_VERSION                                    \
-       || (Major == YY_FLEX_MAJOR_VERSION                               \
-           && (defined YY_FLEX_MINOR_VERSION                            \
-               && (Minor < YY_FLEX_MINOR_VERSION                        \
-                   || (Minor == YY_FLEX_MINOR_VERSION                   \
-                       && defined YY_FLEX_SUBMINOR_VERSION              \
-                       && Subminor < YY_FLEX_SUBMINOR_VERSION))))))
-
+#ifdef YY_FLEX_SUBMINOR_VERSION
+# define FLEX_VERSION               \
+  (YY_FLEX_MAJOR_VERSION) * 1000000 \
++ (YY_FLEX_MINOR_VERSION) * 1000    \
++ (YY_FLEX_SUBMINOR_VERSION)
+#else
+# define FLEX_VERSION               \
+  (YY_FLEX_MAJOR_VERSION) * 1000000 \
++ (YY_FLEX_MINOR_VERSION) * 1000
+#endif
 /* Pacify "gcc -Wmissing-prototypes" when flex 2.5.31 is used.  */
-# if ! FLEX_VERSION_GT (2, 5, 31)
+# if FLEX_VERSION <= 2005031
 int   FLEX_PREFIX (get_lineno) (void);
 FILE *FLEX_PREFIX (get_in) (void);
 FILE *FLEX_PREFIX (get_out) (void);
@@ -65,7 +65,7 @@ int   FLEX_PREFIX (lex_destroy) (void);
    versions according to the Flex manual) leak memory if yylex_destroy is not
    invoked.  However, yylex_destroy is not defined before Flex 2.5.9, so give
    an implementation here that at least appears to work with Flex 2.5.4.  */
-#if ! FLEX_VERSION_GT (2, 5, 9)
+#if FLEX_VERSION <= 2005009
 # define yylex_destroy() yy_delete_buffer (YY_CURRENT_BUFFER)
 #endif
 
