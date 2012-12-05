@@ -278,3 +278,5 @@
 /stdio.c
 /unistd.c
 /wctype-h.c
+/getdelim.c
+/getline.c

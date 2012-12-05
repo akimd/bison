@@ -180,3 +180,5 @@
 /xstrndup.m4
 /obstack-printf.m4
 /extern-inline.m4
+/getdelim.m4
+/getline.m4
