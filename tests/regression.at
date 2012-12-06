@@ -481,6 +481,14 @@ AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
 input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
 ]])
+AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
+[[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
+ %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+        ^^^^^^^
+input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
+ %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]])
 AT_COMPILE([input])
 
 # Checking the error message here guarantees that yytname, which does contain

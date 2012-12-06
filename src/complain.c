@@ -110,12 +110,15 @@ error_message (const location *loc, warnings flags, const char *prefix,
   warnings_print_categories (flags);
   {
     size_t l = strlen (message);
-    if (l < 2 || message[l-2] != ':' || message[l-1] != ' ')
+    if (l < 2 || message[l - 2] != ':' || message[l - 1] != ' ')
       {
         putc ('\n', stderr);
         fflush (stderr);
+        if (loc && feature_flag & feature_caret)
+          location_caret (stderr, *loc);
       }
   }
+  fflush (stderr);
 }
 
 /** Raise a complaint. That can be a fatal error, a complaint or just a

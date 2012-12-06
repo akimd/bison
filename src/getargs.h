@@ -108,6 +108,18 @@ enum trace
 /** What debug items bison displays during its run.  */
 extern int trace_flag;
 
+/*-------------.
+| --features.  |
+`-------------*/
+
+enum feature
+  {
+    feature_none  = 0,         /**< No additional feature.  */
+    feature_caret = 1 << 0,    /**< Enhance the output of errors with carets.  */
+    feature_all   = ~0         /**< All above features.  */
+  };
+/** What additional features to use.  */
+extern int feature_flag;
 
 /** Process the command line arguments.
  *

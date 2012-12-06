@@ -63,7 +63,6 @@
 /isnand.m4
 /isnanf.m4
 /isnanl.m4
-/iswblank.m4
 /javacomp.m4
 /javaexec.m4
 /largefile.m4
@@ -82,8 +81,6 @@
 /longlong.m4
 /malloc.m4
 /math_h.m4
-/mbchar.m4
-/mbiter.m4
 /mbrtowc.m4
 /mbsinit.m4
 /mbstate_t.m4
@@ -183,3 +180,6 @@
 /obstack-printf.m4
 /extern-inline.m4
 /non-recursive-gnulib-prefix-hack.m4
+/getdelim.m4
+/getline.m4
+/inline.m4

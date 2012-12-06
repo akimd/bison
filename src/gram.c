@@ -312,10 +312,15 @@ grammar_rules_useless_report (const char *message)
       for (r = 0; r < nrules ; ++r)
         if (!rules[r].useful)
           {
-            complain (&rules[r].location, w | silent, "%s: ", message);
-            rule_print (&rules[r], stderr);
-            warnings_print_categories (w);
-            fprintf (stderr, "\n");
+            if (feature_flag & feature_caret)
+              complain (&rules[r].location, w, "%s", message);
+            else
+              {
+                complain (&rules[r].location, w | silent, "%s: ", message);
+                rule_print (&rules[r], stderr);
+                warnings_print_categories (w);
+                fprintf (stderr, "\n");
+              }
           }
     }
 }

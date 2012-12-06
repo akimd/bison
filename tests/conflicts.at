@@ -40,6 +40,12 @@ AT_BISON_CHECK([-o input.c input.y], 0, [],
 [[input.y:4.9: warning: rule useless in parser due to conflicts: e: /* empty */ [-Wother]
 ]])
 
+AT_BISON_CHECK([-fcaret -o input.c input.y], 0, [],
+[[input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
+ e: 'e' | /* Nothing. */;
+         ^
+]])
+
 AT_CLEANUP
 
 

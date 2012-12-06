@@ -1329,6 +1329,21 @@ input.y:33.3-23: warning: unset value: $$ [-Wother]
 input.y:30.3-35.37: warning: unused value: $3 [-Wother]
 ]])
 
+AT_BISON_CHECK([-fcaret -o input.c input.y], 0,,
+[[input.y:24.70-72: warning: useless %destructor for type <*> [-Wother]
+ %printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
+                                                                      ^^^
+input.y:24.70-72: warning: useless %printer for type <*> [-Wother]
+ %printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
+                                                                      ^^^
+input.y:33.3-23: warning: unset value: $$ [-Wother]
+   {           @$ = 4; } // Only used.
+   ^^^^^^^^^^^^^^^^^^^^^
+input.y:30.3-35.37: warning: unused value: $3 [-Wother]
+   {           @$ = 1; } // Not set or used.
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]])
+
 AT_COMPILE([input])
 AT_PARSER_CHECK([./input], 1,,
 [[Starting parse

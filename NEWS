@@ -247,6 +247,19 @@ GNU Bison NEWS
   The introduction of this feature, in 2.4, was four years ago. The --language
   option and the %language directive are no longer experimental.
 
+** New format for error reports: carets
+
+  Caret errors have been added to Bison, for example (taken from the
+  documentation):
+
+    input.y:3.20-23: error: ambiguous reference: '$exp'
+     exp: exp '+' exp { $exp = $1 + $2; };
+                        ^^^^
+
+  The default behaviour for now is still not to display these unless explictly
+  asked with -fall of -fcaret. However, in a later release, it will be made the
+  default behavior (but may still be deactivated with -fno-caret).
+
 ** New value for %define variable: api.pure full
 
   The %define variable api.pure requests a pure (reentrant) parser. However,

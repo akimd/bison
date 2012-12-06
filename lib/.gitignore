@@ -101,7 +101,6 @@
 /isnanf.c
 /isnanl-nolibm.h
 /isnanl.c
-/iswblank.c
 /itold.c
 /ldexpl.c
 /localcharset.c
@@ -109,13 +108,10 @@
 /malloc.c
 /math.h
 /math.in.h
-/mbchar.c
-/mbchar.h
 /mbrtowc.c
 /mbsinit.c
 /mbswidth.c
 /mbswidth.h
-/mbuiter.h
 /memchr.c
 /memchr.valgrind
 /msvc-inval.c
@@ -215,8 +211,6 @@
 /stripslash.c
 /strndup.c
 /strnlen.c
-/strnlen1.c
-/strnlen1.h
 /strtol.c
 /strtoul.c
 /strverscmp.c
@@ -273,9 +267,5 @@
 /xstrndup.h
 /binary-io.c
 /xsize.c
-/bitrotate.c
-/math.c
-/sig-handler.c
-/stdio.c
-/unistd.c
-/wctype-h.c
+/getdelim.c
+/getline.c

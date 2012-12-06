@@ -124,8 +124,9 @@ m4_define([b4_position_define],
    ** \param ostr the destination output stream
    ** \param pos a reference to the position to redirect
    */
-  inline std::ostream&
-  operator<< (std::ostream& ostr, const position& pos)
+  template <typename YYChar>
+  inline std::basic_ostream<YYChar>&
+  operator<< (std::basic_ostream<YYChar>& ostr, const position& pos)
   {
     if (pos.filename)
       ostr << *pos.filename << ':';
@@ -248,7 +249,9 @@ m4_define([b4_location_define],
    **
    ** Avoid duplicate information.
    */
-  inline std::ostream& operator<< (std::ostream& ostr, const location& loc)
+  template <typename YYChar>
+  inline std::basic_ostream<YYChar>&
+  operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
     position last = loc.end - 1;
     ostr << loc.begin;
