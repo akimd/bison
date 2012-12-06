@@ -21,18 +21,18 @@
 # error "FLEX_PREFIX not defined"
 #endif
 
-/* Whether this version of Flex is (strictly) greater than
-   Major.Minor.Subminor.  */
+/* Flex full version as a number.  */
 #ifdef YY_FLEX_SUBMINOR_VERSION
-# define FLEX_VERSION               \
-  (YY_FLEX_MAJOR_VERSION) * 1000000 \
-+ (YY_FLEX_MINOR_VERSION) * 1000    \
-+ (YY_FLEX_SUBMINOR_VERSION)
+# define FLEX_VERSION                   \
+  ((YY_FLEX_MAJOR_VERSION) * 1000000    \
+   + (YY_FLEX_MINOR_VERSION) * 1000     \
+   + (YY_FLEX_SUBMINOR_VERSION))
 #else
-# define FLEX_VERSION               \
-  (YY_FLEX_MAJOR_VERSION) * 1000000 \
-+ (YY_FLEX_MINOR_VERSION) * 1000
+# define FLEX_VERSION                   \
+  ((YY_FLEX_MAJOR_VERSION) * 1000000    \
+   + (YY_FLEX_MINOR_VERSION) * 1000)
 #endif
+
 /* Pacify "gcc -Wmissing-prototypes" when flex 2.5.31 is used.  */
 # if FLEX_VERSION <= 2005031
 int   FLEX_PREFIX (get_lineno) (void);
