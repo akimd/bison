@@ -58,6 +58,20 @@ AC_PROG_CXX
 # Gnulib (early checks).
 gl_EARLY
 
+# Gnulib uses '#pragma GCC diagnostic push' to silence some
+# warnings, but older gcc doesn't support this.
+AC_CACHE_CHECK([whether pragma GCC diagnostic push works],
+  [lv_cv_gcc_pragma_push_works], [
+  save_CFLAGS=$CFLAGS
+  CFLAGS='-Wunknown-pragmas -Werror'
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic pop
+  ]])],
+  [lv_cv_gcc_pragma_push_works=yes],
+  [lv_cv_gcc_pragma_push_works=no])
+  CFLAGS=$save_CFLAGS])
+
 AC_ARG_ENABLE([gcc-warnings],
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],
 [case $enable_gcc_warnings in
@@ -68,8 +82,7 @@ AC_ARG_ENABLE([gcc-warnings],
 if test "$enable_gcc_warnings" = yes; then
   warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
     -Wformat -Wpointer-arith -Wwrite-strings'
-  warn_c='-Wbad-function-cast -Wmissing-declarations -Wmissing-prototypes
-    -Wshadow -Wstrict-prototypes'
+  warn_c='-Wbad-function-cast -Wshadow -Wstrict-prototypes'
   warn_cxx='-Wnoexcept'
   AC_LANG_PUSH([C])
   # Clang supports many of GCC's -W options, but only issues warnings
@@ -89,11 +102,20 @@ if test "$enable_gcc_warnings" = yes; then
     gl_WARN_ADD([$i], [WARN_CFLAGS])
   done
   gl_WARN_ADD([-Werror], [WERROR_CFLAGS])
+
+  # Warnings for the test suite, and maybe for bison if GCC is modern
+  # enough.
+  gl_WARN_ADD([-Wmissing-declarations], [WARN_CFLAGS_TEST])
+  gl_WARN_ADD([-Wmissing-prototypes], [WARN_CFLAGS_TEST])
+  test $lv_cv_gcc_pragma_push_works = yes &&
+    AS_VAR_APPEND([WARN_CFLAGS], [" $WARN_CFLAGS_TEST"])
+
   # Warnings for the test suite only.
   gl_WARN_ADD([-Wundef], [WARN_CFLAGS_TEST])
   gl_WARN_ADD([-pedantic], [WARN_CFLAGS_TEST])
   CFLAGS=$save_CFLAGS
   AC_LANG_POP([C])
+
 
   AC_LANG_PUSH([C++])
   save_CXXFLAGS=$CXXFLAGS
