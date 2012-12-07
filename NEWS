@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Warnings about uninitialized yylloc in yyparse have been fixed.
+
 ** %language is no longer an experimental feature.
 
   The introduction of this feature, in 2.4, was four years ago. The --language
@@ -84,12 +88,6 @@ GNU Bison NEWS
   processing, with minor (documented) differences.
 
   Two nodes were added to the documentation: Xml and Graphviz.
-
-* Noteworthy changes in release ?.? (????-??-??) [?]
-
-** Bug fixes
-
-  Warnings about uninitialized yylloc in yyparse have been fixed.
 
 ** Documentation
 
