@@ -17,8 +17,17 @@ GNU Bison NEWS
   documentation):
 
     input.y:3.20-23: error: ambiguous reference: '$exp'
-     exp: exp '+' exp { $exp = $1 + $2; };
+     exp: exp '+' exp { $exp = $1 + $3; };
                         ^^^^
+    input.y:3.1-3:       refers to: $exp at $$
+     exp: exp '+' exp { $exp = $1 + $3; };
+     ^^^
+    input.y:3.6-8:       refers to: $exp at $1
+     exp: exp '+' exp { $exp = $1 + $3; };
+          ^^^
+    input.y:3.14-16:     refers to: $exp at $3
+     exp: exp '+' exp { $exp = $1 + $3; };
+                  ^^^
 
   The default behaviour for now is still not to display these unless explictly
   asked with -fall of -fcaret. However, in a later release, it will be made the
@@ -28,7 +37,7 @@ GNU Bison NEWS
 
   The %define variable api.pure requests a pure (reentrant) parser. However,
   for historical reasons, using it in a location-tracking Yacc parser resulted
-  in an yyerror function that did not take a location as a parameter. With this
+  in a yyerror function that did not take a location as a parameter. With this
   new value, the user may request a better pure parser, where yyerror does take
   a location as a parameter (in location-tracking parsers).
 
