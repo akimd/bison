@@ -96,13 +96,14 @@ PREPATH = $(top_builddir)/src
 
 nodist_man_MANS = yacc.1
 
-## ----------------------------- ##
-## Graphviz examples generation. ##
-## ----------------------------- ##
+## ------------------------------ ##
+## Graphviz examples generation.  ##
+## ------------------------------ ##
 
 CLEANDIRS += figs
-FIGS_DOT = figs/example-reduce.dot figs/example-shift.dot
+FIGS_DOT = figs/example.dot figs/example-reduce.dot figs/example-shift.dot
 EXTRA_DIST +=								\
+  figs/example.y							\
   $(FIGS_DOT)								\
   $(FIGS_DOT:.dot=.eps) $(FIGS_DOT:.dot=.pdf) $(FIGS_DOT:.dot=.png)
 SUFFIXES += .dot .eps .pdf .png

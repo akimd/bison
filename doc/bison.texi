@@ -2722,6 +2722,9 @@ The Bison grammar file conventionally has a name ending in @samp{.y}.
 
 @node Grammar Outline
 @section Outline of a Bison Grammar
+@cindex comment
+@findex // @dots{}
+@findex /* @dots{} */
 
 A Bison grammar file has four main sections, shown here with the
 appropriate delimiters:
@@ -2741,8 +2744,8 @@ appropriate delimiters:
 @end example
 
 Comments enclosed in @samp{/* @dots{} */} may appear in any of the sections.
-As a GNU extension, @samp{//} introduces a comment that
-continues until end of line.
+As a GNU extension, @samp{//} introduces a comment that continues until end
+of line.
 
 @menu
 * Prologue::              Syntax and usage of the prologue.
@@ -3768,10 +3771,16 @@ remove it afterward.  Here is how it is done:
 @example
 @group
 stmt:
-  LET '(' var ')'
-    @{ $<context>$ = push_context (); declare_variable ($3); @}
+  "let" '(' var ')'
+    @{
+      $<context>$ = push_context ();
+      declare_variable ($3);
+    @}
   stmt
-    @{ $$ = $6; pop_context ($<context>5); @}
+    @{
+      $$ = $6;
+      pop_context ($<context>5);
+    @}
 @end group
 @end example
 
@@ -3821,7 +3830,7 @@ stmt:
     @};
 
 let:
-  LET '(' var ')'
+  "let" '(' var ')'
     @{
       $$ = push_context ();
       declare_variable ($3);
@@ -5389,8 +5398,8 @@ I.e., if @samp{%locations %define api.pure} is passed then the prototypes for
 @code{yyerror} are:
 
 @example
-void yyerror (char const *msg);                 /* Yacc parsers.  */
-void yyerror (YYLTYPE *locp, char const *msg);  /* GLR parsers.  */
+void yyerror (char const *msg);                 // Yacc parsers.
+void yyerror (YYLTYPE *locp, char const *msg);  // GLR parsers.
 @end example
 
 But if @samp{%locations %define api.pure %parse-param @{int *nastiness@}} is
@@ -6386,7 +6395,6 @@ Actions}).
 @end deffn
 
 @deffn {Value} @@$
-@findex @@$
 Acts like a structure variable containing information on the textual
 location of the grouping made by the current rule.  @xref{Tracking
 Locations}.
@@ -6445,7 +6453,7 @@ GNU Automake.
 @item
 @cindex bison-i18n.m4
 Into the directory containing the GNU Autoconf macros used
-by the package---often called @file{m4}---copy the
+by the package ---often called @file{m4}--- copy the
 @file{bison-i18n.m4} file installed by Bison under
 @samp{share/aclocal/bison-i18n.m4} in Bison's installation directory.
 For example:
@@ -8191,8 +8199,26 @@ clear the flag.
 
 Developing a parser can be a challenge, especially if you don't understand
 the algorithm (@pxref{Algorithm, ,The Bison Parser Algorithm}).  This
-chapter explains how to generate and read the detailed description of the
-automaton, and how to enable and understand the parser run-time traces.
+chapter explains how understand and debug a parser.
+
+The first sections focus on the static part of the parser: its structure.
+They explain how to generate and read the detailed description of the
+automaton.  There are several formats available:
+@itemize @minus
+@item
+as text, see @ref{Understanding, , Understanding Your Parser};
+
+@item
+as a graph, see @ref{Graphviz,, Visualizing Your Parser};
+
+@item
+or as a markup report that can be turned, for instance, into HTML, see
+@ref{Xml,, Visualizing your parser in multiple formats}.
+@end itemize
+
+The last section focuses on the dynamic part of the parser: how to enable
+and understand the parser run-time traces (@pxref{Tracing, ,Tracing Your
+Parser}).
 
 @menu
 * Understanding::     Understanding the structure of your parser.
@@ -8207,8 +8233,7 @@ automaton, and how to enable and understand the parser run-time traces.
 As documented elsewhere (@pxref{Algorithm, ,The Bison Parser Algorithm})
 Bison parsers are @dfn{shift/reduce automata}.  In some cases (much more
 frequent than one would hope), looking at this automaton is required to
-tune or simply fix a parser.  Bison provides two different
-representation of it, either textually or graphically (as a DOT file).
+tune or simply fix a parser.
 
 The textual file is generated when the options @option{--report} or
 @option{--verbose} are specified, see @ref{Invocation, , Invoking
@@ -8222,9 +8247,12 @@ The following grammar file, @file{calc.y}, will be used in the sequel:
 
 @example
 %token NUM STR
+@group
 %left '+' '-'
 %left '*'
+@end group
 %%
+@group
 exp:
   exp '+' exp
 | exp '-' exp
@@ -8232,6 +8260,7 @@ exp:
 | exp '/' exp
 | NUM
 ;
+@end group
 useless: STR;
 %%
 @end example
@@ -8241,8 +8270,8 @@ useless: STR;
 @example
 calc.y: warning: 1 nonterminal useless in grammar
 calc.y: warning: 1 rule useless in grammar
-calc.y:11.1-7: warning: nonterminal useless in grammar: useless
-calc.y:11.10-12: warning: rule useless in grammar: useless: STR
+calc.y:12.1-7: warning: nonterminal useless in grammar: useless
+calc.y:12.10-12: warning: rule useless in grammar: useless: STR
 calc.y: conflicts: 7 shift/reduce
 @end example
 
@@ -8336,7 +8365,7 @@ item is a production rule together with a point (@samp{.}) marking
 the location of the input cursor.
 
 @example
-state 0
+State 0
 
     0 $accept: . exp $end
 
@@ -8366,7 +8395,7 @@ you want to see more detail you can invoke @command{bison} with
 @option{--report=itemset} to list the derived items as well:
 
 @example
-state 0
+State 0
 
     0 $accept: . exp $end
     1 exp: . exp '+' exp
@@ -8384,7 +8413,7 @@ state 0
 In the state 1@dots{}
 
 @example
-state 1
+State 1
 
     5 exp: NUM .
 
@@ -8394,11 +8423,11 @@ state 1
 @noindent
 the rule 5, @samp{exp: NUM;}, is completed.  Whatever the lookahead token
 (@samp{$default}), the parser will reduce it.  If it was coming from
-state 0, then, after this reduction it will return to state 0, and will
+State 0, then, after this reduction it will return to state 0, and will
 jump to state 2 (@samp{exp: go to state 2}).
 
 @example
-state 2
+State 2
 
     0 $accept: exp . $end
     1 exp: exp . '+' exp
@@ -8426,7 +8455,7 @@ The state 3 is named the @dfn{final state}, or the @dfn{accepting
 state}:
 
 @example
-state 3
+State 3
 
     0 $accept: exp $end .
 
@@ -8441,7 +8470,7 @@ The interpretation of states 4 to 7 is straightforward, and is left to
 the reader.
 
 @example
-state 4
+State 4
 
     1 exp: exp '+' . exp
 
@@ -8450,7 +8479,7 @@ state 4
     exp  go to state 8
 
 
-state 5
+State 5
 
     2 exp: exp '-' . exp
 
@@ -8459,7 +8488,7 @@ state 5
     exp  go to state 9
 
 
-state 6
+State 6
 
     3 exp: exp '*' . exp
 
@@ -8468,7 +8497,7 @@ state 6
     exp  go to state 10
 
 
-state 7
+State 7
 
     4 exp: exp '/' . exp
 
@@ -8481,7 +8510,7 @@ As was announced in beginning of the report, @samp{State 8 conflicts:
 1 shift/reduce}:
 
 @example
-state 8
+State 8
 
     1 exp: exp . '+' exp
     1    | exp '+' exp .
@@ -8524,7 +8553,7 @@ with some set of possible lookahead tokens.  When run with
 @option{--report=lookahead}, Bison specifies these lookahead tokens:
 
 @example
-state 8
+State 8
 
     1 exp: exp . '+' exp
     1    | exp '+' exp .  [$end, '+', '-', '/']
@@ -8556,7 +8585,7 @@ The remaining states are similar:
 
 @example
 @group
-state 9
+State 9
 
     1 exp: exp . '+' exp
     2    | exp . '-' exp
@@ -8572,7 +8601,7 @@ state 9
 @end group
 
 @group
-state 10
+State 10
 
     1 exp: exp . '+' exp
     2    | exp . '-' exp
@@ -8587,7 +8616,7 @@ state 10
 @end group
 
 @group
-state 11
+State 11
 
     1 exp: exp . '+' exp
     2    | exp . '-' exp
@@ -8610,12 +8639,11 @@ state 11
 
 @noindent
 Observe that state 11 contains conflicts not only due to the lack of
-precedence of @samp{/} with respect to @samp{+}, @samp{-}, and
-@samp{*}, but also because the
-associativity of @samp{/} is not specified.
+precedence of @samp{/} with respect to @samp{+}, @samp{-}, and @samp{*}, but
+also because the associativity of @samp{/} is not specified.
 
-Note that Bison may also produce an HTML version of this output, via an XML
-file and XSLT processing (@pxref{Xml}).
+Bison may also produce an HTML version of this output, via an XML file and
+XSLT processing (@pxref{Xml,,Visualizing your parser in multiple formats}).
 
 @c ================================================= Graphical Representation
 
@@ -8635,7 +8663,10 @@ This file is generated when the @option{--graph} option is specified
 (@pxref{Invocation, , Invoking Bison}).  Its name is made by removing
 @samp{.tab.c} or @samp{.c} from the parser implementation file name, and
 adding @samp{.dot} instead.  If the grammar file is @file{foo.y}, the
-Graphviz output file is called @file{foo.dot}.
+Graphviz output file is called @file{foo.dot}.  A DOT file may also be
+produced via an XML file and XSLT processing (@pxref{Xml,,Visualizing your
+parser in multiple formats}).
+
 
 The following grammar file, @file{rr.y}, will be used in the sequel:
 
@@ -8648,10 +8679,20 @@ b: "0";
 @end group
 @end example
 
-The graphical output is very similar to the textual one, and as such it is
-easier understood by making direct comparisons between them. See
-@ref{Debugging, , Debugging Your Parser} for a detailled analysis of the
-textual report.
+The graphical output
+@ifnotinfo
+(see @ref{fig:graph})
+@end ifnotinfo
+is very similar to the textual one, and as such it is easier understood by
+making direct comparisons between them.  @xref{Debugging, , Debugging Your
+Parser}, for a detailled analysis of the textual report.
+
+@ifnotinfo
+@float Figure,fig:graph
+@image{figs/example, 430pt}
+@caption{A graphical rendering of the parser.}
+@end float
+@end ifnotinfo
 
 @subheading Graphical Representation of States
 
@@ -8676,7 +8717,7 @@ shift. The following describes a reduction in the @file{rr.output} file:
 
 @example
 @group
-state 3
+State 3
 
     1 exp: a . ";"
 
@@ -8697,7 +8738,7 @@ action for the given state, there is no such label.
 
 This is how reductions are represented in the verbose file @file{rr.output}:
 @example
-state 1
+State 1
 
     3 a: "0" .  [";"]
     4 b: "0" .  ["."]
@@ -8716,16 +8757,13 @@ reduction, see @ref{Shift/Reduce, , Shift/Reduce Conflicts}.  Discarded actions
 are distinguished by a red filling color on these nodes, just like how they are
 reported between square brackets in the verbose file.
 
-The reduction corresponding to the rule number 0 is the acceptation state. It
-is shown as a blue diamond, labelled "Acc".
+The reduction corresponding to the rule number 0 is the acceptation
+state. It is shown as a blue diamond, labelled ``Acc''.
 
 @subheading Graphical representation of go tos
 
 The @samp{go to} jump transitions are represented as dotted lines bearing
 the name of the rule being jumped to.
-
-Note that a DOT file may also be produced via an XML file and XSLT
-processing (@pxref{Xml}).
 
 @c ================================================= XML
 
@@ -8734,8 +8772,10 @@ processing (@pxref{Xml}).
 @cindex xml
 
 Bison supports two major report formats: textual output
-(@pxref{Understanding}) when invoked with option @option{--verbose}, and DOT
-(@pxref{Graphviz}) when invoked with option @option{--graph}. However,
+(@pxref{Understanding, ,Understanding Your Parser}) when invoked
+with option @option{--verbose}, and DOT
+(@pxref{Graphviz,, Visualizing Your Parser}) when invoked with
+option @option{--graph}. However,
 another alternative is to output an XML file that may then be, with
 @command{xsltproc}, rendered as either a raw text format equivalent to the
 verbose file, or as an HTML version of the same file, with clickable
@@ -8743,7 +8783,7 @@ transitions, or even as a DOT. The @file{.output} and DOT files obtained via
 XSLT have no difference whatsoever with those obtained by invoking
 @command{bison} with options @option{--verbose} or @option{--graph}.
 
-The textual file is generated when the options @option{-x} or
+The XML file is generated when the options @option{-x} or
 @option{--xml[=FILE]} are specified, see @ref{Invocation,,Invoking Bison}.
 If not specified, its name is made by removing @samp{.tab.c} or @samp{.c}
 from the parser implementation file name, and adding @samp{.xml} instead.
@@ -8757,19 +8797,19 @@ files to apply to the XML file. Their names are non-ambiguous:
 @item xml2dot.xsl
 Used to output a copy of the DOT visualization of the automaton.
 @item xml2text.xsl
-Used to output a copy of the .output file.
+Used to output a copy of the @samp{.output} file.
 @item xml2xhtml.xsl
-Used to output an xhtml enhancement of the .output file.
+Used to output an xhtml enhancement of the @samp{.output} file.
 @end table
 
-Sample usage (requires @code{xsltproc}):
+Sample usage (requires @command{xsltproc}):
 @example
-$ bison -x input.y
+$ bison -x gr.y
 @group
 $ bison --print-datadir
 /usr/local/share/bison
 @end group
-$ xsltproc /usr/local/share/bison/xslt/xml2xhtml.xsl input.xml > input.html
+$ xsltproc /usr/local/share/bison/xslt/xml2xhtml.xsl gr.xml >gr.html
 @end example
 
 @c ================================================= Tracing
@@ -8960,7 +9000,7 @@ Entering state 24
 
 @noindent
 The previous reduction demonstrates the @code{%printer} directive for
-@code{<val>}: both the token @code{NUM} and the resulting non-terminal
+@code{<val>}: both the token @code{NUM} and the resulting nonterminal
 @code{exp} have @samp{1} as value.
 
 @example
@@ -9250,7 +9290,7 @@ Show caret errors, in a manner similar to GCC's
 @option{-fdiagnostics-show-caret}, or Clang's @option{-fcaret-diagnotics}. The
 location provided with the message is used to quote the corresponding line of
 the source file, underlining the important part of it with carets (^). Here is
-an example, using the following file @file{input.y}:
+an example, using the following file @file{in.y}:
 
 @example
 %type <ival> exp
@@ -9262,27 +9302,27 @@ When invoked with @option{-fcaret}, Bison will report:
 
 @example
 @group
-input.y:3.20-23: error: ambiguous reference: '$exp'
+in.y:3.20-23: error: ambiguous reference: '$exp'
  exp: exp '+' exp @{ $exp = $1 + $2; @};
                     ^^^^
 @end group
 @group
-input.y:3.1-3:       refers to: $exp at $$
+in.y:3.1-3:       refers to: $exp at $$
  exp: exp '+' exp @{ $exp = $1 + $2; @};
  ^^^
 @end group
 @group
-input.y:3.6-8:       refers to: $exp at $1
+in.y:3.6-8:       refers to: $exp at $1
  exp: exp '+' exp @{ $exp = $1 + $2; @};
       ^^^
 @end group
 @group
-input.y:3.14-16:     refers to: $exp at $3
+in.y:3.14-16:     refers to: $exp at $3
  exp: exp '+' exp @{ $exp = $1 + $2; @};
               ^^^
 @end group
 @group
-input.y:3.32-33: error: $2 of 'exp' has no declared type
+in.y:3.32-33: error: $2 of 'exp' has no declared type
  exp: exp '+' exp @{ $exp = $1 + $2; @};
                                 ^^
 @end group
@@ -10295,19 +10335,30 @@ It is convenient to use a typedef to shorten
 %@{
   typedef yy::calcxx_parser::token token;
 %@}
-           /* Convert ints to the actual type of tokens.  */
-[-+*/]     return yy::calcxx_parser::token_type (yytext[0]);
-":="       return token::ASSIGN;
-@{int@}      @{
-  errno = 0;
-  long n = strtol (yytext, NULL, 10);
-  if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    driver.error (*yylloc, "integer is out of range");
-  yylval->ival = n;
-  return token::NUMBER;
-@}
-@{id@}       yylval->sval = new std::string (yytext); return token::IDENTIFIER;
-.          driver.error (*yylloc, "invalid character");
+         /* Convert ints to the actual type of tokens.  */
+[-+*/]   return yy::calcxx_parser::token_type (yytext[0]);
+
+":="     return token::ASSIGN;
+
+@group
+@{int@}    @{
+           errno = 0;
+           long n = strtol (yytext, NULL, 10);
+           if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
+             driver.error (*yylloc, "integer is out of range");
+           yylval->ival = n;
+           return token::NUMBER;
+         @}
+@end group
+
+@group
+@{id@}     @{
+           yylval->sval = new std::string (yytext);
+           return token::IDENTIFIER;
+         @}
+@end group
+
+.        driver.error (*yylloc, "invalid character");
 %%
 @end example
 
@@ -11358,13 +11409,9 @@ of the rule.  @xref{Tracking Locations}.
 @end deffn
 
 @deffn {Variable} @@@var{name}
-In an action, the location of a symbol addressed by name.  @xref{Tracking
-Locations}.
-@end deffn
-
-@deffn {Variable} @@[@var{name}]
-In an action, the location of a symbol addressed by name.  @xref{Tracking
-Locations}.
+@deffnx {Variable} @@[@var{name}]
+In an action, the location of a symbol addressed by @var{name}.
+@xref{Tracking Locations}.
 @end deffn
 
 @deffn {Variable} $$
@@ -11378,12 +11425,8 @@ right-hand side of the rule.  @xref{Actions}.
 @end deffn
 
 @deffn {Variable} $@var{name}
-In an action, the semantic value of a symbol addressed by name.
-@xref{Actions}.
-@end deffn
-
-@deffn {Variable} $[@var{name}]
-In an action, the semantic value of a symbol addressed by name.
+@deffnx {Variable} $[@var{name}]
+In an action, the semantic value of a symbol addressed by @var{name}.
 @xref{Actions}.
 @end deffn
 
@@ -11401,8 +11444,9 @@ the grammar file.  @xref{Grammar Outline, ,Outline of a Bison
 Grammar}.
 @end deffn
 
-@deffn {Construct} /*@dots{}*/
-Comment delimiters, as in C.
+@deffn {Construct} /* @dots{} */
+@deffnx {Construct} // @dots{}
+Comments, as in C/C++.
 @end deffn
 
 @deffn {Delimiter} :
@@ -11885,7 +11929,7 @@ Data type of semantic values; @code{int} by default.
 @item Accepting state
 A state whose only action is the accept action.
 The accepting state is thus a consistent state.
-@xref{Understanding,,}.
+@xref{Understanding, ,Understanding Your Parser}.
 
 @item Backus-Naur Form (BNF; also called ``Backus Normal Form'')
 Formal method of specifying context-free grammars originally proposed
