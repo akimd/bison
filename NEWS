@@ -106,6 +106,8 @@ GNU Bison NEWS
   The sections about shift/reduce and reduce/reduce conflicts resolution
   have been fixed and extended.
 
+  The translation of mid-rule actions is now described.
+
 * Noteworthy changes in release 2.6.5 (2012-11-07) [stable]
 
   We consider compiler warnings about Bison generated parsers to be bugs.
