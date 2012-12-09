@@ -54,7 +54,7 @@ m4_define([AT_SYNCLINES_COMPILE],
 #    #error "1"
 #     ^
 #
-# And possibly distcc adds its bits.
+# Possibly distcc adds its bits.
 #
 #   distcc[33187] ERROR: compile (null) on localhost failed
 #   syncline.c:1:2: error: #error "1"
@@ -71,11 +71,18 @@ m4_define([AT_SYNCLINES_COMPILE],
 #    #error "1"
 #     ^
 #    1 error generated.
+#
+# When c++ is used to compiler C, we might have more messages (Clang 3.2):
+#
+#    clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated
+
 AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
   # 1. Remove useless lines.
 
   # distcc clutter.
   s/^distcc\[\d+\] .*\n//gm;
+  # c vs. c++.
+  s/^clang: warning: treating 'c' input as 'c\+\+'.*\n//gm;
   # Function context.
   s/^[^:]*: In function '[^']+':\n//gm;
   # Caret error.
