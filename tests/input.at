@@ -174,42 +174,109 @@ l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<
 _AT_UNUSED_VALUES_DECLARATIONS])
 )
 
-AT_BISON_CHECK(m4_ifval($2, [ --warnings=midrule-values ])[ input.y], [0], [],
-[[input.y:11.10-32: warning: unset value: $]$[
-input.y:11.10-32: warning: unused value: $]1[
-input.y:11.10-32: warning: unused value: $]3[
-input.y:11.10-32: warning: unused value: $]5[
+AT_BISON_CHECK(m4_ifval($2, [--warnings=midrule-values ])[-fcaret input.y],
+               [0], [],
+[[input.y:11.10-32: warning: unset value: $][$
+ a: INT | INT { } INT { } INT { };
+          ^^^^^^^^^^^^^^^^^^^^^^^
+input.y:11.10-12: warning: unused value: $][1
+ a: INT | INT { } INT { } INT { };
+          ^^^
+input.y:11.18-20: warning: unused value: $][3
+ a: INT | INT { } INT { } INT { };
+                  ^^^
+input.y:11.26-28: warning: unused value: $][5
+ a: INT | INT { } INT { } INT { };
+                          ^^^
 input.y:12.9: warning: empty rule for typed nonterminal, and no action
-]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $$
-input.y:13.26-41: warning: unset value: $$
-]]])[[input.y:13.10-62: warning: unset value: $]$[
-input.y:13.10-62: warning: unused value: $]3[
-input.y:13.10-62: warning: unused value: $]5[
-]]m4_ifval($2, [[[input.y:14.14-16: warning: unset value: $$
-]]])[[input.y:14.10-49: warning: unset value: $]$[
-input.y:14.10-49: warning: unused value: $]3[
-input.y:14.10-49: warning: unused value: $]5[
-input.y:15.10-37: warning: unset value: $]$[
-input.y:15.10-37: warning: unused value: $]3[
-input.y:15.10-37: warning: unused value: $]5[
-input.y:17.10-58: warning: unset value: $]$[
-input.y:17.10-58: warning: unused value: $]1[
-]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]2[
-]]])[[input.y:17.10-58: warning: unused value: $]3[
-]]m4_ifval($2, [[[input.y:17.10-58: warning: unused value: $]4[
-]]])[[input.y:17.10-58: warning: unused value: $]5[
-input.y:18.10-72: warning: unset value: $]$[
-input.y:18.10-72: warning: unused value: $]1[
-input.y:18.10-72: warning: unused value: $]3[
-]]m4_ifval($2, [[[input.y:18.10-72: warning: unused value: $]4[
-]]])[[input.y:18.10-72: warning: unused value: $]5[
-]]m4_ifval($2, [[[input.y:20.10-55: warning: unused value: $]3[
-]]])[[input.y:21.10-68: warning: unset value: $]$[
-input.y:21.10-68: warning: unused value: $]1[
-input.y:21.10-68: warning: unused value: $]2[
-]]m4_ifval($2, [[[input.y:21.10-68: warning: unused value: $]4[
-]]]))])
-
+ b: INT | /* empty */;
+         ^
+]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $][$
+ c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+              ^^^^^^^
+input.y:13.26-41: warning: unset value: $][$
+ c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+                          ^^^^^^^^^^^^^^^^
+]]])[[input.y:13.10-62: warning: unset value: $][$
+ c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:13.22-24: warning: unused value: $][3
+ c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+                      ^^^
+input.y:13.43-45: warning: unused value: $][5
+ c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+                                           ^^^
+]]m4_ifval($2, [[[input.y:14.14-16: warning: unset value: $][$
+ d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+              ^^^
+]]])[[input.y:14.10-49: warning: unset value: $][$
+ d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:14.18-20: warning: unused value: $][3
+ d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+                  ^^^
+input.y:14.30-32: warning: unused value: $][5
+ d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+                              ^^^
+input.y:15.10-37: warning: unset value: $][$
+ e: INT | INT { } INT {  } INT { $][1; };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:15.18-20: warning: unused value: $][3
+ e: INT | INT { } INT {  } INT { $][1; };
+                  ^^^
+input.y:15.27-29: warning: unused value: $][5
+ e: INT | INT { } INT {  } INT { $][1; };
+                           ^^^
+input.y:17.10-58: warning: unset value: $][$
+ g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:17.10-12: warning: unused value: $][1
+ g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+          ^^^
+]]m4_ifval($2, [[[input.y:17.14-29: warning: unused value: $][2
+ g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+              ^^^^^^^^^^^^^^^^
+]]])[[input.y:17.31-33: warning: unused value: $][3
+ g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+                               ^^^
+]]m4_ifval($2, [[[input.y:17.35-50: warning: unused value: $][4
+ g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+                                   ^^^^^^^^^^^^^^^^
+]]])[[input.y:17.52-54: warning: unused value: $][5
+ g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+                                                    ^^^
+input.y:18.10-72: warning: unset value: $][$
+ h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:18.10-12: warning: unused value: $][1
+ h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+          ^^^
+input.y:18.31-33: warning: unused value: $][3
+ h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+                               ^^^
+]]m4_ifval($2, [[[input.y:18.35-64: warning: unused value: $][4
+ h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]])[[input.y:18.66-68: warning: unused value: $][5
+ h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+                                                                  ^^^
+]]m4_ifval($2, [[[input.y:20.18-37: warning: unused value: $][3
+ j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
+                  ^^^^^^^^^^^^^^^^^^^^
+]]])[[input.y:21.10-68: warning: unset value: $][$
+ k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:21.10-12: warning: unused value: $][1
+ k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+          ^^^
+input.y:21.14-16: warning: unused value: $][2
+ k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+              ^^^
+]]m4_ifval($2, [[[input.y:21.35-64: warning: unused value: $][4
+ k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]]))
+])
 
 ## --------------- ##
 ## Unused values.  ##
@@ -353,7 +420,7 @@ tagged: { } ;
 
 AT_BISON_CHECK([input.y], [0], [],
 [[input.y:6.8-45: warning: unset value: $$
-input.y:6.8-45: warning: unused value: $2
+input.y:6.12-14: warning: unused value: $2
 input.y:7.6-8: warning: unset value: $$
 ]])
 
@@ -369,7 +436,7 @@ tagged: { } ;
 ]])
 
 AT_BISON_CHECK([input.y], [0], [],
-[[input.y:6.8-45: warning: unused value: $4
+[[input.y:6.23-28: warning: unused value: $4
 input.y:8.9-11: warning: unset value: $$
 ]])
 
@@ -394,7 +461,7 @@ end: { }  ;
 
 AT_BISON_CHECK([input.y], [0], [],
 [[input.y:6.8-22: warning: unset value: $$
-input.y:6.8-22: warning: unused value: $2
+input.y:6.12-14: warning: unused value: $2
 input.y:7.6-8: warning: unset value: $$
 ]])
 
