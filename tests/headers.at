@@ -229,16 +229,13 @@ AT_TEST([x8], [%define api.pure %define api.push-pull both])
 # C++ output relies on namespaces and still uses yy a lot.
 #
 # Check there is no 'YY' left.
-# Ignore comments, YYChar (template parameter), YYPARSE_PARAM
-# (obsolete), YYPUSH_MORE(_DEFINED)?  (constant definition),
-# YY_\w+_INCLUDED (header guards).
-#
+# Ignore comments, YYChar (template parameter), YYPUSH_MORE(_DEFINED)?
+# (constant definition), YY_\w+_INCLUDED (header guards).
 # YYDEBUG (not renamed) can be read, but not changed.
 AT_CHECK([[$PERL -n -0777 -e '
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
   s{\b(YYChar
-      |YYPARSE_PARAM
       |YYPUSH_MORE(_DEFINED)?
       |YY_\w+_INCLUDED
       |YY_NULL
