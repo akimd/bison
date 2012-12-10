@@ -1326,7 +1326,7 @@ AT_BISON_CHECK([-o input.c input.y], 0,,
 [[input.y:24.70-72: warning: useless %destructor for type <*> [-Wother]
 input.y:24.70-72: warning: useless %printer for type <*> [-Wother]
 input.y:33.3-23: warning: unset value: $$ [-Wother]
-input.y:30.3-35.37: warning: unused value: $3 [-Wother]
+input.y:32.3-23: warning: unused value: $3 [-Wother]
 ]])
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 0,,
@@ -1339,9 +1339,9 @@ input.y:24.70-72: warning: useless %printer for type <*> [-Wother]
 input.y:33.3-23: warning: unset value: $$ [-Wother]
    {           @$ = 4; } // Only used.
    ^^^^^^^^^^^^^^^^^^^^^
-input.y:30.3-35.37: warning: unused value: $3 [-Wother]
-   {           @$ = 1; } // Not set or used.
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:32.3-23: warning: unused value: $3 [-Wother]
+   { USE ($$); @$ = 3; } // Only set.
+   ^^^^^^^^^^^^^^^^^^^^^
 ]])
 
 AT_COMPILE([input])

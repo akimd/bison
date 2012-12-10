@@ -581,9 +581,7 @@ m4_define([AT_QUELL_VALGRIND],
 # otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
 # with trailing .o removed, and ".c" appended.
 m4_define([AT_COMPILE],
-[AT_CHECK([case $POSIXLY_CORRECT_IS_EXPORTED:$C_COMPILER_POSIXLY_CORRECT in
-  true:false) echo 'cannot compile properly with POSIXLY_CORRECT' && exit 77;;
-esac])
+[AT_CHECK([$BISON_C_WORKS], 0, ignore, ignore)
 AT_CHECK(m4_join([ ],
                   [$CC $CFLAGS $CPPFLAGS],
                   [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],

@@ -18,9 +18,9 @@
 
 AT_BANNER([[GLR Regression Tests]])
 
-## --------------------------- ##
-## Badly Collapsed GLR States. ##
-## --------------------------- ##
+## ---------------------------- ##
+## Badly Collapsed GLR States.  ##
+## ---------------------------- ##
 
 AT_SETUP([Badly Collapsed GLR States])
 
@@ -67,7 +67,7 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
   return 0;
 }
 
-const char *input = NULL;
+const char *input = YY_NULL;
 
 int
 main (int argc, const char* argv[])
@@ -105,9 +105,9 @@ E -> E 'P' E
 
 AT_CLEANUP
 
-## ------------------------------------------------------------ ##
-## Improper handling of embedded actions and $-N in GLR parsers ##
-## ------------------------------------------------------------ ##
+## -------------------------------------------------------------- ##
+## Improper handling of embedded actions and $-N in GLR parsers.  ##
+## -------------------------------------------------------------- ##
 
 AT_SETUP([Improper handling of embedded actions and dollar(-N) in GLR parsers])
 
@@ -236,9 +236,9 @@ AT_PARSER_CHECK([[./glr-regr2a input3.txt]], 0,
 
 AT_CLEANUP
 
-## ------------------------------------------------------------ ##
-## Improper merging of GLR delayed action sets                  ##
-## ------------------------------------------------------------ ##
+## --------------------------------------------- ##
+## Improper merging of GLR delayed action sets.  ##
+## --------------------------------------------- ##
 
 AT_SETUP([Improper merging of GLR delayed action sets])
 
@@ -355,10 +355,10 @@ AT_PARSER_CHECK([[./glr-regr3 input.txt]],
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Duplicate representation of merged trees.  See			     ##
-## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.     ##
-## ------------------------------------------------------------------------- ##
+## ---------------------------------------------------------------------- ##
+## Duplicate representation of merged trees.  See                         ##
+## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.  ##
+## ---------------------------------------------------------------------- ##
 
 AT_SETUP([Duplicate representation of merged trees])
 
@@ -446,10 +446,10 @@ AT_PARSER_CHECK([[./glr-regr4]], 0,
 AT_CLEANUP
 
 
-## -------------------------------------------------------------------------- ##
-## User destructor for unresolved GLR semantic value.  See		      ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html>.   ##
-## -------------------------------------------------------------------------- ##
+## ------------------------------------------------------------------------- ##
+## User destructor for unresolved GLR semantic value.  See                   ##
+## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html>.  ##
+## ------------------------------------------------------------------------- ##
 
 AT_SETUP([User destructor for unresolved GLR semantic value])
 
@@ -506,10 +506,10 @@ AT_PARSER_CHECK([[./glr-regr5]], 0, [],
 AT_CLEANUP
 
 
-## -------------------------------------------------------------------------- ##
-## User destructor after an error during a split parse.  See		      ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html>.   ##
-## -------------------------------------------------------------------------- ##
+## ------------------------------------------------------------------------- ##
+## User destructor after an error during a split parse.  See                 ##
+## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html>.  ##
+## ------------------------------------------------------------------------- ##
 
 AT_SETUP([User destructor after an error during a split parse])
 
@@ -561,7 +561,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Duplicated user destructor for lookahead.  See			     ##
+## Duplicated user destructor for lookahead.  See                            ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00035.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
@@ -744,7 +744,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## No users destructors if stack 0 deleted.  See			     ##
+## No users destructors if stack 0 deleted.  See                             ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2005-09/msg00109.html>.  ##
 ## ------------------------------------------------------------------------- ##
 
@@ -821,9 +821,9 @@ AT_PARSER_CHECK([[./glr-regr9]], 0, [],
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Corrupted semantic options if user action cuts parse.	             ##
-## ------------------------------------------------------------------------- ##
+## ------------------------------------------------------ ##
+## Corrupted semantic options if user action cuts parse.  ##
+## ------------------------------------------------------ ##
 
 AT_SETUP([Corrupted semantic options if user action cuts parse])
 
@@ -875,9 +875,9 @@ AT_PARSER_CHECK([[./glr-regr10]], 0, [], [])
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Undesirable destructors if user action cuts parse.			     ##
-## ------------------------------------------------------------------------- ##
+## --------------------------------------------------- ##
+## Undesirable destructors if user action cuts parse.  ##
+## --------------------------------------------------- ##
 
 AT_SETUP([Undesirable destructors if user action cuts parse])
 
@@ -933,9 +933,9 @@ AT_PARSER_CHECK([[./glr-regr11]], 0, [], [])
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Leaked semantic values if user action cuts parse.			     ##
-## ------------------------------------------------------------------------- ##
+## -------------------------------------------------- ##
+## Leaked semantic values if user action cuts parse.  ##
+## -------------------------------------------------- ##
 
 AT_SETUP([Leaked semantic values if user action cuts parse])
 
@@ -1181,9 +1181,9 @@ start <- defstate_init defstate_shift 'b':
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Incorrect lookahead during nondeterministic GLR.			     ##
-## ------------------------------------------------------------------------- ##
+## ------------------------------------------------- ##
+## Incorrect lookahead during nondeterministic GLR.  ##
+## ------------------------------------------------- ##
 
 AT_SETUP([Incorrect lookahead during nondeterministic GLR])
 
@@ -1398,9 +1398,9 @@ start <- merge 'c' stack_explosion:
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Leaked semantic values when reporting ambiguity.			     ##
-## ------------------------------------------------------------------------- ##
+## ------------------------------------------------- ##
+## Leaked semantic values when reporting ambiguity.  ##
+## ------------------------------------------------- ##
 
 AT_SETUP([Leaked semantic values when reporting ambiguity])
 
@@ -1480,9 +1480,9 @@ AT_PARSER_CHECK([[./glr-regr15]], 0, [],
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Leaked lookahead after nondeterministic parse syntax error.		     ##
-## ------------------------------------------------------------------------- ##
+## ------------------------------------------------------------ ##
+## Leaked lookahead after nondeterministic parse syntax error.  ##
+## ------------------------------------------------------------ ##
 
 AT_SETUP([Leaked lookahead after nondeterministic parse syntax error])
 
@@ -1540,9 +1540,9 @@ AT_PARSER_CHECK([[./glr-regr16]], 0, [],
 AT_CLEANUP
 
 
-## ------------------------------------------------------------------------- ##
-## Uninitialized location when reporting ambiguity.			     ##
-## ------------------------------------------------------------------------- ##
+## ------------------------------------------------- ##
+## Uninitialized location when reporting ambiguity.  ##
+## ------------------------------------------------- ##
 
 AT_SETUP([Uninitialized location when reporting ambiguity])
 
@@ -1618,9 +1618,9 @@ AT_PARSER_CHECK([[./glr-regr17]], 0, [],
 AT_CLEANUP
 
 
-## -------------------------------------------------------------##
-## Missed %merge type warnings when LHS type is declared later. ##
-## -------------------------------------------------------------##
+## ------------------------------------------------------------- ##
+## Missed %merge type warnings when LHS type is declared later.  ##
+## ------------------------------------------------------------- ##
 
 AT_SETUP([Missed %merge type warnings when LHS type is declared later])
 

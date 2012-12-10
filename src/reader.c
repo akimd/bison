@@ -326,9 +326,9 @@ grammar_rule_check (const symbol_list *r)
           {
             warnings warn_flag = midrule_warning ? Wmidrule_values : Wother;
             if (n)
-              complain (&r->location, warn_flag, _("unused value: $%d"), n);
+              complain (&l->location, warn_flag, _("unused value: $%d"), n);
             else
-              complain (&r->location, warn_flag, _("unset value: $$"));
+              complain (&l->location, warn_flag, _("unset value: $$"));
           }
       }
   }
