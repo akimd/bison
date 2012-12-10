@@ -220,7 +220,7 @@ AC_SUBST([aclocaldir])
 AC_CONFIG_FILES([etc/bench.pl], [chmod +x etc/bench.pl])
 
 # Initialize the test suite.
-AC_CONFIG_TESTDIR(tests)
+AC_CONFIG_TESTDIR([tests], [$ac_abs_top_builddir/tests])
 AC_CONFIG_FILES([tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
 AC_CHECK_PROGS([VALGRIND], [valgrind])

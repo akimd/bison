@@ -734,7 +734,7 @@ m4_define([AT_JAVA_COMPILE],
 [AT_KEYWORDS(java)
 AT_SKIP_IF([[test -z "$CONF_JAVAC"]])
 AT_SKIP_IF([[test -z "$CONF_JAVA"]])
-AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
+AT_CHECK([[$SHELL $abs_top_builddir/javacomp.sh ]$1],
          [[0]], [ignore], [ignore])])
 
 # AT_LANG_COMPILE(OUTPUT, [SOURCES = OUTPUT.c]
@@ -844,7 +844,7 @@ AT_CHECK([sed >&2 -e '/^profiling:.*:Merge mismatch for summaries/d' stderr],
 # AT_JAVA_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
 # -----------------------------------------------------------------
 m4_define([AT_JAVA_PARSER_CHECK],
-[AT_CHECK([$5[ $SHELL ../../../javaexec.sh ]$1], [$2], [$3], [$4])])
+[AT_CHECK([$5[ $SHELL $abs_top_builddir/javaexec.sh ]$1], [$2], [$3], [$4])])
 
 
 # AT_TEST_TABLES_AND_PARSE(TITLE, COND-VALUE, TEST-SPEC,

@@ -80,8 +80,17 @@ $(TESTSUITE): $(TESTSUITE_AT)
 ## Run the test suite.  ##
 ## -------------------- ##
 
-# Move into tests/ so that testsuite.dir etc. be created there.
-RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
+# Move into tests/ so that testsuite.dir etc. be created there.  If a suffix is
+# specified, create it in a corresponding subdirectory of tests/.
+RUN_TESTSUITE = dir=tests/$$suf						\
+		  && { test -d $$dir || mkdir $$dir; }			\
+		  && { test -f $$dir/atconfig				\
+			&& diff -q $$dir/atconfig tests/atconfig	\
+		      || cp tests/atconfig $$dir; }			\
+		  && { test -f $$dir/atlocal 				\
+			&& diff -q $$dir/atlocal tests/atlocal		\
+		      || cp tests/atlocal  $$dir; }			\
+		  && $(TESTSUITE) -C $$dir $$TESTSUITEFLAGS
 check_SCRIPTS = $(BISON) tests/atconfig tests/atlocal
 RUN_TESTSUITE_deps = $(TESTSUITE) $(check_SCRIPTS)
 
@@ -99,16 +108,16 @@ installcheck-local: $(RUN_TESTSUITE_deps)
 # Be real mean with it.
 .PHONY: maintainer-check-g++
 maintainer-check-g++: $(RUN_TESTSUITE_deps)
-	$(RUN_TESTSUITE) --compile-c-with-cxx
+	suf=$@ $(RUN_TESTSUITE) --compile-c-with-cxx
 
 .PHONY: maintainer-check-posix
 maintainer-check-posix: $(RUN_TESTSUITE_deps)
-	$(RUN_TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
+	suf=$@ $(RUN_TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
 maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
 	test -z '$(VALGRIND)' ||					\
-	  $(RUN_TESTSUITE)						\
+	  suf=$@ $(RUN_TESTSUITE)					\
 	    PREBISON='$(VALGRIND_PREBISON)' PREPARSER='$(VALGRIND) -q'	\
 	    VALGRIND_OPTS='--leak-check=full --show-reachable=yes'
 
@@ -122,5 +131,8 @@ maintainer-push-check:
 
 .PHONY: maintainer-xml-check
 maintainer-xml-check:
-	$(MAKE) $(AM_MAKEFLAGS) maintainer-check		\
+	$(MAKE) $(AM_MAKEFLAGS) maintainer-check			\
 	  TESTSUITEFLAGS='BISON_TEST_XML=1 $(TESTSUITEFLAGS)'
+
+.PHONY: maintainer-release-check
+maintainer-release-check: maintainer-check maintainer-push-check maintainer-xml-check
