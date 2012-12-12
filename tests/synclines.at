@@ -127,7 +127,7 @@ AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA([syncline.c],
 [[#error "1"
-int i; // avoids -pedantic warning about an empty translation unit
+int i; /* avoids -pedantic warning about an empty translation unit. */
 ]])
 
 AT_SYNCLINES_COMPILE([syncline.c])
