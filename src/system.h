@@ -51,7 +51,7 @@
 typedef size_t uintptr_t;
 # endif
 
-// Version mismatch.
+/* Version mismatch. */
 # define EX_MISMATCH 63
 
 /*---------.

@@ -195,10 +195,11 @@ yylex (void)
 int
 main (int argc, char **argv)
 {
+  int res;
   input = stdin;
   if (argc == 2 && !(input = fopen (argv[1], "r")))
     return 3;
-  int res = yyparse ();
+  res = yyparse ();
   if (argc == 2 && fclose (input))
     return 4;
   return res;
@@ -327,10 +328,11 @@ int yylex (void)
 int
 main(int argc, char* argv[])
 {
+  int res;
   input = stdin;
   if (argc == 2 && !(input = fopen (argv[1], "r")))
     return 3;
-  int res = yyparse ();
+  res = yyparse ();
   if (argc == 2 && fclose (input))
     return 4;
   return res;

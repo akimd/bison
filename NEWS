@@ -6,6 +6,8 @@ GNU Bison NEWS
 
   Warnings about uninitialized yylloc in yyparse have been fixed.
 
+  Restored C90 compliance (yet no report was ever made).
+
 ** Diagnostics are improved
 
 *** Changes in the format of error messages

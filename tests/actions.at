@@ -90,7 +90,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %code
 {
 # include <stdio.h>
-# include <stdlib.h> // getenv
+# include <stdlib.h> /* getenv */
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 }
@@ -195,7 +195,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %code
 {
 # include <stdio.h>
-# include <stdlib.h> // getenv
+# include <stdlib.h> /* getenv */
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 }
@@ -223,6 +223,7 @@ main (void)
 
   TEST(7, 2, 0, 2);
   TEST(8, 0, 8, 0);
+  return 0;
 }
 ]])
 
