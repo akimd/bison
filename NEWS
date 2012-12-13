@@ -508,6 +508,7 @@ GNU Bison NEWS
 
   These features are experimental in this version.  More user feedback
   will help to stabilize them.
+  Contributed by Alex Rozenman.
 
 ** IELR(1) and canonical LR(1):
 
@@ -1024,6 +1025,7 @@ GNU Bison NEWS
 
   The current Java interface is experimental and may evolve.  More user
   feedback will help to stabilize it.
+  Contributed by Paolo Bonzini.
 
 ** %language
 
@@ -1037,6 +1039,7 @@ GNU Bison NEWS
   Bison can now generate an XML report of the LALR(1) automaton using the new
   "--xml" option.  The current XML schema is experimental and may evolve.  More
   user feedback will help to stabilize it.
+  Contributed by Wojciech Polak.
 
 ** The grammar file may now specify the name of the parser header file using
   %defines.  For example:
