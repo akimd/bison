@@ -267,8 +267,6 @@
 /xstrndup.h
 /binary-io.c
 /xsize.c
-/getdelim.c
-/getline.c
 /bitrotate.c
 /math.c
 /sig-handler.c
