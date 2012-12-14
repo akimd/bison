@@ -5077,7 +5077,7 @@ calling convention is used for the lexical analyzer function
 @code{yylex}.  @xref{Pure Calling, ,Calling Conventions for Pure
 Parsers}, for the details of this.  The variable @code{yynerrs}
 becomes local in @code{yyparse} in pull mode but it becomes a member
-of yypstate in push mode.  (@pxref{Error Reporting, ,The Error
+of @code{yypstate} in push mode.  (@pxref{Error Reporting, ,The Error
 Reporting Function @code{yyerror}}).  The convention for calling
 @code{yyparse} itself is unchanged.
 
@@ -6250,7 +6250,7 @@ function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun int yypush_parse (yypstate *yyps)
+@deftypefun int yypush_parse (yypstate *@var{yyps})
 The value returned by @code{yypush_parse} is the same as for yyparse with
 the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
@@ -6268,7 +6268,7 @@ stream.  This function is available if the @samp{%define api.push-pull both}
 declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun int yypull_parse (yypstate *yyps)
+@deftypefun int yypull_parse (yypstate *@var{yyps})
 The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 @end deftypefun
 
@@ -6303,7 +6303,7 @@ function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun void yypstate_delete (yypstate *yyps)
+@deftypefun void yypstate_delete (yypstate *@var{yyps})
 This function will reclaim the memory associated with a parser instance.
 After this call, you should no longer attempt to use the parser instance.
 @end deftypefun
@@ -12648,7 +12648,7 @@ Management}.
 @deffn {Variable} yynerrs
 Global variable which Bison increments each time it reports a syntax error.
 (In a pure parser, it is a local variable within @code{yyparse}. In a
-pure push parser, it is a member of yypstate.)
+pure push parser, it is a member of @code{yypstate}.)
 @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 @end deffn
 
