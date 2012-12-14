@@ -24,38 +24,48 @@
 
 #include "state.h"
 
-/// Begin a Dot graph.
-/// \param fout   output stream.
+/** Begin a Dot graph.
+ *
+ * \param fout   output stream.
+ */
 void start_graph (FILE *fout);
 
-/// Output a Dot node.
-/// \param id     identifier of the node
-/// \param label  human readable label of the node (no Dot escaping needed).
-/// \param fout   output stream.
+/** Output a Dot node.
+ *
+ * \param id     identifier of the node
+ * \param label  human readable label of the node (no Dot escaping needed).
+ * \param fout   output stream.
+ */
 void output_node (int id, char const *label, FILE *fout);
 
-/// Output a Dot edge.
-/// \param source       id of the source node
-/// \param destination  id of the target node
-/// \param label        human readable label of the edge
-///                     (no Dot escaping needed).  Can be 0.
-/// \param style        Dot style of the edge (e.g., "dotted" or "solid").
-/// \param fout         output stream.
+/** Output a Dot edge.
+ * \param source       id of the source node
+ * \param destination  id of the target node
+ * \param label        human readable label of the edge
+ *                     (no Dot escaping needed).  Can be 0.
+ * \param style        Dot style of the edge (e.g., "dotted" or "solid").
+ * \param fout         output stream.
+ */
 void output_edge (int source, int destination, char const *label,
                   char const *style, FILE *fout);
 
-/// Output a reduction.
-/// \param s            current state
-/// \param reds         the set of reductions
-/// \param fout         output stream.
+/** Output a reduction.
+ * \param s            current state
+ * \param reds         the set of reductions
+ * \param fout         output stream.
+ */
 void output_red (state const *s, reductions const *reds, FILE *fout);
 
-/// End a Dot graph.
-/// \param fout  output stream.
+/** End a Dot graph.
+ *
+ * \param fout  output stream.
+ */
 void finish_graph (FILE *fout);
 
-/// Escape a lookahead token.
-/// \param name         the token.
+/** Escape a lookahead token.
+ *
+ * \param name         the token.
+ */
 char const *escape (char const *name);
 
 #endif /* ! GRAPHVIZ_H_ */

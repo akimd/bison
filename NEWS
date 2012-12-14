@@ -240,16 +240,13 @@ GNU Bison NEWS
   It used to be an error only if used in non GLR mode, _and_ if there are
   reduce/reduce conflicts.
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
-
-** %language is no longer an experimental feature.
-
-  The introduction of this feature, in 2.4, was four years ago. The --language
-  option and the %language directive are no longer experimental.
+* Noteworthy changes in release 2.7 (2012-12-12) [stable]
 
 ** Bug fixes
 
   Warnings about uninitialized yylloc in yyparse have been fixed.
+
+  Restored C90 compliance (yet no report was ever made).
 
 ** Diagnostics are improved
 
@@ -748,6 +745,7 @@ GNU Bison NEWS
 
   These features are experimental in this version.  More user feedback
   will help to stabilize them.
+  Contributed by Alex Rozenman.
 
 ** IELR(1) and canonical LR(1):
 
@@ -1264,6 +1262,7 @@ GNU Bison NEWS
 
   The current Java interface is experimental and may evolve.  More user
   feedback will help to stabilize it.
+  Contributed by Paolo Bonzini.
 
 ** %language
 
@@ -1277,6 +1276,7 @@ GNU Bison NEWS
   Bison can now generate an XML report of the LALR(1) automaton using the new
   "--xml" option.  The current XML schema is experimental and may evolve.  More
   user feedback will help to stabilize it.
+  Contributed by Wojciech Polak.
 
 ** The grammar file may now specify the name of the parser header file using
   %defines.  For example:
