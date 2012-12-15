@@ -829,6 +829,13 @@ b4_percent_define_if_define([parse.assert])
 b4_percent_define_if_define([parse.trace])
 b4_percent_define_if_define([variant])
 
+# b4_bison_locations_if([IF-TRUE])
+# --------------------------------
+# Expand IF-TRUE if using locations, and using the default location
+# type.
+m4_define([b4_bison_locations_if],
+[b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [], [$1])])])
+
 
 # b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
 # ------------------------------------------------------
