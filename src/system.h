@@ -55,10 +55,6 @@
 #include <unistd.h>
 #include <inttypes.h>
 
-#define ARRAY_CARDINALITY(Array) (sizeof (Array) / sizeof *(Array))
-#define STREQ(L, R)  (strcmp(L, R) == 0)
-#define STRNEQ(L, R) (!STREQ(L, R))
-
 #ifndef UINTPTR_MAX
 /* This isn't perfect, but it's good enough for Bison, which needs
    only to hash pointers.  */
