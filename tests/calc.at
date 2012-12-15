@@ -46,12 +46,7 @@ m4_define([_AT_DATA_CALC_Y],
 
 m4_pushdef([AT_CALC_MAIN],
 [#include <assert.h>
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#else
-# undef alarm
-# define alarm(seconds) /* empty */
-#endif
+#include <unistd.h>
 
 AT_SKEL_CC_IF([[
 /* A C++ ]AT_NAME_PREFIX[parse that simulates the C signature.  */
