@@ -43,6 +43,7 @@ typedef enum
     complaint         = 1 << 11, /**< All complaints.  */
     fatal             = 1 << 12, /**< All fatal errors.  */
     silent            = 1 << 13, /**< Do not display the warning type.  */
+    no_caret          = 1 << 14, /**< Do not display caret location.  */
 
     /**< All above warnings.  */
     Wall              = ~complaint & ~fatal & ~silent

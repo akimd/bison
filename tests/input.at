@@ -1343,6 +1343,18 @@ input.y:1.9-21:     accepted value: 'push'
 input.y:1.9-21:     accepted value: 'both'
 ]])
 
+AT_BISON_CHECK([[-fcaret input.y]], [1], [],
+[[input.y:1.9-21: warning: deprecated %define variable name: 'api.push_pull', use 'api.push-pull' [-Wdeprecated]
+ %define api.push_pull "neither"
+         ^^^^^^^^^^^^^
+input.y:1.9-21: error: invalid value for %define variable 'api.push-pull': 'neither'
+ %define api.push_pull "neither"
+         ^^^^^^^^^^^^^
+input.y:1.9-21:     accepted value: 'pull'
+input.y:1.9-21:     accepted value: 'push'
+input.y:1.9-21:     accepted value: 'both'
+]])
+
 AT_DATA([[input.y]],
 [[%define lr.keep_unreachable_states maybe
 %%

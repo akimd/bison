@@ -186,7 +186,7 @@ flag (const char *arg)
   else if (STREQ (arg, "fatal"))
     return fatal;
   else if (STREQ (arg, "note"))
-    return silent | complaint;
+    return silent | complaint | no_caret;
   else if (STREQ (arg, "warn"))
     return Wother;
   else
