@@ -72,6 +72,10 @@ void complain_indent (location const *loc, warnings flags, unsigned *indent,
   __attribute__ ((__format__ (__printf__, 4, 5)));
 
 
+/** Report an obsolete syntax, suggest the updated one.  */
+void deprecated_directive (location const *loc,
+                           char const *obsolete, char const *updated);
+
 /** Warnings treated as errors shouldn't stop the execution as regular errors
     should (because due to their nature, it is safe to go on). Thus, there are
     three possible execution statuses.  */

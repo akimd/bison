@@ -77,9 +77,7 @@ static size_t no_cr_read (FILE *, char *, size_t);
 #define DEPRECATED(Msg)                                         \
   do {                                                          \
     size_t i;                                                   \
-    complain (loc, Wdeprecated,                                 \
-              _("deprecated directive: %s, use %s"),            \
-              quote (yytext), quote_n (1, Msg));                \
+    deprecated_directive (loc, yytext, Msg);                    \
     scanner_cursor.column -= mbsnwidth (Msg, strlen (Msg), 0);  \
     for (i = strlen (Msg); i != 0; --i)                         \
       unput (Msg[i - 1]);                                       \
