@@ -124,7 +124,9 @@ nodist_man_MANS = doc/yacc.1
 ## ----------------------------- ##
 
 CLEANDIRS += doc/figs
-FIGS_DOT = doc/figs/example-reduce.dot doc/figs/example-shift.dot
+FIGS_DOT = 							\
+  doc/figs/example.dot						\
+  doc/figs/example-reduce.dot doc/figs/example-shift.dot
 EXTRA_DIST +=								\
   $(FIGS_DOT)								\
   $(FIGS_DOT:.dot=.eps) $(FIGS_DOT:.dot=.pdf) $(FIGS_DOT:.dot=.png)
