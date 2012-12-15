@@ -485,8 +485,8 @@ start:
    ;
 
 %%
-]AT_YYLEX_DEFINE(["a"])[
 ]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["a"])[
 int
 main (void)
 {
@@ -1698,8 +1698,8 @@ start:
 b: 'b';
 d: /* nada.  */;
 %%
-]AT_YYLEX_DEFINE(["abc"])[
 ]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["abc"])[
 int
 main (void)
 {
