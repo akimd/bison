@@ -34,7 +34,7 @@ AT_DATA_GRAMMAR([list.yy],
 [[%debug
 %skeleton "lalr1.cc"
 %defines
-%define variant
+%define api.value.type variant
 ]m4_bpatsubst([$1], [\\n], [
 ])[
 
@@ -456,7 +456,7 @@ AT_DATA_GRAMMAR([[input.yy]],
 }
 
 %defines
-%define variant
+%define api.value.type variant
 %define parse.error verbose
 %define parse.trace
 %%
