@@ -269,3 +269,9 @@
 /xsize.c
 /getdelim.c
 /getline.c
+/bitrotate.c
+/math.c
+/sig-handler.c
+/stdio.c
+/unistd.c
+/wctype-h.c
