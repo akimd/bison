@@ -139,6 +139,7 @@ m4_define([b4_shared_declarations],
 # include <string>]b4_defines_if([[
 # include "stack.hh"
 ]b4_bison_locations_if([[# include "location.hh"]])])[
+]b4_variant_if([b4_variant_includes])[
 
 ]b4_YYDEBUG_define[
 
