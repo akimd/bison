@@ -55,6 +55,17 @@ m4_define([b4_parser_class_name],
 # Save the parse parameters.
 m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
 
+# b4_parse_param_wrap
+# -------------------
+# New ones.
+m4_ifset([b4_parse_param],
+[m4_define([b4_parse_param_wrap],
+           [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]],]
+m4_defn([b4_parse_param]))],
+[m4_define([b4_parse_param_wrap],
+           [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
+])
+
 
 # b4_yy_symbol_print_define
 # -------------------------
@@ -215,8 +226,7 @@ b4_namespace_close
 # Declaration that might either go into the header (if --defines)
 # or open coded in the parser body.
 m4_define([b4_shared_declarations],
-[dnl In this section, the parse params are the original parse_params.
-m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
+[m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 b4_percent_code_get([[requires]])[
 
 #include <stdexcept>
@@ -319,12 +329,6 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 
 # Let glr.c (and b4_shared_declarations) believe that the user
 # arguments include the parser itself.
-m4_ifset([b4_parse_param],
-[m4_pushdef([b4_parse_param],
-            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]],]
-m4_defn([b4_parse_param]))],
-[m4_pushdef([b4_parse_param],
-            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
-])
+m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_wrap]))
 m4_include(b4_pkgdatadir/[glr.c])
 m4_popdef([b4_parse_param])
