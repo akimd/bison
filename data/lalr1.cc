@@ -332,11 +332,8 @@ b4_public_types_define])[
 ]b4_percent_code_get([[provides]])[
 ]])
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
 b4_defines_if(
-[m4_divert_push(0)dnl
-@output(b4_spec_defines_file@)@
+[b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 [
 /**

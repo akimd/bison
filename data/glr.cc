@@ -314,9 +314,7 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 ])
 
 b4_defines_if(
-[m4_changecom()dnl
-m4_divert_push(0)dnl
-@output(b4_spec_defines_file@)@
+[b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2012])[
 

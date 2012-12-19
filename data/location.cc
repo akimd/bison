@@ -268,8 +268,6 @@ m4_define([b4_location_define],
 ]])
 
 
-# We do want M4 expansion after # for CPP macros.
-m4_changecom()
 b4_defines_if([
 b4_output_begin([b4_dir_prefix[]position.hh])
 b4_copyright([Positions for Bison parsers in C++])[
