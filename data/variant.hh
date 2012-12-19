@@ -79,6 +79,7 @@ m4_map([b4_char_sizeof_], [$@])dnl
 # The needed includes for variants support.
 m4_define([b4_variant_includes],
 [b4_parse_assert_if([[#include <typeinfo>]])[
+#include <cstdlib>  // abort
 #ifndef YYASSERT
 # include <cassert>
 # define YYASSERT assert
@@ -188,6 +189,15 @@ m4_define([b4_variant_define],
       other.destroy<T>();
     }
 
+    /// Copy the content of \a other to this.
+    /// Destroys \a other.
+    template <typename T>
+    inline void
+    copy (const variant<S>& other)
+    {
+      build<T> (other.as<T> ());
+    }
+
     /// Destroy the stored \a T.
     template <typename T>
     inline void
@@ -196,6 +206,13 @@ m4_define([b4_variant_define],
       as<T> ().~T ();]b4_parse_assert_if([
       built = false;
       tname = YY_NULL;])[
+    }
+
+    /// Prohibit blind copies.
+    //  private:
+    self_type& operator=(const self_type&)
+    {
+      abort ();
     }
 
   private:

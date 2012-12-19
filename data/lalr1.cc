@@ -721,10 +721,11 @@ b4_dollar_popdef])[]dnl
         try
           {
 ]b4_token_ctor_if(
-[            yyla = b4_function_call([yylex], [symbol_type],
-                                     m4_ifdef([b4_lex_param], b4_lex_param));],
-[            yyla.type = yytranslate_ (b4_function_call([yylex], [int],
-                                     [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
+[          symbol_type yylookahead = b4_function_call([yylex], [symbol_type],
+                                   m4_ifdef([b4_lex_param], b4_lex_param));
+	   yyla.move(yylookahead);],
+[          yyla.type = yytranslate_ (b4_function_call([yylex], [int],
+				     [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
           }

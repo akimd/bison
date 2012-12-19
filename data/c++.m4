@@ -185,6 +185,9 @@ m4_define([b4_public_types_declare],
       /// Default constructor.
       inline symbol_type ();
 
+      /// Destructive move, \a s is emptied.
+      inline void move (symbol_type& s);
+
       /// Constructor for tokens with semantic value.
       inline symbol_type (]b4_join([token_type t],
                                    [const semantic_type& v],
@@ -292,6 +295,16 @@ m4_define([b4_public_types_define],
     : super_type (v]b4_locations_if([, l])[)
     , type (yytranslate_ (t))
   {
+  }
+
+  inline
+  void
+  ]b4_parser_class_name[::symbol_type::move (symbol_type& s)
+  {
+    ]b4_variant_if([b4_symbol_variant([[s.type]], [value], [build], [s.value])],
+                   [value = s.value;])[
+    type = s.type;]b4_locations_if([
+    location = s.location;])[
   }
 
   inline
