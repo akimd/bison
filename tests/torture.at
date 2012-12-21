@@ -91,9 +91,9 @@ for my $size (1 .. $max)
   {
     use Text::Wrap;
     print wrap ("| ", "   ",
-		(map { "\"$_\"" } (1 .. $size)),
-		" END \n"),
-		  "    { \$\$ = $size; }\n";
+                (map { "\"$_\"" } (1 .. $size)),
+                " END \n"),
+                  "    { \$\$ = $size; }\n";
   };
 print ";\n";
 
@@ -188,7 +188,7 @@ EOF
 use Text::Wrap;
 print
   wrap ("exp: ", "  ",
-	(map { "\"$_\"" } (1 .. $max)), ";"),
+        (map { "\"$_\"" } (1 .. $max)), ";"),
   "\n";
 
 print <<\EOF;
@@ -288,8 +288,8 @@ EOF
 
 print
   wrap ("%type <val> ",
-	"            ",
-	map { "n$_" } (1 .. $max)),
+        "            ",
+        map { "n$_" } (1 .. $max)),
   "\n";
 
 print "%token\n";

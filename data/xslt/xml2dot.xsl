@@ -279,20 +279,20 @@
     <xsl:with-param name="dst" select="@state"/>
     <xsl:with-param name="style">
       <xsl:choose>
-	<xsl:when test="@symbol = 'error'">
-	  <xsl:text>dotted</xsl:text>
-	</xsl:when>
-	<xsl:when test="@type = 'shift'">
-	  <xsl:text>solid</xsl:text>
-	</xsl:when>
-	<xsl:otherwise>
-	  <xsl:text>dashed</xsl:text>
-	</xsl:otherwise>
+        <xsl:when test="@symbol = 'error'">
+          <xsl:text>dotted</xsl:text>
+        </xsl:when>
+        <xsl:when test="@type = 'shift'">
+          <xsl:text>solid</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>dashed</xsl:text>
+        </xsl:otherwise>
       </xsl:choose>
     </xsl:with-param>
     <xsl:with-param name="label">
       <xsl:if test="not(@symbol = 'error')">
-	<xsl:value-of select="@symbol"/>
+        <xsl:value-of select="@symbol"/>
       </xsl:if>
     </xsl:with-param>
   </xsl:call-template>

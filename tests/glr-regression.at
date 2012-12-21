@@ -651,7 +651,7 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## Incorrect default location for empty right-hand sides.  Adapted from bug  ##
-## report by Claudia Hermann.						     ##
+## report by Claudia Hermann.                                                ##
 ## See http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00069.html and ##
 ## http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00072.html         ##
 ## ------------------------------------------------------------------------- ##
@@ -677,25 +677,25 @@ AT_DATA_GRAMMAR([glr-regr8.y],
 %%
 
 
-PortClause	: T_PORT InterfaceDeclaration T_PORT
-		{ printf("%d/%d - %d/%d - %d/%d\n",
-			 @1.first_column, @1.last_column,
-			 @2.first_column, @2.last_column,
-			 @3.first_column, @3.last_column); }
-	;
+PortClause      : T_PORT InterfaceDeclaration T_PORT
+                { printf("%d/%d - %d/%d - %d/%d\n",
+                         @1.first_column, @1.last_column,
+                         @2.first_column, @2.last_column,
+                         @3.first_column, @3.last_column); }
+        ;
 
-InterfaceDeclaration	: OptConstantWord	%dprec 1
-	| OptSignalWord	%dprec 2
-	;
+InterfaceDeclaration    : OptConstantWord       %dprec 1
+        | OptSignalWord %dprec 2
+        ;
 
-OptConstantWord	: /* empty */
-	| T_CONSTANT
-	;
+OptConstantWord : /* empty */
+        | T_CONSTANT
+        ;
 
-OptSignalWord	: /* empty */
-		{ printf("empty: %d/%d\n", @$.first_column, @$.last_column); }
-	| T_SIGNAL
-	;
+OptSignalWord   : /* empty */
+                { printf("empty: %d/%d\n", @$.first_column, @$.last_column); }
+        | T_SIGNAL
+        ;
 
 %%
 
@@ -1058,7 +1058,7 @@ AT_CLEANUP
 
 
 ## ------------------------------------------------------------------------- ##
-## Incorrect lookahead during deterministic GLR.  See			     ##
+## Incorrect lookahead during deterministic GLR.  See                        ##
 ## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00017.html> and  ##
 ## <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00060.html>.  ##
 ## ------------------------------------------------------------------------- ##
@@ -1146,10 +1146,10 @@ print_lookahead (char const *reduction)
     {
       printf ("'%c', yylval='", yychar);
       if (yylval.value > ' ')
-	printf ("%c", yylval.value);
+        printf ("%c", yylval.value);
       printf ("', yylloc=(%d,%d),(%d,%d)",
-	      yylloc.first_line, yylloc.first_column,
-	      yylloc.last_line, yylloc.last_column);
+              yylloc.first_line, yylloc.first_column,
+              yylloc.last_line, yylloc.last_column);
     }
   printf ("\n");
 }
@@ -1246,7 +1246,7 @@ merge:
   | conflict defstate_look 'a' nonconflict2 'b' defstate_shift %dprec 2 {
     USE ($3); USE ($5);
     print_lookahead ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
-		      " defstate_shift");
+                      " defstate_shift");
   }
   ;
 
@@ -1293,7 +1293,7 @@ alt1:
     USE ($1);
     if (yychar != 'd' && yychar != YYEOF)
       {
-	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
       }
   }
   ;
@@ -1302,7 +1302,7 @@ alt2:
     USE ($1);
     if (yychar != 'd' && yychar != YYEOF)
       {
-	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
       }
   }
   ;
@@ -1311,7 +1311,7 @@ alt3:
     USE ($1);
     if (yychar != 'd' && yychar != YYEOF)
       {
-	fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
       }
   }
   ;
@@ -1319,8 +1319,8 @@ no_look:
   {
     if (yychar != YYEMPTY)
       {
-	fprintf (stderr,
-		 "Found lookahead where shouldn't during stack explosion.\n");
+        fprintf (stderr,
+                 "Found lookahead where shouldn't during stack explosion.\n");
       }
   }
   ;
@@ -1352,10 +1352,10 @@ print_lookahead (char const *reduction)
     {
       printf ("'%c', yylval='", yychar);
       if (yylval.value > ' ')
-	printf ("%c", yylval.value);
+        printf ("%c", yylval.value);
       printf ("', yylloc=(%d,%d),(%d,%d)",
-	      yylloc.first_line, yylloc.first_column,
-	      yylloc.last_line, yylloc.last_column);
+              yylloc.first_line, yylloc.first_column,
+              yylloc.last_line, yylloc.last_column);
     }
   printf ("\n");
 }
