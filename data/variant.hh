@@ -106,8 +106,8 @@ m4_define([b4_variant_define],
     inline T&
     build ()
     {]b4_parse_assert_if([
-      YYASSERT (!built);
-      YYASSERT (!tname);
+      //YYASSERT (!built);
+      //YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
       built = true;
       tname = typeid (T).name ();])[
@@ -119,8 +119,8 @@ m4_define([b4_variant_define],
     inline T&
     build (const T& t)
     {]b4_parse_assert_if([
-      YYASSERT (!built);
-      YYASSERT (!tname);
+      //YYASSERT (!built);
+      //YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
       built = true;
       tname = typeid (T).name ();])[
@@ -161,14 +161,15 @@ m4_define([b4_variant_define],
     }
 
     /// Swap the content with \a other, of same type.
+    /// Both variants must be built beforehand.
     template <typename T>
     inline void
     swap (variant<S>& other)
     {]b4_parse_assert_if([
+      YYASSERT (built);
+      YYASSERT (other.built);
       YYASSERT (tname == other.tname);])[
-      std::swap (as<T>(), other.as<T>());]b4_parse_assert_if([
-      std::swap (built, other.built);
-      std::swap (tname, other.tname);])[
+      std::swap (as<T>(), other.as<T>());
     }
 
     /// Assign the content of \a other to this.
@@ -204,6 +205,11 @@ m4_define([b4_variant_define],
     /// Prohibit blind copies.
     //  private:
     self_type& operator=(const self_type&)
+    {
+      abort ();
+    }
+
+    variant (const self_type&)
     {
       abort ();
     }
