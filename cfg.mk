@@ -55,6 +55,11 @@ update-copyright: update-b4-copyright update-package-copyright-year
 update-copyright-env = \
   UPDATE_COPYRIGHT_FORCE=1 UPDATE_COPYRIGHT_USE_INTERVALS=1
 
+
+## -------------------- ##
+## More syntax-checks.  ##
+## -------------------- ##
+
 # At least for Mac OS X's grep, the order between . and [ in "[^.[]"
 # matters:
 # $ LC_ALL=fr_FR grep -nE '[^[.]' /dev/null
@@ -67,10 +72,94 @@ sc_at_parser_check:
 	halt='use AT_PARSER_CHECK for and only for generated parsers'	\
 	  $(_sc_search_regexp)
 
+# Indent only with spaces.
+# Taken from Coreutils.
+sc_prohibit_tab_based_indentation:
+	@prohibit='^ *	'						\
+	halt='TAB in indentation; use only spaces'			\
+	  $(_sc_search_regexp)
+
+# Prohibit the use of `...` in tests/.  Use $(...) instead.
+# Taken from Coreutils.
+sc_prohibit_test_backticks:
+	@prohibit='`' in_vc_files='^tests/'				\
+	halt='use $$(...), not `...` in tests/'				\
+	  $(_sc_search_regexp)
+
+# Enforce recommended preprocessor indentation style.
+# Taken from Coreutils.
+sc_preprocessor_indentation:
+	@if cppi --version >/dev/null 2>&1; then			\
+	  $(VC_LIST_EXCEPT) | grep '\.[ch]$$' | xargs cppi -a -c	\
+	    || { echo '$(ME): incorrect preprocessor indentation' 1>&2;	\
+		exit 1; };						\
+	else								\
+	  echo '$(ME): skipping test $@: cppi not installed' 1>&2;	\
+	fi
+
+###########################################################
+# Taken from the Coreitil
+_p0 = \([^"'/]\|"\([^\"]\|[\].\)*"\|'\([^\']\|[\].\)*'
+_pre = $(_p0)\|[/][^"'/*]\|[/]"\([^\"]\|[\].\)*"\|[/]'\([^\']\|[\].\)*'\)*
+_pre_anchored = ^\($(_pre)\)
+_comment_and_close = [^*]\|[*][^/*]\)*[*][*]*/
+# help font-lock mode: '
+
+# A sed expression that removes ANSI C and ISO C99 comments.
+# Derived from the one in GNU gettext's 'moopp' preprocessor.
+_sed_remove_comments =					\
+/[/][/*]/{						\
+  ta;							\
+  :a;							\
+  s,$(_pre_anchored)//.*,\1,;				\
+  te;							\
+  s,$(_pre_anchored)/[*]\($(_comment_and_close),\1 ,;	\
+  ta;							\
+  /^$(_pre)[/][*]/{					\
+    s,$(_pre_anchored)/[*].*,\1 ,;			\
+    tu;							\
+    :u;							\
+    n;							\
+    s,^\($(_comment_and_close),,;			\
+    tv;							\
+    s,^.*$$,,;						\
+    bu;							\
+    :v;							\
+  };							\
+  :e;							\
+}
+# Quote all single quotes.
+_sed_rm_comments_q = $(subst ','\'',$(_sed_remove_comments))
+# help font-lock mode: '
+
+_space_before_paren_exempt =? \\n\\$$
+_space_before_paren_exempt = \
+  (^ *\#|\\n\\$$|%s\(to %s|(date|group|character)\(s\))
+# Ensure that there is a space before each open parenthesis in C code.
+sc_space_before_open_paren:
+	@if $(VC_LIST_EXCEPT) | grep -l '\.[ch]$$' > /dev/null; then	\
+	  fail=0;							\
+	  for c in $$($(VC_LIST_EXCEPT) | grep '\.[ch]$$'); do		\
+	    sed '$(_sed_rm_comments_q)' $$c 2>/dev/null			\
+	      | grep -i '[[:alnum:]]('					\
+	      | grep -vE '$(_space_before_paren_exempt)'		\
+	      | grep . && { fail=1; echo "*** $$c"; };			\
+	  done;								\
+	  test $$fail = 1 &&						\
+	    { echo '$(ME): the above files lack a space-before-open-paren' \
+		1>&2; exit 1; } || :;					\
+	else :;								\
+	fi
+
+## -------------------------- ##
+## syntax-checks exceptions.  ##
+## -------------------------- ##
+
 exclude = \
   $(foreach a,$(1),$(eval $(subst $$,$$$$,exclude_file_name_regexp--sc_$(a))))
 $(call exclude,								\
   bindtextdomain=^lib/main.c$$						\
+  preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$		\
   program_name=^lib/main.c$$						\
   prohibit_always-defined_macros=^data/yacc.c$$|^djgpp/			\
   prohibit_always-defined_macros+=?|^lib/timevar.c$$			\
@@ -83,6 +172,7 @@ $(call exclude,								\
   prohibit_magic_number_exit=^doc/bison.texi$$				\
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$	\
   prohibit_strcmp=^doc/bison\.texi$$					\
+  prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git		\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
   space_tab=^tests/(input|c\+\+)\.at$$					\
   unmarked_diagnostics=^(djgpp/|doc/bison.texi$$|tests/c\+\+\.at$$)	\
