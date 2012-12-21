@@ -157,25 +157,37 @@ m4_define([b4_public_types_declare],
     /// Token type.
     typedef token::yytokentype token_type;
 
-    /// A complete symbol, with its type.
-    template <typename Exact>
-    struct symbol_base_type
+    /// A complete symbol.
+    ///
+    /// Expects its Base type to provide access to the symbol type
+    /// via type_get().
+    ///
+    /// Provide access to semantic value]b4_locations_if([ and location])[.
+    template <typename Base>
+    struct basic_symbol : Base
     {
       /// Default constructor.
-      inline symbol_base_type ();
+      inline basic_symbol ();
+]b4_locations_if([
+      /// Constructor.
+      inline basic_symbol (const location_type& l);])[
 
-      /// Constructor.]b4_locations_if([
-      inline symbol_base_type (const location_type& l);])[
-      inline symbol_base_type (]b4_join(
+      /// Copy constructor.
+      inline basic_symbol (const basic_symbol& other);
+
+      /// Constructor for valueless symbols.
+      inline basic_symbol (]b4_join(
+        [typename Base::value_type t],
+        b4_locations_if([const location_type& l]))[);
+
+      /// Constructor for symbols with semantic value.
+      inline basic_symbol (]b4_join(
+        [typename Base::value_type t],
         [const semantic_type& v],
         b4_locations_if([const location_type& l]))[);
 
-      /// Return this with its exact type.
-      const Exact& self () const;
-      Exact& self ();
-
-      /// Return the type of this symbol.
-      int type_get () const;
+      /// Destructive move, \a s is emptied.
+      inline void move (basic_symbol& s);
 
       /// The semantic value.
       semantic_type value;]b4_locations_if([
@@ -184,36 +196,33 @@ m4_define([b4_public_types_declare],
       location_type location;])[
     };
 
-    /// External form of a symbol: its type and attributes.
-    struct symbol_type : symbol_base_type<symbol_type>
+    /// Type access provider for token (enum) based symbols.
+    struct by_type
     {
-      /// The parent class.
-      typedef symbol_base_type<symbol_type> super_type;
-
       /// Default constructor.
-      inline symbol_type ();
+      inline by_type ();
 
-      /// Destructive move, \a s is emptied.
-      inline void move (symbol_type& s);
+      /// Copy constructor.
+      inline by_type (const by_type& other);
 
-      /// Constructor for tokens with semantic value.
-      inline symbol_type (]b4_join([token_type t],
-                                   [const semantic_type& v],
-                                   b4_locations_if([const location_type& l]))[);
-
-      /// Constructor for valueless tokens.
-      inline symbol_type (]b4_join([token_type t],
-                                   b4_locations_if([const location_type& l]))[);
+      /// Constructor.
+      inline by_type (token_type t);
 
       /// The symbol type.
       int type;
 
-      /// The symbol type.
-      inline int type_get_ () const;
+      /// The type (corresponding to \a type).
+      inline int type_get () const;
 
       /// The token.
       inline token_type token () const;
+
+      typedef token_type value_type;
     };
+
+    /// "External" symbols: returned by the scanner.
+    typedef basic_symbol<by_type> symbol_type;
+
 ]b4_symbol_constructor_declare])
 
 
@@ -221,110 +230,102 @@ m4_define([b4_public_types_declare],
 # ----------------------
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
-[[  inline
+[[inline
   ]b4_parser_class_name[::syntax_error::syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
     : std::runtime_error (m)]b4_locations_if([
     , location (l)])[
   {}
 
-  // symbol_base_type.
-  template <typename Exact>
+  // basic_symbol.
+  template <typename Base>
   inline
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type ()
-    : value()]b4_locations_if([
-    , location()])[
-  {
-  }]b4_locations_if([[
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
+    : value ()
+  {}
+]b4_locations_if([
+  template <typename Base>
+  inline
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const location_type& l)
+    : value ()
+    , location (l)
+  {}])[
 
-  template <typename Exact>
+  template <typename Base>
   inline
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (const location_type& l)
-    : value()
-    , location(l)
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
+    : Base (other)
+    , value ()]b4_locations_if([
+    , location (other.location)])[
   {
-  }]])[
+    ]b4_variant_if([b4_symbol_variant([other.type_get ()], [value], [copy],
+                                      [other.value])],
+                   [value = other.value;])[
+  }
 
-  template <typename Exact>
+
+  template <typename Base>
   inline
-  ]b4_parser_class_name[::symbol_base_type<Exact>::symbol_base_type (]b4_join(
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
+          [typename Base::value_type t],
           [const semantic_type& v],
           b4_locations_if([const location_type& l]))[)
-    : value(v)]b4_locations_if([
-    , location(l)])[
+    : Base (t)
+    , value ()]b4_locations_if([
+    , location (l)])[
   {
+    (void) v; /* FIXME: */
+    ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [copy],
+                                      [v])],
+                   [value = v;])[
   }
 
-  template <typename Exact>
+  template <typename Base>
   inline
-  const Exact&
-  ]b4_parser_class_name[::symbol_base_type<Exact>::self () const
-  {
-    return static_cast<const Exact&>(*this);
-  }
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
+          [typename Base::value_type t],
+          b4_locations_if([const location_type& l]))[)
+    : Base (t)]b4_locations_if([
+    , location (l)])[
+  {}
 
-  template <typename Exact>
-  inline
-  Exact&
-  ]b4_parser_class_name[::symbol_base_type<Exact>::self ()
-  {
-    return static_cast<Exact&>(*this);
-  }
-
-  template <typename Exact>
-  inline
-  int
-  ]b4_parser_class_name[::symbol_base_type<Exact>::type_get () const
-  {
-    return self ().type_get_ ();
-  }
-
-  // symbol_type.
-  inline
-  ]b4_parser_class_name[::symbol_type::symbol_type ()
-    : super_type ()
-    , type ()
-  {
-  }
-
-  inline
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_join(
-                [token_type t],
-                b4_locations_if([const location_type& l]))[)
-    : super_type (]b4_locations_if([l])[)
-    , type (yytranslate_ (t))
-  {
-  }
-
-  inline
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_join(
-                 [token_type t],
-                 [const semantic_type& v],
-                 b4_locations_if([const location_type& l]))[)
-    : super_type (v]b4_locations_if([, l])[)
-    , type (yytranslate_ (t))
-  {
-  }
-
+  template <typename Base>
   inline
   void
-  ]b4_parser_class_name[::symbol_type::move (symbol_type& s)
+  ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
   {
-    ]b4_variant_if([b4_symbol_variant([[s.type]], [value], [build], [s.value])],
-                   [value = s.value;])[
-    type = s.type;]b4_locations_if([
+    this->type = s.type_get ();]b4_locations_if([
     location = s.location;])[
+    ]b4_variant_if([b4_symbol_variant([s.type_get ()], [value], [build],
+                                      [s.value])],
+                   [value = s.value;])[
   }
+
+  // by_type.
+  inline
+  ]b4_parser_class_name[::by_type::by_type ()
+     : type ()
+  {}
+
+  inline
+  ]b4_parser_class_name[::by_type::by_type (const by_type& other)
+    : type (other.type)
+  {}
+
+  inline
+  ]b4_parser_class_name[::by_type::by_type (token_type t)
+    : type (yytranslate_ (t))
+  {}
 
   inline
   int
-  ]b4_parser_class_name[::symbol_type::type_get_ () const
+  ]b4_parser_class_name[::by_type::type_get () const
   {
     return type;
   }
 ]b4_token_ctor_if([[
   inline
   ]b4_parser_class_name[::token_type
-  ]b4_parser_class_name[::symbol_type::token () const
+  ]b4_parser_class_name[::by_type::token () const
   {
     // YYTOKNUM[NUM] -- (External) token number corresponding to the
     // (internal) symbol number NUM (which must be that of a token).  */
