@@ -29,25 +29,25 @@ m4_define([AT_EXTRACT_SETS],
    :null
    p
    n
-   /^[	 ]*$/ !b null
+   /^ *$/ !b null
 }
 /^FIRSTS$/ {
    :firsts
    p
    n
-   /^[	 ]*$/ !b firsts
+   /^ *$/ !b firsts
 }
 /^FDERIVES$/ {
    :fderiv
    p
    n
-   /^[	 ]*$/ !b fderiv
+   /^ *$/ !b fderiv
 }
 /^DERIVES$/ {
    :deriv
    p
    n
-   /^[	 ]*$/ !b deriv
+   /^ *$/ !b deriv
 }
 ]])
 AT_CHECK([sed -f extract.sed $1], 0, [stdout])
@@ -82,28 +82,28 @@ AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
-	$accept derives
-		  0  e $end
-	e derives
-		  1  'e'
-		  2  /* empty */
+  $accept derives
+      0  e $end
+  e derives
+      1  'e'
+      2  /* empty */
 NULLABLE
-	$accept: no
-	e: yes
+  $accept: no
+  e: yes
 FIRSTS
-	$accept firsts
-		$accept
-		e
-	e firsts
-		e
+  $accept firsts
+    $accept
+    e
+  e firsts
+    e
 FDERIVES
-	$accept derives
-		  0  e $end
-		  1  'e'
-		  2  /* empty */
-	e derives
-		  1  'e'
-		  2  /* empty */
+  $accept derives
+      0  e $end
+      1  'e'
+      2  /* empty */
+  e derives
+      1  'e'
+      2  /* empty */
 ]])
 
 AT_CLEANUP
@@ -164,7 +164,7 @@ h: 'h';
 
 AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
 
-AT_CHECK([[sed -n 's/[	 ]*$//;/^RTC: Firsts Output BEGIN/,/^RTC: Firsts Output END/p' stderr]], [],
+AT_CHECK([[sed -n 's/[   ]*$//;/^RTC: Firsts Output BEGIN/,/^RTC: Firsts Output END/p' stderr]], [],
 [[RTC: Firsts Output BEGIN
 
    012345678
@@ -212,43 +212,43 @@ AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
 AT_EXTRACT_SETS([stderr], [sets])
 AT_CHECK([[cat sets]], [],
 [[DERIVES
-	$accept derives
-		  0  exp $end
-	exp derives
-		  1  exp '<' exp
-		  2  exp '>' exp
-		  3  exp '+' exp
-		  4  exp '-' exp
-		  5  exp '^' exp
-		  6  exp '=' exp
-		  7  "exp"
+  $accept derives
+      0  exp $end
+  exp derives
+      1  exp '<' exp
+      2  exp '>' exp
+      3  exp '+' exp
+      4  exp '-' exp
+      5  exp '^' exp
+      6  exp '=' exp
+      7  "exp"
 NULLABLE
-	$accept: no
-	exp: no
+  $accept: no
+  exp: no
 FIRSTS
-	$accept firsts
-		$accept
-		exp
-	exp firsts
-		exp
+  $accept firsts
+    $accept
+    exp
+  exp firsts
+    exp
 FDERIVES
-	$accept derives
-		  0  exp $end
-		  1  exp '<' exp
-		  2  exp '>' exp
-		  3  exp '+' exp
-		  4  exp '-' exp
-		  5  exp '^' exp
-		  6  exp '=' exp
-		  7  "exp"
-	exp derives
-		  1  exp '<' exp
-		  2  exp '>' exp
-		  3  exp '+' exp
-		  4  exp '-' exp
-		  5  exp '^' exp
-		  6  exp '=' exp
-		  7  "exp"
+  $accept derives
+      0  exp $end
+      1  exp '<' exp
+      2  exp '>' exp
+      3  exp '+' exp
+      4  exp '-' exp
+      5  exp '^' exp
+      6  exp '=' exp
+      7  "exp"
+  exp derives
+      1  exp '<' exp
+      2  exp '>' exp
+      3  exp '+' exp
+      4  exp '-' exp
+      5  exp '^' exp
+      6  exp '=' exp
+      7  "exp"
 ]])
 
 AT_CLEANUP
@@ -288,15 +288,15 @@ mv stdout expout
 # Get the final state in the report, from the "accept" action..
 AT_CHECK([sed -n '
            /^State \(.*\)/{
-	     s//final state \1/
-	     x
-	   }
-	   / accept/{
-	     x
-	     p
-	     q
-	   }
-	' input.output],
-	0, [expout])
+             s//final state \1/
+             x
+           }
+           / accept/{
+             x
+             p
+             q
+           }
+        ' input.output],
+        0, [expout])
 
 AT_CLEANUP
