@@ -54,9 +54,9 @@ run ()
   # Expected output.
   local out_exp=$1
   shift
-  $prog "$@" - <input >out_eff
   # Effective exit status.
-  local sta_eff=$?
+  local sta_eff=0
+  $prog "$@" - <input >out_eff || sta_eff=$?
   # Effective output.
   local out_eff=`cat out_eff`
   if test $sta_eff -eq $sta_exp; then
