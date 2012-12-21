@@ -81,10 +81,11 @@ sc_prohibit_tab_based_indentation:
 
 # Prohibit the use of `...` in tests/.  Use $(...) instead.
 # Taken from Coreutils.
-sc_prohibit_test_backticks:
-	@prohibit='`' in_vc_files='^tests/'				\
-	halt='use $$(...), not `...` in tests/'				\
-	  $(_sc_search_regexp)
+# Not ready for Bison yet.
+#sc_prohibit_test_backticks:
+#	@prohibit='`' in_vc_files='^tests/'		\
+#	halt='use $$(...), not `...` in tests/'		\
+#	  $(_sc_search_regexp)
 
 # Enforce recommended preprocessor indentation style.
 # Taken from Coreutils.
@@ -98,7 +99,7 @@ sc_preprocessor_indentation:
 	fi
 
 ###########################################################
-# Taken from the Coreitil
+# Taken from Coreutils.
 _p0 = \([^"'/]\|"\([^\"]\|[\].\)*"\|'\([^\']\|[\].\)*'
 _pre = $(_p0)\|[/][^"'/*]\|[/]"\([^\"]\|[\].\)*"\|[/]'\([^\']\|[\].\)*'\)*
 _pre_anchored = ^\($(_pre)\)
