@@ -21,7 +21,7 @@ m4_pushdef([b4_copyright_years],
 # b4_stack_define
 # ---------------
 m4_define([b4_stack_define],
-[[  template <class T, class S = std::deque<T> >
+[[  template <class T, class S = std::vector<T> >
   class stack
   {
   public:
@@ -43,21 +43,21 @@ m4_define([b4_stack_define],
     T&
     operator [] (unsigned int i)
     {
-      return seq_[i];
+      return seq_[seq_.size () - 1 - i];
     }
 
     inline
     const T&
     operator [] (unsigned int i) const
     {
-      return seq_[i];
+      return seq_[seq_.size () - 1 - i];
     }
 
     inline
     void
     push (const T& t)
     {
-      seq_.push_front (t);
+      seq_.push_back (t);
     }
 
     inline
@@ -65,7 +65,7 @@ m4_define([b4_stack_define],
     pop (unsigned int n = 1)
     {
       for (; n; --n)
-        seq_.pop_front ();
+        seq_.pop_back ();
     }
 
     inline
@@ -129,7 +129,7 @@ b4_copyright([Stack handling for Bison parsers in C++])[
 
 ]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
 
-# include <deque>
+# include <vector>
 
 ]b4_namespace_open[
 ]b4_stack_define[
