@@ -93,7 +93,7 @@ typedef struct code_props {
 void code_props_none_init (code_props *self);
 
 /** Equivalent to \c code_props_none_init.  */
-#define CODE_PROPS_NONE_INIT                    \
+# define CODE_PROPS_NONE_INIT                   \
   {                                             \
     /* .kind = */ CODE_PROPS_NONE,              \
     /* .code = */ NULL,                         \

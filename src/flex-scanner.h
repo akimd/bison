@@ -28,7 +28,7 @@
    + (YY_FLEX_SUBMINOR_VERSION))
 
 /* Pacify "gcc -Wmissing-prototypes" when flex 2.5.31 is used.  */
-# if FLEX_VERSION <= 2005031
+#if FLEX_VERSION <= 2005031
 int   FLEX_PREFIX (get_lineno) (void);
 FILE *FLEX_PREFIX (get_in) (void);
 FILE *FLEX_PREFIX (get_out) (void);

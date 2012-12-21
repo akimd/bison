@@ -20,10 +20,10 @@
 #ifndef INADEQUACY_LIST_H_
 # define INADEQUACY_LIST_H_
 
-#include <bitset.h>
-#include "gram.h"
-#include "state.h"
-#include "symtab.h"
+# include <bitset.h>
+# include "gram.h"
+# include "state.h"
+# include "symtab.h"
 
 /**
  * A unique ID assigned to every \c InadequacyList node.

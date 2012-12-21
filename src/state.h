@@ -119,36 +119,36 @@ typedef struct
    TRANSITIONS->states[Num]?  Can be a token (amongst which the error
    token), or non terminals in case of gotos.  */
 
-#define TRANSITION_SYMBOL(Transitions, Num) \
+# define TRANSITION_SYMBOL(Transitions, Num) \
   (Transitions->states[Num]->accessing_symbol)
 
 /* Is the TRANSITIONS->states[Num] a shift? (as opposed to gotos).  */
 
-#define TRANSITION_IS_SHIFT(Transitions, Num) \
+# define TRANSITION_IS_SHIFT(Transitions, Num) \
   (ISTOKEN (TRANSITION_SYMBOL (Transitions, Num)))
 
 /* Is the TRANSITIONS->states[Num] a goto?. */
 
-#define TRANSITION_IS_GOTO(Transitions, Num) \
+# define TRANSITION_IS_GOTO(Transitions, Num) \
   (!TRANSITION_IS_SHIFT (Transitions, Num))
 
 /* Is the TRANSITIONS->states[Num] labelled by the error token?  */
 
-#define TRANSITION_IS_ERROR(Transitions, Num) \
+# define TRANSITION_IS_ERROR(Transitions, Num) \
   (TRANSITION_SYMBOL (Transitions, Num) == errtoken->number)
 
 /* When resolving a SR conflicts, if the reduction wins, the shift is
    disabled.  */
 
-#define TRANSITION_DISABLE(Transitions, Num) \
+# define TRANSITION_DISABLE(Transitions, Num) \
   (Transitions->states[Num] = NULL)
 
-#define TRANSITION_IS_DISABLED(Transitions, Num) \
+# define TRANSITION_IS_DISABLED(Transitions, Num) \
   (Transitions->states[Num] == NULL)
 
 
 /* Iterate over each transition over a token (shifts).  */
-#define FOR_EACH_SHIFT(Transitions, Iter)                       \
+# define FOR_EACH_SHIFT(Transitions, Iter)                       \
   for (Iter = 0;                                                \
        Iter < Transitions->num                                  \
          && (TRANSITION_IS_DISABLED (Transitions, Iter)         \

@@ -34,36 +34,36 @@ void muscle_free (void);
 /* An obstack dedicated to receive muscle keys and values.  */
 extern struct obstack muscle_obstack;
 
-#define MUSCLE_INSERT_BOOL(Key, Value)                          \
-  do {                                                          \
-    int v__ = Value;                                            \
-    MUSCLE_INSERT_INT (Key, v__);                               \
+# define MUSCLE_INSERT_BOOL(Key, Value)         \
+  do {                                          \
+    int v__ = Value;                            \
+    MUSCLE_INSERT_INT (Key, v__);               \
   } while (0)
 
-#define MUSCLE_INSERTF(Key, Format, Value)                      \
+# define MUSCLE_INSERTF(Key, Format, Value)                     \
   do {                                                          \
     obstack_printf (&muscle_obstack, Format, Value);            \
     muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
   } while (0)
 
-#define MUSCLE_INSERT_INT(Key, Value)                           \
+# define MUSCLE_INSERT_INT(Key, Value)          \
   MUSCLE_INSERTF(Key, "%d", Value)
 
-#define MUSCLE_INSERT_LONG_INT(Key, Value)                      \
+# define MUSCLE_INSERT_LONG_INT(Key, Value)     \
   MUSCLE_INSERTF(Key, "%ld", Value)
 
 /* Key -> Value, but don't apply escaping to Value. */
-#define MUSCLE_INSERT_STRING_RAW(Key, Value)                    \
+# define MUSCLE_INSERT_STRING_RAW(Key, Value)   \
   MUSCLE_INSERTF(Key, "%s", Value)
 
 /* Key -> Value, applying M4 escaping to Value. */
-#define MUSCLE_INSERT_STRING(Key, Value)                        \
+# define MUSCLE_INSERT_STRING(Key, Value)                       \
   do {                                                          \
     obstack_escape (&muscle_obstack, Value);                    \
     muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
   } while (0)
 
-#define MUSCLE_INSERT_C_STRING(Key, Value)                      \
+# define MUSCLE_INSERT_C_STRING(Key, Value)                     \
   do {                                                          \
     obstack_escape (&muscle_obstack,                            \
                     quotearg_style (c_quoting_style, Value));   \

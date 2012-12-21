@@ -46,7 +46,7 @@ typedef enum
 
 /** Internal token numbers. */
 typedef int symbol_number;
-#define SYMBOL_NUMBER_MAXIMUM INT_MAX
+# define SYMBOL_NUMBER_MAXIMUM INT_MAX
 
 
 typedef struct symbol symbol;
@@ -126,16 +126,16 @@ struct symbol
 };
 
 /** Undefined user number.  */
-#define USER_NUMBER_UNDEFINED -1
+# define USER_NUMBER_UNDEFINED -1
 
 /* `symbol->user_token_number == USER_NUMBER_HAS_STRING_ALIAS' means
    this symbol has a literal string alias.  For instance, `%token foo
    "foo"' has `"foo"' numbered regularly, and `foo' numbered as
    USER_NUMBER_HAS_STRING_ALIAS.  */
-#define USER_NUMBER_HAS_STRING_ALIAS -9991
+# define USER_NUMBER_HAS_STRING_ALIAS -9991
 
 /* Undefined internal token number.  */
-#define NUMBER_UNDEFINED (-1)
+# define NUMBER_UNDEFINED (-1)
 
 /** Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_from_uniqstr (const uniqstr key, location loc);

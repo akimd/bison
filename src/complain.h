@@ -22,7 +22,7 @@
 # include "location.h"
 
 /* Sub-messages indent. */
-#define SUB_INDENT (4)
+# define SUB_INDENT (4)
 
 /*-------------.
 | --warnings.  |

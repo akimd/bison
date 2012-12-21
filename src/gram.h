@@ -113,7 +113,7 @@ extern int ntokens;
 extern int nvars;
 
 typedef int item_number;
-#define ITEM_NUMBER_MAX INT_MAX
+# define ITEM_NUMBER_MAX INT_MAX
 extern item_number *ritem;
 extern unsigned int nritems;
 
@@ -145,7 +145,7 @@ item_number_is_symbol_number (item_number i)
 
 /* Rule numbers.  */
 typedef int rule_number;
-#define RULE_NUMBER_MAX INT_MAX
+# define RULE_NUMBER_MAX INT_MAX
 extern rule_number nrules;
 
 static inline item_number

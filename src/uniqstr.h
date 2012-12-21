@@ -36,11 +36,11 @@ uniqstr uniqstr_vsprintf (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
 /* Two uniqstr values have the same value iff they are the same.  */
-#define UNIQSTR_EQ(USTR1, USTR2) (!!((USTR1) == (USTR2)))
+# define UNIQSTR_EQ(USTR1, USTR2) (!!((USTR1) == (USTR2)))
 
 /* Compare two uniqstr a la strcmp: negative for <, nul for =, and
    positive for >.  Undefined order, relies on addresses.  */
-#define UNIQSTR_CMP(USTR1, USTR2) ((USTR1) - (USTR2))
+# define UNIQSTR_CMP(USTR1, USTR2) ((USTR1) - (USTR2))
 
 /*--------------------------------------.
 | Initializing, destroying, debugging.  |
@@ -69,30 +69,30 @@ void uniqstrs_print (void);
    checking.  Unfortunately, because of the missing format string in the
    macro invocation, the argument number reported by gcc for a bad
    argument type is 1 too large.  */
-#define UNIQSTR_CONCAT(...)                                            \
-  uniqstr_vsprintf (UNIQSTR_GEN_FORMAT (__VA_ARGS__,                   \
-                                        "%s", "%s", "%s", "%s", "%s",  \
-                                        "%s", "%s", "%s", "%s", "%s",  \
-                                        "%s", "%s", "%s", "%s", "%s",  \
-                                        "%s", "%s", "%s", "%s", "%s"), \
+# define UNIQSTR_CONCAT(...)                                            \
+  uniqstr_vsprintf (UNIQSTR_GEN_FORMAT (__VA_ARGS__,                    \
+                                        "%s", "%s", "%s", "%s", "%s",   \
+                                        "%s", "%s", "%s", "%s", "%s",   \
+                                        "%s", "%s", "%s", "%s", "%s",   \
+                                        "%s", "%s", "%s", "%s", "%s"),  \
                     __VA_ARGS__)
 
-#define UNIQSTR_GEN_FORMAT(F1,  F2,  F3,  F4,  F5,  \
-                           F6,  F7,  F8,  F9,  F10, \
-                           F11, F12, F13, F14, F15, \
-                           F16, F17, F18, F19, F20, \
-                           ...)                     \
-  UNIQSTR_GEN_FORMAT_ (__VA_ARGS__,                 \
-                       "", "", "", "", "",          \
-                       "", "", "", "", "",          \
-                       "", "", "", "", "",          \
+# define UNIQSTR_GEN_FORMAT(F1,  F2,  F3,  F4,  F5,     \
+                           F6,  F7,  F8,  F9,  F10,     \
+                           F11, F12, F13, F14, F15,     \
+                           F16, F17, F18, F19, F20,     \
+                           ...)                         \
+  UNIQSTR_GEN_FORMAT_ (__VA_ARGS__,                     \
+                       "", "", "", "", "",              \
+                       "", "", "", "", "",              \
+                       "", "", "", "", "",              \
                        "", "", "", "", "")
 
-#define UNIQSTR_GEN_FORMAT_(F1,  F2,  F3,  F4,  F5,       \
-                            F6,  F7,  F8,  F9,  F10,      \
-                            F11, F12, F13, F14, F15,      \
-                            F16, F17, F18, F19, F20, ...) \
-  F1  F2  F3  F4  F5  F6  F7  F8  F9  F10                 \
+# define UNIQSTR_GEN_FORMAT_(F1,  F2,  F3,  F4,  F5,            \
+                            F6,  F7,  F8,  F9,  F10,            \
+                            F11, F12, F13, F14, F15,            \
+                            F16, F17, F18, F19, F20, ...)       \
+  F1  F2  F3  F4  F5  F6  F7  F8  F9  F10                       \
   F11 F12 F13 F14 F15 F16 F17 F18 F19 F20
 
 #endif /* ! defined UNIQSTR_H_ */

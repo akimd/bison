@@ -26,7 +26,7 @@
    If GRAPH is a relation, then GRAPH[Node] is a list of adjacent
    nodes, ended with END_NODE.  */
 
-#define END_NODE ((relation_node) -1)
+# define END_NODE ((relation_node) -1)
 
 typedef size_t relation_node;
 typedef relation_node *relation_nodes;

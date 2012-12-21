@@ -20,10 +20,10 @@
 #ifndef ANNOTATION_LIST_H_
 # define ANNOTATION_LIST_H_
 
-#include <bitsetv.h>
-#include "Sbitset.h"
-#include "InadequacyList.h"
-#include "state.h"
+# include <bitsetv.h>
+# include "Sbitset.h"
+# include "InadequacyList.h"
+# include "state.h"
 
 typedef unsigned int AnnotationIndex;
 

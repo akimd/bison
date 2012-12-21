@@ -20,9 +20,9 @@
 #ifndef IELR_H_
 # define IELR_H_
 
-#include <bitset.h>
+# include <bitset.h>
 
-#include "state.h"
+# include "state.h"
 
 /**
  * \pre

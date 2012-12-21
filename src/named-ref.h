@@ -20,8 +20,8 @@
 #ifndef NAMED_REF_H_
 # define NAMED_REF_H_
 
-#include "location.h"
-#include "uniqstr.h"
+# include "location.h"
+# include "uniqstr.h"
 
 /* Named reference object. Keeps information about
    a symbolic name of a symbol in a rule. */

@@ -88,9 +88,9 @@ typedef struct
 
 } location;
 
-#define GRAM_LTYPE location
+# define GRAM_LTYPE location
 
-#define EMPTY_LOCATION_INIT {{NULL, 0, 0}, {NULL, 0, 0}}
+# define EMPTY_LOCATION_INIT {{NULL, 0, 0}, {NULL, 0, 0}}
 extern location const empty_location;
 
 /* Set *LOC and adjust scanner cursor to account for token TOKEN of
