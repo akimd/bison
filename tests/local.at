@@ -29,6 +29,20 @@ m4_define([m4_null_if],
          [],  [$2],
          [$3])])
 
+# AT_SETUP_STRIP(TITLE)
+# ---------------------
+# Abbreviate the TITLE to be passed to AT_SETUP.
+m4_define([AT_SETUP_STRIP],
+[m4_bpatsubsts([$1],
+      [%\(language\|skeleton\) "?\([^\" ]*\)"?],
+        [\2],
+      [%define "?\([-A-Za-z0-9_.]+\)"? \("\([^\" ]+\)"\|\([-A-Za-z0-9_.]+\)\)],
+        [\1=\3\4],
+      [%define "?\([-A-Za-z0-9_.]+\)"?],
+        [\1])dnl
+])
+
+
 ## ------------- ##
 ## Basic tests.  ##
 ## ------------- ##
@@ -887,11 +901,19 @@ m4_popdef([AT_COND_CASE])])
 
 
 
+
 ## ----------------------- ##
 ## Launch the test suite.  ##
 ## ----------------------- ##
 
 AT_INIT
+
+# AT_SETUP([TITLE])
+# -----------------
+# Redefine AT_SETUP to be more concise.  Must be done after AT_INIT.
+m4_copy_force([AT_SETUP], [B4_SETUP])
+m4_define([AT_SETUP],
+[B4_SETUP(m4_expand([AT_SETUP_STRIP([[$1]])]))])
 
 # Cannot assign CC and CFLAGS here, since atlocal is loaded after
 # options are processed, so we don't know the value of CXX and

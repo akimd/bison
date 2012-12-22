@@ -268,7 +268,7 @@ m4_popdef([AT_TEST])
 ## ----------- ##
 
 m4_pushdef([AT_TEST],
-[AT_SETUP([%no-lines])
+[AT_SETUP([%no-lines: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "$1" %defines])
 AT_DATA_GRAMMAR([input.y],
