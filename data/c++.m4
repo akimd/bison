@@ -19,6 +19,13 @@
 
 m4_include(b4_pkgdatadir/[c.m4])
 
+# b4_comment(TEXT, [PREFIX])
+# --------------------------
+# Put TEXT in comment. Prefix all the output lines with PREFIX.
+m4_define([b4_comment],
+[b4_comment_([$1], [$2// ], [$2// ])])
+
+
 ## ---------------- ##
 ## Default values.  ##
 ## ---------------- ##

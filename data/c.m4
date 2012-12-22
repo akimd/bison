@@ -58,20 +58,17 @@ m4_define([b4_cpp_guard_close],
 # from OPEN.  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
 #
 # Prefix all the output lines with PREFIX.
-m4_define([b4_comment_], [$2[]m4_bpatsubst([$1], [
+m4_define([b4_comment_],
+[$2[]m4_bpatsubst(m4_expand([$1]), [
 \(.\)], [
 $3\1])$4])
 
 
 # b4_comment(TEXT, [PREFIX])
 # --------------------------
-# Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
-# Avoid adding indentation to the first line, as the indentation comes
-# from "/*".  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
-#
-# Prefix all the output lines with PREFIX.
+# Put TEXT in comment.  Prefix all the output lines with PREFIX.
 m4_define([b4_comment],
-[b4_comment_([$1], [$2/* ], [$2   ], [$2  */])])
+[b4_comment_([$1], [$2/* ], [$2   ], [  */])])
 
 
 # b4_identification
