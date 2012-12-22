@@ -290,7 +290,7 @@ b4_location_define])])[
                                    const semantic_type* yyvaluep]b4_locations_if([[,
                                    const location_type* yylocationp]])[);
   private:
-    /* Debugging.  */
+    // Debugging.
     std::ostream* yycdebug_;
 #endif
 
@@ -318,7 +318,7 @@ b4_defines_if(
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2012])[
 
-/* C++ GLR parser skeleton written by Akim Demaille.  */
+// C++ GLR parser skeleton written by Akim Demaille.
 
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations[
