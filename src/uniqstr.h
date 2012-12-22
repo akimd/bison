@@ -36,27 +36,14 @@ uniqstr uniqstr_vsprintf (char const *format, ...)
   __attribute__ ((__format__ (__printf__, 1, 2)));
 
 /* Two uniqstr values have the same value iff they are the same.  */
-# define UNIQSTR_EQ(USTR1, USTR2) (!!((USTR1) == (USTR2)))
+# define UNIQSTR_EQ(Ustr1, Ustr2) (!!((Ustr1) == (Ustr2)))
 
 /* Compare two uniqstr a la strcmp: negative for <, nul for =, and
    positive for >.  Undefined order, relies on addresses.  */
 # define UNIQSTR_CMP(USTR1, USTR2) ((USTR1) - (USTR2))
 
-/*--------------------------------------.
-| Initializing, destroying, debugging.  |
-`--------------------------------------*/
-
-/* Create the string table.  */
-void uniqstrs_new (void);
-
 /* Die if STR is not a uniqstr.  */
 void uniqstr_assert (char const *str);
-
-/* Free all the memory allocated for symbols.  */
-void uniqstrs_free (void);
-
-/* Report them all.  */
-void uniqstrs_print (void);
 
 /*----------------.
 | Concatenation.  |
@@ -94,5 +81,18 @@ void uniqstrs_print (void);
                             F16, F17, F18, F19, F20, ...)       \
   F1  F2  F3  F4  F5  F6  F7  F8  F9  F10                       \
   F11 F12 F13 F14 F15 F16 F17 F18 F19 F20
+
+/*--------------------.
+| Table of uniqstrs.  |
+`--------------------*/
+
+/* Create the string table.  */
+void uniqstrs_new (void);
+
+/* Free all the memory allocated for symbols.  */
+void uniqstrs_free (void);
+
+/* Report them all.  */
+void uniqstrs_print (void);
 
 #endif /* ! defined UNIQSTR_H_ */
