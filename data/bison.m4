@@ -300,7 +300,7 @@ m4_define([b4_flag_if],
 [m4_case(b4_$1_flag,
          [0], [$3],
          [1], [$2],
-         [m4_fatal([invalid $1 value: ]$1)])])
+         [m4_fatal([invalid $1 value: ]b4_$1_flag)])])
 
 
 # b4_define_flag_if(FLAG)
