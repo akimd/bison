@@ -5744,6 +5744,26 @@ introduced in Bison 2.8
 @c api.token.prefix
 
 
+@c ================================================== api.value.type
+@item %define api.value.type variant
+@findex %define api.value.type variant
+
+@itemize @bullet
+@item Language(s):
+C++
+
+@item Purpose:
+Request variant-based semantic values.
+@xref{C++ Variants}.
+
+@c FIXME: @item Accepted Values:
+@c FIXME: Boolean.
+
+@c @item Default Value:
+@c @code{false}
+@ @end itemize
+@c api.value.type
+
 @c ================================================== lr.default-reduction
 
 @item lr.default-reduction
@@ -5891,28 +5911,7 @@ compiled.
 @item Default Value: @code{false}
 @end itemize
 @c parse.trace
-
-@c ================================================== variant
-@item variant
-@findex %define variant
-
-@itemize @bullet
-@item Language(s):
-C++
-
-@item Purpose:
-Request variant-based semantic values.
-@xref{C++ Variants}.
-
-@item Accepted Values:
-Boolean.
-
-@item Default Value:
-@code{false}
-@end itemize
-@c variant
 @end table
-
 
 @node %code Summary
 @subsection %code Summary
@@ -10115,10 +10114,9 @@ Symbols}.
 @node C++ Variants
 @subsubsection C++ Variants
 
-Starting with version 2.6, Bison provides a @emph{variant} based
-implementation of semantic values for C++.  This alleviates all the
-limitations reported in the previous section, and in particular, object
-types can be used without pointers.
+Bison provides a @emph{variant} based implementation of semantic values for
+C++.  This alleviates all the limitations reported in the previous section,
+and in particular, object types can be used without pointers.
 
 To enable variant-based semantic values, set @code{%define} variable
 @code{variant} (@pxref{%define Summary,, variant}).  Once this defined,
@@ -10546,7 +10544,7 @@ or
 @node Complete Symbols
 @subsubsection Complete Symbols
 
-If you specified both @code{%define variant} and
+If you specified both @code{%define api.value.type variant} and
 @code{%define api.token.constructor},
 the @code{parser} class also defines the class @code{parser::symbol_type}
 which defines a @emph{complete} symbol, aggregating its type (i.e., the
@@ -10810,7 +10808,7 @@ the grammar for.
 
 @noindent
 @findex %define api.token.constructor
-@findex %define variant
+@findex %define api.value.type variant
 This example will use genuine C++ objects as semantic values, therefore, we
 require the variant-based interface.  To make sure we properly use it, we
 enable assertions.  To fully benefit from type-safety and more natural
@@ -10819,8 +10817,8 @@ definition of ``symbol'', we enable @code{api.token.constructor}.
 @comment file: calc++-parser.yy
 @example
 %define api.token.constructor
+%define api.value.type variant
 %define parse.assert
-%define variant
 @end example
 
 @noindent

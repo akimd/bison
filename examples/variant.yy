@@ -19,8 +19,8 @@
 %skeleton "lalr1.cc"
 %defines
 %define api.token.constructor
+%define api.value.type variant
 %define parse.assert
-%define variant
 %locations
 
 %code requires // *.hh
