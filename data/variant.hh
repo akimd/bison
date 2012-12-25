@@ -51,13 +51,6 @@ m4_define([_b4_char_sizeof_dummy],
 dummy[]_b4_char_sizeof_counter])
 
 
-# b4_char_sizeof_(SYMBOL-NUM)
-# ---------------------------
-# A comment describing this symbol.
-m4_define([b4_char_sizeof_],
-[      // b4_symbol([$1], [tag])
-])
-
 # b4_char_sizeof(SYMBOL-NUMS)
 # ---------------------------
 # To be mapped on the list of type names to produce:
@@ -69,7 +62,7 @@ m4_define([b4_char_sizeof_],
 m4_define([b4_char_sizeof],
 [b4_symbol_if([$1], [has_type],
 [
-m4_map([b4_char_sizeof_], [$@])dnl
+m4_map([      b4_symbol_tag_comment], [$@])dnl
       char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type])])@};
 ])])
 

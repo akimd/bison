@@ -341,6 +341,33 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 # macro per (token, field), where field can has_id, id, etc.: see
 # src/output.c:prepare_symbols_definitions().
 #
+# The various FIELDS are:
+#
+# - has_id: 0 or 1.
+#   Whether the symbol has an id.
+# - id: string
+#   If has_id, the id.  Guaranteed to be usable as a C identifier.
+# - tag: string.
+#   A representat of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
+# - user_number: integer
+#   The assigned (external) number as used by yylex.
+# - is_token: 0 or 1
+#   Whether this is a terminal symbol.
+# - number: integer
+#   The internalized number (used after yytranslate).
+# - has_type: 0, 1
+#   Whether has a semantic value.
+# - type
+#   If it has a semantic value, its type tag, or, if variant are used,
+#   its type.
+# - has_printer: 0, 1
+# - printer: string
+# - printer_file: string
+# - printer_line: integer
+#   If the symbol has a printer, everything about it.
+# - has_destructor, destructor, destructor_file, destructor_line
+#   Likewise.
+#
 # The following macros provide access to these values.
 
 # b4_symbol_(NUM, FIELD)
@@ -354,7 +381,7 @@ m4_define([b4_symbol_],
 # b4_symbol(NUM, FIELD)
 # ---------------------
 # Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
-# undefined.  If FIELD = id, prepend the prefix.
+# undefined.  If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
 [m4_case([$2],
          [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
@@ -371,6 +398,14 @@ m4_define([b4_symbol_if],
          [1], [$3],
          [0], [$4],
          [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
+
+
+# b4_symbol_tag_comment(SYMBOL-NUM)
+# ---------------------------------
+# Issue a comment giving the tag of symbol NUM.
+m4_define([b4_symbol_tag_comment],
+[b4_comment([b4_symbol([$1], [tag])])
+])
 
 
 # b4_symbol_action_location(SYMBOL-NUM, KIND)
@@ -469,6 +504,9 @@ m4_define([b4_token_format],
 # ---------------------
 # Run actions for the symbol NUMS that all have the same type-name.
 # Skip NUMS that have no type-name.
+#
+# To specify the action to run, define b4_dollar_dollar(NUMBER,
+# TAG, TYPE).
 m4_define([b4_type_action_],
 [b4_symbol_if([$1], [has_type],
 [m4_map([b4_symbol_case_], [$@])[]dnl
