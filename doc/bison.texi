@@ -12604,13 +12604,6 @@ the next token.  @xref{Lexical, ,The Lexical Analyzer Function
 @code{yylex}}.
 @end deffn
 
-@deffn {Macro} YYLEX_PARAM
-An obsolete macro for specifying an extra argument (or list of extra
-arguments) for @code{yyparse} to pass to @code{yylex}.  The use of this
-macro is deprecated, and is supported only for Yacc like parsers.
-@xref{Pure Calling,, Calling Conventions for Pure Parsers}.
-@end deffn
-
 @deffn {Variable} yylloc
 External variable in which @code{yylex} should place the line and column
 numbers associated with a token.  (In a pure parser, it is a local
