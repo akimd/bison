@@ -124,6 +124,23 @@ m4_define_default([b4_union_name], [b4_api_PREFIX[]STYPE])
 ## Pure/impure interfaces.  ##
 ## ------------------------ ##
 
+# b4_lex_formals
+# --------------
+# All the yylex formal arguments.
+# b4_lex_param arrives quoted twice, but we want to keep only one level.
+m4_define([b4_lex_formals],
+[b4_pure_if([[[[YYSTYPE *yylvalp]], [[&yylval]]][]dnl
+b4_locations_if([, [[YYLTYPE *yyllocp], [&yylloc]]])])dnl
+m4_ifdef([b4_lex_param], [, ]b4_lex_param)])
+
+
+# b4_lex
+# ------
+# Call yylex.
+m4_define([b4_lex],
+[b4_function_call([yylex], [int], b4_lex_formals)])
+
+
 # b4_user_args
 # ------------
 m4_define([b4_user_args],

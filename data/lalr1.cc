@@ -114,6 +114,19 @@ b4_dollar_popdef[]dnl
 ])])
 
 
+# b4_lex
+# ------
+# Call yylex.
+m4_define([b4_lex],
+[b4_token_ctor_if(
+[b4_function_call([yylex],
+                  [symbol_type], m4_ifdef([b4_lex_param], b4_lex_param))],
+[b4_function_call([yylex], [int],
+                  [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
+b4_locations_if([, [[location*], [&yyla.location]]])dnl
+m4_ifdef([b4_lex_param], [, ]b4_lex_param))])])
+
+
 m4_pushdef([b4_copyright_years],
            [2002-2012])
 
@@ -719,15 +732,10 @@ b4_dollar_popdef])[]dnl
       {
         YYCDEBUG << "Reading a token: ";
         try
-          {
-]b4_token_ctor_if(
-[          symbol_type yylookahead = b4_function_call([yylex], [symbol_type],
-                                   m4_ifdef([b4_lex_param], b4_lex_param));
-	   yyla.move(yylookahead);],
-[          yyla.type = yytranslate_ (b4_function_call([yylex], [int],
-				     [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
-b4_locations_if([, [[location*], [&yyla.location]]])dnl
-m4_ifdef([b4_lex_param], [, ]b4_lex_param)));])[
+          {]b4_token_ctor_if([[
+            symbol_type yylookahead = ]b4_lex[;
+            yyla.move (yylookahead);]], [[
+            yyla.type = yytranslate_ (]b4_lex[);]])[
           }
         catch (const syntax_error& yyexc)
           {
