@@ -35,6 +35,7 @@ I<directives>:
      | directives & directives  -- Concatenation
      | [ directives> ]          -- Optional
      | ( directives> )          -- Parentheses
+     | %b PATH                  -- Use bison at PATH for this bench
      | #d NAME[=VALUE]          -- %code { #define NAME [VALUE] }
      | %d NAME[=VALUE]          -- %define NAME ["VALUE"]
      | %s skeleton              -- %skeleton "skeleton"
@@ -806,7 +807,8 @@ sub compile ($)
 
   my $compiler = $language eq 'C++' ? $cxx : $cc;
 
-  run "$bison $base.y -o $base.c";
+  my $my_bison = `sed -ne '/%bison "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
+  run ((length $my_bison ? $my_bison : $bison) . " $base.y -o $base.c");
   run "$compiler -o $base $cflags $base.c";
 }
 
@@ -1046,6 +1048,12 @@ sub parse_dirs ()
     {
       shift @token;
       @res = ("%skeleton \"$token[0]\"");
+      shift @token;
+    }
+  elsif ($token[0] eq '%b')
+    {
+      shift @token;
+      @res = ("/*\n%bison \"$token[0]\"\\\n*/");
       shift @token;
     }
   else
