@@ -70,8 +70,7 @@ typedef std::list<std::string> strings_type;
 
 %token <::std::string> TEXT;
 %token <int> NUMBER;
-%printer { debug_stream () << $$; }
-   <int> <::std::string> <::std::list<std::string>>;
+%printer { yyoutput << $$; } <*>;
 %token END_OF_FILE 0;
 
 %type <::std::string> item;
