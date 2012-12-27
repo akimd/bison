@@ -124,15 +124,10 @@ maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
 
-.PHONY: maintainer-push-check
-maintainer-push-check:
-	$(MAKE) $(AM_MAKEFLAGS) maintainer-check			\
-	  TESTSUITEFLAGS='BISON_USE_PUSH_FOR_PULL=1 $(TESTSUITEFLAGS)'
-
-.PHONY: maintainer-xml-check
-maintainer-xml-check:
-	$(MAKE) $(AM_MAKEFLAGS) maintainer-check			\
-	  TESTSUITEFLAGS='BISON_TEST_XML=1 $(TESTSUITEFLAGS)'
-
 .PHONY: maintainer-release-check
-maintainer-release-check: maintainer-check maintainer-push-check maintainer-xml-check
+maintainer-release-check:
+	$(MAKE) $(AM_MAKEFLAGS) 	\
+	  maintainer-check-g++		\
+	  maintainer-check-posix 	\
+	  maintainer-check-valgrind 	\
+	  TESTSUITEFLAGS+='--release'

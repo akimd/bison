@@ -75,6 +75,15 @@ else
   CC_IS_CXX=0
 fi
 
+# In a similar way, handle --release
+if "$at_arg_release"; then
+  BISON_USE_PUSH_FOR_PULL=1
+  BISON_TEST_XML=1
+else
+  BISON_USE_PUSH_FOR_PULL=0
+  BISON_TEST_XML=0
+fi
+
 
 ## ------- ##
 ## Other.  ##

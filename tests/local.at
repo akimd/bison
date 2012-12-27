@@ -1022,6 +1022,9 @@ m4_define([AT_SETUP],
 AT_ARG_OPTION([compile-c-with-cxx],
               [compile C parsers with the C++ compiler])
 
+AT_ARG_OPTION([release],
+              [check xml and use push for pull])
+
 AT_COLOR_TESTS
 
 AT_TESTED([bison])
