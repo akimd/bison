@@ -250,30 +250,30 @@ m4_define([b4_integral_parser_tables_map],
 STATE-NUM.]])
 
 $1([defact], [b4_defact],
-   [[YYDEFACT[S] -- default reduction number in state S.  Performed when
-YYTABLE does not specify something else to do.  Zero means the default
-is an error.]])
+   [[YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
+Performed when YYTABLE does not specify something else to do.  Zero
+means the default is an error.]])
 
 $1([pgoto], [b4_pgoto], [[YYPGOTO[NTERM-NUM].]])
 
 $1([defgoto], [b4_defgoto], [[YYDEFGOTO[NTERM-NUM].]])
 
 $1([table], [b4_table],
-   [[YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
+   [[YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
 positive, shift that token.  If negative, reduce the rule whose
 number is the opposite.  If YYTABLE_NINF, syntax error.]])
 
 $1([check], [b4_check])
 
 $1([stos], [b4_stos],
-   [[STOS_[STATE-NUM] -- The (internal number of the) accessing
+   [[YYSTOS[STATE-NUM] -- The (internal number of the) accessing
 symbol of state STATE-NUM.]])
 
 $1([r1], [b4_r1],
    [[YYR1[YYN] -- Symbol number of symbol that rule YYN derives.]])
 
 $1([r2], [b4_r2],
-   [[YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.]])
+   [[YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.]])
 ])
 
 

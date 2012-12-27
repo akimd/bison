@@ -227,6 +227,9 @@ b4_location_define])])[
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
+    /// Convert a scanner token number \a t to a symbol number.
+    static inline token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
+
     // Tables.
 ]b4_parser_tables_declare[]b4_error_verbose_if([
 
@@ -238,7 +241,7 @@ b4_location_define])])[
     static const char* const yytname_[];
 ]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
 ]b4_integral_parser_table_declare([rline], [b4_rline],
-     [YYRLINE[YYN] -- Source line where rule number YYN was defined.])[
+     [[YYRLINE[YYN] -- Source line where rule number YYN was defined.]])[
     /// Report on the debug stream that the rule \a r is going to be reduced.
     virtual void yy_reduce_print_ (int r);
     /// Print the state stack on the debug stream.
@@ -247,12 +250,7 @@ b4_location_define])])[
     // Debugging.
     int yydebug_;
     std::ostream* yycdebug_;
-#endif // ]b4_api_PREFIX[DEBUG
 
-    /// Convert a scanner token number \a t to a symbol number.
-    static inline token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
-
-#if ]b4_api_PREFIX[DEBUG
     /// \brief Display a symbol type, value and location.
     /// \param yyo    The output stream.
     /// \param yysym  The symbol.
@@ -269,7 +267,6 @@ b4_location_define])])[
     inline void yy_destroy_ (const char* yymsg,
                              symbol_base_type<Exact>& yysym) const;
 
-  private:
     /// Element of the stack: a state and its attributes.
     struct stack_symbol_type : symbol_base_type<stack_symbol_type>
     {
