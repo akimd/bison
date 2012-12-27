@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.6.5.977-6d58-dirty.  */
+/* A Bison parser, made by GNU Bison 2.7.980-6f0a6-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -32,7 +32,7 @@
 
 #ifndef YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
 # define YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
-/* Enabling traces.  */
+/* Debug traces.  */
 #ifndef GRAM_DEBUG
 # if defined YYDEBUG
 #if YYDEBUG
@@ -48,7 +48,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-/* Line 1931 of yacc.c  */
+/* Line 1930 of yacc.c  */
 #line 223 "src/parse-gram.y"
 
 # ifndef PARAM_TYPE
@@ -63,14 +63,12 @@ extern int gram_debug;
 # endif
 
 
-/* Line 1931 of yacc.c  */
+/* Line 1930 of yacc.c  */
 #line 68 "src/parse-gram.h"
 
-/* Tokens.  */
+/* Token type.  */
 #ifndef GRAM_TOKENTYPE
 # define GRAM_TOKENTYPE
-  /* Put the tokens into the symbol table, so that GDB and other debuggers
-     know about them.  */
   enum gram_tokentype
   {
     GRAM_EOF = 0,
@@ -187,10 +185,12 @@ extern int gram_debug;
 #define PERCENT_PARAM 310
 #define PERCENT_UNION 311
 
+/* Value type.  */
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
-typedef union GRAM_STYPE
+typedef union GRAM_STYPE GRAM_STYPE;
+union GRAM_STYPE
 {
-/* Line 1931 of yacc.c  */
+/* Line 1930 of yacc.c  */
 #line 109 "src/parse-gram.y"
 
   assoc assoc;
@@ -203,33 +203,36 @@ typedef union GRAM_STYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1931 of yacc.c  */
+/* Line 1930 of yacc.c  */
 #line 247 "src/parse-gram.y"
 
   param_type param;
 
-/* Line 1931 of yacc.c  */
+/* Line 1930 of yacc.c  */
 #line 423 "src/parse-gram.y"
 code_props_type code_type;
 
-/* Line 1931 of yacc.c  */
+/* Line 1930 of yacc.c  */
 #line 217 "src/parse-gram.h"
-} GRAM_STYPE;
+};
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
 #if ! defined GRAM_LTYPE && ! defined GRAM_LTYPE_IS_DECLARED
-typedef struct GRAM_LTYPE
+typedef struct GRAM_LTYPE GRAM_LTYPE;
+struct GRAM_LTYPE
 {
   int first_line;
   int first_column;
   int last_line;
   int last_column;
-} GRAM_LTYPE;
+};
 # define GRAM_LTYPE_IS_DECLARED 1
 # define GRAM_LTYPE_IS_TRIVIAL 1
 #endif
+
 
 
 int gram_parse (void);
