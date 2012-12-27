@@ -20,7 +20,7 @@ m4_include(b4_pkgdatadir/[c++.m4])
 
 # b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
 # --------------------------------------------------------------
-# Declare "parser::yy<TABLE-NAME>_" which contents is CONTENT.
+# Declare "parser::yy<TABLE-NAME>_" whose contents is CONTENT.
 m4_define([b4_integral_parser_table_declare],
 [m4_ifval([$3], [b4_comment([$3], [  ])
 ])dnl
@@ -29,7 +29,7 @@ m4_define([b4_integral_parser_table_declare],
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
 # -------------------------------------------------------------
-# Define "parser::yy<TABLE-NAME>_" which contents is CONTENT.
+# Define "parser::yy<TABLE-NAME>_" whose contents is CONTENT.
 m4_define([b4_integral_parser_table_define],
 [  const b4_int_type_for([$2])
   b4_parser_class_name::yy$1_[[]] =
@@ -830,7 +830,7 @@ b4_dollar_popdef])[]dnl
 ]b4_variant_if([[
     // Destroy the rhs symbols.
     for (int i = 0; i < yylen; ++i)
-      // Destroy a variant which value may have been swapped with
+      // Destroy a variant whose value may have been swapped with
       // yylhs.value (for instance if the action was "std::swap($$,
       // $1)").  The value of yylhs.value (hence possibly one of these
       // rhs symbols) depends on the default construction for this
@@ -897,7 +897,7 @@ b4_dollar_popdef])[]dnl
     yyerror_range[1].location = yystack_[yylen - 1].location;]])b4_variant_if([[
     /* $$ was initialized before running the user action.  */
     yy_destroy_ ("Error: discarding", yylhs);]])[
-    /* Do not reclaim the symbols of the rule which action triggered
+    /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);
     yylen = 0;
@@ -957,7 +957,7 @@ b4_dollar_popdef])[]dnl
     if (!yyempty)
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);
 
-    /* Do not reclaim the symbols of the rule which action triggered
+    /* Do not reclaim the symbols of the rule whose action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
     while (1 < yystack_.size ())
