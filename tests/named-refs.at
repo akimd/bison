@@ -250,18 +250,40 @@ exp:
 %%
 ]])
 
-AT_BISON_CHECK([-o test.c test.y], 1, [],
+AT_BISON_CHECK([-fcaret -o test.c test.y], 1, [],
 [[test.y:50.51-60: error: invalid reference: '$<ival>lo9'
+ | exp[x] '+' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>lo9 + $r; }
+                                                   ^^^^^^^^^^
 test.y:50.3-68:      symbol not found in production: lo9
+ | exp[x] '+' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>lo9 + $r; }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 test.y:51.51-60: warning: misleading reference: '$<ival>exp' [-Wother]
+ | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
+                                                   ^^^^^^^^^^
 test.y:42.1-3:       refers to: $exp at $$
+ exp:
+ ^^^
 test.y:51.7:         possibly meant: $x, hiding $exp at $1
+ | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
+       ^
 test.y:51.41:        possibly meant: $r, hiding $exp at $4
+ | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
+                                         ^
 test.y:52.51-52: error: $l of 'exp' has no declared type
+ | exp[x] '*' { $<ival>$ = $x; } [l] exp[r] { $$ = $l * $r; }
+                                                   ^^
 test.y:55.40-43: error: invalid reference: '$r12'
+ | exp[l] '^' exp[r]  { $$ = power ($l, $r12); }
+                                        ^^^^
 test.y:55.3-47:      symbol not found in production: r12
+ | exp[l] '^' exp[r]  { $$ = power ($l, $r12); }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 test.y:56.29-33: error: invalid reference: '$expo'
+ | '(' exp ')'        { $$ = $expo;           }
+                             ^^^^^
 test.y:56.3-46:      symbol not found in production: expo
+ | '(' exp ')'        { $$ = $expo;           }
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP

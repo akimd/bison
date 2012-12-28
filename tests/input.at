@@ -89,9 +89,13 @@ exp: { $$ = $1 ; };
 exp: { @$ = @1 ; };
 ]])
 
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.13-14: error: integer out of range: '$1'
+ exp: { $$ = $1 ; };
+             ^^
 input.y:3.13-14: error: integer out of range: '@1'
+ exp: { @$ = @1 ; };
+             ^^
 ]])
 
 AT_CLEANUP
@@ -114,12 +118,22 @@ exp: foo { $$; } foo { $2; } foo
    ;
 ]])
 
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:5.12-13: error: $$ for the midrule at $2 of 'exp' has no declared type
+ exp: foo { $$; } foo { $2; } foo
+            ^^
 input.y:5.24-25: error: $2 of 'exp' has no declared type
+ exp: foo { $$; } foo { $2; } foo
+                        ^^
 input.y:5.6-32: warning: type clash on default action: <bar> != <> [-Wother]
+ exp: foo { $$; } foo { $2; } foo
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 input.y:6.6-8: warning: type clash on default action: <bar> != <> [-Wother]
+    | foo
+      ^^^
 input.y:7.5: warning: empty rule for typed nonterminal, and no action [-Wother]
+    | /* Empty. */
+     ^
 ]])
 
 AT_CLEANUP
@@ -323,31 +337,79 @@ start: ;
 %printer { print ($$); } <>;
 ]])
 
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-29: error: %destructor redeclaration for <*>
+ %destructor { destroy ($$); } <*> <*>
+             ^^^^^^^^^^^^^^^^^
 input.y:1.13-29:     previous declaration
+ %destructor { destroy ($$); } <*> <*>
+             ^^^^^^^^^^^^^^^^^
 input.y:2.10-24: error: %printer redeclaration for <*>
+ %printer { print ($$); } <*> <*>
+          ^^^^^^^^^^^^^^^
 input.y:2.10-24:     previous declaration
+ %printer { print ($$); } <*> <*>
+          ^^^^^^^^^^^^^^^
 input.y:4.13-29: error: %destructor redeclaration for <*>
+ %destructor { destroy ($$); } <*>
+             ^^^^^^^^^^^^^^^^^
 input.y:1.13-29:     previous declaration
+ %destructor { destroy ($$); } <*> <*>
+             ^^^^^^^^^^^^^^^^^
 input.y:5.10-24: error: %printer redeclaration for <*>
+ %printer { print ($$); } <*>
+          ^^^^^^^^^^^^^^^
 input.y:2.10-24:     previous declaration
+ %printer { print ($$); } <*> <*>
+          ^^^^^^^^^^^^^^^
 input.y:7.13-29: error: %destructor redeclaration for <>
+ %destructor { destroy ($$); } <> <>
+             ^^^^^^^^^^^^^^^^^
 input.y:7.13-29:     previous declaration
+ %destructor { destroy ($$); } <> <>
+             ^^^^^^^^^^^^^^^^^
 input.y:8.10-24: error: %printer redeclaration for <>
+ %printer { print ($$); } <> <>
+          ^^^^^^^^^^^^^^^
 input.y:8.10-24:     previous declaration
+ %printer { print ($$); } <> <>
+          ^^^^^^^^^^^^^^^
 input.y:10.13-29: error: %destructor redeclaration for <>
+ %destructor { destroy ($$); } <>
+             ^^^^^^^^^^^^^^^^^
 input.y:7.13-29:      previous declaration
+ %destructor { destroy ($$); } <> <>
+             ^^^^^^^^^^^^^^^^^
 input.y:11.10-24: error: %printer redeclaration for <>
+ %printer { print ($$); } <>
+          ^^^^^^^^^^^^^^^
 input.y:8.10-24:      previous declaration
+ %printer { print ($$); } <> <>
+          ^^^^^^^^^^^^^^^
 input.y:17.13-29: error: %destructor redeclaration for <*>
+ %destructor { destroy ($$); } <*>;
+             ^^^^^^^^^^^^^^^^^
 input.y:4.13-29:      previous declaration
+ %destructor { destroy ($$); } <*>
+             ^^^^^^^^^^^^^^^^^
 input.y:18.10-24: error: %printer redeclaration for <*>
+ %printer { print ($$); } <*>;
+          ^^^^^^^^^^^^^^^
 input.y:5.10-24:      previous declaration
+ %printer { print ($$); } <*>
+          ^^^^^^^^^^^^^^^
 input.y:20.13-29: error: %destructor redeclaration for <>
+ %destructor { destroy ($$); } <>;
+             ^^^^^^^^^^^^^^^^^
 input.y:10.13-29:     previous declaration
+ %destructor { destroy ($$); } <>
+             ^^^^^^^^^^^^^^^^^
 input.y:21.10-24: error: %printer redeclaration for <>
+ %printer { print ($$); } <>;
+          ^^^^^^^^^^^^^^^
 input.y:11.10-24:     previous declaration
+ %printer { print ($$); } <>
+          ^^^^^^^^^^^^^^^
 ]])
 
 AT_CLEANUP
@@ -409,11 +471,19 @@ AT_DATA([[input.y]],
 exp: bar;
 ]])
 
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.16-18: error: symbol bar is used, but is not defined as a token and has no rules
+ %destructor {} bar
+                ^^^
 input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules [-Wother]
+ %printer {} foo baz
+                 ^^^
 input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules [-Wother]
+ %printer {} foo baz
+             ^^^
 input.y:3.13-15: warning: symbol qux is used, but is not defined as a token and has no rules [-Wother]
+ %type <foo> qux
+             ^^^
 ]])
 
 AT_CLEANUP
@@ -530,10 +600,16 @@ end: { } ;
 tagged: { } ;
 ]])
 
-AT_BISON_CHECK([input.y], [0], [],
+AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:6.8-45: warning: unset value: $$ [-Wother]
+ start: end end tagged tagged { $<tag>1; $3; } ;
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 input.y:6.12-14: warning: unused value: $2 [-Wother]
+ start: end end tagged tagged { $<tag>1; $3; } ;
+            ^^^
 input.y:7.6-8: warning: unset value: $$ [-Wother]
+ end: { } ;
+      ^^^
 ]])
 
 AT_DATA([[input.y]],
@@ -571,10 +647,16 @@ start: end end { $1; } ;
 end: { }  ;
 ]])
 
-AT_BISON_CHECK([input.y], [0], [],
+AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:6.8-22: warning: unset value: $$ [-Wother]
+ start: end end { $1; } ;
+        ^^^^^^^^^^^^^^^
 input.y:6.12-14: warning: unused value: $2 [-Wother]
+ start: end end { $1; } ;
+            ^^^
 input.y:7.6-8: warning: unset value: $$ [-Wother]
+ end: { }  ;
+      ^^^
 ]])
 
 AT_CLEANUP
@@ -603,15 +685,31 @@ AT_DATA([input.y],
 exp: foo;
 ]])
 
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:8.7-11: error: %type redeclaration for foo
+ %type <baz>       "foo"
+       ^^^^^
 input.y:3.7-11:     previous declaration
+ %type <bar>       foo
+       ^^^^^
 input.y:10.13-17: error: %destructor redeclaration for foo
+ %destructor {baz} "foo"
+             ^^^^^
 input.y:5.13-17:      previous declaration
+ %destructor {bar} foo
+             ^^^^^
 input.y:9.10-14: error: %printer redeclaration for foo
+ %printer {baz}    "foo"
+          ^^^^^
 input.y:4.10-14:     previous declaration
+ %printer {bar}    foo
+          ^^^^^
 input.y:11.1-5: error: %left redeclaration for foo
+ %left             "foo"
+ ^^^^^
 input.y:6.1-5:      previous declaration
+ %left             foo
+ ^^^^^
 ]])
 
 AT_CLEANUP
@@ -637,8 +735,10 @@ AT_BISON_CHECK([input.y], [1], [],
 AT_DATA([input.y],
 [{}
 ])
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret  input.y], [1], [],
 [[input.y:1.1-2: error: syntax error, unexpected {...}
+ {}
+ ^^
 ]])
 
 
@@ -981,15 +1081,6 @@ start: ;
 ;
 // Used to report a syntax error because it didn't see braced code.
 %destructor { free ($$)
-]])
-
-AT_BISON_CHECK([-o input.c input.y], 1, [],
-[[input.y:1.10-2.0: error: missing '"' at end of line
-input.y:4.10-5.0: error: missing "'" at end of line
-input.y:14.11-15.0: error: missing "'" at end of line
-input.y:16.11-17.0: error: missing '"' at end of line
-input.y:19.13-20.0: error: missing '}' at end of file
-input.y:20.1: error: syntax error, unexpected end of file
 ]])
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
