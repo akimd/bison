@@ -425,9 +425,9 @@ m4_define([b4_symbol_action],
                    b4_symbol_if([$1], [has_type],
                                 [m4_dquote(b4_symbol([$1], [type]))]),
                    [(*yylocationp)])dnl
-      b4_symbol_case_([$1])[]dnl
+    b4_symbol_case_([$1])[]dnl
 b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
-        b4_symbol([$1], [$2])
+      b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
         break;
 
@@ -446,7 +446,7 @@ m4_define([b4_symbol_printer],    [b4_symbol_action([$1], [printer])])
 # ---------------------------
 # Issue a "case NUM" for SYMBOL-NUM.
 m4_define([b4_symbol_case_],
-[      case b4_symbol([$1], [number]): // b4_symbol([$1], [tag])
+[case b4_symbol([$1], [number]): b4_symbol_tag_comment([$1])])
 ])
 
 
