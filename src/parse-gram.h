@@ -48,8 +48,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-/* Line 1930 of yacc.c  */
-#line 223 "src/parse-gram.y"
+#line 223 "src/parse-gram.y" /* yacc.c:1930  */
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -63,8 +62,7 @@ extern int gram_debug;
 # endif
 
 
-/* Line 1930 of yacc.c  */
-#line 68 "src/parse-gram.h"
+#line 66 "src/parse-gram.h" /* yacc.c:1930  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -190,8 +188,7 @@ extern int gram_debug;
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-/* Line 1930 of yacc.c  */
-#line 109 "src/parse-gram.y"
+#line 109 "src/parse-gram.y" /* yacc.c:1930  */
 
   assoc assoc;
   char *code;
@@ -203,17 +200,14 @@ union GRAM_STYPE
   uniqstr uniqstr;
   unsigned char character;
 
-/* Line 1930 of yacc.c  */
-#line 247 "src/parse-gram.y"
+#line 247 "src/parse-gram.y" /* yacc.c:1930  */
 
   param_type param;
 
-/* Line 1930 of yacc.c  */
-#line 423 "src/parse-gram.y"
+#line 423 "src/parse-gram.y" /* yacc.c:1930  */
 code_props_type code_type;
 
-/* Line 1930 of yacc.c  */
-#line 217 "src/parse-gram.h"
+#line 211 "src/parse-gram.h" /* yacc.c:1930  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
