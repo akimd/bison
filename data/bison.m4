@@ -541,11 +541,21 @@ m4_define([b4_basename],
 # -----------------------
 m4_define([b4_syncline],
 [b4_flag_if([synclines],
-[b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])
-b4_sync_start([$1], [$2])])])
+[b4_sync_start([$1], [$2]) b4_sync_end([__line__],
+                                       [b4_basename(m4_quote(__file__))])[]dnl
+])])
 
-m4_define([b4_sync_end], [b4_comment([Line $1 of $2])])
-m4_define([b4_sync_start], [b4_comment([Line $1 of $2])])
+# b4_sync_start(LINE, FILE)
+# -----------------------
+# Syncline for the new place.  Typically a directive for the compiler.
+m4_define([b4_sync_start], [b4_comment([$2:$1])])
+
+# b4_sync_end(LINE, FILE)
+# -----------------------
+# Syncline for the current place, which ends.  Typically a comment
+# left for the reader.
+m4_define([b4_sync_end],   [b4_comment([$2:$1])])
+
 
 # b4_user_code(USER-CODE)
 # -----------------------
