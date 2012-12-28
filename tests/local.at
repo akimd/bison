@@ -478,7 +478,7 @@ AT_BISON_CHECK_NO_XML($@)])
 # --------------------------------------------------
 # Low-level macro to run bison once.
 m4_define([AT_BISON_CHECK_],
-[AT_CHECK(AT_QUELL_VALGRIND[[ bison ]]$@)])
+[AT_CHECK(AT_QUELL_VALGRIND[[ bison -fno-caret ]]$@)])
 
 
 # AT_BISON_CHECK_WARNINGS(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
@@ -529,7 +529,7 @@ fi]dnl
 # when a tortured grammar's XML is known to be too large for xsltproc to
 # handle.
 m4_define([AT_BISON_CHECK_NO_XML],
-[AT_CHECK(m4_null_if([$2], [], [AT_QUELL_VALGRIND ])[[bison ]]$@)
+[AT_CHECK(m4_null_if([$2], [], [AT_QUELL_VALGRIND ])[[bison -fno-caret ]]$@)
 AT_BISON_CHECK_WARNINGS($@)])
 
 # AT_BISON_CHECK_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
