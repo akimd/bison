@@ -1668,19 +1668,22 @@ AT_DATA_GRAMMAR([[input.y]],
 %destructor     { $%; @%; } <*> exp TOK;
 %initial-action { $%; @%; };
 %printer        { $%; @%; } <*> exp TOK;
+%{ $ @ %} // Should not warn.
 %%
 exp: TOK        { $%; @%; $$ = $1; };
+%%
+$ @ // Should not warn.
 ]])
 
-AT_BISON_CHECK([[input.y]], 0, [],
+AT_BISON_CHECK([[-Wall input.y]], 0, [],
 [[input.y:11.19: warning: stray '$' [-Wother]
 input.y:11.23: warning: stray '@' [-Wother]
 input.y:12.19: warning: stray '$' [-Wother]
 input.y:12.23: warning: stray '@' [-Wother]
 input.y:13.19: warning: stray '$' [-Wother]
 input.y:13.23: warning: stray '@' [-Wother]
-input.y:15.19: warning: stray '$' [-Wother]
-input.y:15.23: warning: stray '@' [-Wother]
+input.y:16.19: warning: stray '$' [-Wother]
+input.y:16.23: warning: stray '@' [-Wother]
 ]])
 
 AT_CLEANUP

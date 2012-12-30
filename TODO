@@ -43,10 +43,6 @@ back-ported.
     yytoken = yytranslate_ (yychar);
 
 
-** $ and others in epilogue
-A stray $ is a warning in the actions, but an error in the epilogue.
-IMHO, it should not even be a warning in the epilogue.
-
 ** stack.hh
 Get rid of it.  The original idea is nice, but actually it makes
 the code harder to follow, and uselessly different from the other
