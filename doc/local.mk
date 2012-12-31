@@ -25,7 +25,7 @@ doc_bison_TEXINFOS =                            \
 doc_bison = doc/bison
 $(doc_bison).dvi: $(FIGS_DOT:.dot=.eps)
 $(doc_bison).pdf: $(FIGS_DOT:.dot=.pdf)
-$(doc_bison).html: $(FIGS_DOT:.dot=.html)
+$(doc_bison).html: $(FIGS_DOT:.dot=.png)
 
 TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d -I doc
 CLEANDIRS = doc/bison.t2d
