@@ -5590,7 +5590,9 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 
 @item Default Value: none
 
-@item History: introduced in Bison 2.7
+@item History:
+Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
+@code{location_type} for C++ in Bison 2.5 and for Java in Bison 2.4.
 @end itemize
 
 @c ================================================== api.prefix
@@ -5654,7 +5656,8 @@ Reporting Function @code{yyerror}})
 
 @item Default Value: @code{false}
 
-@item History: the @code{full} value was introduced in Bison 2.7
+@item History:
+the @code{full} value was introduced in Bison 2.7
 @end itemize
 @c api.pure
 
@@ -5764,6 +5767,14 @@ Request variant-based semantic values.
 @ @end itemize
 @c api.value.type
 
+
+@c ================================================== location_type
+@item location_type
+@findex %define location_type
+Obsoleted by @code{api.location.type} since Bison 2.7.
+@c namespace
+
+
 @c ================================================== lr.default-reduction
 
 @item lr.default-reduction
@@ -5800,6 +5811,7 @@ remain in the parser tables.  @xref{Unreachable States}.
 @item Accepted Values: Boolean
 @item Default Value: @code{false}
 @end itemize
+@item History:
 introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
 @code{lr.keep-unreachable-states} in 2.5, and as
 @code{lr.keep-unreachable-state} in 2.8.
