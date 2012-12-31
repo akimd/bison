@@ -11233,11 +11233,11 @@ semantic values' types (class names) should be specified in the
 By default, the semantic stack is declared to have @code{Object} members,
 which means that the class types you specify can be of any class.
 To improve the type safety of the parser, you can declare the common
-superclass of all the semantic values using the @samp{%define stype}
+superclass of all the semantic values using the @samp{%define api.value.type}
 directive.  For example, after the following declaration:
 
 @example
-%define stype "ASTNode"
+%define api.value.type "ASTNode"
 @end example
 
 @noindent
@@ -11463,7 +11463,7 @@ The return type can be changed using @code{%define api.position.type
 @deftypemethod {Lexer} {Object} getLVal ()
 Return the semantic value of the last token that yylex returned.
 
-The return type can be changed using @samp{%define stype
+The return type can be changed using @samp{%define api.value.type
 "@var{class-name}".}
 @end deftypemethod
 
@@ -11491,7 +11491,7 @@ Like @code{$@var{n}} but specifies a alternative type @var{typealt}.
 @defvar $$
 The semantic value for the grouping made by the current rule.  As a
 value, this is in the base type (@code{Object} or as specified by
-@samp{%define stype}) as in not cast to the declared subtype because
+@samp{%define api.value.type}) as in not cast to the declared subtype because
 casts are not allowed on the left-hand side of Java assignments.
 Use an explicit Java cast if the correct subtype is needed.
 @xref{Java Semantic Values}.
@@ -11573,7 +11573,7 @@ corresponds to these C macros.}.
 @item
 Java lacks unions, so @code{%union} has no effect.  Instead, semantic
 values have a common base type: @code{Object} or as specified by
-@samp{%define stype}.  Angle brackets on @code{%token}, @code{type},
+@samp{%define api.value.type}.  Angle brackets on @code{%token}, @code{type},
 @code{$@var{n}} and @code{$$} specify subtypes rather than fields of
 an union.  The type of @code{$$}, even with angle brackets, is the base
 type since Java casts are not allow on the left-hand side of assignments.
@@ -11749,7 +11749,7 @@ Whether the parser class is declared @code{public}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define stype} "@var{class}"
+@deffn {Directive} {%define api.value.type} "@var{class}"
 The base type of semantic values.  Default is @code{Object}.
 @xref{Java Semantic Values}.
 @end deffn

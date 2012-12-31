@@ -198,6 +198,16 @@ GNU Bison NEWS
   used by the scanner, or rejecting invalid combinations from a
   factory invoked by the user actions).
 
+** Renamed %define variables
+
+  The following variables have been renamed for consistency.  Backward
+  compatibility is ensured, but upgrading is recommended.
+
+    lr.default-reductions      -> lr.default-reduction
+    lr.keep-unreachable-states -> lr.keep-unreachable-state
+    namespace                  -> api.namespace
+    stype                      -> api.value.type
+
 ** Variable api.token.prefix
 
   The variable api.token.prefix changes the way tokens are identified in
@@ -214,14 +224,7 @@ GNU Bison NEWS
   use these prefixed token names, although the grammar itself still
   uses the short names (as in the sample rule given above).
 
-** Renamed %define variables
 
-  The following variables have been renamed for consistency.  Backward
-  compatibility is ensured, but upgrading is recommended.
-
-    lr.default-reductions      -> lr.default-reduction
-    lr.keep-unreachable-states -> lr.keep-unreachable-state
-    namespace                  -> api.namespace
 
 ** Variable parse.error
 

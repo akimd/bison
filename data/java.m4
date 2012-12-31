@@ -173,8 +173,8 @@ m4_define([b4_predicate_case], [  case $1:
 ## Default values.  ##
 ## ---------------- ##
 
-m4_define([b4_yystype], [b4_percent_define_get([[stype]])])
-b4_percent_define_default([[stype]], [[Object]])
+m4_define([b4_yystype], [b4_percent_define_get([[api.value.type]])])
+b4_percent_define_default([[api.value.type]], [[Object]])
 
 # %name-prefix
 m4_define_default([b4_prefix], [[YY]])

@@ -408,7 +408,7 @@ AT_JAVA_COMPILE([[YYParser.java]])
 
 
 # AT_CHECK_JAVA_MINIMAL_W_LEXER([1:DIRECTIVES], [2:LEX_THROWS],
-#       [3:YYLEX_ACTION], [4:LEXER_BODY], [5:PARSER_ACTION], [6:STYPE],
+#       [3:YYLEX_ACTION], [4:LEXER_BODY], [5:PARSER_ACTION], [6:VALUE_TYPE],
 #       [7:POSITION_TYPE], [8:LOCATION_TYPE])
 # ---------------------------------------------------------------------
 # Check that a mininal parser with DIRECTIVES and a "%code lexer".
@@ -742,14 +742,14 @@ AT_CHECK([[grep -q 'super("Test Thread"); if (true) throw new InterruptedExcepti
 AT_CLEANUP
 
 
-# --------------------------------------------- #
-# Java stype, position_class and location_class #
-# --------------------------------------------- #
+# ------------------------------------------ #
+# Java value, position, and location types.  #
+# ------------------------------------------ #
 
-AT_SETUP([Java stype, position_class and location_class])
+AT_SETUP([Java value, position, and location types])
 
 AT_CHECK_JAVA_MINIMAL([[
-%define stype "java.awt.Color"
+%define api.value.type "java.awt.Color"
 %type<java.awt.Color> start;
 %define api.location.type "MyLoc"
 %define api.position.type "MyPos"
@@ -759,7 +759,7 @@ AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Position']], [1], [ignore])
 AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Location']], [1], [ignore])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
-%define stype "java.awt.Color"
+%define api.value.type "java.awt.Color"
 %type<java.awt.Color> start;
 %define api.location.type "MyLoc"
 %define api.position.type "MyPos"
