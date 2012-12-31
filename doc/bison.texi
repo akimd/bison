@@ -5521,12 +5521,9 @@ values, depend on the selected target language and/or the parser
 skeleton (@pxref{Decl Summary,,%language}, @pxref{Decl
 Summary,,%skeleton}).
 Unaccepted @var{variable}s produce an error.
-Some of the accepted @var{variable}s are:
+Some of the accepted @var{variable}s are described below.
 
-@table @code
-@c ================================================== api.namespace
-@item api.namespace
-@findex %define api.namespace
+@deffn Directive {%define api.namespace} "@var{namespace}"
 @itemize
 @item Languages(s): C++
 
@@ -5574,11 +5571,11 @@ lexical analyzer function.  For example, if you specify:
 The parser namespace is @code{foo} and @code{yylex} is referenced as
 @code{bar::lex}.
 @end itemize
-@c namespace
+@end deffn
+@c api.namespace
 
 @c ================================================== api.location.type
-@item @code{api.location.type}
-@findex %define api.location.type
+@deffn {Directive} {%define api.location.type} @var{type}
 
 @itemize @bullet
 @item Language(s): C++, Java
@@ -5594,10 +5591,10 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @code{location_type} for C++ in Bison 2.5 and for Java in Bison 2.4.
 @end itemize
+@end deffn
 
 @c ================================================== api.prefix
-@item api.prefix
-@findex %define api.prefix
+@deffn {Directive} {%define api.prefix} @var{prefix}
 
 @itemize @bullet
 @item Language(s): All
@@ -5611,10 +5608,10 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 
 @item History: introduced in Bison 2.6
 @end itemize
+@end deffn
 
 @c ================================================== api.pure
-@item api.pure
-@findex %define api.pure
+@deffn Directive {%define api.pure}
 
 @itemize @bullet
 @item Language(s): C
@@ -5659,13 +5656,13 @@ Reporting Function @code{yyerror}})
 @item History:
 the @code{full} value was introduced in Bison 2.7
 @end itemize
+@end deffn
 @c api.pure
 
 
 
 @c ================================================== api.push-pull
-@item api.push-pull
-@findex %define api.push-pull
+@deffn Directive {%define api.push-pull} @var{kind}
 
 @itemize @bullet
 @item Language(s): C (deterministic parsers only)
@@ -5679,13 +5676,13 @@ More user feedback will help to stabilize it.)
 
 @item Default Value: @code{pull}
 @end itemize
+@end deffn
 @c api.push-pull
 
 
 
 @c ================================================== api.token.constructor
-@item api.token.constructor
-@findex %define api.token.constructor
+@deffn Directive {%define api.token.constructor}
 
 @itemize @bullet
 @item Language(s):
@@ -5704,12 +5701,12 @@ Boolean.
 @item History:
 introduced in Bison 2.8
 @end itemize
+@end deffn
 @c api.token.constructor
 
 
 @c ================================================== api.token.prefix
-@item api.token.prefix
-@findex %define api.token.prefix
+@deffn Directive {%define api.token.prefix} @var{prefix}
 
 @itemize
 @item Languages(s): all
@@ -5744,13 +5741,12 @@ empty
 @item History:
 introduced in Bison 2.8
 @end itemize
+@end deffn
 @c api.token.prefix
 
 
 @c ================================================== api.value.type
-@item %define api.value.type variant
-@findex %define api.value.type variant
-
+@deffn Directive {%define api.value.type} @var{type}
 @itemize @bullet
 @item Language(s):
 C++
@@ -5759,26 +5755,25 @@ C++
 Request variant-based semantic values.
 @xref{C++ Variants}.
 
-@c FIXME: @item Accepted Values:
-@c FIXME: Boolean.
-
-@c @item Default Value:
-@c @code{false}
-@ @end itemize
+@item Default Value:
+FIXME:
+@item History:
+introduced in Bison 2.8.  Was introduced for Java only in 2.3b as
+@code{stype}.
+@end itemize
+@end deffn
 @c api.value.type
 
 
 @c ================================================== location_type
-@item location_type
-@findex %define location_type
+@deffn Directive {%define location_type}
 Obsoleted by @code{api.location.type} since Bison 2.7.
-@c namespace
+@end deffn
 
 
 @c ================================================== lr.default-reduction
 
-@item lr.default-reduction
-@findex %define lr.default-reduction
+@deffn Directive {%define lr.default-reduction} @var{when}
 
 @itemize @bullet
 @item Language(s): all
@@ -5798,11 +5793,11 @@ feedback will help to stabilize it.)
 introduced as @code{lr.default-reduction} in 2.5, renamed as
 @code{lr.default-reduction} in 2.8.
 @end itemize
+@end deffn
 
 @c ============================================ lr.keep-unreachable-state
 
-@item lr.keep-unreachable-state
-@findex %define lr.keep-unreachable-state
+@deffn Directive {%define lr.keep-unreachable-state}
 
 @itemize @bullet
 @item Language(s): all
@@ -5810,17 +5805,17 @@ introduced as @code{lr.default-reduction} in 2.5, renamed as
 remain in the parser tables.  @xref{Unreachable States}.
 @item Accepted Values: Boolean
 @item Default Value: @code{false}
-@end itemize
 @item History:
 introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
 @code{lr.keep-unreachable-states} in 2.5, and as
 @code{lr.keep-unreachable-state} in 2.8.
+@end itemize
+@end deffn
 @c lr.keep-unreachable-state
 
 @c ================================================== lr.type
 
-@item lr.type
-@findex %define lr.type
+@deffn Directive {%define lr.type} @var{type}
 
 @itemize @bullet
 @item Language(s): all
@@ -5833,18 +5828,16 @@ More user feedback will help to stabilize it.)
 
 @item Default Value: @code{lalr}
 @end itemize
-
+@end deffn
 
 @c ================================================== namespace
-@item namespace
-@findex %define namespace
+@deffn Directive %define namespace @var{namespace}
 Obsoleted by @code{api.namespace}
 @c namespace
-
+@end deffn
 
 @c ================================================== parse.assert
-@item parse.assert
-@findex %define parse.assert
+@deffn Directive {%define parse.assert}
 
 @itemize
 @item Languages(s): C++
@@ -5858,12 +5851,12 @@ destroyed properly.  This option checks these constraints.
 
 @item Default Value: @code{false}
 @end itemize
+@end deffn
 @c parse.assert
 
 
 @c ================================================== parse.error
-@item parse.error
-@findex %define parse.error
+@deffn Directive {%define parse.error}
 @itemize
 @item Languages(s):
 all
@@ -5885,12 +5878,12 @@ However, this report can often be incorrect when LAC is not enabled
 @item Default Value:
 @code{simple}
 @end itemize
+@end deffn
 @c parse.error
 
 
 @c ================================================== parse.lac
-@item parse.lac
-@findex %define parse.lac
+@deffn Directive {%define parse.lac}
 
 @itemize
 @item Languages(s): C (deterministic parsers only)
@@ -5900,11 +5893,11 @@ syntax error handling.  @xref{LAC}.
 @item Accepted Values: @code{none}, @code{full}
 @item Default Value: @code{none}
 @end itemize
+@end deffn
 @c parse.lac
 
 @c ================================================== parse.trace
-@item parse.trace
-@findex %define parse.trace
+@deffn Directive {%define parse.trace}
 
 @itemize
 @item Languages(s): C, C++, Java
@@ -5922,8 +5915,8 @@ compiled.
 
 @item Default Value: @code{false}
 @end itemize
+@end deffn
 @c parse.trace
-@end table
 
 @node %code Summary
 @subsection %code Summary
