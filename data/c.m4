@@ -152,7 +152,7 @@ m4_popdef([$1])dnl
 # --------------------------------
 # `YYUSE' VAL, LOC if locations are enabled, and all the parse-params.
 m4_define([b4_parse_param_use],
-[m4_ifvaln([$1], [  YYUSE([$1]);])dnl
+[m4_ifvaln([$1], [  YYUSE ([$1]);])dnl
 b4_locations_if([m4_ifvaln([$2], [  YYUSE ([$2]);])])dnl
 b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 ])dnl
