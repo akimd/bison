@@ -43,6 +43,12 @@
 #   user must initialize the first positions (in particular the
 #   filename member).
 
+b4_token_ctor_if([b4_variant_if([],
+  [b4_fatal_at(b4_percent_define_get_loc(api.token.constructor),
+               [cannot use '%s' without '%s'],
+               [%define api.token.constructor],
+               [%define api.value.type variant]))])])
+
 # We require a pure interface.
 m4_define([b4_pure_flag],      [1])
 
