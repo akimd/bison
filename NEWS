@@ -198,6 +198,18 @@ GNU Bison NEWS
   used by the scanner, or rejecting invalid combinations from a
   factory invoked by the user actions).
 
+*** The epilogue is no longer affected by internal #defines
+
+  The glr.c skeleton uses defines such as #define yylval (yystackp->yyval) in
+  generated code.  These weren't properly undefined before the inclusion of
+  the user epilogue, so functions such as the following were butchered by the
+  preprocessor expansion:
+
+    int yylex (yy::parser::semantic_type *yylval);
+
+  This is has been fixed: yylval, ynerrs, yychar, and yylloc are now valid
+  identifiers for user-provided variables.
+
 ** Renamed %define variables
 
   The following variables have been renamed for consistency.  Backward

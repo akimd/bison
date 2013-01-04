@@ -752,3 +752,46 @@ AT_PARSER_CHECK([[./input aaaaR]], [[0]])
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
+
+## ------------------------------------ ##
+## C++ GLR parser identifier shadowing  ##
+## ------------------------------------ ##
+
+AT_SETUP([[C++ GLR parser identifier shadowing]])
+
+AT_DATA_GRAMMAR([input.yy], [
+%skeleton "glr.cc"
+
+%union
+{
+  int ival;
+}
+
+%token <ival> ZERO;
+
+%code
+{
+  int yylex (yy::parser::semantic_type *yylval);
+}
+
+%%
+exp: ZERO
+
+%%
+
+int yylex (yy::parser::semantic_type *yylval)
+{
+  return yy::parser::token::ZERO;
+}
+
+void yy::parser::error (std::string const& msg)
+{}
+
+int main()
+{}
+])
+
+AT_BISON_CHECK([[-o input.cc input.yy]])
+AT_COMPILE_CXX([[input]])
+
+AT_CLEANUP
