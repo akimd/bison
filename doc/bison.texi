@@ -9774,7 +9774,7 @@ an example, using the following file @file{in.y}:
 exp: exp '+' exp @{ $exp = $1 + $2; @};
 @end example
 
-When invoked with @option{-fcaret}, Bison will report:
+When invoked with @option{-fcaret} (or nothing), Bison will report:
 
 @example
 @group
@@ -9803,6 +9803,20 @@ in.y:3.32-33: error: $2 of 'exp' has no declared type
                                 ^^
 @end group
 @end example
+
+Whereas, when invoked with @option{-fno-caret}, Bison will only report:
+
+@example
+@group
+in.y:3.20-23: error: ambiguous reference: ‘$exp’
+in.y:3.1-3:       refers to: $exp at $$
+in.y:3.6-8:       refers to: $exp at $1
+in.y:3.14-16:     refers to: $exp at $3
+in.y:3.32-33: error: $2 of ‘exp’ has no declared type
+@end group
+@end example
+
+This option is activated by default.
 
 @end table
 @end table

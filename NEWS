@@ -16,6 +16,12 @@ GNU Bison NEWS
 
 ** Warnings
 
+*** Carets
+
+  Version 2.7 introduced caret errors, for a prettier output.  These are now
+  activated by default.  The old format can still be used by invoking Bison
+  with -fno-caret (or -fnone).
+
 *** Enhancements of the -Werror option
 
   The -Werror=CATEGORY option is now recognized, and will treat specified
