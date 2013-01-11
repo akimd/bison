@@ -146,6 +146,7 @@ b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([# include <cassert>])[
+# include <cstdlib>  // abort
 # include <vector>
 # include <iostream>
 # include <stdexcept>

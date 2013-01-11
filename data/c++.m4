@@ -186,6 +186,9 @@ m4_define([b4_public_types_declare],
         [const semantic_type& v],
         b4_locations_if([const location_type& l]))[);
 
+      /// Assignment operator.
+      inline basic_symbol& operator= (const basic_symbol& other);
+
       /// Destructive move, \a s is emptied.
       inline void move (basic_symbol& s);
 
@@ -249,6 +252,14 @@ m4_define([b4_public_types_define],
     : value ()
     , location (l)
   {}])[
+
+  template <typename Base>
+  inline
+  ]b4_parser_class_name[::basic_symbol<Base>&
+  ]b4_parser_class_name[::basic_symbol<Base>::operator= (const basic_symbol& other)
+  {
+    abort ();
+  }
 
   template <typename Base>
   inline
