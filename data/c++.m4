@@ -306,7 +306,7 @@ m4_define([b4_public_types_define],
   {
     this->type = s.type_get ();]b4_locations_if([
     location = s.location;])[
-    ]b4_variant_if([b4_symbol_variant([s.type_get ()], [value], [build],
+    ]b4_variant_if([b4_symbol_variant([s.type_get ()], [value], [move],
                                       [s.value])],
                    [value = s.value;])[
   }

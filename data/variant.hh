@@ -161,7 +161,12 @@ m4_define([b4_variant_define],
     }
 
     /// Swap the content with \a other, of same type.
-    /// Both variants must be built beforehand.
+    /// Both variants must be built beforehand, because swapping the actual
+    /// data requires reading it (with as()), and this is not possible on
+    /// unconstructed variants: it would require some dynamic testing, which
+    /// should not be the variant's responsability.
+    /// Swapping between built and ((possibly) non-built is done with
+    /// variant::move ().
     template <typename T>
     inline void
     swap (variant<S>& other)
@@ -176,8 +181,9 @@ m4_define([b4_variant_define],
     /// Destroys \a other.
     template <typename T>
     inline void
-    build (variant<S>& other)
-    {
+    move (variant<S>& other)
+    {]b4_parse_assert_if([
+      YYASSERT (! built);])[
       build<T>();
       swap<T>(other);
       other.destroy<T>();
