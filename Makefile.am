@@ -56,12 +56,11 @@ dist-hook: gen-ChangeLog
 
 .PHONY: update-b4-copyright update-package-copyright-year
 update-b4-copyright:
-	$(AM_V_GEN) find data -type f		\
-	  | grep -v -E '^data/bison.m4$$'	\
-	  | xargs $(build_aux)/$@
+	$(AM_V_GEN)find $(srcdir)/data -type f          \
+	  | xargs $(srcdir)/build-aux/$@
 	@echo 'warning: src/parse-gram.[hc] may need to be regenerated.'
 update-package-copyright-year:
-	$(AM_V_GEN)$(build_aux)/$@ configure.ac
+	$(AM_V_GEN)$(srcdir)/build-aux/$@ $(srcdir)/configure.ac
 
 gen_start_date = 2012-01-16
 .PHONY: gen-ChangeLog
