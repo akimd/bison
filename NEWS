@@ -211,9 +211,9 @@ GNU Bison NEWS
   the user epilogue, so functions such as the following were butchered by the
   preprocessor expansion:
 
-    int yylex (yy::parser::semantic_type *yylval);
+    int yylex (YYSTYPE *yylval);
 
-  This is has been fixed: yylval, ynerrs, yychar, and yylloc are now valid
+  This is has been fixed: yylval, yynerrs, yychar, and yylloc are now valid
   identifiers for user-provided variables.
 
 ** Renamed %define variables
