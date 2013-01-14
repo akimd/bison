@@ -256,7 +256,7 @@ m4_define([b4_public_types_define],
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>&
-  ]b4_parser_class_name[::basic_symbol<Base>::operator= (const basic_symbol& other)
+  ]b4_parser_class_name[::basic_symbol<Base>::operator= (const basic_symbol&)
   {
     abort ();
   }

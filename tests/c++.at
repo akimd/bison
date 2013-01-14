@@ -781,11 +781,14 @@ exp: ZERO
 
 int yylex (yy::parser::semantic_type *yylval)
 {
+  (void) *yylval;
   return yy::parser::token::ZERO;
 }
 
 void yy::parser::error (std::string const& msg)
-{}
+{
+  (void) msg;
+}
 
 int main()
 {}
