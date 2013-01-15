@@ -95,7 +95,6 @@ m4_define([b4_variant_define],
     typedef variant<S> self_type;
 
     /// Empty construction.
-    inline
     variant ()]b4_parse_assert_if([
       : built (false)
       , tname (YY_NULL)])[
@@ -103,7 +102,7 @@ m4_define([b4_variant_define],
 
     /// Instantiate a \a T in here.
     template <typename T>
-    inline T&
+    T&
     build ()
     {]b4_parse_assert_if([
       //YYASSERT (!built);
@@ -116,7 +115,7 @@ m4_define([b4_variant_define],
 
     /// Instantiate a \a T in here from \a t.
     template <typename T>
-    inline T&
+    T&
     build (const T& t)
     {]b4_parse_assert_if([
       //YYASSERT (!built);
@@ -129,7 +128,6 @@ m4_define([b4_variant_define],
 
     /// Construct and fill.
     template <typename T>
-    inline
     variant (const T& t)]b4_parse_assert_if([
       : built (true)
       , tname (typeid (T).name ())])[
@@ -140,7 +138,7 @@ m4_define([b4_variant_define],
 
     /// Accessor to a built \a T.
     template <typename T>
-    inline T&
+    T&
     as ()
     {]b4_parse_assert_if([
       YYASSERT (built);
@@ -151,7 +149,7 @@ m4_define([b4_variant_define],
 
     /// Const accessor to a built \a T (for %printer).
     template <typename T>
-    inline const T&
+    const T&
     as () const
     {]b4_parse_assert_if([
       YYASSERT (built);
@@ -168,7 +166,7 @@ m4_define([b4_variant_define],
     /// Swapping between built and ((possibly) non-built is done with
     /// variant::move ().
     template <typename T>
-    inline void
+    void
     swap (variant<S>& other)
     {]b4_parse_assert_if([
       YYASSERT (built);
@@ -180,7 +178,7 @@ m4_define([b4_variant_define],
     /// Assign the content of \a other to this.
     /// Destroys \a other.
     template <typename T>
-    inline void
+    void
     move (variant<S>& other)
     {]b4_parse_assert_if([
       YYASSERT (! built);])[
@@ -192,7 +190,7 @@ m4_define([b4_variant_define],
     /// Copy the content of \a other to this.
     /// Destroys \a other.
     template <typename T>
-    inline void
+    void
     copy (const variant<S>& other)
     {
       build<T> (other.as<T> ());
@@ -200,7 +198,7 @@ m4_define([b4_variant_define],
 
     /// Destroy the stored \a T.
     template <typename T>
-    inline void
+    void
     destroy ()
     {
       as<T> ().~T ();]b4_parse_assert_if([

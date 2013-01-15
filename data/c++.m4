@@ -241,20 +241,17 @@ m4_define([b4_public_types_define],
 
   // basic_symbol.
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
     : value ()
   {}
 ]b4_locations_if([
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const location_type& l)
     : value ()
     , location (l)
   {}])[
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>&
   ]b4_parser_class_name[::basic_symbol<Base>::operator= (const basic_symbol&)
   {
@@ -262,7 +259,6 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
     : Base (other)
     , value ()]b4_locations_if([
@@ -275,7 +271,6 @@ m4_define([b4_public_types_define],
 
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::value_type t],
           [const semantic_type& v],
@@ -284,14 +279,15 @@ m4_define([b4_public_types_define],
     , value ()]b4_locations_if([
     , location (l)])[
   {
-    (void) v; /* FIXME: */
+    // FIXME: The YYUSE macro is only available in the .cc skeleton files.  It
+    // is not available in .hh files, where this code is when using %defines.
+    (void) v;
     ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [copy],
                                       [v])],
                    [value = v;])[
   }
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::value_type t],
           b4_locations_if([const location_type& l]))[)
@@ -300,7 +296,6 @@ m4_define([b4_public_types_define],
   {}
 
   template <typename Base>
-  inline
   void
   ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
   {
@@ -312,29 +307,24 @@ m4_define([b4_public_types_define],
   }
 
   // by_type.
-  inline
   ]b4_parser_class_name[::by_type::by_type ()
      : type ()
   {}
 
-  inline
   ]b4_parser_class_name[::by_type::by_type (const by_type& other)
     : type (other.type)
   {}
 
-  inline
   ]b4_parser_class_name[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
   {}
 
-  inline
   int
   ]b4_parser_class_name[::by_type::type_get () const
   {
     return type;
   }
 ]b4_token_ctor_if([[
-  inline
   ]b4_parser_class_name[::token_type
   ]b4_parser_class_name[::by_type::token () const
   {
