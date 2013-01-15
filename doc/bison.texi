@@ -11036,7 +11036,7 @@ Finally, we enable scanner tracing.
 
 @comment file: calc++-scanner.ll
 @example
-%option noyywrap nounput batch debug
+%option noyywrap nounput batch debug noinput
 @end example
 
 @noindent
