@@ -229,7 +229,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
         complain_indent (loc, Wdeprecated, &indent,
                          _("a ';' might be needed at the end of action code"));
         indent += SUB_INDENT;
-        complain_indent (loc, Wdeprecated | silent, &indent,
+        complain_indent (loc, Wdeprecated | silent | no_caret, &indent,
                          _("future versions of Bison will not add the ';'"));
         obstack_1grow (&obstack_for_string, ';');
       }
