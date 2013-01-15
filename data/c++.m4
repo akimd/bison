@@ -233,7 +233,7 @@ m4_define([b4_public_types_declare],
 # ----------------------
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
-[[inline
+[[  inline
   ]b4_parser_class_name[::syntax_error::syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
     : std::runtime_error (m)]b4_locations_if([
     , location (l)])[
