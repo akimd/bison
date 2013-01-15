@@ -781,14 +781,15 @@ exp: ZERO
 
 int yylex (yy::parser::semantic_type *yylval)
 {
-  (void) *yylval;
+  // Note: this argument is unused, but named on purpose.  There used to be a
+  // bug with a macro that erroneously expanded this identifier to
+  // yystackp->yyval.
+  YYUSE (yylval);
   return yy::parser::token::ZERO;
 }
 
-void yy::parser::error (std::string const& msg)
-{
-  (void) msg;
-}
+void yy::parser::error (std::string const&)
+{}
 
 int main()
 {}
