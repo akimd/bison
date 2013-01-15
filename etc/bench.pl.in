@@ -610,8 +610,8 @@ $directives
 #if USE_TOKEN_CTOR
   yy::parser::symbol_type yylex();
 #else
-  yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
-                               yy::parser::location_type* yylloc);
+  yy::parser::token_type yylex(yy::parser::semantic_type* yylvalp,
+                               yy::parser::location_type* yyllocp);
 #endif
 
   // Conversion to string.
@@ -682,8 +682,8 @@ static
 #if USE_TOKEN_CTOR
 yy::parser::symbol_type yylex()
 #else
-yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
-                             yy::parser::location_type* yylloc)
+yy::parser::token_type yylex(yy::parser::semantic_type* yylvalp,
+                             yy::parser::location_type* yyllocp)
 #endif
 {
   typedef yy::parser::location_type location_type;
@@ -695,7 +695,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
 #if USE_TOKEN_CTOR
       return yy::parser::make_END_OF_FILE (location_type ());
 #else
-      *yylloc = location_type ();
+      *yyllocp = location_type ();
       return token::END_OF_FILE;
 #endif
     }
@@ -705,13 +705,13 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
       return yy::parser::make_NUMBER (stage, location_type ());
 #else
 # if defined ONE_STAGE_BUILD
-      yylval->build(stage);
+      yylvalp->build(stage);
 # elif USE_VARIANTS
-      yylval->build<int>() = stage;
+      yylvalp->build<int>() = stage;
 # else
-      yylval->ival = stage;
+      yylvalp->ival = stage;
 # endif
-      *yylloc = location_type ();
+      *yyllocp = location_type ();
       return token::NUMBER;
 #endif
     }
@@ -721,13 +721,13 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylval,
       return yy::parser::make_TEXT ("A string.", location_type ());
 #else
 # if defined ONE_STAGE_BUILD
-      yylval->build(std::string("A string."));
+      yylvalp->build(std::string("A string."));
 # elif USE_VARIANTS
-      yylval->build<std::string>() = std::string("A string.");
+      yylvalp->build<std::string>() = std::string("A string.");
 # else
-      yylval->sval = new std::string("A string.");
+      yylvalp->sval = new std::string("A string.");
 # endif
-      *yylloc = location_type ();
+      *yyllocp = location_type ();
       return token::TEXT;
 #endif
     }
