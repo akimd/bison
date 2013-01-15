@@ -106,12 +106,7 @@ yylex (void)
 {
   return 'a';
 }
-
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_DATA_GRAMMAR([[input-cmd-line.y]],

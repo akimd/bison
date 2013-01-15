@@ -859,12 +859,7 @@ AT_DATA([main.c],
 #include "input.h"
 
 int yyparse (void);
-
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 

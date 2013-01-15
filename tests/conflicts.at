@@ -221,30 +221,9 @@ public Object getLVal ()
 
 /*-------.
 | main.  |
-`-------*/]AT_SKEL_JAVA_IF([[
-
-class input
-{
-  public static void main (String args[]) throws IOException
-  {
-    YYParser p = new YYParser ();
-    p.parse ();
-  }
-}]], [AT_SKEL_CC_IF([[
-
-int
-main (void)
-{
-  yy::parser parser;
-  return parser.parse ();
-}]], [[
-
-int
-main (void)
-{
-  return yyparse ();
-}]])])[
-]])
+`-------*/
+]AT_MAIN_DEFINE
+])
 
 AT_FULL_COMPILE([[input]])
 
@@ -492,13 +471,8 @@ reduce-nonassoc: %prec 'a';
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["aaa"])[
-
-int
-main (void)
-{
-  return yyparse ();
-}
-]])
+]AT_MAIN_DEFINE
+])
 AT_BISON_OPTION_POPDEFS
 
 # Show canonical LR's failure.

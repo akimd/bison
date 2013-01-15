@@ -129,6 +129,8 @@ m4_define([_AT_BISON_OPTION_PUSHDEFS],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
+m4_pushdef([AT_DEBUG_IF],
+[m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
 m4_pushdef([AT_SKEL_CC_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_SKEL_JAVA_IF],
@@ -289,6 +291,7 @@ m4_popdef([AT_SKEL_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
+m4_popdef([AT_DEBUG_IF])
 AT_LOC_POPDEF])dnl
 ])# AT_BISON_OPTION_POPDEFS
 
@@ -424,7 +427,8 @@ AT_YYERROR_SEES_LOC_IF([[
 [c++], [[/* A C++ error reporting function.  */
 void
 ]AT_NAME_PREFIX[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
-{  std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << std::endl;
+{
+  std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << std::endl;
 }]],
 [java], [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)
 {
@@ -440,6 +444,38 @@ void
   }]])],
 [m4_fatal([$0: invalid language: ]AT_LANG)])dnl
 ])
+
+
+# AT_MAIN_DEFINE
+# --------------
+m4_define([AT_MAIN_DEFINE],
+[m4_case(AT_LANG,
+[c],
+[[#include <stdlib.h> /* getenv. */
+int
+main (void)
+{]AT_DEBUG_IF([
+  yydebug = !!getenv("YYDEBUG");])[
+  return !!yyparse ();
+}]],
+[c++],
+[[#include <cstdlib> // getenv.
+int
+main (void)
+{
+  yy::parser p;]AT_DEBUG_IF([
+  p.set_debug_level (!!getenv("YYDEBUG"));])[
+  return !!p.parse ();
+}]],
+[java],
+[[class input
+{
+  public static void main (String args[]) throws IOException
+  {
+    YYParser p = new YYParser ();
+    p.parse ();
+  }
+}]])])
 
 
 ## --------------- ##

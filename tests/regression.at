@@ -464,12 +464,7 @@ exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE([{ SPECIAL }])[
-
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -899,12 +894,7 @@ yyparse ()
   return parser.parse ();
 }
 ])[
-
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 ])# _AT_DATA_DANCER_Y
 
@@ -983,12 +973,7 @@ yylex (]AT_LALR1_CC_IF([int *lval], [void])[)
   assert (toknum < sizeof tokens / sizeof *tokens);
   return tokens[toknum++];
 }
-
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 ])# _AT_DATA_EXPECT2_Y
 
@@ -1180,12 +1165,7 @@ sr_conflict:
 
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE([{ 1, 2, 3, 0 }])[
-
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1277,11 +1257,7 @@ syntax_error:
      recovery by shifting 3 tokens) in order to detect any loss of the
      reallocated buffer.  */
 ]AT_YYLEX_DEFINE(["abc"])[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 

@@ -52,11 +52,7 @@ exp:     { putchar ('0'); }
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["123456789"])[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -295,11 +291,7 @@ sum_of_the_five_previous_values:
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([-d -v -o input.c input.y], 0)
@@ -330,11 +322,7 @@ sum: { printf ("%d\n", $0.val + $-1.val + $-2.val); } ;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_FULL_COMPILE([input])
@@ -1256,11 +1244,7 @@ start: { USE($$); } ;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1422,11 +1406,7 @@ yylex (void)
 }
 
 ]AT_YYERROR_DEFINE[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([[-o input.c input.y]])
@@ -1712,11 +1692,7 @@ accept: /*empty*/ {
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o input.c input.y]])
@@ -1763,13 +1739,7 @@ exp:
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (toknum + 1) * 10])[
-
-int
-main (void)
-{
-  yydebug = !!getenv("YYDEBUG");
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 

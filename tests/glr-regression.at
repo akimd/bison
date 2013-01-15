@@ -326,7 +326,7 @@ int yylex (void)
 }
 
 int
-main(int argc, char* argv[])
+main (int argc, char* argv[])
 {
   int res;
   input = stdin;
@@ -488,11 +488,7 @@ start:
 %%
 ]AT_YYLEX_DEFINE(["a"])[
 ]AT_YYERROR_DEFINE[
-int
-main (void)
-{
-  return yyparse () != 1;
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -501,7 +497,7 @@ AT_BISON_CHECK([[-o glr-regr5.c glr-regr5.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr5])
 
-AT_PARSER_CHECK([[./glr-regr5]], 0, [],
+AT_PARSER_CHECK([[./glr-regr5]], 1, [],
 [syntax is ambiguous
 ])
 
@@ -540,11 +536,7 @@ start: 'a' | 'a' ;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[
-int
-main (void)
-{
-  return yyparse () != 1;
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -553,7 +545,7 @@ AT_BISON_CHECK([[-o glr-regr6.c glr-regr6.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr6])
 
-AT_PARSER_CHECK([[./glr-regr6]], 0,
+AT_PARSER_CHECK([[./glr-regr6]], 1,
 [Destructor called.
 ],
 [syntax is ambiguous
@@ -722,12 +714,7 @@ int yylex (void)
     }
 }
 
-int
-main (void)
-{
-  yyparse();
-  return 0;
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1600,11 +1587,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
   return input[toknum++];
 }
 
-int
-main (void)
-{
-  return yyparse () != 1;
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1613,7 +1596,7 @@ AT_BISON_CHECK([[-o glr-regr17.c glr-regr17.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr17])
 
-AT_PARSER_CHECK([[./glr-regr17]], 0, [],
+AT_PARSER_CHECK([[./glr-regr17]], 1, [],
 [1.1-2.2: syntax is ambiguous
 ])
 
@@ -1655,11 +1638,7 @@ sym3: %merge<merge> { $$ = 0; } ;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 

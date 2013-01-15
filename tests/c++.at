@@ -163,14 +163,7 @@ namespace yy
 }
 
 ]AT_YYERROR_DEFINE[
-
-int
-main ()
-{
-  yy::parser p;
-  p.set_debug_level (!!getenv ("YYDEBUG"));
-  return p.parse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([-o list.cc list.yy])
@@ -370,6 +363,8 @@ AT_CLEANUP
 
 AT_SETUP([[Syntax error discarding no lookahead]])
 
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+
 AT_DATA_GRAMMAR([[input.yy]],
 [[%skeleton "lalr1.cc"
 
@@ -421,13 +416,9 @@ yy::parser::error (const std::string &m)
   std::cerr << m << std::endl;
 }
 
-int
-main ()
-{
-  yy::parser parser;
-  return parser.parse ();
-}
+]AT_MAIN_DEFINE[
 ]])
+
 AT_BISON_CHECK([[-o input.cc input.yy]])
 AT_COMPILE_CXX([[input]])
 # This used to print "Discarding 'a'." again at the end.
@@ -437,6 +428,7 @@ Discarding 'a'.
 Reducing 'a'.
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -445,6 +437,8 @@ AT_CLEANUP
 ## --------------------------- ##
 
 AT_SETUP([[Syntax error as exception]])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 
 AT_DATA_GRAMMAR([[input.yy]],
 [[%skeleton "lalr1.cc"
@@ -499,15 +493,9 @@ yy::parser::error (const std::string &m)
 {
   std::cerr << "error: " << m << std::endl;
 }
-
-int
-main ()
-{
-  yy::parser parser;
-  parser.set_debug_level (!!getenv ("YYDEBUG"));
-  return parser.parse ();
-}
+]AT_MAIN_DEFINE[
 ]])
+
 AT_BISON_CHECK([[-o input.cc input.yy]])
 AT_COMPILE_CXX([[input]])
 
@@ -518,6 +506,7 @@ error: invalid character
 caught error
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
