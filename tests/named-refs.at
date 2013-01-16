@@ -181,8 +181,7 @@ AT_DATA([input.txt],
 (2^2)^3 = 64
 ]])
 
-AT_BISON_CHECK([-o test.c test.y])
-AT_COMPILE([[test]])
+AT_FULL_COMPILE([[test]])
 AT_PARSER_CHECK([./test input.txt], 0, [], [stderr])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
