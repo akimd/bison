@@ -883,17 +883,6 @@ member: STRING
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE([":"])[
-]AT_LALR1_CC_IF(
-[int
-yyparse ()
-{
-  yy::parser parser;
-#if YYDEBUG
-  parser.set_debug_level (YYDEBUG);
-#endif
-  return parser.parse ();
-}
-])[
 ]AT_MAIN_DEFINE[
 ]])
 ])# _AT_DATA_DANCER_Y
@@ -1007,14 +996,14 @@ AT_SETUP([Braced code in declaration in rules section])
 
 # Bison once mistook braced code in a declaration in the rules section to be a
 # rule action.
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <stdio.h>
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
-
+%debug
 %error-verbose
 
 %%
@@ -1032,19 +1021,13 @@ start:
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[
-
-int
-main (void)
-{
-  yydebug = 1;
-  return !yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([-t -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 0,
+AT_PARSER_CHECK([./input --debug], 1,
 [[Bison would once convert this action to a midrule because of the subsequent braced code.
 ]],
 [[Starting parse
@@ -1083,7 +1066,7 @@ start: 'a' "A" 'b';
 %token 'a' "A";
 ]])
 
-AT_BISON_CHECK([-t -o input.c input.y])
+AT_BISON_CHECK([-o input.c input.y])
 
 AT_CLEANUP
 
@@ -1399,7 +1382,7 @@ AT_SETUP([[LAC: Exploratory stack]])
 
 m4_pushdef([AT_LAC_CHECK], [
 
-AT_BISON_OPTION_PUSHDEFS([$1])
+AT_BISON_OPTION_PUSHDEFS([%debug $1])
 
 AT_DATA_GRAMMAR([input.y],
 [[%code {
@@ -1407,7 +1390,7 @@ AT_DATA_GRAMMAR([input.y],
   ]AT_YYERROR_DECLARE[
   int yylex (]AT_PURE_IF([[YYSTYPE *]], [[void]])[);
 }
-
+%debug
 ]$1[
 %define parse.error verbose
 %token 'c'
@@ -1434,21 +1417,16 @@ yylex (]AT_PURE_IF([[YYSTYPE *v]], [[void]])[)
   return *input++;
 }
 
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
                  -Dparse.lac.memory-trace=full \
-                 -t -o input.c input.y]], [[0]], [],
+                 -o input.c input.y]], [[0]], [],
 [[input.y: warning: 21 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input > stdout.txt 2> stderr.txt]], [[1]])
+AT_PARSER_CHECK([[./input --debug > stdout.txt 2> stderr.txt]], [[1]])
 
 # Make sure syntax error doesn't forget that 'a' is expected.  It would
 # be forgotten without lookahead correction.
@@ -1492,7 +1470,7 @@ AT_CLEANUP
 AT_SETUP([[LAC: Memory exhaustion]])
 
 m4_pushdef([AT_LAC_CHECK],
-[AT_BISON_OPTION_PUSHDEFS
+[AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([input.y],
 [[%code {
   #include <stdio.h>
@@ -1500,7 +1478,7 @@ AT_DATA_GRAMMAR([input.y],
   ]AT_YYLEX_DECLARE[
   #define YYMAXDEPTH 8
 }
-
+%debug
 %error-verbose
 
 %%
@@ -1511,16 +1489,11 @@ A: /*empty*/ | 'a' ;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["$1"])[
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
-                 -t -o input.c input.y]], [[0]], [],
+                 -o input.c input.y]], [[0]], [],
 [[input.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
@@ -1529,7 +1502,7 @@ AT_BISON_OPTION_POPDEFS
 
 # Check for memory exhaustion during parsing.
 AT_LAC_CHECK([])
-AT_PARSER_CHECK([[./input]], [[2]], [],
+AT_PARSER_CHECK([[./input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
 Reading a token: Now at end of input.
@@ -1543,7 +1516,7 @@ Stack now 0
 # Induce an immediate syntax error with an undefined token, and check
 # for memory exhaustion while building syntax error message.
 AT_LAC_CHECK([z], [[0]])
-AT_PARSER_CHECK([[./input]], [[2]], [],
+AT_PARSER_CHECK([[./input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
 Reading a token: Next token is token $undefined ()

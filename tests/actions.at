@@ -755,7 +755,7 @@ AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [with union])
 # called for $end, and that $$ and @$ work correctly.
 
 AT_SETUP([Default tagless %printer and %destructor])
-AT_BISON_OPTION_PUSHDEFS([%locations])
+AT_BISON_OPTION_PUSHDEFS([%locations %debug])
 AT_DATA_GRAMMAR([[input.y]],
 [[%define parse.error verbose
 %debug
@@ -798,13 +798,7 @@ start: 'a' 'b' 'c' 'd' 'e' { $$ = 'S'; USE(($1, $2, $3, $4, $5)); } ;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["abcd"], [[yylval = res]])[
-
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], [], [],
@@ -812,7 +806,7 @@ AT_BISON_CHECK([-o input.c input.y], [], [],
 input.y:23.3-5: warning: useless %printer for type <*> [-Wother]
 ]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 1,
+AT_PARSER_CHECK([./input --debug], 1,
 [[<> destructor for 'd' @ 4.
 'b'/'c' destructor for 'c' @ 3.
 'b'/'c' destructor for 'b' @ 2.
@@ -856,7 +850,7 @@ AT_CLEANUP
 ## ------------------------------------------------------ ##
 
 AT_SETUP([Default tagged and per-type %printer and %destructor])
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([[input.y]],
 [[%define parse.error verbose
 %debug
@@ -913,13 +907,7 @@ start:
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["abcdef"])[
-
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], [], [],
@@ -927,7 +915,7 @@ AT_BISON_CHECK([-o input.c input.y], [], [],
 input.y:22.3-4: warning: useless %printer for type <> [-Wother]
 ]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 1,
+AT_PARSER_CHECK([./input --debug], 1,
 [[<*>/<field2>/e destructor.
 <*>/<field2>/e destructor.
 'd' destructor.
@@ -991,7 +979,7 @@ m4_pushdef([AT_TEST],
   [m4_pushdef([kind], []) m4_pushdef([not_kind], [*])],
   [m4_pushdef([kind], [*]) m4_pushdef([not_kind], [])])
 
-AT_BISON_OPTION_PUSHDEFS([%locations])
+AT_BISON_OPTION_PUSHDEFS([%locations %debug])
 AT_DATA_GRAMMAR([[input]]$1[[.y]],
 [[%define parse.error verbose
 %debug
@@ -1044,13 +1032,7 @@ yylex (void)
   return 0;
 }
 ]AT_YYERROR_DEFINE[
-
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1065,7 +1047,7 @@ input1.y:23.3-4: warning: useless %printer for type <> [-Wother]
 
 AT_COMPILE([input$1])
 
-AT_PARSER_CHECK([./input$1], 0,
+AT_PARSER_CHECK([./input$1 --debug], 0,
 [[<]]kind[[> for 'E' @ 1.
 <]]kind[[> for 'S' @ 1.
 ]],
@@ -1110,7 +1092,7 @@ AT_SETUP([Default %printer and %destructor are not for error or $undefined])
 #       semantic value, which would be initialized from the lookahead, which
 #       would be destroyed separately.
 #   - For $undefined, who knows what the semantic value would be.
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([[input.y]],
 [[%debug
 
@@ -1141,12 +1123,7 @@ start:
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["abd"], [yylval = res])[
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1155,7 +1132,7 @@ AT_BISON_CHECK([-o input.c input.y], [], [],
 input.y:21.6-8: warning: useless %printer for type <*> [-Wother]
 ]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], [1], [],
+AT_PARSER_CHECK([./input --debug], [1], [],
 [[Starting parse
 Entering state 0
 Reading a token: Next token is token 'a' ('a')
@@ -1213,7 +1190,7 @@ AT_SETUP([Default %printer and %destructor are not for $accept])
 #     true for $undefined and the error token, so there are three warnings for
 #     %printer and three for %destructor.)
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([[input.y]],
 [[%debug /* So that %printer is actually compiled.  */
 
@@ -1264,7 +1241,7 @@ AT_CLEANUP
 
 AT_SETUP([Default %printer and %destructor for mid-rule values])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([[input.y]],
 [[%debug /* So that %printer is actually compiled.  */
 
@@ -1298,12 +1275,7 @@ start:
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
-int
-main (void)
-{
-  yydebug = 1;
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1330,7 +1302,7 @@ input.y:32.3-23: warning: unused value: $3 [-Wother]
 ]])
 
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 1,,
+AT_PARSER_CHECK([./input --debug], 1,,
 [[Starting parse
 Entering state 0
 Reducing stack by rule 1 (line 30):
@@ -1379,7 +1351,7 @@ AT_CLEANUP
 # -------------------------------------------
 m4_define([AT_CHECK_ACTION_LOCATIONS],
 [AT_SETUP([[@$ in ]$1[ implies %locations]])
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
   #include <stdio.h>
@@ -1438,7 +1410,7 @@ AT_CHECK_ACTION_LOCATIONS([[%printer]])
 m4_pushdef([AT_TEST],
 [AT_SETUP([[Qualified $$ in actions: $1]])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1" %debug])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "$1"
@@ -1502,19 +1474,11 @@ float: UNTYPED INT
                                   EOF}]],
                                [[{UNTYPED, INT, EOF}]]),
                  [AT_VAL.ival = toknum * 10; AT_VAL.fval = toknum / 10.0;])[
-int
-main (void)
-{]AT_SKEL_CC_IF([[
-  yy::parser p;
-  p.set_debug_level(1);
-  return p.parse ();]], [[
-  yydebug = 1;
-  return yyparse ();]])[
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_FULL_COMPILE([[input]])
-AT_PARSER_CHECK([./input], 0, [], [stderr])
+AT_PARSER_CHECK([./input --debug], 0, [], [stderr])
 # Don't be too picky on the traces, GLR is not exactly the same.  Keep
 # only the lines from the printer.
 AT_CHECK([[sed -ne '/ival:/p' stderr]], 0,
@@ -1710,7 +1674,7 @@ AT_CLEANUP
 
 AT_SETUP([[YYBACKUP]])
 
-AT_BISON_OPTION_PUSHDEFS([%pure-parser])
+AT_BISON_OPTION_PUSHDEFS([%pure-parser %debug])
 
 AT_DATA_GRAMMAR([input.y],
 [[

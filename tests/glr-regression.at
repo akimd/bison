@@ -1658,7 +1658,7 @@ AT_CLEANUP
 
 AT_SETUP([Ambiguity reports])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([input.y],
 [[
 %{
@@ -1681,12 +1681,7 @@ d: /* nada.  */;
 %%
 ]AT_YYLEX_DEFINE(["abc"])[
 ]AT_YYERROR_DEFINE[
-int
-main (void)
-{
-  yydebug = 1;
-  return !!yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS
 
@@ -1695,7 +1690,7 @@ AT_BISON_CHECK([[-o input.c input.y]], 0, [],
 ]])
 AT_COMPILE([input])
 
-AT_PARSER_CHECK([[./input]], 1, [],
+AT_PARSER_CHECK([[./input --debug]], 1, [],
 [Starting parse
 Entering state 0
 Reading a token: Next token is token 'a' ()

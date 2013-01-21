@@ -452,20 +452,32 @@ m4_define([AT_MAIN_DEFINE],
 [m4_case(AT_LANG,
 [c],
 [[#include <stdlib.h> /* getenv. */
+#include <string.h> /* strcmp. */
 int
-main (void)
-{]AT_DEBUG_IF([
-  yydebug = !!getenv("YYDEBUG");])[
-  return !!yyparse ();
+main (int argc, char const* argv[])
+{]AT_DEBUG_IF([[
+  if (getenv("YYDEBUG")
+      || (argc == 2
+          && (!strcmp (argv[1], "-d") || !strcmp (argv[1], "--debug"))))
+    yydebug |= 1;]], [[
+  (void) argc;
+  (void) argv;]])[
+  return yyparse ();
 }]],
 [c++],
 [[#include <cstdlib> // getenv.
+#include <cstring> // strcmp.
 int
-main (void)
+main (int argc, char const* argv[])
 {
-  yy::parser p;]AT_DEBUG_IF([
-  p.set_debug_level (!!getenv("YYDEBUG"));])[
-  return !!p.parse ();
+  yy::parser p;]AT_DEBUG_IF([[
+  if (getenv("YYDEBUG")
+      || (argc == 2
+          && (!strcmp (argv[1], "-d") || !strcmp (argv[1], "--debug"))))
+    p.set_debug_level (true);]], [[
+  (void) argc;
+  (void) argv;]])[
+  return p.parse ();
 }]],
 [java],
 [[class input
