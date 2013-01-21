@@ -68,30 +68,21 @@ AT_TEST_CPP_GUARD_H([9foo],        [%glr-parser])
 
 AT_SETUP([export YYLTYPE])
 
+AT_BISON_OPTION_PUSHDEFS([%name-prefix "my_"])
 AT_DATA_GRAMMAR([input.y],
-[%locations
+[[%locations
 
 %name-prefix "my_"
 %{
 #include <stdio.h>
 #include <stdlib.h>
 
-static int
-my_lex (void)
-{
-  return EOF;
-}
-
-static void
-my_error (const char *msg)
-{
-  fprintf (stderr, "%s\n", msg);
-}
-
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
 %}
 %%
 exp:;
-])
+]])
 
 AT_BISON_CHECK([--defines -o input.c input.y])
 
@@ -102,11 +93,7 @@ YYLTYPE *my_llocp = &my_lloc;
 
 int my_parse (void);
 
-int
-main (void)
-{
-  return my_parse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 # Link and execute, just to make sure everything is fine (and in
@@ -115,7 +102,7 @@ AT_COMPILE([caller.o])
 AT_COMPILE([input.o])
 AT_COMPILE([caller], [caller.o input.o])
 AT_PARSER_CHECK([./caller])
-
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 ## ----------------- ##

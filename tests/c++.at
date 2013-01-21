@@ -274,14 +274,13 @@ AT_CHECK_DOXYGEN([Private])
 ## Namespaces.  ##
 ## ------------ ##
 
-# AT_CHECK_NAMESPACE(NAMESPACE-DECL, [COMPILE-ERROR])
-# ---------------------------------------------------
+# AT_TEST(NAMESPACE-DECL, [COMPILE-ERROR])
+# ----------------------------------------
 # See if Bison can handle %define namespace "NAMESPACE-DECL".  If COMPILE-ERROR
 # is specified, then Bison should accept the input, but compilation will fail,
 # so don't check compilation.
-m4_define([AT_CHECK_NAMESPACE],
-[
-
+m4_pushdef([AT_TEST],
+[AT_BISON_OPTION_PUSHDEFS([%language "C++" %define api.namespace "$1"])
 AT_DATA_GRAMMAR([[input.y]],
 [[%language "C++"
 %defines
@@ -311,12 +310,7 @@ void
   std::cerr << "At " << loc << ": " << msg << std::endl;
 }
 
-int
-main ()
-{
-  ]$1[::parser p;
-  return p.parse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 AT_BISON_CHECK([[-o input.cc input.y]])
@@ -324,34 +318,35 @@ AT_BISON_CHECK([[-o input.cc input.y]])
 m4_if([$#], [1],
 [AT_COMPILE_CXX([[input]], [[input.cc]])
 AT_PARSER_CHECK([[./input]])])
-
+AT_BISON_OPTION_POPDEFS
 ])
 
 AT_SETUP([[Relative namespace references]])
-AT_CHECK_NAMESPACE([[foo]])
-AT_CHECK_NAMESPACE([[foo::bar]])
-AT_CHECK_NAMESPACE([[foo::bar::baz]])
+AT_TEST([[foo]])
+AT_TEST([[foo::bar]])
+AT_TEST([[foo::bar::baz]])
 AT_CLEANUP
 
 AT_SETUP([[Absolute namespace references]])
-AT_CHECK_NAMESPACE([[::foo]])
-AT_CHECK_NAMESPACE([[::foo::bar]])
-AT_CHECK_NAMESPACE([[::foo::bar::baz]])
-AT_CHECK_NAMESPACE([[	::foo]])
-AT_CHECK_NAMESPACE([[  	 ::foo::bar]])
-AT_CHECK_NAMESPACE([[  ::foo::bar::baz]])
+AT_TEST([[::foo]])
+AT_TEST([[::foo::bar]])
+AT_TEST([[::foo::bar::baz]])
+AT_TEST([[	::foo]])
+AT_TEST([[  	 ::foo::bar]])
+AT_TEST([[  ::foo::bar::baz]])
 AT_CLEANUP
 
 AT_SETUP([[Syntactically invalid namespace references]])
-AT_CHECK_NAMESPACE([[:foo:bar]], [[-]])
-AT_CHECK_NAMESPACE([[foo: :bar]], [[-]])
+AT_TEST([[:foo:bar]], [[-]])
+AT_TEST([[foo: :bar]], [[-]])
 # This one is interesting because `[3]' is encoded as `@<:@3@:>@', which
 # contains single occurrences of `:'.
-AT_CHECK_NAMESPACE([[foo[3]::bar::baz]], [[-]])
-AT_CHECK_NAMESPACE([[foo::bar,baz]], [[-]])
-AT_CHECK_NAMESPACE([[foo::bar::(baz /* Pacify Emacs ) */]], [[-]])
+AT_TEST([[foo[3]::bar::baz]], [[-]])
+AT_TEST([[foo::bar,baz]], [[-]])
+AT_TEST([[foo::bar::(baz /* Pacify Emacs ) */]], [[-]])
 AT_CLEANUP
 
+m4_popdef([AT_TEST])
 
 ## -------------------------------------- ##
 ## Syntax error discarding no lookahead.  ##
