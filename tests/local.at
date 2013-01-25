@@ -94,21 +94,30 @@ m4_define([AT_RESTORE_SPECIAL_FILES], [at_restore_special_files])
 
 # AT_LOC_PUSHDEF(FIRST-LINE, FIRST-COLUMN, LAST-LINE, LAST-COLUMN)
 # ----------------------------------------------------------------
-# Pushdef AT_LOC_(FIRST|LAST)_(LINE|COLUMN).
+# Pushdef AT(_LOC)?_(FIRST|LAST)_(LINE|COLUMN).
 m4_define([AT_LOC_PUSHDEF],
-[m4_pushdef([AT_LOC_FIRST_LINE],  [AT_LOC.$1])
-m4_pushdef([AT_LOC_FIRST_COLUMN], [AT_LOC.$2])
-m4_pushdef([AT_LOC_LAST_LINE],    [AT_LOC.$3])
-m4_pushdef([AT_LOC_LAST_COLUMN],  [AT_LOC.$4])])
+[m4_pushdef([AT_FIRST_LINE],  [$1])
+m4_pushdef([AT_FIRST_COLUMN], [$2])
+m4_pushdef([AT_LAST_LINE],    [$3])
+m4_pushdef([AT_LAST_COLUMN],  [$4])
+m4_pushdef([AT_LOC_FIRST_LINE],   [AT_LOC.AT_FIRST_LINE])
+m4_pushdef([AT_LOC_FIRST_COLUMN], [AT_LOC.AT_FIRST_COLUMN])
+m4_pushdef([AT_LOC_LAST_LINE],    [AT_LOC.AT_LAST_LINE])
+m4_pushdef([AT_LOC_LAST_COLUMN],  [AT_LOC.AT_LAST_COLUMN])])
 
 # AT_LOC_POPDEF
 # -------------
-# Popdef AT_LOC_(FIRST|LAST)_(LINE|COL).
+# Popdef AT(_LOC)?_(FIRST|LAST)_(LINE|COLUMN).
 m4_define([AT_LOC_POPDEF],
 [m4_popdef([AT_LOC_FIRST_LINE])
 m4_popdef([AT_LOC_FIRST_COLUMN])
 m4_popdef([AT_LOC_LAST_LINE])
-m4_popdef([AT_LOC_LAST_COLUMN])])
+m4_popdef([AT_LOC_LAST_COLUMN])
+m4_popdef([AT_FIRST_LINE])
+m4_popdef([AT_FIRST_COLUMN])
+m4_popdef([AT_LAST_LINE])
+m4_popdef([AT_LAST_COLUMN])
+])
 
 
 

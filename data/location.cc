@@ -253,16 +253,17 @@ m4_define([b4_location_define],
   inline std::basic_ostream<YYChar>&
   operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
-    position last = loc.end - 1;
-    ostr << loc.begin;
-    if (last.filename
+    unsigned int end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
+    ostr << loc.begin// << "(" << loc.end << ") "
+;
+    if (loc.end.filename
         && (!loc.begin.filename
-            || *loc.begin.filename != *last.filename))
-      ostr << '-' << last;
-    else if (loc.begin.line != last.line)
-      ostr << '-' << last.line  << '.' << last.column;
-    else if (loc.begin.column != last.column)
-      ostr << '-' << last.column;
+            || *loc.begin.filename != *loc.end.filename))
+      ostr << '-' << loc.end.filename << ':' << loc.end.line << '.' << end_col;
+    else if (loc.begin.line < loc.end.line)
+      ostr << '-' << loc.end.line << '.' << end_col;
+    else if (loc.begin.column < end_col)
+      ostr << '-' << end_col;
     return ostr;
   }
 ]])

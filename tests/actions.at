@@ -204,12 +204,15 @@ exp: /* empty */;
 int
 main (void)
 {
+  ]AT_YYLTYPE[ loc;
+]AT_GLR_CC_IF([loc.initialize();])[
 #define TEST(L1, C1, L2, C2)          \
-  ]AT_LOC_FIRST_LINE[ = L1;           \
-  ]AT_LOC_FIRST_COLUMN[ = C1;         \
-  ]AT_LOC_LAST_LINE[ = L2;            \
-  ]AT_LOC_LAST_COLUMN[ = C2;          \
-  ]YY_LOCATION_PRINT(stdout, AT_LOC)[;\
+  loc.]AT_FIRST_LINE[ = L1;           \
+  loc.]AT_FIRST_COLUMN[ = C1;         \
+  loc.]AT_LAST_LINE[ = L2;            \
+  loc.]AT_LAST_COLUMN[ = C2;          \
+  ]AT_SKEL_CC_IF([std::cout << loc],
+                 [YY_LOCATION_PRINT(stdout, loc)])[;\
   putchar ('\n');
 
   TEST(1, 1, 1, 1);
@@ -239,8 +242,8 @@ AT_CLEANUP
 ## FIXME: test Java, and iterate over skeletons.
 AT_TEST([yacc.c])
 AT_TEST([glr.c])
-#AT_TEST([lalr1.cc])
-#AT_TEST([glr.cc])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
 
 m4_popdef([AT_TEST])
 
