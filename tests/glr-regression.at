@@ -1643,10 +1643,10 @@ sym3: %merge<merge> { $$ = 0; } ;
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr18.c glr-regr18.y]], 1, [],
-[[glr-regr18.y:26.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
-glr-regr18.y:25.18-24:     previous declaration
-glr-regr18.y:27.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
-glr-regr18.y:26.18-24:     previous declaration
+[[glr-regr18.y:28.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
+glr-regr18.y:27.18-24:     previous declaration
+glr-regr18.y:29.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
+glr-regr18.y:28.18-24:     previous declaration
 ]])
 
 AT_CLEANUP
@@ -1699,14 +1699,14 @@ Entering state 1
 Reading a token: Next token is token 'b' ()
 Shifting token 'b' ()
 Entering state 3
-Reducing stack 0 by rule 3 (line 25):
+Reducing stack 0 by rule 3 (line 27):
    $1 = token 'b' ()
 -> $$ = nterm b ()
 Entering state 4
 Reading a token: Next token is token 'c' ()
 Shifting token 'c' ()
 Entering state 6
-Reducing stack 0 by rule 4 (line 26):
+Reducing stack 0 by rule 4 (line 28):
 -> $$ = nterm d ()
 Entering state 7
 Reading a token: Now at end of input.

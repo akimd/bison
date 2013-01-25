@@ -972,13 +972,13 @@ AT_BISON_OPTION_POPDEFS
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc -Wno-error input.y], [], [],
 [[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
-input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
+input.y:20.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
 ]])
 
 # So warn about them.
 AT_BISON_CHECK([-Wyacc input.y], [], [],
 [[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
-input.y:18.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
+input.y:20.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
 ]])
 
 # Dashes are fine for GNU Bison.

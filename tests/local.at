@@ -417,12 +417,51 @@ m4_define([AT_YYERROR_DECLARE_EXTERN],
 
 m4_define([AT_YYERROR_DECLARE],
 [m4_case(AT_LANG,
-[c], [static AT_YYERROR_DECLARE_EXTERN])[]dnl
+[c], [#include <stdio.h>
+]AT_LOCATION_IF([[
+#if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
+static unsigned location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
+# ifndef LOCATION_PRINT
+#  define LOCATION_PRINT(File, Loc) location_print (File, &(Loc))
+# endif
+#endif
+]])[
+static AT_YYERROR_DECLARE_EXTERN])[]dnl
 ])
 
 m4_define([AT_YYERROR_DEFINE],
 [m4_case(AT_LANG,
-[c], [[#include <stdio.h>
+[c], [[
+]AT_LOCATION_IF([[
+# if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
+/* Print *YYLOCP on YYO. */
+__attribute__((__unused__))
+static unsigned
+location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
+{
+  unsigned res = 0;
+  int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
+  if (0 <= yylocp->first_line)
+    {
+      res += fprintf (yyo, "%d", yylocp->first_line);
+      if (0 <= yylocp->first_column)
+        res += fprintf (yyo, ".%d", yylocp->first_column);
+    }
+  if (0 <= yylocp->last_line)
+    {
+      if (yylocp->first_line < yylocp->last_line)
+        {
+          res += fprintf (yyo, "-%d", yylocp->last_line);
+          if (0 <= end_col)
+            res += fprintf (yyo, ".%d", end_col);
+        }
+      else if (0 <= end_col && yylocp->first_column < end_col)
+        res += fprintf (yyo, "-%d", end_col);
+    }
+  return res;
+}
+#endif
+]])[
 /* A C error reporting function.  */
 static
 ]AT_YYERROR_PROTOTYPE[
@@ -430,7 +469,7 @@ static
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\), *], [
   YYUSE(\1);])dnl
 AT_YYERROR_SEES_LOC_IF([[
-  YY_LOCATION_PRINT (stderr, ]AT_LOC[);
+  LOCATION_PRINT (stderr, ]AT_LOC[);
   fprintf (stderr, ": ");]])[
   fprintf (stderr, "%s\n", msg);
 }]],
@@ -884,7 +923,6 @@ AT_SETUP([$1])
 AT_BISON_OPTION_PUSHDEFS([$4])
 AT_DATA_GRAMMAR([[input.y]],
 [[%code {
-  #include <stdio.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 }
@@ -907,11 +945,7 @@ yylex (void)
   return *inputp++;
 }
 
-int
-main (void)
-{
-  return yyparse ();
-}
+]AT_MAIN_DEFINE[
 ]])
 
 # In some versions of Autoconf, AT_CHECK invokes AS_ESCAPE before

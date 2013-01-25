@@ -130,7 +130,6 @@ AT_SETUP([Early token definitions without --yacc])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%{
-#include <stdio.h>
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
 void print_my_token (void);
@@ -141,6 +140,7 @@ void print_my_token (void);
   int val;
 };
 %{
+#include <stdio.h>
 void
 print_my_token (void)
 {
@@ -446,8 +446,6 @@ AT_BISON_OPTION_PUSHDEFS
 # Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 AT_DATA_GRAMMAR([input.y],
 [%{
-#include <stdlib.h>
-#include <stdio.h>
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
@@ -920,8 +918,7 @@ m4_define([_AT_DATA_EXPECT2_Y],
 [%{
 static int yylex (AT_LALR1_CC_IF([int *], [void]));
 AT_LALR1_CC_IF([[#include <cstdlib>]],
-[[#include <stdlib.h>
-#include <stdio.h>
+[[
 ]AT_YYERROR_DECLARE])[
 %}
 $1
@@ -999,13 +996,11 @@ AT_SETUP([Braced code in declaration in rules section])
 AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([input.y],
 [[%{
-#include <stdio.h>
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
 %debug
 %error-verbose
-
 %%
 
 start:
@@ -1123,11 +1118,10 @@ AT_SETUP([[Token number in precedence declaration]])
 # we lost this in Bison 1.50.
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
-[[%{
-  #include <stdio.h>
+[[%code {
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-%}
+}
 
 %error-verbose
 %right END 0
@@ -1153,8 +1147,8 @@ sr_conflict:
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
-[[input.y:23.5-19: warning: rule useless in parser due to conflicts: start: start [-Wother]
-input.y:27.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias" [-Wother]
+[[input.y:24.5-19: warning: rule useless in parser due to conflicts: start: start [-Wother]
+input.y:28.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias" [-Wother]
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
@@ -1197,7 +1191,6 @@ AT_SETUP([[parse.error=verbose and YYSTACK_USE_ALLOCA]])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%code {
-  #include <stdio.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
   #define YYSTACK_USE_ALLOCA 1
@@ -1272,7 +1265,6 @@ AT_SETUP([[parse.error=verbose overflow]])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%code {
-  #include <stdio.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 
@@ -1386,7 +1378,6 @@ AT_BISON_OPTION_PUSHDEFS([%debug $1])
 
 AT_DATA_GRAMMAR([input.y],
 [[%code {
-  #include <stdio.h>
   ]AT_YYERROR_DECLARE[
   int yylex (]AT_PURE_IF([[YYSTYPE *]], [[void]])[);
 }
@@ -1473,7 +1464,6 @@ m4_pushdef([AT_LAC_CHECK],
 [AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([input.y],
 [[%code {
-  #include <stdio.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
   #define YYMAXDEPTH 8
@@ -1547,10 +1537,9 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([[Lex and parse params: $1]])
 
+## FIXME: Improve parsing of parse-param.
 AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" %parse-param { int x } %parse-param { int y }])
 
-## FIXME: Improve parsing of parse-param and use the generated
-## yyerror.
 AT_DATA_GRAMMAR([input.y],
 [[%defines
 %locations
@@ -1565,9 +1554,6 @@ AT_DATA_GRAMMAR([input.y],
 }
 
 %{
-#include <stdio.h>
-#include <stdlib.h>
-
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 %}
@@ -1609,3 +1595,33 @@ AT_TEST([lalr1.cc])
 AT_TEST([glr.cc])
 
 m4_popdef([AT_TEST])
+
+
+## ----------------------- ##
+## stdio.h is not needed.  ##
+## ----------------------- ##
+
+# At some point, by accident, yy_location_print_ was using fprintf and
+# FILE which are from stdio.h, which we do not require.
+AT_SETUP([[stdio.h is not needed]])
+
+AT_BISON_OPTION_PUSHDEFS
+
+AT_DATA_GRAMMAR([input.y],
+[[%locations
+%code
+{
+  static int yylex (void) { return 0; }
+  static void yyerror (const char* msg) { (void) msg; }
+}
+%%
+exp: {}
+%%
+]AT_MAIN_DEFINE[
+]])
+
+AT_FULL_COMPILE([input])
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP

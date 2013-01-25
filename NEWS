@@ -41,6 +41,11 @@ GNU Bison NEWS
   This is has been fixed: yylval, yynerrs, yychar, and yylloc are now valid
   identifiers for user-provided variables.
 
+*** stdio.h is no longer needed when locations are enabled (yacc.c)
+
+  Changes in Bison 2.7 introduced a dependency on FILE and fprintf when
+  locations are enabled.  This is fixed.
+
 ** Diagnostics reported by Bison
 
   Most of these features were contributed by Théophile Ranquet and Victor
