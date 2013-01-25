@@ -205,7 +205,7 @@ AT_DATA([input.yy],
 %debug
 %defines
 %%
-exp:;
+exp: /* empty */;
 %%
 ]AT_YYERROR_DEFINE[
 ]])

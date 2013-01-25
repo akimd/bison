@@ -114,7 +114,7 @@ AT_DATA([input.y],
 %%
 exp: foo { $$; } foo { $2; } foo
    | foo
-   | /* Empty. */
+   | /* empty. */
    ;
 ]])
 
@@ -132,7 +132,7 @@ input.y:6.6-8: warning: type clash on default action: <bar> != <> [-Wother]
     | foo
       ^^^
 input.y:7.5: warning: empty rule for typed nonterminal, and no action [-Wother]
-    | /* Empty. */
+    | /* empty. */
      ^
 ]])
 
@@ -908,7 +908,7 @@ m4_define([AT_CHECK_REQUIRE],
 AT_DATA_GRAMMAR([input.y],
 [[%require "$1";
 %%
-empty_file:;
+empty_file: /* empty */;
 ]])
 AT_BISON_CHECK([-o input.c input.y], $2, [], ignore)
 AT_CLEANUP
@@ -1722,7 +1722,7 @@ m4_pushdef([AT_TEST],
 [AT_DATA([[input.y]],
 [[$1
 %%
-exp:;
+exp: /* empty */;
 ]])
 AT_BISON_CHECK([[$2 input.y]], [[1]], [[]],
 [[$3: error: '%name-prefix' and '%define api.prefix' cannot be used together

@@ -196,7 +196,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_YYLEX_DECLARE[
 }
 %%
-exp:;
+exp: /* empty */;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
