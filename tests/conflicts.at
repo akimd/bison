@@ -18,6 +18,74 @@
 AT_BANNER([[Conflicts.]])
 
 
+## ------------------------ ##
+## Token declaration order. ##
+## ------------------------ ##
+
+# This test checks that token are declared left to right when in a precedence
+# statement.
+
+AT_SETUP([Token declaration order])
+
+AT_BISON_OPTION_PUSHDEFS
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%code {
+  #include <stdio.h>
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%token A B C
+%token D
+%right E F G
+%right H I
+%right J
+%left  K
+%left  L M N
+%nonassoc O P Q
+%precedence R S T U
+%precedence V W
+%%
+exp: A
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+int main (void)
+{
+  assert (A < B);
+  assert (B < C);
+  assert (C < D);
+  assert (D < E);
+  assert (E < F);
+  assert (F < G);
+  assert (G < H);
+  assert (H < I);
+  assert (I < J);
+  assert (J < K);
+  assert (K < L);
+  assert (L < M);
+  assert (M < N);
+  assert (N < O);
+  assert (O < P);
+  assert (P < Q);
+  assert (Q < R);
+  assert (R < S);
+  assert (S < T);
+  assert (T < U);
+  assert (U < V);
+  assert (V < W);
+}
+]])
+
+AT_FULL_COMPILE([input])
+
+AT_CHECK([./input])
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+
+
 ## ---------------- ##
 ## S/R in initial.  ##
 ## ---------------- ##
