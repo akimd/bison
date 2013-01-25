@@ -2,6 +2,19 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Future changes
+
+  Bison will stop adding a semicolon at the end of the actions:
+
+    foo.y:2.22: warning: a ';' might be needed at the end of action code
+     exp: "num" { $$ = $1 }
+                          ^
+    foo.y:2.22:     future versions of Bison will not add the ';'
+
+  Like other GNU packages, Bison will start using some of the C99 features
+  for its own code, especially the definition of variables after statements.
+  The generated C parsers still aim at C90.
+
 ** Incompatible changes
 
 *** Obsolete features
@@ -14,7 +27,24 @@ GNU Bison NEWS
   Support for YYLEX_PARAM and YYPARSE_PARAM is removed (deprecated in Bison
   1.875): use %lex-param, %parse-param, or %param.
 
-** Warnings
+** Bug fixes
+
+*** The epilogue is no longer affected by internal #defines
+
+  The glr.c skeleton uses defines such as #define yylval (yystackp->yyval) in
+  generated code.  These weren't properly undefined before the inclusion of
+  the user epilogue, so functions such as the following were butchered by the
+  preprocessor expansion:
+
+    int yylex (YYSTYPE *yylval);
+
+  This is has been fixed: yylval, yynerrs, yychar, and yylloc are now valid
+  identifiers for user-provided variables.
+
+** Diagnostics reported by Bison
+
+  Most of these features were contributed by Théophile Ranquet and Victor
+  Santet.
 
 *** Carets
 
@@ -179,6 +209,8 @@ GNU Bison NEWS
 
 ** Java skeleton improvements
 
+  Contributed by Paolo Bonzini.
+
   The constants for token names were moved to the Lexer interface.  Also, it
   is possible to add code to the parser's constructors using "%code init"
   and "%define init_throws".
@@ -203,18 +235,6 @@ GNU Bison NEWS
   rejecting too large integral literals from a conversion function
   used by the scanner, or rejecting invalid combinations from a
   factory invoked by the user actions).
-
-*** The epilogue is no longer affected by internal #defines
-
-  The glr.c skeleton uses defines such as #define yylval (yystackp->yyval) in
-  generated code.  These weren't properly undefined before the inclusion of
-  the user epilogue, so functions such as the following were butchered by the
-  preprocessor expansion:
-
-    int yylex (YYSTYPE *yylval);
-
-  This is has been fixed: yylval, yynerrs, yychar, and yylloc are now valid
-  identifiers for user-provided variables.
 
 ** Renamed %define variables
 
@@ -242,8 +262,6 @@ GNU Bison NEWS
   use these prefixed token names, although the grammar itself still
   uses the short names (as in the sample rule given above).
 
-
-
 ** Variable parse.error
 
   This variable controls the verbosity of error messages.  The use of the
@@ -251,6 +269,8 @@ GNU Bison NEWS
   verbose".
 
 ** Semantic predicates
+
+  Contributed by Paul Hilfinger.
 
   The new, experimental, semantic-predicate feature allows actions of the
   form "%?{ BOOLEAN-EXPRESSION }", which cause syntax errors (as for
