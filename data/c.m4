@@ -480,10 +480,8 @@ m4_if(b4_skeleton, ["yacc.c"],
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  if (yytype < YYNTOKENS)
-    YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
-  else
-    YYFPRINTF (yyoutput, "nterm %s (", yytname[yytype]);
+  YYFPRINTF (yyoutput, "%s %s (",
+             yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
 ]b4_locations_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
   YYFPRINTF (yyoutput, ": ");
