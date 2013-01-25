@@ -289,6 +289,12 @@ GNU Bison NEWS
   It used to be an error only if used in non GLR mode, _and_ if there are
   reduce/reduce conflicts.
 
+** Token numbering has changed to preserve the user-defined order
+
+  When declaring %token A B, the numbering for A is inferior to B. Up to now,
+  when declaring associativity at the same time, with %left (or %right,
+  %precedence, %nonassoc), B was inferior to A.
+
 * Noteworthy changes in release 2.7 (2012-12-12) [stable]
 
 ** Bug fixes

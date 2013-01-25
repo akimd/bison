@@ -97,6 +97,9 @@ void symbol_list_syms_print (const symbol_list *l, FILE *f);
 /** Prepend \c node to \c list.  */
 symbol_list *symbol_list_prepend (symbol_list *list, symbol_list *node);
 
+/** Append \c node to \c list.  */
+symbol_list *symbol_list_append (symbol_list *list, symbol_list *node);
+
 /** Free \c list, but not the items it contains.  */
 void symbol_list_free (symbol_list *list);
 

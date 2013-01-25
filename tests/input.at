@@ -445,14 +445,14 @@ input.y:5.10-24: error: %printer redeclaration for <field2>
 input.y:2.10-24:     previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
 input.y:5.10-24:     previous declaration
-input.y:11.13-29: error: %destructor redeclaration for <field1>
-input.y:4.13-29:      previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field2>
 input.y:1.13-29:      previous declaration
-input.y:12.10-24: error: %printer redeclaration for <field1>
-input.y:2.10-24:      previous declaration
+input.y:11.13-29: error: %destructor redeclaration for <field1>
+input.y:4.13-29:      previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field2>
 input.y:5.10-24:      previous declaration
+input.y:12.10-24: error: %printer redeclaration for <field1>
+input.y:2.10-24:      previous declaration
 ]])
 
 AT_CLEANUP

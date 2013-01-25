@@ -503,7 +503,7 @@ symbols.prec:
   symbol.prec
     { $$ = symbol_list_sym_new ($1, @1); }
 | symbols.prec symbol.prec
-    { $$ = symbol_list_prepend ($1, symbol_list_sym_new ($2, @2)); }
+    { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
 ;
 
 symbol.prec:
@@ -516,12 +516,12 @@ symbols.1:
   symbol
     { $$ = symbol_list_sym_new ($1, @1); }
 | symbols.1 symbol
-    { $$ = symbol_list_prepend ($1, symbol_list_sym_new ($2, @2)); }
+    { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
 ;
 
 generic_symlist:
   generic_symlist_item { $$ = $1; }
-| generic_symlist generic_symlist_item { $$ = symbol_list_prepend ($1, $2); }
+| generic_symlist generic_symlist_item { $$ = symbol_list_append ($1, $2); }
 ;
 
 generic_symlist_item:
