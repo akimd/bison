@@ -31,15 +31,18 @@ m4_define([m4_null_if],
 
 # AT_SETUP_STRIP(TITLE)
 # ---------------------
-# Abbreviate the TITLE to be passed to AT_SETUP.
+# Abbreviate the TITLE to be passed to AT_SETUP.  Remove new-lines
+# that completely break AT_SETUP.
 m4_define([AT_SETUP_STRIP],
 [m4_bpatsubsts([$1],
       [%\(language\|skeleton\) "?\([^\" ]*\)"?],
         [\2],
-      [%define "?\([-A-Za-z0-9_.]+\)"? \("\([^\" ]+\)"\|\([-A-Za-z0-9_.]+\)\)],
-        [\1=\3\4],
+      [%define "?\([-A-Za-z0-9_.]+\)"? \("[^\"]+"\|[-A-Za-z0-9_.]+\)],
+        [\1=\2],
       [%define "?\([-A-Za-z0-9_.]+\)"?],
-        [\1])dnl
+        [\1],
+      [ *
++ *],    [ ])dnl
 ])
 
 
