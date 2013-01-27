@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.7.1016-4862c.  */
+/* A Bison parser, made by GNU Bison 2.7.1021-bb417-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -48,7 +48,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 223 "src/parse-gram.y" /* yacc.c:1931  */
+#line 223 "src/parse-gram.y" /* yacc.c:1932  */
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -62,7 +62,7 @@ extern int gram_debug;
 # endif
 
 
-#line 66 "src/parse-gram.h" /* yacc.c:1931  */
+#line 66 "src/parse-gram.h" /* yacc.c:1932  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -188,7 +188,7 @@ extern int gram_debug;
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-#line 109 "src/parse-gram.y" /* yacc.c:1931  */
+#line 109 "src/parse-gram.y" /* yacc.c:1932  */
 
   assoc assoc;
   char *code;
@@ -200,14 +200,14 @@ union GRAM_STYPE
   uniqstr uniqstr;
   unsigned char character;
 
-#line 247 "src/parse-gram.y" /* yacc.c:1931  */
+#line 247 "src/parse-gram.y" /* yacc.c:1932  */
 
   param_type param;
 
-#line 423 "src/parse-gram.y" /* yacc.c:1931  */
+#line 423 "src/parse-gram.y" /* yacc.c:1932  */
 code_props_type code_type;
 
-#line 211 "src/parse-gram.h" /* yacc.c:1931  */
+#line 211 "src/parse-gram.h" /* yacc.c:1932  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
