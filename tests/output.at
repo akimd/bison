@@ -225,9 +225,9 @@ AT_DATA_GRAMMAR([cxx.y],
 %%
 start: {};
 ]])
-AT_BISON_CHECK([-o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" cxx.y])
-AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
-AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.c])"])
+AT_BISON_CHECK([-o "AS_ESCAPE([$1.cc])" --defines="AS_ESCAPE([$1.hh])" cxx.y])
+AT_CHECK([ls "AS_ESCAPE([$1.cc])" "AS_ESCAPE([$1.hh])"], [], [ignore])
+AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.cc])"])
 $2
 
 AT_BISON_OPTION_POPDEFS
