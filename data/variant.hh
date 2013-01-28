@@ -173,7 +173,7 @@ m4_define([b4_variant_define],
     /// variant::move ().
     template <typename T>
     void
-    swap (variant<S>& other)
+    swap (self_type& other)
     {]b4_parse_assert_if([
       YYASSERT (built);
       YYASSERT (other.built);
@@ -186,7 +186,7 @@ m4_define([b4_variant_define],
     /// Destroys \a other.
     template <typename T>
     void
-    move (variant<S>& other)
+    move (self_type& other)
     {]b4_parse_assert_if([
       YYASSERT (! built);])[
       build<T>();
@@ -197,7 +197,7 @@ m4_define([b4_variant_define],
     /// Copy the content of \a other to this.
     template <typename T>
     void
-    copy (const variant<S>& other)
+    copy (const self_type& other)
     {
       build<T> (other.as<T> ());
     }
@@ -314,9 +314,8 @@ b4_join(b4_symbol_if([$1], [has_type],
         b4_locations_if([const location_type& l])))[
   {
     symbol_type res (token::]b4_symbol([$1], [id])[]b4_locations_if([, l])[);
-    ]b4_symbol_if([$1], [has_type], [res.value.build (v);])[
-    //    ]b4_locations_if([res.location = l;])[
-    return res;
+    ]b4_symbol_if([$1], [has_type], [res.value.build (v);
+    ])[return res;
   }
 
 ]])])])

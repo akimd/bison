@@ -234,7 +234,6 @@ m4_define([b4_public_types_declare],
       enum { empty = 0 };
 
       /// The symbol type.
-      ///
       /// -1 when this symbol is empty.
       token_number_type type;
     };
