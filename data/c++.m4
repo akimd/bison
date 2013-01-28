@@ -176,20 +176,18 @@ m4_define([b4_public_types_declare],
       inline basic_symbol (const basic_symbol& other);
 
       /// Constructor for valueless symbols.
-      inline basic_symbol (]b4_join(
-        [typename Base::value_type t],
-        b4_locations_if([const location_type& l]))[);
+      inline basic_symbol (typename Base::value_type t]b4_locations_if([,
+                           const location_type& l])[);
 
       /// Constructor for symbols with semantic value.
-      inline basic_symbol (]b4_join(
-        [typename Base::value_type t],
-        [const semantic_type& v],
-        b4_locations_if([const location_type& l]))[);
+      inline basic_symbol (typename Base::value_type t,
+                           const semantic_type& v]b4_locations_if([,
+                           const location_type& l])[);
 
       /// Assignment operator.
       inline basic_symbol& operator= (const basic_symbol& other);
 
-      /// Destructive move, \a s is emptied.
+      /// Destructive move, \a s is emptied into this.
       inline void move (basic_symbol& s);
 
       /// The semantic value.
@@ -220,6 +218,7 @@ m4_define([b4_public_types_declare],
       /// The token.
       inline token_type token () const;
 
+      /// The type used to store the symbol type.
       typedef token_type value_type;
     };
 

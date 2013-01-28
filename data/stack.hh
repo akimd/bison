@@ -41,14 +41,14 @@ m4_define([b4_stack_define],
 
     inline
     T&
-    operator [] (unsigned int i)
+    operator[] (unsigned int i)
     {
       return seq_[seq_.size () - 1 - i];
     }
 
     inline
     const T&
-    operator [] (unsigned int i) const
+    operator[] (unsigned int i) const
     {
       return seq_[seq_.size () - 1 - i];
     }

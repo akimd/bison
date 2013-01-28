@@ -159,11 +159,12 @@ m4_define([b4_variant_define],
     }
 
     /// Swap the content with \a other, of same type.
+    ///
     /// Both variants must be built beforehand, because swapping the actual
     /// data requires reading it (with as()), and this is not possible on
     /// unconstructed variants: it would require some dynamic testing, which
     /// should not be the variant's responsability.
-    /// Swapping between built and ((possibly) non-built is done with
+    /// Swapping between built and (possibly) non-built is done with
     /// variant::move ().
     template <typename T>
     void
@@ -175,7 +176,8 @@ m4_define([b4_variant_define],
       std::swap (as<T>(), other.as<T>());
     }
 
-    /// Assign the content of \a other to this.
+    /// Move the content of \a other to this.
+    ///
     /// Destroys \a other.
     template <typename T>
     void
@@ -188,7 +190,6 @@ m4_define([b4_variant_define],
     }
 
     /// Copy the content of \a other to this.
-    /// Destroys \a other.
     template <typename T>
     void
     copy (const variant<S>& other)
@@ -227,7 +228,8 @@ m4_define([b4_variant_define],
       long double align_me;
       char raw[S];
     } buffer;]b4_parse_assert_if([
-    /// Whether something is contained.
+
+    /// Whether the content is built.
     bool built;
     /// If defined, the name of the stored type.
     const char* tname;])[

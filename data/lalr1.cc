@@ -287,6 +287,7 @@ b4_location_define])])[
       /// The type (corresponding to \a state).
       inline int type_get () const;
 
+      /// The type used to store the symbol type.
       typedef state_type value_type;
     };
 
@@ -497,12 +498,10 @@ m4_if(b4_prefix, [yy], [],
     ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
       yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
-  {
-  }
+  {}
 
   ]b4_parser_class_name::~b4_parser_class_name[ ()
-  {
-  }
+  {}
 
 
   /*---------------.
@@ -530,10 +529,10 @@ m4_if(b4_prefix, [yy], [],
     return yystos_[state];
   }
 
+
   template <typename Base>
   void
-  ]b4_parser_class_name[::yy_destroy_ (const char* yymsg,
-                                       basic_symbol<Base>& yysym) const
+  ]b4_parser_class_name[::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
   {
     if (yymsg)
       YY_SYMBOL_PRINT (yymsg, yysym);
@@ -574,8 +573,7 @@ m4_if(b4_prefix, [yy], [],
 #endif
 
   void
-  ]b4_parser_class_name[::yypush_ (const char* m, state_type s,
-                                   symbol_type& sym)
+  ]b4_parser_class_name[::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
     if (m)
       YY_SYMBOL_PRINT (m, sym);
