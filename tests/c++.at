@@ -18,6 +18,91 @@
 AT_BANNER([[C++ Features.]])
 
 
+## --------------------------- ##
+## C++ Variant-based Symbols.  ##
+## --------------------------- ##
+
+AT_SETUP([C++ Variant-based Symbols])
+
+AT_KEYWORDS([variant])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
+# Store strings and integers in a list of strings.
+AT_DATA_GRAMMAR([list.yy],
+[[%skeleton "lalr1.cc"
+%define api.value.type variant
+%define parse.assert
+%debug
+
+%code top
+{
+  // Get access to stack_symbol_type for the tests.
+# define private public
+}
+%code provides
+{
+  ]AT_YYLEX_DECLARE[
+}
+
+%token <int> INT "int"
+%type < std::list<int> > exp
+
+%printer { yyo << $$; } <int>
+%printer
+  {
+    for (std::list<int>::const_iterator i = $$.begin (); i != $$.end (); ++i)
+      {
+        if (i != $$.begin ())
+          yyo << ", ";
+        yyo << *i;
+      }
+  } < std::list<int> >
+
+%code requires { #include <list> }
+%code { int yylex (yy::parser::semantic_type* yylval); }
+
+%%
+exp: "int" { $$.push_back ($1); }
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+
+int main()
+{
+  {
+    yy::parser::symbol_type s = yy::parser::make_INT(12);
+    std::cerr << s.value.as<int>() << std::endl;
+  }
+
+  {
+    yy::parser::symbol_type s = yy::parser::make_INT(123);
+    yy::parser::stack_symbol_type ss(1, s);
+    std::cerr << ss.value.as<int>() << std::endl;
+  }
+
+  {
+    yy::parser::stack_type st;
+    for (int i = 0; i < 100; ++i)
+      {
+        yy::parser::symbol_type s(yy::parser::make_INT(i));
+        yy::parser::stack_symbol_type ss(1, s);
+        st.push(ss);
+      }
+  }
+}
+]])
+
+AT_BISON_CHECK([-o list.cc list.yy])
+AT_COMPILE_CXX([list], [$NO_STRICT_ALIAS_CXXFLAGS list.cc])
+AT_PARSER_CHECK([./list], 0, [],
+[12
+123
+])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
 ## ---------- ##
 ## Variants.  ##
 ## ---------- ##

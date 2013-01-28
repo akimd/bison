@@ -53,11 +53,15 @@ m4_define([b4_stack_define],
       return seq_[seq_.size () - 1 - i];
     }
 
+    /// Steal the contents of \a t.
+    ///
+    /// Close to move-semantics.
     inline
     void
-    push (const T& t)
+    push (T& t)
     {
-      seq_.push_back (t);
+      seq_.push_back (T());
+      operator[](0).move (t);
     }
 
     inline

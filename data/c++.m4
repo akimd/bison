@@ -166,6 +166,9 @@ m4_define([b4_public_types_declare],
     template <typename Base>
     struct basic_symbol : Base
     {
+      /// Alias to Base.
+      typedef Base super_type;
+
       /// Default constructor.
       inline basic_symbol ();
 ]b4_locations_if([
@@ -184,6 +187,7 @@ m4_define([b4_public_types_declare],
                            const semantic_type& v]b4_locations_if([,
                            const location_type& l])[);
 
+      ~basic_symbol ();
       /// Assignment operator.
       inline basic_symbol& operator= (const basic_symbol& other);
 
@@ -209,10 +213,17 @@ m4_define([b4_public_types_declare],
       /// Constructor.
       inline by_type (token_type t);
 
+      /// Steal the type of \a that.
+      void move (by_type& that);
+
       /// The symbol type.
+      ///
+      /// -1 when this symbol is empty.
       int type;
 
       /// The type (corresponding to \a type).
+      ///
+      /// -1 when this symbol is empty.
       inline int type_get () const;
 
       /// The token.
@@ -275,39 +286,52 @@ m4_define([b4_public_types_define],
           [const semantic_type& v],
           b4_locations_if([const location_type& l]))[)
     : Base (t)
-    , value ()]b4_locations_if([
+    , value (]b4_variant_if([], [v])[)]b4_locations_if([
     , location (l)])[
-  {
-    // FIXME: The YYUSE macro is only available in the .cc skeleton files.  It
-    // is not available in .hh files, where this code is when using %defines.
+  {]b4_variant_if([[
     (void) v;
-    ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [copy],
-                                      [v])],
-                   [value = v;])[
-  }
+    ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}
 
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::value_type t],
           b4_locations_if([const location_type& l]))[)
-    : Base (t)]b4_locations_if([
+    : Base (t)
+    , value ()]b4_locations_if([
     , location (l)])[
   {}
+
+  template <typename Base>
+  inline
+  ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
+  {]b4_variant_if([[
+    // User destructor.
+    int yytype = this->type_get ();
+    switch (yytype)
+    {
+]b4_symbol_foreach([b4_symbol_destructor])dnl
+[   default:
+      break;
+    }
+
+    // Type destructor.
+  ]b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
+  }
 
   template <typename Base>
   void
   ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
   {
-    this->type = s.type_get ();]b4_locations_if([
-    location = s.location;])[
-    ]b4_variant_if([b4_symbol_variant([s.type_get ()], [value], [move],
+    super_type::move(s);
+    ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [move],
                                       [s.value])],
-                   [value = s.value;])[
+                   [value = s.value;])[]b4_locations_if([
+    location = s.location;])[
   }
 
   // by_type.
   ]b4_parser_class_name[::by_type::by_type ()
-     : type ()
+     : type (-1)
   {}
 
   ]b4_parser_class_name[::by_type::by_type (const by_type& other)
@@ -317,6 +341,14 @@ m4_define([b4_public_types_define],
   ]b4_parser_class_name[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
   {}
+
+  inline
+  void
+  ]b4_parser_class_name[::by_type::move (by_type& that)
+  {
+    type = that.type;
+    that.type = -1;
+  }
 
   int
   ]b4_parser_class_name[::by_type::type_get () const

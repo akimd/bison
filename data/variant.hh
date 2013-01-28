@@ -100,13 +100,29 @@ m4_define([b4_variant_define],
       , tname (YY_NULL)])[
     {}
 
-    /// Instantiate a \a T in here.
+    /// Construct and fill.
+    template <typename T>
+    variant (const T& t)]b4_parse_assert_if([
+      : built (true)
+      , tname (typeid (T).name ())])[
+    {
+      YYASSERT (sizeof (T) <= S);
+      new (buffer.raw) T (t);
+    }
+
+    /// Destruction, allowed only if empty.
+    ~variant ()
+    {]b4_parse_assert_if([
+      YYASSERT (!built);
+    ])[}
+
+    /// Instantiate an empty \a T in here.
     template <typename T>
     T&
     build ()
     {]b4_parse_assert_if([
-      //YYASSERT (!built);
-      //YYASSERT (!tname);
+      YYASSERT (!built);
+      YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
       built = true;
       tname = typeid (T).name ();])[
@@ -118,22 +134,12 @@ m4_define([b4_variant_define],
     T&
     build (const T& t)
     {]b4_parse_assert_if([
-      //YYASSERT (!built);
-      //YYASSERT (!tname);
+      YYASSERT (!built);
+      YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
       built = true;
       tname = typeid (T).name ();])[
       return *new (buffer.raw) T (t);
-    }
-
-    /// Construct and fill.
-    template <typename T>
-    variant (const T& t)]b4_parse_assert_if([
-      : built (true)
-      , tname (typeid (T).name ())])[
-    {
-      YYASSERT (sizeof (T) <= S);
-      new (buffer.raw) T (t);
     }
 
     /// Accessor to a built \a T.
@@ -314,14 +320,15 @@ m4_define([b4_symbol_constructor_define_],
   b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])))
+        b4_locations_if([const location_type& l])))[
   {
-    return symbol_type (b4_join([token::b4_symbol([$1], [id])],
-                                b4_symbol_if([$1], [has_type], [v]),
-                                b4_locations_if([l])));
+    symbol_type res (token::]b4_symbol([$1], [id])[]b4_locations_if([, l])[);
+    ]b4_symbol_if([$1], [has_type], [res.value.build (v);])[
+    //    ]b4_locations_if([res.location = l;])[
+    return res;
   }
 
-])])])
+]])])])
 
 
 # b4_symbol_constructor_define

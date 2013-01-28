@@ -281,10 +281,18 @@ b4_location_define])])[
       /// Copy constructor.
       inline by_state (const by_state& other);
 
+      void move (by_state& that)
+      {
+        state = that.state;
+        that.state = -1;
+      }
+
       /// The state.
       state_type state;
 
       /// The type (corresponding to \a state).
+      ///
+      /// -1 when empty.
       inline int type_get () const;
 
       /// The type used to store the symbol type.
@@ -292,7 +300,16 @@ b4_location_define])])[
     };
 
     /// "Internal" symbol: element of the stack.
-    typedef basic_symbol<by_state> stack_symbol_type;
+    struct stack_symbol_type : basic_symbol<by_state>
+    {
+      /// Superclass.
+      typedef basic_symbol<by_state> super_type;
+      /// Construct an empty symbol.
+      stack_symbol_type ();
+      /// Steal the contents from \a sym to build this.
+      stack_symbol_type (state_type s, symbol_type& sym);
+      stack_symbol_type& operator= (const stack_symbol_type& that);
+    };
 
     /// Stack type.
     typedef stack<stack_symbol_type> stack_type;
@@ -512,7 +529,7 @@ m4_if(b4_prefix, [yy], [],
 
   // by_state.
   ]b4_parser_class_name[::by_state::by_state ()
-    : state ()
+    : state (-1)
   {}
 
   ]b4_parser_class_name[::by_state::by_state (const by_state& other)
@@ -526,7 +543,33 @@ m4_if(b4_prefix, [yy], [],
   int
   ]b4_parser_class_name[::by_state::type_get () const
   {
-    return yystos_[state];
+    return state == -1 ? -1 : yystos_[state];
+  }
+
+  inline
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
+  {}
+
+
+  inline
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& sym)
+    : super_type (s]b4_locations_if([, sym.location])[)
+  {]b4_variant_if([[
+    ]b4_symbol_variant([sym.type_get ()], [value], [move], [sym.value])],
+    [value = sym.value;])[
+    // sym is emptied.
+    sym.type = -1;
+  }
+
+  inline
+  ]b4_parser_class_name[::stack_symbol_type&
+  ]b4_parser_class_name[::stack_symbol_type::operator= (const stack_symbol_type& that)
+  {
+    state = that.state;]b4_variant_if([[
+    ]b4_symbol_variant([that.type_get ()], [value], [copy], [that.value])],
+    [value = that.value;])[]b4_locations_if([
+    location = that.location;])[
+    return *this;
   }
 
 
@@ -535,7 +578,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
   {
     if (yymsg)
-      YY_SYMBOL_PRINT (yymsg, yysym);
+      YY_SYMBOL_PRINT (yymsg, yysym);]b4_variant_if([], [
 
     // User destructor.
     int yytype = yysym.type_get ();
@@ -544,10 +587,7 @@ m4_if(b4_prefix, [yy], [],
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
 [       default:
           break;
-      }]b4_variant_if([
-
-    // Type destructor.
-  b4_symbol_variant([[yytype]], [[yysym.value]], [[template destroy]])])[
+      }])[
   }
 
 #if ]b4_api_PREFIX[DEBUG
@@ -575,17 +615,8 @@ m4_if(b4_prefix, [yy], [],
   void
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
-    if (m)
-      YY_SYMBOL_PRINT (m, sym);
-]b4_variant_if(
-[[
-  stack_symbol_type ss (]b4_join([s],
-      [sym.value], b4_locations_if([sym.location]))[);
-  ]b4_symbol_variant([sym.type_get ()], [sym.value], [destroy], [])[;
-  yystack_.push (ss);
-]],
-[[    yystack_.push (stack_symbol_type (]b4_join([s],
-                         [sym.value], b4_locations_if([sym.location]))[));]])[
+    stack_symbol_type t (s, sym);
+    yypush_ (m, t);
   }
 
   void
@@ -593,14 +624,7 @@ m4_if(b4_prefix, [yy], [],
   {
     if (m)
       YY_SYMBOL_PRINT (m, s);
-]b4_variant_if(
-[[
-  stack_symbol_type ss (]b4_join([s.state],
-      [s.value], b4_locations_if([s.location]))[);
-  ]b4_symbol_variant([s.type_get ()], [s.value], [destroy], [])[;
-  yystack_.push (ss);
-]],
-[    yystack_.push (s);])[
+    yystack_.push (s);
   }
 
   void
@@ -821,21 +845,6 @@ b4_dollar_popdef])[]dnl
         YYERROR;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yylhs);
-]b4_variant_if([[
-    // Destroy the rhs symbols.
-    for (int i = 0; i < yylen; ++i)
-      // Destroy a variant whose value may have been swapped with
-      // yylhs.value (for instance if the action was "std::swap($$,
-      // $1)").  The value of yylhs.value (hence possibly one of these
-      // rhs symbols) depends on the default construction for this
-      // type.  In the case of pointers for instance, no
-      // initialization is done, so the value is junk.  Therefore do
-      // not try to report the value of symbols about to be destroyed
-      // in the debug trace, it's possibly junk.  Hence yymsg = 0.
-      // Besides, that keeps exactly the same traces as with the other
-      // Bison skeletons.
-      yy_destroy_ (YY_NULL, yystack_[i]);]])[
-
     yypop_ (yylen);
     yylen = 0;
     YY_STACK_PRINT ();
@@ -890,7 +899,8 @@ b4_dollar_popdef])[]dnl
       goto yyerrorlab;]b4_locations_if([[
     yyerror_range[1].location = yystack_[yylen - 1].location;]])b4_variant_if([[
     /* $$ was initialized before running the user action.  */
-    yy_destroy_ ("Error: discarding", yylhs);]])[
+    YY_SYMBOL_PRINT ("Error: discarding", yylhs);
+    yylhs.~stack_symbol_type();]])[
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);
