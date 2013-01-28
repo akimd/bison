@@ -113,7 +113,7 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([Variants $1])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
 # Store strings and integers in a list of strings.
 AT_DATA_GRAMMAR([list.yy],
 [[%debug
@@ -203,13 +203,13 @@ item:
 | NUMBER        { if ($][1 == 3) YYERROR; else $][$ = string_cast ($][1); }
 ;
 %%
-
-#ifdef TWO_STAGE_BUILD
+]AT_TOKEN_CTOR_IF([],
+[[#ifdef TWO_STAGE_BUILD
 # define BUILD(Type, Value) build<Type> () = Value
 #else
 # define BUILD(Type, Value) build (Value)
 #endif
-
+]])[
 #define STAGE_MAX 5
 namespace yy
 {
