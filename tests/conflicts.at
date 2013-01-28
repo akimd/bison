@@ -74,6 +74,7 @@ int main (void)
   assert (T < U);
   assert (U < V);
   assert (V < W);
+  return 0;
 }
 ]])
 

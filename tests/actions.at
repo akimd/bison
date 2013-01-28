@@ -1011,7 +1011,7 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 start: { $$ = 'S'; } ;
 
 %%
-#include <stdlib.h> // abort
+#include <stdlib.h> /* abort */
 static int
 yylex (void)
 {
