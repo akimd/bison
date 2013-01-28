@@ -2,9 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Future changes
+** WARNING: Future backward-incompatibilities!
 
-  Bison will stop adding a semicolon at the end of the actions:
+  Bison will stop adding a semicolon at the end of the actions (as announced
+  in the release 2.5):
 
     foo.y:2.22: warning: a ';' might be needed at the end of action code
      exp: "num" { $$ = $1 }
@@ -15,7 +16,7 @@ GNU Bison NEWS
   for its own code, especially the definition of variables after statements.
   The generated C parsers still aim at C90.
 
-** Incompatible changes
+** Backward incompatible changes
 
 *** Obsolete features
 
@@ -305,6 +306,8 @@ GNU Bison NEWS
 
 ** Diagnostics are improved
 
+  Contributed by Théophile Ranquet.
+
 *** Changes in the format of error messages
 
   This used to be the format of many error reports:
@@ -389,6 +392,8 @@ GNU Bison NEWS
   appreciated.
 
 ** Graph improvements in DOT and XSLT
+
+  Contributed by Théophile Ranquet.
 
   The graphical presentation of the states is more readable: their shape is
   now rectangular, the state number is clearly displayed, and the items are
@@ -831,7 +836,9 @@ GNU Bison NEWS
   These features are experimental.  More user feedback will help to
   stabilize them.
 
-** LAC (Lookahead Correction) for syntax error handling:
+** LAC (Lookahead Correction) for syntax error handling
+
+  Contributed by Joel E. Denny.
 
   Canonical LR, IELR, and LALR can suffer from a couple of problems
   upon encountering a syntax error.  First, the parser might perform
