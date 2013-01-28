@@ -180,10 +180,12 @@ m4_define([b4_public_types_declare],
 
       /// Copy constructor.
       basic_symbol (const basic_symbol& other);
-
+]b4_variant_if([[
+      /// Constructor for valueless symbols, and symbols from each type.
+]b4_type_foreach([b4_basic_symbol_constructor_declare])], [[
       /// Constructor for valueless symbols.
       basic_symbol (typename Base::kind_type t]b4_locations_if([,
-                    const location_type& l])[);
+                    const location_type& l])[);]])[
 
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
@@ -287,6 +289,10 @@ m4_define([b4_public_types_define],
     (void) v;
     ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}
 
+]b4_variant_if([[
+  // Implementation of basic_symbol constructor for each type.
+]b4_type_foreach([b4_basic_symbol_constructor_define])], [[
+  /// Constructor for valueless symbols.
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
@@ -295,7 +301,7 @@ m4_define([b4_public_types_define],
     : Base (t)
     , value ()]b4_locations_if([
     , location (l)])[
-  {}
+  {}]])[
 
   template <typename Base>
   inline
