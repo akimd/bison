@@ -77,8 +77,7 @@ m4_pushdef([AT_TEST],
 
 AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2])
 AT_DATA_GRAMMAR([[input.y]],
-[[%defines /* FIXME: Required by lalr1.cc in Bison 2.6. */
-%locations
+[[%locations
 %debug
 %skeleton "$1"
 ]$2[
@@ -182,8 +181,7 @@ m4_pushdef([AT_TEST],
 
 AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" $2])
 AT_DATA_GRAMMAR([[input.y]],
-[[%defines /* FIXME: Required by lalr1.cc in Bison 2.6. */
-%locations
+[[%locations
 %debug
 %skeleton "$1"
 ]$2[

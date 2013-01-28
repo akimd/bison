@@ -837,7 +837,6 @@ m4_define([_AT_DATA_DANCER_Y],
 }
 $1
 %token ARROW INVALID NUMBER STRING DATA
-%defines
 %verbose
 %error-verbose
 /* Grammar follows */
@@ -922,7 +921,6 @@ AT_LALR1_CC_IF([[#include <cstdlib>]],
 ]AT_YYERROR_DECLARE])[
 %}
 $1
-%defines
 %error-verbose
 %token A 1000
 %token B
@@ -1541,8 +1539,7 @@ m4_pushdef([AT_TEST],
 AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" %parse-param { int x } %parse-param { int y }])
 
 AT_DATA_GRAMMAR([input.y],
-[[%defines
-%locations
+[[%locations
 %skeleton "$1"
 %union { int ival; }
 %parse-param { int x }

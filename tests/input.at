@@ -1477,10 +1477,10 @@ AT_BISON_CHECK([[input.y]], [[1]], [],
 ]])
 ])
 
-AT_CHECK_API_PURE([[%language "c++" %defines]], [[]])
-AT_CHECK_API_PURE([[%language "c++" %defines]], [[false]])
-AT_CHECK_API_PURE([[%language "c++" %defines %glr-parser]], [[""]])
-AT_CHECK_API_PURE([[%language "c++" %defines %glr-parser]], [[false]])
+AT_CHECK_API_PURE([[%language "c++"]], [[]])
+AT_CHECK_API_PURE([[%language "c++"]], [[false]])
+AT_CHECK_API_PURE([[%language "c++" %glr-parser]], [[""]])
+AT_CHECK_API_PURE([[%language "c++" %glr-parser]], [[false]])
 AT_CHECK_API_PURE([[%language "java"]], [[true]])
 AT_CHECK_API_PURE([[%language "java"]], [[false]])
 

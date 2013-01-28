@@ -118,7 +118,6 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
 AT_DATA_GRAMMAR([list.yy],
 [[%debug
 %skeleton "lalr1.cc"
-%defines
 %define api.value.type variant
 ]m4_bpatsubst([$1], [\\n], [
 ])[
@@ -288,7 +287,6 @@ AT_DATA([input.yy],
 [[%skeleton "lalr1.cc"
 %locations
 %debug
-%defines
 %%
 exp: /* empty */;
 %%
@@ -368,7 +366,6 @@ m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%language "C++" %define api.namespace "$1"])
 AT_DATA_GRAMMAR([[input.y]],
 [[%language "C++"
-%defines
 %define api.namespace "]$1["
 %union { int i; }
 %define global_tokens_and_yystype
@@ -454,7 +451,6 @@ AT_DATA_GRAMMAR([[input.yy]],
   #define USE(Args)
 }
 
-%defines
 %define parse.error verbose
 
 %nonassoc 'a' ;
@@ -529,7 +525,6 @@ AT_DATA_GRAMMAR([[input.yy]],
   int yylex (yy::parser::semantic_type *);
 }
 
-%defines
 %define api.value.type variant
 %define parse.error verbose
 %define parse.trace
@@ -600,7 +595,6 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 
 AT_DATA_GRAMMAR([[input.yy]],
 [[%skeleton "lalr1.cc"
-%defines // FIXME: Mandated in 2.6.
 %debug
 %error-verbose
 
