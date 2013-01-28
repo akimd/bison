@@ -48,9 +48,6 @@ Get rid of it.  The original idea is nice, but actually it makes
 the code harder to follow, and uselessly different from the other
 skeletons.
 
-** Variable names.
-What should we name `variant' and `lex_symbol'?
-
 ** Get rid of fake #lines [Bison: ...]
 Possibly as simple as checking whether the column number is nonnegative.
 
@@ -76,9 +73,6 @@ since it is no longer bound to a particular parser, it's just a
 
 ** Rename LR0.cc
 as lr0.cc, why upper case?
-
-** bench several bisons.
-Enhance bench.pl with %b to run different bisons.
 
 * Various
 ** YYERRCODE
@@ -142,12 +136,6 @@ really possible?  The test suite does not exercise this case.
 
 This shows that it would be interesting to manage to install skeleton
 coverage analysis to the test suite.
-
-** Table definitions
-It should be very easy to factor the definition of the various tables,
-including the separation bw declaration and definition.  See for
-instance b4_table_define in lalr1.cc.  This way, we could even factor
-C vs. C++ definitions.
 
 * From lalr1.cc to yacc.c
 ** Single stack
@@ -273,9 +261,6 @@ Paul notes:
         More importantly, Bison does not currently allow NUL bytes in
         tokens, either via escapes (e.g., "x\0y") or via a NUL byte in
         the source code.  This should get fixed.
-
-* --graph
-Show reductions.
 
 * Broken options ?
 ** %token-table
