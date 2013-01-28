@@ -1513,22 +1513,22 @@ AT_BISON_CHECK([[input.y]], [1], [],
 
 AT_CHECK_NAMESPACE_ERROR([[]],
                          [[namespace reference is empty]])
-AT_CHECK_NAMESPACE_ERROR([[ 		  	 	]],
+AT_CHECK_NAMESPACE_ERROR([[ @tb@@tb@  @tb@ @tb@]],
                          [[namespace reference is empty]])
 AT_CHECK_NAMESPACE_ERROR([[foo::::bar]],
                          [[namespace reference has consecutive "::"]])
-AT_CHECK_NAMESPACE_ERROR([[foo:: 	::bar]],
+AT_CHECK_NAMESPACE_ERROR([[foo:: @tb@::bar]],
                          [[namespace reference has consecutive "::"]])
 AT_CHECK_NAMESPACE_ERROR([[::::bar]],
                          [[namespace reference has consecutive "::"]])
 AT_CHECK_NAMESPACE_ERROR([[:: ::bar]],
                          [[namespace reference has consecutive "::"]])
-AT_CHECK_NAMESPACE_ERROR([[foo::bar::	::]],
+AT_CHECK_NAMESPACE_ERROR([[foo::bar::@tb@::]],
                          [[namespace reference has consecutive "::"]],
                          [[namespace reference has a trailing "::"]])
 AT_CHECK_NAMESPACE_ERROR([[foo::bar::]],
                          [[namespace reference has a trailing "::"]])
-AT_CHECK_NAMESPACE_ERROR([[foo::bar:: 	]],
+AT_CHECK_NAMESPACE_ERROR([[foo::bar:: @tb@]],
                          [[namespace reference has a trailing "::"]])
 AT_CHECK_NAMESPACE_ERROR([[::]],
                          [[namespace reference has a trailing "::"]])

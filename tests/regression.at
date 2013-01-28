@@ -1545,7 +1545,7 @@ AT_DATA_GRAMMAR([input.y],
 %parse-param { int x }
 // Spaces, tabs, and new lines.
 %parse-param { @&t@
-	 int y	 @&t@
+@tb@ int y@tb@ @&t@
          @&t@
  @&t@
 }
@@ -1573,7 +1573,7 @@ yyparse (int x, int y)
 int
 main (void)
 {
-  return !!yyparse(1, 2);
+  return yyparse(1, 2);
 }
 ]])
 

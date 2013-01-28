@@ -72,6 +72,7 @@ AUTOTESTFLAGS = -I $(top_srcdir)/tests
 $(TESTSUITE): $(TESTSUITE_AT)
 	$(AM_V_GEN) \
 	  $(AUTOTEST) $(AUTOTESTFLAGS) $(srcdir)/tests/testsuite.at -o $@.tmp
+	$(AM_V_at)$(PERL) -pi -e 's/\@tb\@/\t/g' $@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
 

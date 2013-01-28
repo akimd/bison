@@ -395,6 +395,7 @@ void
 ]AT_MAIN_DEFINE[
 ]])
 
+
 AT_BISON_CHECK([[-o input.cc input.y]])
 
 m4_if([$#], [1],
@@ -413,8 +414,8 @@ AT_SETUP([[Absolute namespace references]])
 AT_TEST([[::foo]])
 AT_TEST([[::foo::bar]])
 AT_TEST([[::foo::bar::baz]])
-AT_TEST([[	::foo]])
-AT_TEST([[  	 ::foo::bar]])
+AT_TEST([[@tb@::foo]])
+AT_TEST([[  @tb@ ::foo::bar]])
 AT_TEST([[  ::foo::bar::baz]])
 AT_CLEANUP
 

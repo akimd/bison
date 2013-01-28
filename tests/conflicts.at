@@ -80,7 +80,7 @@ int main (void)
 
 AT_FULL_COMPILE([input])
 
-AT_CHECK([./input])
+AT_PARSER_CHECK([./input])
 
 AT_BISON_OPTION_POPDEFS
 

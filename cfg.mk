@@ -172,9 +172,8 @@ $(call exclude,								\
   prohibit_doubled_word=^tests/named-refs.at$$                          \
   prohibit_magic_number_exit=^doc/bison.texi$$				\
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$	\
-  prohibit_strcmp=^doc/bison\.texi$$					\
+  prohibit_strcmp=^doc/bison\.texi|tests/local\.at$$			\
   prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git		\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
-  space_tab=^tests/(input|c\+\+)\.at$$					\
   unmarked_diagnostics=^(djgpp/|doc/bison.texi$$|tests/c\+\+\.at$$)	\
 )
