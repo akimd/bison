@@ -170,24 +170,24 @@ m4_define([b4_public_types_declare],
       typedef Base super_type;
 
       /// Default constructor.
-      inline basic_symbol ();
+      basic_symbol ();
 
       /// Copy constructor.
-      inline basic_symbol (const basic_symbol& other);
+      basic_symbol (const basic_symbol& other);
 
       /// Constructor for valueless symbols.
-      inline basic_symbol (typename Base::value_type t]b4_locations_if([,
-                           const location_type& l])[);
+      basic_symbol (typename Base::value_type t]b4_locations_if([,
+                    const location_type& l])[);
 
       /// Constructor for symbols with semantic value.
-      inline basic_symbol (typename Base::value_type t,
-                           const semantic_type& v]b4_locations_if([,
-                           const location_type& l])[);
+      basic_symbol (typename Base::value_type t,
+                    const semantic_type& v]b4_locations_if([,
+                    const location_type& l])[);
 
       ~basic_symbol ();
 
       /// Destructive move, \a s is emptied into this.
-      inline void move (basic_symbol& s);
+      void move (basic_symbol& s);
 
       /// The semantic value.
       semantic_type value;]b4_locations_if([
@@ -204,13 +204,14 @@ m4_define([b4_public_types_declare],
     struct by_type
     {
       /// Default constructor.
-      inline by_type ();
+      by_type ();
 
       /// Copy constructor.
-      inline by_type (const by_type& other);
+      by_type (const by_type& other);
 
       /// Constructor.
-      inline by_type (token_type t);
+      ///
+      by_type (token_type t);
 
       /// Steal the type of \a that.
       void move (by_type& that);
@@ -221,12 +222,11 @@ m4_define([b4_public_types_declare],
       int type;
 
       /// The type (corresponding to \a type).
-      ///
       /// -1 when this symbol is empty.
-      inline int type_get () const;
+      int type_get () const;
 
       /// The token.
-      inline token_type token () const;
+      token_type token () const;
 
       /// The type used to store the symbol type.
       typedef token_type value_type;
@@ -250,11 +250,13 @@ m4_define([b4_public_types_define],
 
   // basic_symbol.
   template <typename Base>
+  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
     : value ()
   {}
 
   template <typename Base>
+  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
     : Base (other)
     , value ()]b4_locations_if([
@@ -267,6 +269,7 @@ m4_define([b4_public_types_define],
 
 
   template <typename Base>
+  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::value_type t],
           [const semantic_type& v],
@@ -279,6 +282,7 @@ m4_define([b4_public_types_define],
     ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}
 
   template <typename Base>
+  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::value_type t],
           b4_locations_if([const location_type& l]))[)
@@ -305,6 +309,7 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Base>
+  inline
   void
   ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
   {
@@ -316,14 +321,17 @@ m4_define([b4_public_types_define],
   }
 
   // by_type.
+  inline
   ]b4_parser_class_name[::by_type::by_type ()
      : type (-1)
   {}
 
+  inline
   ]b4_parser_class_name[::by_type::by_type (const by_type& other)
     : type (other.type)
   {}
 
+  inline
   ]b4_parser_class_name[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
   {}
@@ -336,12 +344,14 @@ m4_define([b4_public_types_define],
     that.type = -1;
   }
 
+  inline
   int
   ]b4_parser_class_name[::by_type::type_get () const
   {
     return type;
   }
 ]b4_token_ctor_if([[
+  inline
   ]b4_parser_class_name[::token_type
   ]b4_parser_class_name[::by_type::token () const
   {
@@ -374,6 +384,7 @@ m4_define([b4_symbol_constructor_define], [])
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
 [[  // Symbol number corresponding to token number t.
+  inline
   ]b4_parser_class_name[::token_number_type
   ]b4_parser_class_name[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)

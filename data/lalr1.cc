@@ -228,7 +228,7 @@ b4_location_define])])[
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
     /// Convert a scanner token number \a t to a symbol number.
-    static inline token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
+    static token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
 
     // Tables.
 ]b4_parser_tables_declare[]b4_error_verbose_if([
@@ -264,35 +264,29 @@ b4_location_define])])[
     ///                  If null, print nothing.
     /// \param s         The symbol.
     template <typename Base>
-    inline void yy_destroy_ (const char* yymsg,
-                             basic_symbol<Base>& yysym) const;
+    void yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const;
 
   private:
     /// Type access provider for state based symbols.
     struct by_state
     {
       /// Default constructor.
-      inline by_state ();
+      by_state ();
 
       /// Constructor.
-      inline by_state (state_type s);
+      by_state (state_type s);
 
       /// Copy constructor.
-      inline by_state (const by_state& other);
+      by_state (const by_state& other);
 
-      void move (by_state& that)
-      {
-        state = that.state;
-        that.state = -1;
-      }
+      void move (by_state& that);
 
       /// The state.
       state_type state;
 
       /// The type (corresponding to \a state).
-      ///
       /// -1 when empty.
-      inline int type_get () const;
+      int type_get () const;
 
       /// The type used to store the symbol type.
       typedef state_type value_type;
@@ -322,7 +316,7 @@ b4_location_define])])[
     ///             if null, no trace is output.
     /// \param s    the symbol
     /// \warning the contents of \a s.value is stolen.
-    inline void yypush_ (const char* m, stack_symbol_type& s);
+    void yypush_ (const char* m, stack_symbol_type& s);
 
     /// Push a new look ahead token on the state on the stack.
     /// \param m    a debug message to display
@@ -330,10 +324,10 @@ b4_location_define])])[
     /// \param s    the state
     /// \param sym  the symbol (for its value and location).
     /// \warning the contents of \a s.value is stolen.
-    inline void yypush_ (const char* m, state_type s, symbol_type& sym);
+    void yypush_ (const char* m, state_type s, symbol_type& sym);
 
     /// Pop \a n symbols the three stacks.
-    inline void yypop_ (unsigned int n = 1);
+    void yypop_ (unsigned int n = 1);
 
     // Constants.
     enum
@@ -528,18 +522,30 @@ m4_if(b4_prefix, [yy], [],
 ]b4_token_ctor_if([], [b4_public_types_define])[
 
   // by_state.
+  inline
   ]b4_parser_class_name[::by_state::by_state ()
     : state (-1)
   {}
 
+  inline
   ]b4_parser_class_name[::by_state::by_state (const by_state& other)
     : state (other.state)
   {}
 
+  inline
+  void
+  ]b4_parser_class_name[::by_state::move (by_state& that)
+  {
+    state = that.state;
+    that.state = -1;
+  }
+
+  inline
   ]b4_parser_class_name[::by_state::by_state (state_type s)
     : state (s)
   {}
 
+  inline
   int
   ]b4_parser_class_name[::by_state::type_get () const
   {
@@ -574,6 +580,7 @@ m4_if(b4_prefix, [yy], [],
 
 
   template <typename Base>
+  inline
   void
   ]b4_parser_class_name[::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
   {
@@ -612,6 +619,7 @@ m4_if(b4_prefix, [yy], [],
   }
 #endif
 
+  inline
   void
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
@@ -619,6 +627,7 @@ m4_if(b4_prefix, [yy], [],
     yypush_ (m, t);
   }
 
+  inline
   void
   ]b4_parser_class_name[::yypush_ (const char* m, stack_symbol_type& s)
   {
@@ -627,6 +636,7 @@ m4_if(b4_prefix, [yy], [],
     yystack_.push (s);
   }
 
+  inline
   void
   ]b4_parser_class_name[::yypop_ (unsigned int n)
   {
