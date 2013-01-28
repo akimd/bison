@@ -171,9 +171,6 @@ m4_define([b4_public_types_declare],
 
       /// Default constructor.
       inline basic_symbol ();
-]b4_locations_if([
-      /// Constructor.
-      inline basic_symbol (const location_type& l);])[
 
       /// Copy constructor.
       inline basic_symbol (const basic_symbol& other);
@@ -188,8 +185,6 @@ m4_define([b4_public_types_declare],
                            const location_type& l])[);
 
       ~basic_symbol ();
-      /// Assignment operator.
-      inline basic_symbol& operator= (const basic_symbol& other);
 
       /// Destructive move, \a s is emptied into this.
       inline void move (basic_symbol& s);
@@ -199,6 +194,10 @@ m4_define([b4_public_types_declare],
 
       /// The location.
       location_type location;])[
+
+    private:
+      /// Assignment operator.
+      basic_symbol& operator= (const basic_symbol& other);
     };
 
     /// Type access provider for token (enum) based symbols.
@@ -254,19 +253,6 @@ m4_define([b4_public_types_define],
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
     : value ()
   {}
-]b4_locations_if([
-  template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const location_type& l)
-    : value ()
-    , location (l)
-  {}])[
-
-  template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>&
-  ]b4_parser_class_name[::basic_symbol<Base>::operator= (const basic_symbol&)
-  {
-    abort ();
-  }
 
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& other)

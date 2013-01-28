@@ -72,7 +72,6 @@ m4_map([      b4_symbol_tag_comment], [$@])dnl
 # The needed includes for variants support.
 m4_define([b4_variant_includes],
 [b4_parse_assert_if([[#include <typeinfo>]])[
-#include <cstdlib>  // abort
 #ifndef YYASSERT
 # include <cassert>
 # define YYASSERT assert
@@ -213,19 +212,11 @@ m4_define([b4_variant_define],
       tname = YY_NULL;])[
     }
 
-    /// Prohibit blind copies.
-    private:
-    self_type& operator=(const self_type&)
-    {
-      abort ();
-    }
-
-    variant (const self_type&)
-    {
-      abort ();
-    }
-
   private:
+    /// Prohibit blind copies.
+    self_type& operator=(const self_type&);
+    variant (const self_type&);
+
     /// A buffer large enough to store any of the semantic values.
     /// Long double is chosen as it has the strongest alignment
     /// constraints.

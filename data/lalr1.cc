@@ -146,7 +146,6 @@ b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([# include <cassert>])[
-# include <cstdlib>  // abort
 # include <vector>
 # include <iostream>
 # include <stdexcept>
@@ -308,6 +307,7 @@ b4_location_define])])[
       stack_symbol_type ();
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, symbol_type& sym);
+      /// Assignment, needed by push_back.
       stack_symbol_type& operator= (const stack_symbol_type& that);
     };
 

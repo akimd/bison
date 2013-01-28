@@ -253,7 +253,6 @@ m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 b4_percent_code_get([[requires]])[
 
-#include <cstdlib>  // abort
 #include <stdexcept>
 #include <string>
 #include <iostream>]b4_defines_if([
