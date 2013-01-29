@@ -95,15 +95,13 @@ m4_define([b4_variant_define],
 
     /// Empty construction.
     variant ()]b4_parse_assert_if([
-      : built (false)
-      , tname (YY_NULL)])[
+      : tname (YY_NULL)])[
     {}
 
     /// Construct and fill.
     template <typename T>
     variant (const T& t)]b4_parse_assert_if([
-      : built (true)
-      , tname (typeid (T).name ())])[
+      : tname (typeid (T).name ())])[
     {
       YYASSERT (sizeof (T) <= S);
       new (buffer.raw) T (t);
@@ -112,7 +110,7 @@ m4_define([b4_variant_define],
     /// Destruction, allowed only if empty.
     ~variant ()
     {]b4_parse_assert_if([
-      YYASSERT (!built);
+      YYASSERT (!tname);
     ])[}
 
     /// Instantiate an empty \a T in here.
@@ -120,10 +118,8 @@ m4_define([b4_variant_define],
     T&
     build ()
     {]b4_parse_assert_if([
-      YYASSERT (!built);
       YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
-      built = true;
       tname = typeid (T).name ();])[
       return *new (buffer.raw) T;
     }
@@ -133,10 +129,8 @@ m4_define([b4_variant_define],
     T&
     build (const T& t)
     {]b4_parse_assert_if([
-      YYASSERT (!built);
       YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
-      built = true;
       tname = typeid (T).name ();])[
       return *new (buffer.raw) T (t);
     }
@@ -146,7 +140,6 @@ m4_define([b4_variant_define],
     T&
     as ()
     {]b4_parse_assert_if([
-      YYASSERT (built);
       YYASSERT (tname == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
       return reinterpret_cast<T&> (buffer.raw);
@@ -157,7 +150,6 @@ m4_define([b4_variant_define],
     const T&
     as () const
     {]b4_parse_assert_if([
-      YYASSERT (built);
       YYASSERT (tname == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
       return reinterpret_cast<const T&> (buffer.raw);
@@ -175,8 +167,7 @@ m4_define([b4_variant_define],
     void
     swap (self_type& other)
     {]b4_parse_assert_if([
-      YYASSERT (built);
-      YYASSERT (other.built);
+      YYASSERT (tname);
       YYASSERT (tname == other.tname);])[
       std::swap (as<T>(), other.as<T>());
     }
@@ -188,7 +179,7 @@ m4_define([b4_variant_define],
     void
     move (self_type& other)
     {]b4_parse_assert_if([
-      YYASSERT (! built);])[
+      YYASSERT (!tname);])[
       build<T>();
       swap<T>(other);
       other.destroy<T>();
@@ -208,7 +199,6 @@ m4_define([b4_variant_define],
     destroy ()
     {
       as<T> ().~T ();]b4_parse_assert_if([
-      built = false;
       tname = YY_NULL;])[
     }
 
@@ -226,9 +216,7 @@ m4_define([b4_variant_define],
       char raw[S];
     } buffer;]b4_parse_assert_if([
 
-    /// Whether the content is built.
-    bool built;
-    /// If defined, the name of the stored type.
+    /// Whether the content is built: if defined, the name of the stored type.
     const char* tname;])[
   };
 ]])
