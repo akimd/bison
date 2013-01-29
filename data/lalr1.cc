@@ -284,8 +284,10 @@ b4_location_define])])[
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
-      /// -1 when empty.
+      /// "empty" when empty.
       symbol_number_type type_get () const;
+
+      enum { empty = 0 };
 
       /// The state.
       state_type state;
@@ -523,7 +525,7 @@ m4_if(b4_prefix, [yy], [],
   // by_state.
   inline
   ]b4_parser_class_name[::by_state::by_state ()
-    : state (-1)
+    : state (empty)
   {}
 
   inline
@@ -536,7 +538,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = -1;
+    that.state = empty;
   }
 
   inline
@@ -548,7 +550,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::symbol_number_type
   ]b4_parser_class_name[::by_state::type_get () const
   {
-    return state == -1 ? -1 : yystos_[state];
+    return state == empty ? 0 : yystos_[state];
   }
 
   inline
@@ -564,7 +566,7 @@ m4_if(b4_prefix, [yy], [],
                                       [value], [move], [that.value])],
                    [[value = that.value;]])[
     // that is emptied.
-    that.type = -1;
+    that.type = empty;
   }
 
   inline

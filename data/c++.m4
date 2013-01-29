@@ -231,6 +231,8 @@ m4_define([b4_public_types_declare],
       /// The token.
       token_type token () const;
 
+      enum { empty = 0 };
+
       /// The symbol type.
       ///
       /// -1 when this symbol is empty.
@@ -328,7 +330,7 @@ m4_define([b4_public_types_define],
   // by_type.
   inline
   ]b4_parser_class_name[::by_type::by_type ()
-     : type (-1)
+     : type (empty)
   {}
 
   inline
@@ -346,7 +348,7 @@ m4_define([b4_public_types_define],
   ]b4_parser_class_name[::by_type::move (by_type& that)
   {
     type = that.type;
-    that.type = -1;
+    that.type = empty;
   }
 
   inline
