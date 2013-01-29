@@ -54,11 +54,11 @@ AT_DATA([Calc.y],
 %token <Integer> NUM "number"
 %type  <Integer> exp
 
-%nonassoc '=' /* comparison            */
+%nonassoc '='       /* comparison            */
 %left '-' '+'
 %left '*' '/'
-%left NEG     /* negation--unary minus */
-%right '^'    /* exponentiation        */
+%precedence NEG     /* negation--unary minus */
+%right '^'          /* exponentiation        */
 
 /* Grammar follows */
 %%

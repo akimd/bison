@@ -2411,7 +2411,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 %type  <val>  exp
 
 @group
-%right '='
+%precedence '='
 %left '-' '+'
 %left '*' '/'
 %precedence NEG /* negation--unary minus */

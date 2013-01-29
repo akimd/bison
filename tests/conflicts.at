@@ -17,6 +17,38 @@
 
 AT_BANNER([[Conflicts.]])
 
+## ------------------------------ ##
+## Useless associativity warning. ##
+## ------------------------------ ##
+
+AT_SETUP([Useless associativity warning])
+
+AT_DATA([[input.y]],
+[[%token T
+%left A B
+%right C
+%nonassoc D
+%precedence E
+
+%%
+e: T A T
+ | T B T
+ | T C T
+ | T D T
+ | T E T
+;
+]])
+
+AT_BISON_CHECK([input.y], 0, [],
+[[input.y:5.13: warning: useless precedence for E [-Wother]
+input.y:2.7: warning: useless associativity for A [-Wother]
+input.y:2.9: warning: useless associativity for B [-Wother]
+input.y:3.8: warning: useless associativity for C [-Wother]
+input.y:4.11: warning: useless associativity for D [-Wother]
+]])
+
+AT_CLEANUP
+
 
 ## ------------------------ ##
 ## Token declaration order. ##
@@ -85,6 +117,19 @@ input.y:24.17: warning: useless precedence for T [-Wother]
 input.y:24.19: warning: useless precedence for U [-Wother]
 input.y:25.13: warning: useless precedence for V [-Wother]
 input.y:25.15: warning: useless precedence for W [-Wother]
+input.y:18.8: warning: useless associativity for E [-Wother]
+input.y:18.10: warning: useless associativity for F [-Wother]
+input.y:18.12: warning: useless associativity for G [-Wother]
+input.y:19.8: warning: useless associativity for H [-Wother]
+input.y:19.10: warning: useless associativity for I [-Wother]
+input.y:20.8: warning: useless associativity for J [-Wother]
+input.y:21.8: warning: useless associativity for K [-Wother]
+input.y:22.8: warning: useless associativity for L [-Wother]
+input.y:22.10: warning: useless associativity for M [-Wother]
+input.y:22.12: warning: useless associativity for N [-Wother]
+input.y:23.11: warning: useless associativity for O [-Wother]
+input.y:23.13: warning: useless associativity for P [-Wother]
+input.y:23.15: warning: useless associativity for Q [-Wother]
 ]])
 AT_COMPILE([input])
 
@@ -133,6 +178,15 @@ AT_BISON_CHECK([-fcaret -o input.c input.y], 0, [],
 [[input.y:2.13: warning: useless precedence for Z [-Wother]
  %precedence Z
              ^
+input.y:5.7: warning: useless associativity for W [-Wother]
+ %left W
+       ^
+input.y:6.8: warning: useless associativity for V [-Wother]
+ %right V
+        ^
+input.y:7.11: warning: useless associativity for U [-Wother]
+ %nonassoc U
+           ^
 ]])
 
 AT_CLEANUP
@@ -1144,6 +1198,8 @@ e:   e '+' e
 
 AT_BISON_CHECK([-o input.c input.y], 0, [],
 [[input.y: warning: 4 shift/reduce conflicts [-Wconflicts-sr]
+input.y:1.7-9: warning: useless associativity for '+' [-Wother]
+input.y:2.7-9: warning: useless associativity for '*' [-Wother]
 ]])
 AT_CLEANUP
 

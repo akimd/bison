@@ -377,7 +377,10 @@ exp: ;
 %%
 ]])
 
-AT_BISON_CHECK([-v -o input.c input.y])
+AT_BISON_CHECK([-v -o input.c input.y], 0, [],
+[[input.y:1.29-32: warning: useless associativity for "||" [-Wother]
+input.y:2.29-32: warning: useless associativity for "<=" [-Wother]
+]])
 
 AT_CLEANUP
 
@@ -1147,6 +1150,7 @@ AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o input.c input.y]], [[0]],,
 [[input.y:24.5-19: warning: rule useless in parser due to conflicts: start: start [-Wother]
 input.y:28.5-19: warning: rule useless in parser due to conflicts: sr_conflict: TK2 "tok alias" [-Wother]
+input.y:18.7-9: warning: useless associativity for TK1 [-Wother]
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])

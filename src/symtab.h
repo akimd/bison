@@ -270,6 +270,14 @@ void register_precedence (graphid first, graphid snd);
 
 void print_precedence_warnings (void);
 
+/*----------------------.
+| Symbol associativity  |
+`----------------------*/
+
+void register_assoc (int i, int j);
+
+void print_assoc_warnings (void);
+
 /*-----------------.
 | Semantic types.  |
 `-----------------*/
