@@ -17,7 +17,6 @@ dist_noinst_SCRIPTS = examples/extexi examples/test
 TEST_LOG_COMPILER = $(top_srcdir)/examples/test
 
 AM_CXXFLAGS =							\
-  $(NO_STRICT_ALIAS_CXXFLAGS)					\
   $(WARN_CXXFLAGS) $(WARN_CXXFLAGS_TEST) $(WERROR_CXXFLAGS)
 
 ## ------------ ##

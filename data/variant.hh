@@ -142,7 +142,10 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (tname == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
-      return reinterpret_cast<T&> (buffer.raw);
+      {
+        void *dummy = buffer.raw;
+        return *static_cast<T*> (dummy);
+      }
     }
 
     /// Const accessor to a built \a T (for %printer).
@@ -152,7 +155,10 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (tname == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
-      return reinterpret_cast<const T&> (buffer.raw);
+      {
+        const void *dummy = buffer.raw;
+        return *static_cast<const T*> (dummy);
+      }
     }
 
     /// Swap the content with \a other, of same type.

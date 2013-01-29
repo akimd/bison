@@ -93,7 +93,7 @@ int main()
 ]])
 
 AT_BISON_CHECK([-o list.cc list.yy])
-AT_COMPILE_CXX([list], [$NO_STRICT_ALIAS_CXXFLAGS list.cc])
+AT_COMPILE_CXX([list], [list.cc])
 AT_PARSER_CHECK([./list], 0, [],
 [12
 123
@@ -251,7 +251,7 @@ namespace yy
 ]])
 
 AT_BISON_CHECK([-o list.cc list.yy])
-AT_COMPILE_CXX([list], [$NO_STRICT_ALIAS_CXXFLAGS list.cc])
+AT_COMPILE_CXX([list], [list.cc])
 AT_PARSER_CHECK([./list], 0,
 [(0, 1, 2, 4)
 ])
@@ -804,7 +804,7 @@ main (int argc, const char *argv[])
 }
 ]])
 AT_BISON_CHECK([[-o input.cc --report=all input.yy]])
-AT_COMPILE_CXX([input], [[$NO_STRICT_ALIAS_CXXFLAGS input.cc]])
+AT_COMPILE_CXX([[input]])
 
 AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
 [[exception caught: reduction
