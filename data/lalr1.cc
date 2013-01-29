@@ -223,8 +223,6 @@ b4_location_define])])[
     /// \param yyvalue   the value to check
     static bool yy_table_value_is_error_ (int yyvalue);
 
-    /// Internal symbol numbers.
-    typedef ]b4_int_type_for([b4_translate])[ token_number_type;
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
@@ -273,23 +271,24 @@ b4_location_define])])[
       /// Default constructor.
       by_state ();
 
+      /// The symbol type as needed by the constructor.
+      typedef state_type kind_type;
+
       /// Constructor.
-      by_state (state_type s);
+      by_state (kind_type s);
 
       /// Copy constructor.
       by_state (const by_state& other);
 
+      /// Steal the symbol type from \a that.
       void move (by_state& that);
+
+      /// The (internal) type number (corresponding to \a state).
+      /// -1 when empty.
+      symbol_number_type type_get () const;
 
       /// The state.
       state_type state;
-
-      /// The type (corresponding to \a state).
-      /// -1 when empty.
-      int type_get () const;
-
-      /// The type used to store the symbol type.
-      typedef state_type kind_type;
     };
 
     /// "Internal" symbol: element of the stack.
@@ -546,7 +545,7 @@ m4_if(b4_prefix, [yy], [],
   {}
 
   inline
-  int
+  ]b4_parser_class_name[::symbol_number_type
   ]b4_parser_class_name[::by_state::type_get () const
   {
     return state == -1 ? -1 : yystos_[state];
@@ -590,7 +589,7 @@ m4_if(b4_prefix, [yy], [],
       YY_SYMBOL_PRINT (yymsg, yysym);]b4_variant_if([], [
 
     // User destructor.
-    int yytype = yysym.type_get ();
+    symbol_number_type yytype = yysym.type_get ();
     switch (yytype)
       {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
@@ -607,7 +606,7 @@ m4_if(b4_prefix, [yy], [],
   {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
-    int yytype = yysym.type_get ();
+    symbol_number_type yytype = yysym.type_get ();
     yyo << (yytype < yyntokens_ ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("]b4_locations_if([
         << yysym.location << ": "])[;
@@ -778,8 +777,8 @@ b4_dollar_popdef])[]dnl
 
     /* If the proper action on seeing token YYLA.TYPE is to reduce or
        to detect an error, take that action.  */
-    yyn += yyla.type;
-    if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yyla.type)
+    yyn += yyla.type_get ();
+    if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yyla.type_get ())
       goto yydefault;
 
     // Reduce or error.
@@ -875,7 +874,7 @@ b4_dollar_popdef])[]dnl
         ++yynerrs_;
         error (]b4_join(b4_locations_if([yyla.location]),
                         [[yysyntax_error_ (yystack_[0].state,
-                                           yyempty ? yyempty_ : yyla.type)]])[);
+                                           yyempty ? yyempty_ : yyla.type_get ())]])[);
       }
 
 ]b4_locations_if([[
@@ -886,7 +885,7 @@ b4_dollar_popdef])[]dnl
            error, discard it.  */
 
         // Return failure if at end of input.
-        if (yyla.type == yyeof_)
+        if (yyla.type_get () == yyeof_)
           YYABORT;
         else if (!yyempty)
           {

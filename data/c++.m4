@@ -154,8 +154,14 @@ m4_define([b4_public_types_declare],
       ]b4_token_enums[
     };
 
-    /// Token type.
+    /// (External) token type, as returned by yylex.
     typedef token::yytokentype token_type;
+
+    /// Internal symbol number.
+    typedef int symbol_number_type;
+
+    /// Internal symbol number for tokens (subsumed by symbol_number_type).
+    typedef ]b4_int_type_for([b4_translate])[ token_number_type;
 
     /// A complete symbol.
     ///
@@ -209,27 +215,26 @@ m4_define([b4_public_types_declare],
       /// Copy constructor.
       by_type (const by_type& other);
 
-      /// Constructor.
-      ///
-      by_type (token_type t);
+      /// The symbol type as needed by the constructor.
+      typedef token_type kind_type;
 
-      /// Steal the type of \a that.
+      /// Constructor from (external) token numbers.
+      by_type (kind_type t);
+
+      /// Steal the symbol type from \a that.
       void move (by_type& that);
 
-      /// The symbol type.
-      ///
+      /// The (internal) type number (corresponding to \a type).
       /// -1 when this symbol is empty.
-      int type;
-
-      /// The type (corresponding to \a type).
-      /// -1 when this symbol is empty.
-      int type_get () const;
+      symbol_number_type type_get () const;
 
       /// The token.
       token_type token () const;
 
-      /// The type used to store the symbol type.
-      typedef token_type kind_type;
+      /// The symbol type.
+      ///
+      /// -1 when this symbol is empty.
+      token_number_type type;
     };
 
     /// "External" symbols: returned by the scanner.
@@ -296,7 +301,7 @@ m4_define([b4_public_types_define],
   ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
   {]b4_variant_if([[
     // User destructor.
-    int yytype = this->type_get ();
+    symbol_number_type yytype = this->type_get ();
     switch (yytype)
     {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
