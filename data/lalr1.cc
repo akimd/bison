@@ -206,8 +206,9 @@ b4_location_define])])[
 
     /// Generate an error message.
     /// \param yystate   the state where the error occurred.
-    /// \param yytoken   the lookahead token.
-    virtual std::string yysyntax_error_ (state_type yystate, int yytoken);
+    /// \param yytoken   the lookahead token type, or yyempty_.
+    virtual std::string yysyntax_error_ (state_type yystate,
+                                         symbol_number_type yytoken) const;
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -1011,8 +1012,8 @@ b4_dollar_popdef])[]dnl
   // Generate an error message.
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
-b4_error_verbose_if([state_type yystate, int yytoken],
-                    [int, int])[)
+b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
+                    [state_type, symbol_number_type])[) const
   {]b4_error_verbose_if([[
     std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
