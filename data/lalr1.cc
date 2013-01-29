@@ -289,7 +289,7 @@ b4_location_define])])[
       int type_get () const;
 
       /// The type used to store the symbol type.
-      typedef state_type value_type;
+      typedef state_type kind_type;
     };
 
     /// "Internal" symbol: element of the stack.

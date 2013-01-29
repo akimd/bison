@@ -176,11 +176,11 @@ m4_define([b4_public_types_declare],
       basic_symbol (const basic_symbol& other);
 
       /// Constructor for valueless symbols.
-      basic_symbol (typename Base::value_type t]b4_locations_if([,
+      basic_symbol (typename Base::kind_type t]b4_locations_if([,
                     const location_type& l])[);
 
       /// Constructor for symbols with semantic value.
-      basic_symbol (typename Base::value_type t,
+      basic_symbol (typename Base::kind_type t,
                     const semantic_type& v]b4_locations_if([,
                     const location_type& l])[);
 
@@ -229,7 +229,7 @@ m4_define([b4_public_types_declare],
       token_type token () const;
 
       /// The type used to store the symbol type.
-      typedef token_type value_type;
+      typedef token_type kind_type;
     };
 
     /// "External" symbols: returned by the scanner.
@@ -271,7 +271,7 @@ m4_define([b4_public_types_define],
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
-          [typename Base::value_type t],
+          [typename Base::kind_type t],
           [const semantic_type& v],
           b4_locations_if([const location_type& l]))[)
     : Base (t)
@@ -284,7 +284,7 @@ m4_define([b4_public_types_define],
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
-          [typename Base::value_type t],
+          [typename Base::kind_type t],
           b4_locations_if([const location_type& l]))[)
     : Base (t)
     , value ()]b4_locations_if([
