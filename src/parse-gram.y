@@ -538,15 +538,15 @@ tag:
 /* One token definition.  */
 symbol_def:
   TAG
-     {
-       current_type = $1;
-       tag_seen = true;
-     }
+    {
+      current_type = $1;
+      tag_seen = true;
+    }
 | id
-     {
-       symbol_class_set ($1, current_class, @1, true);
-       symbol_type_set ($1, current_type, @1);
-     }
+    {
+      symbol_class_set ($1, current_class, @1, true);
+      symbol_type_set ($1, current_type, @1);
+    }
 | id INT
     {
       symbol_class_set ($1, current_class, @1, true);
