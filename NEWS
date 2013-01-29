@@ -198,6 +198,13 @@ GNU Bison NEWS
     bar.y: error: shift/reduce conflicts: 1 found, 0 expected
     bar.y: error: reduce/reduce conflicts: 2 found, 0 expected
 
+*** Useless precedence
+
+  Bison now warns about symbols with a declared precedence but no declared
+  associativity (i.e. declared with %precedence), and whose precedence is
+  never used.  In that case, the symbol can be safely declared with %token
+  instead, without modifying the parsing tables.
+
 ** Additional yylex/yyparse arguments
 
   The new directive %param declares additional arguments to both yylex and

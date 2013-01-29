@@ -78,11 +78,62 @@ int main (void)
 }
 ]])
 
-AT_FULL_COMPILE([input])
+AT_BISON_CHECK([-o input.c input.y], [], [],
+[[input.y:24.13: warning: useless precedence for R [-Wother]
+input.y:24.15: warning: useless precedence for S [-Wother]
+input.y:24.17: warning: useless precedence for T [-Wother]
+input.y:24.19: warning: useless precedence for U [-Wother]
+input.y:25.13: warning: useless precedence for V [-Wother]
+input.y:25.15: warning: useless precedence for W [-Wother]
+]])
+AT_COMPILE([input])
 
 AT_PARSER_CHECK([./input])
 
 AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+
+
+## ---------------------------- ##
+## Useless precedence warning.  ##
+## ---------------------------- ##
+
+AT_SETUP([Useless precedence warning])
+
+AT_DATA([[input.y]],
+[[%token A B
+%precedence Z
+%left X
+%precedence Y
+%left W
+%right V
+%nonassoc U
+%%
+a: b
+ | a U b
+ | f
+;
+b: c
+ | b V c
+;
+c: d
+ | c W d
+;
+d: A
+ | d X d
+ | d Y A
+;
+f: B
+ | f Z B
+;
+]])
+
+AT_BISON_CHECK([-fcaret -o input.c input.y], 0, [],
+[[input.y:2.13: warning: useless precedence for Z [-Wother]
+ %precedence Z
+             ^
+]])
 
 AT_CLEANUP
 

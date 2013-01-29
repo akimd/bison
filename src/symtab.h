@@ -224,6 +224,52 @@ extern symbol *startsymbol;
 extern location startsymbol_location;
 
 
+
+/*-------------------.
+| Symbol Relations.  |
+`-------------------*/
+
+/* The symbol relations are represented by a directed graph. */
+
+/* The id of a node */
+typedef int graphid;
+
+typedef struct symgraphlink symgraphlink;
+
+struct symgraphlink
+{
+  /** The second \c symbol or group of a precedence relation.
+   * See \c symgraph. */
+  graphid id;
+
+  symgraphlink *next;
+};
+
+/* Symbol precedence graph, to store the used precedence relations between
+ * symbols. */
+
+typedef struct symgraph symgraph;
+
+struct symgraph
+{
+  /** Identifier for the node: equal to the number of the symbol. */
+  graphid id;
+
+  /** The list of related symbols that have a smaller precedence. */
+  symgraphlink *succ;
+
+  /** The list of related symbols that have a greater precedence. */
+  symgraphlink *pred;
+};
+
+/** Register a new precedence relation as used. */
+
+void register_precedence (graphid first, graphid snd);
+
+/** Print a warning for each symbol whose precedence is useless. */
+
+void print_precedence_warnings (void);
+
 /*-----------------.
 | Semantic types.  |
 `-----------------*/
