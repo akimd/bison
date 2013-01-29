@@ -804,7 +804,7 @@ main (int argc, const char *argv[])
 }
 ]])
 AT_BISON_CHECK([[-o input.cc --report=all input.yy]])
-AT_COMPILE_CXX([[input]])
+AT_COMPILE_CXX([input], [[$NO_STRICT_ALIAS_CXXFLAGS input.cc]])
 
 AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
 [[exception caught: reduction
