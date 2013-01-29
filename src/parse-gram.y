@@ -605,6 +605,7 @@ rhses.1:
 | rhses.1 ";"
 ;
 
+%token PERCENT_EMPTY "%empty";
 rhs:
   /* Nothing.  */
     { grammar_current_rule_begin (current_lhs_symbol, current_lhs_location,
@@ -615,6 +616,8 @@ rhs:
     { grammar_current_rule_action_append ($2, @2, $3, false); }
 | rhs "%?{...}"
     { grammar_current_rule_action_append ($2, @2, NULL, true); }
+| rhs "%empty"
+    { grammar_current_rule_empty_set (@2); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
 | rhs "%dprec" INT

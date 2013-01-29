@@ -78,6 +78,10 @@ typedef struct symbol_list
    * each RHS are also stored here.  */
   code_props action_props;
 
+  /* The location of the first %empty for this rule, or \a
+     empty_location.  */
+  location percent_empty_loc;
+
   int dprec;
   int merger;
   location merger_declaration_location;

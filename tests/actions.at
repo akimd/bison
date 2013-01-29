@@ -64,6 +64,75 @@ AT_PARSER_CHECK([./input], 0,
 
 AT_CLEANUP
 
+## ------------------------ ##
+## Invalid uses of %empty.  ##
+## ------------------------ ##
+
+AT_SETUP([Invalid uses of %empty])
+
+AT_DATA_GRAMMAR([[one.y]],
+[[%%
+exp:
+  %empty %empty {}
+;
+]])
+
+AT_BISON_CHECK([-fcaret one.y], [1], [],
+[[one.y:11.10-15: error: only one %empty allowed per rule
+   %empty %empty {}
+          ^^^^^^
+]])
+
+AT_DATA_GRAMMAR([[two.y]],
+[[%%
+exp:
+  'a' %empty    {}
+| %empty 'a'    {}
+| %empty {}     {}
+;
+]])
+
+AT_BISON_CHECK([-fcaret two.y], [1], [],
+[[two.y:11.7-12: error: %empty on non-empty rule
+   'a' %empty    {}
+       ^^^^^^
+two.y:12.3-8: error: %empty on non-empty rule
+ | %empty 'a'    {}
+   ^^^^^^
+two.y:13.3-8: error: %empty on non-empty rule
+ | %empty {}     {}
+   ^^^^^^
+]])
+
+AT_CLEANUP
+
+## ---------------------- ##
+## Valid uses of %empty.  ##
+## ---------------------- ##
+
+AT_SETUP([Valid uses of %empty])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA_GRAMMAR([[input.y]],
+[[
+%debug
+%code
+{
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+%%
+exp: %empty {}
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+]AT_MAIN_DEFINE[
+]])
+
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([./input])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
 
 ## ------------------ ##
 ## Initial location.  ##

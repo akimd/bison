@@ -47,6 +47,8 @@ void grammar_current_rule_begin (symbol *lhs, location loc,
                                  named_ref *lhs_named_ref);
 void grammar_current_rule_end (location loc);
 void grammar_midrule_action (void);
+/* Apply %empty to the current rule.  */
+void grammar_current_rule_empty_set (location loc);
 void grammar_current_rule_prec_set (symbol *precsym, location loc);
 void grammar_current_rule_dprec_set (int dprec, location loc);
 void grammar_current_rule_merge_set (uniqstr name, location loc);

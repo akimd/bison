@@ -217,6 +217,7 @@ eqopt    ([[:space:]]*=)?
   "%defines"                        return PERCENT_DEFINES;
   "%destructor"                     return PERCENT_DESTRUCTOR;
   "%dprec"                          return PERCENT_DPREC;
+  "%empty"                          return PERCENT_EMPTY;
   "%error-verbose"                  return PERCENT_ERROR_VERBOSE;
   "%expect"                         return PERCENT_EXPECT;
   "%expect-rr"                      return PERCENT_EXPECT_RR;
