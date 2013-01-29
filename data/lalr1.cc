@@ -255,8 +255,7 @@ b4_location_define])])[
     /// \param yyo    The output stream.
     /// \param yysym  The symbol.
     template <typename Base>
-    void yy_print_ (std::ostream& yyo,
-                    const basic_symbol<Base>& yysym) const;
+    void yy_print_ (std::ostream& yyo, const basic_symbol<Base>& yysym) const;
 #endif
 
     /// \brief Reclaim the memory associated to a symbol.
@@ -558,22 +557,24 @@ m4_if(b4_prefix, [yy], [],
 
 
   inline
-  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& sym)
-    : super_type (s]b4_locations_if([, sym.location])[)
-  {]b4_variant_if([[
-    ]b4_symbol_variant([sym.type_get ()], [value], [move], [sym.value])],
-    [value = sym.value;])[
-    // sym is emptied.
-    sym.type = -1;
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
+    : super_type (s]b4_locations_if([, that.location])[)
+  {
+    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
+                                      [value], [move], [that.value])],
+                   [[value = that.value;]])[
+    // that is emptied.
+    that.type = -1;
   }
 
   inline
   ]b4_parser_class_name[::stack_symbol_type&
   ]b4_parser_class_name[::stack_symbol_type::operator= (const stack_symbol_type& that)
   {
-    state = that.state;]b4_variant_if([[
-    ]b4_symbol_variant([that.type_get ()], [value], [copy], [that.value])],
-    [value = that.value;])[]b4_locations_if([
+    state = that.state;
+    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
+                                      [value], [copy], [that.value])],
+                   [[value = that.value;]])[]b4_locations_if([
     location = that.location;])[
     return *this;
   }
