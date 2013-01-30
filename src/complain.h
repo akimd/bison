@@ -36,7 +36,9 @@ typedef enum
     Wconflicts_sr     = 1 << 2,  /**< S/R conflicts.  */
     Wconflicts_rr     = 1 << 3,  /**< R/R conflicts.  */
     Wdeprecated       = 1 << 4,  /**< Obsolete constructs.  */
-    Wother            = 1 << 5,  /**< All other warnings.  */
+    Wprecedence       = 1 << 5,  /**< Useless precedence and associativity.  */
+
+    Wother            = 1 << 6,  /**< All other warnings.  */
 
     Werror            = 1 << 10, /** This bit is no longer used. */
 

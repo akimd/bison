@@ -9716,6 +9716,67 @@ no effect on the conflict report.
 Deprecated constructs whose support will be removed in future versions of
 Bison.
 
+@item precedence
+Useless precedence and associativity directives.  Disabled by default.
+
+Consider for instance the following grammar:
+
+@example
+@group
+%nonassoc "="
+%left "+"
+%left "*"
+%precedence "("
+@end group
+%%
+@group
+stmt:
+  exp
+| "var" "=" exp
+;
+@end group
+
+@group
+exp:
+  exp "+" exp
+| exp "*" "num"
+| "(" exp ")"
+| "num"
+;
+@end group
+@end example
+
+Bison reports:
+
+@c cannot leave the location and the [-Wprecedence] for lack of
+@c width in PDF.
+@example
+@group
+warning: useless precedence and associativity for "="
+ %nonassoc "="
+           ^^^
+@end group
+@group
+warning: useless associativity for "*", use %precedence
+ %left "*"
+       ^^^
+@end group
+@group
+warning: useless precedence for "("
+ %precedence "("
+             ^^^
+@end group
+@end example
+
+One would get the exact same parser with the following directives instead:
+
+@example
+@group
+%left "+"
+%precedence "*"
+@end group
+@end example
+
 @item other
 All warnings not categorized above.  These warnings are enabled by default.
 

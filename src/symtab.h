@@ -266,7 +266,8 @@ struct symgraph
 
 void register_precedence (graphid first, graphid snd);
 
-/** Print a warning for each symbol whose precedence is useless. */
+/** Print a warning for each symbol whose precedence and/or associativity
+ * is useless. */
 
 void print_precedence_warnings (void);
 
@@ -274,9 +275,7 @@ void print_precedence_warnings (void);
 | Symbol associativity  |
 `----------------------*/
 
-void register_assoc (int i, int j);
-
-void print_assoc_warnings (void);
+void register_assoc (graphid i, graphid j);
 
 /*-----------------.
 | Semantic types.  |

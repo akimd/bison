@@ -198,13 +198,6 @@ GNU Bison NEWS
     bar.y: error: shift/reduce conflicts: 1 found, 0 expected
     bar.y: error: reduce/reduce conflicts: 2 found, 0 expected
 
-*** Useless precedence
-
-  Bison now warns about symbols with a declared precedence but no declared
-  associativity (i.e. declared with %precedence), and whose precedence is
-  never used.  In that case, the symbol can be safely declared with %token
-  instead, without modifying the parsing tables.
-
 ** Additional yylex/yyparse arguments
 
   The new directive %param declares additional arguments to both yylex and
@@ -302,6 +295,76 @@ GNU Bison NEWS
   When declaring %token A B, the numbering for A is inferior to B. Up to now,
   when declaring associativity at the same time, with %left (or %right,
   %precedence, %nonassoc), B was inferior to A.
+
+** Useless precedence and associativity
+
+  When developping and maintaining a grammar, useless associativity and
+  precedence directives are common.  They can be a nuisance: new ambiguities
+  arising are sometimes masked because their conflicts are resolved due to
+  the extra precedence or associativity information.  Furthermore, it can
+  hinder the comprehension of a new grammar: one will wonder about the role
+  of a precedence, where in fact it is useless.  The following changes aim
+  at detecting and reporting these extra directives.
+
+*** Precedence warning category
+
+  A new category of warning, -Wprecedence, was introduced. It flags the
+  useless precedence and associativity directives.
+
+*** Useless associativity
+
+  Bison now warns about symbols with a declared associativity that is never
+  used to resolve conflicts.  In that case, using %precedence is sufficient;
+  the parsing tables will remain unchanged.  Solving these warnings may raise
+  useless precedence warnings, as the symbols no longer have associativity.
+  For example:
+
+    %left '+'
+    %left '*'
+    %%
+    exp:
+      "num"
+    | exp '+' "num"
+    | exp '*' exp
+    ;
+
+  will produce a
+
+    warning: useless associativity for '+', use %precedence [-Wprecedence]
+     %left '+'
+           ^^^
+
+*** Useless precedence
+
+  Bison now warns about symbols with a declared precedence and no declared
+  associativity (i.e., declared with %precedence), and whose precedence is
+  never used.  In that case, the symbol can be safely declared with %token
+  instead, without modifying the parsing tables.  For example:
+
+    %precedence '='
+    %%
+    exp: "var" '=' "num";
+
+  will produce a
+
+    warning: useless precedence for '=' [-Wprecedence]
+     %precedence '='
+                 ^^^
+
+*** Useless precedence and associativity
+
+  In case of both useless precedence and associativity, the issue is flagged
+  as follows:
+
+    %nonassoc '='
+    %%
+    exp: "var" '=' "num";
+
+  The warning is:
+
+    warning: useless precedence and associativity for '=' [-Wprecedence]
+     %nonassoc '='
+               ^^^
 
 * Noteworthy changes in release 2.7 (2012-12-12) [stable]
 
