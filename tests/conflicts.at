@@ -17,40 +17,6 @@
 
 AT_BANNER([[Conflicts.]])
 
-## ------------------------------- ##
-## Useless associativity warning.  ##
-## ------------------------------- ##
-
-AT_SETUP([Useless associativity warning])
-
-AT_DATA([[input.y]],
-[[%nonassoc "="
-%left "+"
-%left "*"
-%precedence "("
-%%
-stmt:
-  exp
-| "var" "=" exp
-;
-
-exp:
-  exp "+" exp
-| exp "*" "num"
-| "(" exp ")"
-| "num"
-;
-]])
-
-AT_BISON_CHECK([-Wprecedence input.y], 0, [],
-[[input.y:1.11-13: warning: useless precedence and associativity for "=" [-Wprecedence]
-input.y:3.7-9: warning: useless associativity for "*", use %precedence [-Wprecedence]
-input.y:4.13-15: warning: useless precedence for "(" [-Wprecedence]
-]])
-
-AT_CLEANUP
-
-
 ## ------------------------- ##
 ## Token declaration order.  ##
 ## ------------------------- ##
@@ -117,6 +83,40 @@ AT_COMPILE([input])
 AT_PARSER_CHECK([./input])
 
 AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+
+
+## ------------------------------- ##
+## Useless associativity warning.  ##
+## ------------------------------- ##
+
+AT_SETUP([Useless associativity warning])
+
+AT_DATA([[input.y]],
+[[%nonassoc "="
+%left "+"
+%left "*"
+%precedence "("
+%%
+stmt:
+  exp
+| "var" "=" exp
+;
+
+exp:
+  exp "+" exp
+| exp "*" "num"
+| "(" exp ")"
+| "num"
+;
+]])
+
+AT_BISON_CHECK([-Wprecedence input.y], 0, [],
+[[input.y:1.11-13: warning: useless precedence and associativity for "=" [-Wprecedence]
+input.y:3.7-9: warning: useless associativity for "*", use %precedence [-Wprecedence]
+input.y:4.13-15: warning: useless precedence for "(" [-Wprecedence]
+]])
 
 AT_CLEANUP
 
