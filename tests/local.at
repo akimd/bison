@@ -982,8 +982,8 @@ $9
 # There is no "" around `wc` since some indent the result.
 m4_bmatch([$4], [%define lr.type canonical-lr],
 [if test 32767 -lt `wc -l < input.c`; then
-  CFLAGS=`echo " $CFLAGS " | sed -e 's/ -pedantic //'`
-  CXXFLAGS=`echo " $CXXFLAGS " | sed -e 's/ -pedantic //'`
+  CFLAGS=`echo " $CFLAGS " | sed -e 's/ -pedantic / /'`
+  CXXFLAGS=`echo " $CXXFLAGS " | sed -e 's/ -pedantic / /'`
 fi])
 AT_COMPILE([[input]])
 
