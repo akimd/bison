@@ -298,6 +298,8 @@ GNU Bison NEWS
 
 ** Useless precedence and associativity
 
+  Contributed by Valentin Tolmer.
+
   When developping and maintaining a grammar, useless associativity and
   precedence directives are common.  They can be a nuisance: new ambiguities
   arising are sometimes masked because their conflicts are resolved due to
