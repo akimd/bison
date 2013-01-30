@@ -69,5 +69,7 @@ nodist_examples_calc___calc___SOURCES =		\
   $(calc_sources)
 
 examples_calc___calc___CPPFLAGS = -I$(top_builddir)/examples/calc++
+examples_calc___calc___CXXFLAGS =			\
+  $(AM_CXXFLAGS) $(WARN_NO_NULL_CONVERSION_CXXFLAGS)
 dist_TESTS += examples/calc++/calc++.test
 endif
