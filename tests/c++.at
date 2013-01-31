@@ -28,7 +28,7 @@ AT_KEYWORDS([variant])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
 # Store strings and integers in a list of strings.
-AT_DATA_GRAMMAR([list.yy],
+AT_DATA_GRAMMAR([list.y],
 [[%skeleton "lalr1.cc"
 %define api.value.type variant
 %define parse.assert
@@ -92,8 +92,7 @@ int main()
 }
 ]])
 
-AT_BISON_CHECK([-o list.cc list.yy])
-AT_COMPILE_CXX([list], [list.cc])
+AT_FULL_COMPILE([list])
 AT_PARSER_CHECK([./list], 0, [],
 [12
 123
@@ -115,7 +114,7 @@ m4_pushdef([AT_TEST],
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
 # Store strings and integers in a list of strings.
-AT_DATA_GRAMMAR([list.yy],
+AT_DATA_GRAMMAR([list.y],
 [[%debug
 %skeleton "lalr1.cc"
 %define api.value.type variant
@@ -250,8 +249,7 @@ namespace yy
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([-o list.cc list.yy])
-AT_COMPILE_CXX([list], [list.cc])
+AT_FULL_COMPILE([list])
 AT_PARSER_CHECK([./list], 0,
 [(0, 1, 2, 4)
 ])
