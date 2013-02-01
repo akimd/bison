@@ -223,7 +223,7 @@ m4_define([b4_variant_define],
     } buffer;]b4_parse_assert_if([
 
     /// Whether the content is built: if defined, the name of the stored type.
-    const char* tname;])[
+    const char *tname;])[
   };
 ]])
 
