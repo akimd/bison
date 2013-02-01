@@ -40,7 +40,7 @@
 static YYLTYPE lloc_default (YYLTYPE const *, int);
 
 #define YY_LOCATION_PRINT(File, Loc) \
-          location_print (File, Loc)
+          location_print (Loc, File)
 
 static void version_check (location const *loc, char const *version);
 

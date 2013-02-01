@@ -100,14 +100,14 @@ void location_compute (location *loc,
 
 /* Print location to file. Return number of actually printed
    characters.  */
-unsigned location_print (FILE *out, location loc);
+unsigned location_print (location loc, FILE *out);
 
 /* Free any allocated ressources and close any open file handles that are
    left-over by the usage of location_caret.  */
 void cleanup_caret (void);
 
 /* Output to OUT the line and caret corresponding to location LOC.  */
-void location_caret (FILE *out, location loc);
+void location_caret (location loc, FILE *out);
 
 /* Return -1, 0, 1, depending whether a is before, equal, or
    after b.  */
