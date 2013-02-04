@@ -1538,6 +1538,7 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 @example
 /* Reverse polish notation calculator.  */
 
+@group
 %@{
   #define YYSTYPE double
   #include <stdio.h>
@@ -1545,6 +1546,7 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
   int yylex (void);
   void yyerror (char const *);
 %@}
+@end group
 
 %token NUM
 
@@ -2857,21 +2859,27 @@ can be done with two @var{Prologue} blocks, one before and one after the
 @code{%union} declaration.
 
 @example
+@group
 %@{
   #define _GNU_SOURCE
   #include <stdio.h>
   #include "ptypes.h"
 %@}
+@end group
 
+@group
 %union @{
   long int n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
+@end group
 
+@group
 %@{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
 %@}
+@end group
 
 @dots{}
 @end example
@@ -2903,21 +2911,27 @@ location, or it can be one of @code{requires}, @code{provides},
 Look again at the example of the previous section:
 
 @example
+@group
 %@{
   #define _GNU_SOURCE
   #include <stdio.h>
   #include "ptypes.h"
 %@}
+@end group
 
+@group
 %union @{
   long int n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
+@end group
 
+@group
 %@{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
 %@}
+@end group
 
 @dots{}
 @end example
@@ -2969,16 +2983,20 @@ Let's go ahead and add the new @code{YYLTYPE} definition and the
   @} YYLTYPE;
 @}
 
+@group
 %union @{
   long int n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
+@end group
 
+@group
 %code @{
   static void print_token_value (FILE *, int, YYSTYPE);
   #define YYPRINT(F, N, L) print_token_value (F, N, L)
   static void trace_token (enum yytokentype token, YYLTYPE loc);
 @}
+@end group
 
 @dots{}
 @end example
