@@ -117,10 +117,10 @@ m4_define([b4_token_enums],
 # Declare semantic_type.
 m4_define([b4_semantic_type_declare],
 [    /// Symbol semantic values.
-m4_ifdef([b4_stype],
+m4_ifdef([b4_union_members],
 [    union semantic_type
     {
-b4_user_stype
+b4_user_union_members
     };],
 [m4_if(b4_tag_seen_flag, 0,
 [[    typedef int semantic_type;]],

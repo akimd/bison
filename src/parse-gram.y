@@ -438,7 +438,7 @@ grammar_declaration:
   "%union" union_name braceless
     {
       union_seen = true;
-      muscle_code_grow ("stype", $3, @3);
+      muscle_code_grow ("union_members", $3, @3);
       code_scanner_last_string_free ();
     }
 ;

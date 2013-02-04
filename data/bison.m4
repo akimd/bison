@@ -577,14 +577,14 @@ m4_define([b4_define_user_code],
 # b4_user_initial_action
 # b4_user_post_prologue
 # b4_user_pre_prologue
-# b4_user_stype
+# b4_user_union_members
 # ----------------------
 # Macros that issue user code, ending with synclines.
 b4_define_user_code([actions])
 b4_define_user_code([initial_action])
 b4_define_user_code([post_prologue])
 b4_define_user_code([pre_prologue])
-b4_define_user_code([stype])
+b4_define_user_code([union_members])
 
 
 # b4_check_user_names(WHAT, USER-LIST, BISON-NAMESPACE)

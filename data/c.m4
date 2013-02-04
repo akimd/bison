@@ -501,11 +501,11 @@ b4_locations_if([, yylocationp])[]b4_user_args[);
 m4_define([b4_value_type_define],
 [[/* Value type.  */
 #if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-]m4_ifdef([b4_stype],
+]m4_ifdef([b4_union_members],
 [[typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
 union ]b4_union_name[
 {
-]b4_user_stype[
+]b4_user_union_members[
 };
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1]],
 [m4_if(b4_tag_seen_flag, 0,
