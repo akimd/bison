@@ -44,13 +44,9 @@ static YYLTYPE lloc_default (YYLTYPE const *, int);
 
 static void version_check (location const *loc, char const *version);
 
-/* Request detailed syntax error messages, and pass them to GRAM_ERROR.
-   FIXME: depends on the undocumented availability of YYLLOC.  */
-#undef  yyerror
-#define yyerror(Msg) \
-        gram_error (&yylloc, Msg)
 static void gram_error (location const *, char const *);
 
+/// A string that describes a char (e.g., 'a' -> "'a'").
 static char const *char_name (char);
 %}
 
@@ -88,7 +84,7 @@ static char const *char_name (char);
 }
 
 %define api.prefix "gram_"
-%define api.pure
+%define api.pure full
 %define locations
 %define parse.error verbose
 %define parse.lac full
