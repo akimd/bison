@@ -64,7 +64,7 @@ static char const *char_name (char);
    */
   static
   void
-  current_lhs(symbol *sym, location loc, named_ref *ref)
+  current_lhs (symbol *sym, location loc, named_ref *ref)
   {
     current_lhs_symbol = sym;
     current_lhs_location = loc;
@@ -250,9 +250,9 @@ static char const *char_name (char);
     {
 #define CASE(In, Out)                                           \
       case param_ ## In: fputs ("%" #Out, stderr); break
-      CASE(lex,   lex-param);
-      CASE(parse, parse-param);
-      CASE(both,  param);
+      CASE (lex,   lex-param);
+      CASE (parse, parse-param);
+      CASE (both,  param);
 #undef CASE
       case param_none: aver (false); break;
     }
@@ -626,7 +626,7 @@ rhs:
 named_ref.opt:
   /* Nothing. */ { $$ = 0; }
 |
-  BRACKETED_ID   { $$ = named_ref_new($1, @1); }
+  BRACKETED_ID   { $$ = named_ref_new ($1, @1); }
 ;
 
 /*---------------------------.
