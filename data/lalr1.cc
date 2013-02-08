@@ -17,6 +17,8 @@
 
 m4_include(b4_pkgdatadir/[c++.m4])
 
+# api.value.type=variant is valid.
+m4_define([b4_value_type_setup_variant])
 
 # b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
 # --------------------------------------------------------------
@@ -42,9 +44,11 @@ m4_define([b4_integral_parser_table_define],
 # b4_symbol_value_template(VAL, [TYPE])
 # -------------------------------------
 # Same as b4_symbol_value, but used in a template method.  It makes
-# a difference when using variants.
+# a difference when using variants.  Note that b4_value_type_setup_union
+# overrides b4_symbol_value, so we must override it again.
 m4_copy([b4_symbol_value], [b4_symbol_value_template])
-
+m4_append([b4_value_type_setup_union],
+          [m4_copy_force([b4_symbol_value_union], [b4_symbol_value_template])])
 
 # b4_lhs_value([TYPE])
 # --------------------

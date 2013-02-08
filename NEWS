@@ -252,6 +252,77 @@ GNU Bison NEWS
   use these prefixed token names, although the grammar itself still
   uses the short names (as in the sample rule given above).
 
+** Variable api.value.type
+
+  This new %define variable supersedes the #define macro YYSTYPE.  The use
+  of YYSTYPE is discouraged.  In particular, #defining YYSTYPE *and* either
+  using %union or %defining api.value.type results in undefined behavior.
+
+  Either define api.value.type, or use "%union":
+
+    %union
+    {
+      int ival;
+      char *sval;
+    }
+    %token <ival> INT "integer"
+    %token <sval> STRING "string"
+    %printer { fprintf (yyo, "%d", $$); } <ival>
+    %destructor { free ($$); } <sval>
+
+    /* In yylex().  */
+    yylval.ival = 42; return INT;
+    yylval.sval = "42"; return STRING;
+
+  The %define variable api.value.type supports several special values.  The
+  value "union" means that the user provides genuine types, not union member
+  names such as "ival" and "sval" above.
+
+    %define api.value.type "union"
+    %token <int> INT "integer"
+    %token <char *> STRING "string"
+    %printer { fprintf (yyo, "%d", $$); } <int>
+    %destructor { free ($$); } <char *>
+
+    /* In yylex().  */
+    yylval.INT = 42; return INT;
+    yylval.STRING = "42"; return STRING;
+
+  The value "variant" is somewhat equivalent, but for C++ special provision
+  is made to allow classes to be used (more about this below).
+
+    %define api.value.type "variant"
+    %token <int> INT "integer"
+    %token <std::string> STRING "string"
+
+  Any other name is a user type to use.  This is where YYSTYPE used to be
+  used.
+
+    %code requires
+    {
+      struct my_value
+      {
+        enum
+        {
+          is_int, is_string
+        } kind;
+        union
+        {
+          int ival;
+          char *sval;
+        } u;
+      };
+    }
+    %define api.value.type "struct my_value"
+    %token <u.ival> INT "integer"
+    %token <u.sval> STRING "string"
+    %printer { fprintf (yyo, "%d", $$); } <u.ival>
+    %destructor { free ($$); } <u.sval>
+
+    /* In yylex().  */
+    yylval.u.ival = 42; return INT;
+    yylval.u.sval = "42"; return STRING;
+
 ** Variable parse.error
 
   This variable controls the verbosity of error messages.  The use of the
@@ -2536,7 +2607,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Wprecedence Rassoul Wempty Paolo Bonzini parser's Michiel loc
  LocalWords:  redeclaration sval fcaret reentrant XSLT xsl Wmaybe yyvsp Tedi
  LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
- LocalWords:  Alexandre MERCHANTABILITY
+ LocalWords:  Alexandre MERCHANTABILITY yytype
 
 Local Variables:
 mode: outline

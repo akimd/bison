@@ -5586,6 +5586,7 @@ Summary,,%skeleton}).
 Unaccepted @var{variable}s produce an error.
 Some of the accepted @var{variable}s are described below.
 
+@c ================================================== api.namespace
 @deffn Directive {%define api.namespace} @{@var{namespace}@}
 @itemize
 @item Languages(s): C++
@@ -5812,14 +5813,89 @@ introduced in Bison 2.8
 @deffn Directive {%define api.value.type} @var{type}
 @itemize @bullet
 @item Language(s):
-C++
+all
 
 @item Purpose:
-Request variant-based semantic values.
+The type for semantic values.
+
+@item Accepted Values:
+@table @asis
+@item @code{""}
+This grammar has no semantic value at all.  This is not properly supported
+yet.
+@item @code{%union} (C, C++)
+The type is defined thanks to the @code{%union} directive.  You don't have
+to define @code{api.value.type} in that case, using @code{%union} suffices.
+@xref{Union Decl, ,The Collection of Value Types}.
+For instance:
+@example
+%define api.value.type "%union"
+%union
+@{
+  int ival;
+  char *sval;
+@}
+%token <ival> INT "integer"
+%token <sval> STR "string"
+@end example
+
+@item @code{union} (C, C++)
+The symbols are defined with type names, from which Bison will generate a
+@code{union}.  For instance:
+@example
+%define api.value.type "union"
+%token <int> INT "integer"
+%token <char *> STR "string"
+@end example
+This feature needs user feedback to stabilize.  Note that most C++ objects
+cannot be stored in a @code{union}.
+
+@item @code{variant} (C++)
+This is similar to @code{union}, but special storage techniques are used to
+allow any kind of C++ object to be used. For instance:
+@example
+%define api.value.type "variant"
+%token <int> INT "integer"
+%token <std::string> STR "string"
+@end example
+This feature needs user feedback to stabilize.
 @xref{C++ Variants}.
 
+@item any other identifier
+Use this name as semantic value.
+@example
+%code requires
+@{
+  struct my_value
+  @{
+    enum
+    @{
+      is_int, is_str
+    @} kind;
+    union
+    @{
+      int ival;
+      char *sval;
+    @} u;
+  @};
+@}
+%define api.value.type "struct my_value"
+%token <u.ival> INT "integer"
+%token <u.sval> STR "string"
+@end example
+@end table
+
 @item Default Value:
-FIXME:
+@itemize @minus
+@item
+@code{%union} if @code{%union} is used, otherwise @dots{}
+@item
+@code{int} if type tags are used (i.e., @samp{%token <@var{type}>@dots{}} or
+@samp{%token <@var{type}>@dots{}} is used), otherwise @dots{}
+@item
+@code{""}
+@end itemize
+
 @item History:
 introduced in Bison 2.8.  Was introduced for Java only in 2.3b as
 @code{stype}.

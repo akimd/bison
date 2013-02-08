@@ -361,6 +361,7 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 #   Whether the symbol has an id.
 # - id: string
 #   If has_id, the id.  Guaranteed to be usable as a C identifier.
+#   Prefixed by api.token.prefix if defined.
 # - tag: string.
 #   A representat of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
 # - user_number: integer
@@ -371,9 +372,13 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 #   The internalized number (used after yytranslate).
 # - has_type: 0, 1
 #   Whether has a semantic value.
+# - type_tag: string
+#   When api.value.type=union, the generated name for the union member.
+#   yytype_INT etc. for symbols that has_id, otherwise yytype_1 etc.
 # - type
 #   If it has a semantic value, its type tag, or, if variant are used,
 #   its type.
+#   In the case of api.value.type=union, type is the real type (e.g. int).
 # - has_printer: 0, 1
 # - printer: string
 # - printer_file: string
@@ -962,3 +967,10 @@ b4_percent_define_ifdef([api.prefix],
                 [['%s' and '%s' cannot be used together]],
                 [%name-prefix],
                 [%define api.prefix])])])
+
+b4_percent_define_ifdef([api.value.type],
+[m4_ifdef([b4_union_members],
+[b4_complain_at(b4_percent_define_get_loc([api.value.type]),
+                [['%s' and '%s' cannot be used together]],
+                [%union],
+                [%define api.value.type])])])

@@ -63,7 +63,8 @@ TESTSUITE_AT =                                  \
   tests/sets.at                                 \
   tests/skeletons.at                            \
   tests/synclines.at                            \
-  tests/torture.at
+  tests/torture.at                              \
+  tests/types.at
 
 TESTSUITE = $(top_srcdir)/tests/testsuite
 

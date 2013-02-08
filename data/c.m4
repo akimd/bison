@@ -492,28 +492,127 @@ b4_locations_if([, yylocationp])[]b4_user_args[);
 }]dnl
 ])
 
+
+## ---------------- ##
+## api.value.type.  ##
+## ---------------- ##
+
+
+# ---------------------- #
+# api.value.type=union.  #
+# ---------------------- #
+
+# b4_symbol_type_register(SYMBOL-NUM)
+# -----------------------------------
+# Symbol SYMBOL-NUM has a type (for variant) instead of a type-tag.
+# Extend the definition of %union's body with a field of that type,
+# and extend the symbol's "type" field to point to the field name,
+# instead of the type name.
+m4_define([b4_symbol_type_register],
+[m4_define([b4_symbol($1, type_tag)],
+           [b4_symbol_if([$1], [has_id],
+                         [b4_symbol([$1], [id])],
+                         [yytype_[]b4_symbol([$1], [number])])])dnl
+m4_append([b4_user_union_members],
+m4_expand([
+  b4_symbol_tag_comment([$1])dnl
+  b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]))
+])
+
+
+# b4_type_define_tag(SYMBOL1-NUM, ...)
+# ------------------------------------
+# For the batch of symbols SYMBOL1-NUM... (which all have the same
+# type), enhance the %union definition for each of them, and set
+# there "type" field to the field tag name, instead of the type name.
+m4_define([b4_type_define_tag],
+[b4_symbol_if([$1], [has_type],
+              [m4_map([b4_symbol_type_register], [$@])])
+])
+
+
+# b4_symbol_value_union(VAL, [TYPE])
+# ----------------------------------
+# Same of b4_symbol_value, but when api.value.type=union.
+m4_define([b4_symbol_value_union],
+[m4_ifval([$2],
+          [(*($2*)(&$1))],
+          [$1])])
+])
+
+
+# b4_value_type_setup_union
+# -------------------------
+# Setup support for api.value.type=union.  Symbols are defined with a
+# type instead of a union member name: build the corresponding union,
+# and give the symbols their tag.
+m4_define([b4_value_type_setup_union],
+[m4_define([b4_union_members])
+b4_type_foreach([b4_type_define_tag])
+m4_copy_force([b4_symbol_value_union], [b4_symbol_value])
+])
+
+
+# ---------------- #
+# api.value.type.  #
+# ---------------- #
+
+
+# b4_value_type_setup_variant
+# ---------------------------
+# Setup support for api.value.type=variant.  By default, fail, specialized
+# by other skeletons.
+m4_define([b4_value_type_setup_variant],
+[b4_complain_at(b4_percent_define_get_loc([api.value.type]),
+                [['%s' does not support '%s']],
+                [b4_skeleton],
+                [%define api.value.type variant])])
+
+
+# b4_value_type_setup
+# -------------------
+# Check if api.value.type is properly defined, and possibly prepare
+# its use.
+m4_define([b4_value_type_setup],
+[b4_percent_define_default([[api.value.type]],
+[m4_ifdef([b4_union_members], [%union],
+          [m4_if(b4_tag_seen_flag, 0, [int],
+                 [])])])dnl
+m4_case(b4_percent_define_get([api.value.type]),
+   [union],   [b4_value_type_setup_union],
+   [variant], [b4_value_type_setup_variant])])
+
+
+
 ## -------------- ##
 ## Declarations.  ##
 ## -------------- ##
 
+
 # b4_value_type_define
 # --------------------
 m4_define([b4_value_type_define],
-[[/* Value type.  */
-#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-]m4_ifdef([b4_union_members],
-[[typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
+[b4_value_type_setup[]dnl
+/* Value type.  */
+m4_bmatch(b4_percent_define_get([api.value.type]),
+[^%?union$],
+[[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
+typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
 union ]b4_union_name[
 {
 ]b4_user_union_members[
 };
-# define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1]],
-[m4_if(b4_tag_seen_flag, 0,
-[[typedef int ]b4_api_PREFIX[STYPE;
-# define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1]])])[
+# define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif
-]])
+]],
+[^$], [],
+[[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
+typedef ]b4_percent_define_get([api.value.type])[ ]b4_api_PREFIX[STYPE;
+# define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
+# define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
+#endif
+]])])
 
 
 # b4_location_type_define

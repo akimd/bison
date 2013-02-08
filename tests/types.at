@@ -1,0 +1,171 @@
+# Value type.                                     -*- Autotest -*-
+
+# Copyright (C) 2013 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+AT_BANNER([[Value type tests.]])
+
+
+## ----------------------------------- ##
+## %union vs. %define api.value.type.  ##
+## ----------------------------------- ##
+
+AT_SETUP([[%union vs. %define api.value.type]])
+
+AT_DATA([[input.y]],
+[[%union { int ival; }
+%define api.value.type "%union"
+%%
+exp: %empty;
+]])
+
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[[input.y:2.9-22: error: '%union' and '%define api.value.type' cannot be used together
+]])
+
+AT_CLEANUP
+
+## ---------------- ##
+## api.value.type.  ##
+## ---------------- ##
+
+# AT_TEST($1: BISON-DIRECTIVES,
+#         $2: MORE-BISON-DIRECTIVES,
+#         $3: PARSER-ACTION,
+#         $4: INPUT, $5: SCANNER-ACTION,
+#         $6: RESULT)
+# --------------------------------------
+# Compile the grammar and check the expected result.
+# BISON-DIRECTIVES are passed to AT_SETUP, contrary to MORE-BISON-DIRECTIVES.
+m4_pushdef([AT_TEST],
+[
+AT_SETUP([$1])
+AT_KEYWORDS([api.value.type])
+AT_BISON_OPTION_PUSHDEFS([$1 $2])
+AT_DATA_GRAMMAR([test.y],
+[[%debug
+
+%code
+{
+# include <stdio.h>
+# include <stdlib.h>
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+
+]$1[
+]$2[
+
+%%
+
+start: $3;
+
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE([$4], [$5])[
+]AT_MAIN_DEFINE[
+]])
+
+AT_FULL_COMPILE([[test]])
+AT_PARSER_CHECK([./test], 0, [$6
+], [stderr])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
+ [# A built-in type.
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type double],
+          [],
+          ['1' '2' { printf ("%2.1f\n", $1 + $2); }],
+          ["12"],
+          [AT_VAL = (res - '0') / 10.0],
+          [0.3])
+
+  # A user defined struct.
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type "struct foo"],
+          [%code requires { struct foo { float fval; int ival; }; }],
+          ['1' '2'
+             { printf ("%d %2.1f\n", $1.ival + $2.ival, $1.fval + $2.fval); }],
+          ["12"],
+          [AT_VAL.ival = (res - '0') * 10;
+           AT_VAL.fval = (res - '0') / 10.f],
+          [30 0.3])
+
+  # A user defined union.
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type "union foo"],
+          [%code requires { union foo { float fval; int ival; }; }],
+          ['1' '2' { printf ("%d %2.1f\n", $1.ival, $2.fval); }],
+          ["12"],
+          [if (res == '1')
+             AT_VAL.ival = 10;
+           else
+             AT_VAL.fval = .2f],
+          [10 0.2])
+
+  # A %union.
+  AT_TEST([%skeleton "]b4_skel["
+           %union { float fval; int ival; };],
+          [%token <ival> '1';
+           %token <fval> '2';],
+          ['1' '2' { printf ("%d %2.1f\n", $1, $2); }],
+          ["12"],
+          [if (res == '1')
+             AT_VAL.ival = 10;
+           else
+             AT_VAL.fval = 0.2f],
+          [10 0.2])
+
+  # A Bison-defined union.
+  # The tokens names are not available directly in C++, we use their
+  # user number to keep it simple between C and C++.
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type union],
+          [%token <int> ONE 101;
+           %token <float> TWO 102 THREE 103;
+           %printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
+                                     [[fprintf (yyo, "%d", $$)]])[; } <int>
+           %printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
+                                     [[fprintf (yyo, "%f", $$)]])[; } <float>
+          ],
+          [ONE TWO THREE { printf ("%d %2.1f %2.1f\n", $1, $2, $3); }],
+          [{ 101, 102, 103, EOF }],
+          [if (res == 101)
+             AT_VAL.ONE = 10;
+           else if (res == 102)
+             AT_VAL.TWO = .2f;
+           else if (res == 103)
+             AT_VAL.THREE = 3.3f],
+          [10 0.2 3.3])
+
+  # A Bison-defined variant, for lalr1.cc only.
+  m4_if(b4_skel, [lalr1.cc], [
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type variant],
+          [%token <int> '1';
+           %token <std::string> '2';],
+          ['1' '2' { std::cout << $1 << ", " << $2 << std::endl; }],
+          ["12"],
+          [if (res == '1')
+             AT_VAL.build(10);
+           else
+             AT_VAL.build<std::string>("two");],
+          [10, two])])
+])
+
+m4_popdef([AT_TEST])

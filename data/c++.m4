@@ -118,15 +118,16 @@ m4_define([b4_token_enums],
 # ---------------------
 # Declare semantic_type.
 m4_define([b4_value_type_declare],
+[b4_value_type_setup[]dnl
 [    /// Symbol semantic values.
-m4_ifdef([b4_union_members],
-[    union semantic_type
+]m4_bmatch(b4_percent_define_get([api.value.type]),
+[^%union\|union$],
+[[    union semantic_type
     {
-b4_user_union_members
-    };],
-[m4_if(b4_tag_seen_flag, 0,
-[[    typedef int semantic_type;]],
-[[    typedef ]b4_api_PREFIX[STYPE semantic_type;]])])])
+]b4_user_union_members[
+    };]],
+[^$], [],
+[[    typedef ]b4_percent_define_get([api.value.type])[ semantic_type;]])])
 
 
 # b4_public_types_declare
