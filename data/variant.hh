@@ -244,10 +244,10 @@ m4_define([b4_variant_define],
 ## -------------------------- ##
 
 
-# b4_semantic_type_declare
-# ------------------------
+# b4_value_type_declare
+# ---------------------
 # Declare semantic_type.
-m4_define([b4_semantic_type_declare],
+m4_define([b4_value_type_declare],
 [    /// An auxiliary type to compute the largest semantic type.
     union union_type
     {]b4_type_foreach([b4_char_sizeof])[};
@@ -328,7 +328,7 @@ b4_join(b4_symbol_if([$1], [has_type],
 
 
 # b4_basic_symbol_constructor_declare
-# ----------------------------------
+# -----------------------------------
 # Generate a constructor declaration for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_declare],
 [[

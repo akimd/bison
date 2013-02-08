@@ -112,10 +112,12 @@ m4_define([b4_token_enums],
 ## Semantic Values.  ##
 ## ----------------- ##
 
-# b4_semantic_type_declare
-# ------------------------
+
+
+# b4_value_type_declare
+# ---------------------
 # Declare semantic_type.
-m4_define([b4_semantic_type_declare],
+m4_define([b4_value_type_declare],
 [    /// Symbol semantic values.
 m4_ifdef([b4_union_members],
 [    union semantic_type
@@ -133,7 +135,7 @@ b4_user_union_members
 # Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
 [[#ifndef ]b4_api_PREFIX[STYPE
-]b4_semantic_type_declare[
+]b4_value_type_declare[
 #else
     typedef ]b4_api_PREFIX[STYPE semantic_type;
 #endif]b4_locations_if([
