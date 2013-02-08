@@ -30,7 +30,7 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-*** The epilogue is no longer affected by internal #defines
+*** The epilogue is no longer affected by internal #defines (glr.c)
 
   The glr.c skeleton uses defines such as #define yylval (yystackp->yyval) in
   generated code.  These weren't properly undefined before the inclusion of
@@ -213,45 +213,6 @@ GNU Bison NEWS
 
     %param {arg1_type *arg1} {arg2_type *arg2}
 
-** Java skeleton improvements
-
-  Contributed by Paolo Bonzini.
-
-  The constants for token names were moved to the Lexer interface.  Also, it
-  is possible to add code to the parser's constructors using "%code init"
-  and "%define init_throws".
-
-** C++ skeletons improvements
-
-*** The parser header is no longer mandatory (lalr1.cc, glr.cc)
-
-  Using %defines is now optional.  Without it, the needed support classes
-  are defined in the generated parser, instead of additional files (such as
-  location.hh, position.hh and stack.hh).
-
-*** Locations are no longer mandatory (lalr1.cc, glr.cc)
-
-  Both lalr1.cc and glr.cc no longer require %location.
-
-*** syntax_error exception (lalr1.cc)
-
-  The C++ parser features a syntax_error exception, which can be
-  thrown from the scanner or from user rules to raise syntax errors.
-  This facilitates reporting errors caught in sub-functions (e.g.,
-  rejecting too large integral literals from a conversion function
-  used by the scanner, or rejecting invalid combinations from a
-  factory invoked by the user actions).
-
-** Renamed %define variables
-
-  The following variables have been renamed for consistency.  Backward
-  compatibility is ensured, but upgrading is recommended.
-
-    lr.default-reductions      -> lr.default-reduction
-    lr.keep-unreachable-states -> lr.keep-unreachable-state
-    namespace                  -> api.namespace
-    stype                      -> api.value.type
-
 ** Variable api.token.prefix
 
   The variable api.token.prefix changes the way tokens are identified in
@@ -273,6 +234,16 @@ GNU Bison NEWS
   This variable controls the verbosity of error messages.  The use of the
   %error-verbose directive is deprecated in favor of "%define parse.error
   verbose".
+
+** Renamed %define variables
+
+  The following variables have been renamed for consistency.  Backward
+  compatibility is ensured, but upgrading is recommended.
+
+    lr.default-reductions      -> lr.default-reduction
+    lr.keep-unreachable-states -> lr.keep-unreachable-state
+    namespace                  -> api.namespace
+    stype                      -> api.value.type
 
 ** Semantic predicates
 
@@ -367,6 +338,81 @@ GNU Bison NEWS
     warning: useless precedence and associativity for '=' [-Wprecedence]
      %nonassoc '='
                ^^^
+
+** Java skeleton improvements
+
+  Contributed by Paolo Bonzini.
+
+  The constants for token names were moved to the Lexer interface.  Also, it
+  is possible to add code to the parser's constructors using "%code init"
+  and "%define init_throws".
+
+** C++ skeletons improvements
+
+*** The parser header is no longer mandatory (lalr1.cc, glr.cc)
+
+  Using %defines is now optional.  Without it, the needed support classes
+  are defined in the generated parser, instead of additional files (such as
+  location.hh, position.hh and stack.hh).
+
+*** Locations are no longer mandatory (lalr1.cc, glr.cc)
+
+  Both lalr1.cc and glr.cc no longer require %location.
+
+*** syntax_error exception (lalr1.cc)
+
+  The C++ parser features a syntax_error exception, which can be
+  thrown from the scanner or from user rules to raise syntax errors.
+  This facilitates reporting errors caught in sub-functions (e.g.,
+  rejecting too large integral literals from a conversion function
+  used by the scanner, or rejecting invalid combinations from a
+  factory invoked by the user actions).
+
+*** %define api.value.type variant
+
+  This is based on a submission from Michiel De Wilde.  With help
+  from Théophile Ranquet.
+
+  In this mode, complex C++ objects can be used as semantic values.  For
+  instance:
+
+    %token <::std::string> TEXT;
+    %token <int> NUMBER;
+    %token SEMICOLON ";"
+    %type <::std::string> item;
+    %type <::std::list<std::string>> list;
+    %%
+    result:
+      list  { std::cout << $1 << std::endl; }
+    ;
+
+    list:
+      /* nothing */ { /* Generates an empty string list */ }
+    | list item ";" { std::swap ($$, $1); $$.push_back ($2); }
+    ;
+
+    item:
+      TEXT    { std::swap ($$, $1); }
+    | NUMBER  { $$ = string_cast ($1); }
+    ;
+
+*** %define api.token.constructor
+
+  When variants are enabled, Bison can generate functions to build the
+  tokens.  This guarantees that the token type (e.g., NUMBER) is consistent
+  with the semantic value (e.g., int):
+
+    parser::symbol_type yylex ()
+    {
+      parser::location_type loc = ...;
+      ...
+      return parser::make_TEXT ("Hello, world!", loc);
+      ...
+      return parser::make_NUMBER (42, loc);
+      ...
+      return parser::make_SEMICOLON (loc);
+      ...
+    }
 
 * Noteworthy changes in release 2.7 (2012-12-12) [stable]
 
