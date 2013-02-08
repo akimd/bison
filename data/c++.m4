@@ -520,3 +520,13 @@ m4_define([b4_yylloc_default_define],
     while (/*CONSTCOND*/ false)
 # endif
 ]])
+
+## -------- ##
+## Checks.  ##
+## -------- ##
+
+b4_token_ctor_if([b4_variant_if([],
+  [b4_fatal_at(b4_percent_define_get_loc(api.token.constructor),
+               [cannot use '%s' without '%s'],
+               [%define api.token.constructor],
+               [%define api.value.type variant]))])])
