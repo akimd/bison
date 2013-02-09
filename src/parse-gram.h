@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.7.1081-93af.  */
+/* A Bison parser, made by GNU Bison 2.7.1087-c21e-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -123,7 +123,8 @@ extern int gram_debug;
     TAG_ANY = 308,
     TAG_NONE = 309,
     PERCENT_PARAM = 310,
-    PERCENT_UNION = 311
+    PERCENT_UNION = 311,
+    PERCENT_EMPTY = 312
   };
 #endif
 /* Tokens.  */
@@ -182,6 +183,7 @@ extern int gram_debug;
 #define TAG_NONE 309
 #define PERCENT_PARAM 310
 #define PERCENT_UNION 311
+#define PERCENT_EMPTY 312
 
 /* Value type.  */
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
@@ -207,7 +209,7 @@ union GRAM_STYPE
 #line 419 "src/parse-gram.y" /* yacc.c:1932  */
 code_props_type code_type;
 
-#line 211 "src/parse-gram.h" /* yacc.c:1932  */
+#line 213 "src/parse-gram.h" /* yacc.c:1932  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
