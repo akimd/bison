@@ -50,6 +50,9 @@ typedef struct symbol_list
   } content;
   location location;
 
+  /* Named reference. */
+  named_ref *named_ref;
+
   /* Proper location of the symbol, not all the rule */
   location sym_loc;
 
@@ -64,18 +67,20 @@ typedef struct symbol_list
   struct symbol_list *midrule_parent_rule;
   int midrule_parent_rhs_index;
 
+  /* ---------------------------------------------- */
+  /* Apply to the rule (attached to the LHS only).  */
+  /* ---------------------------------------------- */
+
+  /* Precedence/associativity.  */
+  symbol *ruleprec;
+
   /* The action is attached to the LHS of a rule, but action properties for
    * each RHS are also stored here.  */
   code_props action_props;
 
-  /* Precedence/associativity.  */
-  symbol *ruleprec;
   int dprec;
   int merger;
   location merger_declaration_location;
-
-  /* Named reference. */
-  named_ref *named_ref;
 
   /* The list.  */
   struct symbol_list *next;

@@ -98,8 +98,9 @@ extern location const empty_location;
 void location_compute (location *loc,
                        boundary *cur, char const *token, size_t size);
 
-/* Print location to file. Return number of actually printed
-   characters.  */
+/* Print location to file.
+   Return number of actually printed characters.
+   Warning: uses quotearg's slot 3. */
 unsigned location_print (location loc, FILE *out);
 
 /* Free any allocated ressources and close any open file handles that are
