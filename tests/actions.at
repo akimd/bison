@@ -64,6 +64,28 @@ AT_PARSER_CHECK([./input], 0,
 
 AT_CLEANUP
 
+## ----------------------- ##
+## Implicitly empty rule.  ##
+## ----------------------- ##
+
+AT_SETUP([Implicitly empty rule])
+
+AT_DATA_GRAMMAR([[1.y]],
+[[%%
+exp: a b;
+a: /* empty. */ {};
+// A mid-rule action does not count as an empty rule.
+b: {} {};
+]])
+
+AT_BISON_CHECK([-fcaret -Wempty-rule 1.y], [0], [],
+[[1.y:11.17-18: warning: empty rule without %empty [-Wempty-rule]
+ a: /* empty. */ {};
+                 ^^
+]])
+
+AT_CLEANUP
+
 ## ------------------------ ##
 ## Invalid uses of %empty.  ##
 ## ------------------------ ##

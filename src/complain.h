@@ -35,6 +35,7 @@ typedef enum
     warning_yacc,           /**< POSIXME.  */
     warning_conflicts_sr,   /**< S/R conflicts.  */
     warning_conflicts_rr,   /**< R/R conflicts.  */
+    warning_empty_rule,     /**< Implicitly empty rules.  */
     warning_deprecated,     /**< Obsolete constructs.  */
     warning_precedence,     /**< Useless precedence and associativity.  */
     warning_other,          /**< All other warnings.  */
@@ -85,6 +86,7 @@ typedef enum
     Wconflicts_sr     = 1 << warning_conflicts_sr,
     Wconflicts_rr     = 1 << warning_conflicts_rr,
     Wdeprecated       = 1 << warning_deprecated,
+    Wempty_rule       = 1 << warning_empty_rule,
     Wprecedence       = 1 << warning_precedence,
     Wother            = 1 << warning_other,
 
