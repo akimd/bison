@@ -274,7 +274,7 @@ input:
         `------------------------------------*/
 
 prologue_declarations:
-  /* Nothing */
+  %empty
 | prologue_declarations prologue_declaration
 ;
 
@@ -430,8 +430,8 @@ code_props_type:
 %token PERCENT_UNION "%union";
 
 union_name:
-  /* Nothing. */ {}
-| ID             { muscle_code_grow ("union_name", $1, @1); }
+  %empty {}
+| ID     { muscle_code_grow ("union_name", $1, @1); }
 ;
 
 grammar_declaration:
@@ -490,8 +490,8 @@ precedence_declarator:
 ;
 
 tag.opt:
-  /* Nothing. */ { current_type = NULL; }
-| TAG            { current_type = $1; tag_seen = true; }
+  %empty { current_type = NULL; }
+| TAG    { current_type = $1; tag_seen = true; }
 ;
 
 /* Just like symbols.1 but accept INT for the sake of POSIX.  */
@@ -607,7 +607,7 @@ rhses.1:
 
 %token PERCENT_EMPTY "%empty";
 rhs:
-  /* Nothing.  */
+  %empty
     { grammar_current_rule_begin (current_lhs_symbol, current_lhs_location,
                                   current_lhs_named_ref); }
 | rhs symbol named_ref.opt
@@ -627,9 +627,8 @@ rhs:
 ;
 
 named_ref.opt:
-  /* Nothing. */ { $$ = 0; }
-|
-  BRACKETED_ID   { $$ = named_ref_new ($1, @1); }
+  %empty         { $$ = 0; }
+| BRACKETED_ID   { $$ = named_ref_new($1, @1); }
 ;
 
 /*---------------------------.
@@ -645,9 +644,9 @@ variable:
 
 /* Some content or empty by default. */
 content.opt:
-  /* Nothing. */   { $$ = ""; }
-| ID { $$ = $1; }
-| STRING
+  %empty    { $$ = ""; }
+| ID        { $$ = $1; }
+| STRING    { $$ = $1; }
 ;
 
 
@@ -706,7 +705,7 @@ string_as_id:
 ;
 
 epilogue.opt:
-  /* Nothing.  */
+  %empty
 | "%%" EPILOGUE
     {
       code_props plain_code;
