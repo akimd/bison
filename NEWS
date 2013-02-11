@@ -58,6 +58,29 @@ GNU Bison NEWS
   activated by default.  The old format can still be used by invoking Bison
   with -fno-caret (or -fnone).
 
+  Some error messages that reproduced excerpts of the grammar are now using
+  the caret information only.  For instance on:
+
+    %%
+    exp: 'a' | 'a';
+
+  Bison 2.7 reports:
+
+    in.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+    in.y:2.12-14: warning: rule useless in parser due to conflicts: exp: 'a' [-Wother]
+
+  Now bison reports:
+
+    in.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+    in.y:2.12-14: warning: rule useless in parser due to conflicts [-Wother]
+     exp: 'a' | 'a';
+                ^^^
+
+  and "bison -fno-caret" reports:
+
+    in.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+    in.y:2.12-14: warning: rule useless in parser due to conflicts [-Wother]
+
 *** Enhancements of the -Werror option
 
   The -Werror=CATEGORY option is now recognized, and will treat specified
