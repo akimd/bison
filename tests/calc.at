@@ -72,10 +72,12 @@ main (int argc, const char **argv)
   int count = 0;
   int status;
 
-  /* This used to be alarm (10), but that isn't enough time for
-     a July 1995 vintage DEC Alphastation 200 4/100 system,
-     according to Nelson H. F. Beebe.  100 seconds is enough.  */
-  alarm (100);
+  /* This used to be alarm (10), but that isn't enough time for a July
+     1995 vintage DEC Alphastation 200 4/100 system, according to
+     Nelson H. F. Beebe.  100 seconds was enough for regular users,
+     but the Hydra build farm, which is heavily loaded needs more.  */
+
+  alarm (200);
 
   if (argc == 2)
     input = fopen (argv[1], "r");
@@ -88,8 +90,7 @@ main (int argc, const char **argv)
       return 3;
     }
 
-]AT_SKEL_CC_IF([], [m4_bmatch([$4], [%debug],
-[  ]AT_NAME_PREFIX[debug = 1;])])[
+]AT_SKEL_CC_IF([], [AT_DEBUG_IF([  ]AT_NAME_PREFIX[debug = 1;])])[
   status = ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([[&result, &count]])[);
   if (fclose (input))
     perror ("fclose");
