@@ -57,9 +57,6 @@ extern warnings warnings_flag;
 /** What warnings are made errors.  */
 extern warnings errors_flag;
 
-/** Display a "[-Wyacc]" like message on stderr.  */
-void warnings_print_categories (warnings warn_flags);
-
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));

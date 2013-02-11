@@ -121,6 +121,14 @@ enum feature
 /** What additional features to use.  */
 extern int feature_flag;
 
+/*------------.
+| --warning.  |
+`------------*/
+/* Null-terminated list.  */
+extern const char * const warnings_args[];
+extern const int warnings_types[];
+
+
 /** Process the command line arguments.
  *
  *  \param argc   size of \a argv
