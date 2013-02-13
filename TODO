@@ -1,27 +1,4 @@
 * Short term
-** Laxism in Bison invocation arguments:
-The flag_argmatch functions were meant to be generic. The introduction of
--Werror= in generic code is a bit troublesome, and generates weird
-behaviour. Because seeing "error=" causes Bison to match the subsequent
-categories with a generic procedure, but on a very specific variable, the
-following commands are legal, and equivalent:
-
-$ bison -Werror=yacc            # OK
-$ bison --warnings=error=yacc   # err, looks very weird?
-$ bison -rerror=itemsets        # this value of 'report' enum has a value
-                                # of '1 << 1', just like Wyacc
-$ bison --report=error=itemsets # (same)
-$ bison -ferror=caret           # (same)
-$ bison --feature=error=caret   # (same)
-
-Basically, writing -rerror={THINGS} or -ferror={FEATURE} is not prohibited,
-and results in UB.
-
-I don't think there is any reason for the user to expect anything out of
-these options (this implementation-driven behavior is not documented of
-course, as it isn't exactly a feature), so this bug isn't critical but
-should be addressed some day nonetheless.
-
 ** Graphviz display code thoughts
 The code for the --graph option is over two files: print_graph, and
 graphviz. This is because Bison used to also produce VCG graphs, but since

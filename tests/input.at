@@ -20,6 +20,25 @@ AT_BANNER([[Input Processing.]])
 # Mostly test that we are robust to mistakes.
 
 
+## ----------------- ##
+## Invalid options.  ##
+## ----------------- ##
+
+AT_SETUP([Invalid options])
+
+AT_DATA([input.y],
+[[%%
+exp: '0'
+]])
+
+# We used to accept these, as -f, --report and others were sharing
+# their code with -W.
+AT_BISON_CHECK([-ferror=caret input.y], [1], [], [ignore])
+AT_BISON_CHECK([--report=error=itemsets input.y], [1], [], [ignore])
+
+AT_CLEANUP
+
+
 ## ---------------- ##
 ## Invalid inputs.  ##
 ## ---------------- ##
