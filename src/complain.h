@@ -42,6 +42,39 @@ typedef enum
     warnings_size           /**< The number of warnings.  Must be last.  */
   } warning_bit;
 
+/** Whether -Werror was set. */
+extern bool warnings_are_errors;
+
+/** Decode a single argument from -W.
+ *
+ *  \param arg      the subarguments to decode.
+ *                  If null, then activate all the flags.
+ *  \param no       length of the potential "no-" prefix.
+ *                  Can be 0 or 3. If 3, negate the action of the subargument.
+ *  \param err      length of a potential "error=".
+ *                  Can be 0 or 6. If 6, treat the subargument as a CATEGORY.
+ *
+ *  If VALUE != 0 then KEY sets flags and no-KEY clears them.
+ *  If VALUE == 0 then KEY clears all flags from \c all and no-KEY sets all
+ *  flags from \c all.  Thus no-none = all and no-all = none.
+ */
+void warning_argmatch (char const *arg, size_t no, size_t err);
+
+/** Decode a comma-separated list of arguments from -W.
+ *
+ *  \param args     comma separated list of effective subarguments to decode.
+ *                  If 0, then activate all the flags.
+ */
+void warnings_argmatch (char *args);
+
+
+/*-----------.
+| complain.  |
+`-----------*/
+
+/** Initialize this module.  */
+void complain_init (void);
+
 typedef enum
   {
     /**< Issue no warnings.  */
@@ -66,25 +99,6 @@ typedef enum
     Wall              = ~complaint & ~fatal & ~silent
   } warnings;
 
-
-/** For each warning type, its severity.  */
-typedef enum
-  {
-    severity_disabled = 0,
-    severity_unset = 1,
-    severity_warning = 2,
-    severity_error = 3,
-    severity_fatal = 4
-  } severity;
-
-/** Whether -Werror was set. */
-extern bool warnings_are_errors;
-
-/** For each warning type, its severity.  */
-extern severity warnings_flag[];
-
-/** Initialize this module.  */
-void complain_init (void);
 
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)
