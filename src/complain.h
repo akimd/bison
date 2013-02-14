@@ -28,17 +28,32 @@
 | --warnings.  |
 `-------------*/
 
+/** The bits assigned to each warning type.  */
 typedef enum
   {
-    Wnone             = 0,       /**< Issue no warnings.  */
-    Wmidrule_values   = 1 << 0,  /**< Unset or unused midrule values.  */
-    Wyacc             = 1 << 1,  /**< POSIXME.  */
-    Wconflicts_sr     = 1 << 2,  /**< S/R conflicts.  */
-    Wconflicts_rr     = 1 << 3,  /**< R/R conflicts.  */
-    Wdeprecated       = 1 << 4,  /**< Obsolete constructs.  */
-    Wprecedence       = 1 << 5,  /**< Useless precedence and associativity.  */
+    warning_midrule_values, /**< Unset or unused midrule values.  */
+    warning_yacc,           /**< POSIXME.  */
+    warning_conflicts_sr,   /**< S/R conflicts.  */
+    warning_conflicts_rr,   /**< R/R conflicts.  */
+    warning_deprecated,     /**< Obsolete constructs.  */
+    warning_precedence,     /**< Useless precedence and associativity.  */
+    warning_other,          /**< All other warnings.  */
 
-    Wother            = 1 << 6,  /**< All other warnings.  */
+    warnings_size           /**< The number of warnings.  Must be last.  */
+  } warning_bit;
+
+typedef enum
+  {
+    /**< Issue no warnings.  */
+    Wnone             = 0,
+
+    Wmidrule_values   = 1 << warning_midrule_values,
+    Wyacc             = 1 << warning_yacc,
+    Wconflicts_sr     = 1 << warning_conflicts_sr,
+    Wconflicts_rr     = 1 << warning_conflicts_rr,
+    Wdeprecated       = 1 << warning_deprecated,
+    Wprecedence       = 1 << warning_precedence,
+    Wother            = 1 << warning_other,
 
     Werror            = 1 << 10, /** This bit is no longer used. */
 
@@ -51,11 +66,25 @@ typedef enum
     Wall              = ~complaint & ~fatal & ~silent
   } warnings;
 
-/** What warnings are issued.  */
-extern warnings warnings_flag;
 
-/** What warnings are made errors.  */
-extern warnings errors_flag;
+/** For each warning type, its severity.  */
+typedef enum
+  {
+    severity_disabled = 0,
+    severity_unset = 1,
+    severity_warning = 2,
+    severity_error = 3,
+    severity_fatal = 4
+  } severity;
+
+/** Whether -Werror was set. */
+extern bool warnings_are_errors;
+
+/** For each warning type, its severity.  */
+extern severity warnings_flag[];
+
+/** Initialize this module.  */
+void complain_init (void);
 
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)

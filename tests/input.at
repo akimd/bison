@@ -36,6 +36,10 @@ exp: '0'
 AT_BISON_CHECK([-ferror=caret input.y], [1], [], [ignore])
 AT_BISON_CHECK([--report=error=itemsets input.y], [1], [], [ignore])
 
+# We used to accept any character after "-Werror", instead of ensuring
+# this is "=".
+AT_BISON_CHECK([-Werror?all input.y], [1], [], [ignore])
+
 AT_CLEANUP
 
 
