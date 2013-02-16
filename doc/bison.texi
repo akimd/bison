@@ -1013,7 +1013,7 @@ Let's consider an example, vastly simplified from a C++ grammar.
 %%
 
 prog:
-  /* Nothing.  */
+  %empty
 | prog stmt   @{ printf ("\n"); @}
 ;
 
@@ -1597,7 +1597,7 @@ Here are the grammar rules for the reverse polish notation calculator.
 @example
 @group
 input:
-  /* empty */
+  %empty
 | input line
 ;
 @end group
@@ -1654,7 +1654,7 @@ Consider the definition of @code{input}:
 
 @example
 input:
-  /* empty */
+  %empty
 | input line
 ;
 @end example
@@ -1669,8 +1669,9 @@ The first alternative is empty because there are no symbols between the
 colon and the first @samp{|}; this means that @code{input} can match an
 empty string of input (no tokens).  We write the rules this way because it
 is legitimate to type @kbd{Ctrl-d} right after you start the calculator.
-It's conventional to put an empty alternative first and write the comment
-@samp{/* empty */} in it.
+It's conventional to put an empty alternative first and to use the
+(optional) @code{%empty} directive, or to write the comment @samp{/* empty
+*/} in it (@pxref{Empty Rules}).
 
 The second alternate rule (@code{input line}) handles all nontrivial input.
 It means, ``After reading any number of lines, read one more line if
@@ -2010,7 +2011,7 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 %% /* The grammar follows.  */
 @group
 input:
-  /* empty */
+  %empty
 | input line
 ;
 @end group
@@ -2190,7 +2191,7 @@ wrong expressions or subexpressions.
 @example
 @group
 input:
-  /* empty */
+  %empty
 | input line
 ;
 @end group
@@ -2461,7 +2462,7 @@ those which mention @code{VAR} or @code{FNCT}, are new.
 %% /* The grammar follows.  */
 @group
 input:
-  /* empty */
+  %empty
 | input line
 ;
 @end group
@@ -3797,7 +3798,7 @@ foo:
 
 @group
 bar:
-  /* empty */    @{ previous_expr = $0; @}
+  %empty    @{ previous_expr = $0; @}
 ;
 @end group
 @end example
@@ -4022,9 +4023,9 @@ exp: @{ a(); @} "b" @{ c(); @} @{ d(); @} "e" @{ f(); @};
 is translated into:
 
 @example
-$@@1: /* empty */ @{ a(); @};
-$@@2: /* empty */ @{ c(); @};
-$@@3: /* empty */ @{ d(); @};
+$@@1: %empty @{ a(); @};
+$@@2: %empty @{ c(); @};
+$@@3: %empty @{ d(); @};
 exp: $@@1 "b" $@@2 $@@3 "e" @{ f(); @};
 @end example
 
@@ -4043,9 +4044,9 @@ exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
 is translated into
 
 @example
-@@1: /* empty */ @{ a(); @};
-@@2: /* empty */ @{ $$ = c(); @};
-$@@3: /* empty */ @{ d(); @};
+@@1: %empty @{ a(); @};
+@@2: %empty @{ $$ = c(); @};
+$@@3: %empty @{ d(); @};
 exp: @@1 "b" @@2 $@@3 "e" @{ f = $1; @}
 @end example
 
@@ -4154,7 +4155,7 @@ serves as a subroutine:
 @example
 @group
 subroutine:
-  /* empty */  @{ prepare_for_local_variables (); @}
+  %empty  @{ prepare_for_local_variables (); @}
 ;
 @end group
 
@@ -7531,7 +7532,7 @@ of zero or more @code{word} groupings.
 @example
 @group
 sequence:
-  /* empty */    @{ printf ("empty sequence\n"); @}
+  %empty         @{ printf ("empty sequence\n"); @}
 | maybeword
 | sequence word  @{ printf ("added word %s\n", $2); @}
 ;
@@ -7539,8 +7540,8 @@ sequence:
 
 @group
 maybeword:
-  /* empty */   @{ printf ("empty maybeword\n"); @}
-| word          @{ printf ("single word %s\n", $1); @}
+  %empty    @{ printf ("empty maybeword\n"); @}
+| word      @{ printf ("single word %s\n", $1); @}
 ;
 @end group
 @end example
@@ -7571,7 +7572,7 @@ proper way to define @code{sequence}:
 @example
 @group
 sequence:
-  /* empty */    @{ printf ("empty sequence\n"); @}
+  %empty         @{ printf ("empty sequence\n"); @}
 | sequence word  @{ printf ("added word %s\n", $2); @}
 ;
 @end group
@@ -7582,7 +7583,7 @@ Here is another common error that yields a reduce/reduce conflict:
 @example
 @group
 sequence:
-  /* empty */
+  %empty
 | sequence words
 | sequence redirects
 ;
@@ -7590,14 +7591,14 @@ sequence:
 
 @group
 words:
-  /* empty */
+  %empty
 | words word
 ;
 @end group
 
 @group
 redirects:
-  /* empty */
+  %empty
 | redirects redirect
 ;
 @end group
@@ -7620,7 +7621,7 @@ of sequence:
 
 @example
 sequence:
-  /* empty */
+  %empty
 | sequence word
 | sequence redirect
 ;
@@ -7632,7 +7633,7 @@ from being empty:
 @example
 @group
 sequence:
-  /* empty */
+  %empty
 | sequence words
 | sequence redirects
 ;
@@ -7676,7 +7677,7 @@ rule:
 %%
 @group
 sequence:
-  /* empty */
+  %empty
 | sequence word      %prec "sequence"
 | sequence redirect  %prec "sequence"
 ;
@@ -7698,7 +7699,7 @@ rule with the same precedence, but make them right-associative:
 %%
 @group
 sequence:
-  /* empty */
+  %empty
 | sequence word      %prec "word"
 | sequence redirect  %prec "redirect"
 ;
@@ -8395,7 +8396,7 @@ For example:
 
 @example
 stmts:
-  /* empty string */
+  %empty
 | stmts '\n'
 | stmts exp '\n'
 | stmts error '\n'
@@ -11087,7 +11088,7 @@ Location Tracking Calculator: @code{ltcalc}}).
 unit: assignments exp  @{ driver.result = $2; @};
 
 assignments:
-  /* Nothing.  */        @{@}
+  %empty                 @{@}
 | assignments assignment @{@};
 
 assignment:

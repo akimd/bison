@@ -364,6 +364,8 @@ GNU Bison NEWS
 
 ** Empty rules
 
+  With help from Joel E. Denny and Gabriel Rassoul.
+
   Empty rules (i.e., with an empty right-hand side) can now be explicitly
   marked by the new %empty directive.  Using %empty on a non-empty rule is
   an error.  The new -Wempty-rule warning reports empty rules without
@@ -432,7 +434,7 @@ GNU Bison NEWS
     ;
 
     list:
-      /* nothing */ { /* Generates an empty string list */ }
+      %empty        { /* Generates an empty string list. */ }
     | list item ";" { std::swap ($$, $1); $$.push_back ($2); }
     ;
 
