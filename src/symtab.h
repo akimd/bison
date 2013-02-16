@@ -128,9 +128,9 @@ struct symbol
 /** Undefined user number.  */
 # define USER_NUMBER_UNDEFINED -1
 
-/* `symbol->user_token_number == USER_NUMBER_HAS_STRING_ALIAS' means
-   this symbol has a literal string alias.  For instance, `%token foo
-   "foo"' has `"foo"' numbered regularly, and `foo' numbered as
+/* 'symbol->user_token_number == USER_NUMBER_HAS_STRING_ALIAS' means
+   this symbol has a literal string alias.  For instance, '%token foo
+   "foo"' has '"foo"' numbered regularly, and 'foo' numbered as
    USER_NUMBER_HAS_STRING_ALIAS.  */
 # define USER_NUMBER_HAS_STRING_ALIAS -9991
 

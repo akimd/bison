@@ -176,13 +176,13 @@ part of $default.  Should we make the two reductions explicit, or just
 keep $default?  See the following point.
 
 ** Disabled Reductions
-See `tests/conflicts.at (Defaulted Conflicted Reduction)', and decide
+See 'tests/conflicts.at (Defaulted Conflicted Reduction)', and decide
 what we want to do.
 
 ** Documentation
 Extend with error productions.  The hard part will probably be finding
 the right rule so that a single state does not exhibit too many yet
-undocumented ``features''.  Maybe an empty action ought to be
+undocumented ''features''.  Maybe an empty action ought to be
 presented too.  Shall we try to make a single grammar with all these
 features, or should we have several very small grammars?
 
@@ -243,9 +243,9 @@ into
         exp: exp '+' exp | exp '&' exp;
 
 when there are no actions.  This can significantly speed up some
-grammars.  I can't find the papers.  In particular the book `LR
+grammars.  I can't find the papers.  In particular the book 'LR
 parsing: Theory and Practice' is impossible to find, but according to
-`Parsing Techniques: a Practical Guide', it includes information about
+'Parsing Techniques: a Practical Guide', it includes information about
 this issue.  Does anybody have it?
 
 

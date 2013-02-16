@@ -150,7 +150,7 @@ m4_popdef([$1])dnl
 
 # b4_parse_param_use([VAL], [LOC])
 # --------------------------------
-# `YYUSE' VAL, LOC if locations are enabled, and all the parse-params.
+# 'YYUSE' VAL, LOC if locations are enabled, and all the parse-params.
 m4_define([b4_parse_param_use],
 [m4_ifvaln([$1], [  YYUSE ([$1]);])dnl
 b4_locations_if([m4_ifvaln([$2], [  YYUSE ([$2]);])])dnl
@@ -182,7 +182,7 @@ m4_define([b4_int_type],
 # b4_int_type_for(NAME)
 # ---------------------
 # Return the smallest int type able to handle numbers ranging from
-# `NAME_min' to `NAME_max' (included).
+# 'NAME_min' to 'NAME_max' (included).
 m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])
 

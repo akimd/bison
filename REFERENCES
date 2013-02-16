@@ -9,7 +9,7 @@ Bison supports the @N construction, which gives you access to
 the starting and ending line number and character number associated
 with any of the symbols in the current rule.
 
-Also, Bison supports the command `%expect N' which says not to mention
+Also, Bison supports the command '%expect N' which says not to mention
 the conflicts if there are N shift/reduce conflicts and no reduce/reduce
 conflicts.
 

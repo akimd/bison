@@ -636,7 +636,7 @@ named_ref.opt:
 `---------------------------*/
 
 /* The STRING form of variable is deprecated and is not M4-friendly.
-   For example, M4 fails for `%define "[" "value"'.  */
+   For example, M4 fails for '%define "[" "value"'.  */
 variable:
   ID
 | STRING { $$ = uniqstr_new ($1); }

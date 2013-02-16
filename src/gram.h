@@ -35,7 +35,7 @@
 
    The rules receive rule numbers 1 to NRULES in the order they are
    written.  More precisely Bison augments the grammar with the
-   initial rule, `$accept: START-SYMBOL $end', which is numbered 1,
+   initial rule, '$accept: START-SYMBOL $end', which is numbered 1,
    all the user rules are 2, 3 etc.  Each time a rule number is
    presented to the user, we subtract 1, so *displayed* rule numbers
    are 0, 1, 2...
@@ -61,7 +61,7 @@
    RULES[R].prec -- the symbol providing the precedence level of R.
 
    RULES[R].precsym -- the symbol attached (via %prec) to give its
-   precedence to R.  Of course, if set, it is equal to `prec', but we
+   precedence to R.  Of course, if set, it is equal to 'prec', but we
    need to distinguish one from the other when reducing: a symbol used
    in a %prec is not useless.
 
@@ -205,11 +205,11 @@ extern rule *rules;
 /* A function that selects a rule.  */
 typedef bool (*rule_filter) (rule const *);
 
-/* Return true IFF the rule has a `number' smaller than NRULES.  That is, it is
+/* Return true IFF the rule has a 'number' smaller than NRULES.  That is, it is
    useful in the grammar.  */
 bool rule_useful_in_grammar_p (rule const *r);
 
-/* Return true IFF the rule has a `number' higher than NRULES.  That is, it is
+/* Return true IFF the rule has a 'number' higher than NRULES.  That is, it is
    useless in the grammar.  */
 bool rule_useless_in_grammar_p (rule const *r);
 
@@ -262,8 +262,8 @@ void grammar_rules_print_xml (FILE *out, int level);
 void grammar_dump (FILE *out, const char *title);
 
 /* Report on STDERR the rules that are not flagged USEFUL, using the
-   MESSAGE (which can be `rule useless in grammar' when invoked after grammar
-   reduction, or `rule useless in parser due to conflicts' after conflicts
+   MESSAGE (which can be 'rule useless in grammar' when invoked after grammar
+   reduction, or 'rule useless in parser due to conflicts' after conflicts
    were taken into account).  */
 void grammar_rules_useless_report (const char *message);
 

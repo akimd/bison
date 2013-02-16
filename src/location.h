@@ -121,7 +121,7 @@ location_cmp (location a, location b)
   return res;
 }
 
-/* LOC_STR must be formatted as `file:line.column', it will be modified.  */
+/* LOC_STR must be formatted as 'file:line.column', it will be modified.  */
 void boundary_set_from_string (boundary *bound, char *loc_str);
 
 #endif /* ! defined LOCATION_H_ */

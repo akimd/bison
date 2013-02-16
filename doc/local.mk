@@ -37,7 +37,7 @@ MOSTLYCLEANFILES += $(top_srcdir)/doc/*.t
 CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 CROSS_OPTIONS_TEXI = $(top_srcdir)/doc/cross-options.texi
 $(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
-# Create $@~ which is the previous contents.  Don't use `mv' here so
+# Create $@~ which is the previous contents.  Don't use 'mv' here so
 # that even if we are interrupted, the file is still available for
 # diff in the next run.  Note that $@ might not exist yet.
 	$(AM_V_GEN){ test ! -f $@ || cat $@; } >$@~

@@ -204,9 +204,9 @@ Format the list of directives for Bison for bench named C<$bench>.
 sub directives($@)
 {
   my ($bench, @directive) = @_;
-  my $res = "/* Directives for bench `$bench'. */\n";
+  my $res = "/* Directives for bench '$bench'. */\n";
   $res .= join ("\n", @directive) . "\n";
-  $res .= "/* End of directives for bench `$bench'. */\n";
+  $res .= "/* End of directives for bench '$bench'. */\n";
   return $res;
 }
 

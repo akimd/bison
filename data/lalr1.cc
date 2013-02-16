@@ -824,7 +824,7 @@ b4_dollar_popdef])[]dnl
        variants.  */
     b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])],[
     /* If YYLEN is nonzero, implement the default value of the action:
-       `$$ = $1'.  Otherwise, use the top of the stack.
+       '$$ = $1'.  Otherwise, use the top of the stack.
 
        Otherwise, the following line sets YYLHS.VALUE to garbage.
        This behavior is undocumented and Bison

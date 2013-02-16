@@ -92,7 +92,7 @@ void muscle_pair_list_grow (const char *muscle,
 
 /* Grow KEY for the occurrence of the name USER_NAME at LOC appropriately for
    use with b4_check_user_names in ../data/bison.m4.  USER_NAME is not escaped
-   with digraphs, so it must not contain `[' or `]'.  */
+   with digraphs, so it must not contain '[' or ']'.  */
 void muscle_user_name_list_grow (char const *key, char const *user_name,
                                  location loc);
 

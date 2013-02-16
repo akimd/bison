@@ -54,8 +54,8 @@ b4_percent_define_default([[define_location_comparison]],
 m4_define([b4_namespace_ref], [b4_percent_define_get([[api.namespace]])])
 
 
-# Don't permit an empty b4_namespace_ref.  Any `::parser::foo' appended to it
-# would compile as an absolute reference with `parser' in the global namespace.
+# Don't permit an empty b4_namespace_ref.  Any '::parser::foo' appended to it
+# would compile as an absolute reference with 'parser' in the global namespace.
 # b4_namespace_open would open an anonymous namespace and thus establish
 # internal linkage.  This would compile.  However, it's cryptic, and internal
 # linkage for the parser would be specified in all translation units that

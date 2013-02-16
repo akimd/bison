@@ -30,7 +30,7 @@ not answer them, please send mail to <help-bison@gnu.org>.
 
 * Bug reports
 Please send bug reports to <bug-bison@gnu.org>.  Please include the
-version number from `bison --version', and a complete, self-contained
+version number from 'bison --version', and a complete, self-contained
 test case in each bug report.
 
 * Copyright statements

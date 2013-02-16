@@ -72,7 +72,7 @@ static void fail_for_invalid_at (char const *at);
 "@@" fputc ('@', yyout);
 "@{" fputc ('[', yyout);
 "@}" fputc (']', yyout);
-"@`" continue;  /* Used by b4_cat in ../data/bison.m4.  */
+"@'" continue;  /* Used by b4_cat in ../data/bison.m4.  */
 @\n  continue;
 
 "@oline@"  fprintf (yyout, "%d", out_lineno + 1);
@@ -83,7 +83,7 @@ static void fail_for_invalid_at (char const *at);
 "@output("      at_init (&argc, argv, &at_ptr, &at_output);
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}`(\n]*    fail_for_invalid_at (yytext);
+@[^@{}'(\n]*    fail_for_invalid_at (yytext);
 \n              out_lineno++; ECHO;
 [^@\n]+         ECHO;
 
@@ -103,7 +103,7 @@ static void fail_for_invalid_at (char const *at);
   "@@"   obstack_1grow (&obstack_for_string, '@');
   "@{"   obstack_1grow (&obstack_for_string, '[');
   "@}"   obstack_1grow (&obstack_for_string, ']');
-  "@`"   continue; /* For starting an argument that begins with whitespace. */
+  "@'"   continue; /* For starting an argument that begins with whitespace. */
   @\n    continue;
 
   @[,)] {

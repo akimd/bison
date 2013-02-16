@@ -313,7 +313,7 @@ m4_define([b4_define_flag_if],
 # _b4_define_flag_if($1, $2, FLAG)
 # --------------------------------
 # Work around the impossibility to define macros inside macros,
-# because issuing `[$1]' is not possible in M4.  GNU M4 should provide
+# because issuing '[$1]' is not possible in M4.  GNU M4 should provide
 # $$1 a la M5/TeX.
 m4_define([_b4_define_flag_if],
 [m4_if([$1$2], $[1]$[2], [],
@@ -772,8 +772,8 @@ m4_define([b4_percent_define_default],
 # b4_percent_define_if_define(NAME, [VARIABLE = NAME])
 # ----------------------------------------------------
 # Define b4_NAME_if that executes its $1 or $2 depending whether
-# VARIABLE was %defined.  The characters `.' and `-' in VARIABLE are mapped
-# to `_'.
+# VARIABLE was %defined.  The characters '.' and `-' in VARIABLE are mapped
+# to '_'.
 m4_define([b4_percent_define_if_define_],
 [m4_define(m4_bpatsubst([b4_$1_if], [[-.]], [_]),
            [b4_percent_define_flag_if(m4_default([$2], [$1]),
