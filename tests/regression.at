@@ -373,7 +373,7 @@ AT_DATA([input.y],
 %token  <operator>  LE 134  "<="
 %left  OR  "<="
 %%
-exp: ;
+exp: %empty;
 %%
 ]])
 
@@ -721,7 +721,7 @@ AT_KEYWORDS([report])
 AT_DATA([input.y],
 [[%%
 statement:  struct_stat;
-struct_stat:  /* empty. */ | if else;
+struct_stat:  %empty | if else;
 if: "if" "const" "then" statement;
 else: "else" statement;
 %%
@@ -869,7 +869,7 @@ type: DATA
    | INVALID
    ;
 
-body: /* empty */
+body: %empty
    | body member
    ;
 
@@ -929,7 +929,7 @@ $1
 %token B
 
 %%
-program: /* empty */
+program: %empty
  | program e ';'
  | program error ';';
 

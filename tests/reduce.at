@@ -933,7 +933,7 @@ S: 'a' A 'a'
 A: 'a' 'a' B
  ;
 B: 'a'
- | %prec 'a'
+ | %empty %prec 'a'
  ;
 c: 'a' 'a' 'b'
  | A
@@ -1533,8 +1533,8 @@ a: 'a' ;
    and multiple reductions.  The first reduction has more lookaheads than the
    second, so the first should always be preferred as the default reduction if
    enabled.  The second reduction has one lookahead.  */
-b: ;
-c: ;
+b: %empty;
+c: %empty;
 ]],
 dnl Visit each state mentioned above.
 [['a', 'a']],

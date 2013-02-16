@@ -108,17 +108,17 @@ AT_SETUP([Invalid $n and @n])
 
 AT_DATA([input.y],
 [[%%
-exp: { $$ = $1 ; };
-exp: { @$ = @1 ; };
+exp: %empty { $$ = $1 ; };
+exp: %empty { @$ = @1 ; };
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:2.13-14: error: integer out of range: '$1'
- exp: { $$ = $1 ; };
-             ^^
-input.y:3.13-14: error: integer out of range: '@1'
- exp: { @$ = @1 ; };
-             ^^
+[[input.y:2.20-21: error: integer out of range: '$1'
+ exp: %empty { $$ = $1 ; };
+                    ^^
+input.y:3.20-21: error: integer out of range: '@1'
+ exp: %empty { @$ = @1 ; };
+                    ^^
 ]])
 
 AT_CLEANUP
@@ -137,7 +137,7 @@ AT_DATA([input.y],
 %%
 exp: foo { $$; } foo { $2; } foo
    | foo
-   | /* empty. */
+   | %empty
    ;
 ]])
 
@@ -154,9 +154,9 @@ input.y:5.6-32: warning: type clash on default action: <bar> != <> [-Wother]
 input.y:6.6-8: warning: type clash on default action: <bar> != <> [-Wother]
     | foo
       ^^^
-input.y:7.5: warning: empty rule for typed nonterminal, and no action [-Wother]
-    | /* empty. */
-     ^
+input.y:7.6-11: warning: empty rule for typed nonterminal, and no action [-Wother]
+    | %empty
+      ^^^^^^
 ]])
 
 AT_CLEANUP
@@ -192,7 +192,7 @@ start:
 ;
 
 a: INT | INT { } INT { } INT { };
-b: INT | /* empty */;
+b: INT | %empty;
 c: INT | INT { $]1[; } INT { $<integer>2; } INT { $<integer>4; };
 d: INT | INT { } INT { $]1[; } INT { $<integer>2; };
 e: INT | INT { } INT {  } INT { $]1[; };
@@ -220,9 +220,9 @@ input.y:11.18-20: warning: unused value: $][3 [-Wother]
 input.y:11.26-28: warning: unused value: $][5 [-Wother]
  a: INT | INT { } INT { } INT { };
                           ^^^
-input.y:12.9: warning: empty rule for typed nonterminal, and no action [-Wother]
- b: INT | /* empty */;
-         ^
+input.y:12.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
+ b: INT | %empty;
+          ^^^^^^
 ]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
               ^^^^^^^
@@ -351,7 +351,7 @@ AT_DATA([[input.y]],
 
 %%
 
-start: ;
+start: %empty;
 
 %destructor { destroy ($$); } <*>;
 %printer { print ($$); } <*>;
@@ -453,7 +453,7 @@ AT_DATA([[input.y]],
 
 %%
 
-start: ;
+start: %empty;
 
 %destructor { destroy ($$); } <field2> <field1>;
 %printer { print ($$); } <field2> <field1>;
@@ -849,7 +849,7 @@ exp: '@<:@' '\1' two '$' '@' '{' oline output.or.oline.opt
 
 two: '\x000000000000000000000000000000000000000000000000000000000000000000002';
 oline: '@' 'o' 'l' 'i' 'n' 'e' '@' '_' '_' 'o' 'l' 'i' 'n' 'e' '_' '_';
-output.or.oline.opt: ;|oline;;|output;;;
+output.or.oline.opt: %empty;|oline;;|output;;;
 output: '#' 'o' 'u' 't' 'p' 'u' 't' ' ';
 %%
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 2.  */
@@ -931,7 +931,7 @@ m4_define([AT_CHECK_REQUIRE],
 AT_DATA_GRAMMAR([input.y],
 [[%require "$1";
 %%
-empty_file: /* empty */;
+empty_file: %empty;
 ]])
 AT_BISON_CHECK([-o input.c input.y], $2, [], ignore)
 AT_CLEANUP
@@ -1089,7 +1089,7 @@ AT_DATA([input.y],
 
 %%
 
-start: ;
+start: %empty;
 
 // Used to report a syntax error because it didn't see any kind of symbol
 // identifier.
@@ -1134,7 +1134,7 @@ AT_SETUP([%start after first rule])
 
 AT_DATA([input.y],
 [[%%
-false_start: ;
+false_start: %empty;
 start: false_start ;
 %start start;
 ]])
@@ -1155,7 +1155,7 @@ AT_SETUP([%prec takes a token])
 AT_DATA([input.y],
 [[%%
 start: PREC %prec PREC ;
-PREC: ;
+PREC: %empty;
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
@@ -1197,7 +1197,7 @@ AT_DATA([input-c.y],
 %code bad {}
 %code format {}
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[input-c.y]], [[1]], [],
 [[input-c.y:1.7: error: %code qualifier 'q' is not used
@@ -1211,7 +1211,7 @@ AT_DATA([input-c-glr.y],
 %code bad {}
  %code bad {}
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[input-c-glr.y]], [[1]], [],
 [[input-c-glr.y:1.7: error: %code qualifier 'q' is not used
@@ -1224,7 +1224,7 @@ AT_DATA([input-c++.y],
 %code bad {}
  %code q {}
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[input-c++.y]], [[1]], [],
 [[input-c++.y:1.7: error: %code qualifier 'q' is not used
@@ -1237,7 +1237,7 @@ AT_DATA([input-c++-glr.y],
 %code q {}
 %code q {}
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[input-c++-glr.y]], [[1]], [],
 [[input-c++-glr.y:1.7-9: error: %code qualifier 'bad' is not used
@@ -1250,7 +1250,7 @@ AT_DATA([special-char-@@.y],
 %code q {}
 %code q {}
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[special-char-@@.y]], [[1]], [],
 [[special-char-@@.y:1.7-9: error: %code qualifier 'bad' is not used
@@ -1263,7 +1263,7 @@ AT_DATA([special-char-@:>@.y],
 %code q {}
 %code q {}
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[special-char-@:>@.y]], [[1]], [],
 [[special-char-@:>@.y:1.7-9: error: %code qualifier 'bad' is not used
@@ -1287,7 +1287,7 @@ AT_DATA([input-redefined.y],
 %define special1 "@:>@"
 %define special2 "@<:@"
 %%
-start: ;
+start: %empty;
 ]])
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
@@ -1300,7 +1300,7 @@ input-redefined.y:2.9-11:      previous definition
 AT_DATA([input-unused.y],
 [[%define var "value"
 %%
-start: ;
+start: %empty;
 ]])
 
 AT_BISON_CHECK([[input-unused.y]], [[1]], [],
@@ -1328,7 +1328,7 @@ m4@&t@_divert_pop(0)
 AT_DATA([[input.y]],
 [[%define var-dfg "gram"
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-Dvar-dd=cmd-d1 -Dvar-dd=cmd-d2 \
                  -Fvar-ff=cmd-f1 -Fvar-ff=cmd-f2 \
@@ -1345,7 +1345,7 @@ var-fd: cmd-d
 AT_DATA([[input-dg.y]],
 [[%define var "gram"
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.9-11: error: %define variable 'var' redefined
@@ -1355,7 +1355,7 @@ AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 AT_DATA([[input-dg.y]],
 [[%define var "gram"
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.9-11: error: %define variable 'var' redefined
@@ -1366,7 +1366,7 @@ AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
 
 AT_DATA([[input-unused.y]],
 [[%%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-Dunused-d -Funused-f input-unused.y]], [[1]], [],
 [[<command line>:2: error: %define variable 'unused-d' is not used
@@ -1386,7 +1386,7 @@ AT_DATA([Input.y],
 %define public "maybe"
 %define parser_class_name "Input"
 %%
-start: ;
+start: %empty;
 ]])
 
 AT_BISON_CHECK([[Input.y]], [1], [],
@@ -1409,7 +1409,7 @@ AT_SETUP([["%define" enum variables]])
 AT_DATA([[input.y]],
 [[%define lr.default-reduction bogus
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.9-28: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
@@ -1424,7 +1424,7 @@ input.y:1.9-28:     accepted value: 'accepting'
 AT_DATA([[input.y]],
 [[%define api.push-pull neither
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.9-21: error: invalid value for %define variable 'api.push-pull': 'neither'
@@ -1451,7 +1451,7 @@ AT_DATA([[input.y]],
 %define api.namespace "foo"
 %define variant
 %%
-start: ;
+start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [1], [],
 [[input.y:1.9-21: warning: deprecated directive, use '%define api.push-pull both' [-Wdeprecated]
@@ -1492,7 +1492,7 @@ AT_DATA([[input.y]],
 [[%define api.pure ]$2[
 ]$1[
 %%
-start: ;
+start: %empty;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [],
@@ -1525,7 +1525,7 @@ AT_DATA([[input.y]],
 %defines
 %define api.namespace "]$1["
 %%
-start: ;
+start: %empty;
 ]])
 
 AT_BISON_CHECK([[input.y]], [1], [],
@@ -1685,7 +1685,7 @@ AT_SETUP([[LAC: Errors for %define]])
 
 AT_DATA([[input.y]],
 [[%%
-start: ;
+start: %empty;
 ]])
 
 # parse.lac.* options are useless if LAC isn't actually activated.
@@ -1708,7 +1708,7 @@ AT_SETUP([[-Werror is not affected by -Wnone and -Wall]])
 
 AT_DATA([[input.y]],
 [[%%
-foo-bar: ;
+foo-bar: %empty;
 ]])
 
 # -Werror is not enabled by -Wall or equivalent.
@@ -1745,7 +1745,7 @@ m4_pushdef([AT_TEST],
 [AT_DATA([[input.y]],
 [[$1
 %%
-exp: /* empty */;
+exp: %empty;
 ]])
 AT_BISON_CHECK([[$2 input.y]], [[1]], [[]],
 [[$3: error: '%name-prefix' and '%define api.prefix' cannot be used together

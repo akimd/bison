@@ -261,7 +261,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_YYLEX_DECLARE[
 }
 %%
-exp: /* empty */;
+exp: %empty;
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
@@ -1706,7 +1706,7 @@ AT_DATA_GRAMMAR([input.y],
 // that has set yychar might not always return normally.  Instead,
 // skeletons must translate before every use of yytoken.
 start: 'a' accept { USE($1); } ;
-accept: /*empty*/ {
+accept: %empty {
   assert (yychar == YYEMPTY);
   yychar = 'b';
   YYACCEPT;
