@@ -186,7 +186,6 @@ Bison Grammar Files
 * Grammar Outline::    Overall layout of the grammar file.
 * Symbols::            Terminal and nonterminal symbols.
 * Rules::              How to write grammar rules.
-* Recursion::          Writing recursive rules.
 * Semantics::          Semantic values and actions.
 * Tracking Locations:: Locations and actions.
 * Named References::   Using named references in actions.
@@ -200,6 +199,13 @@ Outline of a Bison Grammar
 * Bison Declarations::    Syntax and usage of the Bison declarations section.
 * Grammar Rules::         Syntax and usage of the grammar rules section.
 * Epilogue::              Syntax and usage of the epilogue.
+
+Grammar Rules
+
+* Rules Syntax::   Syntax of the rules.
+* Empty Rules::    Symbols that can match the empty string.
+* Recursion::      Writing recursive rules.
+
 
 Defining Language Semantics
 
@@ -2789,7 +2795,6 @@ The Bison grammar file conventionally has a name ending in @samp{.y}.
 * Grammar Outline::    Overall layout of the grammar file.
 * Symbols::            Terminal and nonterminal symbols.
 * Rules::              How to write grammar rules.
-* Recursion::          Writing recursive rules.
 * Semantics::          Semantic values and actions.
 * Tracking Locations:: Locations and actions.
 * Named References::   Using named references in actions.
@@ -3407,7 +3412,18 @@ value of the error token is 256, unless you explicitly assigned 256 to
 one of your tokens with a @code{%token} declaration.
 
 @node Rules
-@section Syntax of Grammar Rules
+@section Grammar Rules
+
+A Bison grammar is a list of rules.
+
+@menu
+* Rules Syntax::   Syntax of the rules.
+* Empty Rules::    Symbols that can match the empty string.
+* Recursion::      Writing recursive rules.
+@end menu
+
+@node Rules Syntax
+@subsection Syntax of Grammar Rules
 @cindex rule syntax
 @cindex grammar rule syntax
 @cindex syntax of grammar rules
@@ -3481,33 +3497,57 @@ be joined with the vertical-bar character @samp{|} as follows:
 @noindent
 They are still considered distinct rules even when joined in this way.
 
-If @var{components} in a rule is empty, it means that @var{result} can
-match the empty string.  For example, here is how to define a
-comma-separated sequence of zero or more @code{exp} groupings:
+@node Empty Rules
+@subsection Empty Rules
+@cindex empty rule
+@cindex rule, empty
+@findex %empty
+
+A rule is said to be @dfn{empty} if its right-hand side (@var{components})
+is empty.  It means that @var{result} can match the empty string.  For
+example, here is how to define an optional semicolon:
+
+@example
+semicolon.opt: | ";";
+@end example
+
+@noindent
+It is easy not to see an empty rule, especially when @code{|} is used.  The
+@code{%empty} directive allows to make explicit that a rule is empty on
+purpose:
 
 @example
 @group
-expseq:
-  /* empty */
-| expseq1
-;
-@end group
-
-@group
-expseq1:
-  exp
-| expseq1 ',' exp
+semicolon.opt:
+  %empty
+| ";"
 ;
 @end group
 @end example
 
-@noindent
-It is customary to write a comment @samp{/* empty */} in each rule
-with no components.
+Flagging a non-empty rule with @code{%empty} is an error.  If run with
+@option{-Wempty-rule}, @command{bison} will report empty rules without
+@code{%empty}.  Using @code{%empty} enables this warning, unless
+@option{-Wno-empty-rule} was specified.
+
+The @code{%empty} directive is a Bison extension, it does not work with
+Yacc.  To remain compatible with POSIX Yacc, it is customary to write a
+comment @samp{/* empty */} in each rule with no components:
+
+@example
+@group
+semicolon.opt:
+  /* empty */
+| ";"
+;
+@end group
+@end example
+
 
 @node Recursion
-@section Recursive Rules
+@subsection Recursive Rules
 @cindex recursive rule
+@cindex rule, recursive
 
 A rule is called @dfn{recursive} when its @var{result} nonterminal
 appears also on its right hand side.  Nearly all Bison grammars need to
@@ -3934,16 +3974,20 @@ declare a destructor for that symbol:
 @group
 %type <context> let
 %destructor @{ pop_context ($$); @} let
+@end group
 
 %%
 
+@group
 stmt:
   let stmt
     @{
       $$ = $2;
       pop_context ($let);
     @};
+@end group
 
+@group
 let:
   "let" '(' var ')'
     @{
@@ -9734,6 +9778,11 @@ no effect on the conflict report.
 Deprecated constructs whose support will be removed in future versions of
 Bison.
 
+@item empty-rule
+Empty rules without @code{%empty}.  @xref{Empty Rules}.  Disabled by
+default, but enabled by uses of @code{%empty}, unless
+@option{-Wno-empty-rule} was specified.
+
 @item precedence
 Useless precedence and associativity directives.  Disabled by default.
 
@@ -12426,6 +12475,11 @@ discarded symbols.  @xref{Destructor Decl, , Freeing Discarded Symbols}.
 Bison declaration to assign a precedence to a rule that is used at parse
 time to resolve reduce/reduce conflicts.  @xref{GLR Parsers, ,Writing
 GLR Parsers}.
+@end deffn
+
+@deffn {Directive} %empty
+Bison declaration to declare make explicit that a rule has an empty
+right-hand side.  @xref{Empty Rules}.
 @end deffn
 
 @deffn {Symbol} $end

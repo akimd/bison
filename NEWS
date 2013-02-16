@@ -362,6 +362,28 @@ GNU Bison NEWS
      %nonassoc '='
                ^^^
 
+** Empty rules
+
+  Empty rules (i.e., with an empty right-hand side) can now be explicitly
+  marked by the new %empty directive.  Using %empty on a non-empty rule is
+  an error.  The new -Wempty-rule warning reports empty rules without
+  %empty.  On the following grammar:
+
+    %%
+    s: a b c;
+    a: ;
+    b: %empty;
+    c: 'a' %empty;
+
+  bison reports:
+
+    3.4-5: warning: empty rule without %empty [-Wempty-rule]
+     a: {}
+        ^^
+    5.8-13: error: %empty on non-empty rule
+     c: 'a' %empty {};
+            ^^^^^^
+
 ** Java skeleton improvements
 
   Contributed by Paolo Bonzini.
