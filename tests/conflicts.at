@@ -1299,13 +1299,13 @@ AT_CHECK([[cat input.output]], 0,
     2 resolved_conflict: 'a' unreachable1
 
     4 unreachable1: 'a' unreachable2
-    5             | /* empty */
+    5             | %empty
 
-    6 unreachable2: /* empty */
-    7             | /* empty */
+    6 unreachable2: %empty
+    7             | %empty
 
     9 reported_conflicts: 'a'
-   10                   | /* empty */
+   10                   | %empty
 
 
 State 4 conflicts: 1 shift/reduce
@@ -1319,17 +1319,17 @@ Grammar
     1 start: resolved_conflict 'a' reported_conflicts 'a'
 
     2 resolved_conflict: 'a' unreachable1
-    3                  | /* empty */
+    3                  | %empty
 
     4 unreachable1: 'a' unreachable2
-    5             | /* empty */
+    5             | %empty
 
-    6 unreachable2: /* empty */
-    7             | /* empty */
+    6 unreachable2: %empty
+    7             | %empty
 
     8 reported_conflicts: 'a'
     9                   | 'a'
-   10                   | /* empty */
+   10                   | %empty
 
 
 Terminals, with rules where they appear

@@ -263,11 +263,11 @@ AT_CHECK([cat input.output], [],
 
     0 $accept: expr $end
 
-    1 $@1: /* empty */
+    1 $@1: %empty
 
     2 expr: 'a' $@1 'b'
 
-    3 $@2: /* empty */
+    3 $@2: %empty
 
     4 expr: $@2 'c'
 
@@ -573,7 +573,7 @@ AT_CHECK([cat input.output], 0,
     2 CONST_DEC_LIST: CONST_DEC
     3               | CONST_DEC_LIST CONST_DEC
 
-    4 $@1: /* empty */
+    4 $@1: %empty
 
     5 CONST_DEC: $@1 undef_id_tok '=' const_id_tok ';'
 

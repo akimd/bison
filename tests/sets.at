@@ -86,7 +86,7 @@ AT_CHECK([[cat sets]], [],
       0  e $end
   e derives
       1  'e'
-      2  /* empty */
+      2  %empty
 NULLABLE
   $accept: no
   e: yes
@@ -100,10 +100,10 @@ FDERIVES
   $accept derives
       0  e $end
       1  'e'
-      2  /* empty */
+      2  %empty
   e derives
       1  'e'
-      2  /* empty */
+      2  %empty
 ]])
 
 AT_CLEANUP
