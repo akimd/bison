@@ -17,7 +17,7 @@
 
 
 /* Bison depends on libiberty's implementation of bitsets, which
-   requires a `libiberty.h' file.  This file provides the minimum
+   requires a 'libiberty.h' file.  This file provides the minimum
    services.  */
 
 #ifndef BISON_LIBIBERTY_H_

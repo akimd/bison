@@ -1015,17 +1015,17 @@ main (void)
   int exit_status = yyparse ();
   if (parent_rhs_before_value)
     {
-      fprintf (stderr, "`parent_rhs_before' destructor not called.\n");
+      fprintf (stderr, "'parent_rhs_before' destructor not called.\n");
       exit_status = 1;
     }
   if (merged_value)
     {
-      fprintf (stderr, "`merged' destructor not called.\n");
+      fprintf (stderr, "'merged' destructor not called.\n");
       exit_status = 1;
     }
   if (parent_rhs_after_value)
     {
-      fprintf (stderr, "`PARENT_RHS_AFTER' destructor not called.\n");
+      fprintf (stderr, "'PARENT_RHS_AFTER' destructor not called.\n");
       exit_status = 1;
     }
   return exit_status;
@@ -1449,7 +1449,7 @@ main (void)
   int exit_status = yyparse () != 1;
   if (parent_rhs_before_value)
     {
-      fprintf (stderr, "`parent_rhs_before' destructor not called.\n");
+      fprintf (stderr, "'parent_rhs_before' destructor not called.\n");
       exit_status = 1;
     }
   return exit_status;

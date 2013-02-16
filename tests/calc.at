@@ -27,11 +27,11 @@
 
 # _AT_DATA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES])
 # -----------------------------------------------
-# Produce `calc.y' and, if %defines was specified, `calc-lex.c' or
-# `calc-lex.cc'.
+# Produce 'calc.y' and, if %defines was specified, 'calc-lex.c' or
+# 'calc-lex.cc'.
 #
 # Don't call this macro directly, because it contains some occurrences
-# of `$1' etc. which will be interpreted by m4.  So you should call it
+# of '$1' etc. which will be interpreted by m4.  So you should call it
 # with $1, $2, and $3 as arguments, which is what AT_DATA_CALC_Y does.
 #
 # When %defines is not passed, generate a single self-contained file.
@@ -134,7 +134,7 @@ unget_char (]AT_YYLEX_PRE_FORMALS[ int c)
 {
   ]AT_USE_LEX_ARGS[;
 ]AT_LOCATION_IF([
-  /* Wrong when C == `\n'. */
+  /* Wrong when C == '\n'. */
   AT_LOC = last_yylloc;
 ])[
   ungetc (c, input);
@@ -366,8 +366,8 @@ m4_popdef([AT_CALC_LEX])
 
 # AT_DATA_CALC_Y([BISON-OPTIONS])
 # -------------------------------
-# Produce `calc.y' and, if %defines was specified, `calc-lex.c' or
-# `calc-lex.cc'.
+# Produce 'calc.y' and, if %defines was specified, 'calc-lex.c' or
+# 'calc-lex.cc'.
 m4_define([AT_DATA_CALC_Y],
 [_AT_DATA_CALC_Y($[1], $[2], $[3], [$1])
 ])
@@ -376,9 +376,9 @@ m4_define([AT_DATA_CALC_Y],
 
 # _AT_CHECK_CALC(BISON-OPTIONS, INPUT, [NUM-STDERR-LINES])
 # --------------------------------------------------------
-# Run `calc' on INPUT and expect no STDOUT nor STDERR.
+# Run 'calc' on INPUT and expect no STDOUT nor STDERR.
 #
-# If BISON-OPTIONS contains `%debug' but not `%glr-parser', then
+# If BISON-OPTIONS contains '%debug' but not '%glr-parser', then
 #
 # NUM-STDERR-LINES is the number of expected lines on stderr.
 # Currently this is ignored, though, since the output format is fluctuating.
@@ -397,7 +397,7 @@ AT_PARSER_CHECK([./calc input], 0, [], [stderr])
 #                      [NUM-STDERR-LINES],
 #                      [VERBOSE-AND-LOCATED-ERROR-MESSAGE])
 # ---------------------------------------------------------
-# Run `calc' on INPUT, and expect a `syntax error' message.
+# Run 'calc' on INPUT, and expect a 'syntax error' message.
 #
 # If INPUT starts with a slash, it is used as absolute input file name,
 # otherwise as contents.
@@ -405,14 +405,14 @@ AT_PARSER_CHECK([./calc input], 0, [], [stderr])
 # NUM-STDERR-LINES is the number of expected lines on stderr.
 # Currently this is ignored, though, since the output format is fluctuating.
 #
-# If BISON-OPTIONS contains `%location', then make sure the ERROR-LOCATION
+# If BISON-OPTIONS contains '%location', then make sure the ERROR-LOCATION
 # is correctly output on stderr.
 #
-# If BISON-OPTIONS contains `%define parse.error verbose', then make sure the
-# IF-YYERROR-VERBOSE message is properly output after `syntax error, '
+# If BISON-OPTIONS contains '%define parse.error verbose', then make sure the
+# IF-YYERROR-VERBOSE message is properly output after 'syntax error, '
 # on STDERR.
 #
-# If BISON-OPTIONS contains `%debug' but not `%glr', then NUM-STDERR-LINES
+# If BISON-OPTIONS contains '%debug' but not '%glr', then NUM-STDERR-LINES
 # is the number of expected lines on stderr.
 m4_define([_AT_CHECK_CALC_ERROR],
 [m4_bmatch([$3], [^/],
@@ -449,7 +449,7 @@ AT_DATA([[expout]],
 AT_YYERROR_SEES_LOC_IF([],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
-# 4. If error-verbose is not used, strip the`, unexpected....' part.
+# 4. If error-verbose is not used, strip the', unexpected....' part.
 m4_bmatch([$1], [%define parse.error verbose], [],
 [[sed 's/syntax error, .*$/syntax error/' expout >at-expout
 mv at-expout expout]])
@@ -479,7 +479,7 @@ m4_define([AT_CHECK_SPACES],
 
 # AT_CHECK_CALC([BISON-OPTIONS])
 # ------------------------------
-# Start a testing chunk which compiles `calc' grammar with
+# Start a testing chunk which compiles 'calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC],
 [m4_ifval([$2], [m4_fatal([$0: expected a single argument])])
@@ -539,7 +539,7 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
 #   - (* * *): nothing to pop, a lot to discard
 #   - (1 + 2 * *): some to pop and discard
 #
-# - test the action associated to `error'
+# - test the action associated to 'error'
 #
 # - check the lookahead that triggers an error is not discarded
 #   when we enter error recovery.  Below, the lookahead causing the
@@ -588,7 +588,7 @@ AT_BANNER([[Simple LALR(1) Calculator.]])
 
 # AT_CHECK_CALC_LALR([BISON-OPTIONS])
 # -----------------------------------
-# Start a testing chunk which compiles `calc' grammar with
+# Start a testing chunk which compiles 'calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_LALR],
 [AT_CHECK_CALC($@)])
@@ -628,7 +628,7 @@ AT_BANNER([[Simple GLR Calculator.]])
 
 # AT_CHECK_CALC_GLR([BISON-OPTIONS])
 # ----------------------------------
-# Start a testing chunk which compiles `calc' grammar with
+# Start a testing chunk which compiles 'calc' grammar with
 # BISON-OPTIONS and %glr-parser, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_GLR],
 [AT_CHECK_CALC([%glr-parser] $@)])
@@ -670,7 +670,7 @@ AT_CHECK_CALC([%skeleton "lalr1.cc" %defines])
 
 # AT_CHECK_CALC_LALR1_CC([BISON-OPTIONS])
 # ---------------------------------------
-# Start a testing chunk which compiles `calc' grammar with
+# Start a testing chunk which compiles 'calc' grammar with
 # the C++ skeleton, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_LALR1_CC],
 [AT_CHECK_CALC([%language "C++"] $@)])
@@ -704,7 +704,7 @@ AT_CHECK_CALC([%skeleton "glr.cc"])
 
 # AT_CHECK_CALC_GLR_CC([BISON-OPTIONS])
 # -------------------------------------
-# Start a testing chunk which compiles `calc' grammar with
+# Start a testing chunk which compiles 'calc' grammar with
 # the GLR C++ skeleton, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_GLR_CC],
 [AT_CHECK_CALC([%language "C++" %glr-parser] $@)])

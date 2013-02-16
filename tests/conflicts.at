@@ -936,13 +936,13 @@ AT_CLEANUP
 #    $end           reduce using rule 3 (num)
 #    $end           [reduce using rule 4 (id)]
 #
-# But when `reduce 3' is the default action, we'd produce:
+# But when 'reduce 3' is the default action, we'd produce:
 #
 #    $end           [reduce using rule 4 (id)]
 #    $default    reduce using rule 3 (num)
 #
 # In this precise case (a reduction is masked by the default
-# reduction), we make the `reduce 3' explicit:
+# reduction), we make the 'reduce 3' explicit:
 #
 #    $end           reduce using rule 3 (num)
 #    $end           [reduce using rule 4 (id)]

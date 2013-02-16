@@ -420,8 +420,8 @@ AT_CLEANUP
 AT_SETUP([[Syntactically invalid namespace references]])
 AT_TEST([[:foo:bar]], [[-]])
 AT_TEST([[foo: :bar]], [[-]])
-# This one is interesting because `[3]' is encoded as `@<:@3@:>@', which
-# contains single occurrences of `:'.
+# This one is interesting because '[3]' is encoded as '@<:@3@:>@', which
+# contains single occurrences of ':'.
 AT_TEST([[foo[3]::bar::baz]], [[-]])
 AT_TEST([[foo::bar,baz]], [[-]])
 AT_TEST([[foo::bar::(baz /* Pacify Emacs ) */]], [[-]])

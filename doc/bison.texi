@@ -2403,7 +2403,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 %@{
   #include <stdio.h>  /* For printf, etc. */
   #include <math.h>   /* For pow, used in the grammar.  */
-  #include "calc.h"   /* Contains definition of `symrec'.  */
+  #include "calc.h"   /* Contains definition of 'symrec'.  */
   int yylex (void);
   void yyerror (char const *);
 %@}
@@ -2532,7 +2532,7 @@ struct symrec
 @group
 typedef struct symrec symrec;
 
-/* The symbol table: a chain of `struct symrec'.  */
+/* The symbol table: a chain of 'struct symrec'.  */
 extern symrec *sym_table;
 
 symrec *putsym (char const *, int);
@@ -2567,7 +2567,7 @@ struct init const arith_fncts[] =
 @end group
 
 @group
-/* The symbol table: a chain of `struct symrec'.  */
+/* The symbol table: a chain of 'struct symrec'.  */
 symrec *sym_table;
 @end group
 
@@ -2975,7 +2975,7 @@ Let's go ahead and add the new @code{YYLTYPE} definition and the
   #include <stdio.h>
 
   /* WARNING: The following code really belongs
-   * in a `%code requires'; see below.  */
+   * in a '%code requires'; see below.  */
 
   #include "ptypes.h"
   #define YYLTYPE YYLTYPE
@@ -6435,7 +6435,7 @@ yylex (void)
     return 0;
   @dots{}
   if (c == '+' || c == '-')
-    return c;      /* Assume token type for `+' is '+'.  */
+    return c;      /* Assume token type for '+' is '+'.  */
   @dots{}
   return INT;      /* Return the type of the token.  */
   @dots{}
@@ -9698,7 +9698,7 @@ Here is a list of options that can be used with Bison, alphabetized by
 short option.  It is followed by a cross key alphabetized by long
 option.
 
-@c Please, keep this ordered as in `bison --help'.
+@c Please, keep this ordered as in 'bison --help'.
 @noindent
 Operations modes:
 @table @option
@@ -12263,7 +12263,7 @@ operating system's name and version and your compiler's name and
 version.  If you have trouble compiling, you should also include a
 transcript of the build session, starting with the invocation of
 `configure'.  Depending on the nature of the bug, you may be asked to
-send additional files as well (such as `config.h' or `config.cache').
+send additional files as well (such as @file{config.h} or @file{config.cache}).
 
 Patches are most welcome, but not required.  That is, do not hesitate to
 send a bug report just because you cannot provide a fix.

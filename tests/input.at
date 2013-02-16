@@ -1484,7 +1484,7 @@ AT_SETUP([[Unused %define api.pure]])
 
 # AT_CHECK_API_PURE(DECLS, VALUE)
 # -------------------------------
-# Make sure Bison reports that `%define api.pure VALUE' is unused when DECLS
+# Make sure Bison reports that '%define api.pure VALUE' is unused when DECLS
 # are specified.
 m4_define([AT_CHECK_API_PURE],
 [

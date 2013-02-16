@@ -525,7 +525,7 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
 %%
 /*
    This grammar is made to exercise error recovery.
-   "Lines" starting with `(' support error recovery, with
+   "Lines" starting with '(' support error recovery, with
    ')' as synchronizing token.  Lines starting with 'x' can never
    be recovered from if in error.
 */
@@ -688,7 +688,7 @@ Successful parse.
 
 # Syntax errors caught by the parser
 # ----------------------------------
-# Exercise the discarding of stack top and input until `error'
+# Exercise the discarding of stack top and input until 'error'
 # can be reduced.
 #
 #     '(', 'x', 'x', 'x', 'x', 'x', ')',
@@ -1284,7 +1284,7 @@ AT_SETUP([Default %printer and %destructor are not for $accept])
 #   - The %printer and %destructor code generated for $accept would always be
 #     dead code because $accept is currently never shifted onto the stack.
 #   - $$ for $accept would always be of type YYSTYPE because it's not possible
-#     to declare `%type <field> $accept'.  (Also true for $undefined.)
+#     to declare '%type <field> $accept'.  (Also true for $undefined.)
 #   - Thus, the compiler might complain that the user code assumes the wrong
 #     type for $$ since the code might assume the type associated with a
 #     specific union field, which is especially reasonable in C++ since that

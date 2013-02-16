@@ -113,7 +113,7 @@ AT_CLEANUP
 ## Broken Closure.  ##
 ## ---------------- ##
 
-# TC was once broken during a massive `simplification' of the code.
+# TC was once broken during a massive 'simplification' of the code.
 # It resulted in bison dumping core on the following grammar (the
 # computation of FIRSTS uses TC).  It managed to produce a pretty
 # exotic closure:
@@ -263,7 +263,7 @@ AT_CLEANUP
 # In some weird cases Bison could compute an incorrect final state
 # number.  This happens only if the $end token is used in the user
 # grammar, which is a very suspicious accidental feature introduced as
-# a side effect of allowing the user to name $end using `%token END 0
+# a side effect of allowing the user to name $end using '%token END 0
 # "end of file"'.
 
 AT_SETUP([Accept])

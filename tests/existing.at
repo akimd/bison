@@ -403,26 +403,26 @@ dnl parses it as:
 dnl
 dnl   getline $!(4*0);
 dnl
-dnl That is, they shift `*' immediately and make it part of the getline
+dnl That is, they shift '*' immediately and make it part of the getline
 dnl argument.
 dnl
 dnl The grammar below using LALR(1) parses it as a syntax error.  So does
 dnl GNU AWK 3.0.6, 3.1.0, and 3.1.1.  They reduce the full getline expression
-dnl before shifting `*' even though `*' is not a valid lookahead.
+dnl before shifting '*' even though '*' is not a valid lookahead.
 dnl
 dnl GNU AWK 3.1.2, 3.1.3, 3.1.4, and 3.1.5 parse it as:
 dnl
 dnl   (getline $!4)*0;
 dnl
 dnl That is, like the other versions of GNU AWK, they reduce the full getline
-dnl expression before shifting `*'.  However, because of a different LHS on the
-dnl getline rule, `*' actually is a valid lookahead.  Solaris /usr/xpg4/bin/awk
+dnl expression before shifting '*'.  However, because of a different LHS on the
+dnl getline rule, '*' actually is a valid lookahead.  Solaris /usr/xpg4/bin/awk
 dnl and the Open Group awk specification seem to agree:
 dnl
 dnl   http://www.opengroup.org/pubs/online/7908799/xcu/awk.html
 dnl
 dnl /bin/nawk and /bin/awk on Solaris 10 report it as a syntax error, but they
-dnl don't like even `print $!4;'.
+dnl don't like even 'print $!4;'.
 [[LEX_GETLINE, '$', '!', YNUMBER, '*', YNUMBER, ';']],
 
 dnl BISON-STDERR
@@ -1649,7 +1649,7 @@ box "foo" above ljust == box ("foo" above ljust)
 
 %left LEFT RIGHT
 /* Give attributes that take an optional expression a higher
-precedence than left and right, so that eg `line chop left'
+precedence than left and right, so that eg 'line chop left'
 parses properly. */
 %left CHOP SOLID DASHED DOTTED UP DOWN FILL COLORED OUTLINED
 %left LABEL
@@ -1662,7 +1662,7 @@ parses properly. */
 /* these need to be lower than '-' */
 %left HEIGHT RADIUS WIDTH DIAMETER FROM TO AT THICKNESS
 
-/* these must have higher precedence than CHOP so that `label %prec CHOP'
+/* these must have higher precedence than CHOP so that 'label %prec CHOP'
 works */
 %left DOT_N DOT_E DOT_W DOT_S DOT_NE DOT_SE DOT_NW DOT_SW DOT_C
 %left DOT_START DOT_END TOP BOTTOM LEFT_CORNER RIGHT_CORNER

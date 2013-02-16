@@ -36,7 +36,7 @@
        Timing variables may be pushed onto the stack; elapsed time is
        attributed to the topmost timing variable on the stack.  When
        another variable is pushed on, the previous topmost variable is
-       `paused' until the pushed variable is popped back off.
+       'paused' until the pushed variable is popped back off.
 
      - As a standalone timer, using timevar_start and timevar_stop.
        All time elapsed between the two calls is attributed to the

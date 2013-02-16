@@ -134,7 +134,7 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 # _AT_BISON_OPTION_PUSHDEFS($1, $2, [BISON-OPTIONS])
 # --------------------------------------------------
 # This macro works around the impossibility to define macros
-# inside macros, because issuing `[$1]' is not possible in M4 :(.
+# inside macros, because issuing '[$1]' is not possible in M4 :(.
 # This sucks hard, GNU M4 should really provide M5-like $$1.
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
@@ -599,7 +599,7 @@ m4_define([AT_MAIN_DEFINE(java)],
 # High-level routine that may call bison several times, under different
 # conditions.
 #
-# Check Bison by invoking `bison BISON_ARGS'.  BISON_ARGS should not contain
+# Check Bison by invoking 'bison BISON_ARGS'.  BISON_ARGS should not contain
 # shell constructs (such as redirection or pipes) that would prevent
 # appending additional command-line arguments for bison. OTHER_AT_CHECK_ARGS
 # are the usual remaining arguments to AT_CHECK: STATUS, STDOUT, etc.
@@ -876,7 +876,7 @@ AT_PARSER_CHECK([./c-and-cxx])
 
 # AT_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
 # ------------------------------------------------------------
-# So that we can run `./testsuite PREPARSER='valgrind -q' for instance.
+# So that we can run './testsuite PREPARSER='valgrind -q' for instance.
 #
 # Get rid of spurious messages when compiled with --coverage:
 # +profiling:/[...]/lib/fprintf.gcda:Merge mismatch for summaries
@@ -918,16 +918,16 @@ m4_define([AT_JAVA_PARSER_CHECK],
 # that Bison exits with value 0, has no stdout, and has stderr
 # BISON-STDERR.
 #
-# If TEST-SPEC contains the attribute `last-state', check that the value
+# If TEST-SPEC contains the attribute 'last-state', check that the value
 # of TABLES-OR-LAST-STATE is the index of the last state generated for
 # the grammar; in other words, check the number of states (minus one).
-# Otherwise, check that everything in the `.output' file starting with
+# Otherwise, check that everything in the '.output' file starting with
 # the definition of state 0 is the same as the entire value of
 # TABLES-OR-LAST-STATE.
 #
 # Expand the M4 in OTHER-CHECKS to perform additional checks of the
-# `.output' file, which is named `input.output', and/or grammar file,
-# which is named `input.y'.
+# '.output' file, which is named 'input.output', and/or grammar file,
+# which is named 'input.y'.
 #
 # Finally, compile the generated parser and then run it using
 # AT_PARSER_CHECK with PARSER-EXIT-VALUE, PARSER-STDOUT, and
