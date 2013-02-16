@@ -101,6 +101,9 @@ typedef enum
     Wall              = ~complaint & ~fatal & ~silent
   } warnings;
 
+/** Whether the warnings of \a flags are all unset.
+    (Never enabled, never disabled). */
+bool warning_is_unset (warnings flags);
 
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)

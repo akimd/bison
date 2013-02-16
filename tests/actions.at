@@ -84,6 +84,25 @@ AT_BISON_CHECK([-fcaret -Wempty-rule 1.y], [0], [],
                  ^^
 ]])
 
+AT_DATA_GRAMMAR([[2.y]],
+[[%%
+exp: a b c;
+a: /* empty. */ {};
+b: %empty       {};
+c: /* empty. */ {};
+]])
+
+AT_BISON_CHECK([-fcaret 2.y], [0], [],
+[[2.y:11.17-18: warning: empty rule without %empty [-Wempty-rule]
+ a: /* empty. */ {};
+                 ^^
+2.y:13.17-18: warning: empty rule without %empty [-Wempty-rule]
+ c: /* empty. */ {};
+                 ^^
+]])
+
+AT_BISON_CHECK([-fcaret -Wno-empty-rule 2.y], [0])
+
 AT_CLEANUP
 
 ## ------------------------ ##
