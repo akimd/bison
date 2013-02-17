@@ -123,6 +123,10 @@ void complain_indent (location const *loc, warnings flags, unsigned *indent,
 void deprecated_directive (location const *loc,
                            char const *obsolete, char const *updated);
 
+/** Report a repeated directive for a rule.  */
+void duplicate_directive (char const *directive,
+                          location first, location second);
+
 /** Warnings treated as errors shouldn't stop the execution as regular errors
     should (because due to their nature, it is safe to go on). Thus, there are
     three possible execution statuses.  */

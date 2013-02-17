@@ -83,6 +83,7 @@ typedef struct symbol_list
   location percent_empty_loc;
 
   int dprec;
+  location dprec_location;
   int merger;
   location merger_declaration_location;
 

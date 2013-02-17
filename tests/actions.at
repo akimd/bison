@@ -114,14 +114,17 @@ AT_SETUP([Invalid uses of %empty])
 AT_DATA_GRAMMAR([[one.y]],
 [[%%
 exp:
-  %empty %empty {}
+  %empty {} %empty
 ;
 ]])
 
 AT_BISON_CHECK([-fcaret one.y], [1], [],
-[[one.y:11.10-15: error: only one %empty allowed per rule
-   %empty %empty {}
-          ^^^^^^
+[[one.y:11.13-18: error: only one %empty allowed per rule
+   %empty {} %empty
+             ^^^^^^
+one.y:11.3-8: previous declaration
+   %empty {} %empty
+   ^^^^^^
 ]])
 
 AT_DATA_GRAMMAR([[two.y]],
