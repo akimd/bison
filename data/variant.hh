@@ -95,22 +95,22 @@ m4_define([b4_variant_define],
 
     /// Empty construction.
     variant ()]b4_parse_assert_if([
-      : tname (YY_NULL)])[
+      : yytname_ (YY_NULL)])[
     {}
 
     /// Construct and fill.
     template <typename T>
     variant (const T& t)]b4_parse_assert_if([
-      : tname (typeid (T).name ())])[
+      : yytname_ (typeid (T).name ())])[
     {
       YYASSERT (sizeof (T) <= S);
-      new (as_ <T> ()) T (t);
+      new (yyas_<T> ()) T (t);
     }
 
     /// Destruction, allowed only if empty.
     ~variant ()
     {]b4_parse_assert_if([
-      YYASSERT (!tname);
+      YYASSERT (!yytname_);
     ])[}
 
     /// Instantiate an empty \a T in here.
@@ -118,10 +118,10 @@ m4_define([b4_variant_define],
     T&
     build ()
     {]b4_parse_assert_if([
-      YYASSERT (!tname);
+      YYASSERT (!yytname_);
       YYASSERT (sizeof (T) <= S);
-      tname = typeid (T).name ();])[
-      return *new (as_<T> ()) T;
+      yytname_ = typeid (T).name ();])[
+      return *new (yyas_<T> ()) T;
     }
 
     /// Instantiate a \a T in here from \a t.
@@ -129,10 +129,10 @@ m4_define([b4_variant_define],
     T&
     build (const T& t)
     {]b4_parse_assert_if([
-      YYASSERT (!tname);
+      YYASSERT (!yytname_);
       YYASSERT (sizeof (T) <= S);
-      tname = typeid (T).name ();])[
-      return *new (as_<T> ()) T (t);
+      yytname_ = typeid (T).name ();])[
+      return *new (yyas_<T> ()) T (t);
     }
 
     /// Accessor to a built \a T.
@@ -140,9 +140,9 @@ m4_define([b4_variant_define],
     T&
     as ()
     {]b4_parse_assert_if([
-      YYASSERT (tname == typeid (T).name ());
+      YYASSERT (yytname_ == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
-      return *as_<T> ();
+      return *yyas_<T> ();
     }
 
     /// Const accessor to a built \a T (for %printer).
@@ -150,9 +150,9 @@ m4_define([b4_variant_define],
     const T&
     as () const
     {]b4_parse_assert_if([
-      YYASSERT (tname == typeid (T).name ());
+      YYASSERT (yytname_ == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
-      return *as_<T> ();
+      return *yyas_<T> ();
     }
 
     /// Swap the content with \a other, of same type.
@@ -167,8 +167,8 @@ m4_define([b4_variant_define],
     void
     swap (self_type& other)
     {]b4_parse_assert_if([
-      YYASSERT (tname);
-      YYASSERT (tname == other.tname);])[
+      YYASSERT (yytname_);
+      YYASSERT (yytname_ == other.yytname_);])[
       std::swap (as<T> (), other.as<T> ());
     }
 
@@ -179,7 +179,7 @@ m4_define([b4_variant_define],
     void
     move (self_type& other)
     {]b4_parse_assert_if([
-      YYASSERT (!tname);])[
+      YYASSERT (!yytname_);])[
       build<T> ();
       swap<T> (other);
       other.destroy<T> ();
@@ -199,7 +199,7 @@ m4_define([b4_variant_define],
     destroy ()
     {
       as<T> ().~T ();]b4_parse_assert_if([
-      tname = YY_NULL;])[
+      yytname_ = YY_NULL;])[
     }
 
   private:
@@ -210,32 +210,31 @@ m4_define([b4_variant_define],
     /// Accessor to raw memory as \a T.
     template <typename T>
     T*
-    as_ ()
+    yyas_ ()
     {
-      void *yyp = buffer.raw;
+      void *yyp = yybuffer_.yyraw;
       return static_cast<T*> (yyp);
      }
 
     /// Const accessor to raw memory as \a T.
     template <typename T>
     const T*
-    as_ () const
+    yyas_ () const
     {
-      const void *yyp = buffer.raw;
+      const void *yyp = yybuffer_.yyraw;
       return static_cast<const T*> (yyp);
      }
 
-    /// A buffer large enough to store any of the semantic values.
-    /// Long double is chosen as it has the strongest alignment
-    /// constraints.
     union
     {
-      long double align_me;
-      char raw[S];
-    } buffer;]b4_parse_assert_if([
+      /// Strongest alignment constraints.
+      long double yyalign_me;
+      /// A buffer large enough to store any of the semantic values.
+      char yyraw[S];
+    } yybuffer_;]b4_parse_assert_if([
 
     /// Whether the content is built: if defined, the name of the stored type.
-    const char *tname;])[
+    const char *yytname_;])[
   };
 ]])
 
