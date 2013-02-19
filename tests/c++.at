@@ -613,14 +613,42 @@ $1
   /// A class that counts its number of instances.
   struct Object
   {
+    char val;
+
+    Object (char v)
+      : val (v)
+    {
+      Object::instances.push_back(this);
+      log (this, "Object::Object");
+    }
+
+    Object ()
+      : val ('?')
+    {
+      Object::instances.push_back(this);
+      log (this, "Object::Object");
+    }
+
+    Object& operator= (char v)
+    {
+      val = v;
+      return *this;
+    }
+
+    ~Object ()
+    {
+      Object::instances.remove (this);
+      log (this, "Object::~Object");
+    }
+
+    // Static part.
     typedef std::list<const Object*> objects;
     static objects instances;
-    char val;
 
     static bool
     empty ()
     {
-      return instances.empty();
+      return instances.empty ();
     }
 
     static void
@@ -642,26 +670,6 @@ $1
             }
           std::cerr << " }" << std::endl;
         }
-    }
-
-    Object (char v)
-      : val (v)
-    {
-      instances.push_back(this);
-      log (this, "Object::Object");
-    }
-
-    Object ()
-      : val ('?')
-    {
-      instances.push_back(this);
-      log (this, "Object::Object");
-    }
-
-    ~Object ()
-    {
-      instances.remove(this);
-      log (this, "Object::~Object");
     }
   };
 }
@@ -725,11 +733,11 @@ item:
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
 | 'E' 'a' { YYUSE($][1); $][$ = $][2; }
-| 'R'  { $][$ = YY_NULL; ]AT_VARIANT_IF([], [delete $][1]; )[YYERROR; }
+| 'R'  { $][$ = 0; ]AT_VARIANT_IF([], [delete $][1]; )[YYERROR; }
 | 'p'  { $][$ = $][1; }
 | 's'  { $][$ = $][1; throw std::runtime_error ("reduction"); }
-| 'T'  { $][$ = YY_NULL; ]AT_VARIANT_IF([], [delete $][1]; )[YYABORT; }
-| error { $][$ = YY_NULL; yyerrok; }
+| 'T'  { $][$ = 0; ]AT_VARIANT_IF([], [delete $][1]; )[YYABORT; }
+| error { $][$ = 0; yyerrok; }
 ;
 %%
 
