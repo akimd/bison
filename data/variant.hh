@@ -104,7 +104,7 @@ m4_define([b4_variant_define],
       : tname (typeid (T).name ())])[
     {
       YYASSERT (sizeof (T) <= S);
-      new (buffer.raw) T (t);
+      new (as_ <T> ()) T (t);
     }
 
     /// Destruction, allowed only if empty.
@@ -121,7 +121,7 @@ m4_define([b4_variant_define],
       YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
       tname = typeid (T).name ();])[
-      return *new (buffer.raw) T;
+      return *new (as_<T> ()) T;
     }
 
     /// Instantiate a \a T in here from \a t.
@@ -132,7 +132,7 @@ m4_define([b4_variant_define],
       YYASSERT (!tname);
       YYASSERT (sizeof (T) <= S);
       tname = typeid (T).name ();])[
-      return *new (buffer.raw) T (t);
+      return *new (as_<T> ()) T (t);
     }
 
     /// Accessor to a built \a T.
@@ -142,10 +142,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (tname == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
-      {
-        void *dummy = buffer.raw;
-        return *static_cast<T*> (dummy);
-      }
+      return *as_<T> ();
     }
 
     /// Const accessor to a built \a T (for %printer).
@@ -155,10 +152,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (tname == typeid (T).name ());
       YYASSERT (sizeof (T) <= S);])[
-      {
-        const void *dummy = buffer.raw;
-        return *static_cast<const T*> (dummy);
-      }
+      return *as_<T> ();
     }
 
     /// Swap the content with \a other, of same type.
@@ -212,6 +206,24 @@ m4_define([b4_variant_define],
     /// Prohibit blind copies.
     self_type& operator=(const self_type&);
     variant (const self_type&);
+
+    /// Accessor to raw memory as \a T.
+    template <typename T>
+    T*
+    as_ ()
+    {
+      void *yyp = buffer.raw;
+      return static_cast<T*> (yyp);
+     }
+
+    /// Const accessor to raw memory as \a T.
+    template <typename T>
+    const T*
+    as_ () const
+    {
+      const void *yyp = buffer.raw;
+      return static_cast<const T*> (yyp);
+     }
 
     /// A buffer large enough to store any of the semantic values.
     /// Long double is chosen as it has the strongest alignment
