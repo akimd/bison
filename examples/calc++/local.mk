@@ -44,32 +44,31 @@ CLEANFILES +=                                   \
 # Avoid using BUILT_SOURCES which is too global.
 $(examples_calc___calc___OBJECTS): $(calc_sources_generated)
 
-calc_sources_extracted =			\
-  examples/calc++/calc++-driver.cc		\
-  examples/calc++/calc++-driver.hh		\
-  examples/calc++/calc++-scanner.ll		\
+calc_sources_extracted =                        \
+  examples/calc++/calc++-driver.cc              \
+  examples/calc++/calc++-driver.hh              \
+  examples/calc++/calc++-scanner.ll             \
   examples/calc++/calc++.cc
-calc_extracted =				\
-  $(calc_sources_extracted)			\
+calc_extracted =                                \
+  $(calc_sources_extracted)                     \
   examples/calc++/calc++-parser.yy
 extracted += $(calc_extracted)
-calc_sources_generated =			\
-  examples/calc++/calc++-parser.cc		\
-  examples/calc++/calc++-parser.hh		\
-  examples/calc++/location.hh			\
-  examples/calc++/position.hh			\
+calc_sources_generated =                        \
+  examples/calc++/calc++-parser.cc              \
+  examples/calc++/calc++-parser.hh              \
+  examples/calc++/location.hh                   \
+  examples/calc++/position.hh                   \
   examples/calc++/stack.hh
-calc_sources =					\
-  $(calc_sources_extracted)			\
+calc_sources =                                  \
+  $(calc_sources_extracted)                     \
   $(calc_sources_generated)
 
 if BISON_CXX_WORKS
 check_PROGRAMS += examples/calc++/calc++
-nodist_examples_calc___calc___SOURCES =		\
+nodist_examples_calc___calc___SOURCES =         \
   $(calc_sources)
 
 examples_calc___calc___CPPFLAGS = -I$(top_builddir)/examples/calc++
-examples_calc___calc___CXXFLAGS =			\
-  $(AM_CXXFLAGS) $(WARN_NO_NULL_CONVERSION_CXXFLAGS)
+examples_calc___calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
 dist_TESTS += examples/calc++/calc++.test
 endif
