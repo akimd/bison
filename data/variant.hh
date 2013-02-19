@@ -26,7 +26,7 @@
 # YYTYPE.
 m4_define([b4_symbol_variant],
 [m4_pushdef([b4_dollar_dollar],
-            [$2.$3< $][3 >(m4_shift3($@))])dnl
+            [$2.$3< $][3 > (m4_shift3($@))])dnl
   switch ($1)
     {
 b4_type_foreach([b4_type_action_])[]dnl
@@ -169,7 +169,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (tname);
       YYASSERT (tname == other.tname);])[
-      std::swap (as<T>(), other.as<T>());
+      std::swap (as<T> (), other.as<T> ());
     }
 
     /// Move the content of \a other to this.
@@ -180,9 +180,9 @@ m4_define([b4_variant_define],
     move (self_type& other)
     {]b4_parse_assert_if([
       YYASSERT (!tname);])[
-      build<T>();
-      swap<T>(other);
-      other.destroy<T>();
+      build<T> ();
+      swap<T> (other);
+      other.destroy<T> ();
     }
 
     /// Copy the content of \a other to this.
@@ -264,7 +264,7 @@ m4_define([b4_semantic_type_declare],
 # ----------------------------
 m4_define([b4_symbol_value],
 [m4_ifval([$2],
-          [$1.as< $2 >()],
+          [$1.as< $2 > ()],
           [$1])])
 
 # b4_symbol_value_template(VAL, [TYPE])
@@ -272,7 +272,7 @@ m4_define([b4_symbol_value],
 # Same as b4_symbol_value, but used in a template method.
 m4_define([b4_symbol_value_template],
 [m4_ifval([$2],
-          [$1.template as< $2 >()],
+          [$1.template as< $2 > ()],
           [$1])])
 
 
