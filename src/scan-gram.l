@@ -572,7 +572,7 @@ eqopt    ([[:space:]]*=)?
     STRING_GROW;
   }
 
-  [^<>]+ STRING_GROW;
+  ([^<>]|->)+ STRING_GROW;
   "<"+   STRING_GROW; nesting += yyleng;
 
   <<EOF>>   unexpected_eof (token_start, ">");

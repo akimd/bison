@@ -53,7 +53,7 @@ m4_pushdef([AT_TEST],
 [
 AT_SETUP([$1])
 AT_KEYWORDS([api.value.type])
-AT_BISON_OPTION_PUSHDEFS([$1 $2])
+AT_BISON_OPTION_PUSHDEFS([%debug $1 $2])
 AT_DATA_GRAMMAR([test.y],
 [[%debug
 
@@ -105,6 +105,36 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           [AT_VAL.ival = (res - '0') * 10;
            AT_VAL.fval = (res - '0') / 10.f],
           [30 0.3])
+
+  # A user defined struct that uses pointers.
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type "struct bar"],
+          [%code requires
+           {
+             struct u
+             {
+               int ival;
+             };
+             struct bar
+             {
+               struct u *up;
+             };
+           }
+           %token <up->ival> '1' '2'
+           %printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
+                                     [[fprintf (yyo, "%d", $$)]])[; } <up->ival>
+           ],
+          ['1' '2'
+           {
+             printf ("%d %d\n", $1, $<up->ival>2);
+             free ($<up>1);
+             free ($<up>2);
+           }],
+          ["12"],
+          [AT_VAL.up = (struct u *) malloc (sizeof *AT_VAL.up);
+           assert (AT_VAL.up);
+           AT_VAL.up->ival = res - '0';],
+          [1 2])
 
   # A user defined union.
   AT_TEST([%skeleton "]b4_skel["
