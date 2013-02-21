@@ -112,7 +112,12 @@ static void unexpected_newline (boundary, char const *);
  /* A identifier was just read in directives/rules.  Special state
     to capture the sequence 'identifier :'. */
 %x SC_AFTER_IDENTIFIER
- /* A complex tag, with nested angles brackets. */
+
+ /* POSIX says that a tag must be both an id and a C union member, but
+    historically almost any character is allowed in a tag.  We
+    disallow NUL, as this simplifies our implementation.  We match
+    angle brackets in nested pairs: several languages use them for
+    generics/template types.  */
 %x SC_TAG
 
  /* Four types of user code:
@@ -132,13 +137,6 @@ letter    [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
 notletter [^.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]{-}[%\{]
 id        {letter}({letter}|[-0-9])*
 int       [0-9]+
-
-/* POSIX says that a tag must be both an id and a C union member, but
-   historically almost any character is allowed in a tag.  We disallow
-   NUL, as this simplifies our implementation.  We disallow angle
-   bracket to match them in nested pairs: several languages use them
-   for generics/template types.  */
-tag      [^\0<>]+
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */
@@ -325,13 +323,6 @@ eqopt    ([[:space:]]*=)?
   /* A type. */
   "<*>"       return TAG_ANY;
   "<>"        return TAG_NONE;
-  "<"{tag}">" {
-    obstack_grow (&obstack_for_string, yytext + 1, yyleng - 2);
-    STRING_FINISH;
-    val->uniqstr = uniqstr_new (last_string);
-    STRING_FREE;
-    return TAG;
-  }
   "<"         {
     nesting = 0;
     token_start = loc->start;
@@ -559,10 +550,11 @@ eqopt    ([[:space:]]*=)?
   <<EOF>>   unexpected_eof (token_start, "'");
 }
 
-  /*-----------------------------------------------------------.
-  | Scanning a Bison nested tag.  The initial angle bracket is |
-  | already eaten.                                             |
-  `-----------------------------------------------------------*/
+
+
+  /*--------------------------------------------------------------.
+  | Scanning a tag.  The initial angle bracket is already eaten.  |
+  `--------------------------------------------------------------*/
 
 <SC_TAG>
 {
