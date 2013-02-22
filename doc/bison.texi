@@ -5396,7 +5396,7 @@ For instance with @samp{%define api.prefix "calc"} and @samp{%defines
 @end deffn
 
 @deffn {Directive} %defines @var{defines-file}
-Same as above, but save in the file @var{defines-file}.
+Same as above, but save in the file @file{@var{defines-file}}.
 @end deffn
 
 @deffn {Directive} %destructor
@@ -5459,7 +5459,7 @@ own right.
 @end deffn
 
 @deffn {Directive} %output "@var{file}"
-Specify @var{file} for the parser implementation file.
+Generate the parser implementation in @file{@var{file}}.
 @end deffn
 
 @deffn {Directive} %pure-parser
