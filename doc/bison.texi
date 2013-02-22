@@ -1546,7 +1546,6 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 
 @group
 %@{
-  #define YYSTYPE double
   #include <stdio.h>
   #include <math.h>
   int yylex (void);
@@ -1554,6 +1553,7 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 %@}
 @end group
 
+%define api.value.type double
 %token NUM
 
 %% /* Grammar rules and actions follow.  */
@@ -1561,14 +1561,6 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 
 The declarations section (@pxref{Prologue, , The prologue}) contains two
 preprocessor directives and two forward declarations.
-
-The @code{#define} directive defines the macro @code{YYSTYPE}, thus
-specifying the C data type for semantic values of both tokens and
-groupings (@pxref{Value Type, ,Data Types of Semantic Values}).  The
-Bison parser will use whatever type @code{YYSTYPE} is defined as; if you
-don't define it, @code{int} is the default.  Because we specify
-@code{double}, each token and each expression has an associated value,
-which is a floating point number.
 
 The @code{#include} directive is used to declare the exponentiation
 function @code{pow}.
@@ -1579,14 +1571,24 @@ before they are used.  These functions will be defined in the
 epilogue, but the parser calls them so they must be declared in the
 prologue.
 
-The second section, Bison declarations, provides information to Bison
-about the token types (@pxref{Bison Declarations, ,The Bison
-Declarations Section}).  Each terminal symbol that is not a
-single-character literal must be declared here.  (Single-character
-literals normally don't need to be declared.)  In this example, all the
-arithmetic operators are designated by single-character literals, so the
-only terminal symbol that needs to be declared is @code{NUM}, the token
-type for numeric constants.
+The second section, Bison declarations, provides information to Bison about
+the tokens and their types (@pxref{Bison Declarations, ,The Bison
+Declarations Section}).
+
+The @code{%define} directive defines the variable @code{api.value.type},
+thus specifying the C data type for semantic values of both tokens and
+groupings (@pxref{Value Type, ,Data Types of Semantic Values}).  The Bison
+parser will use whatever type @code{api.value.type} is defined as; if you
+don't define it, @code{int} is the default.  Because we specify
+@code{double}, each token and each expression has an associated value, which
+is a floating point number.  C code can use @code{YYSTYPE} to refer to the
+value @code{api.value.type}.
+
+Each terminal symbol that is not a single-character literal must be
+declared.  (Single-character literals normally don't need to be declared.)
+In this example, all the arithmetic operators are designated by
+single-character literals, so the only terminal symbol that needs to be
+declared is @code{NUM}, the token type for numeric constants.
 
 @node Rpcalc Rules
 @subsection Grammar Rules for @code{rpcalc}
@@ -1800,9 +1802,9 @@ therefore, @code{NUM} becomes a macro for @code{yylex} to use.
 
 The semantic value of the token (if it has one) is stored into the
 global variable @code{yylval}, which is where the Bison parser will look
-for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, which was
-defined at the beginning of the grammar; @pxref{Rpcalc Declarations,
-,Declarations for @code{rpcalc}}.)
+for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, whose value
+was defined at the beginning of the grammar via @samp{%define api.value.type
+double}; @pxref{Rpcalc Declarations,,Declarations for @code{rpcalc}}.)
 
 A token type code of zero is returned if the end-of-input is encountered.
 (Bison recognizes any nonpositive value as indicating end-of-input.)
@@ -1991,7 +1993,6 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 
 @group
 %@{
-  #define YYSTYPE double
   #include <math.h>
   #include <stdio.h>
   int yylex (void);
@@ -2001,6 +2002,7 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 
 @group
 /* Bison declarations.  */
+%define api.value.type double
 %token NUM
 %left '-' '+'
 %left '*' '/'
@@ -2150,13 +2152,13 @@ the same as the declarations for the infix notation calculator.
 /* Location tracking calculator.  */
 
 %@{
-  #define YYSTYPE int
   #include <math.h>
   int yylex (void);
   void yyerror (char const *);
 %@}
 
 /* Bison declarations.  */
+%define api.value.type int
 %token NUM
 
 %left '-' '+'
@@ -2433,7 +2435,7 @@ These features allow semantic values to have various data types
 (@pxref{Multiple Types, ,More Than One Value Type}).
 
 The @code{%union} declaration specifies the entire list of possible types;
-this is instead of defining @code{YYSTYPE}.  The allowable types are now
+this is instead of defining @code{api.value.type}.  The allowable types are now
 double-floats (for @code{exp} and @code{NUM}) and pointers to entries in
 the symbol table.  @xref{Union Decl, ,The Collection of Value Types}.
 
@@ -3657,17 +3659,38 @@ Notation Calculator}).
 
 Bison normally uses the type @code{int} for semantic values if your
 program uses the same data type for all language constructs.  To
-specify some other type, define @code{YYSTYPE} as a macro, like this:
+specify some other type, define the @code{%define} variable
+@code{api.value.type} like this:
+
+@example
+%define api.value.type double
+@end example
+
+@noindent
+or
+
+@example
+%define api.value.type "struct semantic_type"
+@end example
+
+The value of @code{api.value.type} should be a type name that does not
+contain parentheses or square brackets.
+
+Alternatively, instead of relying of Bison's @code{%define} support, you may
+rely on the C/C++ preprocessor and define @code{YYSTYPE} as a macro, like
+this:
 
 @example
 #define YYSTYPE double
 @end example
 
 @noindent
-@code{YYSTYPE}'s replacement list should be a type name
-that does not contain parentheses or square brackets.
 This macro definition must go in the prologue of the grammar file
-(@pxref{Grammar Outline, ,Outline of a Bison Grammar}).
+(@pxref{Grammar Outline, ,Outline of a Bison Grammar}).  If compatibility
+with POSIX Yacc matters to you, use this.  Note however that Bison cannot
+know @code{YYSTYPE}'s value, not even whether it is defined, so there are
+services it cannot provide.  Besides this works only for languages that have
+a preprocessor.
 
 @node Multiple Types
 @subsection More Than One Value Type
@@ -4745,19 +4768,18 @@ union YYSTYPE @{
   double val;
   symrec *tptr;
 @};
-typedef union YYSTYPE YYSTYPE;
 @end group
 @end example
 
 @noindent
-and then your grammar can use the following
-instead of @code{%union}:
+and then your grammar can use the following instead of @code{%union}:
 
 @example
 @group
 %@{
 #include "parser.h"
 %@}
+%define api.value.type "union YYSTYPE"
 %type <val> expr
 %token <tptr> ID
 @end group
@@ -6108,10 +6130,11 @@ qualifiers produce an error.  Some of the accepted qualifiers are:
 @item Language(s): C, C++
 
 @item Purpose: This is the best place to write dependency code required for
-@code{YYSTYPE} and @code{YYLTYPE}.
-In other words, it's the best place to define types referenced in @code{%union}
-directives, and it's the best place to override Bison's default @code{YYSTYPE}
-and @code{YYLTYPE} definitions.
+@code{YYSTYPE} and @code{YYLTYPE}.  In other words, it's the best place to
+define types referenced in @code{%union} directives.  If you use
+@code{#define} to override Bison's default @code{YYSTYPE} and @code{YYLTYPE}
+definitions, then it is also the best place.  However you should rather
+@code{%define} @code{api.value.type} and @code{api.location.type}.
 
 @item Location(s): The parser header file and the parser implementation file
 before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
@@ -12936,6 +12959,7 @@ require some expertise in low-level implementation details.
 @end deffn
 
 @deffn {Type} YYSTYPE
+Deprecated in favor of the @code{%define} variable @code{api.value.type}.
 Data type of semantic values; @code{int} by default.
 @xref{Value Type, ,Data Types of Semantic Values}.
 @end deffn
