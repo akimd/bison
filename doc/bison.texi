@@ -4459,8 +4459,7 @@ exp:
       else
         @{
           $$ = 1;
-          fprintf (stderr,
-                   "Division by zero, l%d,c%d-l%d,c%d",
+          fprintf (stderr, "%d.%d-%d.%d: division by zero",
                    @@3.first_line, @@3.first_column,
                    @@3.last_line, @@3.last_column);
         @}
@@ -4487,8 +4486,7 @@ exp:
       else
         @{
           $$ = 1;
-          fprintf (stderr,
-                   "Division by zero, l%d,c%d-l%d,c%d",
+          fprintf (stderr, "%d.%d-%d.%d: division by zero",
                    @@3.first_line, @@3.first_column,
                    @@3.last_line, @@3.last_column);
         @}
