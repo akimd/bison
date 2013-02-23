@@ -211,6 +211,7 @@ Defining Language Semantics
 
 * Value Type::        Specifying one data type for all semantic values.
 * Multiple Types::    Specifying several alternative data types.
+* Type Generation::   Generating the semantic value type.
 * Union Decl::        Declaring the set of all semantic value types.
 * Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
@@ -2412,15 +2413,10 @@ Here are the C and Bison declarations for the multi-function calculator.
 %@}
 @end group
 
-@group
-%union @{
-  double    val;   /* For returning numbers.  */
-  symrec  *tptr;   /* For returning symbol-table pointers.  */
-@}
-@end group
-%token <val>  NUM        /* Simple double precision number.  */
-%token <tptr> VAR FNCT   /* Variable and function.  */
-%type  <val>  exp
+%define api.value.type union /* Generate YYSTYPE from these types:  */
+%token <double>  NUM         /* Simple double precision number.  */
+%token <symrec*> VAR FNCT    /* Symbol table pointer: variable and function.  */
+%type  <double>  exp
 
 @group
 %precedence '='
@@ -2435,23 +2431,23 @@ The above grammar introduces only two new features of the Bison language.
 These features allow semantic values to have various data types
 (@pxref{Multiple Types, ,More Than One Value Type}).
 
-The @code{%union} declaration specifies the entire list of possible types;
-this is instead of defining @code{api.value.type}.  The allowable types are now
-double-floats (for @code{exp} and @code{NUM}) and pointers to entries in
-the symbol table.  @xref{Union Decl, ,The Union Declaration}.
+The special @code{union} value assigned to the @code{%define} variable
+@code{api.value.type} specifies that the symbols are defined with their data
+types.  Bison will generate an appropriate definition of @code{YYSTYPE} to
+store these values.
 
-Since values can now have various types, it is necessary to associate a
-type with each grammar symbol whose semantic value is used.  These symbols
-are @code{NUM}, @code{VAR}, @code{FNCT}, and @code{exp}.  Their
-declarations are augmented with information about their data type (placed
-between angle brackets).
+Since values can now have various types, it is necessary to associate a type
+with each grammar symbol whose semantic value is used.  These symbols are
+@code{NUM}, @code{VAR}, @code{FNCT}, and @code{exp}.  Their declarations are
+augmented with their data type (placed between angle brackets).  For
+instance, values of @code{NUM} are stored in @code{double}.
 
-The Bison construct @code{%type} is used for declaring nonterminal
-symbols, just as @code{%token} is used for declaring token types.  We
-have not used @code{%type} before because nonterminal symbols are
-normally declared implicitly by the rules that define them.  But
-@code{exp} must be declared explicitly so we can specify its value type.
-@xref{Type Decl, ,Nonterminal Symbols}.
+The Bison construct @code{%type} is used for declaring nonterminal symbols,
+just as @code{%token} is used for declaring token types.  Previously we did
+not use @code{%type} before because nonterminal symbols are normally
+declared implicitly by the rules that define them.  But @code{exp} must be
+declared explicitly so we can specify its value type.  @xref{Type Decl,
+,Nonterminal Symbols}.
 
 @node Mfcalc Rules
 @subsection Grammar Rules for @code{mfcalc}
@@ -2675,11 +2671,18 @@ yylex (void)
   if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
-      scanf ("%lf", &yylval.val);
+      scanf ("%lf", &yylval.NUM);
       return NUM;
     @}
 @end group
+@end example
 
+@noindent
+Bison generated a definition of @code{YYSTYPE} with a member named
+@code{NUM} to store value of @code{NUM} symbols.
+
+@comment file: mfcalc.y: 3
+@example
 @group
   /* Char starts an identifier => read the name.       */
   if (isalpha (c))
@@ -2721,7 +2724,7 @@ yylex (void)
       s = getsym (symbuf);
       if (s == 0)
         s = putsym (symbuf, VAR);
-      yylval.tptr = s;
+      *((symrec**) &yylval) = s;
       return s->type;
     @}
 
@@ -3639,6 +3642,7 @@ the numbers associated with @var{x} and @var{y}.
 @menu
 * Value Type::        Specifying one data type for all semantic values.
 * Multiple Types::    Specifying several alternative data types.
+* Type Generation::   Generating the semantic value type.
 * Union Decl::        Declaring the set of all semantic value types.
 * Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
@@ -3713,6 +3717,9 @@ Specify the entire collection of possible data types.  There are several
 options:
 @itemize @bullet
 @item
+let Bison compute the union type from the tags you assign to symbols;
+
+@item
 use the @code{%union} Bison declaration (@pxref{Union Decl, ,The Union
 Declaration});
 
@@ -3733,6 +3740,66 @@ which semantic values are used.  This is done for tokens with the
 and for groupings with the @code{%type} Bison declaration (@pxref{Type
 Decl, ,Nonterminal Symbols}).
 @end itemize
+
+@node Type Generation
+@subsection Generating the Semantic Value Type
+@cindex declaring value types
+@cindex value types, declaring
+@findex %define api.value.type union
+
+The special value @code{union} of the @code{%define} variable
+@code{api.value.type} instructs Bison that the tags used with the
+@code{%token} and @code{%type} directives are genuine types, not names of
+members of @code{YYSTYPE}.
+
+For example:
+
+@example
+%define api.value.type union
+%token <int> INT "integer"
+%token <int> 'n'
+%type <int> expr
+%token <char const *> ID "identifier"
+@end example
+
+@noindent
+generates an appropriate value of @code{YYSTYPE} to support each symbol
+type.  The name of the member of @code{YYSTYPE} for tokens than have a
+declared identifier @var{id} (such as @code{INT} and @code{ID} above, but
+not @code{'n'}) is @code{@var{id}}.  The other symbols have unspecified
+names on which you should not depend; instead, relying on C casts to access
+the semantic value with the appropriate type:
+
+@example
+/* For an "integer".  */
+yylval.INT = 42;
+return INT;
+
+/* For an 'n', also declared as int.  */
+*((int*)&yylval) = 42;
+return 'n';
+
+/* For an "identifier".  */
+yylval.ID = "42";
+return ID;
+@end example
+
+If the @code{%define} variable @code{api.token.prefix} is defined
+(@pxref{%define Summary,,api.token.prefix}), then it is also used to prefix
+the union member names.  For instance, with @samp{%define api.token.prefix
+TOK_}:
+
+@example
+/* For an "integer".  */
+yylval.TOK_INT = 42;
+return TOK_INT;
+@end example
+
+This feature is new, and user feedback would be most welcome.
+
+A similar feature is provided for C++ that in addition overcomes C++
+limitations (that forbid non-trivial objects to be part of a @code{union}):
+@samp{%define api.value.type variant}, see @ref{C++ Variants}.
 
 @node Union Decl
 @subsection The Union Declaration
@@ -5840,8 +5907,13 @@ and @code{TOK_ERROR} in the generated source files.  In particular, the
 scanner must use these prefixed token names, while the grammar itself
 may still use the short names (as in the sample rule given above).  The
 generated informational files (@file{*.output}, @file{*.xml},
-@file{*.dot}) are not modified by this prefix.  See @ref{Calc++ Parser}
-and @ref{Calc++ Scanner}, for a complete example.
+@file{*.dot}) are not modified by this prefix.
+
+Bison also prefixes the generated member names of the semantic value union.
+@xref{Type Generation,, Generating the Semantic Value Type}, for more
+details.
+
+See @ref{Calc++ Parser} and @ref{Calc++ Scanner}, for a complete example.
 
 @item Accepted Values:
 Any string.  Should be a valid identifier prefix in the target language,
@@ -9575,7 +9647,7 @@ prologue:
 /* Formatting semantic values.  */
 %printer @{ fprintf (yyoutput, "%s", $$->name); @} VAR;
 %printer @{ fprintf (yyoutput, "%s()", $$->name); @} FNCT;
-%printer @{ fprintf (yyoutput, "%g", $$); @} <val>;
+%printer @{ fprintf (yyoutput, "%g", $$); @} <double>;
 @end example
 
 The @code{%define} directive instructs Bison to generate run-time trace
@@ -9588,8 +9660,8 @@ ill-named) @code{%verbose} directive.
 The set of @code{%printer} directives demonstrates how to format the
 semantic value in the traces.  Note that the specification can be done
 either on the symbol type (e.g., @code{VAR} or @code{FNCT}), or on the type
-tag: since @code{<val>} is the type for both @code{NUM} and @code{exp}, this
-printer will be used for them.
+tag: since @code{<double>} is the type for both @code{NUM} and @code{exp},
+this printer will be used for them.
 
 Here is a sample of the information provided by run-time traces.  The traces
 are sent onto standard error.
@@ -9639,7 +9711,7 @@ Entering state 24
 
 @noindent
 The previous reduction demonstrates the @code{%printer} directive for
-@code{<val>}: both the token @code{NUM} and the resulting nonterminal
+@code{<double>}: both the token @code{NUM} and the resulting nonterminal
 @code{exp} have @samp{1} as value.
 
 @example
