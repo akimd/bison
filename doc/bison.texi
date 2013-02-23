@@ -211,6 +211,8 @@ Defining Language Semantics
 
 * Value Type::        Specifying one data type for all semantic values.
 * Multiple Types::    Specifying several alternative data types.
+* Union Decl::        Declaring the set of all semantic value types.
+* Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
 * Action Types::      Specifying data types for actions to operate on.
 * Mid-Rule Actions::  Most actions go at the end of a rule.
@@ -234,7 +236,6 @@ Bison Declarations
 * Require Decl::      Requiring a Bison version.
 * Token Decl::        Declaring terminal symbols.
 * Precedence Decl::   Declaring terminals with precedence and associativity.
-* Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
 * Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
@@ -2437,7 +2438,7 @@ These features allow semantic values to have various data types
 The @code{%union} declaration specifies the entire list of possible types;
 this is instead of defining @code{api.value.type}.  The allowable types are now
 double-floats (for @code{exp} and @code{NUM}) and pointers to entries in
-the symbol table.  @xref{Union Decl, ,The Collection of Value Types}.
+the symbol table.  @xref{Union Decl, ,The Union Declaration}.
 
 Since values can now have various types, it is necessary to associate a
 type with each grammar symbol whose semantic value is used.  These symbols
@@ -3638,6 +3639,8 @@ the numbers associated with @var{x} and @var{y}.
 @menu
 * Value Type::        Specifying one data type for all semantic values.
 * Multiple Types::    Specifying several alternative data types.
+* Union Decl::        Declaring the set of all semantic value types.
+* Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
 * Action Types::      Specifying data types for actions to operate on.
 * Mid-Rule Actions::  Most actions go at the end of a rule.
@@ -3706,11 +3709,22 @@ requires you to do two things:
 
 @itemize @bullet
 @item
-Specify the entire collection of possible data types, either by using the
-@code{%union} Bison declaration (@pxref{Union Decl, ,The Collection of
-Value Types}), or by using a @code{typedef} or a @code{#define} to
-define @code{YYSTYPE} to be a union type whose member names are
-the type tags.
+Specify the entire collection of possible data types.  There are several
+options:
+@itemize @bullet
+@item
+use the @code{%union} Bison declaration (@pxref{Union Decl, ,The Union
+Declaration});
+
+@item
+define the @code{%define} variable @code{api.value.type} to be a union type
+whose members are the type tags (@pxref{Structured Value Type,, Providing a
+Structured Semantic Value Type});
+
+@item
+use a @code{typedef} or a @code{#define} to define @code{YYSTYPE} to be a
+union type whose member names are the type tags.
+@end itemize
 
 @item
 Choose one of those types for each symbol (terminal or nonterminal) for
@@ -3719,6 +3733,99 @@ which semantic values are used.  This is done for tokens with the
 and for groupings with the @code{%type} Bison declaration (@pxref{Type
 Decl, ,Nonterminal Symbols}).
 @end itemize
+
+@node Union Decl
+@subsection The Union Declaration
+@cindex declaring value types
+@cindex value types, declaring
+@findex %union
+
+The @code{%union} declaration specifies the entire collection of possible
+data types for semantic values.  The keyword @code{%union} is followed by
+braced code containing the same thing that goes inside a @code{union} in C@.
+
+For example:
+
+@example
+@group
+%union @{
+  double val;
+  symrec *tptr;
+@}
+@end group
+@end example
+
+@noindent
+This says that the two alternative types are @code{double} and @code{symrec
+*}.  They are given names @code{val} and @code{tptr}; these names are used
+in the @code{%token} and @code{%type} declarations to pick one of the types
+for a terminal or nonterminal symbol (@pxref{Type Decl, ,Nonterminal Symbols}).
+
+As an extension to POSIX, a tag is allowed after the @code{%union}.  For
+example:
+
+@example
+@group
+%union value @{
+  double val;
+  symrec *tptr;
+@}
+@end group
+@end example
+
+@noindent
+specifies the union tag @code{value}, so the corresponding C type is
+@code{union value}.  If you do not specify a tag, it defaults to
+@code{YYSTYPE}.
+
+As another extension to POSIX, you may specify multiple @code{%union}
+declarations; their contents are concatenated.  However, only the first
+@code{%union} declaration can specify a tag.
+
+Note that, unlike making a @code{union} declaration in C, you need not write
+a semicolon after the closing brace.
+
+@node Structured Value Type
+@subsection Providing a Structured Semantic Value Type
+@cindex declaring value types
+@cindex value types, declaring
+@findex %union
+
+Instead of @code{%union}, you can define and use your own union type
+@code{YYSTYPE} if your grammar contains at least one @samp{<@var{type}>}
+tag.  For example, you can put the following into a header file
+@file{parser.h}:
+
+@example
+@group
+union YYSTYPE @{
+  double val;
+  symrec *tptr;
+@};
+@end group
+@end example
+
+@noindent
+and then your grammar can use the following instead of @code{%union}:
+
+@example
+@group
+%@{
+#include "parser.h"
+%@}
+%define api.value.type "union YYSTYPE"
+%type <val> expr
+%token <tptr> ID
+@end group
+@end example
+
+Actually, you may also provide a @code{struct} rather that a @code{union},
+which may be handy if you want to track information for every symbol (such
+as preceding comments).
+
+The type you provide may even be structured and include pointers, in which
+case the type tags you provide may be composite, with @samp{.} and @samp{->}
+operators.
 
 @node Actions
 @subsection Actions
@@ -4522,7 +4629,6 @@ and Context-Free Grammars}).
 * Require Decl::      Requiring a Bison version.
 * Token Decl::        Declaring terminal symbols.
 * Precedence Decl::   Declaring terminals with precedence and associativity.
-* Union Decl::        Declaring the set of all semantic value types.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
 * Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
@@ -4705,86 +4811,6 @@ For example:
 %left  OR 134 "<=" 135 // Declares 134 for OR and 135 for "<=".
 @end example
 
-@node Union Decl
-@subsection The Collection of Value Types
-@cindex declaring value types
-@cindex value types, declaring
-@findex %union
-
-The @code{%union} declaration specifies the entire collection of
-possible data types for semantic values.  The keyword @code{%union} is
-followed by braced code containing the same thing that goes inside a
-@code{union} in C@.
-
-For example:
-
-@example
-@group
-%union @{
-  double val;
-  symrec *tptr;
-@}
-@end group
-@end example
-
-@noindent
-This says that the two alternative types are @code{double} and @code{symrec
-*}.  They are given names @code{val} and @code{tptr}; these names are used
-in the @code{%token} and @code{%type} declarations to pick one of the types
-for a terminal or nonterminal symbol (@pxref{Type Decl, ,Nonterminal Symbols}).
-
-As an extension to POSIX, a tag is allowed after the
-@code{union}.  For example:
-
-@example
-@group
-%union value @{
-  double val;
-  symrec *tptr;
-@}
-@end group
-@end example
-
-@noindent
-specifies the union tag @code{value}, so the corresponding C type is
-@code{union value}.  If you do not specify a tag, it defaults to
-@code{YYSTYPE}.
-
-As another extension to POSIX, you may specify multiple
-@code{%union} declarations; their contents are concatenated.  However,
-only the first @code{%union} declaration can specify a tag.
-
-Note that, unlike making a @code{union} declaration in C, you need not write
-a semicolon after the closing brace.
-
-Instead of @code{%union}, you can define and use your own union type
-@code{YYSTYPE} if your grammar contains at least one
-@samp{<@var{type}>} tag.  For example, you can put the following into
-a header file @file{parser.h}:
-
-@example
-@group
-union YYSTYPE @{
-  double val;
-  symrec *tptr;
-@};
-@end group
-@end example
-
-@noindent
-and then your grammar can use the following instead of @code{%union}:
-
-@example
-@group
-%@{
-#include "parser.h"
-%@}
-%define api.value.type "union YYSTYPE"
-%type <val> expr
-%token <tptr> ID
-@end group
-@end example
-
 @node Type Decl
 @subsection Nonterminal Symbols
 @cindex declaring value types, nonterminals
@@ -4803,7 +4829,7 @@ used.  This is done with a @code{%type} declaration, like this:
 @noindent
 Here @var{nonterminal} is the name of a nonterminal symbol, and
 @var{type} is the name given in the @code{%union} to the alternative
-that you want (@pxref{Union Decl, ,The Collection of Value Types}).  You
+that you want (@pxref{Union Decl, ,The Union Declaration}).  You
 can give any number of nonterminal symbols in the same @code{%type}
 declaration, if they have the same value type.  Use spaces to separate
 the symbol names.
@@ -5290,7 +5316,7 @@ Here is a summary of the declarations used to define a grammar:
 
 @deffn {Directive} %union
 Declare the collection of data types that semantic values may have
-(@pxref{Union Decl, ,The Collection of Value Types}).
+(@pxref{Union Decl, ,The Union Declaration}).
 @end deffn
 
 @deffn {Directive} %token
@@ -5848,7 +5874,7 @@ yet.
 @item @code{%union} (C, C++)
 The type is defined thanks to the @code{%union} directive.  You don't have
 to define @code{api.value.type} in that case, using @code{%union} suffices.
-@xref{Union Decl, ,The Collection of Value Types}.
+@xref{Union Decl, ,The Union Declaration}.
 For instance:
 @example
 %define api.value.type "%union"
@@ -6606,7 +6632,7 @@ Thus, if the type is @code{int} (the default), you might write this in
 
 When you are using multiple data types, @code{yylval}'s type is a union
 made from the @code{%union} declaration (@pxref{Union Decl, ,The
-Collection of Value Types}).  So when you store a token's value, you
+Union Declaration}).  So when you store a token's value, you
 must use the proper member of the union.  If the @code{%union}
 declaration looks like this:
 
@@ -10342,7 +10368,7 @@ approach is provided, based on variants (@pxref{C++ Variants}).
 @subsubsection C++ Unions
 
 The @code{%union} directive works as for C, see @ref{Union Decl, ,The
-Collection of Value Types}.  In particular it produces a genuine
+Union Declaration}.  In particular it produces a genuine
 @code{union}, which have a few specific features in C++.
 @itemize @minus
 @item
@@ -12754,7 +12780,7 @@ The predefined token onto which all undefined values returned by
 
 @deffn {Directive} %union
 Bison declaration to specify several possible data types for semantic
-values.  @xref{Union Decl, ,The Collection of Value Types}.
+values.  @xref{Union Decl, ,The Union Declaration}.
 @end deffn
 
 @deffn {Macro} YYABORT
