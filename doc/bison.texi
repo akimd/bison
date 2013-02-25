@@ -4990,10 +4990,8 @@ For example:
 
 @example
 %union @{ char *string; @}
-%token <string> STRING1
-%token <string> STRING2
-%type  <string> string1
-%type  <string> string2
+%token <string> STRING1 STRING2
+%type  <string> string1 string2
 %union @{ char character; @}
 %token <character> CHR
 %type  <character> chr
@@ -5119,10 +5117,8 @@ For example:
 
 @example
 %union @{ char *string; @}
-%token <string> STRING1
-%token <string> STRING2
-%type  <string> string1
-%type  <string> string2
+%token <string> STRING1 STRING2
+%type  <string> string1 string2
 %union @{ char character; @}
 %token <character> CHR
 %type  <character> chr
