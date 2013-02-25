@@ -4,14 +4,6 @@ GNU Bison NEWS
 
 ** WARNING: Future backward-incompatibilities!
 
-  Bison will stop adding a semicolon at the end of the actions (as announced
-  in the release 2.5):
-
-    foo.y:2.25: warning: a ';' might be needed at the end of action code
-     exp: "number" { $$ = $1 }
-                             ^
-    foo.y:2.25:     future versions of Bison will not add the ';'
-
   Like other GNU packages, Bison will start using some of the C99 features
   for its own code, especially the definition of variables after statements.
   The generated C parsers still aim at C90.
@@ -27,6 +19,9 @@ GNU Bison NEWS
 
   Support for YYLEX_PARAM and YYPARSE_PARAM is removed (deprecated in Bison
   1.875): use %lex-param, %parse-param, or %param.
+
+  Missing semicolons at the end of actions are no longer added (as announced
+  in the release 2.5).
 
 ** Bug fixes
 
