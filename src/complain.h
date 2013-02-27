@@ -119,6 +119,9 @@ void complain_indent (location const *loc, warnings flags, unsigned *indent,
   __attribute__ ((__format__ (__printf__, 4, 5)));
 
 
+/** GNU Bison extension not valid with POSIX Yacc.  */
+void bison_directive (location const *loc, char const *directive);
+
 /** Report an obsolete syntax, suggest the updated one.  */
 void deprecated_directive (location const *loc,
                            char const *obsolete, char const *updated);

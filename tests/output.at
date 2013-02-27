@@ -44,7 +44,7 @@ done
 ]AT_DATA([$1],
 [$2[
 %%
-foo: %empty {};
+foo: '0' {};
 ]])
 
 # There is not AT_DATA_UNQUOTED.

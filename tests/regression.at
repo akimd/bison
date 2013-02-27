@@ -88,7 +88,9 @@ AT_SETUP([Early token definitions with --yacc])
 # prologue, so that they can use the token definitions in it.
 
 AT_BISON_OPTION_PUSHDEFS
-AT_DATA_GRAMMAR([input.y],
+
+# Not AT_DATA_GRAMMAR, which uses %code, which is not supported by Yacc.
+AT_DATA([input.y],
 [[%{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[

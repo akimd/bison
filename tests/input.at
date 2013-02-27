@@ -433,7 +433,13 @@ input.y:26.40-42: warning: unset value: $][$ [-Wother]
 
 AT_BISON_CHECK([-Wnone,yacc -fcaret input.y],
                [0], [],
-[[input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+[m4_ifval([$1], [], [[input.y:3.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
+ %destructor { destroy ($$); } <integer>;
+ ^^^^^^^^^^^
+]])[input.y:13.10-15: warning: POSIX Yacc does not support %empty [-Wyacc]
+ b: INT | %empty;
+          ^^^^^^
+input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
  m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
                        ^^^^^^^^^^^^
 input.y:24.49-65: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
@@ -451,7 +457,10 @@ input.y:26.23-25: warning: POSIX Yacc does not support typed midrule actions [-W
 input.y:26.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
  o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
                                         ^^^
-]])
+]m4_ifval([$1], [[input.y:30.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
+ %destructor { destroy ($$); } <integer>;
+ ^^^^^^^^^^^
+]])])
 ])
 
 ## --------------- ##
@@ -1169,7 +1178,9 @@ AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc input.y], [1], [],
-[[input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+[[input.y:1.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
+input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+input.y:13.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
 input.y:20.8-16: error: POSIX Yacc forbids dashes in symbol names: with-dash [-Werror=yacc]
 ]])
 
