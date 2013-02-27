@@ -196,6 +196,11 @@ typedef struct
   bool useful;
   bool is_predicate;
 
+  /* Counts of the numbers of expected conflicts for this rule, or -1 if none
+     given. */
+  int expected_sr_conflicts;
+  int expected_rr_conflicts;
+
   const char *action;
   location action_location;
 } rule;

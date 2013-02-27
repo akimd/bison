@@ -1244,6 +1244,61 @@ AT_BISON_CHECK([-o input.c input.y], 1, [],
 AT_CLEANUP
 
 
+## ------------------------------------ ##
+## %expect in grammar rule not enough.  ##
+## ------------------------------------ ##
+
+AT_SETUP([%expect in grammar rule not enough])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 1
+%%
+exp: exp OP exp %expect 0 | NUM;
+]])
+
+AT_BISON_CHECK([-o input.c input.y], 1, [],
+[[input.y:4.6-25: error: shift/reduce conflicts for rule 1: 1 found, 0 expected
+]])
+AT_CLEANUP
+
+
+## ------------------------------- ##
+## %expect in grammar rule right.  ##
+## ------------------------------- ##
+
+AT_SETUP([%expect in grammar rule right])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 1
+%%
+exp: exp OP exp %expect 1 | NUM;
+]])
+
+AT_BISON_CHECK([-o input.c input.y])
+AT_CLEANUP
+
+
+## ---------------------------------- ##
+## %expect in grammar rule too much.  ##
+## ---------------------------------- ##
+
+AT_SETUP([%expect in grammar rule too much])
+
+AT_DATA([input.y],
+[[%token NUM OP
+%expect 1
+%%
+exp: exp OP exp | NUM %expect 1;
+]])
+
+AT_BISON_CHECK([-o input.c input.y], 1, [],
+[[input.y:4.19-31: error: shift/reduce conflicts for rule 2: 0 found, 1 expected
+]])
+AT_CLEANUP
+
+
 ## ------------------------- ##
 ## %prec with user strings.  ##
 ## ------------------------- ##

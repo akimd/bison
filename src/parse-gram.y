@@ -588,6 +588,10 @@ rhs:
     { grammar_current_rule_dprec_set ($3, @3); }
 | rhs "%merge" TAG
     { grammar_current_rule_merge_set ($3, @3); }
+| rhs "%expect" INT
+    { grammar_current_rule_expect_sr ($3, @3); }
+| rhs "%expect-rr" INT
+    { grammar_current_rule_expect_rr ($3, @3); }
 ;
 
 named_ref.opt:

@@ -5254,6 +5254,53 @@ in GLR parsers, using the declaration:
 %expect-rr @var{n}
 @end example
 
+You may wish to be more specific in your
+specification of expected conflicts.  To this end, you can also attach
+@code{%expect} and @code{%expect-rr} modifiers to individual rules.
+The interpretation of these modifiers differs from their use as
+declarations.  When attached to rules, they indicate the number of states
+in which the rule is involved in a conflict.  You will need to consult the
+output resulting from @samp{-v} to determine appropriate numbers to use.
+For example, for the following grammar fragment, the first rule for
+@code{empty_dims} appears in two states in which the @samp{[} token is a
+lookahead.  Having determined that, you can document this fact with an
+@code{%expect} modifier as follows:
+
+@example
+dims:
+  empty_dims
+| '[' expr ']' dims
+;
+
+empty_dims:
+  %empty   %expect 2
+| empty_dims '[' ']'
+;
+@end example
+
+Mid-rule actions generate implicit rules that are also subject to conflicts
+(@pxref{Midrule Conflicts,, Conflicts due to Midrule Actions}). To attach
+an @code{%expect} or @code{%expect-rr} annotation to an implicit
+mid-rule action's rule, put it before the action.  For example,
+
+@example
+%glr-parser
+%expect-rr 1
+
+%%
+
+clause:
+  "condition" %expect-rr 1 @{ value_mode(); @} '(' exprs ')'
+| "condition" %expect-rr 1 @{ class_mode(); @} '(' types ')'
+;
+@end example
+
+@noindent
+Here, the appropriate mid-rule action will not be determined until after
+the @samp{(} token is shifted.  Thus,
+the two actions will clash with each other, and we should expect one
+reduce/reduce conflict for each.
+
 In general, using @code{%expect} involves these steps:
 
 @itemize @bullet
@@ -5269,8 +5316,17 @@ go back to the beginning.
 
 @item
 Add an @code{%expect} declaration, copying the number @var{n} from the
-number which Bison printed.  With GLR parsers, add an
+number that Bison printed.  With GLR parsers, add an
 @code{%expect-rr} declaration as well.
+
+@item
+Optionally, count up the number of states in which one or more
+conflicted reductions for particular rules appear and add these numbers
+to the affected rules as @code{%expect-rr} or @code{%expect} modifiers
+as appropriate.  Rules that are in conflict appear in the output listing
+surrounded by square brackets or, in the case of reduce/reduce conflicts,
+as reductions having the same lookahead symbol as a square-bracketed
+reduction in the same state.
 @end itemize
 
 Now Bison will report an error if you introduce an unexpected conflict,
@@ -5491,7 +5547,14 @@ Start-Symbol}).
 @end deffn
 
 @deffn {Directive} %expect
-Declare the expected number of shift-reduce conflicts
+Declare the expected number of shift-reduce conflicts, either overall or
+for a given rule
+(@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
+@end deffn
+
+@deffn {Directive} %expect-rr
+Declare the expected number of reduce-reduce conflicts, either overall or
+for a given rule
 (@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
 @end deffn
 
