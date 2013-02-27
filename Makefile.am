@@ -32,8 +32,8 @@ EXTRA_DIST = .prev-version .version \
 ## version of Bison nearby...
 BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
-YACC = $(BISON) -y
-AM_YFLAGS = -d -v --warnings=all,error --report=all
+YACC = $(BISON) -o y.tab.c
+AM_YFLAGS = -d -v -Werror -Wall -Wno-yacc --report=all
 
 # Initialization before completion by local.mk's.
 AM_CFLAGS = $(WARN_CFLAGS)
