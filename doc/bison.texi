@@ -9853,9 +9853,11 @@ releases of Bison may move warnings from this category to new, more specific
 categories.
 
 @item all
-All the warnings.
+All the warnings except @code{yacc}.
+
 @item none
 Turn off all the warnings.
+
 @item error
 See @option{-Werror}, below.
 @end table

@@ -98,7 +98,8 @@ typedef enum
     no_caret          = 1 << 14, /**< Do not display caret location.  */
 
     /**< All above warnings.  */
-    Wall              = ~complaint & ~fatal & ~silent
+    Weverything       = ~complaint & ~fatal & ~silent,
+    Wall              = Weverything & ~Wyacc
   } warnings;
 
 /** Whether the warnings of \a flags are all unset.

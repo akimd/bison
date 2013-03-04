@@ -1708,27 +1708,27 @@ AT_SETUP([[-Werror is not affected by -Wnone and -Wall]])
 
 AT_DATA([[input.y]],
 [[%%
-foo-bar: %empty;
+a: '0' { $$ = $; };
 ]])
 
 # -Werror is not enabled by -Wall or equivalent.
 AT_BISON_CHECK([[-Wall input.y]], [[0]], [[]],
-[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
+[[input.y:2.15: warning: stray '$' [-Wother]
 ]])
 AT_BISON_CHECK([[-W input.y]], [[0]], [[]],
-[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
+[[input.y:2.15: warning: stray '$' [-Wother]
 ]])
 AT_BISON_CHECK([[-Wno-none input.y]], [[0]], [[]],
-[[input.y:2.1-7: warning: POSIX Yacc forbids dashes in symbol names: foo-bar [-Wyacc]
+[[input.y:2.15: warning: stray '$' [-Wother]
 ]])
 
 # -Werror is not disabled by -Wnone or equivalent.
-AT_BISON_CHECK([[-Werror,none,yacc input.y]], [[1]], [[]], [[stderr]])
-AT_CHECK([[sed 's/^.*bison:/bison:/' stderr]], [[0]],
-[[input.y:2.1-7: error: POSIX Yacc forbids dashes in symbol names: foo-bar [-Werror=yacc]
+AT_BISON_CHECK([[-Werror,none,other input.y]], [[1]], [[]],
+[[input.y:2.15: error: stray '$' [-Werror=other]
 ]])
-[mv stderr experr]
-AT_BISON_CHECK([[-Werror,no-all,yacc input.y]], [[1]], [[]], [[experr]])
+AT_BISON_CHECK([[-Werror,no-all,other input.y]], [[1]], [[]],
+[[input.y:2.15: error: stray '$' [-Werror=other]
+]])
 
 AT_CLEANUP
 

@@ -216,6 +216,11 @@ GNU Bison NEWS
     bar.y: error: shift/reduce conflicts: 1 found, 0 expected
     bar.y: error: reduce/reduce conflicts: 2 found, 0 expected
 
+** Incompatibilities with POSIX Yacc
+
+  The 'yacc' category is no longer part of '-Wall', enable it explicitly
+  with '-Wyacc'.
+
 ** Additional yylex/yyparse arguments
 
   The new directive %param declares additional arguments to both yylex and
