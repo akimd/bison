@@ -284,11 +284,27 @@ GNU Bison NEWS
   It used to be an error only if used in non GLR mode, _and_ if there are
   reduce/reduce conflicts.
 
-** Token numbering has changed to preserve the user-defined order
+** Tokens are numbered in their order of appearance
 
-  When declaring %token A B, the numbering for A is inferior to B. Up to now,
-  when declaring associativity at the same time, with %left (or %right,
-  %precedence, %nonassoc), B was inferior to A.
+  Contributed by Valentin Tolmer.
+
+  With '%token A B', A had a number less than the one of B.  However,
+  precedence declarations used to generate a reversed order.  This is now
+  fixed, and introducing tokens with any of %token, %left, %right,
+  %precedence, or %nonassoc yields the same result.
+
+  When mixing declarations of tokens with a litteral character (e.g., 'a')
+  or with an identifier (e.g., B) in a precedence declaration, Bison
+  numbered the litteral characters first.  For example
+
+    %right A B 'c' 'd'
+
+  would lead to the tokens declared in this order: 'c' 'd' A B.  Again, the
+  input order is now preserved.
+
+  These changes were made so that one can remove useless precedence and
+  associativity declarations (i.e., map %nonassoc, %left or %right to
+  %precedence, or to %token) and get exactly the same output.
 
 ** Useless precedence and associativity
 

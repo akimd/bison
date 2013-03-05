@@ -503,8 +503,17 @@ symbols.prec:
 ;
 
 symbol.prec:
-  symbol     { $$ = $1; }
-| symbol INT { $$ = $1; symbol_user_token_number_set ($1, $2, @2); }
+  symbol
+    {
+      $$ = $1;
+      symbol_class_set ($1, token_sym, @1, false);
+    }
+| symbol INT
+    {
+      $$ = $1;
+      symbol_user_token_number_set ($1, $2, @2);
+      symbol_class_set ($1, token_sym, @1, false);
+    }
 ;
 
 /* One or more symbols to be %typed. */

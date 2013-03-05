@@ -87,6 +87,92 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
+## --------------------------------------------------- ##
+## Token declaration order: literals vs. identifiers.  ##
+## --------------------------------------------------- ##
+
+# This test checks that when several tokens are declared by the same keyword,
+# some of them defined as a character ('a'), others as simple textual reference
+# (A), they are declared correctly left to right.
+# Previously, the following test would declare the states in the order 'o' 'p'
+# M N, instead of M N 'o' 'p'.
+
+AT_SETUP([Token declaration order: literals vs. identifiers])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%token 'a' 'b' C D
+%token E F 'g' 'h'
+%right 'i' 'j' K L
+%right M N 'o' 'p'
+%%
+exp: 'a'
+   | 'b'
+   | C
+   | D
+   | E
+   | F
+   | 'g'
+   | 'h'
+   | 'i'
+   | 'j'
+   | K
+   | L
+   | M
+   | N
+   | 'o'
+   | 'p'
+;
+%%
+]])
+
+AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [], [ignore])
+AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
+[[State 0
+
+    0 $accept: . exp $end
+    1 exp: . 'a'
+    2    | . 'b'
+    3    | . C
+    4    | . D
+    5    | . E
+    6    | . F
+    7    | . 'g'
+    8    | . 'h'
+    9    | . 'i'
+   10    | . 'j'
+   11    | . K
+   12    | . L
+   13    | . M
+   14    | . N
+   15    | . 'o'
+   16    | . 'p'
+
+    'a'  shift, and go to state 1
+    'b'  shift, and go to state 2
+    C    shift, and go to state 3
+    D    shift, and go to state 4
+    E    shift, and go to state 5
+    F    shift, and go to state 6
+    'g'  shift, and go to state 7
+    'h'  shift, and go to state 8
+    'i'  shift, and go to state 9
+    'j'  shift, and go to state 10
+    K    shift, and go to state 11
+    L    shift, and go to state 12
+    M    shift, and go to state 13
+    N    shift, and go to state 14
+    'o'  shift, and go to state 15
+    'p'  shift, and go to state 16
+
+    exp  go to state 17
+
+
+State 1
+]])
+
+AT_CLEANUP
+
+
 ## ------------------------------- ##
 ## Useless associativity warning.  ##
 ## ------------------------------- ##
