@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.7.1116-42fef.  */
+/* A Bison parser, made by GNU Bison 2.7.1127-02879-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -48,7 +48,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 219 "src/parse-gram.y" /* yacc.c:1932  */
+#line 219 "src/parse-gram.y" /* yacc.c:1931  */
 
 # ifndef PARAM_TYPE
 #  define PARAM_TYPE
@@ -62,7 +62,7 @@ extern int gram_debug;
 # endif
 
 
-#line 66 "src/parse-gram.h" /* yacc.c:1932  */
+#line 66 "src/parse-gram.h" /* yacc.c:1931  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -127,70 +127,13 @@ extern int gram_debug;
     PERCENT_EMPTY = 312
   };
 #endif
-/* Tokens.  */
-#define GRAM_EOF 0
-#define STRING 258
-#define INT 259
-#define PERCENT_TOKEN 260
-#define PERCENT_NTERM 261
-#define PERCENT_TYPE 262
-#define PERCENT_DESTRUCTOR 263
-#define PERCENT_PRINTER 264
-#define PERCENT_LEFT 265
-#define PERCENT_RIGHT 266
-#define PERCENT_NONASSOC 267
-#define PERCENT_PRECEDENCE 268
-#define PERCENT_PREC 269
-#define PERCENT_DPREC 270
-#define PERCENT_MERGE 271
-#define PERCENT_CODE 272
-#define PERCENT_DEFAULT_PREC 273
-#define PERCENT_DEFINE 274
-#define PERCENT_DEFINES 275
-#define PERCENT_ERROR_VERBOSE 276
-#define PERCENT_EXPECT 277
-#define PERCENT_EXPECT_RR 278
-#define PERCENT_FLAG 279
-#define PERCENT_FILE_PREFIX 280
-#define PERCENT_GLR_PARSER 281
-#define PERCENT_INITIAL_ACTION 282
-#define PERCENT_LANGUAGE 283
-#define PERCENT_NAME_PREFIX 284
-#define PERCENT_NO_DEFAULT_PREC 285
-#define PERCENT_NO_LINES 286
-#define PERCENT_NONDETERMINISTIC_PARSER 287
-#define PERCENT_OUTPUT 288
-#define PERCENT_REQUIRE 289
-#define PERCENT_SKELETON 290
-#define PERCENT_START 291
-#define PERCENT_TOKEN_TABLE 292
-#define PERCENT_VERBOSE 293
-#define PERCENT_YACC 294
-#define BRACED_CODE 295
-#define BRACED_PREDICATE 296
-#define BRACKETED_ID 297
-#define CHAR 298
-#define EPILOGUE 299
-#define EQUAL 300
-#define ID 301
-#define ID_COLON 302
-#define PERCENT_PERCENT 303
-#define PIPE 304
-#define PROLOGUE 305
-#define SEMICOLON 306
-#define TAG 307
-#define TAG_ANY 308
-#define TAG_NONE 309
-#define PERCENT_PARAM 310
-#define PERCENT_UNION 311
-#define PERCENT_EMPTY 312
 
 /* Value type.  */
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-#line 105 "src/parse-gram.y" /* yacc.c:1932  */
+#line 105 "src/parse-gram.y" /* yacc.c:1931  */
 
   assoc assoc;
   char *code;
@@ -202,14 +145,14 @@ union GRAM_STYPE
   uniqstr uniqstr;
   unsigned char character;
 
-#line 243 "src/parse-gram.y" /* yacc.c:1932  */
+#line 243 "src/parse-gram.y" /* yacc.c:1931  */
 
   param_type param;
 
-#line 419 "src/parse-gram.y" /* yacc.c:1932  */
+#line 419 "src/parse-gram.y" /* yacc.c:1931  */
 code_props_type code_type;
 
-#line 213 "src/parse-gram.h" /* yacc.c:1932  */
+#line 156 "src/parse-gram.h" /* yacc.c:1931  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
