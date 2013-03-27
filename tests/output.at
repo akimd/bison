@@ -62,8 +62,13 @@ AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.c],
                 [foo.c foo.h foo.output])
 AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.tab.c],
                 [foo.output foo.tab.c foo.tab.h])
-AT_CHECK_OUTPUT([foo.y], [], [-dv -y],
-                [y.output y.tab.c y.tab.h])
+
+AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -y],
+                [y.dot y.output y.tab.c y.tab.h y.xml])
+# With '-o y.tab.c', we expect 'y.output' etc. (for compatility with Yacc).
+AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -o y.tab.c],
+                [y.dot y.output y.tab.c y.tab.h y.xml])
+
 AT_CHECK_OUTPUT([foo.y], [], [-dv -b bar],
                 [bar.output bar.tab.c bar.tab.h])
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g -o foo.c],

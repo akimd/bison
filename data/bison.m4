@@ -960,7 +960,12 @@ m4_define_default([b4_parse_param], [])
 m4_define_default([b4_location_initial_column], [1])
 m4_define_default([b4_location_initial_line],   [1])
 
-# Sanity checks.
+
+## --------------- ##
+## Sanity checks.  ##
+## --------------- ##
+
+# api.prefix >< %name-prefix.
 b4_percent_define_ifdef([api.prefix],
 [m4_ifdef([b4_prefix],
 [b4_complain_at(b4_percent_define_get_loc([api.prefix]),
@@ -968,9 +973,19 @@ b4_percent_define_ifdef([api.prefix],
                 [%name-prefix],
                 [%define api.prefix])])])
 
+# api.value.type >< %union.
 b4_percent_define_ifdef([api.value.type],
 [m4_ifdef([b4_union_members],
 [b4_complain_at(b4_percent_define_get_loc([api.value.type]),
                 [['%s' and '%s' cannot be used together]],
                 [%union],
                 [%define api.value.type])])])
+
+# api.value.type=union >< %yacc.
+b4_percent_define_ifdef([api.value.type],
+[m4_if(b4_percent_define_get([api.value.type]), [union],
+[b4_yacc_if(dnl
+[b4_complain_at(b4_percent_define_get_loc([api.value.type]),
+                [['%s' and '%s' cannot be used together]],
+                [%yacc],
+                [%define api.value.type "union"])])])])

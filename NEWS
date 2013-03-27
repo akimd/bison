@@ -23,6 +23,26 @@ GNU Bison NEWS
   Missing semicolons at the end of actions are no longer added (as announced
   in the release 2.5).
 
+*** Use of YACC='bison -y'
+
+  TL;DR: With Autoconf <= 2.69, pass -Wno-yacc to (AM_)YFLAGS if you use
+  Bison extensions.
+
+  Traditional Yacc generates 'y.tab.c' whatever the name of the input file.
+  Therefore Makefiles written for Yacc expect 'y.tab.c' (and possibly
+  'y.tab.h' and 'y.outout') to be generated from 'foo.y'.
+
+  To this end, for ages, AC_PROG_YACC, Autoconf's macro to look for an
+  implementation of Yacc, was using Bison as 'bison -y'.  While it does
+  ensure compatible output file names, it also enables warnings for
+  incompatibilities with POSIX Yacc.  In other words, 'bison -y' triggers
+  warnings for Bison extensions.
+
+  Autoconf 2.70+ fixes this incompatibility by using YACC='bison -o y.tab.c'
+  (which also generates 'y.tab.h' and 'y.output' when needed).
+  Alternatively, disable Yacc warnings by passing '-Wno-yacc' to your Yacc
+  flags (YFLAGS, or AM_YFLAGS with Automake).
+
 ** Bug fixes
 
 *** The epilogue is no longer affected by internal #defines (glr.c)
@@ -276,7 +296,8 @@ GNU Bison NEWS
 
   The %define variable api.value.type supports several special values.  The
   value "union" means that the user provides genuine types, not union member
-  names such as "ival" and "sval" above.
+  names such as "ival" and "sval" above (WARNING: will fail if
+  -y/--yacc/%yacc is enabled).
 
     %define api.value.type "union"
     %token <int> INT "integer"

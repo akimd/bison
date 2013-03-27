@@ -3795,6 +3795,11 @@ yylval.TOK_INT = 42;
 return TOK_INT;
 @end example
 
+This Bison extension cannot work if @code{%yacc} (or
+@option{-y}/@option{--yacc}) is enabled, as POSIX mandates that Yacc
+generate tokens as macros (e.g., @samp{#define INT 258}, or @samp{#define
+TOK_INT 258}).
+
 This feature is new, and user feedback would be most welcome.
 
 A similar feature is provided for C++ that in addition overcomes C++
