@@ -24,10 +24,24 @@
 
 # include "location.h"
 
+/* Create the MUSCLE_TABLE, and initialize it with default values.
+   Also set up the MUSCLE_OBSTACK.  */
 void muscle_init (void);
+
+/* Insert (KEY, VALUE).  If KEY already existed, overwrite the
+   previous value.  */
 void muscle_insert (char const *key, char const *value);
+
+/* Find the value of muscle KEY.  Unlike MUSCLE_FIND, this is always
+   reliable to determine whether KEY has a value.  */
 char const *muscle_find_const (char const *key);
+
+/* Find the value of muscle KEY.  Abort if muscle_insert was invoked
+   more recently than muscle_grow for KEY since muscle_find can't
+   return a char const *.  */
 char *muscle_find (char const *key);
+
+/* Free all the memory consumed by the muscle machinery only.  */
 void muscle_free (void);
 
 
@@ -71,13 +85,11 @@ extern struct obstack muscle_obstack;
 /* Append VALUE to the current value of KEY.  If KEY did not already
    exist, create it.  Use MUSCLE_OBSTACK.  De-allocate the previously
    associated value.  Copy VALUE and SEPARATOR.  */
-
 void muscle_grow (const char *key, const char *value, const char *separator);
 
 
 /* Append VALUE to the current value of KEY, using muscle_grow.  But
    in addition, issue a synchronization line for the location LOC.  */
-
 void muscle_code_grow (const char *key, const char *value, location loc);
 
 
@@ -97,7 +109,8 @@ void muscle_user_name_list_grow (char const *key, char const *user_name,
 /* Indicates whether a variable's value was specified with -D/--define, with
    -F/--force-define, or in the grammar file.  */
 typedef enum {
-  MUSCLE_PERCENT_DEFINE_D = 0, MUSCLE_PERCENT_DEFINE_F,
+  MUSCLE_PERCENT_DEFINE_D = 0,
+  MUSCLE_PERCENT_DEFINE_F,
   MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE
 } muscle_percent_define_how;
 
@@ -184,6 +197,8 @@ void muscle_percent_define_check_values (char const * const *values);
 void muscle_percent_code_grow (char const *qualifier, location qualifier_loc,
                                char const *code, location code_loc);
 
+/* Output the definition of all the current muscles into a list of
+   m4_defines.  */
 void muscles_m4_output (FILE *out);
 
 #endif /* not MUSCLE_TAB_H_ */
