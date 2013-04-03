@@ -63,12 +63,10 @@ extern struct obstack muscle_obstack;
     muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
   } while (0)
 
+/* Key -> Value, applying C escaping to Value (and then M4). */
 # define MUSCLE_INSERT_C_STRING(Key, Value)                     \
-  do {                                                          \
-    obstack_escape (&muscle_obstack,                            \
-                    quotearg_style (c_quoting_style, Value));   \
-    muscle_insert (Key, obstack_finish0 (&muscle_obstack));     \
-  } while (0)
+  MUSCLE_INSERT_STRING(Key, quotearg_style (c_quoting_style, Value))
+
 
 /* Append VALUE to the current value of KEY.  If KEY did not already
    exist, create it.  Use MUSCLE_OBSTACK.  De-allocate the previously
