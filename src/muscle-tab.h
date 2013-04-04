@@ -24,12 +24,29 @@
 
 # include "location.h"
 
+/* The kind of value associated to this muscle, depending on the
+   syntax of the value: keyword (no delimiter, e.g., true), string
+   (double quotes, e.g., "foo.h"), or code (braces, e.g., {int}).  */
+typedef enum
+{
+  muscle_code,
+  muscle_keyword,
+  muscle_string
+} muscle_kind;
+
+/* Conversion from string.  */
+muscle_kind muscle_kind_new (char const *k);
+
+/* Conversion to string.  */
+char const *muscle_kind_string (muscle_kind k);
+
+
 /* Create the MUSCLE_TABLE, and initialize it with default values.
    Also set up the MUSCLE_OBSTACK.  */
 void muscle_init (void);
 
 /* Insert (KEY, VALUE).  If KEY already existed, overwrite the
-   previous value.  */
+   previous value.  Otherwise create as a muscle_string type.  */
 void muscle_insert (char const *key, char const *value);
 
 /* Find the value of muscle KEY.  Unlike MUSCLE_FIND, this is always
@@ -124,6 +141,7 @@ typedef enum {
    this as a user occurrence of VARIABLE by invoking
    muscle_user_name_list_grow.  */
 void muscle_percent_define_insert (char const *variable, location variable_loc,
+                                   muscle_kind kind,
                                    char const *value,
                                    muscle_percent_define_how how);
 

@@ -26,7 +26,6 @@
 #include "files.h"
 #include "getargs.h"
 #include "gram.h"
-#include "muscle-tab.h"
 #include "named-ref.h"
 #include "quotearg.h"
 #include "reader.h"
@@ -179,12 +178,12 @@ static char const *char_name (char);
   char *code;
   char const *chars;
 };
-%type <chars> STRING "%{...%}" EPILOGUE braceless content.opt
+%type <chars> STRING "%{...%}" EPILOGUE braceless
 %type <code> "{...}" "%?{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); }
          STRING
 %printer { fprintf (yyo, "{\n%s\n}", $$); }
-         braceless content.opt "{...}" "%{...%}" EPILOGUE
+         braceless "{...}" "%{...%}" EPILOGUE
 
 %union {uniqstr uniqstr;}
 %type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
@@ -288,9 +287,9 @@ prologue_declaration:
     {
       muscle_percent_define_ensure ($1, @1, true);
     }
-| "%define" variable content.opt
+| "%define" variable value
     {
-      muscle_percent_define_insert ($2, @2, $3,
+      muscle_percent_define_insert ($2, @2, $3.kind, $3.chars,
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%defines"                       { defines_flag = true; }
@@ -301,7 +300,8 @@ prologue_declaration:
     }
 | "%error-verbose"
     {
-      muscle_percent_define_insert ("parse.error", @1, "verbose",
+      muscle_percent_define_insert ("parse.error", @1, muscle_keyword,
+                                    "verbose",
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
@@ -634,9 +634,9 @@ named_ref.opt:
 | BRACKETED_ID   { $$ = named_ref_new($1, @1); }
 ;
 
-/*---------------------------.
-| variable and content.opt.  |
-`---------------------------*/
+/*---------------------.
+| variable and value.  |
+`---------------------*/
 
 /* The STRING form of variable is deprecated and is not M4-friendly.
    For example, M4 fails for '%define "[" "value"'.  */
@@ -646,10 +646,31 @@ variable:
 ;
 
 /* Some content or empty by default. */
-content.opt:
-  %empty    { $$ = ""; }
-| ID        { $$ = $1; }
-| STRING    { $$ = $1; }
+%code requires {#include "muscle-tab.h"};
+%union
+{
+  struct
+  {
+    char const *chars;
+    muscle_kind kind;
+  } value;
+};
+%type <value> value;
+%printer
+{
+  switch ($$.kind)
+    {
+    case muscle_code:    fprintf (yyo,  "{%s}",  $$.chars); break;
+    case muscle_keyword: fprintf (yyo,   "%s",   $$.chars); break;
+    case muscle_string:  fprintf (yyo, "\"%s\"", $$.chars); break;
+    }
+} <value>;
+
+value:
+  %empty    { $$.kind = muscle_keyword; $$.chars = ""; }
+| ID        { $$.kind = muscle_keyword; $$.chars = $1; }
+| STRING    { $$.kind = muscle_string;  $$.chars = $1; }
+| braceless { $$.kind = muscle_code;    $$.chars = $1; }
 ;
 
 
