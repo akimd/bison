@@ -5586,7 +5586,7 @@ Summary,,%skeleton}).
 Unaccepted @var{variable}s produce an error.
 Some of the accepted @var{variable}s are described below.
 
-@deffn Directive {%define api.namespace} "@var{namespace}"
+@deffn Directive {%define api.namespace} @{@var{namespace}@}
 @itemize
 @item Languages(s): C++
 
@@ -5594,7 +5594,7 @@ Some of the accepted @var{variable}s are described below.
 For example, if you specify:
 
 @example
-%define api.namespace "foo::bar"
+%define api.namespace @{foo::bar@}
 @end example
 
 Bison uses @code{foo::bar} verbatim in references such as:
@@ -5627,7 +5627,7 @@ api.namespace} so that @code{%name-prefix} @emph{only} affects the
 lexical analyzer function.  For example, if you specify:
 
 @example
-%define api.namespace "foo"
+%define api.namespace @{foo@}
 %name-prefix "bar::"
 @end example
 
@@ -5894,7 +5894,7 @@ More user feedback will help to stabilize it.)
 @end deffn
 
 @c ================================================== namespace
-@deffn Directive %define namespace @var{namespace}
+@deffn Directive %define namespace @{@var{namespace}@}
 Obsoleted by @code{api.namespace}
 @c namespace
 @end deffn

@@ -361,10 +361,10 @@ AT_CHECK_DOXYGEN([Private])
 # is specified, then Bison should accept the input, but compilation will fail,
 # so don't check compilation.
 m4_pushdef([AT_TEST],
-[AT_BISON_OPTION_PUSHDEFS([%language "C++" %define api.namespace "$1"])
+[AT_BISON_OPTION_PUSHDEFS([%language "C++" %define api.namespace {$1}])
 AT_DATA_GRAMMAR([[input.y]],
 [[%language "C++"
-%define api.namespace "]$1["
+%define api.namespace {]$1[}
 %union { int i; }
 %define global_tokens_and_yystype
 %locations
