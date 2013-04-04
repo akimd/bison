@@ -48,7 +48,7 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 219 "src/parse-gram.y" /* yacc.c:1931  */
+#line 218 "src/parse-gram.y" /* yacc.c:1931  */
 
   typedef enum
   {
@@ -58,8 +58,10 @@ extern int gram_debug;
     param_both   = param_lex | param_parse
   } param_type;
 
+#line 649 "src/parse-gram.y" /* yacc.c:1931  */
+#include "muscle-tab.h"
 
-#line 63 "src/parse-gram.h" /* yacc.c:1931  */
+#line 65 "src/parse-gram.h" /* yacc.c:1931  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -130,31 +132,39 @@ extern int gram_debug;
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-#line 171 "src/parse-gram.y" /* yacc.c:1931  */
+#line 170 "src/parse-gram.y" /* yacc.c:1931  */
 unsigned char character;
-#line 178 "src/parse-gram.y" /* yacc.c:1931  */
+#line 177 "src/parse-gram.y" /* yacc.c:1931  */
 
   char *code;
   char const *chars;
 
-#line 189 "src/parse-gram.y" /* yacc.c:1931  */
+#line 188 "src/parse-gram.y" /* yacc.c:1931  */
 uniqstr uniqstr;
-#line 197 "src/parse-gram.y" /* yacc.c:1931  */
+#line 196 "src/parse-gram.y" /* yacc.c:1931  */
 int integer;
-#line 201 "src/parse-gram.y" /* yacc.c:1931  */
+#line 200 "src/parse-gram.y" /* yacc.c:1931  */
 symbol *symbol;
-#line 206 "src/parse-gram.y" /* yacc.c:1931  */
+#line 205 "src/parse-gram.y" /* yacc.c:1931  */
 assoc assoc;
-#line 209 "src/parse-gram.y" /* yacc.c:1931  */
+#line 208 "src/parse-gram.y" /* yacc.c:1931  */
 symbol_list *list;
-#line 212 "src/parse-gram.y" /* yacc.c:1931  */
+#line 211 "src/parse-gram.y" /* yacc.c:1931  */
 named_ref *named_ref;
-#line 239 "src/parse-gram.y" /* yacc.c:1931  */
+#line 238 "src/parse-gram.y" /* yacc.c:1931  */
 param_type param;
 #line 413 "src/parse-gram.y" /* yacc.c:1931  */
 code_props_type code_type;
+#line 651 "src/parse-gram.y" /* yacc.c:1931  */
 
-#line 158 "src/parse-gram.h" /* yacc.c:1931  */
+  struct
+  {
+    char const *chars;
+    muscle_kind kind;
+  } value;
+
+
+#line 168 "src/parse-gram.h" /* yacc.c:1931  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
