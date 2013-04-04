@@ -217,8 +217,6 @@ static char const *char_name (char);
 `---------*/
 %code requires
 {
-# ifndef PARAM_TYPE
-#  define PARAM_TYPE
   typedef enum
   {
     param_none   = 0,
@@ -226,7 +224,6 @@ static char const *char_name (char);
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-# endif
 };
 %code
 {
@@ -239,17 +236,14 @@ static char const *char_name (char);
   static void add_param (param_type type, char *decl, location loc);
   static param_type current_param = param_none;
 };
-%union
-{
-  param_type param;
-}
+%union {param_type param;}
 %token <param> PERCENT_PARAM "%param";
 %printer
 {
   switch ($$)
     {
 #define CASE(In, Out)                                           \
-      case param_ ## In: fputs ("%" #Out, stderr); break
+      case param_ ## In: fputs ("%" #Out, yyo); break
       CASE (lex,   lex-param);
       CASE (parse, parse-param);
       CASE (both,  param);
