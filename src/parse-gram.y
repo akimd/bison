@@ -101,23 +101,9 @@ static char const *char_name (char);
   boundary_set (&@$.end, current_file, 1, 1);
 }
 
-%union
-{
-  assoc assoc;
-  char *code;
-  char const *chars;
-  int integer;
-  named_ref *named_ref;
-  symbol *symbol;
-  symbol_list *list;
-  uniqstr uniqstr;
-  unsigned char character;
-};
-
 /* Define the tokens together with their human representation.  */
 %token GRAM_EOF 0 "end of file"
 %token STRING     "string"
-%token INT        "integer"
 
 %token PERCENT_TOKEN       "%token"
 %token PERCENT_NTERM       "%nterm"
@@ -182,11 +168,17 @@ static char const *char_name (char);
 %token TAG_ANY         "<*>"
 %token TAG_NONE        "<>"
 
+%union {unsigned char character;}
 %type <character> CHAR
 %printer { fputs (char_name ($$), yyo); } CHAR
 
 /* braceless is not to be used for rule or symbol actions, as it
    calls code_props_plain_init.  */
+%union
+{
+  char *code;
+  char const *chars;
+};
 %type <chars> STRING "%{...%}" EPILOGUE braceless content.opt
 %type <code> "{...}" "%?{...}"
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); }
@@ -194,6 +186,7 @@ static char const *char_name (char);
 %printer { fprintf (yyo, "{\n%s\n}", $$); }
          braceless content.opt "{...}" "%{...%}" EPILOGUE
 
+%union {uniqstr uniqstr;}
 %type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
@@ -201,15 +194,22 @@ static char const *char_name (char);
 %printer { fprintf (yyo, "%%%s", $$); } PERCENT_FLAG
 %printer { fprintf (yyo, "<%s>", $$); } TAG tag
 
-%type <integer> INT
+%union {int integer;};
+%token <integer> INT "integer"
 %printer { fprintf (yyo, "%d", $$); } <integer>
 
+%union {symbol *symbol;}
 %type <symbol> id id_colon string_as_id symbol symbol.prec
 %printer { fprintf (yyo, "%s", $$->tag); } <symbol>
 %printer { fprintf (yyo, "%s:", $$->tag); } id_colon
 
+%union {assoc assoc;};
 %type <assoc> precedence_declarator
+
+%union {symbol_list *list;}
 %type <list>  symbols.1 symbols.prec generic_symlist generic_symlist_item
+
+%union {named_ref *named_ref;}
 %type <named_ref> named_ref.opt
 
 /*---------.
