@@ -682,7 +682,7 @@ braceless:
   "{...}"
     {
       code_props plain_code;
-      $1[strlen ($1) - 1] = '\n';
+      $1[strlen ($1) - 1] = '\0';
       code_props_plain_init (&plain_code, $1+1, @1);
       code_props_translate_code (&plain_code);
       gram_scanner_last_string_free ();
