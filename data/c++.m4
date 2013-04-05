@@ -120,14 +120,16 @@ m4_define([b4_token_enums],
 m4_define([b4_value_type_declare],
 [b4_value_type_setup[]dnl
 [    /// Symbol semantic values.
-]m4_bmatch(b4_percent_define_get([api.value.type]),
-[^%union\|union$],
+]m4_bmatch(b4_percent_define_get_kind([[api.value.type]]),
+[code],
+[[    typedef ]b4_percent_define_get([[api.value.type]])[ semantic_type;]],
+[m4_bmatch(b4_percent_define_get([[api.value.type]]),
+[union\|union-directive],
 [[    union semantic_type
     {
-]b4_user_union_members[
-    };]],
-[^$], [],
-[[    typedef ]b4_percent_define_get([api.value.type])[ semantic_type;]])])
+    ]b4_user_union_members[
+    };]])])dnl
+])
 
 
 # b4_public_types_declare

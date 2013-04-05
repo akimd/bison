@@ -707,6 +707,20 @@ b4_loc[]dnl
 m4_popdef([b4_loc])],
           [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
+# b4_percent_define_get_kind(VARIABLE)
+# ------------------------------------
+# Get the kind (code, keyword, string) of VARIABLE, i.e., how its
+# value was defined (braces, not delimiters, quotes).
+#
+# If the %define variable VARIABLE is undefined, complain fatally
+# since that's a Bison or skeleton error.  Don't record this as a
+# Bison usage of VARIABLE as there's no reason to suspect that the
+# user-supplied value has yet influenced the output.
+m4_define([b4_percent_define_get_kind],
+[m4_ifdef([b4_percent_define_kind(]$1[)],
+          [m4_indir([b4_percent_define_kind(]$1[)])],
+          [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
+
 # b4_percent_define_get_syncline(VARIABLE)
 # ----------------------------------------
 # Mimic muscle_percent_define_get_syncline in ../src/muscle-tab.h exactly.
@@ -923,9 +937,11 @@ b4_error_verbose_if([m4_define([b4_token_table_flag], [1])])
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
 b4_percent_define_if_define([variant])
-m4_case(b4_percent_define_get([[api.value.type]]),
-        [variant], [m4_define([b4_variant_flag], [[1]])],
-                   [m4_define([b4_variant_flag], [[0]])])
+m4_define([b4_variant_flag], [[0]])
+b4_percent_define_ifdef([[api.value.type]],
+   [m4_case(b4_percent_define_get_kind([[api.value.type]]), [keyword],
+            [m4_case(b4_percent_define_get([[api.value.type]]), [variant],
+                    [m4_define([b4_variant_flag], [[1]])])])])
 b4_define_flag_if([variant])
 
 

@@ -26,7 +26,7 @@ AT_SETUP([[%union vs. %define api.value.type]])
 
 AT_DATA([[input.y]],
 [[%union { int ival; }
-%define api.value.type "%union"
+%define api.value.type union-directive
 %%
 exp: %empty;
 ]])
@@ -45,7 +45,7 @@ AT_SETUP([[%yacc vs. %define api.value.type union]])
 
 AT_DATA([[input.y]],
 [[%yacc
-%define api.value.type "union"
+%define api.value.type union
 %%
 exp: %empty;
 ]])
@@ -108,8 +108,17 @@ AT_CLEANUP
 m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
  [# A built-in type.
   AT_TEST([%skeleton "]b4_skel["
-           %define api.value.type double],
+           %define api.value.type {double}],
           [],
+          ['1' '2' { printf ("%2.1f\n", $1 + $2); }],
+          ["12"],
+          [AT_VAL = (res - '0') / 10.0],
+          [0.3])
+
+  # A typedef which looks like a Bison keyword, but it's using braces.
+  AT_TEST([%skeleton "]b4_skel["
+           %define api.value.type {variant}],
+          [%code requires { typedef double variant; }],
           ['1' '2' { printf ("%2.1f\n", $1 + $2); }],
           ["12"],
           [AT_VAL = (res - '0') / 10.0],
@@ -117,7 +126,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
 
   # A user defined struct.
   AT_TEST([%skeleton "]b4_skel["
-           %define api.value.type "struct foo"],
+           %define api.value.type {struct foo}],
           [%code requires { struct foo { float fval; int ival; }; }],
           ['1' '2'
              { printf ("%d %2.1f\n", $1.ival + $2.ival, $1.fval + $2.fval); }],
@@ -128,7 +137,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
 
   # A user defined struct that uses pointers.
   AT_TEST([%skeleton "]b4_skel["
-           %define api.value.type "struct bar"],
+           %define api.value.type {struct bar}],
           [%code requires
            {
              struct u
@@ -158,7 +167,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
 
   # A user defined union.
   AT_TEST([%skeleton "]b4_skel["
-           %define api.value.type "union foo"],
+           %define api.value.type {union foo}],
           [%code requires { union foo { float fval; int ival; }; }],
           ['1' '2' { printf ("%d %2.1f\n", $1.ival, $2.fval); }],
           ["12"],

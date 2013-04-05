@@ -563,25 +563,51 @@ m4_copy_force([b4_symbol_value_union], [b4_symbol_value])
 # Setup support for api.value.type=variant.  By default, fail, specialized
 # by other skeletons.
 m4_define([b4_value_type_setup_variant],
-[b4_complain_at(b4_percent_define_get_loc([api.value.type]),
+[b4_complain_at(b4_percent_define_get_loc([[api.value.type]]),
                 [['%s' does not support '%s']],
                 [b4_skeleton],
                 [%define api.value.type variant])])
+
+
+# _b4_value_type_setup_keyword
+# ----------------------------
+# api.value.type is defined with a keyword/string syntax.  Check if
+# that is properly defined, and prepare its use.
+m4_define([_b4_value_type_setup_keyword],
+[b4_percent_define_check_values([[[[api.value.type]],
+                                  [[none]],
+                                  [[union]],
+                                  [[union-directive]],
+                                  [[variant]],
+                                  [[yystype]]]])dnl
+m4_case(b4_percent_define_get([[api.value.type]]),
+        [union],   [b4_value_type_setup_union],
+        [variant], [b4_value_type_setup_variant])])
 
 
 # b4_value_type_setup
 # -------------------
 # Check if api.value.type is properly defined, and possibly prepare
 # its use.
-m4_define([b4_value_type_setup],
-[b4_percent_define_default([[api.value.type]],
-[m4_ifdef([b4_union_members], [%union],
-          [m4_if(b4_tag_seen_flag, 0, [int],
-                 [])])])dnl
-m4_case(b4_percent_define_get([api.value.type]),
-   [union],   [b4_value_type_setup_union],
-   [variant], [b4_value_type_setup_variant])])
+b4_define_silent([b4_value_type_setup],
+[# Define default value.
+b4_percent_define_ifdef([[api.value.type]], [],
+[# %union => api.value.type=union-directive
+m4_ifdef([b4_union_members],
+[m4_define([b4_percent_define_kind(api.value.type)], [keyword])
+m4_define([b4_percent_define(api.value.type)], [union-directive])],
+[# no tag seen => api.value.type={int}
+m4_if(b4_tag_seen_flag, 0,
+[m4_define([b4_percent_define_kind(api.value.type)], [code])
+m4_define([b4_percent_define(api.value.type)], [int])],
+[# otherwise api.value.type=yystype
+m4_define([b4_percent_define_kind(api.value.type)], [keyword])
+m4_define([b4_percent_define(api.value.type)], [yystype])])])])
 
+# Set up.
+m4_bmatch(b4_percent_define_get_kind([[api.value.type]]),
+   [keyword\|string], [_b4_value_type_setup_keyword])
+])
 
 
 ## -------------- ##
@@ -594,8 +620,16 @@ m4_case(b4_percent_define_get([api.value.type]),
 m4_define([b4_value_type_define],
 [b4_value_type_setup[]dnl
 /* Value type.  */
-m4_bmatch(b4_percent_define_get([api.value.type]),
-[^%?union$],
+m4_bmatch(b4_percent_define_get_kind([[api.value.type]]),
+[code],
+[[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
+typedef ]b4_percent_define_get([[api.value.type]])[ ]b4_api_PREFIX[STYPE;
+# define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
+# define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
+#endif
+]],
+[m4_bmatch(b4_percent_define_get([[api.value.type]]),
+[union\|union-directive],
 [[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
 typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
 union ]b4_union_name[
@@ -605,14 +639,7 @@ union ]b4_union_name[
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif
-]],
-[^$], [],
-[[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-typedef ]b4_percent_define_get([api.value.type])[ ]b4_api_PREFIX[STYPE;
-# define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
-# define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
-#endif
-]])])
+]])])])
 
 
 # b4_location_type_define

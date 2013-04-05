@@ -1555,7 +1555,7 @@ calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 %@}
 @end group
 
-%define api.value.type double
+%define api.value.type @{double@}
 %token NUM
 
 %% /* Grammar rules and actions follow.  */
@@ -1582,9 +1582,9 @@ thus specifying the C data type for semantic values of both tokens and
 groupings (@pxref{Value Type, ,Data Types of Semantic Values}).  The Bison
 parser will use whatever type @code{api.value.type} is defined as; if you
 don't define it, @code{int} is the default.  Because we specify
-@code{double}, each token and each expression has an associated value, which
-is a floating point number.  C code can use @code{YYSTYPE} to refer to the
-value @code{api.value.type}.
+@samp{@{double@}}, each token and each expression has an associated value,
+which is a floating point number.  C code can use @code{YYSTYPE} to refer to
+the value @code{api.value.type}.
 
 Each terminal symbol that is not a single-character literal must be
 declared.  (Single-character literals normally don't need to be declared.)
@@ -1806,7 +1806,7 @@ The semantic value of the token (if it has one) is stored into the
 global variable @code{yylval}, which is where the Bison parser will look
 for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, whose value
 was defined at the beginning of the grammar via @samp{%define api.value.type
-double}; @pxref{Rpcalc Declarations,,Declarations for @code{rpcalc}}.)
+@{double@}}; @pxref{Rpcalc Declarations,,Declarations for @code{rpcalc}}.)
 
 A token type code of zero is returned if the end-of-input is encountered.
 (Bison recognizes any nonpositive value as indicating end-of-input.)
@@ -2004,7 +2004,7 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 
 @group
 /* Bison declarations.  */
-%define api.value.type double
+%define api.value.type @{double@}
 %token NUM
 %left '-' '+'
 %left '*' '/'
@@ -3670,14 +3670,14 @@ specify some other type, define the @code{%define} variable
 @code{api.value.type} like this:
 
 @example
-%define api.value.type double
+%define api.value.type @{double@}
 @end example
 
 @noindent
 or
 
 @example
-%define api.value.type "struct semantic_type"
+%define api.value.type @{struct semantic_type@}
 @end example
 
 The value of @code{api.value.type} should be a type name that does not

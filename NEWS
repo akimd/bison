@@ -295,11 +295,11 @@ GNU Bison NEWS
     yylval.sval = "42"; return STRING;
 
   The %define variable api.value.type supports several special values.  The
-  value "union" means that the user provides genuine types, not union member
-  names such as "ival" and "sval" above (WARNING: will fail if
+  keyword value 'union' means that the user provides genuine types, not
+  union member names such as "ival" and "sval" above (WARNING: will fail if
   -y/--yacc/%yacc is enabled).
 
-    %define api.value.type "union"
+    %define api.value.type union
     %token <int> INT "integer"
     %token <char *> STRING "string"
     %printer { fprintf (yyo, "%d", $$); } <int>
@@ -309,15 +309,15 @@ GNU Bison NEWS
     yylval.INT = 42; return INT;
     yylval.STRING = "42"; return STRING;
 
-  The value "variant" is somewhat equivalent, but for C++ special provision
-  is made to allow classes to be used (more about this below).
+  The keyword value variant is somewhat equivalent, but for C++ special
+  provision is made to allow classes to be used (more about this below).
 
-    %define api.value.type "variant"
+    %define api.value.type variant
     %token <int> INT "integer"
     %token <std::string> STRING "string"
 
-  Any other name is a user type to use.  This is where YYSTYPE used to be
-  used.
+  Values between braces denote user defined types.  This is where YYSTYPE
+  used to be used.
 
     %code requires
     {
@@ -334,7 +334,7 @@ GNU Bison NEWS
         } u;
       };
     }
-    %define api.value.type "struct my_value"
+    %define api.value.type {struct my_value}
     %token <u.ival> INT "integer"
     %token <u.sval> STRING "string"
     %printer { fprintf (yyo, "%d", $$); } <u.ival>
