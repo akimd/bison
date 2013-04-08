@@ -77,6 +77,12 @@ b4_copyright([Stack handling for Bison parsers in C++],
         seq_.pop_front ();
     }
 
+    void
+    clear ()
+    {
+      seq_.clear ();
+    }
+
     inline
     unsigned int
     height () const
@@ -88,6 +94,8 @@ b4_copyright([Stack handling for Bison parsers in C++],
     inline const_iterator end () const { return seq_.rend (); }
 
   private:
+    stack (const stack&);
+    stack& operator= (const stack&);
     S seq_;
   };
 

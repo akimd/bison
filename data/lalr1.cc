@@ -107,6 +107,10 @@ b4_user_stype
 #endif
 
   private:
+    /// This class is not copyable.
+    ]b4_parser_class_name[ (const ]b4_parser_class_name[&);
+    ]b4_parser_class_name[& operator= (const ]b4_parser_class_name[&);
+
     /// Report a syntax error.
     /// \param loc    where the syntax error is found.
     /// \param msg    a description of the syntax error.
@@ -552,9 +556,9 @@ b4_dollar_popdef])[]dnl
        yynewstate, since the latter expects the semantical and the
        location values to have been already stored, initialize these
        stacks with a primary value.  */
-    yystate_stack_ = state_stack_type (0);
-    yysemantic_stack_ = semantic_stack_type (0);
-    yylocation_stack_ = location_stack_type (0);
+    yystate_stack_.clear ();
+    yysemantic_stack_.clear ();
+    yylocation_stack_.clear ();
     yysemantic_stack_.push (yylval);
     yylocation_stack_.push (yylloc);
 
