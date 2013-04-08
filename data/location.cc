@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2007, 2009-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2007, 2009-2013 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 b4_output_begin([b4_dir_prefix[]position.hh])
 b4_copyright([Positions for Bison parsers in C++],
-             [2002-2007, 2009-2012])[
+             [2002-2007, 2009-2013])[
 
 /**
  ** \file ]b4_dir_prefix[position.hh
@@ -152,7 +152,7 @@ b4_output_end()
 
 b4_output_begin([b4_dir_prefix[]location.hh])
 b4_copyright([Locations for Bison parsers in C++],
-             [2002-2007, 2009-2012])[
+             [2002-2007, 2009-2013])[
 
 /**
  ** \file ]b4_dir_prefix[location.hh

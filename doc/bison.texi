@@ -33,7 +33,7 @@
 This manual (@value{UPDATED}) is for GNU Bison (version
 @value{VERSION}), the GNU parser generator.
 
-Copyright @copyright{} 1988-1993, 1995, 1998-2012 Free Software
+Copyright @copyright{} 1988-1993, 1995, 1998-2013 Free Software
 Foundation, Inc.
 
 @quotation

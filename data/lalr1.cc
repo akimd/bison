@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ m4_include(b4_pkgdatadir/[stack.hh])
 b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++],
-             [2002-2012])
+             [2002-2013])
 [
 /**
  ** \file ]b4_spec_defines_file[
@@ -272,7 +272,7 @@ b4_output_end()
 
 b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++],
-             [2002-2012])
+             [2002-2013])
 b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [

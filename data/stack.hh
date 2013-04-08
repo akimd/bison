@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2012 Free Software Foundation, Inc.
+# Copyright (C) 2002-2013 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,11 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 m4_pushdef([b4_copyright_years],
-           [2002-2012])
+           [2002-2013])
 
 b4_output_begin([b4_dir_prefix[]stack.hh])
 b4_copyright([Stack handling for Bison parsers in C++],
-             [2002-2012])[
+             [2002-2013])[
 
 /**
  ** \file ]b4_dir_prefix[stack.hh
