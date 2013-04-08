@@ -85,6 +85,20 @@ m4_changecom([#])
 ])
 
 
+# b4_divert_kill(CODE)
+# --------------------
+# Expand CODE for its side effects, discard its output.
+m4_define([b4_divert_kill],
+[m4_divert_text([KILL], [$1])])
+
+
+# b4_define_silent(MACRO, CODE)
+# -----------------------------
+# Same as m4_define, but throw away the expansion of CODE.
+m4_define([b4_define_silent],
+[m4_define([$1], [b4_divert_kill([$2])])])
+
+
 ## ---------------- ##
 ## Error handling.  ##
 ## ---------------- ##

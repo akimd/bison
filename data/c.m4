@@ -549,7 +549,7 @@ b4_pure_if([], [[extern ]b4_api_PREFIX[STYPE ]b4_prefix[lval;
 
 
 # b4_YYDEBUG_define
-# ------------------
+# -----------------
 m4_define([b4_YYDEBUG_define],
 [[/* Debug traces.  */
 ]m4_if(b4_api_prefix, [yy],
