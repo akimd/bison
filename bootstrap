@@ -1,10 +1,10 @@
 #! /bin/sh
 # Print a version string.
-scriptversion=2012-07-19.14; # UTC
+scriptversion=2013-03-08.16; # UTC
 
 # Bootstrap this package from checked-out sources.
 
-# Copyright (C) 2003-2012 Free Software Foundation, Inc.
+# Copyright (C) 2003-2013 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -306,34 +306,34 @@ if test -n "$checkout_only_file" && test ! -r "$checkout_only_file"; then
   die "Bootstrapping from a non-checked-out distribution is risky."
 fi
 
-# Ensure that lines starting with ! sort last, per gitignore conventions
-# for whitelisting exceptions after a more generic blacklist pattern.
-sort_patterns() {
-  sort -u "$@" | sed '/^!/ {
-    H
-    d
-  }
-  $ {
-    P
-    x
-    s/^\n//
-  }' | sed '/^$/d'
+# Strip blank and comment lines to leave significant entries.
+gitignore_entries() {
+  sed '/^#/d; /^$/d' "$@"
 }
 
-# If $STR is not already on a line by itself in $FILE, insert it,
-# sorting the new contents of the file and replacing $FILE with the result.
-insert_sorted_if_absent() {
+# If $STR is not already on a line by itself in $FILE, insert it at the start.
+# Entries are inserted at the start of the ignore list to ensure existing
+# entries starting with ! are not overridden.  Such entries support
+# whitelisting exceptions after a more generic blacklist pattern.
+insert_if_absent() {
   file=$1
   str=$2
   test -f $file || touch $file
-  echo "$str" | sort_patterns - $file | cmp -s - $file > /dev/null \
-    || { echo "$str" | sort_patterns - $file > $file.bak \
-      && mv $file.bak $file; } \
-    || die "insert_sorted_if_absent $file $str: failed"
+  test -r $file || die "Error: failed to read ignore file: $file"
+  duplicate_entries=$(gitignore_entries $file | sort | uniq -d)
+  if [ "$duplicate_entries" ] ; then
+    die "Error: Duplicate entries in $file: " $duplicate_entries
+  fi
+  linesold=$(gitignore_entries $file | wc -l)
+  linesnew=$(echo "$str" | gitignore_entries - $file | sort -u | wc -l)
+  if [ $linesold != $linesnew ] ; then
+    { echo "$str" | cat - $file > $file.bak && mv $file.bak $file; } \
+      || die "insert_if_absent $file $str: failed"
+  fi
 }
 
 # Adjust $PATTERN for $VC_IGNORE_FILE and insert it with
-# insert_sorted_if_absent.
+# insert_if_absent.
 insert_vc_ignore() {
   vc_ignore_file="$1"
   pattern="$2"
@@ -344,7 +344,7 @@ insert_vc_ignore() {
     # .gitignore entry.
     pattern=$(echo "$pattern" | sed s,^,/,);;
   esac
-  insert_sorted_if_absent "$vc_ignore_file" "$pattern"
+  insert_if_absent "$vc_ignore_file" "$pattern"
 }
 
 # Die if there is no AC_CONFIG_AUX_DIR($build_aux) line in configure.ac.
@@ -630,9 +630,13 @@ esac
 if $bootstrap_sync; then
   cmp -s "$0" "$GNULIB_SRCDIR/build-aux/bootstrap" || {
     echo "$0: updating bootstrap and restarting..."
+    case $(sh -c 'echo "$1"' -- a) in
+      a) ignored=--;;
+      *) ignored=ignored;;
+    esac
     exec sh -c \
       'cp "$1" "$2" && shift && exec "${CONFIG_SHELL-/bin/sh}" "$@"' \
-      -- "$GNULIB_SRCDIR/build-aux/bootstrap" \
+      $ignored "$GNULIB_SRCDIR/build-aux/bootstrap" \
       "$0" "$@" --no-bootstrap-sync
   }
 fi
@@ -889,20 +893,21 @@ find "$m4_base" "$source_base" \
   -depth \( -name '*.m4' -o -name '*.[ch]' \) \
   -type l -xtype l -delete > /dev/null 2>&1
 
+# Invoke autoreconf with --force --install to ensure upgrades of tools
+# such as ylwrap.
+AUTORECONFFLAGS="--verbose --install --force -I $m4_base $ACLOCAL_FLAGS"
+
 # Some systems (RHEL 5) are using ancient autotools, for which the
 # --no-recursive option had not been invented.  Detect that lack and
 # omit the option when it's not supported.  FIXME in 2017: remove this
 # hack when RHEL 5 autotools are updated, or when they become irrelevant.
-no_recursive=
 case $($AUTORECONF --help) in
-  *--no-recursive*) no_recursive=--no-recursive;;
+  *--no-recursive*) AUTORECONFFLAGS="$AUTORECONFFLAGS --no-recursive";;
 esac
 
 # Tell autoreconf not to invoke autopoint or libtoolize; they were run above.
-echo "running: AUTOPOINT=true LIBTOOLIZE=true " \
-    "$AUTORECONF --verbose --install $no_recursive -I $m4_base $ACLOCAL_FLAGS"
-AUTOPOINT=true LIBTOOLIZE=true \
-    $AUTORECONF --verbose --install $no_recursive -I $m4_base $ACLOCAL_FLAGS \
+echo "running: AUTOPOINT=true LIBTOOLIZE=true $AUTORECONF $AUTORECONFFLAGS"
+AUTOPOINT=true LIBTOOLIZE=true $AUTORECONF $AUTORECONFFLAGS \
   || die "autoreconf failed"
 
 # Get some extra files from gnulib, overriding existing files.
