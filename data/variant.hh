@@ -63,7 +63,7 @@ m4_define([b4_char_sizeof],
 [b4_symbol_if([$1], [has_type],
 [
 m4_map([      b4_symbol_tag_comment], [$@])dnl
-      char _b4_char_sizeof_dummy@{sizeof([b4_symbol([$1], [type])])@};
+      char _b4_char_sizeof_dummy@{sizeof(b4_symbol([$1], [type]))@};
 ])])
 
 
@@ -248,12 +248,12 @@ m4_define([b4_variant_define],
 # ---------------------
 # Declare semantic_type.
 m4_define([b4_value_type_declare],
-[    /// An auxiliary type to compute the largest semantic type.
+[[    /// An auxiliary type to compute the largest semantic type.
     union union_type
     {]b4_type_foreach([b4_char_sizeof])[};
 
     /// Symbol semantic values.
-    typedef variant<sizeof(union_type)> semantic_type;dnl
+    typedef variant<sizeof(union_type)> semantic_type;][]dnl
 ])
 
 
