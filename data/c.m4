@@ -440,15 +440,15 @@ m4_define([b4_case],
 $2
     break;])
 
-# b4_symbol_actions(FILENAME, LINENO,
-#                   SYMBOL-TAG, SYMBOL-NUM,
-#                   SYMBOL-ACTION, SYMBOL-TYPENAME)
-# -------------------------------------------------
+# _b4_symbol_actions(FILENAME, LINENO,
+#                    SYMBOL-TAG, SYMBOL-NUM,
+#                    SYMBOL-ACTION, SYMBOL-TYPENAME)
+# --------------------------------------------------
 # Issue the code for a symbol action (e.g., %printer).
 #
 # Define b4_dollar_dollar([TYPE-NAME]), and b4_at_dollar, which are
 # invoked where $<TYPE-NAME>$ and @$ were specified by the user.
-m4_define([b4_symbol_actions],
+m4_define([_b4_symbol_actions],
 [b4_dollar_pushdef([(*yyvaluep)], [$6], [(*yylocationp)])dnl
       case $4: /* $3 */
 b4_syncline([$2], [$1])
@@ -457,6 +457,20 @@ b4_syncline([@oline@], [@ofile@])
         break;
 b4_dollar_popdef[]dnl
 ])
+
+# b4_symbol_actions(KIND)
+# -----------------------
+# Emit the symbol actions for KIND ("printers" or "destructors").
+# Dispatch on "yytype".
+m4_define([b4_symbol_actions],
+[m4_ifval(m4_defn([b4_symbol_$1]),
+[[switch (yytype)
+    {
+]m4_map([_b4_symbol_actions], m4_defn([b4_symbol_$1]))[
+      default:
+        break;
+    }]],
+[YYUSE (yytype);])])
 
 
 # b4_yydestruct_generate(FUNCTION-DECLARATOR)
@@ -487,12 +501,7 @@ b4_parse_param_use[]dnl
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
-  switch (yytype)
-    {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
-      default:
-        break;
-    }
+  ]b4_symbol_actions([destructors])[
 }]dnl
 ])
 
@@ -530,12 +539,7 @@ b4_parse_param_use[]dnl
 # else
   YYUSE (yyoutput);
 # endif
-  switch (yytype)
-    {
-]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
-[      default:
-        break;
-    }
+  ]b4_symbol_actions([printers])[
 }
 
 

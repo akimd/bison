@@ -422,12 +422,7 @@ do {					\
     std::ostream& yyo = debug_stream ();
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
-    switch (yytype)
-      {
-  ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_printers]))dnl
-[       default:
-	  break;
-      }
+    ]b4_symbol_actions([printers])[
   }
 
 
@@ -454,12 +449,7 @@ do {					\
     if (yymsg)
       YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
-    switch (yytype)
-      {
-  ]m4_map([b4_symbol_actions], m4_defn([b4_symbol_destructors]))[
-	default:
-	  break;
-      }
+    ]b4_symbol_actions([destructors])[
   }
 
   void
