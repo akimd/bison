@@ -187,9 +187,29 @@ m4_define([b4_table_value_equals],
        [(!!(($2) == ($3)))])])
 
 
-## ---------##
-## Values.  ##
-## ---------##
+## ----------------- ##
+## Compiler issues.  ##
+## ----------------- ##
+
+# b4_attribute_define
+# -------------------
+# Provide portability for __attribute__.
+m4_define([b4_attribute_define],
+[#ifndef __attribute__
+/* This feature is available in gcc versions 2.5 and later.  */
+# if (! defined __GNUC__ || __GNUC__ < 2 \
+      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
+#  define __attribute__(Spec) /* empty */
+# endif
+#endif
+
+/* Suppress unused-variable warnings by "using" E.  */
+#if ! defined lint || defined __GNUC__
+# define YYUSE(E) ((void) (E))
+#else
+# define YYUSE(E) /* empty */
+#endif
+])
 
 
 # b4_null_define
@@ -405,7 +425,7 @@ m4_define([b4_c_arg],
 ## ----------- ##
 
 # b4_sync_start(LINE, FILE)
-# -----------------------
+# -------------------------
 m4_define([b4_sync_start], [[#]line $1 $2])
 
 

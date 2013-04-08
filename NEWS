@@ -2,6 +2,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** Fix compiler attribute portability (yacc.c)
+
+  With locations enabled, __attribute__ was used unprotected.
 
 * Noteworthy changes in release 2.7 (2012-12-12) [stable]
 
