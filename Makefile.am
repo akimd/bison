@@ -78,11 +78,11 @@ dist-hook: gen-ChangeLog
 
 .PHONY: update-b4-copyright update-package-copyright-year
 update-b4-copyright:
-	find $(srcdir)/data -type f          \
+	$(AM_V_GEN)find $(srcdir)/data -type f          \
 	  | xargs $(srcdir)/build-aux/$@
 	@echo 'warning: src/parse-gram.[hc] may need to be regenerated.'
 update-package-copyright-year:
-	$(srcdir)/build-aux/$@ $(srcdir)/configure.ac
+	$(AM_V_GEN)$(srcdir)/build-aux/$@ $(srcdir)/configure.ac
 
 gen_start_date = 2012-01-16
 .PHONY: gen-ChangeLog

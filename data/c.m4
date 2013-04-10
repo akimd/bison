@@ -199,6 +199,31 @@ m4_define([b4_table_value_equals],
        [(!!(($2) == ($3)))])])
 
 
+## ----------------- ##
+## Compiler issues.  ##
+## ----------------- ##
+
+# b4_attribute_define
+# -------------------
+# Provide portability for __attribute__.
+m4_define([b4_attribute_define],
+[#ifndef __attribute__
+/* This feature is available in gcc versions 2.5 and later.  */
+# if (! defined __GNUC__ || __GNUC__ < 2 \
+      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
+#  define __attribute__(Spec) /* empty */
+# endif
+#endif
+
+/* Suppress unused-variable warnings by "using" E.  */
+#if ! defined lint || defined __GNUC__
+# define YYUSE(E) ((void) (E))
+#else
+# define YYUSE(E) /* empty */
+#endif
+])
+
+
 ## ---------##
 ## Values.  ##
 ## ---------##
@@ -421,12 +446,7 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
-  switch (yytype)
-    {
-]b4_symbol_foreach([b4_symbol_destructor])dnl
-[      default:
-        break;
-    }
+  ]b4_symbol_actions([destructor])[
 }]dnl
 ])
 
@@ -459,12 +479,7 @@ m4_if(b4_skeleton, ["yacc.c"],
     YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
 ]])dnl
-[  switch (yytype)
-    {
-]b4_symbol_foreach([b4_symbol_printer])dnl
-[      default:
-        break;
-    }
+  b4_symbol_actions([printer])[
 }
 
 

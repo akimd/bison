@@ -72,6 +72,12 @@ m4_define([b4_stack_define],
         seq_.pop_back ();
     }
 
+    void
+    clear ()
+    {
+      seq_.clear ();
+    }
+
     inline
     typename S::size_type
     size () const
@@ -94,6 +100,8 @@ m4_define([b4_stack_define],
     }
 
   private:
+    stack (const stack&);
+    stack& operator= (const stack&);
     /// The wrapped container.
     S seq_;
   };

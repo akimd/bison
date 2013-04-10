@@ -187,12 +187,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
     std::ostream& yyoutput = debug_stream ();
     std::ostream& yyo = yyoutput;
     YYUSE (yyo);
-    switch (yytype)
-      {
-]b4_symbol_foreach([b4_symbol_printer])dnl
-[        default:
-          break;
-      }
+    ]b4_symbol_actions([printer])[
   }
 
 

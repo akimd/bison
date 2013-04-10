@@ -461,6 +461,24 @@ m4_define([b4_symbol_destructor], [b4_symbol_action([$1], [destructor])])
 m4_define([b4_symbol_printer],    [b4_symbol_action([$1], [printer])])
 
 
+# b4_symbol_actions(KIND, [TYPE = yytype])
+# ----------------------------------------
+# Emit the symbol actions for KIND ("printer" or "destructor").
+# Dispatch on TYPE.
+m4_define([b4_symbol_actions],
+[m4_pushdef([b4_actions_], m4_expand([b4_symbol_foreach([b4_symbol_$1])]))dnl
+m4_ifval(m4_defn([b4_actions_]),
+[switch (m4_default([$2], [yytype]))
+    {
+      m4_defn([b4_actions_])
+      default:
+        break;
+    }dnl
+],
+[YYUSE (m4_default([$2], [yytype]));])dnl
+m4_popdef([b4_actions_])dnl
+])
+
 # b4_symbol_case_(SYMBOL-NUM)
 # ---------------------------
 # Issue a "case NUM" for SYMBOL-NUM.
