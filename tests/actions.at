@@ -286,8 +286,8 @@ m4_popdef([AT_TEST])
 ## Location Print.  ##
 ## ---------------- ##
 
-# AT_TEST(SKELETON-NAME, DIRECTIVES, [MORE-DIRECTIVES], [LOCATION = 1.1])
-# -----------------------------------------------------------------------
+# AT_TEST(SKELETON-NAME, DIRECTIVES, [MORE-DIRECTIVES])
+# -----------------------------------------------------
 # Check that the initial location is correct.
 m4_pushdef([AT_TEST],
 [AT_SETUP([Location print: $1 $2])
