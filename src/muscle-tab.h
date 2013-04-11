@@ -99,14 +99,9 @@ extern struct obstack muscle_obstack;
   MUSCLE_INSERT_STRING(Key, quotearg_style (c_quoting_style, Value))
 
 
-/* Append VALUE to the current value of KEY.  If KEY did not already
-   exist, create it.  Use MUSCLE_OBSTACK.  De-allocate the previously
-   associated value.  Copy VALUE and SEPARATOR.  */
-void muscle_grow (const char *key, const char *value, const char *separator);
-
-
 /* Append VALUE to the current value of KEY, using muscle_grow.  But
-   in addition, issue a synchronization line for the location LOC.  */
+   in addition, issue a synchronization line for the location LOC.
+   Be sure to append on a new line.  */
 void muscle_code_grow (const char *key, const char *value, location loc);
 
 

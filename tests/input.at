@@ -1275,6 +1275,45 @@ AT_CLEANUP
 
 
 ## ---------------- ##
+## Multiple %code.  ##
+## ---------------- ##
+
+AT_SETUP([Multiple %code])
+
+# Make sure that repeated arguments to %code are separated by
+# end-of-lines.  At some point, a missing eol would leave synclines
+# appended to the previous value.  Here, we use CPP directive to
+# introduce dependency on the absence/presence of the eol.
+AT_BISON_OPTION_PUSHDEFS
+
+AT_DATA([input.y],
+[[%code {#include <assert.h>}
+%code {#define A B}
+%code {#define B C}
+%code {#define C D}
+%code {#define D 42}
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%%
+start: %empty;
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+int main (void)
+{
+  assert (A == 42);
+  return 0;
+}
+]])
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([./input])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP()
+
+## ---------------- ##
 ## %define errors.  ##
 ## ---------------- ##
 
