@@ -18,6 +18,68 @@
 AT_BANNER([[C++ Features.]])
 
 
+## --------------- ##
+## C++ Locations.  ##
+## --------------- ##
+
+AT_SETUP([C++ Locations])
+
+AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "lalr1.cc"])
+AT_DATA_GRAMMAR([[input.y]],
+[[%code {#include <sstream>}
+%locations
+%debug
+%skeleton "lalr1.cc"
+%code
+{
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+%%
+exp: %empty;
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+
+template <typename T>
+bool
+check (const T& in, const std::string& s)
+{
+  std::stringstream os;
+  os << in;
+  if (os.str () != s)
+    {
+      std::cerr << "fail: " << os.str () << ", expected: " << s << std::endl;
+      return false;
+    }
+  return true;
+}
+
+int
+main (void)
+{
+  int fail = 0;
+  ]AT_YYLTYPE[ loc;  fail += check (loc, "1.1");
+  loc += 10;         fail += check (loc, "1.1-10");
+  loc += -5;         fail += check (loc, "1.1-5");
+  loc -= 5;          fail += check (loc, "1.1");
+  // Check that we don't go below.
+  // http://lists.gnu.org/archive/html/bug-bison/2013-02/msg00000.html
+  loc -= 10;         fail += check (loc, "1.1");
+
+  loc.columns (10); loc.lines (10); fail += check (loc, "1.1-11.0");
+  loc.lines (-2);                   fail += check (loc, "1.1-9.0");
+  loc.lines (-10);                  fail += check (loc, "1.1");
+  return !fail;
+}
+]])
+
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([./input], 0)
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
 ## --------------------------- ##
 ## C++ Variant-based Symbols.  ##
 ## --------------------------- ##

@@ -10591,16 +10591,18 @@ filename_type "@var{type}"}.
 The line, starting at 1.
 @end deftypeivar
 
-@deftypemethod {position} {uint} lines (int @var{height} = 1)
-Advance by @var{height} lines, resetting the column number.
+@deftypemethod {position} {void} lines (int @var{height} = 1)
+If @var{height} is not null, advance by @var{height} lines, resetting the
+column number.  The resulting line number cannot be less than 1.
 @end deftypemethod
 
 @deftypeivar {position} {uint} column
 The column, starting at 1.
 @end deftypeivar
 
-@deftypemethod {position} {uint} columns (int @var{width} = 1)
-Advance by @var{width} columns, without changing the line number.
+@deftypemethod {position} {void} columns (int @var{width} = 1)
+Advance by @var{width} columns, without changing the line number. The
+resulting column number cannot be less than 1.
 @end deftypemethod
 
 @deftypemethod {position} {position&} operator+= (int @var{width})
@@ -10642,14 +10644,16 @@ Reset the location to an empty range at the given values.
 The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
-@deftypemethod {location} {uint} columns (int @var{width} = 1)
-@deftypemethodx {location} {uint} lines (int @var{height} = 1)
-Advance the @code{end} position.
+@deftypemethod {location} {void} columns (int @var{width} = 1)
+@deftypemethodx {location} {void} lines (int @var{height} = 1)
+Forwarded to the @code{end} position.
 @end deftypemethod
 
 @deftypemethod {location} {location} operator+ (const location& @var{end})
 @deftypemethodx {location} {location} operator+ (int @var{width})
 @deftypemethodx {location} {location} operator+= (int @var{width})
+@deftypemethodx {location} {location} operator- (int @var{width})
+@deftypemethodx {location} {location} operator-= (int @var{width})
 Various forms of syntactic sugar.
 @end deftypemethod
 

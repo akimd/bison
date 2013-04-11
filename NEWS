@@ -569,6 +569,11 @@ GNU Bison NEWS
       ...
     }
 
+*** C++ locations
+
+  There are operator- and operator-= for 'location'.  Negative line/column
+  increments can no longer underflow the resulting value.
+
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
 ** Bug fixes

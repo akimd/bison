@@ -25,8 +25,7 @@ m4_define([b4_position_define],
 [[  /// Abstract a position.
   class position
   {
-  public:
-]m4_ifdef([b4_location_constructors], [[
+  public:]m4_ifdef([b4_location_constructors], [[
     /// Construct a position.
     explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULL,
                        unsigned int l = ]b4_location_initial_line[u,
@@ -53,14 +52,23 @@ m4_define([b4_position_define],
     /// (line related) Advance to the COUNT next lines.
     void lines (int count = 1)
     {
-      column = ]b4_location_initial_column[u;
-      line += count;
+      if (count)
+        {
+          column = ]b4_location_initial_column[u;
+          line =
+            0 < count || -count < line
+            ? line + count
+            : ]b4_location_initial_line[;
+        }
     }
 
     /// (column related) Advance to the COUNT next columns.
     void columns (int count = 1)
     {
-      column = std::max (]b4_location_initial_column[u, column + count);
+      column =
+        0 < count || -count < column
+        ? column + count
+        : ]b4_location_initial_column[;
     }
     /** \} */
 
@@ -74,32 +82,31 @@ m4_define([b4_position_define],
 
   /// Add and assign a position.
   inline position&
-  operator+= (position& res, const int width)
+  operator+= (position& res, int width)
   {
     res.columns (width);
     return res;
   }
 
   /// Add two position objects.
-  inline const position
-  operator+ (const position& begin, const int width)
+  inline position
+  operator+ (position res, int width)
   {
-    position res = begin;
     return res += width;
   }
 
   /// Add and assign a position.
   inline position&
-  operator-= (position& res, const int width)
+  operator-= (position& res, int width)
   {
     return res += -width;
   }
 
   /// Add two position objects.
-  inline const position
-  operator- (const position& begin, const int width)
+  inline position
+  operator- (position res, int width)
   {
-    return begin + -width;
+    return res -= width;
   }
 ]b4_percent_define_flag_if([[define_location_comparison]], [[
   /// Compare two position objects.
@@ -186,13 +193,13 @@ m4_define([b4_location_define],
     }
 
     /// Extend the current location to the COUNT next columns.
-    void columns (unsigned int count = 1)
+    void columns (int count = 1)
     {
       end += count;
     }
 
     /// Extend the current location to the COUNT next lines.
-    void lines (unsigned int count = 1)
+    void lines (int count = 1)
     {
       end.lines (count);
     }
@@ -207,26 +214,35 @@ m4_define([b4_location_define],
   };
 
   /// Join two location objects to create a location.
-  inline const location operator+ (const location& begin, const location& end)
+  inline location operator+ (location res, const location& end)
   {
-    location res = begin;
     res.end = end.end;
     return res;
   }
 
-  /// Add two location objects.
-  inline const location operator+ (const location& begin, unsigned int width)
+  /// Change end position in place.
+  inline location& operator+= (location& res, int width)
   {
-    location res = begin;
     res.columns (width);
     return res;
   }
 
-  /// Add and assign a location.
-  inline location& operator+= (location& res, unsigned int width)
+  /// Change end position.
+  inline location operator+ (location res, int width)
   {
-    res.columns (width);
-    return res;
+    return res += width;
+  }
+
+  /// Change end position in place.
+  inline location& operator-= (location& res, int width)
+  {
+    return res += -width;
+  }
+
+  /// Change end position.
+  inline location operator- (const location& begin, int width)
+  {
+    return begin + -width;
   }
 ]b4_percent_define_flag_if([[define_location_comparison]], [[
   /// Compare two location objects.
