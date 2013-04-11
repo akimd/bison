@@ -3787,7 +3787,7 @@ return ID;
 If the @code{%define} variable @code{api.token.prefix} is defined
 (@pxref{%define Summary,,api.token.prefix}), then it is also used to prefix
 the union member names.  For instance, with @samp{%define api.token.prefix
-TOK_}:
+@{TOK_@}}:
 
 @example
 /* For an "integer".  */
@@ -5884,7 +5884,7 @@ introduced in Bison 2.8
 
 
 @c ================================================== api.token.prefix
-@deffn Directive {%define api.token.prefix} @var{prefix}
+@deffn Directive {%define api.token.prefix} @{@var{prefix}@}
 
 @itemize
 @item Languages(s): all
@@ -5895,7 +5895,7 @@ target language.  For instance
 
 @example
 %token FILE for ERROR
-%define api.token.prefix "TOK_"
+%define api.token.prefix @{TOK_@}
 %%
 start: FILE for ERROR;
 @end example
@@ -5922,7 +5922,7 @@ letters, underscores, and ---not at the beginning--- digits).
 @item Default Value:
 empty
 @item History:
-introduced in Bison 2.8
+introduced in Bison 3.0
 @end itemize
 @end deffn
 @c api.token.prefix
@@ -10917,7 +10917,7 @@ also pass the @var{location}.
 For instance, given the following declarations:
 
 @example
-%define api.token.prefix "TOK_"
+%define api.token.prefix @{TOK_@}
 %token <std::string> IDENTIFIER;
 %token <int> INTEGER;
 %token COLON;
@@ -11243,7 +11243,7 @@ tokens with @code{TOK_} (@pxref{%define Summary,,api.token.prefix}).
 
 @comment file: calc++-parser.yy
 @example
-%define api.token.prefix "TOK_"
+%define api.token.prefix @{TOK_@}
 %token
   END  0  "end of file"
   ASSIGN  ":="

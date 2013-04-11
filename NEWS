@@ -256,6 +256,23 @@ GNU Bison NEWS
 
     %param {arg1_type *arg1} {arg2_type *arg2}
 
+** Types of values for %define variables
+
+  Bison used to make no difference between '%define foo bar' and '%define
+  foo "bar"'.  The former is now called a 'keyword value', and the latter a
+  'string value'.  A third kind was added: 'code values', such as '%define
+  foo {bar}'.
+
+  Keyword variables are used for fixed value sets, e.g.,
+
+    %define lr.type lalr
+
+  Code variables are used for value in the target language, e.g.,
+
+    %define api.value.type {struct semantic_type}
+
+  String variables are used remaining cases, e.g. file names.
+
 ** Variable api.token.prefix
 
   The variable api.token.prefix changes the way tokens are identified in
@@ -263,7 +280,7 @@ GNU Bison NEWS
   with identifiers in the target language.  For instance
 
     %token FILE for ERROR
-    %define api.token.prefix "TOK_"
+    %define api.token.prefix {TOK_}
     %%
     start: FILE for ERROR;
 
@@ -294,8 +311,9 @@ GNU Bison NEWS
     yylval.ival = 42; return INT;
     yylval.sval = "42"; return STRING;
 
-  The %define variable api.value.type supports several special values.  The
-  keyword value 'union' means that the user provides genuine types, not
+  The %define variable api.value.type supports both keyword and code values.
+
+  The keyword value 'union' means that the user provides genuine types, not
   union member names such as "ival" and "sval" above (WARNING: will fail if
   -y/--yacc/%yacc is enabled).
 
@@ -316,7 +334,7 @@ GNU Bison NEWS
     %token <int> INT "integer"
     %token <std::string> STRING "string"
 
-  Values between braces denote user defined types.  This is where YYSTYPE
+  Code values (in braces) denote user defined types.  This is where YYSTYPE
   used to be used.
 
     %code requires

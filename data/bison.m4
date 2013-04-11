@@ -912,10 +912,6 @@ m4_define([b4_percent_code_ifdef],
 ## Common variables.  ##
 ## ------------------ ##
 
-# Default values for %define.
-# ---------------------------
-# If the api.token.prefix, it is empty.
-m4_percent_define_default([[api.token.prefix]], [[]])
 
 # b4_parse_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
@@ -1006,6 +1002,15 @@ b4_percent_define_ifdef([api.prefix],
                 [['%s' and '%s' cannot be used together]],
                 [%name-prefix],
                 [%define api.prefix])])])
+
+# api.token.prefix={...}
+# Make it a warning for those who used betas of Bison 3.0.
+b4_percent_define_ifdef([api.token.prefix],
+  [m4_if(b4_percent_define_get_kind([[api.token.prefix]]), [code], [],
+      [b4_error([deprecated],
+                b4_percent_define_get_loc([api.token.prefix]),
+                [[%%define variable '%s' requires '{...}' values]],
+                [api.token.prefix])])])
 
 # api.value.type >< %union.
 b4_percent_define_ifdef([api.value.type],

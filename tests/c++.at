@@ -325,8 +325,8 @@ AT_TEST([%define parse.assert])
 AT_TEST([%locations %define parse.assert])
 AT_TEST([[%define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
 AT_TEST([[%define parse.assert %define api.token.constructor]])
-AT_TEST([[%define parse.assert %define api.token.constructor %define api.token.prefix "TOK_"]])
-AT_TEST([[%locations %define parse.assert %define api.token.constructor %define api.token.prefix "TOK_"]])
+AT_TEST([[%define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
+AT_TEST([[%locations %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
 
 m4_popdef([AT_TEST])
 

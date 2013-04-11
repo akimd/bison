@@ -83,7 +83,7 @@ static void fail_for_invalid_at (char const *at);
 "@output("      at_init (&argc, argv, &at_ptr, &at_output);
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}'(\n]*    fail_for_invalid_at (yytext);
+@[^@{}\'(\n]*   fail_for_invalid_at (yytext);
 \n              out_lineno++; ECHO;
 [^@\n]+         ECHO;
 
@@ -183,6 +183,8 @@ flag (const char *arg)
   /* compare with values issued from b4_error */
   if (STREQ (arg, "complain"))
     return complaint;
+  else if (STREQ (arg, "deprecated"))
+    return Wdeprecated;
   else if (STREQ (arg, "fatal"))
     return fatal;
   else if (STREQ (arg, "note"))

@@ -1435,6 +1435,31 @@ AT_BISON_CHECK([[Input.y]], [1], [],
 AT_CLEANUP
 
 ## ------------------------ ##
+## %define code variables.  ##
+## ------------------------ ##
+
+AT_SETUP([["%define" code variables]])
+
+m4_pushdef([AT_TEST],
+[AT_DATA([input.y],
+[[%define api.token.prefix ]$1[
+%%
+start: %empty;
+]])
+
+AT_BISON_CHECK([[input.y]], [0], [],
+[[input.y:1.9-24: warning: %define variable 'api.token.prefix' requires '{...}' values [-Wdeprecated]
+]])
+])
+
+AT_TEST(["abc"])
+AT_TEST([abcde])
+m4_popdef([AT_TEST])
+
+AT_CLEANUP
+
+
+## ------------------------ ##
 ## %define enum variables.  ##
 ## ------------------------ ##
 

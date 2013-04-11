@@ -190,8 +190,8 @@ m4_pushdef([AT_NAME_PREFIX],
 m4_pushdef([AT_TOKEN_CTOR_IF],
 [m4_bmatch([$3], [%define api\.token\.constructor], [$1], [$2])])
 m4_pushdef([AT_TOKEN_PREFIX],
-[m4_bmatch([$3], [%define api\.token\.prefix ".*"],
-           [m4_bregexp([$3], [%define api\.token\.prefix "\(.*\)"], [\1])])])
+[m4_bmatch([$3], [%define api\.token\.prefix {.*}],
+           [m4_bregexp([$3], [%define api\.token\.prefix {\(.*\)}], [\1])])])
 m4_pushdef([AT_VARIANT_IF],
 [m4_bmatch([$3], [%define api\.value\.type "?variant"?], [$1], [$2])])
 m4_pushdef([AT_API_prefix],
