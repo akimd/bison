@@ -12758,7 +12758,7 @@ push parser, @code{yypush_parse}, @code{yypull_parse}, @code{yypstate},
 @code{yypstate_new} and @code{yypstate_delete} will also be renamed.  For
 example, if you use @samp{%name-prefix "c_"}, the names become
 @code{c_parse}, @code{c_lex}, and so on.  For C++ parsers, see the
-@code{%define namespace} documentation in this section.
+@code{%define api.namespace} documentation in this section.
 @end deffn
 
 

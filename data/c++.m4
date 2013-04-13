@@ -25,6 +25,11 @@ m4_include(b4_pkgdatadir/[c.m4])
 m4_define([b4_comment],
 [b4_comment_([$1], [$2// ], [$2// ])])
 
+## -------- ##
+## Checks.  ##
+## -------- ##
+
+b4_percent_define_check_kind([api.namespace], [code], [deprecated])
 
 ## ---------------- ##
 ## Default values.  ##
@@ -38,6 +43,7 @@ b4_percent_define_default([[parser_class_name]], [[parser]])
 # b4_percent_define_default([[api.location.type]], [[location]])
 
 b4_percent_define_default([[filename_type]], [[std::string]])
+# Make it a warning for those who used betas of Bison 3.0.
 b4_percent_define_default([[api.namespace]], m4_defn([b4_prefix]))
 
 b4_percent_define_default([[global_tokens_and_yystype]], [[false]])

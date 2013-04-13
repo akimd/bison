@@ -847,6 +847,21 @@ m4_define([b4_percent_define_if_define],
 b4_percent_define_if_define_([$1], [$2], $[1], $[2])])
 
 
+# b4_percent_define_check_kind(VARIABLE, KIND, [DIAGNOSTIC = complain])
+# ---------------------------------------------------------------------
+m4_define([b4_percent_define_check_kind],
+[b4_percent_define_ifdef_([$1],
+  [m4_if(b4_percent_define_get_kind([[$1]]), [$2], [],
+    [b4_error([m4_default([$3], [complain])],
+              b4_percent_define_get_loc([$1]),
+              [m4_case([$2],
+                 [code], [[%%define variable '%s' requires '{...}' values]],
+                 [keyword], [[%%define variable '%s' requires '...' values]],
+                 [string], [[%%define variable '%s' requires '"..."' values]])],
+              [$1])])])dnl
+])
+
+
 # b4_percent_define_check_values(VALUES)
 # --------------------------------------
 # Mimic muscle_percent_define_check_values in ../src/muscle-tab.h exactly
@@ -1018,12 +1033,7 @@ b4_percent_define_ifdef([api.prefix],
 
 # api.token.prefix={...}
 # Make it a warning for those who used betas of Bison 3.0.
-b4_percent_define_ifdef([api.token.prefix],
-  [m4_if(b4_percent_define_get_kind([[api.token.prefix]]), [code], [],
-      [b4_error([deprecated],
-                b4_percent_define_get_loc([api.token.prefix]),
-                [[%%define variable '%s' requires '{...}' values]],
-                [api.token.prefix])])])
+b4_percent_define_check_kind([api.token.prefix], [code], [deprecated])
 
 # api.value.type >< %union.
 b4_percent_define_ifdef([api.value.type],

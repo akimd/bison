@@ -1441,19 +1441,23 @@ AT_CLEANUP
 AT_SETUP([["%define" code variables]])
 
 m4_pushdef([AT_TEST],
-[AT_DATA([input.y],
-[[%define api.token.prefix ]$1[
+[AT_DATA([input.yy],
+[[%skeleton "lalr1.cc"
+%define api.namespace    ]$1[quux]$2[
+%define api.token.prefix ]$1[quux]$2[
+%token TOK // Otherwise api.token.prefix is unused.
 %%
-start: %empty;
+start: TOK;
 ]])
 
-AT_BISON_CHECK([[input.y]], [0], [],
-[[input.y:1.9-24: warning: %define variable 'api.token.prefix' requires '{...}' values [-Wdeprecated]
+AT_BISON_CHECK([[input.yy]], [0], [],
+[[input.yy:3.9-24: warning: %define variable 'api.token.prefix' requires '{...}' values [-Wdeprecated]
+input.yy:2.9-21: warning: %define variable 'api.namespace' requires '{...}' values [-Wdeprecated]
 ]])
 ])
 
-AT_TEST(["abc"])
-AT_TEST([abcde])
+AT_TEST([],  [])
+AT_TEST(["], ["])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
