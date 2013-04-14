@@ -62,6 +62,8 @@ GNU Bison NEWS
   Changes in Bison 2.7 introduced a dependency on FILE and fprintf when
   locations are enabled.  This is fixed.
 
+*** Warnings about useless %pure-parser/%define api.pure are restored
+
 ** Diagnostics reported by Bison
 
   Most of these features were contributed by Théophile Ranquet and Victor
