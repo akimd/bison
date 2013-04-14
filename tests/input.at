@@ -1463,6 +1463,39 @@ m4_popdef([AT_TEST])
 AT_CLEANUP
 
 
+## --------------------------- ##
+## %define keyword variables.  ##
+## --------------------------- ##
+
+AT_SETUP([["%define" keyword variables]])
+
+m4_pushdef([AT_TEST],
+[AT_DATA([input.y],
+[[%define api.pure                ]$1[true]$2[
+%define api.push-pull             ]$1[both]$2[
+%define lr.default-reduction      ]$1[most]$2[
+%define lr.keep-unreachable-state ]$1[true]$2[
+%define lr.type                   ]$1[lalr]$2[
+%%
+exp: %empty
+]])
+
+AT_BISON_CHECK([[input.y]], [0], [],
+[[input.y:5.9-15: warning: %define variable 'lr.type' requires keyword values [-Wdeprecated]
+input.y:3.9-28: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
+input.y:4.9-33: warning: %define variable 'lr.keep-unreachable-state' requires keyword values [-Wdeprecated]
+input.y:2.9-21: warning: %define variable 'api.push-pull' requires keyword values [-Wdeprecated]
+input.y:1.9-16: warning: %define variable 'api.pure' requires keyword values [-Wdeprecated]
+]])
+])
+
+AT_TEST(["], ["])
+AT_TEST([{], [}])
+m4_popdef([AT_TEST])
+
+AT_CLEANUP
+
+
 ## ------------------------ ##
 ## %define enum variables.  ##
 ## ------------------------ ##

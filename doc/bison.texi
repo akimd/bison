@@ -5877,7 +5877,7 @@ Boolean.
 @item Default Value:
 @code{false}
 @item History:
-introduced in Bison 2.8
+introduced in Bison 3.0
 @end itemize
 @end deffn
 @c api.token.constructor
@@ -6016,7 +6016,7 @@ Use this name as semantic value.
 @end itemize
 
 @item History:
-introduced in Bison 2.8.  Was introduced for Java only in 2.3b as
+introduced in Bison 3.0.  Was introduced for Java only in 2.3b as
 @code{stype}.
 @end itemize
 @end deffn
@@ -6048,8 +6048,8 @@ feedback will help to stabilize it.)
 @item @code{most} otherwise.
 @end itemize
 @item History:
-introduced as @code{lr.default-reduction} in 2.5, renamed as
-@code{lr.default-reduction} in 2.8.
+introduced as @code{lr.default-reductions} in 2.5, renamed as
+@code{lr.default-reduction} in 3.0.
 @end itemize
 @end deffn
 
@@ -6066,7 +6066,7 @@ remain in the parser tables.  @xref{Unreachable States}.
 @item History:
 introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
 @code{lr.keep-unreachable-states} in 2.5, and as
-@code{lr.keep-unreachable-state} in 2.8.
+@code{lr.keep-unreachable-state} in 3.0.
 @end itemize
 @end deffn
 @c lr.keep-unreachable-state

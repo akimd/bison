@@ -814,8 +814,8 @@ m4_define([b4_percent_define_flag_if],
   [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
 
-# b4_percent_define_default(VARIABLE, DEFAULT)
-# --------------------------------------------
+# b4_percent_define_default(VARIABLE, DEFAULT, [KIND = keyword])
+# --------------------------------------------------------------
 # Mimic muscle_percent_define_default in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is undefined, set its value to DEFAULT.
 # Don't record this as a Bison usage of VARIABLE as there's no reason to
@@ -827,6 +827,8 @@ m4_define([b4_percent_define_flag_if],
 m4_define([b4_percent_define_default],
 [b4_percent_define_ifdef_([$1], [],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
+            m4_define([b4_percent_define_kind(]$1[)],
+                      [m4_default([$3], [keyword])])dnl
             m4_define([b4_percent_define_loc(]$1[)],
                       [[[[<skeleton default value>:-1.-1]],
                         [[<skeleton default value>:-1.-1]]]])dnl
@@ -856,7 +858,7 @@ m4_define([b4_percent_define_check_kind],
               b4_percent_define_get_loc([$1]),
               [m4_case([$2],
                  [code], [[%%define variable '%s' requires '{...}' values]],
-                 [keyword], [[%%define variable '%s' requires '...' values]],
+                 [keyword], [[%%define variable '%s' requires keyword values]],
                  [string], [[%%define variable '%s' requires '"..."' values]])],
               [$1])])])dnl
 ])
@@ -884,7 +886,8 @@ m4_define([b4_percent_define_check_values],
 
 m4_define([_b4_percent_define_check_values],
 [b4_percent_define_ifdef_([$1],
-  [m4_pushdef([b4_good_value], [0])dnl
+  [b4_percent_define_check_kind(]$1[, [keyword], [deprecated])dnl
+   m4_pushdef([b4_good_value], [0])dnl
    m4_if($#, 1, [],
          [m4_foreach([b4_value], m4_dquote(m4_shift($@)),
                      [m4_if(m4_indir([b4_percent_define(]$1[)]), b4_value,
