@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.6.5.63-3ada.  */
+/* A Bison parser, made by GNU Bison 2.7.12-4996.  */
 
 /* Bison interface for Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2012 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED
-# define YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED
+#ifndef YY_GRAM__SRC_PARSE_GRAM_H_INCLUDED
+# define YY_GRAM__SRC_PARSE_GRAM_H_INCLUDED
 /* Enabling traces.  */
 #ifndef GRAM_DEBUG
 # if defined YYDEBUG
@@ -175,7 +175,7 @@ extern int gram_debug;
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
 typedef union GRAM_STYPE
 {
-/* Line 2042 of yacc.c  */
+/* Line 2053 of yacc.c  */
 #line 115 "parse-gram.y"
 
   symbol *symbol;
@@ -189,7 +189,7 @@ typedef union GRAM_STYPE
   named_ref *named_ref;
 
 
-/* Line 2042 of yacc.c  */
+/* Line 2053 of yacc.c  */
 #line 194 "parse-gram.h"
 } GRAM_STYPE;
 # define GRAM_STYPE_IS_TRIVIAL 1
@@ -225,4 +225,4 @@ int gram_parse ();
 #endif
 #endif /* ! YYPARSE_PARAM */
 
-#endif /* !YY_GRAM__________SRC_PARSE_GRAM_H_INCLUDED  */
+#endif /* !YY_GRAM__SRC_PARSE_GRAM_H_INCLUDED  */
