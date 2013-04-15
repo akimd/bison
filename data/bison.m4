@@ -702,9 +702,9 @@ m4_define([b4_percent_define_use],
 #   b4_percent_define_get([[foo]])
 m4_define([b4_percent_define_get],
 [b4_percent_define_use([$1])dnl
-m4_ifdef([b4_percent_define(]$1[)],
-         [m4_indir([b4_percent_define(]$1[)])],
-         [$2])])
+b4_percent_define_ifdef_([$1],
+                         [m4_indir([b4_percent_define(]$1[)])],
+                         [$2])])
 
 # b4_percent_define_get_loc(VARIABLE)
 # -----------------------------------
@@ -756,6 +756,19 @@ m4_define([b4_percent_define_get_syncline],
           [m4_indir([b4_percent_define_syncline(]$1[)])],
           [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
+# b4_percent_define_ifdef_(VARIABLE, IF-TRUE, [IF-FALSE])
+# ------------------------------------------------------
+# If the %define variable VARIABLE is defined, expand IF-TRUE, else expand
+# IF-FALSE.  Don't record usage of VARIABLE.
+#
+# For example:
+#
+#   b4_percent_define_ifdef_([[foo]], [[it's defined]], [[it's undefined]])
+m4_define([b4_percent_define_ifdef_],
+[m4_ifdef([b4_percent_define(]$1[)],
+          [$2],
+          [$3])])
+
 # b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
 # Mimic muscle_percent_define_ifdef in ../src/muscle-tab.h exactly.  That is,
@@ -767,9 +780,9 @@ m4_define([b4_percent_define_get_syncline],
 #
 #   b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
 m4_define([b4_percent_define_ifdef],
-[m4_ifdef([b4_percent_define(]$1[)],
-          [b4_percent_define_use([$1])$2],
-          [$3])])
+[b4_percent_define_ifdef_([$1],
+                         [b4_percent_define_use([$1])$2],
+                         [$3])])
 
 
 ## --------- ##
@@ -812,7 +825,7 @@ m4_define([b4_percent_define_flag_if],
 #
 #   b4_percent_define_default([[foo]], [[default value]])
 m4_define([b4_percent_define_default],
-[m4_ifndef([b4_percent_define(]$1[)],
+[b4_percent_define_ifdef_([$1], [],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
             m4_define([b4_percent_define_loc(]$1[)],
                       [[[[<skeleton default value>:-1.-1]],
@@ -855,7 +868,7 @@ m4_define([b4_percent_define_check_values],
             [_b4_percent_define_check_values(b4_sublist)])])
 
 m4_define([_b4_percent_define_check_values],
-[m4_ifdef([b4_percent_define(]$1[)],
+[b4_percent_define_ifdef_([$1],
   [m4_pushdef([b4_good_value], [0])dnl
    m4_if($#, 1, [],
          [m4_foreach([b4_value], m4_dquote(m4_shift($@)),
