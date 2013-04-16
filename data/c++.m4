@@ -29,6 +29,7 @@ m4_define([b4_comment],
 ## Checks.  ##
 ## -------- ##
 
+b4_percent_define_check_kind([api.location.type], [code], [deprecated])
 b4_percent_define_check_kind([api.namespace], [code], [deprecated])
 
 ## ---------------- ##

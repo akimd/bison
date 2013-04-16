@@ -2160,7 +2160,7 @@ the same as the declarations for the infix notation calculator.
 %@}
 
 /* Bison declarations.  */
-%define api.value.type int
+%define api.value.type @{int@}
 %token NUM
 
 %left '-' '+'
@@ -3885,7 +3885,7 @@ and then your grammar can use the following instead of @code{%union}:
 %@{
 #include "parser.h"
 %@}
-%define api.value.type "union YYSTYPE"
+%define api.value.type @{union YYSTYPE@}
 %type <val> expr
 %token <tptr> ID
 @end group
@@ -5450,6 +5450,7 @@ parse.trace}.
 
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} @var{value}
+@deffnx {Directive} %define @var{variable} @{@var{value}@}
 @deffnx {Directive} %define @var{variable} "@var{value}"
 Define a variable to adjust Bison's behavior.  @xref{%define Summary}.
 @end deffn
@@ -5499,7 +5500,7 @@ preprocessor guard: @samp{YY_@var{PREFIX}_@var{FILE}_INCLUDED}, where
 uppercase, with each series of non alphanumerical characters converted to a
 single underscore.
 
-For instance with @samp{%define api.prefix "calc"} and @samp{%defines
+For instance with @samp{%define api.prefix @{calc@}} and @samp{%defines
 "lib/parse.h"}, the header will be guarded as follows.
 @example
 #ifndef YY_CALC_LIB_PARSE_H_INCLUDED
@@ -5661,17 +5662,17 @@ features are associated with variables, which are assigned by the
 
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} @var{value}
+@deffnx {Directive} %define @var{variable} @{@var{value}@}
 @deffnx {Directive} %define @var{variable} "@var{value}"
 Define @var{variable} to @var{value}.
 
-@var{value} must be placed in quotation marks if it contains any
-character other than a letter, underscore, period, or non-initial dash
-or digit.  Omitting @code{"@var{value}"} entirely is always equivalent
-to specifying @code{""}.
+The type of the values depend on the syntax.  Braces denote value in the
+target language (e.g., a namespace, a type, etc.).  Keyword values (no
+delimiters) denote finite choice (e.g., a variation of a feature).  String
+values denote remaining cases (e.g., a file name).
 
-It is an error if a @var{variable} is defined by @code{%define}
-multiple times, but see @ref{Bison Options,,-D
-@var{name}[=@var{value}]}.
+It is an error if a @var{variable} is defined by @code{%define} multiple
+times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
 @end deffn
 
 The rest of this section summarizes variables and values that
@@ -5753,7 +5754,7 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @c api.namespace
 
 @c ================================================== api.location.type
-@deffn {Directive} {%define api.location.type} @var{type}
+@deffn {Directive} {%define api.location.type} @{@var{type}@}
 
 @itemize @bullet
 @item Language(s): C++, Java
@@ -5772,7 +5773,7 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @end deffn
 
 @c ================================================== api.prefix
-@deffn {Directive} {%define api.prefix} @var{prefix}
+@deffn {Directive} {%define api.prefix} @{@var{prefix}@}
 
 @itemize @bullet
 @item Language(s): All
@@ -5789,7 +5790,7 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @end deffn
 
 @c ================================================== api.pure
-@deffn Directive {%define api.pure}
+@deffn Directive {%define api.pure} @var{purity}
 
 @itemize @bullet
 @item Language(s): C

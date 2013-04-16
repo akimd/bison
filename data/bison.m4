@@ -1027,6 +1027,7 @@ m4_define_default([b4_location_initial_line],   [1])
 ## --------------- ##
 
 # api.prefix >< %name-prefix.
+b4_percent_define_check_kind([api.prefix], [code], [deprecated])
 b4_percent_define_ifdef([api.prefix],
 [m4_ifdef([b4_prefix],
 [b4_complain_at(b4_percent_define_get_loc([api.prefix]),

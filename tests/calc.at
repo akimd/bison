@@ -677,7 +677,7 @@ m4_define([AT_CHECK_CALC_LALR1_CC],
 
 AT_CHECK_CALC_LALR1_CC([])
 AT_CHECK_CALC_LALR1_CC([%locations])
-AT_CHECK_CALC_LALR1_CC([%locations %define api.location.type Span])
+AT_CHECK_CALC_LALR1_CC([%locations %define api.location.type {Span}])
 AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.error verbose %define api.prefix "calc" %verbose %yacc])
@@ -711,7 +711,7 @@ m4_define([AT_CHECK_CALC_GLR_CC],
 
 AT_CHECK_CALC_GLR_CC([])
 AT_CHECK_CALC_GLR_CC([%locations])
-AT_CHECK_CALC_GLR_CC([%locations %define api.location.type Span])
+AT_CHECK_CALC_GLR_CC([%locations %define api.location.type {Span}])
 AT_CHECK_CALC_GLR_CC([%defines %define parse.error verbose %name-prefix "calc" %verbose %yacc])
 AT_CHECK_CALC_GLR_CC([%define parse.error verbose %define api.prefix "calc" %verbose %yacc])
 

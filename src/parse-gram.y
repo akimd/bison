@@ -82,7 +82,7 @@ static char const *char_name (char);
   #define YYTYPE_UINT8 uint_fast8_t
 }
 
-%define api.prefix "gram_"
+%define api.prefix {gram_}
 %define api.pure full
 %define locations
 %define parse.error verbose
