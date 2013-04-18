@@ -1,4 +1,4 @@
-%{/* Bison Grammar Parser                             -*- C -*-
+/* Bison Grammar Parser                             -*- C -*-
 
    Copyright (C) 2002-2013 Free Software Foundation, Inc.
 
@@ -17,27 +17,30 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#include <config.h>
-#include "system.h"
-
-#include "c-ctype.h"
-#include "complain.h"
-#include "conflicts.h"
-#include "files.h"
-#include "getargs.h"
-#include "gram.h"
-#include "named-ref.h"
-#include "quotearg.h"
-#include "reader.h"
-#include "symlist.h"
-#include "symtab.h"
-#include "scan-gram.h"
-#include "scan-code.h"
-#include "xmemdup0.h"
-%}
+%code requires
+{
+  #include "symlist.h"
+  #include "symtab.h"
+}
 
 %code
 {
+  #include <config.h>
+  #include "system.h"
+
+  #include "c-ctype.h"
+  #include "complain.h"
+  #include "conflicts.h"
+  #include "files.h"
+  #include "getargs.h"
+  #include "gram.h"
+  #include "named-ref.h"
+  #include "quotearg.h"
+  #include "reader.h"
+  #include "scan-gram.h"
+  #include "scan-code.h"
+  #include "xmemdup0.h"
+
   static int current_prec = 0;
   static location current_lhs_location;
   static named_ref *current_lhs_named_ref;
