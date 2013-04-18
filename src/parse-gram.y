@@ -34,19 +34,6 @@
 #include "scan-gram.h"
 #include "scan-code.h"
 #include "xmemdup0.h"
-
-#define YYLLOC_DEFAULT(Current, Rhs, N)  (Current) = lloc_default (Rhs, N)
-static YYLTYPE lloc_default (YYLTYPE const *, int);
-
-#define YY_LOCATION_PRINT(File, Loc) \
-          location_print (Loc, File)
-
-static void version_check (location const *loc, char const *version);
-
-static void gram_error (location const *, char const *);
-
-/* A string that describes a char (e.g., 'a' -> "'a'").  */
-static char const *char_name (char);
 %}
 
 %code
@@ -61,20 +48,21 @@ static char const *char_name (char);
   /** Set the new current left-hand side symbol, possibly common
    * to several right-hand side parts of rule.
    */
-  static
-  void
-  current_lhs (symbol *sym, location loc, named_ref *ref)
-  {
-    current_lhs_symbol = sym;
-    current_lhs_location = loc;
-    /* In order to simplify memory management, named references for lhs
-       are always assigned by deep copy into the current symbol_list
-       node.  This is because a single named-ref in the grammar may
-       result in several uses when the user factors lhs between several
-       rules using "|".  Therefore free the parser's original copy.  */
-    free (current_lhs_named_ref);
-    current_lhs_named_ref = ref;
-  }
+  static void current_lhs (symbol *sym, location loc, named_ref *ref);
+
+  #define YYLLOC_DEFAULT(Current, Rhs, N)         \
+    (Current) = lloc_default (Rhs, N)
+  static YYLTYPE lloc_default (YYLTYPE const *, int);
+
+  #define YY_LOCATION_PRINT(File, Loc)            \
+    location_print (Loc, File)
+
+  static void version_check (location const *loc, char const *version);
+
+  static void gram_error (location const *, char const *);
+
+  /* A string that describes a char (e.g., 'a' -> "'a'").  */
+  static char const *char_name (char);
 
   #define YYTYPE_INT16 int_fast16_t
   #define YYTYPE_INT8 int_fast8_t
@@ -853,4 +841,19 @@ char_name (char c)
       buf[0] = '\''; buf[1] = c; buf[2] = '\''; buf[3] = '\0';
       return quotearg_style (escape_quoting_style, buf);
     }
+}
+
+static
+void
+current_lhs (symbol *sym, location loc, named_ref *ref)
+{
+  current_lhs_symbol = sym;
+  current_lhs_location = loc;
+  /* In order to simplify memory management, named references for lhs
+     are always assigned by deep copy into the current symbol_list
+     node.  This is because a single named-ref in the grammar may
+     result in several uses when the user factors lhs between several
+     rules using "|".  Therefore free the parser's original copy.  */
+  free (current_lhs_named_ref);
+  current_lhs_named_ref = ref;
 }
