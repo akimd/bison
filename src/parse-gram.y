@@ -60,6 +60,22 @@
   #define YY_LOCATION_PRINT(File, Loc)            \
     location_print (Loc, File)
 
+  /* Strip initial '{' and final '}' (must be first and last characters).
+     Return the result.  */
+  static char *strip_braces (char *code);
+
+  /* Convert CODE by calling code_props_plain_init if PLAIN, otherwise
+     code_props_symbol_action_init.  Call
+     gram_scanner_last_string_free to release the latest string from
+     the scanner (should be CODE). */
+  static char const *translate_code (char *code, location loc, bool plain);
+
+  /* Convert CODE by calling code_props_plain_init after having
+     stripped the first and last characters (expected to be '{', and
+     '}').  Call gram_scanner_last_string_free to release the latest
+     string from the scanner (should be CODE). */
+  static char const *translate_code_braceless (char *code, location loc);
+
   static void version_check (location const *loc, char const *version);
 
   static void gram_error (location const *, char const *);
@@ -162,19 +178,10 @@
 %type <character> CHAR
 %printer { fputs (char_name ($$), yyo); } CHAR
 
-/* braceless is not to be used for rule or symbol actions, as it
-   calls code_props_plain_init.  */
-%union
-{
-  char *code;
-  char const *chars;
-};
-%type <chars> STRING "%{...%}" EPILOGUE braceless
-%type <code> "{...}" "%?{...}"
-%printer { fputs (quotearg_style (c_quoting_style, $$), yyo); }
-         STRING
-%printer { fprintf (yyo, "{\n%s\n}", $$); }
-         braceless "{...}" "%{...%}" EPILOGUE
+%union {char *code;};
+%type <code> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING
+%printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
+%printer { fprintf (yyo, "{\n%s\n}", $$); } <code>
 
 %union {uniqstr uniqstr;}
 %type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
@@ -266,12 +273,8 @@ prologue_declaration:
   grammar_declaration
 | "%{...%}"
     {
-      code_props plain_code;
-      code_props_plain_init (&plain_code, $1, @1);
-      code_props_translate_code (&plain_code);
-      gram_scanner_last_string_free ();
       muscle_code_grow (union_seen ? "post_prologue" : "pre_prologue",
-                        plain_code.code, @1);
+                        translate_code ($1, @1, true), @1);
       code_scanner_last_string_free ();
     }
 | "%<flag>"
@@ -305,11 +308,7 @@ prologue_declaration:
     }
 | "%initial-action" "{...}"
     {
-      code_props action;
-      code_props_symbol_action_init (&action, $2, @2);
-      code_props_translate_code (&action);
-      gram_scanner_last_string_free ();
-      muscle_code_grow ("initial_action", action.code, @2);
+      muscle_code_grow ("initial_action", translate_code ($2, @2, false), @2);
       code_scanner_last_string_free ();
     }
 | "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
@@ -386,16 +385,17 @@ grammar_declaration:
     {
       default_prec = false;
     }
-| "%code" braceless
+| "%code" "{...}"
     {
       /* Do not invoke muscle_percent_code_grow here since it invokes
          muscle_user_name_list_grow.  */
-      muscle_code_grow ("percent_code()", $2, @2);
+      muscle_code_grow ("percent_code()",
+                        translate_code_braceless ($2, @2), @2);
       code_scanner_last_string_free ();
     }
-| "%code" ID braceless
+| "%code" ID "{...}"
     {
-      muscle_percent_code_grow ($2, @2, $3, @3);
+      muscle_percent_code_grow ($2, @2, translate_code_braceless ($3, @3), @3);
       code_scanner_last_string_free ();
     }
 ;
@@ -420,10 +420,10 @@ union_name:
 ;
 
 grammar_declaration:
-  "%union" union_name braceless
+  "%union" union_name "{...}"
     {
       union_seen = true;
-      muscle_code_grow ("union_members", $3, @3);
+      muscle_code_grow ("union_members", translate_code_braceless ($3, @3), @3);
       code_scanner_last_string_free ();
     }
 ;
@@ -658,27 +658,11 @@ variable:
 } <value>;
 
 value:
-  %empty    { $$.kind = muscle_keyword; $$.chars = ""; }
-| ID        { $$.kind = muscle_keyword; $$.chars = $1; }
-| STRING    { $$.kind = muscle_string;  $$.chars = $1; }
-| braceless { $$.kind = muscle_code;    $$.chars = $1; }
-;
-
-
-/*------------.
-| braceless.  |
-`------------*/
-
-braceless:
-  "{...}"
-    {
-      code_props plain_code;
-      $1[strlen ($1) - 1] = '\0';
-      code_props_plain_init (&plain_code, $1+1, @1);
-      code_props_translate_code (&plain_code);
-      gram_scanner_last_string_free ();
-      $$ = plain_code.code;
-    }
+  %empty  { $$.kind = muscle_keyword; $$.chars = ""; }
+| ID      { $$.kind = muscle_keyword; $$.chars = $1; }
+| STRING  { $$.kind = muscle_string;  $$.chars = $1; }
+| "{...}" { $$.kind = muscle_code;
+            $$.chars = translate_code_braceless ($1, @1); }
 ;
 
 
@@ -723,11 +707,7 @@ epilogue.opt:
   %empty
 | "%%" EPILOGUE
     {
-      code_props plain_code;
-      code_props_plain_init (&plain_code, $2, @2);
-      code_props_translate_code (&plain_code);
-      gram_scanner_last_string_free ();
-      muscle_code_grow ("epilogue", plain_code.code, @2);
+      muscle_code_grow ("epilogue", translate_code ($2, @2, true), @2);
       code_scanner_last_string_free ();
     }
 ;
@@ -763,6 +743,33 @@ lloc_default (YYLTYPE const *rhs, int n)
   return loc;
 }
 
+static
+char *strip_braces (char *code)
+{
+  code[strlen(code) - 1] = 0;
+  return code + 1;
+}
+
+static
+char const *
+translate_code (char *code, location loc, bool plain)
+{
+  code_props plain_code;
+  if (plain)
+    code_props_plain_init (&plain_code, code, loc);
+  else
+    code_props_symbol_action_init (&plain_code, code, loc);
+  code_props_translate_code (&plain_code);
+  gram_scanner_last_string_free ();
+  return plain_code.code;
+}
+
+static
+char const *
+translate_code_braceless (char *code, location loc)
+{
+  return translate_code (strip_braces (code), loc, true);
+}
 
 static void
 add_param (param_type type, char *decl, location loc)

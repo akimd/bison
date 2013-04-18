@@ -512,7 +512,7 @@ eqopt    ([[:space:]]*=)?
   "\"" {
     STRING_FINISH;
     loc->start = token_start;
-    val->chars = last_string;
+    val->code = last_string;
     BEGIN INITIAL;
     return STRING;
   }
@@ -751,7 +751,7 @@ eqopt    ([[:space:]]*=)?
   "%}" {
     STRING_FINISH;
     loc->start = code_start;
-    val->chars = last_string;
+    val->code = last_string;
     BEGIN INITIAL;
     return PROLOGUE;
   }
@@ -770,7 +770,7 @@ eqopt    ([[:space:]]*=)?
   <<EOF>> {
     STRING_FINISH;
     loc->start = code_start;
-    val->chars = last_string;
+    val->code = last_string;
     BEGIN INITIAL;
     return EPILOGUE;
   }
