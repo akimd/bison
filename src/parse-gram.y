@@ -661,8 +661,7 @@ value:
   %empty  { $$.kind = muscle_keyword; $$.chars = ""; }
 | ID      { $$.kind = muscle_keyword; $$.chars = $1; }
 | STRING  { $$.kind = muscle_string;  $$.chars = $1; }
-| "{...}" { $$.kind = muscle_code;
-            $$.chars = translate_code_braceless ($1, @1); }
+| "{...}" { $$.kind = muscle_code;    $$.chars = strip_braces ($1); }
 ;
 
 
