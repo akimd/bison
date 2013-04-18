@@ -1422,8 +1422,8 @@ AT_SETUP([["%define" Boolean variables]])
 
 AT_DATA([Input.y],
 [[%language "Java"
-%define public "maybe"
-%define parser_class_name "Input"
+%define public maybe
+%define parser_class_name {Input}
 %%
 start: %empty;
 ]])
@@ -1453,9 +1453,9 @@ start: TOK;
 ]])
 
 AT_BISON_CHECK([[input.yy]], [0], [],
-[[input.yy:4.9-18: warning: %define variable 'api.prefix' requires '{...}' values [-Wdeprecated]
+[[input.yy:2.9-25: warning: %define variable 'api.location.type' requires '{...}' values [-Wdeprecated]
+input.yy:4.9-18: warning: %define variable 'api.prefix' requires '{...}' values [-Wdeprecated]
 input.yy:5.9-24: warning: %define variable 'api.token.prefix' requires '{...}' values [-Wdeprecated]
-input.yy:2.9-25: warning: %define variable 'api.location.type' requires '{...}' values [-Wdeprecated]
 input.yy:3.9-21: warning: %define variable 'api.namespace' requires '{...}' values [-Wdeprecated]
 ]])
 ])
@@ -1857,10 +1857,10 @@ AT_BISON_CHECK([[$2 input.y]], [[1]], [[]],
 ]])
 ])
 
-AT_TEST([%define api.prefix foo %name-prefix "bar"], [], [input.y:1.9-18])
-AT_TEST([], [-Dapi.prefix=foo -p bar], [<command line>:2])
-AT_TEST([%name-prefix "bar"], [-Dapi.prefix=foo], [<command line>:2])
-AT_TEST([%define api.prefix foo], [-p bar], [input.y:1.9-18])
+AT_TEST([%define api.prefix {foo} %name-prefix "bar"], [], [input.y:1.9-18])
+AT_TEST([], [-Dapi.prefix={foo} -p bar], [<command line>:2])
+AT_TEST([%name-prefix "bar"], [-Dapi.prefix={foo}], [<command line>:2])
+AT_TEST([%define api.prefix {foo}], [-p bar], [input.y:1.9-18])
 
 m4_popdef([AT_TEST])
 

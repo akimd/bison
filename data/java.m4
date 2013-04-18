@@ -169,6 +169,22 @@ m4_define([b4_predicate_case], [  case $1:
     ])
 
 
+## -------- ##
+## Checks.  ##
+## -------- ##
+
+b4_percent_define_check_kind([[api.value.type]],    [code], [deprecated])
+
+b4_percent_define_check_kind([[annotations]],       [code], [deprecated])
+b4_percent_define_check_kind([[extends]],           [code], [deprecated])
+b4_percent_define_check_kind([[implements]],        [code], [deprecated])
+b4_percent_define_check_kind([[init_throws]],       [code], [deprecated])
+b4_percent_define_check_kind([[lex_throws]],        [code], [deprecated])
+b4_percent_define_check_kind([[parser_class_name]], [code], [deprecated])
+b4_percent_define_check_kind([[throws]],            [code], [deprecated])
+
+
+
 ## ---------------- ##
 ## Default values.  ##
 ## ---------------- ##

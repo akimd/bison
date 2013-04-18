@@ -853,7 +853,7 @@ b4_percent_define_if_define_([$1], [$2], $[1], $[2])])
 # ---------------------------------------------------------------------
 m4_define([b4_percent_define_check_kind],
 [b4_percent_define_ifdef_([$1],
-  [m4_if(b4_percent_define_get_kind([[$1]]), [$2], [],
+  [m4_if(b4_percent_define_get_kind([$1]), [$2], [],
     [b4_error([m4_default([$3], [complain])],
               b4_percent_define_get_loc([$1]),
               [m4_case([$2],
@@ -1025,6 +1025,12 @@ m4_define_default([b4_location_initial_line],   [1])
 ## --------------- ##
 ## Sanity checks.  ##
 ## --------------- ##
+
+# api.location.prefix={...} (Java and C++).
+b4_percent_define_check_kind([api.location.type], [code], [deprecated])
+
+# api.position.prefix={...} (Java).
+b4_percent_define_check_kind([api.position.type], [code], [deprecated])
 
 # api.prefix >< %name-prefix.
 b4_percent_define_check_kind([api.prefix], [code], [deprecated])

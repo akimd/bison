@@ -5930,7 +5930,8 @@ introduced in Bison 3.0
 
 
 @c ================================================== api.value.type
-@deffn Directive {%define api.value.type} @var{type}
+@deffn Directive {%define api.value.type} @var{support}
+@deffnx Directive {%define api.value.type} @{@var{type}@}
 @itemize @bullet
 @item Language(s):
 all
@@ -5940,16 +5941,16 @@ The type for semantic values.
 
 @item Accepted Values:
 @table @asis
-@item @code{""}
+@item @samp{@{@}}
 This grammar has no semantic value at all.  This is not properly supported
 yet.
-@item @code{%union} (C, C++)
+@item @samp{union-directive} (C, C++)
 The type is defined thanks to the @code{%union} directive.  You don't have
 to define @code{api.value.type} in that case, using @code{%union} suffices.
 @xref{Union Decl, ,The Union Declaration}.
 For instance:
 @example
-%define api.value.type "%union"
+%define api.value.type union-directive
 %union
 @{
   int ival;
@@ -5959,30 +5960,30 @@ For instance:
 %token <sval> STR "string"
 @end example
 
-@item @code{union} (C, C++)
+@item @samp{union} (C, C++)
 The symbols are defined with type names, from which Bison will generate a
 @code{union}.  For instance:
 @example
-%define api.value.type "union"
+%define api.value.type union
 %token <int> INT "integer"
 %token <char *> STR "string"
 @end example
 This feature needs user feedback to stabilize.  Note that most C++ objects
 cannot be stored in a @code{union}.
 
-@item @code{variant} (C++)
+@item @samp{variant} (C++)
 This is similar to @code{union}, but special storage techniques are used to
 allow any kind of C++ object to be used. For instance:
 @example
-%define api.value.type "variant"
+%define api.value.type variant
 %token <int> INT "integer"
 %token <std::string> STR "string"
 @end example
 This feature needs user feedback to stabilize.
 @xref{C++ Variants}.
 
-@item any other identifier
-Use this name as semantic value.
+@item @samp{@{@var{type}@}}
+Use this @var{type} as semantic value.
 @example
 %code requires
 @{
@@ -5999,7 +6000,7 @@ Use this name as semantic value.
     @} u;
   @};
 @}
-%define api.value.type "struct my_value"
+%define api.value.type @{struct my_value@}
 %token <u.ival> INT "integer"
 %token <u.sval> STR "string"
 @end example
@@ -6115,7 +6116,7 @@ destroyed properly.  This option checks these constraints.
 
 
 @c ================================================== parse.error
-@deffn Directive {%define parse.error}
+@deffn Directive {%define parse.error} @var{verbosity}
 @itemize
 @item Languages(s):
 all
@@ -6142,7 +6143,7 @@ However, this report can often be incorrect when LAC is not enabled
 
 
 @c ================================================== parse.lac
-@deffn Directive {%define parse.lac}
+@deffn Directive {%define parse.lac} @var{when}
 
 @itemize
 @item Languages(s): C (deterministic parsers only)
@@ -6165,7 +6166,7 @@ syntax error handling.  @xref{LAC}.
 @xref{Tracing, ,Tracing Your Parser}.
 
 In C/C++, define the macro @code{YYDEBUG} (or @code{@var{prefix}DEBUG} with
-@samp{%define api.prefix @var{prefix}}), see @ref{Multiple Parsers,
+@samp{%define api.prefix @{@var{prefix}@}}), see @ref{Multiple Parsers,
 ,Multiple Parsers in the Same Program}) to 1 in the parser implementation
 file if it is not already defined, so that the debugging facilities are
 compiled.
@@ -6308,7 +6309,7 @@ The easy way to do this is to define the @code{%define} variable
 @code{api.prefix}.  With different @code{api.prefix}s it is guaranteed that
 headers do not conflict when included together, and that compiled objects
 can be linked together too.  Specifying @samp{%define api.prefix
-@var{prefix}} (or passing the option @samp{-Dapi.prefix=@var{prefix}}, see
+@{@var{prefix}@}} (or passing the option @samp{-Dapi.prefix=@{@var{prefix}@}}, see
 @ref{Invocation, ,Invoking Bison}) renames the interface functions and
 variables of the Bison parser to start with @var{prefix} instead of
 @samp{yy}, and all the macros to start by @var{PREFIX} (i.e., @var{prefix}
@@ -6322,7 +6323,7 @@ The renamed symbols include @code{yyparse}, @code{yylex}, @code{yyerror},
 @code{YYSTYPE}, @code{YYLTYPE}, and @code{YYDEBUG}, which is treated
 specifically --- more about this below.
 
-For example, if you use @samp{%define api.prefix c}, the names become
+For example, if you use @samp{%define api.prefix @{c@}}, the names become
 @code{cparse}, @code{clex}, @dots{}, @code{CSTYPE}, @code{CLTYPE}, and so
 on.
 
@@ -9555,7 +9556,7 @@ enabled if and only if @code{YYDEBUG} is nonzero.
 @item the option @option{-t} (POSIX Yacc compliant)
 @itemx the option @option{--debug} (Bison extension)
 Use the @samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking
-Bison}).  With @samp{%define api.prefix c}, it defines @code{CDEBUG} to 1,
+Bison}).  With @samp{%define api.prefix @{c@}}, it defines @code{CDEBUG} to 1,
 otherwise it defines @code{YYDEBUG} to 1.
 
 @item the directive @samp{%debug}
@@ -10681,7 +10682,7 @@ Instead of using the built-in types you may use the @code{%define} variable
 @code{api.location.type} to specify your own type:
 
 @example
-%define api.location.type @var{LocationType}
+%define api.location.type @{@var{LocationType}@}
 @end example
 
 The requirements over your @var{LocationType} are:
@@ -10718,7 +10719,7 @@ parser @file{master/parser.yy} might use:
 @example
 %defines
 %locations
-%define namespace "master::"
+%define api.namespace @{master::@}
 @end example
 
 @noindent
@@ -10726,7 +10727,7 @@ to generate the @file{master/position.hh} and @file{master/location.hh}
 files, reused by other parsers as follows:
 
 @example
-%define api.location.type "master::location"
+%define api.location.type @{master::location@}
 %code requires @{ #include <master/location.hh> @}
 @end example
 
@@ -10741,7 +10742,7 @@ files, reused by other parsers as follows:
 The output files @file{@var{output}.hh} and @file{@var{output}.cc}
 declare and define the parser class in the namespace @code{yy}.  The
 class name defaults to @code{parser}, but may be changed using
-@samp{%define parser_class_name "@var{name}"}.  The interface of
+@samp{%define parser_class_name @{@var{name}@}}.  The interface of
 this class is detailed below.  It can be extended using the
 @code{%parse-param} feature: its semantics is slightly changed since
 it describes an additional member of the parser class, and an
@@ -11146,7 +11147,7 @@ the grammar for.
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "@value{VERSION}"
 %defines
-%define parser_class_name "calcxx_parser"
+%define parser_class_name @{calcxx_parser@}
 @end example
 
 @noindent
@@ -11580,7 +11581,7 @@ superclass of all the semantic values using the @samp{%define api.value.type}
 directive.  For example, after the following declaration:
 
 @example
-%define api.value.type "ASTNode"
+%define api.value.type @{ASTNode@}
 @end example
 
 @noindent
@@ -11615,11 +11616,11 @@ class defines a @dfn{position}, a single point in a file; Bison itself
 defines a class representing a @dfn{location}, a range composed of a pair of
 positions (possibly spanning several files).  The location class is an inner
 class of the parser; the name is @code{Location} by default, and may also be
-renamed using @code{%define api.location.type "@var{class-name}"}.
+renamed using @code{%define api.location.type @{@var{class-name}@}}.
 
 The location class treats the position as a completely opaque value.
 By default, the class name is @code{Position}, but this can be changed
-with @code{%define api.position.type "@var{class-name}"}.  This class must
+with @code{%define api.position.type @{@var{class-name}@}}.  This class must
 be supplied by the user.
 
 
@@ -11654,7 +11655,7 @@ properly, the position class should override the @code{equals} and
 The name of the generated parser class defaults to @code{YYParser}.  The
 @code{YY} prefix may be changed using the @code{%name-prefix} directive
 or the @option{-p}/@option{--name-prefix} option.  Alternatively, use
-@samp{%define parser_class_name "@var{name}"} to give a custom name to
+@samp{%define parser_class_name @{@var{name}@}} to give a custom name to
 the class.  The interface of this class is detailed below.
 
 By default, the parser class has package visibility.  A declaration
@@ -11663,7 +11664,7 @@ according to the Java language specification, the name of the @file{.java}
 file should match the name of the class in this case.  Similarly, you can
 use @code{abstract}, @code{final} and @code{strictfp} with the
 @code{%define} declaration to add other modifiers to the parser class.
-A single @samp{%define annotations "@var{annotations}"} directive can
+A single @samp{%define annotations @{@var{annotations}@}} directive can
 be used to add any number of annotations to the parser class.
 
 The Java package name of the parser class can be specified using the
@@ -11781,7 +11782,7 @@ In both cases, the scanner has to implement the following methods.
 @deftypemethod {Lexer} {void} yyerror (Location @var{loc}, String @var{msg})
 This method is defined by the user to emit an error message.  The first
 parameter is omitted if location tracking is not active.  Its type can be
-changed using @code{%define api.location.type "@var{class-name}".}
+changed using @code{%define api.location.type @{@var{class-name}@}}.
 @end deftypemethod
 
 @deftypemethod {Lexer} {int} yylex ()
@@ -11800,14 +11801,14 @@ Return respectively the first position of the last token that
 methods are not needed unless location tracking is active.
 
 The return type can be changed using @code{%define api.position.type
-"@var{class-name}".}
+@{@var{class-name}@}}.
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
 Return the semantic value of the last token that yylex returned.
 
 The return type can be changed using @samp{%define api.value.type
-"@var{class-name}".}
+@{@var{class-name}@}}.
 @end deftypemethod
 
 
@@ -12028,12 +12029,12 @@ Whether the parser class is declared @code{abstract}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define annotations} "@var{annotations}"
+@deffn {Directive} {%define annotations} @{@var{annotations}@}
 The Java annotations for the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define extends} "@var{superclass}"
+@deffn {Directive} {%define extends} @{@var{superclass}@}
 The superclass of the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
@@ -12043,25 +12044,25 @@ Whether the parser class is declared @code{final}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define implements} "@var{interfaces}"
+@deffn {Directive} {%define implements} @{@var{interfaces}@}
 The implemented interfaces of the parser class, a comma-separated list.
 Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define init_throws} "@var{exceptions}"
+@deffn {Directive} {%define init_throws} @{@var{exceptions}@}
 The exceptions thrown by @code{%code init} from the parser class
 constructor.  Default is none.
 @xref{Java Parser Interface}.
 @end deffn
 
-@deffn {Directive} {%define lex_throws} "@var{exceptions}"
+@deffn {Directive} {%define lex_throws} @{@var{exceptions}@}
 The exceptions thrown by the @code{yylex} method of the lexer, a
 comma-separated list.  Default is @code{java.io.IOException}.
 @xref{Java Scanner Interface}.
 @end deffn
 
-@deffn {Directive} {%define api.location.type} "@var{class}"
+@deffn {Directive} {%define api.location.type} @{@var{class}@}
 The name of the class used for locations (a range between two
 positions).  This class is generated as an inner class of the parser
 class by @command{bison}.  Default is @code{Location}.
@@ -12069,18 +12070,18 @@ Formerly named @code{location_type}.
 @xref{Java Location Values}.
 @end deffn
 
-@deffn {Directive} {%define package} "@var{package}"
+@deffn {Directive} {%define package} @{@var{package}@}
 The package to put the parser class in.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define parser_class_name} "@var{name}"
+@deffn {Directive} {%define parser_class_name} @{@var{name}@}
 The name of the parser class.  Default is @code{YYParser} or
 @code{@var{name-prefix}Parser}.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define api.position.type} "@var{class}"
+@deffn {Directive} {%define api.position.type} @{@var{class}@}
 The name of the class used for positions. This class must be supplied by
 the user.  Default is @code{Position}.
 Formerly named @code{position_type}.
@@ -12092,7 +12093,7 @@ Whether the parser class is declared @code{public}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define api.value.type} "@var{class}"
+@deffn {Directive} {%define api.value.type} @{@var{class}@}
 The base type of semantic values.  Default is @code{Object}.
 @xref{Java Semantic Values}.
 @end deffn
@@ -12102,7 +12103,7 @@ Whether the parser class is declared @code{strictfp}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define throws} "@var{exceptions}"
+@deffn {Directive} {%define throws} @{@var{exceptions}@}
 The exceptions thrown by user-supplied parser actions and
 @code{%initial-action}, a comma-separated list.  Default is none.
 @xref{Java Parser Interface}.
@@ -12656,6 +12657,7 @@ Precedence}.
 
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} @var{value}
+@deffnx {Directive} %define @var{variable} @{@var{value}@}
 @deffnx {Directive} %define @var{variable} "@var{value}"
 Define a variable to adjust Bison's behavior.  @xref{%define Summary}.
 @end deffn

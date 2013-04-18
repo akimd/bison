@@ -178,13 +178,13 @@ m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}],
 
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
-           [m4_bmatch([$3], [%define  *api\.pure *"?false"?], [$2], [$1])],
+           [m4_bmatch([$3], [%define  *api\.pure *false], [$2], [$1])],
            [$2])])
 # AT_NAME_PREFIX: also consider api.namespace.
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) .*],
    [m4_bregexp([$3],
-     [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) [\{\"]\([^""]*\)[\"\}]],
+     [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) [\{\"]\([^\"\}]*\)[\"\}]],
      [\3])],
    [yy])])
 m4_pushdef([AT_TOKEN_CTOR_IF],
@@ -193,10 +193,10 @@ m4_pushdef([AT_TOKEN_PREFIX],
 [m4_bmatch([$3], [%define api\.token\.prefix {.*}],
            [m4_bregexp([$3], [%define api\.token\.prefix {\(.*\)}], [\1])])])
 m4_pushdef([AT_VARIANT_IF],
-[m4_bmatch([$3], [%define api\.value\.type "?variant"?], [$1], [$2])])
+[m4_bmatch([$3], [%define api\.value\.type variant], [$1], [$2])])
 m4_pushdef([AT_API_prefix],
-[m4_bmatch([$3], [%define api\.prefix ".*"],
-           [m4_bregexp([$3], [%define api\.prefix "\([^""]*\)"], [\1])],
+[m4_bmatch([$3], [%define api\.prefix {.*}],
+           [m4_bregexp([$3], [%define api\.prefix {\([^\}]*\)}], [\1])],
            [yy])])
 m4_pushdef([AT_API_PREFIX],
 [m4_toupper(AT_API_prefix)])
@@ -207,7 +207,7 @@ m4_pushdef([AT_API_PREFIX],
 m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 [AT_LOCATION_IF([AT_PURE_IF([m4_bmatch([$3],
                                        m4_quote(m4_join([\|],
-                                                        [%define api\.pure "?full"?],
+                                                        [%define api\.pure full],
                                                         [%glr-parser],
                                                         [%parse-param],
                                                         [%skeleton "?glr.c"?])),
