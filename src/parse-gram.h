@@ -48,7 +48,11 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 218 "src/parse-gram.y" /* yacc.c:1926  */
+#line 21 "src/parse-gram.y" /* yacc.c:1926  */
+
+#include "symlist.h"
+#include "symtab.h"
+#line 209 "src/parse-gram.y" /* yacc.c:1926  */
 
   typedef enum
   {
@@ -57,10 +61,10 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 649 "src/parse-gram.y" /* yacc.c:1926  */
+#line 640 "src/parse-gram.y" /* yacc.c:1926  */
 #include "muscle-tab.h"
 
-#line 64 "src/parse-gram.h" /* yacc.c:1926  */
+#line 68 "src/parse-gram.h" /* yacc.c:1926  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -131,29 +135,29 @@ extern int gram_debug;
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-#line 170 "src/parse-gram.y" /* yacc.c:1926  */
+#line 161 "src/parse-gram.y" /* yacc.c:1926  */
 unsigned char character;
-#line 177 "src/parse-gram.y" /* yacc.c:1926  */
+#line 168 "src/parse-gram.y" /* yacc.c:1926  */
 
   char *code;
   char const *chars;
-#line 188 "src/parse-gram.y" /* yacc.c:1926  */
+#line 179 "src/parse-gram.y" /* yacc.c:1926  */
 uniqstr uniqstr;
-#line 196 "src/parse-gram.y" /* yacc.c:1926  */
+#line 187 "src/parse-gram.y" /* yacc.c:1926  */
 int integer;
-#line 200 "src/parse-gram.y" /* yacc.c:1926  */
+#line 191 "src/parse-gram.y" /* yacc.c:1926  */
 symbol *symbol;
-#line 205 "src/parse-gram.y" /* yacc.c:1926  */
+#line 196 "src/parse-gram.y" /* yacc.c:1926  */
 assoc assoc;
-#line 208 "src/parse-gram.y" /* yacc.c:1926  */
+#line 199 "src/parse-gram.y" /* yacc.c:1926  */
 symbol_list *list;
-#line 211 "src/parse-gram.y" /* yacc.c:1926  */
+#line 202 "src/parse-gram.y" /* yacc.c:1926  */
 named_ref *named_ref;
-#line 238 "src/parse-gram.y" /* yacc.c:1926  */
+#line 229 "src/parse-gram.y" /* yacc.c:1926  */
 param_type param;
-#line 413 "src/parse-gram.y" /* yacc.c:1926  */
+#line 404 "src/parse-gram.y" /* yacc.c:1926  */
 code_props_type code_type;
-#line 651 "src/parse-gram.y" /* yacc.c:1926  */
+#line 642 "src/parse-gram.y" /* yacc.c:1926  */
 
   struct
   {
@@ -161,7 +165,7 @@ code_props_type code_type;
     muscle_kind kind;
   } value;
 
-#line 165 "src/parse-gram.h" /* yacc.c:1926  */
+#line 169 "src/parse-gram.h" /* yacc.c:1926  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
