@@ -50,9 +50,9 @@ extern int gram_debug;
 /* "%code requires" blocks.  */
 #line 21 "src/parse-gram.y" /* yacc.c:1926  */
 
-#include "symlist.h"
-#include "symtab.h"
-#line 209 "src/parse-gram.y" /* yacc.c:1926  */
+  #include "symlist.h"
+  #include "symtab.h"
+#line 216 "src/parse-gram.y" /* yacc.c:1926  */
 
   typedef enum
   {
@@ -135,25 +135,23 @@ extern int gram_debug;
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-#line 161 "src/parse-gram.y" /* yacc.c:1926  */
+#line 177 "src/parse-gram.y" /* yacc.c:1926  */
 unsigned char character;
-#line 168 "src/parse-gram.y" /* yacc.c:1926  */
-
-  char *code;
-  char const *chars;
-#line 179 "src/parse-gram.y" /* yacc.c:1926  */
+#line 181 "src/parse-gram.y" /* yacc.c:1926  */
+char *code;
+#line 186 "src/parse-gram.y" /* yacc.c:1926  */
 uniqstr uniqstr;
-#line 187 "src/parse-gram.y" /* yacc.c:1926  */
+#line 194 "src/parse-gram.y" /* yacc.c:1926  */
 int integer;
-#line 191 "src/parse-gram.y" /* yacc.c:1926  */
+#line 198 "src/parse-gram.y" /* yacc.c:1926  */
 symbol *symbol;
-#line 196 "src/parse-gram.y" /* yacc.c:1926  */
+#line 203 "src/parse-gram.y" /* yacc.c:1926  */
 assoc assoc;
-#line 199 "src/parse-gram.y" /* yacc.c:1926  */
+#line 206 "src/parse-gram.y" /* yacc.c:1926  */
 symbol_list *list;
-#line 202 "src/parse-gram.y" /* yacc.c:1926  */
+#line 209 "src/parse-gram.y" /* yacc.c:1926  */
 named_ref *named_ref;
-#line 229 "src/parse-gram.y" /* yacc.c:1926  */
+#line 236 "src/parse-gram.y" /* yacc.c:1926  */
 param_type param;
 #line 404 "src/parse-gram.y" /* yacc.c:1926  */
 code_props_type code_type;
@@ -165,7 +163,7 @@ code_props_type code_type;
     muscle_kind kind;
   } value;
 
-#line 169 "src/parse-gram.h" /* yacc.c:1926  */
+#line 167 "src/parse-gram.h" /* yacc.c:1926  */
 };
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
