@@ -91,7 +91,7 @@ if test "$enable_gcc_warnings" = yes; then
   # -fno-color-diagnostics: Clang's use of colors in the error
   # messages is confusing the tests looking at the compiler's output
   # (e.g., synclines.at).
-  warn_tests='-Wundef -pedantic -fno-color-diagnostics'
+  warn_tests='-Wundef -pedantic -Wsign-compare -fno-color-diagnostics'
 
   AC_LANG_PUSH([C])
   # Clang supports many of GCC's -W options, but only issues warnings

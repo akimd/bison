@@ -55,20 +55,14 @@ m4_define([b4_position_define],
       if (count)
         {
           column = ]b4_location_initial_column[u;
-          line =
-            0 < count || -count < line
-            ? line + count
-            : ]b4_location_initial_line[;
+          line = add_ (line, count, ]b4_location_initial_line[);
         }
     }
 
     /// (column related) Advance to the COUNT next columns.
     void columns (int count = 1)
     {
-      column =
-        0 < count || -count < column
-        ? column + count
-        : ]b4_location_initial_column[;
+      column = add_ (column, count, ]b4_location_initial_column[);
     }
     /** \} */
 
@@ -78,6 +72,15 @@ m4_define([b4_position_define],
     unsigned int line;
     /// Current column number.
     unsigned int column;
+
+  private:
+    /// Compute max(min, lhs+rhs) (provided min <= lhs).
+    static unsigned int add_ (unsigned int lhs, int rhs, unsigned int min)
+    {
+      return (0 < rhs || -static_cast<unsigned int>(rhs) < lhs
+              ? rhs + lhs
+              : min);
+    }
   };
 
   /// Add and assign a position.

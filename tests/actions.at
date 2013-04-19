@@ -605,11 +605,11 @@ static
 {
   static unsigned int counter = 0;
 
-  int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
+  unsigned int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
   /* As in BASIC, line numbers go from 10 to 10.  */
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = 10 * c;
   ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
-  assert (0 <= c && c <= strlen (source));
+  assert (c <= strlen (source));
   if (source[c])
     fprintf (stderr, "sending: '%c'", source[c]);
   else
@@ -848,13 +848,13 @@ AT_CLEANUP
 
 
 AT_CHECK_PRINTER_AND_DESTRUCTOR([])
-AT_CHECK_PRINTER_AND_DESTRUCTOR([], [with union])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([], [ with union])
 
 AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "lalr1.cc"])
-AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "lalr1.cc"], [with union])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "lalr1.cc"], [ with union])
 
 AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser])
-AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [with union])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [ with union])
 
 
 
