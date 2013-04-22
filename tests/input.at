@@ -382,14 +382,14 @@ input.y:2.10-24:     previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <>;
              ^^^^^^^^^^^^^^^^^
-input.y:4.13-29:      previous declaration
- %destructor { destroy ($$); } <>
+input.y:1.13-29:      previous declaration
+ %destructor { destroy ($$); } <> <>
              ^^^^^^^^^^^^^^^^^
 input.y:12.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <>;
           ^^^^^^^^^^^^^^^
-input.y:5.10-24:      previous declaration
- %printer { print ($$); } <>
+input.y:2.10-24:      previous declaration
+ %printer { print ($$); } <> <>
           ^^^^^^^^^^^^^^^
 ]])
 ])
@@ -426,17 +426,17 @@ AT_BISON_CHECK([input.y], [1], [],
 [[input.y:4.13-29: error: %destructor redeclaration for <field1>
 input.y:1.13-29:     previous declaration
 input.y:4.13-29: error: %destructor redeclaration for <field1>
-input.y:4.13-29:     previous declaration
+input.y:1.13-29:     previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
 input.y:2.10-24:     previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
-input.y:5.10-24:     previous declaration
+input.y:2.10-24:     previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field2>
 input.y:1.13-29:      previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field1>
-input.y:4.13-29:      previous declaration
+input.y:1.13-29:      previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field2>
-input.y:5.10-24:      previous declaration
+input.y:2.10-24:      previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field1>
 input.y:2.10-24:      previous declaration
 ]])
