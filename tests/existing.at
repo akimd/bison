@@ -426,7 +426,6 @@ dnl don't like even 'print $!4;'.
 [[LEX_GETLINE, '$', '!', YNUMBER, '*', YNUMBER, ';']],
 
 dnl BISON-STDERR
-[AT_COND_CASE([[canonical LR]],
 [[input.y:66.10: warning: empty rule without %empty [-Wempty-rule]
 input.y:169.8: warning: empty rule without %empty [-Wempty-rule]
 input.y:174.12: warning: empty rule without %empty [-Wempty-rule]
@@ -437,7 +436,9 @@ input.y:206.21: warning: empty rule without %empty [-Wempty-rule]
 input.y:220.20: warning: empty rule without %empty [-Wempty-rule]
 input.y:299.13: warning: empty rule without %empty [-Wempty-rule]
 input.y:322.9: warning: empty rule without %empty [-Wempty-rule]
-input.y: warning: 265 shift/reduce conflicts [-Wconflicts-sr]
+]AT_COND_CASE([[canonical LR]],
+[[input.y: warning: 265 shift/reduce conflicts [-Wconflicts-sr]]],
+[[input.y: warning: 65 shift/reduce conflicts [-Wconflicts-sr]]])[
 input.y:19.8-16: warning: useless associativity for FUNC_CALL, use %precedence [-Wprecedence]
 input.y:21.8-14: warning: useless associativity for YNUMBER, use %precedence [-Wprecedence]
 input.y:21.16-22: warning: useless associativity for YSTRING, use %precedence [-Wprecedence]
@@ -455,36 +456,7 @@ input.y:47.8-10: warning: useless associativity for '!', use %precedence [-Wprec
 input.y:47.12-16: warning: useless associativity for UNARY, use %precedence [-Wprecedence]
 input.y:50.7-9: warning: useless associativity for '$', use %precedence [-Wprecedence]
 input.y:51.7-9: warning: useless associativity for '(', use %precedence [-Wprecedence]
-input.y:51.11-13: warning: useless precedence and associativity for ')' [-Wprecedence]]],
-[[input.y:66.10: warning: empty rule without %empty [-Wempty-rule]
-input.y:169.8: warning: empty rule without %empty [-Wempty-rule]
-input.y:174.12: warning: empty rule without %empty [-Wempty-rule]
-input.y:179.13: warning: empty rule without %empty [-Wempty-rule]
-input.y:187.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:201.8: warning: empty rule without %empty [-Wempty-rule]
-input.y:206.21: warning: empty rule without %empty [-Wempty-rule]
-input.y:220.20: warning: empty rule without %empty [-Wempty-rule]
-input.y:299.13: warning: empty rule without %empty [-Wempty-rule]
-input.y:322.9: warning: empty rule without %empty [-Wempty-rule]
-input.y: warning: 65 shift/reduce conflicts [-Wconflicts-sr]
-input.y:19.8-16: warning: useless associativity for FUNC_CALL, use %precedence [-Wprecedence]
-input.y:21.8-14: warning: useless associativity for YNUMBER, use %precedence [-Wprecedence]
-input.y:21.16-22: warning: useless associativity for YSTRING, use %precedence [-Wprecedence]
-input.y:22.14-22: warning: useless precedence and associativity for APPEND_OP [-Wprecedence]
-input.y:23.8-15: warning: useless associativity for ASSIGNOP, use %precedence [-Wprecedence]
-input.y:23.33-41: warning: useless associativity for CONCAT_OP, use %precedence [-Wprecedence]
-input.y:27.8-18: warning: useless precedence and associativity for LEX_GETLINE [-Wprecedence]
-input.y:28.8-13: warning: useless associativity for LEX_IN, use %precedence [-Wprecedence]
-input.y:29.23-31: warning: useless associativity for INCREMENT, use %precedence [-Wprecedence]
-input.y:29.33-41: warning: useless associativity for DECREMENT, use %precedence [-Wprecedence]
-input.y:30.8-18: warning: useless associativity for LEX_BUILTIN, use %precedence [-Wprecedence]
-input.y:30.20-29: warning: useless associativity for LEX_LENGTH, use %precedence [-Wprecedence]
-input.y:40.11-13: warning: useless precedence and associativity for ',' [-Wprecedence]
-input.y:47.8-10: warning: useless associativity for '!', use %precedence [-Wprecedence]
-input.y:47.12-16: warning: useless associativity for UNARY, use %precedence [-Wprecedence]
-input.y:50.7-9: warning: useless associativity for '$', use %precedence [-Wprecedence]
-input.y:51.7-9: warning: useless associativity for '(', use %precedence [-Wprecedence]
-input.y:51.11-13: warning: useless precedence and associativity for ')' [-Wprecedence]]])[
+input.y:51.11-13: warning: useless precedence and associativity for ')' [-Wprecedence]
 ]],
 
 dnl LAST-STATE
@@ -1423,7 +1395,6 @@ dnl INPUT
 [[]],
 
 dnl BISON-STDERR
-[AT_COND_CASE([[canonical LR]],
 [[input.y:128.12: warning: empty rule without %empty [-Wempty-rule]
 input.y:137.10: warning: empty rule without %empty [-Wempty-rule]
 input.y:142.8: warning: empty rule without %empty [-Wempty-rule]
@@ -1446,44 +1417,17 @@ input.y:489.15: warning: empty rule without %empty [-Wempty-rule]
 input.y:506.14: warning: empty rule without %empty [-Wempty-rule]
 input.y:587.9: warning: empty rule without %empty [-Wempty-rule]
 input.y:591.14: warning: empty rule without %empty [-Wempty-rule]
-input.y: warning: 1876 shift/reduce conflicts [-Wconflicts-sr]
-input.y: warning: 144 reduce/reduce conflicts [-Wconflicts-rr]
+]AT_COND_CASE([[canonical LR]],
+[[input.y: warning: 1876 shift/reduce conflicts [-Wconflicts-sr]
+input.y: warning: 144 reduce/reduce conflicts [-Wconflicts-rr]]],
+[[input.y: warning: 78 shift/reduce conflicts [-Wconflicts-sr]
+input.y: warning: 10 reduce/reduce conflicts [-Wconflicts-rr]]])[
 input.y:32.9-12: warning: useless associativity for HQUA, use %precedence [-Wprecedence]
 input.y:53.8-14: warning: useless associativity for HASSIGN, use %precedence [-Wprecedence]
 input.y:54.9-15: warning: useless associativity for HORELSE, use %precedence [-Wprecedence]
 input.y:55.9-16: warning: useless associativity for HANDTHEN, use %precedence [-Wprecedence]
 input.y:61.9-12: warning: useless associativity for HNOT, use %precedence [-Wprecedence]
-input.y:68.7-11: warning: useless associativity for UNEAR, use %precedence [-Wprecedence]]],
-[[input.y:128.12: warning: empty rule without %empty [-Wempty-rule]
-input.y:137.10: warning: empty rule without %empty [-Wempty-rule]
-input.y:142.8: warning: empty rule without %empty [-Wempty-rule]
-input.y:161.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:179.17: warning: empty rule without %empty [-Wempty-rule]
-input.y:205.16: warning: empty rule without %empty [-Wempty-rule]
-input.y:213.9: warning: empty rule without %empty [-Wempty-rule]
-input.y:225.6: warning: empty rule without %empty [-Wempty-rule]
-input.y:292.18: warning: empty rule without %empty [-Wempty-rule]
-input.y:294.19: warning: empty rule without %empty [-Wempty-rule]
-input.y:367.16: warning: empty rule without %empty [-Wempty-rule]
-input.y:373.11: warning: empty rule without %empty [-Wempty-rule]
-input.y:387.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:401.18: warning: empty rule without %empty [-Wempty-rule]
-input.y:413.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:443.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:471.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:474.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:489.15: warning: empty rule without %empty [-Wempty-rule]
-input.y:506.14: warning: empty rule without %empty [-Wempty-rule]
-input.y:587.9: warning: empty rule without %empty [-Wempty-rule]
-input.y:591.14: warning: empty rule without %empty [-Wempty-rule]
-input.y: warning: 78 shift/reduce conflicts [-Wconflicts-sr]
-input.y: warning: 10 reduce/reduce conflicts [-Wconflicts-rr]
-input.y:32.9-12: warning: useless associativity for HQUA, use %precedence [-Wprecedence]
-input.y:53.8-14: warning: useless associativity for HASSIGN, use %precedence [-Wprecedence]
-input.y:54.9-15: warning: useless associativity for HORELSE, use %precedence [-Wprecedence]
-input.y:55.9-16: warning: useless associativity for HANDTHEN, use %precedence [-Wprecedence]
-input.y:61.9-12: warning: useless associativity for HNOT, use %precedence [-Wprecedence]
-input.y:68.7-11: warning: useless associativity for UNEAR, use %precedence [-Wprecedence]]])[
+input.y:68.7-11: warning: useless associativity for UNEAR, use %precedence [-Wprecedence]
 ]],
 
 dnl LAST-STATE
