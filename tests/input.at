@@ -336,104 +336,67 @@ AT_CLEANUP
 
 AT_SETUP([Default %printer and %destructor redeclared])
 
-AT_DATA([[input.y]],
-[[%destructor { destroy ($$); } <*> <*>
-%printer { print ($$); } <*> <*>
+# AT_TEST([*])
+# ------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[%destructor { destroy ($$); } <$1> <$1>
+%printer { print ($$); } <$1> <$1>
 
-%destructor { destroy ($$); } <*>
-%printer { print ($$); } <*>
-
-%destructor { destroy ($$); } <> <>
-%printer { print ($$); } <> <>
-
-%destructor { destroy ($$); } <>
-%printer { print ($$); } <>
+%destructor { destroy ($$); } <$1>
+%printer { print ($$); } <$1>
 
 %%
 
 start: %empty;
 
-%destructor { destroy ($$); } <*>;
-%printer { print ($$); } <*>;
-
-%destructor { destroy ($$); } <>;
-%printer { print ($$); } <>;
+%destructor { destroy ($$); } <$1>;
+%printer { print ($$); } <$1>;
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:1.13-29: error: %destructor redeclaration for <*>
- %destructor { destroy ($$); } <*> <*>
-             ^^^^^^^^^^^^^^^^^
-input.y:1.13-29:     previous declaration
- %destructor { destroy ($$); } <*> <*>
-             ^^^^^^^^^^^^^^^^^
-input.y:2.10-24: error: %printer redeclaration for <*>
- %printer { print ($$); } <*> <*>
-          ^^^^^^^^^^^^^^^
-input.y:2.10-24:     previous declaration
- %printer { print ($$); } <*> <*>
-          ^^^^^^^^^^^^^^^
-input.y:4.13-29: error: %destructor redeclaration for <*>
- %destructor { destroy ($$); } <*>
-             ^^^^^^^^^^^^^^^^^
-input.y:1.13-29:     previous declaration
- %destructor { destroy ($$); } <*> <*>
-             ^^^^^^^^^^^^^^^^^
-input.y:5.10-24: error: %printer redeclaration for <*>
- %printer { print ($$); } <*>
-          ^^^^^^^^^^^^^^^
-input.y:2.10-24:     previous declaration
- %printer { print ($$); } <*> <*>
-          ^^^^^^^^^^^^^^^
-input.y:7.13-29: error: %destructor redeclaration for <>
+[[input.y:1.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <> <>
              ^^^^^^^^^^^^^^^^^
-input.y:7.13-29:     previous declaration
+input.y:1.13-29:     previous declaration
  %destructor { destroy ($$); } <> <>
              ^^^^^^^^^^^^^^^^^
-input.y:8.10-24: error: %printer redeclaration for <>
+input.y:2.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <> <>
           ^^^^^^^^^^^^^^^
-input.y:8.10-24:     previous declaration
+input.y:2.10-24:     previous declaration
  %printer { print ($$); } <> <>
           ^^^^^^^^^^^^^^^
-input.y:10.13-29: error: %destructor redeclaration for <>
+input.y:4.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <>
              ^^^^^^^^^^^^^^^^^
-input.y:7.13-29:      previous declaration
+input.y:1.13-29:     previous declaration
  %destructor { destroy ($$); } <> <>
              ^^^^^^^^^^^^^^^^^
-input.y:11.10-24: error: %printer redeclaration for <>
+input.y:5.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <>
           ^^^^^^^^^^^^^^^
-input.y:8.10-24:      previous declaration
+input.y:2.10-24:     previous declaration
  %printer { print ($$); } <> <>
           ^^^^^^^^^^^^^^^
-input.y:17.13-29: error: %destructor redeclaration for <*>
- %destructor { destroy ($$); } <*>;
-             ^^^^^^^^^^^^^^^^^
-input.y:4.13-29:      previous declaration
- %destructor { destroy ($$); } <*>
-             ^^^^^^^^^^^^^^^^^
-input.y:18.10-24: error: %printer redeclaration for <*>
- %printer { print ($$); } <*>;
-          ^^^^^^^^^^^^^^^
-input.y:5.10-24:      previous declaration
- %printer { print ($$); } <*>
-          ^^^^^^^^^^^^^^^
-input.y:20.13-29: error: %destructor redeclaration for <>
+input.y:11.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <>;
              ^^^^^^^^^^^^^^^^^
-input.y:10.13-29:     previous declaration
+input.y:4.13-29:      previous declaration
  %destructor { destroy ($$); } <>
              ^^^^^^^^^^^^^^^^^
-input.y:21.10-24: error: %printer redeclaration for <>
+input.y:12.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <>;
           ^^^^^^^^^^^^^^^
-input.y:11.10-24:     previous declaration
+input.y:5.10-24:      previous declaration
  %printer { print ($$); } <>
           ^^^^^^^^^^^^^^^
 ]])
+])
+
+AT_TEST([], [], [])
+AT_TEST([], [*], [*])
+m4_popdef([AT_TEST])
 
 AT_CLEANUP
 
