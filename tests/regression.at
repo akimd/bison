@@ -378,8 +378,8 @@ exp: %empty;
 ]])
 
 AT_BISON_CHECK([-v -Wall -o input.c input.y], 0, [],
-[[input.y:1.29-32: warning: useless precedence and associativity for "||" [-Wprecedence]
-input.y:2.29-32: warning: useless precedence and associativity for "<=" [-Wprecedence]
+[[input.y:3.1-5: warning: useless precedence and associativity for "||" [-Wprecedence]
+input.y:3.1-5: warning: useless precedence and associativity for "<=" [-Wprecedence]
 ]])
 
 AT_CLEANUP
@@ -1145,15 +1145,15 @@ sr_conflict:
 ]AT_YYLEX_DEFINE([{ 1, 2, 3, 0 }])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-Wall -o input.c input.y]], [[0]],,
 [[input.y:24.5-19: warning: rule useless in parser due to conflicts [-Wother]
 input.y:28.5-19: warning: rule useless in parser due to conflicts [-Wother]
-input.y:18.7-9: warning: useless precedence and associativity for TK1 [-Wprecedence]
+input.y:18.1-5: warning: useless precedence and associativity for TK1 [-Wprecedence]
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])
+AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
 

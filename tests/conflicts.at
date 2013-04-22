@@ -180,7 +180,8 @@ AT_CLEANUP
 AT_SETUP([Useless associativity warning])
 
 AT_DATA([[input.y]],
-[[%nonassoc "="
+[[%token EQ "=" PL "+" ST "*"  LP "("
+%nonassoc "="
 %left "+"
 %left "*"
 %precedence "("
@@ -199,9 +200,9 @@ exp:
 ]])
 
 AT_BISON_CHECK([-Wprecedence input.y], 0, [],
-[[input.y:1.11-13: warning: useless precedence and associativity for "=" [-Wprecedence]
-input.y:3.7-9: warning: useless associativity for "*", use %precedence [-Wprecedence]
-input.y:4.13-15: warning: useless precedence for "(" [-Wprecedence]
+[[input.y:2.1-9: warning: useless precedence and associativity for "=" [-Wprecedence]
+input.y:4.1-5: warning: useless associativity for "*", use %precedence [-Wprecedence]
+input.y:5.1-11: warning: useless precedence for "(" [-Wprecedence]
 ]])
 
 AT_CLEANUP
@@ -214,7 +215,7 @@ AT_CLEANUP
 AT_SETUP([Useless precedence warning])
 
 AT_DATA([[input.y]],
-[[%token A B
+[[%token A B U V W X Y Z
 %precedence Z
 %left X
 %precedence Y
@@ -242,18 +243,18 @@ f: B
 ]])
 
 AT_BISON_CHECK([-Wprecedence -fcaret -o input.c input.y], 0, [],
-[[input.y:2.13: warning: useless precedence for Z [-Wprecedence]
- %precedence Z
-             ^
-input.y:5.7: warning: useless precedence and associativity for W [-Wprecedence]
- %left W
-       ^
-input.y:6.8: warning: useless precedence and associativity for V [-Wprecedence]
- %right V
-        ^
-input.y:7.11: warning: useless precedence and associativity for U [-Wprecedence]
+[[input.y:7.1-9: warning: useless precedence and associativity for U [-Wprecedence]
  %nonassoc U
-           ^
+ ^^^^^^^^^
+input.y:6.1-6: warning: useless precedence and associativity for V [-Wprecedence]
+ %right V
+ ^^^^^^
+input.y:5.1-5: warning: useless precedence and associativity for W [-Wprecedence]
+ %left W
+ ^^^^^
+input.y:2.1-11: warning: useless precedence for Z [-Wprecedence]
+ %precedence Z
+ ^^^^^^^^^^^
 ]])
 
 AT_CLEANUP
@@ -1265,8 +1266,8 @@ e:   e '+' e
 
 AT_BISON_CHECK([-Wall -o input.c input.y], 0, [],
 [[input.y: warning: 4 shift/reduce conflicts [-Wconflicts-sr]
-input.y:1.7-9: warning: useless precedence and associativity for '+' [-Wprecedence]
-input.y:2.7-9: warning: useless precedence and associativity for '*' [-Wprecedence]
+input.y:1.1-5: warning: useless precedence and associativity for '+' [-Wprecedence]
+input.y:2.1-5: warning: useless precedence and associativity for '*' [-Wprecedence]
 ]])
 AT_CLEANUP
 
