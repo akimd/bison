@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.7.1164-a174b-dirty.  */
+/* A Bison parser, made by GNU Bison 2.7.1.1188-e7178.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -52,7 +52,7 @@ extern int gram_debug;
 
   #include "symlist.h"
   #include "symtab.h"
-#line 216 "src/parse-gram.y" /* yacc.c:1926  */
+#line 221 "src/parse-gram.y" /* yacc.c:1926  */
 
   typedef enum
   {
@@ -61,7 +61,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 640 "src/parse-gram.y" /* yacc.c:1926  */
+#line 645 "src/parse-gram.y" /* yacc.c:1926  */
 #include "muscle-tab.h"
 
 #line 68 "src/parse-gram.h" /* yacc.c:1926  */
@@ -135,27 +135,27 @@ extern int gram_debug;
 typedef union GRAM_STYPE GRAM_STYPE;
 union GRAM_STYPE
 {
-#line 177 "src/parse-gram.y" /* yacc.c:1926  */
+#line 182 "src/parse-gram.y" /* yacc.c:1926  */
 unsigned char character;
-#line 181 "src/parse-gram.y" /* yacc.c:1926  */
-char *code;
 #line 186 "src/parse-gram.y" /* yacc.c:1926  */
+char *code;
+#line 191 "src/parse-gram.y" /* yacc.c:1926  */
 uniqstr uniqstr;
-#line 194 "src/parse-gram.y" /* yacc.c:1926  */
+#line 199 "src/parse-gram.y" /* yacc.c:1926  */
 int integer;
-#line 198 "src/parse-gram.y" /* yacc.c:1926  */
-symbol *symbol;
 #line 203 "src/parse-gram.y" /* yacc.c:1926  */
+symbol *symbol;
+#line 208 "src/parse-gram.y" /* yacc.c:1926  */
 assoc assoc;
-#line 206 "src/parse-gram.y" /* yacc.c:1926  */
+#line 211 "src/parse-gram.y" /* yacc.c:1926  */
 symbol_list *list;
-#line 209 "src/parse-gram.y" /* yacc.c:1926  */
+#line 214 "src/parse-gram.y" /* yacc.c:1926  */
 named_ref *named_ref;
-#line 236 "src/parse-gram.y" /* yacc.c:1926  */
+#line 241 "src/parse-gram.y" /* yacc.c:1926  */
 param_type param;
-#line 404 "src/parse-gram.y" /* yacc.c:1926  */
+#line 409 "src/parse-gram.y" /* yacc.c:1926  */
 code_props_type code_type;
-#line 642 "src/parse-gram.y" /* yacc.c:1926  */
+#line 647 "src/parse-gram.y" /* yacc.c:1926  */
 
   struct
   {
