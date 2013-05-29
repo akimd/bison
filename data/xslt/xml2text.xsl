@@ -373,7 +373,7 @@
 </xsl:template>
 
 <xsl:template match="empty">
-  <xsl:text> /* empty */</xsl:text>
+  <xsl:text> %empty</xsl:text>
 </xsl:template>
 
 <xsl:template match="lookaheads">
