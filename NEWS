@@ -594,7 +594,7 @@ GNU Bison NEWS
   There are operator- and operator-= for 'location'.  Negative line/column
   increments can no longer underflow the resulting value.
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 2.7.1 (2013-04-15) [stable]
 
 ** Bug fixes
 
