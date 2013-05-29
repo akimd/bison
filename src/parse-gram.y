@@ -23,9 +23,14 @@
   #include "symtab.h"
 }
 
+%code top
+{
+  /* On column 0 to please syntax-check.  */
+#include <config.h>
+}
+
 %code
 {
-  #include <config.h>
   #include "system.h"
 
   #include "c-ctype.h"
