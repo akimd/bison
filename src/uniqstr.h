@@ -40,7 +40,7 @@ uniqstr uniqstr_vsprintf (char const *format, ...)
 
 /* Compare two uniqstr a la strcmp: negative for <, nul for =, and
    positive for >.  Undefined order, relies on addresses.  */
-int uniqstr_cmp(uniqstr u1, uniqstr u2);
+int uniqstr_cmp (uniqstr u1, uniqstr u2);
 
 /* Die if STR is not a uniqstr.  */
 void uniqstr_assert (char const *str);

@@ -78,14 +78,14 @@ extern struct obstack muscle_obstack;
   } while (0)
 
 # define MUSCLE_INSERT_INT(Key, Value)          \
-  MUSCLE_INSERTF(Key, "%d", Value)
+  MUSCLE_INSERTF (Key, "%d", Value)
 
 # define MUSCLE_INSERT_LONG_INT(Key, Value)     \
-  MUSCLE_INSERTF(Key, "%ld", Value)
+  MUSCLE_INSERTF (Key, "%ld", Value)
 
 /* Key -> Value, but don't apply escaping to Value. */
 # define MUSCLE_INSERT_STRING_RAW(Key, Value)   \
-  MUSCLE_INSERTF(Key, "%s", Value)
+  MUSCLE_INSERTF (Key, "%s", Value)
 
 /* Key -> Value, applying M4 escaping to Value. */
 # define MUSCLE_INSERT_STRING(Key, Value)                       \
@@ -96,7 +96,7 @@ extern struct obstack muscle_obstack;
 
 /* Key -> Value, applying C escaping to Value (and then M4). */
 # define MUSCLE_INSERT_C_STRING(Key, Value)                     \
-  MUSCLE_INSERT_STRING(Key, quotearg_style (c_quoting_style, Value))
+  MUSCLE_INSERT_STRING (Key, quotearg_style (c_quoting_style, Value))
 
 
 /* Append VALUE to the current value of KEY, using muscle_grow.  But

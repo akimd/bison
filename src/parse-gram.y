@@ -627,7 +627,7 @@ rhs:
 
 named_ref.opt:
   %empty         { $$ = 0; }
-| BRACKETED_ID   { $$ = named_ref_new($1, @1); }
+| BRACKETED_ID   { $$ = named_ref_new ($1, @1); }
 ;
 
 /*---------------------.
@@ -750,7 +750,7 @@ lloc_default (YYLTYPE const *rhs, int n)
 static
 char *strip_braces (char *code)
 {
-  code[strlen(code) - 1] = 0;
+  code[strlen (code) - 1] = 0;
   return code + 1;
 }
 

@@ -44,31 +44,31 @@ void Sbitset__delete (Sbitset self);
 
 bool Sbitset__isEmpty (Sbitset self, Sbitset__Index nbits);
 
-void Sbitset__fprint(Sbitset self, Sbitset__Index nbits, FILE *file);
+void Sbitset__fprint (Sbitset self, Sbitset__Index nbits, FILE *file);
 
 # define Sbitset__set(SELF, INDEX)                                      \
   do {                                                                  \
     *Sbitset__byteAddress ((SELF), (INDEX)) =                           \
       *Sbitset__byteAddress ((SELF), (INDEX)) | Sbitset__bit_mask (INDEX); \
-  } while(0)
+  } while (0)
 
 # define Sbitset__reset(SELF, INDEX)                                    \
   do {                                                                  \
     *Sbitset__byteAddress ((SELF), (INDEX)) =                           \
       *Sbitset__byteAddress ((SELF), (INDEX)) & ~Sbitset__bit_mask (INDEX); \
-  } while(0)
+  } while (0)
 
 /* NBITS is the size of the bitset.  More than NBITS bits might be reset.  */
 # define Sbitset__zero(SELF, NBITS)             \
   do {                                          \
     memset (SELF, 0, Sbitset__nbytes (NBITS));  \
-  } while(0)
+  } while (0)
 
 /* NBITS is the size of the bitset.  More than NBITS bits might be set.  */
 # define Sbitset__ones(SELF, NBITS)                     \
   do {                                                  \
     memset (SELF, UCHAR_MAX, Sbitset__nbytes (NBITS));  \
-  } while(0)
+  } while (0)
 
 /* NBITS is the size of every bitset.  More than NBITS bits might be set.  */
 # define Sbitset__or(SELF, OTHER1, OTHER2, NBITS)                       \
@@ -79,7 +79,7 @@ void Sbitset__fprint(Sbitset self, Sbitset__Index nbits, FILE *file);
     Sbitset end_self = ptr_self + Sbitset__nbytes (NBITS);              \
     for (; ptr_self < end_self; ++ptr_self, ++ptr_other1, ++ptr_other2) \
       *ptr_self = *ptr_other1 | *ptr_other2;                            \
-  } while(0)
+  } while (0)
 
 # define SBITSET__FOR_EACH(SELF, NBITS, ITER, INDEX)                    \
   for ((ITER) = (SELF); (ITER) < (SELF) + Sbitset__nbytes (NBITS); ++(ITER)) \

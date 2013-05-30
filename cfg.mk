@@ -135,7 +135,7 @@ _sed_rm_comments_q = $(subst ','\'',$(_sed_remove_comments))
 
 _space_before_paren_exempt =? \\n\\$$
 _space_before_paren_exempt = \
-  (^ *\#|\\n\\$$|%s\(to %s|(date|group|character)\(s\))
+  (^ *\#|(LA)?LR\([01]\)|percent_(code|define)|b4_syncline|m4_(define|init)|symbol)
 # Ensure that there is a space before each open parenthesis in C code.
 sc_space_before_open_paren:
 	@if $(VC_LIST_EXCEPT) | grep -l '\.[ch]$$' > /dev/null; then	\
@@ -175,5 +175,6 @@ $(call exclude,								\
   prohibit_strcmp=^doc/bison\.texi|tests/local\.at$$			\
   prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git		\
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
+  space_before_open_paren=^(data/|djgpp/)                               \
   unmarked_diagnostics=^(djgpp/|doc/bison.texi$$|tests/c\+\+\.at$$)	\
 )
