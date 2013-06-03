@@ -790,16 +790,16 @@ list:
 ;
 
 item:
-  'a'  { $$][ = $][1; }
-| 'e'  { YYUSE ($][$); YYUSE($][1); error ("syntax error"); }
+  'a'     { $$][ = $][1; }
+| 'e'     { YYUSE ($][$); YYUSE($][1); error ("syntax error"); }
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
 | 'E' 'a' { YYUSE($][1); $][$ = $][2; }
-| 'R'  { $][$ = 0; ]AT_VARIANT_IF([], [delete $][1]; )[YYERROR; }
-| 'p'  { $][$ = $][1; }
-| 's'  { $][$ = $][1; throw std::runtime_error ("reduction"); }
-| 'T'  { $][$ = 0; ]AT_VARIANT_IF([], [delete $][1]; )[YYABORT; }
-| error { $][$ = 0; yyerrok; }
+| 'R'     { $][$ = YY_NULL; ]AT_VARIANT_IF([], [delete $][1]; )[YYERROR; }
+| 'p'     { $][$ = $][1; }
+| 's'     { $][$ = $][1; throw std::runtime_error ("reduction"); }
+| 'T'     { $][$ = YY_NULL; ]AT_VARIANT_IF([], [delete $][1]; )[YYABORT; }
+| error   { $][$ = YY_NULL; yyerrok; }
 ;
 %%
 
