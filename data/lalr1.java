@@ -55,7 +55,9 @@ b4_percent_define_get3([implements], [ implements ])[
 {
   ]b4_identification[
 ]b4_error_verbose_if([[
-  /** True if verbose error messages are enabled.  */
+  /**
+   * True if verbose error messages are enabled.
+   */
   private boolean yyErrorVerbose = true;
 
   /**
@@ -76,18 +78,24 @@ b4_locations_if([[
    * A class defining a pair of positions.  Positions, defined by the
    * <code>]b4_position_type[</code> class, denote a point in the input.
    * Locations represent a part of the input through the beginning
-   * and ending positions.  */
+   * and ending positions.
+   */
   public class ]b4_location_type[ {
-    /** The first, inclusive, position in the range.  */
+    /**
+     * The first, inclusive, position in the range.
+     */
     public ]b4_position_type[ begin;
 
-    /** The first position beyond the range.  */
+    /**
+     * The first position beyond the range.
+     */
     public ]b4_position_type[ end;
 
     /**
      * Create a <code>]b4_location_type[</code> denoting an empty range located at
      * a given point.
-     * @@param loc The position at which the range is anchored.  */
+     * @@param loc The position at which the range is anchored.
+     */
     public ]b4_location_type[ (]b4_position_type[ loc) {
       this.begin = this.end = loc;
     }
@@ -95,7 +103,8 @@ b4_locations_if([[
     /**
      * Create a <code>]b4_location_type[</code> from the endpoints of the range.
      * @@param begin The first position included in the range.
-     * @@param end   The first position beyond the range.  */
+     * @@param end   The first position beyond the range.
+     */
     public ]b4_location_type[ (]b4_position_type[ begin, ]b4_position_type[ end) {
       this.begin = begin;
       this.end = end;
@@ -104,7 +113,8 @@ b4_locations_if([[
     /**
      * Print a representation of the location.  For this to be correct,
      * <code>]b4_position_type[</code> should override the <code>equals</code>
-     * method.  */
+     * method.
+     */
     public String toString () {
       if (begin.equals (end))
         return begin.toString ();
@@ -136,24 +146,28 @@ b4_locations_if([[
 
     ]b4_locations_if([[/**
      * Method to retrieve the beginning position of the last scanned token.
-     * @@return the position at which the last scanned token starts.  */
+     * @@return the position at which the last scanned token starts.
+     */
     ]b4_position_type[ getStartPos ();
 
     /**
      * Method to retrieve the ending position of the last scanned token.
-     * @@return the first position beyond the last scanned token.  */
+     * @@return the first position beyond the last scanned token.
+     */
     ]b4_position_type[ getEndPos ();]])[
 
     /**
      * Method to retrieve the semantic value of the last scanned token.
-     * @@return the semantic value of the last scanned token.  */
+     * @@return the semantic value of the last scanned token.
+     */
     ]b4_yystype[ getLVal ();
 
     /**
      * Entry point for the scanner.  Returns the token identifier corresponding
      * to the next token and prepares to return the semantic value
      * ]b4_locations_if([and beginning/ending positions ])[of the token.
-     * @@return the token identifier corresponding to the next token. */
+     * @@return the token identifier corresponding to the next token.
+     */
     int yylex () ]b4_maybe_throws([b4_lex_throws])[;
 
     /**
@@ -162,7 +176,8 @@ b4_locations_if([[
      *
      * ]b4_locations_if([[@@param loc The location of the element to which the
      *                error message is related]])[
-     * @@param msg The string for the error message.  */
+     * @@param msg The string for the error message.
+     */
      void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);]
   }
 
@@ -170,7 +185,9 @@ b4_locations_if([[
 ]b4_percent_code_get([[lexer]])[
   }
 
-  ]])[/** The object doing lexical analysis for us.  */
+  ]])[/**
+   * The object doing lexical analysis for us.
+   */
   private Lexer yylexer;
   ]
   b4_parse_param_vars
@@ -336,21 +353,26 @@ b4_lexer_if([[
 
   /**
    * Returned by a Bison action in order to stop the parsing process and
-   * return success (<tt>true</tt>).  */
+   * return success (<tt>true</tt>).
+   */
   public static final int YYACCEPT = 0;
 
   /**
    * Returned by a Bison action in order to stop the parsing process and
-   * return failure (<tt>false</tt>).  */
+   * return failure (<tt>false</tt>).
+   */
   public static final int YYABORT = 1;
 
   /**
    * Returned by a Bison action in order to start error recovery without
-   * printing an error message.  */
+   * printing an error message.
+   */
   public static final int YYERROR = 2;
 
-  // Internal return codes that are not supported for user semantic
-  // actions.
+  /**
+   * Internal return codes that are not supported for user semantic
+   * actions.
+   */
   private static final int YYERRLAB = 3;
   private static final int YYNEWSTATE = 4;
   private static final int YYDEFAULT = 5;
@@ -363,7 +385,8 @@ b4_lexer_if([[
   /**
    * Return whether error recovery is being done.  In this state, the parser
    * reads token until it reaches a known state, and then restarts normal
-   * operation.  */
+   * operation.
+   */
   public final boolean recovering ()
   {
     return yyerrstatus_ == 0;
@@ -752,8 +775,8 @@ b4_dollar_popdef])[]dnl
         */
         if (tok != yyempty_)
           {
-            // FIXME: This method of building the message is not compatible
-            // with internationalization.
+            /* FIXME: This method of building the message is not compatible
+               with internationalization.  */
             StringBuffer res =
               new StringBuffer ("syntax error, unexpected ");
             res.append (yytnamerr_ (yytname_[tok]));
@@ -802,8 +825,9 @@ b4_dollar_popdef])[]dnl
   }
 
   /**
-   * Whether the given <code>yytable_</code> value indicates a syntax error.
-   * @@param yyvalue   the value to check
+   * Whether the given <code>yytable_</code>
+   * value indicates a syntax error.
+   * @@param yyvalue the value to check
    */
   private static boolean yy_table_value_is_error_ (int yyvalue)
   {
