@@ -63,17 +63,18 @@ m4_include([existing.at])
 # Some old bugs.
 m4_include([regression.at])
 
+# Push parsing specific tests.
+m4_include([push.at])
+
 # Some C++ specific tests.
 m4_include([c++.at])
 
 # And some Java specific tests.
 m4_include([java.at])
+m4_include([javapush.at])
 
 # GLR tests:
 # C++ types, simplified
 m4_include([cxx-type.at])
 # Regression tests
 m4_include([glr-regression.at])
-
-# Push parsing specific tests.
-m4_include([push.at])

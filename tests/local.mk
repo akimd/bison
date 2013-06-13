@@ -53,6 +53,7 @@ TESTSUITE_AT =                                  \
   tests/headers.at                              \
   tests/input.at                                \
   tests/java.at                                 \
+  tests/javapush.at                             \
   tests/local.at                                \
   tests/named-refs.at                           \
   tests/output.at                               \

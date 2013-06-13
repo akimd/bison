@@ -519,11 +519,13 @@ GNU Bison NEWS
 
 ** Java skeleton improvements
 
-  Contributed by Paolo Bonzini.
-
   The constants for token names were moved to the Lexer interface.  Also, it
   is possible to add code to the parser's constructors using "%code init"
   and "%define init_throws".
+  Contributed by Paolo Bonzini.
+
+  The Java skeleton now supports push parsing.
+  Contributed by Dennis Heimbigner.
 
 ** C++ skeletons improvements
 

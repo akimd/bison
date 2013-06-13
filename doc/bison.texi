@@ -366,6 +366,7 @@ Java Parsers
 * Java Parser Interface::       Instantiating and running the parser
 * Java Scanner Interface::      Specifying the scanner for the parser
 * Java Action Features::        Special features for use in actions
+* Java Push Parser Interface::  Instantiating and running the a push parser
 * Java Differences::            Differences between C/C++ and Java Grammars
 * Java Declarations Summary::   List of Bison declarations used with Java
 
@@ -11500,6 +11501,7 @@ main (int argc, char *argv[])
 * Java Parser Interface::       Instantiating and running the parser
 * Java Scanner Interface::      Specifying the scanner for the parser
 * Java Action Features::        Special features for use in actions
+* Java Push Parser Interface::  Instantiating and running the a push parser
 * Java Differences::            Differences between C/C++ and Java Grammars
 * Java Declarations Summary::   List of Bison declarations used with Java
 @end menu
@@ -11811,7 +11813,6 @@ The return type can be changed using @samp{%define api.value.type
 @{@var{class-name}@}}.
 @end deftypemethod
 
-
 @node Java Action Features
 @subsection Special Features for Use in Java Actions
 
@@ -11890,6 +11891,73 @@ instance in use. The @code{Location} and @code{Position} parameters are
 available only if location tracking is active.
 @end deftypefn
 
+@node Java Push Parser Interface
+@subsection Java Push Parser Interface
+@c - define push_parse
+@findex %define api.push-pull
+
+(The current push parsing interface is experimental and may evolve. More
+user feedback will help to stabilize it.)
+
+Normally, Bison generates a pull parser for Java.
+The following Bison declaration says that you want the parser to be a push
+parser (@pxref{%define Summary,,api.push-pull}):
+
+@example
+%define api.push-pull push
+@end example
+
+Most of the discussion about the Java pull Parser Interface, (@pxref{Java
+Parser Interface}) applies to the push parser interface as well.
+
+When generating a push parser, the method @code{push_parse} is created with
+the following signature (depending on if locations are enabled).
+
+@deftypemethod {YYParser} {void} push_parse ({int} @var{token}, {Object} @var{yylval})
+@deftypemethodx {YYParser} {void} push_parse ({int} @var{token}, {Object} @var{yylval}, {Location} @var{yyloc})
+@deftypemethodx {YYParser} {void} push_parse ({int} @var{token}, {Object} @var{yylval}, {Position} @var{yypos})
+@end deftypemethod
+
+The primary difference with respect to a pull parser is that the parser
+method @code{push_parse} is invoked repeatedly to parse each token.  This
+function is available if either the "%define api.push-pull push" or "%define
+api.push-pull both" declaration is used (@pxref{%define
+Summary,,api.push-pull}).  The @code{Location} and @code{Position}
+parameters are available only if location tracking is active.
+
+The value returned by the @code{push_parse} method is one of the following
+four constants: @code{YYABORT}, @code{YYACCEPT}, @code{YYERROR}, or
+@code{YYMORE}.  This new value, @code{YYMORE}, may be returned if more input
+is required to finish parsing the grammar.
+
+If api.push-pull is declared as @code{both}, then the generated parser class
+will also implement the @code{parse} method. This method's body is a loop
+that repeatedly invokes the scanner and then passes the values obtained from
+the scanner to the @code{push_parse} method.
+
+There is one additional complication.  Technically, the push parser does not
+need to know about the scanner (i.e. an object implementing the
+@code{YYParser.Lexer} interface), but it does need access to the
+@code{yyerror} method.  Currently, the @code{yyerror} method is defined in
+the @code{YYParser.Lexer} interface. Hence, an implementation of that
+interface is still required in order to provide an implementation of
+@code{yyerror}.  The current approach (and subject to change) is to require
+the @code{YYParser} constructor to be given an object implementing the
+@code{YYParser.Lexer} interface. This object need only implement the
+@code{yyerror} method; the other methods can be stubbed since they will
+never be invoked.  The simplest way to do this is to add a trivial scanner
+implementation to your grammar file using whatever implementation of
+@code{yyerror} is desired. The following code sample shows a simple way to
+accomplish this.
+
+@example
+%code lexer
+@{
+  public Object getLVal () @{return null;@}
+  public int yylex () @{return 0;@}
+  public void yyerror (String s) @{System.err.println(s);@}
+@}
+@end example
 
 @node Java Differences
 @subsection Differences between C/C++ and Java Grammars
