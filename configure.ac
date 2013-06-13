@@ -230,10 +230,16 @@ case $VALGRIND:$host_os in
   '':*) ;;
   *:darwin*)
     # See README-hacking.
-    # VALGRIND+=' --suppressions=$(abs_top_srcdir)/build-aux/darwin11.4.0.valgrind'
+    # VALGRIND+='-q --suppressions=$(abs_top_srcdir)/build-aux/darwin11.4.0.valgrind'
     VALGRIND=;;
   *:*)
-    AC_SUBST([VALGRIND_PREBISON], ["$VALGRIND -q"]);;
+    suppfile=build-aux/$host_os.valgrind
+    if test -f "$srcdir/$suppfile"; then
+      VALGRIND="$VALGRIND --gen-suppressions=all"
+      VALGRIND="$VALGRIND --suppressions=\$(abs_top_srcdir)/$suppfile"
+    fi
+    AC_SUBST([VALGRIND_PREBISON], ["$VALGRIND -q"])
+    ;;
 esac
 
 AM_MISSING_PROG([AUTOM4TE], [autom4te])

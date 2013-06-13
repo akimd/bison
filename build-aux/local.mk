@@ -16,6 +16,7 @@
 EXTRA_DIST +=                                   \
   build-aux/cross-options.pl                    \
   build-aux/darwin11.4.0.valgrind               \
+  build-aux/linux-gnu.valgrind                  \
   build-aux/move-if-change                      \
   build-aux/prev-version.txt                    \
   build-aux/update-b4-copyright
