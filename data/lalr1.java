@@ -899,7 +899,6 @@ b4_both_if([[
 ]b4_locations_if([dnl
         b4_location_type yyloc = new b4_location_type (yylexer.getStartPos (),
                                               yylexer.getEndPos ());])[
-        this.yyerrstatus_ = 0;
         ]b4_locations_if([status = push_parse(token,lval,yyloc);],[
         status = push_parse(token,lval);])[
       } while (status == YYMORE);
