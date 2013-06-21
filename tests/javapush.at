@@ -28,12 +28,13 @@
 
 m4_define([PUSHPULLFLAG],[-Dapi.push-pull=both])
 
-# Modify the grep tester from java.at
-# to ignore status so we can test for zero matching lines
+# AT_CHECK_JAVA_GREP(FILE, [LINE], [COUNT=1])
+# -------------------------------------------
+# Check that FILE contains exactly COUNT lines matching ^LINE$
+# with grep.  Unquoted so that COUNT can be a shell expression.
 m4_define([AT_CHECK_JAVA_GREP],
-        [AT_CHECK([grep -c '^$2$' $1], [ignore], [m4_default([$3], [1])
-])
-])
+[AT_CHECK_UNQUOTED([grep -c '^$2$' $1], [ignore], [m4_default([$3], [1])
+])])
 
 ##################################################
 
@@ -172,24 +173,21 @@ AT_BISON_CHECK([[-Dapi.push-pull=pull -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
                    [[.*public boolean parse ().*]],
                    [1])
-AT_CHECK_JAVA_GREP(
-        [[Main.java]],
+AT_CHECK_JAVA_GREP([[Main.java]],
         [[.*public int push_parse (int yylextoken, Object yylexval).*]],
         [0])
 AT_BISON_CHECK([[-Dapi.push-pull=both -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
                    [[.*public boolean parse ().*]],
                    [1])
-AT_CHECK_JAVA_GREP(
-        [[Main.java]],
+AT_CHECK_JAVA_GREP([[Main.java]],
         [[.*public int push_parse (int yylextoken, Object yylexval).*]],
         [1])
 AT_BISON_CHECK([[-Dapi.push-pull=push -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
                    [[.*public boolean parse ().*]],
                    [0])
-AT_CHECK_JAVA_GREP(
-        [[Main.java]],
+AT_CHECK_JAVA_GREP([[Main.java]],
         [[.*public int push_parse (int yylextoken, Object yylexval).*]],
         [1])
 
@@ -575,7 +573,8 @@ AT_JAVA_PARSER_CHECK([Calc input], 0, [ignore-nolog], [stderr-nolog])
 # NOTE: because the target is "expout", this macro automatically
 # compares the output of the sed command with the contents of
 # the file "expout" (defined above).
-AT_CHECK([[sed -e '/^Stack now.*$/p' -e d ./stderr|tee jj]],[ignore],[expout],[ignore-nolog])
+AT_CHECK([[sed -e '/^Stack now.*$/p' -e d ./stderr]],
+         [ignore], [expout], [ignore-nolog])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 

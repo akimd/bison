@@ -444,9 +444,8 @@ m4_define([AT_CHECK_JAVA_MINIMAL_W_LEXER],
 # Check that YYParser.java contains exactly COUNT lines matching ^LINE$
 # with grep.
 m4_define([AT_CHECK_JAVA_GREP],
-        [AT_CHECK([grep -c '^$1$' YYParser.java], [], [m4_default([$2], [1])
-])
-])
+[AT_CHECK([grep -c '^$1$' YYParser.java], [ignore], [m4_default([$2], [1])
+])])
 
 
 # ------------------------------------- #
