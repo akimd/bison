@@ -161,21 +161,29 @@ m4_define([AT_TRIVIAL_PARSER_INITIAL_ACTION],[
 }
 ])
 
+## ----------------------------------------------------- ##
+## Trivial Push Parser with api.push-pull verification.  ##
+## ----------------------------------------------------- ##
+
 AT_SETUP([Trivial Push Parser with api.push-pull verification])
 AT_BISON_OPTION_PUSHDEFS
-AT_DATA([[input.y]],[[%language "Java"
+
+AT_DATA([[input.y]],
+[[%language "Java"
 ]AT_TRIVIAL_PARSER[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 # Verify that the proper procedure(s) are generated for each case.
 AT_BISON_CHECK([[-Dapi.push-pull=pull -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
                    [[.*public boolean parse ().*]],
                    [1])
+# If BISON_USE_PUSH_FOR_PULL is set, then we have one occurrence of
+# this function, otherwise it should not be there.
 AT_CHECK_JAVA_GREP([[Main.java]],
         [[.*public int push_parse (int yylextoken, Object yylexval).*]],
-        [0])
+        [${BISON_USE_PUSH_FOR_PULL-0}])
+
 AT_BISON_CHECK([[-Dapi.push-pull=both -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
                    [[.*public boolean parse ().*]],
@@ -183,6 +191,7 @@ AT_CHECK_JAVA_GREP([[Main.java]],
 AT_CHECK_JAVA_GREP([[Main.java]],
         [[.*public int push_parse (int yylextoken, Object yylexval).*]],
         [1])
+
 AT_BISON_CHECK([[-Dapi.push-pull=push -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
                    [[.*public boolean parse ().*]],
@@ -193,7 +202,13 @@ AT_CHECK_JAVA_GREP([[Main.java]],
 
 AT_JAVA_COMPILE([[Main.java]])
 AT_JAVA_PARSER_CHECK([Main], 0, [], [stderr-nolog])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+
+
+## ------------------------------------------ ##
+## Trivial Push Parser with %initial-action.  ##
+## ------------------------------------------ ##
 
 AT_SETUP([Trivial Push Parser with %initial-action])
 AT_BISON_OPTION_PUSHDEFS
