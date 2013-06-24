@@ -419,7 +419,7 @@ b4_lexer_if([[
   /**
    * Returned by a Bison action in order to request a new token.
    */
-  public static final int YYMORE = 4;])[
+  public static final int YYPUSH_MORE = 4;])[
 
   /**
    * Returned by a Bison action in order to start error recovery without
@@ -564,7 +564,7 @@ b4_define_state])[
    * @@param yylexval current lval
 ]b4_locations_if([   * @@param yylexloc current position])[
    *
-   * @@return <tt>YYACCEPT, YYABORT, YYMORE</tt>
+   * @@return <tt>YYACCEPT, YYABORT, YYPUSH_MORE</tt>
    */
   public int push_parse (int yylextoken, b4_yystype yylexval[]b4_locations_if([, b4_location_type yylexloc]))
       b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])])[
@@ -632,7 +632,7 @@ b4_dollar_popdef[]dnl
           {
 ]b4_push_if([[
             if (!push_token_consumed)
-              return YYMORE;
+              return YYPUSH_MORE;
             yycdebug ("Reading a token: ");
             yychar = yylextoken;
             yylval = yylexval;]b4_locations_if([
@@ -870,7 +870,7 @@ b4_dollar_popdef[]dnl
    * @@param yylexval current lval
    * @@param yyylexpos current position
    *
-   * @@return <tt>YYACCEPT, YYABORT, YYMORE</tt>
+   * @@return <tt>YYACCEPT, YYABORT, YYPUSH_MORE</tt>
    */
   public int push_parse (int yylextoken, b4_yystype yylexval, b4_position_type yylexpos)
       b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])
@@ -901,7 +901,7 @@ b4_both_if([[
                                               yylexer.getEndPos ());])[
         ]b4_locations_if([status = push_parse(token,lval,yyloc);],[
         status = push_parse(token,lval);])[
-      } while (status == YYMORE);
+      } while (status == YYPUSH_MORE);
       return (status == YYACCEPT);
   }
 ]])[

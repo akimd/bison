@@ -83,7 +83,7 @@ m4_define([AT_TRIVIAL_COMMON],[
   }
 
   static String[[]] teststatename
-    = new String[[]]{"YYACCEPT","YYABORT","YYERROR","UNKNOWN","YYMORE"};
+    = new String[[]]{"YYACCEPT","YYABORT","YYERROR","UNKNOWN","YYPUSH_MORE"};
 
   static void check(int teststate, int expected, String msg)
   {
@@ -110,16 +110,16 @@ m4_define([AT_TRIVIAL_PARSER],[
       setup();
 
       teststate = parser.push_parse('a', null);
-      check(teststate,YYParser.YYMORE,"push_parse('a', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('a', null)");
 
       setup();
 
       teststate = parser.push_parse('a', null);
-      check(teststate,YYParser.YYMORE,"push_parse('a', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('a', null)");
       teststate = parser.push_parse('b', null);
-      check(teststate,YYParser.YYMORE,"push_parse('b', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('b', null)");
       teststate = parser.push_parse('c', null);
-      check(teststate,YYParser.YYMORE,"push_parse('c', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('c', null)");
       teststate = parser.push_parse('\0', null);
       check(teststate,YYParser.YYACCEPT,"push_parse('\\0', null)");
 
@@ -147,11 +147,11 @@ m4_define([AT_TRIVIAL_PARSER_INITIAL_ACTION],[
       setup();
 
       teststate = parser.push_parse('a', null);
-      check(teststate,YYParser.YYMORE,"push_parse('a', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('a', null)");
       teststate = parser.push_parse('b', null);
-      check(teststate,YYParser.YYMORE,"push_parse('b', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('b', null)");
       teststate = parser.push_parse('c', null);
-      check(teststate,YYParser.YYMORE,"push_parse('c', null)");
+      check(teststate,YYParser.YYPUSH_MORE,"push_parse('c', null)");
       teststate = parser.push_parse('\0', null);
       check(teststate,YYParser.YYACCEPT,"push_parse('\\0', null)");
 

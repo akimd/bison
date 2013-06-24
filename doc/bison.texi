@@ -11927,8 +11927,8 @@ parameters are available only if location tracking is active.
 
 The value returned by the @code{push_parse} method is one of the following
 four constants: @code{YYABORT}, @code{YYACCEPT}, @code{YYERROR}, or
-@code{YYMORE}.  This new value, @code{YYMORE}, may be returned if more input
-is required to finish parsing the grammar.
+@code{YYPUSH_MORE}.  This new value, @code{YYPUSH_MORE}, may be returned if
+more input is required to finish parsing the grammar.
 
 If api.push-pull is declared as @code{both}, then the generated parser class
 will also implement the @code{parse} method. This method's body is a loop
