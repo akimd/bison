@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Java skeleton improvements
+
+  The Java skeleton now supports push parsing.
+  Contributed by Dennis Heimbigner.
 
 * Noteworthy changes in release 2.7.90 (2013-05-30) [beta]
 
@@ -523,9 +527,6 @@ GNU Bison NEWS
   is possible to add code to the parser's constructors using "%code init"
   and "%define init_throws".
   Contributed by Paolo Bonzini.
-
-  The Java skeleton now supports push parsing.
-  Contributed by Dennis Heimbigner.
 
 ** C++ skeletons improvements
 
