@@ -37,10 +37,11 @@ foo: {};
 
 ]AT_BISON_CHECK([$3 $1 $5], 0)[
 # Ignore the files non-generated files
-]AT_CHECK([find . -type f -and -not -path './$1' -and -not -path './testsuite.log' |
-           sed 's,\./,,' |
-           sort |
-           xargs echo],
+]AT_CHECK([[find . -type f |
+           $PERL -ne '
+      s,\./,,; chomp;
+      push @file, $_ unless m{^($1|testsuite.log)$};
+      END { print join (" ", sort @file), "\n" }']],
           [], [$4
 ])[
 ]$6[
