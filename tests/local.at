@@ -339,9 +339,9 @@ m4_define([AT_LANG_DISPATCH],
 
 
 # AT_DATA_SOURCE_PROLOGUE
-# ------------------------
+# -----------------------
 # The prologue that should be included in any source code that is
-# meant to be compiled.
+# meant to be compiled.  Keep atlocal.in sync (BISON_CXX_WORKS).
 m4_define([AT_DATA_SOURCE_PROLOGUE],
 [[#include <config.h>
 /* We don't need perfect functions for these tests. */
@@ -754,6 +754,7 @@ AT_CHECK(m4_join([ ],
                   [m4_bmatch([$1], [[.]], [], [$LIBS])]),
            0, [ignore], [ignore])])
 
+
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
 # ---------------------------------------------
 # Compile SOURCES into OUTPUT.  If the C++ compiler does not work,
@@ -761,7 +762,7 @@ AT_CHECK(m4_join([ ],
 #
 # If OUTPUT does not contain '.', assume that we are linking too,
 # otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
-# with trailing .o removed, and ".cc" appended.
+# with trailing ".o" removed, and ".cc" appended.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
 AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)

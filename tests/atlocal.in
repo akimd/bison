@@ -50,6 +50,37 @@ CXXFLAGS="$NO_WERROR_CXXFLAGS @WERROR_CXXFLAGS@"
 # If 'exit 77'; skip all C++ tests; otherwise ':'.
 BISON_CXX_WORKS='@BISON_CXX_WORKS@'
 
+# Be sure that the C++ compiler is not broken because of gnulib.  This
+# cannot be checked in configure (gnulib is not parameterized yet),
+# and checking this in every C++ test in AC_COMPILE_CXX is too costly.
+#
+# http://lists.gnu.org/archive/html/bug-bison/2013-06/msg00001.html
+#
+# FIXME: Check (say 2014) whether this is still needed.
+if $BISON_CXX_WORKS; then
+  # See AT_DATA_SOURCE_PROLOGUE.
+  cat >conftest.cc <<EOF
+#include <config.h>
+/* We don't need perfect functions for these tests. */
+#undef malloc
+#undef memcmp
+#undef realloc
+#include <iostream>
+
+int main ()
+{
+  std::cout << "Works" << std::endl;
+}
+EOF
+  ls
+  $CXX $CXXFLAGS $CPPFLAGS $LDFLAGS $LIBS -o conftest conftest.cc
+  case $? in
+   0);;
+   *) BISON_CXX_WORKS="as_fn_error 77 cannot-compile-simple-program";;
+  esac
+  rm -f conftest*
+fi
+
 # Whether the compiler supports POSIXLY_CORRECT defined.
 : ${C_COMPILER_POSIXLY_CORRECT='@C_COMPILER_POSIXLY_CORRECT@'}
 : ${CXX_COMPILER_POSIXLY_CORRECT='@CXX_COMPILER_POSIXLY_CORRECT@'}
