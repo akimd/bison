@@ -221,6 +221,25 @@ m4_define([b4_attribute_define],
 #else
 # define YYUSE(E) /* empty */
 #endif
+
+#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+/* Suppress an incorrect diagnostic about yylval being uninitialized.  */
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
+    _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END \
+    _Pragma ("GCC diagnostic pop")
+#else
+# define YY_INITIAL_VALUE(Value) Value
+#endif
+#ifndef YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END
+#endif
+#ifndef YY_INITIAL_VALUE
+# define YY_INITIAL_VALUE(Value) /* Nothing. */
+#endif
 ])
 
 
@@ -446,7 +465,9 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
     yymsg = "Deleting";
   YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   ]b4_symbol_actions([destructor])[
+  YY_IGNORE_MAYBE_UNINITIALIZED_END
 }]dnl
 ])
 
@@ -456,9 +477,9 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 # Define the "yy_symbol_print" function.
 m4_define_default([b4_yy_symbol_print_define],
 [[
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*----------------------------------------.
+| Print this symbol's value on YYOUTPUT.  |
+`----------------------------------------*/
 
 ]b4_function_define([yy_symbol_value_print],
     [static void],
