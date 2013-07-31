@@ -50,6 +50,7 @@ typedef int symbol_number;
 
 
 typedef struct symbol symbol;
+typedef struct sym_content sym_content;
 
 /* Declaration status of a symbol.
 
@@ -82,14 +83,26 @@ enum code_props_type
 
 enum { CODE_PROPS_SIZE = 2 };
 
-/* When extending this structure, be sure to complete
-   symbol_check_alias_consistency.  */
 struct symbol
 {
   /** The key, name of the symbol.  */
   uniqstr tag;
   /** The location of its first occurrence.  */
   location location;
+
+  /* Points to the other in the symbol-string pair for an alias. */
+  symbol *alias;
+
+  /** Whether this symbol is the alias of another or not. */
+  bool is_alias;
+
+  /** All the info about the pointed symbol is there. */
+  sym_content *content;
+};
+
+struct sym_content
+{
+  symbol *symbol;
 
   /** Its \c \%type.
 
@@ -117,10 +130,6 @@ struct symbol
   assoc assoc;
   int user_token_number;
 
-  /* Points to the other in the symbol-string pair for an alias.
-     Special value USER_NUMBER_HAS_STRING_ALIAS in the symbol half of the
-     symbol-string pair for an alias.  */
-  symbol *alias;
   symbol_class class;
   status status;
 };

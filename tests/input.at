@@ -672,25 +672,25 @@ exp: foo;
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:8.7-11: error: %type redeclaration for foo
+[[input.y:8.7-11: error: %type redeclaration for "foo"
  %type <baz>       "foo"
        ^^^^^
 input.y:3.7-11:     previous declaration
  %type <bar>       foo
        ^^^^^
-input.y:10.13-17: error: %destructor redeclaration for foo
- %destructor {baz} "foo"
-             ^^^^^
-input.y:5.13-17:      previous declaration
- %destructor {bar} foo
-             ^^^^^
-input.y:9.10-14: error: %printer redeclaration for foo
+input.y:9.10-14: error: %printer redeclaration for "foo"
  %printer {baz}    "foo"
           ^^^^^
 input.y:4.10-14:     previous declaration
  %printer {bar}    foo
           ^^^^^
-input.y:11.1-5: error: %left redeclaration for foo
+input.y:10.13-17: error: %destructor redeclaration for "foo"
+ %destructor {baz} "foo"
+             ^^^^^
+input.y:5.13-17:      previous declaration
+ %destructor {bar} foo
+             ^^^^^
+input.y:11.1-5: error: %left redeclaration for "foo"
  %left             "foo"
  ^^^^^
 input.y:6.1-5:      previous declaration

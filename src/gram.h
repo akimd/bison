@@ -180,17 +180,17 @@ typedef struct
      except if some rules are useless.  */
   rule_number number;
 
-  symbol *lhs;
+  sym_content *lhs;
   item_number *rhs;
 
   /* This symbol provides both the associativity, and the precedence. */
-  symbol *prec;
+  sym_content *prec;
 
   int dprec;
   int merger;
 
   /* This symbol was attached to the rule via %prec. */
-  symbol *precsym;
+  sym_content *precsym;
 
   location location;
   bool useful;
@@ -220,7 +220,8 @@ bool rule_useless_in_parser_p (rule const *r);
 /* Print this rule's number and lhs on OUT.  If a PREVIOUS_LHS was
    already displayed (by a previous call for another rule), avoid
    useless repetitions.  */
-void rule_lhs_print (rule const *r, symbol const *previous_lhs, FILE *out);
+void rule_lhs_print (rule const *r, sym_content const *previous_lhs,
+                     FILE *out);
 void rule_lhs_print_xml (rule const *r, FILE *out, int level);
 
 /* Return the length of the RHS.  */
