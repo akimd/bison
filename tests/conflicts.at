@@ -17,6 +17,152 @@
 
 AT_BANNER([[Conflicts.]])
 
+## ----------------- ##
+## Precedence groups ##
+## ----------------- ##
+
+# Sample use case of precedence groups and relations, working.
+
+AT_SETUP([Precedence groups])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%token CARET "^"
+%token NUM BOOL '^' OR AND
+
+%left '+' '-'
+%gprec {
+  %right CARET
+}
+%gprec boolean {
+  %left OR
+  %left AND
+}
+%left '*' '/'
+
+%precr boolean >> "^"
+%precr CARET > '*' '/' '-' '+'
+
+%%
+
+stmt:
+  exp
+| bool_exp
+
+exp:
+  NUM
+| exp '+' exp
+| exp '-' exp
+| exp '*' exp
+| exp '/' exp
+| exp "^" exp
+
+bool_exp:
+  BOOL
+| bool_exp AND bool_exp
+| bool_exp OR bool_exp
+| bool_exp CARET bool_exp
+]])
+
+AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [])
+
+AT_CLEANUP
+
+## -------------------------------- ##
+## Conflicting precedence relations ##
+## -------------------------------- ##
+
+AT_SETUP([Conflicting precedence relations])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%token TOKEN
+%precedence A
+%precedence B
+%precedence C
+%precedence D E
+
+%gprec group {
+  %precedence F
+  %precedence G
+}
+
+%precr B = C
+%precr A > B
+%precr C > B
+%precr F > G
+%precr F > A
+%%
+exp:
+  TOKEN
+| exp A exp
+| exp B exp
+| exp C exp
+| exp D exp
+| exp E exp
+| exp F exp
+| exp G exp
+]])
+
+AT_BISON_CHECK([[-Wall -o input.c input.y]], 0, [],
+[[input.y:20.10: warning: contradicting declaration: B = C is in conflict with the previous declaration: B > C [-Wprecedence]
+input.y:21.10: warning: contradicting declaration: A > B is in conflict with the previous declaration: A < B [-Wprecedence]
+input.y:22.10: warning: contradicting declaration: C > B is in conflict with the previous declaration: C = B [-Wprecedence]
+input.y:23.10: warning: contradicting declaration: F > G is in conflict with the previous declaration: F < G [-Wprecedence]
+input.y: warning: 27 shift/reduce conflicts [-Wconflicts-sr]
+]])
+
+AT_CLEANUP
+
+## ------------------------------ ##
+## Duplicate precedence relations ##
+## ------------------------------ ##
+
+AT_SETUP([Duplicate precedence relations])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%token TOKEN
+%precedence A
+%precedence B
+%precedence C
+%precedence D E
+
+%gprec group {
+  %precedence F
+  %precedence G
+}
+
+%precr D = E
+%precr B > A
+%precr C > B
+%precr G > F
+%precr F > A
+%precr C > group
+%precr C > F
+%%
+exp:
+  TOKEN
+| exp A exp
+| exp B exp
+| exp C exp
+| exp D exp
+| exp E exp
+| exp F exp
+| exp G exp
+]])
+
+AT_BISON_CHECK([[-Wall -o input.c input.y]], 0, [],
+[[input.y:20.10: warning: duplicate declaration of the precedence relationship D = E [-Wprecedence]
+input.y:20.10: warning: duplicate declaration of the precedence relationship E = D [-Wprecedence]
+input.y:21.10: warning: duplicate declaration of the precedence relationship B > A [-Wprecedence]
+input.y:22.10: warning: duplicate declaration of the precedence relationship C > B [-Wprecedence]
+input.y:23.10: warning: duplicate declaration of the precedence relationship G > F [-Wprecedence]
+input.y:26.10: warning: duplicate declaration of the precedence relationship C > F [-Wprecedence]
+input.y: warning: 23 shift/reduce conflicts [-Wconflicts-sr]
+]])
+
+AT_CLEANUP
+
+
+
 ## ------------------------- ##
 ## Token declaration order.  ##
 ## ------------------------- ##
