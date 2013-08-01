@@ -484,7 +484,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -5379,7 +5379,7 @@
+@@ -5385,7 +5385,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -493,7 +493,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -5399,7 +5399,7 @@
+@@ -5405,7 +5405,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -502,7 +502,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -6214,7 +6214,7 @@
+@@ -6220,7 +6220,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -511,7 +511,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -11099,3 +11099,274 @@
+@@ -11117,3 +11117,274 @@
     45 statement: LEX_FOR '(' opt_exp semi opt_nls exp semi opt_nls opt_exp r_paren opt_nls statement .
 
      $default  reduce using rule 45 (statement)

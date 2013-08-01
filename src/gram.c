@@ -239,7 +239,7 @@ grammar_dump (FILE *out, const char *title)
     for (i = ntokens; i < nsyms; i++)
       fprintf (out, "%5d  %5d   %5d  %s\n",
                i,
-               symbols[i]->content->prec, symbols[i]->content->assoc,
+               symbols[i]->content->prec, symbols[i]->content->prec_node->assoc,
                symbols[i]->tag);
     fprintf (out, "\n\n");
   }
@@ -262,7 +262,7 @@ grammar_dump (FILE *out, const char *title)
         fprintf (out, "%3d (%2d, %2d, %2d, %2u-%2u)   %2d ->",
                  i,
                  rule_i->prec ? rule_i->prec->prec : 0,
-                 rule_i->prec ? rule_i->prec->assoc : 0,
+                 rule_i->prec ? rule_i->prec->prec_node->assoc : 0,
                  rule_i->useful,
                  rhs_itemno,
                  rhs_itemno + rhs_count - 1,

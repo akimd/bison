@@ -129,9 +129,10 @@ struct sym_content
   code_props props[CODE_PROPS_SIZE];
 
   symbol_number number;
-  location prec_location;
+
+  /* Not used anymore, to remove. */
   int prec;
-  assoc assoc;
+
   int user_token_number;
 
   symbol_class class;
@@ -317,6 +318,18 @@ struct symgroup
     location location;
 } ;
 
+/** Get a dummy name for an anonymous group. */
+uniqstr new_anonymous_group_name (void);
+
+/** Set the current group in the token precedence declaration to a new group
+ * with this name */
+void set_current_group (const uniqstr name, location *loc);
+
+/** Get or create the group by that name. The location information is used for
+ *  creation when available. */
+symgroup *
+symgroup_from_uniqstr (const uniqstr key, location *loc);
+
 /*----------------------------------.
 | Graph of precedence relationships |
 `----------------------------------*/
@@ -348,6 +361,13 @@ enum prec_rel_comparator
     prec_superior,
     prec_superior_strict,
 };
+/** Check if s1 and s2 have the same precedence level. */
+bool is_prec_equal (prec_node * s1, prec_node * s2);
+
+/** Check if from > to . */
+bool is_prec_superior (prec_node * from, prec_node * to);
+
+
 /*-----------------.
 | Semantic types.  |
 `-----------------*/

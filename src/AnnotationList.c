@@ -740,7 +740,7 @@ AnnotationList__computeDominantContribution (AnnotationList const *self,
             if (reduce_precedence
                 && (reduce_precedence < shift_precedence
                     || (reduce_precedence == shift_precedence
-                        && token->content->assoc == right_assoc)))
+                        && token->content->prec_node->assoc == right_assoc)))
               continue;
             if (!AnnotationList__stateMakesContribution (self, nitems, ci,
                                                          lookaheads))
@@ -748,7 +748,7 @@ AnnotationList__computeDominantContribution (AnnotationList const *self,
             /* This uneliminated reduction contributes, so see if it can cause
                an error action.  */
             if (reduce_precedence == shift_precedence
-                 && token->content->assoc == non_assoc)
+                 && token->content->prec_node->assoc == non_assoc)
               {
                 /* It's not possible to find split-stable domination over
                    shift after a potential %nonassoc.  */

@@ -392,7 +392,8 @@ print_grammar (FILE *out, int level)
       {
         char const *tag = symbols[token_translations[i]]->tag;
         int precedence = symbols[token_translations[i]]->content->prec;
-        assoc associativity = symbols[token_translations[i]]->content->assoc;
+        assoc associativity = symbols[token_translations[i]]->content->prec_node
+          ->assoc;
         xml_indent (out, level + 2);
         fprintf (out,
                  "<terminal symbol-number=\"%d\" token-number=\"%d\""

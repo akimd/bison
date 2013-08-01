@@ -53,7 +53,8 @@ enum conflict_resolution
     reduce_resolution,
     left_resolution,
     right_resolution,
-    nonassoc_resolution
+    nonassoc_resolution,
+    uncomparable_resolution
   };
 
 
@@ -90,6 +91,7 @@ log_resolution (rule *r, symbol_number token,
           break;
 
         case nonassoc_resolution:
+        case uncomparable_resolution:
           obstack_printf (&solved_conflicts_obstack,
                           _("    Conflict between rule %d and token %s"
                             " resolved as an error"),
@@ -132,6 +134,12 @@ log_resolution (rule *r, symbol_number token,
                           " (%%nonassoc %s)",
                           symbols[token]->tag);
           break;
+        case uncomparable_resolution:
+          obstack_printf (&solved_conflicts_obstack,
+                          " (%s uncomparable with %s)",
+                          r->prec->symbol->tag,
+                          symbols[token]->tag);
+          break;
         }
 
       obstack_sgrow (&solved_conflicts_obstack, ".\n");
@@ -161,6 +169,7 @@ log_resolution (rule *r, symbol_number token,
                           xml_escape (symbols[token]->tag));
           break;
 
+        case uncomparable_resolution:
         case nonassoc_resolution:
           obstack_printf (&solved_conflicts_xml_obstack,
                           "        <resolution rule=\"%d\" symbol=\"%s\""
@@ -203,7 +212,13 @@ log_resolution (rule *r, symbol_number token,
           obstack_printf (&solved_conflicts_xml_obstack,
                           "%%nonassoc %s",
                           xml_escape (symbols[token]->tag));
-      break;
+          break;
+        case uncomparable_resolution:
+          obstack_printf (&solved_conflicts_xml_obstack,
+                          "%s uncomparable with %s",
+                          xml_escape_n (0, symbols[token]->tag),
+                          xml_escape_n (1, r->prec->symbol->tag));
+          break;
         }
 
       obstack_sgrow (&solved_conflicts_xml_obstack, "</resolution>\n");
@@ -243,7 +258,6 @@ flush_reduce (bitset lookahead_tokens, int token)
   bitset_reset (lookahead_tokens, token);
 }
 
-
 /*------------------------------------------------------------------.
 | Attempt to resolve shift-reduce conflict for one rule by means of |
 | precedence declarations.  It has already been checked that the    |
@@ -263,66 +277,73 @@ resolve_sr_conflict (state *s, int ruleno, symbol **errors, int *nerrs)
   reductions *reds = s->reductions;
   /* Find the rule to reduce by to get precedence of reduction.  */
   rule *redrule = reds->rules[ruleno];
-  int redprec = redrule->prec->prec;
+  prec_node *redprecsym = redrule->prec->prec_node;
   bitset lookahead_tokens = reds->lookahead_tokens[ruleno];
 
   for (i = 0; i < ntokens; i++)
     if (bitset_test (lookahead_tokens, i)
-        && bitset_test (lookahead_set, i)
-        && symbols[i]->content->prec)
+        && bitset_test (lookahead_set, i))
       {
-        /* Shift-reduce conflict occurs for token number i
-           and it has a precedence.
-           The precedence of shifting is that of token i.  */
-        if (symbols[i]->content->prec < redprec)
+        if (redprecsym && symbols[i]->content->prec_node)
           {
-            register_precedence (redrule->prec->number, i);
-            log_resolution (redrule, i, reduce_resolution);
-            flush_shift (s, i);
-          }
-        else if (symbols[i]->content->prec > redprec)
-          {
-            register_precedence (i, redrule->prec->number);
-            log_resolution (redrule, i, shift_resolution);
-            flush_reduce (lookahead_tokens, i);
+            /* Shift-reduce conflict occurs for token number i
+               and it has a precedence.
+               The precedence of shifting is that of token i.  */
+            if (is_prec_superior (redprecsym, symbols[i]->content->prec_node))
+              {
+                register_precedence (redrule->prec->number, i);
+                log_resolution (redrule, i, reduce_resolution);
+                flush_shift (s, i);
+              }
+            else if (is_prec_superior (symbols[i]->content->prec_node,
+                                       redprecsym))
+              {
+                register_precedence (i, redrule->prec->number);
+                log_resolution (redrule, i, shift_resolution);
+                flush_reduce (lookahead_tokens, i);
+              }
+            else if (is_prec_equal (redprecsym, symbols[i]->content->prec_node))
+              /* Matching precedence levels.
+                 For non-defined associativity, keep both: unexpected
+                 associativity conflict.
+                 For left associativity, keep only the reduction.
+                 For right associativity, keep only the shift.
+                 For nonassociativity, keep neither.  */
+
+              switch (symbols[i]->content->prec_node->assoc)
+                {
+                case undef_assoc:
+                  break;
+
+                case precedence_assoc:
+                  break;
+
+                case right_assoc:
+                  register_assoc (i, redrule->prec->number);
+                  log_resolution (redrule, i, right_resolution);
+                  flush_reduce (lookahead_tokens, i);
+                  break;
+
+                case left_assoc:
+                  register_assoc (i, redrule->prec->number);
+                  log_resolution (redrule, i, left_resolution);
+                  flush_shift (s, i);
+                  break;
+
+                case non_assoc:
+                  register_assoc (i, redrule->prec->number);
+                  log_resolution (redrule, i, nonassoc_resolution);
+                  flush_shift (s, i);
+                  flush_reduce (lookahead_tokens, i);
+                  /* Record an explicit error for this token.  */
+                  errors[(*nerrs)++] = symbols[i];
+                  break;
+                }
+            else
+              log_resolution (redrule, i, uncomparable_resolution);
           }
         else
-          /* Matching precedence levels.
-             For non-defined associativity, keep both: unexpected
-             associativity conflict.
-             For left associativity, keep only the reduction.
-             For right associativity, keep only the shift.
-             For nonassociativity, keep neither.  */
-
-          switch (symbols[i]->content->assoc)
-            {
-            case undef_assoc:
-              abort ();
-
-            case precedence_assoc:
-              break;
-
-            case right_assoc:
-              register_assoc (i, redrule->prec->number);
-              log_resolution (redrule, i, right_resolution);
-              flush_reduce (lookahead_tokens, i);
-              break;
-
-            case left_assoc:
-              register_assoc (i, redrule->prec->number);
-              log_resolution (redrule, i, left_resolution);
-              flush_shift (s, i);
-              break;
-
-            case non_assoc:
-              register_assoc (i, redrule->prec->number);
-              log_resolution (redrule, i, nonassoc_resolution);
-              flush_shift (s, i);
-              flush_reduce (lookahead_tokens, i);
-              /* Record an explicit error for this token.  */
-              errors[(*nerrs)++] = symbols[i];
-              break;
-            }
+          log_resolution (redrule, i, uncomparable_resolution);
       }
 }
 
@@ -354,7 +375,7 @@ set_conflicts (state *s, symbol **errors)
      check for shift-reduce conflict, and try to resolve using
      precedence.  */
   for (i = 0; i < reds->num; ++i)
-    if (reds->rules[i]->prec && reds->rules[i]->prec->prec
+    if (reds->rules[i]->prec /* && reds->rules[i]->prec->prec */
         && !bitset_disjoint_p (reds->lookahead_tokens[i], lookahead_set))
       resolve_sr_conflict (s, i, errors, &nerrs);
 

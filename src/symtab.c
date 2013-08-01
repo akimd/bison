@@ -26,6 +26,7 @@
 #include "complain.h"
 #include "gram.h"
 #include "symtab.h"
+#include "symlist.h"
 
 /*-------------------------------------------------------------------.
 | Symbols sorted by tag.  Allocated by the first invocation of       |
@@ -58,6 +59,256 @@ static symgraph **prec_nodes;
 
 bool *used_assoc = NULL;
 
+/*-------------------------------------------------------------.
+| The current precedence group of symbols. Used by the parser. |
+`-------------------------------------------------------------*/
+
+static symgroup *current_group = NULL;
+
+/*-------------------------------------------------------.
+| The list of symbols declared in the current statement. |
+`-------------------------------------------------------*/
+
+static symbol_list *current_prec_declaration = NULL;
+
+/*-------------------------------------------------.
+| A counter to distinguish precedence declarations |
+`-------------------------------------------------*/
+
+static int current_prec_level = 0;
+
+/*-----------------------------.
+| Constructor for a prec_link. |
+`-----------------------------*/
+
+static prec_link *
+prec_link_new (prec_node *to, bool transitive)
+{
+  prec_link *res = malloc (sizeof *res);
+  res->target = to;
+  res->transitive = transitive;
+  res->next = NULL;
+  return res;
+}
+
+/*-------------------------------------.
+| Destructor for a simple symbol list. |
+`-------------------------------------*/
+
+static void
+symbol_list_prec_free (symbol_list *l)
+{
+  if (l)
+    {
+      symbol_list_prec_free (l->next);
+      free (l);
+    }
+}
+
+/*------------------------------------------------.
+| Check if PARENT has a higher priority than SON. |
+`------------------------------------------------*/
+
+bool
+is_prec_superior (prec_node *parent, prec_node *son)
+{
+  prec_link *l;
+  for (l = parent->sons; l; l = l->next)
+    if (l->target == son)
+      return true;
+  return false;
+}
+
+/*-----------------------------------------.
+| Check if S1 has the same priority as S2. |
+`-----------------------------------------*/
+
+bool
+is_prec_equal (prec_node *s1, prec_node *s2)
+{
+  prec_link *l;
+  if (s1 == s2)
+    return true;
+  for (l = s1->equals; l; l = l->next)
+    if (l->target == s2)
+      return true;
+  return false;
+}
+
+static inline void
+complain_contradicting_prec (location *loc, uniqstr s1, uniqstr s2, char c1,
+                             char c2)
+{
+  complain (loc, Wprecedence, _("contradicting declaration: %s %c %s is in "
+            "conflict with the previous declaration: %s %c %s"), s1, c1, s2,
+            s1, c2, s2);
+}
+
+/*-----------------------------------------------------------------------.
+| Compare LINK with TARGET, and return whether they are equal.           |
+| In case of equality, complain of the duplicate precedence declaration. |
+`-----------------------------------------------------------------------*/
+
+static inline bool
+is_prec_target (prec_node *l, prec_node *target, uniqstr from, char c,
+                location loc)
+{
+  if (l == target)
+    {
+      complain (&loc, Wprecedence, _("duplicate declaration of the precedence "
+                                     "relationship %s %c %s"), from, c,
+                target->symbol->tag);
+      return true;
+    }
+  return false;
+}
+
+/*-----------------------------------------.
+| Add a precedence relationship FROM > TO. |
+`-----------------------------------------*/
+
+static void
+add_prec_link (prec_node *from, prec_node *to, bool transitive, location loc)
+{
+  if (is_prec_superior (to, from))
+    complain_contradicting_prec(&loc, from->symbol->tag, to->symbol->tag,
+                                '>', '<');
+  else if (is_prec_equal (from, to))
+    complain_contradicting_prec(&loc, from->symbol->tag, to->symbol->tag,
+                                '>', '=');
+  else
+    {
+      if (from->sons)
+        {
+          if (is_prec_target (from->sons->target, to, from->symbol->tag, '>',
+                              loc))
+            return;
+
+          prec_link *son = from->sons;
+          for (; son->next; son = son->next)
+            if (is_prec_target (son->next->target, to, from->symbol->tag, '>',
+                                loc))
+              return;
+          son->next = prec_link_new (to, transitive);
+        }
+      else
+        from->sons = prec_link_new (to, transitive);
+    }
+}
+
+/*-------------------------------------------------.
+| Add a precedence relationship S1 == S2, one way. |
+`-------------------------------------------------*/
+
+static void
+create_prec_equal_link (prec_node *s1, prec_node *s2, bool transitive,
+                        location loc)
+{
+  if (s1->equals)
+    {
+            if (is_prec_target (s1->equals->target, s2, s1->symbol->tag, '=',
+                                loc))
+              return;
+      prec_link *eq = s1->equals;
+      for (; eq->next; eq = eq->next)
+            if (is_prec_target (eq->next->target, s2, s1->symbol->tag, '=',
+                                loc))
+              return;
+      eq->next = prec_link_new (s2, transitive);
+    }
+  else
+    s1->equals = prec_link_new (s2, transitive);
+}
+
+
+/*---------------------------------------------------.
+| Add a precedence relationship S1 == S2, both ways. |
+`---------------------------------------------------*/
+
+static void
+add_prec_equal_link (prec_node *s1, prec_node *s2, bool transitive,
+                     location loc)
+{
+  if (is_prec_superior (s2, s1))
+    complain_contradicting_prec(&loc, s1->symbol->tag, s2->symbol->tag,
+                                '=', '>');
+  else if (is_prec_superior (s1, s2))
+    complain_contradicting_prec(&loc, s1->symbol->tag, s2->symbol->tag,
+                                '=', '<');
+  create_prec_equal_link (s1, s2, transitive, loc);
+  create_prec_equal_link (s2, s1, transitive, loc);
+}
+
+
+/*------------------------------------------------------------------------.
+| Add a symbol to the current declaration group, and declare the implicit |
+| precedence links. SAME_LINE is true if the symbol was declared in the   |
+| same statement as the previous one (same precedence level).             |
+`------------------------------------------------------------------------*/
+
+void
+add_to_current_group (sym_content *s, bool same_line)
+{
+  if (!same_line)
+    for (symbol_list *l = current_prec_declaration; l; l = l->next)
+      {
+        sym_content *symb = l->content.sym->content;
+        if (!current_group->symbol_list)
+          current_group->symbol_list = symb;
+        else
+          {
+            sym_content *sym = current_group->symbol_list;
+            while (sym->group_next)
+              sym = sym->group_next;
+            sym->group_next = symb;
+          }
+      }
+
+  if (current_group->symbol_list)
+    for (sym_content *sym = current_group->symbol_list; sym;
+         sym = sym->group_next)
+      add_prec_link (s->prec_node, sym->prec_node, true,
+                     s->prec_node->prec_location);
+
+  if (!same_line)
+    {
+      symbol_list_prec_free (current_prec_declaration);
+      current_prec_declaration = malloc (sizeof *current_prec_declaration);
+      current_prec_declaration->content.sym = s->symbol;
+      current_prec_declaration->next = NULL;
+    }
+  else
+    {
+      symbol_list *l = current_prec_declaration;
+      for (; true; l = l->next)
+        {
+          add_prec_equal_link (s->prec_node, l->content.sym->content->prec_node,
+                               true, s->prec_node->prec_location);
+          if (!l->next)
+            break;
+        }
+      l->next = malloc (sizeof *l->next);
+      l->next->content.sym = s->symbol;
+      l->next->next = NULL;
+    }
+}
+
+/*-----------------------------------------.
+| Create a new prec_node for the symbol s. |
+`-----------------------------------------*/
+
+static prec_node *
+prec_node_new (symbol * s)
+{
+  prec_node * res = malloc (sizeof *res);
+  res->symbol = s;
+  res->assoc = undef_assoc;
+  res->sons = NULL;
+  res-> equals = NULL;
+  return res;
+}
+
+
 /*--------------------------.
 | Create a new sym_content. |
 `--------------------------*/
@@ -78,11 +329,13 @@ sym_content_new (symbol *s)
 
   res->number = NUMBER_UNDEFINED;
   res->prec = 0;
-  res->assoc = undef_assoc;
   res->user_token_number = USER_NUMBER_UNDEFINED;
 
   res->class = unknown_sym;
   res->status = undeclared;
+
+  res->group_next = NULL;
+  res->prec_node = prec_node_new (s);
 
   return res;
 }
@@ -116,6 +369,28 @@ symbol_new (uniqstr tag, location loc)
   return res;
 }
 
+void
+prec_link_free (prec_link * l)
+{
+  if (l)
+    {
+      prec_link_free (l->next);
+      free (l);
+    }
+}
+
+/*--------------------.
+| Free one prec_node. |
+`--------------------*/
+
+static void
+prec_node_free (prec_node * n)
+{
+  prec_link_free (n->sons);
+  prec_link_free (n->equals);
+  free (n);
+}
+
 /*--------------------.
 | Free a sym_content. |
 `--------------------*/
@@ -123,6 +398,7 @@ symbol_new (uniqstr tag, location loc)
 static void
 sym_content_free (sym_content *sym)
 {
+  prec_node_free (sym->prec_node);
   free (sym);
 }
 
@@ -367,14 +643,16 @@ symbol_precedence_set (symbol *sym, int prec, assoc a, location loc)
   sym_content *s = sym->content;
   if (a != undef_assoc)
     {
-      if (s->prec)
+      if (s->prec_node->assoc != undef_assoc)
         symbol_redeclaration (sym, assoc_to_string (a),
-                              s->prec_location, loc);
+                              s->prec_node->prec_location, loc);
       else
         {
           s->prec = prec;
-          s->assoc = a;
-          s->prec_location = loc;
+          s->prec_node->assoc = a;
+          s->prec_node->prec_location = loc;
+          add_to_current_group (s, prec == current_prec_level);
+          current_prec_level = prec;
         }
     }
 
@@ -684,6 +962,38 @@ hash_semantic_type_hasher (void const *m, size_t tablesize)
   return hash_semantic_type (m, tablesize);
 }
 
+/*-------------------------------------.
+| Symbol precedence group hash table.  |
+`-------------------------------------*/
+
+static struct hash_table *group_table = NULL;
+
+static inline bool
+hash_compare_group (const symgroup *m1, const symgroup *m2)
+{
+  /* Since tags are unique, we can compare the pointers themselves.  */
+  return UNIQSTR_EQ (m1->tag, m2->tag);
+}
+
+static bool
+hash_group_comparator (void const *m1, void const *m2)
+{
+  return hash_compare_group (m1, m2);
+}
+
+static inline size_t
+hash_group (const symgroup *m, size_t tablesize)
+{
+  /* Since tags are unique, we can hash the pointer itself.  */
+  return ((uintptr_t) m->tag) % tablesize;
+}
+
+static size_t
+hash_group_hasher (void const *m, size_t tablesize)
+{
+  return hash_group (m, tablesize);
+}
+
 /*-------------------------------.
 | Create the symbol hash table.  |
 `-------------------------------*/
@@ -701,6 +1011,12 @@ symbols_new (void)
                                          hash_semantic_type_hasher,
                                          hash_semantic_type_comparator,
                                          free);
+  group_table = hash_initialize (HT_INITIAL_CAPACITY,
+                                  NULL,
+                                  hash_group_hasher,
+                                  hash_group_comparator,
+                                  free);
+  set_current_group (DEFAULT_GROUP_NAME, NULL);
 }
 
 
@@ -815,9 +1131,11 @@ symbols_free (void)
 {
   hash_free (symbol_table);
   hash_free (semantic_type_table);
+  hash_free (group_table);
   free (symbols);
   free (symbols_sorted);
   free (semantic_types_sorted);
+  symbol_list_prec_free (current_prec_declaration);
 }
 
 
@@ -1102,8 +1420,8 @@ static inline bool
 is_assoc_useless (symbol *s)
 {
   return s
-      && s->content->assoc != undef_assoc
-      && s->content->assoc != precedence_assoc
+      && s->content->prec_node->assoc != undef_assoc
+      && s->content->prec_node->assoc != precedence_assoc
       && !used_assoc[s->content->number];
 }
 
@@ -1136,21 +1454,110 @@ print_precedence_warnings (void)
     {
       symbol *s = symbols[i];
       if (s
-          && s->content->prec != 0
           && !prec_nodes[i]->pred
           && !prec_nodes[i]->succ)
         {
           if (is_assoc_useless (s))
-            complain (&s->content->prec_location, Wprecedence,
+            complain (&s->content->prec_node->prec_location, Wprecedence,
                       _("useless precedence and associativity for %s"), s->tag);
-          else if (s->content->assoc == precedence_assoc)
-            complain (&s->content->prec_location, Wprecedence,
+          else if (s->content->prec_node->assoc == precedence_assoc)
+            complain (&s->content->prec_node->prec_location, Wprecedence,
                       _("useless precedence for %s"), s->tag);
         }
       else if (is_assoc_useless (s))
-        complain (&s->content->prec_location, Wprecedence,
+        complain (&s->content->prec_node->prec_location, Wprecedence,
                   _("useless associativity for %s, use %%precedence"), s->tag);
     }
   free (used_assoc);
   assoc_free ();
+}
+
+/*------------------------------------------------.
+| Counter to create unique anonymous group names. |
+`------------------------------------------------*/
+
+static unsigned int anon_group_counter = 0;
+
+/*-------------------------------------------------.
+| Return a new unique name for an anonymous group. |
+`-------------------------------------------------*/
+
+uniqstr new_anonymous_group_name (void)
+{
+  char buff[20];
+  snprintf (buff, 20, "__anon%u__", anon_group_counter++);
+  return uniqstr_new (buff);
+}
+
+/*-------------------------------------------.
+| Constructor for a symbol precedence group. |
+`-------------------------------------------*/
+
+symgroup *
+symgroup_new (const uniqstr tag, location loc)
+{
+  symgroup *group = xmalloc (sizeof (*group));
+  group->tag = tag;
+  group->symbol_list = NULL;
+  group->location = loc;
+  return group;
+}
+
+/*--------------------------------------------------------------------------.
+| Get the symbol precedence group by that name. If not present, a new group |
+| is created and inserted in the table, with the location information       |
+| provided, if any.                                                         |
+`--------------------------------------------------------------------------*/
+
+symgroup *
+symgroup_from_uniqstr (const uniqstr key, location *loc)
+{
+  bool null_loc = loc == NULL;
+  if (null_loc)
+    {
+      loc = malloc (sizeof *loc);
+      boundary_set (&loc->start, uniqstr_new (""), 1, 1);
+      boundary_set (&loc->end, uniqstr_new (""), 1, 1);
+    }
+  symgroup probe;
+  symgroup *entry;
+
+  probe.tag = key;
+  entry = hash_lookup (group_table, &probe);
+
+  if (!entry)
+    {
+      /* First insertion in the hash. */
+      entry = symgroup_new (key, *loc);
+      if (!hash_insert (group_table, entry))
+        xalloc_die ();
+    }
+  if (null_loc)
+    free (loc);
+  return entry;
+}
+
+/*--------------------------------------------------------------------------.
+| Change the current group to the one designated by the name, and create it |
+| if necessary. The location information is used for creation if available. |
+`--------------------------------------------------------------------------*/
+
+void set_current_group (const uniqstr tag, location *loc)
+{
+  for (symbol_list *l = current_prec_declaration; l; l = l->next)
+    {
+      sym_content *symb = l->content.sym->content;
+      if (!current_group->symbol_list)
+        current_group->symbol_list = symb;
+      else
+        {
+          sym_content *sym = current_group->symbol_list;
+          for (; sym->group_next; sym = sym->group_next)
+            {}
+          sym->group_next = symb;
+        }
+    }
+  symbol_list_prec_free (current_prec_declaration);
+  current_prec_declaration = NULL;
+  current_group = symgroup_from_uniqstr (tag, loc);
 }
