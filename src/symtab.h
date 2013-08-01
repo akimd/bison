@@ -31,6 +31,8 @@
 # include "scan-code.h"
 # include "uniqstr.h"
 
+typedef struct symbol_list symbol_list;
+
 /*----------.
 | Symbols.  |
 `----------*/
@@ -61,6 +63,8 @@ typedef struct sym_content sym_content;
 
    When status are checked at the end, "declared" symbols are fine,
    "used" symbols trigger warnings, otherwise it's an error.  */
+
+typedef struct prec_node prec_node;
 
 typedef enum
   {
@@ -132,6 +136,13 @@ struct sym_content
 
   symbol_class class;
   status status;
+
+  /* The next element in the symbol precedence group. */
+  sym_content *group_next;
+
+  /* The graph node containing all the precedence information for this
+     symbol. */
+  prec_node *prec_node;
 };
 
 /** Undefined user number.  */
@@ -286,6 +297,57 @@ void print_precedence_warnings (void);
 
 void register_assoc (graphid i, graphid j);
 
+
+/*------------------.
+| Groups of symbols |
+`------------------*/
+
+#define DEFAULT_GROUP_NAME uniqstr_new ("__default__")
+
+typedef struct symgroup symgroup;
+
+struct symgroup
+{
+    /** The name of the group. */
+    uniqstr tag;
+
+    /** The list of symbols in the group. */
+    sym_content * symbol_list;
+
+    location location;
+} ;
+
+/*----------------------------------.
+| Graph of precedence relationships |
+`----------------------------------*/
+
+typedef struct prec_link prec_link;
+
+struct prec_link
+{
+    prec_node *target;
+    bool transitive;
+    prec_link *next;
+};
+
+struct prec_node
+{
+    symbol *symbol;
+    /** Associativity for the symbol. */
+    assoc assoc;
+    location prec_location;
+    prec_link *sons;
+    prec_link *equals;
+};
+
+typedef enum prec_rel_comparator prec_rel_comparator;
+
+enum prec_rel_comparator
+{
+    prec_equal,
+    prec_superior,
+    prec_superior_strict,
+};
 /*-----------------.
 | Semantic types.  |
 `-----------------*/
