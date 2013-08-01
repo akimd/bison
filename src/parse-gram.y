@@ -130,6 +130,7 @@
 
 %token PERCENT_PREC          "%prec"
 %token PERCENT_DPREC         "%dprec"
+%token PERCENT_GPREC         "%gprec"
 %token PERCENT_MERGE         "%merge"
 
 /*----------------------.
@@ -178,6 +179,8 @@
 %token TAG             "<tag>"
 %token TAG_ANY         "<*>"
 %token TAG_NONE        "<>"
+%token LBRACE          "{"
+%token RBRACE          "}"
 
 %union {unsigned char character;}
 %type <character> CHAR
@@ -214,6 +217,7 @@
 %union {named_ref *named_ref;}
 %type <named_ref> named_ref.opt
 
+%type <uniqstr> prec_group_name.opt
 /*---------.
 | %param.  |
 `---------*/
@@ -365,6 +369,7 @@ params:
 
 grammar_declaration:
   precedence_declaration
+| precedence_group_declaration
 | symbol_declaration
 | "%start" symbol
     {
@@ -455,6 +460,30 @@ symbol_declaration:
         symbol_type_set (list->content.sym, $2, @2);
       symbol_list_free ($3);
     }
+;
+
+/* A group of symbols for precedence declaration */
+precedence_group_declaration:
+  "%gprec" prec_group_name.opt
+  {
+    set_current_group ($2, &@2);
+  }
+  "{"  precedence_declarations "}"
+  {
+    set_current_group (DEFAULT_GROUP_NAME, NULL);
+  }
+;
+
+/* Name for the precedence group. If none is present a new unique one is
+   generated. */
+prec_group_name.opt:
+  %empty { $$ = new_anonymous_group_name (); }
+| variable /* Just a string, maybe there's a better way? */
+;
+
+precedence_declarations:
+  precedence_declaration
+| precedence_declarations precedence_declaration
 ;
 
 precedence_declaration:

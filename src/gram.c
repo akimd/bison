@@ -44,6 +44,8 @@ int nvars = 0;
 
 symbol_number *token_translations = NULL;
 
+enum braces_state prec_braces = 0;
+
 int max_user_token_number = 256;
 
 bool

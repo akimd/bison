@@ -223,6 +223,10 @@ eqopt    ([[:space:]]*=)?
   "%fixed-output-files"             return PERCENT_YACC;
   "%initial-action"                 return PERCENT_INITIAL_ACTION;
   "%glr-parser"                     return PERCENT_GLR_PARSER;
+  "%gprec"                          {
+                                      prec_braces = gprec_seen;
+                                      return PERCENT_GPREC;
+                                    }
   "%language"                       return PERCENT_LANGUAGE;
   "%left"                           return PERCENT_LEFT;
   "%lex-param"                      RETURN_PERCENT_PARAM(lex);
@@ -273,10 +277,16 @@ eqopt    ([[:space:]]*=)?
   "="                     return EQUAL;
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
+  "}"                     return RBRACE;
 
   {id} {
     val->uniqstr = uniqstr_new (yytext);
     id_loc = *loc;
+    if (prec_braces == gprec_seen)
+    {
+      prec_braces = group_name_seen;
+      return ID;
+    }
     bracketed_id_str = NULL;
     BEGIN SC_AFTER_IDENTIFIER;
   }
@@ -307,6 +317,11 @@ eqopt    ([[:space:]]*=)?
 
   /* Code in between braces.  */
   "{" {
+    if (prec_braces == gprec_seen || prec_braces == group_name_seen)
+    {
+      prec_braces = braces_seen;
+      return LBRACE;
+    }
     STRING_GROW;
     nesting = 0;
     code_start = loc->start;

@@ -117,6 +117,17 @@ typedef int item_number;
 extern item_number *ritem;
 extern unsigned int nritems;
 
+enum braces_state
+  {
+    default_braces_state,
+    gprec_seen,
+    group_name_seen,
+    braces_seen
+  };
+
+/* Marker for the lexer and parser, to correctly interpret braces. */
+extern enum braces_state prec_braces;
+
 /* There is weird relationship between OT1H item_number and OTOH
    symbol_number and rule_number: we store the latter in
    item_number.  symbol_number values are stored as-is, while
