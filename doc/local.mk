@@ -24,6 +24,7 @@ doc_bison_TEXINFOS =                            \
 # Obfuscate with a variable.
 doc_bison = doc/bison
 $(doc_bison).dvi: $(FIGS_GV:.gv=.eps)
+$(doc_bison).info: $(FIGS_GV:.gv=.txt)
 $(doc_bison).pdf: $(FIGS_GV:.gv=.pdf)
 $(doc_bison).html: $(FIGS_GV:.gv=.png)
 
@@ -128,7 +129,7 @@ FIGS_GV =                                               \
   doc/figs/example.gv                                   \
   doc/figs/example-reduce.gv doc/figs/example-shift.gv
 EXTRA_DIST +=                                                   \
-  $(FIGS_GV)                                                    \
+  $(FIGS_GV) $(FIGS_GV:.gv=.txt)                                \
   $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.png)
 SUFFIXES += .gv .eps .pdf .png
 
