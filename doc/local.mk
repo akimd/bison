@@ -23,9 +23,9 @@ doc_bison_TEXINFOS =                            \
 # Cannot express dependencies directly on file names because of Automake.
 # Obfuscate with a variable.
 doc_bison = doc/bison
-$(doc_bison).dvi: $(FIGS_DOT:.dot=.eps)
-$(doc_bison).pdf: $(FIGS_DOT:.dot=.pdf)
-$(doc_bison).html: $(FIGS_DOT:.dot=.png)
+$(doc_bison).dvi: $(FIGS_GV:.gv=.eps)
+$(doc_bison).pdf: $(FIGS_GV:.gv=.pdf)
+$(doc_bison).html: $(FIGS_GV:.gv=.png)
 
 TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d -I doc
 CLEANDIRS = doc/bison.t2d
@@ -124,25 +124,25 @@ nodist_man_MANS = doc/yacc.1
 ## ----------------------------- ##
 
 CLEANDIRS += doc/figs
-FIGS_DOT =                                                      \
-  doc/figs/example.dot                                          \
-  doc/figs/example-reduce.dot doc/figs/example-shift.dot
-EXTRA_DIST +=                                                           \
-  $(FIGS_DOT)                                                           \
-  $(FIGS_DOT:.dot=.eps) $(FIGS_DOT:.dot=.pdf) $(FIGS_DOT:.dot=.png)
-SUFFIXES += .dot .eps .pdf .png
+FIGS_GV =                                               \
+  doc/figs/example.gv                                   \
+  doc/figs/example-reduce.gv doc/figs/example-shift.gv
+EXTRA_DIST +=                                                   \
+  $(FIGS_GV)                                                    \
+  $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.png)
+SUFFIXES += .gv .eps .pdf .png
 
-.dot.eps:
+.gv.eps:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
 	$(AM_V_at) $(DOT) -Gmargin=0 -Teps $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
-.dot.pdf:
+.gv.pdf:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
 	$(AM_V_at) $(DOT) -Gmargin=0 -Tpdf $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
-.dot.png:
+.gv.png:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
 	$(AM_V_at) $(DOT) -Gmargin=0 -Tpng $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
