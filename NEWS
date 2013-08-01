@@ -2,6 +2,32 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New syntax: partial-order precedence relationships
+
+  Formerly, the precedence order of tokens was linear, depending only on the
+  order in which they were declared.  With the new syntax, all the tokens are
+  not necessarily comparable.  It is possible to declare a group of tokens with
+  no links outside of the group, and to later on add only those needed.
+  The uncomparability of tokens would allow for more feedback on new conflicts
+  silently resolved via precedence.
+
+  An example of the new syntax applied to arithmetic and boolean operators,
+  with '^' serving as both numerical power and boolean XOR:
+
+  %gprec arith {
+    %left '+' '-'
+    %left '*' '/'
+  }
+  %gprec bool {
+    %left OR
+    %left AND
+  }
+  %gprec { %right '^' }
+
+  %precr '^' > arith
+  %precr OR AND > '^'
+
+  Here, AND is not comparable with '+', but '^' > '+' and AND > '^'
 
 * Noteworthy changes in release 3.0 (2013-07-25) [stable]
 
