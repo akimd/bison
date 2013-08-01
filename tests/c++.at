@@ -174,11 +174,10 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([Variants $1])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
+AT_BISON_OPTION_PUSHDEFS([%debug $1])
 # Store strings and integers in a list of strings.
 AT_DATA_GRAMMAR([list.y],
 [[%debug
-%skeleton "lalr1.cc"
 %define api.value.type variant
 ]m4_bpatsubst([$1], [\\n], [
 ])[
@@ -320,13 +319,13 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_TEST([])
-AT_TEST([%define parse.assert])
-AT_TEST([%locations %define parse.assert])
-AT_TEST([[%define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
-AT_TEST([[%define parse.assert %define api.token.constructor]])
-AT_TEST([[%define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
-AT_TEST([[%locations %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
+AT_TEST([[%skeleton "lalr1.cc" ]])
+AT_TEST([[%skeleton "lalr1.cc" %define parse.assert]])
+AT_TEST([[%skeleton "lalr1.cc" %locations %define parse.assert]])
+AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
+AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor]])
+AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
+AT_TEST([[%skeleton "lalr1.cc" %locations %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
 
 m4_popdef([AT_TEST])
 
