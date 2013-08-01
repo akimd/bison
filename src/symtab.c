@@ -240,6 +240,55 @@ add_prec_equal_link (prec_node *s1, prec_node *s2, bool transitive,
 }
 
 
+/* The function to use to register \a c type relations.  */
+typedef void (*add_link_t) (prec_node *, prec_node *, bool, location);
+static add_link_t
+add_link_function (prec_rel_comparator c)
+{
+  switch (c)
+    {
+    case prec_superior_strict:
+    case prec_superior:
+      return &add_prec_link;
+    case prec_equal:
+      return &add_prec_equal_link;
+    }
+  abort ();
+}
+
+
+/*---------------------------------------------------------------------.
+| Handle the precedence declaration between the elements of S1 and S2. |
+`---------------------------------------------------------------------*/
+
+void
+declare_precedence_relation (symbol_list *s1, symbol_list *s2,
+                             prec_rel_comparator c, location loc)
+{
+  void (*functionPtr) (prec_node *, prec_node *, bool, location)
+    = add_link_function (c);
+  bool transitive = c != prec_superior_strict;
+  for (symbol_list *l1 = s1; l1; l1 = l1->next)
+    for (symbol_list *l2 = s2; l2; l2 = l2->next)
+      (*functionPtr)(l1->content.sym->content->prec_node,
+                     l2->content.sym->content->prec_node, transitive, loc);
+  symbol_list_free (s1);
+  symbol_list_free (s2);
+}
+
+/*----------------------------------------------.
+| Get the list of symbols contained in a group. |
+`----------------------------------------------*/
+
+symbol_list *
+expand_symbol_group (symgroup *group, location loc)
+{
+  symbol_list *l = NULL;
+  for (sym_content *s = group->symbol_list; s; s = s->group_next)
+    l = symbol_list_append (l, symbol_list_sym_new (s->symbol, loc));
+  return l;
+}
+
 /*------------------------------------------------------------------------.
 | Add a symbol to the current declaration group, and declare the implicit |
 | precedence links. SAME_LINE is true if the symbol was declared in the   |
@@ -358,6 +407,7 @@ symbol_new (uniqstr tag, location loc)
 
   res->tag = tag;
   res->location = loc;
+
   res->alias = NULL;
   res->content = sym_content_new (res);
   res->is_alias = false;
@@ -1501,6 +1551,20 @@ symgroup_new (const uniqstr tag, location loc)
   group->symbol_list = NULL;
   group->location = loc;
   return group;
+}
+
+/*----------------------------------------.
+| Check if there is a group by that name. |
+`----------------------------------------*/
+
+bool
+is_prec_group (const uniqstr key)
+{
+  symgroup probe;
+  symgroup *entry;
+  probe.tag = key;
+  entry = hash_lookup (group_table, &probe);
+  return entry != NULL;
 }
 
 /*--------------------------------------------------------------------------.

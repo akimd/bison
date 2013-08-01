@@ -243,6 +243,7 @@ eqopt    ([[:space:]]*=)?
   "%parse-param"                    RETURN_PERCENT_PARAM(parse);
   "%prec"                           return PERCENT_PREC;
   "%precedence"                     return PERCENT_PRECEDENCE;
+  "%precr"                          return PERCENT_PRECR;
   "%printer"                        return PERCENT_PRINTER;
   "%pure-parser"                    RETURN_PERCENT_FLAG("api.pure");
   "%require"                        return PERCENT_REQUIRE;
@@ -278,6 +279,7 @@ eqopt    ([[:space:]]*=)?
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
   "}"                     return RBRACE;
+  ">"                     return GT;
 
   {id} {
     val->uniqstr = uniqstr_new (yytext);

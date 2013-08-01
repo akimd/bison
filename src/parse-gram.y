@@ -131,6 +131,7 @@
 %token PERCENT_PREC          "%prec"
 %token PERCENT_DPREC         "%dprec"
 %token PERCENT_GPREC         "%gprec"
+%token PERCENT_PRECR         "%precr"
 %token PERCENT_MERGE         "%merge"
 
 /*----------------------.
@@ -176,6 +177,7 @@
 %token PIPE            "|"
 %token PROLOGUE        "%{...%}"
 %token SEMICOLON       ";"
+%token GT              ">"
 %token TAG             "<tag>"
 %token TAG_ANY         "<*>"
 %token TAG_NONE        "<>"
@@ -217,7 +219,13 @@
 %union {named_ref *named_ref;}
 %type <named_ref> named_ref.opt
 
-%type <uniqstr> prec_group_name.opt
+%type <uniqstr> prec_group_name.opt string_or_id
+
+%union {prec_rel_comparator prec_rel_comparator;}
+%type <prec_rel_comparator> prec_rel_comparator
+
+%type <list> precedence_relation_symbols precedence_symbol
+
 /*---------.
 | %param.  |
 `---------*/
@@ -370,6 +378,7 @@ params:
 grammar_declaration:
   precedence_declaration
 | precedence_group_declaration
+| precedence_relation_declaration
 | symbol_declaration
 | "%start" symbol
     {
@@ -511,6 +520,46 @@ precedence_declarator:
 tag.opt:
   %empty { current_type = NULL; }
 | TAG    { current_type = $1; tag_seen = true; }
+;
+
+/* Declaration of a precedence relation between two (lists of) tokens */
+precedence_relation_declaration:
+  "%precr" precedence_relation_symbols
+    { prec_braces = default_braces_state; }
+    prec_rel_comparator
+    precedence_relation_symbols
+    { declare_precedence_relation ($2, $5, $4, @4); }
+;
+
+precedence_relation_symbols:
+  precedence_symbol { $$ = $1; }
+| precedence_relation_symbols precedence_symbol
+    { $$ = symbol_list_append ($1, $2); }
+;
+
+precedence_symbol:
+  string_or_id
+  {
+    if (is_prec_group ($1))
+      $$ = expand_symbol_group (symgroup_from_uniqstr($1, &@1), @1);
+    else
+      $$ = symbol_list_sym_new (symbol_from_uniqstr ($1, @1), @1);
+  }
+| CHAR
+  {
+    $$ = symbol_list_sym_new (symbol_from_uniqstr (uniqstr_new (char_name ($1)), @1), @1);
+  }
+;
+
+string_or_id:
+  STRING { $$ = uniqstr_new (quotearg_style (c_quoting_style, $1)); }
+| ID { $$ = $1; }
+;
+
+prec_rel_comparator:
+  ">"     { $$ = prec_superior; }
+| "="     { $$ = prec_equal; }
+| ">" ">" { $$ = prec_superior_strict; }
 ;
 
 /* Just like symbols.1 but accept INT for the sake of POSIX.  */

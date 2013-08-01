@@ -330,6 +330,11 @@ void set_current_group (const uniqstr name, location *loc);
 symgroup *
 symgroup_from_uniqstr (const uniqstr key, location *loc);
 
+/** Check if there is a symbol precedence group by that name. */
+bool
+is_prec_group (const uniqstr key);
+
+
 /*----------------------------------.
 | Graph of precedence relationships |
 `----------------------------------*/
@@ -361,6 +366,16 @@ enum prec_rel_comparator
     prec_superior,
     prec_superior_strict,
 };
+
+/** Declare a precedence relationship between the symbols of the two lists,
+ *  as defined by the operator. */
+void
+declare_precedence_relation (symbol_list *l1, symbol_list *l2,
+                             prec_rel_comparator c, location loc);
+/** Return the list of symbols contained in the group. */
+symbol_list *
+expand_symbol_group (symgroup * group, location loc);
+
 /** Check if s1 and s2 have the same precedence level. */
 bool is_prec_equal (prec_node * s1, prec_node * s2);
 
