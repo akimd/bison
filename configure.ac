@@ -175,7 +175,10 @@ AC_SUBST([YACC_LIBRARY])
 # Checks for programs.
 AM_MISSING_PROG([DOT], [dot])
 AC_PROG_LEX
-$LEX_IS_FLEX || AC_MSG_ERROR([Flex is required])
+$LEX_IS_FLEX || test "X$LEX" = X: || {
+  AC_MSG_WARN([bypassing lex because flex is required])
+  LEX=:
+}
 AC_PROG_YACC
 AC_PROG_RANLIB
 AC_PROG_GNU_M4
