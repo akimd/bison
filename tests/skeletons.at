@@ -186,10 +186,10 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input1.y]], [[1]], [[]],
-[[input1.y: warning: foow fubar [-Wother]
+[[fooc.y:1.1-10.5: error: foocat fubar
 foow.y:2.3-5.3: warning: foowat fubar [-Wother]
+input1.y: warning: foow fubar [-Wother]
 input1.y: error: fooc fubar
-fooc.y:1.1-10.5: error: foocat fubar
 input1.y: fatal error: foof fubar
 ]])
 
@@ -276,8 +276,8 @@ start: ;
 ]])
 
 AT_BISON_CHECK([[input2.y]], [[1]], [[]],
-[[input2.y: warning: morning [-Wother]
-foo.y:1.5-6: fatal error: M4 should exit immediately here
+[[foo.y:1.5-6: fatal error: M4 should exit immediately here
+input2.y: warning: morning [-Wother]
 ]])
 
 AT_CLEANUP

@@ -46,10 +46,27 @@ typedef enum
   } severity;
 
 
+/** Struct to sort the warnings according to location. */
+typedef struct
+  {
+    location *loc;
+    char *message;
+  } warning;
+
+warning **warning_list;
+
+struct obstack obstack_warning;
+
+#define WARNING_LIST_INCREMENT 100
+
+int warning_count = 0;
+
 /** For each warning type, its severity.  */
 static severity warnings_flag[warnings_size];
 
 static unsigned *indent_ptr = 0;
+
+static const location *complain_loc;
 
 /*------------------------.
 | --warnings's handling.  |
@@ -176,6 +193,9 @@ complain_init (void)
     warnings_flag[b] = (1 << b & warnings_default
                         ? severity_warning
                         : severity_unset);
+
+  warning_list = xmalloc (WARNING_LIST_INCREMENT * sizeof (*warning_list));
+  obstack_init (&obstack_warning);
 }
 
 static severity
@@ -211,7 +231,7 @@ warning_is_unset (warnings flags)
 /** Display a "[-Wyacc]" like message on \a f.  */
 
 static void
-warnings_print_categories (warnings warn_flags, FILE *f)
+warnings_print_categories (warnings warn_flags, struct obstack *obs)
 {
   /* Display only the first match, the second is "-Wall".  */
   size_t i;
@@ -219,12 +239,78 @@ warnings_print_categories (warnings warn_flags, FILE *f)
     if (warn_flags & warnings_types[i])
       {
         severity s = warning_severity (warnings_types[i]);
-        fprintf (f, " [-W%s%s]",
+        obstack_printf (obs, " [-W%s%s]",
                  s == severity_error ? "error=" : "",
                  warnings_args[i]);
         return;
       }
 }
+
+static void
+start_error (const location *loc, warnings flags, const char *prefix,
+              const char *message, va_list args)
+{
+  unsigned pos = 0;
+
+  if (loc)
+    pos += location_obstack_print (*loc, &obstack_warning);
+  else
+    pos += obstack_printf (&obstack_warning, "%s", current_file ? current_file
+                           : program_name);
+  pos += obstack_printf (&obstack_warning, ": ");
+
+  if (indent_ptr)
+    {
+      if (*indent_ptr)
+        prefix = NULL;
+      if (!*indent_ptr)
+        *indent_ptr = pos;
+      else if (*indent_ptr > pos)
+        obstack_printf (&obstack_warning, "%*s", *indent_ptr - pos, "");
+      indent_ptr = 0;
+    }
+
+  if (prefix)
+    obstack_printf (&obstack_warning, "%s: ", prefix);
+
+  obstack_vprintf (&obstack_warning, message, args);
+  if (! (flags & silent))
+    warnings_print_categories (flags, &obstack_warning);
+  {
+    size_t l = strlen (message);
+    if (l < 2 || message[l - 2] != ':' || message[l - 1] != ' ')
+      {
+        obstack_1grow (&obstack_warning, '\n');
+        if (loc && feature_flag & feature_caret && !(flags & no_caret))
+          location_obstack_caret (*loc, &obstack_warning);
+      }
+  }
+
+  if (!complain_loc)
+    complain_loc = loc;
+}
+
+void
+finish_complaint (void)
+{
+
+  if (!((warning_count + 1) % WARNING_LIST_INCREMENT))
+    warning_list = xnrealloc (warning_list, warning_count + 1
+                              + WARNING_LIST_INCREMENT, sizeof (*warning_list));
+  warning_list[warning_count] = xmalloc (sizeof **warning_list);
+  warning *w = warning_list[warning_count];
+  if (complain_loc)
+    {
+      w->loc = xmalloc (sizeof *w->loc);
+      *w->loc = *complain_loc;
+    }
+  else
+    w->loc = NULL;
+  complain_loc = NULL;
+  w->message = obstack_finish0 (&obstack_warning);
+  warning_count ++;
+}
+
 
 /** Report an error message.
  *
@@ -243,43 +329,37 @@ void
 error_message (const location *loc, warnings flags, const char *prefix,
                const char *message, va_list args)
 {
-  unsigned pos = 0;
+  start_error (loc, flags, prefix, message, args);
+  finish_complaint ();
+}
 
-  if (loc)
-    pos += location_print (*loc, stderr);
-  else
-    pos += fprintf (stderr, "%s", current_file ? current_file : program_name);
-  pos += fprintf (stderr, ": ");
 
-  if (indent_ptr)
+/** Start an error message, but don't conclude it. That can be a fatal error,
+    an error or just a warning.  */
+
+static void
+start_complains (const location *loc, warnings flags, const char *message,
+           va_list args)
+{
+  severity s = warning_severity (flags);
+  if ((flags & complaint) && complaint_status < status_complaint)
+    complaint_status = status_complaint;
+
+  if (severity_warning <= s)
     {
-      if (*indent_ptr)
-        prefix = NULL;
-      if (!*indent_ptr)
-        *indent_ptr = pos;
-      else if (*indent_ptr > pos)
-        fprintf (stderr, "%*s", *indent_ptr - pos, "");
-      indent_ptr = 0;
+      const char* prefix =
+        s == severity_fatal ? _("fatal error")
+        : s == severity_error ? _("error")
+        : _("warning");
+      if (severity_error <= s && ! complaint_status)
+        complaint_status = status_warning_as_error;
+      start_error (loc, flags, prefix, message, args);
     }
 
-  if (prefix)
-    fprintf (stderr, "%s: ", prefix);
-
-  vfprintf (stderr, message, args);
-  if (! (flags & silent))
-    warnings_print_categories (flags, stderr);
-  {
-    size_t l = strlen (message);
-    if (l < 2 || message[l - 2] != ':' || message[l - 1] != ' ')
-      {
-        putc ('\n', stderr);
-        fflush (stderr);
-        if (loc && feature_flag & feature_caret && !(flags & no_caret))
-          location_caret (*loc, stderr);
-      }
-  }
-  fflush (stderr);
+  if (flags & fatal)
+    print_warnings_and_exit (stderr, EXIT_FAILURE);
 }
+
 
 /** Raise a complaint. That can be a fatal error, an error or just a
     warning.  */
@@ -304,7 +384,7 @@ complains (const location *loc, warnings flags, const char *message,
     }
 
   if (flags & fatal)
-    exit (EXIT_FAILURE);
+    print_warnings_and_exit (stderr, EXIT_FAILURE);
 }
 
 void
@@ -317,6 +397,15 @@ complain (location const *loc, warnings flags, const char *message, ...)
 }
 
 void
+start_complain (location const *loc, warnings flags, const char *message, ...)
+{
+  va_list args;
+  va_start (args, message);
+  start_complains (loc, flags, message, args);
+  va_end (args);
+}
+
+void
 complain_indent (location const *loc, warnings flags, unsigned *indent,
                  const char *message, ...)
 {
@@ -324,6 +413,17 @@ complain_indent (location const *loc, warnings flags, unsigned *indent,
   indent_ptr = indent;
   va_start (args, message);
   complains (loc, flags, message, args);
+  va_end (args);
+}
+
+void
+start_complain_indent (location const *loc, warnings flags, unsigned *indent,
+                 const char *message, ...)
+{
+  va_list args;
+  indent_ptr = indent;
+  va_start (args, message);
+  start_complains (loc, flags, message, args);
   va_end (args);
 }
 
@@ -373,7 +473,45 @@ duplicate_directive (char const *directive,
                      location first, location second)
 {
   unsigned i = 0;
-  complain (&second, complaint, _("only one %s allowed per rule"), directive);
+  start_complain (&second, complaint, _("only one %s allowed per rule"), directive);
   i += SUB_INDENT;
   complain_indent (&first, complaint, &i, _("previous declaration"));
+}
+
+/** Compare warnings, to sort them. */
+static int
+warning_cmp (void const *a, void const *b)
+{
+ warning *wa = *(warning * const *)a, *wb = *(warning * const *)b;
+ if (wa->loc && wb->loc)
+   return location_cmp (*wa->loc, *wb->loc);
+ /* Undefined location/line number at the end. */
+ else if (wa->loc)
+   return -1;
+ else if (wb->loc)
+   return 1;
+ return 0;
+}
+
+void
+print_warnings (FILE *f)
+{
+  if (obstack_object_size (&obstack_warning))
+    finish_complaint ();
+  qsort (warning_list, warning_count, sizeof *warning_list, warning_cmp);
+  for (int i = 0; i < warning_count; ++i)
+    {
+      fprintf (f, "%s", warning_list[i]->message);
+      free (warning_list[i]->loc);
+      free (warning_list[i]);
+    }
+  free (warning_list);
+  obstack_free (&obstack_warning, NULL);
+}
+
+void
+print_warnings_and_exit (FILE *f, int exit_status)
+{
+  print_warnings (f);
+  exit (exit_status);
 }

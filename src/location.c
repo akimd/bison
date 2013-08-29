@@ -137,6 +137,48 @@ location_print (location loc, FILE *out)
 }
 
 
+unsigned
+location_obstack_print (location loc, struct obstack *obs)
+{
+  unsigned res = 0;
+  int end_col = 0 != loc.end.column ? loc.end.column - 1 : 0;
+  res += obstack_printf (obs, "%s",
+                  quotearg_n_style (3, escape_quoting_style, loc.start.file));
+  if (0 <= loc.start.line)
+    {
+      res += obstack_printf (obs, ":%d", loc.start.line);
+      if (0 <= loc.start.column)
+        res += obstack_printf (obs, ".%d", loc.start.column);
+    }
+  if (loc.start.file != loc.end.file)
+    {
+      res += obstack_printf (obs, "-%s",
+                      quotearg_n_style (3, escape_quoting_style,
+                                        loc.end.file));
+      if (0 <= loc.end.line)
+        {
+          res += obstack_printf (obs, ":%d", loc.end.line);
+          if (0 <= end_col)
+            res += obstack_printf (obs, ".%d", end_col);
+        }
+    }
+  else if (0 <= loc.end.line)
+    {
+      if (loc.start.line < loc.end.line)
+        {
+          res += obstack_printf (obs, "-%d", loc.end.line);
+          if (0 <= end_col)
+            res += obstack_printf (obs, ".%d", end_col);
+        }
+      else if (0 <= end_col && loc.start.column < end_col)
+        res += obstack_printf (obs, "-%d", end_col);
+    }
+
+  return res;
+}
+
+
+
 /* Persistant data used by location_caret to avoid reopening and rereading the
    same file all over for each error.  */
 struct caret_info
@@ -211,6 +253,64 @@ location_caret (location loc, FILE *out)
             putc ('^', out);
           }
         putc ('\n', out);
+      }
+  }
+}
+
+
+void
+location_obstack_caret (location loc, struct obstack *obs)
+{
+  /* FIXME: find a way to support multifile locations, and only open once each
+     file. That would make the procedure future-proof.  */
+  if (! (caret_info.source
+         || (caret_info.source = fopen (loc.start.file, "r")))
+      || loc.start.column == -1 || loc.start.line == -1)
+    return;
+
+  /* If the line we want to quote is seekable (the same line as the previous
+     location), just seek it. If it was a previous line, we lost track of it,
+     so return to the start of file.  */
+  if (caret_info.line <= loc.start.line)
+    fseek (caret_info.source, caret_info.offset, SEEK_SET);
+  else
+    {
+      caret_info.line = 1;
+      caret_info.offset = 0;
+      fseek (caret_info.source, caret_info.offset, SEEK_SET);
+    }
+
+  /* Advance to the line's position, keeping track of the offset.  */
+  while (caret_info.line < loc.start.line)
+    caret_info.line += getc (caret_info.source) == '\n';
+  caret_info.offset = ftell (caret_info.source);
+
+  /* Read the actual line.  Don't update the offset, so that we keep a pointer
+     to the start of the line.  */
+  {
+    char c = getc (caret_info.source);
+    if (c != EOF)
+      {
+        /* Quote the file, indent by a single column.  */
+        obstack_1grow (obs, ' ');
+        do
+          obstack_1grow (obs, c);
+        while ((c = getc (caret_info.source)) != EOF && c != '\n');
+        obstack_1grow (obs, '\n');
+
+        {
+          /* The caret of a multiline location ends with the first line.  */
+          size_t len = loc.start.line != loc.end.line
+            ? ftell (caret_info.source) - caret_info.offset
+            : loc.end.column;
+          int i;
+
+          /* Print the carets (at least one), with the same indent as above.*/
+          obstack_printf (obs, " %*s", loc.start.column - 1, "");
+          for (i = loc.start.column; i == loc.start.column || i < len; ++i)
+            obstack_1grow (obs, '^');
+          }
+        obstack_1grow (obs, '\n');
       }
   }
 }

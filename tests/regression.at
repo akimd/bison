@@ -1147,9 +1147,9 @@ sr_conflict:
 ]])
 
 AT_BISON_CHECK([[-Wall -o input.c input.y]], [[0]],,
-[[input.y:24.5-19: warning: rule useless in parser due to conflicts [-Wother]
+[[input.y:18.1-5: warning: useless precedence and associativity for TK1 [-Wprecedence]
+input.y:24.5-19: warning: rule useless in parser due to conflicts [-Wother]
 input.y:28.5-19: warning: rule useless in parser due to conflicts [-Wother]
-input.y:18.1-5: warning: useless precedence and associativity for TK1 [-Wprecedence]
 ]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[./input]])

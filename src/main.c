@@ -203,7 +203,6 @@ main (int argc, char *argv[])
      contains things such as user actions, prologue, epilogue etc.  */
   gram_scanner_free ();
   muscle_free ();
-  uniqstrs_free ();
   code_scanner_free ();
   skel_scanner_free ();
   quotearg_free ();
@@ -218,6 +217,9 @@ main (int argc, char *argv[])
   timevar_stop (TV_TOTAL);
   timevar_print (stderr);
 
+  print_warnings (stderr);
+
+  uniqstrs_free ();
   cleanup_caret ();
 
   return complaint_status ? EXIT_FAILURE : EXIT_SUCCESS;

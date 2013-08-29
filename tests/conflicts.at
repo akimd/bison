@@ -243,18 +243,18 @@ f: B
 ]])
 
 AT_BISON_CHECK([-Wprecedence -fcaret -o input.c input.y], 0, [],
-[[input.y:7.1-9: warning: useless precedence and associativity for U [-Wprecedence]
- %nonassoc U
- ^^^^^^^^^
-input.y:6.1-6: warning: useless precedence and associativity for V [-Wprecedence]
- %right V
- ^^^^^^
+[[input.y:2.1-11: warning: useless precedence for Z [-Wprecedence]
+ %precedence Z
+ ^^^^^^^^^^^
 input.y:5.1-5: warning: useless precedence and associativity for W [-Wprecedence]
  %left W
  ^^^^^
-input.y:2.1-11: warning: useless precedence for Z [-Wprecedence]
- %precedence Z
- ^^^^^^^^^^^
+input.y:6.1-6: warning: useless precedence and associativity for V [-Wprecedence]
+ %right V
+ ^^^^^^
+input.y:7.1-9: warning: useless precedence and associativity for U [-Wprecedence]
+ %nonassoc U
+ ^^^^^^^^^
 ]])
 
 AT_CLEANUP
@@ -1006,8 +1006,8 @@ cond:
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 0, [],
-[[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-input.y:12.3-18: warning: rule useless in parser due to conflicts [-Wother]
+[[input.y:12.3-18: warning: rule useless in parser due to conflicts [-Wother]
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
 
 AT_CLEANUP
@@ -1050,8 +1050,8 @@ id : '0';
 ]])
 
 AT_BISON_CHECK([-o input.c --report=all input.y], 0, [],
-[[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-input.y:4.6-8: warning: rule useless in parser due to conflicts [-Wother]
+[[input.y:4.6-8: warning: rule useless in parser due to conflicts [-Wother]
+input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
 ]])
 
 # Check the contents of the report.
@@ -1265,9 +1265,9 @@ e:   e '+' e
 ]])
 
 AT_BISON_CHECK([-Wall -o input.c input.y], 0, [],
-[[input.y: warning: 4 shift/reduce conflicts [-Wconflicts-sr]
-input.y:1.1-5: warning: useless precedence and associativity for '+' [-Wprecedence]
+[[input.y:1.1-5: warning: useless precedence and associativity for '+' [-Wprecedence]
 input.y:2.1-5: warning: useless precedence and associativity for '*' [-Wprecedence]
+input.y: warning: 4 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_CLEANUP
 
@@ -1369,15 +1369,15 @@ reported_conflicts:
 ]])
 
 AT_BISON_CHECK([[--report=all input.y]], 0, [],
-[[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-input.y:12.5-20: warning: rule useless in parser due to conflicts [-Wother]
+[[input.y:12.5-20: warning: rule useless in parser due to conflicts [-Wother]
 input.y:20.5-20: warning: rule useless in parser due to conflicts [-Wother]
 input.y:21.4: warning: rule useless in parser due to conflicts [-Wother]
 input.y:25.13: warning: rule useless in parser due to conflicts [-Wother]
 input.y:25.16: warning: rule useless in parser due to conflicts [-Wother]
 input.y:31.5-7: warning: rule useless in parser due to conflicts [-Wother]
 input.y:32.4: warning: rule useless in parser due to conflicts [-Wother]
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
 ]])
 
 AT_CHECK([[cat input.output]], 0,
@@ -1522,12 +1522,12 @@ AT_DATA([[input-keep.y]],
 AT_CHECK([[cat input.y >> input-keep.y]])
 
 AT_BISON_CHECK([[input-keep.y]], 0, [],
-[[input-keep.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-input-keep.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-input-keep.y:22.4: warning: rule useless in parser due to conflicts [-Wother]
+[[input-keep.y:22.4: warning: rule useless in parser due to conflicts [-Wother]
 input-keep.y:26.16: warning: rule useless in parser due to conflicts [-Wother]
 input-keep.y:32.5-7: warning: rule useless in parser due to conflicts [-Wother]
 input-keep.y:33.4: warning: rule useless in parser due to conflicts [-Wother]
+input-keep.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+input-keep.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
 ]])
 
 AT_CLEANUP
@@ -1705,9 +1705,9 @@ exp: 'a' | 'a';
 ]])
 
 AT_BISON_CHECK([[2.y]], [[0]], [],
-[[2.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+[[2.y:3.12-14: warning: rule useless in parser due to conflicts [-Wother]
+2.y: warning: %expect-rr applies only to GLR parsers [-Wother]
 2.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-2.y:3.12-14: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP

@@ -24,6 +24,8 @@
 # include <stdio.h>
 # include <string.h> /* strcmp */
 
+# include "system.h"
+
 # include "uniqstr.h"
 
 /* A boundary between two characters.  */
@@ -107,12 +109,18 @@ void location_compute (location *loc,
    Warning: uses quotearg's slot 3. */
 unsigned location_print (location loc, FILE *out);
 
+/* Same as location_print, only to an obstack. */
+unsigned location_obstack_print (location loc, struct obstack *obs);
+
 /* Free any allocated ressources and close any open file handles that are
    left-over by the usage of location_caret.  */
 void cleanup_caret (void);
 
 /* Output to OUT the line and caret corresponding to location LOC.  */
 void location_caret (location loc, FILE *out);
+
+/* Same as location_caret, only with an obstack. */
+void location_obstack_caret (location loc, struct obstack *obs);
 
 /* Return -1, 0, 1, depending whether a is before, equal, or
    after b.  */

@@ -509,7 +509,7 @@ muscle_percent_define_insert (char const *var, location variable_loc,
       unsigned i = 0;
       if (how_old == MUSCLE_PERCENT_DEFINE_F)
         goto end;
-      complain_indent (&variable_loc, complaint, &i,
+      start_complain_indent (&variable_loc, complaint, &i,
                        _("%%define variable %s redefined"),
                        quote (variable));
       i += SUB_INDENT;

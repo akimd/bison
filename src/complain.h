@@ -106,6 +106,12 @@ typedef enum
     (Never enabled, never disabled). */
 bool warning_is_unset (warnings flags);
 
+/** Start a complaint, with maybe a location, but don't finish it until a
+    normal complaint or a call to finish_complaint.  */
+void start_complain (location const *loc, warnings flags, char const *message,
+                     ...)
+  __attribute__ ((__format__ (__printf__, 3, 4)));
+
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));
@@ -114,11 +120,19 @@ void complain (location const *loc, warnings flags, char const *message, ...)
 void complain_args (location const *loc, warnings w, unsigned *indent,
                     int argc, char *arg[]);
 
+/** Start a complaint message with location and some indentation, but don't
+    finish it until a normal complaint or a call to finish_complaint. */
+void start_complain_indent (location const *loc, warnings flags, unsigned *indent,
+                      char const *message, ...)
+  __attribute__ ((__format__ (__printf__, 4, 5)));
+
 /** Make a complaint with location and some indentation.  */
 void complain_indent (location const *loc, warnings flags, unsigned *indent,
                       char const *message, ...)
   __attribute__ ((__format__ (__printf__, 4, 5)));
 
+/** Finish the current complaint. */
+void finish_complaint (void);
 
 /** Report an obsolete syntax, suggest the updated one.  */
 void deprecated_directive (location const *loc,
@@ -140,5 +154,11 @@ typedef enum
 
 /** Whether an error was reported.  */
 extern err_status complaint_status;
+
+/** Sort and print warnings, and free them. */
+void print_warnings (FILE *f);
+
+/** Sort and print warnings, free them, then exit. */
+void print_warnings_and_exit (FILE *f, int exit_status);
 
 #endif /* !COMPLAIN_H_ */

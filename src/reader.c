@@ -129,7 +129,7 @@ record_merge_function_type (int merger, uniqstr type, location declaration_loc)
   if (merge_function->type != NULL && !UNIQSTR_EQ (merge_function->type, type))
     {
       unsigned indent = 0;
-      complain_indent (&declaration_loc, complaint, &indent,
+      start_complain_indent (&declaration_loc, complaint, &indent,
                        _("result type clash on merge function %s: "
                          "<%s> != <%s>"),
                        quote (merge_function->name), type,

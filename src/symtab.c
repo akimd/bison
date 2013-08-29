@@ -250,7 +250,7 @@ symbol_redeclaration (symbol *s, const char *what, location first,
                       location second)
 {
   unsigned i = 0;
-  complain_indent (&second, complaint, &i,
+  start_complain_indent (&second, complaint, &i,
                    _("%s redeclaration for %s"), what, s->tag);
   i += SUB_INDENT;
   complain_indent (&first, complaint, &i,
@@ -262,7 +262,7 @@ semantic_type_redeclaration (semantic_type *s, const char *what, location first,
                              location second)
 {
   unsigned i = 0;
-  complain_indent (&second, complaint, &i,
+  start_complain_indent (&second, complaint, &i,
                    _("%s redeclaration for <%s>"), what, s->tag);
   i += SUB_INDENT;
   complain_indent (&first, complaint, &i,
@@ -581,7 +581,7 @@ user_token_number_redeclaration (int num, symbol *first, symbol *second)
       first = second;
       second = tmp;
     }
-  complain_indent (&second->location, complaint, &i,
+  start_complain_indent (&second->location, complaint, &i,
                    _("user token number %d redeclaration for %s"),
                    num, second->tag);
   i += SUB_INDENT;
