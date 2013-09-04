@@ -725,18 +725,23 @@ AT_CLEANUP
 
 AT_SETUP([Java constructor init and init_throws])
 
+m4_pushdef([AT_Witness],
+[super("Test Thread"); if (true) throw new InterruptedException();])
+
 AT_CHECK_JAVA_MINIMAL([[
 %define extends {Thread}
-%code init { super("Test Thread"); if (true) throw new InterruptedException(); }
+%code init { ]AT_Witness[ }
 %define init_throws {InterruptedException}
 %lex-param {int lex_param}]])
-AT_CHECK([[grep -q 'super("Test Thread"); if (true) throw new InterruptedException();' YYParser.java]])
+AT_CHECK([[grep ']AT_Witness[' YYParser.java]], 0, [ignore])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %define extends {Thread}
-%code init { super("Test Thread"); if (true) throw new InterruptedException(); }
+%code init { ]AT_Witness[ }
 %define init_throws {InterruptedException}]], [], [[return EOF;]])
-AT_CHECK([[grep -q 'super("Test Thread"); if (true) throw new InterruptedException();' YYParser.java]])
+AT_CHECK([[grep ']AT_Witness[' YYParser.java]], 0, [ignore])
+
+m4_popdef([AT_Witness])
 
 AT_CLEANUP
 
