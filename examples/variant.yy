@@ -17,6 +17,7 @@
 
 %debug
 %language "c++"
+%glr-parser
 %defines
 %define api.token.constructor
 %define api.value.type variant
@@ -85,16 +86,31 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list  { std::cout << $1 << std::endl; }
+  list  { std::cout << "list: " << $1 << std::endl; }
 ;
 
 list:
-  /* nothing */ { /* Generates an empty string list */ }
-| list item     { std::swap ($$, $1); $$.push_back ($2); }
+  /* nothing */
+  {
+    /* Generates an empty string list */
+    std::cerr << "Empty:  This is $$: " << $$ << std::endl;
+  }
+| list item
+  {
+    std::cerr << "Pre:  This is $$: " << $$ << std::endl;
+    std::cerr << "Pre:  This is $1: " << $1 << std::endl;
+    std::cerr << "Pre:  This is $2: " << $2 << std::endl;
+    $$ = $1;
+    $$.push_back ($2);
+    std::cerr << "Post: This is $$: " << $$ << std::endl;
+    std::cerr << "Post: This is $1: " << $1 << std::endl;
+    std::cerr << "Post: This is $2: " << $2 << std::endl;
+  }
 ;
 
 item:
-  TEXT          { std::swap ($$, $1); }
+  TEXT %dprec 1 { $$ = $1; }
+| TEXT %dprec 2 { $$ = $1; }
 | NUMBER        { $$ = string_cast ($1); }
 ;
 %%

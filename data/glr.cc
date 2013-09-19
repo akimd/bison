@@ -44,10 +44,14 @@
 #   filename member).
 
 # We require a pure interface.
+m4_define([b4_locations_flag], [1])
+# FIXME: this is possible with variants, not without.
+b4_variant_if([m4_define([b4_location_constructors])])
 m4_define([b4_pure_flag],      [1])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 b4_bison_locations_if([m4_include(b4_pkgdatadir/[location.cc])])
+b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
@@ -65,6 +69,24 @@ m4_defn([b4_parse_param]))],
 [m4_define([b4_parse_param_wrap],
            [[b4_namespace_ref::b4_parser_class_name[& yyparser], [[yyparser]]]])
 ])
+
+# b4_lex_wrapper_formals
+# ----------------------
+# The yylex_wrapper formal arguments.
+# Yes, this is quite ugly...
+m4_define([b4_lex_wrapper_formals],
+[b4_pure_if([[[[YYSTYPE *yylvalp]], [[yylvalp]]][]dnl
+b4_locations_if([, [[YYLTYPE *yyllocp], [yyllocp]]])])dnl
+m4_ifdef([b4_lex_param], [, ]b4_lex_param)])
+
+
+# b4_lex
+# ------
+# Call yylex.
+m4_define([b4_lex],
+[b4_function_call([b4_token_ctor_if(b4_namespace_ref[::yylex_wrapper],
+                                    [yylex])],
+                  [int], b4_lex_formals)])
 
 
 # b4_yy_symbol_print_define
@@ -109,8 +131,15 @@ m4_defn([b4_initial_action])]))])[
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],])
     b4_parse_param,
-    [[const char* msg], [msg]])])
+    [[const char* msg], [msg]])[
 
+]b4_token_ctor_if([
+]b4_namespace_open[
+  // A wrapper around a symbol_type returning yylex, to an old style yylex.
+  b4_function_declare([yylex_wrapper], [static int], b4_lex_formals)
+]b4_namespace_close[
+])
+])
 
 #undef yynerrs
 #undef yychar
@@ -149,8 +178,23 @@ m4_append([b4_epilogue],
 [  yyparser.error (]b4_locations_if([[*yylocationp, ]])[msg);
 }
 
-
 ]b4_namespace_open[
+]b4_token_ctor_if([[
+  // A wrapper around a symbol_type returning yylex, to an old style yylex.
+]b4_function_define([yylex_wrapper],
+                    [static int],
+                    b4_lex_formals)[
+  {
+    ]b4_namespace_ref::b4_parser_class_name[::symbol_type s = ]dnl
+b4_function_call([yylex], [], m4_unquote(b4_lex_param))[;
+  ]b4_symbol_variant([[s.type]], [[(*yylvalp)]],
+                     [build])
+   b4_symbol_variant([[s.type]], [[(*yylvalp)]],
+                     [swap], [s.value])b4_locations_if([
+    std::swap (*yyllocp, s.location);])[
+    return s.token ();
+  }]])[
+
 ]dnl In this section, the parse params are the original parse_params.
 m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 [  /// Build a parser object.
@@ -171,6 +215,9 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   {
     return ::yyparse (*this]b4_user_args[);
   }
+
+]b4_token_ctor_if([], [b4_yytranslate_define
+b4_public_types_define])[
 
 #if ]b4_api_PREFIX[DEBUG
   /*--------------------.
@@ -243,16 +290,20 @@ m4_define([b4_shared_declarations],
 b4_percent_code_get([[requires]])[
 
 #include <stdexcept>
+]b4_parse_assert_if([#include <cassert>])[
 #include <string>
 #include <iostream>]b4_defines_if([
 b4_bison_locations_if([[#include "location.hh"]])])[
 
+]b4_variant_if([b4_variant_includes])[
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
 ]b4_defines_if([],
 [b4_bison_locations_if([b4_position_define
 b4_location_define])])[
+
+]b4_variant_if([b4_variant_define])[
 
   /// A Bison parser.
   class ]b4_parser_class_name[
@@ -307,8 +358,19 @@ b4_location_define])])[
     std::ostream* yycdebug_;
 #endif
 
+    enum
+    {
+      yyeof_ = 0
+    };
+
+    /// Convert a scanner token number \a t to a symbol number.
+    static inline token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
+
 ]b4_parse_param_vars[
   };
+
+]b4_token_ctor_if([b4_yytranslate_define
+b4_public_types_define])[
 
 ]dnl Redirections for glr.c.
 b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -321,9 +383,10 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 # define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class_name[::location_type
 #endif
 
-]b4_namespace_close[
-]b4_percent_code_get([[provides]])[
-]m4_popdef([b4_parse_param])dnl
+]b4_namespace_close
+b4_function_declare(b4_prefix[parse], [int], b4_parse_param_wrap)
+b4_percent_code_get([[provides]])
+m4_popdef([b4_parse_param])dnl
 ])
 
 b4_defines_if(
