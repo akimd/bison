@@ -16,7 +16,7 @@
 */
 
 %debug
-%skeleton "lalr1.cc"
+%language "c++"
 %defines
 %define api.token.constructor
 %define api.value.type variant
@@ -48,11 +48,17 @@ typedef std::list<std::string> strings_type;
   namespace std
   {
     std::ostream&
-    operator<< (std::ostream& o, const strings_type& s)
+    operator<< (std::ostream& o, const strings_type& ss)
     {
-      std::copy (s.begin (), s.end (),
-                 std::ostream_iterator<strings_type::value_type> (o, "\n"));
-      return o;
+      o << "(" << &ss << ") {";
+      const char *sep = "";
+      for (strings_type::const_iterator i = ss.begin(), end = ss.end();
+           i != end; ++i)
+        {
+          o << sep << *i;
+          sep = ", ";
+        }
+      return o << "}";
     }
   }
 

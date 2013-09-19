@@ -178,8 +178,7 @@ m4_define([b4_variant_define],
     template <typename T>
     void
     move (self_type& other)
-    {]b4_parse_assert_if([
-      YYASSERT (!yytname_);])[
+    {
       build<T> ();
       swap<T> (other);
       other.destroy<T> ();
