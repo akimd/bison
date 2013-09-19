@@ -320,7 +320,6 @@ b4_join(b4_symbol_if([$1], [has_type],
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
                                 b4_symbol_if([$1], [has_type], [v]),
                                 b4_locations_if([l])));
-
   }
 
 ])])])
