@@ -72,13 +72,12 @@ int main ()
   std::cout << "Works" << std::endl;
 }
 EOF
-  ls
   $CXX $CXXFLAGS $CPPFLAGS $LDFLAGS $LIBS -o conftest conftest.cc
   case $? in
    0);;
    *) BISON_CXX_WORKS="as_fn_error 77 cannot-compile-simple-program";;
   esac
-  rm -f conftest*
+  rm -fr conftest*
 fi
 
 # Whether the compiler supports POSIXLY_CORRECT defined.
