@@ -4,7 +4,16 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  Portability issues in the test suite.
+*** Portability issues in the test suite.
+
+*** Fixes of the -Werror option
+
+  Options such as "-Werror -Wno-error=foo" were still turning "foo"
+  diagnostics into errors instead of warnings.  This is fixed.
+
+  Actually, for consistency with GCC, "-Wno-error=foo -Werror" now also
+  leaves "foo" diagnostics as warnings.  Similarly, with "-Werror=foo
+  -Wno-error", "foo" diagnostics are now errors.
 
 * Noteworthy changes in release 3.0 (2013-07-25) [stable]
 

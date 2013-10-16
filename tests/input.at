@@ -956,15 +956,9 @@ without_period: "WITHOUT.PERIOD";
 AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
-AT_BISON_CHECK([--yacc -Wno-error input.y], [], [],
-[[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
-input.y:20.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
-]])
-
-# So warn about them.
-AT_BISON_CHECK([-Wyacc input.y], [], [],
-[[input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
-input.y:20.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
+AT_BISON_CHECK([--yacc input.y], [1], [],
+[[input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+input.y:20.8-16: error: POSIX Yacc forbids dashes in symbol names: with-dash [-Werror=yacc]
 ]])
 
 # Dashes are fine for GNU Bison.
@@ -1768,11 +1762,11 @@ AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
 
 AT_CLEANUP
 
-## --------------------------------------------- ##
-## -Werror is not affected by -Wnone and -Wall.  ##
-## --------------------------------------------- ##
+## ---------------------- ##
+## -Werror combinations.  ##
+## ---------------------- ##
 
-AT_SETUP([[-Werror is not affected by -Wnone and -Wall]])
+AT_SETUP([[-Werror combinations]])
 
 AT_DATA([[input.y]],
 [[%%
@@ -1797,6 +1791,18 @@ AT_BISON_CHECK([[-Werror,none,other input.y]], [[1]], [[]],
 AT_BISON_CHECK([[-Werror,no-all,other input.y]], [[1]], [[]],
 [[input.y:2.15: error: stray '$' [-Werror=other]
 ]])
+
+# Check that -Wno-error keeps warnings enabled, but non fatal.
+AT_BISON_CHECK([[-Werror -Wno-error=other input.y]], [[0]], [[]],
+[[input.y:2.15: warning: stray '$' [-Wother]
+]])
+
+AT_BISON_CHECK([[-Wno-error=other -Werror input.y]], [[0]], [[]],
+[[input.y:2.15: warning: stray '$' [-Wother]
+]])
+
+AT_BISON_CHECK([[-Werror=other -Wno-other input.y]], [[0]], [[]],
+[[]])
 
 AT_CLEANUP
 
