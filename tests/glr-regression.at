@@ -1749,3 +1749,33 @@ Cleanup: popping token 'a' ()
 ])
 
 AT_CLEANUP
+
+
+## ----------------------------------------------------------------- ##
+## Predicates.                                                       ##
+##                                                                   ##
+## http://lists.gnu.org/archive/html/bug-bison/2013-10/msg00004.html ##
+## ----------------------------------------------------------------- ##
+
+AT_SETUP([Predicates])
+
+# FIXME: We need genuine test cases with uses of %?.
+
+AT_DATA_GRAMMAR([input.y],
+[[%glr-parser
+%expect-rr 1
+%%
+// Exercise "%?{...}" and "%? {...}".
+widget:
+  %? {new_syntax} "widget" id new_args  { $$ = f($3, $4); }
+| %?{!new_syntax} "widget" id old_args  { $$ = f($3, $4); }
+;
+id:;
+new_args:;
+old_args:;
+%%
+]])
+
+AT_BISON_CHECK([[input.y]])
+
+AT_CLEANUP

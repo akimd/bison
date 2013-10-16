@@ -266,7 +266,7 @@ eqopt    ([[:space:]]*=)?
   "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
   "%token"[-_]"table"               DEPRECATED("%token-table");
 
-  "%"{id}|"%"{notletter}([[:graph:]])+ {
+  "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
   }
 

@@ -15,6 +15,11 @@ GNU Bison NEWS
   leaves "foo" diagnostics as warnings.  Similarly, with "-Werror=foo
   -Wno-error", "foo" diagnostics are now errors.
 
+*** GLR Predicates
+
+  As demonstrated in the documentation, one can now leave spaces between
+  "%?" and its "{".
+
 * Noteworthy changes in release 3.0 (2013-07-25) [stable]
 
 ** WARNING: Future backward-incompatibilities!
