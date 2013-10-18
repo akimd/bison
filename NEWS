@@ -4,7 +4,9 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-*** Portability issues in the test suite.
+*** Errors in caret diagnostics
+
+  On some platforms, some errors could result in endless diagnostics.
 
 *** Fixes of the -Werror option
 
@@ -19,6 +21,10 @@ GNU Bison NEWS
 
   As demonstrated in the documentation, one can now leave spaces between
   "%?" and its "{".
+
+*** Fixes in the test suite
+
+  Bugs and portability issues.
 
 * Noteworthy changes in release 3.0 (2013-07-25) [stable]
 

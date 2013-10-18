@@ -818,7 +818,8 @@ yylex (yy::parser::semantic_type *lvalp)
   case 'l':
     throw std::runtime_error ("yylex");
   default:
-    lvalp]AT_VARIANT_IF([->build (res)], [->obj = new Object (res)])[;
+    lvalp->]AT_VARIANT_IF([build (Object (res))],
+                          [obj = new Object (res)])[;
     // Fall through.
   case 0:
     return res;
