@@ -63,7 +63,7 @@ calc_sources =                                  \
   $(calc_sources_extracted)                     \
   $(calc_sources_generated)
 
-if BISON_CXX_WORKS
+if FLEX_CXX_WORKS
 check_PROGRAMS += examples/calc++/calc++
 nodist_examples_calc___calc___SOURCES =         \
   $(calc_sources)
