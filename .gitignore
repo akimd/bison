@@ -1,8 +1,10 @@
 *.eps
+*.log
 *.o
 *.pdf
 *.png
 *.stamp
+*.trs
 *~
 .deps
 .dirstamp
