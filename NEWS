@@ -22,6 +22,11 @@ GNU Bison NEWS
   As demonstrated in the documentation, one can now leave spaces between
   "%?" and its "{".
 
+*** Installation
+
+  The yacc.1 man page is no longer installed if --disable-yacc was
+  specified.
+
 *** Fixes in the test suite
 
   Bugs and portability issues.

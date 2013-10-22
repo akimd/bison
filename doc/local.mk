@@ -118,7 +118,9 @@ $(top_srcdir)/doc/bison.1: doc/bison.help doc/bison.x $(top_srcdir)/configure
 	fi
 	$(AM_V_at)rm -f $@*.t
 
+if ENABLE_YACC
 nodist_man_MANS = doc/yacc.1
+endif
 
 ## ----------------------------- ##
 ## Graphviz examples generation. ##

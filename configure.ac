@@ -161,16 +161,7 @@ AC_ARG_ENABLE([yacc],
   [AC_HELP_STRING([--disable-yacc],
      [do not build a yacc command or an -ly library])],
   , [enable_yacc=yes])
-case $enable_yacc in
-yes)
-  YACC_SCRIPT=src/yacc
-  YACC_LIBRARY=lib/liby.a;;
-*)
-  YACC_SCRIPT=
-  YACC_LIBRARY=;;
-esac
-AC_SUBST([YACC_SCRIPT])
-AC_SUBST([YACC_LIBRARY])
+AM_CONDITIONAL([ENABLE_YACC], [test "$enable_yacc" = yes])
 
 # Checks for programs.
 AM_MISSING_PROG([DOT], [dot])
