@@ -346,15 +346,15 @@ show_sub_message (warnings warning,
       location id_loc;
 
       if (var->hidden_by)
-	{
-	  id = var->hidden_by->id;
-	  id_loc = var->hidden_by->loc;
-	}
+        {
+          id = var->hidden_by->id;
+          id_loc = var->hidden_by->loc;
+        }
       else
-	{
-	  id = var->id;
-	  id_loc = var->loc;
-	}
+        {
+          id = var->id;
+          id_loc = var->loc;
+        }
 
       /* Create the explanation message. */
       obstack_init (&msg_buf);
