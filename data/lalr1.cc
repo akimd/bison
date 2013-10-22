@@ -267,7 +267,7 @@ b4_location_define])])[
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg     Why this token is reclaimed.
     ///                  If null, print nothing.
-    /// \param s         The symbol.
+    /// \param yysym     The symbol.
     template <typename Base>
     void yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const;
 
@@ -341,13 +341,13 @@ b4_location_define])])[
     enum
     {
       yyeof_ = 0,
-      yylast_ = ]b4_last[,           //< Last index in yytable_.
-      yynnts_ = ]b4_nterms_number[,  //< Number of nonterminal symbols.
+      yylast_ = ]b4_last[,     ///< Last index in yytable_.
+      yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
       yyempty_ = -2,
-      yyfinal_ = ]b4_final_state_number[, //< Termination state number.
+      yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = ]b4_tokens_number[    //< Number of tokens.
+      yyntokens_ = ]b4_tokens_number[  ///< Number of tokens.
     };
 
 ]b4_parse_param_vars[
