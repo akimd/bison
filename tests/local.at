@@ -875,6 +875,49 @@ AT_PARSER_CHECK([./c-and-cxx])
 ])
 
 
+# AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
+# ------------------------------------
+# Check that we can expect exceptions to be handled properly.
+# GCC 4.3 and 4.4 fail https://trac.macports.org/ticket/40853.
+m4_define([AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR],
+[AT_DATA_SOURCE([exception.cc],
+[[#include <iostream>
+#include <stdexcept>
+
+void foo()
+{
+  try
+    {
+      throw std::runtime_error("foo");
+    }
+  catch (...)
+    {
+      std::cerr << "Inner caught" << std::endl;
+      throw;
+    }
+}
+
+int main()
+{
+  try
+    {
+      foo();
+    }
+  catch (...)
+    {
+      std::cerr << "Outer caught" << std::endl;
+      return 0;
+    }
+  return 1;
+}
+]])
+AT_COMPILE_CXX([exception])
+# The "empty" quadrigraph is to protect from cfg.mk's
+# sc_at_parser_check.
+AT_CHECK([@&t@./exception || exit 77], [0], [], [ignore])
+])
+
+
 ## ---------------------------- ##
 ## Running a generated parser.  ##
 ## ---------------------------- ##

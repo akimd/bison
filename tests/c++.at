@@ -655,6 +655,8 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([[Exception safety $1]])
 
+AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
+
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 
 AT_DATA_GRAMMAR([[input.yy]],
