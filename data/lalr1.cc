@@ -157,6 +157,7 @@ m4_define([b4_shared_declarations],
 ]b4_bison_locations_if([[# include "location.hh"]])])[
 ]b4_variant_if([b4_variant_includes])[
 
+]b4_attribute_define[
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
@@ -183,14 +184,14 @@ b4_location_define])])[
 
 #if ]b4_api_PREFIX[DEBUG
     /// The current debugging stream.
-    std::ostream& debug_stream () const;
+    std::ostream& debug_stream () const YY_ATTRIBUTE_PURE;
     /// Set the current debugging stream.
     void set_debug_stream (std::ostream &);
 
     /// Type for debugging levels.
     typedef int debug_level_type;
     /// The current debugging level.
-    debug_level_type debug_level () const;
+    debug_level_type debug_level () const YY_ATTRIBUTE_PURE;
     /// Set the current debugging level.
     void set_debug_level (debug_level_type l);
 #endif
