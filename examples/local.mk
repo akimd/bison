@@ -13,8 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-dist_noinst_SCRIPTS = examples/extexi examples/test
-TEST_LOG_COMPILER = $(top_srcdir)/examples/test
+dist_noinst_SCRIPTS = %D%/extexi %D%/test
+TEST_LOG_COMPILER = $(top_srcdir)/%D%/test
 
 AM_CXXFLAGS =							\
   $(WARN_CXXFLAGS) $(WARN_CXXFLAGS_TEST) $(WERROR_CXXFLAGS)
@@ -24,20 +24,20 @@ AM_CXXFLAGS =							\
 ## ------------ ##
 
 doc = $(top_srcdir)/doc/bison.texi
-extexi = $(top_srcdir)/examples/extexi
+extexi = $(top_srcdir)/%D%/extexi
 extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(doc) --
 extracted =
-CLEANFILES += $(extracted) examples/extracted.stamp
-examples/extracted.stamp: $(doc) $(extexi)
+CLEANFILES += $(extracted) %D%/extracted.stamp
+%D%/extracted.stamp: $(doc) $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
 	$(AM_V_at)touch $@.tmp
 	$(AM_V_at)$(extract) $(extracted)
 	$(AM_V_at)mv $@.tmp $@
 
-$(extracted): examples/extracted.stamp
-	@test -f $@ || rm -f examples/extracted.stamp
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) examples/extracted.stamp
+$(extracted): %D%/extracted.stamp
+	@test -f $@ || rm -f %D%/extracted.stamp
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/extracted.stamp
 
-include examples/calc++/local.mk
-include examples/mfcalc/local.mk
-include examples/rpcalc/local.mk
+include %D%/calc++/local.mk
+include %D%/mfcalc/local.mk
+include %D%/rpcalc/local.mk
