@@ -126,3 +126,6 @@ maintainer-push-check:
 maintainer-xml-check:
 	$(MAKE) $(AM_MAKEFLAGS) maintainer-check		\
 	  TESTSUITEFLAGS='BISON_TEST_XML=1 $(TESTSUITEFLAGS)'
+
+.PHONY: maintainer-release-check
+maintainer-release-check: maintainer-check maintainer-push-check maintainer-xml-check
