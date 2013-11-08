@@ -27,7 +27,7 @@ m4_define([b4_position_define],
   {
   public:]m4_ifdef([b4_location_constructors], [[
     /// Construct a position.
-    explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULL,
+    explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
                        unsigned int l = ]b4_location_initial_line[u,
                        unsigned int c = ]b4_location_initial_column[u)
       : filename (f)
@@ -38,7 +38,7 @@ m4_define([b4_position_define],
 
 ]])[
     /// Initialization.
-    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULL,
+    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULLPTR,
                      unsigned int l = ]b4_location_initial_line[u,
                      unsigned int c = ]b4_location_initial_column[u)
     {
@@ -178,7 +178,7 @@ m4_define([b4_location_define],
 
 ])[
     /// Initialization.
-    void initialize (]b4_percent_define_get([[filename_type]])[* f = YY_NULL,
+    void initialize (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
                      unsigned int l = ]b4_location_initial_line[u,
                      unsigned int c = ]b4_location_initial_column[u)
     {

@@ -796,11 +796,11 @@ item:
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
 | 'E' 'a' { YYUSE($][1); $][$ = $][2; }
-| 'R'     { ]AT_VARIANT_IF([], [$][$ = YY_NULL; delete $][1]; )[YYERROR; }
+| 'R'     { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; delete $][1]; )[YYERROR; }
 | 'p'     { $][$ = $][1; }
 | 's'     { $][$ = $][1; throw std::runtime_error ("reduction"); }
-| 'T'     { ]AT_VARIANT_IF([], [$][$ = YY_NULL; delete $][1]; )[YYABORT; }
-| error   { ]AT_VARIANT_IF([], [$][$ = YY_NULL; ])[yyerrok; }
+| 'T'     { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; delete $][1]; )[YYABORT; }
+| error   { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; ])[yyerrok; }
 ;
 %%
 
@@ -868,7 +868,7 @@ main (int argc, const char *argv[])
   {
     std::cerr << "unknown exception caught" << std::endl;
   }
-  Object::log (YY_NULL, "end");
+  Object::log (YY_NULLPTR, "end");
   assert (Object::empty());
   return res;
 }

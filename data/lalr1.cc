@@ -735,7 +735,7 @@ b4_dollar_popdef])[]dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_.clear ();
-    yypush_ (YY_NULL, 0, yyla);
+    yypush_ (YY_NULLPTR, 0, yyla);
 
     // A new symbol was pushed on the stack.
   yynewstate:
@@ -860,7 +860,7 @@ b4_dollar_popdef])[]dnl
     YY_STACK_PRINT ();
 
     // Shift the result of the reduction.
-    yypush_ (YY_NULL, yylhs);
+    yypush_ (YY_NULLPTR, yylhs);
     goto yynewstate;
 
   /*--------------------------------------.
@@ -989,11 +989,11 @@ b4_dollar_popdef])[]dnl
         // Do not try to display the values of the reclaimed symbols,
         // as their printer might throw an exception.
         if (!yyempty)
-          yy_destroy_ (YY_NULL, yyla);
+          yy_destroy_ (YY_NULLPTR, yyla);
 
         while (1 < yystack_.size ())
           {
-            yy_destroy_ (YY_NULL, yystack_[0]);
+            yy_destroy_ (YY_NULLPTR, yystack_[0]);
             yypop_ ();
           }
         throw;
@@ -1075,7 +1075,7 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
           }
       }
 
-    char const* yyformat = YY_NULL;
+    char const* yyformat = YY_NULLPTR;
     switch (yycount)
       {
 #define YYCASE_(N, S)                         \

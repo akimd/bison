@@ -229,7 +229,7 @@ AT_CHECK([[$PERL -n -0777 -e '
       |YY_IGNORE_MAYBE_UNINITIALIZED_(?:BEGIN|END)
       |YY_INITIAL_VALUE
       |YY_\w+_INCLUDED
-      |YY_NULL
+      |YY_NULLPTR
       |(defined|if)\ YYDEBUG
       )\b}{}gx;
   while (/^(.*YY.*)$/gm)

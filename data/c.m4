@@ -269,14 +269,14 @@ m4_define([b4_attribute_define],
 
 # b4_null_define
 # --------------
-# Portability issues: define a YY_NULL appropriate for the current
+# Portability issues: define a YY_NULLPTR appropriate for the current
 # language (C, C++98, or C++11).
 m4_define([b4_null_define],
-[# ifndef YY_NULL
+[# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif[]dnl
 ])
@@ -285,7 +285,7 @@ m4_define([b4_null_define],
 # b4_null
 # -------
 # Return a null pointer constant.
-m4_define([b4_null], [YY_NULL])
+m4_define([b4_null], [YY_NULLPTR])
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
 # -------------------------------------------------------------

@@ -95,7 +95,7 @@ m4_define([b4_variant_define],
 
     /// Empty construction.
     variant ()]b4_parse_assert_if([
-      : yytname_ (YY_NULL)])[
+      : yytname_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
@@ -198,7 +198,7 @@ m4_define([b4_variant_define],
     destroy ()
     {
       as<T> ().~T ();]b4_parse_assert_if([
-      yytname_ = YY_NULL;])[
+      yytname_ = YY_NULLPTR;])[
     }
 
   private:
