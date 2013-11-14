@@ -243,7 +243,7 @@ typedef std::list<std::string> strings_type;
 // digraph for the left square bracket.
 %type <::std::list<std::string>> list result;
 
-%printer { yyo << $][$; }
+%printer { yyo << $$; }
   <int> <::std::string> <::std::list<std::string>>;
 %%
 
@@ -253,13 +253,13 @@ result:
 
 list:
   /* nothing */ { /* Generates an empty string list */ }
-| list item     { std::swap ($][$,$][1); $$.push_back ($][2); }
-| list error    { std::swap ($][$,$][1); }
+| list item     { std::swap ($$,$][1); $$.push_back ($][2); }
+| list error    { std::swap ($$,$][1); }
 ;
 
 item:
-  TEXT          { std::swap ($][$,$][1); }
-| NUMBER        { if ($][1 == 3) YYERROR; else $][$ = string_cast ($][1); }
+  TEXT          { std::swap ($$,$][1); }
+| NUMBER        { if ($][1 == 3) YYERROR; else $$ = string_cast ($][1); }
 ;
 %%
 ]AT_TOKEN_CTOR_IF([],
@@ -785,21 +785,21 @@ $1
 start: list {]AT_VARIANT_IF([], [ delete $][1]; )[};
 
 list:
-  item       { $][$ = $][1; }
+  item       { $$ = $][1; }
   // Right recursion to load the stack.
-| item list  { $][$ = $][1; ]AT_VARIANT_IF([], [delete $][2]; )[}
+| item list  { $$ = $][1; ]AT_VARIANT_IF([], [delete $][2]; )[}
 ;
 
 item:
-  'a'     { $$][ = $][1; }
-| 'e'     { YYUSE ($][$); YYUSE($][1); error ("syntax error"); }
+  'a'     { $$ = $][1; }
+| 'e'     { YYUSE ($$); YYUSE($][1); error ("syntax error"); }
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
-| 'E' 'a' { YYUSE($][1); $][$ = $][2; }
-| 'R'     { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; delete $][1]; )[YYERROR; }
-| 'p'     { $][$ = $][1; }
-| 's'     { $][$ = $][1; throw std::runtime_error ("reduction"); }
-| 'T'     { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; delete $][1]; )[YYABORT; }
+| 'E' 'a' { YYUSE($][1); $$ = $][2; }
+| 'R'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYERROR; }
+| 'p'     { $$ = $][1; }
+| 's'     { $$ = $][1; throw std::runtime_error ("reduction"); }
+| 'T'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYABORT; }
 | error   { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; ])[yyerrok; }
 ;
 %%
