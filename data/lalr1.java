@@ -453,6 +453,19 @@ b4_define_state])[
     return yyerrstatus_ == 0;
   }
 
+  /** Compute post-reduction state.
+   * @@param yystate   the current state
+   * @@param yysym     the nonterminal to push on the stack
+   */
+  private int yy_lr_goto_state_ (int yystate, int yysym)
+  {
+    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
+    if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
+      return yytable_[yyr];
+    else
+      return yydefgoto_[yysym - yyntokens_];
+  }
+
   private int yyaction (int yyn, YYStack yystack, int yylen) ]b4_maybe_throws([b4_throws])[
   {
     ]b4_yystype[ yyval;
@@ -483,14 +496,7 @@ b4_define_state])[
     yylen = 0;
 
     /* Shift the result of the reduction.  */
-    yyn = yyr1_[yyn];
-    int yystate = yypgoto_[yyn - yyntokens_] + yystack.stateAt (0);
-    if (0 <= yystate && yystate <= yylast_
-        && yycheck_[yystate] == yystack.stateAt (0))
-      yystate = yytable_[yystate];
-    else
-      yystate = yydefgoto_[yyn - yyntokens_];
-
+    int yystate = yy_lr_goto_state_ (yystack.stateAt (0), yyr1_[yyn]);
     yystack.push (yystate, yyval]b4_locations_if([, yyloc])[);
     return YYNEWSTATE;
   }

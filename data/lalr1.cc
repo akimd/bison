@@ -220,8 +220,8 @@ b4_location_define])])[
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
-    /// \param yylhs     the nonterminal to push on the stack
-    state_type yy_lr_goto_state_ (state_type yystate, int yylhs);
+    /// \param yysym     the nonterminal to push on the stack
+    state_type yy_lr_goto_state_ (state_type yystate, int yysym);
 
     /// Whether the given \c yypact_ value indicates a defaulted state.
     /// \param yyvalue   the value to check
@@ -671,13 +671,13 @@ m4_if(b4_prefix, [yy], [],
 #endif // ]b4_api_PREFIX[DEBUG
 
   inline ]b4_parser_class_name[::state_type
-  ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yylhs)
+  ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yysym)
   {
-    int yyr = yypgoto_[yylhs - yyntokens_] + yystate;
+    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
     if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
       return yytable_[yyr];
     else
-      return yydefgoto_[yylhs - yyntokens_];
+      return yydefgoto_[yysym - yyntokens_];
   }
 
   inline bool
