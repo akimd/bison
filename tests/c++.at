@@ -649,13 +649,17 @@ AT_CLEANUP
 ## Exception safety.  ##
 ## ------------------ ##
 
-# AT_TEST([BISON-DIRECTIVES])
-# ---------------------------
+# AT_TEST([BISON-DIRECTIVES = ''], [WITH-RECOVERY = "with"])
+# ----------------------------------------------------------
 # Check that no object is leaked when exceptions are thrown.
+# WITH-RECOVERY = "with" or "without".
 m4_pushdef([AT_TEST],
-[AT_SETUP([[Exception safety $1]])
+[AT_SETUP([[Exception safety $2 error recovery $1]])
 
 AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
+
+m4_if([$1], [], [],
+      [m4_if([$2], [without], [AT_XFAIL_IF([true])])])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 
@@ -669,27 +673,43 @@ $1
   #include <cassert>
   #include <cstdlib> // size_t and getenv.
   #include <iostream>
-  #include <list>
+  #include <set>
 
   bool debug = false;
 
-  /// A class that counts its number of instances.
+  /// A class that tracks its instances.
   struct Object
   {
     char val;
 
-    Object (char v)
-      : val (v)
-    {
-      Object::instances.push_back(this);
-      log (this, "Object::Object");
-    }
-
     Object ()
       : val ('?')
     {
-      Object::instances.push_back(this);
       log (this, "Object::Object");
+      Object::instances.insert (this);
+    }
+
+    Object (const Object& that)
+      : val (that.val)
+    {
+      log (this, "Object::Object");
+      Object::instances.insert (this);
+    }
+
+    Object (char v)
+      : val (v)
+    {
+      log (this, "Object::Object");
+      Object::instances.insert (this);
+    }
+
+    ~Object ()
+    {
+      log (this, "Object::~Object");
+      objects::const_iterator i = instances.find (this);
+      // Make sure this object is alive.
+      assert (i != instances.end ());
+      Object::instances.erase (i);
     }
 
     Object& operator= (char v)
@@ -698,14 +718,8 @@ $1
       return *this;
     }
 
-    ~Object ()
-    {
-      Object::instances.remove (this);
-      log (this, "Object::~Object");
-    }
-
     // Static part.
-    typedef std::list<const Object*> objects;
+    typedef std::set<const Object*> objects;
     static objects instances;
 
     static bool
@@ -800,7 +814,8 @@ item:
 | 'p'     { $$ = $][1; }
 | 's'     { $$ = $][1; throw std::runtime_error ("reduction"); }
 | 'T'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYABORT; }
-| error   { ]AT_VARIANT_IF([], [$][$ = YY_NULLPTR; ])[yyerrok; }
+]m4_if([$2], [with],
+[[| error   { $$ = ]AT_VARIANT_IF([], [new ])[Object ('R'); yyerrok; }]])[
 ;
 %%
 
@@ -903,16 +918,17 @@ AT_PARSER_CHECK([[./input aaaaE]], [[2]], [[]],
 
 AT_PARSER_CHECK([[./input aaaaT]], [[1]])
 
-# There is error-recovery, so exit success.
-AT_PARSER_CHECK([[./input aaaaR]], [[0]])
+AT_PARSER_CHECK([[./input aaaaR]], [m4_if([$2], [with], [0], [1])])
 
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
 ])
 
-AT_TEST
-AT_TEST([%define api.value.type variant])
+AT_TEST([], [with])
+AT_TEST([], [without])
+AT_TEST([%define api.value.type variant], [with])
+AT_TEST([%define api.value.type variant], [without])
 
 m4_popdef([AT_TEST])
 
