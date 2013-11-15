@@ -700,6 +700,7 @@ m4_if(b4_prefix, [yy], [],
 
     // State.
     int yyn;
+    /// Length of the RHS of the rule being reduced.
     int yylen = 0;
 
     // Error handling.
@@ -711,9 +712,6 @@ m4_if(b4_prefix, [yy], [],
 
     /// The locations where the error started and ended.
     stack_symbol_type yyerror_range[3];]])[
-
-    /// $$ and @@$.
-    stack_symbol_type yylhs;
 
     /// The return value of parse ().
     int yyresult;
@@ -815,6 +813,8 @@ b4_dollar_popdef])[]dnl
   `-----------------------------*/
   yyreduce:
     yylen = yyr2_[yyn];
+    {
+      stack_symbol_type yylhs;
     yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([
     /* Variants are always initialized to an empty instance of the
        correct type. The default $$=$1 action is NOT applied when using
@@ -861,6 +861,7 @@ b4_dollar_popdef])[]dnl
 
     // Shift the result of the reduction.
     yypush_ (YY_NULLPTR, yylhs);
+    }
     goto yynewstate;
 
   /*--------------------------------------.
@@ -907,10 +908,7 @@ b4_dollar_popdef])[]dnl
        code.  */
     if (false)
       goto yyerrorlab;]b4_locations_if([[
-    yyerror_range[1].location = yystack_[yylen - 1].location;]])b4_variant_if([[
-    /* $$ was initialized before running the user action.  */
-    YY_SYMBOL_PRINT ("Error: discarding", yylhs);
-    yylhs.~stack_symbol_type();]])[
+    yyerror_range[1].location = yystack_[yylen - 1].location;]])[
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);

@@ -658,9 +658,6 @@ m4_pushdef([AT_TEST],
 
 AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
 
-m4_if([$1], [], [],
-      [m4_if([$2], [without], [AT_XFAIL_IF([true])])])
-
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 
 AT_DATA_GRAMMAR([[input.yy]],
