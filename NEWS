@@ -2,6 +2,12 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** YYERROR and variants
+
+  When C++ variant support is enabled, an error triggered via YYERROR, but
+  not caught via error recovery, resulted in a double deletion.
 
 * Noteworthy changes in release 3.0.1 (2013-11-12) [stable]
 
