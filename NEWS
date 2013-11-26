@@ -4,6 +4,11 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** %empty is used in reports
+
+  Empty right-hand sides are denoted by '%empty' in all the reports (text,
+  dot, XML and formats derived from it).
+
 *** YYERROR and variants
 
   When C++ variant support is enabled, an error triggered via YYERROR, but
