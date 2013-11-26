@@ -1447,7 +1447,7 @@ State 0
     0 $accept: . start $end
     1 start: . resolved_conflict 'a' reported_conflicts 'a'
     2 resolved_conflict: . 'a' unreachable1
-    3                  | .  ['a']
+    3                  | . %empty  ['a']
 
     $default  reduce using rule 3 (resolved_conflict)
 
@@ -1483,7 +1483,7 @@ State 4
     1 start: resolved_conflict 'a' . reported_conflicts 'a'
     8 reported_conflicts: . 'a'
     9                   | . 'a'
-   10                   | .  ['a']
+   10                   | . %empty  ['a']
 
     'a'  shift, and go to state 5
 
@@ -1576,11 +1576,11 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     6      | . empty_c1 'c'
     7      | . empty_c2 'c'
     8      | . empty_c3 'c'
-    9 empty_a: .  ['a']
-   10 empty_b: .  []
-   11 empty_c1: .  []
-   12 empty_c2: .  []
-   13 empty_c3: .  ['c']
+    9 empty_a: . %empty  ['a']
+   10 empty_b: . %empty  []
+   11 empty_c1: . %empty  []
+   12 empty_c2: . %empty  []
+   13 empty_c3: . %empty  ['c']
 
     'b'  shift, and go to state 1
 
@@ -1652,11 +1652,11 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     6      | . empty_c1 'c'
     7      | . empty_c2 'c'
     8      | . empty_c3 'c'
-    9 empty_a: .  []
-   10 empty_b: .  []
-   11 empty_c1: .  []
-   12 empty_c2: .  ['c']
-   13 empty_c3: .  ['c']
+    9 empty_a: . %empty  []
+   10 empty_b: . %empty  []
+   11 empty_c1: . %empty  []
+   12 empty_c2: . %empty  ['c']
+   13 empty_c3: . %empty  ['c']
 
     'a'  error (nonassociative)
     'b'  error (nonassociative)

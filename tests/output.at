@@ -290,7 +290,7 @@ a: ;
 b: 'b';
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a '?' b\l  2 a: .\l"]
+  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a '?' b\l  2 a: . %empty\l"]
   0 -> 1 [style=dashed label="exp"]
   0 -> 2 [style=dashed label="a"]
   0 -> "0R2" [style=solid]
@@ -332,7 +332,7 @@ empty_b: %prec 'b';
 empty_c: %prec 'c';
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: .  ['a']\l  8 empty_b: .  ['b']\l  9 empty_c: .  ['c']\l"]
+  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: . %empty  ['a']\l  8 empty_b: . %empty  ['b']\l  9 empty_c: . %empty  ['c']\l"]
   0 -> 1 [style=solid label="'a'"]
   0 -> 2 [style=solid label="'b'"]
   0 -> 3 [style=solid label="'c'"]
@@ -399,7 +399,7 @@ empty_b: %prec 'b';
 empty_c: %prec 'c';
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: .  ['a']\l  8 empty_b: .  []\l  9 empty_c: .  []\l"]
+  0 [label="State 0\n\l  0 $accept: . start $end\l  1 start: . 'a'\l  2      | . empty_a 'a'\l  3      | . 'b'\l  4      | . empty_b 'b'\l  5      | . 'c'\l  6      | . empty_c 'c'\l  7 empty_a: . %empty  ['a']\l  8 empty_b: . %empty  []\l  9 empty_c: . %empty  []\l"]
   0 -> 1 [style=solid label="'b'"]
   0 -> 2 [style=solid label="'c'"]
   0 -> 3 [style=dashed label="start"]
@@ -447,7 +447,7 @@ a: ;
 b: ;
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a\l  2    | . b\l  3 a: .  [$end]\l  4 b: .  [$end]\l"]
+  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a\l  2    | . b\l  3 a: . %empty  [$end]\l  4 b: . %empty  [$end]\l"]
   0 -> 1 [style=dashed label="exp"]
   0 -> 2 [style=dashed label="a"]
   0 -> 3 [style=dashed label="b"]
@@ -480,7 +480,7 @@ b: ;
 c: ;
 ]],
 [[
-  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a ';'\l  2    | . a ';'\l  3    | . a '.'\l  4    | . b '?'\l  5    | . b '!'\l  6    | . c '?'\l  7    | . c ';'\l  8 a: .  [';', '.']\l  9 b: .  ['?', '!']\l 10 c: .  [';', '?']\l"]
+  0 [label="State 0\n\l  0 $accept: . exp $end\l  1 exp: . a ';'\l  2    | . a ';'\l  3    | . a '.'\l  4    | . b '?'\l  5    | . b '!'\l  6    | . c '?'\l  7    | . c ';'\l  8 a: . %empty  [';', '.']\l  9 b: . %empty  ['?', '!']\l 10 c: . %empty  [';', '?']\l"]
   0 -> 1 [style=dashed label="exp"]
   0 -> 2 [style=dashed label="a"]
   0 -> 3 [style=dashed label="b"]
@@ -595,7 +595,7 @@ imm: '0';
  "11R7d" [label="R7", fillcolor=5, shape=diamond, style=filled]
   11 -> "11R7" [style=solid]
  "11R7" [label="R7", fillcolor=3, shape=diamond, style=filled]
-  12 [label="State 12\n\l  4 ifexp: \"if\" exp \"then\" exp . elseexp\l  5 elseexp: . \"else\" exp\l  6        | .  [$end, \"then\", \"else\", '+']\l  7 opexp: exp . '+' exp\l"]
+  12 [label="State 12\n\l  4 ifexp: \"if\" exp \"then\" exp . elseexp\l  5 elseexp: . \"else\" exp\l  6        | . %empty  [$end, \"then\", \"else\", '+']\l  7 opexp: exp . '+' exp\l"]
   12 -> 13 [style=solid label="\"else\""]
   12 -> 9 [style=solid label="'+'"]
   12 -> 14 [style=dashed label="elseexp"]
