@@ -4,6 +4,16 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** Generated source files when errors are reported
+
+  When warnings are issued and -Werror is set, bison would still generate
+  the source files (*.c, *.h...).  As a consequence, some runs of "make"
+  could fail the first time, but not the second (as the files were generated
+  anyway).
+
+  This is fixed: bison no longer generates this source files, but, of
+  course, still produces the various reports (*.output, *.xml, etc.).
+
 *** %empty is used in reports
 
   Empty right-hand sides are denoted by '%empty' in all the reports (text,
