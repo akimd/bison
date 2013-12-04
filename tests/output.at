@@ -43,7 +43,7 @@ done
 ]AT_DATA([$1],
 [$2[
 %%
-foo: {};
+foo: %empty {};
 ]])[
 
 ]AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
@@ -125,6 +125,14 @@ AT_CHECK_OUTPUT([foo.y], [%type <foo> useless],
                 [--defines --graph --xml --report=all -Wall -Werror],
                 [foo.dot foo.output foo.xml],
                 [1])
+
+# Do not generate code when there are late errors (even warnings as
+# errors).
+AT_CHECK_OUTPUT([foo.y], [%define useless],
+                [--defines --graph --xml --report=all -Wall -Werror],
+                [foo.dot foo.output foo.xml],
+                [1])
+
 
 ## ------------ ##
 ## C++ output.  ##

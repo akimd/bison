@@ -70,6 +70,9 @@ void output_file_names_free (void);
  */
 void output_file_name_check (char **file_name, bool source);
 
+/** Remove all the generated source files. */
+void unlink_generated_sources (void);
+
 FILE *xfopen (const char *name, char const *mode);
 void xfclose (FILE *ptr);
 FILE *xfdopen (int fd, char const *mode);
