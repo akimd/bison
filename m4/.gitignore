@@ -180,3 +180,6 @@
 /obstack-printf.m4
 /extern-inline.m4
 /non-recursive-gnulib-prefix-hack.m4
+/absolute-header.m4
+/lstat.m4
+/unlink.m4
