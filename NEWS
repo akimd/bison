@@ -2,6 +2,27 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** Redeclarations are reported in proper order
+
+  On
+
+    %token FOO "foo"
+    %printer {} "foo"
+    %printer {} FOO
+
+  bison used to report:
+
+    /tmp/foo.yy:2.10-11: error: %printer redeclaration for FOO
+     %printer {} "foo"
+              ^^
+    /tmp/foo.yy:3.10-11:     previous declaration
+     %printer {} FOO
+              ^^
+
+  Now, the "previous" declaration is always the first one.
+
 
 * Noteworthy changes in release 3.0.2 (2013-12-05) [stable]
 

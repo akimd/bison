@@ -654,50 +654,118 @@ AT_CLEANUP
 
 AT_SETUP([Incompatible Aliases])
 
-AT_DATA([input.y],
-[[%token foo "foo"
+m4_pushdef([AT_TEST],
+[AT_DATA([input.y], [$1])
+AT_BISON_CHECK([-fcaret input.y], [1], [], [$2])
+])
 
-%type <bar>       foo
-%printer {bar}    foo
-%destructor {bar} foo
-%left             foo
+# Use the string-alias first to check the order between "first
+# declaration" and second.
 
-%type <baz>       "foo"
-%printer {baz}    "foo"
-%destructor {baz} "foo"
-%left             "foo"
-
+AT_TEST([[%token foo "foo"
+%type <bar> "foo"
+%type <baz> foo
 %%
 exp: foo;
+]],
+[[input.y:3.7-11: error: %type redeclaration for foo
+ %type <baz> foo
+       ^^^^^
+input.y:2.7-11:     previous declaration
+ %type <bar> "foo"
+       ^^^^^
 ]])
 
-AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:8.7-11: error: %type redeclaration for foo
- %type <baz>       "foo"
-       ^^^^^
-input.y:3.7-11:     previous declaration
- %type <bar>       foo
-       ^^^^^
-input.y:10.13-17: error: %destructor redeclaration for foo
- %destructor {baz} "foo"
-             ^^^^^
-input.y:5.13-17:      previous declaration
- %destructor {bar} foo
-             ^^^^^
-input.y:9.10-14: error: %printer redeclaration for foo
- %printer {baz}    "foo"
+AT_TEST([[%token foo "foo"
+%printer {bar} "foo"
+%printer {baz} foo
+%%
+exp: foo;
+]],
+[[input.y:3.10-14: error: %printer redeclaration for foo
+ %printer {baz} foo
           ^^^^^
-input.y:4.10-14:     previous declaration
- %printer {bar}    foo
+input.y:2.10-14:     previous declaration
+ %printer {bar} "foo"
           ^^^^^
-input.y:11.1-5: error: %left redeclaration for foo
- %left             "foo"
+]])
+
+AT_TEST([[%token foo "foo"
+%destructor {bar} "foo"
+%destructor {baz} foo
+%%
+exp: foo;
+]],
+[[input.y:3.13-17: error: %destructor redeclaration for foo
+ %destructor {baz} foo
+             ^^^^^
+input.y:2.13-17:     previous declaration
+ %destructor {bar} "foo"
+             ^^^^^
+]])
+
+AT_TEST([[%token foo "foo"
+%left "foo"
+%left foo
+%%
+exp: foo;
+]],
+[[input.y:3.1-5: error: %left redeclaration for foo
+ %left foo
  ^^^^^
-input.y:6.1-5:      previous declaration
- %left             foo
+input.y:2.1-5:     previous declaration
+ %left "foo"
  ^^^^^
 ]])
 
+# This time, declare the alias after its use.
+
+# Precedence/associativity.
+AT_TEST([[%left "foo"
+%left foo
+%token foo "foo"
+%%
+exp: foo;
+]],
+[[input.y:2.1-5: error: %left redeclaration for foo
+ %left foo
+ ^^^^^
+input.y:1.1-5:     previous declaration
+ %left "foo"
+ ^^^^^
+]])
+
+# Printer.
+AT_TEST([[%printer {} "foo"
+%printer {} foo
+%token foo "foo"
+%%
+exp: foo;
+]],
+[[input.y:2.10-11: error: %printer redeclaration for foo
+ %printer {} foo
+          ^^
+input.y:1.10-11:     previous declaration
+ %printer {} "foo"
+          ^^
+]])
+
+# Destructor.
+AT_TEST([[%destructor {} "foo"
+%destructor {} foo
+%token foo "foo"
+%%
+exp: foo;
+]],
+[[input.y:2.13-14: error: %destructor redeclaration for foo
+ %destructor {} foo
+             ^^
+input.y:1.13-14:     previous declaration
+ %destructor {} "foo"
+             ^^
+]])
+
+m4_popdef([AT_TEST])
 AT_CLEANUP
 
 
