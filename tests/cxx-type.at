@@ -94,19 +94,19 @@ prog :
 
 stmt : expr ';'  $2     { $$ = ]$[1; }
      | decl      $3
-     | error ';'        { $$ = new_nterm ("<error>", YY_NULL, YY_NULL, YY_NULL); }
+     | error ';'        { $$ = new_nterm ("<error>", YY_NULLPTR, YY_NULLPTR, YY_NULLPTR); }
      | '@'              { YYACCEPT; }
      ;
 
 expr : ID
      | TYPENAME '(' expr ')'
-                        { $$ = new_nterm ("<cast>(%s,%s)", ]$[3, ]$[1, YY_NULL); }
-     | expr '+' expr    { $$ = new_nterm ("+(%s,%s)", ]$[1, ]$[3, YY_NULL); }
-     | expr '=' expr    { $$ = new_nterm ("=(%s,%s)", ]$[1, ]$[3, YY_NULL); }
+                        { $$ = new_nterm ("<cast>(%s,%s)", ]$[3, ]$[1, YY_NULLPTR); }
+     | expr '+' expr    { $$ = new_nterm ("+(%s,%s)", ]$[1, ]$[3, YY_NULLPTR); }
+     | expr '=' expr    { $$ = new_nterm ("=(%s,%s)", ]$[1, ]$[3, YY_NULLPTR); }
      ;
 
 decl : TYPENAME declarator ';'
-                        { $$ = new_nterm ("<declare>(%s,%s)", ]$[1, ]$[2, YY_NULL); }
+                        { $$ = new_nterm ("<declare>(%s,%s)", ]$[1, ]$[2, YY_NULLPTR); }
      | TYPENAME declarator '=' expr ';'
                         { $$ = new_nterm ("<init-declare>(%s,%s,%s)", ]$[1,
                                           ]$[2, ]$[4); }
@@ -195,7 +195,7 @@ main (int argc, char **argv)
               {
                 colNum += 1;
                 tok = c;
-                yylval = YY_NULL;
+                yylval = YY_NULLPTR;
               }]AT_LOCATION_IF([[
             yylloc.last_column = colNum-1;]])[
             return tok;
@@ -287,7 +287,7 @@ m4_bmatch([$2], [stmtMerge],
 [[static YYSTYPE
 stmtMerge (YYSTYPE x0, YYSTYPE x1)
 {
-  return new_nterm ("<OR>(%s,%s)", x0, x1, YY_NULL);
+  return new_nterm ("<OR>(%s,%s)", x0, x1, YY_NULLPTR);
 }
 ]])
 )

@@ -111,7 +111,9 @@ BUILT_SOURCES +=                                \
 ## yacc.  ##
 ## ------ ##
 
-bin_SCRIPTS = $(YACC_SCRIPT)
+if ENABLE_YACC
+bin_SCRIPTS = src/yacc
+endif
 EXTRA_SCRIPTS = src/yacc
 MOSTLYCLEANFILES += src/yacc
 

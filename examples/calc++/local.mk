@@ -19,7 +19,7 @@
 
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
-examples/calc++/calc++-parser.stamp: $(BISON_IN)
+%D%/calc++-parser.stamp: $(BISON_IN)
 SUFFIXES += .yy .stamp
 .yy.stamp:
 	$(AM_V_YACC)rm -f $@
@@ -27,14 +27,14 @@ SUFFIXES += .yy .stamp
 	$(AM_V_at)$(YACCCOMPILE) -o $*.cc $<
 	$(AM_V_at)mv -f $@.tmp $@
 
-$(calc_sources_generated): examples/calc++/calc++-parser.stamp
-	@test -f $@ || rm -f examples/calc++/calc++-parser.stamp
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) examples/calc++/calc++-parser.stamp
+$(calc_sources_generated): %D%/calc++-parser.stamp
+	@test -f $@ || rm -f %D%/calc++-parser.stamp
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/calc++-parser.stamp
 CLEANFILES +=                                   \
   $(calc_sources_generated)                     \
-  examples/calc++/calc++-parser.output          \
-  examples/calc++/calc++-parser.stamp           \
-  examples/calc++/calc++-scanner.cc
+  %D%/calc++-parser.output                      \
+  %D%/calc++-parser.stamp                       \
+  %D%/calc++-scanner.cc
 
 
 ## -------------------- ##
@@ -42,35 +42,35 @@ CLEANFILES +=                                   \
 ## -------------------- ##
 
 # Avoid using BUILT_SOURCES which is too global.
-$(examples_calc___calc___OBJECTS): $(calc_sources_generated)
+$(%C%_calc___OBJECTS): $(calc_sources_generated)
 
 calc_sources_extracted =                        \
-  examples/calc++/calc++-driver.cc              \
-  examples/calc++/calc++-driver.hh              \
-  examples/calc++/calc++-scanner.ll             \
-  examples/calc++/calc++.cc
+  %D%/calc++-driver.cc                          \
+  %D%/calc++-driver.hh                          \
+  %D%/calc++-scanner.ll                         \
+  %D%/calc++.cc
 calc_extracted =                                \
   $(calc_sources_extracted)                     \
-  examples/calc++/calc++-parser.yy
+  %D%/calc++-parser.yy
 extracted += $(calc_extracted)
 calc_sources_generated =                        \
-  examples/calc++/calc++-parser.cc              \
-  examples/calc++/calc++-parser.hh              \
-  examples/calc++/location.hh                   \
-  examples/calc++/position.hh                   \
-  examples/calc++/stack.hh
+  %D%/calc++-parser.cc                          \
+  %D%/calc++-parser.hh                          \
+  %D%/location.hh                               \
+  %D%/position.hh                               \
+  %D%/stack.hh
 calc_sources =                                  \
   $(calc_sources_extracted)                     \
   $(calc_sources_generated)
 
-if BISON_CXX_WORKS
-check_PROGRAMS += examples/calc++/calc++
-nodist_examples_calc___calc___SOURCES =         \
+if FLEX_CXX_WORKS
+check_PROGRAMS += %D%/calc++
+nodist_%C%_calc___SOURCES =                     \
   $(calc_sources)
 
-examples_calc___calc___CPPFLAGS = -I$(top_builddir)/examples/calc++
-examples_calc___calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
-dist_TESTS += examples/calc++/calc++.test
+%C%_calc___CPPFLAGS = -I$(top_builddir)/%D%
+%C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
+dist_TESTS += %D%/calc++.test
 else
-EXTRA_DIST += examples/calc++/calc++.test
+EXTRA_DIST += %D%/calc++.test
 endif

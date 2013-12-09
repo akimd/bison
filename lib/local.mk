@@ -51,6 +51,8 @@ lib_libbison_a_SOURCES +=                       \
   lib/get-errno.c
 
 # The Yacc compatibility library.
-lib_LIBRARIES = $(YACC_LIBRARY)
+if ENABLE_YACC
+lib_LIBRARIES = lib/liby.a
 EXTRA_LIBRARIES = lib/liby.a
 lib_liby_a_SOURCES = lib/main.c lib/yyerror.c
+endif

@@ -205,13 +205,32 @@ m4_define([b4_table_value_equals],
 
 # b4_attribute_define
 # -------------------
-# Provide portability for __attribute__.
+# Provide portable compiler "attributes".
 m4_define([b4_attribute_define],
-[#ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-# if (! defined __GNUC__ || __GNUC__ < 2 \
-      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#  define __attribute__(Spec) /* empty */
+[#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
+# else
+#  define YY_ATTRIBUTE(Spec) /* empty */
+# endif
+#endif
+
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
+#ifndef YY_ATTRIBUTE_UNUSED
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -250,14 +269,14 @@ m4_define([b4_attribute_define],
 
 # b4_null_define
 # --------------
-# Portability issues: define a YY_NULL appropriate for the current
+# Portability issues: define a YY_NULLPTR appropriate for the current
 # language (C, C++98, or C++11).
 m4_define([b4_null_define],
-[# ifndef YY_NULL
+[# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif[]dnl
 ])
@@ -266,7 +285,7 @@ m4_define([b4_null_define],
 # b4_null
 # -------
 # Return a null pointer constant.
-m4_define([b4_null], [YY_NULL])
+m4_define([b4_null], [YY_NULLPTR])
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
 # -------------------------------------------------------------
@@ -783,7 +802,7 @@ m4_define([b4_yy_location_print_define],
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
-__attribute__((__unused__))
+YY_ATTRIBUTE_UNUSED
 ]b4_function_define([yy_location_print_],
     [static unsigned],
                [[FILE *yyo],                    [yyo]],

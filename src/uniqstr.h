@@ -20,6 +20,8 @@
 #ifndef UNIQSTR_H_
 # define UNIQSTR_H_
 
+# include <stdio.h>
+
 /*-----------------------------------------.
 | Pointers to unique copies of C strings.  |
 `-----------------------------------------*/
@@ -33,7 +35,7 @@ uniqstr uniqstr_new (char const *str);
    strings, use UNIQSTR_CONCAT, which is a convenient wrapper around
    this function.  */
 uniqstr uniqstr_vsprintf (char const *format, ...)
-  __attribute__ ((__format__ (__printf__, 1, 2)));
+  _GL_ATTRIBUTE_FORMAT_PRINTF (1, 2);
 
 /* Two uniqstr values have the same value iff they are the same.  */
 # define UNIQSTR_EQ(Ustr1, Ustr2) (!!((Ustr1) == (Ustr2)))

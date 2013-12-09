@@ -33,11 +33,7 @@ AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-# Automake 1.10.3 and 1.11.1 fix a security flaw discussed here:
-#
-#   http://thread.gmane.org/gmane.comp.sysutils.autotools.announce/131
-#
-# To avoid 1.11, we make 1.11.1 the minimum version.
+# We use Automake 1.14's %D% and %C%.
 #
 # We want gnits strictness only when rolling a stable release.  For
 # release candidates, we use version strings like 2.4.3_rc1, but gnits
@@ -45,7 +41,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # releases, we want to be able run make dist without being required to
 # add a bogus NEWS entry.  In that case, the version string
 # automatically contains a dash, which we also let disable gnits.
-AM_INIT_AUTOMAKE([1.11.1 dist-xz nostdinc
+AM_INIT_AUTOMAKE([1.14 dist-xz nostdinc
                  color-tests parallel-tests
                  silent-rules]
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],
@@ -82,7 +78,7 @@ AC_ARG_ENABLE([gcc-warnings],
  esac],
               [enable_gcc_warnings=no])
 if test "$enable_gcc_warnings" = yes; then
-  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
+  warn_common='-Wall-Wextra -Wno-sign-compare -Wcast-align -Wdocumentation
     -Wformat -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wshadow -Wstrict-prototypes'
   warn_cxx='-Wnoexcept'
@@ -161,16 +157,7 @@ AC_ARG_ENABLE([yacc],
   [AC_HELP_STRING([--disable-yacc],
      [do not build a yacc command or an -ly library])],
   , [enable_yacc=yes])
-case $enable_yacc in
-yes)
-  YACC_SCRIPT=src/yacc
-  YACC_LIBRARY=lib/liby.a;;
-*)
-  YACC_SCRIPT=
-  YACC_LIBRARY=;;
-esac
-AC_SUBST([YACC_SCRIPT])
-AC_SUBST([YACC_LIBRARY])
+AM_CONDITIONAL([ENABLE_YACC], [test "$enable_yacc" = yes])
 
 # Checks for programs.
 AM_MISSING_PROG([DOT], [dot])
@@ -179,6 +166,8 @@ $LEX_IS_FLEX || test "X$LEX" = X: || {
   AC_MSG_WARN([bypassing lex because flex is required])
   LEX=:
 }
+AM_CONDITIONAL([FLEX_CXX_WORKS],
+  [$LEX_IS_FLEX && test $bison_cv_cxx_works = yes])
 AC_PROG_YACC
 AC_PROG_RANLIB
 AC_PROG_GNU_M4

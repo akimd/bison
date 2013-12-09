@@ -157,6 +157,7 @@ m4_define([b4_shared_declarations],
 ]b4_bison_locations_if([[# include "location.hh"]])])[
 ]b4_variant_if([b4_variant_includes])[
 
+]b4_attribute_define[
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
@@ -183,14 +184,14 @@ b4_location_define])])[
 
 #if ]b4_api_PREFIX[DEBUG
     /// The current debugging stream.
-    std::ostream& debug_stream () const;
+    std::ostream& debug_stream () const YY_ATTRIBUTE_PURE;
     /// Set the current debugging stream.
     void set_debug_stream (std::ostream &);
 
     /// Type for debugging levels.
     typedef int debug_level_type;
     /// The current debugging level.
-    debug_level_type debug_level () const;
+    debug_level_type debug_level () const YY_ATTRIBUTE_PURE;
     /// Set the current debugging level.
     void set_debug_level (debug_level_type l);
 #endif
@@ -219,8 +220,8 @@ b4_location_define])])[
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
-    /// \param yylhs     the nonterminal to push on the stack
-    state_type yy_lr_goto_state_ (state_type yystate, int yylhs);
+    /// \param yysym     the nonterminal to push on the stack
+    state_type yy_lr_goto_state_ (state_type yystate, int yysym);
 
     /// Whether the given \c yypact_ value indicates a defaulted state.
     /// \param yyvalue   the value to check
@@ -267,7 +268,7 @@ b4_location_define])])[
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg     Why this token is reclaimed.
     ///                  If null, print nothing.
-    /// \param s         The symbol.
+    /// \param yysym     The symbol.
     template <typename Base>
     void yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const;
 
@@ -341,13 +342,13 @@ b4_location_define])])[
     enum
     {
       yyeof_ = 0,
-      yylast_ = ]b4_last[,           //< Last index in yytable_.
-      yynnts_ = ]b4_nterms_number[,  //< Number of nonterminal symbols.
+      yylast_ = ]b4_last[,     ///< Last index in yytable_.
+      yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
       yyempty_ = -2,
-      yyfinal_ = ]b4_final_state_number[, //< Termination state number.
+      yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = ]b4_tokens_number[    //< Number of tokens.
+      yyntokens_ = ]b4_tokens_number[  ///< Number of tokens.
     };
 
 ]b4_parse_param_vars[
@@ -670,13 +671,13 @@ m4_if(b4_prefix, [yy], [],
 #endif // ]b4_api_PREFIX[DEBUG
 
   inline ]b4_parser_class_name[::state_type
-  ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yylhs)
+  ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yysym)
   {
-    int yyr = yypgoto_[yylhs - yyntokens_] + yystate;
+    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
     if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
       return yytable_[yyr];
     else
-      return yydefgoto_[yylhs - yyntokens_];
+      return yydefgoto_[yysym - yyntokens_];
   }
 
   inline bool
@@ -699,6 +700,7 @@ m4_if(b4_prefix, [yy], [],
 
     // State.
     int yyn;
+    /// Length of the RHS of the rule being reduced.
     int yylen = 0;
 
     // Error handling.
@@ -710,9 +712,6 @@ m4_if(b4_prefix, [yy], [],
 
     /// The locations where the error started and ended.
     stack_symbol_type yyerror_range[3];]])[
-
-    /// $$ and @@$.
-    stack_symbol_type yylhs;
 
     /// The return value of parse ().
     int yyresult;
@@ -734,7 +733,7 @@ b4_dollar_popdef])[]dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_.clear ();
-    yypush_ (YY_NULL, 0, yyla);
+    yypush_ (YY_NULLPTR, 0, yyla);
 
     // A new symbol was pushed on the stack.
   yynewstate:
@@ -814,52 +813,55 @@ b4_dollar_popdef])[]dnl
   `-----------------------------*/
   yyreduce:
     yylen = yyr2_[yyn];
-    yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([
-    /* Variants are always initialized to an empty instance of the
-       correct type. The default $$=$1 action is NOT applied when using
-       variants.  */
-    b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])],[
-    /* If YYLEN is nonzero, implement the default value of the action:
-       '$$ = $1'.  Otherwise, use the top of the stack.
+    {
+      stack_symbol_type yylhs;
+      yylhs.state = yy_lr_goto_state_(yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([
+      /* Variants are always initialized to an empty instance of the
+         correct type. The default '$$ = $1' action is NOT applied
+         when using variants.  */
+      b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])], [
+      /* If YYLEN is nonzero, implement the default value of the
+         action: '$$ = $1'.  Otherwise, use the top of the stack.
 
-       Otherwise, the following line sets YYLHS.VALUE to garbage.
-       This behavior is undocumented and Bison
-       users should not rely upon it.  */
-    if (yylen)
-      yylhs.value = yystack_@{yylen - 1@}.value;
-    else
-      yylhs.value = yystack_@{0@}.value;])[
+         Otherwise, the following line sets YYLHS.VALUE to garbage.
+         This behavior is undocumented and Bison users should not rely
+         upon it.  */
+      if (yylen)
+        yylhs.value = yystack_@{yylen - 1@}.value;
+      else
+        yylhs.value = yystack_@{0@}.value;])[
 ]b4_locations_if([dnl
 [
-    // Compute the default @@$.
-    {
-      slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
-      YYLLOC_DEFAULT (yylhs.location, slice, yylen);
-    }]])[
-
-    // Perform the reduction.
-    YY_REDUCE_PRINT (yyn);
-    try
+      // Compute the default @@$.
       {
-        switch (yyn)
-          {
+        slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
+        YYLLOC_DEFAULT (yylhs.location, slice, yylen);
+      }]])[
+
+      // Perform the reduction.
+      YY_REDUCE_PRINT (yyn);
+      try
+        {
+          switch (yyn)
+            {
 ]b4_user_actions[
-          default:
-            break;
-          }
-      }
-    catch (const syntax_error& yyexc)
-      {
-        error (yyexc);
-        YYERROR;
-      }
-    YY_SYMBOL_PRINT ("-> $$ =", yylhs);
-    yypop_ (yylen);
-    yylen = 0;
-    YY_STACK_PRINT ();
+            default:
+              break;
+            }
+        }
+      catch (const syntax_error& yyexc)
+        {
+          error (yyexc);
+          YYERROR;
+        }
+      YY_SYMBOL_PRINT ("-> $$ =", yylhs);
+      yypop_ (yylen);
+      yylen = 0;
+      YY_STACK_PRINT ();
 
-    // Shift the result of the reduction.
-    yypush_ (YY_NULL, yylhs);
+      // Shift the result of the reduction.
+      yypush_ (YY_NULLPTR, yylhs);
+    }
     goto yynewstate;
 
   /*--------------------------------------.
@@ -906,10 +908,7 @@ b4_dollar_popdef])[]dnl
        code.  */
     if (false)
       goto yyerrorlab;]b4_locations_if([[
-    yyerror_range[1].location = yystack_[yylen - 1].location;]])b4_variant_if([[
-    /* $$ was initialized before running the user action.  */
-    YY_SYMBOL_PRINT ("Error: discarding", yylhs);
-    yylhs.~stack_symbol_type();]])[
+    yyerror_range[1].location = yystack_[yylen - 1].location;]])[
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);
@@ -988,11 +987,11 @@ b4_dollar_popdef])[]dnl
         // Do not try to display the values of the reclaimed symbols,
         // as their printer might throw an exception.
         if (!yyempty)
-          yy_destroy_ (YY_NULL, yyla);
+          yy_destroy_ (YY_NULLPTR, yyla);
 
         while (1 < yystack_.size ())
           {
-            yy_destroy_ (YY_NULL, yystack_[0]);
+            yy_destroy_ (YY_NULLPTR, yystack_[0]);
             yypop_ ();
           }
         throw;
@@ -1074,7 +1073,7 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
           }
       }
 
-    char const* yyformat = YY_NULL;
+    char const* yyformat = YY_NULLPTR;
     switch (yycount)
       {
 #define YYCASE_(N, S)                         \

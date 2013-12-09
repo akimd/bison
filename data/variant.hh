@@ -95,7 +95,7 @@ m4_define([b4_variant_define],
 
     /// Empty construction.
     variant ()]b4_parse_assert_if([
-      : yytname_ (YY_NULL)])[
+      : yytname_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
@@ -198,7 +198,7 @@ m4_define([b4_variant_define],
     destroy ()
     {
       as<T> ().~T ();]b4_parse_assert_if([
-      yytname_ = YY_NULL;])[
+      yytname_ = YY_NULLPTR;])[
     }
 
   private:
@@ -320,7 +320,6 @@ b4_join(b4_symbol_if([$1], [has_type],
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
                                 b4_symbol_if([$1], [has_type], [v]),
                                 b4_locations_if([l])));
-
   }
 
 ])])])

@@ -635,9 +635,12 @@ m4_define([AT_BISON_CHECK_],
 # ----------------------------------------------------------
 # Check that warnings (if some are expected) are correctly
 # turned into errors with -Werror, etc.
+#
+# When -Wno-error is used, the rules are really different, don't try.
 m4_define([AT_BISON_CHECK_WARNINGS],
 [m4_if(m4_bregexp([$4], [: warning: ]), [-1], [],
-      [m4_null_if([$2], [AT_BISON_CHECK_WARNINGS_($@)])])])
+       m4_bregexp([$1], [-Wno-error=]), [-1],
+                  [m4_null_if([$2], [AT_BISON_CHECK_WARNINGS_($@)])])])
 
 m4_define([AT_BISON_CHECK_WARNINGS_],
 [[# Defining POSIXLY_CORRECT causes bison to complain if options are
@@ -869,6 +872,49 @@ AT_COMPILE_CXX([cxx-only.o], [cxx-only.cc])
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS $LDFLAGS c-only.o cxx-only.o -o c-and-cxx ||
           exit 77], [ignore], [ignore])
 AT_PARSER_CHECK([./c-and-cxx])
+])
+
+
+# AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
+# ------------------------------------
+# Check that we can expect exceptions to be handled properly.
+# GCC 4.3 and 4.4 fail https://trac.macports.org/ticket/40853.
+m4_define([AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR],
+[AT_DATA_SOURCE([exception.cc],
+[[#include <iostream>
+#include <stdexcept>
+
+void foo()
+{
+  try
+    {
+      throw std::runtime_error("foo");
+    }
+  catch (...)
+    {
+      std::cerr << "Inner caught" << std::endl;
+      throw;
+    }
+}
+
+int main()
+{
+  try
+    {
+      foo();
+    }
+  catch (...)
+    {
+      std::cerr << "Outer caught" << std::endl;
+      return 0;
+    }
+  return 1;
+}
+]])
+AT_COMPILE_CXX([exception])
+# The "empty" quadrigraph is to protect from cfg.mk's
+# sc_at_parser_check.
+AT_CHECK([@&t@./exception || exit 77], [0], [], [ignore])
 ])
 
 

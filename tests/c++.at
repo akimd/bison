@@ -243,7 +243,7 @@ typedef std::list<std::string> strings_type;
 // digraph for the left square bracket.
 %type <::std::list<std::string>> list result;
 
-%printer { yyo << $][$; }
+%printer { yyo << $$; }
   <int> <::std::string> <::std::list<std::string>>;
 %%
 
@@ -253,13 +253,13 @@ result:
 
 list:
   /* nothing */ { /* Generates an empty string list */ }
-| list item     { std::swap ($][$,$][1); $$.push_back ($][2); }
-| list error    { std::swap ($][$,$][1); }
+| list item     { std::swap ($$,$][1); $$.push_back ($][2); }
+| list error    { std::swap ($$,$][1); }
 ;
 
 item:
-  TEXT          { std::swap ($][$,$][1); }
-| NUMBER        { if ($][1 == 3) YYERROR; else $][$ = string_cast ($][1); }
+  TEXT          { std::swap ($$,$][1); }
+| NUMBER        { if ($][1 == 3) YYERROR; else $$ = string_cast ($][1); }
 ;
 %%
 ]AT_TOKEN_CTOR_IF([],
@@ -649,11 +649,14 @@ AT_CLEANUP
 ## Exception safety.  ##
 ## ------------------ ##
 
-# AT_TEST([BISON-DIRECTIVES])
-# ---------------------------
+# AT_TEST([BISON-DIRECTIVES = ''], [WITH-RECOVERY = "with"])
+# ----------------------------------------------------------
 # Check that no object is leaked when exceptions are thrown.
+# WITH-RECOVERY = "with" or "without".
 m4_pushdef([AT_TEST],
-[AT_SETUP([[Exception safety $1]])
+[AT_SETUP([[Exception safety $2 error recovery $1]])
+
+AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 
@@ -667,27 +670,43 @@ $1
   #include <cassert>
   #include <cstdlib> // size_t and getenv.
   #include <iostream>
-  #include <list>
+  #include <set>
 
   bool debug = false;
 
-  /// A class that counts its number of instances.
+  /// A class that tracks its instances.
   struct Object
   {
     char val;
 
-    Object (char v)
-      : val (v)
-    {
-      Object::instances.push_back(this);
-      log (this, "Object::Object");
-    }
-
     Object ()
       : val ('?')
     {
-      Object::instances.push_back(this);
       log (this, "Object::Object");
+      Object::instances.insert (this);
+    }
+
+    Object (const Object& that)
+      : val (that.val)
+    {
+      log (this, "Object::Object");
+      Object::instances.insert (this);
+    }
+
+    Object (char v)
+      : val (v)
+    {
+      log (this, "Object::Object");
+      Object::instances.insert (this);
+    }
+
+    ~Object ()
+    {
+      log (this, "Object::~Object");
+      objects::const_iterator i = instances.find (this);
+      // Make sure this object is alive.
+      assert (i != instances.end ());
+      Object::instances.erase (i);
     }
 
     Object& operator= (char v)
@@ -696,14 +715,8 @@ $1
       return *this;
     }
 
-    ~Object ()
-    {
-      Object::instances.remove (this);
-      log (this, "Object::~Object");
-    }
-
     // Static part.
-    typedef std::list<const Object*> objects;
+    typedef std::set<const Object*> objects;
     static objects instances;
 
     static bool
@@ -783,22 +796,23 @@ $1
 start: list {]AT_VARIANT_IF([], [ delete $][1]; )[};
 
 list:
-  item       { $][$ = $][1; }
+  item       { $$ = $][1; }
   // Right recursion to load the stack.
-| item list  { $][$ = $][1; ]AT_VARIANT_IF([], [delete $][2]; )[}
+| item list  { $$ = $][1; ]AT_VARIANT_IF([], [delete $][2]; )[}
 ;
 
 item:
-  'a'     { $$][ = $][1; }
-| 'e'     { YYUSE ($][$); YYUSE($][1); error ("syntax error"); }
+  'a'     { $$ = $][1; }
+| 'e'     { YYUSE ($$); YYUSE($][1); error ("syntax error"); }
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
-| 'E' 'a' { YYUSE($][1); $][$ = $][2; }
-| 'R'     { ]AT_VARIANT_IF([], [$][$ = YY_NULL; delete $][1]; )[YYERROR; }
-| 'p'     { $][$ = $][1; }
-| 's'     { $][$ = $][1; throw std::runtime_error ("reduction"); }
-| 'T'     { ]AT_VARIANT_IF([], [$][$ = YY_NULL; delete $][1]; )[YYABORT; }
-| error   { ]AT_VARIANT_IF([], [$][$ = YY_NULL; ])[yyerrok; }
+| 'E' 'a' { YYUSE($][1); $$ = $][2; }
+| 'R'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYERROR; }
+| 'p'     { $$ = $][1; }
+| 's'     { $$ = $][1; throw std::runtime_error ("reduction"); }
+| 'T'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYABORT; }
+]m4_if([$2], [with],
+[[| error   { $$ = ]AT_VARIANT_IF([], [new ])[Object ('R'); yyerrok; }]])[
 ;
 %%
 
@@ -818,7 +832,8 @@ yylex (yy::parser::semantic_type *lvalp)
   case 'l':
     throw std::runtime_error ("yylex");
   default:
-    lvalp]AT_VARIANT_IF([->build (res)], [->obj = new Object (res)])[;
+    lvalp->]AT_VARIANT_IF([build (Object (res))],
+                          [obj = new Object (res)])[;
     // Fall through.
   case 0:
     return res;
@@ -865,7 +880,7 @@ main (int argc, const char *argv[])
   {
     std::cerr << "unknown exception caught" << std::endl;
   }
-  Object::log (YY_NULL, "end");
+  Object::log (YY_NULLPTR, "end");
   assert (Object::empty());
   return res;
 }
@@ -900,16 +915,17 @@ AT_PARSER_CHECK([[./input aaaaE]], [[2]], [[]],
 
 AT_PARSER_CHECK([[./input aaaaT]], [[1]])
 
-# There is error-recovery, so exit success.
-AT_PARSER_CHECK([[./input aaaaR]], [[0]])
+AT_PARSER_CHECK([[./input aaaaR]], [m4_if([$2], [with], [0], [1])])
 
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
 ])
 
-AT_TEST
-AT_TEST([%define api.value.type variant])
+AT_TEST([], [with])
+AT_TEST([], [without])
+AT_TEST([%define api.value.type variant], [with])
+AT_TEST([%define api.value.type variant], [without])
 
 m4_popdef([AT_TEST])
 

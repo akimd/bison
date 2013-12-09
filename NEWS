@@ -2,9 +2,61 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+
+* Noteworthy changes in release 3.0.2 (2013-12-05) [stable]
+
 ** Bug fixes
 
-  Portability issues in the test suite.
+*** Generated source files when errors are reported
+
+  When warnings are issued and -Werror is set, bison would still generate
+  the source files (*.c, *.h...).  As a consequence, some runs of "make"
+  could fail the first time, but not the second (as the files were generated
+  anyway).
+
+  This is fixed: bison no longer generates this source files, but, of
+  course, still produces the various reports (*.output, *.xml, etc.).
+
+*** %empty is used in reports
+
+  Empty right-hand sides are denoted by '%empty' in all the reports (text,
+  dot, XML and formats derived from it).
+
+*** YYERROR and variants
+
+  When C++ variant support is enabled, an error triggered via YYERROR, but
+  not caught via error recovery, resulted in a double deletion.
+
+* Noteworthy changes in release 3.0.1 (2013-11-12) [stable]
+
+** Bug fixes
+
+*** Errors in caret diagnostics
+
+  On some platforms, some errors could result in endless diagnostics.
+
+*** Fixes of the -Werror option
+
+  Options such as "-Werror -Wno-error=foo" were still turning "foo"
+  diagnostics into errors instead of warnings.  This is fixed.
+
+  Actually, for consistency with GCC, "-Wno-error=foo -Werror" now also
+  leaves "foo" diagnostics as warnings.  Similarly, with "-Werror=foo
+  -Wno-error", "foo" diagnostics are now errors.
+
+*** GLR Predicates
+
+  As demonstrated in the documentation, one can now leave spaces between
+  "%?" and its "{".
+
+*** Installation
+
+  The yacc.1 man page is no longer installed if --disable-yacc was
+  specified.
+
+*** Fixes in the test suite
+
+  Bugs and portability issues.
 
 * Noteworthy changes in release 3.0 (2013-07-25) [stable]
 

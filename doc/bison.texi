@@ -10065,17 +10065,15 @@ A category can be turned off by prefixing its name with @samp{no-}.  For
 instance, @option{-Wno-yacc} will hide the warnings about
 POSIX Yacc incompatibilities.
 
-@item -Werror[=@var{category}]
-@itemx -Wno-error[=@var{category}]
-Enable warnings falling in @var{category}, and treat them as errors.  If no
-@var{category} is given, it defaults to making all enabled warnings into errors.
+@item -Werror
+Turn enabled warnings for every @var{category} into errors, unless they are
+explicitly disabled by @option{-Wno-error=@var{category}}.
+
+@item -Werror=@var{category}
+Enable warnings falling in @var{category}, and treat them as errors.
 
 @var{category} is the same as for @option{--warnings}, with the exception that
 it may not be prefixed with @samp{no-} (see above).
-
-Prefixed with @samp{no}, it deactivates the error treatment for this
-@var{category}. However, the warning itself won't be disabled, or enabled, by
-this option.
 
 Note that the precedence of the @samp{=} and @samp{,} operators is such that
 the following commands are @emph{not} equivalent, as the first will not treat
@@ -10085,6 +10083,14 @@ S/R conflicts as errors.
 $ bison -Werror=yacc,conflicts-sr input.y
 $ bison -Werror=yacc,error=conflicts-sr input.y
 @end example
+
+@item -Wno-error
+Do not turn enabled warnings for every @var{category} into errors, unless
+they are explicitly enabled by @option{-Werror=@var{category}}.
+
+@item -Wno-error=@var{category}
+Deactivate the error treatment for this @var{category}. However, the warning
+itself won't be disabled, or enabled, by this option.
 
 @item -f [@var{feature}]
 @itemx --feature[=@var{feature}]

@@ -67,7 +67,7 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
   return 0;
 }
 
-const char *input = YY_NULL;
+const char *input = YY_NULLPTR;
 
 int
 main (int argc, const char* argv[])
@@ -304,7 +304,7 @@ MergeRule (int x0, int x1)
 }
 ]AT_YYERROR_DEFINE[
 
-FILE *input = YY_NULL;
+FILE *input = YY_NULLPTR;
 
 int P[] = { P1, P2 };
 int O[] = { O1, O2 };
@@ -1747,5 +1747,35 @@ Cleanup: popping token 'c' ()
 Cleanup: popping nterm b ()
 Cleanup: popping token 'a' ()
 ])
+
+AT_CLEANUP
+
+
+## ----------------------------------------------------------------- ##
+## Predicates.                                                       ##
+##                                                                   ##
+## http://lists.gnu.org/archive/html/bug-bison/2013-10/msg00004.html ##
+## ----------------------------------------------------------------- ##
+
+AT_SETUP([Predicates])
+
+# FIXME: We need genuine test cases with uses of %?.
+
+AT_DATA_GRAMMAR([input.y],
+[[%glr-parser
+%expect-rr 1
+%%
+// Exercise "%?{...}" and "%? {...}".
+widget:
+  %? {new_syntax} "widget" id new_args  { $$ = f($3, $4); }
+| %?{!new_syntax} "widget" id old_args  { $$ = f($3, $4); }
+;
+id:;
+new_args:;
+old_args:;
+%%
+]])
+
+AT_BISON_CHECK([[input.y]])
 
 AT_CLEANUP

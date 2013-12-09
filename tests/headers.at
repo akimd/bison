@@ -223,9 +223,13 @@ AT_CHECK([[$PERL -n -0777 -e '
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
   s{\b(YYChar
-      |YYPUSH_MORE(_DEFINED)?
+      |YYPUSH_MORE(?:_DEFINED)?
+      |YYUSE
+      |YY_ATTRIBUTE(?:_PURE|_UNUSED)?
+      |YY_IGNORE_MAYBE_UNINITIALIZED_(?:BEGIN|END)
+      |YY_INITIAL_VALUE
       |YY_\w+_INCLUDED
-      |YY_NULL
+      |YY_NULLPTR
       |(defined|if)\ YYDEBUG
       )\b}{}gx;
   while (/^(.*YY.*)$/gm)

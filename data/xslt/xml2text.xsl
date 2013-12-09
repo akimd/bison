@@ -350,12 +350,7 @@
     <xsl:if test="position() = $point + 1">
       <xsl:text> .</xsl:text>
     </xsl:if>
-    <xsl:if test="$itemset = 'true' and name(.) != 'empty'">
-      <xsl:apply-templates select="."/>
-    </xsl:if>
-    <xsl:if test="$itemset != 'true'">
-      <xsl:apply-templates select="."/>
-    </xsl:if>
+    <xsl:apply-templates select="."/>
     <xsl:if test="position() = last() and position() = $point">
       <xsl:text> .</xsl:text>
     </xsl:if>

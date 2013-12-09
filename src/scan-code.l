@@ -342,8 +342,19 @@ show_sub_message (warnings warning,
     {
       static struct obstack msg_buf;
       const char *tail = explicit_bracketing ? "" : cp + strlen (var->id);
-      const char *id = var->hidden_by ? var->hidden_by->id : var->id;
-      location id_loc = var->hidden_by ? var->hidden_by->loc : var->loc;
+      const char *id;
+      location id_loc;
+
+      if (var->hidden_by)
+        {
+          id = var->hidden_by->id;
+          id_loc = var->hidden_by->loc;
+        }
+      else
+        {
+          id = var->id;
+          id_loc = var->loc;
+        }
 
       /* Create the explanation message. */
       obstack_init (&msg_buf);
@@ -573,9 +584,6 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         return INVALID_REF;
       }
     }
-
-  /* Not reachable. */
-  return INVALID_REF;
 }
 
 /* Keeps track of the maximum number of semantic values to the left of

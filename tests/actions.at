@@ -596,7 +596,7 @@ thing:
 ;
 %%
 /* Alias to ARGV[1]. */
-const char *source = YY_NULL;
+const char *source = YY_NULLPTR;
 
 ]AT_YYERROR_DEFINE[
 

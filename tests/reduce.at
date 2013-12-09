@@ -1057,7 +1057,7 @@ State 12
 
     4 A: 'a' 'a' . B
     5 B: . 'a'
-    6  | .  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
+    6  | . %empty  ]AT_COND_CASE([[LALR]], [[['a', 'b']]], [[['a']]])[
 
     ]AT_COND_CASE([[canonical LR]], [['a']],
                   [[$default]])[  reduce using rule 6 (B)
@@ -1087,7 +1087,7 @@ State 15
 
     4 A: 'a' 'a' . B
     5 B: . 'a'
-    6  | .  [$end]
+    6  | . %empty  [$end]
     7 c: 'a' 'a' . 'b'
 
     'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[20]],
@@ -1150,7 +1150,7 @@ State 22]])[
 
     4 A: 'a' 'a' . B
     5 B: . 'a'
-    6  | .  ['b']
+    6  | . %empty  ['b']
 
     'a'  shift, and go to state ]AT_COND_CASE([[canonical LR]], [[23]],
                                               [[16]])[
@@ -1575,8 +1575,8 @@ State 3
     1 start: a . b
     2      | a . b 'a'
     3      | a . c 'b'
-    5 b: .  [$end, 'a']
-    6 c: .  ['b']]AT_COND_CASE([[most]], [[
+    5 b: . %empty  [$end, 'a']
+    6 c: . %empty  ['b']]AT_COND_CASE([[most]], [[
 
     'b'       reduce using rule 6 (c)
     $default  reduce using rule 5 (b)]], [[

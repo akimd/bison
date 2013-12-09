@@ -62,12 +62,21 @@ tools we depend upon, including:
 - Gettext <http://www.gnu.org/software/gettext/>
 - Graphviz <http://www.graphviz.org>
 - Gzip <http://www.gnu.org/software/gzip/>
+- Help2man <http://www.gnu.org/software/help2man/>
 - Perl <http://www.cpan.org/>
 - Rsync <http://samba.anu.edu.au/rsync/>
 - Tar <http://www.gnu.org/software/tar/>
+- Texinfo <http://www.gnu.org/software/texinfo/>
 
 Valgrind <http://valgrind.org/> is also highly recommended, if it supports
 your architecture.
+
+If you're using a GNU/Linux distribution, the easiest way to install the
+above packages depends on your system.  The following shell command should
+work for Debian-based systems such as Ubuntu:
+
+  sudo apt-get install \
+    autoconf automake autopoint flex graphviz help2man texinfo valgrind
 
 Bison is written using Bison grammars, so there are bootstrapping issues.
 The bootstrap script attempts to discover when the C code generated from the

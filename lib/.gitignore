@@ -272,3 +272,5 @@
 /sig-handler.c
 /unistd.c
 /wctype-h.c
+/lstat.c
+/unlink.c

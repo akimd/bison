@@ -770,7 +770,7 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "$accept", "statement", "struct_stat", "if", "else", YY_NULL
+  "\"else\"", "$accept", "statement", "struct_stat", "if", "else", YY_NULLPTR
 };
 static const yytype_uint16 yytoknum[] =
 {
