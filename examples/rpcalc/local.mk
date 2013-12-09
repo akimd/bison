@@ -30,3 +30,10 @@ nodist_%C%_rpcalc_SOURCES = $(rpcalc_sources)
 
 %C%_rpcalc_CPPFLAGS = -I$(top_builddir)/%D%
 dist_TESTS += %D%/rpcalc.test
+
+## ------------ ##
+## Installing.  ##
+## ------------ ##
+
+rpcalcdir = $(docdir)/examples/rpcalc
+rpcalc_DATA = $(rpcalc_extracted)

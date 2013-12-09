@@ -71,12 +71,15 @@ AC_CACHE_CHECK([whether pragma GCC diagnostic push works],
   CFLAGS=$save_CFLAGS])
 
 AC_ARG_ENABLE([gcc-warnings],
-[  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended)],
+[  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended).
+                           Also, issue synclines from the examples/ to
+                           the corresponding source in the Texinfo doc.],
 [case $enable_gcc_warnings in
    yes|no) ;;
    *)  AC_MSG_ERROR([invalid value for --gcc-warnings: $enable_gcc_warnings]);;
  esac],
               [enable_gcc_warnings=no])
+AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
   warn_common='-Wall-Wextra -Wno-sign-compare -Wcast-align -Wdocumentation
     -Wformat -Wpointer-arith -Wwrite-strings'
