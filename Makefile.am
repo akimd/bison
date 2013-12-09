@@ -24,8 +24,10 @@ SUBDIRS = po runtime-po .
 aclocaldir = @aclocaldir@
 aclocal_DATA = m4/bison-i18n.m4
 
-EXTRA_DIST = .prev-version .version \
-  cfg.mk ChangeLog-1998 ChangeLog-2012 PACKAGING
+EXTRA_DIST = .prev-version .version cfg.mk PACKAGING \
+  ChangeLog-1998 ChangeLog-2012 ChangeLog
+
+dist_doc_DATA = AUTHORS COPYING NEWS README THANKS TODO
 
 ## Running the bison from this tarball.  To generate our own parser,
 ## but also to run the tests.  Of course, you ought to keep a sane
