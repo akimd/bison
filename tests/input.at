@@ -721,49 +721,49 @@ input.y:2.1-5:     previous declaration
 # This time, declare the alias after its use.
 
 # Precedence/associativity.
-## FIXME: AT_TEST([[%left "foo"
-## FIXME: %left foo
-## FIXME: %token foo "foo"
-## FIXME: %%
-## FIXME: exp: foo;
-## FIXME: ]],
-## FIXME: [[input.y:2.1-5: error: %left redeclaration for foo
-## FIXME:  %left foo
-## FIXME:  ^^^^^
-## FIXME: input.y:1.1-5:     previous declaration
-## FIXME:  %left "foo"
-## FIXME:  ^^^^^
-## FIXME: ]])
+AT_TEST([[%left "foo"
+%left foo
+%token foo "foo"
+%%
+exp: foo;
+]],
+[[input.y:2.1-5: error: %left redeclaration for foo
+ %left foo
+ ^^^^^
+input.y:1.1-5:     previous declaration
+ %left "foo"
+ ^^^^^
+]])
 
-## FIXME: # Printer.
-## FIXME: AT_TEST([[%printer {} "foo"
-## FIXME: %printer {} foo
-## FIXME: %token foo "foo"
-## FIXME: %%
-## FIXME: exp: foo;
-## FIXME: ]],
-## FIXME: [[input.y:2.10-11: error: %printer redeclaration for foo
-## FIXME:  %printer {} foo
-## FIXME:           ^^
-## FIXME: input.y:1.10-11:     previous declaration
-## FIXME:  %printer {} "foo"
-## FIXME:           ^^
-## FIXME: ]])
+# Printer.
+AT_TEST([[%printer {} "foo"
+%printer {} foo
+%token foo "foo"
+%%
+exp: foo;
+]],
+[[input.y:2.10-11: error: %printer redeclaration for foo
+ %printer {} foo
+          ^^
+input.y:1.10-11:     previous declaration
+ %printer {} "foo"
+          ^^
+]])
 
-## FIXME: # Destructor.
-## FIXME: AT_TEST([[%destructor {} "foo"
-## FIXME: %destructor {} foo
-## FIXME: %token foo "foo"
-## FIXME: %%
-## FIXME: exp: foo;
-## FIXME: ]],
-## FIXME: [[input.y:2.13-14: error: %destructor redeclaration for foo
-## FIXME:  %destructor {} foo
-## FIXME:              ^^
-## FIXME: input.y:1.13-14:     previous declaration
-## FIXME:  %destructor {} "foo"
-## FIXME:              ^^
-## FIXME: ]])
+# Destructor.
+AT_TEST([[%destructor {} "foo"
+%destructor {} foo
+%token foo "foo"
+%%
+exp: foo;
+]],
+[[input.y:2.13-14: error: %destructor redeclaration for foo
+ %destructor {} foo
+             ^^
+input.y:1.13-14:     previous declaration
+ %destructor {} "foo"
+             ^^
+]])
 
 m4_popdef([AT_TEST])
 AT_CLEANUP
