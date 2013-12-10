@@ -30,3 +30,10 @@ nodist_%C%_mfcalc_SOURCES = $(mfcalc_sources)
 
 %C%_mfcalc_CPPFLAGS = -I$(top_builddir)/%D%
 dist_TESTS += %D%/mfcalc.test
+
+## ------------ ##
+## Installing.  ##
+## ------------ ##
+
+mfcalcdir = $(docdir)/examples/mfcalc
+mfcalc_DATA = $(mfcalc_extracted)

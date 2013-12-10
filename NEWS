@@ -2,6 +2,41 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** Redeclarations are reported in proper order
+
+  On
+
+    %token FOO "foo"
+    %printer {} "foo"
+    %printer {} FOO
+
+  bison used to report:
+
+    /tmp/foo.yy:2.10-11: error: %printer redeclaration for FOO
+     %printer {} "foo"
+              ^^
+    /tmp/foo.yy:3.10-11:     previous declaration
+     %printer {} FOO
+              ^^
+
+  Now, the "previous" declaration is always the first one.
+
+
+** Documentation
+
+  Bison now installs various files in its docdir (which defaults to
+  '/usr/local/share/doc/bison'), including the three fully blown examples
+  extracted from the documentation:
+
+   - rpcalc
+     Reverse polish calculator, a simple introductory example.
+   - mfcalc
+     Multi-function Calc, a calculator with memory and functions and located
+     error messages.
+   - calc++
+     a calculator in C++ using variant support and token constructors.
 
 * Noteworthy changes in release 3.0.2 (2013-12-05) [stable]
 

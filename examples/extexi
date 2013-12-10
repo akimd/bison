@@ -19,7 +19,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Usage: extexi input-file.texi ... -- [FILES to extract]
+# Usage: extexi [OPTION...] input-file.texi ... -- [FILES to extract]
 
 # Look for @example environments preceded with lines such as:
 #
@@ -34,6 +34,9 @@
 # appearance is used.
 
 use strict;
+
+# Whether we generate synclines.
+my $synclines = 0;
 
 # normalize($block)
 # -----------------
@@ -102,7 +105,7 @@ sub process ($)
             {
               # Bison supports synclines, but not Flex.
               $input .= sprintf ("#line %s \"$in\"\n", $. + 1)
-                if $file =~ /\.[chy]*$/;
+                if $synclines && $file =~ /\.[chy]*$/;
               next;
             }
           elsif (/^\@end (small)?example$/)
@@ -136,14 +139,18 @@ my @input;
 my $seen_dash = 0;
 for my $arg (@ARGV)
 {
-  if ($arg eq '--')
-    {
-      $seen_dash = 1;
-    }
-  elsif ($seen_dash)
+  if ($seen_dash)
     {
       use File::Basename;
       $file_wanted{basename($arg)} = $arg;
+    }
+  elsif ($arg eq '--')
+    {
+      $seen_dash = 1;
+    }
+  elsif ($arg eq '--synclines')
+    {
+      $synclines = 1;
     }
   else
     {
