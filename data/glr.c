@@ -1347,10 +1347,10 @@ yyglrShift (yyGLRStack* yystackp, size_t yyk, yyStateNum yylrState,
   yynewState->yypred = yystackp->yytops.yystates[yyk];]b4_variant_if([[
   new (&yynewState->yysemantics.yysval) YYSTYPE;
   ]b4_symbol_variant([[yystos[yylrState]]], [[yynewState->yysemantics.yysval]],
-                     [move], [*yyvalp])], [[
+                     [copy], [*yyvalp])], [[
   yynewState->yysemantics.yysval = *yyvalp;]])[
 ]b4_locations_if([b4_variant_if(
-  [[std::swap(yynewState->yyloc, *yylocp);]],
+  [[yynewState->yyloc = *yylocp;]],
   [[yynewState->yyloc = *yylocp;]])])[
   yystackp->yytops.yystates[yyk] = yynewState;
 
