@@ -1,6 +1,8 @@
 \input texinfo @c -*-texinfo-*-
 @comment %**start of header
 @setfilename bison.info
+@documentencoding UTF-8
+@documentlanguage en
 @include version.texi
 @settitle Bison @value{VERSION}
 @setchapternewpage odd
