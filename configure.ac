@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2014 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ m4_pattern_forbid([^gl_[A-Z]])
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
         [bug-bison@gnu.org])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2013])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2014])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
 
