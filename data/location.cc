@@ -273,8 +273,7 @@ m4_define([b4_location_define],
   operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
     unsigned int end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
-    ostr << loc.begin// << "(" << loc.end << ") "
-;
+    ostr << loc.begin;
     if (loc.end.filename
         && (!loc.begin.filename
             || *loc.begin.filename != *loc.end.filename))
