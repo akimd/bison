@@ -192,7 +192,7 @@ flag (const char *arg)
   else if (STREQ (arg, "warn"))
     return Wother;
   else
-    aver (false);
+    abort ();
 }
 
 static void
