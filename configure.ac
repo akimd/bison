@@ -237,6 +237,9 @@ case $VALGRIND:$host_os in
     ;;
 esac
 
+# Whether we cannot run the compiled bison.
+AM_CONDITIONAL([CROSS_COMPILING], [test "$cross_compiling" = yes])
+
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])

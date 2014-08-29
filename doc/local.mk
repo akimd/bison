@@ -85,11 +85,13 @@ doc/refcard.pdf: doc/refcard.tex
 # repeated builds of bison.help.
 
 EXTRA_DIST += $(top_srcdir)/doc/bison.help
+if ! CROSS_COMPILING
 MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
 $(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
 	$(AM_V_GEN)src/bison$(EXEEXT) --version >doc/bison.help.tmp
 	$(AM_V_at) src/bison$(EXEEXT) --help   >>doc/bison.help.tmp
 	$(AM_V_at)$(top_srcdir)/build-aux/move-if-change doc/bison.help.tmp $@
+endif ! CROSS_COMPILING
 
 
 ## ----------- ##
@@ -106,7 +108,11 @@ remove_time_stamp = \
   sed 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
 
 # Depend on configure to get version number changes.
-$(top_srcdir)/doc/bison.1: doc/bison.help doc/bison.x $(top_srcdir)/configure
+if ! CROSS_COMPILING
+MAN_DEPS = doc/bison.help doc/bison.x $(top_srcdir)/configure
+endif
+
+$(top_srcdir)/doc/bison.1: $(MAN_DEPS)
 	$(AM_V_GEN)$(HELP2MAN)			\
 	    --include=$(top_srcdir)/doc/bison.x	\
 	    --output=$@.t src/bison$(EXEEXT)
