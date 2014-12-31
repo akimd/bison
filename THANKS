@@ -1,7 +1,7 @@
 Bison was originally written by Robert Corbett.  It would not be what
 it is today without the invaluable help of these people:
 
-Аскар Сафин              safinaskar@mail.ru
+Аскар Сафин               safinaskar@mail.ru
 Airy Andre                Airy.Andre@edf.fr
 Akim Demaille             akim@lrde.epita.fr
 Albert Chin-A-Young       china@thewrittenword.com
@@ -66,9 +66,9 @@ Johan van Selst           johans@stack.nl
 Jonathan Fabrizio         jonathan.fabrizio@lrde.epita.fr
 Jonathan Nieder           jrnieder@gmail.com
 Juan Manuel Guerrero      juan.guerrero@gmx.de
-Ken Moffat                zarniwhoop@ntlworld.com
 Kees Zeelenberg           kzlg@users.sourceforge.net
 Keith Browne              kbrowne@legato.com
+Ken Moffat                zarniwhoop@ntlworld.com
 Laurent Mascherpa         laurent.mascherpa@epita.fr
 Lie Yan                   lie.yan@kaust.edu.sa
 Magnus Fromreide          magfr@lysator.liu.se
@@ -114,9 +114,9 @@ Raja R Harinath           harinath@cs.umn.edu
 Ralf Wildenhues           Ralf.Wildenhues@gmx.de
 Richard Stallman          rms@gnu.org
 Rici Lake                 ricilake@gmail.com
+Rob Conde                 rob.conde@ai-solutions.com
 Rob Vermaas               rob.vermaas@gmail.com
 Robert Anisko             anisko_r@epita.fr
-Rob Conde                 rob.conde@ai-solutions.com
 Roland Levillain          roland@lrde.epita.fr
 Satya Kiran Popuri        satyakiran@gmail.com
 Sebastian Setzer          sebastian.setzer.ext@siemens.com
@@ -146,6 +146,7 @@ Wojciech Polak            polak@gnu.org
 Wolfgang S. Kechel        wolfgang.kechel@prs.de
 Wolfram Wagner            ww@mpi-sb.mpg.de
 Wwp                       subscript@free.fr
+xolodho                   xolodho@gmail.com
 Zack Weinberg             zack@codesourcery.com
 
 Many people are not named here because we lost track of them.  We

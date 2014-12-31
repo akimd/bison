@@ -5145,7 +5145,9 @@ value by default.  However, when the parser displays a @code{STRING1} or a
 @code{string1}, it formats it as a string in double quotes.  It performs
 only the second @code{%printer} in this case, so it prints only once.
 Finally, the parser print @samp{<>} for any symbol, such as @code{TAGLESS},
-that has no semantic type tag.  See also
+that has no semantic type tag.  @xref{Mfcalc Traces, ,Enabling Debug Traces
+for @code{mfcalc}}, for a complete example.
+
 
 
 @node Expect Decl
