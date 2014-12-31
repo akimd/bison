@@ -61,15 +61,16 @@ AT_CLEANUP
 ## api.value.type.  ##
 ## ---------------- ##
 
-# AT_TEST($1: BISON-DIRECTIVES,
-#         $2: MORE-BISON-DIRECTIVES,
-#         $3: PARSER-ACTION,
-#         $4: INPUT, $5: SCANNER-ACTION,
-#         $6: RESULT)
+# _AT_TEST($1: BISON-DIRECTIVES,
+#          $2: MORE-BISON-DIRECTIVES,
+#          $3: PARSER-ACTION,
+#          $4: INPUT,
+#          $5: SCANNER-ACTION,
+#          $6: RESULT)
 # --------------------------------------
 # Compile the grammar and check the expected result.
 # BISON-DIRECTIVES are passed to AT_SETUP, contrary to MORE-BISON-DIRECTIVES.
-m4_pushdef([AT_TEST],
+m4_pushdef([_AT_TEST],
 [
 AT_SETUP([$1])
 AT_KEYWORDS([api.value.type])
@@ -103,6 +104,25 @@ AT_PARSER_CHECK([./test], 0, [$6
 ], [stderr])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+])
+
+# AT_TEST($1: BISON-DIRECTIVES,
+#         $2: MORE-BISON-DIRECTIVES,
+#         $3: PARSER-ACTION,
+#         $4: INPUT,
+#         $5: SCANNER-ACTION,
+#         $6: RESULT)
+# --------------------------------------
+# Check with and without %defines, to avoid regressions.  It turns out
+# that in that case yacc.c calls the set-up of the %union twice,
+# because YYSTYPE is defined once in the header, and once in the
+# implementation file (eventually it'd be better to include the header
+# file, but that's another story).  Unfortunately running these macros
+# a second time doubled the side-effects and resulted in a double
+# definition of the union members.
+m4_pushdef([AT_TEST],
+[_AT_TEST([$1],          [$2], [$3], [$4], [$5], [$6])
+ _AT_TEST([$1 %defines], [$2], [$3], [$4], [$5], [$6])
 ])
 
 m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
@@ -228,3 +248,4 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
 ])
 
 m4_popdef([AT_TEST])
+m4_popdef([_AT_TEST])

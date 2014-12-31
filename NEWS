@@ -4,6 +4,11 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** %define api.value.type union with %defines
+
+  The yacc.c and glr.c parsers were broken when %defines was used
+  together with "%define api.value.type union".
+
 *** Redeclarations are reported in proper order
 
   On

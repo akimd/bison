@@ -560,15 +560,15 @@ b4_locations_if([, yylocationp])[]b4_user_args[);
 # b4_symbol_type_register(SYMBOL-NUM)
 # -----------------------------------
 # Symbol SYMBOL-NUM has a type (for variant) instead of a type-tag.
-# Extend the definition of %union's body with a field of that type,
-# and extend the symbol's "type" field to point to the field name,
-# instead of the type name.
+# Extend the definition of %union's body (b4_union_members) with a
+# field of that type, and extend the symbol's "type" field to point to
+# the field name, instead of the type name.
 m4_define([b4_symbol_type_register],
 [m4_define([b4_symbol($1, type_tag)],
            [b4_symbol_if([$1], [has_id],
                          [b4_symbol([$1], [id])],
                          [yytype_[]b4_symbol([$1], [number])])])dnl
-m4_append([b4_user_union_members],
+m4_append([b4_union_members],
 m4_expand([
   b4_symbol_tag_comment([$1])dnl
   b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]))
