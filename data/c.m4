@@ -97,7 +97,8 @@ m4_define([b4_api_PREFIX],
 m4_define_default([b4_prefix], [b4_api_prefix])
 
 # If the %union is not named, its name is YYSTYPE.
-m4_define_default([b4_union_name], [b4_api_PREFIX[]STYPE])
+b4_percent_define_default([[api.value.union.name]],
+                          [b4_api_PREFIX[][STYPE]])
 
 
 ## ------------------------ ##
@@ -608,10 +609,9 @@ m4_copy_force([b4_symbol_value_union], [b4_symbol_value])
 ])
 
 
-# ---------------- #
-# api.value.type.  #
-# ---------------- #
-
+# -------------------------- #
+# api.value.type = variant.  #
+# -------------------------- #
 
 # b4_value_type_setup_variant
 # ---------------------------
@@ -686,11 +686,13 @@ typedef ]b4_percent_define_get([[api.value.type]])[ ]b4_api_PREFIX[STYPE;
 [m4_bmatch(b4_percent_define_get([[api.value.type]]),
 [union\|union-directive],
 [[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
-union ]b4_union_name[
+]b4_percent_define_get_syncline([[api.value.union.name]])[
+union ]b4_percent_define_get([[api.value.union.name]])[
 {
 ]b4_user_union_members[
 };
+]b4_percent_define_get_syncline([[api.value.union.name]])[
+typedef union ]b4_percent_define_get([[api.value.union.name]])[ ]b4_api_PREFIX[STYPE;
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif

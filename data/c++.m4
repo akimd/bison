@@ -17,6 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Sanity checks, before defaults installed by c.m4.
+b4_percent_define_ifdef([[api.value.union.name]],
+  [b4_complain_at(b4_percent_define_get_loc([[api.value.union.name]]),
+                  [named %union is invalid in C++])])
+
 m4_include(b4_pkgdatadir/[c.m4])
 
 # b4_comment(TEXT, [PREFIX])

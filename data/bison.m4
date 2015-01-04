@@ -1061,3 +1061,6 @@ b4_percent_define_ifdef([api.value.type],
                 [['%s' and '%s' cannot be used together]],
                 [%yacc],
                 [%define api.value.type "union"])])])])
+
+# api.value.union.name.
+b4_percent_define_check_kind([api.value.union.name], [keyword])

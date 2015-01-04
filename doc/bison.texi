@@ -3851,7 +3851,7 @@ example:
 @noindent
 specifies the union tag @code{value}, so the corresponding C type is
 @code{union value}.  If you do not specify a tag, it defaults to
-@code{YYSTYPE}.
+@code{YYSTYPE} (@pxref{%define Summary,,api.value.union.name}).
 
 As another extension to POSIX, you may specify multiple @code{%union}
 declarations; their contents are concatenated.  However, only the first
@@ -6014,17 +6014,41 @@ Use this @var{type} as semantic value.
 @item Default Value:
 @itemize @minus
 @item
-@code{%union} if @code{%union} is used, otherwise @dots{}
+@code{union-directive} if @code{%union} is used, otherwise @dots{}
 @item
 @code{int} if type tags are used (i.e., @samp{%token <@var{type}>@dots{}} or
-@samp{%token <@var{type}>@dots{}} is used), otherwise @dots{}
+@samp{%type <@var{type}>@dots{}} is used), otherwise @dots{}
 @item
-@code{""}
+undefined.
 @end itemize
 
 @item History:
 introduced in Bison 3.0.  Was introduced for Java only in 2.3b as
 @code{stype}.
+@end itemize
+@end deffn
+@c api.value.type
+
+
+@c ================================================== api.value.union.name
+@deffn Directive {%define api.value.union.name} @var{name}
+@itemize @bullet
+@item Language(s):
+C
+
+@item Purpose:
+The tag of the generated @code{union} (@emph{not} the name of the
+@code{typedef}).  This variable is set to @code{@var{id}} when @samp{%union
+@var{id}} is used.  There is no clear reason to give this union a name.
+
+@item Accepted Values:
+Any valid identifier.
+
+@item Default Value:
+@code{YYSTYPE}.
+
+@item History:
+Introduced in Bison 3.0.3.
 @end itemize
 @end deffn
 @c api.value.type

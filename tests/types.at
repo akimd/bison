@@ -197,18 +197,23 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
              AT_VAL.fval = .2f],
           [10 0.2])
 
-  # A %union.
-  AT_TEST([%skeleton "]b4_skel["
-           %union { float fval; int ival; };],
-          [%token <ival> '1';
-           %token <fval> '2';],
-          ['1' '2' { printf ("%d %2.1f\n", $1, $2); }],
-          ["12"],
-          [if (res == '1')
-             AT_VAL.ival = 10;
-           else
-             AT_VAL.fval = 0.2f],
-          [10 0.2])
+  # A %union and a named %union.  In C++ named %union is an error.
+  m4_foreach([b4_union],
+             [m4_bmatch(b4_skel, [\.cc$],
+                       [[%union]],
+                        [[%union], [%union foo],
+                         [%define api.value.union.name foo; %union]])],
+   [AT_TEST([%skeleton "]b4_skel["
+             ]b4_union[ { float fval; int ival; };],
+            [%token <ival> '1';
+             %token <fval> '2';],
+            ['1' '2' { printf ("%d %2.1f\n", $1, $2); }],
+            ["12"],
+            [if (res == '1')
+               AT_VAL.ival = 10;
+             else
+               AT_VAL.fval = 0.2f],
+            [10 0.2])])
 
   # A Bison-defined union.
   # The tokens names are not available directly in C++, we use their
@@ -249,3 +254,22 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
 
 m4_popdef([AT_TEST])
 m4_popdef([_AT_TEST])
+
+
+## ------------------- ##
+## C++: Named %union.  ##
+## ------------------- ##
+
+m4_foreach([b4_skel], [[lalr1.cc], [glr.cc]],
+[AT_SETUP([b4_skel: Named %union])
+AT_DATA([input.y],
+[%skeleton "]b4_skel["
+%union foo { float fval; int ival; };
+%%
+exp: %empty;
+])
+AT_BISON_CHECK([input.y], 1, [],
+[[input.y:2.8-10: error: named %union is invalid in C++
+]])
+AT_CLEANUP
+])

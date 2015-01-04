@@ -4,6 +4,15 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** Named %union support
+
+  Bison 3.0 introduced a regression on named %union such as
+
+    %union foo { int ival; };
+
+  The possibility to use a name was introduced ``for Yacc compatibility''.
+  It is however not required by POSIX Yacc, and its usefulness is not clear.
+
 *** %define api.value.type union with %defines
 
   The yacc.c and glr.c parsers were broken when %defines was used
