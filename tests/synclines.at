@@ -1,6 +1,6 @@
 # Executing Actions.                               -*- Autotest -*-
 
-# Copyright (C) 2002, 2004-2005, 2007, 2009-2013 Free Software
+# Copyright (C) 2002, 2004-2005, 2007, 2009-2015 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -180,6 +180,35 @@ exp: '0';
 ]],
 [input.y:2: #error "2"
 ])
+
+
+## ---------------------- ##
+## %union name syncline.  ##
+## ---------------------- ##
+
+# Check that invalid union names are properly reported in the
+# source file.
+AT_SETUP([%union name syncline])
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([[input.y]],
+[[%union break
+{
+  char dummy;
+}
+%{
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
+%}
+%%
+exp: '0';
+%%
+]])
+
+AT_BISON_CHECK([-o input.c input.y])
+AT_SYNCLINES_COMPILE([input.c])
+AT_CHECK([[grep '^input.y:1' stdout]], 0, [ignore])
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
 
 
 ## ----------------------- ##

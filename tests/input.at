@@ -1,6 +1,6 @@
 # Checking the Bison scanner.                    -*- Autotest -*-
 
-# Copyright (C) 2002-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1902,6 +1902,51 @@ AT_TEST([%define api.prefix {foo}], [-p bar], [input.y:1.9-18])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
+
+
+## ----------------------- ##
+## Redefined %union name.  ##
+## ----------------------- ##
+
+AT_SETUP([[Redefined %union name]])
+
+# AT_TEST(DIRECTIVES, ERROR)
+# --------------------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[$1
+%%
+exp: %empty;
+])
+
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[$2])
+])
+
+AT_TEST([[%union foo {};
+%union {};
+%union foo {};
+%define api.value.union.name foo]],
+[[input.y:3.8-10: error: %define variable 'api.value.union.name' redefined
+input.y:1.8-10:     previous definition
+input.y:4.9-28: error: %define variable 'api.value.union.name' redefined
+input.y:3.8-10:     previous definition
+]])
+
+AT_TEST([[%define api.value.union.name {foo}]],
+[[input.y:1.9-28: error: %define variable 'api.value.union.name' requires keyword values
+input.y:1.9-28: error: %define variable 'api.value.union.name' is not used
+]])
+
+AT_TEST([[%define api.value.union.name "foo"]],
+[[input.y:1.9-28: error: %define variable 'api.value.union.name' requires keyword values
+input.y:1.9-28: error: %define variable 'api.value.union.name' is not used
+]])
+
+m4_popdef([AT_TEST])
+AT_CLEANUP
+
+
 
 
 ## -------------- ##

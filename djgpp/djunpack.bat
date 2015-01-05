@@ -7,7 +7,7 @@ Rem This batch file unpacks the Bison distribution while simultaneously
 Rem renaming some of the files whose names are invalid on DOS or conflict
 Rem with other file names after truncation to DOS 8+3 namespace.
 Rem
-Rem Copyright (C) 2005-2013 Free Software Foundation, Inc.
+Rem Copyright (C) 2005-2015 Free Software Foundation, Inc.
 Rem
 Rem This program is free software: you can redistribute it and/or modify
 Rem it under the terms of the GNU General Public License as published by

@@ -1,7 +1,8 @@
 Bison was originally written by Robert Corbett.  It would not be what
 it is today without the invaluable help of these people:
 
-Аскар Сафин              safinaskar@mail.ru
+Aaro Koskinen             aaro.koskinen@iki.fi
+Аскар Сафин               safinaskar@mail.ru
 Airy Andre                Airy.Andre@edf.fr
 Akim Demaille             akim@lrde.epita.fr
 Albert Chin-A-Young       china@thewrittenword.com
@@ -16,6 +17,7 @@ Art Haas                  ahaas@neosoft.com
 Baron Schwartz            baron@sequent.org
 Ben Pfaff                 blp@cs.stanford.edu
 Benoit Perrot             benoit.perrot@epita.fr
+Bernd Edlinger            bernd.edlinger@hotmail.de
 Bernd Kiefer              kiefer@dfki.de
 Bert Deknuydt             Bert.Deknuydt@esat.kuleuven.ac.be
 Bill Allombert            Bill.Allombert@math.u-bordeaux1.fr
@@ -66,9 +68,9 @@ Johan van Selst           johans@stack.nl
 Jonathan Fabrizio         jonathan.fabrizio@lrde.epita.fr
 Jonathan Nieder           jrnieder@gmail.com
 Juan Manuel Guerrero      juan.guerrero@gmx.de
-Ken Moffat                zarniwhoop@ntlworld.com
 Kees Zeelenberg           kzlg@users.sourceforge.net
 Keith Browne              kbrowne@legato.com
+Ken Moffat                zarniwhoop@ntlworld.com
 Laurent Mascherpa         laurent.mascherpa@epita.fr
 Lie Yan                   lie.yan@kaust.edu.sa
 Magnus Fromreide          magfr@lysator.liu.se
@@ -112,11 +114,12 @@ Quoc Peyrot               chojin@lrde.epita.fr
 R Blake                   blakers@mac.com
 Raja R Harinath           harinath@cs.umn.edu
 Ralf Wildenhues           Ralf.Wildenhues@gmx.de
+Rich Wilson               richaw@gmail.com
 Richard Stallman          rms@gnu.org
 Rici Lake                 ricilake@gmail.com
+Rob Conde                 rob.conde@ai-solutions.com
 Rob Vermaas               rob.vermaas@gmail.com
 Robert Anisko             anisko_r@epita.fr
-Rob Conde                 rob.conde@ai-solutions.com
 Roland Levillain          roland@lrde.epita.fr
 Satya Kiran Popuri        satyakiran@gmail.com
 Sebastian Setzer          sebastian.setzer.ext@siemens.com
@@ -124,6 +127,7 @@ Sebastien Fricker         sebastien.fricker@gmail.com
 Sergei Steshenko          sergstesh@yahoo.com
 Shura                     debil_urod@ngs.ru
 Stefano Lattarini         stefano.lattarini@gmail.com
+Stephen Cameron           stephenmcameron@gmail.com
 Steve Murphy              murf@parsetree.com
 Sum Wu                    sum@geekhouse.org
 Théophile Ranquet         theophile.ranquet@gmail.com
@@ -131,6 +135,7 @@ Thiru Ramakrishnan        thiru.ramakrishnan@gmail.com
 Tim Josling               tej@melbpc.org.au
 Tim Landscheidt           tim@tim-landscheidt.de
 Tim Van Holder            tim.van.holder@pandora.be
+Tobias Frost              tobi@debian.org
 Tom Lane                  tgl@sss.pgh.pa.us
 Tom Tromey                tromey@cygnus.com
 Tommy Nordgren            tommy.nordgren@chello.se
@@ -146,6 +151,7 @@ Wojciech Polak            polak@gnu.org
 Wolfgang S. Kechel        wolfgang.kechel@prs.de
 Wolfram Wagner            ww@mpi-sb.mpg.de
 Wwp                       subscript@free.fr
+xolodho                   xolodho@gmail.com
 Zack Weinberg             zack@codesourcery.com
 
 Many people are not named here because we lost track of them.  We
@@ -158,7 +164,7 @@ End:
 
 -----
 
-Copyright (C) 2000-2013 Free Software Foundation, Inc.
+Copyright (C) 2000-2015 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 

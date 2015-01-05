@@ -2,7 +2,7 @@
 
 # C M4 Macros for Bison.
 
-# Copyright (C) 2002, 2004-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004-2015 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -97,7 +97,8 @@ m4_define([b4_api_PREFIX],
 m4_define_default([b4_prefix], [b4_api_prefix])
 
 # If the %union is not named, its name is YYSTYPE.
-m4_define_default([b4_union_name], [b4_api_PREFIX[]STYPE])
+b4_percent_define_default([[api.value.union.name]],
+                          [b4_api_PREFIX[][STYPE]])
 
 
 ## ------------------------ ##
@@ -560,15 +561,15 @@ b4_locations_if([, yylocationp])[]b4_user_args[);
 # b4_symbol_type_register(SYMBOL-NUM)
 # -----------------------------------
 # Symbol SYMBOL-NUM has a type (for variant) instead of a type-tag.
-# Extend the definition of %union's body with a field of that type,
-# and extend the symbol's "type" field to point to the field name,
-# instead of the type name.
+# Extend the definition of %union's body (b4_union_members) with a
+# field of that type, and extend the symbol's "type" field to point to
+# the field name, instead of the type name.
 m4_define([b4_symbol_type_register],
 [m4_define([b4_symbol($1, type_tag)],
            [b4_symbol_if([$1], [has_id],
                          [b4_symbol([$1], [id])],
                          [yytype_[]b4_symbol([$1], [number])])])dnl
-m4_append([b4_user_union_members],
+m4_append([b4_union_members],
 m4_expand([
   b4_symbol_tag_comment([$1])dnl
   b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]))
@@ -608,10 +609,9 @@ m4_copy_force([b4_symbol_value_union], [b4_symbol_value])
 ])
 
 
-# ---------------- #
-# api.value.type.  #
-# ---------------- #
-
+# -------------------------- #
+# api.value.type = variant.  #
+# -------------------------- #
 
 # b4_value_type_setup_variant
 # ---------------------------
@@ -686,11 +686,13 @@ typedef ]b4_percent_define_get([[api.value.type]])[ ]b4_api_PREFIX[STYPE;
 [m4_bmatch(b4_percent_define_get([[api.value.type]]),
 [union\|union-directive],
 [[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
-union ]b4_union_name[
+]b4_percent_define_get_syncline([[api.value.union.name]])[
+union ]b4_percent_define_get([[api.value.union.name]])[
 {
 ]b4_user_union_members[
 };
+]b4_percent_define_get_syncline([[api.value.union.name]])[
+typedef union ]b4_percent_define_get([[api.value.union.name]])[ ]b4_api_PREFIX[STYPE;
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif

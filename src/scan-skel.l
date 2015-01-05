@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001-2013 Free Software Foundation, Inc.
+   Copyright (C) 2001-2015 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -192,7 +192,7 @@ flag (const char *arg)
   else if (STREQ (arg, "warn"))
     return Wother;
   else
-    aver (false);
+    abort ();
 }
 
 static void

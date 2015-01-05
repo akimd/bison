@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001-2013 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ m4_pattern_forbid([^gl_[A-Z]])
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
         [bug-bison@gnu.org])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2013])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2015])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
 
@@ -236,6 +236,9 @@ case $VALGRIND:$host_os in
     AC_SUBST([VALGRIND_PREBISON], ["$VALGRIND -q"])
     ;;
 esac
+
+# Whether we cannot run the compiled bison.
+AM_CONDITIONAL([CROSS_COMPILING], [test "$cross_compiling" = yes])
 
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.

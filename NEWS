@@ -4,6 +4,20 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** Named %union support
+
+  Bison 3.0 introduced a regression on named %union such as
+
+    %union foo { int ival; };
+
+  The possibility to use a name was introduced ``for Yacc compatibility''.
+  It is however not required by POSIX Yacc, and its usefulness is not clear.
+
+*** %define api.value.type union with %defines
+
+  The yacc.c and glr.c parsers were broken when %defines was used
+  together with "%define api.value.type union".
+
 *** Redeclarations are reported in proper order
 
   On
@@ -2718,7 +2732,7 @@ Output file does not redefine const for C++.
 
 -----
 
-Copyright (C) 1995-2013 Free Software Foundation, Inc.
+Copyright (C) 1995-2015 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 

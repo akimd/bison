@@ -274,3 +274,5 @@
 /wctype-h.c
 /lstat.c
 /unlink.c
+/gettimeofday.c
+/sys_time.in.h

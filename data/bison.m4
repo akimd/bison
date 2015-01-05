@@ -2,7 +2,7 @@
 
 # Language-independent M4 Macros for Bison.
 
-# Copyright (C) 2002, 2004-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004-2015 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1061,3 +1061,6 @@ b4_percent_define_ifdef([api.value.type],
                 [['%s' and '%s' cannot be used together]],
                 [%yacc],
                 [%define api.value.type "union"])])])])
+
+# api.value.union.name.
+b4_percent_define_check_kind([api.value.union.name], [keyword])

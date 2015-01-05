@@ -1,6 +1,6 @@
 /* Muscle table manager for Bison.
 
-   Copyright (C) 2001-2013 Free Software Foundation, Inc.
+   Copyright (C) 2001-2015 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -37,7 +37,7 @@ muscle_kind_new (char const *k)
     return muscle_keyword;
   else if (STREQ (k, "string"))
     return muscle_string;
-  aver (0);
+  abort ();
 }
 
 char const *
@@ -49,7 +49,7 @@ muscle_kind_string (muscle_kind k)
     case muscle_keyword: return "keyword";
     case muscle_string:  return "string";
     }
-  aver (0);
+  abort ();
 }
 
 
