@@ -83,7 +83,7 @@ m4_define([b4_position_define],
     }
   };
 
-  /// Add and assign a position.
+  /// Add \a width columns, in place.
   inline position&
   operator+= (position& res, int width)
   {
@@ -91,21 +91,21 @@ m4_define([b4_position_define],
     return res;
   }
 
-  /// Add two position objects.
+  /// Add \a width columns.
   inline position
   operator+ (position res, int width)
   {
     return res += width;
   }
 
-  /// Add and assign a position.
+  /// Subtract \a width columns, in place.
   inline position&
   operator-= (position& res, int width)
   {
     return res += -width;
   }
 
-  /// Add two position objects.
+  /// Subtract \a width columns.
   inline position
   operator- (position res, int width)
   {
@@ -216,36 +216,42 @@ m4_define([b4_location_define],
     position end;
   };
 
-  /// Join two location objects to create a location.
-  inline location operator+ (location res, const location& end)
+  /// Join two locations, in place.
+  inline location& operator+= (location& res, const location& end)
   {
     res.end = end.end;
     return res;
   }
 
-  /// Change end position in place.
+  /// Join two locations.
+  inline location operator+ (location res, const location& end)
+  {
+    return res += end;
+  }
+
+  /// Add \a width columns to the end position, in place.
   inline location& operator+= (location& res, int width)
   {
     res.columns (width);
     return res;
   }
 
-  /// Change end position.
+  /// Add \a width columns to the end position.
   inline location operator+ (location res, int width)
   {
     return res += width;
   }
 
-  /// Change end position in place.
+  /// Subtract \a width columns to the end position, in place.
   inline location& operator-= (location& res, int width)
   {
     return res += -width;
   }
 
-  /// Change end position.
-  inline location operator- (const location& begin, int width)
+  /// Subtract \a width columns to the end position.
+  inline location operator- (location res, int width)
   {
-    return begin + -width;
+    return res -= width;
   }
 ]b4_percent_define_flag_if([[define_location_comparison]], [[
   /// Compare two location objects.

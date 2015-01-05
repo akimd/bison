@@ -10686,12 +10686,17 @@ The first, inclusive, position of the range, and the first beyond.
 Forwarded to the @code{end} position.
 @end deftypemethod
 
-@deftypemethod {location} {location} operator+ (const location& @var{end})
-@deftypemethodx {location} {location} operator+ (int @var{width})
+@deftypemethod  {location} {location} operator+  (int @var{width})
 @deftypemethodx {location} {location} operator+= (int @var{width})
-@deftypemethodx {location} {location} operator- (int @var{width})
+@deftypemethodx {location} {location} operator-  (int @var{width})
 @deftypemethodx {location} {location} operator-= (int @var{width})
-Various forms of syntactic sugar.
+Various forms of syntactic sugar for @code{columns}.
+@end deftypemethod
+
+@deftypemethod {location} {location} operator+ (const location& @var{end})
+@deftypemethodx {location} {location} operator+= (const location& @var{end})
+Join two locations: starts at the position of the first one, and ends at the
+position of the second.
 @end deftypemethod
 
 @deftypemethod {location} {void} step ()
