@@ -369,6 +369,7 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 AT_DATA([input.yy],
 [[%skeleton "lalr1.cc"
 %locations
+%defines
 %debug
 %%
 exp: /* empty */;
@@ -376,7 +377,7 @@ exp: /* empty */;
 ]AT_YYERROR_DEFINE[
 ]])
 
-AT_BISON_CHECK([-o input.cc input.yy], 0)
+AT_BISON_CHECK([-o input.cc input.yy])
 
 AT_DATA([Doxyfile],
 [# The PROJECT_NAME tag is a single word (or a sequence of words
@@ -447,7 +448,7 @@ AT_CHECK_DOXYGEN([Private])
 # so don't check compilation.
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%language "C++" %define api.namespace {$1}])
-AT_DATA_GRAMMAR([[input.y]],
+AT_DATA_GRAMMAR([[input.yy]],
 [[%language "C++"
 %define api.namespace {]$1[}
 %union { int i; }
@@ -479,10 +480,10 @@ void
 ]])
 
 
-AT_BISON_CHECK([[-o input.cc input.y]])
+AT_BISON_CHECK([[-o input.cc input.yy]])
 
 m4_if([$#], [1],
-[AT_COMPILE_CXX([[input]], [[input.cc]])
+[AT_COMPILE_CXX([[input]])
 AT_PARSER_CHECK([[./input]])])
 AT_BISON_OPTION_POPDEFS
 ])
@@ -526,7 +527,7 @@ AT_SETUP([[Syntax error discarding no lookahead]])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 
-AT_DATA_GRAMMAR([[input.yy]],
+AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "lalr1.cc"
 
 %code {
@@ -579,8 +580,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([[-o input.cc input.yy]])
-AT_COMPILE_CXX([[input]])
+AT_FULL_COMPILE([[input]])
 # This used to print "Discarding 'a'." again at the end.
 AT_PARSER_CHECK([[./input]], [[1]], [[]],
 [[syntax error
@@ -600,7 +600,7 @@ AT_SETUP([[Syntax error as exception]])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 
-AT_DATA_GRAMMAR([[input.yy]],
+AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "lalr1.cc"
 
 %code
@@ -655,8 +655,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([[-o input.cc input.yy]])
-AT_COMPILE_CXX([[input]])
+AT_FULL_COMPILE([[input]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
 [[error: invalid expression
@@ -953,9 +952,9 @@ AT_TEST([%define api.value.type variant], [without])
 
 m4_popdef([AT_TEST])
 
-## ------------------------------------ ##
-## C++ GLR parser identifier shadowing  ##
-## ------------------------------------ ##
+## ------------------------------------- ##
+## C++ GLR parser identifier shadowing.  ##
+## ------------------------------------- ##
 
 AT_SETUP([[C++ GLR parser identifier shadowing]])
 
@@ -991,7 +990,7 @@ int yylex (yy::parser::semantic_type *yylval)
 void yy::parser::error (std::string const&)
 {}
 
-int main()
+int main ()
 {}
 ])
 
