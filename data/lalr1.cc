@@ -901,6 +901,7 @@ b4_dollar_popdef])[]dnl
         else if (!yyempty)
           {
             yy_destroy_ ("Error: discarding", yyla);
+            yyla.clear ();
             yyempty = true;
           }
       }
