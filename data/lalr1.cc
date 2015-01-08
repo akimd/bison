@@ -292,12 +292,14 @@ b4_location_define])])[
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
-      /// "empty" when empty.
+      /// \a empty when empty.
       symbol_number_type type_get () const;
 
+      /// The state number used to denote an empty symbol.
       enum { empty = 0 };
 
       /// The state.
+      /// \a empty when empty.
       state_type state;
     };
 
@@ -338,7 +340,7 @@ b4_location_define])])[
     /// Pop \a n symbols the three stacks.
     void yypop_ (unsigned int n = 1);
 
-    // Constants.
+    /// Constants.
     enum
     {
       yyeof_ = 0,
@@ -695,9 +697,6 @@ m4_if(b4_prefix, [yy], [],
   int
   ]b4_parser_class_name[::parse ()
   {
-    /// Whether yyla contains a lookahead.
-    bool yyempty = true;
-
     // State.
     int yyn;
     /// Length of the RHS of the rule being reduced.
@@ -706,6 +705,9 @@ m4_if(b4_prefix, [yy], [],
     // Error handling.
     int yynerrs_ = 0;
     int yyerrstatus_ = 0;
+
+    /// Whether yyla contains a lookahead.
+    bool yyempty = true;
 
     /// The lookahead symbol.
     symbol_type yyla;]b4_locations_if([[
@@ -1011,7 +1013,6 @@ b4_dollar_popdef])[]dnl
 b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
                     [state_type, symbol_number_type])[) const
   {]b4_error_verbose_if([[
-    std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     size_t yycount = 0;
@@ -1089,6 +1090,7 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
 #undef YYCASE_
       }
 
+    std::string yyres;
     // Argument number.
     size_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)

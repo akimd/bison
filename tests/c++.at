@@ -232,7 +232,7 @@ typedef std::list<std::string> strings_type;
   template <typename T>
     inline
     std::string
-    string_cast (const T& t)
+    to_string (const T& t)
   {
     std::ostringstream o;
     o << t;
@@ -266,7 +266,7 @@ list:
 
 item:
   TEXT          { std::swap ($$,$][1); }
-| NUMBER        { if ($][1 == 3) YYERROR; else $$ = string_cast ($][1); }
+| NUMBER        { if ($][1 == 3) YYERROR; else $$ = to_string ($][1); }
 ;
 %%
 ]AT_TOKEN_CTOR_IF([],
@@ -304,8 +304,8 @@ namespace yy
       }
     else
       {]AT_TOKEN_CTOR_IF([[
-        return parser::make_TEXT (string_cast (stage)]AT_LOCATION_IF([, location ()])[);]], [[
-        yylval->BUILD (std::string, string_cast (stage));]AT_LOCATION_IF([
+        return parser::make_TEXT (to_string (stage)]AT_LOCATION_IF([, location ()])[);]], [[
+        yylval->BUILD (std::string, to_string (stage));]AT_LOCATION_IF([
         *yylloc = location ();])[
         return parser::token::TEXT;]])[
       }

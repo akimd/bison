@@ -209,6 +209,7 @@ m4_define([b4_public_types_declare],
                     const semantic_type& v]b4_locations_if([,
                     const location_type& l])[);
 
+      /// Destroy the symbol.
       ~basic_symbol ();
 
       /// Destructive move, \a s is emptied into this.
@@ -244,16 +245,17 @@ m4_define([b4_public_types_declare],
       void move (by_type& that);
 
       /// The (internal) type number (corresponding to \a type).
-      /// -1 when this symbol is empty.
+      /// \a empty when empty.
       symbol_number_type type_get () const;
 
       /// The token.
       token_type token () const;
 
+      /// The type number used to denote an empty symbol.
       enum { empty = 0 };
 
       /// The symbol type.
-      /// -1 when this symbol is empty.
+      /// \a empty when empty.
       token_number_type type;
     };
 
