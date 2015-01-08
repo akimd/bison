@@ -214,7 +214,7 @@ b4_location_define])])[
 
     /// Generate an error message.
     /// \param yystate   the state where the error occurred.
-    /// \param yytoken   the lookahead token type, or yyempty_.
+    /// \param yytoken   the lookahead token type, or empty_symbol.
     virtual std::string yysyntax_error_ (state_type yystate,
                                          symbol_number_type yytoken) const;
 
@@ -292,11 +292,11 @@ b4_location_define])])[
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
-      /// \a empty when empty.
+      /// \a empty_symbol when empty.
       symbol_number_type type_get () const;
 
       /// The state number used to denote an empty symbol.
-      enum { empty = 0 };
+      enum { empty_state = -1 };
 
       /// The state.
       /// \a empty when empty.
@@ -346,7 +346,6 @@ b4_location_define])])[
       yyeof_ = 0,
       yylast_ = ]b4_last[,     ///< Last index in yytable_.
       yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
-      yyempty_ = -2,
       yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
@@ -535,7 +534,7 @@ m4_if(b4_prefix, [yy], [],
   // by_state.
   inline
   ]b4_parser_class_name[::by_state::by_state ()
-    : state (empty)
+    : state (empty_state)
   {}
 
   inline
@@ -548,7 +547,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = empty;
+    that.state = empty_state;
   }
 
   inline
@@ -560,7 +559,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::symbol_number_type
   ]b4_parser_class_name[::by_state::type_get () const
   {
-    return state == empty ? 0 : yystos_[state];
+    return state == empty_state ? empty_symbol : yystos_[state];
   }
 
   inline
@@ -576,7 +575,7 @@ m4_if(b4_prefix, [yy], [],
                                       [value], [move], [that.value])],
                    [[value = that.value;]])[
     // that is emptied.
-    that.type = empty;
+    that.type = empty_symbol;
   }
 
   inline
@@ -876,7 +875,7 @@ b4_dollar_popdef])[]dnl
         ++yynerrs_;
         error (]b4_join(b4_locations_if([yyla.location]),
                         [[yysyntax_error_ (yystack_[0].state,
-                                           yyempty ? yyempty_ : yyla.type_get ())]])[);
+                                           yyempty ? empty_symbol : yyla.type_get ())]])[);
       }
 
 ]b4_locations_if([[
@@ -1046,7 +1045,7 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
          token that will not be accepted due to an error action in a
          later state.
     */
-    if (yytoken != yyempty_)
+    if (yytoken != empty_symbol)
       {
         yyarg[yycount++] = yytname_[yytoken];
         int yyn = yypact_[yystate];
