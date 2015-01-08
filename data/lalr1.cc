@@ -288,6 +288,9 @@ b4_location_define])])[
       /// Copy constructor.
       by_state (const by_state& other);
 
+      /// Record that this symbol is empty.
+      void clear ();
+
       /// Steal the symbol type from \a that.
       void move (by_state& that);
 
@@ -544,10 +547,17 @@ m4_if(b4_prefix, [yy], [],
 
   inline
   void
+  ]b4_parser_class_name[::by_state::clear ()
+  {
+    state = empty_state;
+  }
+
+  inline
+  void
   ]b4_parser_class_name[::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = empty_state;
+    that.clear ();
   }
 
   inline

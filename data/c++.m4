@@ -215,6 +215,9 @@ m4_define([b4_public_types_declare],
       /// Destroy the symbol.
       ~basic_symbol ();
 
+      /// Destroy contents, and record that is empty.
+      void clear ();
+
       /// Whether empty.
       bool empty () const;
 
@@ -246,6 +249,9 @@ m4_define([b4_public_types_declare],
 
       /// Constructor from (external) token numbers.
       by_type (kind_type t);
+
+      /// Record that this symbol is empty.
+      void clear ();
 
       /// Steal the symbol type from \a that.
       void move (by_type& that);
@@ -329,6 +335,14 @@ m4_define([b4_public_types_define],
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
+  {
+    clear ();
+  }
+
+  template <typename Base>
+  inline
+  void
+  ]b4_parser_class_name[::basic_symbol<Base>::clear ()
   {]b4_variant_if([[
     // User destructor.
     symbol_number_type yytype = this->type_get ();
@@ -341,6 +355,7 @@ m4_define([b4_public_types_define],
 
     // Type destructor.
   ]b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
+    Base::clear ();
   }
 
   template <typename Base>
@@ -381,10 +396,17 @@ m4_define([b4_public_types_define],
 
   inline
   void
+  ]b4_parser_class_name[::by_type::clear ()
+  {
+    type = empty_symbol;
+  }
+
+  inline
+  void
   ]b4_parser_class_name[::by_type::move (by_type& that)
   {
     type = that.type;
-    that.type = empty_symbol;
+    that.clear ();
   }
 
   inline
