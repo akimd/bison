@@ -711,7 +711,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
                       "]b4_rhs_value(%d, %d, ", effective_rule_length, n);
       obstack_quote (&obstack_for_string, type_name);
       obstack_sgrow (&obstack_for_string, ")[");
-      if (n > 0)
+      if (0 < n)
         symbol_list_n_get (effective_rule, n)->action_props.is_value_used =
           true;
       break;
