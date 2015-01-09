@@ -4,19 +4,23 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-*** Named %union support
+*** C++ with Variants (lalr1.cc)
+
+  Problems with %destructor and '%define parse.assert' have been fixed.
+
+*** Named %union support (yacc.c, glr.c)
 
   Bison 3.0 introduced a regression on named %union such as
 
     %union foo { int ival; };
 
-  The possibility to use a name was introduced ``for Yacc compatibility''.
+  The possibility to use a name was introduced "for Yacc compatibility".
   It is however not required by POSIX Yacc, and its usefulness is not clear.
 
-*** %define api.value.type union with %defines
+*** %define api.value.type union with %defines (yacc.c, glr.c)
 
-  The yacc.c and glr.c parsers were broken when %defines was used
-  together with "%define api.value.type union".
+  The C parsers were broken when %defines was used together with "%define
+  api.value.type union".
 
 *** Redeclarations are reported in proper order
 
