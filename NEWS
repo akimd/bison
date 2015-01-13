@@ -2,6 +2,50 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Diagnostics about useless rules
+
+  In the following grammar, the 'exp' nonterminal is trivially useless.  So,
+  of course, its rules are useless too.
+
+    %%
+    input: '0' | exp
+    exp: exp '+' exp | exp '-' exp | '(' exp ')'
+
+  Previously all the useless rules were reported, including those whose
+  left-hand side is the 'exp' nonterminal:
+
+    warning: 1 nonterminal useless in grammar [-Wother]
+    warning: 4 rules useless in grammar [-Wother]
+    2.14-16: warning: nonterminal useless in grammar: exp [-Wother]
+     input: '0' | exp
+                  ^^^
+    2.14-16: warning: rule useless in grammar [-Wother]
+     input: '0' | exp
+                  ^^^
+    3.6-16: warning: rule useless in grammar [-Wother]
+     exp: exp '+' exp | exp '-' exp | '(' exp ')'
+          ^^^^^^^^^^^
+    3.20-30: warning: rule useless in grammar [-Wother]
+     exp: exp '+' exp | exp '-' exp | '(' exp ')'
+                        ^^^^^^^^^^^
+    3.34-44: warning: rule useless in grammar [-Wother]
+     exp: exp '+' exp | exp '-' exp | '(' exp ')'
+                                      ^^^^^^^^^^^
+
+  Now, rules whose left-hand side symbol is useless are no longer reported
+  as useless.
+
+    warning: 1 nonterminal useless in grammar [-Wother]
+    warning: 4 rules useless in grammar [-Wother]
+    2.14-16: warning: nonterminal useless in grammar: exp [-Wother]
+     input: '0' | exp
+                  ^^^
+    2.14-16: warning: rule useless in grammar [-Wother]
+     input: '0' | exp
+                  ^^^
+
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
 ** Bug fixes
 
 *** C++ with Variants (lalr1.cc)

@@ -24,7 +24,12 @@
 void reduce_grammar (void);
 void reduce_output (FILE *out);
 bool reduce_token_unused_in_grammar (symbol_number i);
-bool reduce_nonterminal_useless_in_grammar (symbol_number i);
+
+/** Whether symbol \a i is useless in the grammar.
+ * \pre  reduce_grammar was called before.
+ */
+bool reduce_nonterminal_useless_in_grammar (const sym_content *sym);
+
 void reduce_free (void);
 
 extern unsigned nuseless_nonterminals;

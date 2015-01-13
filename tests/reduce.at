@@ -172,33 +172,6 @@ input.y:13.1-8: warning: nonterminal useless in grammar: useless8 [-Wother]
 input.y:14.1-8: warning: nonterminal useless in grammar: useless9 [-Wother]
  useless9: '9';
  ^^^^^^^^
-input.y:6.11-13: warning: rule useless in grammar [-Wother]
- useless1: '1';
-           ^^^
-input.y:7.11-13: warning: rule useless in grammar [-Wother]
- useless2: '2';
-           ^^^
-input.y:8.11-13: warning: rule useless in grammar [-Wother]
- useless3: '3';
-           ^^^
-input.y:9.11-13: warning: rule useless in grammar [-Wother]
- useless4: '4';
-           ^^^
-input.y:10.11-13: warning: rule useless in grammar [-Wother]
- useless5: '5';
-           ^^^
-input.y:11.11-13: warning: rule useless in grammar [-Wother]
- useless6: '6';
-           ^^^
-input.y:12.11-13: warning: rule useless in grammar [-Wother]
- useless7: '7';
-           ^^^
-input.y:13.11-13: warning: rule useless in grammar [-Wother]
- useless8: '8';
-           ^^^
-input.y:14.11-13: warning: rule useless in grammar [-Wother]
- useless9: '9';
-           ^^^
 ]])
 
 
@@ -287,12 +260,6 @@ not-reduced.y:11.6-19: warning: nonterminal useless in grammar: non_productive [
 not-reduced.y:11.6-57: warning: rule useless in grammar [-Wother]
     | non_productive    { /* A non productive action. */ }
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-not-reduced.y:14.16-56: warning: rule useless in grammar [-Wother]
- not_reachable: useful  { /* A not reachable action. */ }
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-not-reduced.y:17.17-18.63: warning: rule useless in grammar [-Wother]
- non_productive: non_productive useless_token
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
@@ -360,14 +327,18 @@ underivable: indirection;
 indirection: underivable;
 ]])
 
-AT_BISON_CHECK([[input.y]], 0, [],
+AT_BISON_CHECK([[-fcaret input.y]], 0, [],
 [[input.y: warning: 2 nonterminals useless in grammar [-Wother]
 input.y: warning: 3 rules useless in grammar [-Wother]
 input.y:5.15-25: warning: nonterminal useless in grammar: underivable [-Wother]
+ exp: useful | underivable;
+               ^^^^^^^^^^^
 input.y:6.14-24: warning: nonterminal useless in grammar: indirection [-Wother]
+ underivable: indirection;
+              ^^^^^^^^^^^
 input.y:5.15-25: warning: rule useless in grammar [-Wother]
-input.y:6.14-24: warning: rule useless in grammar [-Wother]
-input.y:7.14-24: warning: rule useless in grammar [-Wother]
+ exp: useful | underivable;
+               ^^^^^^^^^^^
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
