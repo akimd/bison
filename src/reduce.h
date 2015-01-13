@@ -27,6 +27,6 @@ bool reduce_token_unused_in_grammar (symbol_number i);
 bool reduce_nonterminal_useless_in_grammar (symbol_number i);
 void reduce_free (void);
 
-extern symbol_number nuseless_nonterminals;
-extern rule_number nuseless_productions;
+extern unsigned nuseless_nonterminals;
+extern unsigned nuseless_productions;
 #endif /* !REDUCE_H_ */
