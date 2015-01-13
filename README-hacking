@@ -103,15 +103,17 @@ to perform the first checkout of the submodules, run
 
        $ git submodule update --init
 
-Git submodule support is weak before versions 1.6 and later, you
-should probably upgrade Git if your version is older.
+Git submodule support is weak before versions 1.6 and later, upgrade Git if
+your version is older.
 
 The next step is to get other files needed to build, which are
 extracted from other source packages:
 
         $ ./bootstrap
 
-And there you are!  Just
+If it fails with missing symbols (e.g., "error: possibly undefined macro:
+AC_PROG_GNU_M4"), you are likely to have forgotten the submodule
+initialization part.  Otherwise, there you are!  Just
 
         $ ./configure
         $ make

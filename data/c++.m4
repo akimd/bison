@@ -174,8 +174,11 @@ m4_define([b4_public_types_declare],
     /// (External) token type, as returned by yylex.
     typedef token::yytokentype token_type;
 
-    /// Internal symbol number.
+    /// Symbol type: an internal symbol number.
     typedef int symbol_number_type;
+
+    /// The symbol type number to denote an empty symbol.
+    enum { empty_symbol = -2 };
 
     /// Internal symbol number for tokens (subsumed by symbol_number_type).
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
@@ -209,7 +212,14 @@ m4_define([b4_public_types_declare],
                     const semantic_type& v]b4_locations_if([,
                     const location_type& l])[);
 
+      /// Destroy the symbol.
       ~basic_symbol ();
+
+      /// Destroy contents, and record that is empty.
+      void clear ();
+
+      /// Whether empty.
+      bool empty () const;
 
       /// Destructive move, \a s is emptied into this.
       void move (basic_symbol& s);
@@ -240,21 +250,23 @@ m4_define([b4_public_types_declare],
       /// Constructor from (external) token numbers.
       by_type (kind_type t);
 
+      /// Record that this symbol is empty.
+      void clear ();
+
       /// Steal the symbol type from \a that.
       void move (by_type& that);
 
       /// The (internal) type number (corresponding to \a type).
-      /// -1 when this symbol is empty.
+      /// \a empty when empty.
       symbol_number_type type_get () const;
 
       /// The token.
       token_type token () const;
 
-      enum { empty = 0 };
-
       /// The symbol type.
-      /// -1 when this symbol is empty.
-      token_number_type type;
+      /// \a empty_symbol when empty.
+      /// An int, not token_number_type, to be able to store empty_symbol.
+      int type;
     };
 
     /// "External" symbols: returned by the scanner.
@@ -323,9 +335,18 @@ m4_define([b4_public_types_define],
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
+  {
+    clear ();
+  }
+
+  template <typename Base>
+  inline
+  void
+  ]b4_parser_class_name[::basic_symbol<Base>::clear ()
   {]b4_variant_if([[
     // User destructor.
     symbol_number_type yytype = this->type_get ();
+    basic_symbol<Base>& yysym = *this;
     switch (yytype)
     {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
@@ -335,6 +356,15 @@ m4_define([b4_public_types_define],
 
     // Type destructor.
   ]b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
+    Base::clear ();
+  }
+
+  template <typename Base>
+  inline
+  bool
+  ]b4_parser_class_name[::basic_symbol<Base>::empty () const
+  {
+    return Base::type_get () == empty_symbol;
   }
 
   template <typename Base>
@@ -352,7 +382,7 @@ m4_define([b4_public_types_define],
   // by_type.
   inline
   ]b4_parser_class_name[::by_type::by_type ()
-     : type (empty)
+    : type (empty_symbol)
   {}
 
   inline
@@ -367,10 +397,17 @@ m4_define([b4_public_types_define],
 
   inline
   void
+  ]b4_parser_class_name[::by_type::clear ()
+  {
+    type = empty_symbol;
+  }
+
+  inline
+  void
   ]b4_parser_class_name[::by_type::move (by_type& that)
   {
     type = that.type;
-    that.type = empty;
+    that.clear ();
   }
 
   inline

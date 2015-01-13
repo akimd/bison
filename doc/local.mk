@@ -132,7 +132,7 @@ endif
 ## Graphviz examples generation. ##
 ## ----------------------------- ##
 
-CLEANDIRS += doc/figs
+CLEANFILES += $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.png)
 FIGS_GV =                                               \
   doc/figs/example.gv                                   \
   doc/figs/example-reduce.gv doc/figs/example-shift.gv

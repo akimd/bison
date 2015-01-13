@@ -15,7 +15,6 @@ src/reduce.c
 src/scan-code.l
 src/scan-gram.l
 src/scan-skel.l
-src/symlist.c
 src/symtab.c
 
 djgpp/subpipe.c

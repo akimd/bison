@@ -95,13 +95,13 @@ m4_define([b4_variant_define],
 
     /// Empty construction.
     variant ()]b4_parse_assert_if([
-      : yytname_ (YY_NULLPTR)])[
+      : yytypeid_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
     template <typename T>
     variant (const T& t)]b4_parse_assert_if([
-      : yytname_ (typeid (T).name ())])[
+      : yytypeid_ (&typeid (T))])[
     {
       YYASSERT (sizeof (T) <= S);
       new (yyas_<T> ()) T (t);
@@ -110,7 +110,7 @@ m4_define([b4_variant_define],
     /// Destruction, allowed only if empty.
     ~variant ()
     {]b4_parse_assert_if([
-      YYASSERT (!yytname_);
+      YYASSERT (!yytypeid_);
     ])[}
 
     /// Instantiate an empty \a T in here.
@@ -118,9 +118,9 @@ m4_define([b4_variant_define],
     T&
     build ()
     {]b4_parse_assert_if([
-      YYASSERT (!yytname_);
+      YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
-      yytname_ = typeid (T).name ();])[
+      yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T;
     }
 
@@ -129,9 +129,9 @@ m4_define([b4_variant_define],
     T&
     build (const T& t)
     {]b4_parse_assert_if([
-      YYASSERT (!yytname_);
+      YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
-      yytname_ = typeid (T).name ();])[
+      yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
     }
 
@@ -140,7 +140,7 @@ m4_define([b4_variant_define],
     T&
     as ()
     {]b4_parse_assert_if([
-      YYASSERT (yytname_ == typeid (T).name ());
+      YYASSERT (*yytypeid_ == typeid (T));
       YYASSERT (sizeof (T) <= S);])[
       return *yyas_<T> ();
     }
@@ -150,7 +150,7 @@ m4_define([b4_variant_define],
     const T&
     as () const
     {]b4_parse_assert_if([
-      YYASSERT (yytname_ == typeid (T).name ());
+      YYASSERT (*yytypeid_ == typeid (T));
       YYASSERT (sizeof (T) <= S);])[
       return *yyas_<T> ();
     }
@@ -167,8 +167,8 @@ m4_define([b4_variant_define],
     void
     swap (self_type& other)
     {]b4_parse_assert_if([
-      YYASSERT (yytname_);
-      YYASSERT (yytname_ == other.yytname_);])[
+      YYASSERT (yytypeid_);
+      YYASSERT (*yytypeid_ == *other.yytypeid_);])[
       std::swap (as<T> (), other.as<T> ());
     }
 
@@ -198,7 +198,7 @@ m4_define([b4_variant_define],
     destroy ()
     {
       as<T> ().~T ();]b4_parse_assert_if([
-      yytname_ = YY_NULLPTR;])[
+      yytypeid_ = YY_NULLPTR;])[
     }
 
   private:
@@ -233,7 +233,7 @@ m4_define([b4_variant_define],
     } yybuffer_;]b4_parse_assert_if([
 
     /// Whether the content is built: if defined, the name of the stored type.
-    const char *yytname_;])[
+    const std::type_info *yytypeid_;])[
   };
 ]])
 

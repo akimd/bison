@@ -10382,9 +10382,23 @@ declare @code{yyerror} as follows:
 int yyerror (char const *);
 @end example
 
-Bison ignores the @code{int} value returned by this @code{yyerror}.
-If you use the Yacc library's @code{main} function, your
-@code{yyparse} function should have the following type signature:
+@noindent
+The @code{int} value returned by this @code{yyerror} is ignored.
+
+The implementation of Yacc library's @code{main} function is:
+
+@example
+int main (void)
+@{
+  setlocale (LC_ALL, "");
+  return yyparse ();
+@}
+@end example
+
+@noindent
+so if you use it, the internationalization support is enabled (e.g., error
+messages are translated), and your @code{yyparse} function should have the
+following type signature:
 
 @example
 int yyparse (void);
@@ -10686,12 +10700,17 @@ The first, inclusive, position of the range, and the first beyond.
 Forwarded to the @code{end} position.
 @end deftypemethod
 
-@deftypemethod {location} {location} operator+ (const location& @var{end})
-@deftypemethodx {location} {location} operator+ (int @var{width})
+@deftypemethod  {location} {location} operator+  (int @var{width})
 @deftypemethodx {location} {location} operator+= (int @var{width})
-@deftypemethodx {location} {location} operator- (int @var{width})
+@deftypemethodx {location} {location} operator-  (int @var{width})
 @deftypemethodx {location} {location} operator-= (int @var{width})
-Various forms of syntactic sugar.
+Various forms of syntactic sugar for @code{columns}.
+@end deftypemethod
+
+@deftypemethod {location} {location} operator+ (const location& @var{end})
+@deftypemethodx {location} {location} operator+= (const location& @var{end})
+Join two locations: starts at the position of the first one, and ends at the
+position of the second.
 @end deftypemethod
 
 @deftypemethod {location} {void} step ()

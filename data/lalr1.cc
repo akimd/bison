@@ -214,9 +214,9 @@ b4_location_define])])[
 
     /// Generate an error message.
     /// \param yystate   the state where the error occurred.
-    /// \param yytoken   the lookahead token type, or yyempty_.
+    /// \param yyla      the lookahead token.
     virtual std::string yysyntax_error_ (state_type yystate,
-                                         symbol_number_type yytoken) const;
+                                         const symbol_type& yyla) const;
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -288,16 +288,21 @@ b4_location_define])])[
       /// Copy constructor.
       by_state (const by_state& other);
 
+      /// Record that this symbol is empty.
+      void clear ();
+
       /// Steal the symbol type from \a that.
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
-      /// "empty" when empty.
+      /// \a empty_symbol when empty.
       symbol_number_type type_get () const;
 
-      enum { empty = 0 };
+      /// The state number used to denote an empty symbol.
+      enum { empty_state = -1 };
 
       /// The state.
+      /// \a empty when empty.
       state_type state;
     };
 
@@ -338,13 +343,12 @@ b4_location_define])])[
     /// Pop \a n symbols the three stacks.
     void yypop_ (unsigned int n = 1);
 
-    // Constants.
+    /// Constants.
     enum
     {
       yyeof_ = 0,
       yylast_ = ]b4_last[,     ///< Last index in yytable_.
       yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
-      yyempty_ = -2,
       yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
@@ -464,7 +468,7 @@ m4_if(b4_prefix, [yy], [],
 #endif // !]b4_api_PREFIX[DEBUG
 
 #define yyerrok         (yyerrstatus_ = 0)
-#define yyclearin       (yyempty = true)
+#define yyclearin       (yyla.clear ())
 
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
@@ -533,7 +537,7 @@ m4_if(b4_prefix, [yy], [],
   // by_state.
   inline
   ]b4_parser_class_name[::by_state::by_state ()
-    : state (empty)
+    : state (empty_state)
   {}
 
   inline
@@ -543,10 +547,17 @@ m4_if(b4_prefix, [yy], [],
 
   inline
   void
+  ]b4_parser_class_name[::by_state::clear ()
+  {
+    state = empty_state;
+  }
+
+  inline
+  void
   ]b4_parser_class_name[::by_state::move (by_state& that)
   {
     state = that.state;
-    that.state = empty;
+    that.clear ();
   }
 
   inline
@@ -558,7 +569,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::symbol_number_type
   ]b4_parser_class_name[::by_state::type_get () const
   {
-    return state == empty ? 0 : yystos_[state];
+    return state == empty_state ? empty_symbol : yystos_[state];
   }
 
   inline
@@ -574,7 +585,7 @@ m4_if(b4_prefix, [yy], [],
                                       [value], [move], [that.value])],
                    [[value = that.value;]])[
     // that is emptied.
-    that.type = empty;
+    that.type = empty_symbol;
   }
 
   inline
@@ -695,9 +706,6 @@ m4_if(b4_prefix, [yy], [],
   int
   ]b4_parser_class_name[::parse ()
   {
-    /// Whether yyla contains a lookahead.
-    bool yyempty = true;
-
     // State.
     int yyn;
     /// Length of the RHS of the rule being reduced.
@@ -754,7 +762,7 @@ b4_dollar_popdef])[]dnl
       goto yydefault;
 
     // Read a lookahead token.
-    if (yyempty)
+    if (yyla.empty ())
       {
         YYCDEBUG << "Reading a token: ";
         try
@@ -768,7 +776,6 @@ b4_dollar_popdef])[]dnl
             error (yyexc);
             goto yyerrlab1;
           }
-        yyempty = false;
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
@@ -787,9 +794,6 @@ b4_dollar_popdef])[]dnl
         yyn = -yyn;
         goto yyreduce;
       }
-
-    // Discard the token being shifted.
-    yyempty = true;
 
     // Count tokens shifted since error; after three, turn off error status.
     if (yyerrstatus_)
@@ -873,8 +877,7 @@ b4_dollar_popdef])[]dnl
       {
         ++yynerrs_;
         error (]b4_join(b4_locations_if([yyla.location]),
-                        [[yysyntax_error_ (yystack_[0].state,
-                                           yyempty ? yyempty_ : yyla.type_get ())]])[);
+                        [[yysyntax_error_ (yystack_[0].state, yyla)]])[);
       }
 
 ]b4_locations_if([[
@@ -887,10 +890,10 @@ b4_dollar_popdef])[]dnl
         // Return failure if at end of input.
         if (yyla.type_get () == yyeof_)
           YYABORT;
-        else if (!yyempty)
+        else if (!yyla.empty ())
           {
             yy_destroy_ ("Error: discarding", yyla);
-            yyempty = true;
+            yyla.clear ();
           }
       }
 
@@ -966,7 +969,7 @@ b4_dollar_popdef])[]dnl
     goto yyreturn;
 
   yyreturn:
-    if (!yyempty)
+    if (!yyla.empty ())
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);
 
     /* Do not reclaim the symbols of the rule whose action triggered
@@ -986,7 +989,7 @@ b4_dollar_popdef])[]dnl
                  << std::endl;
         // Do not try to display the values of the reclaimed symbols,
         // as their printer might throw an exception.
-        if (!yyempty)
+        if (!yyla.empty ())
           yy_destroy_ (YY_NULLPTR, yyla);
 
         while (1 < yystack_.size ())
@@ -1008,10 +1011,9 @@ b4_dollar_popdef])[]dnl
   // Generate an error message.
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
-b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
-                    [state_type, symbol_number_type])[) const
+b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
+                    [state_type, const symbol_type&])[) const
   {]b4_error_verbose_if([[
-    std::string yyres;
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     size_t yycount = 0;
@@ -1025,7 +1027,7 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
          the only way this function was invoked is if the default action
          is an error action.  In that case, don't check for expected
          tokens because there are none.
-       - The only way there can be no lookahead present (in yytoken) is
+       - The only way there can be no lookahead present (in yyla) is
          if this state is a consistent state with a default action.
          Thus, detecting the absence of a lookahead is sufficient to
          determine that there is no unexpected or expected token to
@@ -1045,8 +1047,9 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
          token that will not be accepted due to an error action in a
          later state.
     */
-    if (yytoken != yyempty_)
+    if (!yyla.empty ())
       {
+        int yytoken = yyla.type_get ();
         yyarg[yycount++] = yytname_[yytoken];
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
@@ -1089,6 +1092,7 @@ b4_error_verbose_if([state_type yystate, symbol_number_type yytoken],
 #undef YYCASE_
       }
 
+    std::string yyres;
     // Argument number.
     size_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
