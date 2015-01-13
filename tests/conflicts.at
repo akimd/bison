@@ -393,9 +393,9 @@ AT_CLEANUP
 ## parse.error=verbose and consistent errors.  ##
 ## ------------------------------------------- ##
 
-AT_SETUP([[parse.error=verbose and consistent errors]])
-
 m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
+
+AT_SETUP([[parse.error=verbose and consistent errors: $1]])
 
 AT_BISON_OPTION_PUSHDEFS([$1])
 
@@ -483,7 +483,11 @@ m4_popdef([AT_EXPECTING])
 m4_popdef([AT_YYLEX_PROTOTYPE])
 AT_BISON_OPTION_POPDEFS
 
-])
+AT_CLEANUP
+]) dnl AT_CONSISTENT_ERRORS_CHECK
+
+
+
 
 m4_pushdef([AT_PREVIOUS_STATE_GRAMMAR],
 [[%nonassoc 'a';
@@ -653,7 +657,6 @@ m4_popdef([AT_USER_ACTION_INPUT])
 
 m4_popdef([AT_CONSISTENT_ERRORS_CHECK])
 
-AT_CLEANUP
 
 
 
