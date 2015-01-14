@@ -254,9 +254,9 @@ not-reduced.y: warning: 3 rules useless in grammar [-Wother]
 not-reduced.y:14.1-13: warning: nonterminal useless in grammar: not_reachable [-Wother]
  not_reachable: useful  { /* A not reachable action. */ }
  ^^^^^^^^^^^^^
-not-reduced.y:11.6-19: warning: nonterminal useless in grammar: non_productive [-Wother]
-    | non_productive    { /* A non productive action. */ }
-      ^^^^^^^^^^^^^^
+not-reduced.y:17.1-14: warning: nonterminal useless in grammar: non_productive [-Wother]
+ non_productive: non_productive useless_token
+ ^^^^^^^^^^^^^^
 not-reduced.y:11.6-57: warning: rule useless in grammar [-Wother]
     | non_productive    { /* A non productive action. */ }
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -330,12 +330,12 @@ indirection: underivable;
 AT_BISON_CHECK([[-fcaret input.y]], 0, [],
 [[input.y: warning: 2 nonterminals useless in grammar [-Wother]
 input.y: warning: 3 rules useless in grammar [-Wother]
-input.y:5.15-25: warning: nonterminal useless in grammar: underivable [-Wother]
- exp: useful | underivable;
-               ^^^^^^^^^^^
-input.y:6.14-24: warning: nonterminal useless in grammar: indirection [-Wother]
+input.y:6.1-11: warning: nonterminal useless in grammar: underivable [-Wother]
  underivable: indirection;
-              ^^^^^^^^^^^
+ ^^^^^^^^^^^
+input.y:7.1-11: warning: nonterminal useless in grammar: indirection [-Wother]
+ indirection: underivable;
+ ^^^^^^^^^^^
 input.y:5.15-25: warning: rule useless in grammar [-Wother]
  exp: useful | underivable;
                ^^^^^^^^^^^

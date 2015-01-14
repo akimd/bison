@@ -865,6 +865,8 @@ current_lhs (symbol *sym, location loc, named_ref *ref)
 {
   current_lhs_symbol = sym;
   current_lhs_location = loc;
+  if (sym)
+    symbol_location_as_lhs_set (sym, loc);
   /* In order to simplify memory management, named references for lhs
      are always assigned by deep copy into the current symbol_list
      node.  This is because a single named-ref in the grammar may

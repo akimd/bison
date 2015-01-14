@@ -87,10 +87,19 @@ struct symbol
 {
   /** The key, name of the symbol.  */
   uniqstr tag;
-  /** The location of its first occurrence.  */
+
+  /** The "defining" location.  */
   location location;
 
-  /* Points to the other in the symbol-string pair for an alias. */
+  /** Whether \a location is about the first uses as left-hand side
+      symbol of a rule (true), or simply the first occurrence (e.g.,
+      in a %type, or as a rhs symbol of a rule).  The former type of
+      location is more natural in error messages.  This Boolean helps
+      moving from location of the first occurrence to first use as
+      lhs. */
+  bool location_of_lhs;
+
+  /** Points to the other in the symbol-string pair for an alias. */
   symbol *alias;
 
   /** Whether this symbol is the alias of another or not. */
@@ -176,6 +185,12 @@ uniqstr symbol_id_get (symbol const *sym);
  * symbol number, and type from \c sym to \c str.
  */
 void symbol_make_alias (symbol *sym, symbol *str, location loc);
+
+/**
+ * This symbol is used as the lhs of a rule.  Record this location
+ * as definition point, if not already done.
+ */
+void symbol_location_as_lhs_set (symbol *sym, location loc);
 
 /** Set the \c type_name associated with \c sym.
 

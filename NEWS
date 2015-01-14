@@ -33,13 +33,14 @@ GNU Bison NEWS
                                       ^^^^^^^^^^^
 
   Now, rules whose left-hand side symbol is useless are no longer reported
-  as useless.
+  as useless.  The locations of the errors have also been adjusted to point
+  to the first use of the nonterminal as a left-hand side of a rule:
 
     warning: 1 nonterminal useless in grammar [-Wother]
     warning: 4 rules useless in grammar [-Wother]
-    2.14-16: warning: nonterminal useless in grammar: exp [-Wother]
-     input: '0' | exp
-                  ^^^
+    3.1-3: warning: nonterminal useless in grammar: exp [-Wother]
+     exp: exp '+' exp | exp '-' exp | '(' exp ')'
+     ^^^
     2.14-16: warning: rule useless in grammar [-Wother]
      input: '0' | exp
                   ^^^
