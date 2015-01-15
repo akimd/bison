@@ -345,6 +345,11 @@ b4_define_flag_if([nondeterministic])   # Whether conflicts should be handled.
 b4_define_flag_if([token_table])        # Whether yytoken_table is demanded.
 b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 
+# b4_glr_cc_if([IF-TRUE], [IF-FALSE])
+# -----------------------------------
+m4_define([b4_glr_cc_if],
+          [m4_if(b4_skeleton, ["glr.cc"], $@)])
+
 
 ## --------- ##
 ## Symbols.  ##

@@ -345,9 +345,11 @@ m4_define([b4_public_types_define],
   ]b4_parser_class_name[::basic_symbol<Base>::clear ()
   {]b4_variant_if([[
     // User destructor.
-    symbol_number_type yytype = this->type_get ();
+    symbol_number_type yytype = this->type_get ();]b4_glr_cc_if([[
+    semantic_type* yyvaluep = &value;
+    (void) yyvaluep;]], [[
     basic_symbol<Base>& yysym = *this;
-    (void) yysym;
+    (void) yysym;]])[
     switch (yytype)
     {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl

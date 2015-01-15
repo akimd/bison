@@ -17,11 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# b4_glr_cc_if([IF-TRUE], [IF-FALSE])
-# -----------------------------------
-m4_define([b4_glr_cc_if],
-          [m4_if(b4_skeleton, ["glr.cc"], $@)])
-
 # When glr.c is used from glr.cc, it has provided the version of
 # b4_symbol_value and b4_symbol_value_template that are needed.  c.m4
 # provides other definitions.  So save and restore the C++
