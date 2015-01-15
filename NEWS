@@ -2,6 +2,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** C++ with Variants (lalr1.cc)
+
+  Fix a compiler warning when no %destructor use $$.
 
 * Noteworthy changes in release 3.0.3 (2015-01-15) [stable]
 
