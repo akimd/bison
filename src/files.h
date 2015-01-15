@@ -64,7 +64,9 @@ extern char *all_but_ext;
 void compute_output_file_names (void);
 void output_file_names_free (void);
 
-/** Record that we generate file \a file_name.
+/** Record that we generate a file.
+ *
+ *  \param file_name  the name of file being generated.
  *  \param source whether this is a source file (*c, *.java...)
  *                as opposed to a report (*.output, *.dot...).
  */
