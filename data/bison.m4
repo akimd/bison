@@ -437,7 +437,6 @@ m4_define([b4_symbol_action_location],
 # b4_symbol_action(SYMBOL-NUM, KIND)
 # ----------------------------------
 # Run the action KIND (destructor or printer) for SYMBOL-NUM.
-# Same as in C, but using references instead of pointers.
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
 [b4_dollar_pushdef([(*yyvaluep)],

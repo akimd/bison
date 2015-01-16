@@ -211,8 +211,6 @@
 /stripslash.c
 /strndup.c
 /strnlen.c
-/strtol.c
-/strtoul.c
 /strverscmp.c
 /sys
 /sys_ioctl.h

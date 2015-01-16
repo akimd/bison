@@ -7550,7 +7550,7 @@ in an associativity related conflict, which can be specified as follows.
 
 The unary-minus is another typical example where associativity is
 usually over-specified, see @ref{Infix Calc, , Infix Notation
-Calculator: @code{calc}}.  The @code{%left} directive is traditionally
+Calculator - @code{calc}}.  The @code{%left} directive is traditionally
 used to declare the precedence of @code{NEG}, which is more than needed
 since it also defines its associativity.  While this is harmless in the
 traditional example, who knows how @code{NEG} might be used in future
@@ -10748,8 +10748,8 @@ it must be copyable;
 in order to compute the (default) value of @code{@@$} in a reduction, the
 parser basically runs
 @example
-@@$.begin = @@$1.begin;
-@@$.end   = @@$@var{N}.end; // The location of last right-hand side symbol.
+@@$.begin = @@1.begin;
+@@$.end   = @@@var{N}.end; // The location of last right-hand side symbol.
 @end example
 @noindent
 so there must be copyable @code{begin} and @code{end} members;
@@ -11337,7 +11337,7 @@ regular destructors.  All the values are printed using their
 
 @noindent
 The grammar itself is straightforward (@pxref{Location Tracking Calc, ,
-Location Tracking Calculator: @code{ltcalc}}).
+Location Tracking Calculator - @code{ltcalc}}).
 
 @comment file: calc++-parser.yy
 @example

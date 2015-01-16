@@ -144,8 +144,6 @@
 /string_h.m4
 /strndup.m4
 /strnlen.m4
-/strtol.m4
-/strtoul.m4
 /strverscmp.m4
 /sys_ioctl_h.m4
 /sys_socket_h.m4

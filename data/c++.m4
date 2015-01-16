@@ -347,6 +347,7 @@ m4_define([b4_public_types_define],
     // User destructor.
     symbol_number_type yytype = this->type_get ();
     basic_symbol<Base>& yysym = *this;
+    (void) yysym;
     switch (yytype)
     {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
