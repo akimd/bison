@@ -39,8 +39,9 @@ AM_YFLAGS = -d -v -Werror -Wall -Wno-yacc --report=all
 
 # Initialization before completion by local.mk's.
 AM_CFLAGS = $(WARN_CFLAGS)
-# Find builddir/src/scan-code.c etc.
-AM_CPPFLAGS = -I. -Ilib -I$(top_srcdir) -I$(top_srcdir)/lib
+# Find builddir/src/scan-code.c etc.  For some reason "-I./lib"
+# instead of "-Ilib" avoids infinite recursions on #include_next.
+AM_CPPFLAGS = -I. -I./lib -I$(top_srcdir) -I$(top_srcdir)/lib
 BUILT_SOURCES =
 CLEANFILES =
 DISTCLEANFILES =
