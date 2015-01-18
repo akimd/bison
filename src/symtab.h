@@ -73,12 +73,12 @@ typedef enum
     declared,
   } status;
 
-typedef enum code_props_type code_props_type;
 enum code_props_type
   {
     destructor = 0,
     printer = 1,
   };
+typedef enum code_props_type code_props_type;
 
 enum { CODE_PROPS_SIZE = 2 };
 
