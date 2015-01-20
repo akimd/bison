@@ -32,12 +32,12 @@ m4_define([b4_stack_define],
     stack ()
       : seq_ ()
     {
+      seq_.reserve (200);
     }
 
     stack (unsigned int n)
       : seq_ (n)
-    {
-    }
+    {}
 
     inline
     T&
@@ -114,8 +114,7 @@ m4_define([b4_stack_define],
     slice (const S& stack, unsigned int range)
       : stack_ (stack)
       , range_ (range)
-    {
-    }
+    {}
 
     inline
     const T&

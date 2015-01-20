@@ -342,7 +342,6 @@ AT_PARSER_CHECK([./list], 0,
 ]],
 [[Destroy: ""
 Destroy: "0"
-Destroy: (0)
 Destroy: 1
 Destroy: "1"
 Destroy: ()
