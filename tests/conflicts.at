@@ -395,7 +395,7 @@ AT_CLEANUP
 
 m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
 
-AT_SETUP([[parse.error=verbose and consistent errors: $1]])
+AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
 
 AT_BISON_OPTION_PUSHDEFS([$1])
 
