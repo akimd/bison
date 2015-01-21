@@ -8,6 +8,10 @@ GNU Bison NEWS
 
   Fix a compiler warning when no %destructor use $$.
 
+*** Test suites
+
+  Several portability issues in tests were fixed.
+
 * Noteworthy changes in release 3.0.3 (2015-01-15) [stable]
 
 ** Bug fixes
