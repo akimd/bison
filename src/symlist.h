@@ -124,7 +124,7 @@ symbol_list *symbol_list_n_get (symbol_list *l, int n);
 
 /* Get the data type (alternative in the union) of the value for
    symbol N in rule RULE.  */
-uniqstr symbol_list_n_type_name_get (symbol_list *l, location loc, int n);
+uniqstr symbol_list_n_type_name_get (symbol_list *l, int n);
 
 /* Check whether the node is a border element of a rule. */
 bool symbol_list_null (symbol_list *node);

@@ -633,7 +633,7 @@ main (int argc, const char *argv[])
 {
   int status;
   yydebug = !!getenv ("YYDEBUG");
-  assert (argc == 2);
+  assert (argc == 2); (void) argc;
   source = argv[1];
   status = yyparse ();
   switch (status)
