@@ -72,7 +72,7 @@ const char *input = YY_NULLPTR;
 int
 main (int argc, const char* argv[])
 {
-  assert (argc == 2);
+  assert (argc == 2); (void) argc;
   input = argv[1];
   return yyparse ();
 }

@@ -94,8 +94,8 @@ main (int argc, const char **argv)
   status = ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([[&result, &count]])[);
   if (fclose (input))
     perror ("fclose");
-  assert (global_result == result);
-  assert (global_count == count);
+  assert (global_result == result); (void) result;
+  assert (global_count == count);   (void) count;
   return status;
 }
 ]])

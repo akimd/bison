@@ -127,7 +127,7 @@ declarator : ID
 int
 main (int argc, char **argv)
 {
-  assert (argc == 2);
+  assert (argc == 2); (void) argc;
   if (!freopen (argv[1], "r", stdin))
     return 3;
   return yyparse ();

@@ -162,8 +162,8 @@ int main (int argc, const char **argv)
     }
   status = yyparse ();
   fclose (input);
-  assert (global_result == result);
-  assert (global_count == count);
+  assert (global_result == result); (void) global_result; (void) result;
+  assert (global_count == count);   (void) global_count;  (void) count;
   return status;
 }
 ]])

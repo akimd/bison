@@ -633,7 +633,7 @@ main (int argc, const char *argv[])
 {
   int status;
   yydebug = !!getenv ("YYDEBUG");
-  assert (argc == 2);
+  assert (argc == 2); (void) argc;
   source = argv[1];
   status = yyparse ();
   switch (status)
@@ -1530,10 +1530,13 @@ AT_DATA_GRAMMAR([[input.y]],
 
 ]AT_SKEL_CC_IF([[
 # include <iostream>
-  static void
-  report (std::ostream& yyo, int ival, float fval)
+  namespace
   {
-    yyo << "ival: " << ival << ", fval: " <<  fval;
+    void
+    report (std::ostream& yyo, int ival, float fval)
+    {
+      yyo << "ival: " << ival << ", fval: " <<  fval;
+    }
   }
 ]], [[
 # include <stdio.h>

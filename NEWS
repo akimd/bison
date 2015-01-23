@@ -45,13 +45,17 @@ GNU Bison NEWS
      input: '0' | exp
                   ^^^
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 3.0.4 (2015-01-23) [stable]
 
 ** Bug fixes
 
 *** C++ with Variants (lalr1.cc)
 
   Fix a compiler warning when no %destructor use $$.
+
+*** Test suites
+
+  Several portability issues in tests were fixed.
 
 * Noteworthy changes in release 3.0.3 (2015-01-15) [stable]
 

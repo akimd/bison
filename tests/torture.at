@@ -403,7 +403,7 @@ get_args (int argc, const char **argv)
 {
   int res;
   char *endp;
-  assert (argc == 2);
+  assert (argc == 2); (void) argc;
   res = strtol (argv[1], &endp, 10);
   assert (argv[1] != endp);
   assert (0 <= res);

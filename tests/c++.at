@@ -342,7 +342,6 @@ AT_PARSER_CHECK([./list], 0,
 ]],
 [[Destroy: ""
 Destroy: "0"
-Destroy: (0)
 Destroy: 1
 Destroy: "1"
 Destroy: ()
@@ -719,6 +718,7 @@ $1
   #include <cstdlib> // size_t and getenv.
   #include <iostream>
   #include <set>
+  #include <string>
 
   bool debug = false;
 
@@ -751,7 +751,7 @@ $1
     ~Object ()
     {
       log (this, "Object::~Object");
-      objects::const_iterator i = instances.find (this);
+      objects::iterator i = instances.find (this);
       // Make sure this object is alive.
       assert (i != instances.end ());
       Object::instances.erase (i);
