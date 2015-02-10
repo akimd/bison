@@ -241,10 +241,13 @@ m4_define([AT_CALC_BODY],[
   static StringReader
   getinput(String filename) throws IOException
   {
-    StringBuilder buf = new StringBuilder();
+    // Yes, there are better alternatives to StringBuffer.  But we
+    // don't really care about performances here, while portability
+    // to older Java matters.
+    StringBuffer buf = new StringBuffer();
     FileReader file = new FileReader(filename);
     int c;
-    while ((c=file.read()) > 0)
+    while (0 < (c = file.read()))
       buf.append((char)c);
     file.close();
     return new StringReader(buf.toString());
@@ -301,6 +304,13 @@ exp:
 | '-' error          { $[]$ = new Integer (0); return YYERROR;}
 ;
 ])
+
+
+
+## ------------------------------------- ##
+## Calc parser with api.push-pull both.  ##
+## ------------------------------------- ##
+
 
 # Test that the states transitioned by the push parser are the
 # same as for the pull parser.  This test is assumed to work
@@ -577,8 +587,9 @@ Stack now 0 7 15
 ]])
 
 AT_BISON_CHECK([PUSHPULLFLAG [-o Calc.java Calc.y]])
+
 AT_JAVA_COMPILE([[Calc.java]])
-#Verify that this is a push parser.
+# Verify that this is a push parser.
 AT_CHECK_JAVA_GREP([[Calc.java]],
                    [[.*public void push_parse_initialize().*]])
 # Capture stderr output for comparison purposes.
@@ -592,6 +603,13 @@ AT_CHECK([[sed -e '/^Stack now.*$/p' -e d ./stderr]],
          [ignore], [expout], [ignore-nolog])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+
+
+
+## ---------------------------------------------------------------- ##
+## Calc parser with %locations %code lexer and api.push-pull both.  ##
+## ---------------------------------------------------------------- ##
+
 
 # This test looks for location reporting by looking
 # at the lexer output with locations enabled.
