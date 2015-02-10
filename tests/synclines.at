@@ -136,12 +136,14 @@ EOF
 m4_define([AT_SYNCLINES_COMPILE],
 [# Check if we can trust location translation.
 AT_DATA([syncline.c],
-[[#error "1"
-int i; /* avoids -pedantic warning about an empty translation unit. */
+[[static void foo(void)
+{
+#error "3"
+}
 ]])
 
 _AT_SYNCLINES_COMPILE([syncline.c])
-AT_CHECK([[test "`cat stdout`" = 'syncline.c:1: @%:@error "1"' || exit 77]])
+AT_CHECK([[test "`cat stdout`" = 'syncline.c:3: @%:@error "3"' || exit 77]])
 
 # Then work for real.
 _AT_SYNCLINES_COMPILE([$1])
