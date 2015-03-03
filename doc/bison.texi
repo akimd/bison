@@ -10901,12 +10901,12 @@ Regular union-based code in Lex scanner typically look like:
 
 @example
 [0-9]+   @{
-           yylval.ival = text_to_int (yytext);
-           return yy::parser::INTEGER;
+           yylval->ival = text_to_int (yytext);
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.sval = new std::string (yytext);
-           return yy::parser::IDENTIFIER;
+           yylval->sval = new std::string (yytext);
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10915,12 +10915,12 @@ initialized.  So the code would look like:
 
 @example
 [0-9]+   @{
-           yylval.build<int>() = text_to_int (yytext);
-           return yy::parser::INTEGER;
+           yylval->build<int> () = text_to_int (yytext);
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.build<std::string> = yytext;
-           return yy::parser::IDENTIFIER;
+           yylval->build<std::string> () = yytext;
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10929,12 +10929,12 @@ or
 
 @example
 [0-9]+   @{
-           yylval.build(text_to_int (yytext));
-           return yy::parser::INTEGER;
+           yylval->build (text_to_int (yytext));
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.build(yytext);
-           return yy::parser::IDENTIFIER;
+           yylval->build (yytext);
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10983,20 +10983,18 @@ For instance, given the following declarations:
 Bison generates the following functions:
 
 @example
-symbol_type make_IDENTIFIER(const std::string& v,
-                            const location_type& l);
-symbol_type make_INTEGER(const int& v,
-                         const location_type& loc);
-symbol_type make_COLON(const location_type& loc);
+symbol_type make_IDENTIFIER (const std::string& v, const location_type& loc);
+symbol_type make_INTEGER (const int& v, const location_type& loc);
+symbol_type make_COLON (const location_type& loc);
 @end example
 
 @noindent
 which should be used in a Lex-scanner as follows.
 
 @example
-[0-9]+   return yy::parser::make_INTEGER(text_to_int (yytext), loc);
-[a-z]+   return yy::parser::make_IDENTIFIER(yytext, loc);
-":"      return yy::parser::make_COLON(loc);
+[0-9]+   return yy::parser::make_INTEGER (text_to_int (yytext), loc);
+[a-z]+   return yy::parser::make_IDENTIFIER (yytext, loc);
+":"      return yy::parser::make_COLON (loc);
 @end example
 
 Tokens that do not have an identifier are not accessible: you cannot simply
@@ -11461,13 +11459,13 @@ The rules are simple.  The driver is used to report errors.
 
 @comment file: calc++-scanner.ll
 @example
-"-"      return yy::calcxx_parser::make_MINUS(loc);
-"+"      return yy::calcxx_parser::make_PLUS(loc);
-"*"      return yy::calcxx_parser::make_STAR(loc);
-"/"      return yy::calcxx_parser::make_SLASH(loc);
-"("      return yy::calcxx_parser::make_LPAREN(loc);
-")"      return yy::calcxx_parser::make_RPAREN(loc);
-":="     return yy::calcxx_parser::make_ASSIGN(loc);
+"-"      return yy::calcxx_parser::make_MINUS  (loc);
+"+"      return yy::calcxx_parser::make_PLUS   (loc);
+"*"      return yy::calcxx_parser::make_STAR   (loc);
+"/"      return yy::calcxx_parser::make_SLASH  (loc);
+"("      return yy::calcxx_parser::make_LPAREN (loc);
+")"      return yy::calcxx_parser::make_RPAREN (loc);
+":="     return yy::calcxx_parser::make_ASSIGN (loc);
 
 @group
 @{int@}      @{
@@ -11475,12 +11473,12 @@ The rules are simple.  The driver is used to report errors.
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
     driver.error (loc, "integer is out of range");
-  return yy::calcxx_parser::make_NUMBER(n, loc);
+  return yy::calcxx_parser::make_NUMBER (n, loc);
 @}
 @end group
-@{id@}       return yy::calcxx_parser::make_IDENTIFIER(yytext, loc);
+@{id@}       return yy::calcxx_parser::make_IDENTIFIER (yytext, loc);
 .          driver.error (loc, "invalid character");
-<<EOF>>    return yy::calcxx_parser::make_END(loc);
+<<EOF>>    return yy::calcxx_parser::make_END (loc);
 %%
 @end example
 
