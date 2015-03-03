@@ -10962,8 +10962,8 @@ it is still possible to give an integer as semantic value for a string.
 
 So for each token type, Bison generates named constructors as follows.
 
-@deftypemethod {symbol_type} {} make_@var{token} (const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypemethodx {symbol_type} {} make_@var{token} (const location_type& @var{location})
+@deftypemethod {symbol_type} {} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypemethodx {symbol_type} {} {make_@var{token}} (const location_type& @var{location})
 Build a complete terminal symbol for the token type @var{token} (not
 including the @code{api.token.prefix}) whose possible semantic value is
 @var{value} of adequate @var{value_type}.  If location tracking is enabled,
@@ -10983,9 +10983,9 @@ For instance, given the following declarations:
 Bison generates the following functions:
 
 @example
-symbol_type make_IDENTIFIER (const std::string& v, const location_type& loc);
-symbol_type make_INTEGER (const int& v, const location_type& loc);
-symbol_type make_COLON (const location_type& loc);
+symbol_type make_IDENTIFIER (const std::string&, const location_type&);
+symbol_type make_INTEGER (const int&, const location_type&);
+symbol_type make_COLON (const location_type&);
 @end example
 
 @noindent
