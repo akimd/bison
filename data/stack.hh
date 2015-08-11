@@ -36,7 +36,7 @@ m4_define([b4_stack_define],
       seq_.reserve (200);
     }
 
-    stack (unsigned int n)
+    stack (unsigned n)
       : seq_ (n)
     {}
 
@@ -44,7 +44,7 @@ m4_define([b4_stack_define],
     ///
     /// Index 0 returns the topmost element.
     T&
-    operator[] (unsigned int i)
+    operator[] (unsigned i)
     {
       return seq_[seq_.size () - 1 - i];
     }
@@ -53,7 +53,7 @@ m4_define([b4_stack_define],
     ///
     /// Index 0 returns the topmost element.
     const T&
-    operator[] (unsigned int i) const
+    operator[] (unsigned i) const
     {
       return seq_[seq_.size () - 1 - i];
     }
@@ -69,7 +69,7 @@ m4_define([b4_stack_define],
     }
 
     void
-    pop (unsigned int n = 1)
+    pop (unsigned n = 1)
     {
       for (; n; --n)
         seq_.pop_back ();
@@ -111,20 +111,20 @@ m4_define([b4_stack_define],
   class slice
   {
   public:
-    slice (const S& stack, unsigned int range)
+    slice (const S& stack, unsigned range)
       : stack_ (stack)
       , range_ (range)
     {}
 
     const T&
-    operator [] (unsigned int i) const
+    operator [] (unsigned i) const
     {
       return stack_[range_ - i];
     }
 
   private:
     const S& stack_;
-    unsigned int range_;
+    unsigned range_;
   };
 ]])
 

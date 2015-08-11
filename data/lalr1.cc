@@ -342,7 +342,7 @@ b4_location_define])])[
     void yypush_ (const char* m, state_type s, symbol_type& sym);
 
     /// Pop \a n symbols the three stacks.
-    void yypop_ (unsigned int n = 1);
+    void yypop_ (unsigned n = 1);
 
     /// Constants.
     enum
@@ -657,7 +657,7 @@ m4_if(b4_prefix, [yy], [],
 
   inline
   void
-  ]b4_parser_class_name[::yypop_ (unsigned int n)
+  ]b4_parser_class_name[::yypop_ (unsigned n)
   {
     yystack_.pop (n);
   }
@@ -1151,7 +1151,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
   void
   ]b4_parser_class_name[::yy_reduce_print_ (int yyrule)
   {
-    unsigned int yylno = yyrline_[yyrule];
+    unsigned yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
     // Print the symbols being reduced, and their result.
     *yycdebug_ << "Reducing stack by rule " << yyrule - 1
