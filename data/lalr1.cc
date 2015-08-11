@@ -848,6 +848,7 @@ b4_dollar_popdef])[]dnl
       {
         slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
         YYLLOC_DEFAULT (yylhs.location, slice, yylen);
+        yyerror_range[1].location = yylhs.location;
       }]])[
 
       // Perform the reduction.
@@ -918,8 +919,7 @@ b4_dollar_popdef])[]dnl
        YYERROR and the label yyerrorlab therefore never appears in user
        code.  */
     if (false)
-      goto yyerrorlab;]b4_locations_if([[
-    yyerror_range[1].location = yystack_[yylen - 1].location;]])[
+      goto yyerrorlab;
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);

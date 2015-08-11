@@ -2,6 +2,17 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** Location of errors
+
+  In C++ parsers, out-of-bounds errors can happen when a rule with an empty
+  ride-hand side raises a syntax error.  The behavior of the default parser
+  (yacc.c) in such a condition was undefined.
+
+  Now all the parsers match the behavior of glr.c: @$ is used as the
+  location of the error.  This handles gracefully rules with and without
+  rhs.
 
 * Noteworthy changes in release 3.0.4 (2015-01-23) [stable]
 

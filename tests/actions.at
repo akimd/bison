@@ -475,7 +475,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 /* Display the symbol type Symbol.  */
 #define V(Symbol, Value, Location, Sep) \
-   fprintf (stderr, #Symbol " (%d@%d-%d)" Sep, Value, RANGE(Location))
+   fprintf (stderr, #Symbol " (%d@%d-%d)%s", Value, RANGE(Location), Sep)
 }
 
 $5
@@ -490,15 +490,17 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
 ]AT_LALR1_CC_IF([], [AT_YYERROR_DECLARE])
 [}
 
-]m4_ifval([$6], [%type <ival> '(' 'x' 'y' ')' ';' thing line input END])[
+]m4_ifval([$6],
+[%type <ival> '(' 'x' 'y' ')' ';' thing line input
+              '!' raise check-spontaneous-errors END])[
 
 /* FIXME: This %printer isn't actually tested.  */
 %printer
   {
-    ]AT_LALR1_CC_IF([debug_stream () << $$;],
-                    [fprintf (yyoutput, "%d", $$)])[;
+    ]AT_LALR1_CC_IF([yyo << $$;],
+                    [fprintf (yyo, "%d", $$)])[;
   }
-  input line thing 'x' 'y'
+  '(' 'x' 'y' ')' ';' thing line input '!' raise check-spontaneous-errors END
 
 %destructor
   { fprintf (stderr, "Freeing nterm input (%d@%d-%d)\n", $$, RANGE (@$)); }
@@ -511,6 +513,14 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
 %destructor
   { fprintf (stderr, "Freeing nterm thing (%d@%d-%d)\n", $$, RANGE (@$)); }
   thing
+
+%destructor
+  { fprintf (stderr, "Freeing raise thing (%d@%d-%d)\n", $$, RANGE (@$)); }
+  raise
+
+%destructor
+  { fprintf (stderr, "Freeing check-spontaneous-errors thing (%d@%d-%d)\n", $$, RANGE (@$)); }
+  check-spontaneous-errors
 
 %destructor
   { fprintf (stderr, "Freeing token 'x' (%d@%d-%d)\n", $$, RANGE (@$)); }
@@ -534,7 +544,7 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
 */
 
 input:
-  /* Nothing. */
+  %empty
     {
       $$ = 0;
       V(input, $$, @$, ": /* Nothing */\n");
@@ -547,6 +557,38 @@ input:
       V(line,  $1, @1, " ");
       V(input, $2, @2, "\n");
     }
+| '!' check-spontaneous-errors
+  {
+    $$ = $2;
+  }
+;
+
+check-spontaneous-errors:
+  raise         { abort(); $$ = $1; }
+| '(' raise ')' { abort(); $$ = $2; }
+| error
+  {
+    $$ = 5;
+    V(check-spontaneous-errors, $$, @$, ": ");
+    fprintf (stderr, "error (@%d-%d)\n", RANGE(@1));
+  }
+;
+
+raise:
+  %empty
+  {
+    $$ = 4;
+    V(raise, $$, @$, ": %empty\n");
+    YYERROR;
+  }
+| '!' '!'
+  {
+    $$ = 5;
+    V(raise, $$, @$, ": ");
+    V(!, $1, @2, " ");
+    V(!, $2, @2, "\n");
+    YYERROR;
+  }
 ;
 
 line:
@@ -668,6 +710,38 @@ Freeing nterm input (2@0-29)
 Successful parse.
 ]])
 
+# Check the location of empty reductions raising an error
+# -------------------------------------------------------
+# Here, the error is after token "!@0-9", so the error is raised from
+# @9-9, and the error recovery detects that it starts from @9-9 and
+# ends where starts the next token: END@10-19.
+#
+# So error recovery reports error@9-19.
+AT_PARSER_CHECK([./input '!'], 0, [],
+[[sending: '!' (0@0-9)
+sending: END (1@10-19)
+raise (4@9-9): %empty
+check-spontaneous-errors (5@9-19): error (@9-19)
+Freeing token END (1@10-19)
+Freeing nterm input (5@0-19)
+Successful parse.
+]])
+
+# Check the location of not empty reductions raising an error
+# -----------------------------------------------------------
+# This time the error is raised from a rule with 2 rhs symbols: @10-29.
+# It is recovered @10-29.
+AT_PARSER_CHECK([[./input '!!!']], 0, [],
+[[sending: '!' (0@0-9)
+sending: '!' (1@10-19)
+sending: '!' (2@20-29)
+raise (5@10-29): ! (1@20-29) ! (2@20-29)
+check-spontaneous-errors (5@10-29): error (@10-29)
+sending: END (3@30-39)
+Freeing token END (3@30-39)
+Freeing nterm input (5@0-29)
+Successful parse.
+]])
 
 # Check locations in error recovery
 # ---------------------------------
