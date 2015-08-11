@@ -220,20 +220,21 @@ AC_CONFIG_FILES([etc/bench.pl], [chmod +x etc/bench.pl])
 AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
+
 AC_CHECK_PROGS([VALGRIND], [valgrind])
-case $VALGRIND:$host_os in
+# Use something simpler that $host_os to select our suppression file.
+uname=`uname`
+case $VALGRIND:$uname in
   '':*) ;;
-  *:darwin*)
+  *:Darwin)
     # See README-hacking.
-    # VALGRIND+='-q --suppressions=$(abs_top_srcdir)/build-aux/darwin11.4.0.valgrind'
     VALGRIND=;;
   *:*)
-    suppfile=build-aux/$host_os.valgrind
+    suppfile=build-aux/$uname.valgrind
     if test -f "$srcdir/$suppfile"; then
-      VALGRIND="$VALGRIND --gen-suppressions=all"
-      VALGRIND="$VALGRIND --suppressions=\$(abs_top_srcdir)/$suppfile"
+      AC_SUBST([VALGRIND_OPTS_SUPPRESSION],
+               ["--suppressions=\$(abs_top_srcdir)/$suppfile"])
     fi
-    AC_SUBST([VALGRIND_PREBISON], ["$VALGRIND -q"])
     ;;
 esac
 

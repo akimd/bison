@@ -108,11 +108,13 @@ maintainer-check-posix: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE) POSIXLY_CORRECT=1 _POSIX2_VERSION=200112
 
 .PHONY: maintainer-check-valgrind
+VALGRIND_OPTS = --leak-check=full --show-reachable=yes --gen-suppressions=all \
+  $(VALGRIND_OPTS_SUPPRESSION)
 maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
-	test -z '$(VALGRIND)' ||					\
+	test 'x$(VALGRIND)' != x ||					\
 	  $(RUN_TESTSUITE)						\
-	    PREBISON='$(VALGRIND_PREBISON)' PREPARSER='$(VALGRIND) -q'	\
-	    VALGRIND_OPTS='--leak-check=full --show-reachable=yes'
+	    PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'	\
+	    VALGRIND_OPTS="$(VALGRIND_OPTS)"
 
 .PHONY: maintainer-check
 maintainer-check: maintainer-check-posix maintainer-check-valgrind maintainer-check-g++
