@@ -844,7 +844,7 @@ b4_dollar_popdef])[]dnl
         yylhs.value = yystack_@{0@}.value;])[
 ]b4_locations_if([dnl
 [
-      // Compute the default @@$.
+      // Default location.
       {
         slice<stack_symbol_type, stack_type> slice (yystack_, yylen);
         YYLLOC_DEFAULT (yylhs.location, slice, yylen);
