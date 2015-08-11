@@ -90,7 +90,12 @@ if test "$enable_gcc_warnings" = yes; then
   # -fno-color-diagnostics: Clang's use of colors in the error
   # messages is confusing the tests looking at the compiler's output
   # (e.g., synclines.at).
-  warn_tests='-Wundef -pedantic -Wsign-compare -fno-color-diagnostics'
+  #
+  # -Wno-keyword-macro: We use the "#define private public" dirty
+  # trick in the test suite to check some private implementation
+  # details for lalr1.cc.
+  warn_tests='-Wundef -pedantic -Wsign-compare -fno-color-diagnostics
+    -Wno-keyword-macro'
 
   AC_LANG_PUSH([C])
   # Clang supports many of GCC's -W options, but only issues warnings
