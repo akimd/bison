@@ -81,7 +81,9 @@ m4_define([_AT_SYNCLINES_COMPILE],
 #
 #    "input.yy", line 80.21: 1540-0218 (S) The call does not match any parameter list for "operator<<".
 #    "/usr/vacpp/include/iosfwd", line 32.6: 1506-205 (S) #error This file to be used only with IBM VisualAge C++ v4 and later compilers
-
+#
+# Newer GCCs go further and if the function is declared static, complain
+# that it's not used.
 AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
   # 1. Remove useless lines.
 
@@ -136,14 +138,15 @@ EOF
 m4_define([AT_SYNCLINES_COMPILE],
 [# Check if we can trust location translation.
 AT_DATA([syncline.c],
-[[static void foo(void)
+[[void foo (void);
+void foo (void)
 {
-#error "3"
+#error "4"
 }
 ]])
 
 _AT_SYNCLINES_COMPILE([syncline.c])
-AT_CHECK([[test "`cat stdout`" = 'syncline.c:3: @%:@error "3"' || exit 77]])
+AT_CHECK([[test "`cat stdout`" = 'syncline.c:4: @%:@error "4"' || exit 77]])
 
 # Then work for real.
 _AT_SYNCLINES_COMPILE([$1])
