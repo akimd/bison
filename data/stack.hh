@@ -21,7 +21,8 @@ m4_pushdef([b4_copyright_years],
 # b4_stack_define
 # ---------------
 m4_define([b4_stack_define],
-[[  template <class T, class S = std::vector<T> >
+[[  /// A stack with random access from its top.
+  template <class T, class S = std::vector<T> >
   class stack
   {
   public:
@@ -39,14 +40,18 @@ m4_define([b4_stack_define],
       : seq_ (n)
     {}
 
-    inline
+    /// Random access.
+    ///
+    /// Index 0 returns the topmost element.
     T&
     operator[] (unsigned int i)
     {
       return seq_[seq_.size () - 1 - i];
     }
 
-    inline
+    /// Random access.
+    ///
+    /// Index 0 returns the topmost element.
     const T&
     operator[] (unsigned int i) const
     {
@@ -56,7 +61,6 @@ m4_define([b4_stack_define],
     /// Steal the contents of \a t.
     ///
     /// Close to move-semantics.
-    inline
     void
     push (T& t)
     {
@@ -64,7 +68,6 @@ m4_define([b4_stack_define],
       operator[](0).move (t);
     }
 
-    inline
     void
     pop (unsigned int n = 1)
     {
@@ -78,21 +81,18 @@ m4_define([b4_stack_define],
       seq_.clear ();
     }
 
-    inline
     typename S::size_type
     size () const
     {
       return seq_.size ();
     }
 
-    inline
     const_iterator
     begin () const
     {
       return seq_.rbegin ();
     }
 
-    inline
     const_iterator
     end () const
     {
@@ -116,7 +116,6 @@ m4_define([b4_stack_define],
       , range_ (range)
     {}
 
-    inline
     const T&
     operator [] (unsigned int i) const
     {

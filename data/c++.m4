@@ -304,7 +304,6 @@ m4_define([b4_public_types_define],
                    [value = other.value;])[
   }
 
-
   template <typename Base>
   inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(

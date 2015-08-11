@@ -33,8 +33,7 @@ m4_define([b4_position_define],
       : filename (f)
       , line (l)
       , column (c)
-    {
-    }
+    {}
 
 ]])[
     /// Initialization.
@@ -157,15 +156,13 @@ m4_define([b4_location_define],
     location (const position& b, const position& e)
       : begin (b)
       , end (e)
-    {
-    }
+    {}
 
     /// Construct a 0-width location in \a p.
     explicit location (const position& p = position ())
       : begin (p)
       , end (p)
-    {
-    }
+    {}
 
     /// Construct a 0-width location in \a f, \a l, \a c.
     explicit location (]b4_percent_define_get([[filename_type]])[* f,
@@ -173,8 +170,7 @@ m4_define([b4_location_define],
                        unsigned int c = ]b4_location_initial_column[u)
       : begin (f, l, c)
       , end (f, l, c)
-    {
-    }
+    {}
 
 ])[
     /// Initialization.
