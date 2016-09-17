@@ -8932,7 +8932,7 @@ clear the flag.
 
 Developing a parser can be a challenge, especially if you don't understand
 the algorithm (@pxref{Algorithm, ,The Bison Parser Algorithm}).  This
-chapter explains how understand and debug a parser.
+chapter explains how to understand and debug a parser.
 
 The first sections focus on the static part of the parser: its structure.
 They explain how to generate and read the detailed description of the
