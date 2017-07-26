@@ -59,7 +59,7 @@ start: 'a' 'b' 'c' ;
 %%
 ])
 
-# Define comon code across to be includede in
+# Define comon code across to be included in
 # class Main for the trivial parser tests.
 m4_define([AT_TRIVIAL_COMMON],[
   static class YYerror implements YYParser.Lexer
