@@ -111,7 +111,7 @@ m4_if(m4_bregexp(b4_namespace_ref, [^[	 ]*$]), [-1], [],
                 [[namespace reference is empty]])])
 
 # Instead of assuming the C++ compiler will do it, Bison should reject any
-# invalid b4_namepsace_ref that would be converted to a valid
+# invalid b4_namespace_ref that would be converted to a valid
 # b4_namespace_open.  The problem is that Bison doesn't always output
 # b4_namespace_ref to uncommented code but should reserve the ability to do so
 # in future releases without risking breaking any existing user grammars.
