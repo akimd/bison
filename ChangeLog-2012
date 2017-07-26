@@ -3702,7 +3702,7 @@
 	Remove trailing blanks.
 	The epilogue has its own ending \n, no need to add another.
 
-	* data/glr.c, data/lalr1.java, data/yacc.c: dnl when outputing the
+	* data/glr.c, data/lalr1.java, data/yacc.c: dnl when outputting the
 	epilogue.
 	* data/glr.cc: dnl when extending the epilogue.
 	Remove stray "private:".
