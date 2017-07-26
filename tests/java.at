@@ -529,9 +529,9 @@ AT_CHECK_JAVA_GREP([[public final strictfp class YYParser]])
 
 # FIXME: Can't do a Java compile because javacomp.sh is configured for 1.3
 AT_CHECK_JAVA_MINIMAL([[
-%define annotations {/*@Deprecated @SupressWarnings("unchecked") @SupressWarnings({"unchecked", "deprecation"}) @SupressWarnings(value={"unchecked", "deprecation"})*/}
+%define annotations {/*@Deprecated @SuppressWarnings("unchecked") @SuppressWarnings({"unchecked", "deprecation"}) @SuppressWarnings(value={"unchecked", "deprecation"})*/}
 %define public]])
-AT_CHECK_JAVA_GREP([[/\*@Deprecated @SupressWarnings("unchecked") @SupressWarnings({"unchecked", "deprecation"}) @SupressWarnings(value={"unchecked", "deprecation"})\*/ public class YYParser]])
+AT_CHECK_JAVA_GREP([[/\*@Deprecated @SuppressWarnings("unchecked") @SuppressWarnings({"unchecked", "deprecation"}) @SuppressWarnings(value={"unchecked", "deprecation"})\*/ public class YYParser]])
 
 AT_CLEANUP
 
