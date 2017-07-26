@@ -3764,7 +3764,7 @@
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
 	Pass the token type to yysyntax_error.
-	* data/yacc.c (yysyntax_error): Take the transated token instead
+	* data/yacc.c (yysyntax_error): Take the translated token instead
 	of the raw number.
 	Adjust callers.
 	* TODO: Update.
