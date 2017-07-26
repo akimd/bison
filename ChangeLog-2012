@@ -7588,7 +7588,7 @@
 2007-03-07  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	DJGPP spefic issue.  Inhibit the use of disallowed characters for
-	file name genertion on Win98, WinXP, etc.  These are |<>":?*\
+	file name generation on Win98, WinXP, etc.  These are |<>":?*\
 	and concern testsuite case 46.
 	* Makefile.am: djgpp/testsuite.sed added to EXTRA_DIST
 	* djgpp/testsuite.sed: Inhibit the use of disallowed characters.
