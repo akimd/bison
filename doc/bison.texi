@@ -10244,7 +10244,7 @@ Activate miscellaneous @var{feature}. @var{feature} can be one of:
 @itemx diagnostics-show-caret
 Show caret errors, in a manner similar to GCC's
 @option{-fdiagnostics-show-caret}, or Clang's
-@option{-fcaret-diagnotics}. The location provided with the message is used
+@option{-fcaret-diagnostics}. The location provided with the message is used
 to quote the corresponding line of the source file, underlining the
 important part of it with carets (@samp{^}). Here is an example, using the
 following file @file{in.y}:
