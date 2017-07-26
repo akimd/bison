@@ -17365,7 +17365,7 @@
 	(scanner_last_string_free): Remove; not used.
 	(percent_percent_count): Move decl to just before use.
 	(SC_ESCAPED_CHARACTER): Return ID at unexpected end of file,
-	not the (never otherwised-used) CHARACTER.
+	not the (never otherwise-used) CHARACTER.
 
 2002-11-07  Akim Demaille  <akim@epita.fr>
 
