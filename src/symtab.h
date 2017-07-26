@@ -307,7 +307,7 @@ typedef struct {
   /** The key, name of the semantic type.  */
   uniqstr tag;
 
-  /** The location of its first occurence.  */
+  /** The location of its first occurrence.  */
   location location;
 
   /** Its status : "undeclared", "used" or "declared".
