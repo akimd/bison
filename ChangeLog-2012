@@ -16612,9 +16612,9 @@
 
 
 	Fix misspelling in names.
-	* src/vcg.h (enum_alignment_e): Renamed from enum_alignement_e.
+	* src/vcg.h (enum_alignment_e): Renamed from enum_alignment_e.
 	* src/vcg_defaults.h (G_NODE_ALIGNMENT): Renamed from
-	G_NODE_ALIGNEMENT.
+	G_NODE_ALIGNMENT.
 
 
 	* lib/timevar.c (timevar_report): Renamed from time_report,
@@ -16866,7 +16866,7 @@
 	* src/tables.c (conflict_row, pack_vector): Likewise.
 	* src/vcg.c (get_color_str, get_textmode_str, get_shape_str,
 	get_layoutalgorithm_str, get_decision_str, get_orientation_str,
-	get_node_alignement_str, get_arrow_mode_str, get_crossing_type_str,
+	get_node_alignment_str, get_arrow_mode_str, get_crossing_type_str,
 	get_view_str, get_linestyle_str, get_arrowstyle_str): Likewise.
 
 	* lib/argmatch.h (ARRAY_CARDINALITY): Do not bother to #undef.
