@@ -13993,7 +13993,7 @@
 	* src/LR0.c (allocate_itemsets): Use xnmalloc, not xcalloc,
 	to allocate kernel_base, kernel_items, kernel_size, since
 	they needn't be initialized to 0.
-	(allocate_storgae): Likewise, for shiftset, redset, shift_symbol.
+	(allocate_storage): Likewise, for shiftset, redset, shift_symbol.
 	* src/closure.c (new_closure): Likewise, for itemset.
 	* src/derives.c (derives_compute): Likewise, for delts, derives, q.
 	* src/lalr.c (set_goto_map): Likewise, for temp_map.
