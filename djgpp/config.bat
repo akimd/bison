@@ -290,7 +290,7 @@ if errorlevel 1 goto SedError2
 mv -f config.hin %XSRC%/lib/config.hin
 
 
-Rem Fixing ilicit testsuite file name.
+Rem Fixing illicit testsuite file name.
 test -f %XSRC%/tests/c++.at
 if not errorlevel 1 mv -f %XSRC%/tests/c++.at %XSRC%/tests/cxx.at
 
@@ -300,7 +300,7 @@ sed -f %XSRC%/djgpp/testsuite.sed %XSRC%/tests/testsuite.org > testsuite.tmp
 if errorlevel 1 goto SedError3
 mv -f ./testsuite.tmp %XSRC%/tests/testsuite
 
-Rem Fixing ilicit calc++ file names in the calc++ directory.
+Rem Fixing illicit calc++ file names in the calc++ directory.
 test -d %XSRC%/examples/calc++
 if not errorlevel 1 mv -f %XSRC%/examples/calc++ %XSRC%/examples/calcxx
 test -d %XSRC%/examples/calcxx
