@@ -24303,7 +24303,7 @@
 	(readgram): Disable a piece of code that was writing a default
 	definition for 'YYSTYPE'.
 	(reader_output_yylsp): Remove.
-	(packsymbols): Output token defintions to a macro.
+	(packsymbols): Output token definitions to a macro.
 	(copy_definition): Disable C output.
 
 	* src/reader.c (parse_macro_decl): New function used to parse macro
