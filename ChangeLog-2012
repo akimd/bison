@@ -22797,7 +22797,7 @@
 	on user names when possible.
 
 	(YYSTACK_USE_ALLOCA): Do not define; just use any existing defn.
-	Simplify test for whather <alloca.h> exists.
+	Simplify test for whether <alloca.h> exists.
 
 	(<stdlib.h>): Include if we will use malloc, and if standard C or C++.
 
