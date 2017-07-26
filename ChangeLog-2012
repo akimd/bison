@@ -14181,7 +14181,7 @@
 2004-10-05  Akim Demaille  <akim@epita.fr>
 
 	In Bison 1.875's yacc.c, YYLLOC_DEFAULT was called regardless
-	whether the reducion was empty or not.  This leaves room to
+	whether the reduction was empty or not.  This leaves room to
 	improve the use of YYLLOC_DEFAULT in such a case.
 	lalr1.cc is still experimental, so changing this is acceptable.
 	And finally, there are probably not many users who changed the
