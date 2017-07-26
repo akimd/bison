@@ -24641,7 +24641,7 @@
 
 2001-07-08  Pascal Bart  <pascal.bart@epita.fr>
 
-	* src/bison.simple (yyparse): Suppress warning `comparaison
+	* src/bison.simple (yyparse): Suppress warning `comparison
 	between signed and unsigned'.
 
 2001-07-05  Pascal Bart  <pascal.bart@epita.fr>
