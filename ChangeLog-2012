@@ -20638,7 +20638,7 @@
 	* data/bison.simple, data/bison.c++: Adjust.
 	* tests/torture.at (Big triangle): Move the limit from 254 to
 	500.
-	* tests/regression.at (Web2c Actions): Ajust.
+	* tests/regression.at (Web2c Actions): Adjust.
 
 	Trying with bigger grammars shows various phenomena: at 3000 (28Mb
 	of grammar file) bison is killed by my system, at 2000 (12Mb) bison
