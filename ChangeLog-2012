@@ -18052,7 +18052,7 @@
 	suite using a GLR parser driven by LALR tables.  It fails with -O2
 	because `struct stat' gives two different answers on my machine:
 	88 (definition of an auto var) and later 96 (memset on this var).
-	Hence the stack is badly corrumpted.  The headers inclusion is to
+	Hence the stack is badly corrupted.  The headers inclusion is to
 	blame: if I move the awk.h inclusion before GLR's system header
 	inclusion, the two struct stat have the same size.
 
