@@ -80,10 +80,10 @@ goto NextArgument
 if "%1" == "no-dep" goto NextArgument
 if "%1" == "no-DEP" goto NextArgument
 if "%1" == "NO-DEP" goto NextArgument
-if "%1" == "dep" goto DependecyTraking
-if "%1" == "DEP" goto DependecyTraking
+if "%1" == "dep" goto DependecyTracking
+if "%1" == "DEP" goto DependecyTracking
 goto LibiconvPrefixOption
-:DependecyTraking
+:DependecyTracking
 if "%1" == "dep" set DEPENDENCY_TRACKING=enabled
 if "%1" == "DEP" set DEPENDENCY_TRACKING=enabled
 if not "%DEPENDENCY_TRACKING%" == "enabled" goto SmallEnv
