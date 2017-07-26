@@ -12349,7 +12349,7 @@
 	* data/lalr1.cc: here.
 	(location.hh): Include it after the user prologue, in case the
 	filename type is defined by the user.
-	Forward declation location and position before the pre-prologue.
+	Forward declaration location and position before the pre-prologue.
 	(yyresult_): Rename as...
 	(yyresult): this, it's a local variable, not an attribute.
 	* data/Makefile.am (dist_pkgdata_DATA): Adjust.
