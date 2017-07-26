@@ -25128,7 +25128,7 @@
 	* tests/calc.m4: Test it.
 
 	For regularity of the names, replace each
-	(nolineflag, toknumflag, rawtokenumflag, noparserflag): with...
+	(nolineflag, toknumflag, rawtoknumflag, noparserflag): with...
 	(no_lineflag, token_tableflag, rawflag, no_parserflag): this.
 	In addition replace each `flag' with `_flag'.
 
