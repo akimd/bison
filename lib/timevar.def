@@ -28,7 +28,7 @@
 
      DEFTIMEVAR (id, name)
 
-   where ID is the enumeral value used to identify the timing
+   where ID is the enum value used to identify the timing
    variable, and NAME is a character string describing its purpose.  */
 
 /* The total execution time.  */
