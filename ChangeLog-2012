@@ -23563,7 +23563,7 @@
 
 2001-10-04  Akim Demaille  <akim@epita.fr>
 
-	* src/reader.c (parse_union_decl): Push the caracters in
+	* src/reader.c (parse_union_decl): Push the characters in
 	union_obstack, not attrs_obstack.
 
 2001-10-04  Akim Demaille  <akim@epita.fr>
