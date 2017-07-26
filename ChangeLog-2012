@@ -13165,7 +13165,7 @@
 	not GNU M4, and that it works with any POSIX-compatible Awk.
 	* examples/calc++/Makefile.am (run_extexi): Remove; not used.
 	($(calc_extracted)): Renamed from $(calc_sources_extracted),
-	so that we also get calc++-parser.yy.  Geneate it.
+	so that we also get calc++-parser.yy.  Generate it.
 	Use $(AWK), not gawk, since any conforming Awk will do.
 	Put comment before action, since older 'make' can't handle comment
 	in action.
