@@ -384,7 +384,7 @@ AT_BANNER([Java Parameters.])
 
 # AT_CHECK_JAVA_MINIMAL([DIRECTIVES], [PARSER_ACTION], [POSITION_CLASS])
 # ----------------------------------------------------------------------
-# Check that a mininal parser with DIRECTIVES compiles in Java.
+# Check that a minimal parser with DIRECTIVES compiles in Java.
 # Put the Java code in YYParser.java.
 m4_define([AT_CHECK_JAVA_MINIMAL],
 [
@@ -411,7 +411,7 @@ AT_JAVA_COMPILE([[YYParser.java]])
 #       [3:YYLEX_ACTION], [4:LEXER_BODY], [5:PARSER_ACTION], [6:VALUE_TYPE],
 #       [7:POSITION_TYPE], [8:LOCATION_TYPE])
 # ---------------------------------------------------------------------
-# Check that a mininal parser with DIRECTIVES and a "%code lexer".
+# Check that a minimal parser with DIRECTIVES and a "%code lexer".
 # YYLEX is the body of yylex () which throws LEX_THROW.
 # compiles in Java.
 m4_define([AT_CHECK_JAVA_MINIMAL_W_LEXER],
