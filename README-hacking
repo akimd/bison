@@ -194,7 +194,7 @@ To run just the testsuite (not the tests related to the examples), run `make
 check-local`.
 
 The default is for make check-local to run all tests sequentially.  This can
-be very time consumming when checking repeatedly or on slower setups.  This
+be very time consuming when checking repeatedly or on slower setups.  This
 can be sped up in two ways:
 
 Using -j, in a make-like fashion, for example:
