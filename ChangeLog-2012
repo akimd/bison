@@ -6432,7 +6432,7 @@
 	* djgpp/config.site: Copyright timestamp adjusted.
 	* djgpp/config_h.sed: Copyright timestamp adjusted.
 	* djgpp/djunpack.bat: Copyright timestamp adjusted.
-	* djgpp/fnchnage.lst: Add filenames that are not 8.3 clean to the
+	* djgpp/fnchange.lst: Add filenames that are not 8.3 clean to the
 	filename translation list.
 	* djgpp/subpipe.c (init_subpipe): Check the environment variables
 	TMPDIR, TMP and TEMP, in that order, to determinate where the temp
