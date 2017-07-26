@@ -24030,7 +24030,7 @@
 	informations about %union.
 	(parse_union_decl): Copy the union_obstack in the muscle stype.
 	* src/bison.simple: Add new #line directive.
-	Add typdef %%stype YYSTYPE.
+	Add typedef %%stype YYSTYPE.
 
 2001-09-23  Pascal Bart  <pascal.bart@epita.fr>
 
