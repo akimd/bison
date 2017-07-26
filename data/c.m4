@@ -369,7 +369,7 @@ m4_define([b4_token_enums_defines],
 # ----------------------------
 # Given a semantic value VAL ($$, $1 etc.), extract its value of type
 # TYPE if TYPE is given, otherwise just return VAL.  The result can be
-# used safetly, it is put in parens to avoid nasty precedence issues.
+# used safely, it is put in parens to avoid nasty precedence issues.
 # TYPE is *not* put in braces, provide some if needed.
 m4_define([b4_symbol_value],
 [($1[]m4_ifval([$2], [.$2]))])
