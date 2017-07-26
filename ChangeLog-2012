@@ -9059,7 +9059,7 @@
 	* src/scan-gram.l (<SC_BRACED_CODE>): Use val->code for BRACED_CODE,
 	which is "{...}" in the parser.
 	* tests/Makefile.am (maintainer-check-valgrind): Set
-	VALGRIND_OPTS='--leak-check=full --show-reacheable=yes' before invoking
+	VALGRIND_OPTS='--leak-check=full --show-reachable=yes' before invoking
 	Valgrind.
 	* tests/calc.at (_AT_DATA_CALC_Y): fclose the FILE* so Valgrind doesn't
 	complain.
