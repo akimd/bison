@@ -21070,7 +21070,7 @@
 
 	* src/L0.c, src/LR0.h (nstates): Be size_t.
 	Adjust comparisons (signed vs unsigned).
-	* src/conflics.c, src/lalr.c, src/lalr.h, src/output.c (LA): Now a
+	* src/conflicts.c, src/lalr.c, src/lalr.h, src/output.c (LA): Now a
 	bitset*.
 	Adjust all dependencies.
 
