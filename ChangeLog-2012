@@ -12439,7 +12439,7 @@
 	(Table of Symbols): Under YYSTACK_USE_ALLOCA, Don't claim that the
 	user must declare alloca.
 
-	* HACKING (release): Forwarn the Translation Project about
+	* HACKING (release): Forewarn the Translation Project about
 	stable releses.
 
 2005-09-20  Akim Demaille  <akim@epita.fr>
