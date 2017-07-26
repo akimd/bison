@@ -72,7 +72,7 @@ AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.tab.c],
 
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -y],
                 [y.dot y.output y.tab.c y.tab.h y.xml])
-# With '-o y.tab.c', we expect 'y.output' etc. (for compatility with Yacc).
+# With '-o y.tab.c', we expect 'y.output' etc. (for compatibility with Yacc).
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -o y.tab.c],
                 [y.dot y.output y.tab.c y.tab.h y.xml])
 
