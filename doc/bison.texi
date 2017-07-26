@@ -380,7 +380,7 @@ Frequently Asked Questions
 * Multiple start-symbols::      Factoring closely related grammars
 * Secure?  Conform?::           Is Bison POSIX safe?
 * I can't build Bison::         Troubleshooting
-* Where can I find help?::      Troubleshouting
+* Where can I find help?::      Troubleshooting
 * Bug Reports::                 Troublereporting
 * More Languages::              Parsers in C++, Java, and so on
 * Beta Testing::                Experimenting development versions
@@ -12355,7 +12355,7 @@ are addressed.
 * Multiple start-symbols::      Factoring closely related grammars
 * Secure?  Conform?::           Is Bison POSIX safe?
 * I can't build Bison::         Troubleshooting
-* Where can I find help?::      Troubleshouting
+* Where can I find help?::      Troubleshooting
 * Bug Reports::                 Troublereporting
 * More Languages::              Parsers in C++, Java, and so on
 * Beta Testing::                Experimenting development versions
@@ -13576,7 +13576,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
 @c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead yyoutput
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
-@c LocalWords: infile ypp yxx outfile itemx tex leaderfill Troubleshouting sqrt
+@c LocalWords: infile ypp yxx outfile itemx tex leaderfill Troubleshooting sqrt
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
 @c LocalWords: nbar yytext fst snd osplit ntwo strdup AST Troublereporting th
 @c LocalWords: YYSTACK DVI fdl printindex IELR nondeterministic nonterminals ps
