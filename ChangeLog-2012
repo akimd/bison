@@ -20105,7 +20105,7 @@
 
 	* data/bison.c++: Catch up with bison.simple:
 	2002-05-24  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
-	and Paul Eggert  <eggert@twinsun.com>: `error' handing.
+	and Paul Eggert  <eggert@twinsun.com>: `error' handling.
 	2002-05-26  Akim Demaille  <akim@epita.fr>: stos_, token_number_,
 	and popping traces.
 
