@@ -5200,7 +5200,7 @@
 
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
-	Agregate yylval and yylloc.
+	Aggregate yylval and yylloc.
 	* data/lalr1.cc (parser::yylval, parser::yylloc): Replace by...
 	(parser::yyla): this.
 
