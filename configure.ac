@@ -163,7 +163,7 @@ if test "$enable_gcc_warnings" = yes; then
   gl_WARN_ADD([-Wno-null-conversion], [FLEX_SCANNER_CXXFLAGS])
   # So does G++ 4.8...
   gl_WARN_ADD([-Wno-sign-compare], [FLEX_SCANNER_CXXFLAGS])
-  # ... possiby in std=c++11 mode.
+  # ... possibly in std=c++11 mode.
   gl_WARN_ADD([-Wno-zero-as-null-pointer-constant], [FLEX_SCANNER_CXXFLAGS])
   CXXFLAGS=$save_CXXFLAGS
   # Clang++ deprecates compiling C.
