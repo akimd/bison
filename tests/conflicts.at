@@ -1770,7 +1770,7 @@ AT_BISON_CHECK([[-Wno-conflicts-rr sr-rr.y]], [[0]], [[]],
 
 [
 # This is piece of code is rather complex for a simple task: try every
-# combinaison of (0 or 1 real SR) x (0 or 1 real RR) x (don't %expect
+# combination of (0 or 1 real SR) x (0 or 1 real RR) x (don't %expect
 # or %expect 0, 1, or 2 SR) x (don't %expect-rr or %expect-rr 0, 1, or 2
 # RR).
 
