@@ -20455,7 +20455,7 @@
 	single characters while replacing `[' and `]' with quadrigraphs, to
 	avoid troubles with M4 quotes.
 	(copy_comment): Output characters with copy_character.
-	(read_additionnal_code): Likewise.
+	(read_additional_code): Likewise.
 	(copy_string2): Likewise.
 	(copy_definition): Likewise.
 
@@ -20949,7 +20949,7 @@
 
 2002-03-05  Robert Anisko  <robert@lrde.epita.fr>
 
-	* src/reader.c (read_additionnal_code): `c' should be an integer, not
+	* src/reader.c (read_additional_code): `c' should be an integer, not
 	a character.
 	Reported by Nicolas Tisserand and Nicolas Burrus.
 
@@ -22337,7 +22337,7 @@
 
 	* src/bison.simple: Remove #line just before %%epilogue. It
 	is now handled in ...
-	* src/reader.c (read_additionnal_code): Add the output of a
+	* src/reader.c (read_additional_code): Add the output of a
 	#line for the epilogue.
 
 2001-12-10  Marc Autret  <autret_m@epita.fr>
@@ -24115,7 +24115,7 @@
 	(parse_union_decl): Update.
 	(parse_macro_decl): Rename parse_muscle_decl.
 	Update to use renamed functions and variable.
-	(read_declarations, copy_action, read_additionnal_code, : Updated
+	(read_declarations, copy_action, read_additional_code, : Updated
 	with correct variables and functions names.
 	(packsymbols, reader): Likewise.
 
@@ -24196,7 +24196,7 @@
 
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>, Marc Autret  <autret_m@epita.fr>
 
-	* src/reader.c (read_additionnal_code): Rename %%user_code to
+	* src/reader.c (read_additional_code): Rename %%user_code to
 	%%epilogue.
 	* src/output.c (output): Rename %%declarations to %%prologue.
 	* src/bison.simple: Echo modifications.
@@ -24240,7 +24240,7 @@
 2001-08-29  Marc Autret  <autret_m@epita.fr>
 
 	* src/bison.simple: Add %%user_code directive at the end.
-	* src/reader.c (read_additionnal_code): New.
+	* src/reader.c (read_additional_code): New.
 	(reader): Use it.
 	* src/output.c (output_program): Remove.
 	(output): Update.
