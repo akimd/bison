@@ -25731,7 +25731,7 @@
 
 	* src/getargs.c, src/Makefile.am, src/reader.c, src/version.c:
 	Have configure build version string instead of relying on ANSI string
-	concatentation.
+	concatenation.
 
 1999-06-14  Jesse Thilo  <jthilo@gnu.org>
 
@@ -25741,7 +25741,7 @@
 
 	* acconfig.h, configure.in:
 	Have configure build version string instead of relying on ANSI string
-	concatentation.
+	concatenation.
 
 1999-06-08  Jesse Thilo  <jthilo@gnu.org>
 
