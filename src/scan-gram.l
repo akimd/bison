@@ -707,7 +707,7 @@ eqopt    ([[:space:]]*=)?
   "{"|"<"{splice}"%"  STRING_GROW; nesting++;
   "%"{splice}">"      STRING_GROW; nesting--;
 
-  /* Tokenize '<<%' correctly (as '<<' '%') rather than incorrrectly
+  /* Tokenize '<<%' correctly (as '<<' '%') rather than incorrectly
      (as '<' '<%').  */
   "<"{splice}"<"  STRING_GROW;
 
