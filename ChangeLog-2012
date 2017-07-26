@@ -16524,7 +16524,7 @@
 	(struct state): Renamed from struct state_s.
 	(state): Renamed from state_t.
 	(transitions): Renamed from transitions_t.  Unused (and
-	misspelled) transtion_s tag removed.
+	misspelled) transition_s tag removed.
 	(errs): Renamed from errs_t.  Unused errs_s tag removed.
 	(reductions): Renamed from reductions_t.  Unused tag
 	reductions_s removed.
