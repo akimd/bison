@@ -23999,7 +23999,7 @@
 
 	* src/vcg.c: Remove includes of `complain.h' and `xalloc.h'.
 	(get_xxxx_str): Use assert () instead of complain ().
-	Remove return invokations in default cases.
+	Remove return invocations in default cases.
 	(get_decision_str): Modify default behaviour. Remove second argument.
 	Echo modifications on calls.
 	(output_graph): Fix.
