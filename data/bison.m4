@@ -710,7 +710,7 @@ _b4_percent_define_ifdef([$1],
 # Mimic muscle_percent_define_get_loc in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is undefined, complain fatally since that's
 # a Bison or skeleton error.  Otherwise, return its definition location in a
-# form approriate for the first two arguments of b4_warn_at, b4_complain_at, or
+# form appropriate for the first two arguments of b4_warn_at, b4_complain_at, or
 # b4_fatal_at.  Don't record this as a Bison usage of VARIABLE as there's no
 # reason to suspect that the user-supplied value has yet influenced the output.
 #
