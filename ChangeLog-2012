@@ -23844,7 +23844,7 @@
 
 	* src/vcg.h (graph_s): color, textcolor, bordercolor are now
 	enum color_e.
-	* src/print_graph.c (print_graph): Initalize graph.layoutalgorithm
+	* src/print_graph.c (print_graph): Initialize graph.layoutalgorithm
 	to `normal'.
 	* src/reader.c (parse_token_decl): Initialize token with tok_eof.
 	* src/lex.h: Adjust prototype.
