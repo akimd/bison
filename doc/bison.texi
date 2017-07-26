@@ -9535,7 +9535,7 @@ The graphical output
 @end ifnotinfo
 is very similar to the textual one, and as such it is easier understood by
 making direct comparisons between them.  @xref{Debugging, , Debugging Your
-Parser}, for a detailled analysis of the textual report.
+Parser}, for a detailed analysis of the textual report.
 
 @ifnotinfo
 @float Figure,fig:graph
