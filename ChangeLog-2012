@@ -5815,7 +5815,7 @@
 	of members.  Document that token names are added as fields.
 	Document constructors accurately.  Remove error method.
 	(Java Scanner Interface): Move note on %pure-parser to Java Bison
-	Interface.  Describe %code lexer and yylex accutately.
+	Interface.  Describe %code lexer and yylex accurately.
 	Remove documentation that does not match the code.
 	(Java Action Features): New.
 	(Java Differences): Add reference.  Add item on semantic values.
