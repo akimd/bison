@@ -5019,7 +5019,7 @@
 
 	Now instead of monolithic tables, we define one macro per cell.  For
 	instance "b4_symbol(0, tag)" is a macro name which contents is
-	self-decriptive.  The macro "b4_symbol" provides easier access to
+	self-descriptive.  The macro "b4_symbol" provides easier access to
 	these cells.
 
 	* src/output.c (type_names_output): Remove.
