@@ -68,7 +68,7 @@ typedef enum
     undeclared,
     /** Used by %destructor/%printer but not defined (warning).  */
     used,
-    /** Used in the gramar (rules) but not defined (error).  */
+    /** Used in the grammar (rules) but not defined (error).  */
     needed,
     /** Defined with %type or %token (good).  */
     declared,

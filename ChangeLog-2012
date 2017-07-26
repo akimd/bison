@@ -8796,7 +8796,7 @@
 2006-12-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* TODO: Add pointer to Sylvain Schmitz's work on static detection
-	of potential ambiguities in GLR grammers.
+	of potential ambiguities in GLR grammars.
 
 2006-12-12  Joel E. Denny  <jdenny@ces.clemson.edu>
 
