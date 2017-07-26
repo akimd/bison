@@ -18962,7 +18962,7 @@
 
 2002-07-16  Akim Demaille  <akim@epita.fr>
 
-	* src/assoc.c, src/asssoc.h (assoc_t, assoc_to_string): New.
+	* src/assoc.c, src/assoc.h (assoc_t, assoc_to_string): New.
 	Adjust all former `associativity' dependencies.
 	* src/symtab.c (symbol_new): Default associativity is `undef', not
 	`right'.
