@@ -1,12 +1,11 @@
+/*~
 /*.gmo
 /*.po
-/*.po~
 /.reference
 /LINGUAS
 /Makefile
 /Makefile.in
 /Makefile.in.in
-/Makefile.in.in~
 /Makevars
 /Makevars.template
 /POTFILES
@@ -15,7 +14,6 @@
 /boldquot.sed
 /en@boldquot.header
 /en@quot.header
-/insert-header.sed
 /insert-header.sin
 /quot.sed
 /remove-potcdate.sed
