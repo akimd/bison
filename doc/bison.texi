@@ -143,7 +143,7 @@ Writing GLR Parsers
 
 Examples
 
-* RPN Calc::               Reverse polish notation calculator;
+* RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
 * Infix Calc::             Infix (algebraic) notation calculator.
                              Operator precedence is introduced.
@@ -1493,7 +1493,7 @@ simple program, all the rest of the program can go here.
 @cindex examples, simple
 
 Now we show and explain several sample programs written using Bison: a
-reverse polish notation calculator, an algebraic (infix) notation
+Reverse Polish Notation calculator, an algebraic (infix) notation
 calculator --- later extended to track ``locations'' ---
 and a multi-function calculator.  All
 produce usable, though limited, interactive desk-top calculators.
@@ -1503,7 +1503,7 @@ languages are written the same way.  You can copy these examples into a
 source file to try them.
 
 @menu
-* RPN Calc::               Reverse polish notation calculator;
+* RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
 * Infix Calc::             Infix (algebraic) notation calculator.
                              Operator precedence is introduced.
@@ -1516,13 +1516,12 @@ source file to try them.
 
 @node RPN Calc
 @section Reverse Polish Notation Calculator
-@cindex reverse polish notation
-@cindex polish notation calculator
+@cindex Reverse Polish Notation
 @cindex @code{rpcalc}
 @cindex calculator, simple
 
-The first example is that of a simple double-precision @dfn{reverse polish
-notation} calculator (a calculator using postfix operators).  This example
+The first example is that of a simple double-precision @dfn{Reverse Polish
+Notation} calculator (a calculator using postfix operators).  This example
 provides a good starting point, since operator precedence is not an issue.
 The second example will illustrate how operator precedence is handled.
 
@@ -1542,12 +1541,12 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 @node Rpcalc Declarations
 @subsection Declarations for @code{rpcalc}
 
-Here are the C and Bison declarations for the reverse polish notation
+Here are the C and Bison declarations for the Reverse Polish Notation
 calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 
 @comment file: rpcalc.y
 @example
-/* Reverse polish notation calculator.  */
+/* Reverse Polish Notation calculator.  */
 
 @group
 %@{
@@ -1598,7 +1597,7 @@ declared is @code{NUM}, the token type for numeric constants.
 @node Rpcalc Rules
 @subsection Grammar Rules for @code{rpcalc}
 
-Here are the grammar rules for the reverse polish notation calculator.
+Here are the grammar rules for the Reverse Polish Notation calculator.
 
 @comment file: rpcalc.y
 @example
@@ -13346,7 +13345,7 @@ A reentrant subprogram is a subprogram which can be in invoked any
 number of times in parallel, without interference between the various
 invocations.  @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 
-@item Reverse polish notation
+@item Reverse Polish Notation
 A language in which all operators are postfix operators.
 
 @item Right recursion

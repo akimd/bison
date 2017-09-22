@@ -75,7 +75,7 @@ GNU Bison NEWS
   extracted from the documentation:
 
    - rpcalc
-     Reverse polish calculator, a simple introductory example.
+     Reverse Polish Calculator, a simple introductory example.
    - mfcalc
      Multi-function Calc, a calculator with memory and functions and located
      error messages.
