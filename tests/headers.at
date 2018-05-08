@@ -181,7 +181,7 @@ extern "C"
   do {                                          \
     int res = S;                                \
     if (res)                                    \
-      std::cerr << #S": " << res << std::endl;  \
+      std::cerr << #S": " << res << '\n';       \
   } while (false)
 
 int

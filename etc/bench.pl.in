@@ -738,7 +738,7 @@ yy::parser::token_type yylex(yy::parser::semantic_type* yylvalp,
 void
 yy::parser::error(const yy::parser::location_type& loc, const std::string& msg)
 {
-  std::cerr << loc << ": " << msg << std::endl;
+  std::cerr << loc << ": " << msg << '\n';
 }
 
 int main(int argc, char *argv[])

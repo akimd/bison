@@ -11174,13 +11174,13 @@ calcxx_driver::parse (const std::string &f)
 void
 calcxx_driver::error (const yy::location& l, const std::string& m)
 @{
-  std::cerr << l << ": " << m << std::endl;
+  std::cerr << l << ": " << m << '\n';
 @}
 
 void
 calcxx_driver::error (const std::string& m)
 @{
-  std::cerr << m << std::endl;
+  std::cerr << m << '\n';
 @}
 @end example
 
@@ -11533,7 +11533,7 @@ main (int argc, char *argv[])
     else if (argv[i] == std::string ("-s"))
       driver.trace_scanning = true;
     else if (!driver.parse (argv[i]))
-      std::cout << driver.result << std::endl;
+      std::cout << driver.result << '\n';
     else
       res = 1;
   return res;

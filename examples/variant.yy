@@ -85,7 +85,7 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list  { std::cout << $1 << std::endl; }
+  list  { std::cout << $1 << '\n'; }
 ;
 
 list:
@@ -135,7 +135,7 @@ namespace yy
   void
   parser::error (const parser::location_type& loc, const std::string& msg)
   {
-    std::cerr << loc << ": " << msg << std::endl;
+    std::cerr << loc << ": " << msg << '\n';
   }
 }
 

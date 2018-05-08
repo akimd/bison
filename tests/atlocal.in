@@ -69,7 +69,7 @@ if $BISON_CXX_WORKS; then
 
 int main ()
 {
-  std::cout << "Works" << std::endl;
+  std::cout << "Works\n";
 }
 EOF
   $CXX $CXXFLAGS $CPPFLAGS $LDFLAGS $LIBS -o conftest conftest.cc

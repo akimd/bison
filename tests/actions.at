@@ -203,7 +203,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_YYLEX_DECLARE[
 }
 %%
-exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << std::endl]],
+exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << '\n']],
                       [[LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
 %%
 ]AT_YYERROR_DEFINE[
