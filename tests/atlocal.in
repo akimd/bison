@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# We need 'config.h'.
-CPPFLAGS="-I$abs_top_builddir/lib @CPPFLAGS@"
+# We need 'config.h' (builddir/lib), and the gnulib headers (srcdir/lib).
+CPPFLAGS="-I$abs_top_srcdir/lib -I$abs_top_builddir/lib @CPPFLAGS@"
 
 # Don't just check if $POSIXLY_CORRECT is set, as Bash, when launched
 # as /bin/sh, sets the shell variable POSIXLY_CORRECT to y, but not
