@@ -103,13 +103,15 @@ to perform the first checkout of the submodules, run
 
        $ git submodule update --init
 
-Git submodule support is weak before versions 1.6 and later, upgrade Git if
-your version is older.
-
 The next step is to get other files needed to build, which are
 extracted from other source packages:
 
         $ ./bootstrap
+
+Bootstrapping updates the submodules to the versions registered in the
+top-level directory.  To change gnulib, first check out the version you want
+in `gnulib`, then commit this change in Bison's repository, and finally run
+bootstrap.
 
 If it fails with missing symbols (e.g., "error: possibly undefined macro:
 AC_PROG_GNU_M4"), you are likely to have forgotten the submodule

@@ -178,3 +178,5 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+/host-cpu-c-abi.m4
+/stat-time.m4
