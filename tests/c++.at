@@ -633,6 +633,7 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "lalr1.cc"
+%defines
 
 %code
 {
@@ -664,6 +665,17 @@ item:
 
 %%
 
+void
+yy::parser::error (const std::string &m)
+{
+  std::cerr << "error: " << m << '\n';
+}
+]AT_MAIN_DEFINE[
+]])
+
+AT_DATA_SOURCE([input-scan.cc],
+[[#include "input.hh"
+
 int
 yylex (yy::parser::semantic_type *)
 {
@@ -677,16 +689,9 @@ yylex (yy::parser::semantic_type *)
       return res;
   }
 }
-
-void
-yy::parser::error (const std::string &m)
-{
-  std::cerr << "error: " << m << '\n';
-}
-]AT_MAIN_DEFINE[
 ]])
 
-AT_FULL_COMPILE([[input]])
+AT_FULL_COMPILE([[input]], [[scan]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
 [[error: invalid expression

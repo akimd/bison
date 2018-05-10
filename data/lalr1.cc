@@ -142,9 +142,9 @@ b4_bison_locations_if([# Backward compatibility.
 m4_include(b4_pkgdatadir/[stack.hh])
 b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 
-# b4_shared_declarations
-# ----------------------
-# Declaration that might either go into the header (if --defines)
+# b4_shared_declarations(hh|cc)
+# -----------------------------
+# Declaration that might either go into the header (if --defines, $1 = hh)
 # or open coded in the parser body.
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
@@ -359,8 +359,8 @@ b4_location_define])])[
 ]b4_parse_param_vars[
   };
 
-]b4_token_ctor_if([b4_yytranslate_define
-b4_public_types_define])[
+]b4_token_ctor_if([b4_yytranslate_define([$1])[
+]b4_public_types_define([$1])])[
 ]b4_namespace_close[
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -386,7 +386,7 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 // C++ LALR(1) parser skeleton written by Akim Demaille.
 
 ]b4_cpp_guard_open([b4_spec_defines_file])[
-]b4_shared_declarations[
+]b4_shared_declarations(hh)[
 ]b4_cpp_guard_close([b4_spec_defines_file])
 b4_output_end()
 ])
@@ -406,7 +406,7 @@ m4_if(b4_prefix, [yy], [],
 ]b4_null_define[
 
 ]b4_defines_if([[#include "@basename(]b4_spec_defines_file[@)"]],
-               [b4_shared_declarations])[
+               [b4_shared_declarations([cc])])[
 
 // User implementation prologue.
 ]b4_user_post_prologue[
@@ -533,7 +533,7 @@ m4_if(b4_prefix, [yy], [],
   | Symbol types.  |
   `---------------*/
 
-]b4_token_ctor_if([], [b4_public_types_define])[
+]b4_token_ctor_if([], [b4_public_types_define([cc])])[
 
   // by_state.
   ]b4_parser_class_name[::by_state::by_state ()
@@ -1149,7 +1149,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
   }
 #endif // ]b4_api_PREFIX[DEBUG
 
-]b4_token_ctor_if([], [b4_yytranslate_define])[
+]b4_token_ctor_if([], [b4_yytranslate_define([cc])])[
 ]b4_namespace_close[
 ]b4_epilogue[]dnl
 b4_output_end()

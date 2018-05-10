@@ -2,7 +2,7 @@
 
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,6 +29,16 @@ m4_include(b4_pkgdatadir/[c.m4])
 # Put TEXT in comment. Prefix all the output lines with PREFIX.
 m4_define([b4_comment],
 [b4_comment_([$1], [$2// ], [$2// ])])
+
+# b4_inline(hh|cc)
+# ----------------
+# Expand to `inline\n  ` if $1 is hh.
+m4_define([b4_inline],
+[m4_case([$1],
+  [cc], [],
+  [hh], [[inline
+  ]],
+  [m4_fatal([$0: invalid argument: $1])])])
 
 ## -------- ##
 ## Checks.  ##
@@ -275,12 +285,11 @@ m4_define([b4_public_types_declare],
 ]b4_symbol_constructor_declare])
 
 
-# b4_public_types_define
-# ----------------------
+# b4_public_types_define(hh|cc)
+# -----------------------------
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
-[[  inline
-  ]b4_parser_class_name[::syntax_error::syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
+[  b4_inline([$1])b4_parser_class_name[::syntax_error::syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
     : std::runtime_error (m)]b4_locations_if([
     , location (l)])[
   {}
@@ -372,45 +381,38 @@ m4_define([b4_public_types_define],
   }
 
   // by_type.
-  inline
-  ]b4_parser_class_name[::by_type::by_type ()
+  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type ()
     : type (empty_symbol)
   {}
 
-  inline
-  ]b4_parser_class_name[::by_type::by_type (const by_type& other)
+  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (const by_type& other)
     : type (other.type)
   {}
 
-  inline
-  ]b4_parser_class_name[::by_type::by_type (token_type t)
+  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
   {}
 
-  inline
-  void
+  ]b4_inline([$1])[void
   ]b4_parser_class_name[::by_type::clear ()
   {
     type = empty_symbol;
   }
 
-  inline
-  void
+  ]b4_inline([$1])[void
   ]b4_parser_class_name[::by_type::move (by_type& that)
   {
     type = that.type;
     that.clear ();
   }
 
-  inline
-  int
+  ]b4_inline([$1])[int
   ]b4_parser_class_name[::by_type::type_get () const
   {
     return type;
   }
 ]b4_token_ctor_if([[
-  inline
-  ]b4_parser_class_name[::token_type
+  ]b4_inline([$1])b4_parser_class_name[::token_type
   ]b4_parser_class_name[::by_type::token () const
   {
     // YYTOKNUM[NUM] -- (External) token number corresponding to the
@@ -436,14 +438,13 @@ m4_define([b4_symbol_constructor_declare], [])
 m4_define([b4_symbol_constructor_define], [])
 
 
-# b4_yytranslate_define
-# ---------------------
-# Define yytranslate_.  Sometimes used in the header file,
+# b4_yytranslate_define(cc|hh)
+# ----------------------------
+# Define yytranslate_.  Sometimes used in the header file ($1=hh),
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
 [[  // Symbol number corresponding to token number t.
-  inline
-  ]b4_parser_class_name[::token_number_type
+  ]b4_inline([$1])b4_parser_class_name[::token_number_type
   ]b4_parser_class_name[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)
   {
