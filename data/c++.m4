@@ -287,13 +287,11 @@ m4_define([b4_public_types_define],
 
   // basic_symbol.
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
     : value ()
   {}
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
     : Base (other)
     , value ()]b4_locations_if([
@@ -305,7 +303,6 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
           [const semantic_type& v],
@@ -322,7 +319,6 @@ m4_define([b4_public_types_define],
 ]b4_type_foreach([b4_basic_symbol_constructor_define])], [[
   /// Constructor for valueless symbols.
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_locations_if([const location_type& l]))[)
@@ -332,14 +328,12 @@ m4_define([b4_public_types_define],
   {}]])[
 
   template <typename Base>
-  inline
   ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
   {
     clear ();
   }
 
   template <typename Base>
-  inline
   void
   ]b4_parser_class_name[::basic_symbol<Base>::clear ()
   {]b4_variant_if([[
@@ -360,7 +354,6 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Base>
-  inline
   bool
   ]b4_parser_class_name[::basic_symbol<Base>::empty () const
   {
@@ -368,7 +361,6 @@ m4_define([b4_public_types_define],
   }
 
   template <typename Base>
-  inline
   void
   ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
   {

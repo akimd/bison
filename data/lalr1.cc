@@ -606,7 +606,6 @@ m4_if(b4_prefix, [yy], [],
 
 
   template <typename Base>
-  inline
   void
   ]b4_parser_class_name[::yy_destroy_ (const char* yymsg, basic_symbol<Base>& yysym) const
   {
