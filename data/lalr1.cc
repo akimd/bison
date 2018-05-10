@@ -536,24 +536,20 @@ m4_if(b4_prefix, [yy], [],
 ]b4_token_ctor_if([], [b4_public_types_define])[
 
   // by_state.
-  inline
   ]b4_parser_class_name[::by_state::by_state ()
     : state (empty_state)
   {}
 
-  inline
   ]b4_parser_class_name[::by_state::by_state (const by_state& other)
     : state (other.state)
   {}
 
-  inline
   void
   ]b4_parser_class_name[::by_state::clear ()
   {
     state = empty_state;
   }
 
-  inline
   void
   ]b4_parser_class_name[::by_state::move (by_state& that)
   {
@@ -561,12 +557,10 @@ m4_if(b4_prefix, [yy], [],
     that.clear ();
   }
 
-  inline
   ]b4_parser_class_name[::by_state::by_state (state_type s)
     : state (s)
   {}
 
-  inline
   ]b4_parser_class_name[::symbol_number_type
   ]b4_parser_class_name[::by_state::type_get () const
   {
@@ -576,12 +570,10 @@ m4_if(b4_prefix, [yy], [],
       return yystos_[state];
   }
 
-  inline
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
   {}
 
 
-  inline
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
     : super_type (s]b4_locations_if([, that.location])[)
   {
@@ -592,7 +584,6 @@ m4_if(b4_prefix, [yy], [],
     that.type = empty_symbol;
   }
 
-  inline
   ]b4_parser_class_name[::stack_symbol_type&
   ]b4_parser_class_name[::stack_symbol_type::operator= (const stack_symbol_type& that)
   {
@@ -637,7 +628,6 @@ m4_if(b4_prefix, [yy], [],
   }
 #endif
 
-  inline
   void
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
@@ -645,7 +635,6 @@ m4_if(b4_prefix, [yy], [],
     yypush_ (m, t);
   }
 
-  inline
   void
   ]b4_parser_class_name[::yypush_ (const char* m, stack_symbol_type& s)
   {
@@ -654,7 +643,6 @@ m4_if(b4_prefix, [yy], [],
     yystack_.push (s);
   }
 
-  inline
   void
   ]b4_parser_class_name[::yypop_ (unsigned n)
   {
@@ -688,7 +676,7 @@ m4_if(b4_prefix, [yy], [],
   }
 #endif // ]b4_api_PREFIX[DEBUG
 
-  inline ]b4_parser_class_name[::state_type
+  ]b4_parser_class_name[::state_type
   ]b4_parser_class_name[::yy_lr_goto_state_ (state_type yystate, int yysym)
   {
     int yyr = yypgoto_[yysym - yyntokens_] + yystate;
@@ -698,13 +686,13 @@ m4_if(b4_prefix, [yy], [],
       return yydefgoto_[yysym - yyntokens_];
   }
 
-  inline bool
+  bool
   ]b4_parser_class_name[::yy_pact_value_is_default_ (int yyvalue)
   {
     return yyvalue == yypact_ninf_;
   }
 
-  inline bool
+  bool
   ]b4_parser_class_name[::yy_table_value_is_error_ (int yyvalue)
   {
     return yyvalue == yytable_ninf_;

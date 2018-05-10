@@ -177,7 +177,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   | Print this symbol.  |
   `--------------------*/
 
-  inline void
+  void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
