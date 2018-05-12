@@ -25,9 +25,9 @@
 
 %code requires // *.hh
 {
-#include <list>
 #include <string>
-typedef std::list<std::string> strings_type;
+#include <vector>
+typedef std::vector<std::string> strings_type;
 }
 
 %code // *.cc
@@ -43,14 +43,14 @@ typedef std::list<std::string> strings_type;
     static parser::symbol_type yylex ();
   }
 
-  // Printing a list of strings.
-  // Koening look up will look into std, since that's an std::list.
+  // Printing a vector of strings.
+  // Koening look up will look into std, since that's an std::vector.
   namespace std
   {
     std::ostream&
     operator<< (std::ostream& o, const strings_type& ss)
     {
-      o << "(" << &ss << ") {";
+      o << '(' << &ss << ") {";
       const char *sep = "";
       for (strings_type::const_iterator i = ss.begin(), end = ss.end();
            i != end; ++i)
@@ -58,13 +58,12 @@ typedef std::list<std::string> strings_type;
           o << sep << *i;
           sep = ", ";
         }
-      return o << "}";
+      return o << '}';
     }
   }
 
   // Conversion to string.
   template <typename T>
-    inline
     std::string
     string_cast (const T& t)
   {
@@ -80,7 +79,7 @@ typedef std::list<std::string> strings_type;
 %token END_OF_FILE 0;
 
 %type <::std::string> item;
-%type <::std::list<std::string>> list;
+%type <::std::vector<std::string>> list;
 
 %%
 
