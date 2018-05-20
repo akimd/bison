@@ -4,6 +4,18 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** C++: Fix support of 'syntax_error'
+
+  One incorrect 'inline' resulted in linking errors about the constructor of
+  the syntax_error exception.
+
+*** C++: Fix warnings
+
+  GCC 7.3 (with -O1 or -O2 but not -O0 or -O3) issued null-dereference
+  warnings about yyformat being possibly null.  It also warned about the
+  deprecated implicit definition of copy constructors when there's a
+  user-defined (copy) assignment operator.
+
 *** Location of errors
 
   In C++ parsers, out-of-bounds errors can happen when a rule with an empty
@@ -13,6 +25,10 @@ GNU Bison NEWS
   Now all the parsers match the behavior of glr.c: @$ is used as the
   location of the error.  This handles gracefully rules with and without
   rhs.
+
+*** Portability fixes in the test suite
+
+  On some platforms, some Java and/or C++ tests were failing.
 
 * Noteworthy changes in release 3.0.4 (2015-01-23) [stable]
 
