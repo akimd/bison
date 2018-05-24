@@ -770,6 +770,12 @@ $1
       Object::instances.erase (i);
     }
 
+    Object& operator= (const Object& that)
+    {
+      val = that.val;
+      return *this;
+    }
+
     Object& operator= (char v)
     {
       val = v;
