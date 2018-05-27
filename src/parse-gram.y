@@ -780,7 +780,7 @@ translate_code_braceless (char *code, location loc)
 static void
 add_param (param_type type, char *decl, location loc)
 {
-  static char const alphanum[26 + 26 + 1 + 10] =
+  static char const alphanum[26 + 26 + 1 + 10 + 1] =
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "_"
@@ -792,14 +792,14 @@ add_param (param_type type, char *decl, location loc)
     /* Stop on last actual character.  */
     for (p = decl; p[1]; p++)
       if ((p == decl
-           || ! memchr (alphanum, p[-1], sizeof alphanum))
-          && memchr (alphanum, p[0], sizeof alphanum - 10))
+           || ! memchr (alphanum, p[-1], sizeof alphanum - 1))
+          && memchr (alphanum, p[0], sizeof alphanum - 10 - 1))
         name_start = p;
 
     /* Strip the surrounding '{' and '}', and any blanks just inside
        the braces.  */
     --p;
-  while (c_isspace ((unsigned char) *p))
+    while (c_isspace ((unsigned char) *p))
       --p;
     p[1] = '\0';
     ++decl;
