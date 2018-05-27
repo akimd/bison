@@ -27,7 +27,7 @@
 m4_define([b4_symbol_variant],
 [m4_pushdef([b4_dollar_dollar],
             [$2.$3< $][3 > (m4_shift3($@))])dnl
-  switch ($1)
+switch ($1)
     {
 b4_type_foreach([b4_type_action_])[]dnl
       default:
