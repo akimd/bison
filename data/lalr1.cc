@@ -464,9 +464,9 @@ m4_if(b4_prefix, [yy], [],
 #else // !]b4_api_PREFIX[DEBUG
 
 # define YYCDEBUG if (false) std::cerr
-# define YY_SYMBOL_PRINT(Title, Symbol)  YYUSE(Symbol)
-# define YY_REDUCE_PRINT(Rule)           static_cast<void>(0)
-# define YY_STACK_PRINT()                static_cast<void>(0)
+# define YY_SYMBOL_PRINT(Title, Symbol)  YYUSE (Symbol)
+# define YY_REDUCE_PRINT(Rule)           static_cast<void> (0)
+# define YY_STACK_PRINT()                static_cast<void> (0)
 
 #endif // !]b4_api_PREFIX[DEBUG
 
@@ -1008,7 +1008,7 @@ b4_dollar_popdef])[]dnl
   ]b4_parser_class_name[::error (const syntax_error& yyexc)
   {
     error (]b4_join(b4_locations_if([yyexc.location]),
-                    [[yyexc.what()]])[);
+                    [[yyexc.what ()]])[);
   }
 
   // Generate an error message.

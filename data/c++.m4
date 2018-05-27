@@ -373,7 +373,7 @@ m4_define([b4_public_types_define],
   void
   ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
   {
-    super_type::move(s);
+    super_type::move (s);
     ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [move],
                                       [s.value])],
                    [value = s.value;])[]b4_locations_if([
@@ -457,7 +457,7 @@ m4_define([b4_yytranslate_define],
     const unsigned int user_token_number_max_ = ]b4_user_token_number_max[;
     const token_number_type undef_token_ = ]b4_undef_token_number[;
 
-    if (static_cast<int>(t) <= yyeof_)
+    if (static_cast<int> (t) <= yyeof_)
       return yyeof_;
     else if (static_cast<unsigned int> (t) <= user_token_number_max_)
       return translate_table[t];
