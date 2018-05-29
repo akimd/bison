@@ -84,6 +84,12 @@ m4_define([_AT_SYNCLINES_COMPILE],
 #
 # Newer GCCs go further and if the function is declared static, complain
 # that it's not used.
+#
+# GCC 7 also underlines the error.
+#
+#    syncline.c:4:2: error: #error "4"
+#     #error "4"
+#      ^~~~~
 AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
   # 1. Remove useless lines.
 
@@ -93,8 +99,8 @@ AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
   s/^clang: warning: treating 'c' input as 'c\+\+'.*\n//gm;
   # Function context.
   s/^[^:]*: In function '[^']+':\n//gm;
-  # Caret error.
-  s/^ *#error.*\n *\^\n//gm;
+  # Caret error (with possible '~' to underline).
+  s/^ *#error.*\n *\^~*\n//gm;
   # Number of errors.
   s/^1 error generated\.\n//gm;
 
