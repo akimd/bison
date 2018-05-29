@@ -459,7 +459,8 @@ b4_syncline([@oline@], [@ofile@])
 # ------------------------------------
 m4_define([b4_predicate_case],
 [  case $1:
-    if (! ($2)) YYERROR;
+    if (! (
+$2)) YYERROR;
 b4_syncline([@oline@], [@ofile@])
     break;])
 

@@ -1755,27 +1755,60 @@ AT_CLEANUP
 ## Predicates.                                                       ##
 ##                                                                   ##
 ## http://lists.gnu.org/archive/html/bug-bison/2013-10/msg00004.html ##
+## http://lists.gnu.org/archive/html/bug-bison/2018-05/msg00033.html ##
 ## ----------------------------------------------------------------- ##
 
 AT_SETUP([Predicates])
 
-# FIXME: We need genuine test cases with uses of %?.
-
 AT_DATA_GRAMMAR([input.y],
 [[%glr-parser
+%error-verbose
 %expect-rr 1
+%code requires
+{
+  #include <assert.h>
+  #include <stdbool.h>
+  bool new_syntax = false;
+  const char *input = YY_NULLPTR;
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
 %%
-// Exercise "%?{...}" and "%? {...}".
 widget:
-  %? {new_syntax} "widget" id new_args  { $$ = f($3, $4); }
-| %?{!new_syntax} "widget" id old_args  { $$ = f($3, $4); }
+  %? {new_syntax} 'w' id new_args  { printf("new"); }
+| %?{!new_syntax} 'w' id old_args  { printf("old"); }
 ;
-id:;
-new_args:;
-old_args:;
+id: 'i';
+new_args: 'n';
+old_args: 'o';
 %%
+]AT_YYERROR_DEFINE[
+
+int
+yylex (void)
+{
+  return *input++;
+}
+
+int
+main (int argc, const char* argv[])
+{
+  assert (argc == 2); (void) argc;
+  // First char decides whether new, or old syntax.
+  // Then the input.
+  new_syntax = argv[1][0] == 'N';
+  input = argv[1] + 1;
+  return yyparse ();
+}
 ]])
 
-AT_BISON_CHECK([[input.y]])
+AT_BISON_CHECK([[-o input.c input.y]])
+AT_COMPILE([input])
+AT_PARSER_CHECK([[./input Nwin]], [0], [new])
+AT_PARSER_CHECK([[./input Owin]], [1], [], [[syntax error, unexpected 'n', expecting 'o'
+]])
+AT_PARSER_CHECK([[./input Owio]], [0], [old])
+AT_PARSER_CHECK([[./input Nwio]], [1], [], [[syntax error, unexpected 'o', expecting 'n'
+]])
 
 AT_CLEANUP
