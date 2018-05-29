@@ -12540,7 +12540,7 @@ is turned on by default.  If you have problems building in the @file{po}
 subdirectory, it indicates that your system's internationalization
 support is lacking.  You can re-configure Bison with
 @option{--disable-nls} to turn off this support, or you can install GNU
-gettext from @url{ftp://ftp.gnu.org/gnu/gettext/} and re-configure
+gettext from @url{https://ftp.gnu.org/gnu/gettext/} and re-configure
 Bison.  See the file @file{ABOUT-NLS} for more information.
 
 
@@ -12569,7 +12569,7 @@ I found a bug.  What should I include in the bug report?
 @end quotation
 
 Before you send a bug report, make sure you are using the latest
-version.  Check @url{ftp://ftp.gnu.org/pub/gnu/bison/} or one of its
+version.  Check @url{https://ftp.gnu.org/pub/gnu/bison/} or one of its
 mirrors.  Be sure to include the version number in your bug report.  If
 the bug is present in the latest version but not in a previous version,
 try to determine the most recent version which did not contain the bug.

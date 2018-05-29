@@ -7,7 +7,7 @@ instructions.
 
 Bison requires GNU m4 1.4.6 or later.  See:
 
-      ftp://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz
+      https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz
 
 ** Internationalization
 Bison supports two catalogues: one for Bison itself (i.e., for the

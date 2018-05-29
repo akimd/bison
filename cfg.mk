@@ -34,7 +34,7 @@ _is-dist-target = $(filter-out %clean maintainer-check% maintainer-%-check, \
   $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))
 
 url_dir_list = \
-  ftp://$(gnu_rel_host)/gnu/bison
+  https://$(gnu_rel_host)/gnu/bison
 
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =			\
