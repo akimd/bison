@@ -614,9 +614,9 @@ rhs:
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
 | rhs "{...}" named_ref.opt
-    { grammar_current_rule_action_append ($2, @2, $3, false); }
+    { grammar_current_rule_action_append ($2, @2, $3); }
 | rhs "%?{...}"
-    { grammar_current_rule_action_append ($2, @2, NULL, true); }
+    { grammar_current_rule_predicate_append ($2, @2); }
 | rhs "%empty"
     { grammar_current_rule_empty_set (@2); }
 | rhs "%prec" symbol
