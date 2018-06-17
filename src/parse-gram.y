@@ -613,8 +613,8 @@ rhs:
                                   current_lhs_named_ref); }
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
-| rhs "{...}" named_ref.opt
-    { grammar_current_rule_action_append ($2, @2, $3); }
+| rhs tag.opt "{...}"[act] named_ref.opt[name]
+    { grammar_current_rule_action_append ($act, @act, $name, current_type); }
 | rhs "%?{...}"
     { grammar_current_rule_predicate_append ($2, @2); }
 | rhs "%empty"
