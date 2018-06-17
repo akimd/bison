@@ -35,7 +35,7 @@
 This manual (@value{UPDATED}) is for GNU Bison (version
 @value{VERSION}), the GNU parser generator.
 
-Copyright @copyright{} 1988-1993, 1995, 1998-2015 Free Software
+Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018 Free Software
 Foundation, Inc.
 
 @quotation
@@ -143,7 +143,7 @@ Writing GLR Parsers
 
 Examples
 
-* RPN Calc::               Reverse polish notation calculator;
+* RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
 * Infix Calc::             Infix (algebraic) notation calculator.
                              Operator precedence is introduced.
@@ -1493,7 +1493,7 @@ simple program, all the rest of the program can go here.
 @cindex examples, simple
 
 Now we show and explain several sample programs written using Bison: a
-reverse polish notation calculator, an algebraic (infix) notation
+Reverse Polish Notation calculator, an algebraic (infix) notation
 calculator --- later extended to track ``locations'' ---
 and a multi-function calculator.  All
 produce usable, though limited, interactive desk-top calculators.
@@ -1503,7 +1503,7 @@ languages are written the same way.  You can copy these examples into a
 source file to try them.
 
 @menu
-* RPN Calc::               Reverse polish notation calculator;
+* RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
 * Infix Calc::             Infix (algebraic) notation calculator.
                              Operator precedence is introduced.
@@ -1516,13 +1516,12 @@ source file to try them.
 
 @node RPN Calc
 @section Reverse Polish Notation Calculator
-@cindex reverse polish notation
-@cindex polish notation calculator
+@cindex Reverse Polish Notation
 @cindex @code{rpcalc}
 @cindex calculator, simple
 
-The first example is that of a simple double-precision @dfn{reverse polish
-notation} calculator (a calculator using postfix operators).  This example
+The first example is that of a simple double-precision @dfn{Reverse Polish
+Notation} calculator (a calculator using postfix operators).  This example
 provides a good starting point, since operator precedence is not an issue.
 The second example will illustrate how operator precedence is handled.
 
@@ -1542,12 +1541,12 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 @node Rpcalc Declarations
 @subsection Declarations for @code{rpcalc}
 
-Here are the C and Bison declarations for the reverse polish notation
+Here are the C and Bison declarations for the Reverse Polish Notation
 calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 
 @comment file: rpcalc.y
 @example
-/* Reverse polish notation calculator.  */
+/* Reverse Polish Notation calculator.  */
 
 @group
 %@{
@@ -1598,7 +1597,7 @@ declared is @code{NUM}, the token type for numeric constants.
 @node Rpcalc Rules
 @subsection Grammar Rules for @code{rpcalc}
 
-Here are the grammar rules for the reverse polish notation calculator.
+Here are the grammar rules for the Reverse Polish Notation calculator.
 
 @comment file: rpcalc.y
 @example
@@ -8933,7 +8932,7 @@ clear the flag.
 
 Developing a parser can be a challenge, especially if you don't understand
 the algorithm (@pxref{Algorithm, ,The Bison Parser Algorithm}).  This
-chapter explains how understand and debug a parser.
+chapter explains how to understand and debug a parser.
 
 The first sections focus on the static part of the parser: its structure.
 They explain how to generate and read the detailed description of the
@@ -10901,12 +10900,12 @@ Regular union-based code in Lex scanner typically look like:
 
 @example
 [0-9]+   @{
-           yylval.ival = text_to_int (yytext);
-           return yy::parser::INTEGER;
+           yylval->ival = text_to_int (yytext);
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.sval = new std::string (yytext);
-           return yy::parser::IDENTIFIER;
+           yylval->sval = new std::string (yytext);
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10915,12 +10914,12 @@ initialized.  So the code would look like:
 
 @example
 [0-9]+   @{
-           yylval.build<int>() = text_to_int (yytext);
-           return yy::parser::INTEGER;
+           yylval->build<int> () = text_to_int (yytext);
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.build<std::string> = yytext;
-           return yy::parser::IDENTIFIER;
+           yylval->build<std::string> () = yytext;
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10929,12 +10928,12 @@ or
 
 @example
 [0-9]+   @{
-           yylval.build(text_to_int (yytext));
-           return yy::parser::INTEGER;
+           yylval->build (text_to_int (yytext));
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.build(yytext);
-           return yy::parser::IDENTIFIER;
+           yylval->build (yytext);
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10962,8 +10961,8 @@ it is still possible to give an integer as semantic value for a string.
 
 So for each token type, Bison generates named constructors as follows.
 
-@deftypemethod {symbol_type} {} make_@var{token} (const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypemethodx {symbol_type} {} make_@var{token} (const location_type& @var{location})
+@deftypemethod {symbol_type} {} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypemethodx {symbol_type} {} {make_@var{token}} (const location_type& @var{location})
 Build a complete terminal symbol for the token type @var{token} (not
 including the @code{api.token.prefix}) whose possible semantic value is
 @var{value} of adequate @var{value_type}.  If location tracking is enabled,
@@ -10983,20 +10982,18 @@ For instance, given the following declarations:
 Bison generates the following functions:
 
 @example
-symbol_type make_IDENTIFIER(const std::string& v,
-                            const location_type& l);
-symbol_type make_INTEGER(const int& v,
-                         const location_type& loc);
-symbol_type make_COLON(const location_type& loc);
+symbol_type make_IDENTIFIER (const std::string&, const location_type&);
+symbol_type make_INTEGER (const int&, const location_type&);
+symbol_type make_COLON (const location_type&);
 @end example
 
 @noindent
 which should be used in a Lex-scanner as follows.
 
 @example
-[0-9]+   return yy::parser::make_INTEGER(text_to_int (yytext), loc);
-[a-z]+   return yy::parser::make_IDENTIFIER(yytext, loc);
-":"      return yy::parser::make_COLON(loc);
+[0-9]+   return yy::parser::make_INTEGER (text_to_int (yytext), loc);
+[a-z]+   return yy::parser::make_IDENTIFIER (yytext, loc);
+":"      return yy::parser::make_COLON (loc);
 @end example
 
 Tokens that do not have an identifier are not accessible: you cannot simply
@@ -11177,13 +11174,13 @@ calcxx_driver::parse (const std::string &f)
 void
 calcxx_driver::error (const yy::location& l, const std::string& m)
 @{
-  std::cerr << l << ": " << m << std::endl;
+  std::cerr << l << ": " << m << '\n';
 @}
 
 void
 calcxx_driver::error (const std::string& m)
 @{
-  std::cerr << m << std::endl;
+  std::cerr << m << '\n';
 @}
 @end example
 
@@ -11461,13 +11458,13 @@ The rules are simple.  The driver is used to report errors.
 
 @comment file: calc++-scanner.ll
 @example
-"-"      return yy::calcxx_parser::make_MINUS(loc);
-"+"      return yy::calcxx_parser::make_PLUS(loc);
-"*"      return yy::calcxx_parser::make_STAR(loc);
-"/"      return yy::calcxx_parser::make_SLASH(loc);
-"("      return yy::calcxx_parser::make_LPAREN(loc);
-")"      return yy::calcxx_parser::make_RPAREN(loc);
-":="     return yy::calcxx_parser::make_ASSIGN(loc);
+"-"      return yy::calcxx_parser::make_MINUS  (loc);
+"+"      return yy::calcxx_parser::make_PLUS   (loc);
+"*"      return yy::calcxx_parser::make_STAR   (loc);
+"/"      return yy::calcxx_parser::make_SLASH  (loc);
+"("      return yy::calcxx_parser::make_LPAREN (loc);
+")"      return yy::calcxx_parser::make_RPAREN (loc);
+":="     return yy::calcxx_parser::make_ASSIGN (loc);
 
 @group
 @{int@}      @{
@@ -11475,12 +11472,12 @@ The rules are simple.  The driver is used to report errors.
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
     driver.error (loc, "integer is out of range");
-  return yy::calcxx_parser::make_NUMBER(n, loc);
+  return yy::calcxx_parser::make_NUMBER (n, loc);
 @}
 @end group
-@{id@}       return yy::calcxx_parser::make_IDENTIFIER(yytext, loc);
+@{id@}       return yy::calcxx_parser::make_IDENTIFIER (yytext, loc);
 .          driver.error (loc, "invalid character");
-<<EOF>>    return yy::calcxx_parser::make_END(loc);
+<<EOF>>    return yy::calcxx_parser::make_END (loc);
 %%
 @end example
 
@@ -11536,7 +11533,7 @@ main (int argc, char *argv[])
     else if (argv[i] == std::string ("-s"))
       driver.trace_scanning = true;
     else if (!driver.parse (argv[i]))
-      std::cout << driver.result << std::endl;
+      std::cout << driver.result << '\n';
     else
       res = 1;
   return res;
@@ -12543,7 +12540,7 @@ is turned on by default.  If you have problems building in the @file{po}
 subdirectory, it indicates that your system's internationalization
 support is lacking.  You can re-configure Bison with
 @option{--disable-nls} to turn off this support, or you can install GNU
-gettext from @url{ftp://ftp.gnu.org/gnu/gettext/} and re-configure
+gettext from @url{https://ftp.gnu.org/gnu/gettext/} and re-configure
 Bison.  See the file @file{ABOUT-NLS} for more information.
 
 
@@ -12572,7 +12569,7 @@ I found a bug.  What should I include in the bug report?
 @end quotation
 
 Before you send a bug report, make sure you are using the latest
-version.  Check @url{ftp://ftp.gnu.org/pub/gnu/bison/} or one of its
+version.  Check @url{https://ftp.gnu.org/pub/gnu/bison/} or one of its
 mirrors.  Be sure to include the version number in your bug report.  If
 the bug is present in the latest version but not in a previous version,
 try to determine the most recent version which did not contain the bug.
@@ -13348,7 +13345,7 @@ A reentrant subprogram is a subprogram which can be in invoked any
 number of times in parallel, without interference between the various
 invocations.  @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 
-@item Reverse polish notation
+@item Reverse Polish Notation
 A language in which all operators are postfix operators.
 
 @item Right recursion

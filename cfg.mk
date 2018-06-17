@@ -1,5 +1,5 @@
 # Customize maint.mk                           -*- makefile -*-
-# Copyright (C) 2008-2015 Free Software Foundation, Inc.
+# Copyright (C) 2008-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ _is-dist-target = $(filter-out %clean maintainer-check% maintainer-%-check, \
   $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))
 
 url_dir_list = \
-  ftp://$(gnu_rel_host)/gnu/bison
+  https://$(gnu_rel_host)/gnu/bison
 
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =			\
@@ -158,23 +158,24 @@ sc_space_before_open_paren:
 
 exclude = \
   $(foreach a,$(1),$(eval $(subst $$,$$$$,exclude_file_name_regexp--sc_$(a))))
-$(call exclude,								\
-  bindtextdomain=^lib/main.c$$						\
-  preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$		\
-  program_name=^lib/main.c$$						\
-  prohibit_always-defined_macros=^data/yacc.c$$|^djgpp/			\
-  prohibit_always-defined_macros+=?|^lib/timevar.c$$			\
-  prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$	\
-  prohibit_always-defined_macros+=?|^tests/regression.at$$		\
-  prohibit_always_true_header_tests=^djgpp/subpipe.h$$|^lib/timevar.c$$	\
-  prohibit_always_true_header_tests+=?|^m4/timevar.m4$$			\
-  prohibit_defined_have_decl_tests=?|^lib/timevar.c$$			\
+$(call exclude,                                                         \
+  bindtextdomain=^lib/main.c$$                                          \
+  preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$          \
+  program_name=^lib/main.c$$                                            \
+  prohibit_always-defined_macros=^data/yacc.c$$|^djgpp/                 \
+  prohibit_always-defined_macros+=?|^lib/timevar.c$$                    \
+  prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$      \
+  prohibit_always-defined_macros+=?|^tests/regression.at$$              \
+  prohibit_always_true_header_tests=^djgpp/subpipe.h$$|^lib/timevar.c$$ \
+  prohibit_always_true_header_tests+=?|^m4/timevar.m4$$                 \
+  prohibit_defined_have_decl_tests=?|^lib/timevar.c$$                   \
   prohibit_doubled_word=^tests/named-refs.at$$                          \
-  prohibit_magic_number_exit=^doc/bison.texi$$				\
-  prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$	\
-  prohibit_strcmp=^doc/bison\.texi|tests/local\.at$$			\
-  prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git		\
-  require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$		\
+  prohibit_magic_number_exit=^doc/bison.texi$$                          \
+  prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$      \
+  prohibit_strcmp=^doc/bison\.texi|tests/local\.at$$                    \
+  prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git             \
+  require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$            \
   space_before_open_paren=^(data/|djgpp/)                               \
-  unmarked_diagnostics=^(djgpp/|doc/bison.texi$$|tests/c\+\+\.at$$)	\
+  two_space_separator_in_usage=^(bootstrap)                             \
+  unmarked_diagnostics=^(djgpp/|doc/bison.texi$$|tests/c\+\+\.at$$)     \
 )

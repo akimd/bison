@@ -2,7 +2,7 @@
 
 # GLR skeleton for Bison
 
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -198,7 +198,7 @@ m4_if(b4_skeleton, ["glr.c"],
 [b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C],
-             [2002-2015])[
+             [2002-2015, 2018])[
 
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations[
@@ -213,7 +213,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C],
 
 b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison GLR parsers in C],
-             [2002-2015])[
+             [2002-2015, 2018])[
 
 /* C GLR parser skeleton written by Paul Hilfinger.  */
 
@@ -808,6 +808,7 @@ yyuserAction (yyRuleNum yyn, size_t yyrhslen, yyGLRStackItem* yyvsp,
     *yyvalp = yyval_default;
   else
     *yyvalp = yyvsp[YYFILL (1-yyrhslen)].yystate.yysemantics.yysval;]b4_locations_if([[
+  /* Default location. */
   YYLLOC_DEFAULT ((*yylocp), (yyvsp - yyrhslen), yyrhslen);
   yystackp->yyerror_range[1].yystate.yyloc = *yylocp;
 ]])[
@@ -2074,6 +2075,7 @@ yyreportSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
       case N:                           \
         yyformat = S;                   \
       break
+    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -2294,8 +2296,8 @@ b4_dollar_popdef])[]dnl
             {
               yyrule = yydefaultAction (yystate);
               if (yyrule == 0)
-                {
-]b4_locations_if([[               yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
+                {]b4_locations_if([[
+                  yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
                   yyreportSyntaxError (&yystack]b4_user_args[);
                   goto yyuser_error;
                 }
@@ -2334,8 +2336,8 @@ b4_dollar_popdef])[]dnl
                     yystack.yyerrState -= 1;
                 }
               else if (yyisErrorAction (yyaction))
-                {
-]b4_locations_if([[               yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
+                {]b4_locations_if([[
+                  yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
                   yyreportSyntaxError (&yystack]b4_user_args[);
                   goto yyuser_error;
                 }
@@ -2380,8 +2382,8 @@ b4_dollar_popdef])[]dnl
               if (yystack.yytops.yysize == 0)
                 yyFail (&yystack][]b4_lpure_args[, YY_("syntax error"));
               YYCHK1 (yyresolveStack (&yystack]b4_user_args[));
-              YYDPRINTF ((stderr, "Returning to deterministic operation.\n"));
-]b4_locations_if([[           yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
+              YYDPRINTF ((stderr, "Returning to deterministic operation.\n"));]b4_locations_if([[
+              yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
               yyreportSyntaxError (&yystack]b4_user_args[);
               goto yyuser_error;
             }
@@ -2462,9 +2464,9 @@ b4_dollar_popdef])[]dnl
               {
                 while (yystates[yyk])
                   {
-                    yyGLRState *yys = yystates[yyk];
-]b4_locations_if([[                 yystack.yyerror_range[1].yystate.yyloc = yys->yyloc;]]
-)[                  if (yys->yypred != YY_NULLPTR)
+                    yyGLRState *yys = yystates[yyk];]b4_locations_if([[
+                    yystack.yyerror_range[1].yystate.yyloc = yys->yyloc;]])[
+                    if (yys->yypred != YY_NULLPTR)
                       yydestroyGLRState ("Cleanup: popping", yys]b4_user_args[);
                     yystates[yyk] = yys->yypred;
                     yystack.yynextFree -= 1;

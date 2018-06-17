@@ -2,7 +2,7 @@
 
 # Macros for the GNU Bison Test suite.
 
-# Copyright (C) 2003-2015 Free Software Foundation, Inc.
+# Copyright (C) 2003-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -539,7 +539,7 @@ m4_define([AT_YYERROR_DEFINE(c++)],
 void
 ]AT_NAME_PREFIX[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
 {
-  std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << std::endl;
+  std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
 }]])
 
 
@@ -892,7 +892,7 @@ void foo()
     }
   catch (...)
     {
-      std::cerr << "Inner caught" << std::endl;
+      std::cerr << "Inner caught\n";
       throw;
     }
 }
@@ -905,7 +905,7 @@ int main()
     }
   catch (...)
     {
-      std::cerr << "Outer caught" << std::endl;
+      std::cerr << "Outer caught\n";
       return 0;
     }
   return 1;

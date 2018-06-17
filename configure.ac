@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001-2015 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ m4_pattern_forbid([^gl_[A-Z]])
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
         [bug-bison@gnu.org])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2015])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2018])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
 
@@ -82,7 +82,7 @@ AC_ARG_ENABLE([gcc-warnings],
 AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
   warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align -Wdocumentation
-    -Wformat -Wpointer-arith -Wwrite-strings'
+    -Wformat -Wnull-dereference -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wshadow -Wstrict-prototypes'
   warn_cxx='-Wnoexcept'
   # Warnings for the test suite only.
@@ -90,7 +90,12 @@ if test "$enable_gcc_warnings" = yes; then
   # -fno-color-diagnostics: Clang's use of colors in the error
   # messages is confusing the tests looking at the compiler's output
   # (e.g., synclines.at).
-  warn_tests='-Wundef -pedantic -Wsign-compare -fno-color-diagnostics'
+  #
+  # -Wno-keyword-macro: We use the "#define private public" dirty
+  # trick in the test suite to check some private implementation
+  # details for lalr1.cc.
+  warn_tests='-Wundef -pedantic -Wdeprecated -Wsign-compare -fno-color-diagnostics
+    -Wno-keyword-macro'
 
   AC_LANG_PUSH([C])
   # Clang supports many of GCC's -W options, but only issues warnings
@@ -220,20 +225,21 @@ AC_CONFIG_FILES([etc/bench.pl], [chmod +x etc/bench.pl])
 AC_CONFIG_TESTDIR(tests)
 AC_CONFIG_FILES([tests/atlocal])
 AC_CONFIG_FILES([tests/bison], [chmod +x tests/bison])
+
 AC_CHECK_PROGS([VALGRIND], [valgrind])
-case $VALGRIND:$host_os in
+# Use something simpler that $host_os to select our suppression file.
+uname=`uname`
+case $VALGRIND:$uname in
   '':*) ;;
-  *:darwin*)
+  *:Darwin)
     # See README-hacking.
-    # VALGRIND+='-q --suppressions=$(abs_top_srcdir)/build-aux/darwin11.4.0.valgrind'
     VALGRIND=;;
   *:*)
-    suppfile=build-aux/$host_os.valgrind
+    suppfile=build-aux/$uname.valgrind
     if test -f "$srcdir/$suppfile"; then
-      VALGRIND="$VALGRIND --gen-suppressions=all"
-      VALGRIND="$VALGRIND --suppressions=\$(abs_top_srcdir)/$suppfile"
+      AC_SUBST([VALGRIND_OPTS_SUPPRESSION],
+               ["--suppressions=\$(abs_top_srcdir)/$suppfile"])
     fi
-    AC_SUBST([VALGRIND_PREBISON], ["$VALGRIND -q"])
     ;;
 esac
 

@@ -1,6 +1,6 @@
 /* Output the generated parsing program for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015 Free Software
+   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -358,8 +358,8 @@ user_actions_output (FILE *out)
   for (r = 0; r < nrules; ++r)
     if (rules[r].action)
       {
-        fprintf (out, "b4_%scase(%d, [b4_syncline(%d, ",
-                 rules[r].is_predicate ? "predicate_" : "",
+        fprintf (out, "%s(%d, [b4_syncline(%d, ",
+                 rules[r].is_predicate ? "b4_predicate_case" : "b4_case",
                  r + 1, rules[r].action_location.start.line);
         string_output (out, rules[r].action_location.start.file);
         fprintf (out, ")\n[    %s]])\n\n", rules[r].action);

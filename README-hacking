@@ -9,19 +9,19 @@ Everything related to the development of Bison is on Savannah:
 * Administrivia
 
 ** If you incorporate a change from somebody on the net:
-First, if it is a large change, you must make sure they have signed
-the appropriate paperwork.  Second, be sure to add their name and
-email address to THANKS.
+First, if it is a large change, you must make sure they have signed the
+appropriate paperwork.  Second, be sure to add their name and email address
+to THANKS.
 
 ** If a change fixes a test, mention the test in the commit message.
 
 ** Bug reports
-If somebody reports a new bug, mention his name in the commit message
-and in the test case you write.  Put him into THANKS.
+If somebody reports a new bug, mention his name in the commit message and in
+the test case you write.  Put him into THANKS.
 
-The correct response to most actual bugs is to write a new test case
-which demonstrates the bug.  Then fix the bug, re-run the test suite,
-and check everything in.
+The correct response to most actual bugs is to write a new test case which
+demonstrates the bug.  Then fix the bug, re-run the test suite, and check
+everything in.
 
 
 * Hacking
@@ -30,17 +30,17 @@ and check everything in.
 Which include serious bug fixes, must be mentioned in NEWS.
 
 ** Translations
-Only user visible strings are to be translated: error messages, bits
-of the .output file etc.  This excludes impossible error messages
-(comparable to assert/abort), and all the --trace output which is
-meant for the maintainers only.
+Only user visible strings are to be translated: error messages, bits of the
+.output file etc.  This excludes impossible error messages (comparable to
+assert/abort), and all the --trace output which is meant for the maintainers
+only.
 
 ** Horizontal tabs
 Do not add horizontal tab characters to any file in Bison's repository
 except where required.  For example, do not use tabs to format C code.
-However, make files, ChangeLog, and some regular expressions require
-tabs.  Also, test cases might need to contain tabs to check that Bison
-properly processes tabs in its input.
+However, make files, ChangeLog, and some regular expressions require tabs.
+Also, test cases might need to contain tabs to check that Bison properly
+processes tabs in its input.
 
 
 * Working from the repository
@@ -103,13 +103,15 @@ to perform the first checkout of the submodules, run
 
        $ git submodule update --init
 
-Git submodule support is weak before versions 1.6 and later, upgrade Git if
-your version is older.
-
 The next step is to get other files needed to build, which are
 extracted from other source packages:
 
         $ ./bootstrap
+
+Bootstrapping updates the submodules to the versions registered in the
+top-level directory.  To change gnulib, first check out the version you want
+in `gnulib`, then commit this change in Bison's repository, and finally run
+bootstrap.
 
 If it fails with missing symbols (e.g., "error: possibly undefined macro:
 AC_PROG_GNU_M4"), you are likely to have forgotten the submodule
@@ -137,13 +139,12 @@ explicitly by the user.
 *** Updating Bison
 
 If you pull a newer version of a branch, say via "git pull", you might
-import requests for updated submodules.  A simple "git diff" will
-reveal if the current version of the submodule (i.e., the actual
-contents of the gnulib directory) and the current request from the
-subscriber (i.e., the reference of the version of gnulib that the
-Bison repository requests) differ.  To upgrade the submodules (i.e.,
-to check out the version that is actually requested by the subscriber,
-run "git submodule update".
+import requests for updated submodules.  A simple "git diff" will reveal if
+the current version of the submodule (i.e., the actual contents of the
+gnulib directory) and the current request from the subscriber (i.e., the
+reference of the version of gnulib that the Bison repository requests)
+differ.  To upgrade the submodules (i.e., to check out the version that is
+actually requested by the subscriber, run "git submodule update".
 
         $ git pull
         $ git submodule update
@@ -167,8 +168,8 @@ Register your changes.
 
         $ git checkin ...
 
-For a suggestion of what gnulib commit might be stable enough for a
-formal release, see the ChangeLog in the latest gnulib snapshot at:
+For a suggestion of what gnulib commit might be stable enough for a formal
+release, see the ChangeLog in the latest gnulib snapshot at:
 
         http://erislabs.net/ianb/projects/gnulib/
 
@@ -178,9 +179,9 @@ The Autoconf files we use are currently:
         lib/m4sugar/m4sugar.m4
         lib/m4sugar/foreach.m4
 
-These files don't change very often in Autoconf, so it should be
-relatively straight-forward to examine the differences in order to
-decide whether to update.
+These files don't change very often in Autoconf, so it should be relatively
+straight-forward to examine the differences in order to decide whether to
+update.
 
 * Test suite
 
@@ -243,102 +244,99 @@ suite.  So currently, do not try to run valgrind on Mac OS X.
 Try to run the test suite with more severe conditions before a
 release:
 
-- Configure the package with --enable-gcc-warnings, so that one checks
-  that 1. Bison compiles cleanly, 2. the parsers it produces compile
-  cleanly too.
+- Configure the package with --enable-gcc-warnings, so that one checks that
+  1. Bison compiles cleanly, 2. the parsers it produces compile cleanly too.
 
-- Maybe build with -DGNULIB_POSIXCHECK, which suggests gnulib modules
-  that can fix portability issues.  See if you really want to pay
-  attention to its warnings; there's no need to obey blindly to it
+- Maybe build with -DGNULIB_POSIXCHECK, which suggests gnulib modules that
+  can fix portability issues.  See if you really want to pay attention to
+  its warnings; there's no need to obey blindly to it
   (<http://lists.gnu.org/archive/html/bison-patches/2012-05/msg00057.html>).
 
-- Check with "make syntax-check" if there are issues diagnosed by
-  gnulib.
+- Check with "make syntax-check" if there are issues diagnosed by gnulib.
 
 - run "make maintainer-check" which:
   - runs "valgrind -q bison" to run Bison under Valgrind.
   - runs the parsers under Valgrind.
   - runs the test suite with G++ as C compiler...
 
-- run "make maintainer-push-check", which runs "make maintainer-check"
-  while activating the push implementation and its pull interface wrappers
-  in many test cases that were originally written to exercise only the
-  pull implementation.  This makes certain the push implementation can
-  perform every task the pull implementation can.
+- run "make maintainer-push-check", which runs "make maintainer-check" while
+  activating the push implementation and its pull interface wrappers in many
+  test cases that were originally written to exercise only the pull
+  implementation.  This makes certain the push implementation can perform
+  every task the pull implementation can.
 
-- run "make maintainer-xml-check", which runs "make maintainer-check"
-  while checking Bison's XML automaton report for every working grammar
-  passed to Bison in the test suite.  The check just diffs the output of
-  Bison's included XSLT style sheets with the output of --report=all and
-  --graph.
+- run "make maintainer-xml-check", which runs "make maintainer-check" while
+  checking Bison's XML automaton report for every working grammar passed to
+  Bison in the test suite.  The check just diffs the output of Bison's
+  included XSLT style sheets with the output of --report=all and --graph.
 
 - running "make maintainer-release-check" takes care of running
   maintainer-check, maintainer-push-check and maintainer-xml-check.
 
-- Change tests/atlocal/CFLAGS to add your preferred options.  For
-  instance, "-traditional" to check that the parsers are K&R.  Note
-  that it does not make sense for glr.c, which should be ANSI, but
-  currently is actually GNU C, nor for lalr1.cc.
+- Change tests/atlocal/CFLAGS to add your preferred options.  For instance,
+  "-traditional" to check that the parsers are K&R.  Note that it does not
+  make sense for glr.c, which should be ANSI, but currently is actually GNU
+  C, nor for lalr1.cc.
 
-- Test with a very recent version of GCC for both C and C++.  Testing
-  with older versions that are still in use is nice too.
+- Test with a very recent version of GCC for both C and C++.  Testing with
+  older versions that are still in use is nice too.
 
 
 * Release Procedure
-This section needs to be updated to take into account features from
-gnulib.  In particular, be sure to read README-release.
+This section needs to be updated to take into account features from gnulib.
+In particular, be sure to read README-release.
 
 ** Update the submodules.  See above.
 
 ** Update maintainer tools, such as Autoconf.  See above.
 
 ** Try to get the *.pot files to the Translation Project at least one
-week before a stable release, to give them time to translate them.
-Before generating the *.pot files, make sure that po/POTFILES.in and
-runtime-po/POTFILES.in list all files with translatable strings.
-This helps: grep -l '\<_(' *
+week before a stable release, to give them time to translate them.  Before
+generating the *.pot files, make sure that po/POTFILES.in and
+runtime-po/POTFILES.in list all files with translatable strings.  This
+helps: grep -l '\<_(' *
 
 ** Tests
 See above.
 
 ** Update the foreign files
-Running "./bootstrap" in the top level should update them all for you.
-This covers PO files too.  Sometimes a PO file contains problems that
-causes it to be rejected by recent Gettext releases; please report
-these to the Translation Project.
+Running "./bootstrap" in the top level should update them all for you.  This
+covers PO files too.  Sometimes a PO file contains problems that causes it
+to be rejected by recent Gettext releases; please report these to the
+Translation Project.
 
 ** Update README
-Make sure the information in README is current.  Most notably, make sure
-it recommends a version of GNU M4 that is compatible with the latest
-Bison sources.
+Make sure the information in README is current.  Most notably, make sure it
+recommends a version of GNU M4 that is compatible with the latest Bison
+sources.
 
 ** Check copyright years.
-We update years in copyright statements throughout Bison once at the
-start of every year by running "make update-copyright".  However, before
-a release, it's good to verify that it's actually been run.  Besides the
-copyright statement for each Bison file, check the copyright statements
-that the skeletons insert into generated parsers, and check all
-occurrences of PACKAGE_COPYRIGHT_YEAR in configure.ac.
+We update years in copyright statements throughout Bison once at the start
+of every year by running "make update-copyright".  However, before a
+release, it's good to verify that it's actually been run.  Besides the
+copyright statement for each Bison file, check the copyright statements that
+the skeletons insert into generated parsers, and check all occurrences of
+PACKAGE_COPYRIGHT_YEAR in configure.ac.
 
 ** Update NEWS, commit and tag.
-See do-release-commit-and-tag in README-release.  For a while, we used
-beta names such as "2.6_rc1".  Now that we use gnulib in the release
-procedure, we must use "2.5.90", which has the additional benefit of
-being properly sorted in "git tag -l".
+See do-release-commit-and-tag in README-release.  For a while, we used beta
+names such as "2.6_rc1".  Now that we use gnulib in the release procedure,
+we must use "2.5.90", which has the additional benefit of being properly
+sorted in "git tag -l".
 
 ** make alpha, beta, or stable
 See README-release.
 
 ** Upload
-There are two ways to upload the tarballs to the GNU servers: using
-gnupload (from gnulib), or by hand.  Obviously prefer the former.  But
-in either case, be sure to read the following paragraph.
+There are two ways to upload the tarballs to the GNU servers: using gnupload
+(from gnulib), or by hand.  Obviously prefer the former.  But in either
+case, be sure to read the following paragraph.
 
 *** Setup
 You need "gnupg".
 
-Make sure your public key has been uploaded at least to
-keys.gnupg.net.  You can upload it with:
+Make sure your public key has been uploaded at least to keys.gnupg.net.  You
+can upload it with:
 
   gpg --keyserver keys.gnupg.net --send-keys F125BDF3
 
@@ -347,8 +345,8 @@ where F125BDF3 should be replaced with your key ID.
 *** Using gnupload
 You need "ncftp".
 
-At the end "make stable" (or alpha/beta) will display the procedure to
-run.  Just copy and paste it in your shell.
+At the end "make stable" (or alpha/beta) will display the procedure to run.
+Just copy and paste it in your shell.
 
 *** By hand
 
@@ -410,9 +408,9 @@ sections that have been removed or renamed):
    $ ls -lt
 
 Remove these files and commit their removal to CVS.  For each of these
-files, add a line to the file .symlinks.  This will ensure that
-hyperlinks to the removed files will redirect to the entire manual; this
-is better than a 404 error.
+files, add a line to the file .symlinks.  This will ensure that hyperlinks
+to the removed files will redirect to the entire manual; this is better than
+a 404 error.
 
 There is a problem with 'index.html' being written twice (once for POSIX
 function 'index', once for the table of contents); you can ignore this
@@ -431,19 +429,18 @@ Complete/fix the announcement file.  The generated list of recipients
 (info-gnu@gnu.org, bug-bison@gnu.org, help-bison@gnu.org,
 bison-patches@gnu.org, and coordinator@translationproject.org) is
 appropriate for a stable release or a "serious beta".  For any other
-release, drop at least info-gnu@gnu.org.  For an example of how to
-fill out the rest of the template, search the mailing list archives
-for the most recent release announcement.
+release, drop at least info-gnu@gnu.org.  For an example of how to fill out
+the rest of the template, search the mailing list archives for the most
+recent release announcement.
 
 For a stable release, send the same announcement on the comp.compilers
-newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as
-the moderator will throw away anything cross-posted or Cc'ed.  It really
-needs to be a separate message.
+newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as the
+moderator will throw away anything cross-posted or Cc'ed.  It really needs
+to be a separate message.
 
 ** Prepare NEWS
-So that developers don't accidentally add new items to the old NEWS
-entry, create a new empty entry in line 3 (without the two leading
-spaces):
+So that developers don't accidentally add new items to the old NEWS entry,
+create a new empty entry in line 3 (without the two leading spaces):
 
   * Noteworthy changes in release ?.? (????-??-??) [?]
 
@@ -451,7 +448,7 @@ Push these changes.
 
 -----
 
-Copyright (C) 2002-2005, 2007-2015 Free Software Foundation, Inc.
+Copyright (C) 2002-2005, 2007-2015, 2018 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 

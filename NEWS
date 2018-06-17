@@ -45,6 +45,36 @@ GNU Bison NEWS
      input: '0' | exp
                   ^^^
 
+* Noteworthy changes in release 3.0.5 (2018-05-27) [stable]
+
+** Bug fixes
+
+*** C++: Fix support of 'syntax_error'
+
+  One incorrect 'inline' resulted in linking errors about the constructor of
+  the syntax_error exception.
+
+*** C++: Fix warnings
+
+  GCC 7.3 (with -O1 or -O2 but not -O0 or -O3) issued null-dereference
+  warnings about yyformat being possibly null.  It also warned about the
+  deprecated implicit definition of copy constructors when there's a
+  user-defined (copy) assignment operator.
+
+*** Location of errors
+
+  In C++ parsers, out-of-bounds errors can happen when a rule with an empty
+  ride-hand side raises a syntax error.  The behavior of the default parser
+  (yacc.c) in such a condition was undefined.
+
+  Now all the parsers match the behavior of glr.c: @$ is used as the
+  location of the error.  This handles gracefully rules with and without
+  rhs.
+
+*** Portability fixes in the test suite
+
+  On some platforms, some Java and/or C++ tests were failing.
+
 * Noteworthy changes in release 3.0.4 (2015-01-23) [stable]
 
 ** Bug fixes
@@ -106,7 +136,7 @@ GNU Bison NEWS
   extracted from the documentation:
 
    - rpcalc
-     Reverse polish calculator, a simple introductory example.
+     Reverse Polish Calculator, a simple introductory example.
    - mfcalc
      Multi-function Calc, a calculator with memory and functions and located
      error messages.
@@ -2793,7 +2823,7 @@ Output file does not redefine const for C++.
 
 -----
 
-Copyright (C) 1995-2015 Free Software Foundation, Inc.
+Copyright (C) 1995-2015, 2018 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 

@@ -15,6 +15,7 @@ Anthony Heading           ajrh@ajrh.net
 Antonio Silva Correia     amsilvacorreia@hotmail.com
 Arnold Robbins            arnold@skeeve.com
 Art Haas                  ahaas@neosoft.com
+Askar Safin               safinaskar@mail.ru
 Baron Schwartz            baron@sequent.org
 Ben Pfaff                 blp@cs.stanford.edu
 Benoit Perrot             benoit.perrot@epita.fr
@@ -39,6 +40,7 @@ Daniel Hagerty            hag@gnu.org
 David J. MacKenzie        djm@gnu.org
 David Kastrup             dak@gnu.org
 Dennis Clarke             dclarke@blastwave.org
+Derek Clegg               derek@me.com
 Derek M. Jones            derek@knosof.co.uk
 Di-an Jan                 dianj@freeshell.org
 Dick Streefland           dick.streefland@altium.nl
@@ -48,6 +50,7 @@ Enrico Scholz             enrico.scholz@informatik.tu-chemnitz.de
 Eric Blake                ebb9@byu.net
 Evgeny Stambulchik        fnevgeny@plasma-gate.weizmann.ac.il
 Fabrice Bauzac            noon@cote-dazur.com
+Ferdinand Thiessen        ferdinand@fthiessen.de
 Florian Krohm             florian@edamail.fishkill.ibm.com
 Frank Heckenbach          frank@g-n-u.de
 Frans Englich             frans.englich@telia.com
@@ -58,7 +61,7 @@ Gilles Espinasse          g.esp@free.fr
 Goran Uddeborg            goeran@uddeborg.se
 Guido Trentalancia        trentalg@aston.ac.uk
 H. Merijn Brand           h.m.brand@hccnet.nl
-Hans Aberg                haberg@matematik.su.se
+Hans Åberg                haberg-1@telia.com
 Jan Nieuwenhuizen         janneke@gnu.org
 Jerry Quinn               jlquinn@optonline.net
 Jesse Thilo               jthilo@gnu.org
@@ -93,6 +96,7 @@ Michiel De Wilde          mdewilde.agilent@gmail.com
 Mickael Labau             labau_m@epita.fr
 Mike Castle               dalgoda@ix.netcom.com
 Mike Sullivan             Mike.sullivan@Oracle.COM
+Nate Guerin               nathan.guerin@riseup.net
 Neil Booth                NeilB@earthling.net
 Nelson H. F. Beebe        beebe@math.utah.edu
 Nick Bowler               nbowler@elliptictech.com
@@ -172,7 +176,7 @@ End:
 
 -----
 
-Copyright (C) 2000-2015 Free Software Foundation, Inc.
+Copyright (C) 2000-2015, 2018 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 
