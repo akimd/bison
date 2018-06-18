@@ -61,6 +61,7 @@ TESTSUITE_AT =                                  \
   tests/push.at                                 \
   tests/reduce.at                               \
   tests/regression.at                           \
+  tests/report.at                               \
   tests/sets.at                                 \
   tests/skeletons.at                            \
   tests/synclines.at                            \

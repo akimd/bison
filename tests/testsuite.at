@@ -35,6 +35,9 @@ m4_include([sets.at])
 # Testing grammar reduction.
 m4_include([reduce.at])
 
+# Testing generated reports.
+m4_include([report.at])
+
 # Testing conflicts detection and resolution.
 m4_include([conflicts.at])
 
