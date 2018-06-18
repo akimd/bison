@@ -36,7 +36,6 @@
 /closeout.h
 /concat-filename.c
 /concat-filename.h
-/config.charset
 /config.h
 /config.in.h
 /configmake.h
@@ -159,9 +158,7 @@
 /rawmemchr.valgrind
 /realloc.c
 /ref-add.sed
-/ref-add.sin
 /ref-del.sed
-/ref-del.sin
 /sched.h
 /sched.in.h
 /sig-handler.c
