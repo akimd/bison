@@ -8979,7 +8979,21 @@ a consequence, the verbose output file is called @file{foo.output}.
 The following grammar file, @file{calc.y}, will be used in the sequel:
 
 @example
-%token NUM STR
+@group
+%union
+{
+  int ival;
+  const char *sval;
+}
+@end group
+@group
+%token <ival> NUM
+%nterm <ival> exp
+@end group
+@group
+%token <sval> STR
+%nterm <sval> useless
+@end group
 @group
 %left '+' '-'
 %left '*'
@@ -9001,11 +9015,12 @@ useless: STR;
 @command{bison} reports:
 
 @example
-calc.y: warning: 1 nonterminal useless in grammar
-calc.y: warning: 1 rule useless in grammar
-calc.y:12.1-7: warning: nonterminal useless in grammar: useless
-calc.y:12.10-12: warning: rule useless in grammar: useless: STR
-calc.y: conflicts: 7 shift/reduce
+calc.y: warning: 1 nonterminal useless in grammar [-Wother]
+calc.y: warning: 1 rule useless in grammar [-Wother]
+calc.y:19.1-7: warning: nonterminal useless in grammar: useless [-Wother]
+ useless: STR;
+ ^^^^^^^
+calc.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
 @end example
 
 When given @option{--report=state}, in addition to @file{calc.tab.c}, it
@@ -9074,8 +9089,8 @@ $end (0) 0
 '-' (45) 2
 '/' (47) 4
 error (256)
-NUM (258) 5
-STR (259)
+NUM <ival> (258) 5
+STR <sval> (259)
 @end group
 
 @group
@@ -9083,7 +9098,7 @@ Nonterminals, with rules where they appear
 
 $accept (9)
     on left: 0
-exp (10)
+exp <ival> (10)
     on left: 1 2 3 4 5, on right: 0 1 2 3 4
 @end group
 @end example

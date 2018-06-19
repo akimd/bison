@@ -2,6 +2,19 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Reports include the type of the symbols
+
+  The sections about terminal and nonterminal symbols of the '*.output' file
+  now specify their declared type.  For instance, for:
+
+    %token <ival> NUM
+
+  the report now shows '<ival>':
+
+    Terminals, with rules where they appear
+
+    NUM <ival> (258) 5
+
 ** Diagnostics about useless rules
 
   In the following grammar, the 'exp' nonterminal is trivially useless.  So,
