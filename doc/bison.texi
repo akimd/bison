@@ -8981,10 +8981,10 @@ The following grammar file, @file{calc.y}, will be used in the sequel:
 @example
 @group
 %union
-{
+@{
   int ival;
   const char *sval;
-}
+@}
 @end group
 @group
 %token <ival> NUM
