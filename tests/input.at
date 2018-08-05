@@ -2193,7 +2193,7 @@ input.y:13.11-21:     previous definition
 
 AT_CLEANUP
 
-##--------------------------- ##
+## -------------------------- ##
 ## Non-deprecated directives. ##
 ## -------------------------- ##
 
@@ -2221,6 +2221,26 @@ AT_DATA_GRAMMAR([[input.y]],
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
 [[input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+]])
+
+AT_CLEANUP
+
+
+## -------------------- ##
+## Cannot type action.  ##
+## -------------------- ##
+
+AT_SETUP([[Cannot type action]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%%
+exp: <int> {}
+]])
+
+AT_BISON_CHECK([[-fcaret input.y]], [[0]], [[]],
+[[input.y:10.6-13: warning: only midrule actions can be typed: int [-Wother]
+ exp: <int> {}
+      ^^^^^^^^
 ]])
 
 AT_CLEANUP
