@@ -343,6 +343,28 @@ input.y:26.40-42: warning: unset value: $][$ [-Wother]
  o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
                                         ^^^
 ]])
+
+AT_BISON_CHECK([-Wnone,yacc -fcaret input.y],
+               [0], [],
+[[input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
+                       ^^^^^^^^^^^^
+input.y:24.49-65: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
+                                                 ^^^^^^^^^^^^^^^^^
+input.y:25.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                       ^^^
+input.y:25.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                        ^^^
+input.y:26.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                       ^^^
+input.y:26.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                                        ^^^
+]])
 ])
 
 ## --------------- ##
