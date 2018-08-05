@@ -53,7 +53,7 @@ id:
   "identifier";
 
 exp:
-  "incr" exp { $<int>$ = 1; } { $<int>$ = 10; } exp   { $$ = $2 + $<int>3 + $<int>4 + $5; }
+  "incr" exp <int>{ $$ = 1; } <int>{ $$ = 10; } exp   { $$ = $2 + $3 + $4 + $5; }
 | "(" exp ")"   { std::swap ($$, $2); }
 | "identifier"  { $$ = driver.variables[$1]; }
 | "number"      { std::swap ($$, $1); };
@@ -113,9 +113,9 @@ id <std::string> (13)
     on left: 5, on right: 4
 exp <int> (14)
     on left: 8 9 10 11, on right: 1 4 8 9
-@1 (15)
+@1 <int> (15)
     on left: 6, on right: 8
-@2 (16)
+@2 <int> (16)
     on left: 7, on right: 8
 
 

@@ -168,7 +168,7 @@ AT_CLEANUP
 # declarations for the unused values tests.
 m4_define([_AT_UNUSED_VALUES_DECLARATIONS],
 [[[%token <integer> INT;
-%type <integer> a b c d e f g h i j k l;
+%type <integer> a b c d e f g h i j k l m n o;
 %destructor { destroy ($$); } <integer>;]]])
 
 
@@ -189,7 +189,7 @@ start:
   'a' a { $][2; } | 'b' b { $][2; } | 'c' c { $][2; } | 'd' d { $][2; }
 | 'e' e { $][2; } | 'f' f { $][2; } | 'g' g { $][2; } | 'h' h { $][2; }
 | 'i' i { $][2; } | 'j' j { $][2; } | 'k' k { $][2; } | 'l' l { $][2; }
-
+| 'm' m { $][2; } | 'n' n { $][2; } | 'o' o { $][2; }
 ;
 
 a: INT | INT { } INT { } INT { };
@@ -204,6 +204,9 @@ i: INT | INT INT { } { $][$ = $][1 + $][2; };
 j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
 k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
 l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<integer>3; } INT { $<integer>$ = $<integer>4 + $<integer>5; };
+m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
+n: INT | INT <integer>{ } INT <integer>{ } INT { };
+o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
 ]]m4_ifval($1, [
 _AT_UNUSED_VALUES_DECLARATIONS])
 )
@@ -309,7 +312,37 @@ input.y:22.14-16: warning: unused value: $][2 [-Wother]
 ]]m4_ifval($2, [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]]))
+]]])[[input.y:25.23-25: warning: unset value: $][$ [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                       ^^^
+input.y:25.40-42: warning: unset value: $][$ [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                        ^^^
+input.y:25.10-50: warning: unset value: $][$ [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:25.10-12: warning: unused value: $][1 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+          ^^^
+input.y:25.23-25: warning: unused value: $][2 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                       ^^^
+input.y:25.27-29: warning: unused value: $][3 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                           ^^^
+input.y:25.40-42: warning: unused value: $][4 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                        ^^^
+input.y:25.44-46: warning: unused value: $][5 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                            ^^^
+input.y:26.23-25: warning: unset value: $][$ [-Wother]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                       ^^^
+input.y:26.40-42: warning: unset value: $][$ [-Wother]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                                        ^^^
+]])
 ])
 
 ## --------------- ##

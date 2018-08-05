@@ -64,6 +64,55 @@ AT_PARSER_CHECK([./input], 0,
 
 AT_CLEANUP
 
+## ------------------------ ##
+## Typed mid-rule actions.  ##
+## ------------------------ ##
+
+AT_SETUP([Typed mid-rule actions])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA_GRAMMAR([[input.y]],
+[[%define parse.error verbose
+%debug
+%code {
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+%union {
+  int ival;
+}
+%type <ival> exp
+%%
+exp:     <ival>{ $$ = 0; }
+     '1' <ival>{ $$ = 1; }
+     '2' <ival>{ $$ = 2; }
+     '3' <ival>{ $$ = 3; }
+     '4' <ival>{ $$ = 4; }
+     '5' <ival>{ $$ = 5; }
+     '6' <ival>{ $$ = 6; }
+     '7' <ival>{ $$ = 7; }
+     '8' <ival>{ $$ = 8; }
+     '9' <ival>{ $$ = 9; }  <ival>{ $$ = 10; }  <ival>{ $$ = 11; }
+  {
+    $$ = $1 + $3 + $5 + $7 + $9 + $11 + $13 + $15 + $17 + $19 + $20 + $21;
+    printf ("%d\n", $$);
+  }
+;
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["123456789"])[
+]AT_MAIN_DEFINE[
+]])
+AT_BISON_OPTION_POPDEFS
+
+AT_BISON_CHECK([-d -v -o input.c input.y])
+AT_COMPILE([input])
+AT_PARSER_CHECK([./input], 0,
+[[66
+]])
+
+AT_CLEANUP
+
 ## ----------------------- ##
 ## Implicitly empty rule.  ##
 ## ----------------------- ##
