@@ -140,6 +140,7 @@ m4_define([b4_variant_define],
     T&
     as ()
     {]b4_parse_assert_if([
+      YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
       YYASSERT (sizeof (T) <= S);])[
       return *yyas_<T> ();
@@ -150,6 +151,7 @@ m4_define([b4_variant_define],
     const T&
     as () const
     {]b4_parse_assert_if([
+      YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
       YYASSERT (sizeof (T) <= S);])[
       return *yyas_<T> ();
