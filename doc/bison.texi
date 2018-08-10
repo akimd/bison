@@ -4262,7 +4262,7 @@ final action does not use @code{$3}).  Bison reports these errors when the
 Bison}):
 
 @example
-$ bison -fcaret -Wmidrule-value mid.y
+$ bison -Wmidrule-value mid.y
 @group
 mid.y:2.6-13: warning: unset value: $$
  exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
@@ -10141,10 +10141,11 @@ Activate miscellaneous @var{feature}. @var{feature} can be one of:
 @item caret
 @itemx diagnostics-show-caret
 Show caret errors, in a manner similar to GCC's
-@option{-fdiagnostics-show-caret}, or Clang's @option{-fcaret-diagnotics}. The
-location provided with the message is used to quote the corresponding line of
-the source file, underlining the important part of it with carets (^). Here is
-an example, using the following file @file{in.y}:
+@option{-fdiagnostics-show-caret}, or Clang's
+@option{-fcaret-diagnotics}. The location provided with the message is used
+to quote the corresponding line of the source file, underlining the
+important part of it with carets (@samp{^}). Here is an example, using the
+following file @file{in.y}:
 
 @example
 %type <ival> exp
