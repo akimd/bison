@@ -40,7 +40,7 @@ enum bitset_attr {BITSET_FIXED = 1,    /* Bitset size fixed.  */
                   BITSET_FRUGAL = 16,  /* Prefer most compact.  */
                   BITSET_GREEDY = 32}; /* Prefer fastest at memory expense.  */
 
-typedef unsigned int bitset_attrs;
+typedef unsigned bitset_attrs;
 
 /* The contents of the union should be considered to be private.
    While I would like to make this union opaque, it needs to be
@@ -310,7 +310,7 @@ extern void bitset_dump (FILE *, bitset);
 
    BITSET_FOR_EACH (iter, src, i, 0)
    {
-      printf ("%lu ", (unsigned long int) i);
+      printf ("%lu ", (unsigned long) i);
    };
 */
 #define BITSET_FOR_EACH(ITER, BSET, INDEX, MIN)                               \
@@ -332,7 +332,7 @@ extern void bitset_dump (FILE *, bitset);
 
    BITSET_FOR_EACH_REVERSE (iter, src, i, 0)
    {
-      printf ("%lu ", (unsigned long int) i);
+      printf ("%lu ", (unsigned long) i);
    };
 */
 #define BITSET_FOR_EACH_REVERSE(ITER, BSET, INDEX, MIN)                       \

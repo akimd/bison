@@ -31,7 +31,7 @@ extern bitsetv bitsetv_alloc (bitset_bindex, bitset_bindex, enum bitset_type);
 
 /* Create a vector of N_VECS bitsets, each of N_BITS, and with
    attribute hints specified by ATTR.  */
-extern bitsetv bitsetv_create (bitset_bindex, bitset_bindex, unsigned int);
+extern bitsetv bitsetv_create (bitset_bindex, bitset_bindex, unsigned);
 
 /* Free vector of bitsets.  */
 extern void bitsetv_free (bitsetv);
