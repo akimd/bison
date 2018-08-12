@@ -415,7 +415,7 @@ show_sub_messages (warnings warning,
 /* Parse named or positional reference. In case of positional
    references, can return negative values for $-n "deep" stack
    accesses. */
-static long int
+static long
 parse_ref (char *cp, symbol_list *rule, int rule_length,
            int midrule_rhs_index, char *text, location text_loc,
            char dollar_or_at)
@@ -432,7 +432,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 
   if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (* (cp + 1))))
     {
-      long int num = strtol (cp, &cp, 10);
+      long num = strtol (cp, &cp, 10);
       if (1 - INT_MAX + rule_length <= num && num <= rule_length)
         return num;
       else
