@@ -112,7 +112,7 @@ We could (should?) also treat the case of the undef_token, which is
 numbered 257 for yylex, and 2 internal.  Both appear for instance in
 toknum:
 
-  const unsigned short int
+  const unsigned short
   parser::yytoken_number_[] =
   {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,

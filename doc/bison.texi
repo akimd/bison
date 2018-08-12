@@ -2883,7 +2883,7 @@ can be done with two @var{Prologue} blocks, one before and one after the
 
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -2935,7 +2935,7 @@ Look again at the example of the previous section:
 
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -2999,7 +2999,7 @@ Let's go ahead and add the new @code{YYLTYPE} definition and the
 
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3052,7 +3052,7 @@ Thus, they belong in one or more @code{%code requires}:
 @end group
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3129,7 +3129,7 @@ sufficient.  Instead, move its prototype from the unqualified
 @end group
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3706,7 +3706,7 @@ a preprocessor.
 
 In most programs, you will need different data types for different kinds
 of tokens and groupings.  For example, a numeric constant may need type
-@code{int} or @code{long int}, while a string constant needs type
+@code{int} or @code{long}, while a string constant needs type
 @code{char *}, and an identifier might need a pointer to an entry in the
 symbol table.
 
