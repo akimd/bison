@@ -10611,10 +10611,6 @@ in a file, and a @code{location}, a range composed of a pair of
 @code{%define} variable @code{api.location.type} is defined, then these
 classes will not be generated, and the user defined type will be used.
 
-@tindex uint
-In this section @code{uint} is an abbreviation for @code{unsigned int}: in
-genuine code only the latter is used.
-
 @menu
 * C++ position::         One point in the source file
 * C++ location::         Two points in the source file
@@ -10624,13 +10620,13 @@ genuine code only the latter is used.
 @node C++ position
 @subsubsection C++ @code{position}
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
@@ -10641,7 +10637,7 @@ feature you may change it to @samp{@var{type}*} using @samp{%define
 filename_type "@var{type}"}.
 @end deftypeivar
 
-@deftypeivar {position} {uint} line
+@deftypeivar {position} {unsigned} line
 The line, starting at 1.
 @end deftypeivar
 
@@ -10650,7 +10646,7 @@ If @var{height} is not null, advance by @var{height} lines, resetting the
 column number.  The resulting line number cannot be less than 1.
 @end deftypemethod
 
-@deftypeivar {position} {uint} column
+@deftypeivar {position} {unsigned} column
 The column, starting at 1.
 @end deftypeivar
 
@@ -10685,11 +10681,11 @@ Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
 @deftypeop {Constructor} {location} {} location (const position& @var{pos} = position())
-@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, uint @var{line}, uint @var{col})
+@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, unsigned @var{line}, unsigned @var{col})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
@@ -13485,7 +13481,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: toString deftypeivar deftypeivarx deftypeop YYParser strictfp
 @c LocalWords: superclasses boolean getErrorVerbose setErrorVerbose deftypecv
 @c LocalWords: getDebugStream setDebugStream getDebugLevel setDebugLevel url
-@c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos uint
+@c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
 @c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett LALR's
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
