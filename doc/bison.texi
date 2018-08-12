@@ -3802,8 +3802,6 @@ This Bison extension cannot work if @code{%yacc} (or
 generate tokens as macros (e.g., @samp{#define INT 258}, or @samp{#define
 TOK_INT 258}).
 
-This feature is new, and user feedback would be most welcome.
-
 A similar feature is provided for C++ that in addition overcomes C++
 limitations (that forbid non-trivial objects to be part of a @code{union}):
 @samp{%define api.value.type variant}, see @ref{C++ Variants}.
@@ -4977,9 +4975,6 @@ grammar symbol that has that semantic type tag unless that symbol has its own
 per-symbol @code{%destructor}.
 
 Finally, you can define two different kinds of default @code{%destructor}s.
-(These default forms are experimental.
-More user feedback will help to determine whether they should become permanent
-features.)
 You can place each of @code{<*>} and @code{<>} in the @var{symbols} list of
 exactly one @code{%destructor} declaration in your grammar file.
 The parser will invoke the @var{code} associated with one of these whenever it
@@ -5972,8 +5967,8 @@ The symbols are defined with type names, from which Bison will generate a
 %token <int> INT "integer"
 %token <char *> STR "string"
 @end example
-This feature needs user feedback to stabilize.  Note that most C++ objects
-cannot be stored in a @code{union}.
+Most C++ objects cannot be stored in a @code{union}, use @samp{variant}
+instead.
 
 @item @samp{variant} (C++)
 This is similar to @code{union}, but special storage techniques are used to
@@ -5983,7 +5978,6 @@ allow any kind of C++ object to be used. For instance:
 %token <int> INT "integer"
 %token <std::string> STR "string"
 @end example
-This feature needs user feedback to stabilize.
 @xref{C++ Variants}.
 
 @item @samp{@{@var{type}@}}
@@ -6109,8 +6103,7 @@ introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
 @item Language(s): all
 
 @item Purpose: Specify the type of parser tables within the
-LR(1) family.  @xref{LR Table Construction}.  (This feature is experimental.
-More user feedback will help to stabilize it.)
+LR(1) family.  @xref{LR Table Construction}.
 
 @item Accepted Values: @code{lalr}, @code{ielr}, @code{canonical-lr}
 
@@ -8109,9 +8102,6 @@ values for @var{type} are:
 @item @code{ielr}
 @item @code{canonical-lr}
 @end itemize
-
-(This feature is experimental. More user feedback will help to stabilize
-it.)
 @end deffn
 
 For example, to activate IELR, you might add the following directive to you
@@ -10364,8 +10354,6 @@ Output an XML report of the parser's automaton computed by Bison.
 @code{@var{file}} is optional.
 If omitted and the grammar file is @file{foo.y}, the output file will be
 @file{foo.xml}.
-(The current XML schema is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end table
 
 @node Option Cross Key
@@ -11576,9 +11564,6 @@ main (int argc, char *argv[])
 @subsection Java Bison Interface
 @c - %language "Java"
 
-(The current Java interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
-
 The Java parser skeletons are selected using the @code{%language "Java"}
 directive or the @option{-L java}/@option{--language=java} option.
 
@@ -11961,9 +11946,6 @@ available only if location tracking is active.
 @subsection Java Push Parser Interface
 @c - define push_parse
 @findex %define api.push-pull
-
-(The current push parsing interface is experimental and may evolve. More
-user feedback will help to stabilize it.)
 
 Normally, Bison generates a pull parser for Java.
 The following Bison declaration says that you want the parser to be a push
@@ -12717,10 +12699,6 @@ GLR parsers during nondeterministic operation,
 this silently causes an alternative parse to die.  During deterministic
 operation, it is the same as the effect of YYERROR.
 @xref{Semantic Predicates}.
-
-This feature is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.
 @end deffn
 
 @deffn {Construct} /* @dots{} */
@@ -12746,20 +12724,12 @@ Separates alternate rules for the same result nonterminal.
 Used to define a default tagged @code{%destructor} or default tagged
 @code{%printer}.
 
-This feature is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.
-
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} <>
 Used to define a default tagless @code{%destructor} or default tagless
 @code{%printer}.
-
-This feature is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.
 
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
