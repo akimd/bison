@@ -139,7 +139,7 @@ main (int argc, char **argv)
 {
   char buffer[256];
   int c;
-  unsigned int i;
+  unsigned i;
   static int lineNum = 1;
   static int colNum = 0;
 

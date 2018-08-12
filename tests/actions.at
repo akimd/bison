@@ -694,9 +694,9 @@ const char *source = YY_NULLPTR;
 static
 ]AT_YYLEX_PROTOTYPE[
 {
-  static unsigned int counter = 0;
+  static unsigned counter = 0;
 
-  unsigned int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
+  unsigned c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
   /* As in BASIC, line numbers go from 10 to 10.  */
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = 10 * c;
   ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
