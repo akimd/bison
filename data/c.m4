@@ -172,10 +172,10 @@ m4_define([b4_int_type],
 [m4_if(b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
        b4_ints_in($@,   [-128],   [127]), [1], [signed char],
 
-       b4_ints_in($@,      [0], [65535]), [1], [unsigned short int],
-       b4_ints_in($@, [-32768], [32767]), [1], [short int],
+       b4_ints_in($@,      [0], [65535]), [1], [unsigned short],
+       b4_ints_in($@, [-32768], [32767]), [1], [short],
 
-       m4_eval([0 <= $1]),                [1], [unsigned int],
+       m4_eval([0 <= $1]),                [1], [unsigned],
 
                                                [int])])
 
