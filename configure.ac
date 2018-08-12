@@ -54,6 +54,8 @@ AC_PROG_CC_STDC
 AC_PROG_CXX
 AC_LANG_PUSH([C++])
 gl_WARN_ADD([-fno-exceptions], [NO_EXCEPTIONS_CXXFLAGS])
+gl_WARN_ADD([-std=c++11], [CXX11_CXXFLAGS])
+AM_CONDITIONAL([ENABLE_CXX11], [test x"$CXX11_CXXFLAGS" != x])
 AC_LANG_POP([C++])
 
 # Gnulib (early checks).

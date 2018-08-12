@@ -101,11 +101,11 @@ m4_define([b4_variant_define],
 
     /// Construct and fill.
     template <typename T>
-    variant (const T& t)]b4_parse_assert_if([
+    variant (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
     {
       YYASSERT (sizeof (T) <= S);
-      new (yyas_<T> ()) T (t);
+      new (yyas_<T> ()) T (YY_MOVE (t));
     }
 
     /// Destruction, allowed only if empty.
@@ -183,9 +183,25 @@ m4_define([b4_variant_define],
     move (self_type& other)
     {
       build<T> ();
+# if defined __cplusplus && 201103L <= __cplusplus
+      as<T> () = YY_MOVE (other.as<T> ());
+# else
       swap<T> (other);
+# endif
       other.destroy<T> ();
     }
+
+# if defined __cplusplus && 201103L <= __cplusplus
+    /// Move the content of \a other to this.
+    template <typename T>
+    void
+    move (self_type&& other)
+    {
+      build<T> ();
+      as<T> () = YY_MOVE (other.as<T> ());
+      other.destroy<T> ();
+    }
+#endif
 
     /// Copy the content of \a other to this.
     template <typename T>
@@ -293,8 +309,8 @@ m4_define([b4_symbol_constructor_declare_],
     symbol_type
     make_[]b4_symbol_([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
-                     [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])));
+                     [YY_COPY (b4_symbol([$1], [type])) v]),
+        b4_locations_if([YY_COPY (location_type) l])));
 
 ])])])
 
@@ -318,12 +334,12 @@ m4_define([b4_symbol_constructor_define_],
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
-                     [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])))
+                     [YY_COPY (b4_symbol([$1], [type])) v]),
+        b4_locations_if([YY_COPY (location_type) l])))
   {
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
-                                b4_symbol_if([$1], [has_type], [v]),
-                                b4_locations_if([l])));
+                                b4_symbol_if([$1], [has_type], [YY_MOVE (v)]),
+                                b4_locations_if([YY_MOVE (l)])));
   }
 
 ])])])
@@ -335,8 +351,8 @@ b4_join(b4_symbol_if([$1], [has_type],
 m4_define([b4_basic_symbol_constructor_declare],
 [[      basic_symbol (]b4_join(
           [typename Base::kind_type t],
-          b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[& v]),
-          b4_locations_if([const location_type& l]))[);
+          b4_symbol_if([$1], [has_type], [YY_RVREF (b4_symbol([$1], [type])) v]),
+          b4_locations_if([YY_RVREF (location_type) l]))[);
 ]])
 
 # b4_basic_symbol_constructor_define
@@ -346,11 +362,11 @@ m4_define([b4_basic_symbol_constructor_define],
 [[  template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
-          b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[& v]),
-          b4_locations_if([const location_type& l]))[)
+          b4_symbol_if([$1], [has_type], [YY_RVREF (b4_symbol([$1], [type])) v]),
+          b4_locations_if([YY_RVREF (location_type) l]))[)
     : Base (t)]b4_symbol_if([$1], [has_type], [
-    , value (v)])[]b4_locations_if([
-    , location (l)])[
+    , value (YY_MOVE (v))])[]b4_locations_if([
+    , location (YY_MOVE (l))])[
   {}
 
 ]])

@@ -151,8 +151,12 @@ int main()
 
   // stack_symbol_type: construction, accessor.
   {
+#if defined __cplusplus && 201103L <= __cplusplus
+    auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
+#else
     parser::symbol_type s = parser::make_INT(123);
     parser::stack_symbol_type ss(1, s);
+#endif
     std::cerr << ss.value.as<int>() << '\n';
   }
 
@@ -161,8 +165,12 @@ int main()
     parser::stack_type st;
     for (int i = 0; i < 100; ++i)
       {
+#if defined __cplusplus && 201103L <= __cplusplus
+        auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
+#else
         parser::symbol_type s = parser::make_INT(123);
         parser::stack_symbol_type ss(1, s);
+#endif
         st.push(ss);
       }
   }
