@@ -297,13 +297,11 @@ m4_define([b4_public_types_define],
   // basic_symbol.
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
-    : value ()
   {}
 
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& other)
-    : Base (other)
-    , value ()]b4_locations_if([
+    : Base (other)]b4_locations_if([
     , location (other.location)])[
   {
     ]b4_variant_if([b4_symbol_variant([other.type_get ()], [value], [copy],
@@ -331,8 +329,7 @@ m4_define([b4_public_types_define],
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_locations_if([const location_type& l]))[)
-    : Base (t)
-    , value ()]b4_locations_if([
+    : Base (t)]b4_locations_if([
     , location (l)])[
   {}]])[
 

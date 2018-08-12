@@ -348,8 +348,8 @@ m4_define([b4_basic_symbol_constructor_define],
           [typename Base::kind_type t],
           b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[ v]),
           b4_locations_if([const location_type& l]))[)
-    : Base (t)
-    , value (]b4_symbol_if([$1], [has_type], [v])[)]b4_locations_if([
+    : Base (t)]b4_symbol_if([$1], [has_type], [
+    , value (v)])[]b4_locations_if([
     , location (l)])[
   {}
 ]])

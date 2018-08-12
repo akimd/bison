@@ -32,7 +32,6 @@ m4_define([b4_stack_define],
     typedef typename S::size_type size_type;
 
     stack ()
-      : seq_ ()
     {
       seq_.reserve (200);
     }
