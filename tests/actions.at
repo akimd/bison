@@ -564,11 +564,11 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
   thing
 
 %destructor
-  { fprintf (stderr, "Freeing raise thing (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing nterm raise (%d@%d-%d)\n", $$, RANGE (@$)); }
   raise
 
 %destructor
-  { fprintf (stderr, "Freeing check-spontaneous-errors thing (%d@%d-%d)\n", $$, RANGE (@$)); }
+  { fprintf (stderr, "Freeing nterm check-spontaneous-errors (%d@%d-%d)\n", $$, RANGE (@$)); }
   check-spontaneous-errors
 
 %destructor
@@ -1002,7 +1002,7 @@ AT_DATA_GRAMMAR([[input.y]],
 }
 
 %printer {
-  fprintf (yyoutput, "<*> printer should not be called.\n");
+  #error "<*> printer should not be used."
 } <*>
 
 %printer {
@@ -1020,7 +1020,7 @@ AT_DATA_GRAMMAR([[input.y]],
 } 'b' 'c'
 
 %destructor {
-  fprintf (yyoutput, "<*> destructor should not be called.\n");
+  #error "<*> destructor should not be used."
 } <*>
 
 %%
@@ -1094,7 +1094,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %}
 
 %printer {
-  fprintf (yyoutput, "<> printer should not be called.\n");
+  #error "<> printer should not be used."
 } <>
 
 %union { int field0; int field1; int field2; }
@@ -1121,7 +1121,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %destructor { fprintf (stdout, "'d' destructor.\n"); } 'd'
 
 %destructor {
-  fprintf (yyoutput, "<> destructor should not be called.\n");
+  #error "<> destructor should not be used."
 } <>
 
 %%
@@ -1222,7 +1222,7 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 }
 
 %destructor {
-  fprintf (yyoutput, "<]]not_kind[[> destructor should not be called.\n");
+  #error "<]]not_kind[[> destructor should not be used."
 } <]]not_kind[[>
 
 %token END 0
@@ -1234,7 +1234,7 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 } <]]kind[[>
 
 %printer {
-  fprintf (yyoutput, "<]]not_kind[[> printer should not be called.\n");
+  #error "<]]not_kind[[> printer should not be used."
 } <]]not_kind[[>
 
 ]]m4_if($1, 0, [[[
@@ -1482,10 +1482,10 @@ AT_DATA_GRAMMAR([[input.y]],
 # define LOCATION_PRINT(File, Loc)
 %}
 
-%printer { fprintf (yyoutput, "%d", @$); } <>
+%printer    { fprintf (yyoutput, "%d", @$); } <>
 %destructor { fprintf (stderr, "DESTROY %d\n", @$); } <>
-%printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
-%destructor { fprintf (yyoutput, "<*> destructor should not be called"); } <*>
+%printer    { #error "<*> printer should not be used" } <*>
+%destructor { #error "<*> destructor should not be used" } <*>
 
 %%
 
@@ -1506,19 +1506,19 @@ start:
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y], 0,,
-[[input.y:24.70-72: warning: useless %destructor for type <*> [-Wother]
-input.y:24.70-72: warning: useless %printer for type <*> [-Wother]
+[[input.y:24.57-59: warning: useless %destructor for type <*> [-Wother]
+input.y:24.57-59: warning: useless %printer for type <*> [-Wother]
 input.y:33.3-23: warning: unset value: $$ [-Wother]
 input.y:32.3-23: warning: unused value: $3 [-Wother]
 ]])
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 0,,
-[[input.y:24.70-72: warning: useless %destructor for type <*> [-Wother]
- %printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
-                                                                      ^^^
-input.y:24.70-72: warning: useless %printer for type <*> [-Wother]
- %printer { fprintf (yyoutput, "<*> printer should not be called"); } <*>
-                                                                      ^^^
+[[input.y:24.57-59: warning: useless %destructor for type <*> [-Wother]
+ %printer    { #error "<*> printer should not be used" } <*>
+                                                         ^^^
+input.y:24.57-59: warning: useless %printer for type <*> [-Wother]
+ %printer    { #error "<*> printer should not be used" } <*>
+                                                         ^^^
 input.y:33.3-23: warning: unset value: $$ [-Wother]
    {           @$ = 4; } // Only used.
    ^^^^^^^^^^^^^^^^^^^^^
