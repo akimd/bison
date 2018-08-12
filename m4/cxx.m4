@@ -34,9 +34,9 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
           using namespace std;],
          [std::cerr << "";
           cout << "";
-          typedef std::pair<unsigned int, int> uipair;
-          std::map<unsigned int, int> m;
-          std::map<unsigned int, int>::iterator i;
+          typedef std::pair<unsigned, int> uipair;
+          std::map<unsigned, int> m;
+          std::map<unsigned, int>::iterator i;
           m.insert (uipair (4, -4));
           for (i = m.begin (); i != m.end (); ++i)
             if (i->first != 4)
