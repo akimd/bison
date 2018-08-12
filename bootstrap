@@ -1,6 +1,6 @@
 #! /bin/sh
 # Print a version string.
-scriptversion=2018-05-27.20; # UTC
+scriptversion=2018-07-25.07; # UTC
 
 # Bootstrap this package from checked-out sources.
 
@@ -142,6 +142,9 @@ die() { warn_ "$@"; exit 1; }
 
 # Configuration.
 
+# Name of the Makefile.am
+gnulib_mk=gnulib.mk
+
 # List of gnulib modules needed.
 gnulib_modules=
 
@@ -165,7 +168,7 @@ bootstrap_epilogue() { :; }
 # options because the latest/%s directory and the .po files within are
 # all symlinks.
 po_download_command_format=\
-"rsync --delete --exclude '*.s1' -Lrtvz \
+"rsync --include '*.po' --exclude '*' -Lrtvz \
  'translationproject.org::tp/latest/%s/' '%s'"
 
 # Fallback for downloading .po files (if rsync fails).
@@ -942,13 +945,13 @@ fi
 if $use_gnulib; then
   gnulib_tool_options="\
    --no-changelog\
-   --aux-dir $build_aux\
-   --doc-base $doc_base\
-   --lib $gnulib_name\
-   --m4-base $m4_base/\
-   --source-base $source_base/\
-   --tests-base $tests_base\
-   --local-dir $local_gl_dir\
+   --aux-dir=$build_aux\
+   --doc-base=$doc_base\
+   --lib=$gnulib_name\
+   --m4-base=$m4_base/\
+   --source-base=$source_base/\
+   --tests-base=$tests_base\
+   --local-dir=$local_gl_dir\
    $gnulib_tool_option_extras\
   "
   if test $use_libtool = 1; then
