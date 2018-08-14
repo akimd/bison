@@ -6,10 +6,10 @@ documentation.
 
 * calc++
 A C++ version of the canonical example for parsers: a calculator.
-Also uses Flex for the scanner.
+Also uses Flex for the scanner.  Extracted from the documentation.
 
 * variant.yy
-A C++ examples that uses variants (they allow to use any C++ type as
+A C++ example that uses variants (they allow to use any C++ type as
 semantic value type) and symbol constructors (they ensure consistency
 between declared token type and effective semantic value).
 
