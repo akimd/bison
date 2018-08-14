@@ -88,13 +88,13 @@ result:
 ;
 
 list:
-  /* nothing */ { /* Generates an empty string list */ }
-| list item     { std::swap ($$, $1); $$.push_back ($2); }
+  %empty     { /* Generates an empty string list */ }
+| list item  { std::swap ($$, $1); $$.push_back ($2); }
 ;
 
 item:
-  TEXT          { std::swap ($$, $1); }
-| NUMBER        { $$ = string_cast ($1); }
+  TEXT    { std::swap ($$, $1); }
+| NUMBER  { $$ = string_cast ($1); }
 ;
 %%
 

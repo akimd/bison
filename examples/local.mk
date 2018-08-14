@@ -41,6 +41,13 @@ $(extracted): %D%/extracted.stamp
 	@test -f $@ || rm -f %D%/extracted.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/extracted.stamp
 
+## ---------- ##
+## Examples.  ##
+## ---------- ##
+
+examplesdir = $(docdir)/examples
+dist_examples_DATA = %D%/README %D%/variant.yy
+
 include %D%/calc++/local.mk
 include %D%/mfcalc/local.mk
 include %D%/rpcalc/local.mk
