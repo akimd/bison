@@ -94,8 +94,9 @@ m4_define([b4_variant_define],
     typedef variant<S> self_type;
 
     /// Empty construction.
-    variant ()]b4_parse_assert_if([
-      : yytypeid_ (YY_NULLPTR)])[
+    variant ()
+      : yybuffer_ ()]b4_parse_assert_if([
+      , yytypeid_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.

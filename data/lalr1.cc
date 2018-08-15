@@ -574,11 +574,10 @@ m4_if(b4_prefix, [yy], [],
   {}
 
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
-    : super_type (s]b4_locations_if([, that.location])[)
-  {
-    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
-                                      [value], [move], [that.value])],
-                   [[value = that.value;]])[
+    : super_type (s]b4_variant_if([], [, that.value])[]b4_locations_if([, that.location])[)
+  {]b4_variant_if([
+    b4_symbol_variant([that.type_get ()],
+                      [value], [move], [that.value])])[
     // that is emptied.
     that.type = empty_symbol;
   }
