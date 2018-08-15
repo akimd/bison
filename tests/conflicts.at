@@ -501,7 +501,7 @@ consistent-error-on-a-a:
   | 'a' shift
   ;
 
-default-reduction: /*empty*/ ;
+default-reduction: %empty ;
 shift: 'b' ;
 
 // Provide another context in which all rules are useful so that this
@@ -601,7 +601,8 @@ error-reduce:
   { USE ($][1); }
 ;
 
-consistent-reduction: /*empty*/ {
+consistent-reduction: %empty
+{
   assert (yychar == YYEMPTY);
   yylval = 0;
   yychar = 'b';
@@ -609,7 +610,7 @@ consistent-reduction: /*empty*/ {
 
 consistent-error:
   'a' { USE ($][1); }
-| /*empty*/ %prec 'a'
+| %empty %prec 'a'
 ;
 
 // Provide another context in which all rules are useful so that this
@@ -1561,11 +1562,11 @@ start:
   | empty_c2 'c'
   | empty_c3 'c'
   ;
-empty_a: %prec 'a' ;
-empty_b: %prec 'b' ;
-empty_c1: %prec 'c' ;
-empty_c2: %prec 'c' ;
-empty_c3: %prec 'd' ;
+empty_a:  %empty %prec 'a' ;
+empty_b:  %empty %prec 'b' ;
+empty_c1: %empty %prec 'c' ;
+empty_c2: %empty %prec 'c' ;
+empty_c3: %empty %prec 'd' ;
 ]])
 AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [], [ignore])
 AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
