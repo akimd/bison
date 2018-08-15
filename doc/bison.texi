@@ -13114,7 +13114,7 @@ Obsoleted by @code{%printer}.
 The function to delete a parser instance, produced by Bison in push mode;
 call this function to delete the memory associated with a parser.
 @xref{Parser Delete Function, ,The Parser Delete Function
-@code{yypstate_delete}}.
+@code{yypstate_delete}}.  Does nothing when called with a null pointer.
 (The current push parsing interface is experimental and may evolve.
 More user feedback will help to stabilize it.)
 @end deffn
