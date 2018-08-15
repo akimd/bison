@@ -296,7 +296,8 @@ m4_define([b4_public_types_define],
 
   // basic_symbol.
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()]b4_locations_if([
+    : location ()])[
   {}
 
   template <typename Base>
