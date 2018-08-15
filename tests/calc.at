@@ -49,15 +49,18 @@ m4_pushdef([AT_CALC_MAIN],
 #include <unistd.h>
 
 AT_SKEL_CC_IF([[
-/* A C++ ]AT_NAME_PREFIX[parse that simulates the C signature.  */
-int
-]AT_NAME_PREFIX[parse (]AT_PARAM_IF([semantic_value *result, int *count]))[
+namespace
 {
-  ]AT_NAME_PREFIX[::parser parser]AT_PARAM_IF([ (result, count)])[;
-#if ]AT_API_PREFIX[DEBUG
-  parser.set_debug_level (1);
-#endif
-  return parser.parse ();
+  /* A C++ ]AT_NAME_PREFIX[parse that simulates the C signature.  */
+  int
+  ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([semantic_value *result, int *count]))[
+  {
+    ]AT_NAME_PREFIX[::parser parser]AT_PARAM_IF([ (result, count)])[;
+  #if ]AT_API_PREFIX[DEBUG
+    parser.set_debug_level (1);
+  #endif
+    return parser.parse ();
+  }
 }
 ]])[
 
@@ -105,8 +108,6 @@ m4_pushdef([AT_CALC_LEX],
 [[#include <ctype.h>
 
 ]AT_YYLEX_DECLARE_EXTERN[
-static int get_char (]AT_YYLEX_FORMALS[);
-static void unget_char (]AT_YYLEX_PRE_FORMALS[ int c);
 
 ]AT_LOCATION_IF([
 static AT_YYLTYPE last_yylloc;
@@ -322,7 +323,7 @@ exp:
 ;
 %%
 
-static int
+int
 power (int base, int exponent)
 {
   int res = 1;
@@ -334,6 +335,8 @@ power (int base, int exponent)
 
 ]AT_SKEL_CC_IF(
 [AT_LOCATION_TYPE_IF([[
+namespace
+{
   std::ostream&
   operator<< (std::ostream& o, const Span& s)
   {
@@ -344,6 +347,7 @@ power (int base, int exponent)
       o << '-' << s.last.c - 1;
     return o;
   }
+}
 ]])])[
 ]AT_YYERROR_DEFINE[
 ]AT_DEFINES_IF([],
