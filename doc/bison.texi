@@ -10885,13 +10885,12 @@ use @code{yy::parser::token::FOO}.  The scanner can use
 
 @defcv {Type} {parser} {syntax_error}
 This class derives from @code{std::runtime_error}.  Throw instances of it
-from the scanner or from the user actions to raise parse errors.  This is
-equivalent with first
-invoking @code{error} to report the location and message of the syntax
-error, and then to invoke @code{YYERROR} to enter the error-recovery mode.
-But contrary to @code{YYERROR} which can only be invoked from user actions
-(i.e., written in the action itself), the exception can be thrown from
-function invoked from the user action.
+from the scanner or from the actions to raise parse errors.  This is
+equivalent with first invoking @code{error} to report the location and
+message of the syntax error, and then to invoke @code{YYERROR} to enter the
+error-recovery mode.  But contrary to @code{YYERROR} which can only be
+invoked from user actions (i.e., written in the action itself), the
+exception can be thrown from function invoked from the user action.
 @end defcv
 
 @deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
@@ -10911,6 +10910,10 @@ Run the syntactic analysis, and return 0 on success, 1 otherwise.
 The whole function is wrapped in a @code{try}/@code{catch} block, so that
 when an exception is thrown, the @code{%destructor}s are called to release
 the lookahead symbol, and the symbols pushed on the stack.
+
+Exception related code in the generated parser is protected by CPP guards
+(@code{#if}) and disabled when exceptions are not supported (i.e., passing
+@code{-fno-exceptions} to the C++ compiler).
 @end deftypemethod
 
 @deftypemethod {parser} {std::ostream&} debug_stream ()

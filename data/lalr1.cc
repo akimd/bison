@@ -424,6 +424,15 @@ m4_if(b4_prefix, [yy], [],
 # endif
 #endif
 
+// Whether we are compiled with exception support.
+#ifndef YY_EXCEPTIONS
+# if defined __GNUC__ && !defined __EXCEPTIONS
+#  define YY_EXCEPTIONS 0
+# else
+#  define YY_EXCEPTIONS 1
+# endif
+#endif
+
 ]b4_locations_if([dnl
 [#define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
 ]b4_yylloc_default_define])[
@@ -717,7 +726,9 @@ m4_if(b4_prefix, [yy], [],
     /// The return value of parse ().
     int yyresult;
 
+#if YY_EXCEPTIONS
     try
+#endif // YY_EXCEPTIONS
       {
     YYCDEBUG << "Starting parse\n";
 
@@ -755,17 +766,21 @@ b4_dollar_popdef])[]dnl
     if (yyla.empty ())
       {
         YYCDEBUG << "Reading a token: ";
+#if YY_EXCEPTIONS
         try
+#endif // YY_EXCEPTIONS
           {]b4_token_ctor_if([[
             symbol_type yylookahead (]b4_lex[);
             yyla.move (yylookahead);]], [[
             yyla.type = yytranslate_ (]b4_lex[);]])[
           }
+#if YY_EXCEPTIONS
         catch (const syntax_error& yyexc)
           {
             error (yyexc);
             goto yyerrlab1;
           }
+#endif // YY_EXCEPTIONS
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
@@ -835,7 +850,9 @@ b4_dollar_popdef])[]dnl
 
       // Perform the reduction.
       YY_REDUCE_PRINT (yyn);
+#if YY_EXCEPTIONS
       try
+#endif // YY_EXCEPTIONS
         {
           switch (yyn)
             {
@@ -844,11 +861,13 @@ b4_dollar_popdef])[]dnl
               break;
             }
         }
+#if YY_EXCEPTIONS
       catch (const syntax_error& yyexc)
         {
           error (yyexc);
           YYERROR;
         }
+#endif // YY_EXCEPTIONS
       YY_SYMBOL_PRINT ("-> $$ =", yylhs);
       yypop_ (yylen);
       yylen = 0;
@@ -973,6 +992,7 @@ b4_dollar_popdef])[]dnl
 
     return yyresult;
   }
+#if YY_EXCEPTIONS
     catch (...)
       {
         YYCDEBUG << "Exception caught: cleaning lookahead and stack\n";
@@ -988,6 +1008,7 @@ b4_dollar_popdef])[]dnl
           }
         throw;
       }
+#endif // YY_EXCEPTIONS
   }
 
   void

@@ -481,20 +481,20 @@ m4_define([AT_CHECK_SPACES],
 ])
 
 
-# AT_CHECK_CALC([BISON-OPTIONS])
-# ------------------------------
+# AT_CHECK_CALC([BISON-OPTIONS], [COMPILER-OPTIONS])
+# --------------------------------------------------
 # Start a testing chunk which compiles 'calc' grammar with
 # BISON-OPTIONS, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC],
-[m4_ifval([$2], [m4_fatal([$0: expected a single argument])])
+[m4_ifval([$3], [m4_fatal([$0: expected at most two arguments])])
 
 # We use integers to avoid dependencies upon the precision of doubles.
-AT_SETUP([Calculator $1])
+AT_SETUP([Calculator $1 $2])
 
 AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
-AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]]))
+AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]]), [], [$2])
 AT_CHECK_SPACES(m4_join([ ],
                         [calc.AT_SKEL_CC_IF([cc], [c])],
                         [AT_DEFINES_IF([calc.AT_SKEL_CC_IF([hh], [h])])]))
@@ -677,10 +677,11 @@ AT_CHECK_CALC([%skeleton "lalr1.cc" %defines])
 # Start a testing chunk which compiles 'calc' grammar with
 # the C++ skeleton, and performs several tests over the parser.
 m4_define([AT_CHECK_CALC_LALR1_CC],
-[AT_CHECK_CALC([%language "C++"] $@)])
+[AT_CHECK_CALC([%language "C++" $1], [$2])])
 
 AT_CHECK_CALC_LALR1_CC([])
 AT_CHECK_CALC_LALR1_CC([%locations])
+AT_CHECK_CALC_LALR1_CC([%locations], [$CXXFLAGS_NO_EXCEPTIONS])
 AT_CHECK_CALC_LALR1_CC([%locations %define api.location.type {Span}])
 AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %name-prefix "calc" %verbose %yacc])
 

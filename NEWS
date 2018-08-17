@@ -74,6 +74,13 @@ GNU Bison NEWS
      input: '0' | exp
                   ^^^
 
+*** C++: Generated parsers can be compiled with -fno-exceptions (lalr1.cc)
+
+  When compiled with exceptions disabled, the generated parsers no longer
+  uses try/catch clauses.
+
+  Currently only GCC and Clang are supported.
+
 ** Bug fixes
 
 *** GLR: Predicates support broken by #line directives
