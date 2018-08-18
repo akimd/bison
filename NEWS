@@ -86,6 +86,12 @@ GNU Bison NEWS
 
   were issued with #lines in the middle of C code.
 
+*** Printer and destructor with broken #line directives
+
+  The #line directives were not properly escaped when emitting the code for
+  %printer/%destructor, which resulted in compiler errors if there are
+  backslashes or double-quotes in the grammar file name.
+
 * Noteworthy changes in release 3.0.5 (2018-05-27) [stable]
 
 ** Bug fixes

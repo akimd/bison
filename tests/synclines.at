@@ -329,6 +329,97 @@ exp: '0';
 [input.y:2: #error "2"
 ])
 
+## ---------------------- ##
+## %destructor syncline.  ##
+## ---------------------- ##
+
+AT_TEST([%destructor syncline],
+[[%destructor {
+#error "2"
+} <ival>
+%{
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
+%}
+%union {
+  int ival;
+}
+%nterm <ival> exp
+%%
+exp: '0' { $$ = 0; };
+%%
+]],
+[input.y:2: #error "2"
+])
+
+
+## ------------------- ##
+## %printer syncline.  ##
+## ------------------- ##
+
+AT_TEST([%printer syncline],
+[[%printer {
+#error "2"
+} <ival>
+%debug
+%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
+%union {
+  int ival;
+}
+%nterm <ival> exp
+%%
+exp: '0' { $$ = 0; };
+%%
+]],
+[input.y:2: #error "2"
+])
+
+m4_popdef([AT_TEST])
+
+
+
+## ------------------ ##
+## syncline escapes.  ##
+## ------------------ ##
+
+# AT_TEST([SKELETON])
+# -------------------
+m4_pushdef([AT_TEST],
+[AT_SETUP([syncline escapes: $1])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
+AT_DATA_GRAMMAR([\"\\\"\".y],
+[[%skeleton "$1"
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%destructor {} <>
+%printer {} <>
+%%
+exp: '0'
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+]AT_MAIN_DEFINE[
+]])
+
+AT_FULL_COMPILE([\"\\\"\"])
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])
+
+AT_TEST([yacc.c])
+AT_TEST([glr.c])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
+
+m4_popdef([AT_TEST])
+
 
 
 ## ----------- ##
