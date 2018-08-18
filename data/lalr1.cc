@@ -717,8 +717,6 @@ m4_if(b4_prefix, [yy], [],
     /// The return value of parse ().
     int yyresult;
 
-    // FIXME: This shoud be completely indented.  It is not yet to
-    // avoid gratuitous conflicts when merging into the master branch.
     try
       {
     YYCDEBUG << "Starting parse\n";
@@ -748,7 +746,6 @@ b4_dollar_popdef])[]dnl
 
     // Backup.
   yybackup:
-
     // Try to take a decision without lookahead.
     yyn = yypact_[yystack_[0].state];
     if (yy_pact_value_is_default_ (yyn))
@@ -980,7 +977,7 @@ b4_dollar_popdef])[]dnl
       {
         YYCDEBUG << "Exception caught: cleaning lookahead and stack\n";
         // Do not try to display the values of the reclaimed symbols,
-        // as their printer might throw an exception.
+        // as their printers might throw an exception.
         if (!yyla.empty ())
           yy_destroy_ (YY_NULLPTR, yyla);
 
