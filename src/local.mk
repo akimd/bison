@@ -119,6 +119,7 @@ MOSTLYCLEANFILES += src/yacc
 
 src/yacc:
 	$(AM_V_GEN)rm -f $@ $@.tmp
+	$(AM_V_at)$(MKDIR_P) src
 	$(AM_V_at)echo '#! /bin/sh' >$@.tmp
 	$(AM_V_at)echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@.tmp
 	$(AM_V_at)chmod a+x $@.tmp
