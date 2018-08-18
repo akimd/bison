@@ -376,8 +376,7 @@ grammar_declaration:
       code_props_symbol_action_init (&code, $2, @2);
       code_props_translate_code (&code);
       {
-        symbol_list *list;
-        for (list = $3; list; list = list->next)
+        for (symbol_list *list = $3; list; list = list->next)
           symbol_list_code_props_set (list, $1, &code);
         symbol_list_free ($3);
       }
@@ -451,9 +450,8 @@ symbol_declaration:
     }
 | "%type" TAG symbols.1
     {
-      symbol_list *list;
       tag_seen = true;
-      for (list = $3; list; list = list->next)
+      for (symbol_list *list = $3; list; list = list->next)
         symbol_type_set (list->content.sym, $2, @2);
       symbol_list_free ($3);
     }
@@ -462,9 +460,8 @@ symbol_declaration:
 precedence_declaration:
   precedence_declarator tag.opt symbols.prec
     {
-      symbol_list *list;
       ++current_prec;
-      for (list = $3; list; list = list->next)
+      for (symbol_list *list = $3; list; list = list->next)
         {
           symbol_type_set (list->content.sym, current_type, @2);
           symbol_precedence_set (list->content.sym, current_prec, $1, @1);
@@ -728,7 +725,6 @@ epilogue.opt:
 static YYLTYPE
 lloc_default (YYLTYPE const *rhs, int n)
 {
-  int i;
   YYLTYPE loc;
 
   /* SGI MIPSpro 7.4.1m miscompiles "loc.start = loc.end = rhs[n].end;".
@@ -739,7 +735,7 @@ lloc_default (YYLTYPE const *rhs, int n)
   /* Ignore empty nonterminals the start of the right-hand side.
      Do not bother to ignore them at the end of the right-hand side,
      since empty nonterminals have the same end as their predecessors.  */
-  for (i = 1; i <= n; i++)
+  for (int i = 1; i <= n; i++)
     if (! equal_boundaries (rhs[i].start, rhs[i].end))
       {
         loc.start = rhs[i].start;
