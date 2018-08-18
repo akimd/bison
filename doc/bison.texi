@@ -39,18 +39,16 @@ Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018 Free Software
 Foundation, Inc.
 
 @quotation
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License,
-Version 1.3 or any later version published by the Free Software
-Foundation; with no Invariant Sections, with the Front-Cover texts
-being ``A GNU Manual,'' and with the Back-Cover Texts as in
-(a) below.  A copy of the license is included in the section entitled
-``GNU Free Documentation License.''
+Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.3 or any later
+version published by the Free Software Foundation; with no Invariant
+Sections, with the Front-Cover texts being ``A GNU Manual,'' and with the
+Back-Cover Texts as in (a) below.  A copy of the license is included in the
+section entitled ``GNU Free Documentation License.''
 
-(a) The FSF's Back-Cover Text is: ``You have the freedom to copy and
-modify this GNU manual.  Buying copies from the FSF
-supports it in developing GNU and promoting software
-freedom.''
+(a) The FSF's Back-Cover Text is: ``You have the freedom to copy and modify
+this GNU manual.  Buying copies from the FSF supports it in developing GNU
+and promoting software freedom.''
 @end quotation
 @end copying
 
@@ -110,7 +108,7 @@ Reference sections:
 * FAQ::                 Frequently Asked Questions
 * Table of Symbols::    All the keywords of the Bison language are explained.
 * Glossary::            Basic concepts are explained.
-* Copying This Manual:: License for copying this manual.
+* GNU Free Documentation License:: Copying and sharing this manual
 * Bibliography::        Publications cited in this manual.
 * Index of Terms::      Cross-references to the text.
 
@@ -390,7 +388,7 @@ Frequently Asked Questions
 
 Copying This Manual
 
-* Copying This Manual::         License for copying this manual.
+* GNU Free Documentation License:: Copying and sharing this manual
 
 @end detailmenu
 @end menu
@@ -13458,8 +13456,9 @@ the parser's start state.  A state can become unreachable during conflict
 resolution.  @xref{Unreachable States}.
 @end table
 
-@node Copying This Manual
-@appendix Copying This Manual
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+
 @include fdl.texi
 
 @node Bibliography
