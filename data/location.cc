@@ -73,12 +73,10 @@ m4_define([b4_position_define],
     unsigned column;
 
   private:
-    /// Compute max(min, lhs+rhs) (provided min <= lhs).
-    static unsigned add_ (unsigned lhs, int rhs, unsigned min)
+    /// Compute max(min, lhs+rhs).
+    static unsigned add_ (unsigned lhs, int rhs, int min)
     {
-      return (0 < rhs || -static_cast<unsigned>(rhs) < lhs
-              ? rhs + lhs
-              : min);
+      return static_cast<unsigned>(std::max(min, static_cast<int>(lhs) + rhs));
     }
   };
 
@@ -134,7 +132,7 @@ m4_define([b4_position_define],
    ** \param pos a reference to the position to redirect
    */
   template <typename YYChar>
-  inline std::basic_ostream<YYChar>&
+  std::basic_ostream<YYChar>&
   operator<< (std::basic_ostream<YYChar>& ostr, const position& pos)
   {
     if (pos.filename)
@@ -271,7 +269,7 @@ m4_define([b4_location_define],
    ** Avoid duplicate information.
    */
   template <typename YYChar>
-  inline std::basic_ostream<YYChar>&
+  std::basic_ostream<YYChar>&
   operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
     unsigned end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
