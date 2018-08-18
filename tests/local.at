@@ -750,12 +750,12 @@ m4_define([AT_QUELL_VALGRIND],
 m4_define([AT_COMPILE],
 [AT_CHECK([$BISON_C_WORKS], 0, ignore, ignore)
 AT_CHECK(m4_join([ ],
-                  [$CC $CFLAGS $CPPFLAGS],
-                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
-                  [-o $1],
-                  [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).c])],
-                  [m4_bmatch([$1], [[.]], [], [$LIBS])]),
-           0, [ignore], [ignore])])
+                 [$CC $CFLAGS $CPPFLAGS $3],
+                 [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
+                 [-o $1],
+                 [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).c])],
+                 [m4_bmatch([$1], [[.]], [], [$LIBS])]),
+         0, [ignore], [ignore])])
 
 
 # AT_COMPILE_CXX(OUTPUT, [SOURCES = OUTPUT.cc])
