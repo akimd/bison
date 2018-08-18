@@ -2,6 +2,16 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Backward incompatible changes
+
+  Compiling Bison now requires a C99 compiler---as announced during the
+  release of Bison 3.0, five years ago.  Generated parsers do not require a
+  C99 compiler.
+
+  Support for DJGPP, which have been unmaintained and untested for years, is
+  obsolete. Unless there is activity to revive it, the next release of Bison
+  will have it removed.
+
 ** New features
 
 *** Typed midrule actions
@@ -81,6 +91,23 @@ GNU Bison NEWS
 
   Currently only GCC and Clang are supported.
 
+** Documentation
+
+*** A demonstration of variants
+
+  A new example was added (installed in .../share/doc/bison/examples),
+  'variant.yy', which shows how to use (Bison) variants in C++.
+
+  The other examples were made nicer to read.
+
+*** Some features are no longer 'experimental'
+
+  The following features, mature enough, are no longer flagged as
+  experimental in the documentation: push parsers, default %printer and
+  %destructor (typed: <*> and untyped: <>), %define api.value.type union and
+  variant, Java parsers, XML output, LR family (lr, ielr, lalr), and
+  semantic predicates (%?).
+
 ** Bug fixes
 
 *** GLR: Predicates support broken by #line directives
@@ -103,6 +130,15 @@ GNU Bison NEWS
 
   The Intel compiler claims compatibility with GCC, yet rejects its _Pragma.
   Generated parsers now work around this.
+
+*** Various
+
+  There were several small fixes in the test suite and in the build system,
+  many warnings in bison and in the generated parsers were eliminated.  The
+  documentation also received its share of minor improvements.
+
+  Useless code was removed from C++ parsers, and some of the generated
+  constructors are more 'natural'.
 
 * Noteworthy changes in release 3.0.5 (2018-05-27) [stable]
 
