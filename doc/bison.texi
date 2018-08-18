@@ -5072,10 +5072,9 @@ For example:
 guarantees that, when the parser discards any user-defined symbol that has a
 semantic type tag other than @code{<character>}, it passes its semantic value
 to @code{free} by default.
-However, when the parser discards a @code{STRING1} or a @code{string1}, it also
-prints its line number to @code{stdout}.
-It performs only the second @code{%destructor} in this case, so it invokes
-@code{free} only once.
+However, when the parser discards a @code{STRING1} or a @code{string1},
+it uses the third @code{%destructor}, which frees it and
+prints its line number to @code{stdout} (@code{free} is invoked only once).
 Finally, the parser merely prints a message whenever it discards any symbol,
 such as @code{TAGLESS}, that has no semantic type tag.
 
