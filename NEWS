@@ -92,6 +92,11 @@ GNU Bison NEWS
   %printer/%destructor, which resulted in compiler errors if there are
   backslashes or double-quotes in the grammar file name.
 
+*** Portability on ICC
+
+  The Intel compiler claims compatibility with GCC, yet rejects its _Pragma.
+  Generated parsers now work around this.
+
 * Noteworthy changes in release 3.0.5 (2018-05-27) [stable]
 
 ** Bug fixes
