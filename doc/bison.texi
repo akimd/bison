@@ -86,8 +86,8 @@ Cover art by Etienne Suvasa.
 @end ifnottex
 
 @menu
-* Introduction::
-* Conditions::
+* Introduction::        What GNU Bison is.
+* Conditions::          Conditions for using Bison and its output.
 * Copying::             The GNU General Public License says
                           how you can copy and share Bison.
 
@@ -5327,9 +5327,6 @@ valid grammar.
 @cindex push parser
 @findex %define api.push-pull
 
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
-
 A pull parser is called once and it takes control until all its input
 is completely parsed.  A push parser, on the other hand, is called
 each time a new token is made available.
@@ -5907,8 +5904,6 @@ the @code{full} value was introduced in Bison 2.7
 
 @item Purpose: Request a pull parser, a push parser, or both.
 @xref{Push Decl, ,A Push Parser}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 @item Accepted Values: @code{pull}, @code{push}, @code{both}
 
@@ -6588,26 +6583,28 @@ int  yyparse (int *randomness);
 @section The Push Parser Function @code{yypush_parse}
 @findex yypush_parse
 
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
-
 You call the function @code{yypush_parse} to parse a single token.  This
 function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *@var{yyps})
-The value returned by @code{yypush_parse} is the same as for yyparse with
-the following exception: it returns @code{YYPUSH_MORE} if more input is
+The value returned by @code{yypush_parse} is the same as for @code{yyparse}
+with the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
+
+After @code{yypush_parse} returns a status other than @code{YYPUSH_MORE},
+the parser instance @code{yyps} may be reused for a new parse.
 @end deftypefun
+
+The fact that the parser state is reusable even after an error simplifies
+reuse.  For example, a calculator application which parses each input line
+as an expression can just keep reusing the same @code{yyps} even if an input
+was invalid.
 
 @node Pull Parser Function
 @section The Pull Parser Function @code{yypull_parse}
 @findex yypull_parse
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 You call the function @code{yypull_parse} to parse the rest of the input
 stream.  This function is available if the @samp{%define api.push-pull both}
@@ -6616,14 +6613,13 @@ declaration is used.
 
 @deftypefun int yypull_parse (yypstate *@var{yyps})
 The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
+
+The parser instance @code{yyps} may be reused for new parses.
 @end deftypefun
 
 @node Parser Create Function
 @section The Parser Create Function @code{yystate_new}
 @findex yypstate_new
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_new} to create a new parser instance.
 This function is available if either the @samp{%define api.push-pull push} or
@@ -6640,9 +6636,6 @@ allocated.
 @node Parser Delete Function
 @section The Parser Delete Function @code{yystate_delete}
 @findex yypstate_delete
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_delete} to delete a parser instance.
 function is available if either the @samp{%define api.push-pull push} or
@@ -13187,8 +13180,6 @@ The function to delete a parser instance, produced by Bison in push mode;
 call this function to delete the memory associated with a parser.
 @xref{Parser Delete Function, ,The Parser Delete Function
 @code{yypstate_delete}}.  Does nothing when called with a null pointer.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Function} yypstate_new
@@ -13196,8 +13187,6 @@ The function to create a parser instance, produced by Bison in push mode;
 call this function to create a new parser.
 @xref{Parser Create Function, ,The Parser Create Function
 @code{yypstate_new}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Function} yypull_parse
@@ -13205,16 +13194,12 @@ The parser function produced by Bison in push mode; call this function to
 parse the rest of the input stream.
 @xref{Pull Parser Function, ,The Pull Parser Function
 @code{yypull_parse}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Function} yypush_parse
 The parser function produced by Bison in push mode; call this function to
 parse a single token.  @xref{Push Parser Function, ,The Push Parser Function
 @code{yypush_parse}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Macro} YYRECOVERING
