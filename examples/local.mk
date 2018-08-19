@@ -26,9 +26,9 @@ AM_CXXFLAGS =							\
 doc = $(top_srcdir)/doc/bison.texi
 extexi = $(top_srcdir)/%D%/extexi
 if ENABLE_GCC_WARNINGS
-extexiFLAGS = --synclines
+EXTEXIFLAGS = --synclines
 endif
-extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(extexiFLAGS) $(doc) --
+extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(EXTEXIFLAGS) $(doc) --
 extracted =
 CLEANFILES += $(extracted) %D%/extracted.stamp
 %D%/extracted.stamp: $(doc) $(extexi)
