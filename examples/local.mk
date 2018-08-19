@@ -48,6 +48,12 @@ $(extracted): %D%/extracted.stamp
 examplesdir = $(docdir)/examples
 dist_examples_DATA = %D%/README %D%/variant.yy
 
+check_PROGRAMS += %D%/variant
+nodist_%C%_variant_SOURCES = %D%/variant.yy
+%C%_variant_CPPFLAGS = -I$(top_builddir)
+dist_TESTS += %D%/variant.test
+
+
 include %D%/calc++/local.mk
 include %D%/mfcalc/local.mk
 include %D%/rpcalc/local.mk

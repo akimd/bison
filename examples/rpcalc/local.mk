@@ -26,10 +26,10 @@ rpcalc_sources = $(rpcalc_extracted)
 extracted += $(rpcalc_extracted)
 
 check_PROGRAMS += %D%/rpcalc
-%C%_rpcalc_LDADD = -lm
 nodist_%C%_rpcalc_SOURCES = $(rpcalc_sources)
-
 %C%_rpcalc_CPPFLAGS = -I$(top_builddir)/%D%
+%C%_rpcalc_LDADD = -lm
+
 dist_TESTS += %D%/rpcalc.test
 
 ## ------------ ##

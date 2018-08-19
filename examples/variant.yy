@@ -50,7 +50,7 @@ typedef std::vector<std::string> strings_type;
     std::ostream&
     operator<< (std::ostream& o, const strings_type& ss)
     {
-      o << '(' << &ss << ") {";
+      o << '{';
       const char *sep = "";
       for (strings_type::const_iterator i = ss.begin(), end = ss.end();
            i != end; ++i)
@@ -75,7 +75,7 @@ typedef std::vector<std::string> strings_type;
 
 %token <::std::string> TEXT;
 %token <int> NUMBER;
-%printer { yyoutput << $$; } <*>;
+%printer { yyo << '(' << &$$ << ") " << $$; } <*>;
 %token END_OF_FILE 0;
 
 %type <::std::string> item;
@@ -114,7 +114,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc(0, stage + 1, stage + 1);
+    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:

@@ -27,7 +27,18 @@ exit=true
 cwd=`pwd`
 
 # The exercised program.
-prog=$cwd/examples/$me/$me
+for p in $cwd/examples/$me/$me $cwd/examples/$me
+do
+    if test -x "$p"; then
+        prog=$p
+        break
+    fi
+done
+if test x"$prog" = x; then
+    echo "$me: ERROR: cannot find program to exercise"
+    exit 1
+fi
+
 
 # cleanup
 # -------
