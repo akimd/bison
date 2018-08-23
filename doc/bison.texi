@@ -11113,18 +11113,17 @@ the file for parsing, instantiate the parser etc.), we recommend
 transforming the simple parsing context structure into a fully blown
 @dfn{parsing driver} class.
 
-The declaration of this driver class, @file{calc++-driver.hh}, is as
-follows.  The first part includes the CPP guard and imports the
-required standard library components, and the declaration of the parser
-class.
+The declaration of this driver class, in @file{driver.hh}, is as follows.  The
+first part includes the CPP guard and imports the required standard library
+components, and the declaration of the parser class.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
-#ifndef CALCXX_DRIVER_HH
-# define CALCXX_DRIVER_HH
+#ifndef DRIVER_HH
+# define DRIVER_HH
 # include <string>
 # include <map>
-# include "calc++-parser.hh"
+# include "parser.hh"
 @end example
 
 
@@ -11134,7 +11133,7 @@ the signature of @code{yylex} to be defined in the macro
 @code{YY_DECL}, and the C++ parser expects it to be declared.  We can
 factor both as follows.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
 // Tell Flex the lexer's prototype ...
 # define YY_DECL \
@@ -11147,7 +11146,7 @@ YY_DECL;
 The @code{calcxx_driver} class is then declared with its most obvious
 members.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
 // Conducting the whole scanning and parsing of Calc++.
 class calcxx_driver
@@ -11165,7 +11164,7 @@ public:
 To encapsulate the coordination with the Flex scanner, it is useful to have
 member functions to open and close the scanning phase.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
   // Handling the scanner.
   void scan_begin ();
@@ -11176,7 +11175,7 @@ member functions to open and close the scanning phase.
 @noindent
 Similarly for the parser itself.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
   // Run the parser on file F.
   // Return 0 on success.
@@ -11194,13 +11193,13 @@ dumping them on the standard error output, we will pass them to the
 compiler driver using the following two member functions.  Finally, we
 close the class declaration and CPP guard.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
   // Error handling.
   void error (const yy::location& l, const std::string& m);
   void error (const std::string& m);
 @};
-#endif // ! CALCXX_DRIVER_HH
+#endif // ! DRIVER_HH
 @end example
 
 The implementation of the driver is straightforward.  The @code{parse}
@@ -11208,10 +11207,10 @@ member function deserves some attention.  The @code{error} functions
 are simple stubs, they should actually register the located error
 messages and set error state.
 
-@comment file: calc++-driver.cc
+@comment file: calc++/driver.cc
 @example
-#include "calc++-driver.hh"
-#include "calc++-parser.hh"
+#include "driver.hh"
+#include "parser.hh"
 
 calcxx_driver::calcxx_driver ()
   : trace_scanning (false), trace_parsing (false)
@@ -11252,13 +11251,12 @@ calcxx_driver::error (const std::string& m)
 @node Calc++ Parser
 @subsubsection Calc++ Parser
 
-The grammar file @file{calc++-parser.yy} starts by asking for the C++
-deterministic parser skeleton, the creation of the parser header file,
-and specifies the name of the parser class.  Because the C++ skeleton
-changed several times, it is safer to require the version you designed
-the grammar for.
+The grammar file @file{parser.yy} starts by asking for the C++ deterministic
+parser skeleton, the creation of the parser header file, and specifies the
+name of the parser class.  Because the C++ skeleton changed several times,
+it is safer to require the version you designed the grammar for.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "@value{VERSION}"
@@ -11274,7 +11272,7 @@ require the variant-based interface.  To make sure we properly use it, we
 enable assertions.  To fully benefit from type-safety and more natural
 definition of ``symbol'', we enable @code{api.token.constructor}.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %define api.token.constructor
 %define api.value.type variant
@@ -11291,7 +11289,7 @@ driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will use a
 forward declaration of the driver.  @xref{%code Summary}.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %code requires
 @{
@@ -11305,7 +11303,7 @@ The driver is passed by reference to the parser and to the scanner.
 This provides a simple but effective pure interface, not relying on
 global variables.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 // The parsing context.
 %param @{ calcxx_driver& driver @}
@@ -11317,7 +11315,7 @@ first location's file name.  Afterward new locations are computed
 relatively to the previous locations: the file name will be
 propagated.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %locations
 %initial-action
@@ -11332,7 +11330,7 @@ Use the following two directives to enable parser tracing and verbose error
 messages.  However, verbose error messages can contain incorrect information
 (@pxref{LAC}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %define parse.trace
 %define parse.error verbose
@@ -11343,11 +11341,11 @@ messages.  However, verbose error messages can contain incorrect information
 The code between @samp{%code @{} and @samp{@}} is output in the
 @file{*.cc} file; it needs detailed knowledge about the driver.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %code
 @{
-# include "calc++-driver.hh"
+# include "driver.hh"
 @}
 @end example
 
@@ -11359,7 +11357,7 @@ allows for nicer error messages referring to ``end of file'' instead of
 avoid name clashes in the generated files (@pxref{Calc++ Scanner}), prefix
 tokens with @code{TOK_} (@pxref{%define Summary,,api.token.prefix}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %define api.token.prefix @{TOK_@}
 %token
@@ -11379,7 +11377,7 @@ Since we use variant-based semantic values, @code{%union} is not used, and
 both @code{%type} and @code{%token} expect genuine types, as opposed to type
 tags.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NUMBER "number"
@@ -11392,7 +11390,7 @@ recovery; the memory, for strings for instance, will be reclaimed by the
 regular destructors.  All the values are printed using their
 @code{operator<<} (@pxref{Printer Decl, , Printing Semantic Values}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %printer @{ yyoutput << $$; @} <*>;
 @end example
@@ -11401,7 +11399,7 @@ regular destructors.  All the values are printed using their
 The grammar itself is straightforward (@pxref{Location Tracking Calc, ,
 Location Tracking Calculator - @code{ltcalc}}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %%
 %start unit;
@@ -11431,7 +11429,7 @@ exp:
 Finally the @code{error} member function registers the errors to the
 driver.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 void
 yy::calcxx_parser::error (const location_type& l,
@@ -11447,15 +11445,15 @@ yy::calcxx_parser::error (const location_type& l,
 The Flex scanner first includes the driver declaration, then the
 parser's to get the set of defined tokens.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 %@{ /* -*- C++ -*- */
 # include <cerrno>
 # include <climits>
 # include <cstdlib>
 # include <string>
-# include "calc++-driver.hh"
-# include "calc++-parser.hh"
+# include "driver.hh"
+# include "parser.hh"
 
 // Work around an incompatibility in flex (at least versions
 // 2.5.31 through 2.5.33): it generates code that does
@@ -11481,7 +11479,7 @@ Because there is no @code{#include}-like feature we don't need
 actual file, this is not an interactive session with the user.
 Finally, we enable scanner tracing.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 %option noyywrap nounput batch debug noinput
 @end example
@@ -11489,7 +11487,7 @@ Finally, we enable scanner tracing.
 @noindent
 Abbreviations allow for more readable rules.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
@@ -11505,7 +11503,7 @@ cursor is adjusted, and each time blanks are matched, the begin cursor
 is moved onto the end cursor to effectively ignore the blanks
 preceding tokens.  Comments would be treated equally.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 @group
 %@{
@@ -11527,7 +11525,7 @@ preceding tokens.  Comments would be treated equally.
 @noindent
 The rules are simple.  The driver is used to report errors.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 "-"      return yy::calcxx_parser::make_MINUS  (loc);
 "+"      return yy::calcxx_parser::make_PLUS   (loc);
@@ -11556,7 +11554,7 @@ The rules are simple.  The driver is used to report errors.
 Finally, because the scanner-related driver's member-functions depend
 on the scanner's data, it is simpler to implement them in this file.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 @group
 void
@@ -11590,7 +11588,7 @@ The top level file, @file{calc++.cc}, poses no problem.
 @comment file: calc++.cc
 @example
 #include <iostream>
-#include "calc++-driver.hh"
+#include "driver.hh"
 
 @group
 int

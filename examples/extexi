@@ -65,8 +65,21 @@ sub message($)
     }
 }
 
-# basename => full file name for files we should extract.
-my %file_wanted;
+# The list of files we should extract.
+my @file_wanted;
+
+# Whether we should extract that file, and then under which path.
+sub file_wanted ($)
+{
+  my ($f) = @_;
+  for my $file (@file_wanted)
+    {
+      # No endswith in Perl 5...
+      return $file if $f eq substr($file, -length($f));
+    }
+  undef
+}
+
 
 sub process ($)
 {
@@ -89,9 +102,9 @@ sub process ($)
         {
           my $f = $1;
           $block = $2 || 1;
-          if ($file_wanted{$f})
+          if (file_wanted($f))
             {
-              $file = $file_wanted{$f};
+              $file = file_wanted($f);
               message(" GEN $file");
             }
           else
@@ -142,8 +155,7 @@ for my $arg (@ARGV)
 {
   if ($seen_dash)
     {
-      use File::Basename;
-      $file_wanted{basename($arg)} = $arg;
+      push @file_wanted, $arg;
     }
   elsif ($arg eq '--')
     {
