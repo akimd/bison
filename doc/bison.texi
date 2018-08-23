@@ -10854,14 +10854,13 @@ files, reused by other parsers as follows:
 @c   debug_stream.
 @c - Reporting errors
 
-The output files @file{@var{output}.hh} and @file{@var{output}.cc}
-declare and define the parser class in the namespace @code{yy}.  The
-class name defaults to @code{parser}, but may be changed using
-@samp{%define parser_class_name @{@var{name}@}}.  The interface of
-this class is detailed below.  It can be extended using the
-@code{%parse-param} feature: its semantics is slightly changed since
-it describes an additional member of the parser class, and an
-additional argument for its constructor.
+The output files @file{@var{output}.hh} and @file{@var{output}.cc} declare
+and define the parser class in the namespace @code{yy}.  The class name
+defaults to @code{parser}, but may be changed using @samp{%define
+parser_class_name @{@var{name}@}}.  The interface of this class is detailed
+below.  It can be extended using the @code{%parse-param} feature: its
+semantics is slightly changed since it describes an additional member of the
+parser class, and an additional argument for its constructor.
 
 @defcv {Type} {parser} {semantic_type}
 @defcvx {Type} {parser} {location_type}
@@ -11105,17 +11104,16 @@ seven * seven
 @c - A place to store error messages
 @c - A place for the result
 
-To support a pure interface with the parser (and the scanner) the
-technique of the ``parsing context'' is convenient: a structure
-containing all the data to exchange.  Since, in addition to simply
-launch the parsing, there are several auxiliary tasks to execute (open
-the file for parsing, instantiate the parser etc.), we recommend
-transforming the simple parsing context structure into a fully blown
-@dfn{parsing driver} class.
+To support a pure interface with the parser (and the scanner) the technique
+of the ``parsing context'' is convenient: a structure containing all the
+data to exchange.  Since, in addition to simply launch the parsing, there
+are several auxiliary tasks to execute (open the file for scanning,
+instantiate the parser etc.), we recommend transforming the simple parsing
+context structure into a fully blown @dfn{parsing driver} class.
 
-The declaration of this driver class, in @file{driver.hh}, is as follows.  The
-first part includes the CPP guard and imports the required standard library
-components, and the declaration of the parser class.
+The declaration of this driver class, in @file{driver.hh}, is as follows.
+The first part includes the CPP guard and imports the required standard
+library components, and the declaration of the parser class.
 
 @comment file: calc++/driver.hh
 @example
@@ -11128,32 +11126,29 @@ components, and the declaration of the parser class.
 
 
 @noindent
-Then comes the declaration of the scanning function.  Flex expects
-the signature of @code{yylex} to be defined in the macro
-@code{YY_DECL}, and the C++ parser expects it to be declared.  We can
-factor both as follows.
+Then comes the declaration of the scanning function.  Flex expects the
+signature of @code{yylex} to be defined in the macro @code{YY_DECL}, and the
+C++ parser expects it to be declared.  We can factor both as follows.
 
 @comment file: calc++/driver.hh
 @example
 // Tell Flex the lexer's prototype ...
 # define YY_DECL \
-  yy::calcxx_parser::symbol_type yylex (calcxx_driver& driver)
+  yy::parser::symbol_type yylex (driver& drv)
 // ... and declare it for the parser's sake.
 YY_DECL;
 @end example
 
 @noindent
-The @code{calcxx_driver} class is then declared with its most obvious
-members.
+The @code{driver} class is then declared with its most obvious members.
 
 @comment file: calc++/driver.hh
 @example
 // Conducting the whole scanning and parsing of Calc++.
-class calcxx_driver
+class driver
 @{
 public:
-  calcxx_driver ();
-  virtual ~calcxx_driver ();
+  driver ();
 
   std::map<std::string, int> variables;
 
@@ -11212,37 +11207,35 @@ messages and set error state.
 #include "driver.hh"
 #include "parser.hh"
 
-calcxx_driver::calcxx_driver ()
+driver::driver ()
   : trace_scanning (false), trace_parsing (false)
 @{
   variables["one"] = 1;
   variables["two"] = 2;
 @}
 
-calcxx_driver::~calcxx_driver ()
-@{
-@}
-
+@group
 int
-calcxx_driver::parse (const std::string &f)
+driver::parse (const std::string &f)
 @{
   file = f;
   scan_begin ();
-  yy::calcxx_parser parser (*this);
+  yy::parser parser (*this);
   parser.set_debug_level (trace_parsing);
   int res = parser.parse ();
   scan_end ();
   return res;
 @}
+@end group
 
 void
-calcxx_driver::error (const yy::location& l, const std::string& m)
+driver::error (const yy::location& l, const std::string& m)
 @{
   std::cerr << l << ": " << m << '\n';
 @}
 
 void
-calcxx_driver::error (const std::string& m)
+driver::error (const std::string& m)
 @{
   std::cerr << m << '\n';
 @}
@@ -11252,16 +11245,15 @@ calcxx_driver::error (const std::string& m)
 @subsubsection Calc++ Parser
 
 The grammar file @file{parser.yy} starts by asking for the C++ deterministic
-parser skeleton, the creation of the parser header file, and specifies the
-name of the parser class.  Because the C++ skeleton changed several times,
-it is safer to require the version you designed the grammar for.
+parser skeleton, the creation of the parser header file.  Because the C++
+skeleton changed several times, it is safer to require the version you
+designed the grammar for.
 
 @comment file: calc++/parser.yy
 @example
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "@value{VERSION}"
 %defines
-%define parser_class_name @{calcxx_parser@}
 @end example
 
 @noindent
@@ -11294,7 +11286,7 @@ forward declaration of the driver.  @xref{%code Summary}.
 %code requires
 @{
 # include <string>
-class calcxx_driver;
+class driver;
 @}
 @end example
 
@@ -11306,7 +11298,7 @@ global variables.
 @comment file: calc++/parser.yy
 @example
 // The parsing context.
-%param @{ calcxx_driver& driver @}
+%param @{ driver& drv @}
 @end example
 
 @noindent
@@ -11321,7 +11313,7 @@ propagated.
 %initial-action
 @{
   // Initialize the initial location.
-  @@$.begin.filename = @@$.end.filename = &driver.file;
+  @@$.begin.filename = @@$.end.filename = &drv.file;
 @};
 @end example
 
@@ -11338,8 +11330,8 @@ messages.  However, verbose error messages can contain incorrect information
 
 @noindent
 @findex %code
-The code between @samp{%code @{} and @samp{@}} is output in the
-@file{*.cc} file; it needs detailed knowledge about the driver.
+The code between @samp{%code @{} and @samp{@}} is output in the @file{*.cc}
+file; it needs detailed knowledge about the driver.
 
 @comment file: calc++/parser.yy
 @example
@@ -11403,14 +11395,14 @@ Location Tracking Calculator - @code{ltcalc}}).
 @example
 %%
 %start unit;
-unit: assignments exp  @{ driver.result = $2; @};
+unit: assignments exp  @{ drv.result = $2; @};
 
 assignments:
   %empty                 @{@}
 | assignments assignment @{@};
 
 assignment:
-  "identifier" ":=" exp @{ driver.variables[$1] = $3; @};
+  "identifier" ":=" exp @{ drv.variables[$1] = $3; @};
 
 %left "+" "-";
 %left "*" "/";
@@ -11420,22 +11412,20 @@ exp:
 | exp "*" exp   @{ $$ = $1 * $3; @}
 | exp "/" exp   @{ $$ = $1 / $3; @}
 | "(" exp ")"   @{ std::swap ($$, $2); @}
-| "identifier"  @{ $$ = driver.variables[$1]; @}
+| "identifier"  @{ $$ = drv.variables[$1]; @}
 | "number"      @{ std::swap ($$, $1); @};
 %%
 @end example
 
 @noindent
-Finally the @code{error} member function registers the errors to the
-driver.
+Finally the @code{error} member function registers the errors to the driver.
 
 @comment file: calc++/parser.yy
 @example
 void
-yy::calcxx_parser::error (const location_type& l,
-                          const std::string& m)
+yy::parser::error (const location_type& l, const std::string& m)
 @{
-  driver.error (l, m);
+  drv.error (l, m);
 @}
 @end example
 
@@ -11527,26 +11517,26 @@ The rules are simple.  The driver is used to report errors.
 
 @comment file: calc++/scanner.ll
 @example
-"-"      return yy::calcxx_parser::make_MINUS  (loc);
-"+"      return yy::calcxx_parser::make_PLUS   (loc);
-"*"      return yy::calcxx_parser::make_STAR   (loc);
-"/"      return yy::calcxx_parser::make_SLASH  (loc);
-"("      return yy::calcxx_parser::make_LPAREN (loc);
-")"      return yy::calcxx_parser::make_RPAREN (loc);
-":="     return yy::calcxx_parser::make_ASSIGN (loc);
+"-"      return yy::parser::make_MINUS  (loc);
+"+"      return yy::parser::make_PLUS   (loc);
+"*"      return yy::parser::make_STAR   (loc);
+"/"      return yy::parser::make_SLASH  (loc);
+"("      return yy::parser::make_LPAREN (loc);
+")"      return yy::parser::make_RPAREN (loc);
+":="     return yy::parser::make_ASSIGN (loc);
 
 @group
 @{int@}      @{
   errno = 0;
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    driver.error (loc, "integer is out of range");
-  return yy::calcxx_parser::make_NUMBER (n, loc);
+    drv.error (loc, "integer is out of range");
+  return yy::parser::make_NUMBER (n, loc);
 @}
 @end group
-@{id@}       return yy::calcxx_parser::make_IDENTIFIER (yytext, loc);
-.          driver.error (loc, "invalid character");
-<<EOF>>    return yy::calcxx_parser::make_END (loc);
+@{id@}       return yy::parser::make_IDENTIFIER (yytext, loc);
+.          drv.error (loc, "invalid character");
+<<EOF>>    return yy::parser::make_END (loc);
 %%
 @end example
 
@@ -11558,7 +11548,7 @@ on the scanner's data, it is simpler to implement them in this file.
 @example
 @group
 void
-calcxx_driver::scan_begin ()
+driver::scan_begin ()
 @{
   yy_flex_debug = trace_scanning;
   if (file.empty () || file == "-")
@@ -11573,7 +11563,7 @@ calcxx_driver::scan_begin ()
 
 @group
 void
-calcxx_driver::scan_end ()
+driver::scan_end ()
 @{
   fclose (yyin);
 @}
@@ -11595,14 +11585,14 @@ int
 main (int argc, char *argv[])
 @{
   int res = 0;
-  calcxx_driver driver;
+  driver drv;
   for (int i = 1; i < argc; ++i)
     if (argv[i] == std::string ("-p"))
-      driver.trace_parsing = true;
+      drv.trace_parsing = true;
     else if (argv[i] == std::string ("-s"))
-      driver.trace_scanning = true;
-    else if (!driver.parse (argv[i]))
-      std::cout << driver.result << '\n';
+      drv.trace_scanning = true;
+    else if (!drv.parse (argv[i]))
+      std::cout << drv.result << '\n';
     else
       res = 1;
   return res;
