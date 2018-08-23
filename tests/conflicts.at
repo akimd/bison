@@ -394,6 +394,10 @@ AT_CLEANUP
 ## parse.error=verbose and consistent errors.  ##
 ## ------------------------------------------- ##
 
+AT_CONSISTENT_ERRORS_CHECK([BISON-DIRECTIVE],
+                           [GRAMMAR],
+                           [INPUT],
+                           [UNEXPECTED-TOKEN], [EXPECTED-TOKEN])
 m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
 
 AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
@@ -421,6 +425,14 @@ AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 }
 
 ]AT_SKEL_CC_IF([[%defines]], [[%define api.pure]])])[
+
+]AT_YACC_IF([[
+%code {
+  #if defined __GNUC__ && 8 <= __GNUC__
+  # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+  #endif
+}
+]])[
 
 ]$1[
 
