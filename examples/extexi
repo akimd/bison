@@ -116,17 +116,16 @@ sub process ($)
         {
           if (/^\@(small)?example$/)
             {
-              $input .= "\n" unless defined $input;
               # Bison supports synclines, but not Flex.
               $input .= sprintf ("#line %s \"$in\"\n", $. + 1)
                 if $synclines && $file =~ /\.[chy]*$/;
-              next;
             }
           elsif (/^\@end (small)?example$/)
             {
               die "no contents: $file"
                 if $input eq "";
 
+              $file{$file}{$block} .= "\n" if defined $file{$file}{$block};
               $file{$file}{$block} .= normalize($input);
               $file = $input = undef;
               ++$block;
