@@ -11164,7 +11164,10 @@ member functions to open and close the scanning phase.
   // Handling the scanner.
   void scan_begin ();
   void scan_end ();
+  // Whether to generate scanner debug traces.
   bool trace_scanning;
+  // The token's location used by the scanner.
+  yy::location location;
 @end example
 
 @noindent
@@ -11176,7 +11179,6 @@ Similarly for the parser itself.
   // Return 0 on success.
   int parse (const std::string& f);
   // The name of the file being parsed.
-  // Used later to pass the file name to the location tracker.
   std::string file;
   // Whether parser traces should be generated.
   bool trace_parsing;
@@ -11219,6 +11221,7 @@ int
 driver::parse (const std::string &f)
 @{
   file = f;
+  location.initialize (&file);
   scan_begin ();
   yy::parser parser (*this);
   parser.set_debug_level (trace_parsing);
@@ -11302,19 +11305,11 @@ global variables.
 @end example
 
 @noindent
-Then we request location tracking, and initialize the
-first location's file name.  Afterward new locations are computed
-relatively to the previous locations: the file name will be
-propagated.
+Then we request location tracking.
 
 @comment file: calc++/parser.yy
 @example
 %locations
-%initial-action
-@{
-  // Initialize the initial location.
-  @@$.begin.filename = @@$.end.filename = &drv.file;
-@};
 @end example
 
 @noindent
@@ -11457,9 +11452,6 @@ parser's to get the set of defined tokens.
 #if defined __GNUC__ && 7 <= __GNUC__
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
-
-// The location of the current token.
-static yy::location loc;
 %@}
 @end example
 
@@ -11504,6 +11496,8 @@ preceding tokens.  Comments would be treated equally.
 %%
 @group
 %@{
+  // A handy shortcut to the location held by the driver.
+  yy::location& loc = drv.location;
   // Code run each time yylex is called.
   loc.step ();
 %@}
