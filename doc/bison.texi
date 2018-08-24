@@ -11156,6 +11156,19 @@ public:
 @end example
 
 @noindent
+The main routine is of course calling the parser.
+
+@comment file: calc++/driver.hh
+@example
+  // Run the parser on file F.  Return 0 on success.
+  int parse (const std::string& f);
+  // The name of the file being parsed.
+  std::string file;
+  // Whether to generate parser debug traces.
+  bool trace_parsing;
+@end example
+
+@noindent
 To encapsulate the coordination with the Flex scanner, it is useful to have
 member functions to open and close the scanning phase.
 
@@ -11168,54 +11181,31 @@ member functions to open and close the scanning phase.
   bool trace_scanning;
   // The token's location used by the scanner.
   yy::location location;
-@end example
-
-@noindent
-Similarly for the parser itself.
-
-@comment file: calc++/driver.hh
-@example
-  // Run the parser on file F.
-  // Return 0 on success.
-  int parse (const std::string& f);
-  // The name of the file being parsed.
-  std::string file;
-  // Whether parser traces should be generated.
-  bool trace_parsing;
-@end example
-
-@noindent
-To demonstrate pure handling of parse errors, instead of simply
-dumping them on the standard error output, we will pass them to the
-compiler driver using the following two member functions.  Finally, we
-close the class declaration and CPP guard.
-
-@comment file: calc++/driver.hh
-@example
-  // Error handling.
-  void error (const yy::location& l, const std::string& m);
-  void error (const std::string& m);
 @};
 #endif // ! DRIVER_HH
 @end example
 
-The implementation of the driver is straightforward.  The @code{parse}
-member function deserves some attention.  The @code{error} functions
-are simple stubs, they should actually register the located error
-messages and set error state.
+The implementation of the driver (@file{driver.cc}) is straightforward.
 
 @comment file: calc++/driver.cc
 @example
 #include "driver.hh"
 #include "parser.hh"
 
+@group
 driver::driver ()
-  : trace_scanning (false), trace_parsing (false)
+  : trace_parsing (false), trace_scanning (false)
 @{
   variables["one"] = 1;
   variables["two"] = 2;
 @}
+@end group
+@end example
 
+The @code{parse} member function deserves some attention.
+
+@comment file: calc++/driver.cc
+@example
 @group
 int
 driver::parse (const std::string &f)
@@ -11230,18 +11220,6 @@ driver::parse (const std::string &f)
   return res;
 @}
 @end group
-
-void
-driver::error (const yy::location& l, const std::string& m)
-@{
-  std::cerr << l << ": " << m << '\n';
-@}
-
-void
-driver::error (const std::string& m)
-@{
-  std::cerr << m << '\n';
-@}
 @end example
 
 @node Calc++ Parser
@@ -11286,11 +11264,12 @@ forward declaration of the driver.  @xref{%code Summary}.
 
 @comment file: calc++/parser.yy
 @example
-%code requires
-@{
-# include <string>
-class driver;
+@group
+%code requires @{
+  # include <string>
+  class driver;
 @}
+@end group
 @end example
 
 @noindent
@@ -11330,10 +11309,11 @@ file; it needs detailed knowledge about the driver.
 
 @comment file: calc++/parser.yy
 @example
-%code
-@{
+@group
+%code @{
 # include "driver.hh"
 @}
+@end group
 @end example
 
 
@@ -11413,14 +11393,14 @@ exp:
 @end example
 
 @noindent
-Finally the @code{error} member function registers the errors to the driver.
+Finally the @code{error} member function reports the errors.
 
 @comment file: calc++/parser.yy
 @example
 void
 yy::parser::error (const location_type& l, const std::string& m)
 @{
-  drv.error (l, m);
+  std::cerr << l << ": " << m << '\n';
 @}
 @end example
 
@@ -11524,12 +11504,18 @@ The rules are simple.  The driver is used to report errors.
   errno = 0;
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    drv.error (loc, "integer is out of range");
+    throw yy::parser::syntax_error (loc, "integer is out of range: "
+                                    + std::string(yytext));
   return yy::parser::make_NUMBER (n, loc);
 @}
 @end group
 @{id@}       return yy::parser::make_IDENTIFIER (yytext, loc);
-.          drv.error (loc, "invalid character");
+@group
+.          @{
+             throw yy::parser::syntax_error
+               (loc, "invalid character: " + std::string(yytext));
+@}
+@end group
 <<EOF>>    return yy::parser::make_END (loc);
 %%
 @end example
@@ -11549,7 +11535,7 @@ driver::scan_begin ()
     yyin = stdin;
   else if (!(yyin = fopen (file.c_str (), "r")))
     @{
-      error ("cannot open " + file + ": " + strerror(errno));
+      std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';
       exit (EXIT_FAILURE);
     @}
 @}
