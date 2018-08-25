@@ -320,7 +320,7 @@ b4_location_define])])[
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, symbol_type& sym);
       /// Assignment, needed by push_back.
-      stack_symbol_type& operator= (const stack_symbol_type& that);
+      stack_symbol_type& operator= (stack_symbol_type& that);
     };
 
     /// Stack type.
@@ -603,11 +603,11 @@ m4_if(b4_prefix, [yy], [],
   }
 
   ]b4_parser_class_name[::stack_symbol_type&
-  ]b4_parser_class_name[::stack_symbol_type::operator= (const stack_symbol_type& that)
+  ]b4_parser_class_name[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
     state = that.state;
     ]b4_variant_if([b4_symbol_variant([that.type_get ()],
-                                      [value], [copy], [that.value])],
+                                      [value], [move], [that.value])],
                    [[value = that.value;]])[]b4_locations_if([
     location = that.location;])[
     return *this;
