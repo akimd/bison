@@ -11066,14 +11066,13 @@ use characters such as @code{':'}, they must be declared with @code{%token}.
 @node A Complete C++ Example
 @subsection A Complete C++ Example
 
-This section demonstrates the use of a C++ parser with a simple but
-complete example.  This example should be available on your system,
-ready to compile, in the directory @dfn{.../bison/examples/calc++}.  It
-focuses on the use of Bison, therefore the design of the various C++
-classes is very naive: no accessors, no encapsulation of members etc.
-We will use a Lex scanner, and more precisely, a Flex scanner, to
-demonstrate the various interactions.  A hand-written scanner is
-actually easier to interface with.
+This section demonstrates the use of a C++ parser with a simple but complete
+example.  This example should be available on your system, ready to compile,
+in the directory @dfn{.../share/doc/bison/examples/calc++}.  It focuses on
+the use of Bison, therefore the design of the various C++ classes is very
+naive: no accessors, no encapsulation of members etc.  We will use a Lex
+scanner, and more precisely, a Flex scanner, to demonstrate the various
+interactions.  A hand-written scanner is actually easier to interface with.
 
 @menu
 * Calc++ --- C++ Calculator::   The specifications
@@ -11086,11 +11085,10 @@ actually easier to interface with.
 @node Calc++ --- C++ Calculator
 @subsubsection Calc++ --- C++ Calculator
 
-Of course the grammar is dedicated to arithmetics, a single
-expression, possibly preceded by variable assignments.  An
-environment containing possibly predefined variables such as
-@code{one} and @code{two}, is exchanged with the parser.  An example
-of valid input follows.
+Of course the grammar is dedicated to arithmetics, a single expression,
+possibly preceded by variable assignments.  An environment containing
+possibly predefined variables such as @code{one} and @code{two}, is
+exchanged with the parser.  An example of valid input follows.
 
 @example
 three := 3

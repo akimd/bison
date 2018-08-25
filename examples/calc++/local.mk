@@ -83,3 +83,4 @@ endif
 
 calcxxdir = $(docdir)/examples/calc++
 calcxx_DATA = $(calcxx_extracted)
+dist_calcxx_DATA = %D%/README %D%/Makefile

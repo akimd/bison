@@ -5,18 +5,19 @@ A C example of a multi-function calculator.  Extracted from the
 documentation.
 
 * calc++
-A C++ version of the canonical example for parsers: a calculator.
-Also uses Flex for the scanner.  Extracted from the documentation.
+A C++ version of the canonical example for parsers: a calculator.  Also uses
+Flex for the scanner.  Extracted from the documentation.
 
 * variant.yy
-A C++ example that uses variants (they allow to use any C++ type as
-semantic value type) and symbol constructors (they ensure consistency
-between declared token type and effective semantic value).
+A C++ example that uses variants (they allow to use any C++ type as semantic
+value type) and symbol constructors (they ensure consistency between
+declared token type and effective semantic value).
 
 -----
 
 Local Variables:
 mode: outline
+fill-column: 76
 End:
 
 Copyright (C) 2018 Free Software Foundation, Inc.
