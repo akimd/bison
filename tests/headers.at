@@ -178,7 +178,7 @@ AT_TEST([%define api.pure %define api.push-pull both])
 
 AT_TEST([%language "c++"])
 AT_TEST([%locations %debug %language "c++"])
-# AT_TEST([%language "c++" %define api.value.type variant %define parse.assert])
+AT_TEST([%language "c++" %define api.value.type variant %define parse.assert])
 
 AT_TEST([%locations %language "c++" %glr-parser])
 
@@ -193,8 +193,8 @@ AT_SETUP([Several parsers])
 # AT_TEST([PREFIX], [DIRECTIVES])
 # -------------------------------
 # Generate and compile to *.o.  Make sure there is no (allowed) YY*
-# nor yy* identifiers in the header.  Check that headers can be
-# compiled by a C++ compiler.
+# nor yy* identifiers in the header after applying api.prefix.  Check
+# that headers can be compiled by a C++ compiler.
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix {$1_} $2])
 AT_DATA_GRAMMAR([$1.y],

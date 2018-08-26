@@ -159,6 +159,7 @@ m4_define([b4_shared_declarations],
 ]b4_variant_if([b4_variant_includes])[
 
 ]b4_attribute_define[
+]b4_null_define[
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
