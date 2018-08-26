@@ -105,6 +105,85 @@ AT_PARSER_CHECK([./caller])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
+
+
+## -------------- ##
+## Sane headers.  ##
+## -------------- ##
+
+# AT_TEST([DIRECTIVES])
+# ---------------------
+# Check that headers are self-contained and protected againt multiple
+# inclusions.
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([Sane headers: $1])
+
+AT_BISON_OPTION_PUSHDEFS([$1])
+AT_DATA_GRAMMAR([input.y],
+[[$1
+%error-verbose
+]AT_VARIANT_IF([], [%union {int integer;}])[
+%code {
+#include <stdio.h>
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%%
+exp:
+  'x' { printf ("x\n"); }
+;
+
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["x"])[
+]])
+
+AT_BISON_CHECK([-d -o input.AT_SKEL_CC_IF([cc], [c]) input.y])
+
+AT_LANG_COMPILE([input.o])
+
+AT_DATA([main.cc],
+[AT_DATA_SOURCE_PROLOGUE
+AT_MAIN_DEFINE
+])
+
+# Check that the headers are self-contained, and protected against
+# multiple inclusions.  While at it, check they are sane for C++.
+for h in *.AT_SKEL_CC_IF([hh], [h])
+do
+  # No shell expansion with AT_DATA.
+  cat >$h.AT_SKEL_CC_IF([cc], [c]) <<EOF
+AT_DATA_SOURCE_PROLOGUE
+#include "$h"
+#include "$h"
+EOF
+  AT_LANG_COMPILE([$h.o])
+done
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])# AT_TEST
+
+AT_TEST([])
+AT_TEST([%locations %debug])
+
+AT_TEST([%glr-parser])
+AT_TEST([%locations %debug %glr-parser])
+
+AT_TEST([%define api.pure])
+AT_TEST([%define api.push-pull both])
+AT_TEST([%define api.pure %define api.push-pull both])
+
+AT_TEST([%language "c++"])
+AT_TEST([%locations %debug %language "c++"])
+# AT_TEST([%language "c++" %define api.value.type variant %define parse.assert])
+
+AT_TEST([%locations %language "c++" %glr-parser])
+
+
+
 ## ----------------- ##
 ## Several parsers.  ##
 ## ----------------- ##
@@ -114,8 +193,8 @@ AT_SETUP([Several parsers])
 # AT_TEST([PREFIX], [DIRECTIVES])
 # -------------------------------
 # Generate and compile to *.o.  Make sure there is no (allowed) YY*
-# nor yy* identifiers in the header.  Check that headers are
-# self-contained, and can be compiled by a C++ compiler.
+# nor yy* identifiers in the header.  Check that headers can be
+# compiled by a C++ compiler.
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%define api.prefix {$1_} $2])
 AT_DATA_GRAMMAR([$1.y],
@@ -212,13 +291,15 @@ AT_TEST([x7], [%define api.push-pull both])
 AT_TEST([x8], [%define api.pure %define api.push-pull both])
 #AT_TEST([x5], [%locations %language "c++" %glr-parser])
 
-# Check there is no 'yy' left.
-# C++ output relies on namespaces and still uses yy a lot.
+# Check that api.prefix works properly:
 #
-# Check there is no 'YY' left.
-# Ignore comments, YYChar (template parameter), YYPUSH_MORE(_DEFINED)?
-# (constant definition), YY_\w+_INCLUDED (header guards).
-# YYDEBUG (not renamed) can be read, but not changed.
+# - no 'yy' left.
+#   C++ output relies on namespaces and still uses yy a lot.
+#
+# - no 'YY' left.
+#   Ignore comments, YYChar (template parameter), YYPUSH_MORE(_DEFINED)?
+#   (constant definition), YY_\w+_INCLUDED (header guards).
+#   YYDEBUG (not renamed) can be read, but not changed.
 AT_CHECK([[$PERL -n -0777 -e '
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
@@ -244,19 +325,6 @@ AT_CHECK([[$PERL -n -0777 -e '
     }
   }
 ' -- *.hh *.h]])
-
-# Check that the headers are self-contained, and protected against
-# multiple inclusions.  While at it, check they are sane for C++.
-for h in *.h *.hh
-do
-  # No shell expansion with AT_DATA.
-  cat >$h.cc <<EOF
-AT_DATA_SOURCE_PROLOGUE
-#include "$h"
-#include "$h"
-EOF
-  AT_COMPILE_CXX([$h.o])
-done
 
 # Do this late, so that other checks have been performed.
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
