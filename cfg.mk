@@ -173,7 +173,7 @@ $(call exclude,                                                         \
   prohibit_magic_number_exit=^doc/bison.texi$$                          \
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$      \
   prohibit_strcmp=^doc/bison\.texi|tests/local\.at$$                    \
-  prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git             \
+  prohibit_tab_based_indentation=\.(am|mk)$$|^djgpp/|^\.git|Makefile$$  \
   require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$            \
   space_before_open_paren=^(data/|djgpp/)                               \
   two_space_separator_in_usage=^(bootstrap)                             \
