@@ -1,6 +1,6 @@
 # C++ GLR skeleton for Bison
 
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -216,15 +216,15 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
     return ::yyparse (*this]b4_user_args[);
   }
 
-]b4_token_ctor_if([], [b4_yytranslate_define
-b4_public_types_define])[
+]b4_token_ctor_if([], [b4_yytranslate_define([cc])
+b4_public_types_define([cc])])[
 
 #if ]b4_api_PREFIX[DEBUG
   /*--------------------.
   | Print this symbol.  |
   `--------------------*/
 
-  inline void
+  void
   ]b4_parser_class_name[::yy_symbol_value_print_ (int yytype,
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
@@ -392,7 +392,7 @@ m4_popdef([b4_parse_param])dnl
 b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
-             [2002-2015])[
+             [2002-2015, 2018])[
 
 // C++ GLR parser skeleton written by Akim Demaille.
 

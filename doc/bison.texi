@@ -35,22 +35,20 @@
 This manual (@value{UPDATED}) is for GNU Bison (version
 @value{VERSION}), the GNU parser generator.
 
-Copyright @copyright{} 1988-1993, 1995, 1998-2015 Free Software
+Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018 Free Software
 Foundation, Inc.
 
 @quotation
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License,
-Version 1.3 or any later version published by the Free Software
-Foundation; with no Invariant Sections, with the Front-Cover texts
-being ``A GNU Manual,'' and with the Back-Cover Texts as in
-(a) below.  A copy of the license is included in the section entitled
-``GNU Free Documentation License.''
+Permission is granted to copy, distribute and/or modify this document under
+the terms of the GNU Free Documentation License, Version 1.3 or any later
+version published by the Free Software Foundation; with no Invariant
+Sections, with the Front-Cover texts being ``A GNU Manual,'' and with the
+Back-Cover Texts as in (a) below.  A copy of the license is included in the
+section entitled ``GNU Free Documentation License.''
 
-(a) The FSF's Back-Cover Text is: ``You have the freedom to copy and
-modify this GNU manual.  Buying copies from the FSF
-supports it in developing GNU and promoting software
-freedom.''
+(a) The FSF's Back-Cover Text is: ``You have the freedom to copy and modify
+this GNU manual.  Buying copies from the FSF supports it in developing GNU
+and promoting software freedom.''
 @end quotation
 @end copying
 
@@ -88,8 +86,8 @@ Cover art by Etienne Suvasa.
 @end ifnottex
 
 @menu
-* Introduction::
-* Conditions::
+* Introduction::        What GNU Bison is.
+* Conditions::          Conditions for using Bison and its output.
 * Copying::             The GNU General Public License says
                           how you can copy and share Bison.
 
@@ -110,7 +108,7 @@ Reference sections:
 * FAQ::                 Frequently Asked Questions
 * Table of Symbols::    All the keywords of the Bison language are explained.
 * Glossary::            Basic concepts are explained.
-* Copying This Manual:: License for copying this manual.
+* GNU Free Documentation License:: Copying and sharing this manual
 * Bibliography::        Publications cited in this manual.
 * Index of Terms::      Cross-references to the text.
 
@@ -143,7 +141,7 @@ Writing GLR Parsers
 
 Examples
 
-* RPN Calc::               Reverse polish notation calculator;
+* RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
 * Infix Calc::             Infix (algebraic) notation calculator.
                              Operator precedence is introduced.
@@ -225,6 +223,7 @@ Defining Language Semantics
 Actions in Mid-Rule
 
 * Using Mid-Rule Actions::       Putting an action in the middle of a rule.
+* Typed Mid-Rule Actions::       Specifying the semantic type of their values.
 * Mid-Rule Action Translation::  How mid-rule actions are actually processed.
 * Mid-Rule Conflicts::           Mid-rule actions can cause conflicts.
 
@@ -389,7 +388,7 @@ Frequently Asked Questions
 
 Copying This Manual
 
-* Copying This Manual::         License for copying this manual.
+* GNU Free Documentation License:: Copying and sharing this manual
 
 @end detailmenu
 @end menu
@@ -1493,7 +1492,7 @@ simple program, all the rest of the program can go here.
 @cindex examples, simple
 
 Now we show and explain several sample programs written using Bison: a
-reverse polish notation calculator, an algebraic (infix) notation
+Reverse Polish Notation calculator, an algebraic (infix) notation
 calculator --- later extended to track ``locations'' ---
 and a multi-function calculator.  All
 produce usable, though limited, interactive desk-top calculators.
@@ -1503,7 +1502,7 @@ languages are written the same way.  You can copy these examples into a
 source file to try them.
 
 @menu
-* RPN Calc::               Reverse polish notation calculator;
+* RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
 * Infix Calc::             Infix (algebraic) notation calculator.
                              Operator precedence is introduced.
@@ -1516,13 +1515,12 @@ source file to try them.
 
 @node RPN Calc
 @section Reverse Polish Notation Calculator
-@cindex reverse polish notation
-@cindex polish notation calculator
+@cindex Reverse Polish Notation
 @cindex @code{rpcalc}
 @cindex calculator, simple
 
-The first example is that of a simple double-precision @dfn{reverse polish
-notation} calculator (a calculator using postfix operators).  This example
+The first example is that of a simple double-precision @dfn{Reverse Polish
+Notation} calculator (a calculator using postfix operators).  This example
 provides a good starting point, since operator precedence is not an issue.
 The second example will illustrate how operator precedence is handled.
 
@@ -1542,12 +1540,12 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 @node Rpcalc Declarations
 @subsection Declarations for @code{rpcalc}
 
-Here are the C and Bison declarations for the reverse polish notation
+Here are the C and Bison declarations for the Reverse Polish Notation
 calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
 
 @comment file: rpcalc.y
 @example
-/* Reverse polish notation calculator.  */
+/* Reverse Polish Notation calculator.  */
 
 @group
 %@{
@@ -1598,7 +1596,7 @@ declared is @code{NUM}, the token type for numeric constants.
 @node Rpcalc Rules
 @subsection Grammar Rules for @code{rpcalc}
 
-Here are the grammar rules for the reverse polish notation calculator.
+Here are the grammar rules for the Reverse Polish Notation calculator.
 
 @comment file: rpcalc.y
 @example
@@ -2884,7 +2882,7 @@ can be done with two @var{Prologue} blocks, one before and one after the
 
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -2936,7 +2934,7 @@ Look again at the example of the previous section:
 
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3000,7 +2998,7 @@ Let's go ahead and add the new @code{YYLTYPE} definition and the
 
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3053,7 +3051,7 @@ Thus, they belong in one or more @code{%code requires}:
 @end group
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3130,7 +3128,7 @@ sufficient.  Instead, move its prototype from the unqualified
 @end group
 @group
 %union @{
-  long int n;
+  long n;
   tree t;  /* @r{@code{tree} is defined in @file{ptypes.h}.} */
 @}
 @end group
@@ -3707,7 +3705,7 @@ a preprocessor.
 
 In most programs, you will need different data types for different kinds
 of tokens and groupings.  For example, a numeric constant may need type
-@code{int} or @code{long int}, while a string constant needs type
+@code{int} or @code{long}, while a string constant needs type
 @code{char *}, and an identifier might need a pointer to an entry in the
 symbol table.
 
@@ -3802,8 +3800,6 @@ This Bison extension cannot work if @code{%yacc} (or
 @option{-y}/@option{--yacc}) is enabled, as POSIX mandates that Yacc
 generate tokens as macros (e.g., @samp{#define INT 258}, or @samp{#define
 TOK_INT 258}).
-
-This feature is new, and user feedback would be most welcome.
 
 A similar feature is provided for C++ that in addition overcomes C++
 limitations (that forbid non-trivial objects to be part of a @code{union}):
@@ -4074,6 +4070,7 @@ are executed before the parser even recognizes the following components.
 
 @menu
 * Using Mid-Rule Actions::       Putting an action in the middle of a rule.
+* Typed Mid-Rule Actions::       Specifying the semantic type of their values.
 * Mid-Rule Action Translation::  How mid-rule actions are actually processed.
 * Mid-Rule Conflicts::           Mid-rule actions can cause conflicts.
 @end menu
@@ -4161,64 +4158,86 @@ earlier action is used to restore the prior list of variables.  This
 removes the temporary @code{let}-variable from the list so that it won't
 appear to exist while the rest of the program is parsed.
 
+Because the types of the semantic values of mid-rule actions are unknown to
+Bison, type-based features (e.g., @samp{%printer}, @samp{%destructor}) do
+not work, which could result in memory leaks.  They also forbid the use of
+the @code{variant} implementation of the @code{api.value.type} in C++
+(@pxref{C++ Variants}).
+
+@xref{Typed Mid-Rule Actions}, for one way to address this issue, and
+@ref{Mid-Rule Action Translation}, for another: turning mid-action actions
+into regular actions.
+
+
+@node Typed Mid-Rule Actions
+@subsubsection Typed Mid-Rule Actions
+
 @findex %destructor
 @cindex discarded symbols, mid-rule actions
 @cindex error recovery, mid-rule actions
 In the above example, if the parser initiates error recovery (@pxref{Error
 Recovery}) while parsing the tokens in the embedded statement @code{stmt},
 it might discard the previous semantic context @code{$<context>5} without
-restoring it.
-Thus, @code{$<context>5} needs a destructor (@pxref{Destructor Decl, , Freeing
-Discarded Symbols}).
-However, Bison currently provides no means to declare a destructor specific to
-a particular mid-rule action's semantic value.
+restoring it.  Thus, @code{$<context>5} needs a destructor
+(@pxref{Destructor Decl, , Freeing Discarded Symbols}), and Bison needs the
+type of the semantic value (@code{context}) to select the right destructor.
 
-One solution is to bury the mid-rule action inside a nonterminal symbol and to
-declare a destructor for that symbol:
+As an extension to Yacc's mid-rule actions, Bison offers a means to type
+their semantic value: specify its type tag (@samp{<...>} before the mid-rule
+action.
+
+Consider the previous example, with an untyped mid-rule action:
 
 @example
 @group
-%type <context> let
-%destructor @{ pop_context ($$); @} let
-@end group
-
-%%
-
-@group
 stmt:
-  let stmt
-    @{
-      $$ = $2;
-      pop_context ($let);
-    @};
-@end group
-
-@group
-let:
   "let" '(' var ')'
     @{
-      $let = push_context ();
+      $<context>$ = push_context (); // ***
       declare_variable ($3);
-    @};
-
+    @}
+  stmt
+    @{
+      $$ = $6;
+      pop_context ($<context>5);     // ***
+    @}
 @end group
 @end example
 
 @noindent
-Note that the action is now at the end of its rule.
-Any mid-rule action can be converted to an end-of-rule action in this way, and
-this is what Bison actually does to implement mid-rule actions.
+If instead you write:
+
+@example
+@group
+stmt:
+  "let" '(' var ')'
+    <context>@{                       // ***
+      $$ = push_context ();          // ***
+      declare_variable ($3);
+    @}
+  stmt
+    @{
+      $$ = $6;
+      pop_context ($5);              // ***
+    @}
+@end group
+@end example
+
+@noindent
+then @code{%printer} and @code{%destructor} work properly (no more leaks!),
+C++ @code{variant}s can be used, and redundancy is reduced (@code{<context>}
+is specified once).
+
 
 @node Mid-Rule Action Translation
 @subsubsection Mid-Rule Action Translation
 @vindex $@@@var{n}
 @vindex @@@var{n}
 
-As hinted earlier, mid-rule actions are actually transformed into regular
-rules and actions.  The various reports generated by Bison (textual,
-graphical, etc., see @ref{Understanding, , Understanding Your Parser})
-reveal this translation, best explained by means of an example.  The
-following rule:
+Mid-rule actions are actually transformed into regular rules and actions.
+The various reports generated by Bison (textual, graphical, etc., see
+@ref{Understanding, , Understanding Your Parser}) reveal this translation,
+best explained by means of an example.  The following rule:
 
 @example
 exp: @{ a(); @} "b" @{ c(); @} @{ d(); @} "e" @{ f(); @};
@@ -4263,7 +4282,7 @@ final action does not use @code{$3}).  Bison reports these errors when the
 Bison}):
 
 @example
-$ bison -fcaret -Wmidrule-value mid.y
+$ bison -Wmidrule-value mid.y
 @group
 mid.y:2.6-13: warning: unset value: $$
  exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
@@ -4275,6 +4294,45 @@ mid.y:2.19-31: warning: unused value: $3
                    ^^^^^^^^^^^^^
 @end group
 @end example
+
+@sp 1
+
+It is sometimes useful to turn mid-rule actions into regular actions, e.g.,
+to factor them, or to escape from their limitations.  For instance, as an
+alternative to @emph{typed} mid-rule action, you may bury the mid-rule
+action inside a nonterminal symbol and to declare a printer and a destructor
+for that symbol:
+
+@example
+@group
+%type <context> let
+%destructor @{ pop_context ($$); @} let
+%printer @{ print_context (yyo, $$); @} let
+@end group
+
+%%
+
+@group
+stmt:
+  let stmt
+    @{
+      $$ = $2;
+      pop_context ($let);
+    @};
+@end group
+
+@group
+let:
+  "let" '(' var ')'
+    @{
+      $let = push_context ();
+      declare_variable ($var);
+    @};
+
+@end group
+@end example
+
+
 
 
 @node Mid-Rule Conflicts
@@ -4978,9 +5036,6 @@ grammar symbol that has that semantic type tag unless that symbol has its own
 per-symbol @code{%destructor}.
 
 Finally, you can define two different kinds of default @code{%destructor}s.
-(These default forms are experimental.
-More user feedback will help to determine whether they should become permanent
-features.)
 You can place each of @code{<*>} and @code{<>} in the @var{symbols} list of
 exactly one @code{%destructor} declaration in your grammar file.
 The parser will invoke the @var{code} associated with one of these whenever it
@@ -5015,10 +5070,9 @@ For example:
 guarantees that, when the parser discards any user-defined symbol that has a
 semantic type tag other than @code{<character>}, it passes its semantic value
 to @code{free} by default.
-However, when the parser discards a @code{STRING1} or a @code{string1}, it also
-prints its line number to @code{stdout}.
-It performs only the second @code{%destructor} in this case, so it invokes
-@code{free} only once.
+However, when the parser discards a @code{STRING1} or a @code{string1},
+it uses the third @code{%destructor}, which frees it and
+prints its line number to @code{stdout} (@code{free} is invoked only once).
 Finally, the parser merely prints a message whenever it discards any symbol,
 such as @code{TAGLESS}, that has no semantic type tag.
 
@@ -5272,9 +5326,6 @@ valid grammar.
 @cindex push parser
 @cindex push parser
 @findex %define api.push-pull
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 A pull parser is called once and it takes control until all its input
 is completely parsed.  A push parser, on the other hand, is called
@@ -5853,8 +5904,6 @@ the @code{full} value was introduced in Bison 2.7
 
 @item Purpose: Request a pull parser, a push parser, or both.
 @xref{Push Decl, ,A Push Parser}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 @item Accepted Values: @code{pull}, @code{push}, @code{both}
 
@@ -5973,8 +6022,8 @@ The symbols are defined with type names, from which Bison will generate a
 %token <int> INT "integer"
 %token <char *> STR "string"
 @end example
-This feature needs user feedback to stabilize.  Note that most C++ objects
-cannot be stored in a @code{union}.
+Most C++ objects cannot be stored in a @code{union}, use @samp{variant}
+instead.
 
 @item @samp{variant} (C++)
 This is similar to @code{union}, but special storage techniques are used to
@@ -5984,7 +6033,6 @@ allow any kind of C++ object to be used. For instance:
 %token <int> INT "integer"
 %token <std::string> STR "string"
 @end example
-This feature needs user feedback to stabilize.
 @xref{C++ Variants}.
 
 @item @samp{@{@var{type}@}}
@@ -6110,8 +6158,7 @@ introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
 @item Language(s): all
 
 @item Purpose: Specify the type of parser tables within the
-LR(1) family.  @xref{LR Table Construction}.  (This feature is experimental.
-More user feedback will help to stabilize it.)
+LR(1) family.  @xref{LR Table Construction}.
 
 @item Accepted Values: @code{lalr}, @code{ielr}, @code{canonical-lr}
 
@@ -6536,26 +6583,28 @@ int  yyparse (int *randomness);
 @section The Push Parser Function @code{yypush_parse}
 @findex yypush_parse
 
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
-
 You call the function @code{yypush_parse} to parse a single token.  This
 function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
 @deftypefun int yypush_parse (yypstate *@var{yyps})
-The value returned by @code{yypush_parse} is the same as for yyparse with
-the following exception: it returns @code{YYPUSH_MORE} if more input is
+The value returned by @code{yypush_parse} is the same as for @code{yyparse}
+with the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
+
+After @code{yypush_parse} returns a status other than @code{YYPUSH_MORE},
+the parser instance @code{yyps} may be reused for a new parse.
 @end deftypefun
+
+The fact that the parser state is reusable even after an error simplifies
+reuse.  For example, a calculator application which parses each input line
+as an expression can just keep reusing the same @code{yyps} even if an input
+was invalid.
 
 @node Pull Parser Function
 @section The Pull Parser Function @code{yypull_parse}
 @findex yypull_parse
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 You call the function @code{yypull_parse} to parse the rest of the input
 stream.  This function is available if the @samp{%define api.push-pull both}
@@ -6564,14 +6613,13 @@ declaration is used.
 
 @deftypefun int yypull_parse (yypstate *@var{yyps})
 The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
+
+The parser instance @code{yyps} may be reused for new parses.
 @end deftypefun
 
 @node Parser Create Function
 @section The Parser Create Function @code{yystate_new}
 @findex yypstate_new
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_new} to create a new parser instance.
 This function is available if either the @samp{%define api.push-pull push} or
@@ -6588,9 +6636,6 @@ allocated.
 @node Parser Delete Function
 @section The Parser Delete Function @code{yystate_delete}
 @findex yypstate_delete
-
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 You call the function @code{yypstate_delete} to delete a parser instance.
 function is available if either the @samp{%define api.push-pull push} or
@@ -8110,9 +8155,6 @@ values for @var{type} are:
 @item @code{ielr}
 @item @code{canonical-lr}
 @end itemize
-
-(This feature is experimental. More user feedback will help to stabilize
-it.)
 @end deffn
 
 For example, to activate IELR, you might add the following directive to you
@@ -8933,7 +8975,7 @@ clear the flag.
 
 Developing a parser can be a challenge, especially if you don't understand
 the algorithm (@pxref{Algorithm, ,The Bison Parser Algorithm}).  This
-chapter explains how understand and debug a parser.
+chapter explains how to understand and debug a parser.
 
 The first sections focus on the static part of the parser: its structure.
 They explain how to generate and read the detailed description of the
@@ -8980,7 +9022,21 @@ a consequence, the verbose output file is called @file{foo.output}.
 The following grammar file, @file{calc.y}, will be used in the sequel:
 
 @example
-%token NUM STR
+@group
+%union
+@{
+  int ival;
+  const char *sval;
+@}
+@end group
+@group
+%token <ival> NUM
+%nterm <ival> exp
+@end group
+@group
+%token <sval> STR
+%nterm <sval> useless
+@end group
 @group
 %left '+' '-'
 %left '*'
@@ -9002,11 +9058,12 @@ useless: STR;
 @command{bison} reports:
 
 @example
-calc.y: warning: 1 nonterminal useless in grammar
-calc.y: warning: 1 rule useless in grammar
-calc.y:12.1-7: warning: nonterminal useless in grammar: useless
-calc.y:12.10-12: warning: rule useless in grammar: useless: STR
-calc.y: conflicts: 7 shift/reduce
+calc.y: warning: 1 nonterminal useless in grammar [-Wother]
+calc.y: warning: 1 rule useless in grammar [-Wother]
+calc.y:19.1-7: warning: nonterminal useless in grammar: useless [-Wother]
+ useless: STR;
+ ^^^^^^^
+calc.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
 @end example
 
 When given @option{--report=state}, in addition to @file{calc.tab.c}, it
@@ -9075,8 +9132,8 @@ $end (0) 0
 '-' (45) 2
 '/' (47) 4
 error (256)
-NUM (258) 5
-STR (259)
+NUM <ival> (258) 5
+STR <sval> (259)
 @end group
 
 @group
@@ -9084,7 +9141,7 @@ Nonterminals, with rules where they appear
 
 $accept (9)
     on left: 0
-exp (10)
+exp <ival> (10)
     on left: 1 2 3 4 5, on right: 0 1 2 3 4
 @end group
 @end example
@@ -10127,10 +10184,11 @@ Activate miscellaneous @var{feature}. @var{feature} can be one of:
 @item caret
 @itemx diagnostics-show-caret
 Show caret errors, in a manner similar to GCC's
-@option{-fdiagnostics-show-caret}, or Clang's @option{-fcaret-diagnotics}. The
-location provided with the message is used to quote the corresponding line of
-the source file, underlining the important part of it with carets (^). Here is
-an example, using the following file @file{in.y}:
+@option{-fdiagnostics-show-caret}, or Clang's
+@option{-fcaret-diagnotics}. The location provided with the message is used
+to quote the corresponding line of the source file, underlining the
+important part of it with carets (@samp{^}). Here is an example, using the
+following file @file{in.y}:
 
 @example
 %type <ival> exp
@@ -10349,8 +10407,6 @@ Output an XML report of the parser's automaton computed by Bison.
 @code{@var{file}} is optional.
 If omitted and the grammar file is @file{foo.y}, the output file will be
 @file{foo.xml}.
-(The current XML schema is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end table
 
 @node Option Cross Key
@@ -10520,7 +10576,7 @@ To enable variant-based semantic values, set @code{%define} variable
 @code{%union} is ignored, and instead of using the name of the fields of the
 @code{%union} to ``type'' the symbols, use genuine types.
 
-For instance, instead of
+For instance, instead of:
 
 @example
 %union
@@ -10533,7 +10589,7 @@ For instance, instead of
 @end example
 
 @noindent
-write
+write:
 
 @example
 %token <int> NUMBER;
@@ -10552,7 +10608,10 @@ Variants are stricter than unions.  When based on unions, you may play any
 dirty game with @code{yylval}, say storing an @code{int}, reading a
 @code{char*}, and then storing a @code{double} in it.  This is no longer
 possible with variants: they must be initialized, then assigned to, and
-eventually, destroyed.
+eventually, destroyed.  As a matter of fact, Bison variants forbid the use
+of alternative types such as @samp{$<int>2} or @samp{$<std::string>$}, even
+in mid-rule actions.  It is mandatory to use typed mid-rule actions
+(@pxref{Typed Mid-Rule Actions}).
 
 @deftypemethod {semantic_type} {T&} build<T> ()
 Initialize, but leave empty.  Returns the address where the actual value may
@@ -10572,10 +10631,13 @@ Boost.Variant not only stores the value, but also a tag specifying its
 type.  But the parser already ``knows'' the type of the semantic value, so
 that would be duplicating the information.
 
+We do not use C++17's @code{std::variant} either: we want to support all the
+C++ standards, and of course @code{std::variant} also stores a tag to record
+the current type.
+
 Therefore we developed light-weight variants whose type tag is external (so
-they are really like @code{unions} for C++ actually).  But our code is much
-less mature that Boost.Variant.  So there is a number of limitations in
-(the current implementation of) variants:
+they are really like @code{unions} for C++ actually).  There is a number of
+limitations in (the current implementation of) variants:
 @itemize
 @item
 Alignment must be enforced: values should be aligned in memory according to
@@ -10584,6 +10646,9 @@ meta-programming techniques that are not currently implemented in Bison, and
 therefore, since, as far as we know, @code{double} is the most demanding
 type on all platforms, alignments are enforced for @code{double} whatever
 types are actually used.  This may waste space in some cases.
+
+@item
+Move semantics is not yet supported, but will soon be added.
 
 @item
 There might be portability issues we are not aware of.
@@ -10608,10 +10673,6 @@ in a file, and a @code{location}, a range composed of a pair of
 @code{%define} variable @code{api.location.type} is defined, then these
 classes will not be generated, and the user defined type will be used.
 
-@tindex uint
-In this section @code{uint} is an abbreviation for @code{unsigned int}: in
-genuine code only the latter is used.
-
 @menu
 * C++ position::         One point in the source file
 * C++ location::         Two points in the source file
@@ -10621,13 +10682,13 @@ genuine code only the latter is used.
 @node C++ position
 @subsubsection C++ @code{position}
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
@@ -10638,7 +10699,7 @@ feature you may change it to @samp{@var{type}*} using @samp{%define
 filename_type "@var{type}"}.
 @end deftypeivar
 
-@deftypeivar {position} {uint} line
+@deftypeivar {position} {unsigned} line
 The line, starting at 1.
 @end deftypeivar
 
@@ -10647,7 +10708,7 @@ If @var{height} is not null, advance by @var{height} lines, resetting the
 column number.  The resulting line number cannot be less than 1.
 @end deftypemethod
 
-@deftypeivar {position} {uint} column
+@deftypeivar {position} {unsigned} column
 The column, starting at 1.
 @end deftypeivar
 
@@ -10682,11 +10743,11 @@ Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
 @deftypeop {Constructor} {location} {} location (const position& @var{pos} = position())
-@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, uint @var{line}, uint @var{col})
+@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, unsigned @var{line}, unsigned @var{col})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, uint @var{line} = 1, uint @var{col} = 1)
+@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
@@ -10793,14 +10854,13 @@ files, reused by other parsers as follows:
 @c   debug_stream.
 @c - Reporting errors
 
-The output files @file{@var{output}.hh} and @file{@var{output}.cc}
-declare and define the parser class in the namespace @code{yy}.  The
-class name defaults to @code{parser}, but may be changed using
-@samp{%define parser_class_name @{@var{name}@}}.  The interface of
-this class is detailed below.  It can be extended using the
-@code{%parse-param} feature: its semantics is slightly changed since
-it describes an additional member of the parser class, and an
-additional argument for its constructor.
+The output files @file{@var{output}.hh} and @file{@var{output}.cc} declare
+and define the parser class in the namespace @code{yy}.  The class name
+defaults to @code{parser}, but may be changed using @samp{%define
+parser_class_name @{@var{name}@}}.  The interface of this class is detailed
+below.  It can be extended using the @code{%parse-param} feature: its
+semantics is slightly changed since it describes an additional member of the
+parser class, and an additional argument for its constructor.
 
 @defcv {Type} {parser} {semantic_type}
 @defcvx {Type} {parser} {location_type}
@@ -10817,13 +10877,12 @@ use @code{yy::parser::token::FOO}.  The scanner can use
 
 @defcv {Type} {parser} {syntax_error}
 This class derives from @code{std::runtime_error}.  Throw instances of it
-from the scanner or from the user actions to raise parse errors.  This is
-equivalent with first
-invoking @code{error} to report the location and message of the syntax
-error, and then to invoke @code{YYERROR} to enter the error-recovery mode.
-But contrary to @code{YYERROR} which can only be invoked from user actions
-(i.e., written in the action itself), the exception can be thrown from
-function invoked from the user action.
+from the scanner or from the actions to raise parse errors.  This is
+equivalent with first invoking @code{error} to report the location and
+message of the syntax error, and then to invoke @code{YYERROR} to enter the
+error-recovery mode.  But contrary to @code{YYERROR} which can only be
+invoked from user actions (i.e., written in the action itself), the
+exception can be thrown from function invoked from the user action.
 @end defcv
 
 @deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
@@ -10843,6 +10902,10 @@ Run the syntactic analysis, and return 0 on success, 1 otherwise.
 The whole function is wrapped in a @code{try}/@code{catch} block, so that
 when an exception is thrown, the @code{%destructor}s are called to release
 the lookahead symbol, and the symbols pushed on the stack.
+
+Exception related code in the generated parser is protected by CPP guards
+(@code{#if}) and disabled when exceptions are not supported (i.e., passing
+@code{-fno-exceptions} to the C++ compiler).
 @end deftypemethod
 
 @deftypemethod {parser} {std::ostream&} debug_stream ()
@@ -10901,12 +10964,12 @@ Regular union-based code in Lex scanner typically look like:
 
 @example
 [0-9]+   @{
-           yylval.ival = text_to_int (yytext);
-           return yy::parser::INTEGER;
+           yylval->ival = text_to_int (yytext);
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.sval = new std::string (yytext);
-           return yy::parser::IDENTIFIER;
+           yylval->sval = new std::string (yytext);
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10915,12 +10978,12 @@ initialized.  So the code would look like:
 
 @example
 [0-9]+   @{
-           yylval.build<int>() = text_to_int (yytext);
-           return yy::parser::INTEGER;
+           yylval->build<int> () = text_to_int (yytext);
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.build<std::string> = yytext;
-           return yy::parser::IDENTIFIER;
+           yylval->build<std::string> () = yytext;
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10929,12 +10992,12 @@ or
 
 @example
 [0-9]+   @{
-           yylval.build(text_to_int (yytext));
-           return yy::parser::INTEGER;
+           yylval->build (text_to_int (yytext));
+           return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval.build(yytext);
-           return yy::parser::IDENTIFIER;
+           yylval->build (yytext);
+           return yy::parser::token::IDENTIFIER;
          @}
 @end example
 
@@ -10962,8 +11025,8 @@ it is still possible to give an integer as semantic value for a string.
 
 So for each token type, Bison generates named constructors as follows.
 
-@deftypemethod {symbol_type} {} make_@var{token} (const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypemethodx {symbol_type} {} make_@var{token} (const location_type& @var{location})
+@deftypemethod {symbol_type} {} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypemethodx {symbol_type} {} {make_@var{token}} (const location_type& @var{location})
 Build a complete terminal symbol for the token type @var{token} (not
 including the @code{api.token.prefix}) whose possible semantic value is
 @var{value} of adequate @var{value_type}.  If location tracking is enabled,
@@ -10983,20 +11046,18 @@ For instance, given the following declarations:
 Bison generates the following functions:
 
 @example
-symbol_type make_IDENTIFIER(const std::string& v,
-                            const location_type& l);
-symbol_type make_INTEGER(const int& v,
-                         const location_type& loc);
-symbol_type make_COLON(const location_type& loc);
+symbol_type make_IDENTIFIER (const std::string&, const location_type&);
+symbol_type make_INTEGER (const int&, const location_type&);
+symbol_type make_COLON (const location_type&);
 @end example
 
 @noindent
 which should be used in a Lex-scanner as follows.
 
 @example
-[0-9]+   return yy::parser::make_INTEGER(text_to_int (yytext), loc);
-[a-z]+   return yy::parser::make_IDENTIFIER(yytext, loc);
-":"      return yy::parser::make_COLON(loc);
+[0-9]+   return yy::parser::make_INTEGER (text_to_int (yytext), loc);
+[a-z]+   return yy::parser::make_IDENTIFIER (yytext, loc);
+":"      return yy::parser::make_COLON (loc);
 @end example
 
 Tokens that do not have an identifier are not accessible: you cannot simply
@@ -11005,14 +11066,13 @@ use characters such as @code{':'}, they must be declared with @code{%token}.
 @node A Complete C++ Example
 @subsection A Complete C++ Example
 
-This section demonstrates the use of a C++ parser with a simple but
-complete example.  This example should be available on your system,
-ready to compile, in the directory @dfn{.../bison/examples/calc++}.  It
-focuses on the use of Bison, therefore the design of the various C++
-classes is very naive: no accessors, no encapsulation of members etc.
-We will use a Lex scanner, and more precisely, a Flex scanner, to
-demonstrate the various interactions.  A hand-written scanner is
-actually easier to interface with.
+This section demonstrates the use of a C++ parser with a simple but complete
+example.  This example should be available on your system, ready to compile,
+in the directory @dfn{.../share/doc/bison/examples/calc++}.  It focuses on
+the use of Bison, therefore the design of the various C++ classes is very
+naive: no accessors, no encapsulation of members etc.  We will use a Lex
+scanner, and more precisely, a Flex scanner, to demonstrate the various
+interactions.  A hand-written scanner is actually easier to interface with.
 
 @menu
 * Calc++ --- C++ Calculator::   The specifications
@@ -11025,11 +11085,10 @@ actually easier to interface with.
 @node Calc++ --- C++ Calculator
 @subsubsection Calc++ --- C++ Calculator
 
-Of course the grammar is dedicated to arithmetics, a single
-expression, possibly preceded by variable assignments.  An
-environment containing possibly predefined variables such as
-@code{one} and @code{two}, is exchanged with the parser.  An example
-of valid input follows.
+Of course the grammar is dedicated to arithmetics, a single expression,
+possibly preceded by variable assignments.  An environment containing
+possibly predefined variables such as @code{one} and @code{two}, is
+exchanged with the parser.  An example of valid input follows.
 
 @example
 three := 3
@@ -11043,56 +11102,51 @@ seven * seven
 @c - A place to store error messages
 @c - A place for the result
 
-To support a pure interface with the parser (and the scanner) the
-technique of the ``parsing context'' is convenient: a structure
-containing all the data to exchange.  Since, in addition to simply
-launch the parsing, there are several auxiliary tasks to execute (open
-the file for parsing, instantiate the parser etc.), we recommend
-transforming the simple parsing context structure into a fully blown
-@dfn{parsing driver} class.
+To support a pure interface with the parser (and the scanner) the technique
+of the ``parsing context'' is convenient: a structure containing all the
+data to exchange.  Since, in addition to simply launch the parsing, there
+are several auxiliary tasks to execute (open the file for scanning,
+instantiate the parser etc.), we recommend transforming the simple parsing
+context structure into a fully blown @dfn{parsing driver} class.
 
-The declaration of this driver class, @file{calc++-driver.hh}, is as
-follows.  The first part includes the CPP guard and imports the
-required standard library components, and the declaration of the parser
-class.
+The declaration of this driver class, in @file{driver.hh}, is as follows.
+The first part includes the CPP guard and imports the required standard
+library components, and the declaration of the parser class.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
-#ifndef CALCXX_DRIVER_HH
-# define CALCXX_DRIVER_HH
+#ifndef DRIVER_HH
+# define DRIVER_HH
 # include <string>
 # include <map>
-# include "calc++-parser.hh"
+# include "parser.hh"
 @end example
 
 
 @noindent
-Then comes the declaration of the scanning function.  Flex expects
-the signature of @code{yylex} to be defined in the macro
-@code{YY_DECL}, and the C++ parser expects it to be declared.  We can
-factor both as follows.
+Then comes the declaration of the scanning function.  Flex expects the
+signature of @code{yylex} to be defined in the macro @code{YY_DECL}, and the
+C++ parser expects it to be declared.  We can factor both as follows.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
 // Tell Flex the lexer's prototype ...
 # define YY_DECL \
-  yy::calcxx_parser::symbol_type yylex (calcxx_driver& driver)
+  yy::parser::symbol_type yylex (driver& drv)
 // ... and declare it for the parser's sake.
 YY_DECL;
 @end example
 
 @noindent
-The @code{calcxx_driver} class is then declared with its most obvious
-members.
+The @code{driver} class is then declared with its most obvious members.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
 // Conducting the whole scanning and parsing of Calc++.
-class calcxx_driver
+class driver
 @{
 public:
-  calcxx_driver ();
-  virtual ~calcxx_driver ();
+  driver ();
 
   std::map<std::string, int> variables;
 
@@ -11100,108 +11154,85 @@ public:
 @end example
 
 @noindent
-To encapsulate the coordination with the Flex scanner, it is useful to have
-member functions to open and close the scanning phase.
+The main routine is of course calling the parser.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
-  // Handling the scanner.
-  void scan_begin ();
-  void scan_end ();
-  bool trace_scanning;
-@end example
-
-@noindent
-Similarly for the parser itself.
-
-@comment file: calc++-driver.hh
-@example
-  // Run the parser on file F.
-  // Return 0 on success.
+  // Run the parser on file F.  Return 0 on success.
   int parse (const std::string& f);
   // The name of the file being parsed.
-  // Used later to pass the file name to the location tracker.
   std::string file;
-  // Whether parser traces should be generated.
+  // Whether to generate parser debug traces.
   bool trace_parsing;
 @end example
 
 @noindent
-To demonstrate pure handling of parse errors, instead of simply
-dumping them on the standard error output, we will pass them to the
-compiler driver using the following two member functions.  Finally, we
-close the class declaration and CPP guard.
+To encapsulate the coordination with the Flex scanner, it is useful to have
+member functions to open and close the scanning phase.
 
-@comment file: calc++-driver.hh
+@comment file: calc++/driver.hh
 @example
-  // Error handling.
-  void error (const yy::location& l, const std::string& m);
-  void error (const std::string& m);
+  // Handling the scanner.
+  void scan_begin ();
+  void scan_end ();
+  // Whether to generate scanner debug traces.
+  bool trace_scanning;
+  // The token's location used by the scanner.
+  yy::location location;
 @};
-#endif // ! CALCXX_DRIVER_HH
+#endif // ! DRIVER_HH
 @end example
 
-The implementation of the driver is straightforward.  The @code{parse}
-member function deserves some attention.  The @code{error} functions
-are simple stubs, they should actually register the located error
-messages and set error state.
+The implementation of the driver (@file{driver.cc}) is straightforward.
 
-@comment file: calc++-driver.cc
+@comment file: calc++/driver.cc
 @example
-#include "calc++-driver.hh"
-#include "calc++-parser.hh"
+#include "driver.hh"
+#include "parser.hh"
 
-calcxx_driver::calcxx_driver ()
-  : trace_scanning (false), trace_parsing (false)
+@group
+driver::driver ()
+  : trace_parsing (false), trace_scanning (false)
 @{
   variables["one"] = 1;
   variables["two"] = 2;
 @}
+@end group
+@end example
 
-calcxx_driver::~calcxx_driver ()
-@{
-@}
+The @code{parse} member function deserves some attention.
 
+@comment file: calc++/driver.cc
+@example
+@group
 int
-calcxx_driver::parse (const std::string &f)
+driver::parse (const std::string &f)
 @{
   file = f;
+  location.initialize (&file);
   scan_begin ();
-  yy::calcxx_parser parser (*this);
+  yy::parser parser (*this);
   parser.set_debug_level (trace_parsing);
   int res = parser.parse ();
   scan_end ();
   return res;
 @}
-
-void
-calcxx_driver::error (const yy::location& l, const std::string& m)
-@{
-  std::cerr << l << ": " << m << std::endl;
-@}
-
-void
-calcxx_driver::error (const std::string& m)
-@{
-  std::cerr << m << std::endl;
-@}
+@end group
 @end example
 
 @node Calc++ Parser
 @subsubsection Calc++ Parser
 
-The grammar file @file{calc++-parser.yy} starts by asking for the C++
-deterministic parser skeleton, the creation of the parser header file,
-and specifies the name of the parser class.  Because the C++ skeleton
-changed several times, it is safer to require the version you designed
-the grammar for.
+The grammar file @file{parser.yy} starts by asking for the C++ deterministic
+parser skeleton, the creation of the parser header file.  Because the C++
+skeleton changed several times, it is safer to require the version you
+designed the grammar for.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %skeleton "lalr1.cc" /* -*- C++ -*- */
 %require "@value{VERSION}"
 %defines
-%define parser_class_name @{calcxx_parser@}
 @end example
 
 @noindent
@@ -11212,7 +11243,7 @@ require the variant-based interface.  To make sure we properly use it, we
 enable assertions.  To fully benefit from type-safety and more natural
 definition of ``symbol'', we enable @code{api.token.constructor}.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %define api.token.constructor
 %define api.value.type variant
@@ -11229,13 +11260,14 @@ driver's header needs detailed knowledge about the parser class (in
 particular its inner types), it is the parser's header which will use a
 forward declaration of the driver.  @xref{%code Summary}.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
-%code requires
-@{
-# include <string>
-class calcxx_driver;
+@group
+%code requires @{
+  # include <string>
+  class driver;
 @}
+@end group
 @end example
 
 @noindent
@@ -11243,26 +11275,18 @@ The driver is passed by reference to the parser and to the scanner.
 This provides a simple but effective pure interface, not relying on
 global variables.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 // The parsing context.
-%param @{ calcxx_driver& driver @}
+%param @{ driver& drv @}
 @end example
 
 @noindent
-Then we request location tracking, and initialize the
-first location's file name.  Afterward new locations are computed
-relatively to the previous locations: the file name will be
-propagated.
+Then we request location tracking.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %locations
-%initial-action
-@{
-  // Initialize the initial location.
-  @@$.begin.filename = @@$.end.filename = &driver.file;
-@};
 @end example
 
 @noindent
@@ -11270,7 +11294,7 @@ Use the following two directives to enable parser tracing and verbose error
 messages.  However, verbose error messages can contain incorrect information
 (@pxref{LAC}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %define parse.trace
 %define parse.error verbose
@@ -11278,15 +11302,16 @@ messages.  However, verbose error messages can contain incorrect information
 
 @noindent
 @findex %code
-The code between @samp{%code @{} and @samp{@}} is output in the
-@file{*.cc} file; it needs detailed knowledge about the driver.
+The code between @samp{%code @{} and @samp{@}} is output in the @file{*.cc}
+file; it needs detailed knowledge about the driver.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
-%code
-@{
-# include "calc++-driver.hh"
+@group
+%code @{
+# include "driver.hh"
 @}
+@end group
 @end example
 
 
@@ -11297,7 +11322,7 @@ allows for nicer error messages referring to ``end of file'' instead of
 avoid name clashes in the generated files (@pxref{Calc++ Scanner}), prefix
 tokens with @code{TOK_} (@pxref{%define Summary,,api.token.prefix}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %define api.token.prefix @{TOK_@}
 %token
@@ -11317,7 +11342,7 @@ Since we use variant-based semantic values, @code{%union} is not used, and
 both @code{%type} and @code{%token} expect genuine types, as opposed to type
 tags.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NUMBER "number"
@@ -11330,7 +11355,7 @@ recovery; the memory, for strings for instance, will be reclaimed by the
 regular destructors.  All the values are printed using their
 @code{operator<<} (@pxref{Printer Decl, , Printing Semantic Values}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %printer @{ yyoutput << $$; @} <*>;
 @end example
@@ -11339,18 +11364,18 @@ regular destructors.  All the values are printed using their
 The grammar itself is straightforward (@pxref{Location Tracking Calc, ,
 Location Tracking Calculator - @code{ltcalc}}).
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 %%
 %start unit;
-unit: assignments exp  @{ driver.result = $2; @};
+unit: assignments exp  @{ drv.result = $2; @};
 
 assignments:
   %empty                 @{@}
 | assignments assignment @{@};
 
 assignment:
-  "identifier" ":=" exp @{ driver.variables[$1] = $3; @};
+  "identifier" ":=" exp @{ drv.variables[$1] = $3; @};
 
 %left "+" "-";
 %left "*" "/";
@@ -11360,22 +11385,20 @@ exp:
 | exp "*" exp   @{ $$ = $1 * $3; @}
 | exp "/" exp   @{ $$ = $1 / $3; @}
 | "(" exp ")"   @{ std::swap ($$, $2); @}
-| "identifier"  @{ $$ = driver.variables[$1]; @}
+| "identifier"  @{ $$ = drv.variables[$1]; @}
 | "number"      @{ std::swap ($$, $1); @};
 %%
 @end example
 
 @noindent
-Finally the @code{error} member function registers the errors to the
-driver.
+Finally the @code{error} member function reports the errors.
 
-@comment file: calc++-parser.yy
+@comment file: calc++/parser.yy
 @example
 void
-yy::calcxx_parser::error (const location_type& l,
-                          const std::string& m)
+yy::parser::error (const location_type& l, const std::string& m)
 @{
-  driver.error (l, m);
+  std::cerr << l << ": " << m << '\n';
 @}
 @end example
 
@@ -11385,15 +11408,15 @@ yy::calcxx_parser::error (const location_type& l,
 The Flex scanner first includes the driver declaration, then the
 parser's to get the set of defined tokens.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 %@{ /* -*- C++ -*- */
 # include <cerrno>
 # include <climits>
 # include <cstdlib>
 # include <string>
-# include "calc++-driver.hh"
-# include "calc++-parser.hh"
+# include "driver.hh"
+# include "parser.hh"
 
 // Work around an incompatibility in flex (at least versions
 // 2.5.31 through 2.5.33): it generates code that does
@@ -11402,8 +11425,11 @@ parser's to get the set of defined tokens.
 # undef yywrap
 # define yywrap() 1
 
-// The location of the current token.
-static yy::location loc;
+// Pacify warnings in yy_init_buffer (observed with Flex 2.6.4)
+// and GCC 7.3.0.
+#if defined __GNUC__ && 7 <= __GNUC__
+# pragma GCC diagnostic ignored "-Wnull-dereference"
+#endif
 %@}
 @end example
 
@@ -11413,7 +11439,7 @@ Because there is no @code{#include}-like feature we don't need
 actual file, this is not an interactive session with the user.
 Finally, we enable scanner tracing.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 %option noyywrap nounput batch debug noinput
 @end example
@@ -11421,7 +11447,7 @@ Finally, we enable scanner tracing.
 @noindent
 Abbreviations allow for more readable rules.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
@@ -11437,7 +11463,7 @@ cursor is adjusted, and each time blanks are matched, the begin cursor
 is moved onto the end cursor to effectively ignore the blanks
 preceding tokens.  Comments would be treated equally.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 @group
 %@{
@@ -11448,6 +11474,8 @@ preceding tokens.  Comments would be treated equally.
 %%
 @group
 %@{
+  // A handy shortcut to the location held by the driver.
+  yy::location& loc = drv.location;
   // Code run each time yylex is called.
   loc.step ();
 %@}
@@ -11459,28 +11487,34 @@ preceding tokens.  Comments would be treated equally.
 @noindent
 The rules are simple.  The driver is used to report errors.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
-"-"      return yy::calcxx_parser::make_MINUS(loc);
-"+"      return yy::calcxx_parser::make_PLUS(loc);
-"*"      return yy::calcxx_parser::make_STAR(loc);
-"/"      return yy::calcxx_parser::make_SLASH(loc);
-"("      return yy::calcxx_parser::make_LPAREN(loc);
-")"      return yy::calcxx_parser::make_RPAREN(loc);
-":="     return yy::calcxx_parser::make_ASSIGN(loc);
+"-"      return yy::parser::make_MINUS  (loc);
+"+"      return yy::parser::make_PLUS   (loc);
+"*"      return yy::parser::make_STAR   (loc);
+"/"      return yy::parser::make_SLASH  (loc);
+"("      return yy::parser::make_LPAREN (loc);
+")"      return yy::parser::make_RPAREN (loc);
+":="     return yy::parser::make_ASSIGN (loc);
 
 @group
 @{int@}      @{
   errno = 0;
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    driver.error (loc, "integer is out of range");
-  return yy::calcxx_parser::make_NUMBER(n, loc);
+    throw yy::parser::syntax_error (loc, "integer is out of range: "
+                                    + std::string(yytext));
+  return yy::parser::make_NUMBER (n, loc);
 @}
 @end group
-@{id@}       return yy::calcxx_parser::make_IDENTIFIER(yytext, loc);
-.          driver.error (loc, "invalid character");
-<<EOF>>    return yy::calcxx_parser::make_END(loc);
+@{id@}       return yy::parser::make_IDENTIFIER (yytext, loc);
+@group
+.          @{
+             throw yy::parser::syntax_error
+               (loc, "invalid character: " + std::string(yytext));
+@}
+@end group
+<<EOF>>    return yy::parser::make_END (loc);
 %%
 @end example
 
@@ -11488,18 +11522,18 @@ The rules are simple.  The driver is used to report errors.
 Finally, because the scanner-related driver's member-functions depend
 on the scanner's data, it is simpler to implement them in this file.
 
-@comment file: calc++-scanner.ll
+@comment file: calc++/scanner.ll
 @example
 @group
 void
-calcxx_driver::scan_begin ()
+driver::scan_begin ()
 @{
   yy_flex_debug = trace_scanning;
   if (file.empty () || file == "-")
     yyin = stdin;
   else if (!(yyin = fopen (file.c_str (), "r")))
     @{
-      error ("cannot open " + file + ": " + strerror(errno));
+      std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';
       exit (EXIT_FAILURE);
     @}
 @}
@@ -11507,7 +11541,7 @@ calcxx_driver::scan_begin ()
 
 @group
 void
-calcxx_driver::scan_end ()
+driver::scan_end ()
 @{
   fclose (yyin);
 @}
@@ -11522,21 +11556,21 @@ The top level file, @file{calc++.cc}, poses no problem.
 @comment file: calc++.cc
 @example
 #include <iostream>
-#include "calc++-driver.hh"
+#include "driver.hh"
 
 @group
 int
 main (int argc, char *argv[])
 @{
   int res = 0;
-  calcxx_driver driver;
+  driver drv;
   for (int i = 1; i < argc; ++i)
     if (argv[i] == std::string ("-p"))
-      driver.trace_parsing = true;
+      drv.trace_parsing = true;
     else if (argv[i] == std::string ("-s"))
-      driver.trace_scanning = true;
-    else if (!driver.parse (argv[i]))
-      std::cout << driver.result << std::endl;
+      drv.trace_scanning = true;
+    else if (!drv.parse (argv[i]))
+      std::cout << drv.result << '\n';
     else
       res = 1;
   return res;
@@ -11562,9 +11596,6 @@ main (int argc, char *argv[])
 @node Java Bison Interface
 @subsection Java Bison Interface
 @c - %language "Java"
-
-(The current Java interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 
 The Java parser skeletons are selected using the @code{%language "Java"}
 directive or the @option{-L java}/@option{--language=java} option.
@@ -11948,9 +11979,6 @@ available only if location tracking is active.
 @subsection Java Push Parser Interface
 @c - define push_parse
 @findex %define api.push-pull
-
-(The current push parsing interface is experimental and may evolve. More
-user feedback will help to stabilize it.)
 
 Normally, Bison generates a pull parser for Java.
 The following Bison declaration says that you want the parser to be a push
@@ -12543,7 +12571,7 @@ is turned on by default.  If you have problems building in the @file{po}
 subdirectory, it indicates that your system's internationalization
 support is lacking.  You can re-configure Bison with
 @option{--disable-nls} to turn off this support, or you can install GNU
-gettext from @url{ftp://ftp.gnu.org/gnu/gettext/} and re-configure
+gettext from @url{https://ftp.gnu.org/gnu/gettext/} and re-configure
 Bison.  See the file @file{ABOUT-NLS} for more information.
 
 
@@ -12572,7 +12600,7 @@ I found a bug.  What should I include in the bug report?
 @end quotation
 
 Before you send a bug report, make sure you are using the latest
-version.  Check @url{ftp://ftp.gnu.org/pub/gnu/bison/} or one of its
+version.  Check @url{https://ftp.gnu.org/pub/gnu/bison/} or one of its
 mirrors.  Be sure to include the version number in your bug report.  If
 the bug is present in the latest version but not in a previous version,
 try to determine the most recent version which did not contain the bug.
@@ -12704,10 +12732,6 @@ GLR parsers during nondeterministic operation,
 this silently causes an alternative parse to die.  During deterministic
 operation, it is the same as the effect of YYERROR.
 @xref{Semantic Predicates}.
-
-This feature is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.
 @end deffn
 
 @deffn {Construct} /* @dots{} */
@@ -12733,20 +12757,12 @@ Separates alternate rules for the same result nonterminal.
 Used to define a default tagged @code{%destructor} or default tagged
 @code{%printer}.
 
-This feature is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.
-
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
 
 @deffn {Directive} <>
 Used to define a default tagless @code{%destructor} or default tagless
 @code{%printer}.
-
-This feature is experimental.
-More user feedback will help to determine whether it should become a permanent
-feature.
 
 @xref{Destructor Decl, , Freeing Discarded Symbols}.
 @end deffn
@@ -13129,9 +13145,7 @@ Obsoleted by @code{%printer}.
 The function to delete a parser instance, produced by Bison in push mode;
 call this function to delete the memory associated with a parser.
 @xref{Parser Delete Function, ,The Parser Delete Function
-@code{yypstate_delete}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
+@code{yypstate_delete}}.  Does nothing when called with a null pointer.
 @end deffn
 
 @deffn {Function} yypstate_new
@@ -13139,8 +13153,6 @@ The function to create a parser instance, produced by Bison in push mode;
 call this function to create a new parser.
 @xref{Parser Create Function, ,The Parser Create Function
 @code{yypstate_new}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Function} yypull_parse
@@ -13148,16 +13160,12 @@ The parser function produced by Bison in push mode; call this function to
 parse the rest of the input stream.
 @xref{Pull Parser Function, ,The Pull Parser Function
 @code{yypull_parse}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Function} yypush_parse
 The parser function produced by Bison in push mode; call this function to
 parse a single token.  @xref{Push Parser Function, ,The Push Parser Function
 @code{yypush_parse}}.
-(The current push parsing interface is experimental and may evolve.
-More user feedback will help to stabilize it.)
 @end deffn
 
 @deffn {Macro} YYRECOVERING
@@ -13348,7 +13356,7 @@ A reentrant subprogram is a subprogram which can be in invoked any
 number of times in parallel, without interference between the various
 invocations.  @xref{Pure Decl, ,A Pure (Reentrant) Parser}.
 
-@item Reverse polish notation
+@item Reverse Polish Notation
 A language in which all operators are postfix operators.
 
 @item Right recursion
@@ -13402,8 +13410,9 @@ the parser's start state.  A state can become unreachable during conflict
 resolution.  @xref{Unreachable States}.
 @end table
 
-@node Copying This Manual
-@appendix Copying This Manual
+@node GNU Free Documentation License
+@appendix GNU Free Documentation License
+
 @include fdl.texi
 
 @node Bibliography
@@ -13502,7 +13511,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: toString deftypeivar deftypeivarx deftypeop YYParser strictfp
 @c LocalWords: superclasses boolean getErrorVerbose setErrorVerbose deftypecv
 @c LocalWords: getDebugStream setDebugStream getDebugLevel setDebugLevel url
-@c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos uint
+@c LocalWords: bisonVersion deftypecvx bisonSkeleton getStartPos getEndPos
 @c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett LALR's
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE

@@ -2,7 +2,7 @@
 
 # Language-independent M4 Macros for Bison.
 
-# Copyright (C) 2002, 2004-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -449,7 +449,7 @@ m4_define([b4_symbol_action],
                                 [m4_dquote(b4_symbol([$1], [type]))]),
                    [(*yylocationp)])dnl
     b4_symbol_case_([$1])[]dnl
-b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
       b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
         break;

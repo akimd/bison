@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Copyright (C) 2005-2015 Free Software Foundation, Inc.
+# Copyright (C) 2005-2015, 2018 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,18 @@ exit=true
 cwd=`pwd`
 
 # The exercised program.
-prog=$cwd/examples/$me/$me
+for p in $cwd/examples/$me/$me $cwd/examples/$me
+do
+    if test -x "$p"; then
+        prog=$p
+        break
+    fi
+done
+if test x"$prog" = x; then
+    echo "$me: ERROR: cannot find program to exercise"
+    exit 1
+fi
+
 
 # cleanup
 # -------

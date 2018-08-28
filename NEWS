@@ -1,8 +1,47 @@
 GNU Bison NEWS
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 3.1 (2018-08-27) [stable]
 
-** Diagnostics about useless rules
+** Backward incompatible changes
+
+  Compiling Bison now requires a C99 compiler---as announced during the
+  release of Bison 3.0, five years ago.  Generated parsers do not require a
+  C99 compiler.
+
+  Support for DJGPP, which have been unmaintained and untested for years, is
+  obsolete. Unless there is activity to revive it, the next release of Bison
+  will have it removed.
+
+** New features
+
+*** Typed midrule actions
+
+  Because their type is unknown to Bison, the values of midrule actions are
+  not treated like the others: they don't have %printer and %destructor
+  support.  It also prevents C++ (Bison) variants to handle them properly.
+
+  Typed midrule actions address these issues.  Instead of:
+
+    exp: { $<ival>$ = 1; } { $<ival>$ = 2; }   { $$ = $<ival>1 + $<ival>2; }
+
+  write:
+
+    exp: <ival>{ $$ = 1; } <ival>{ $$ = 2; }   { $$ = $1 + $2; }
+
+*** Reports include the type of the symbols
+
+  The sections about terminal and nonterminal symbols of the '*.output' file
+  now specify their declared type.  For instance, for:
+
+    %token <ival> NUM
+
+  the report now shows '<ival>':
+
+    Terminals, with rules where they appear
+
+    NUM <ival> (258) 5
+
+*** Diagnostics about useless rules
 
   In the following grammar, the 'exp' nonterminal is trivially useless.  So,
   of course, its rules are useless too.
@@ -44,6 +83,92 @@ GNU Bison NEWS
     2.14-16: warning: rule useless in grammar [-Wother]
      input: '0' | exp
                   ^^^
+
+*** C++: Generated parsers can be compiled with -fno-exceptions (lalr1.cc)
+
+  When compiled with exceptions disabled, the generated parsers no longer
+  uses try/catch clauses.
+
+  Currently only GCC and Clang are supported.
+
+** Documentation
+
+*** A demonstration of variants
+
+  A new example was added (installed in .../share/doc/bison/examples),
+  'variant.yy', which shows how to use (Bison) variants in C++.
+
+  The other examples were made nicer to read.
+
+*** Some features are no longer 'experimental'
+
+  The following features, mature enough, are no longer flagged as
+  experimental in the documentation: push parsers, default %printer and
+  %destructor (typed: <*> and untyped: <>), %define api.value.type union and
+  variant, Java parsers, XML output, LR family (lr, ielr, lalr), and
+  semantic predicates (%?).
+
+** Bug fixes
+
+*** GLR: Predicates support broken by #line directives
+
+  Predicates (%?) in GLR such as
+
+    widget:
+      %? {new_syntax} 'w' id new_args
+    | %?{!new_syntax} 'w' id old_args
+
+  were issued with #lines in the middle of C code.
+
+*** Printer and destructor with broken #line directives
+
+  The #line directives were not properly escaped when emitting the code for
+  %printer/%destructor, which resulted in compiler errors if there are
+  backslashes or double-quotes in the grammar file name.
+
+*** Portability on ICC
+
+  The Intel compiler claims compatibility with GCC, yet rejects its _Pragma.
+  Generated parsers now work around this.
+
+*** Various
+
+  There were several small fixes in the test suite and in the build system,
+  many warnings in bison and in the generated parsers were eliminated.  The
+  documentation also received its share of minor improvements.
+
+  Useless code was removed from C++ parsers, and some of the generated
+  constructors are more 'natural'.
+
+* Noteworthy changes in release 3.0.5 (2018-05-27) [stable]
+
+** Bug fixes
+
+*** C++: Fix support of 'syntax_error'
+
+  One incorrect 'inline' resulted in linking errors about the constructor of
+  the syntax_error exception.
+
+*** C++: Fix warnings
+
+  GCC 7.3 (with -O1 or -O2 but not -O0 or -O3) issued null-dereference
+  warnings about yyformat being possibly null.  It also warned about the
+  deprecated implicit definition of copy constructors when there's a
+  user-defined (copy) assignment operator.
+
+*** Location of errors
+
+  In C++ parsers, out-of-bounds errors can happen when a rule with an empty
+  ride-hand side raises a syntax error.  The behavior of the default parser
+  (yacc.c) in such a condition was undefined.
+
+  Now all the parsers match the behavior of glr.c: @$ is used as the
+  location of the error.  This handles gracefully rules with and without
+  rhs.
+
+*** Portability fixes in the test suite
+
+  On some platforms, some Java and/or C++ tests were failing.
 
 * Noteworthy changes in release 3.0.4 (2015-01-23) [stable]
 
@@ -106,7 +231,7 @@ GNU Bison NEWS
   extracted from the documentation:
 
    - rpcalc
-     Reverse polish calculator, a simple introductory example.
+     Reverse Polish Calculator, a simple introductory example.
    - mfcalc
      Multi-function Calc, a calculator with memory and functions and located
      error messages.
@@ -2793,7 +2918,7 @@ Output file does not redefine const for C++.
 
 -----
 
-Copyright (C) 1995-2015 Free Software Foundation, Inc.
+Copyright (C) 1995-2015, 2018 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 

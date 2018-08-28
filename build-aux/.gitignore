@@ -1,6 +1,4 @@
 /announce-gen
-/arg-nonnull.h
-/c++defs.h
 /compile
 /config.guess
 /config.rpath
@@ -16,14 +14,12 @@
 /install-sh
 /javacomp.sh.in
 /javaexec.sh.in
-/link-warning.h
 /mdate-sh
 /missing
+/prefix-gnulib-mk
 /test-driver
 /texinfo.tex
 /update-copyright
 /useless-if-before-free
 /vc-list-files
-/warn-on-use.h
 /ylwrap
-/prefix-gnulib-mk

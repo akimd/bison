@@ -1,6 +1,6 @@
 # Value type.                                     -*- Autotest -*-
 
-# Copyright (C) 2013-2015 Free Software Foundation, Inc.
+# Copyright (C) 2013-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -243,7 +243,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
            %define api.value.type variant],
           [%token <int> '1';
            %token <std::string> '2';],
-          ['1' '2' { std::cout << $1 << ", " << $2 << std::endl; }],
+          ['1' '2' { std::cout << $1 << ", " << $2 << '\n'; }],
           ["12"],
           [if (res == '1')
              AT_VAL.build(10);

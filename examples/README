@@ -1,0 +1,40 @@
+This directory contains examples of Bison grammar files.
+
+* mfcalc
+A C example of a multi-function calculator.  Extracted from the
+documentation.
+
+* calc++
+A C++ version of the canonical example for parsers: a calculator.  Also uses
+Flex for the scanner.  Extracted from the documentation.
+
+* variant.yy
+A C++ example that uses variants (they allow to use any C++ type as semantic
+value type) and symbol constructors (they ensure consistency between
+declared token type and effective semantic value).
+
+-----
+
+Local Variables:
+mode: outline
+fill-column: 76
+End:
+
+Copyright (C) 2018 Free Software Foundation, Inc.
+
+This file is part of Bison, the GNU Compiler Compiler.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# LocalWords:  mfcalc calc parsers yy

@@ -1,6 +1,6 @@
 # Checking the Bison scanner.                    -*- Autotest -*-
 
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -168,13 +168,13 @@ AT_CLEANUP
 # declarations for the unused values tests.
 m4_define([_AT_UNUSED_VALUES_DECLARATIONS],
 [[[%token <integer> INT;
-%type <integer> a b c d e f g h i j k l;
-%destructor { destroy ($$); } INT a b c d e f g h i j k l;]]])
+%type <integer> a b c d e f g h i j k l m n o;
+%destructor { destroy ($$); } <integer>;]]])
 
 
 # AT_CHECK_UNUSED_VALUES(DECLARATIONS_AFTER, CHECK_MIDRULE_VALUES)
 # ----------------------------------------------------------------
-# Generate a grammar to test unused values, compile it, run it.  If
+# Generate a grammar to test unused values, and compile it.  If
 # DECLARATIONS_AFTER is set, then the token, type, and destructor
 # declarations are generated after the rules rather than before.  If
 # CHECK_MIDRULE_VALUES is set, then --warnings=midrule-values is set.
@@ -186,128 +186,185 @@ m4_ifval($1, [
 ], [_AT_UNUSED_VALUES_DECLARATIONS
 ])[[%%
 start:
-  'a' a { $]2[; } | 'b' b { $]2[; } | 'c' c { $]2[; } | 'd' d { $]2[; }
-| 'e' e { $]2[; } | 'f' f { $]2[; } | 'g' g { $]2[; } | 'h' h { $]2[; }
-| 'i' i { $]2[; } | 'j' j { $]2[; } | 'k' k { $]2[; } | 'l' l { $]2[; }
+  'a' a { $][2; } | 'b' b { $][2; } | 'c' c { $][2; } | 'd' d { $][2; }
+| 'e' e { $][2; } | 'f' f { $][2; } | 'g' g { $][2; } | 'h' h { $][2; }
+| 'i' i { $][2; } | 'j' j { $][2; } | 'k' k { $][2; } | 'l' l { $][2; }
+| 'm' m { $][2; } | 'n' n { $][2; } | 'o' o { $][2; }
 ;
 
 a: INT | INT { } INT { } INT { };
 b: INT | %empty;
-c: INT | INT { $]1[; } INT { $<integer>2; } INT { $<integer>4; };
-d: INT | INT { } INT { $]1[; } INT { $<integer>2; };
-e: INT | INT { } INT {  } INT { $]1[; };
-f: INT | INT { } INT {  } INT { $]$[ = $]1[ + $]3[ + $]5[; };
+c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+e: INT | INT { } INT {  } INT { $][1; };
+f: INT | INT { } INT {  } INT { $][$ = $][1 + $][3 + $][5; };
 g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
 h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-i: INT | INT INT { } { $]$[ = $]1[ + $]2[; };
-j: INT | INT INT { $<integer>$ = 1; } { $]$[ = $]1[ + $]2[; };
+i: INT | INT INT { } { $][$ = $][1 + $][2; };
+j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
 k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<integer>3; } INT { $<integer>$ = $<integer>4 + $<integer>5; };]]m4_ifval($1, [
+l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<integer>3; } INT { $<integer>$ = $<integer>4 + $<integer>5; };
+m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
+n: INT | INT <integer>{ } INT <integer>{ } INT { };
+o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+]]m4_ifval($1, [
 _AT_UNUSED_VALUES_DECLARATIONS])
 )
 
 AT_BISON_CHECK(m4_ifval($2, [--warnings=midrule-values ])[-fcaret input.y],
                [0], [],
-[[input.y:11.10-32: warning: unset value: $][$ [-Wother]
+[[input.y:12.10-32: warning: unset value: $][$ [-Wother]
  a: INT | INT { } INT { } INT { };
           ^^^^^^^^^^^^^^^^^^^^^^^
-input.y:11.10-12: warning: unused value: $][1 [-Wother]
+input.y:12.10-12: warning: unused value: $][1 [-Wother]
  a: INT | INT { } INT { } INT { };
           ^^^
-input.y:11.18-20: warning: unused value: $][3 [-Wother]
+input.y:12.18-20: warning: unused value: $][3 [-Wother]
  a: INT | INT { } INT { } INT { };
                   ^^^
-input.y:11.26-28: warning: unused value: $][5 [-Wother]
+input.y:12.26-28: warning: unused value: $][5 [-Wother]
  a: INT | INT { } INT { } INT { };
                           ^^^
-input.y:12.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
+input.y:13.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
  b: INT | %empty;
           ^^^^^^
-]]m4_ifval($2, [[[input.y:13.14-20: warning: unset value: $][$ [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
               ^^^^^^^
-input.y:13.26-41: warning: unset value: $][$ [-Wmidrule-values]
+input.y:14.26-41: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
                           ^^^^^^^^^^^^^^^^
-]]])[[input.y:13.10-62: warning: unset value: $][$ [-Wother]
+]]])[[input.y:14.10-62: warning: unset value: $][$ [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:13.22-24: warning: unused value: $][3 [-Wother]
+input.y:14.22-24: warning: unused value: $][3 [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
                       ^^^
-input.y:13.43-45: warning: unused value: $][5 [-Wother]
+input.y:14.43-45: warning: unused value: $][5 [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
                                            ^^^
-]]m4_ifval($2, [[[input.y:14.14-16: warning: unset value: $][$ [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
               ^^^
-]]])[[input.y:14.10-49: warning: unset value: $][$ [-Wother]
+]]])[[input.y:15.10-49: warning: unset value: $][$ [-Wother]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:14.18-20: warning: unused value: $][3 [-Wother]
+input.y:15.18-20: warning: unused value: $][3 [-Wother]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
                   ^^^
-input.y:14.30-32: warning: unused value: $][5 [-Wother]
+input.y:15.30-32: warning: unused value: $][5 [-Wother]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
                               ^^^
-input.y:15.10-37: warning: unset value: $][$ [-Wother]
+input.y:16.10-37: warning: unset value: $][$ [-Wother]
  e: INT | INT { } INT {  } INT { $][1; };
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:15.18-20: warning: unused value: $][3 [-Wother]
+input.y:16.18-20: warning: unused value: $][3 [-Wother]
  e: INT | INT { } INT {  } INT { $][1; };
                   ^^^
-input.y:15.27-29: warning: unused value: $][5 [-Wother]
+input.y:16.27-29: warning: unused value: $][5 [-Wother]
  e: INT | INT { } INT {  } INT { $][1; };
                            ^^^
-input.y:17.10-58: warning: unset value: $][$ [-Wother]
+input.y:18.10-58: warning: unset value: $][$ [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:17.10-12: warning: unused value: $][1 [-Wother]
+input.y:18.10-12: warning: unused value: $][1 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
           ^^^
-]]m4_ifval($2, [[[input.y:17.14-29: warning: unused value: $][2 [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
               ^^^^^^^^^^^^^^^^
-]]])[[input.y:17.31-33: warning: unused value: $][3 [-Wother]
+]]])[[input.y:18.31-33: warning: unused value: $][3 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                ^^^
-]]m4_ifval($2, [[[input.y:17.35-50: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                    ^^^^^^^^^^^^^^^^
-]]])[[input.y:17.52-54: warning: unused value: $][5 [-Wother]
+]]])[[input.y:18.52-54: warning: unused value: $][5 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                                     ^^^
-input.y:18.10-72: warning: unset value: $][$ [-Wother]
+input.y:19.10-72: warning: unset value: $][$ [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:18.10-12: warning: unused value: $][1 [-Wother]
+input.y:19.10-12: warning: unused value: $][1 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
           ^^^
-input.y:18.31-33: warning: unused value: $][3 [-Wother]
+input.y:19.31-33: warning: unused value: $][3 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                ^^^
-]]m4_ifval($2, [[[input.y:18.35-64: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]])[[input.y:18.66-68: warning: unused value: $][5 [-Wother]
+]]])[[input.y:19.66-68: warning: unused value: $][5 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                                                   ^^^
-]]m4_ifval($2, [[[input.y:20.18-37: warning: unused value: $][3 [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
  j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
                   ^^^^^^^^^^^^^^^^^^^^
-]]])[[input.y:21.10-68: warning: unset value: $][$ [-Wother]
+]]])[[input.y:22.10-68: warning: unset value: $][$ [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:21.10-12: warning: unused value: $][1 [-Wother]
+input.y:22.10-12: warning: unused value: $][1 [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
           ^^^
-input.y:21.14-16: warning: unused value: $][2 [-Wother]
+input.y:22.14-16: warning: unused value: $][2 [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
               ^^^
-]]m4_ifval($2, [[[input.y:21.35-64: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval($2, [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]]))
+]]])[[input.y:25.23-25: warning: unset value: $][$ [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                       ^^^
+input.y:25.40-42: warning: unset value: $][$ [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                        ^^^
+input.y:25.10-50: warning: unset value: $][$ [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:25.10-12: warning: unused value: $][1 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+          ^^^
+input.y:25.23-25: warning: unused value: $][2 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                       ^^^
+input.y:25.27-29: warning: unused value: $][3 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                           ^^^
+input.y:25.40-42: warning: unused value: $][4 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                        ^^^
+input.y:25.44-46: warning: unused value: $][5 [-Wother]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                            ^^^
+input.y:26.23-25: warning: unset value: $][$ [-Wother]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                       ^^^
+input.y:26.40-42: warning: unset value: $][$ [-Wother]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                                        ^^^
+]])
+
+AT_BISON_CHECK([-Wnone,yacc -fcaret input.y],
+               [0], [],
+[[input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
+                       ^^^^^^^^^^^^
+input.y:24.49-65: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
+                                                 ^^^^^^^^^^^^^^^^^
+input.y:25.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                       ^^^
+input.y:25.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ n: INT | INT <integer>{ } INT <integer>{ } INT { };
+                                        ^^^
+input.y:26.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                       ^^^
+input.y:26.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+                                        ^^^
+]])
 ])
 
 ## --------------- ##
@@ -2136,7 +2193,7 @@ input.y:13.11-21:     previous definition
 
 AT_CLEANUP
 
-##--------------------------- ##
+## -------------------------- ##
 ## Non-deprecated directives. ##
 ## -------------------------- ##
 
@@ -2164,6 +2221,26 @@ AT_DATA_GRAMMAR([[input.y]],
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
 [[input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+]])
+
+AT_CLEANUP
+
+
+## -------------------- ##
+## Cannot type action.  ##
+## -------------------- ##
+
+AT_SETUP([[Cannot type action]])
+
+AT_DATA_GRAMMAR([[input.y]],
+[[%%
+exp: <int> {}
+]])
+
+AT_BISON_CHECK([[-fcaret input.y]], [[0]], [[]],
+[[input.y:10.6-13: warning: only midrule actions can be typed: int [-Wother]
+ exp: <int> {}
+      ^^^^^^^^
 ]])
 
 AT_CLEANUP

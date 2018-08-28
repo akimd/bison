@@ -1,6 +1,6 @@
 /* Data definitions for internal representation of Bison's input.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2001-2007, 2009-2015 Free
+   Copyright (C) 1984, 1986, 1989, 1992, 2001-2007, 2009-2015, 2018 Free
    Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -115,7 +115,7 @@ extern int nvars;
 typedef int item_number;
 # define ITEM_NUMBER_MAX INT_MAX
 extern item_number *ritem;
-extern unsigned int nritems;
+extern unsigned nritems;
 
 /* There is weird relationship between OT1H item_number and OTOH
    symbol_number and rule_number: we store the latter in

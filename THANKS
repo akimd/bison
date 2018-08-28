@@ -15,6 +15,7 @@ Anthony Heading           ajrh@ajrh.net
 Antonio Silva Correia     amsilvacorreia@hotmail.com
 Arnold Robbins            arnold@skeeve.com
 Art Haas                  ahaas@neosoft.com
+Askar Safin               safinaskar@mail.ru
 Baron Schwartz            baron@sequent.org
 Ben Pfaff                 blp@cs.stanford.edu
 Benoit Perrot             benoit.perrot@epita.fr
@@ -24,6 +25,7 @@ Bert Deknuydt             Bert.Deknuydt@esat.kuleuven.ac.be
 Bill Allombert            Bill.Allombert@math.u-bordeaux1.fr
 Bob Rossi                 bob@brasko.net
 Brandon Lucia             blucia@gmail.com
+Brooks Moses              bmoses@google.com
 Bruce Lilly               blilly@erols.com
 Bruno Haible              bruno@clisp.org
 Charles-Henri de Boysson  de-boy_c@epita.fr
@@ -38,7 +40,10 @@ Daniel Galloway           dg1751@att.com
 Daniel Hagerty            hag@gnu.org
 David J. MacKenzie        djm@gnu.org
 David Kastrup             dak@gnu.org
+David Michael             fedora.dm0@gmail.com
+Dengke Du                 dengke.du@windriver.com
 Dennis Clarke             dclarke@blastwave.org
+Derek Clegg               derek@me.com
 Derek M. Jones            derek@knosof.co.uk
 Di-an Jan                 dianj@freeshell.org
 Dick Streefland           dick.streefland@altium.nl
@@ -48,18 +53,21 @@ Enrico Scholz             enrico.scholz@informatik.tu-chemnitz.de
 Eric Blake                ebb9@byu.net
 Evgeny Stambulchik        fnevgeny@plasma-gate.weizmann.ac.il
 Fabrice Bauzac            noon@cote-dazur.com
+Ferdinand Thiessen        ferdinand@fthiessen.de
 Florian Krohm             florian@edamail.fishkill.ibm.com
 Frank Heckenbach          frank@g-n-u.de
 Frans Englich             frans.englich@telia.com
 Gabriel Rassoul           gabriel.rassoul@epita.fr
+Gary L Peskin             garyp@firstech.com
 Georg Sauthoff            gsauthof@TechFak.Uni-Bielefeld.DE
 George Neuner             gneuner2@comcast.net
 Gilles Espinasse          g.esp@free.fr
 Goran Uddeborg            goeran@uddeborg.se
 Guido Trentalancia        trentalg@aston.ac.uk
 H. Merijn Brand           h.m.brand@hccnet.nl
-Hans Aberg                haberg@matematik.su.se
+Hans Åberg                haberg-1@telia.com
 Jan Nieuwenhuizen         janneke@gnu.org
+Jannick                   thirdedition@gmx.net
 Jerry Quinn               jlquinn@optonline.net
 Jesse Thilo               jthilo@gnu.org
 Jim Kent                  jkent@arch.sel.sony.com
@@ -84,6 +92,7 @@ Martin Mokrejs            mmokrejs@natur.cuni.cz
 Martin Nylin              martin.nylin@linuxmail.org
 Matt Kraai                kraai@alumni.cmu.edu
 Matt Rosing               rosing@peakfive.com
+Maxim Prohorenko          Maxim.Prohorenko@gmail.com
 Michael Catanzaro         mcatanzaro@gnome.org
 Michael Felt              mamfelt@gmail.com
 Michael Hayes             m.hayes@elec.canterbury.ac.nz
@@ -93,6 +102,7 @@ Michiel De Wilde          mdewilde.agilent@gmail.com
 Mickael Labau             labau_m@epita.fr
 Mike Castle               dalgoda@ix.netcom.com
 Mike Sullivan             Mike.sullivan@Oracle.COM
+Nate Guerin               nathan.guerin@riseup.net
 Neil Booth                NeilB@earthling.net
 Nelson H. F. Beebe        beebe@math.utah.edu
 Nick Bowler               nbowler@elliptictech.com
@@ -116,6 +126,7 @@ Peter Simons              simons@cryp.to
 Petr Machata              pmachata@redhat.com
 Pho                       pho@cielonegro.org
 Piotr Gackiewicz          gacek@intertel.com.pl
+Piotr Marcińczyk          piomar123@gmail.com
 Quentin Hocquet           hocquet@gostai.com
 Quoc Peyrot               chojin@lrde.epita.fr
 R Blake                   blakers@mac.com
@@ -127,6 +138,7 @@ Rici Lake                 ricilake@gmail.com
 Rob Conde                 rob.conde@ai-solutions.com
 Rob Vermaas               rob.vermaas@gmail.com
 Robert Anisko             anisko_r@epita.fr
+Robert Yang               liezhi.yang@windriver.com
 Roland Levillain          roland@lrde.epita.fr
 Satya Kiran Popuri        satyakiran@gmail.com
 Sebastian Setzer          sebastian.setzer.ext@siemens.com
@@ -161,6 +173,7 @@ Wolfram Wagner            ww@mpi-sb.mpg.de
 Wwp                       subscript@free.fr
 xolodho                   xolodho@gmail.com
 Zack Weinberg             zack@codesourcery.com
+長田偉伸                   cbh34680@iret.co.jp
 
 Many people are not named here because we lost track of them.  We
 thank them!  Please, help us keeping this list up to date.
@@ -172,7 +185,7 @@ End:
 
 -----
 
-Copyright (C) 2000-2015 Free Software Foundation, Inc.
+Copyright (C) 2000-2015, 2018 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 

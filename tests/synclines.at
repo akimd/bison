@@ -1,6 +1,6 @@
 # Executing Actions.                               -*- Autotest -*-
 
-# Copyright (C) 2002, 2004-2005, 2007, 2009-2015 Free Software
+# Copyright (C) 2002, 2004-2005, 2007, 2009-2015, 2018 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AT_BANNER([[User Actions.]])
+AT_BANNER([[Sync Lines.]])
 
 
 # _AT_SYNCLINES_COMPILE(FILE)
@@ -81,7 +81,15 @@ m4_define([_AT_SYNCLINES_COMPILE],
 #
 #    "input.yy", line 80.21: 1540-0218 (S) The call does not match any parameter list for "operator<<".
 #    "/usr/vacpp/include/iosfwd", line 32.6: 1506-205 (S) #error This file to be used only with IBM VisualAge C++ v4 and later compilers
-
+#
+# Newer GCCs go further and if the function is declared static, complain
+# that it's not used.
+#
+# GCC 7 also underlines the error.
+#
+#    syncline.c:4:2: error: #error "4"
+#     #error "4"
+#      ^~~~~
 AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
   # 1. Remove useless lines.
 
@@ -91,8 +99,8 @@ AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
   s/^clang: warning: treating 'c' input as 'c\+\+'.*\n//gm;
   # Function context.
   s/^[^:]*: In function '[^']+':\n//gm;
-  # Caret error.
-  s/^ *#error.*\n *\^\n//gm;
+  # Caret error (with possible '~' to underline).
+  s/^ *#error.*\n *\^~*\n//gm;
   # Number of errors.
   s/^1 error generated\.\n//gm;
 
@@ -136,12 +144,15 @@ EOF
 m4_define([AT_SYNCLINES_COMPILE],
 [# Check if we can trust location translation.
 AT_DATA([syncline.c],
-[[#error "1"
-int i; /* avoids -pedantic warning about an empty translation unit. */
+[[void foo (void);
+void foo (void)
+{
+#error "4"
+}
 ]])
 
 _AT_SYNCLINES_COMPILE([syncline.c])
-AT_CHECK([[test "`cat stdout`" = 'syncline.c:1: @%:@error "1"' || exit 77]])
+AT_CHECK([[test "`cat stdout`" = 'syncline.c:4: @%:@error "4"' || exit 77]])
 
 # Then work for real.
 _AT_SYNCLINES_COMPILE([$1])
@@ -173,9 +184,11 @@ AT_CLEANUP
 AT_TEST([Prologue syncline],
 [[%{
 #error "2"
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
 %}
+%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
 %%
 exp: '0';
 %%
@@ -193,10 +206,10 @@ AT_TEST([%union syncline],
 #error "2"
   char dummy;
 }
-%{
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
-%}
+%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
 %%
 exp: '0';
 %%
@@ -218,9 +231,9 @@ AT_DATA([[input.y]],
 {
   char dummy;
 }
-%{
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
+%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 exp: '0';
@@ -239,22 +252,25 @@ AT_CLEANUP
 ## ----------------------- ##
 
 AT_TEST([Postprologue syncline],
-[[%{
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
+[[%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
+%{
+  /* Preprologue.  */
 %}
 %union
 {
   int ival;
 }
 %{
-#error "10"
+#error "13"
 %}
 %%
 exp: '0';
 %%
 ]],
-[input.y:10: #error "10"
+[input.y:13: #error "13"
 ])
 
 
@@ -263,10 +279,10 @@ exp: '0';
 ## ----------------- ##
 
 AT_TEST([Action syncline],
-[[%{
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
-%}
+[[%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
 %%
 exp:
 {
@@ -282,10 +298,10 @@ exp:
 ## ------------------- ##
 
 AT_TEST([Epilogue syncline],
-[[%{
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
-%}
+[[%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
 %%
 exp: '0';
 %%
@@ -302,10 +318,10 @@ AT_TEST([%code top syncline],
 [[%code top {
 #error "2"
 }
-%{
-]AT_YYERROR_DECLARE_EXTERN[
-]AT_YYLEX_DECLARE_EXTERN[
-%}
+%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
 %%
 exp: '0';
 %%
@@ -313,25 +329,118 @@ exp: '0';
 [input.y:2: #error "2"
 ])
 
+## ---------------------- ##
+## %destructor syncline.  ##
+## ---------------------- ##
+
+AT_TEST([%destructor syncline],
+[[%destructor {
+#error "2"
+} <ival>
+%{
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
+%}
+%union {
+  int ival;
+}
+%nterm <ival> exp
+%%
+exp: '0' { $$ = 0; };
+%%
+]],
+[input.y:2: #error "2"
+])
+
+
+## ------------------- ##
+## %printer syncline.  ##
+## ------------------- ##
+
+AT_TEST([%printer syncline],
+[[%printer {
+#error "2"
+} <ival>
+%debug
+%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
+%union {
+  int ival;
+}
+%nterm <ival> exp
+%%
+exp: '0' { $$ = 0; };
+%%
+]],
+[input.y:2: #error "2"
+])
+
 m4_popdef([AT_TEST])
+
+
+
+## ------------------ ##
+## syncline escapes.  ##
+## ------------------ ##
+
+# AT_TEST([SKELETON])
+# -------------------
+m4_pushdef([AT_TEST],
+[AT_SETUP([syncline escapes: $1])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
+AT_DATA_GRAMMAR([\"\\\"\".y],
+[[%skeleton "$1"
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%destructor {} <>
+%printer {} <>
+%%
+exp: '0'
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+]AT_MAIN_DEFINE[
+]])
+
+AT_FULL_COMPILE([\"\\\"\"])
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])
+
+AT_TEST([yacc.c])
+AT_TEST([glr.c])
+AT_TEST([lalr1.cc])
+AT_TEST([glr.cc])
+
+m4_popdef([AT_TEST])
+
+
 
 ## ----------- ##
 ## %no-lines.  ##
 ## ----------- ##
 
+# AT_TEST([SKELETON])
+# -------------------
 m4_pushdef([AT_TEST],
 [AT_SETUP([%no-lines: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "$1" %defines])
 AT_DATA_GRAMMAR([input.y],
-[%skeleton "$1" %defines
+[[%skeleton "$1" %defines
 %{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
 exp: '0'
-])
+]])
 AT_BISON_CHECK([--no-lines -o input.AT_SKEL_CC_IF([cc], [c]) -d input.y])
 AT_CHECK([[grep '#line' ]AT_SKEL_CC_IF([*.cc *.hh], [*.c *.h])], 1)
 AT_BISON_OPTION_POPDEFS

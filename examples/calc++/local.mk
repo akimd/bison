@@ -1,4 +1,5 @@
-# Copyright (C) 2005-2006, 2008-2015 Free Software Foundation, Inc.
+# Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
+# Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +20,7 @@
 
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
-%D%/calc++-parser.stamp: $(BISON_IN)
+%D%/parser.stamp: $(BISON_IN)
 SUFFIXES += .yy .stamp
 .yy.stamp:
 	$(AM_V_YACC)rm -f $@
@@ -27,14 +28,14 @@ SUFFIXES += .yy .stamp
 	$(AM_V_at)$(YACCCOMPILE) -o $*.cc $<
 	$(AM_V_at)mv -f $@.tmp $@
 
-$(calcxx_sources_generated): %D%/calc++-parser.stamp
-	@test -f $@ || rm -f %D%/calc++-parser.stamp
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/calc++-parser.stamp
-CLEANFILES +=                                   \
-  $(calcxx_sources_generated)                   \
-  %D%/calc++-parser.output                      \
-  %D%/calc++-parser.stamp                       \
-  %D%/calc++-scanner.cc
+$(calcxx_sources_generated): %D%/parser.stamp
+	@test -f $@ || rm -f %D%/parser.stamp
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/parser.stamp
+CLEANFILES +=					\
+  $(calcxx_sources_generated)			\
+  %D%/parser.output				\
+  %D%/parser.stamp				\
+  %D%/scanner.cc
 
 
 ## -------------------- ##
@@ -44,18 +45,18 @@ CLEANFILES +=                                   \
 # Avoid using BUILT_SOURCES which is too global.
 $(%C%_calc___OBJECTS): $(calcxx_sources_generated)
 
-calcxx_sources_extracted =                      \
-  %D%/calc++-driver.cc                          \
-  %D%/calc++-driver.hh                          \
-  %D%/calc++-scanner.ll                         \
+calcxx_sources_extracted =			\
+  %D%/driver.cc					\
+  %D%/driver.hh					\
+  %D%/scanner.ll				\
   %D%/calc++.cc
 calcxx_extracted =                              \
   $(calcxx_sources_extracted)                   \
-  %D%/calc++-parser.yy
+  %D%/parser.yy
 extracted += $(calcxx_extracted)
 calcxx_sources_generated =                      \
-  %D%/calc++-parser.cc                          \
-  %D%/calc++-parser.hh                          \
+  %D%/parser.cc                                 \
+  %D%/parser.hh                                 \
   %D%/location.hh                               \
   %D%/position.hh                               \
   %D%/stack.hh
@@ -82,3 +83,4 @@ endif
 
 calcxxdir = $(docdir)/examples/calc++
 calcxx_DATA = $(calcxx_extracted)
+dist_calcxx_DATA = %D%/README %D%/Makefile

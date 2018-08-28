@@ -1,4 +1,4 @@
-# Copyright (C) 2000-2015 Free Software Foundation, Inc.
+# Copyright (C) 2000-2015, 2018 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,10 +13,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-EXTRA_DIST +=                                   \
-  build-aux/cross-options.pl                    \
-  build-aux/darwin11.4.0.valgrind               \
-  build-aux/linux-gnu.valgrind                  \
-  build-aux/move-if-change                      \
-  build-aux/prev-version.txt                    \
+EXTRA_DIST +=					\
+  build-aux/Darwin.valgrind			\
+  build-aux/Linux.valgrind			\
+  build-aux/cross-options.pl			\
+  build-aux/move-if-change			\
+  build-aux/prev-version.txt			\
   build-aux/update-b4-copyright

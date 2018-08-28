@@ -1,4 +1,5 @@
-# Copyright (C) 2005-2006, 2008-2015 Free Software Foundation, Inc.
+# Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
+# Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,10 +26,10 @@ mfcalc_sources = $(mfcalc_extracted)
 extracted += $(mfcalc_extracted)
 
 check_PROGRAMS += %D%/mfcalc
-%C%_mfcalc_LDADD = -lm
 nodist_%C%_mfcalc_SOURCES = $(mfcalc_sources)
-
 %C%_mfcalc_CPPFLAGS = -I$(top_builddir)/%D%
+%C%_mfcalc_LDADD = -lm
+
 dist_TESTS += %D%/mfcalc.test
 
 ## ------------ ##

@@ -1,6 +1,7 @@
 # Exercising Bison on conflicts.                         -*- Autotest -*-
 
-# Copyright (C) 2002-2005, 2007-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2005, 2007-2015, 2018 Free Software Foundation,
+# Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -393,6 +394,10 @@ AT_CLEANUP
 ## parse.error=verbose and consistent errors.  ##
 ## ------------------------------------------- ##
 
+AT_CONSISTENT_ERRORS_CHECK([BISON-DIRECTIVE],
+                           [GRAMMAR],
+                           [INPUT],
+                           [UNEXPECTED-TOKEN], [EXPECTED-TOKEN])
 m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
 
 AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
@@ -420,6 +425,14 @@ AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 }
 
 ]AT_SKEL_CC_IF([[%defines]], [[%define api.pure]])])[
+
+]AT_YACC_IF([[
+%code {
+  #if defined __GNUC__ && 8 <= __GNUC__
+  # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+  #endif
+}
+]])[
 
 ]$1[
 
@@ -500,7 +513,7 @@ consistent-error-on-a-a:
   | 'a' shift
   ;
 
-default-reduction: /*empty*/ ;
+default-reduction: %empty ;
 shift: 'b' ;
 
 // Provide another context in which all rules are useful so that this
@@ -600,7 +613,8 @@ error-reduce:
   { USE ($][1); }
 ;
 
-consistent-reduction: /*empty*/ {
+consistent-reduction: %empty
+{
   assert (yychar == YYEMPTY);
   yylval = 0;
   yychar = 'b';
@@ -608,7 +622,7 @@ consistent-reduction: /*empty*/ {
 
 consistent-error:
   'a' { USE ($][1); }
-| /*empty*/ %prec 'a'
+| %empty %prec 'a'
 ;
 
 // Provide another context in which all rules are useful so that this
@@ -1560,11 +1574,11 @@ start:
   | empty_c2 'c'
   | empty_c3 'c'
   ;
-empty_a: %prec 'a' ;
-empty_b: %prec 'b' ;
-empty_c1: %prec 'c' ;
-empty_c2: %prec 'c' ;
-empty_c3: %prec 'd' ;
+empty_a:  %empty %prec 'a' ;
+empty_b:  %empty %prec 'b' ;
+empty_c1: %empty %prec 'c' ;
+empty_c2: %empty %prec 'c' ;
+empty_c3: %empty %prec 'd' ;
 ]])
 AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [], [ignore])
 AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,

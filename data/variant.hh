@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 m4_define([b4_symbol_variant],
 [m4_pushdef([b4_dollar_dollar],
             [$2.$3< $][3 > (m4_shift3($@))])dnl
-  switch ($1)
+switch ($1)
     {
 b4_type_foreach([b4_type_action_])[]dnl
       default:
@@ -94,8 +94,9 @@ m4_define([b4_variant_define],
     typedef variant<S> self_type;
 
     /// Empty construction.
-    variant ()]b4_parse_assert_if([
-      : yytypeid_ (YY_NULLPTR)])[
+    variant ()
+      : yybuffer_ ()]b4_parse_assert_if([
+      , yytypeid_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
@@ -121,7 +122,7 @@ m4_define([b4_variant_define],
       YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
       yytypeid_ = & typeid (T);])[
-      return *new (yyas_<T> ()) T;
+      return *new (yyas_<T> ()) T ();
     }
 
     /// Instantiate a \a T in here from \a t.
@@ -140,6 +141,7 @@ m4_define([b4_variant_define],
     T&
     as ()
     {]b4_parse_assert_if([
+      YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
       YYASSERT (sizeof (T) <= S);])[
       return *yyas_<T> ();
@@ -150,6 +152,7 @@ m4_define([b4_variant_define],
     const T&
     as () const
     {]b4_parse_assert_if([
+      YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
       YYASSERT (sizeof (T) <= S);])[
       return *yyas_<T> ();
@@ -332,7 +335,7 @@ m4_define([b4_basic_symbol_constructor_declare],
 [[
   basic_symbol (]b4_join(
           [typename Base::kind_type t],
-          b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[ v]),
+          b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[& v]),
           b4_locations_if([const location_type& l]))[);
 ]])
 
@@ -344,10 +347,10 @@ m4_define([b4_basic_symbol_constructor_define],
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
-          b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[ v]),
+          b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[& v]),
           b4_locations_if([const location_type& l]))[)
-    : Base (t)
-    , value (]b4_symbol_if([$1], [has_type], [v])[)]b4_locations_if([
+    : Base (t)]b4_symbol_if([$1], [has_type], [
+    , value (v)])[]b4_locations_if([
     , location (l)])[
   {}
 ]])

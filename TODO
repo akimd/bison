@@ -112,7 +112,7 @@ We could (should?) also treat the case of the undef_token, which is
 numbered 257 for yylex, and 2 internal.  Both appear for instance in
 toknum:
 
-  const unsigned short int
+  const unsigned short
   parser::yytoken_number_[] =
   {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
@@ -369,7 +369,8 @@ End:
 
 -----
 
-Copyright (C) 2001-2004, 2006, 2008-2015 Free Software Foundation, Inc.
+Copyright (C) 2001-2004, 2006, 2008-2015, 2018 Free Software Foundation,
+Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

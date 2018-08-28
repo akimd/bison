@@ -3,8 +3,8 @@
 
 # This file is part of GNU Bison
 
-# Copyright (C) 1992, 2000-2001, 2005-2006, 2009-2015 Free Software
-# Foundation, Inc.
+# Copyright (C) 1992, 2000-2001, 2005-2006, 2009-2015, 2018 Free
+# Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ sub normalize($)
 {
   local ($_) = @_;
 
-  s/^\@(c |comment|dots|end (ignore|group)|ignore|group).*//mg;
+  s/^\@(c |comment|dots|end (ignore|group)|ignore|group).*\n//mg;
   s/\@value\{VERSION\}/$ENV{VERSION}/g;
   s/^\@(error|result)\{\}//mg;
   s/\@([{}@])/$1/g;
@@ -65,8 +65,21 @@ sub message($)
     }
 }
 
-# basename => full file name for files we should extract.
-my %file_wanted;
+# The list of files we should extract.
+my @file_wanted;
+
+# Whether we should extract that file, and then under which path.
+sub file_wanted ($)
+{
+  my ($f) = @_;
+  for my $file (@file_wanted)
+    {
+      # No endswith in Perl 5...
+      return $file if $f eq substr($file, -length($f));
+    }
+  undef
+}
+
 
 sub process ($)
 {
@@ -89,9 +102,9 @@ sub process ($)
         {
           my $f = $1;
           $block = $2 || 1;
-          if ($file_wanted{$f})
+          if (file_wanted($f))
             {
-              $file = $file_wanted{$f};
+              $file = file_wanted($f);
               message(" GEN $file");
             }
           else
@@ -106,13 +119,13 @@ sub process ($)
               # Bison supports synclines, but not Flex.
               $input .= sprintf ("#line %s \"$in\"\n", $. + 1)
                 if $synclines && $file =~ /\.[chy]*$/;
-              next;
             }
           elsif (/^\@end (small)?example$/)
             {
               die "no contents: $file"
                 if $input eq "";
 
+              $file{$file}{$block} .= "\n" if defined $file{$file}{$block};
               $file{$file}{$block} .= normalize($input);
               $file = $input = undef;
               ++$block;
@@ -141,8 +154,7 @@ for my $arg (@ARGV)
 {
   if ($seen_dash)
     {
-      use File::Basename;
-      $file_wanted{basename($arg)} = $arg;
+      push @file_wanted, $arg;
     }
   elsif ($arg eq '--')
     {

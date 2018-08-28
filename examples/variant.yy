@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2008-2015 Free Software Foundation, Inc.
+  Copyright (C) 2008-2015, 2018 Free Software Foundation, Inc.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 
 %debug
 %language "c++"
-%glr-parser
 %defines
 %define api.token.constructor
 %define api.value.type variant
@@ -26,9 +25,9 @@
 
 %code requires // *.hh
 {
-#include <list>
 #include <string>
-typedef std::list<std::string> strings_type;
+#include <vector>
+typedef std::vector<std::string> strings_type;
 }
 
 %code // *.cc
@@ -44,14 +43,14 @@ typedef std::list<std::string> strings_type;
     static parser::symbol_type yylex ();
   }
 
-  // Printing a list of strings.
-  // Koening look up will look into std, since that's an std::list.
+  // Printing a vector of strings.
+  // Koening look up will look into std, since that's an std::vector.
   namespace std
   {
     std::ostream&
     operator<< (std::ostream& o, const strings_type& ss)
     {
-      o << "(" << &ss << ") {";
+      o << '{';
       const char *sep = "";
       for (strings_type::const_iterator i = ss.begin(), end = ss.end();
            i != end; ++i)
@@ -59,13 +58,12 @@ typedef std::list<std::string> strings_type;
           o << sep << *i;
           sep = ", ";
         }
-      return o << "}";
+      return o << '}';
     }
   }
 
   // Conversion to string.
   template <typename T>
-    inline
     std::string
     string_cast (const T& t)
   {
@@ -77,41 +75,26 @@ typedef std::list<std::string> strings_type;
 
 %token <::std::string> TEXT;
 %token <int> NUMBER;
-%printer { yyoutput << $$; } <*>;
+%printer { yyo << '(' << &$$ << ") " << $$; } <*>;
 %token END_OF_FILE 0;
 
 %type <::std::string> item;
-%type <::std::list<std::string>> list;
+%type <::std::vector<std::string>> list;
 
 %%
 
 result:
-  list  { std::cout << "list: " << $1 << std::endl; }
+  list  { std::cout << $1 << '\n'; }
 ;
 
 list:
-  /* nothing */
-  {
-    /* Generates an empty string list */
-    std::cerr << "Empty:  This is $$: " << $$ << std::endl;
-  }
-| list item
-  {
-    std::cerr << "Pre:  This is $$: " << $$ << std::endl;
-    std::cerr << "Pre:  This is $1: " << $1 << std::endl;
-    std::cerr << "Pre:  This is $2: " << $2 << std::endl;
-    $$ = $1;
-    $$.push_back ($2);
-    std::cerr << "Post: This is $$: " << $$ << std::endl;
-    std::cerr << "Post: This is $1: " << $1 << std::endl;
-    std::cerr << "Post: This is $2: " << $2 << std::endl;
-  }
+  %empty     { /* Generates an empty string list */ }
+| list item  { std::swap ($$, $1); $$.push_back ($2); }
 ;
 
 item:
-  TEXT %dprec 1 { $$ = $1; }
-| TEXT %dprec 2 { $$ = $1; }
-| NUMBER        { $$ = string_cast ($1); }
+  TEXT    { std::swap ($$, $1); }
+| NUMBER  { $$ = string_cast ($1); }
 ;
 %%
 
@@ -131,7 +114,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc(0, stage + 1, stage + 1);
+    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:
@@ -151,7 +134,7 @@ namespace yy
   void
   parser::error (const parser::location_type& loc, const std::string& msg)
   {
-    std::cerr << loc << ": " << msg << std::endl;
+    std::cerr << loc << ": " << msg << '\n';
   }
 }
 

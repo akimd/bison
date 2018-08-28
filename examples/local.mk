@@ -1,4 +1,4 @@
-# Copyright (C) 2005, 2008-2015 Free Software Foundation, Inc.
+# Copyright (C) 2005, 2008-2015, 2018 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,9 +26,9 @@ AM_CXXFLAGS =							\
 doc = $(top_srcdir)/doc/bison.texi
 extexi = $(top_srcdir)/%D%/extexi
 if ENABLE_GCC_WARNINGS
-extexiFLAGS = --synclines
+EXTEXIFLAGS = --synclines
 endif
-extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(extexiFLAGS) $(doc) --
+extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(EXTEXIFLAGS) $(doc) --
 extracted =
 CLEANFILES += $(extracted) %D%/extracted.stamp
 %D%/extracted.stamp: $(doc) $(extexi)
@@ -40,6 +40,24 @@ CLEANFILES += $(extracted) %D%/extracted.stamp
 $(extracted): %D%/extracted.stamp
 	@test -f $@ || rm -f %D%/extracted.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/extracted.stamp
+
+## ---------- ##
+## Examples.  ##
+## ---------- ##
+
+examplesdir = $(docdir)/examples
+dist_examples_DATA = %D%/README %D%/variant.yy %D%/variant-glr.yy
+
+check_PROGRAMS += %D%/variant
+nodist_%C%_variant_SOURCES = %D%/variant.yy
+%C%_variant_CPPFLAGS = -I$(top_builddir)
+dist_TESTS += %D%/variant.test
+
+check_PROGRAMS += %D%/variant-glr
+nodist_%C%_variant_glr_SOURCES = %D%/variant-glr.yy
+%C%_variant_glr_CPPFLAGS = -I$(top_builddir)
+dist_TESTS += %D%/variant-glr.test
+
 
 include %D%/calc++/local.mk
 include %D%/mfcalc/local.mk

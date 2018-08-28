@@ -1,7 +1,7 @@
 /* Input parser for Bison
 
    Copyright (C) 1984, 1986, 1989, 1992, 1998, 2000-2003, 2005-2007,
-   2009-2015 Free Software Foundation, Inc.
+   2009-2015, 2018 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -78,12 +78,12 @@ grammar_start_symbol_set (symbol *sym, location loc)
 static int
 get_merge_function (uniqstr name)
 {
+  if (! glr_parser)
+    return 0;
+
   merger_list *syms;
   merger_list head;
   int n;
-
-  if (! glr_parser)
-    return 0;
 
   head.next = merge_functions;
   for (syms = &head, n = 1; syms->next; syms = syms->next, n += 1)
@@ -111,11 +111,11 @@ get_merge_function (uniqstr name)
 static void
 record_merge_function_type (int merger, uniqstr type, location declaration_loc)
 {
-  int merger_find;
-  merger_list *merge_function;
-
   if (merger <= 0)
     return;
+
+  int merger_find;
+  merger_list *merge_function;
 
   if (type == NULL)
     type = uniqstr_new ("");
@@ -227,13 +227,11 @@ void
 grammar_current_rule_begin (symbol *lhs, location loc,
                             named_ref *lhs_name)
 {
-  symbol_list* p;
-
   /* Start a new rule and record its lhs.  */
   ++nrules;
   previous_rule_end = grammar_end;
 
-  p = grammar_symbol_append (lhs, loc);
+  symbol_list *p = grammar_symbol_append (lhs, loc);
   if (lhs_name)
     assign_named_ref (p, named_ref_copy (lhs_name));
 
@@ -314,9 +312,8 @@ grammar_rule_check (const symbol_list *r)
 
   /* Check that symbol values that should be used are in fact used.  */
   {
-    symbol_list const *l = r;
     int n = 0;
-    for (; l && l->content.sym; l = l->next, ++n)
+    for (symbol_list const *l = r; l && l->content.sym; l = l->next, ++n)
       {
         bool midrule_warning = false;
         if (!l->action_props.is_value_used
@@ -354,6 +351,11 @@ grammar_rule_check (const symbol_list *r)
       && !r->ruleprec->content->prec)
     complain (&r->location, Wother,
               _("token for %%prec is not defined: %s"), r->ruleprec->tag);
+
+  /* Check that the (main) action was not typed.  */
+  if (r->action_props.type)
+    complain (&r->location, Wother,
+              _("only midrule actions can be typed: %s"), r->action_props.type);
 }
 
 
@@ -371,7 +373,7 @@ grammar_current_rule_end (location loc)
 
 
 /*-------------------------------------------------------------------.
-| The previous action turns out the be a mid-rule action.  Attach it |
+| The previous action turns out to be a mid-rule action.  Attach it  |
 | to the current rule, i.e., create a dummy symbol, attach it this   |
 | mid-rule action, and append this dummy nonterminal to the current  |
 | rule.                                                              |
@@ -388,6 +390,8 @@ grammar_midrule_action (void)
      action.  Create the MIDRULE.  */
   location dummy_location = current_rule->action_props.location;
   symbol *dummy = dummy_symbol_get (dummy_location);
+  symbol_type_set(dummy,
+                  current_rule->action_props.type, current_rule->action_props.location);
   symbol_list *midrule = symbol_list_sym_new (dummy, dummy_location);
 
   /* Remember named_ref of previous action. */
@@ -402,7 +406,9 @@ grammar_midrule_action (void)
   code_props_rule_action_init (&midrule->action_props,
                                current_rule->action_props.code,
                                current_rule->action_props.location,
-                               midrule, 0,
+                               midrule,
+                               /* name_ref */ NULL,
+                               /* type */ NULL,
                                current_rule->action_props.is_predicate);
   code_props_none_init (&current_rule->action_props);
 
@@ -512,28 +518,41 @@ void
 grammar_current_rule_symbol_append (symbol *sym, location loc,
                                     named_ref *name)
 {
-  symbol_list *p;
   if (current_rule->action_props.code)
     grammar_midrule_action ();
-  p = grammar_symbol_append (sym, loc);
+  symbol_list *p = grammar_symbol_append (sym, loc);
   if (name)
     assign_named_ref (p, name);
   if (sym->content->status == undeclared || sym->content->status == used)
     sym->content->status = needed;
 }
 
-/* Attach an ACTION to the current rule.  */
-
 void
 grammar_current_rule_action_append (const char *action, location loc,
-                                    named_ref *name, bool is_predicate)
+                                    named_ref *name, uniqstr type)
 {
   if (current_rule->action_props.code)
     grammar_midrule_action ();
+  if (type)
+    complain (&loc, Wyacc,
+              _("POSIX Yacc does not support typed midrule actions"));
   /* After all symbol declarations have been parsed, packgram invokes
      code_props_translate_code.  */
   code_props_rule_action_init (&current_rule->action_props, action, loc,
-                               current_rule, name, is_predicate);
+                               current_rule,
+                               name, type,
+                               /* is_predicate */ false);
+}
+
+void
+grammar_current_rule_predicate_append (const char *pred, location loc)
+{
+  if (current_rule->action_props.code)
+    grammar_midrule_action ();
+  code_props_rule_action_init (&current_rule->action_props, pred, loc,
+                               current_rule,
+                               NULL, NULL,
+                               /* is_predicate */ true);
 }
 
 
@@ -545,9 +564,8 @@ grammar_current_rule_action_append (const char *action, location loc,
 static void
 packgram (void)
 {
-  unsigned int itemno = 0;
+  unsigned itemno = 0;
   rule_number ruleno = 0;
-  symbol_list *p;
 
   ritem = xnmalloc (nritems + 1, sizeof *ritem);
 
@@ -556,7 +574,7 @@ packgram (void)
 
   rules = xnmalloc (nrules, sizeof *rules);
 
-  for (p = grammar; p; p = p->next)
+  for (symbol_list *p = grammar; p; p = p->next)
     {
       symbol *ruleprec = p->ruleprec;
       record_merge_function_type (p->merger, p->content.sym->content->type_name,
@@ -705,6 +723,20 @@ prepare_percent_define_front_end_variables (void)
   }
 }
 
+/* Find the first LHS which is not a dummy.  */
+
+static symbol *
+find_start_symbol (void)
+{
+  symbol_list *res = grammar;
+  /* Skip all the possible dummy rules of the first rule.  */
+  for (; symbol_is_dummy (res->content.sym); res = res->next)
+    /* Skip the LHS, and then all the RHS of the dummy rule.  */
+    for (res = res->next; res->content.sym; res = res->next)
+      continue;
+  return res->content.sym;
+}
+
 
 /*-------------------------------------------------------------.
 | Check the grammar that has just been read, and convert it to |
@@ -734,19 +766,8 @@ check_and_convert_grammar (void)
   /* Find the start symbol if no %start.  */
   if (!start_flag)
     {
-      symbol_list *node;
-      for (node = grammar;
-           node != NULL && symbol_is_dummy (node->content.sym);
-           node = node->next)
-        {
-          for (node = node->next;
-               node != NULL && node->content.sym != NULL;
-               node = node->next)
-            ;
-        }
-      aver (node != NULL);
-      grammar_start_symbol_set (node->content.sym,
-                                node->content.sym->location);
+      symbol *start = find_start_symbol ();
+      grammar_start_symbol_set (start, start->location);
     }
 
   /* Insert the initial rule, whose line is that of the first rule
@@ -783,11 +804,8 @@ check_and_convert_grammar (void)
      rule.  For the same reason, all the 'used' flags must be set before
      checking whether to remove '$' from any midrule symbol name (also in
      packgram).  */
-  {
-    symbol_list *sym;
-    for (sym = grammar; sym; sym = sym->next)
-      code_props_translate_code (&sym->action_props);
-  }
+  for (symbol_list *sym = grammar; sym; sym = sym->next)
+    code_props_translate_code (&sym->action_props);
 
   /* Convert the grammar into the format described in gram.h.  */
   packgram ();

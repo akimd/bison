@@ -1,0 +1,299 @@
+# Bison Reports.                               -*- Autotest -*-
+
+# Copyright (C) 2018 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+AT_BANNER([[Test reports.]])
+
+## --------- ##
+## Reports.  ##
+## --------- ##
+
+AT_SETUP([Reports])
+
+AT_KEYWORDS([report])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([input.yy],
+[[%token
+  END  0  "end of file"
+  ASSIGN  ":="
+  INCR    "incr"
+;
+
+%token <std::string> IDENTIFIER "identifier"
+%type <std::string> id
+%token <int> NUMBER "number"
+%type  <int> exp
+
+%%
+%start unit;
+unit: assignments exp  { driver.result = $2; };
+
+assignments:
+  %empty                 {}
+| assignments assignment {};
+
+assignment:
+  id ":=" exp { driver.variables[$id] = $exp; };
+
+id:
+  "identifier";
+
+exp:
+  "incr" exp <int>{ $$ = 1; } <int>{ $$ = 10; } exp   { $$ = $2 + $3 + $4 + $5; }
+| "(" exp ")"   { std::swap ($$, $2); }
+| "identifier"  { $$ = driver.variables[$1]; }
+| "number"      { std::swap ($$, $1); };
+]])
+AT_BISON_OPTION_POPDEFS
+
+AT_BISON_CHECK([-o input.cc -v input.yy])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[Grammar
+
+    0 $accept: unit "end of file"
+
+    1 unit: assignments exp
+
+    2 assignments: %empty
+    3            | assignments assignment
+
+    4 assignment: id ":=" exp
+
+    5 id: "identifier"
+
+    6 @1: %empty
+
+    7 @2: %empty
+
+    8 exp: "incr" exp @1 @2 exp
+    9    | "(" exp ")"
+   10    | "identifier"
+   11    | "number"
+
+
+Terminals, with rules where they appear
+
+"end of file" (0) 0
+error (256)
+":=" (258) 4
+"incr" (259) 8
+"identifier" <std::string> (260) 5 10
+"number" <int> (261) 11
+"(" (262) 9
+")" (263) 9
+
+
+Nonterminals, with rules where they appear
+
+$accept (9)
+    on left: 0
+unit (10)
+    on left: 1, on right: 0
+assignments (11)
+    on left: 2 3, on right: 1 3
+assignment (12)
+    on left: 4, on right: 3
+id <std::string> (13)
+    on left: 5, on right: 4
+exp <int> (14)
+    on left: 8 9 10 11, on right: 1 4 8 9
+@1 <int> (15)
+    on left: 6, on right: 8
+@2 <int> (16)
+    on left: 7, on right: 8
+
+
+State 0
+
+    0 $accept: . unit "end of file"
+
+    $default  reduce using rule 2 (assignments)
+
+    unit         go to state 1
+    assignments  go to state 2
+
+
+State 1
+
+    0 $accept: unit . "end of file"
+
+    "end of file"  shift, and go to state 3
+
+
+State 2
+
+    1 unit: assignments . exp
+    3 assignments: assignments . assignment
+
+    "incr"        shift, and go to state 4
+    "identifier"  shift, and go to state 5
+    "number"      shift, and go to state 6
+    "("           shift, and go to state 7
+
+    assignment  go to state 8
+    id          go to state 9
+    exp         go to state 10
+
+
+State 3
+
+    0 $accept: unit "end of file" .
+
+    $default  accept
+
+
+State 4
+
+    8 exp: "incr" . exp @1 @2 exp
+
+    "incr"        shift, and go to state 4
+    "identifier"  shift, and go to state 11
+    "number"      shift, and go to state 6
+    "("           shift, and go to state 7
+
+    exp  go to state 12
+
+
+State 5
+
+    5 id: "identifier" .
+   10 exp: "identifier" .
+
+    "end of file"  reduce using rule 10 (exp)
+    $default       reduce using rule 5 (id)
+
+
+State 6
+
+   11 exp: "number" .
+
+    $default  reduce using rule 11 (exp)
+
+
+State 7
+
+    9 exp: "(" . exp ")"
+
+    "incr"        shift, and go to state 4
+    "identifier"  shift, and go to state 11
+    "number"      shift, and go to state 6
+    "("           shift, and go to state 7
+
+    exp  go to state 13
+
+
+State 8
+
+    3 assignments: assignments assignment .
+
+    $default  reduce using rule 3 (assignments)
+
+
+State 9
+
+    4 assignment: id . ":=" exp
+
+    ":="  shift, and go to state 14
+
+
+State 10
+
+    1 unit: assignments exp .
+
+    $default  reduce using rule 1 (unit)
+
+
+State 11
+
+   10 exp: "identifier" .
+
+    $default  reduce using rule 10 (exp)
+
+
+State 12
+
+    8 exp: "incr" exp . @1 @2 exp
+
+    $default  reduce using rule 6 (@1)
+
+    @1  go to state 15
+
+
+State 13
+
+    9 exp: "(" exp . ")"
+
+    ")"  shift, and go to state 16
+
+
+State 14
+
+    4 assignment: id ":=" . exp
+
+    "incr"        shift, and go to state 4
+    "identifier"  shift, and go to state 11
+    "number"      shift, and go to state 6
+    "("           shift, and go to state 7
+
+    exp  go to state 17
+
+
+State 15
+
+    8 exp: "incr" exp @1 . @2 exp
+
+    $default  reduce using rule 7 (@2)
+
+    @2  go to state 18
+
+
+State 16
+
+    9 exp: "(" exp ")" .
+
+    $default  reduce using rule 9 (exp)
+
+
+State 17
+
+    4 assignment: id ":=" exp .
+
+    $default  reduce using rule 4 (assignment)
+
+
+State 18
+
+    8 exp: "incr" exp @1 @2 . exp
+
+    "incr"        shift, and go to state 4
+    "identifier"  shift, and go to state 11
+    "number"      shift, and go to state 6
+    "("           shift, and go to state 7
+
+    exp  go to state 19
+
+
+State 19
+
+    8 exp: "incr" exp @1 @2 exp .
+
+    $default  reduce using rule 8 (exp)
+]])
+
+AT_CLEANUP

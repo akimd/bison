@@ -1,7 +1,8 @@
 # -*- Autoconf -*-
 # Sanity-test a C++ compiler.
 #
-# Copyright (C) 2004, 2006, 2009-2015 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2006, 2009-2015, 2018 Free Software Foundation,
+# Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,9 +34,9 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
           using namespace std;],
          [std::cerr << "";
           cout << "";
-          typedef std::pair<unsigned int, int> uipair;
-          std::map<unsigned int, int> m;
-          std::map<unsigned int, int>::iterator i;
+          typedef std::pair<unsigned, int> uipair;
+          std::map<unsigned, int> m;
+          std::map<unsigned, int>::iterator i;
           m.insert (uipair (4, -4));
           for (i = m.begin (); i != m.end (); ++i)
             if (i->first != 4)
