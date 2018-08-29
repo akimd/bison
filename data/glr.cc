@@ -370,7 +370,7 @@ b4_location_define])])[
   };
 
 ]b4_token_ctor_if([b4_yytranslate_define
-b4_public_types_define])[
+b4_public_types_define([cc])])[
 
 ]dnl Redirections for glr.c.
 b4_percent_define_flag_if([[global_tokens_and_yystype]],
