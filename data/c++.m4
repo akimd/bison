@@ -38,7 +38,7 @@ m4_define([b4_inline],
   [cc], [],
   [hh], [[inline
   ]],
-  [m4_fatal([$0: invalid argument: $1])])])
+  [XXXXXXXXXX m4_warn([$0: invalid argument: $1])])])
 
 ## -------- ##
 ## Checks.  ##

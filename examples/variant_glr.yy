@@ -132,7 +132,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc(0, stage + 1, stage + 1);
+    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:

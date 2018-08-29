@@ -281,9 +281,9 @@ b4_public_types_define([cc])])[
 b4_namespace_close
 ])
 
-# b4_shared_declarations
-# ----------------------
-# Declaration that might either go into the header (if --defines)
+# b4_shared_declarations(hh|cc)
+# -----------------------------
+# Declaration that might either go into the header (if --defines, $1 = hh)
 # or open coded in the parser body.
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
@@ -364,13 +364,13 @@ b4_location_define])])[
     };
 
     /// Convert a scanner token number \a t to a symbol number.
-    static inline token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
+    static token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
 
 ]b4_parse_param_vars[
   };
 
-]b4_token_ctor_if([b4_yytranslate_define
-b4_public_types_define([cc])])[
+]b4_token_ctor_if([b4_yytranslate_define([$1])
+b4_public_types_define([$1])])[
 
 ]dnl Redirections for glr.c.
 b4_percent_define_flag_if([[global_tokens_and_yystype]],
@@ -387,7 +387,7 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 b4_function_declare(b4_prefix[parse], [int], b4_parse_param_wrap)
 b4_percent_code_get([[provides]])
 m4_popdef([b4_parse_param])dnl
-])
+]) # b4_shared_declarations
 
 b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
@@ -397,7 +397,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 // C++ GLR parser skeleton written by Akim Demaille.
 
 ]b4_cpp_guard_open([b4_spec_defines_file])[
-]b4_shared_declarations[
+]b4_shared_declarations([hh])[
 ]b4_cpp_guard_close([b4_spec_defines_file])[
 ]b4_output_end()])
 
