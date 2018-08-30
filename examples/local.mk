@@ -53,10 +53,10 @@ nodist_%C%_variant_SOURCES = %D%/variant.yy
 %C%_variant_CPPFLAGS = -I$(top_builddir)
 dist_TESTS += %D%/variant.test
 
-check_PROGRAMS += %D%/variant_glr
-nodist_%C%_variant_glr_SOURCES = %D%/variant_glr.yy
-%C%_variant_glr_CPPFLAGS = -I$(top_builddir)
-dist_TESTS += %D%/variant_glr.test
+# check_PROGRAMS += %D%/variant_glr
+#nodist_%C%_variant_glr_SOURCES = %D%/variant_glr.yy
+#%C%_variant_glr_CPPFLAGS = -I$(top_builddir)
+#dist_TESTS += %D%/variant_glr.test
 
 
 include %D%/calc++/local.mk
