@@ -426,6 +426,7 @@ m4_define([b4_public_types_define],
     return static_cast<token_type> (yytoken_number_[type]);
   }
 ]])[]dnl
+
 b4_symbol_constructor_define])
 
 
