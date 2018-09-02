@@ -69,7 +69,7 @@ run ()
   local sta_eff=0
   $prog "$@" - <input >out_eff || sta_eff=$?
   # Effective output.
-  local out_eff=`cat out_eff`
+  local out_eff="`cat out_eff`"
   if test $sta_eff -eq $sta_exp; then
     if test "$out_eff" = "$out_exp"; then
       echo "$me: PASS: $number"
