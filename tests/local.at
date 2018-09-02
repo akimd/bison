@@ -180,6 +180,8 @@ m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
            [m4_bmatch([$3], [%define  *api\.pure *false], [$2], [$1])],
            [$2])])
+m4_pushdef([AT_PUSH_IF],
+[m4_bmatch([$3], [%define api.push-pull \(both\|pull\)], [$1], [$2])])
 # AT_NAME_PREFIX: also consider api.namespace.
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) .*],
@@ -299,6 +301,8 @@ m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_LOCATION_TYPE_IF])
 m4_popdef([AT_LOCATION_IF])
 m4_popdef([AT_PARSE_PARAMS])
+m4_popdef([AT_PUSH_IF])
+m4_popdef([AT_PURE_IF])
 m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
