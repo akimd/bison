@@ -60,10 +60,10 @@ cd $$.dir
 run ()
 {
   # Expected exit status.
-  local sta_exp=$1
+  local sta_exp="$1"
   shift
   # Expected output.
-  local out_exp=$1
+  local out_exp="$1"
   shift
   # Effective exit status.
   local sta_eff=0
