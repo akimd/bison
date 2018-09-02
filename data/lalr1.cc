@@ -176,6 +176,7 @@ b4_location_define])])[
   {
   public:
 ]b4_public_types_declare[
+]b4_symbol_type_declare[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
@@ -205,6 +206,8 @@ b4_location_define])])[
 
     /// Report a syntax error.
     void error (const syntax_error& err);
+
+]b4_symbol_constructor_declare[
 
   private:
     /// This class is not copyable.

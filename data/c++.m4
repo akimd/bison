@@ -192,8 +192,15 @@ m4_define([b4_public_types_declare],
 
     /// Internal symbol number for tokens (subsumed by symbol_number_type).
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
+]])
 
-    /// A complete symbol.
+
+# b4_symbol_type_declare
+# ----------------------
+# Define symbol_type, the external type for symbols used for symbol
+# constructors.
+m4_define([b4_symbol_type_declare],
+[[    /// A complete symbol.
     ///
     /// Expects its Base type to provide access to the symbol type
     /// via type_get().
@@ -281,8 +288,7 @@ m4_define([b4_public_types_declare],
 
     /// "External" symbols: returned by the scanner.
     typedef basic_symbol<by_type> symbol_type;
-
-]b4_symbol_constructor_declare])
+]])
 
 
 # b4_public_types_define(hh|cc)
