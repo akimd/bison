@@ -88,11 +88,14 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
-## --------------------------- ##
-## C++ Variant-based Symbols.  ##
-## --------------------------- ##
+## -------------------------------------- ##
+## C++ Variant-based Symbols Unit Tests.  ##
+## -------------------------------------- ##
 
-AT_SETUP([C++ Variant-based Symbols])
+# Not checking the grammar, only the variants and variant based
+# symbols.
+
+AT_SETUP([C++ Variant-based Symbols Unit Tests])
 
 AT_KEYWORDS([variant])
 
@@ -115,7 +118,7 @@ AT_DATA_GRAMMAR([list.y],
 }
 
 %token <int> INT "int"
-%type < std::vector<int> > exp
+%type <std::vector<int>> exp
 
 %printer { yyo << $$; } <int>
 %printer
@@ -126,7 +129,7 @@ AT_DATA_GRAMMAR([list.y],
           yyo << ", ";
         yyo << *i;
       }
-  } < std::vector<int> >
+  } <std::vector<int>>
 
 %code requires { #include <vector> }
 %code { int yylex (yy::parser::semantic_type* yylval); }
@@ -139,17 +142,20 @@ exp: "int" { $$.push_back ($1); }
 
 int main()
 {
+  // symbol_type: construction, accessor.
   {
     yy::parser::symbol_type s = yy::parser::make_INT(12);
     std::cerr << s.value.as<int>() << '\n';
   }
 
+  // stack_symbol_type: construction, accessor.
   {
     yy::parser::symbol_type s = yy::parser::make_INT(123);
     yy::parser::stack_symbol_type ss(1, s);
     std::cerr << ss.value.as<int>() << '\n';
   }
 
+  // pushing on the stack.
   {
     yy::parser::stack_type st;
     for (int i = 0; i < 100; ++i)

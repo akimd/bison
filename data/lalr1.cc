@@ -320,7 +320,7 @@ b4_location_define])])[
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, symbol_type& sym);
       /// Assignment, needed by push_back.
-      stack_symbol_type& operator= (const stack_symbol_type& that);
+      stack_symbol_type& operator= (stack_symbol_type& that);
     };
 
     /// Stack type.
@@ -332,9 +332,9 @@ b4_location_define])])[
     /// Push a new state on the stack.
     /// \param m    a debug message to display
     ///             if null, no trace is output.
-    /// \param s    the symbol
+    /// \param sym  the symbol
     /// \warning the contents of \a s.value is stolen.
-    void yypush_ (const char* m, stack_symbol_type& s);
+    void yypush_ (const char* m, stack_symbol_type& sym);
 
     /// Push a new look ahead token on the state on the stack.
     /// \param m    a debug message to display
@@ -586,11 +586,10 @@ m4_if(b4_prefix, [yy], [],
   {}
 
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (const stack_symbol_type& that)
-    : super_type (that.state]b4_locations_if([, that.location])[)
-  {
-    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
-                                      [value], [copy], [that.value])],
-                   [[value = that.value;]])[
+    : super_type (that.state]b4_variant_if([], [, that.value])[]b4_locations_if([, that.location])[)
+  {]b4_variant_if([
+    b4_symbol_variant([that.type_get ()],
+                      [value], [copy], [that.value])])[
   }
 
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
@@ -603,11 +602,11 @@ m4_if(b4_prefix, [yy], [],
   }
 
   ]b4_parser_class_name[::stack_symbol_type&
-  ]b4_parser_class_name[::stack_symbol_type::operator= (const stack_symbol_type& that)
+  ]b4_parser_class_name[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
     state = that.state;
     ]b4_variant_if([b4_symbol_variant([that.type_get ()],
-                                      [value], [copy], [that.value])],
+                                      [value], [move], [that.value])],
                    [[value = that.value;]])[]b4_locations_if([
     location = that.location;])[
     return *this;
@@ -647,18 +646,18 @@ m4_if(b4_prefix, [yy], [],
 #endif
 
   void
+  ]b4_parser_class_name[::yypush_ (const char* m, stack_symbol_type& sym)
+  {
+    if (m)
+      YY_SYMBOL_PRINT (m, sym);
+    yystack_.push (sym);
+  }
+
+  void
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, symbol_type& sym)
   {
     stack_symbol_type t (s, sym);
     yypush_ (m, t);
-  }
-
-  void
-  ]b4_parser_class_name[::yypush_ (const char* m, stack_symbol_type& s)
-  {
-    if (m)
-      YY_SYMBOL_PRINT (m, s);
-    yystack_.push (s);
   }
 
   void
