@@ -87,25 +87,25 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list  { std::cout << "list: " << $1 << std::endl; }
+  list  { std::cout << "list: " << $1 << '\n'; }
 ;
 
 list:
   %empty
   {
     /* Generates an empty string list */
-    std::cerr << "Empty:  This is $$: " << $$ << std::endl;
+    std::cerr << "Empty:  This is $$: " << $$ << '\n';
   }
 | list item
   {
-    std::cerr << "Pre:  This is $$: " << $$ << std::endl;
-    std::cerr << "Pre:  This is $1: " << $1 << std::endl;
-    std::cerr << "Pre:  This is $2: " << $2 << std::endl;
+    std::cerr << "Pre:  This is $$: " << $$ << '\n';
+    std::cerr << "Pre:  This is $1: " << $1 << '\n';
+    std::cerr << "Pre:  This is $2: " << $2 << '\n';
     $$ = $1;
     $$.push_back ($2);
-    std::cerr << "Post: This is $$: " << $$ << std::endl;
-    std::cerr << "Post: This is $1: " << $1 << std::endl;
-    std::cerr << "Post: This is $2: " << $2 << std::endl;
+    std::cerr << "Post: This is $$: " << $$ << '\n';
+    std::cerr << "Post: This is $1: " << $1 << '\n';
+    std::cerr << "Post: This is $2: " << $2 << '\n';
   }
 ;
 
@@ -152,7 +152,7 @@ namespace yy
   void
   parser::error (const parser::location_type& loc, const std::string& msg)
   {
-    std::cerr << loc << ": " << msg << std::endl;
+    std::cerr << loc << ": " << msg << '\n';
   }
 }
 
