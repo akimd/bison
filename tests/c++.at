@@ -142,26 +142,27 @@ exp: "int" { $$.push_back ($1); }
 
 int main()
 {
+  using yy::parser;
   // symbol_type: construction, accessor.
   {
-    yy::parser::symbol_type s = yy::parser::make_INT(12);
+    parser::symbol_type s = parser::make_INT(12);
     std::cerr << s.value.as<int>() << '\n';
   }
 
   // stack_symbol_type: construction, accessor.
   {
-    yy::parser::symbol_type s = yy::parser::make_INT(123);
-    yy::parser::stack_symbol_type ss(1, s);
+    parser::symbol_type s = parser::make_INT(123);
+    parser::stack_symbol_type ss(1, s);
     std::cerr << ss.value.as<int>() << '\n';
   }
 
   // pushing on the stack.
   {
-    yy::parser::stack_type st;
+    parser::stack_type st;
     for (int i = 0; i < 100; ++i)
       {
-        yy::parser::symbol_type s(yy::parser::make_INT(i));
-        yy::parser::stack_symbol_type ss(1, s);
+        parser::symbol_type s = parser::make_INT(123);
+        parser::stack_symbol_type ss(1, s);
         st.push(ss);
       }
   }
@@ -319,10 +320,9 @@ namespace yy
         *yylloc = location ();])[
         return parser::token::END_OF_FILE;]])[
 
-      case ',':
-        ]AT_TOKEN_CTOR_IF([[
-        return parser::make_COMMA (]AT_LOCATION_IF([location ()])[);]], [[
-]AT_LOCATION_IF([
+      case ',':]AT_TOKEN_CTOR_IF([[
+        return parser::make_COMMA (]AT_LOCATION_IF([location ()])[);]],
+[AT_LOCATION_IF([
         *yylloc = location ();])[
         return parser::token::COMMA;]])[
 
