@@ -26,11 +26,11 @@ regen: _version
 manual_title = The Yacc-compatible Parser Generator
 gendocs_options_ = -I $(abs_top_srcdir)/doc -I $(abs_top_builddir)/doc
 
-# It's useful to run maintainer-*check* targets during development, but we
+# It's useful to run maintainer-check* targets during development, but we
 # don't want to wait on a recompile because of an update to $(VERSION).  Thus,
-# override the _is-dist-target from GNUmakefile so that maintainer-*check*
+# override the _is-dist-target from GNUmakefile so that maintainer-check*
 # targets are filtered out.
-_is-dist-target = $(filter-out %clean maintainer-check% maintainer-%-check, \
+_is-dist-target = $(filter-out %clean maintainer-check%, \
   $(filter maintainer-% dist% alpha beta major,$(MAKECMDGOALS)))
 
 url_dir_list = \
