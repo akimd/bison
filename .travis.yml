@@ -122,7 +122,9 @@ before_install:
 
 script:
   - ./bootstrap
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX"
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" || cat config.log
   - make -j2
-  - make check VERBOSE=1 TESTSUITEFLAGS=-j2
-
+  - make check                     VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
+  - make maintainer-check-posix    VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
+#  - make maintainer-check-valgrind VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
+  - make maintainer-check-g++      VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
