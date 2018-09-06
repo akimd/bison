@@ -45,7 +45,7 @@ int   FLEX_PREFIX (lex_destroy) (void);
 #define last_string    FLEX_PREFIX (last_string)
 
 // Pacify warnings in yy_init_buffer (observed with Flex 2.6.4 and GCC
-// 7.3.0).
+// 6.4.0 and 7.3.0).
 //
 // ./src/scan-skel.c: In function 'skel_restart':
 // ./src/scan-skel.c:2035:20: error: potential null pointer dereference [-Werror=null-dereference]
@@ -54,7 +54,7 @@ int   FLEX_PREFIX (lex_destroy) (void);
 // ./src/scan-skel.c:2031:19: error: potential null pointer dereference [-Werror=null-dereference]
 //   b->yy_input_file = file;
 //   ~~~~~~~~~~~~~~~~~^~~~~~
-#if defined __GNUC__ && 7 <= __GNUC__
+#if defined __GNUC__ && 6 <= __GNUC__
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 
