@@ -122,7 +122,7 @@ before_install:
 
 script:
   - ./bootstrap
-  - ./configure CC="$CC" CXX="$CXX"
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX"
   - make -j2
   - make check VERBOSE=1 TESTSUITEFLAGS=-j2
 
