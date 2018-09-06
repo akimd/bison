@@ -153,7 +153,7 @@ if test "$enable_gcc_warnings" = yes; then
   # ... possiby in std=c++11 mode.
   gl_WARN_ADD([-Wno-zero-as-null-pointer-constant], [FLEX_SCANNER_CXXFLAGS])
   CXXFLAGS=$save_CXXFLAGS
-  gl_WARN_ADD([-fno-exceptions], [CXXFLAGS_NO_EXCEPTIONS])
+  gl_WARN_ADD([-fno-exceptions], [NO_EXCEPTIONS_CXXFLAGS])
   # Clang++ deprecates compiling C.
   gl_WARN_ADD([-Wno-deprecated], [WNO_DEPRECATED_CXXFLAGS])
   AC_LANG_POP([C++])
