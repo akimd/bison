@@ -245,6 +245,8 @@ case $VALGRIND:$uname in
     fi
     ;;
 esac
+AC_MSG_CHECKING([Valgrind suppression file])
+AC_MSG_RESULT([$suppfile])
 
 # Whether we cannot run the compiled bison.
 AM_CONDITIONAL([CROSS_COMPILING], [test "$cross_compiling" = yes])
