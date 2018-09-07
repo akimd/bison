@@ -118,6 +118,16 @@ matrix:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo valgrind
+  - autoconf --version
+  - automake --version
+  - autopoint --version
+  - flex --version
+  - gettext --version
+  - dot -V
+  - help2man --version
+  - m4 --version
+  - makeinfo --version
+  - valgrind --version
   - eval "${MATRIX_EVAL}"
 
 script:
