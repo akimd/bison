@@ -1,5 +1,10 @@
 language: cpp
 
+addons:
+  apt:
+    packages:
+      - ccache
+
 matrix:
   include:
     # works on Precise and Trusty
@@ -44,7 +49,31 @@ matrix:
           packages:
             - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.4
+          packages:
+            - clang-3.4
+      env:
+        - MATRIX_EVAL="CC=clang-3.4 && CXX=clang++-3.4"
+
     # works on Precise and Trusty
     - os: linux
       addons:
@@ -112,8 +141,18 @@ matrix:
           packages:
             - clang-5.0
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
 
+    # works on Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-6.0
+          packages:
+            - clang-6.0
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
 
 before_install:
   - sudo apt-get update -qq
