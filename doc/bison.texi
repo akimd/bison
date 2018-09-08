@@ -11426,8 +11426,8 @@ parser's to get the set of defined tokens.
 # define yywrap() 1
 
 // Pacify warnings in yy_init_buffer (observed with Flex 2.6.4)
-// and GCC 7.3.0.
-#if defined __GNUC__ && 7 <= __GNUC__
+// and GCC 6.4.0, 7.3.0.
+#if defined __GNUC__ && !defined __clang__ && 6 <= __GNUC__
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 %@}
