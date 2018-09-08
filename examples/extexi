@@ -32,6 +32,18 @@
 # output before block 2, even if the latter appears before).  The same
 # number may be used several time, in which case the order of
 # appearance is used.
+#
+# Use @ignore for code to extract that must not be part of the
+# documentation.  For instance:
+#
+#      @ignore
+#      @comment file: calc++/scanner.ll
+#      @example
+#      // Work around an incompatibility in Flex.
+#      # undef yywrap
+#      # define yywrap() 1
+#      @end example
+#      @end ignore
 
 use strict;
 
