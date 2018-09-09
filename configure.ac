@@ -52,6 +52,9 @@ AC_CONFIG_HEADERS([lib/config.h:lib/config.in.h])
 # Checks for the compiler.
 AC_PROG_CC_STDC
 AC_PROG_CXX
+AC_LANG_PUSH([C++])
+gl_WARN_ADD([-fno-exceptions], [NO_EXCEPTIONS_CXXFLAGS])
+AC_LANG_POP([C++])
 
 # Gnulib (early checks).
 gl_EARLY
@@ -153,11 +156,11 @@ if test "$enable_gcc_warnings" = yes; then
   # ... possiby in std=c++11 mode.
   gl_WARN_ADD([-Wno-zero-as-null-pointer-constant], [FLEX_SCANNER_CXXFLAGS])
   CXXFLAGS=$save_CXXFLAGS
-  gl_WARN_ADD([-fno-exceptions], [NO_EXCEPTIONS_CXXFLAGS])
   # Clang++ deprecates compiling C.
   gl_WARN_ADD([-Wno-deprecated], [WNO_DEPRECATED_CXXFLAGS])
   AC_LANG_POP([C++])
 fi
+
 
 BISON_TEST_FOR_WORKING_C_COMPILER
 BISON_C_COMPILER_POSIXLY_CORRECT
