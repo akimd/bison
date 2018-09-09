@@ -2,46 +2,18 @@ language: cpp
 
 matrix:
   include:
-    # GCC.
+    ## ----- ##
+    ## GCC.  ##
+    ## ----- ##
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.6
+            - g++-8
       env:
-         - MATRIX_EVAL="CC=gcc-4.6 && CXX=g++-4.6"
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-      env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
     - os: linux
       addons:
@@ -59,50 +31,83 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-8
+            - g++-6
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
-
-    # Clang.
-    - os: linux
-      addons:
-        apt:
-          packages:
-            - clang-3.3
-      env:
-        # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-
-    - os: linux
-      addons:
-        apt:
-          packages:
-            - clang-3.4
-      env:
-        # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
           packages:
-            - clang-3.5
+            - g++-5
       env:
-        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
           packages:
-            - clang-3.6
+            - g++-4.9
       env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.6
+      env:
+         - MATRIX_EVAL="CC=gcc-4.6 && CXX=g++-4.6"
+
+    ## ------- ##
+    ## Clang.  ##
+    ## ------- ##
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - clang-4.0
+      env:
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-3.9
+          packages:
+            - clang-3.9
+      env:
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.8
+          packages:
+            - clang-3.8
+      env:
+        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
 
     - os: linux
       addons:
@@ -120,41 +125,40 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
+            - llvm-toolchain-precise-3.6
           packages:
-            - clang-3.8
+            - clang-3.6
       env:
-        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
 
     - os: linux
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-3.9
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.5
           packages:
-            - clang-3.9
+            - clang-3.5
       env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
 
     - os: linux
       addons:
         apt:
-          sources:
-            - llvm-toolchain-trusty-4.0
           packages:
-            - clang-4.0
+            - clang-3.4
       env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+        # No versioned name installed.
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
     - os: linux
       addons:
         apt:
-          sources:
-            - llvm-toolchain-trusty-5.0
           packages:
-            - clang-5.0
+            - clang-3.3
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+        # No versioned name installed.
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
 before_install:
   - sudo apt-get update -qq
