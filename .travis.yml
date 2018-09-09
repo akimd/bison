@@ -76,7 +76,7 @@ matrix:
           packages:
             - clang-5.0
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -86,7 +86,7 @@ matrix:
           packages:
             - clang-5.0
       env:
-        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' && CXX='clang++-5.0 -fsanitize=address'"
+        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' && CXX='clang++-5.0 -fsanitize=address' && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -96,7 +96,7 @@ matrix:
           packages:
             - clang-4.0
       env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -106,7 +106,7 @@ matrix:
           packages:
             - clang-3.9
       env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -117,7 +117,7 @@ matrix:
           packages:
             - clang-3.8
       env:
-        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
+        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -128,7 +128,7 @@ matrix:
           packages:
             - clang-3.7
       env:
-        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
+        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -139,7 +139,7 @@ matrix:
           packages:
             - clang-3.6
       env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -150,7 +150,7 @@ matrix:
           packages:
             - clang-3.5
       env:
-        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
+        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5 && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -159,7 +159,7 @@ matrix:
             - clang-3.4
       env:
         # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
 
     - os: linux
       addons:
@@ -168,7 +168,7 @@ matrix:
             - clang-3.3
       env:
         # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
 
 before_install:
   - sudo apt-get update -qq
