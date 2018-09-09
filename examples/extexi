@@ -32,8 +32,23 @@
 # output before block 2, even if the latter appears before).  The same
 # number may be used several time, in which case the order of
 # appearance is used.
+#
+# Use @ignore for code to extract that must not be part of the
+# documentation.  For instance:
+#
+#      @ignore
+#      @comment file: calc++/scanner.ll
+#      @example
+#      // Work around an incompatibility in Flex.
+#      # undef yywrap
+#      # define yywrap() 1
+#      @end example
+#      @end ignore
 
 use strict;
+
+use File::Basename qw(dirname);
+use File::Path qw(make_path);
 
 # Whether we generate synclines.
 my $synclines = 0;
@@ -80,7 +95,9 @@ sub file_wanted ($)
   undef
 }
 
-
+# process ($in)
+# -------------
+# Read input file $in, and generate the outputs.
 sub process ($)
 {
   my ($in) = @_;
@@ -140,7 +157,7 @@ sub process ($)
   # Output the files.
   for my $file (keys %file)
     {
-      # No spurious end of line: use printf.
+      make_path (dirname ($file));
       my $o = new IO::File(">$file")
         or die "$file: cannot create: $?";
       print $o $file{$file}{$_}

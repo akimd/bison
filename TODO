@@ -196,6 +196,16 @@ DeRemer and Penello: they already provide the algorithm.
 
 
 * Extensions
+** %include
+This is a popular demand.  We already made many changes in the parser that
+should make this reasonably easy to implement.
+
+** Push parsers
+There is demand for push parsers in Java and C++.  And GLR I guess.
+
+** Generate code instead of tables
+This is certainly quite a lot of work.  See
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.50.4539.
 
 ** $-1
 We should find a means to provide an access to values deep in the
@@ -365,6 +375,7 @@ Here's a proposal for how a new implementation might look:
 Local Variables:
 mode: outline
 coding: utf-8
+fill-column: 76
 End:
 
 -----

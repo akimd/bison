@@ -333,8 +333,7 @@ b4_join(b4_symbol_if([$1], [has_type],
 # -----------------------------------
 # Generate a constructor declaration for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_declare],
-[[
-  basic_symbol (]b4_join(
+[[      basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[& v]),
           b4_locations_if([const location_type& l]))[);
@@ -344,8 +343,7 @@ m4_define([b4_basic_symbol_constructor_declare],
 # ----------------------------------
 # Generate a constructor implementation for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_define],
-[[
-  template <typename Base>
+[[  template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_symbol_if([$1], [has_type], const b4_symbol([$1], [type])[& v]),
@@ -354,6 +352,7 @@ m4_define([b4_basic_symbol_constructor_define],
     , value (v)])[]b4_locations_if([
     , location (l)])[
   {}
+
 ]])
 
 # b4_symbol_constructor_define

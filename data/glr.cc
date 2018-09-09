@@ -310,6 +310,7 @@ b4_location_define])])[
   {
   public:
 ]b4_public_types_declare[
+]b4_symbol_type_declare[
 
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
@@ -331,11 +332,12 @@ b4_location_define])])[
     /// Set the current debugging level.
     void set_debug_level (debug_level_type l);
 
-  public:
     /// Report a syntax error.]b4_locations_if([[
     /// \param loc    where the syntax error is found.]])[
     /// \param msg    a description of the syntax error.
     virtual void error (]b4_locations_if([[const location_type& loc, ]])[const std::string& msg);
+
+]b4_symbol_constructor_declare[
 
 # if ]b4_api_PREFIX[DEBUG
   public:

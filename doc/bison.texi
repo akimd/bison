@@ -11405,8 +11405,8 @@ yy::parser::error (const location_type& l, const std::string& m)
 @node Calc++ Scanner
 @subsubsection Calc++ Scanner
 
-The Flex scanner first includes the driver declaration, then the
-parser's to get the set of defined tokens.
+In addition to standard headers, the Flex scanner includes the driver's,
+then the parser's to get the set of defined tokens.
 
 @comment file: calc++/scanner.ll
 @example
@@ -11417,7 +11417,13 @@ parser's to get the set of defined tokens.
 # include <string>
 # include "driver.hh"
 # include "parser.hh"
+%@}
+@end example
 
+@ignore
+@comment file: calc++/scanner.ll
+@example
+%@{
 // Work around an incompatibility in flex (at least versions
 // 2.5.31 through 2.5.33): it generates code that does
 // not conform to C89.  See Debian bug 333231
@@ -11426,18 +11432,31 @@ parser's to get the set of defined tokens.
 # define yywrap() 1
 
 // Pacify warnings in yy_init_buffer (observed with Flex 2.6.4)
-// and GCC 7.3.0.
-#if defined __GNUC__ && 7 <= __GNUC__
+// and GCC 6.4.0, 7.3.0.
+#if defined __GNUC__ && !defined __clang__ && 6 <= __GNUC__
 # pragma GCC diagnostic ignored "-Wnull-dereference"
+#endif
+
+// Old versions of Flex (2.5.35) generate an incomplete documentation comment.
+//
+//  In file included from src/scan-code-c.c:3:
+//  src/scan-code.c:2198:21: error: empty paragraph passed to '@param' command
+//        [-Werror,-Wdocumentation]
+//   * @param line_number
+//     ~~~~~~~~~~~~~~~~~^
+//  1 error generated.
+#if YY_FLEX_MAJOR_VERSION * 1000 + YY_FLEX_MINOR_VERSION <= 2006 && defined __clang__
+# pragma clang diagnostic ignored "-Wdocumentation"
 #endif
 %@}
 @end example
+@end ignore
 
 @noindent
 Because there is no @code{#include}-like feature we don't need
-@code{yywrap}, we don't need @code{unput} either, and we parse an
-actual file, this is not an interactive session with the user.
-Finally, we enable scanner tracing.
+@code{yywrap}, we don't need @code{unput} either, and we parse an actual
+file, this is not an interactive session with the user.  Finally, we enable
+scanner tracing.
 
 @comment file: calc++/scanner.ll
 @example
@@ -11455,13 +11474,12 @@ blank [ \t]
 @end example
 
 @noindent
-The following paragraph suffices to track locations accurately.  Each
-time @code{yylex} is invoked, the begin position is moved onto the end
-position.  Then when a pattern is matched, its width is added to the end
-column.  When matching ends of lines, the end
-cursor is adjusted, and each time blanks are matched, the begin cursor
-is moved onto the end cursor to effectively ignore the blanks
-preceding tokens.  Comments would be treated equally.
+The following paragraph suffices to track locations accurately.  Each time
+@code{yylex} is invoked, the begin position is moved onto the end position.
+Then when a pattern is matched, its width is added to the end column.  When
+matching ends of lines, the end cursor is adjusted, and each time blanks are
+matched, the begin cursor is moved onto the end cursor to effectively ignore
+the blanks preceding tokens.  Comments would be treated equally.
 
 @comment file: calc++/scanner.ll
 @example

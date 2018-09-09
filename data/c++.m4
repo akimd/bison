@@ -24,11 +24,20 @@ b4_percent_define_ifdef([[api.value.union.name]],
 
 m4_include(b4_pkgdatadir/[c.m4])
 
+b4_percent_define_check_kind([api.namespace], [code], [deprecated])
+b4_percent_define_check_kind([parser_class_name], [code], [deprecated])
+
+
+## ----- ##
+## C++.  ##
+## ----- ##
+
 # b4_comment(TEXT, [PREFIX])
 # --------------------------
 # Put TEXT in comment. Prefix all the output lines with PREFIX.
 m4_define([b4_comment],
 [b4_comment_([$1], [$2// ], [$2// ])])
+
 
 # b4_inline(hh|cc)
 # ----------------
@@ -40,12 +49,7 @@ m4_define([b4_inline],
   ]],
   [m4_fatal([$0: invalid argument: $1])])])
 
-## -------- ##
-## Checks.  ##
-## -------- ##
 
-b4_percent_define_check_kind([api.namespace], [code], [deprecated])
-b4_percent_define_check_kind([parser_class_name], [code], [deprecated])
 
 ## ---------------- ##
 ## Default values.  ##
@@ -192,8 +196,15 @@ m4_define([b4_public_types_declare],
 
     /// Internal symbol number for tokens (subsumed by symbol_number_type).
     typedef ]b4_int_type_for([b4_translate])[ token_number_type;
+]])
 
-    /// A complete symbol.
+
+# b4_symbol_type_declare
+# ----------------------
+# Define symbol_type, the external type for symbols used for symbol
+# constructors.
+m4_define([b4_symbol_type_declare],
+[[    /// A complete symbol.
     ///
     /// Expects its Base type to provide access to the symbol type
     /// via type_get().
@@ -215,12 +226,12 @@ m4_define([b4_public_types_declare],
 ]b4_type_foreach([b4_basic_symbol_constructor_declare])], [[
       /// Constructor for valueless symbols.
       basic_symbol (typename Base::kind_type t]b4_locations_if([,
-                    const location_type& l])[);]])[
+                    const location_type& l])[);
 
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
                     const semantic_type& v]b4_locations_if([,
-                    const location_type& l])[);
+                    const location_type& l])[);]])[
 
       /// Destroy the symbol.
       ~basic_symbol ();
@@ -281,8 +292,7 @@ m4_define([b4_public_types_declare],
 
     /// "External" symbols: returned by the scanner.
     typedef basic_symbol<by_type> symbol_type;
-
-]b4_symbol_constructor_declare])
+]])
 
 
 # b4_public_types_define(hh|cc)
@@ -311,18 +321,6 @@ m4_define([b4_public_types_define],
                       [other.value])])[
   }
 
-  template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
-          [typename Base::kind_type t],
-          [const semantic_type& v],
-          b4_locations_if([const location_type& l]))[)
-    : Base (t)
-    , value (]b4_variant_if([], [v])[)]b4_locations_if([
-    , location (l)])[
-  {]b4_variant_if([[
-    (void) v;
-    ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}
-
 ]b4_variant_if([[
   // Implementation of basic_symbol constructor for each type.
 ]b4_type_foreach([b4_basic_symbol_constructor_define])], [[
@@ -334,7 +332,19 @@ m4_define([b4_public_types_define],
     : Base (t)
     , value ()]b4_locations_if([
     , location (l)])[
-  {}]])[
+  {}
+
+  template <typename Base>
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
+          [typename Base::kind_type t],
+          [const semantic_type& v],
+          b4_locations_if([const location_type& l]))[)
+    : Base (t)
+    , value (]b4_variant_if([], [v])[)]b4_locations_if([
+    , location (l)])[
+  {]b4_variant_if([[
+    (void) v;
+    ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}]])[
 
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()

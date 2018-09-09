@@ -263,11 +263,6 @@ m4_define([b4_attribute_define],
 ])
 
 
-## ---------##
-## Values.  ##
-## ---------##
-
-
 # b4_null_define
 # --------------
 # Portability issues: define a YY_NULLPTR appropriate for the current
@@ -287,6 +282,12 @@ m4_define([b4_null_define],
 # -------
 # Return a null pointer constant.
 m4_define([b4_null], [YY_NULLPTR])
+
+
+
+## ---------##
+## Values.  ##
+## ---------##
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
 # -------------------------------------------------------------

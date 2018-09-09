@@ -259,24 +259,21 @@ release:
   - runs the parsers under Valgrind.
   - runs the test suite with G++ as C compiler...
 
-- run "make maintainer-push-check", which runs "make maintainer-check" while
+- run "make maintainer-check-push", which runs "make maintainer-check" while
   activating the push implementation and its pull interface wrappers in many
   test cases that were originally written to exercise only the pull
   implementation.  This makes certain the push implementation can perform
   every task the pull implementation can.
 
-- run "make maintainer-xml-check", which runs "make maintainer-check" while
+- run "make maintainer-check-xml", which runs "make maintainer-check" while
   checking Bison's XML automaton report for every working grammar passed to
   Bison in the test suite.  The check just diffs the output of Bison's
   included XSLT style sheets with the output of --report=all and --graph.
 
-- running "make maintainer-release-check" takes care of running
-  maintainer-check, maintainer-push-check and maintainer-xml-check.
+- running "make maintainer-check-release" takes care of running
+  maintainer-check, maintainer-check-push and maintainer-check-xml.
 
-- Change tests/atlocal/CFLAGS to add your preferred options.  For instance,
-  "-traditional" to check that the parsers are K&R.  Note that it does not
-  make sense for glr.c, which should be ANSI, but currently is actually GNU
-  C, nor for lalr1.cc.
+- Change tests/atlocal/CFLAGS to add your preferred options.
 
 - Test with a very recent version of GCC for both C and C++.  Testing with
   older versions that are still in use is nice too.
@@ -294,7 +291,7 @@ In particular, be sure to read README-release.
 week before a stable release, to give them time to translate them.  Before
 generating the *.pot files, make sure that po/POTFILES.in and
 runtime-po/POTFILES.in list all files with translatable strings.  This
-helps: grep -l '\<_(' *
+helps: grep -l '\<_(' *.
 
 ** Tests
 See above.

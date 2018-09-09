@@ -42,6 +42,7 @@ GCC='@GCC@'
 # sets CFLAGS to this.
   NO_WERROR_CFLAGS='@CFLAGS@   @WARN_CFLAGS@   @WARN_CFLAGS_TEST@'
 NO_WERROR_CXXFLAGS='@CXXFLAGS@ @WARN_CXXFLAGS@ @WARN_CXXFLAGS_TEST@'
+WNO_DEPRECATED_CXXFLAGS='@WNO_DEPRECATED_CXXFLAGS@'
 
 # But most of the time, we want -Werror.
   CFLAGS="$NO_WERROR_CFLAGS   @WERROR_CFLAGS@"
@@ -51,7 +52,7 @@ CXXFLAGS="$NO_WERROR_CXXFLAGS @WERROR_CXXFLAGS@"
 BISON_CXX_WORKS='@BISON_CXX_WORKS@'
 
 # Compiler flags to disable exception support.
-CXXFLAGS_NO_EXCEPTIONS='@CXXFLAGS_NO_EXCEPTIONS@'
+NO_EXCEPTIONS_CXXFLAGS='@NO_EXCEPTIONS_CXXFLAGS@'
 
 # Be sure that the C++ compiler is not broken because of gnulib.  This
 # cannot be checked in configure (gnulib is not parameterized yet),
@@ -99,7 +100,7 @@ if "$at_arg_compile_c_with_cxx"; then
   CC_IS_CXX=1
   CC=$CXX
   NO_WERROR_CFLAGS=$NO_WERROR_CXXFLAGS
-  CFLAGS=$CXXFLAGS
+  CFLAGS="$CXXFLAGS $WNO_DEPRECATED_CXXFLAGS"
   BISON_C_WORKS=$BISON_CXX_WORKS
 else
   CC_IS_CXX=0
