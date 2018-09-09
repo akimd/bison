@@ -33,6 +33,7 @@ extracted =
 CLEANFILES += $(extracted) %D%/extracted.stamp
 %D%/extracted.stamp: $(doc) $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
+	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
 	$(AM_V_at)$(extract) $(extracted)
 	$(AM_V_at)mv $@.tmp $@
