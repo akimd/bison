@@ -84,7 +84,8 @@ AC_ARG_ENABLE([gcc-warnings],
               [enable_gcc_warnings=no])
 AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
-  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align -Wdocumentation
+  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
+    -fparse-all-comments -Wdocumentation
     -Wformat -Wnull-dereference -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wshadow -Wstrict-prototypes'
   warn_cxx='-Wnoexcept'

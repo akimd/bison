@@ -344,7 +344,7 @@ b4_location_define])])[
     ///             if null, no trace is output.
     /// \param s    the state
     /// \param sym  the symbol (for its value and location).
-    /// \warning the contents of \a s.value is stolen.
+    /// \warning the contents of \a sym.value is stolen.
     void yypush_ (const char* m, state_type s, symbol_type& sym);
 
     /// Pop \a n symbols the three stacks.
