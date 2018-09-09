@@ -47,17 +47,17 @@ $(extracted): %D%/extracted.stamp
 ## ---------- ##
 
 examplesdir = $(docdir)/examples
-dist_examples_DATA = %D%/README %D%/variant.yy %D%/variant_glr.yy
+dist_examples_DATA = %D%/README %D%/variant.yy %D%/variant-glr.yy
 
 check_PROGRAMS += %D%/variant
 nodist_%C%_variant_SOURCES = %D%/variant.yy
 %C%_variant_CPPFLAGS = -I$(top_builddir)
 dist_TESTS += %D%/variant.test
 
-# check_PROGRAMS += %D%/variant_glr
-#nodist_%C%_variant_glr_SOURCES = %D%/variant_glr.yy
-#%C%_variant_glr_CPPFLAGS = -I$(top_builddir)
-#dist_TESTS += %D%/variant_glr.test
+check_PROGRAMS += %D%/variant-glr
+nodist_%C%_variant_glr_SOURCES = %D%/variant-glr.yy
+%C%_variant_glr_CPPFLAGS = -I$(top_builddir)
+dist_TESTS += %D%/variant-glr.test
 
 
 include %D%/calc++/local.mk

@@ -39,6 +39,9 @@ typedef std::list<std::string> strings_type;
 #include <iterator>
 #include <sstream>
 
+  // Whether to issue debug traces.
+  bool debug = false;
+
   // Prototype of the yylex function providing subsequent tokens.
   namespace yy
   {
@@ -52,7 +55,9 @@ typedef std::list<std::string> strings_type;
     std::ostream&
     operator<< (std::ostream& o, const strings_type& ss)
     {
-      o << "(" << &ss << ") {";
+      if (debug)
+        o << '(' << &ss << ") ";
+      o << '{';
       const char *sep = "";
       for (strings_type::const_iterator i = ss.begin(), end = ss.end();
            i != end; ++i)
@@ -87,25 +92,29 @@ typedef std::list<std::string> strings_type;
 %%
 
 result:
-  list  { std::cout << "list: " << $1 << '\n'; }
+  list  { std::cout << $1 << '\n'; }
 ;
 
 list:
   %empty
   {
     /* Generates an empty string list */
-    std::cerr << "Empty:  This is $$: " << $$ << '\n';
+    if (debug)
+      std::cerr << "Empty:  This is $$: " << $$ << '\n';
   }
 | list item
   {
-    std::cerr << "Pre:  This is $$: " << $$ << '\n';
-    std::cerr << "Pre:  This is $1: " << $1 << '\n';
-    std::cerr << "Pre:  This is $2: " << $2 << '\n';
+    if (debug)
+      std::cerr
+        << "Pre:  This is $$: " << $$ << '\n'
+        << "Pre:  This is $1: " << $1 << '\n'
+        << "Pre:  This is $2: " << $2 << '\n';
     $$ = $1;
     $$.push_back ($2);
-    std::cerr << "Post: This is $$: " << $$ << '\n';
-    std::cerr << "Post: This is $1: " << $1 << '\n';
-    std::cerr << "Post: This is $2: " << $2 << '\n';
+    if (debug)
+        std::cerr << "Post: This is $$: " << $$ << '\n'
+                  << "Post: This is $1: " << $1 << '\n'
+                  << "Post: This is $2: " << $2 << '\n';
   }
 ;
 
@@ -159,8 +168,9 @@ namespace yy
 int
 main ()
 {
+  debug = !!getenv ("YYDEBUG");
   yy::parser p;
-  p.set_debug_level (!!getenv ("YYDEBUG"));
+  p.set_debug_level (debug);
   return p.parse ();
 }
 
