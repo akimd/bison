@@ -222,12 +222,12 @@ m4_define([b4_symbol_type_declare],
 ]b4_type_foreach([b4_basic_symbol_constructor_declare])], [[
       /// Constructor for valueless symbols.
       basic_symbol (typename Base::kind_type t]b4_locations_if([,
-                    const location_type& l])[);]])[
+                    const location_type& l])[);
 
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
                     const semantic_type& v]b4_locations_if([,
-                    const location_type& l])[);
+                    const location_type& l])[);]])[
 
       /// Destroy the symbol.
       ~basic_symbol ();
@@ -317,18 +317,6 @@ m4_define([b4_public_types_define],
                       [other.value])])[
   }
 
-  template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
-          [typename Base::kind_type t],
-          [const semantic_type& v],
-          b4_locations_if([const location_type& l]))[)
-    : Base (t)
-    , value (]b4_variant_if([], [v])[)]b4_locations_if([
-    , location (l)])[
-  {]b4_variant_if([[
-    (void) v;
-    ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}
-
 ]b4_variant_if([[
   // Implementation of basic_symbol constructor for each type.
 ]b4_type_foreach([b4_basic_symbol_constructor_define])], [[
@@ -340,7 +328,19 @@ m4_define([b4_public_types_define],
     : Base (t)
     , value ()]b4_locations_if([
     , location (l)])[
-  {}]])[
+  {}
+
+  template <typename Base>
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
+          [typename Base::kind_type t],
+          [const semantic_type& v],
+          b4_locations_if([const location_type& l]))[)
+    : Base (t)
+    , value (]b4_variant_if([], [v])[)]b4_locations_if([
+    , location (l)])[
+  {]b4_variant_if([[
+    (void) v;
+    ]b4_symbol_variant([this->type_get ()], [value], [copy], [v])])[}]])[
 
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
