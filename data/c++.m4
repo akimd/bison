@@ -24,11 +24,20 @@ b4_percent_define_ifdef([[api.value.union.name]],
 
 m4_include(b4_pkgdatadir/[c.m4])
 
+b4_percent_define_check_kind([api.namespace], [code], [deprecated])
+b4_percent_define_check_kind([parser_class_name], [code], [deprecated])
+
+
+## ----- ##
+## C++.  ##
+## ----- ##
+
 # b4_comment(TEXT, [PREFIX])
 # --------------------------
 # Put TEXT in comment. Prefix all the output lines with PREFIX.
 m4_define([b4_comment],
 [b4_comment_([$1], [$2// ], [$2// ])])
+
 
 # b4_inline(hh|cc)
 # ----------------
@@ -40,12 +49,7 @@ m4_define([b4_inline],
   ]],
   [m4_fatal([$0: invalid argument: $1])])])
 
-## -------- ##
-## Checks.  ##
-## -------- ##
 
-b4_percent_define_check_kind([api.namespace], [code], [deprecated])
-b4_percent_define_check_kind([parser_class_name], [code], [deprecated])
 
 ## ---------------- ##
 ## Default values.  ##
