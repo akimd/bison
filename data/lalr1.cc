@@ -326,8 +326,10 @@ b4_location_define])])[
       stack_symbol_type (YY_RVREF (stack_symbol_type) that);
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) sym);
-      /// Assignment, needed by push_back.
+#if defined __cplusplus && __cplusplus < 201103L
+      /// Assignment, needed by push_back by some old implementations.
       stack_symbol_type& operator= (YY_MOVE_REF (stack_symbol_type) that);
+#endif
     };
 
     /// Stack type.
@@ -608,6 +610,7 @@ m4_if(b4_prefix, [yy], [],
     that.type = empty_symbol;
   }
 
+#if defined __cplusplus && __cplusplus < 201103L
   ]b4_parser_class_name[::stack_symbol_type&
   ]b4_parser_class_name[::stack_symbol_type::operator= (YY_MOVE_REF (stack_symbol_type) that)
   {
@@ -618,6 +621,7 @@ m4_if(b4_prefix, [yy], [],
     location = YY_MOVE (that.location);])[
     return *this;
   }
+#endif
 
   template <typename Base>
   void
