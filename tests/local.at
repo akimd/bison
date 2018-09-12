@@ -807,6 +807,15 @@ m4_define([AT_LANG_COMPILE(c++)],  [AT_COMPILE_CXX([$1], [$2], [$3])])
 m4_define([AT_LANG_COMPILE(java)], [AT_JAVA_COMPILE([$1.java], [$2], [$3])])
 
 
+# AT_LANG_EXT
+# -----------
+# The file extension corresponding to the language: c, cc, or java.
+m4_define([AT_LANG_EXT],  [AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_LANG_EXT(c)],    [c])
+m4_define([AT_LANG_EXT(c++)],  [cc])
+m4_define([AT_LANG_EXT(java)], [java])
+
+
 # AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2], [EXTRA-COMPILER-FLAGS)
 # ------------------------------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
@@ -814,34 +823,14 @@ m4_define([AT_LANG_COMPILE(java)], [AT_JAVA_COMPILE([$1.java], [$2], [$3])])
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
 # OUTPUT.java along with it.  Relies on AT_SKEL_CC_IF and
 # AT_SKEL_JAVA_IF.
-m4_define([AT_FULL_COMPILE],  [AT_LANG_DISPATCH([$0], $@)])
-m4_define([AT_FULL_COMPILE(c)],
-[AT_BISON_CHECK([-o $1.c $1.y])
+m4_define([AT_FULL_COMPILE],
+[AT_BISON_CHECK([-o $1.AT_LANG_EXT $1.y])
  AT_LANG_COMPILE([$1],
                  m4_join([ ],
-                         [$1.c],
-                         m4_ifval($2, [[$1-$2.c]]),
-                         m4_ifval($3, [[$1-$3.c]])),
+                         [$1.AT_LANG_EXT],
+                         m4_ifval($2, [[$1-$2.]AT_LANG_EXT]),
+                         m4_ifval($3, [[$1-$3.]AT_LANG_EXT])),
                  [$4])])
-
-m4_define([AT_FULL_COMPILE(c++)],
-[AT_BISON_CHECK([-o $1.cc $1.y])
- AT_LANG_COMPILE([$1],
-                 m4_join([ ],
-                         [$1.cc],
-                         m4_ifval($2, [[$1-$2.cc]]),
-                         m4_ifval($3, [[$1-$3.cc]])),
-                 [$4])])
-
-m4_define([AT_FULL_COMPILE(java)],
-[AT_BISON_CHECK([-o $1.java $1.y])
- AT_LANG_COMPILE([$1],
-                 m4_join([ ],
-                         [$1.java],
-                         m4_ifval($2, [[$1-$2.java]]),
-                         m4_ifval($3, [[$1-$3.java]])),
-                 [$4])])
-
 
 
 
