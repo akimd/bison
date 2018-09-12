@@ -563,7 +563,16 @@ main (int argc, char const* argv[])
   return p.parse ();
 }]])
 
-
+m4_define([AT_FOR_EACH_CXX],
+[[at_for_each_cxx_CXXFLAGS_save=$CXXFLAGS
+for at_cxx_std in "" $STDCXX_FLAGS
+do
+  ]AS_ECHO(["Testing with C++ standard flags: '$at_cxx_std'"])[
+  CXXFLAGS="$at_for_each_cxx_CXXFLAGS_save $at_cxx_std"
+  ]$1[
+done
+CXXFLAGS=$at_for_each_cxx_CXXFLAGS_save
+]])
 
 ## ------ ##
 ## Java.  ##

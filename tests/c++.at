@@ -82,8 +82,10 @@ main (void)
 }
 ]])
 
-AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input], 0)
+AT_FOR_EACH_CXX([
+  AT_FULL_COMPILE([input])
+  AT_PARSER_CHECK([./input], 0)
+])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
@@ -177,10 +179,12 @@ int main()
 }
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([list])
 AT_PARSER_CHECK([./list], 0, [],
 [12
 123
+])
 ])
 
 AT_BISON_OPTION_POPDEFS
@@ -360,6 +364,7 @@ namespace yy
 ]AT_MAIN_DEFINE[
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([list])
 AT_PARSER_CHECK([./list], 0,
 [[(0, 1, 2, 4, 6)
@@ -386,6 +391,7 @@ Destroy: "6"
 Destroy: ()
 Destroy: (0, 1, 2, 4, 6)
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -482,7 +488,7 @@ int main()
 }
 ]])
 
-
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([[input]])
 # This used to print "Discarding 'a'." again at the end.
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
@@ -523,6 +529,7 @@ Cleanup: popping token EOI ()
 Cleanup: popping nterm expr (40)
 destroy: 40
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -657,8 +664,9 @@ void
 AT_BISON_CHECK([[-o input.cc input.yy]])
 
 m4_if([$#], [1],
-[AT_COMPILE_CXX([[input]])
-AT_PARSER_CHECK([[./input]])])
+[AT_FOR_EACH_CXX([
+  AT_COMPILE_CXX([[input]])
+  AT_PARSER_CHECK([[./input]])])])
 AT_BISON_OPTION_POPDEFS
 ])
 
@@ -754,6 +762,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([[input]])
 # This used to print "Discarding 'a'." again at the end.
 AT_PARSER_CHECK([[./input]], [[1]], [[]],
@@ -761,6 +770,7 @@ AT_PARSER_CHECK([[./input]], [[1]], [[]],
 Discarding 'a'.
 Reducing 'a'.
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -834,6 +844,7 @@ yylex (yy::parser::semantic_type *)
 }
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([[input]], [[scan]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
@@ -842,6 +853,7 @@ caught error
 error: invalid character
 caught error
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -1095,6 +1107,8 @@ main (int argc, const char *argv[])
 }
 ]])
 AT_BISON_CHECK([[-o input.cc --report=all input.yy]])
+
+AT_FOR_EACH_CXX([
 AT_COMPILE_CXX([[input]])
 
 AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
@@ -1125,6 +1139,7 @@ AT_PARSER_CHECK([[./input aaaaE]], [[2]], [[]],
 AT_PARSER_CHECK([[./input aaaaT]], [[1]])
 
 AT_PARSER_CHECK([[./input aaaaR]], [m4_if([$2], [with], [0], [1])])
+])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -1181,6 +1196,6 @@ int main ()
 ])
 
 AT_BISON_CHECK([[-o input.cc input.yy]])
-AT_COMPILE_CXX([[input]])
+AT_FOR_EACH_CXX([AT_COMPILE_CXX([[input]])])
 
 AT_CLEANUP

@@ -55,7 +55,9 @@ fi
 : ${NO_EXCEPTIONS_CXXFLAGS='@NO_EXCEPTIONS_CXXFLAGS@'}
 
 # Requiring a specific C++ standard.
+: ${CXX98_CXXFLAGS='@CXX98_CXXFLAGS@'}
 : ${CXX11_CXXFLAGS='@CXX11_CXXFLAGS@'}
+: ${STDCXX_FLAGS='@STDCXX_FLAGS@'}
 
 # Be sure that the C++ compiler is not broken because of gnulib.  This
 # cannot be checked in configure (gnulib is not parameterized yet),
