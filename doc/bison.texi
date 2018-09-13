@@ -1175,14 +1175,13 @@ action in a GLR parser.
 @cindex GLR parsers and @code{yylval}
 @vindex yylloc
 @cindex GLR parsers and @code{yylloc}
-In any semantic action, you can examine @code{yychar} to determine the type of
-the lookahead token present at the time of the associated reduction.
-After checking that @code{yychar} is not set to @code{YYEMPTY} or @code{YYEOF},
-you can then examine @code{yylval} and @code{yylloc} to determine the
-lookahead token's semantic value and location, if any.
-In a nondeferred semantic action, you can also modify any of these variables to
-influence syntax analysis.
-@xref{Lookahead, ,Lookahead Tokens}.
+In any semantic action, you can examine @code{yychar} to determine the type
+of the lookahead token present at the time of the associated reduction.
+After checking that @code{yychar} is not set to @code{YYEMPTY} or
+@code{YYEOF}, you can then examine @code{yylval} and @code{yylloc} to
+determine the lookahead token's semantic value and location, if any.  In a
+nondeferred semantic action, you can also modify any of these variables to
+influence syntax analysis.  @xref{Lookahead, ,Lookahead Tokens}.
 
 @findex yyclearin
 @cindex GLR parsers and @code{yyclearin}
@@ -10423,16 +10422,15 @@ the corresponding short option and directive.
 @node Yacc Library
 @section Yacc Library
 
-The Yacc library contains default implementations of the
-@code{yyerror} and @code{main} functions.  These default
-implementations are normally not useful, but POSIX requires
-them.  To use the Yacc library, link your program with the
-@option{-ly} option.  Note that Bison's implementation of the Yacc
-library is distributed under the terms of the GNU General
-Public License (@pxref{Copying}).
+The Yacc library contains default implementations of the @code{yyerror} and
+@code{main} functions.  These default implementations are normally not
+useful, but POSIX requires them.  To use the Yacc library, link your program
+with the @option{-ly} option.  Note that Bison's implementation of the Yacc
+library is distributed under the terms of the GNU General Public License
+(@pxref{Copying}).
 
-If you use the Yacc library's @code{yyerror} function, you should
-declare @code{yyerror} as follows:
+If you use the Yacc library's @code{yyerror} function, you should declare
+@code{yyerror} as follows:
 
 @example
 int yyerror (char const *);
@@ -12572,8 +12570,8 @@ Is Bison secure?  Does it conform to POSIX?
 
 If you're looking for a guarantee or certification, we don't provide it.
 However, Bison is intended to be a reliable program that conforms to the
-POSIX specification for Yacc.  If you run into problems,
-please send us a bug report.
+POSIX specification for Yacc.  If you run into problems, please send us a
+bug report.
 
 @node I can't build Bison
 @section I can't build Bison
