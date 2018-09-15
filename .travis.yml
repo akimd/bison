@@ -193,8 +193,8 @@ script:
   - git describe || git tag v3.0 -m "Fake version 3.0."
   - git describe
   - ./bootstrap
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" || cat config.log
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" || { cat config.log && exit 1; }
   - make -j2
-  - make check                     VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
-  - make maintainer-check-posix    VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
-  - make maintainer-check-g++      VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
+  - make check                     VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+  - make maintainer-check-posix    VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+  - make maintainer-check-g++      VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
