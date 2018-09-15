@@ -10,7 +10,8 @@ matrix:
     ## ----- ##
     ## GCC.  ##
     ## ----- ##
-    - os: linux
+    - name: "GCC 8"
+      os: linux
       addons:
         apt:
           sources:
@@ -20,7 +21,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
-    - os: linux
+    - name: "GCC 7 -O3"
+      os: linux
       addons:
         apt:
           sources:
@@ -30,7 +32,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
 
-    - os: linux
+    - name: "GCC 6"
+      os: linux
       addons:
         apt:
           sources:
@@ -40,7 +43,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
-    - os: linux
+    - name: "GCC 5"
+      os: linux
       addons:
         apt:
           sources:
@@ -50,7 +54,8 @@ matrix:
       env:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
-    - os: linux
+    - name: "GCC 4.9"
+      os: linux
       addons:
         apt:
           sources:
@@ -60,7 +65,8 @@ matrix:
       env:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
 
-    - os: linux
+    - name: "GCC 4.6"
+      os: linux
       addons:
         apt:
           sources:
@@ -73,7 +79,8 @@ matrix:
     ## ------- ##
     ## Clang.  ##
     ## ------- ##
-    - os: linux
+    - name: "Clang 5 -O3"
+      os: linux
       addons:
         apt:
           sources:
@@ -83,7 +90,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 5 ASAN"
+      os: linux
       addons:
         apt:
           sources:
@@ -93,7 +101,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' && CXX='clang++-5.0 -fsanitize=address' && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 4"
+      os: linux
       addons:
         apt:
           sources:
@@ -103,7 +112,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 3.9"
+      os: linux
       addons:
         apt:
           sources:
@@ -113,7 +123,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 3.8"
+      os: linux
       addons:
         apt:
           sources:
@@ -124,7 +135,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "CLang 3.7"
+      os: linux
       addons:
         apt:
           sources:
@@ -135,7 +147,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 3.6"
+      os: linux
       addons:
         apt:
           sources:
@@ -146,7 +159,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 3.5"
+      os: linux
       addons:
         apt:
           sources:
@@ -157,7 +171,8 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5 && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 3.4"
+      os: linux
       addons:
         apt:
           packages:
@@ -166,7 +181,8 @@ matrix:
         # No versioned name installed.
         - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
 
-    - os: linux
+    - name: "Clang 3.3"
+      os: linux
       addons:
         apt:
           packages:
@@ -178,7 +194,8 @@ matrix:
     ## ----- ##
     ## ICC.  ##
     ## ----- ##
-    - os: linux
+    - name: "ICC"
+      os: linux
       env:
         # ICC's warnings are often very wrong (e.g., it thinks foo ?
         # "bar" : "baz" is char* instead of const char*), so don't try
