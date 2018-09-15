@@ -186,6 +186,12 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 script:
+  - git show
+  - git tag -l
+  # For some reasons, sometimes the checkout does not have any tags,
+  # so `git describe` fails, so bootstrap fails.
+  - git describe || git tag v3.0 -m "Fake version 3.0."
+  - git describe
   - ./bootstrap
   - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" || cat config.log
   - make -j2
