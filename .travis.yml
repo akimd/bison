@@ -172,17 +172,17 @@ matrix:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo valgrind
+  - sudo apt-get install -qq autoconf automake autopoint doxygen flex gettext graphviz help2man m4 texinfo
   - autoconf --version
   - automake --version
   - autopoint --version
+  - doxygen --version
   - flex --version
   - gettext --version
   - dot -V
   - help2man --version
   - m4 --version
   - makeinfo --version
-  - valgrind --version
   - eval "${MATRIX_EVAL}"
 
 script:
@@ -191,5 +191,4 @@ script:
   - make -j2
   - make check                     VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
   - make maintainer-check-posix    VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
-#  - make maintainer-check-valgrind VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
   - make maintainer-check-g++      VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
