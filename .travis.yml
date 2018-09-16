@@ -30,7 +30,7 @@ matrix:
           packages:
             - g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
     - name: "GCC 6"
       os: linux
@@ -110,7 +110,7 @@ matrix:
           packages:
             - clang-5.0
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
     - name: "Clang 5 ASAN"
       os: linux
@@ -121,7 +121,7 @@ matrix:
           packages:
             - clang-5.0
       env:
-        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' && CXX='clang++-5.0 -fsanitize=address' && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' && CXX='clang++-5.0 -fsanitize=address'"
 
     - name: "Clang 4"
       os: linux
@@ -132,7 +132,7 @@ matrix:
           packages:
             - clang-4.0
       env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
 
     - name: "Clang 3.9"
       os: linux
@@ -143,7 +143,7 @@ matrix:
           packages:
             - clang-3.9
       env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
 
     - name: "Clang 3.8"
       os: linux
@@ -155,7 +155,7 @@ matrix:
           packages:
             - clang-3.8
       env:
-        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
 
     - name: "CLang 3.7"
       os: linux
@@ -167,7 +167,7 @@ matrix:
           packages:
             - clang-3.7
       env:
-        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
 
     - name: "Clang 3.6"
       os: linux
@@ -179,7 +179,7 @@ matrix:
           packages:
             - clang-3.6
       env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
 
     - name: "Clang 3.5"
       os: linux
@@ -191,7 +191,7 @@ matrix:
           packages:
             - clang-3.5
       env:
-        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5 && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
 
     - name: "Clang 3.4"
       os: linux
@@ -201,7 +201,7 @@ matrix:
             - clang-3.4
       env:
         # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
     - name: "Clang 3.3"
       os: linux
@@ -211,7 +211,7 @@ matrix:
             - clang-3.3
       env:
         # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
 
     ## ----- ##
     ## ICC.  ##
@@ -249,7 +249,7 @@ script:
   - git describe
   - ./bootstrap
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" || { cat config.log && exit 1; }
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && exit 1; }
   - make -j2 $MAKE_ARGS
   - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
   - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
