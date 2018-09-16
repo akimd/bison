@@ -565,9 +565,15 @@ main (int argc, char const* argv[])
 
 m4_define([AT_FOR_EACH_CXX],
 [[at_for_each_cxx_CXXFLAGS_save=$CXXFLAGS
-for at_cxx_std in "" $STDCXX_FLAGS
+for at_cxx_std in '' \
+                  ${CXX98_CXXFLAGS:+"$CXX98_CXXFLAGS"} \
+                  ${CXX03_CXXFLAGS:+"$CXX03_CXXFLAGS"} \
+                  ${CXX11_CXXFLAGS:+"$CXX11_CXXFLAGS"} \
+                  ${CXX14_CXXFLAGS:+"$CXX14_CXXFLAGS"} \
+                  ${CXX17_CXXFLAGS:+"$CXX17_CXXFLAGS"} \
+                  ${CXX2A_CXXFLAGS:+"$CXX2A_CXXFLAGS"}
 do
-  ]AS_ECHO(["Testing with C++ standard flags: '$at_cxx_std'"])[
+  ]AS_ECHO(["======== Testing with C++ standard flags: '$at_cxx_std'"])[
   CXXFLAGS="$at_for_each_cxx_CXXFLAGS_save $at_cxx_std"
   ]$1[
 done

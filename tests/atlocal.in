@@ -57,8 +57,11 @@ fi
 
 # Requiring a specific C++ standard.
 : ${CXX98_CXXFLAGS='@CXX98_CXXFLAGS@'}
+: ${CXX03_CXXFLAGS='@CXX03_CXXFLAGS@'}
 : ${CXX11_CXXFLAGS='@CXX11_CXXFLAGS@'}
-: ${STDCXX_FLAGS='@STDCXX_FLAGS@'}
+: ${CXX14_CXXFLAGS='@CXX14_CXXFLAGS@'}
+: ${CXX17_CXXFLAGS='@CXX17_CXXFLAGS@'}
+: ${CXX2A_CXXFLAGS='@CXX2A_CXXFLAGS@'}
 
 # Be sure that the C++ compiler is not broken because of gnulib.  This
 # cannot be checked in configure (gnulib is not parameterized yet),
