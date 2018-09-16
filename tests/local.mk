@@ -17,14 +17,14 @@
 
 EXTRA_DIST += $(TESTSUITE_AT) tests/testsuite
 
-DISTCLEANFILES       += tests/atconfig $(check_SCRIPTS)
+DISTCLEANFILES       += %D%/atconfig $(check_SCRIPTS)
 MAINTAINERCLEANFILES += $(TESTSUITE)
 
 ## ------------ ##
 ## package.m4.  ##
 ## ------------ ##
 
-$(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
+$(top_srcdir)/%D%/package.m4: $(top_srcdir)/configure
 	$(AM_V_GEN)rm -f $@ $@.tmp
 	$(AM_V_at){ \
 	  echo '# Signature of the current package.'; \
@@ -40,41 +40,41 @@ $(top_srcdir)/tests/package.m4: $(top_srcdir)/configure
 ## Generate the test suite.  ##
 ## ------------------------- ##
 
-TESTSUITE_AT =                                  \
-  tests/testsuite.at                            \
-                                                \
-  tests/actions.at                              \
-  tests/c++.at                                  \
-  tests/calc.at                                 \
-  tests/conflicts.at                            \
-  tests/cxx-type.at                             \
-  tests/existing.at                             \
-  tests/glr-regression.at                       \
-  tests/headers.at                              \
-  tests/input.at                                \
-  tests/java.at                                 \
-  tests/javapush.at                             \
-  tests/local.at                                \
-  tests/named-refs.at                           \
-  tests/output.at                               \
-  tests/package.m4                              \
-  tests/push.at                                 \
-  tests/reduce.at                               \
-  tests/regression.at                           \
-  tests/report.at                               \
-  tests/sets.at                                 \
-  tests/skeletons.at                            \
-  tests/synclines.at                            \
-  tests/torture.at                              \
-  tests/types.at
+TESTSUITE_AT =                                \
+  %D%/testsuite.at                            \
+                                              \
+  %D%/actions.at                              \
+  %D%/c++.at                                  \
+  %D%/calc.at                                 \
+  %D%/conflicts.at                            \
+  %D%/cxx-type.at                             \
+  %D%/existing.at                             \
+  %D%/glr-regression.at                       \
+  %D%/headers.at                              \
+  %D%/input.at                                \
+  %D%/java.at                                 \
+  %D%/javapush.at                             \
+  %D%/local.at                                \
+  %D%/named-refs.at                           \
+  %D%/output.at                               \
+  %D%/package.m4                              \
+  %D%/push.at                                 \
+  %D%/reduce.at                               \
+  %D%/regression.at                           \
+  %D%/report.at                               \
+  %D%/sets.at                                 \
+  %D%/skeletons.at                            \
+  %D%/synclines.at                            \
+  %D%/torture.at                              \
+  %D%/types.at
 
-TESTSUITE = $(top_srcdir)/tests/testsuite
+TESTSUITE = $(top_srcdir)/%D%/testsuite
 
 AUTOTEST = $(AUTOM4TE) --language=autotest
-AUTOTESTFLAGS = -I $(top_srcdir)/tests
+AUTOTESTFLAGS = -I $(top_srcdir)/%D%
 $(TESTSUITE): $(TESTSUITE_AT)
 	$(AM_V_GEN) \
-	  $(AUTOTEST) $(AUTOTESTFLAGS) $(srcdir)/tests/testsuite.at -o $@.tmp
+	  $(AUTOTEST) $(AUTOTESTFLAGS) $(srcdir)/%D%/testsuite.at -o $@.tmp
 	$(AM_V_at)$(PERL) -pi -e 's/\@tb\@/\t/g' $@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
@@ -83,14 +83,14 @@ $(TESTSUITE): $(TESTSUITE_AT)
 ## Run the test suite.  ##
 ## -------------------- ##
 
-# Move into tests/ so that testsuite.dir etc. be created there.
-RUN_TESTSUITE = $(TESTSUITE) -C tests $(TESTSUITEFLAGS)
-check_SCRIPTS = $(BISON) tests/atconfig tests/atlocal
+# Move into %D%/ so that testsuite.dir etc. be created there.
+RUN_TESTSUITE = $(TESTSUITE) -C %D% $(TESTSUITEFLAGS)
+check_SCRIPTS = $(BISON) %D%/atconfig %D%/atlocal
 RUN_TESTSUITE_deps = all $(TESTSUITE) $(check_SCRIPTS)
 
 clean-local: clean-local-tests
 clean-local-tests:
-	test ! -f $(TESTSUITE) || $(TESTSUITE) -C tests --clean
+	test ! -f $(TESTSUITE) || $(TESTSUITE) -C %D% --clean
 
 check-local: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)
