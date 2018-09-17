@@ -180,9 +180,13 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
              free ($<up>2);
            }],
           ["12"],
-          [AT_VAL.up = (struct u *) malloc (sizeof *AT_VAL.up);
-           assert (AT_VAL.up);
-           AT_VAL.up->ival = res - '0';],
+          [if (res)
+             {
+               AT_VAL.up = (struct u *) malloc (sizeof *AT_VAL.up);
+               assert (AT_VAL.up);
+               AT_VAL.up->ival = res - '0';
+             }
+          ],
           [1 2])
 
   # A user defined union.
