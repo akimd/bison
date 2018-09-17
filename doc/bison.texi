@@ -11422,10 +11422,9 @@ then the parser's to get the set of defined tokens.
 @comment file: calc++/scanner.ll
 @example
 %@{
-// Work around an incompatibility in flex (at least versions
-// 2.5.31 through 2.5.33): it generates code that does
-// not conform to C89.  See Debian bug 333231
-// <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.
+// Work around an incompatibility in flex (at least versions 2.5.31 through
+// 2.5.33): it generates code that does not conform to C89.  See Debian bug
+// 333231 <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.
 # undef yywrap
 # define yywrap() 1
 
@@ -11435,6 +11434,8 @@ then the parser's to get the set of defined tokens.
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 
+#define FLEX_VERSION (YY_FLEX_MAJOR_VERSION * 100 + YY_FLEX_MINOR_VERSION)
+
 // Old versions of Flex (2.5.35) generate an incomplete documentation comment.
 //
 //  In file included from src/scan-code-c.c:3:
@@ -11443,8 +11444,14 @@ then the parser's to get the set of defined tokens.
 //   * @param line_number
 //     ~~~~~~~~~~~~~~~~~^
 //  1 error generated.
-#if YY_FLEX_MAJOR_VERSION * 1000 + YY_FLEX_MINOR_VERSION <= 2006 && defined __clang__
+#if FLEX_VERSION < 206 && defined __clang__
 # pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
+// Old versions of Flex (2.5.35) use 'register'.  Warnings introduced in
+// GCC 7.
+#if FLEX_VERSION < 206 && defined __GNUC__ && !defined __clang__ && 7 <= __GNUC__
+# pragma GCC diagnostic ignored "-Wregister"
 #endif
 %@}
 @end example
