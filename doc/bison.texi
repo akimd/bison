@@ -137,7 +137,7 @@ Writing GLR Parsers
 * Merging GLR Parses::     Using GLR parsers to resolve ambiguities.
 * GLR Semantic Actions::   Considerations for semantic values and deferred actions.
 * Semantic Predicates::    Controlling a parse with arbitrary computations.
-* Compiler Requirements::  GLR parsers require a modern C compiler.
+* Compiler Requirements for GLR::  GLR parsers require a modern C compiler.
 
 Examples
 
@@ -795,7 +795,7 @@ merged result.
 * Merging GLR Parses::     Using GLR parsers to resolve ambiguities.
 * GLR Semantic Actions::   Considerations for semantic values and deferred actions.
 * Semantic Predicates::    Controlling a parse with arbitrary computations.
-* Compiler Requirements::  GLR parsers require a modern C compiler.
+* Compiler Requirements for GLR::  GLR parsers require a modern C compiler.
 @end menu
 
 @node Simple GLR Parsers
@@ -1276,7 +1276,7 @@ reports an error.
 Finally, be careful in writing predicates: deferred actions have not been
 evaluated, so that using them in a predicate will have undefined effects.
 
-@node Compiler Requirements
+@node Compiler Requirements for GLR
 @subsection Considerations when Compiling GLR Parsers
 @cindex @code{inline}
 @cindex GLR parsers and @code{inline}
@@ -7188,7 +7188,7 @@ cp /usr/local/share/aclocal/bison-i18n.m4 m4/bison-i18n.m4
 In the top-level @file{configure.ac}, after the @code{AM_GNU_GETTEXT}
 invocation, add an invocation of @code{BISON_I18N}.  This macro is
 defined in the file @file{bison-i18n.m4} that you copied earlier.  It
-causes @samp{configure} to find the value of the
+causes @code{configure} to find the value of the
 @code{BISON_LOCALEDIR} variable, and it defines the source-language
 symbol @code{YYENABLE_NLS} to enable translations in the
 Bison-generated parser.
@@ -12597,6 +12597,17 @@ support is lacking.  You can re-configure Bison with
 gettext from @url{https://ftp.gnu.org/gnu/gettext/} and re-configure
 Bison.  See the file @file{ABOUT-NLS} for more information.
 
+@quotation
+I can't build Bison because my C compiler is too old.
+@end quotation
+
+Except for GLR parsers (@pxref{Compiler Requirements for GLR}), the C
+code that Bison generates requires only C89 or later.  However, Bison
+itself requires common C99 features such as declarations after
+statements.  Bison's @code{configure} script attempts to enable C99 (or
+later) support on compilers that default to pre-C99.  If your compiler
+lacks these C99 features entirely, GCC may well be a better choice; or
+you can try upgrading to your compiler's latest version.
 
 @node Where can I find help?
 @section Where can I find help?
@@ -12638,7 +12649,7 @@ Include information about your compilation environment, including your
 operating system's name and version and your compiler's name and
 version.  If you have trouble compiling, you should also include a
 transcript of the build session, starting with the invocation of
-`configure'.  Depending on the nature of the bug, you may be asked to
+@code{configure}.  Depending on the nature of the bug, you may be asked to
 send additional files as well (such as @file{config.h} or @file{config.cache}).
 
 Patches are most welcome, but not required.  That is, do not hesitate to
