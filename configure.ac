@@ -21,7 +21,7 @@
 # better to avoid a typo in the 'configure --help' entry for the YACC
 # environment variable.
 AC_PREREQ([2.68])
-m4_pattern_forbid([^_?(gl_[A-Z]|BISON_)])
+m4_pattern_forbid([^_?(gl_[A-Z]|AX_|BISON_)])
 m4_pattern_allow([^BISON_USE_NLS$])
 
 AC_INIT([GNU Bison],
