@@ -5982,6 +5982,66 @@ introduced in Bison 3.0
 @c api.token.prefix
 
 
+@c ================================================== api.value.automove
+@deffn Directive {%define api.value.automove}
+
+@itemize @bullet
+@item Language(s):
+C++
+
+@item Purpose:
+Let occurrences of semantic values of the right-hand sides of a rule be
+implicitly turned in rvalues.  When enabled, a grammar such as:
+
+@example
+exp:
+  "number"     @{ $$ = make_number ($1); @}
+| exp "+" exp  @{ $$ = make_binary (add, $1, $3); @}
+| "(" exp ")"  @{ $$ = $2; @}
+@end example
+
+@noindent
+is actually compiled as if you had written:
+
+@example
+exp:
+  "number"     @{ $$ = make_number (std::move ($1)); @}
+| exp "+" exp  @{ $$ = make_binary (add,
+                                   std::move ($1),
+                                   std::move ($3)); @}
+| "(" exp ")"  @{ $$ = std::move ($2); @}
+@end example
+
+Using a value several times with automove enabled is typically an error.
+For instance, instead of:
+
+@example
+exp: "twice" exp  @{ $$ = make_binary (add, $2, $2); @}
+@end example
+
+@noindent
+write:
+
+@example
+exp: "twice" exp @{ auto v = $2; $$ = make_binary (add, v, v); @}
+@end example
+
+@noindent
+It is tempting to use @code{std::move} on one of the @code{v}, but the
+argument evaluation order in C++ is unspecified.
+
+@item Accepted Values:
+Boolean.
+
+@item Default Value:
+@code{false}
+@item History:
+introduced in Bison 3.2
+@end itemize
+@end deffn
+@c api.value.automove
+
+
 @c ================================================== api.value.type
 @deffn Directive {%define api.value.type} @var{support}
 @deffnx Directive {%define api.value.type} @{@var{type}@}

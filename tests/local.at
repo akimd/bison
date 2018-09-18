@@ -139,6 +139,8 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
+m4_pushdef([AT_AUTOMOVE_IF],
+[m4_bmatch([$3], [%define api\.value\.automove], [$1], [$2])])
 m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],

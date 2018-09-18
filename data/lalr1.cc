@@ -83,8 +83,13 @@ m4_define([b4_rhs_state],
 # --------------------------------------
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
-m4_define([b4_rhs_value],
+m4_define([_b4_rhs_value],
           [b4_symbol_value([b4_rhs_data([$1], [$2]).value], [$3])])
+
+m4_define([b4_rhs_value],
+[b4_percent_define_ifdef([api.value.automove],
+                         [YY_MOVE(_b4_rhs_value($@))],
+                         [_b4_rhs_value($@)])])
 
 
 # b4_rhs_location(RULE-LENGTH, NUM)

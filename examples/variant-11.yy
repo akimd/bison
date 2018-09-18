@@ -20,6 +20,7 @@
 %defines
 %define api.token.constructor
 %define api.value.type variant
+%define api.value.automove
 %define parse.assert
 %locations
 
@@ -96,11 +97,11 @@ result:
 
 list:
   %empty     { /* Generates an empty string list */ }
-| list item  { $$ = std::move ($1); $$.emplace_back (std::move ($2)); }
+| list item  { $$ = $1; $$.emplace_back ($2); }
 ;
 
 item:
-  TEXT    { $$ = std::move ($1); }
+  TEXT    { $$ = $1; }
 | NUMBER  { $$ = make_string_uptr (to_string ($1)); }
 ;
 %%
