@@ -216,16 +216,16 @@ Defining Language Semantics
 * Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
 * Action Types::      Specifying data types for actions to operate on.
-* Mid-Rule Actions::  Most actions go at the end of a rule.
+* Midrule Actions: :  Most actions go at the end of a rule.
                       This says when, why and how to use the exceptional
                         action in the middle of a rule.
 
-Actions in Mid-Rule
+Actions in Midrule
 
-* Using Mid-Rule Actions::       Putting an action in the middle of a rule.
-* Typed Mid-Rule Actions::       Specifying the semantic type of their values.
-* Mid-Rule Action Translation::  How mid-rule actions are actually processed.
-* Mid-Rule Conflicts::           Mid-rule actions can cause conflicts.
+* Using Midrule Actions::       Putting an action in the middle of a rule.
+* Typed Midrule Actions::       Specifying the semantic type of their values.
+* Midrule Action Translation::  How midrule actions are actually processed.
+* Midrule Conflicts::           Midrule actions can cause conflicts.
 
 Tracking Locations
 
@@ -1267,7 +1267,7 @@ widget:
 false).  However, this
 does @emph{not} have the same effect if @code{new_args} and @code{old_args}
 have overlapping syntax.
-Since the mid-rule actions testing @code{new_syntax} are deferred,
+Since the midrule actions testing @code{new_syntax} are deferred,
 a GLR parser first encounters the unresolved ambiguous reduction
 for cases where @code{new_args} and @code{old_args} recognize the same string
 @emph{before} performing the tests of @code{new_syntax}.  It therefore
@@ -3647,7 +3647,7 @@ the numbers associated with @var{x} and @var{y}.
 * Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
 * Action Types::      Specifying data types for actions to operate on.
-* Mid-Rule Actions::  Most actions go at the end of a rule.
+* Midrule Actions::   Most actions go at the end of a rule.
                       This says when, why and how to use the exceptional
                         action in the middle of a rule.
 @end menu
@@ -3914,8 +3914,8 @@ An action consists of braced code containing C statements, and can be
 placed at any position in the rule;
 it is executed at that position.  Most rules have just one action at the
 end of the rule, following all the components.  Actions in the middle of
-a rule are tricky and used only for special purposes (@pxref{Mid-Rule
-Actions, ,Actions in Mid-Rule}).
+a rule are tricky and used only for special purposes (@pxref{Midrule
+Actions, ,Actions in Midrule}).
 
 The C code in an action can refer to the semantic values of the
 components matched by the rule with the construct @code{$@var{n}},
@@ -4058,43 +4058,43 @@ reference.  For example, if you have defined types as shown here:
 then you can write @code{$<itype>1} to refer to the first subunit of the
 rule as an integer, or @code{$<dtype>1} to refer to it as a double.
 
-@node Mid-Rule Actions
-@subsection Actions in Mid-Rule
-@cindex actions in mid-rule
-@cindex mid-rule actions
+@node Midrule Actions
+@subsection Actions in Midrule
+@cindex actions in midrule
+@cindex midrule actions
 
 Occasionally it is useful to put an action in the middle of a rule.
 These actions are written just like usual end-of-rule actions, but they
 are executed before the parser even recognizes the following components.
 
 @menu
-* Using Mid-Rule Actions::       Putting an action in the middle of a rule.
-* Typed Mid-Rule Actions::       Specifying the semantic type of their values.
-* Mid-Rule Action Translation::  How mid-rule actions are actually processed.
-* Mid-Rule Conflicts::           Mid-rule actions can cause conflicts.
+* Using Midrule Actions::       Putting an action in the middle of a rule.
+* Typed Midrule Actions::       Specifying the semantic type of their values.
+* Midrule Action Translation::  How midrule actions are actually processed.
+* Midrule Conflicts::           Midrule actions can cause conflicts.
 @end menu
 
-@node Using Mid-Rule Actions
-@subsubsection Using Mid-Rule Actions
+@node Using Midrule Actions
+@subsubsection Using Midrule Actions
 
-A mid-rule action may refer to the components preceding it using
+A midrule action may refer to the components preceding it using
 @code{$@var{n}}, but it may not refer to subsequent components because
 it is run before they are parsed.
 
-The mid-rule action itself counts as one of the components of the rule.
+The midrule action itself counts as one of the components of the rule.
 This makes a difference when there is another action later in the same rule
 (and usually there is another at the end): you have to count the actions
 along with the symbols when working out which number @var{n} to use in
 @code{$@var{n}}.
 
-The mid-rule action can also have a semantic value.  The action can set
+The midrule action can also have a semantic value.  The action can set
 its value with an assignment to @code{$$}, and actions later in the rule
 can refer to the value using @code{$@var{n}}.  Since there is no symbol
 to name the action, there is no way to declare a data type for the value
 in advance, so you must use the @samp{$<@dots{}>@var{n}} construct to
 specify a data type each time you refer to this value.
 
-There is no way to set the value of the entire rule with a mid-rule
+There is no way to set the value of the entire rule with a midrule
 action, because assignments to @code{$$} do not have that effect.  The
 only way to set the value for the entire rule is with an ordinary action
 at the end of the rule.
@@ -4131,7 +4131,7 @@ list of accessible variables) as its semantic value, using alternative
 first action is finished, the embedded statement @code{stmt} can be
 parsed.
 
-Note that the mid-rule action is component number 5, so the @samp{stmt} is
+Note that the midrule action is component number 5, so the @samp{stmt} is
 component number 6.  Named references can be used to improve the readability
 and maintainability (@pxref{Named References}):
 
@@ -4157,23 +4157,23 @@ earlier action is used to restore the prior list of variables.  This
 removes the temporary @code{let}-variable from the list so that it won't
 appear to exist while the rest of the program is parsed.
 
-Because the types of the semantic values of mid-rule actions are unknown to
+Because the types of the semantic values of midrule actions are unknown to
 Bison, type-based features (e.g., @samp{%printer}, @samp{%destructor}) do
 not work, which could result in memory leaks.  They also forbid the use of
 the @code{variant} implementation of the @code{api.value.type} in C++
 (@pxref{C++ Variants}).
 
-@xref{Typed Mid-Rule Actions}, for one way to address this issue, and
-@ref{Mid-Rule Action Translation}, for another: turning mid-action actions
+@xref{Typed Midrule Actions}, for one way to address this issue, and
+@ref{Midrule Action Translation}, for another: turning mid-action actions
 into regular actions.
 
 
-@node Typed Mid-Rule Actions
-@subsubsection Typed Mid-Rule Actions
+@node Typed Midrule Actions
+@subsubsection Typed Midrule Actions
 
 @findex %destructor
-@cindex discarded symbols, mid-rule actions
-@cindex error recovery, mid-rule actions
+@cindex discarded symbols, midrule actions
+@cindex error recovery, midrule actions
 In the above example, if the parser initiates error recovery (@pxref{Error
 Recovery}) while parsing the tokens in the embedded statement @code{stmt},
 it might discard the previous semantic context @code{$<context>5} without
@@ -4181,11 +4181,11 @@ restoring it.  Thus, @code{$<context>5} needs a destructor
 (@pxref{Destructor Decl, , Freeing Discarded Symbols}), and Bison needs the
 type of the semantic value (@code{context}) to select the right destructor.
 
-As an extension to Yacc's mid-rule actions, Bison offers a means to type
-their semantic value: specify its type tag (@samp{<...>} before the mid-rule
+As an extension to Yacc's midrule actions, Bison offers a means to type
+their semantic value: specify its type tag (@samp{<...>} before the midrule
 action.
 
-Consider the previous example, with an untyped mid-rule action:
+Consider the previous example, with an untyped midrule action:
 
 @example
 @group
@@ -4228,12 +4228,12 @@ C++ @code{variant}s can be used, and redundancy is reduced (@code{<context>}
 is specified once).
 
 
-@node Mid-Rule Action Translation
-@subsubsection Mid-Rule Action Translation
+@node Midrule Action Translation
+@subsubsection Midrule Action Translation
 @vindex $@@@var{n}
 @vindex @@@var{n}
 
-Mid-rule actions are actually transformed into regular rules and actions.
+Midrule actions are actually transformed into regular rules and actions.
 The various reports generated by Bison (textual, graphical, etc., see
 @ref{Understanding, , Understanding Your Parser}) reveal this translation,
 best explained by means of an example.  The following rule:
@@ -4255,8 +4255,8 @@ exp: $@@1 "b" $@@2 $@@3 "e" @{ f(); @};
 @noindent
 with new nonterminal symbols @code{$@@@var{n}}, where @var{n} is a number.
 
-A mid-rule action is expected to generate a value if it uses @code{$$}, or
-the (final) action uses @code{$@var{n}} where @var{n} denote the mid-rule
+A midrule action is expected to generate a value if it uses @code{$$}, or
+the (final) action uses @code{$@var{n}} where @var{n} denote the midrule
 action.  In that case its nonterminal is rather named @code{@@@var{n}}:
 
 @example
@@ -4273,7 +4273,7 @@ $@@3: %empty @{ d(); @};
 exp: @@1 "b" @@2 $@@3 "e" @{ f = $1; @}
 @end example
 
-There are probably two errors in the above example: the first mid-rule
+There are probably two errors in the above example: the first midrule
 action does not generate a value (it does not use @code{$$} although the
 final action uses it), and the value of the second one is not used (the
 final action does not use @code{$3}).  Bison reports these errors when the
@@ -4296,9 +4296,9 @@ mid.y:2.19-31: warning: unused value: $3
 
 @sp 1
 
-It is sometimes useful to turn mid-rule actions into regular actions, e.g.,
+It is sometimes useful to turn midrule actions into regular actions, e.g.,
 to factor them, or to escape from their limitations.  For instance, as an
-alternative to @emph{typed} mid-rule action, you may bury the mid-rule
+alternative to @emph{typed} midrule action, you may bury the midrule
 action inside a nonterminal symbol and to declare a printer and a destructor
 for that symbol:
 
@@ -4334,11 +4334,11 @@ let:
 
 
 
-@node Mid-Rule Conflicts
-@subsubsection Conflicts due to Mid-Rule Actions
+@node Midrule Conflicts
+@subsubsection Conflicts due to Midrule Actions
 Taking action before a rule is completely recognized often leads to
 conflicts since the parser must commit to a parse in order to execute the
-action.  For example, the following two rules, without mid-rule actions,
+action.  For example, the following two rules, without midrule actions,
 can coexist in a working parser because the parser can shift the open-brace
 token and look at what follows before deciding whether there is a
 declaration or not:
@@ -4353,7 +4353,7 @@ compound:
 @end example
 
 @noindent
-But when we add a mid-rule action as follows, the rules become nonfunctional:
+But when we add a midrule action as follows, the rules become nonfunctional:
 
 @example
 @group
@@ -4368,7 +4368,7 @@ compound:
 @end example
 
 @noindent
-Now the parser is forced to decide whether to run the mid-rule action
+Now the parser is forced to decide whether to run the midrule action
 when it has read no farther than the open-brace.  In other words, it
 must commit to using one rule or the other, without sufficient
 information to do it correctly.  (The open-brace token is what is called
@@ -4704,9 +4704,9 @@ exp[result]: exp[left] '/' exp[right]
 @end example
 
 @noindent
-In order to access a semantic value generated by a mid-rule action, an
+In order to access a semantic value generated by a midrule action, an
 explicit name may also be declared by putting a bracketed name after the
-closing brace of the mid-rule action code:
+closing brace of the midrule action code:
 @example
 @group
 exp[res]: exp[x] '+' @{$left = $x;@}[left] exp[right]
@@ -5091,16 +5091,16 @@ redefine it from @code{$end} to, for example, @code{END}:
 %token END 0
 @end example
 
-@cindex actions in mid-rule
-@cindex mid-rule actions
+@cindex actions in midrule
+@cindex midrule actions
 Finally, Bison will never invoke a @code{%destructor} for an unreferenced
-mid-rule semantic value (@pxref{Mid-Rule Actions,,Actions in Mid-Rule}).
-That is, Bison does not consider a mid-rule to have a semantic value if you
-do not reference @code{$$} in the mid-rule's action or @code{$@var{n}}
-(where @var{n} is the right-hand side symbol position of the mid-rule) in
+midrule semantic value (@pxref{Midrule Actions,,Actions in Midrule}).
+That is, Bison does not consider a midrule to have a semantic value if you
+do not reference @code{$$} in the midrule's action or @code{$@var{n}}
+(where @var{n} is the right-hand side symbol position of the midrule) in
 any later action in that rule.  However, if you do reference either, the
 Bison-generated parser will invoke the @code{<>} @code{%destructor} whenever
-it discards the mid-rule symbol.
+it discards the midrule symbol.
 
 @ignore
 @noindent
@@ -10028,7 +10028,7 @@ Output warnings falling in @var{category}.  @var{category} can be one
 of:
 @table @code
 @item midrule-values
-Warn about mid-rule values that are set but not used within any of the actions
+Warn about midrule values that are set but not used within any of the actions
 of the parent rule.
 For example, warn about unused @code{$2} in:
 
@@ -10036,8 +10036,8 @@ For example, warn about unused @code{$2} in:
 exp: '1' @{ $$ = 1; @} '+' exp @{ $$ = $1 + $4; @};
 @end example
 
-Also warn about mid-rule values that are used but not set.
-For example, warn about unset @code{$$} in the mid-rule action in:
+Also warn about midrule values that are used but not set.
+For example, warn about unset @code{$$} in the midrule action in:
 
 @example
 exp: '1' @{ $1 = 1; @} '+' exp @{ $$ = $2 + $4; @};
@@ -10608,8 +10608,8 @@ dirty game with @code{yylval}, say storing an @code{int}, reading a
 possible with variants: they must be initialized, then assigned to, and
 eventually, destroyed.  As a matter of fact, Bison variants forbid the use
 of alternative types such as @samp{$<int>2} or @samp{$<std::string>$}, even
-in mid-rule actions.  It is mandatory to use typed mid-rule actions
-(@pxref{Typed Mid-Rule Actions}).
+in midrule actions.  It is mandatory to use typed midrule actions
+(@pxref{Typed Midrule Actions}).
 
 @deftypemethod {semantic_type} {T&} build<T> ()
 Initialize, but leave empty.  Returns the address where the actual value may
@@ -12714,8 +12714,8 @@ In an action, the location of the left-hand side of the rule.
 In an action, the location of the @var{n}-th symbol of the right-hand side
 of the rule.  @xref{Tracking Locations}.
 
-In a grammar, the Bison-generated nonterminal symbol for a mid-rule action
-with a semantical value.  @xref{Mid-Rule Action Translation}.
+In a grammar, the Bison-generated nonterminal symbol for a midrule action
+with a semantical value.  @xref{Midrule Action Translation}.
 @end deffn
 
 @deffn {Variable} @@@var{name}
@@ -12725,8 +12725,8 @@ In an action, the location of a symbol addressed by @var{name}.
 @end deffn
 
 @deffn {Symbol} $@@@var{n}
-In a grammar, the Bison-generated nonterminal symbol for a mid-rule action
-with no semantical value.  @xref{Mid-Rule Action Translation}.
+In a grammar, the Bison-generated nonterminal symbol for a midrule action
+with no semantical value.  @xref{Midrule Action Translation}.
 @end deffn
 
 @deffn {Variable} $$

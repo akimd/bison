@@ -409,15 +409,15 @@ m4_popdef([AT_TEST])
 
 
 
-## ------------------------------------- ##
-## Variants and Typed Mid-rule Actions.  ##
-## ------------------------------------- ##
+## ------------------------------------ ##
+## Variants and Typed Midrule Actions.  ##
+## ------------------------------------ ##
 
-AT_SETUP([Variants and Typed Mid-rule Actions])
+AT_SETUP([Variants and Typed Midrule Actions])
 
 # See http://lists.gnu.org/archive/html/bug-bison/2017-06/msg00000.html.
 #
-# Check that typed mid-rule actions behave properly (pre-construction
+# Check that typed midrule actions behave properly (pre-construction
 # of $$ before the user action, support of %printer and %destructor,
 # etc.).
 

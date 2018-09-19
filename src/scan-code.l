@@ -379,7 +379,7 @@ show_sub_message (warnings warning,
 
       if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
         obstack_printf (&msg_buf,
-                        _(", cannot be accessed from mid-rule action at $%d"),
+                        _(", cannot be accessed from midrule action at $%d"),
                         midrule_rhs_index);
 
       complain_indent (&id_loc, warning, &indent, "%s",
@@ -494,7 +494,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
       variant *var = &variant_table[i];
       unsigned symbol_index = var->symbol_index;
 
-      /* Check visibility from mid-rule actions. */
+      /* Check visibility from midrule actions. */
       if (midrule_rhs_index != 0
           && (symbol_index == 0 || midrule_rhs_index < symbol_index))
         var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
