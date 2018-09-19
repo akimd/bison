@@ -106,7 +106,7 @@ b4_dollar_pushdef([yysym.value],
                    b4_symbol_if([$1], [has_type],
                                 [m4_dquote(b4_symbol([$1], [type]))]),
                    [yysym.location])dnl
-      b4_symbol_case_([$1])
+      _b4_symbol_case([$1])
 b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
         b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])

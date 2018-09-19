@@ -389,11 +389,11 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 #
 # The following macros provide access to these values.
 
-# b4_symbol_(NUM, FIELD)
+# _b4_symbol(NUM, FIELD)
 # ----------------------
 # Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
 # undefined.
-m4_define([b4_symbol_],
+m4_define([_b4_symbol],
 [m4_indir([b4_symbol($1, $2)])])
 
 
@@ -404,8 +404,8 @@ m4_define([b4_symbol_],
 m4_define([b4_symbol],
 [m4_case([$2],
          [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
-                         [b4_symbol_([$1], [id])])],
-         [b4_symbol_($@)])])
+                         [_b4_symbol([$1], [id])])],
+         [_b4_symbol($@)])])
 
 
 # b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)
@@ -443,7 +443,7 @@ m4_define([b4_symbol_action],
                    b4_symbol_if([$1], [has_type],
                                 [m4_dquote(b4_symbol([$1], [type]))]),
                    [(*yylocationp)])dnl
-    b4_symbol_case_([$1])[]dnl
+    _b4_symbol_case([$1])[]dnl
 b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
       b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
@@ -478,10 +478,10 @@ m4_ifval(m4_defn([b4_actions_]),
 m4_popdef([b4_actions_])dnl
 ])
 
-# b4_symbol_case_(SYMBOL-NUM)
+# _b4_symbol_case(SYMBOL-NUM)
 # ---------------------------
 # Issue a "case NUM" for SYMBOL-NUM.
-m4_define([b4_symbol_case_],
+m4_define([_b4_symbol_case],
 [case b4_symbol([$1], [number]): b4_symbol_tag_comment([$1])])
 ])
 
@@ -536,16 +536,16 @@ m4_define([b4_token_format],
 ## Types.  ##
 ## ------- ##
 
-# b4_type_action_(NUMS)
+# _b4_type_action(NUMS)
 # ---------------------
 # Run actions for the symbol NUMS that all have the same type-name.
 # Skip NUMS that have no type-name.
 #
 # To specify the action to run, define b4_dollar_dollar(NUMBER,
 # TAG, TYPE).
-m4_define([b4_type_action_],
+m4_define([_b4_type_action],
 [b4_symbol_if([$1], [has_type],
-[m4_map([      b4_symbol_case_], [$@])[]dnl
+[m4_map([      _b4_symbol_case], [$@])[]dnl
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
                          [b4_symbol([$1], [type])]);
@@ -701,7 +701,7 @@ m4_define([b4_percent_define_use],
 #   b4_percent_define_get([[foo]])
 m4_define([b4_percent_define_get],
 [b4_percent_define_use([$1])dnl
-b4_percent_define_ifdef_([$1],
+_b4_percent_define_ifdef([$1],
                          [m4_indir([b4_percent_define(]$1[)])],
                          [$2])])
 
@@ -755,15 +755,15 @@ m4_define([b4_percent_define_get_syncline],
           [m4_indir([b4_percent_define_syncline(]$1[)])],
           [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
-# b4_percent_define_ifdef_(VARIABLE, IF-TRUE, [IF-FALSE])
+# _b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
 # If the %define variable VARIABLE is defined, expand IF-TRUE, else expand
 # IF-FALSE.  Don't record usage of VARIABLE.
 #
 # For example:
 #
-#   b4_percent_define_ifdef_([[foo]], [[it's defined]], [[it's undefined]])
-m4_define([b4_percent_define_ifdef_],
+#   _b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
+m4_define([_b4_percent_define_ifdef],
 [m4_ifdef([b4_percent_define(]$1[)],
           [$2],
           [$3])])
@@ -779,7 +779,7 @@ m4_define([b4_percent_define_ifdef_],
 #
 #   b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
 m4_define([b4_percent_define_ifdef],
-[b4_percent_define_ifdef_([$1],
+[_b4_percent_define_ifdef([$1],
                          [b4_percent_define_use([$1])$2],
                          [$3])])
 
@@ -824,7 +824,7 @@ m4_define([b4_percent_define_flag_if],
 #
 #   b4_percent_define_default([[foo]], [[default value]])
 m4_define([b4_percent_define_default],
-[b4_percent_define_ifdef_([$1], [],
+[_b4_percent_define_ifdef([$1], [],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
             m4_define([b4_percent_define_kind(]$1[)],
                       [m4_default([$3], [keyword])])dnl
@@ -839,19 +839,19 @@ m4_define([b4_percent_define_default],
 # Define b4_NAME_if that executes its $1 or $2 depending whether
 # VARIABLE was %defined.  The characters '.' and `-' in VARIABLE are mapped
 # to '_'.
-m4_define([b4_percent_define_if_define_],
+m4_define([_b4_percent_define_if_define],
 [m4_define(m4_bpatsubst([b4_$1_if], [[-.]], [_]),
            [b4_percent_define_flag_if(m4_default([$2], [$1]),
                                       [$3], [$4])])])
 m4_define([b4_percent_define_if_define],
 [b4_percent_define_default([m4_default([$2], [$1])], [[false]])
-b4_percent_define_if_define_([$1], [$2], $[1], $[2])])
+_b4_percent_define_if_define([$1], [$2], $[1], $[2])])
 
 
 # b4_percent_define_check_kind(VARIABLE, KIND, [DIAGNOSTIC = complain])
 # ---------------------------------------------------------------------
 m4_define([b4_percent_define_check_kind],
-[b4_percent_define_ifdef_([$1],
+[_b4_percent_define_ifdef([$1],
   [m4_if(b4_percent_define_get_kind([$1]), [$2], [],
     [b4_error([m4_default([$3], [complain])],
               b4_percent_define_get_loc([$1]),
@@ -884,7 +884,7 @@ m4_define([b4_percent_define_check_values],
             [_b4_percent_define_check_values(b4_sublist)])])
 
 m4_define([_b4_percent_define_check_values],
-[b4_percent_define_ifdef_([$1],
+[_b4_percent_define_ifdef([$1],
   [b4_percent_define_check_kind(]$1[, [keyword], [deprecated])dnl
    m4_pushdef([b4_good_value], [0])dnl
    m4_if($#, 1, [],

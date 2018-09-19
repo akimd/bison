@@ -29,7 +29,7 @@ m4_define([b4_symbol_variant],
             [$2.$3< $][3 > (m4_shift3($@))])dnl
 switch ($1)
     {
-b4_type_foreach([b4_type_action_])[]dnl
+b4_type_foreach([_b4_type_action])[]dnl
       default:
         break;
     }
@@ -299,15 +299,15 @@ m4_define([b4_symbol_value_template],
 ## ------------- ##
 
 
-# b4_symbol_constructor_declare_(SYMBOL-NUMBER)
+# _b4_symbol_constructor_declare(SYMBOL-NUMBER)
 # ---------------------------------------------
 # Declare the overloaded version of make_symbol for the (common) type of
 # these SYMBOL-NUMBERS.  Use at class-level.
-m4_define([b4_symbol_constructor_declare_],
+m4_define([_b4_symbol_constructor_declare],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [    static
     symbol_type
-    make_[]b4_symbol_([$1], [id]) (dnl
+    make_[]_b4_symbol([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
                      [YY_COPY (b4_symbol([$1], [type])) v]),
         b4_locations_if([YY_COPY (location_type) l])));
@@ -321,18 +321,18 @@ b4_join(b4_symbol_if([$1], [has_type],
 # Use at class-level.
 m4_define([b4_symbol_constructor_declare],
 [    // Symbol constructors declarations.
-b4_symbol_foreach([b4_symbol_constructor_declare_])])
+b4_symbol_foreach([_b4_symbol_constructor_declare])])
 
 
 
-# b4_symbol_constructor_define_(SYMBOL-NUMBER)
+# _b4_symbol_constructor_define(SYMBOL-NUMBER)
 # --------------------------------------------
 # Define symbol constructor for this SYMBOL-NUMBER.
-m4_define([b4_symbol_constructor_define_],
+m4_define([_b4_symbol_constructor_define],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [  inline
   b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_[]b4_symbol_([$1], [id]) (dnl
+  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
                      [YY_COPY (b4_symbol([$1], [type])) v]),
         b4_locations_if([YY_COPY (location_type) l])))
@@ -376,4 +376,4 @@ m4_define([b4_basic_symbol_constructor_define],
 # Define the overloaded versions of make_symbol for all the value types.
 m4_define([b4_symbol_constructor_define],
 [  // Implementation of make_symbol for each symbol type.
-b4_symbol_foreach([b4_symbol_constructor_define_])])
+b4_symbol_foreach([_b4_symbol_constructor_define])])

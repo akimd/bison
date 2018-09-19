@@ -36,7 +36,7 @@ b4_percent_define_check_kind([parser_class_name], [code], [deprecated])
 # --------------------------
 # Put TEXT in comment. Prefix all the output lines with PREFIX.
 m4_define([b4_comment],
-[b4_comment_([$1], [$2// ], [$2// ])])
+[_b4_comment([$1], [$2// ], [$2// ])])
 
 
 # b4_inline(hh|cc)
