@@ -216,7 +216,7 @@ Defining Language Semantics
 * Structured Value Type::  Providing a structured semantic value type.
 * Actions::           An action is the semantic definition of a grammar rule.
 * Action Types::      Specifying data types for actions to operate on.
-* Midrule Actions: :  Most actions go at the end of a rule.
+* Midrule Actions::   Most actions go at the end of a rule.
                       This says when, why and how to use the exceptional
                         action in the middle of a rule.
 
