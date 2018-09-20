@@ -190,6 +190,41 @@ AT_PARSER_CHECK([./list], 0, [],
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
+## --------------------------------------------------- ##
+## Multiple occurrences of $n and api.value.automove.  ##
+## --------------------------------------------------- ##
+
+AT_SETUP([Multiple occurrences of $n and api.value.automove])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+
+AT_DATA_GRAMMAR([input.yy],
+[[%skeleton "lalr1.cc"
+%define api.value.automove
+%token <int> NUMBER "number"
+%nterm <int> exp
+%%
+exp:
+  "number"          { $$ = $1; $$; }
+| "twice" exp       { $$ = $2 + $2; }
+| "thrice" exp[val] { $$ = $2 + $val + $2; }
+]])
+
+AT_BISON_CHECK([[-fcaret input.yy]], [0], [],
+[[input.yy:16.33-34: warning: multiple occurrences of $2 with api.value.automove enabled [-Wother]
+ | "twice" exp       { $$ = $2 + $2; }
+                                 ^^
+input.yy:17.33-36: warning: multiple occurrences of $val with api.value.automove enabled [-Wother]
+ | "thrice" exp[val] { $$ = $2 + $val + $2; }
+                                 ^^^^
+input.yy:17.40-41: warning: multiple occurrences of $2 with api.value.automove enabled [-Wother]
+ | "thrice" exp[val] { $$ = $2 + $val + $2; }
+                                        ^^
+]])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
 
 ## ---------- ##
 ## Variants.  ##
@@ -336,7 +371,7 @@ list:
 
 item:
   TEXT          { $$ = $][1; }
-| NUMBER        { if ($][1 == 3) YYERROR; else $$ = to_string ($][1); }
+| NUMBER        { int v = $][1; if (v == 3) YYERROR; else $$ = to_string (v); }
 ;
 %%
 ]AT_TOKEN_CTOR_IF([],
