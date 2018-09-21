@@ -10706,9 +10706,6 @@ type on all platforms, alignments are enforced for @code{double} whatever
 types are actually used.  This may waste space in some cases.
 
 @item
-Move semantics is not yet supported, but will soon be added.
-
-@item
 There might be portability issues we are not aware of.
 @end itemize
 

@@ -2,6 +2,66 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New features
+
+*** C++: Support for move semantics (lalr1.cc)
+
+  The lalr1.cc skeleton now fully supports C++ move semantics, while
+  maintaining compatibility with C++98.  You may now store move-only types
+  when using Bison's variants.  For instance:
+
+    %code {
+      #include <memory>
+      #include <vector>
+    }
+
+    %skeleton "lalr1.cc"
+    %define api.value.type variant
+
+    %%
+
+    %token <int> INT "int";
+    %nterm <std::unique_ptr<int>> int;
+    %nterm <std::vector<std::unique_ptr<int>>> list;
+
+    list:
+      %empty    {}
+    | list int  { $$ = std::move($1); $$.emplace_back(std::move($2)); }
+
+    int: "int"  { $$ = std::make_unique<int>($1); }
+
+*** C++: Implicit move of right-hand side values (lalr1.cc)
+
+  In modern C++ (C++11 and later), you should always use 'std::move' with
+  the values of the right-hand side symbols ($1, $2, etc.), as they will be
+  popped from the stack anyway.  Using 'std::move' is mandatory for
+  move-only types such as unique_ptr, and it provides a significant speedup
+  for large types such as std::string, or std::vector, etc.
+
+  If '%define api.value.automove' is set, every occurrence '$n' is replaced
+  by 'std::move ($n)'.  The second rule in the previous grammar can be
+  simplified to:
+
+    list: list int  { $$ = $1; $$.emplace_back($2); }
+
+  With automove enabled, the semantic values are no longer lvalues, so do
+  not use the swap idiom:
+
+    list: list int  { std::swap($$, $1); $$.emplace_back($2); }
+
+  This idiom is anyway obsolete: it is preferable to move than to swap.
+
+  A warning is issued when automove is enabled, and a value is used several
+  times.
+
+    input.yy:16.31-32: warning: multiple occurrences of $2 with api.value.automove enabled [-Wother]
+    exp: "twice" exp   { $$ = $2 + $2; }
+                                   ^^
+
+  Enabling api.value.automove does not require support for modern C++.  The
+  generated code is valid C++98/03, but will use copies instead of moves.
+
+  The new examples/variant-11.yy shows these features in action.
 
 * Noteworthy changes in release 3.1 (2018-08-27) [stable]
 
@@ -701,9 +761,9 @@ GNU Bison NEWS
   fixed, and introducing tokens with any of %token, %left, %right,
   %precedence, or %nonassoc yields the same result.
 
-  When mixing declarations of tokens with a litteral character (e.g., 'a')
-  or with an identifier (e.g., B) in a precedence declaration, Bison
-  numbered the litteral characters first.  For example
+  When mixing declarations of tokens with a literal character (e.g., 'a') or
+  with an identifier (e.g., B) in a precedence declaration, Bison numbered
+  the literal characters first.  For example
 
     %right A B 'c' 'd'
 
@@ -2961,7 +3021,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Wprecedence Rassoul Wempty Paolo Bonzini parser's Michiel loc
  LocalWords:  redeclaration sval fcaret reentrant XSLT xsl Wmaybe yyvsp Tedi
  LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
- LocalWords:  Alexandre MERCHANTABILITY yytype
+ LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
+ LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir
+ LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles outout PROG
+ LocalWords:  Heimbigner
 
 Local Variables:
 mode: outline
