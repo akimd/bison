@@ -75,13 +75,13 @@ typedef enum
 timevar_id_t;
 #undef DEFTIMEVAR
 
-extern void timevar_init (void);
-extern void timevar_push (timevar_id_t);
-extern void timevar_pop (timevar_id_t);
-extern void timevar_start (timevar_id_t);
-extern void timevar_stop (timevar_id_t);
-extern void timevar_get (timevar_id_t, struct timevar_time_def *);
-extern void timevar_print (FILE *);
+void timevar_init (void);
+void timevar_push (timevar_id_t);
+void timevar_pop (timevar_id_t);
+void timevar_start (timevar_id_t);
+void timevar_stop (timevar_id_t);
+void timevar_get (timevar_id_t, struct timevar_time_def *);
+void timevar_print (FILE *);
 
 extern int timevar_report;
 
