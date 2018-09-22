@@ -214,13 +214,6 @@ AT_DATA_GRAMMAR([list.y],
 ]m4_bpatsubst([$1], [\\n], [
 ])[
 
-%code requires // code for the .hh file
-{
-#include <vector>
-#include <string>
-typedef std::vector<std::string> strings_type;
-}
-
 %code top // code for the .cc file.
 {
 #include <cstdlib> // abort, getenv
@@ -295,12 +288,12 @@ result:
 
 list:
   item          { $$.push_back ($][1); }
-| list "," item { std::swap ($$, $][1); $$.push_back ($][3); }
-| list error    { std::swap ($$, $][1); }
+| list "," item { $$ = $][1; $$.push_back ($][3); }
+| list error    { $$ = $][1; }
 ;
 
 item:
-  TEXT          { std::swap ($$, $][1); }
+  TEXT          { $$ = $][1; }
 | NUMBER        { if ($][1 == 3) YYERROR; else $$ = to_string ($][1); }
 ;
 %%
@@ -369,26 +362,26 @@ AT_FULL_COMPILE([list])
 AT_PARSER_CHECK([./list], 0,
 [[(0, 1, 2, 4, 6)
 ]],
-[[Destroy: ""
+[[Destroy: "0"
 Destroy: "0"
 Destroy: 1
 Destroy: "1"
-Destroy: ()
-Destroy: ""
+Destroy: (0)
 Destroy: "2"
-Destroy: ()
+Destroy: "2"
+Destroy: (0, 1)
 Destroy: ""
 Destroy: 3
-Destroy: ()
-Destroy: ""
+Destroy: (0, 1, 2)
 Destroy: "4"
-Destroy: ()
-Destroy: ()
+Destroy: "4"
+Destroy: (0, 1, 2)
+Destroy: (0, 1, 2, 4)
 Destroy: 5
-Destroy: ()
-Destroy: ""
+Destroy: (0, 1, 2, 4)
 Destroy: "6"
-Destroy: ()
+Destroy: "6"
+Destroy: (0, 1, 2, 4)
 Destroy: (0, 1, 2, 4, 6)
 ]])
 ])
