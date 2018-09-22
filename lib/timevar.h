@@ -75,7 +75,7 @@ typedef enum
 timevar_id_t;
 #undef DEFTIMEVAR
 
-extern void init_timevar (void);
+extern void timevar_init (void);
 extern void timevar_push (timevar_id_t);
 extern void timevar_pop (timevar_id_t);
 extern void timevar_start (timevar_id_t);
