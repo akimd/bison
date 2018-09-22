@@ -117,6 +117,7 @@ void timevar_get (timevar_id_t, struct timevar_time_def *);
 
 void timevar_print (FILE *);
 
-extern int timevar_report;
+/* Set to to nonzero to enable timing variables.  */
+extern int timevar_enabled;
 
 #endif /* ! _TIMEVAR_H */
