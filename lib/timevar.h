@@ -83,10 +83,6 @@ extern void timevar_stop (timevar_id_t);
 extern void timevar_get (timevar_id_t, struct timevar_time_def *);
 extern void timevar_print (FILE *);
 
-/* Provided for backward compatibility.  */
-extern long get_run_time (void);
-extern void print_time (const char *, long);
-
 extern int timevar_report;
 
 #endif /* ! _TIMEVAR_H */
