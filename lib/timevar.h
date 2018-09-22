@@ -18,8 +18,8 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef GCC_TIMEVAR_H
-#define GCC_TIMEVAR_H
+#ifndef _TIMEVAR_H
+#define _TIMEVAR_H
 
 /* Timing variables are used to measure elapsed time in various
    portions of the compiler.  Each measures elapsed user, system, and
@@ -89,4 +89,4 @@ extern void print_time (const char *, long);
 
 extern int timevar_report;
 
-#endif /* ! GCC_TIMEVAR_H */
+#endif /* ! _TIMEVAR_H */
