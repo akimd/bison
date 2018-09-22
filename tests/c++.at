@@ -222,8 +222,36 @@ AT_DATA_GRAMMAR([list.y],
 #include <sstream>
 #include <string>
 
+  class string
+  {
+    public:
+      string () {}
 
-  typedef std::vector<std::string> strings_type;
+      string (const std::string& s)
+        : val_(s)
+      {}
+
+      string (const string& s)
+        : val_(s.val_)
+      {}
+
+      string& operator= (const string& s)
+      {
+        val_ = s.val_;
+        return *this;
+      }
+
+      friend
+      std::ostream& operator<< (std::ostream& o, const string& s)
+      {
+        return o << s.val_;
+      }
+
+    private:
+      std::string val_;
+  };
+
+  typedef std::vector<string> strings_type;
 
   namespace yy
   {
@@ -255,31 +283,30 @@ AT_DATA_GRAMMAR([list.y],
     // Conversion to string.
     template <typename T>
       inline
-      std::string
+      string
       to_string (const T& t)
     {
       std::ostringstream o;
       o << t;
-      return o.str ();
+      return string (o.str ());
     }
   }
 }
 
-%token <::std::string> TEXT;
+%token <::string> TEXT;
 %token <int> NUMBER;
 %token END_OF_FILE 0;
 %token COMMA ","
 
-%type <::std::string> item;
-// Using the template type to exercize its parsing.
 // Starting with :: to ensure we don't output "<::" which starts by the
 // digraph for the left square bracket.
-%type <::std::vector<std::string>> list;
+%type <::string> item;
+// Using the template type to exercize its parsing.
+%type <::std::vector<string>> list;
 
-%printer { yyo << $$; }
-  <int> <::std::string> <::std::vector<std::string>>;
+%printer { yyo << $$; } <int> <::string> <::std::vector<string>>;
 %destructor { std::cerr << "Destroy: " << $$ << '\n'; } <*>;
-%destructor { std::cerr << "Destroy: \"" << $$ << "\"\n"; } <::std::string>;
+%destructor { std::cerr << "Destroy: \"" << $$ << "\"\n"; } <::string>;
 %%
 
 result:
@@ -343,7 +370,7 @@ namespace yy
        else
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_TEXT (to_string (stage)]AT_LOCATION_IF([, location ()])[);]], [[
-           yylval->BUILD (std::string, to_string (stage));]AT_LOCATION_IF([
+           yylval->BUILD (string, to_string (stage));]AT_LOCATION_IF([
            *yylloc = location ();])[
            return parser::token::TEXT;]])[
          }
