@@ -11506,9 +11506,13 @@ then the parser's to get the set of defined tokens.
 #endif
 
 // Old versions of Flex (2.5.35) use 'register'.  Warnings introduced in
-// GCC 7.
-#if FLEX_VERSION < 206 && defined __GNUC__ && !defined __clang__ && 7 <= __GNUC__
-# pragma GCC diagnostic ignored "-Wregister"
+// GCC 7 and Clang 6.
+#if FLEX_VERSION < 206
+# if defined __clang__ && 6 <= __clang_major__
+#  pragma clang diagnostic ignored "-Wdeprecated-register"
+# elif defined __GNUC__ && 7 <= __GNUC__
+#  pragma GCC diagnostic ignored "-Wregister"
+# endif
 #endif
 %@}
 @end example
