@@ -132,7 +132,8 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           [],
           ['1' '2' { printf ("%2.1f\n", $1 + $2); }],
           ["12"],
-          [AT_VAL = (res - '0') / 10.0],
+          [if (res)
+             AT_VAL = (res - '0') / 10.0],
           [0.3])
 
   # A typedef which looks like a Bison keyword, but it's using braces.
@@ -141,7 +142,8 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           [%code requires { typedef double variant; }],
           ['1' '2' { printf ("%2.1f\n", $1 + $2); }],
           ["12"],
-          [AT_VAL = (res - '0') / 10.0],
+          [if (res)
+             AT_VAL = (res - '0') / 10.0],
           [0.3])
 
   # A user defined struct.
@@ -151,8 +153,11 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           ['1' '2'
              { printf ("%d %2.1f\n", $1.ival + $2.ival, $1.fval + $2.fval); }],
           ["12"],
-          [AT_VAL.ival = (res - '0') * 10;
-           AT_VAL.fval = (res - '0') / 10.f],
+          [if (res)
+             {
+               AT_VAL.ival = (res - '0') * 10;
+               AT_VAL.fval = (res - '0') / 10.f;
+             }],
           [30 0.3])
 
   # A user defined struct that uses pointers.
@@ -197,7 +202,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           ["12"],
           [if (res == '1')
              AT_VAL.ival = 10;
-           else
+           else if (res == '2')
              AT_VAL.fval = .2f],
           [10 0.2])
 
@@ -215,7 +220,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
             ["12"],
             [if (res == '1')
                AT_VAL.ival = 10;
-             else
+             else if (res == '2')
                AT_VAL.fval = 0.2f],
             [10 0.2])])
 
@@ -251,7 +256,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           ["12"],
           [if (res == '1')
              AT_VAL.build(10);
-           else
+           else if (res == '2')
              AT_VAL.build<std::string>("two");],
           [10, two])])
 ])
