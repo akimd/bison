@@ -83,8 +83,13 @@ m4_define([b4_rhs_state],
 # --------------------------------------
 # Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
 # symbols on RHS.
-m4_define([b4_rhs_value],
+m4_define([_b4_rhs_value],
           [b4_symbol_value([b4_rhs_data([$1], [$2]).value], [$3])])
+
+m4_define([b4_rhs_value],
+[b4_percent_define_ifdef([api.value.automove],
+                         [YY_MOVE(_b4_rhs_value($@))],
+                         [_b4_rhs_value($@)])])
 
 
 # b4_rhs_location(RULE-LENGTH, NUM)
@@ -106,7 +111,7 @@ b4_dollar_pushdef([yysym.value],
                    b4_symbol_if([$1], [has_type],
                                 [m4_dquote(b4_symbol([$1], [type]))]),
                    [yysym.location])dnl
-      b4_symbol_case_([$1])
+      _b4_symbol_case([$1])
 b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
         b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])
@@ -153,13 +158,17 @@ m4_define([b4_shared_declarations],
 # include <iostream>
 # include <stdexcept>
 # include <string>
-# include <vector>]b4_defines_if([[
+# include <vector>
+
+]b4_cxx_portability[
+]b4_defines_if([[
 # include "stack.hh"
 ]b4_bison_locations_if([[# include "location.hh"]])])[
 ]b4_variant_if([b4_variant_includes])[
 
 ]b4_attribute_define[
 ]b4_null_define[
+
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
@@ -318,12 +327,14 @@ b4_location_define])])[
       typedef basic_symbol<by_state> super_type;
       /// Construct an empty symbol.
       stack_symbol_type ();
-      /// Copy construct (for efficiency).
-      stack_symbol_type (const stack_symbol_type& that);
+      /// Move or copy construction.
+      stack_symbol_type (YY_RVREF (stack_symbol_type) that);
       /// Steal the contents from \a sym to build this.
-      stack_symbol_type (state_type s, symbol_type& sym);
-      /// Assignment, needed by push_back.
-      stack_symbol_type& operator= (stack_symbol_type& that);
+      stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) sym);
+#if defined __cplusplus && __cplusplus < 201103L
+      /// Assignment, needed by push_back by some old implementations.
+      stack_symbol_type& operator= (YY_MOVE_REF (stack_symbol_type) that);
+#endif
     };
 
     /// Stack type.
@@ -337,15 +348,15 @@ b4_location_define])])[
     ///             if null, no trace is output.
     /// \param sym  the symbol
     /// \warning the contents of \a s.value is stolen.
-    void yypush_ (const char* m, stack_symbol_type& sym);
+    void yypush_ (const char* m, YY_MOVE_REF (stack_symbol_type) sym);
 
     /// Push a new look ahead token on the state on the stack.
     /// \param m    a debug message to display
     ///             if null, no trace is output.
     /// \param s    the state
     /// \param sym  the symbol (for its value and location).
-    /// \warning the contents of \a s.value is stolen.
-    void yypush_ (const char* m, state_type s, symbol_type& sym);
+    /// \warning the contents of \a sym.value is stolen.
+    void yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym);
 
     /// Pop \a n symbols the three stacks.
     void yypop_ (unsigned n = 1);
@@ -588,33 +599,34 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type ()
   {}
 
-  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (const stack_symbol_type& that)
-    : super_type (that.state]b4_variant_if([], [, that.value])[]b4_locations_if([, that.location])[)
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (YY_RVREF (stack_symbol_type) that)
+    : super_type (YY_MOVE (that.state)]b4_variant_if([], [, YY_MOVE (that.value)])b4_locations_if([, YY_MOVE (that.location)])[)
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
-                      [value], [copy], [that.value])])[
+                      [value], [YY_MOVE_OR_COPY], [YY_MOVE (that.value)])])[
   }
 
-  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, symbol_type& that)
-    : super_type (s]b4_variant_if([], [, that.value])[]b4_locations_if([, that.location])[)
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) that)
+    : super_type (s]b4_variant_if([], [, YY_MOVE (that.value)])[]b4_locations_if([, YY_MOVE (that.location)])[)
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
-                      [value], [move], [that.value])])[
+                      [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
     that.type = empty_symbol;
   }
 
+#if defined __cplusplus && __cplusplus < 201103L
   ]b4_parser_class_name[::stack_symbol_type&
-  ]b4_parser_class_name[::stack_symbol_type::operator= (stack_symbol_type& that)
+  ]b4_parser_class_name[::stack_symbol_type::operator= (YY_MOVE_REF (stack_symbol_type) that)
   {
     state = that.state;
     ]b4_variant_if([b4_symbol_variant([that.type_get ()],
-                                      [value], [move], [that.value])],
-                   [[value = that.value;]])[]b4_locations_if([
-    location = that.location;])[
+                                      [value], [move], [YY_MOVE (that.value)])],
+                   [[value = YY_MOVE (that.value);]])[]b4_locations_if([
+    location = YY_MOVE (that.location);])[
     return *this;
   }
-
+#endif
 
   template <typename Base>
   void
@@ -649,18 +661,22 @@ m4_if(b4_prefix, [yy], [],
 #endif
 
   void
-  ]b4_parser_class_name[::yypush_ (const char* m, stack_symbol_type& sym)
+  ]b4_parser_class_name[::yypush_ (const char* m, YY_MOVE_REF (stack_symbol_type) sym)
   {
     if (m)
       YY_SYMBOL_PRINT (m, sym);
-    yystack_.push (sym);
+    yystack_.push (YY_MOVE (sym));
   }
 
   void
-  ]b4_parser_class_name[::yypush_ (const char* m, state_type s, symbol_type& sym)
+  ]b4_parser_class_name[::yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym)
   {
-    stack_symbol_type t (s, sym);
-    yypush_ (m, t);
+#if defined __cplusplus && 201103L <= __cplusplus
+    yypush_ (m, stack_symbol_type (s, YY_MOVE (sym)));
+#else
+    stack_symbol_type ss(s, sym);
+    yypush_ (m, ss);
+#endif
   }
 
   void
@@ -756,7 +772,7 @@ b4_dollar_popdef])[]dnl
        location values to have been already stored, initialize these
        stacks with a primary value.  */
     yystack_.clear ();
-    yypush_ (YY_NULLPTR, 0, yyla);
+    yypush_ (YY_NULLPTR, 0, YY_MOVE (yyla));
 
     // A new symbol was pushed on the stack.
   yynewstate:
@@ -818,7 +834,7 @@ b4_dollar_popdef])[]dnl
       --yyerrstatus_;
 
     // Shift the lookahead token.
-    yypush_ ("Shifting", yyn, yyla);
+    yypush_ ("Shifting", yyn, YY_MOVE (yyla));
     goto yynewstate;
 
   /*-----------------------------------------------------------.
@@ -887,7 +903,7 @@ b4_dollar_popdef])[]dnl
       YY_STACK_PRINT ();
 
       // Shift the result of the reduction.
-      yypush_ (YY_NULLPTR, yylhs);
+      yypush_ (YY_NULLPTR, YY_MOVE (yylhs));
     }
     goto yynewstate;
 
@@ -976,7 +992,7 @@ b4_dollar_popdef])[]dnl
 
       // Shift the error token.
       error_token.state = yyn;
-      yypush_ ("Shifting", error_token);
+      yypush_ ("Shifting", YY_MOVE (error_token));
     }
     goto yynewstate;
 

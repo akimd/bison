@@ -267,12 +267,19 @@ m4_define([b4_attribute_define],
 # --------------
 # Portability issues: define a YY_NULLPTR appropriate for the current
 # language (C, C++98, or C++11).
+#
+# In C++ pre C++11 it is standard practice to use 0 (not NULL) for the
+# null pointer.  In C, prefer ((void*)0) to avoid having to include stdlib.h.
 m4_define([b4_null_define],
 [# ifndef YY_NULLPTR
-#  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULLPTR nullptr
+#  if defined __cplusplus
+#   if 201103L <= __cplusplus
+#    define YY_NULLPTR nullptr
+#   else
+#    define YY_NULLPTR 0
+#   endif
 #  else
-#   define YY_NULLPTR 0
+#   define YY_NULLPTR ((void*)0)
 #  endif
 # endif[]dnl
 ])

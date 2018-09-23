@@ -21,7 +21,8 @@
 # better to avoid a typo in the 'configure --help' entry for the YACC
 # environment variable.
 AC_PREREQ([2.68])
-m4_pattern_forbid([^gl_[A-Z]])
+m4_pattern_forbid([^_?(gl_[A-Z]|AX_|BISON_)])
+m4_pattern_allow([^BISON_USE_NLS$])
 
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
@@ -52,9 +53,6 @@ AC_CONFIG_HEADERS([lib/config.h:lib/config.in.h])
 # Checks for the compiler.
 AC_PROG_CC_STDC
 AC_PROG_CXX
-AC_LANG_PUSH([C++])
-gl_WARN_ADD([-fno-exceptions], [NO_EXCEPTIONS_CXXFLAGS])
-AC_LANG_POP([C++])
 
 # Gnulib (early checks).
 gl_EARLY
@@ -73,6 +71,17 @@ AC_CACHE_CHECK([whether pragma GCC diagnostic push works],
   [lv_cv_gcc_pragma_push_works=no])
   CFLAGS=$save_CFLAGS])
 
+AC_LANG_PUSH([C++])
+gl_WARN_ADD([-fno-exceptions], [NO_EXCEPTIONS_CXXFLAGS])
+BISON_CXXSTD([98])
+BISON_CXXSTD([03])
+BISON_CXXSTD([11])
+BISON_CXXSTD([14])
+BISON_CXXSTD([17])
+BISON_CXXSTD([2a])
+AM_CONDITIONAL([ENABLE_CXX11], [test x"$CXX11_CXXFLAGS" != x])
+AC_LANG_POP([C++])
+
 AC_ARG_ENABLE([gcc-warnings],
 [  --enable-gcc-warnings   turn on lots of GCC warnings (not recommended).
                            Also, issue synclines from the examples/ to
@@ -84,7 +93,8 @@ AC_ARG_ENABLE([gcc-warnings],
               [enable_gcc_warnings=no])
 AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
-  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align -Wdocumentation
+  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
+    -fparse-all-comments -Wdocumentation
     -Wformat -Wnull-dereference -Wpointer-arith -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wshadow -Wstrict-prototypes'
   warn_cxx='-Wnoexcept'

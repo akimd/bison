@@ -196,6 +196,14 @@ DeRemer and Penello: they already provide the algorithm.
 
 
 * Extensions
+** Multiple start symbols
+Would be very useful when parsing closely related languages.
+
+** Better error messages
+The users are not provided with enough tools to forge their error messages.
+See for instance "Is there an option to change the message produced by
+YYERROR_VERBOSE?" by Simon Sobisch, on bison-help.
+
 ** %include
 This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.
@@ -240,6 +248,10 @@ XML output for GNU Bison and gcc
 
 XML output for GNU Bison
    http://yaxx.sourceforge.net/
+
+** Counterexample generation
+https://lists.gnu.org/archive/html/bug-bison/2016-06/msg00000.html
+http://www.cs.cornell.edu/andru/papers/cupex/
 
 * Unit rules
 Maybe we could expand unit rules, i.e., transform

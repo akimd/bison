@@ -1,39 +1,40 @@
 language: cpp
 
+env:
+  global:
+    # ICC serial number.
+    secure: ED3w6rzxuE6tVu3oyxha2MoGMRzRQCtinvr9uor1gw9TGKB80esTLx4KyX0xHemUdyQVarFDDQfVS5rf7jSDY8XiWIR6O+2Af9/30gb+8eyngyvACu7E28n+1XHmYWIEHsbvB9mic6C60FBj5sPcDnFWZeyttGL0WooSjYHiw1Egafwqbeu1mD3Aet9OI9VaLQvy0KcWAdVrYWSI9UWLvLM+xPVUjPFko4oS+dTlETzVnmn6JFbZX1OKONtfcvdoDRFBzs3iHm5dQUt/Fz+y/DtKSuvF3zvePHSgF6c8URbEPPjBdh87gkovSLyy+83fVeh4WMkF8b+dGZmikQv6kRsjKJdbQrS8tiMhZlORC5Gfmn4HXNgmapL+paUweakH7UZQHm6d5SZoBgCHNazfqMrywbZsZkGvZTDQIVG1Be7Lhh2BDFbPhPZNDvI9XYiqZP0QSb0BVfeO+AUSRcUPM7TvarxB74jYdfpTBu7sqJP6dSwhcDTEUhHmuLGjzsNm3uTZe8SUw/TGGx5uPTXNsCjJq6ClIOAIYXZTXLbBmIL/NBWCy0MUpD+9zsiknU7vzzq1RfgCCExhvYgosTjBLcX1kKI+eRSU5M44e+xCg4xx0m9WfafbKbhA20FfnWxCFIkZeVpkOOsexJ9zfe0SflVLxkd7vmci5SCBixLVbN0=
+
 matrix:
   include:
-    # GCC.
-    - os: linux
+    ## ----- ##
+    ## GCC.  ##
+    ## ----- ##
+    - name: "GCC 8 with sanitizers"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.6
+            - g++-8
       env:
-         - MATRIX_EVAL="CC=gcc-4.6 && CXX=g++-4.6"
+        - CC='gcc-8 -fsanitize=unknown,address -fno-omit-frame-pointer'
+        - CXX='g++-8 -fsanitize=unknown,address -fno-omit-frame-pointer'
 
-    - os: linux
+    - name: "GCC 7 -O3"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-4.9
+            - g++-7
       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-      env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
-
-    - os: linux
+    - name: "GCC 6"
+      os: linux
       addons:
         apt:
           sources:
@@ -43,79 +44,134 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
-    - os: linux
+    - name: "GCC 5"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-7
+            - g++-5
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
-    - os: linux
+    - name: "GCC 4.9"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-8
+            - g++-4.9
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
 
-    # Clang.
-    - os: linux
-      addons:
-        apt:
-          packages:
-            - clang-3.3
-      env:
-        # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-
-    - os: linux
-      addons:
-        apt:
-          packages:
-            - clang-3.4
-      env:
-        # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
-
-    - os: linux
+    - name: "GCC 4.8"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
           packages:
-            - clang-3.5
+            - g++-4.8
       env:
-        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
+         - MATRIX_EVAL="CC=gcc-4.8 && CXX=g++-4.8"
 
-    - os: linux
+    - name: "GCC 4.7"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
           packages:
-            - clang-3.6
+            - g++-4.7
       env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+         - MATRIX_EVAL="CC=gcc-4.7 && CXX=g++-4.7"
 
-    - os: linux
+    - name: "GCC 4.6"
+      os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
           packages:
-            - clang-3.7
+            - g++-4.6
       env:
-        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
+         - MATRIX_EVAL="CC=gcc-4.6 && CXX=g++-4.6"
 
-    - os: linux
+    ## ------- ##
+    ## Clang.  ##
+    ## ------- ##
+
+# Travis is not ready yet for llvm-toolchain-trusty-7.
+#
+#    - name: "Clang 7 ASAN and libc++"
+#      os: linux
+#      addons:
+#        apt:
+#          sources:
+#            - llvm-toolchain-trusty-7
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - clang-7.0
+#            - libc++-dev
+#            # For llvm-symbolizer.
+#            - llvm-7.0
+#      env:
+#        - CC='clang-7.0 -fsanitize=address'
+#        - CXX='clang++-7.0 -fsanitize=address -stdlib=libc++'
+#        - ASAN_SYMBOLIZER_PATH=/usr/lib/llvm-7.0/bin/llvm-symbolizer
+
+    - name: "Clang 6 -O3 and libc++"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-6.0
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-6.0
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
+
+    - name: "Clang 5 ASAN"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+      env:
+        - CC='clang-5.0 -fsanitize=address'
+        - CXX='clang++-5.0 -fsanitize=address -stdlib=libc++'
+
+    - name: "Clang 4"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - clang-4.0
+      env:
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+
+    - name: "Clang 3.9"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-3.9
+          packages:
+            - clang-3.9
+      env:
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+
+    - name: "Clang 3.8"
+      os: linux
       addons:
         apt:
           sources:
@@ -126,56 +182,103 @@ matrix:
       env:
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
 
-    - os: linux
+    - name: "CLang 3.7"
+      os: linux
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-3.9
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
           packages:
-            - clang-3.9
+            - clang-3.7
       env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
 
-    - os: linux
+    - name: "Clang 3.6"
+      os: linux
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-4.0
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
           packages:
-            - clang-4.0
+            - clang-3.6
       env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
 
-    - os: linux
+    - name: "Clang 3.5"
+      os: linux
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-5.0
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.5
           packages:
-            - clang-5.0
+            - clang-3.5
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CPPFLAGS=-DNDEBUG && CFLAGS=-O3 && CXXFLAGS=-O3"
+        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
+
+    - name: "Clang 3.4"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - clang-3.4
+      env:
+        # No versioned name installed.
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+
+    - name: "Clang 3.3"
+      os: linux
+      addons:
+        apt:
+          packages:
+            - clang-3.3
+      env:
+        # No versioned name installed.
+        - MATRIX_EVAL="CC=clang && CXX=clang++"
+
+    ## ----- ##
+    ## ICC.  ##
+    ## ----- ##
+    - name: "ICC"
+      os: linux
+      env:
+        # ICC's warnings are often very wrong (e.g., it thinks foo ?
+        # "bar" : "baz" is char* instead of const char*), so don't try
+        # to work around the, and obviously, don't die on them.
+        - MATRIX_EVAL="CC=icc && CXX=icpc && MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='"
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo valgrind
+  - sudo apt-get install -qq autoconf automake autopoint doxygen flex gettext graphviz help2man m4 texinfo
   - autoconf --version
   - automake --version
   - autopoint --version
+  - doxygen --version
   - flex --version
   - gettext --version
   - dot -V
   - help2man --version
   - m4 --version
   - makeinfo --version
-  - valgrind --version
   - eval "${MATRIX_EVAL}"
+  - if [ x"$CC" == xicc ]; then build-aux/install-icc.sh; fi
 
 script:
+  - git show
+  - git tag -l
+  # For some reasons, sometimes the checkout does not have any tags,
+  # so `git describe` fails, so bootstrap fails.
+  - git describe || git tag v3.0 -m "Fake version 3.0."
+  - git describe
   - ./bootstrap
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" || cat config.log
-  - make -j2
-  - make check                     VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
-  - make maintainer-check-posix    VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
-#  - make maintainer-check-valgrind VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
-  - make maintainer-check-g++      VERBOSE=1 TESTSUITEFLAGS=-j2 || cat tests/testsuite.log
+  - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && exit 1; }
+  - make -j2 $MAKE_ARGS
+  - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+  - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+  - make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+
+after_script:
+  - '[[ ! -z "${INTEL_INSTALL_PATH}" ]] && uninstall_intel_software'

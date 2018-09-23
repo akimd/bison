@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2008-2015 Free Software Foundation, Inc.
+  Copyright (C) 2008-2018 Free Software Foundation, Inc.
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,15 +21,15 @@
 %defines
 %define api.token.constructor
 %define api.value.type variant
-%define parse.assert
+ // FIXME: does not work: %define parse.assert
 %locations
 %expect-rr 3
 
 %code requires // *.hh
 {
-#include <list>
+#include <vector>
 #include <string>
-typedef std::list<std::string> strings_type;
+typedef std::vector<std::string> strings_type;
 }
 
 %code // *.cc
@@ -42,16 +42,12 @@ typedef std::list<std::string> strings_type;
   // Whether to issue debug traces.
   bool debug = false;
 
-  // Prototype of the yylex function providing subsequent tokens.
   namespace yy
   {
+    // Prototype of the yylex function providing subsequent tokens.
     static parser::symbol_type yylex ();
-  }
 
-  // Printing a list of strings.
-  // Koening look up will look into std, since that's an std::list.
-  namespace std
-  {
+    // Printing a vector of strings.
     std::ostream&
     operator<< (std::ostream& o, const strings_type& ss)
     {
@@ -69,11 +65,13 @@ typedef std::list<std::string> strings_type;
     }
   }
 
+  // With glr.cc, the actions are not in yy::.
+  using yy::operator<<;
+
   // Conversion to string.
   template <typename T>
-    inline
-    std::string
-    string_cast (const T& t)
+  std::string
+  string_cast (const T& t)
   {
     std::ostringstream o;
     o << t;
@@ -81,13 +79,13 @@ typedef std::list<std::string> strings_type;
   }
 }
 
-%token <::std::string> TEXT;
+%token <std::string> TEXT;
 %token <int> NUMBER;
-%printer { yyoutput << $$; } <*>;
+%printer { yyo << $$; } <*>;
 %token END_OF_FILE 0;
 
-%type <::std::string> item;
-%type <::std::list<std::string>> list;
+%type <std::string> item;
+%type <std::vector<std::string>> list;
 
 %%
 

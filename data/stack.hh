@@ -62,7 +62,7 @@ m4_define([b4_stack_define],
     ///
     /// Close to move-semantics.
     void
-    push (T& t)
+    push (YY_MOVE_REF (T) t)
     {
       seq_.push_back (T());
       operator[](0).move (t);
@@ -141,6 +141,8 @@ b4_copyright([Stack handling for Bison parsers in C++])[
 ]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
 
 # include <vector>
+
+]b4_cxx_portability[
 
 ]b4_namespace_open[
 ]b4_stack_define[

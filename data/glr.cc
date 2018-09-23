@@ -295,6 +295,7 @@ b4_percent_code_get([[requires]])[
 #include <iostream>]b4_defines_if([
 b4_bison_locations_if([[#include "location.hh"]])])[
 
+]b4_cxx_portability[
 ]b4_variant_if([b4_variant_includes])[
 ]b4_YYDEBUG_define[
 

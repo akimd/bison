@@ -20,14 +20,18 @@
 %defines
 %define api.token.constructor
 %define api.value.type variant
+%define api.value.automove
 %define parse.assert
 %locations
 
 %code requires // *.hh
 {
+#include <memory> // std::unique_ptr
 #include <string>
 #include <vector>
-typedef std::vector<std::string> strings_type;
+
+  using string_uptr = std::unique_ptr<std::string>;
+  using string_uptrs = std::vector<string_uptr>;
 }
 
 %code // *.cc
@@ -44,18 +48,25 @@ typedef std::vector<std::string> strings_type;
 
     // Print a vector of strings.
     std::ostream&
-    operator<< (std::ostream& o, const strings_type& ss)
+    operator<< (std::ostream& o, const string_uptrs& ss)
     {
       o << '{';
       const char *sep = "";
-      for (strings_type::const_iterator i = ss.begin(), end = ss.end();
-           i != end; ++i)
+      for (const auto& s: ss)
         {
-          o << sep << *i;
+          o << sep << *s;
           sep = ", ";
         }
       return o << '}';
     }
+  }
+
+  template <typename... Args>
+  string_uptr
+  make_string_uptr (Args&&... args)
+  {
+    // std::make_unique is C++14.
+    return std::unique_ptr<std::string>(new std::string{std::forward<Args>(args)...});
   }
 
   // Convert to string.
@@ -63,19 +74,20 @@ typedef std::vector<std::string> strings_type;
     std::string
     to_string (const T& t)
   {
-    std::ostringstream o;
+    auto&& o = std::ostringstream{};
     o << t;
     return o.str ();
   }
 }
 
-%token <::std::string> TEXT;
+%token <string_uptr> TEXT;
 %token <int> NUMBER;
 %printer { yyo << '(' << &$$ << ") " << $$; } <*>;
+%printer { yyo << *$$; } <string_uptr>;
 %token END_OF_FILE 0;
 
-%type <::std::string> item;
-%type <::std::vector<std::string>> list;
+%type <string_uptr> item;
+%type <string_uptrs> list;
 
 %%
 
@@ -85,12 +97,12 @@ result:
 
 list:
   %empty     { /* Generates an empty string list */ }
-| list item  { std::swap ($$, $1); $$.push_back ($2); }
+| list item  { $$ = $1; $$.emplace_back ($2); }
 ;
 
 item:
-  TEXT    { std::swap ($$, $1); }
-| NUMBER  { $$ = to_string ($1); }
+  TEXT    { $$ = $1; }
+| NUMBER  { $$ = make_string_uptr (to_string ($1)); }
 ;
 %%
 
@@ -108,21 +120,22 @@ namespace yy
   parser::symbol_type
   yylex ()
   {
-    static int stage = -1;
-    ++stage;
-    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
+    static auto count = 0u;
+    auto stage = count;
+    ++count;
+    auto loc = parser::location_type{nullptr, stage + 1, stage + 1};
     switch (stage)
       {
       case 0:
-        return parser::make_TEXT ("I have three numbers for you.", loc);
+        return parser::make_TEXT (make_string_uptr ("I have three numbers for you."), std::move (loc));
       case 1:
       case 2:
       case 3:
-        return parser::make_NUMBER (stage, loc);
+        return parser::make_NUMBER (stage, std::move (loc));
       case 4:
-        return parser::make_TEXT ("And that's all!", loc);
+        return parser::make_TEXT (make_string_uptr ("And that's all!"), std::move (loc));
       default:
-        return parser::make_END_OF_FILE (loc);
+        return parser::make_END_OF_FILE (std::move (loc));
       }
   }
 
@@ -137,7 +150,7 @@ namespace yy
 int
 main ()
 {
-  yy::parser p;
+  auto&& p = yy::parser{};
   p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();
 }

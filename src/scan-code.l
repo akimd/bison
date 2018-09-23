@@ -379,7 +379,7 @@ show_sub_message (warnings warning,
 
       if (var->err & VARIANT_NOT_VISIBLE_FROM_MIDRULE)
         obstack_printf (&msg_buf,
-                        _(", cannot be accessed from mid-rule action at $%d"),
+                        _(", cannot be accessed from midrule action at $%d"),
                         midrule_rhs_index);
 
       complain_indent (&id_loc, warning, &indent, "%s",
@@ -439,26 +439,22 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   if ('[' == *cp)
     {
       /* Ignore the brackets. */
-      char *p;
-      for (p = ++cp; *p != ']'; ++p)
+      for (cp_end = ++cp; *cp_end != ']'; ++cp_end)
         continue;
-      cp_end = p;
 
       explicit_bracketing = true;
     }
   else
     {
       /* Take all characters of the name. */
-      char* p;
-      for (p = cp; *p; ++p)
+      for (char* p = cp; *p; ++p)
         if (is_dot_or_dash (*p))
           {
             ref_tail_fields = p;
             break;
           }
-      for (p = cp; *p; ++p)
+      for (cp_end = cp; *cp_end; ++cp_end)
         continue;
-      cp_end = p;
 
       explicit_bracketing = false;
     }
@@ -494,7 +490,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
       variant *var = &variant_table[i];
       unsigned symbol_index = var->symbol_index;
 
-      /* Check visibility from mid-rule actions. */
+      /* Check visibility from midrule actions. */
       if (midrule_rhs_index != 0
           && (symbol_index == 0 || midrule_rhs_index < symbol_index))
         var->err |= VARIANT_NOT_VISIBLE_FROM_MIDRULE;
@@ -705,8 +701,15 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       obstack_quote (&obstack_for_string, type_name);
       obstack_sgrow (&obstack_for_string, ")[");
       if (0 < n)
-        symbol_list_n_get (effective_rule, n)->action_props.is_value_used =
-          true;
+        {
+          symbol_list *sym = symbol_list_n_get (effective_rule, n);
+          if (muscle_percent_define_ifdef ("api.value.automove")
+              && sym->action_props.is_value_used)
+            complain (&dollar_loc, Wother,
+                      _("multiple occurrences of $%s with api.value.automove enabled"),
+                      cp);
+          sym->action_props.is_value_used = true;
+        }
       break;
     }
 }

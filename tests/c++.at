@@ -82,8 +82,10 @@ main (void)
 }
 ]])
 
-AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input], 0)
+AT_FOR_EACH_CXX([
+  AT_FULL_COMPILE([input])
+  AT_PARSER_CHECK([./input], 0)
+])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
@@ -151,8 +153,12 @@ int main()
 
   // stack_symbol_type: construction, accessor.
   {
+#if defined __cplusplus && 201103L <= __cplusplus
+    auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
+#else
     parser::symbol_type s = parser::make_INT(123);
     parser::stack_symbol_type ss(1, s);
+#endif
     std::cerr << ss.value.as<int>() << '\n';
   }
 
@@ -161,19 +167,60 @@ int main()
     parser::stack_type st;
     for (int i = 0; i < 100; ++i)
       {
+#if defined __cplusplus && 201103L <= __cplusplus
+        st.push(parser::stack_symbol_type{1, parser::make_INT(123)});
+#else
         parser::symbol_type s = parser::make_INT(123);
         parser::stack_symbol_type ss(1, s);
         st.push(ss);
+#endif
       }
   }
 }
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([list])
 AT_PARSER_CHECK([./list], 0, [],
 [12
 123
 ])
+])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+## --------------------------------------------------- ##
+## Multiple occurrences of $n and api.value.automove.  ##
+## --------------------------------------------------- ##
+
+AT_SETUP([Multiple occurrences of $n and api.value.automove])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+
+AT_DATA_GRAMMAR([input.yy],
+[[%skeleton "lalr1.cc"
+%define api.value.automove
+%token <int> NUMBER "number"
+%nterm <int> exp
+%%
+exp:
+  "number"          { $$ = $1; $$; }
+| "twice" exp       { $$ = $2 + $2; }
+| "thrice" exp[val] { $$ = $2 + $val + $2; }
+]])
+
+AT_BISON_CHECK([[-fcaret input.yy]], [0], [],
+[[input.yy:16.33-34: warning: multiple occurrences of $2 with api.value.automove enabled [-Wother]
+ | "twice" exp       { $$ = $2 + $2; }
+                                 ^^
+input.yy:17.33-36: warning: multiple occurrences of $val with api.value.automove enabled [-Wother]
+ | "thrice" exp[val] { $$ = $2 + $val + $2; }
+                                 ^^^^
+input.yy:17.40-41: warning: multiple occurrences of $2 with api.value.automove enabled [-Wother]
+ | "thrice" exp[val] { $$ = $2 + $val + $2; }
+                                        ^^
+]])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -202,13 +249,6 @@ AT_DATA_GRAMMAR([list.y],
 ]m4_bpatsubst([$1], [\\n], [
 ])[
 
-%code requires // code for the .hh file
-{
-#include <vector>
-#include <string>
-typedef std::vector<std::string> strings_type;
-}
-
 %code top // code for the .cc file.
 {
 #include <cstdlib> // abort, getenv
@@ -217,8 +257,51 @@ typedef std::vector<std::string> strings_type;
 #include <sstream>
 #include <string>
 
+  class string
+  {
+    public:
+      string () {}
 
-  typedef std::vector<std::string> strings_type;
+      string (const std::string& s)
+        : val_(s)
+      {}
+
+      string (const string& s)
+        : val_(s.val_)
+      {}
+
+      string& operator= (const string& s)
+      {
+        val_ = s.val_;
+        return *this;
+      }
+
+#if defined __cplusplus && 201103L <= __cplusplus
+      string (string&& s)
+        : val_(std::move(s.val_))
+      {
+        s.val_.clear();
+      }
+
+      string& operator= (string&& s)
+      {
+        val_ = std::move(s.val_);
+        s.val_.clear ();
+        return *this;
+      }
+#endif
+
+      friend
+      std::ostream& operator<< (std::ostream& o, const string& s)
+      {
+        return o << s.val_;
+      }
+
+    private:
+      std::string val_;
+  };
+
+  typedef std::vector<string> strings_type;
 
   namespace yy
   {
@@ -250,31 +333,30 @@ typedef std::vector<std::string> strings_type;
     // Conversion to string.
     template <typename T>
       inline
-      std::string
+      string
       to_string (const T& t)
     {
       std::ostringstream o;
       o << t;
-      return o.str ();
+      return string (o.str ());
     }
   }
 }
 
-%token <::std::string> TEXT;
+%token <::string> TEXT;
 %token <int> NUMBER;
 %token END_OF_FILE 0;
 %token COMMA ","
 
-%type <::std::string> item;
-// Using the template type to exercize its parsing.
 // Starting with :: to ensure we don't output "<::" which starts by the
 // digraph for the left square bracket.
-%type <::std::vector<std::string>> list;
+%type <::string> item;
+// Using the template type to exercize its parsing.
+%type <::std::vector<string>> list;
 
-%printer { yyo << $$; }
-  <int> <::std::string> <::std::vector<std::string>>;
+%printer { yyo << $$; } <int> <::string> <::std::vector<string>>;
 %destructor { std::cerr << "Destroy: " << $$ << '\n'; } <*>;
-%destructor { std::cerr << "Destroy: \"" << $$ << "\"\n"; } <::std::string>;
+%destructor { std::cerr << "Destroy: \"" << $$ << "\"\n"; } <::string>;
 %%
 
 result:
@@ -283,13 +365,13 @@ result:
 
 list:
   item          { $$.push_back ($][1); }
-| list "," item { std::swap ($$, $][1); $$.push_back ($][3); }
-| list error    { std::swap ($$, $][1); }
+| list "," item { $$ = $][1; $$.push_back ($][3); }
+| list error    { $$ = $][1; }
 ;
 
 item:
-  TEXT          { std::swap ($$, $][1); }
-| NUMBER        { if ($][1 == 3) YYERROR; else $$ = to_string ($][1); }
+  TEXT          { $$ = $][1; }
+| NUMBER        { int v = $][1; if (v == 3) YYERROR; else $$ = to_string (v); }
 ;
 %%
 ]AT_TOKEN_CTOR_IF([],
@@ -338,7 +420,7 @@ namespace yy
        else
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_TEXT (to_string (stage)]AT_LOCATION_IF([, location ()])[);]], [[
-           yylval->BUILD (std::string, to_string (stage));]AT_LOCATION_IF([
+           yylval->BUILD (string, to_string (stage));]AT_LOCATION_IF([
            *yylloc = location ();])[
            return parser::token::TEXT;]])[
          }
@@ -352,32 +434,86 @@ namespace yy
 ]AT_MAIN_DEFINE[
 ]])
 
+AT_DATA_SOURCE([[modern.cc]],
+[[#include <iostream>
+int main()
+{
+#if defined __cplusplus && 201103L <= __cplusplus
+  std::cout << "Modern C++: " << __cplusplus << '\n';
+  return 0;
+#else
+  std::cout << "Legac++\n";
+  return 1;
+#endif
+}
+]])
+
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([list])
-AT_PARSER_CHECK([./list], 0,
+
+# Are we compiling with modern C++ enabled?
+AT_COMPILE_CXX([modern])
+AT_CHECK([./modern], [ignore], [ignore])
+if test $at_status = 0; then
+  modern=true
+else
+  modern=false
+fi
+
+if AT_AUTOMOVE_IF([$modern], [false]); then
+  AT_PARSER_CHECK([./list], 0,
 [[(0, 1, 2, 4, 6)
 ]],
 [[Destroy: ""
-Destroy: "0"
+Destroy: ""
 Destroy: 1
-Destroy: "1"
+Destroy: ""
 Destroy: ()
 Destroy: ""
-Destroy: "2"
+Destroy: ""
 Destroy: ()
 Destroy: ""
 Destroy: 3
 Destroy: ()
 Destroy: ""
-Destroy: "4"
+Destroy: ""
 Destroy: ()
 Destroy: ()
 Destroy: 5
 Destroy: ()
 Destroy: ""
-Destroy: "6"
+Destroy: ""
 Destroy: ()
 Destroy: (0, 1, 2, 4, 6)
 ]])
+else
+  AT_PARSER_CHECK([./list], 0,
+[[(0, 1, 2, 4, 6)
+]],
+[[Destroy: "0"
+Destroy: "0"
+Destroy: 1
+Destroy: "1"
+Destroy: (0)
+Destroy: "2"
+Destroy: "2"
+Destroy: (0, 1)
+Destroy: ""
+Destroy: 3
+Destroy: (0, 1, 2)
+Destroy: "4"
+Destroy: "4"
+Destroy: (0, 1, 2)
+Destroy: (0, 1, 2, 4)
+Destroy: 5
+Destroy: (0, 1, 2, 4)
+Destroy: "6"
+Destroy: "6"
+Destroy: (0, 1, 2, 4)
+Destroy: (0, 1, 2, 4, 6)
+]])
+fi
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -385,11 +521,13 @@ AT_CLEANUP
 
 AT_TEST([[%skeleton "lalr1.cc"]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert]])
+AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.value.automove]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %locations]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_} %locations]])
+AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_} %locations %define api.value.automove]])
 
 ## FIXME: Does not work!  The calls to the destructor are missing.
 # AT_TEST([[%skeleton "glr.cc"]])
@@ -404,15 +542,15 @@ m4_popdef([AT_TEST])
 
 
 
-## ------------------------------------- ##
-## Variants and Typed Mid-rule Actions.  ##
-## ------------------------------------- ##
+## ------------------------------------ ##
+## Variants and Typed Midrule Actions.  ##
+## ------------------------------------ ##
 
-AT_SETUP([Variants and Typed Mid-rule Actions])
+AT_SETUP([Variants and Typed Midrule Actions])
 
 # See http://lists.gnu.org/archive/html/bug-bison/2017-06/msg00000.html.
 #
-# Check that typed mid-rule actions behave properly (pre-construction
+# Check that typed midrule actions behave properly (pre-construction
 # of $$ before the user action, support of %printer and %destructor,
 # etc.).
 
@@ -483,7 +621,7 @@ int main()
 }
 ]])
 
-
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([[input]])
 # This used to print "Discarding 'a'." again at the end.
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
@@ -524,6 +662,7 @@ Cleanup: popping token EOI ()
 Cleanup: popping nterm expr (40)
 destroy: 40
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -658,8 +797,9 @@ void
 AT_BISON_CHECK([[-o input.cc input.yy]])
 
 m4_if([$#], [1],
-[AT_COMPILE_CXX([[input]])
-AT_PARSER_CHECK([[./input]])])
+[AT_FOR_EACH_CXX([
+  AT_COMPILE_CXX([[input]])
+  AT_PARSER_CHECK([[./input]])])])
 AT_BISON_OPTION_POPDEFS
 ])
 
@@ -755,6 +895,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([[input]])
 # This used to print "Discarding 'a'." again at the end.
 AT_PARSER_CHECK([[./input]], [[1]], [[]],
@@ -762,6 +903,7 @@ AT_PARSER_CHECK([[./input]], [[1]], [[]],
 Discarding 'a'.
 Reducing 'a'.
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -835,6 +977,7 @@ yylex (yy::parser::semantic_type *)
 }
 ]])
 
+AT_FOR_EACH_CXX([
 AT_FULL_COMPILE([[input]], [[scan]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
@@ -843,6 +986,7 @@ caught error
 error: invalid character
 caught error
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -1096,6 +1240,8 @@ main (int argc, const char *argv[])
 }
 ]])
 AT_BISON_CHECK([[-o input.cc --report=all input.yy]])
+
+AT_FOR_EACH_CXX([
 AT_COMPILE_CXX([[input]])
 
 AT_PARSER_CHECK([[./input aaaas]], [[2]], [[]],
@@ -1126,6 +1272,7 @@ AT_PARSER_CHECK([[./input aaaaE]], [[2]], [[]],
 AT_PARSER_CHECK([[./input aaaaT]], [[1]])
 
 AT_PARSER_CHECK([[./input aaaaR]], [m4_if([$2], [with], [0], [1])])
+])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -1182,6 +1329,6 @@ int main ()
 ])
 
 AT_BISON_CHECK([[-o input.cc input.yy]])
-AT_COMPILE_CXX([[input]])
+AT_FOR_EACH_CXX([AT_COMPILE_CXX([[input]])])
 
 AT_CLEANUP

@@ -17,14 +17,14 @@
 
 AT_BANNER([[User Actions.]])
 
-## ------------------ ##
-## Mid-rule actions.  ##
-## ------------------ ##
+## ----------------- ##
+## Midrule actions.  ##
+## ----------------- ##
 
-AT_SETUP([Mid-rule actions])
+AT_SETUP([Midrule actions])
 
-# Bison once forgot the mid-rule actions.  It was because the action
-# was attached to the host rule (the one with the mid-rule action),
+# Bison once forgot the midrule actions.  It was because the action
+# was attached to the host rule (the one with the midrule action),
 # instead of being attached to the empty rule dedicated to this
 # action.
 
@@ -64,11 +64,11 @@ AT_PARSER_CHECK([./input], 0,
 
 AT_CLEANUP
 
-## ------------------------ ##
-## Typed mid-rule actions.  ##
-## ------------------------ ##
+## ----------------------- ##
+## Typed midrule actions.  ##
+## ----------------------- ##
 
-AT_SETUP([Typed mid-rule actions])
+AT_SETUP([Typed midrule actions])
 
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
@@ -123,7 +123,7 @@ AT_DATA_GRAMMAR([[1.y]],
 [[%%
 exp: a b;
 a: /* empty. */ {};
-// A mid-rule action does not count as an empty rule.
+// A midrule action does not count as an empty rule.
 b: {} {};
 ]])
 
@@ -1463,11 +1463,11 @@ AT_CLEANUP
 
 
 
-## ------------------------------------------------------ ##
-## Default %printer and %destructor for mid-rule values.  ##
-## ------------------------------------------------------ ##
+## ----------------------------------------------------- ##
+## Default %printer and %destructor for midrule values.  ##
+## ----------------------------------------------------- ##
 
-AT_SETUP([Default %printer and %destructor for mid-rule values])
+AT_SETUP([Default %printer and %destructor for midrule values])
 
 AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([[input.y]],

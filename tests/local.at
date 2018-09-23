@@ -139,6 +139,8 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
+m4_pushdef([AT_AUTOMOVE_IF],
+[m4_bmatch([$3], [%define api\.value\.automove], [$1], [$2])])
 m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],
@@ -347,11 +349,11 @@ m4_define([AT_LANG_DISPATCH],
 # The prologue that should be included in any source code that is
 # meant to be compiled.  Keep atlocal.in sync (BISON_CXX_WORKS).
 m4_define([AT_DATA_SOURCE_PROLOGUE],
-[[#include <config.h>
-/* We don't need perfect functions for these tests. */
-#undef malloc
-#undef memcmp
-#undef realloc
+[[/* Load config.h, and adjust to the compiler.
+  We used to do it here, but each time we add a new line,
+  we have to adjust all the line numbers in error messages.
+  It's simpler to use a constant include to a varying file.  */
+#include <testsuite.h>
 ]])
 
 # AT_DATA_GRAMMAR_PROLOGUE
@@ -563,7 +565,22 @@ main (int argc, char const* argv[])
   return p.parse ();
 }]])
 
-
+m4_define([AT_FOR_EACH_CXX],
+[[at_for_each_cxx_CXXFLAGS_save=$CXXFLAGS
+for at_cxx_std in '' \
+                  ${CXX98_CXXFLAGS:+"$CXX98_CXXFLAGS"} \
+                  ${CXX03_CXXFLAGS:+"$CXX03_CXXFLAGS"} \
+                  ${CXX11_CXXFLAGS:+"$CXX11_CXXFLAGS"} \
+                  ${CXX14_CXXFLAGS:+"$CXX14_CXXFLAGS"} \
+                  ${CXX17_CXXFLAGS:+"$CXX17_CXXFLAGS"} \
+                  ${CXX2A_CXXFLAGS:+"$CXX2A_CXXFLAGS"}
+do
+  ]AS_ECHO(["======== Testing with C++ standard flags: '$at_cxx_std'"])[
+  CXXFLAGS="$at_for_each_cxx_CXXFLAGS_save $at_cxx_std"
+  ]$1[
+done
+CXXFLAGS=$at_for_each_cxx_CXXFLAGS_save
+]])
 
 ## ------ ##
 ## Java.  ##
@@ -807,6 +824,15 @@ m4_define([AT_LANG_COMPILE(c++)],  [AT_COMPILE_CXX([$1], [$2], [$3])])
 m4_define([AT_LANG_COMPILE(java)], [AT_JAVA_COMPILE([$1.java], [$2], [$3])])
 
 
+# AT_LANG_EXT
+# -----------
+# The file extension corresponding to the language: c, cc, or java.
+m4_define([AT_LANG_EXT],  [AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_LANG_EXT(c)],    [c])
+m4_define([AT_LANG_EXT(c++)],  [cc])
+m4_define([AT_LANG_EXT(java)], [java])
+
+
 # AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2], [EXTRA-COMPILER-FLAGS)
 # ------------------------------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
@@ -814,34 +840,14 @@ m4_define([AT_LANG_COMPILE(java)], [AT_JAVA_COMPILE([$1.java], [$2], [$3])])
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
 # OUTPUT.java along with it.  Relies on AT_SKEL_CC_IF and
 # AT_SKEL_JAVA_IF.
-m4_define([AT_FULL_COMPILE],  [AT_LANG_DISPATCH([$0], $@)])
-m4_define([AT_FULL_COMPILE(c)],
-[AT_BISON_CHECK([-o $1.c $1.y])
+m4_define([AT_FULL_COMPILE],
+[AT_BISON_CHECK([-o $1.AT_LANG_EXT $1.y])
  AT_LANG_COMPILE([$1],
                  m4_join([ ],
-                         [$1.c],
-                         m4_ifval($2, [[$1-$2.c]]),
-                         m4_ifval($3, [[$1-$3.c]])),
+                         [$1.AT_LANG_EXT],
+                         m4_ifval($2, [[$1-$2.]AT_LANG_EXT]),
+                         m4_ifval($3, [[$1-$3.]AT_LANG_EXT])),
                  [$4])])
-
-m4_define([AT_FULL_COMPILE(c++)],
-[AT_BISON_CHECK([-o $1.cc $1.y])
- AT_LANG_COMPILE([$1],
-                 m4_join([ ],
-                         [$1.cc],
-                         m4_ifval($2, [[$1-$2.cc]]),
-                         m4_ifval($3, [[$1-$3.cc]])),
-                 [$4])])
-
-m4_define([AT_FULL_COMPILE(java)],
-[AT_BISON_CHECK([-o $1.java $1.y])
- AT_LANG_COMPILE([$1],
-                 m4_join([ ],
-                         [$1.java],
-                         m4_ifval($2, [[$1-$2.java]]),
-                         m4_ifval($3, [[$1-$3.java]])),
-                 [$4])])
-
 
 
 
@@ -877,7 +883,7 @@ int fortytwo ()
 AT_COMPILE([c-only.o], [c-only.c])
 AT_COMPILE_CXX([cxx-only.o], [cxx-only.cc])
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS $LDFLAGS c-only.o cxx-only.o -o c-and-cxx ||
-          exit 77], [ignore], [ignore])
+          exit 77], [0], [ignore], [ignore])
 AT_PARSER_CHECK([./c-and-cxx])
 ])
 

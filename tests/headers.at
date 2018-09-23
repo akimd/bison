@@ -311,15 +311,20 @@ AT_TEST([x8], [%define api.pure %define api.push-pull both])
 AT_CHECK([[$PERL -n -0777 -e '
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
-  s{\b(YYChar
+  s{\b((defined|if)\ YYDEBUG
+      |YYChar
       |YYPUSH_MORE(?:_DEFINED)?
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)?
+      |YY_COPY
       |YY_IGNORE_MAYBE_UNINITIALIZED_(?:BEGIN|END)
       |YY_INITIAL_VALUE
-      |YY_\w+_INCLUDED
+      |YY_MOVE
+      |YY_MOVE_OR_COPY
+      |YY_MOVE_REF
       |YY_NULLPTR
-      |(defined|if)\ YYDEBUG
+      |YY_RVREF
+      |YY_\w+_INCLUDED
       )\b}{}gx;
   while (/^(.*YY.*)$/gm)
   {

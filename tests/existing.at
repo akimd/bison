@@ -71,7 +71,7 @@ m4_popdef([AT_LALR1_DIFF_CHECK])
 ## ----------------------- ##
 
 # We have been careful to strip all the actions excepts the
-# mid-rule actions.
+# midrule actions.
 #
 # There are 65 SR conflicts.  Bison was once wrong, due to an incorrect
 # computation of nullable.  It reported 485 SR conflicts!

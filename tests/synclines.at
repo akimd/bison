@@ -391,6 +391,17 @@ m4_pushdef([AT_TEST],
 [AT_SETUP([syncline escapes: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
+
+# ICC is unable to handle these file names: it fails to pass them
+# properly to the linker, and is unable to save a file named this way.
+# Don't try with such compilers.
+AT_DATA([\"\\\"\".c],
+[[int main() { return 0; }
+]])
+
+AT_CHECK([AT_SKEL_CC_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".c -o \"\\\"\" ||
+          exit 77], [0], [ignore], [ignore])
+
 AT_DATA_GRAMMAR([\"\\\"\".y],
 [[%skeleton "$1"
 %code {
