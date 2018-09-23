@@ -20,6 +20,7 @@ m4_include(b4_pkgdatadir/[c++.m4])
 # api.value.type=variant is valid.
 m4_define([b4_value_type_setup_variant])
 
+
 # b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
 # --------------------------------------------------------------
 # Declare "parser::yy<TABLE-NAME>_" whose contents is CONTENT.
@@ -162,8 +163,9 @@ m4_define([b4_shared_declarations],
 # include <vector>
 
 ]b4_cxx_portability[
+]m4_ifdef([b4_stack_file],
+          [[# include "]b4_stack_file["]])[
 ]b4_defines_if([[
-# include "stack.hh"
 ]b4_bison_locations_if([[# include "location.hh"]])])[
 ]b4_variant_if([b4_variant_includes])[
 
@@ -174,9 +176,9 @@ m4_define([b4_shared_declarations],
 
 ]b4_namespace_open[
 
+]m4_ifdef([b4_stack_file], [], [b4_stack_define])[
 ]b4_defines_if([],
-[b4_stack_define
-b4_bison_locations_if([b4_position_define
+[b4_bison_locations_if([b4_position_define
 b4_location_define])])[
 
 ]b4_variant_if([b4_variant_define])[

@@ -784,6 +784,39 @@ m4_define([b4_percent_define_ifdef],
                          [$3])])
 
 
+# b4_percent_define_check_file_complain(VARIABLE)
+# -----------------------------------------------
+# Warn about %define variable VARIABLE having an incorrect
+# value.
+m4_define([b4_percent_define_check_file_complain],
+[b4_complain_at(b4_percent_define_get_loc([$1]),
+                [[%%define variable '%s' requires 'none' or '"..."' values]],
+                [$1])])
+
+
+# b4_percent_define_check_file(MACRO, VARIABLE, DEFAULT)
+# ------------------------------------------------------
+# If the %define variable VARIABLE:
+# - is undefined, then if DEFAULT is non-empty, define MACRO to DEFAULT
+# - is a string, define MACRO to its value
+# - is the keyword 'none', do nothing
+# - otherwise, warn about the incorrect value.
+m4_define([b4_percent_define_check_file],
+[b4_percent_define_ifdef([$2],
+  [m4_case(b4_percent_define_get_kind([$2]),
+    [string],
+         [m4_define([$1], b4_percent_define_get([$2]))],
+    [keyword],
+         [m4_if(b4_percent_define_get([$2]), [none], [],
+                [b4_percent_define_check_file_complain([$2])])],
+    [b4_percent_define_check_file_complain([$2])])
+   ],
+   [m4_ifval([$3],
+             [m4_define([$1], [$3])])])
+])
+
+
+
 ## --------- ##
 ## Options.  ##
 ## --------- ##

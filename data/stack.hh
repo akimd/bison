@@ -18,6 +18,14 @@
 m4_pushdef([b4_copyright_years],
            [2002-2015, 2018])
 
+# b4_stack_file
+# -------------
+# Name of the file containing the stack class, if we want this file.
+b4_percent_define_check_file([b4_stack_file],
+                             [[api.stack.file]],
+                             b4_defines_if([[stack.hh]]))
+
+
 # b4_stack_define
 # ---------------
 m4_define([b4_stack_define],
@@ -129,16 +137,17 @@ m4_define([b4_stack_define],
   };
 ]])
 
-b4_defines_if(
-[b4_output_begin([b4_dir_prefix[]stack.hh])
-b4_copyright([Stack handling for Bison parsers in C++])[
+
+m4_ifdef([b4_stack_file],
+[b4_output_begin([b4_dir_prefix[]b4_stack_file])[
+]b4_copyright([Stack handling for Bison parsers in C++])[
 
 /**
- ** \file ]b4_dir_prefix[stack.hh
+ ** \file ]b4_dir_prefix[]b4_stack_file[
  ** Define the ]b4_namespace_ref[::stack class.
  */
 
-]b4_cpp_guard_open([b4_dir_prefix[]stack.hh])[
+]b4_cpp_guard_open([b4_dir_prefix[]b4_stack_file])[
 
 # include <vector>
 
@@ -148,7 +157,8 @@ b4_copyright([Stack handling for Bison parsers in C++])[
 ]b4_stack_define[
 ]b4_namespace_close[
 
-]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])[
-]b4_output_end])
+]b4_cpp_guard_close([b4_dir_prefix[]b4_stack_file])[
+]b4_output_end[
+]])
 
 m4_popdef([b4_copyright_years])

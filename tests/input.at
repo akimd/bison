@@ -1649,6 +1649,28 @@ input.y:1.9-21:     accepted value: 'both'
 
 AT_CLEANUP
 
+
+
+## ------------------------ ##
+## %define file variables.  ##
+## ------------------------ ##
+
+AT_SETUP([["%define" file variables]])
+
+AT_DATA([[input.y]],
+[[%skeleton "lalr1.cc"
+%define api.stack.file bogus
+%%
+start: %empty;
+]])
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
+[[input.y:2.9-22: error: %define variable 'api.stack.file' requires 'none' or '"..."' values
+ %define api.stack.file bogus
+         ^^^^^^^^^^^^^^
+]])
+
+AT_CLEANUP
+
 ## -------------------------------- ##
 ## %define backward compatibility.  ##
 ## -------------------------------- ##
