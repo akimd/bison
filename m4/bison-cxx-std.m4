@@ -6,16 +6,16 @@
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_98_snippet],
+m4_define([_BISON_CXXSTD_98_snippet],
 [#include <vector>
 
 typedef std::vector<int> ints;
 ])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_03_snippet],
+m4_define([_BISON_CXXSTD_03_snippet],
 [])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_11_snippet],
+m4_define([_BISON_CXXSTD_11_snippet],
 [#include <algorithm>
 #include <memory>
 #include <set>
@@ -65,7 +65,7 @@ m4_define([_BISON_CXX_COMPILE_STDCXX_11_snippet],
   }
 ])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_14_snippet],
+m4_define([_BISON_CXXSTD_14_snippet],
 [  // C++14
   void mismatch()
   {
@@ -77,7 +77,7 @@ m4_define([_BISON_CXX_COMPILE_STDCXX_14_snippet],
   }
 ])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_17_snippet],
+m4_define([_BISON_CXXSTD_17_snippet],
 [  // C++17
   namespace ns1::ns2::ns3 {}
 
@@ -86,137 +86,76 @@ m4_define([_BISON_CXX_COMPILE_STDCXX_17_snippet],
   auto out = std::ostringstream{};
 ])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_2A_snippet],
+m4_define([_BISON_CXXSTD_2A_snippet],
 [  // C++2A
 ])
 
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_98_testbody],
+m4_define([_BISON_CXXSTD_testbody(98)],
 [AC_LANG_PROGRAM([
-_BISON_CXX_COMPILE_STDCXX_98_snippet
+_BISON_CXXSTD_98_snippet
 ])])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_03_testbody],
+m4_define([_BISON_CXXSTD_testbody(03)],
 [AC_LANG_PROGRAM([
-_BISON_CXX_COMPILE_STDCXX_98_snippet
-_BISON_CXX_COMPILE_STDCXX_03_snippet
+_BISON_CXXSTD_98_snippet
+_BISON_CXXSTD_03_snippet
 ])])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_11_testbody],
+m4_define([_BISON_CXXSTD_testbody(11)],
 [AC_LANG_PROGRAM([
-_BISON_CXX_COMPILE_STDCXX_98_snippet
-_BISON_CXX_COMPILE_STDCXX_03_snippet
-_BISON_CXX_COMPILE_STDCXX_11_snippet
+_BISON_CXXSTD_98_snippet
+_BISON_CXXSTD_03_snippet
+_BISON_CXXSTD_11_snippet
 ])])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_14_testbody],
+m4_define([_BISON_CXXSTD_testbody(14)],
 [AC_LANG_PROGRAM([
-_BISON_CXX_COMPILE_STDCXX_98_snippet
-_BISON_CXX_COMPILE_STDCXX_03_snippet
-_BISON_CXX_COMPILE_STDCXX_11_snippet
-_BISON_CXX_COMPILE_STDCXX_14_snippet
+_BISON_CXXSTD_98_snippet
+_BISON_CXXSTD_03_snippet
+_BISON_CXXSTD_11_snippet
+_BISON_CXXSTD_14_snippet
 ])])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_17_testbody],
+m4_define([_BISON_CXXSTD_testbody(17)],
 [AC_LANG_PROGRAM([
-_BISON_CXX_COMPILE_STDCXX_98_snippet
-_BISON_CXX_COMPILE_STDCXX_03_snippet
-_BISON_CXX_COMPILE_STDCXX_11_snippet
-_BISON_CXX_COMPILE_STDCXX_14_snippet
-_BISON_CXX_COMPILE_STDCXX_17_snippet
+_BISON_CXXSTD_98_snippet
+_BISON_CXXSTD_03_snippet
+_BISON_CXXSTD_11_snippet
+_BISON_CXXSTD_14_snippet
+_BISON_CXXSTD_17_snippet
 ])])
 
-m4_define([_BISON_CXX_COMPILE_STDCXX_2A_testbody],
+m4_define([_BISON_CXXSTD_testbody(2a)],
 [AC_LANG_PROGRAM([
-_BISON_CXX_COMPILE_STDCXX_98_snippet
-_BISON_CXX_COMPILE_STDCXX_03_snippet
-_BISON_CXX_COMPILE_STDCXX_11_snippet
-_BISON_CXX_COMPILE_STDCXX_14_snippet
-_BISON_CXX_COMPILE_STDCXX_17_snippet
-_BISON_CXX_COMPILE_STDCXX_2A_snippet
+_BISON_CXXSTD_98_snippet
+_BISON_CXXSTD_03_snippet
+_BISON_CXXSTD_11_snippet
+_BISON_CXXSTD_14_snippet
+_BISON_CXXSTD_17_snippet
+_BISON_CXXSTD_2A_snippet
 ])])
 
 
+m4_define([_BISON_CXXSTD_testbody],
+[m4_ifdef([$0($1)],
+          [m4_indir([$0($1)], m4_shift2($@))],
+          [m4_fatal([$0: unknown C++ standard: $1])])])
 
-AC_DEFUN([BISON_CXX_COMPILE_STDCXX_98],
+
+# BISON_CXXSTD(STD)
+# -----------------
+# Check whether the C++ compiler support STD (11, 98, 2a, etc.).
+# If it does, AC_SUBST 'CXX<STD>_CXXFLAGS' to the corresponding flags.
+AC_DEFUN([BISON_CXXSTD],
 [AC_REQUIRE([AC_PROG_CXX])
 AC_LANG_PUSH([C++])
-for f in '-std=c++98' '-std=c++98 -stdlib=libc++'
+for f in '-std=c++$1' '-std=c++$1 -stdlib=libc++'
 do
   BISON_CHECK_COMPILER_FLAG([$f],
-                     [AC_SUBST([CXX98_CXXFLAGS], [$f]) break],
+                     [AC_SUBST(m4_toupper([CXX$1_CXXFLAGS]), [$f]) break],
                      [], [],
-                     [_BISON_CXX_COMPILE_STDCXX_98_testbody])
-done
-AC_LANG_POP([C++])
-])
-
-
-AC_DEFUN([BISON_CXX_COMPILE_STDCXX_03],
-[AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_PUSH([C++])
-for f in '-std=c++03' '-std=c++03 -stdlib=libc++'
-do
-  BISON_CHECK_COMPILER_FLAG([$f],
-                     [AC_SUBST([CXX03_CXXFLAGS], [$f]) break],
-                     [], [],
-                     [_BISON_CXX_COMPILE_STDCXX_03_testbody])
-done
-AC_LANG_POP([C++])
-])
-
-
-AC_DEFUN([BISON_CXX_COMPILE_STDCXX_11],
-[AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_PUSH([C++])
-for f in '-std=c++11' '-std=c++11 -stdlib=libc++'
-do
-  BISON_CHECK_COMPILER_FLAG([$f],
-                     [AC_SUBST([CXX11_CXXFLAGS], [$f]) break],
-                     [], [],
-                     [_BISON_CXX_COMPILE_STDCXX_11_testbody])
-done
-AC_LANG_POP([C++])
-])
-
-
-AC_DEFUN([BISON_CXX_COMPILE_STDCXX_14],
-[AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_PUSH([C++])
-for f in '-std=c++14' '-std=c++14 -stdlib=libc++'
-do
-  BISON_CHECK_COMPILER_FLAG([$f],
-                     [AC_SUBST([CXX14_CXXFLAGS], [$f]) break],
-                     [], [],
-                     [_BISON_CXX_COMPILE_STDCXX_14_testbody])
-done
-AC_LANG_POP([C++])
-])
-
-
-AC_DEFUN([BISON_CXX_COMPILE_STDCXX_17],
-[AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_PUSH([C++])
-for f in '-std=c++17' '-std=c++17 -stdlib=libc++'
-do
-  BISON_CHECK_COMPILER_FLAG([$f],
-                     [AC_SUBST([CXX17_CXXFLAGS], [$f]) break],
-                     [], [],
-                     [_BISON_CXX_COMPILE_STDCXX_17_testbody])
-done
-AC_LANG_POP([C++])
-])
-
-
-AC_DEFUN([BISON_CXX_COMPILE_STDCXX_2A],
-[AC_REQUIRE([AC_PROG_CXX])
-AC_LANG_PUSH([C++])
-for f in '-std=c++2a' '-std=c++2a -stdlib=libc++'
-do
-  BISON_CHECK_COMPILER_FLAG([$f],
-                     [AC_SUBST([CXX2A_CXXFLAGS], [$f]) break],
-                     [], [],
-                     [_BISON_CXX_COMPILE_STDCXX_2A_testbody])
+                     [_BISON_CXXSTD_testbody($1)])
 done
 AC_LANG_POP([C++])
 ])
