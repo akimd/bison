@@ -6,13 +6,21 @@
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
+m4_define([_BISON_CXX_COMPILE_STDCXX_98_snippet],
+[#include <vector>
+
+typedef std::vector<int> ints;
+])
+
+m4_define([_BISON_CXX_COMPILE_STDCXX_03_snippet],
+[])
+
 m4_define([_BISON_CXX_COMPILE_STDCXX_11_snippet],
 [#include <algorithm>
 #include <memory>
 #include <set>
 #include <sstream>
 #include <string>
-#include <vector>
 
   // C++11
   template <typename T>
@@ -83,19 +91,36 @@ m4_define([_BISON_CXX_COMPILE_STDCXX_2A_snippet],
 ])
 
 
+m4_define([_BISON_CXX_COMPILE_STDCXX_98_testbody],
+[AC_LANG_PROGRAM([
+_BISON_CXX_COMPILE_STDCXX_98_snippet
+])])
+
+m4_define([_BISON_CXX_COMPILE_STDCXX_03_testbody],
+[AC_LANG_PROGRAM([
+_BISON_CXX_COMPILE_STDCXX_98_snippet
+_BISON_CXX_COMPILE_STDCXX_03_snippet
+])])
+
 m4_define([_BISON_CXX_COMPILE_STDCXX_11_testbody],
 [AC_LANG_PROGRAM([
+_BISON_CXX_COMPILE_STDCXX_98_snippet
+_BISON_CXX_COMPILE_STDCXX_03_snippet
 _BISON_CXX_COMPILE_STDCXX_11_snippet
 ])])
 
 m4_define([_BISON_CXX_COMPILE_STDCXX_14_testbody],
 [AC_LANG_PROGRAM([
+_BISON_CXX_COMPILE_STDCXX_98_snippet
+_BISON_CXX_COMPILE_STDCXX_03_snippet
 _BISON_CXX_COMPILE_STDCXX_11_snippet
 _BISON_CXX_COMPILE_STDCXX_14_snippet
 ])])
 
 m4_define([_BISON_CXX_COMPILE_STDCXX_17_testbody],
 [AC_LANG_PROGRAM([
+_BISON_CXX_COMPILE_STDCXX_98_snippet
+_BISON_CXX_COMPILE_STDCXX_03_snippet
 _BISON_CXX_COMPILE_STDCXX_11_snippet
 _BISON_CXX_COMPILE_STDCXX_14_snippet
 _BISON_CXX_COMPILE_STDCXX_17_snippet
@@ -103,12 +128,42 @@ _BISON_CXX_COMPILE_STDCXX_17_snippet
 
 m4_define([_BISON_CXX_COMPILE_STDCXX_2A_testbody],
 [AC_LANG_PROGRAM([
+_BISON_CXX_COMPILE_STDCXX_98_snippet
+_BISON_CXX_COMPILE_STDCXX_03_snippet
 _BISON_CXX_COMPILE_STDCXX_11_snippet
 _BISON_CXX_COMPILE_STDCXX_14_snippet
 _BISON_CXX_COMPILE_STDCXX_17_snippet
 _BISON_CXX_COMPILE_STDCXX_2A_snippet
 ])])
 
+
+
+AC_DEFUN([BISON_CXX_COMPILE_STDCXX_98],
+[AC_REQUIRE([AC_PROG_CXX])
+AC_LANG_PUSH([C++])
+for f in '-std=c++98' '-std=c++98 -stdlib=libc++'
+do
+  BISON_CHECK_COMPILER_FLAG([$f],
+                     [AC_SUBST([CXX98_CXXFLAGS], [$f]) break],
+                     [], [],
+                     [_BISON_CXX_COMPILE_STDCXX_98_testbody])
+done
+AC_LANG_POP([C++])
+])
+
+
+AC_DEFUN([BISON_CXX_COMPILE_STDCXX_03],
+[AC_REQUIRE([AC_PROG_CXX])
+AC_LANG_PUSH([C++])
+for f in '-std=c++03' '-std=c++03 -stdlib=libc++'
+do
+  BISON_CHECK_COMPILER_FLAG([$f],
+                     [AC_SUBST([CXX03_CXXFLAGS], [$f]) break],
+                     [], [],
+                     [_BISON_CXX_COMPILE_STDCXX_03_testbody])
+done
+AC_LANG_POP([C++])
+])
 
 
 AC_DEFUN([BISON_CXX_COMPILE_STDCXX_11],
