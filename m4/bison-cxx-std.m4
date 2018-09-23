@@ -116,7 +116,7 @@ AC_DEFUN([BISON_CXX_COMPILE_STDCXX_11],
 AC_LANG_PUSH([C++])
 for f in '-std=c++11' '-std=c++11 -stdlib=libc++'
 do
-  AX_CHECK_LINK_FLAG([$f],
+  BISON_CHECK_COMPILER_FLAG([$f],
                      [AC_SUBST([CXX11_CXXFLAGS], [$f]) break],
                      [], [],
                      [_BISON_CXX_COMPILE_STDCXX_11_testbody])
@@ -130,7 +130,7 @@ AC_DEFUN([BISON_CXX_COMPILE_STDCXX_14],
 AC_LANG_PUSH([C++])
 for f in '-std=c++14' '-std=c++14 -stdlib=libc++'
 do
-  AX_CHECK_LINK_FLAG([$f],
+  BISON_CHECK_COMPILER_FLAG([$f],
                      [AC_SUBST([CXX14_CXXFLAGS], [$f]) break],
                      [], [],
                      [_BISON_CXX_COMPILE_STDCXX_14_testbody])
@@ -144,7 +144,7 @@ AC_DEFUN([BISON_CXX_COMPILE_STDCXX_17],
 AC_LANG_PUSH([C++])
 for f in '-std=c++17' '-std=c++17 -stdlib=libc++'
 do
-  AX_CHECK_LINK_FLAG([$f],
+  BISON_CHECK_COMPILER_FLAG([$f],
                      [AC_SUBST([CXX17_CXXFLAGS], [$f]) break],
                      [], [],
                      [_BISON_CXX_COMPILE_STDCXX_17_testbody])
@@ -158,7 +158,7 @@ AC_DEFUN([BISON_CXX_COMPILE_STDCXX_2A],
 AC_LANG_PUSH([C++])
 for f in '-std=c++2a' '-std=c++2a -stdlib=libc++'
 do
-  AX_CHECK_LINK_FLAG([$f],
+  BISON_CHECK_COMPILER_FLAG([$f],
                      [AC_SUBST([CXX2A_CXXFLAGS], [$f]) break],
                      [], [],
                      [_BISON_CXX_COMPILE_STDCXX_2A_testbody])
