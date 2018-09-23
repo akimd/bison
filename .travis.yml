@@ -10,7 +10,7 @@ matrix:
     ## ----- ##
     ## GCC.  ##
     ## ----- ##
-    - name: "GCC 8"
+    - name: "GCC 8 with sanitizers"
       os: linux
       addons:
         apt:
@@ -19,7 +19,8 @@ matrix:
           packages:
             - g++-8
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - CC='gcc-8 -fsanitize=unknown,address -fno-omit-frame-pointer'
+        - CXX='g++-8 -fsanitize=unknown,address -fno-omit-frame-pointer'
 
     - name: "GCC 7 -O3"
       os: linux
@@ -101,16 +102,39 @@ matrix:
     ## ------- ##
     ## Clang.  ##
     ## ------- ##
-    - name: "Clang 5 -O3"
+
+# Travis is not ready yet for llvm-toolchain-trusty-7.
+#
+#    - name: "Clang 7 ASAN and libc++"
+#      os: linux
+#      addons:
+#        apt:
+#          sources:
+#            - llvm-toolchain-trusty-7
+#            - ubuntu-toolchain-r-test
+#          packages:
+#            - clang-7.0
+#            - libc++-dev
+#            # For llvm-symbolizer.
+#            - llvm-7.0
+#      env:
+#        - CC='clang-7.0 -fsanitize=address'
+#        - CXX='clang++-7.0 -fsanitize=address -stdlib=libc++'
+#        - ASAN_SYMBOLIZER_PATH=/usr/lib/llvm-7.0/bin/llvm-symbolizer
+
+    - name: "Clang 6 -O3 and libc++"
       os: linux
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
+            - ubuntu-toolchain-r-test
           packages:
-            - clang-5.0
+            - clang-6.0
+            - libc++-dev
       env:
-        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     - name: "Clang 5 ASAN"
       os: linux
@@ -121,7 +145,8 @@ matrix:
           packages:
             - clang-5.0
       env:
-        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' && CXX='clang++-5.0 -fsanitize=address'"
+        - CC='clang-5.0 -fsanitize=address'
+        - CXX='clang++-5.0 -fsanitize=address -stdlib=libc++'
 
     - name: "Clang 4"
       os: linux
