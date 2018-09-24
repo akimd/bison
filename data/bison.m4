@@ -76,8 +76,8 @@ m4_divert_push(0)dnl
 ])
 
 
-# b4_output_end()
-# ---------------
+# b4_output_end
+# -------------
 # Output nothing, restore # as comment character (no expansions after #).
 m4_define([b4_output_end],
 [m4_divert_pop(0)
