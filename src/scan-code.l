@@ -681,8 +681,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
           if (muscle_percent_define_ifdef ("api.value.automove")
               && sym->action_props.is_value_used)
             complain (&dollar_loc, Wother,
-                      _("multiple occurrences of $%s with api.value.automove enabled"),
-                      cp);
+                      _("multiple occurrences of $%d with api.value.automove"),
+                      n);
           sym->action_props.is_value_used = true;
         }
       break;
