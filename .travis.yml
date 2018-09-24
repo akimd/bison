@@ -286,11 +286,11 @@ script:
   - git describe
   - ./bootstrap
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && exit 1; }
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS
-  - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
-  - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
-  - make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+  - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
+  - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
+  - make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
 
 after_script:
   - if [[ $CC == "icc" ]]; then uninstall_intel_software; fi
