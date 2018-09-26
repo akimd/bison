@@ -5727,7 +5727,7 @@ delimiters) denote finite choice (e.g., a variation of a feature).  String
 values denote remaining cases (e.g., a file name).
 
 It is an error if a @var{variable} is defined by @code{%define} multiple
-times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
+times, but see @ref{Bison Options,,@option{-D @var{name}[=@var{value}]}}.
 @end deffn
 
 The rest of this section summarizes variables and values that
@@ -10572,17 +10572,13 @@ An auxiliary class @code{stack} used by the parser.
 @item @var{file}.hh
 @itemx @var{file}.cc
 (Assuming the extension of the grammar file was @samp{.yy}.)  The
-declaration and implementation of the C++ parser class.  The basename
-and extension of these two files follow the same rules as with regular C
-parsers (@pxref{Invocation}).
-
-The header is @emph{mandatory}; you must either pass
-@option{-d}/@option{--defines} to @command{bison}, or use the
-@samp{%defines} directive.
+declaration and implementation of the C++ parser class.  The basename and
+extension of these two files follow the same rules as with regular C parsers
+(@pxref{Invocation}).
 @end table
 
-All these files are documented using Doxygen; run @command{doxygen}
-for a complete and accurate documentation.
+All these files are documented using Doxygen; run @command{doxygen} for a
+complete and accurate documentation.
 
 @node C++ Semantic Values
 @subsection C++ Semantic Values
@@ -10629,10 +10625,11 @@ Bison provides a @emph{variant} based implementation of semantic values for
 C++.  This alleviates all the limitations reported in the previous section,
 and in particular, object types can be used without pointers.
 
-To enable variant-based semantic values, set @code{%define} variable
-@code{variant} (@pxref{%define Summary,, variant}).  Once this defined,
-@code{%union} is ignored, and instead of using the name of the fields of the
-@code{%union} to ``type'' the symbols, use genuine types.
+To enable variant-based semantic values, set the @code{%define} variable
+@code{api.value.type} to @code{variant} (@pxref{%define Summary,,
+@code{api.value.type}}).  Then @code{%union} is ignored; instead of using
+the name of the fields of the @code{%union} to ``type'' the symbols, use
+genuine types.
 
 For instance, instead of:
 
@@ -10737,21 +10734,21 @@ classes will not be generated, and the user defined type will be used.
 @node C++ position
 @subsubsection C++ @code{position}
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
 @deftypeivar {position} {std::string*} file
-The name of the file.  It will always be handled as a pointer, the
-parser will never duplicate nor deallocate it.  As an experimental
-feature you may change it to @samp{@var{type}*} using @samp{%define
-filename_type "@var{type}"}.
+The name of the file.  It will always be handled as a pointer, the parser
+will never duplicate nor deallocate it.  As an experimental feature you may
+change it to @samp{@var{type}*} using @samp{%define filename_type
+"@var{type}"}.
 @end deftypeivar
 
 @deftypeivar {position} {unsigned} line
@@ -10802,7 +10799,7 @@ Create a @code{Location} from the endpoints of the range.
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
@@ -10940,15 +10937,16 @@ invoked from user actions (i.e., written in the action itself), the
 exception can be thrown from function invoked from the user action.
 @end defcv
 
-@deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
-Build a new parser object.  There are no arguments by default, unless
+@deftypeop {Constructor} {parser} {} parser ()
+@deftypeopx {Constructor} {parser} {} parser (@var{type1} @var{arg1}, ...)
+Build a new parser object.  There are no arguments, unless
 @samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
-@end deftypemethod
+@end deftypeop
 
-@deftypemethod {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
-@deftypemethodx {syntax_error} {} syntax_error (const std::string& @var{m})
+@deftypeop {Constructor} {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
+@deftypeopx {Constructor}  {syntax_error} {} syntax_error (const std::string& @var{m})
 Instantiate a syntax-error exception.
-@end deftypemethod
+@end deftypeop
 
 @deftypemethod {parser} {int} parse ()
 Run the syntactic analysis, and return 0 on success, 1 otherwise.
@@ -10977,10 +10975,9 @@ or nonzero, full tracing.
 
 @deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
 @deftypemethodx {parser} {void} error (const std::string& @var{m})
-The definition for this member function must be supplied by the user:
-the parser uses it to report a parser error occurring at @var{l},
-described by @var{m}.  If location tracking is not enabled, the second
-signature is used.
+The definition for this member function must be supplied by the user: the
+parser uses it to report a parser error occurring at @var{l}, described by
+@var{m}.  If location tracking is not abled, the second signature is used.
 @end deftypemethod
 
 
@@ -11003,14 +11000,14 @@ depends whether you use unions, or variants.
 @node Split Symbols
 @subsubsection Split Symbols
 
-The interface is as follows.
+The generated parser expects @code{yylex} to have the following prototype.
 
-@deftypemethod {parser} {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
-@deftypemethodx {parser} {int} yylex (semantic_type* @var{yylval}, @var{type1} @var{arg1}, ...)
+@deftypefun {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
+@deftypefunx {int} yylex (semantic_type* @var{yylval}, @var{type1} @var{arg1}, ...)
 Return the next token.  Its type is the return value, its semantic value and
 location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 @samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.
-@end deftypemethod
+@end deftypefun
 
 Note that when using variants, the interface for @code{yylex} is the same,
 but @code{yylval} is handled differently.
@@ -11060,32 +11057,28 @@ or
 @node Complete Symbols
 @subsubsection Complete Symbols
 
-If you specified both @code{%define api.value.type variant} and
-@code{%define api.token.constructor},
-the @code{parser} class also defines the class @code{parser::symbol_type}
-which defines a @emph{complete} symbol, aggregating its type (i.e., the
-traditional value returned by @code{yylex}), its semantic value (i.e., the
-value passed in @code{yylval}, and possibly its location (@code{yylloc}).
+With both @code{%define api.value.type variant} and @code{%define
+api.token.constructor}, the parser defines the type @code{symbol_type}, and
+expects @code{yylex} to have the following prototype.
 
-@deftypemethod {symbol_type} {} symbol_type (token_type @var{type},  const semantic_type& @var{value}, const location_type& @var{location})
-Build a complete terminal symbol which token type is @var{type}, and which
-semantic value is @var{value}.  If location tracking is enabled, also pass
-the @var{location}.
-@end deftypemethod
+@deftypefun {parser::symbol_type} yylex ()
+@deftypefunx {parser::symbol_type} yylex (var{type1} @var{arg1}, ...)
+Return a @emph{complete} symbol, aggregating its type (i.e., the traditional
+value returned by @code{yylex}), its semantic value, and possibly its
+location.  Invocations of @samp{%lex-param @{@var{type1} @var{arg1}@}} yield
+additional arguments.
+@end deftypefun
 
-This interface is low-level and should not be used for two reasons.  First,
-it is inconvenient, as you still have to build the semantic value, which is
-a variant, and second, because consistency is not enforced: as with unions,
-it is still possible to give an integer as semantic value for a string.
+For each token type, Bison generates named constructors as follows.
 
-So for each token type, Bison generates named constructors as follows.
-
-@deftypemethod {symbol_type} {} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypemethodx {symbol_type} {} {make_@var{token}} (const location_type& @var{location})
+@deftypemethod {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} (const location_type& @var{location})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} ()
 Build a complete terminal symbol for the token type @var{token} (not
-including the @code{api.token.prefix}) whose possible semantic value is
-@var{value} of adequate @var{value_type}.  If location tracking is enabled,
-also pass the @var{location}.
+including the @code{api.token.prefix}), whose semantic value, if it has one,
+is @var{value} of adequate @var{value_type}.  Pass the @var{location} iff
+location tracking is enabled.
 @end deftypemethod
 
 For instance, given the following declarations:
@@ -11098,7 +11091,7 @@ For instance, given the following declarations:
 @end example
 
 @noindent
-Bison generates the following functions:
+Bison generates:
 
 @example
 symbol_type make_IDENTIFIER (const std::string&, const location_type&);
@@ -11117,6 +11110,7 @@ which should be used in a Lex-scanner as follows.
 
 Tokens that do not have an identifier are not accessible: you cannot simply
 use characters such as @code{':'}, they must be declared with @code{%token}.
+
 
 @node A Complete C++ Example
 @subsection A Complete C++ Example
