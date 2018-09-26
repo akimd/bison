@@ -1068,4 +1068,4 @@ b4_percent_code_get[]dnl
 }
 
 b4_epilogue[]dnl
-b4_output_end()
+b4_output_end

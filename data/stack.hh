@@ -148,8 +148,7 @@ b4_copyright([Stack handling for Bison parsers in C++])[
 ]b4_stack_define[
 ]b4_namespace_close[
 
-]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])
-b4_output_end()
-])
+]b4_cpp_guard_close([b4_dir_prefix[]stack.hh])[
+]b4_output_end])
 
 m4_popdef([b4_copyright_years])

@@ -1,3 +1,8 @@
+# Travis defines and exports CC and CXX *after* we have defined our
+# environment variables via 'env'.  So, do not use 'env' to define
+# them.  Instead, put their definitions in MATRIX_EVAL, which we eval
+# after the definitions from Travis.
+
 language: cpp
 
 env:
@@ -10,17 +15,19 @@ matrix:
     ## ----- ##
     ## GCC.  ##
     ## ----- ##
-    - name: "GCC 8 with sanitizers"
-      os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-      env:
-        - CC='gcc-8 -fsanitize=unknown,address -fno-omit-frame-pointer'
-        - CXX='g++-8 -fsanitize=unknown,address -fno-omit-frame-pointer'
+    #- name: "GCC 8 with sanitizers"
+    #  os: linux
+    #  addons:
+    #    apt:
+    #      sources:
+    #        - ubuntu-toolchain-r-test
+    #      packages:
+    #        - g++-8
+    #  env:
+    #    # Can't use UBSAN: I get:
+    #    # configure:4951: gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer conftest.c
+    #    # /usr/bin/ld: unrecognized option '--push-state'
+    #    - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
 
     - name: "GCC 7 -O3"
       os: linux
@@ -118,8 +125,7 @@ matrix:
 #            # For llvm-symbolizer.
 #            - llvm-7.0
 #      env:
-#        - CC='clang-7.0 -fsanitize=address'
-#        - CXX='clang++-7.0 -fsanitize=address -stdlib=libc++'
+#        - MATRIX_EVAL="CC='clang-7.0 -fsanitize=address' CXX='clang++-7.0 -fsanitize=address -stdlib=libc++'"
 #        - ASAN_SYMBOLIZER_PATH=/usr/lib/llvm-7.0/bin/llvm-symbolizer
 
     - name: "Clang 6 -O3 and libc++"
@@ -144,9 +150,9 @@ matrix:
             - llvm-toolchain-trusty-5.0
           packages:
             - clang-5.0
+            - libc++-dev
       env:
-        - CC='clang-5.0 -fsanitize=address'
-        - CXX='clang++-5.0 -fsanitize=address -stdlib=libc++'
+        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' CXX='clang++-5.0 -fsanitize=address -stdlib=libc++'"
 
     - name: "Clang 4"
       os: linux
@@ -225,8 +231,9 @@ matrix:
           packages:
             - clang-3.4
       env:
-        # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        # No versioned name installed, but beware that Travis installs
+        # a more modern clang earlier in the default PATH.
+        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
 
     - name: "Clang 3.3"
       os: linux
@@ -235,8 +242,8 @@ matrix:
           packages:
             - clang-3.3
       env:
-        # No versioned name installed.
-        - MATRIX_EVAL="CC=clang && CXX=clang++"
+        # See comment for 3.4.
+        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
 
     ## ----- ##
     ## ICC.  ##
@@ -247,14 +254,21 @@ matrix:
         # ICC's warnings are often very wrong (e.g., it thinks foo ?
         # "bar" : "baz" is char* instead of const char*), so don't try
         # to work around the, and obviously, don't die on them.
-        - MATRIX_EVAL="CC=icc && CXX=icpc && MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='"
+        - MATRIX_EVAL="CC=icc && CXX=icpc"
+        - MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='
 
 before_install:
+  - eval "$MATRIX_EVAL"
+  - env
   - sudo apt-get update -qq
   - sudo apt-get install -qq autoconf automake autopoint doxygen flex gettext graphviz help2man m4 texinfo
+  - if [[ $CC == "icc" ]]; then build-aux/install-icc.sh; fi
+  - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   - autoconf --version
   - automake --version
   - autopoint --version
+  - $CC --version
+  - $CXX --version
   - doxygen --version
   - flex --version
   - gettext --version
@@ -262,8 +276,6 @@ before_install:
   - help2man --version
   - m4 --version
   - makeinfo --version
-  - eval "${MATRIX_EVAL}"
-  - if [ x"$CC" == xicc ]; then build-aux/install-icc.sh; fi
 
 script:
   - git show
@@ -274,11 +286,11 @@ script:
   - git describe
   - ./bootstrap
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && exit 1; }
+  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS
-  - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
-  - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
-  - make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && exit 1; }
+  - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
+  - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
+  - make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
 
 after_script:
-  - '[[ ! -z "${INTEL_INSTALL_PATH}" ]] && uninstall_intel_software'
+  - if [[ $CC == "icc" ]]; then uninstall_intel_software; fi

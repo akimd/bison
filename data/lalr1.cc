@@ -405,7 +405,7 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations(hh)[
 ]b4_cpp_guard_close([b4_spec_defines_file])
-b4_output_end()
+b4_output_end
 ])
 
 
@@ -1198,7 +1198,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
 ]b4_token_ctor_if([], [b4_yytranslate_define([cc])])[
 ]b4_namespace_close[
 ]b4_epilogue[]dnl
-b4_output_end()
+b4_output_end
 
 
 m4_popdef([b4_copyright_years])dnl

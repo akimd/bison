@@ -76,8 +76,8 @@ m4_divert_push(0)dnl
 ])
 
 
-# b4_output_end()
-# ---------------
+# b4_output_end
+# -------------
 # Output nothing, restore # as comment character (no expansions after #).
 m4_define([b4_output_end],
 [m4_divert_pop(0)
@@ -861,9 +861,9 @@ m4_define([b4_percent_define_check_kind],
     [b4_error([m4_default([$3], [complain])],
               b4_percent_define_get_loc([$1]),
               [m4_case([$2],
-                 [code], [[%%define variable '%s' requires '{...}' values]],
+                 [code],    [[%%define variable '%s' requires '{...}' values]],
                  [keyword], [[%%define variable '%s' requires keyword values]],
-                 [string], [[%%define variable '%s' requires '"..."' values]])],
+                 [string],  [[%%define variable '%s' requires '"..."' values]])],
               [$1])])])dnl
 ])
 
