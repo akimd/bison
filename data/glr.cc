@@ -242,18 +242,24 @@ b4_namespace_close
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 b4_percent_code_get([[requires]])[
-
+#include <iostream>
 #include <stdexcept>
 #include <string>
-#include <iostream>]b4_defines_if([
-b4_bison_locations_if([[#include "location.hh"]])])[
+
+]m4_ifdef([b4_position_file],
+          [[# include "]b4_position_file["]])[
+]m4_ifdef([b4_location_file],
+          [[# include "]b4_location_file["]])[
+
+]b4_null_define[
 
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
-]b4_defines_if([],
-[b4_bison_locations_if([b4_position_define
-b4_location_define])])[
+]b4_bison_locations_if([m4_ifndef([b4_location_file],
+                                  [m4_ifndef([b4_position_file], [b4_position_define
+
+])[]b4_location_define])])[
 
   /// A Bison parser.
   class ]b4_parser_class_name[

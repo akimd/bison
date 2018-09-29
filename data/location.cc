@@ -18,6 +18,19 @@
 m4_pushdef([b4_copyright_years],
            [2002-2015, 2018])
 
+# b4_position_file
+# b4_location_file
+# ----------------
+# Name of the file containing the position/location class,
+# if we want this file.
+b4_percent_define_check_file([b4_position_file],
+                             [[api.position.file]],
+                             b4_defines_if([[position.hh]]))
+b4_percent_define_check_file([b4_location_file],
+                             [[api.location.file]],
+                             b4_defines_if([[location.hh]]))
+
+
 # b4_position_define
 # ------------------
 # Define class position.
@@ -287,16 +300,16 @@ m4_define([b4_location_define],
 ]])
 
 
-b4_defines_if([
-b4_output_begin([b4_dir_prefix[]position.hh])
-b4_copyright([Positions for Bison parsers in C++])[
+m4_ifdef([b4_position_file], [[
+]b4_output_begin([b4_dir_prefix[]b4_position_file])[
+]b4_copyright([Positions for Bison parsers in C++])[
 
 /**
- ** \file ]b4_dir_prefix[position.hh
+ ** \file ]b4_dir_prefix[]b4_position_file[
  ** Define the ]b4_namespace_ref[::position class.
  */
 
-]b4_cpp_guard_open([b4_dir_prefix[]position.hh])[
+]b4_cpp_guard_open([b4_dir_prefix[]b4_position_file])[
 
 # include <algorithm> // std::max
 # include <iostream>
@@ -307,28 +320,31 @@ b4_copyright([Positions for Bison parsers in C++])[
 ]b4_namespace_open[
 ]b4_position_define[
 ]b4_namespace_close[
-]b4_cpp_guard_close([b4_dir_prefix[]position.hh])
-b4_output_end
+]b4_cpp_guard_close([b4_dir_prefix[]b4_position_file])[
+]b4_output_end[
+]])
 
 
-b4_output_begin([b4_dir_prefix[]location.hh])
-b4_copyright([Locations for Bison parsers in C++])[
+m4_ifdef([b4_location_file], [[
+]b4_output_begin([b4_dir_prefix[]b4_location_file])[
+]b4_copyright([Locations for Bison parsers in C++])[
 
 /**
- ** \file ]b4_dir_prefix[location.hh
+ ** \file ]b4_dir_prefix[]b4_location_file[
  ** Define the ]b4_namespace_ref[::location class.
  */
 
-]b4_cpp_guard_open([b4_dir_prefix[]location.hh])[
+]b4_cpp_guard_open([b4_dir_prefix[]b4_location_file])[
 
-# include "position.hh"
+]m4_ifdef([b4_position_file], [[#] include "b4_position_file"], [b4_null_define])[
 
 ]b4_namespace_open[
+]m4_ifndef([b4_position_file], [b4_position_define])[
 ]b4_location_define[
 ]b4_namespace_close[
-]b4_cpp_guard_close([b4_dir_prefix[]location.hh])
-b4_output_end
-])
+]b4_cpp_guard_close([b4_dir_prefix[]b4_location_file])[
+]b4_output_end[
+]])
 
 
 m4_popdef([b4_copyright_years])

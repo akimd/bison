@@ -190,6 +190,31 @@ AT_CHECK_OUTPUT([foo.yy],
                 [],
                 [foo.tab.cc foo.tab.hh])
 
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations],
+                [],
+                [foo.tab.cc foo.tab.hh location.hh position.hh])
+
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.position.file none],
+                [],
+                [foo.tab.cc foo.tab.hh location.hh])
+
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.position.file none %define api.location.file none],
+                [],
+                [foo.tab.cc foo.tab.hh])
+
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.position.file none %define api.location.file "foo.loc.hh"],
+                [],
+                [foo.loc.hh foo.tab.cc foo.tab.hh])
+
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.position.file "foo.pos.hh" %define api.location.file "foo.loc.hh"],
+                [],
+                [foo.loc.hh foo.pos.hh foo.tab.cc foo.tab.hh])
+
 AT_CHECK_OUTPUT([gram_dir/foo.yy],
                 [%skeleton "lalr1.cc" %verbose %defines %define api.stack.file "foo.sta.hh" %file-prefix "output_dir/foo"],
                 [],
