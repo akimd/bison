@@ -150,7 +150,7 @@ b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 # b4_shared_declarations(hh|cc)
 # -----------------------------
 # Declaration that might either go into the header (if --defines, $1 = hh)
-# or open coded in the parser body.
+# or in the implementation file.
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([# include <cassert>])[

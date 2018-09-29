@@ -946,7 +946,7 @@ m4_define([b4_percent_code_ifdef],
 # b4_parse_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
 # b4_token_ctor_if([IF-YYLEX-RETURNS-A-TOKEN], [IF-NOT])
-# ----------------------------------------------
+# ----------------------------------------------------------
 b4_percent_define_if_define([token_ctor], [api.token.constructor])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])

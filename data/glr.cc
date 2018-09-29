@@ -237,7 +237,7 @@ b4_namespace_close
 # b4_shared_declarations
 # ----------------------
 # Declaration that might either go into the header (if --defines)
-# or open coded in the parser body.
+# or in the implementation file.
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 b4_percent_code_get([[requires]])[
