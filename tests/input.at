@@ -1667,9 +1667,10 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
-[[input.y:5.9-25: error: %define variable 'api.position.file' requires 'none' or '"..."' values
+[[input.y:5.9-25: error: invalid value for %define variable 'api.position.file': 'bogus'
  %define api.position.file bogus
          ^^^^^^^^^^^^^^^^^
+input.y:5.9-25:     accepted value: 'none'
 input.y:4.9-25: error: %define variable 'api.location.file' requires 'none' or '"..."' values
  %define api.location.file {bogus}
          ^^^^^^^^^^^^^^^^^

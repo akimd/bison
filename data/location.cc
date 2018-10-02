@@ -18,23 +18,32 @@
 m4_pushdef([b4_copyright_years],
            [2002-2015, 2018])
 
+
 # b4_position_file
+# ----------------
+# Name of the file containing the position class, if we want this file.
+b4_percent_define_ifdef([[api.position.file]],
+[b4_percent_define_check_values([[[[api.position.file]],
+                                  [[none]]]])],
+[b4_defines_if([b4_percent_define_ifdef([[api.location.file]],
+                                        [],
+                                        [m4_define([b4_position_file], [position.hh])])])])
+
+
 # b4_location_file
 # ----------------
 # Name of the file containing the position/location class,
 # if we want this file.
-b4_percent_define_check_file([b4_position_file],
-                             [[api.position.file]],
-                             b4_defines_if([[position.hh]]))
 b4_percent_define_check_file([b4_location_file],
                              [[api.location.file]],
                              b4_defines_if([[location.hh]]))
 
 
-# b4_position_define
+
+# b4_location_define
 # ------------------
-# Define class position.
-m4_define([b4_position_define],
+# Define the position and location classes.
+m4_define([b4_location_define],
 [[  /// Abstract a position.
   class position
   {
@@ -152,13 +161,8 @@ m4_define([b4_position_define],
       ostr << *pos.filename << ':';
     return ostr << pos.line << '.' << pos.column;
   }
-]])
 
-
-# b4_location_define
-# ------------------
-m4_define([b4_location_define],
-[[  /// Abstract a location.
+  /// Abstract a location.
   class location
   {
   public:
@@ -302,25 +306,18 @@ m4_define([b4_location_define],
 
 m4_ifdef([b4_position_file], [[
 ]b4_output_begin([b4_dir_prefix[]b4_position_file])[
-]b4_copyright([Positions for Bison parsers in C++])[
+// Starting with Bison 3.2, this file is useless: the structure it
+// used to define is now defined in "]b4_location_file[".
+//
+// To get rid of this file:
+// 1. add '%define api.position.file none'
+//     or '%define api.location.file none'
+//     or '%define api.location.file "my-loc.hh"' to your grammar file
+// 2. add 'require "3.2"' to your grammar file
+// 3. remove references to this file from your build system
+// 4. if you used to include it, include "]b4_location_file[" instead.
 
-/**
- ** \file ]b4_dir_prefix[]b4_position_file[
- ** Define the ]b4_namespace_ref[::position class.
- */
-
-]b4_cpp_guard_open([b4_dir_prefix[]b4_position_file])[
-
-# include <algorithm> // std::max
-# include <iostream>
-# include <string>
-
-]b4_null_define[
-
-]b4_namespace_open[
-]b4_position_define[
-]b4_namespace_close[
-]b4_cpp_guard_close([b4_dir_prefix[]b4_position_file])[
+#include "]b4_location_file["
 ]b4_output_end[
 ]])
 
@@ -336,10 +333,13 @@ m4_ifdef([b4_location_file], [[
 
 ]b4_cpp_guard_open([b4_dir_prefix[]b4_location_file])[
 
-]m4_ifdef([b4_position_file], [[#] include "b4_position_file"], [b4_null_define])[
+# include <algorithm> // std::max
+# include <iostream>
+# include <string>
+
+]b4_null_define[
 
 ]b4_namespace_open[
-]m4_ifndef([b4_position_file], [b4_position_define])[
 ]b4_location_define[
 ]b4_namespace_close[
 ]b4_cpp_guard_close([b4_dir_prefix[]b4_location_file])[

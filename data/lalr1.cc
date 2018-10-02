@@ -163,8 +163,6 @@ m4_define([b4_shared_declarations],
 # include <vector>
 
 ]b4_cxx_portability[
-]m4_ifdef([b4_position_file],
-          [[# include "]b4_position_file["]])[
 ]m4_ifdef([b4_location_file],
           [[# include "]b4_location_file["]])[
 ]b4_variant_if([b4_variant_includes])[
@@ -178,9 +176,7 @@ m4_define([b4_shared_declarations],
 
 ]b4_stack_define[
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
-                                  [m4_ifndef([b4_position_file], [b4_position_define
-
-])[]b4_location_define])])[
+                                  [b4_location_define])])[
 
 ]b4_variant_if([b4_variant_define])[
 

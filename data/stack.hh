@@ -143,7 +143,9 @@ m4_ifdef([b4_stack_file],
 // used to define is now defined with the parser itself.
 //
 // To get rid of this file:
-// 1. add '%define api.stack.file none' to your grammar file
+// 1. add '%define api.stack.file none'
+//     or '%define api.location.file none'
+//     or '%define api.location.file "my-loc.hh"' to your grammar file
 // 2. add 'require "3.2"' to your grammar file
 // 3. remove references to this file from your build system.
 

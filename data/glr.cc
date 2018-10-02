@@ -246,8 +246,6 @@ b4_percent_code_get([[requires]])[
 #include <stdexcept>
 #include <string>
 
-]m4_ifdef([b4_position_file],
-          [[# include "]b4_position_file["]])[
 ]m4_ifdef([b4_location_file],
           [[# include "]b4_location_file["]])[
 
@@ -257,9 +255,7 @@ b4_percent_code_get([[requires]])[
 
 ]b4_namespace_open[
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
-                                  [m4_ifndef([b4_position_file], [b4_position_define
-
-])[]b4_location_define])])[
+                                  [b4_location_define])])[
 
   /// A Bison parser.
   class ]b4_parser_class_name[
