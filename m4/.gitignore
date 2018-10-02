@@ -180,3 +180,6 @@
 /host-cpu-c-abi.m4
 /stat-time.m4
 /timevar.m4
+/sys_time_h.m4
+/sys_times_h.m4
+/times.m4
