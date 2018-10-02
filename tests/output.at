@@ -181,11 +181,6 @@ AT_CHECK_OUTPUT([gram_dir/foo.yy],
 
 # api.stack.file.
 AT_CHECK_OUTPUT([foo.yy],
-                [%skeleton "lalr1.cc" %define api.stack.file "foo.sta.hh"],
-                [],
-                [foo.sta.hh foo.tab.cc])
-
-AT_CHECK_OUTPUT([foo.yy],
                 [%skeleton "lalr1.cc" %defines %define api.stack.file none],
                 [],
                 [foo.tab.cc foo.tab.hh])
@@ -216,9 +211,9 @@ AT_CHECK_OUTPUT([foo.yy],
                 [foo.loc.hh foo.pos.hh foo.tab.cc foo.tab.hh])
 
 AT_CHECK_OUTPUT([gram_dir/foo.yy],
-                [%skeleton "lalr1.cc" %verbose %defines %define api.stack.file "foo.sta.hh" %file-prefix "output_dir/foo"],
+                [%skeleton "lalr1.cc" %verbose %defines %file-prefix "output_dir/foo"],
                 [],
-                [output_dir/foo.output output_dir/foo.sta.hh output_dir/foo.tab.cc output_dir/foo.tab.hh])
+                [output_dir/foo.output output_dir/foo.tab.cc output_dir/foo.tab.hh])
 
 
 # AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR,

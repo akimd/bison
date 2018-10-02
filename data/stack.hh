@@ -15,15 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_pushdef([b4_copyright_years],
-           [2002-2015, 2018])
 
 # b4_stack_file
 # -------------
 # Name of the file containing the stack class, if we want this file.
-b4_percent_define_check_file([b4_stack_file],
-                             [[api.stack.file]],
-                             b4_defines_if([[stack.hh]]))
+b4_percent_define_ifdef([[api.stack.file]],
+[b4_percent_define_check_values([[[[api.stack.file]],
+                                  [[none]]]])],
+[b4_defines_if([m4_define([b4_stack_file], [stack.hh])])])
 
 
 # b4_stack_define
@@ -140,25 +139,13 @@ m4_define([b4_stack_define],
 
 m4_ifdef([b4_stack_file],
 [b4_output_begin([b4_dir_prefix[]b4_stack_file])[
-]b4_copyright([Stack handling for Bison parsers in C++])[
+// Starting with Bison 3.2, this file is useless: the structure it
+// used to define is now defined with the parser itself.
+//
+// To get rid of this file:
+// 1. add '%define api.stack.file none' to your grammar file
+// 2. add 'require "3.2"' to your grammar file
+// 3. remove references to this file from your build system.
 
-/**
- ** \file ]b4_dir_prefix[]b4_stack_file[
- ** Define the ]b4_namespace_ref[::stack class.
- */
-
-]b4_cpp_guard_open([b4_dir_prefix[]b4_stack_file])[
-
-# include <vector>
-
-]b4_cxx_portability[
-
-]b4_namespace_open[
-]b4_stack_define[
-]b4_namespace_close[
-
-]b4_cpp_guard_close([b4_dir_prefix[]b4_stack_file])[
 ]b4_output_end[
 ]])
-
-m4_popdef([b4_copyright_years])
