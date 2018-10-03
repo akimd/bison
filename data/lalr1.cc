@@ -147,6 +147,7 @@ b4_bison_locations_if([# Backward compatibility.
 m4_include(b4_pkgdatadir/[stack.hh])
 b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 
+
 # b4_shared_declarations(hh|cc)
 # -----------------------------
 # Declaration that might either go into the header (if --defines, $1 = hh)
@@ -415,12 +416,10 @@ b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
-#define yylex   b4_prefix[]lex])[
+[#]define yylex   b4_prefix[]lex])[
 
 // First part of user declarations.
 ]b4_user_pre_prologue[
-
-]b4_null_define[
 
 ]b4_defines_if([[#include "@basename(]b4_spec_defines_file[@)"]],
                [b4_shared_declarations([cc])])[

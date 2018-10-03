@@ -234,9 +234,10 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 b4_namespace_close
 ])
 
-# b4_shared_declarations
-# ----------------------
-# Declaration that might either go into the header (if --defines)
+
+# b4_shared_declarations(hh|cc)
+# -----------------------------
+# Declaration that might either go into the header (if --defines, $1 = hh)
 # or in the implementation file.
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
