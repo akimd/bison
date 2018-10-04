@@ -25,8 +25,14 @@ abs_top_builddir='@abs_top_builddir@'
 BISON_PKGDATADIR=$abs_top_srcdir/data
 export BISON_PKGDATADIR
 
-$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"}
+stderr=tmp-bison.$$
+$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"} 2>"$stderr"
 status=$?
+
+# Neutralize path differences in error messages so that check and
+# installcheck behave the same way.
+sed -e "s,$abs_top_builddir/src/,,g" <"$stderr" >&2
+rm -f "$stderr"
 
 # As a special dark magic, if we are actually using this wrapper to
 # compile Bison's src/parse-gram.y, post-process the synclines to

@@ -20,6 +20,31 @@ AT_BANNER([[Input Processing.]])
 # Mostly test that we are robust to mistakes.
 
 
+## ----------------------------- ##
+## Invalid number of arguments.  ##
+## ----------------------------- ##
+
+AT_SETUP([Invalid number of arguments])
+
+AT_BISON_CHECK([], [1], [],
+[[bison: missing operand
+Try 'bison --help' for more information.
+]])
+
+AT_BISON_CHECK([1.y 2.y], [1], [],
+[[bison: extra operand '2.y'
+Try 'bison --help' for more information.
+]])
+
+AT_BISON_CHECK([--skeleton], [1], [],
+[[bison: option '--skeleton' requires an argument
+Try 'bison --help' for more information.
+]])
+
+AT_CLEANUP
+
+
+
 ## ----------------- ##
 ## Invalid options.  ##
 ## ----------------- ##
