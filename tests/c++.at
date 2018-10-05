@@ -1323,3 +1323,82 @@ AT_BISON_CHECK([[-o input.cc input.yy]])
 AT_FOR_EACH_CXX([AT_COMPILE_CXX([[input]])])
 
 AT_CLEANUP
+
+## ------------------ ##
+## Shared locations.  ##
+## ------------------ ##
+
+AT_SETUP([Shared locations])
+
+# AT_TEST([PREFIX], [DIRECTIVES])
+# -------------------------------
+# Generate and compile to *.o.  Make sure there is no (allowed) YY*
+# nor yy* identifiers in the header after applying api.prefix.  Check
+# that headers can be compiled by a C++ compiler.
+m4_pushdef([AT_TEST],
+[AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %define api.namespace {$1} $2])
+AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])
+AT_DATA_GRAMMAR([$1.yy],
+[[%skeleton "lalr1.cc"
+%define api.namespace {$1}
+$2
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%%
+exp: '0';
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["0"])[
+]])
+
+AT_BISON_CHECK([-fcaret -o $1.cc $1.yy])
+AT_LANG_COMPILE([$1.o], [], [-Iinclude])
+
+AT_LOC_POPDEF
+AT_BISON_OPTION_POPDEFS
+])
+
+mkdir -p include/ast
+
+AT_TEST([x1],
+        [%defines
+         %locations
+         %define api.location.file "include/ast/loc.hh"
+         %define api.location.include {<ast/loc.hh>}])
+
+AT_TEST([x2],
+        [%defines
+         %locations
+         %code requires {#include <ast/loc.hh>}
+         %define api.location.type {x1::location}])
+
+m4_popdef([AT_TEST])
+
+AT_DATA([main.cc],
+[AT_DATA_SOURCE_PROLOGUE
+[#include "x1.hh"
+#include "x2.hh"
+
+#define RUN(S)                                  \
+  do {                                          \
+    S::parser parser;                           \
+    int res = parser.parse();                   \
+    if (res)                                    \
+      std::cerr << #S": " << res << '\n';       \
+  } while (false)
+
+int
+main (void)
+{
+  RUN(x1);
+  RUN(x2);
+}
+]])# main.cc
+
+
+AT_COMPILE_CXX([parser], [[x[12].o main.cc]], [-Iinclude])
+AT_PARSER_CHECK([./parser], [0])
+
+AT_CLEANUP

@@ -163,8 +163,8 @@ m4_define([b4_shared_declarations],
 # include <vector>
 
 ]b4_cxx_portability[
-]m4_ifdef([b4_location_file],
-          [[# include "]b4_location_file["]])[
+]m4_ifdef([b4_location_include],
+          [[# include ]b4_location_include])[
 ]b4_variant_if([b4_variant_includes])[
 
 ]b4_attribute_define[

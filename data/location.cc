@@ -37,8 +37,12 @@ b4_percent_define_ifdef([[api.position.file]],
 b4_percent_define_check_file([b4_location_file],
                              [[api.location.file]],
                              b4_defines_if([[location.hh]]))
-
-
+# If location.hh is to be generated, the name under which should it be
+# included.
+m4_ifdef([b4_location_file],
+         [m4_define([b4_location_include],
+                    [b4_percent_define_get([[api.location.include]],
+                                           ["b4_location_file"])])])
 
 # b4_location_define
 # ------------------
@@ -317,7 +321,7 @@ m4_ifdef([b4_position_file], [[
 // 3. remove references to this file from your build system
 // 4. if you used to include it, include "]b4_location_file[" instead.
 
-#include "]b4_location_file["
+#include ]b4_location_include[
 ]b4_output_end[
 ]])
 

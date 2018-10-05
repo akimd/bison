@@ -247,7 +247,7 @@ b4_percent_code_get([[requires]])[
 #include <string>
 
 ]m4_ifdef([b4_location_file],
-          [[# include "]b4_location_file["]])[
+          [[# include ]b4_location_include])[
 
 ]b4_null_define[
 
