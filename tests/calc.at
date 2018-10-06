@@ -495,9 +495,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
 AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]]), [], [$2])
-AT_CHECK_SPACES(m4_join([ ],
-                        [calc.AT_SKEL_CC_IF([cc], [c])],
-                        [AT_DEFINES_IF([calc.AT_SKEL_CC_IF([hh], [h])])]))
+AT_CHECK_SPACES([calc.AT_LANG_EXT AT_DEFINES_IF([calc.AT_LANG_HDR])])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],

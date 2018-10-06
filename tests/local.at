@@ -833,6 +833,14 @@ m4_define([AT_LANG_EXT(c++)],  [cc])
 m4_define([AT_LANG_EXT(java)], [java])
 
 
+# AT_LANG_HDR
+# -----------
+# The header file extension corresponding to the language: c, cc.
+m4_define([AT_LANG_HDR],  [AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_LANG_HDR(c)],    [h])
+m4_define([AT_LANG_HDR(c++)],  [hh])
+
+
 # AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2], [EXTRA-COMPILER-FLAGS)
 # ------------------------------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then

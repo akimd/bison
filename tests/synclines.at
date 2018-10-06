@@ -452,7 +452,7 @@ AT_DATA_GRAMMAR([input.y],
 %%
 exp: '0'
 ]])
-AT_BISON_CHECK([--no-lines -o input.AT_SKEL_CC_IF([cc], [c]) -d input.y])
+AT_BISON_CHECK([--no-lines -o input.AT_LANG_EXT -d input.y])
 AT_CHECK([[grep '#line' ]AT_SKEL_CC_IF([*.cc *.hh], [*.c *.h])], 1)
 AT_BISON_OPTION_POPDEFS
 
