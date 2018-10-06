@@ -48,7 +48,9 @@ lib_libbison_a_SOURCES +=                       \
 # Non-gnulib sources in Bison's internal library.
 lib_libbison_a_SOURCES +=                       \
   lib/get-errno.h                               \
-  lib/get-errno.c
+  lib/get-errno.c                               \
+  lib/path-join.h                               \
+  lib/path-join.c
 
 # The Yacc compatibility library.
 if ENABLE_YACC
