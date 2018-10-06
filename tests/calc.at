@@ -694,8 +694,8 @@ AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %debug %
 AT_CHECK_CALC_LALR1_CC([%define parse.error verbose %debug %define api.prefix {calc} %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %debug %define api.prefix {calc} %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
-AT_CHECK_CALC_LALR1_CC([%locations %defines %define api.stack.file none %define api.location.file none %define api.position.file none])
-AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.stack.file none %define api.position.file none %define api.location.file "my-location.hh"])
+AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.location.file none])
+AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.location.file "my-location.hh"])
 
 
 # --------------------------- #

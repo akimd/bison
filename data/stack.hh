@@ -22,7 +22,9 @@
 b4_percent_define_ifdef([[api.stack.file]],
 [b4_percent_define_check_values([[[[api.stack.file]],
                                   [[none]]]])],
-[b4_defines_if([m4_define([b4_stack_file], [stack.hh])])])
+[b4_defines_if([b4_percent_define_ifdef([[api.location.file]],
+                                        [],
+                                        [m4_define([b4_stack_file], [stack.hh])])])])
 
 
 # b4_stack_define

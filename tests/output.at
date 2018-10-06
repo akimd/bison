@@ -195,13 +195,17 @@ AT_CHECK_OUTPUT([foo.yy],
                 [],
                 [foo.tab.cc foo.tab.hh location.hh])
 
-# api.location.file=none => api.position.file=none
+# api.location.file=none => api.position.file=none and api.stack.file=none.
 AT_CHECK_OUTPUT([foo.yy],
-                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.location.file none],
+                [%skeleton "lalr1.cc" %defines %locations %define api.location.file none],
                 [],
                 [foo.tab.cc foo.tab.hh])
 
-# api.location.file="*" => api.position.file=none
+# api.location.file="*" => api.position.file=none and api.stack.file=none.
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %locations %define api.location.file "foo.loc.hh"],
+                [],
+                [foo.loc.hh foo.tab.cc foo.tab.hh])
 AT_CHECK_OUTPUT([foo.yy],
                 [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.location.file "foo.loc.hh"],
                 [],
