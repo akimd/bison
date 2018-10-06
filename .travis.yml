@@ -115,10 +115,7 @@ matrix:
       addons:
         apt:
           sources:
-            # Travis is not ready yet:
-            # - llvm-toolchain-trusty-7
-            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-7 main'
-              key_url: 'http://apt.llvm.org/llvm-snapshot.gpg.key'
+            - llvm-toolchain-trusty-7
             - ubuntu-toolchain-r-test
           packages:
             - clang-7
