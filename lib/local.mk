@@ -39,12 +39,6 @@ lib_libbison_a_SOURCES +=                       \
   lib/bitsetv-print.h                           \
   lib/bitsetv-print.c
 
-# timevars, stolen from GCC.
-lib_libbison_a_SOURCES +=                       \
-  lib/timevar.h                                 \
-  lib/timevar.c                                 \
-  lib/timevar.def
-
 # Non-gnulib sources in Bison's internal library.
 lib_libbison_a_SOURCES +=                       \
   lib/get-errno.h                               \
