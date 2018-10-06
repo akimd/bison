@@ -184,8 +184,15 @@ m4_pushdef([AT_PURE_IF],
            [$2])])
 m4_pushdef([AT_PUSH_IF],
 [m4_bmatch([$3], [%define api.push-pull \(both\|pull\)], [$1], [$2])])
-# AT_NAME_PREFIX: also consider api.namespace.
+# AT_NAME_PREFIX.
 m4_pushdef([AT_NAME_PREFIX],
+[m4_bmatch([$3], [\(%define api\.\|prefix\|%name-prefix\) .*],
+   [m4_bregexp([$3],
+     [\(%define api\.prefix\|%name-prefix\) [\{\"]\([^\"\}]*\)[\"\}]],
+     [\2])],
+   [yy])])
+# AT_NAMESPACE: also consider api.prefix.  FIXME: Stop that confusion.
+m4_pushdef([AT_NAMESPACE],
 [m4_bmatch([$3], [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) .*],
    [m4_bregexp([$3],
      [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) [\{\"]\([^\"\}]*\)[\"\}]],
@@ -235,10 +242,10 @@ m4_pushdef([AT_PURE_LEX_IF],
             [AT_SKEL_CC_IF([$1], [$2])])])
 
 m4_pushdef([AT_YYSTYPE],
-[AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::semantic_type]],
+[AT_SKEL_CC_IF([AT_NAMESPACE[::parser::semantic_type]],
                [AT_API_PREFIX[STYPE]])])
 m4_pushdef([AT_YYLTYPE],
-[AT_SKEL_CC_IF([AT_NAME_PREFIX[::parser::location_type]],
+[AT_SKEL_CC_IF([AT_NAMESPACE[::parser::location_type]],
                [AT_API_PREFIX[LTYPE]])])
 
 
@@ -299,6 +306,7 @@ m4_popdef([AT_API_prefix])
 m4_popdef([AT_VARIANT_IF])
 m4_popdef([AT_TOKEN_PREFIX])
 m4_popdef([AT_TOKEN_CTOR_IF])
+m4_popdef([AT_NAMESPACE])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_LOCATION_TYPE_IF])
 m4_popdef([AT_LOCATION_IF])
@@ -543,7 +551,7 @@ m4_define([AT_YYERROR_DECLARE_EXTERN(c++)], [])
 m4_define([AT_YYERROR_DEFINE(c++)],
 [[/* A C++ error reporting function.  */
 void
-]AT_NAME_PREFIX[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
+]AT_NAMESPACE[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
 {
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
 }]])
@@ -555,7 +563,7 @@ m4_define([AT_MAIN_DEFINE(c++)],
 int
 main (int argc, char const* argv[])
 {
-  ]AT_NAME_PREFIX[::parser p;]AT_DEBUG_IF([[
+  ]AT_NAMESPACE[::parser p;]AT_DEBUG_IF([[
   if (getenv("YYDEBUG")
       || (argc == 2
           && (!strcmp (argv[1], "-d") || !strcmp (argv[1], "--debug"))))
