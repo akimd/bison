@@ -140,7 +140,7 @@ m4_define([b4_stack_define],
 
 
 m4_ifdef([b4_stack_file],
-[b4_output_begin([b4_dir_prefix[]b4_stack_file])[
+[b4_output_begin([b4_dir_prefix], [b4_stack_file])[
 // Starting with Bison 3.2, this file is useless: the structure it
 // used to define is now defined with the parser itself.
 //

@@ -306,7 +306,7 @@ use strict;
 my $M4 = "m4";
 my $DNL = "d"."nl";
 print "${M4}_divert_push(0)$DNL\n";
-print '@output(@,@)', "\n";
+print '@output(@,@,@)', "\n";
 (print "garbage"x10, "\n") for (1..1000);
 print "${M4}_divert_pop(0)\n";
 ]])

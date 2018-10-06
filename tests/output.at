@@ -45,9 +45,13 @@ done
 [$2[
 %%
 foo: %empty {};
-]])[
+]])
 
-]AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
+# There is not AT_DATA_UNQUOTED.
+AT_CHECK([$PERL -pi -e 's{\$at_dir}'"{$at_group_dir}g" $1])
+
+
+AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
 # Ignore the files non-generated files
 ]AT_CHECK_FILES([$4], [$1])[
 ]$6[
@@ -206,8 +210,10 @@ AT_CHECK_OUTPUT([foo.yy],
                 [%skeleton "lalr1.cc" %defines %locations %define api.location.file "foo.loc.hh"],
                 [],
                 [foo.loc.hh foo.tab.cc foo.tab.hh])
+
+# Absolute paths.
 AT_CHECK_OUTPUT([foo.yy],
-                [%skeleton "lalr1.cc" %defines %define api.stack.file none %locations %define api.location.file "foo.loc.hh"],
+                [%skeleton "lalr1.cc" %defines %locations %define api.location.file "$at_dir/foo.loc.hh"],
                 [],
                 [foo.loc.hh foo.tab.cc foo.tab.hh])
 

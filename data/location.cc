@@ -305,7 +305,7 @@ m4_define([b4_location_define],
 
 
 m4_ifdef([b4_position_file], [[
-]b4_output_begin([b4_dir_prefix[]b4_position_file])[
+]b4_output_begin([b4_dir_prefix], [b4_position_file])[
 // Starting with Bison 3.2, this file is useless: the structure it
 // used to define is now defined in "]b4_location_file[".
 //
@@ -323,7 +323,7 @@ m4_ifdef([b4_position_file], [[
 
 
 m4_ifdef([b4_location_file], [[
-]b4_output_begin([b4_dir_prefix[]b4_location_file])[
+]b4_output_begin([b4_dir_prefix], [b4_location_file])[
 ]b4_copyright([Locations for Bison parsers in C++])[
 
 /**

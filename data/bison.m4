@@ -65,14 +65,16 @@ version 2.2 of Bison.])])
 ## Output.  ##
 ## -------- ##
 
-# b4_output_begin(FILE)
-# ---------------------
+# b4_output_begin(FILE1, FILE2)
+# -----------------------------
 # Enable output, i.e., send to diversion 0, expand after "#", and
 # generate the tag to output into FILE.  Must be followed by EOL.
+# FILE is FILE1 concatenated to FILE2.  FILE2 can be empty, or be
+# absolute: do the right thing.
 m4_define([b4_output_begin],
 [m4_changecom()
 m4_divert_push(0)dnl
-@output(m4_unquote([$1])@)@dnl
+@output(m4_unquote([$1])@,m4_unquote([$2])@)@dnl
 ])
 
 

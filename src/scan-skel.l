@@ -29,8 +29,9 @@
 #define FLEX_PREFIX(Id) skel_ ## Id
 #include <src/flex-scanner.h>
 
-#include <dirname.h>
 #include <error.h>
+#include <dirname.h>
+#include <path-join.h>
 #include <quotearg.h>
 
 #include <src/complain.h>
@@ -236,14 +237,14 @@ at_complain (int argc, char *argv[], char **out_namep, int *out_linenop)
 static void
 at_output (int argc, char *argv[], char **out_namep, int *out_linenop)
 {
-  if (2 < argc)
+  if (3 < argc)
     fail_for_at_directive_too_many_args (argv[0]);
   if (*out_namep)
     {
       free (*out_namep);
       xfclose (yyout);
     }
-  *out_namep = xstrdup (argv[1]);
+  *out_namep = xpath_join (argv[1], 2 < argc ? argv[2] : NULL);
   output_file_name_check (out_namep, true);
   /* If there were errors, do not generate the output.  */
   yyout = xfopen (complaint_status ? "/dev/null" : *out_namep, "w");
