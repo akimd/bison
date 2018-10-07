@@ -13,7 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LDADD = lib/libbison.a $(LIBINTL)
+LDADD =                                         \
+  $(ISNAND_LIBM)                                \
+  $(ISNANF_LIBM)                                \
+  $(ISNANL_LIBM)                                \
+  $(LDEXPL_LIBM)                                \
+  $(LDEXP_LIBM)                                 \
+  $(LIBINTL)                                    \
+  $(LIBTHREAD)                                  \
+  lib/libbison.a
 
 bin_PROGRAMS = src/bison
 # Prettify Automake-computed names of compiled objects.
