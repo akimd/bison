@@ -30,9 +30,7 @@ $(doc_bison).pdf: $(FIGS_GV:.gv=.pdf)
 $(doc_bison).html: $(FIGS_GV:.gv=.png)
 
 TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d -I doc
-CLEANDIRS = doc/bison.t2d
-clean-local:
-	rm -rf $(CLEANDIRS)
+CLEANDIRS += doc/bison.t2d
 
 MOSTLYCLEANFILES += $(top_srcdir)/doc/*.t
 

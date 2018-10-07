@@ -17,10 +17,10 @@
 
 %debug
 %language "c++"
-%defines
 %define api.token.constructor
 %define api.value.type variant
 %define api.value.automove
+%define api.location.file none
 %define parse.assert
 %locations
 

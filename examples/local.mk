@@ -65,6 +65,9 @@ if ENABLE_CXX11
   %D%/variant-11.cc: $(BISON_IN) $(dist_pkgdata_DATA)
 endif
 
+CLEANFILES += %D%/variant.output %D%/variant-11.output
+CLEANDIRS += %D%/*.dSYM
+
 include %D%/calc++/local.mk
 include %D%/mfcalc/local.mk
 include %D%/rpcalc/local.mk

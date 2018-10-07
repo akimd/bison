@@ -116,6 +116,7 @@ bin_SCRIPTS = src/yacc
 endif
 EXTRA_SCRIPTS = src/yacc
 MOSTLYCLEANFILES += src/yacc
+CLEANDIRS += %D%/*.dSYM
 
 src/yacc:
 	$(AM_V_GEN)rm -f $@ $@.tmp
