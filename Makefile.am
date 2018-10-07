@@ -18,7 +18,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = po runtime-po .
+SUBDIRS = po runtime-po gnulib-po .
 
 # Files installed for use by Automake.
 aclocaldir = @aclocaldir@

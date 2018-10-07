@@ -251,6 +251,7 @@ AM_WITH_DMALLOC
 AM_GNU_GETTEXT([external], [need-ngettext])
 AM_GNU_GETTEXT_VERSION([0.18])
 BISON_I18N
+AC_CONFIG_FILES([gnulib-po/Makefile.in])
 
 # Internationalized parsers.
 AC_CONFIG_FILES([runtime-po/Makefile.in])
