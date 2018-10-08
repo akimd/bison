@@ -347,9 +347,11 @@ C++ Parsers
 
 C++ Location Values
 
-* C++ position::                One point in the source file
-* C++ location::                Two points in the source file
-* User Defined Location Type::  Required interface for locations
+* C++ position::                  One point in the source file
+* C++ location::                  Two points in the source file
+* Exposing the Location Classes:: Using the Bison location class in your
+                                  project
+* User Defined Location Type::    Required interface for locations
 
 A Complete C++ Example
 
@@ -5808,6 +5810,70 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @end deffn
 @c api.namespace
 
+@c ================================================== api.location.file
+@deffn {Directive} {%define api.location.file} "@var{file}"
+@deffnx {Directive} {%define api.location.file} @code{none}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Define the name of the file in which Bison's default location and position
+types are generated. @xref{Exposing the Location Classes}.
+
+@item Accepted Values:
+@table @asis
+@item @code{none}
+If locations are enabled, generate the definition of the @code{position} and
+@code{location} classes in the header file if @code{%defines}, otherwise in
+the parser implementation.
+
+@item "@var{file}"
+Generate the definition of the @code{position} and @code{location} classes
+in @var{file}.  This file name can be relative (to where the parser file is
+output) or absolute.
+@end table
+
+Defining it implies @samp{%define api.position.file none} and @samp{%define
+api.stack.file none}.
+
+@item Default Value:
+Not applicable if locations are not enabled, or if a user location type is
+specified (see @code{api.location.type}).  Otherwise, Bison's
+@code{location} is generated in @file{location.hh} (@pxref{C++ location}).
+
+@item History:
+Introduced in Bison 3.2.
+@end itemize
+@end deffn
+
+@c ================================================== api.location.file
+@deffn {Directive} {%define api.location.include} @{"@var{file}"@}
+@deffnx {Directive} {%define api.location.include} @{<@var{file}>@}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Specify how the generated file that defines the @code{position} and
+@code{location} classes is included.  This makes sense when the
+@code{location} class is exposed to the rest of your application/library in
+another directory.  @xref{Exposing the Location Classes}.
+
+@item Accepted Values: Argument for @code{#include}.
+
+@item Default Value:
+@samp{"@var{dir}/location.hh"} where @var{dir} is the directory part of the
+output.  For instance @file{src/parse} if
+@option{--output=src/parse/parser.cc} was given.
+
+@item History:
+Introduced in Bison 3.2.
+@end itemize
+
+@end deffn
+
+
 @c ================================================== api.location.type
 @deffn {Directive} {%define api.location.type} @{@var{type}@}
 
@@ -5826,6 +5892,28 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @code{location_type} for C++ in Bison 2.5 and for Java in Bison 2.4.
 @end itemize
 @end deffn
+
+@c ================================================== api.position.file
+@deffn {Directive} {%define api.position.file} @code{none}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Disable the generation of the legacy file @file{position.hh}.  The class
+@code{position} is now defined where the class @code{location} is.
+
+@item Accepted Values: @code{none}
+
+@item Default Value:
+@code{none} if @code{api.location.file} is defined, otherwise a useless
+@file{position.hh} is generated for backward compatibility.
+
+@item History:
+Introduced in Bison 3.2.
+@end itemize
+@end deffn
+
 
 @c ================================================== api.prefix
 @deffn {Directive} {%define api.prefix} @{@var{prefix}@}
@@ -5911,6 +5999,27 @@ the @code{full} value was introduced in Bison 2.7
 @end deffn
 @c api.push-pull
 
+
+
+@c ================================================== api.stack.file
+@deffn {Directive} {%define api.stack.file} @code{none}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Disable the generation of the legacy file @file{stack.hh}.
+
+@item Accepted Values: @code{none}
+
+@item Default Value:
+@code{none} if @code{api.location.file} is defined, otherwise a useless
+@file{stack.hh} is generated for backward compatibility.
+
+@item History:
+Introduced in Bison 3.2.
+@end itemize
+@end deffn
 
 
 @c ================================================== api.token.constructor
@@ -10559,15 +10668,11 @@ see @ref{%define Summary,,api.namespace}.  The various classes are generated
 in the following files:
 
 @table @file
-@item position.hh
-@itemx location.hh
+@item location.hh
 The definition of the classes @code{position} and @code{location}, used for
-location tracking when enabled.  These files are not generated if the
-@code{%define} variable @code{api.location.type} is defined.  @xref{C++
-Location Values}.
-
-@item stack.hh
-An auxiliary class @code{stack} used by the parser.
+location tracking when enabled.  This file is not generated if user defined
+locations are used, i.e., if the @code{%define} variable
+@code{api.location.type} is defined.  @xref{C++ Location Values}.
 
 @item @var{file}.hh
 @itemx @var{file}.cc
@@ -10575,6 +10680,14 @@ An auxiliary class @code{stack} used by the parser.
 declaration and implementation of the C++ parser class.  The basename and
 extension of these two files follow the same rules as with regular C parsers
 (@pxref{Invocation}).
+
+@item position.hh
+A useless legacy file.  To get rid of it, use @samp{%define api.stack.file
+none}, or define @code{api.location.file}.
+
+@item stack.hh
+A useless legacy file.  To get rid of it, use @samp{%define
+api.position.file none}, or define @code{api.location.file}.
 @end table
 
 All these files are documented using Doxygen; run @command{doxygen} for a
@@ -10728,7 +10841,9 @@ classes will not be generated, and the user defined type will be used.
 @menu
 * C++ position::         One point in the source file
 * C++ location::         Two points in the source file
-* User Defined Location Type::  Required interface for locations
+* Exposing the Location Classes:: Using the Bison location class in your
+                                  project
+* User Defined Location Type::    Required interface for locations
 @end menu
 
 @node C++ position
@@ -10841,6 +10956,55 @@ Report @var{p} on @var{o}, taking care of special cases such as: no
 @code{filename} defined, or equal filename/line or column.
 @end deftypefun
 
+@node Exposing the Location Classes
+@subsubsection Exposing the Location Classes
+
+When both @code{%defines} and @code{%locations} are enabled, Bison generates
+an additional file: @file{location.hh}.  If you don't use locations outside
+of the parser, you may avoid its creation with @samp{%define
+api.location.file none}.
+
+However this file is useful if, for instance, your parser builds an abstract
+syntax tree decorated with locations: you may use Bison's @code{location}
+type independently of Bison's parser.  You may name the file differently,
+e.g., @samp{%define api.location.file "include/ast/location.hh"}: this name
+can have directory components, or even be absolute.  The way the location
+file is included is controlled by @code{api.location.include}.
+
+This way it is possible to have several parsers share the same location
+file.
+
+For instance, in @file{src/foo/parser.yy}, generate the
+@file{include/ast/loc.hh} file:
+
+@example
+// src/foo/parser.yy
+%locations
+%define api.namespace @{foo@}
+%define api.location.file "include/ast/loc.hh"
+%define api.location.include @{<ast/loc.hh>@}
+@end example
+
+@noindent
+and use it in @file{src/bar/parser.yy}:
+
+@example
+// src/bar/parser.yy
+%locations
+%define api.namespace @{bar@}
+%code requires @{#include <ast/loc.hh>@}
+%define api.location.type @{bar::location@}
+@end example
+
+Absolute file names are supported; it is safe in your @file{Makefile} to
+pass the flag
+@option{-Dapi.location.file='"$(top_srcdir)/include/ast/loc.hh"'} to
+@command{bison} for @file{src/foo/parser.yy}.  The generated file will not
+have references to this absolute path, thanks to @samp{%define
+api.location.include @{<ast/loc.hh>@}}.  Adding @samp{-I
+$(top_srcdir)/include} to your @code{CPPFLAGS} will suffice for the compiler
+to find @file{ast/loc.hh}.
+
 @node User Defined Location Type
 @subsubsection User Defined Location Type
 @findex %define api.location.type
@@ -10897,6 +11061,7 @@ files, reused by other parsers as follows:
 %define api.location.type @{master::location@}
 %code requires @{ #include <master/location.hh> @}
 @end example
+
 
 @node C++ Parser Interface
 @subsection C++ Parser Interface
