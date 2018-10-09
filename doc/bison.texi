@@ -7135,7 +7135,7 @@ Obviously, in location tracking pure parsers, @code{yyerror} should have
 an access to the current location. With @code{%define api.pure}, this is
 indeed the case for the GLR parsers, but not for the Yacc parser, for
 historical reasons, and this is the why @code{%define api.pure full} should be
-prefered over @code{%define api.pure}.
+preferred over @code{%define api.pure}.
 
 When @code{%locations %define api.pure full} is used, @code{yyerror} has the
 following signature:
@@ -9671,7 +9671,7 @@ the target states.
 
 @subheading Graphical Representation of Shifts
 
-Shifts are shown as solid arrows, labelled with the lookahead token for that
+Shifts are shown as solid arrows, labeled with the lookahead token for that
 shift. The following describes a reduction in the @file{rr.output} file:
 
 @example
@@ -9691,7 +9691,7 @@ A Graphviz rendering of this portion of the graph could be:
 @subheading Graphical Representation of Reductions
 
 Reductions are shown as solid arrows, leading to a diamond-shaped node
-bearing the number of the reduction rule. The arrow is labelled with the
+bearing the number of the reduction rule. The arrow is labeled with the
 appropriate comma separated lookahead tokens. If the reduction is the default
 action for the given state, there is no such label.
 
@@ -9717,9 +9717,9 @@ are distinguished by a red filling color on these nodes, just like how they are
 reported between square brackets in the verbose file.
 
 The reduction corresponding to the rule number 0 is the acceptation
-state. It is shown as a blue diamond, labelled ``Acc''.
+state. It is shown as a blue diamond, labeled ``Acc''.
 
-@subheading Graphical representation of go tos
+@subheading Graphical Representation of Gotos
 
 The @samp{go to} jump transitions are represented as dotted lines bearing
 the name of the rule being jumped to.
@@ -11142,7 +11142,7 @@ or nonzero, full tracing.
 @deftypemethodx {parser} {void} error (const std::string& @var{m})
 The definition for this member function must be supplied by the user: the
 parser uses it to report a parser error occurring at @var{l}, described by
-@var{m}.  If location tracking is not abled, the second signature is used.
+@var{m}.  If location tracking is not enabled, the second signature is used.
 @end deftypemethod
 
 
@@ -12935,7 +12935,7 @@ In an action, the location of the @var{n}-th symbol of the right-hand side
 of the rule.  @xref{Tracking Locations}.
 
 In a grammar, the Bison-generated nonterminal symbol for a midrule action
-with a semantical value.  @xref{Midrule Action Translation}.
+with a semantic value.  @xref{Midrule Action Translation}.
 @end deffn
 
 @deffn {Variable} @@@var{name}
@@ -12946,7 +12946,7 @@ In an action, the location of a symbol addressed by @var{name}.
 
 @deffn {Symbol} $@@@var{n}
 In a grammar, the Bison-generated nonterminal symbol for a midrule action
-with no semantical value.  @xref{Midrule Action Translation}.
+with no semantics value.  @xref{Midrule Action Translation}.
 @end deffn
 
 @deffn {Variable} $$
@@ -13769,11 +13769,16 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett LALR's
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
-@c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType
-@c LocalWords: parsers parser's
+@c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType yyo
+@c LocalWords: parsers parser's documentencoding documentlanguage Wempty
 @c LocalWords: associativity subclasses precedences unresolvable runnable
-@c LocalWords: allocators subunit initializations unreferenced untyped
-@c LocalWords: errorVerbose subtype subtypes
+@c LocalWords: allocators subunit initializations unreferenced untyped dir
+@c LocalWords: errorVerbose subtype subtypes Wmidrule midrule's src rvalues
+@c LocalWords: automove evolutions Wother Wconflicts PNG lookaheads Acc
+@c LocalWords: xsltproc XSL xsl xhtml html num Wprecedence Werror fcaret
+@c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
+@c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif
+@c LocalWords: Wdeprecated Wregister noinput yyloc yypos
 
 @c Local Variables:
 @c ispell-dictionary: "american"
