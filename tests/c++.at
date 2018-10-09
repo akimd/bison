@@ -1324,6 +1324,8 @@ AT_FOR_EACH_CXX([AT_COMPILE_CXX([[input]])])
 
 AT_CLEANUP
 
+
+
 ## ------------------ ##
 ## Shared locations.  ##
 ## ------------------ ##
@@ -1367,6 +1369,15 @@ AT_TEST([x1],
          %locations
          %define api.location.file "include/ast/loc.hh"
          %define api.location.include {<ast/loc.hh>}])
+
+# Check the CPP guard and Doxyen comments.
+AT_CHECK([sed -ne '/INCLUDED/p;/\\file/{p;n;p;}' include/ast/loc.hh], [],
+[[ ** \file ast/loc.hh
+ ** Define the x1::location class.
+#ifndef YY_YY_AST_LOC_HH_INCLUDED
+# define YY_YY_AST_LOC_HH_INCLUDED
+#endif // !YY_YY_AST_LOC_HH_INCLUDED
+]])
 
 AT_TEST([x2],
         [%defines

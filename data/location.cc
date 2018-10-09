@@ -37,12 +37,27 @@ b4_percent_define_ifdef([[api.position.file]],
 b4_percent_define_check_file([b4_location_file],
                              [[api.location.file]],
                              b4_defines_if([[location.hh]]))
+
+# b4_location_include
+# -------------------
 # If location.hh is to be generated, the name under which should it be
 # included.
+#
+# b4_location_path
+# ----------------
+# The path to use for the CPP guard.
 m4_ifdef([b4_location_file],
-         [m4_define([b4_location_include],
-                    [b4_percent_define_get([[api.location.include]],
-                                           ["b4_location_file"])])])
+[m4_define([b4_location_include],
+           [b4_percent_define_get([[api.location.include]],
+                                  ["b4_location_file"])])
+ m4_define([b4_location_path],
+           b4_percent_define_get([[api.location.include]],
+                                 ["b4_dir_prefix[]b4_location_file"]))
+ m4_define([b4_location_path],
+           m4_substr(m4_defn([b4_location_path]), 1, m4_eval(m4_len(m4_defn([b4_location_path])) - 2)))
+ ])
+
+
 
 # b4_location_define
 # ------------------
@@ -331,11 +346,11 @@ m4_ifdef([b4_location_file], [[
 ]b4_copyright([Locations for Bison parsers in C++])[
 
 /**
- ** \file ]b4_dir_prefix[]b4_location_file[
+ ** \file ]b4_location_path[
  ** Define the ]b4_namespace_ref[::location class.
  */
 
-]b4_cpp_guard_open([b4_dir_prefix[]b4_location_file])[
+]b4_cpp_guard_open([b4_location_path])[
 
 # include <algorithm> // std::max
 # include <iostream>
@@ -346,7 +361,7 @@ m4_ifdef([b4_location_file], [[
 ]b4_namespace_open[
 ]b4_location_define[
 ]b4_namespace_close[
-]b4_cpp_guard_close([b4_dir_prefix[]b4_location_file])[
+]b4_cpp_guard_close([b4_location_path])[
 ]b4_output_end[
 ]])
 
