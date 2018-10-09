@@ -150,6 +150,5 @@ m4_ifdef([b4_stack_file],
 //     or '%define api.location.file "my-loc.hh"' to your grammar file
 // 2. add 'require "3.2"' to your grammar file
 // 3. remove references to this file from your build system.
-
 ]b4_output_end[
 ]])
