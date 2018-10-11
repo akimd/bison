@@ -179,8 +179,14 @@
 /xstrndup.m4
 /host-cpu-c-abi.m4
 /stat-time.m4
-/timevar.m4
 /sys_time_h.m4
 /sys_times_h.m4
-/times.m4
 /sh-filename.m4
+/clock_time.m4
+/gethrxtime.m4
+/getrusage.m4
+/gettime.m4
+/gettimeofday.m4
+/localtime-buffer.m4
+/sys_resource_h.m4
+/timespec.m4

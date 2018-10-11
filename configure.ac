@@ -219,7 +219,6 @@ gl_INIT
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])
 AM_WITH_DMALLOC
-gl_TIMEVAR
 
 # Gettext.
 # We use gnulib, which is only guaranteed to work properly with the

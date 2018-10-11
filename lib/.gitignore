@@ -277,4 +277,15 @@
 /timevar.h
 /sys_time.in.h
 /sys_times.in.h
-/times.c
+/gethrxtime.c
+/gethrxtime.h
+/getrusage.c
+/gettime.c
+/gettimeofday.c
+/localtime-buffer.c
+/localtime-buffer.h
+/sys_resource.in.h
+/timespec.c
+/timespec.h
+/xtime.c
+/xtime.h
