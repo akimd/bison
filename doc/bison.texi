@@ -6348,8 +6348,7 @@ Obsoleted by @code{api.namespace}
 
 @item Purpose: Issue runtime assertions to catch invalid uses.
 In C++, when variants are used (@pxref{C++ Variants}), symbols must be
-constructed and
-destroyed properly.  This option checks these constraints.
+constructed and destroyed properly.  This option checks these constraints.
 
 @item Accepted Values: Boolean
 
@@ -11594,13 +11593,13 @@ assignment:
 %left "+" "-";
 %left "*" "/";
 exp:
-  exp "+" exp   @{ $$ = $1 + $3; @}
+  "number"
+| "identifier"  @{ $$ = drv.variables[$1]; @}
+| exp "+" exp   @{ $$ = $1 + $3; @}
 | exp "-" exp   @{ $$ = $1 - $3; @}
 | exp "*" exp   @{ $$ = $1 * $3; @}
 | exp "/" exp   @{ $$ = $1 / $3; @}
 | "(" exp ")"   @{ std::swap ($$, $2); @}
-| "identifier"  @{ $$ = drv.variables[$1]; @}
-| "number"      @{ std::swap ($$, $1); @};
 %%
 @end example
 

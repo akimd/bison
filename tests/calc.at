@@ -303,7 +303,7 @@ line:
 ;
 
 exp:
-  NUM                { $$ = $1;             }
+  NUM
 | exp '=' exp
   {
     if ($1 != $3)

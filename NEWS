@@ -68,6 +68,27 @@ GNU Bison NEWS
 
   The new examples/variant-11.yy shows these features in action.
 
+*** C++: The implicit default semantic action is always run
+
+  When variants are enabled, the default action was not run, so
+
+    exp: "number"
+
+  was equivalent to
+
+    exp: "number"  {}
+
+  It now behaves like in all the other cases, as
+
+    exp: "number"  { $$ = $1; }
+
+  possibly using std::move if automove is enabled.
+
+  We do not expect backward compatibility issues.  However, beware of
+  forward compatibility issues: if you rely on default actions with
+  variants, be sure to '%require "3.2"' to avoid older versions of Bison to
+  generate incorrect parsers.
+
 *** C++: Renaming location.hh
 
   When both %defines and %locations are enabled, Bison generates a
