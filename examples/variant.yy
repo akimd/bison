@@ -89,7 +89,7 @@ list:
 ;
 
 item:
-  TEXT    { std::swap ($$, $1); }
+  TEXT
 | NUMBER  { $$ = to_string ($1); }
 ;
 %%

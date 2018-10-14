@@ -101,7 +101,7 @@ list:
 ;
 
 item:
-  TEXT    { $$ = $1; }
+  TEXT
 | NUMBER  { $$ = make_string_uptr (to_string ($1)); }
 ;
 %%
