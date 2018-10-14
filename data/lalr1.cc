@@ -89,7 +89,7 @@ m4_define([_b4_rhs_value],
 
 m4_define([b4_rhs_value],
 [b4_percent_define_ifdef([api.value.automove],
-                         [YY_MOVE(_b4_rhs_value($@))],
+                         [YY_MOVE (_b4_rhs_value($@))],
                          [_b4_rhs_value($@)])])
 
 
@@ -672,7 +672,7 @@ m4_if(b4_prefix, [yy], [],
 #if defined __cplusplus && 201103L <= __cplusplus
     yypush_ (m, stack_symbol_type (s, YY_MOVE (sym)));
 #else
-    stack_symbol_type ss(s, sym);
+    stack_symbol_type ss (s, sym);
     yypush_ (m, ss);
 #endif
   }

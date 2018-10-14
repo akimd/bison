@@ -114,10 +114,11 @@ m4_define([b4_location_define],
     unsigned column;
 
   private:
-    /// Compute max(min, lhs+rhs).
+    /// Compute max (min, lhs+rhs).
     static unsigned add_ (unsigned lhs, int rhs, int min)
     {
-      return static_cast<unsigned>(std::max(min, static_cast<int>(lhs) + rhs));
+      return static_cast<unsigned> (std::max (min,
+                                              static_cast<int> (lhs) + rhs));
     }
   };
 

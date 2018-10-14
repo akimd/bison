@@ -55,15 +55,15 @@ dummy[]_b4_char_sizeof_counter])
 # ---------------------------
 # To be mapped on the list of type names to produce:
 #
-#    char dummy1[sizeof(type_name_1)];
-#    char dummy2[sizeof(type_name_2)];
+#    char dummy1[sizeof (type_name_1)];
+#    char dummy2[sizeof (type_name_2)];
 #
 # for defined type names.
 m4_define([b4_char_sizeof],
 [b4_symbol_if([$1], [has_type],
 [
 m4_map([      b4_symbol_tag_comment], [$@])dnl
-      char _b4_char_sizeof_dummy@{sizeof(b4_symbol([$1], [type]))@};
+      char _b4_char_sizeof_dummy@{sizeof (b4_symbol([$1], [type]))@};
 ])])
 
 
@@ -222,7 +222,7 @@ m4_define([b4_variant_define],
 
   private:
     /// Prohibit blind copies.
-    self_type& operator=(const self_type&);
+    self_type& operator= (const self_type&);
     variant (const self_type&);
 
     /// Accessor to raw memory as \a T.
@@ -271,7 +271,7 @@ m4_define([b4_value_type_declare],
     {]b4_type_foreach([b4_char_sizeof])[};
 
     /// Symbol semantic values.
-    typedef variant<sizeof(union_type)> semantic_type;][]dnl
+    typedef variant<sizeof (union_type)> semantic_type;][]dnl
 ])
 
 
