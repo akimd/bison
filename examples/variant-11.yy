@@ -66,7 +66,7 @@
   make_string_uptr (Args&&... args)
   {
     // std::make_unique is C++14.
-    return std::unique_ptr<std::string>(new std::string{std::forward<Args>(args)...});
+    return string_uptr (new std::string{std::forward<Args> (args)...});
   }
 
   // Convert to string.

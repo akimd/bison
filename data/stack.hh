@@ -73,7 +73,7 @@ m4_define([b4_stack_define],
     void
     push (YY_MOVE_REF (T) t)
     {
-      seq_.push_back (T());
+      seq_.push_back (T ());
       operator[](0).move (t);
     }
 

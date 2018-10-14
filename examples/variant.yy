@@ -48,7 +48,7 @@ typedef std::vector<std::string> strings_type;
     {
       o << '{';
       const char *sep = "";
-      for (strings_type::const_iterator i = ss.begin(), end = ss.end();
+      for (strings_type::const_iterator i = ss.begin (), end = ss.end ();
            i != end; ++i)
         {
           o << sep << *i;
@@ -110,7 +110,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
+    parser::location_type loc (YY_NULLPTR, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:

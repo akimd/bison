@@ -226,7 +226,7 @@ m4_define([b4_symbol_type_declare],
 [[    /// A complete symbol.
     ///
     /// Expects its Base type to provide access to the symbol type
-    /// via type_get().
+    /// via type_get ().
     ///
     /// Provide access to semantic value]b4_locations_if([ and location])[.
     template <typename Base>
