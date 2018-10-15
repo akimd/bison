@@ -4788,6 +4788,14 @@ status 63).
 %require "@var{version}"
 @end example
 
+Some deprecated behaviors are disabled for some required @var{version}:
+@table @code
+@item "3.2"
+The C++ deprecated files @file{position.hh} and @file{stack.hh} are no
+longer generated.
+@end table
+
+
 @node Token Decl
 @subsection Token Type Names
 @cindex declaring token type names
@@ -5834,9 +5842,6 @@ in @var{file}.  This file name can be relative (to where the parser file is
 output) or absolute.
 @end table
 
-Defining it implies @samp{%define api.position.file none} and @samp{%define
-api.stack.file none}.
-
 @item Default Value:
 Not applicable if locations are not enabled, or if a user location type is
 specified (see @code{api.location.type}).  Otherwise, Bison's
@@ -5892,28 +5897,6 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @code{location_type} for C++ in Bison 2.5 and for Java in Bison 2.4.
 @end itemize
 @end deffn
-
-@c ================================================== api.position.file
-@deffn {Directive} {%define api.position.file} @code{none}
-
-@itemize @bullet
-@item Language(s): C++
-
-@item Purpose:
-Disable the generation of the legacy file @file{position.hh}.  The class
-@code{position} is now defined where the class @code{location} is.
-
-@item Accepted Values: @code{none}
-
-@item Default Value:
-@code{none} if @code{api.location.file} is defined, otherwise a useless
-@file{position.hh} is generated for backward compatibility.
-
-@item History:
-Introduced in Bison 3.2.
-@end itemize
-@end deffn
-
 
 @c ================================================== api.prefix
 @deffn {Directive} {%define api.prefix} @{@var{prefix}@}
@@ -5999,27 +5982,6 @@ the @code{full} value was introduced in Bison 2.7
 @end deffn
 @c api.push-pull
 
-
-
-@c ================================================== api.stack.file
-@deffn {Directive} {%define api.stack.file} @code{none}
-
-@itemize @bullet
-@item Language(s): C++
-
-@item Purpose:
-Disable the generation of the legacy file @file{stack.hh}.
-
-@item Accepted Values: @code{none}
-
-@item Default Value:
-@code{none} if @code{api.location.file} is defined, otherwise a useless
-@file{stack.hh} is generated for backward compatibility.
-
-@item History:
-Introduced in Bison 3.2.
-@end itemize
-@end deffn
 
 
 @c ================================================== api.token.constructor
@@ -10681,12 +10643,9 @@ extension of these two files follow the same rules as with regular C parsers
 (@pxref{Invocation}).
 
 @item position.hh
-A useless legacy file.  To get rid of it, use @samp{%define api.stack.file
-none}, or define @code{api.location.file}.
-
-@item stack.hh
-A useless legacy file.  To get rid of it, use @samp{%define
-api.position.file none}, or define @code{api.location.file}.
+@itemx stack.hh
+Useless legacy files.  To get rid of then, use @samp{%require "3.2"} or
+newer.
 @end table
 
 All these files are documented using Doxygen; run @command{doxygen} for a

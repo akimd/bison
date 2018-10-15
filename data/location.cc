@@ -22,12 +22,8 @@ m4_pushdef([b4_copyright_years],
 # b4_position_file
 # ----------------
 # Name of the file containing the position class, if we want this file.
-b4_percent_define_ifdef([[api.position.file]],
-[b4_percent_define_check_values([[[[api.position.file]],
-                                  [[none]]]])],
-[b4_defines_if([b4_percent_define_ifdef([[api.location.file]],
-                                        [],
-                                        [m4_define([b4_position_file], [position.hh])])])])
+b4_defines_if([b4_required_version_if([302], [],
+                                      [m4_define([b4_position_file], [position.hh])])])])
 
 
 # b4_location_file
@@ -330,12 +326,9 @@ m4_ifdef([b4_position_file], [[
 // used to define is now defined in "]b4_location_file[".
 //
 // To get rid of this file:
-// 1. add '%define api.position.file none'
-//     or '%define api.location.file none'
-//     or '%define api.location.file "my-loc.hh"' to your grammar file
-// 2. add 'require "3.2"' to your grammar file
-// 3. remove references to this file from your build system
-// 4. if you used to include it, include "]b4_location_file[" instead.
+// 1. add 'require "3.2"' (or newer) to your grammar file
+// 2. remove references to this file from your build system
+// 3. if you used to include it, include "]b4_location_file[" instead.
 
 #include ]b4_location_include[
 ]b4_output_end[

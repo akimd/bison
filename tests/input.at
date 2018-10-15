@@ -1660,24 +1660,14 @@ AT_SETUP([["%define" file variables]])
 AT_DATA([[input.y]],
 [[%skeleton "lalr1.cc"
 %locations
-%define api.stack.file bogus
 %define api.location.file {bogus}
-%define api.position.file bogus
 %%
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
-[[input.y:5.9-25: error: invalid value for %define variable 'api.position.file': 'bogus'
- %define api.position.file bogus
-         ^^^^^^^^^^^^^^^^^
-input.y:5.9-25:     accepted value: 'none'
-input.y:4.9-25: error: %define variable 'api.location.file' requires 'none' or '"..."' values
+[[input.y:3.9-25: error: %define variable 'api.location.file' requires 'none' or '"..."' values
  %define api.location.file {bogus}
          ^^^^^^^^^^^^^^^^^
-input.y:3.9-22: error: invalid value for %define variable 'api.stack.file': 'bogus'
- %define api.stack.file bogus
-         ^^^^^^^^^^^^^^
-input.y:3.9-22:     accepted value: 'none'
 ]])
 
 AT_CLEANUP

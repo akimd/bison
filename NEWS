@@ -135,21 +135,12 @@ GNU Bison NEWS
   made useless: its content is included in the parser definition.  It is
   still generated for backward compatibility.
 
-  To stop generating it, use the following directive:
-
-    %define api.stack.file none
-
   When in addition to %defines, location support is requested (%locations),
   the file position.hh is also generated.  It is now also useless: its
   content is now included in location.hh.
 
-  To stop generating it, use the following directive:
-
-    %define api.position.file none
-
-  Any definition of api.location.file eliminates both position.hh and
-  stack.hh (i.e., implies '%define api.position.file none' and '%define
-  api.stack.file none').
+  These files are no longer generated when your grammar file requires at
+  least Bison 3.2 (%require "3.2").
 
 ** Bug fixes
 

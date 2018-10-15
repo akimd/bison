@@ -32,6 +32,7 @@
 %code
 {
   #include "system.h"
+  #include <errno.h>
 
   #include "c-ctype.h"
   #include "complain.h"
@@ -822,10 +823,37 @@ add_param (param_type type, char *decl, location loc)
 static void
 version_check (location const *loc, char const *version)
 {
-  if (strverscmp (version, PACKAGE_VERSION) > 0)
+  /* Changes of behavior are only on minor version changes, so "3.0.5"
+     is the same as "3.0". */
+  errno = 0;
+  char* cp = NULL;
+  unsigned long major = strtoul (version, &cp, 10);
+  if (errno || *cp != '.')
     {
-      complain (loc, complaint, "require bison %s, but have %s",
-                version, PACKAGE_VERSION);
+      complain (loc, complaint, _("invalid version requirement: %s"),
+                version);
+      return;
+    }
+  ++cp;
+  unsigned long minor = strtoul (cp, NULL, 10);
+  if (errno)
+    {
+      complain (loc, complaint, _("invalid version requirement: %s"),
+                version);
+      return;
+    }
+  required_version = major * 100 + minor;
+  /* Pretend to be at least 3.2, even if we are only 3.1-211, as it
+     allows us to check features published in 3.2 while developping
+     3.2.  */
+  const char* api_version = "3.2";
+  const char* package_version =
+    strverscmp (api_version, PACKAGE_VERSION) > 0
+    ? api_version : PACKAGE_VERSION;
+  if (strverscmp (version, package_version) > 0)
+    {
+      complain (loc, complaint, _("require bison %s, but have %s"),
+                version, package_version);
       exit (EX_MISMATCH);
     }
 }

@@ -19,12 +19,8 @@
 # b4_stack_file
 # -------------
 # Name of the file containing the stack class, if we want this file.
-b4_percent_define_ifdef([[api.stack.file]],
-[b4_percent_define_check_values([[[[api.stack.file]],
-                                  [[none]]]])],
-[b4_defines_if([b4_percent_define_ifdef([[api.location.file]],
-                                        [],
-                                        [m4_define([b4_stack_file], [stack.hh])])])])
+b4_defines_if([b4_required_version_if([302], [],
+                                      [m4_define([b4_stack_file], [stack.hh])])])
 
 
 # b4_stack_define
@@ -138,17 +134,13 @@ m4_define([b4_stack_define],
   };
 ]])
 
-
 m4_ifdef([b4_stack_file],
 [b4_output_begin([b4_dir_prefix], [b4_stack_file])[
 // Starting with Bison 3.2, this file is useless: the structure it
 // used to define is now defined with the parser itself.
 //
 // To get rid of this file:
-// 1. add '%define api.stack.file none'
-//     or '%define api.location.file none'
-//     or '%define api.location.file "my-loc.hh"' to your grammar file
-// 2. add 'require "3.2"' to your grammar file
-// 3. remove references to this file from your build system.
+// 1. add 'require "3.2"' (or newer) to your grammar file
+// 2. remove references to this file from your build system.
 ]b4_output_end[
 ]])

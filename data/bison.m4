@@ -61,6 +61,16 @@ This special exception was added by the Free Software Foundation in
 version 2.2 of Bison.])])
 
 
+# b4_required_version_if(VERSION, IF_NEWER, IF_OLDER)
+# ---------------------------------------------------
+# If the version %require'd by the user is VERSION (or newer) expand
+# IF_NEWER, otherwise IF_OLDER.  VERSION should be an integer, e.g.,
+# 302 for 3.2.
+m4_define([b4_required_version_if],
+[m4_if(m4_eval($1 <= b4_required_version),
+              [1], [$2], [$3])])
+
+
 ## -------- ##
 ## Output.  ##
 ## -------- ##
