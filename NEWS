@@ -26,8 +26,8 @@ GNU Bison NEWS
     %%
 
     %token <int> INT "int";
-    %nterm <std::unique_ptr<int>> int;
-    %nterm <std::vector<std::unique_ptr<int>>> list;
+    %type <std::unique_ptr<int>> int;
+    %type <std::vector<std::unique_ptr<int>>> list;
 
     list:
       %empty    {}
