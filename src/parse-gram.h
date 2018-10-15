@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.0.5.75-d835.  */
+/* A Bison parser, made by GNU Bison 3.1.220-3e56-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -52,7 +52,7 @@ extern int gram_debug;
 
   #include "symlist.h"
   #include "symtab.h"
-#line 221 "src/parse-gram.y" /* yacc.c:1913  */
+#line 222 "src/parse-gram.y" /* yacc.c:1913  */
 
   typedef enum
   {
@@ -61,7 +61,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 644 "src/parse-gram.y" /* yacc.c:1913  */
+#line 645 "src/parse-gram.y" /* yacc.c:1913  */
 #include "muscle-tab.h"
 
 #line 68 "src/parse-gram.h" /* yacc.c:1913  */
@@ -135,27 +135,27 @@ extern int gram_debug;
 
 union GRAM_STYPE
 {
-#line 182 "src/parse-gram.y" /* yacc.c:1913  */
+#line 183 "src/parse-gram.y" /* yacc.c:1913  */
 unsigned char character;
-#line 186 "src/parse-gram.y" /* yacc.c:1913  */
+#line 187 "src/parse-gram.y" /* yacc.c:1913  */
 char *code;
-#line 191 "src/parse-gram.y" /* yacc.c:1913  */
+#line 192 "src/parse-gram.y" /* yacc.c:1913  */
 uniqstr uniqstr;
-#line 199 "src/parse-gram.y" /* yacc.c:1913  */
+#line 200 "src/parse-gram.y" /* yacc.c:1913  */
 int integer;
-#line 203 "src/parse-gram.y" /* yacc.c:1913  */
+#line 204 "src/parse-gram.y" /* yacc.c:1913  */
 symbol *symbol;
-#line 208 "src/parse-gram.y" /* yacc.c:1913  */
+#line 209 "src/parse-gram.y" /* yacc.c:1913  */
 assoc assoc;
-#line 211 "src/parse-gram.y" /* yacc.c:1913  */
+#line 212 "src/parse-gram.y" /* yacc.c:1913  */
 symbol_list *list;
-#line 214 "src/parse-gram.y" /* yacc.c:1913  */
+#line 215 "src/parse-gram.y" /* yacc.c:1913  */
 named_ref *named_ref;
-#line 241 "src/parse-gram.y" /* yacc.c:1913  */
+#line 242 "src/parse-gram.y" /* yacc.c:1913  */
 param_type param;
-#line 408 "src/parse-gram.y" /* yacc.c:1913  */
+#line 409 "src/parse-gram.y" /* yacc.c:1913  */
 code_props_type code_type;
-#line 646 "src/parse-gram.y" /* yacc.c:1913  */
+#line 647 "src/parse-gram.y" /* yacc.c:1913  */
 
   struct
   {
