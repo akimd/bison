@@ -267,7 +267,7 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
 
-gt_JAVACOMP([1.3], [1.4])
+gt_JAVACOMP([1.7], [1.7])
 gt_JAVAEXEC
 
 AC_CONFIG_FILES([Makefile
