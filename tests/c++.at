@@ -453,7 +453,8 @@ AT_FULL_COMPILE([list])
 
 # Are we compiling with modern C++ enabled?
 AT_COMPILE_CXX([modern])
-AT_CHECK([./modern], [ignore], [ignore])
+here=. # Pacify cfg.mk's sc_at_parser_check.
+AT_CHECK([$here/modern], [ignore], [ignore])
 if test $at_status = 0; then
   modern=true
 else
