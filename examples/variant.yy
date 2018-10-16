@@ -15,6 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+%require "3.2"
 %debug
 %language "c++"
 %define api.token.constructor
