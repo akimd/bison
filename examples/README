@@ -1,21 +1,46 @@
 This directory contains examples of Bison grammar files.
 
-* mfcalc
-A C example of a multi-function calculator.  Extracted from the
-documentation.
+Most of them come from the documentation, which should be installed together
+with Bison.  The URLs are provided for convenience.
 
-* calc++
-A C++ version of the canonical example for parsers: a calculator.  Also uses
-Flex for the scanner.  Extracted from the documentation.
 
-* variant.yy
-A C++ example that uses variants (they allow to use any C++ type as semantic
-value type) and symbol constructors (they ensure consistency between
-declared token type and effective semantic value).
+* Examples in C
 
-* variant-11.yy
-Another C++ example, closely related to the previous one, but exhibiting
-support for C++11's move semantics.
+** rpcalc - Reverse Polish Notation Calculator
+The first example is that of a simple double-precision Reverse Polish
+Notation calculator (a calculator using postfix operators). This example
+provides a good starting point, since operator precedence is not an issue.
+
+Extracted from the documentation: "Reverse Polish Notation Calculator"
+https://www.gnu.org/software/bison/manual/html_node/RPN-Calc.html
+
+** mfcalc - Multi-Function Calculator
+A more complete C example: a multi-function calculator.
+
+Extracted from the documentation: "Multi-Function Calculator: mfcalc".
+https://www.gnu.org/software/bison/manual/html_node/Multi_002dfunction-Calc.html
+
+
+
+* Examples in C++
+
+** variant.yy - Self-contained example in C++
+A simple C++ example in a single file, based on variants and symbol
+constructors.  Variants allow to use any C++ type as semantic value type,
+and symbol constructors ensure consistency between declared token type and
+effective semantic value.
+
+** variant-11.yy - Self-contained example in modern C++
+Another simple C++ example, closely related to the previous one, but
+exhibiting support for C++11's move semantics.
+
+** calc++ - A Complete C++ Example
+A fully featured C++ version of the canonical example for parsers: a
+calculator.  Also uses Flex for the scanner.
+
+Extracted from the documentation: "A Complete C++ Example".
+https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
+
 
 -----
 
