@@ -97,6 +97,11 @@ item:
 
 namespace yy
 {
+  // Use nullptr with pre-C++11.
+#if defined __cplusplus && __cplusplus < 201103L
+# define nullptr 0
+#endif
+
   // The yylex function providing subsequent tokens:
   // TEXT         "I have three numbers for you."
   // NUMBER       1
@@ -111,7 +116,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc (YY_NULLPTR, stage + 1, stage + 1);
+    parser::location_type loc (nullptr, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:

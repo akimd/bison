@@ -125,7 +125,7 @@ namespace yy
   yylex ()
   {
     static auto count = 0u;
-    auto stage = count;
+    const auto stage = count;
     ++count;
     auto loc = parser::location_type{nullptr, stage + 1, stage + 1};
     if (stage == 0)
@@ -150,7 +150,7 @@ int
 main (int argc, const char *argv[])
 {
   if (2 <= argc && isdigit (*argv[1]))
-    max = strtol (argv[1], YY_NULLPTR, 10);
+    max = strtol (argv[1], nullptr, 10);
   auto&& p = yy::parser{};
   p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();
