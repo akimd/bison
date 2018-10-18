@@ -107,6 +107,9 @@ item:
 ;
 %%
 
+// The last number return by the scanner is max - 1.
+int max = 4;
+
 namespace yy
 {
   // The yylex function providing subsequent tokens:
@@ -125,19 +128,14 @@ namespace yy
     auto stage = count;
     ++count;
     auto loc = parser::location_type{nullptr, stage + 1, stage + 1};
-    switch (stage)
-      {
-      case 0:
-        return parser::make_TEXT (make_string_uptr ("I have three numbers for you."), std::move (loc));
-      case 1:
-      case 2:
-      case 3:
-        return parser::make_NUMBER (stage, std::move (loc));
-      case 4:
-        return parser::make_TEXT (make_string_uptr ("And that's all!"), std::move (loc));
-      default:
-        return parser::make_END_OF_FILE (std::move (loc));
-      }
+    if (stage == 0)
+      return parser::make_TEXT (make_string_uptr ("I have numbers for you."), std::move (loc));
+    else if (stage < max)
+      return parser::make_NUMBER (stage, std::move (loc));
+    else if (stage == max)
+      return parser::make_TEXT (make_string_uptr ("And that's all!"), std::move (loc));
+    else
+      return parser::make_END_OF_FILE (std::move (loc));
   }
 
   // Mandatory error function
@@ -149,8 +147,10 @@ namespace yy
 }
 
 int
-main ()
+main (int argc, const char *argv[])
 {
+  if (2 <= argc && isdigit (*argv[1]))
+    max = strtol (argv[1], YY_NULLPTR, 10);
   auto&& p = yy::parser{};
   p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();
