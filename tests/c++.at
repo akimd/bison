@@ -162,18 +162,26 @@ int main()
     std::cerr << ss.value.as<int>() << '\n';
   }
 
-  // pushing on the stack.
+  // Pushing on the stack.
+  // Sufficiently many so that it will be resized.
+  // Probably 3 times (starting at 200).
   {
     parser::stack_type st;
-    for (int i = 0; i < 100; ++i)
+    const int mucho = 1700;
+    for (int i = 0; i < mucho; ++i)
       {
 #if defined __cplusplus && 201103L <= __cplusplus
-        st.push(parser::stack_symbol_type{1, parser::make_INT(123)});
+        st.push(parser::stack_symbol_type{1, parser::make_INT (i)});
 #else
-        parser::symbol_type s = parser::make_INT(123);
-        parser::stack_symbol_type ss(1, s);
-        st.push(ss);
+        parser::symbol_type s = parser::make_INT (i);
+        parser::stack_symbol_type ss (1, s);
+        st.push (ss);
 #endif
+      }
+    for (int i = mucho - 1; 0 <= i; --i)
+      {
+        assert (st[0].value.as<int>() == i);
+        st.pop ();
       }
   }
 }

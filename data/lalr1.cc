@@ -602,6 +602,10 @@ m4_if(b4_prefix, [yy], [],
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
                       [value], [YY_MOVE_OR_COPY], [YY_MOVE (that.value)])])[
+#if defined __cplusplus && 201103L <= __cplusplus
+    // that is emptied.
+    that.state = empty_state;
+#endif
   }
 
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) that)
@@ -622,6 +626,8 @@ m4_if(b4_prefix, [yy], [],
                                       [value], [move], [YY_MOVE (that.value)])],
                    [[value = YY_MOVE (that.value);]])[]b4_locations_if([
     location = YY_MOVE (that.location);])[
+    // that is emptied.
+    that.state = empty_state;
     return *this;
   }
 #endif
