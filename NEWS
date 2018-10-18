@@ -2,6 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  With modern C++, the parser stack failed to grow properly.
 
 * Noteworthy changes in release 3.1.90 (2018-10-17) [beta]
 
