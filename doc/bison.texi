@@ -10593,6 +10593,10 @@ int yyparse (void);
 @node Other Languages
 @chapter Parsers Written In Other Languages
 
+In addition to C, Bison can generate parsers in C++ and Java.  This chapter
+is devoted to these languages.  The reader is expected to understand how
+Bison works; read the introductory chapters first if you don't.
+
 @menu
 * C++ Parsers::                 The interface to generate C++ parser classes
 * Java Parsers::                The interface to generate Java parser classes
@@ -10600,6 +10604,9 @@ int yyparse (void);
 
 @node C++ Parsers
 @section C++ Parsers
+
+The Bison parser in C++ is an object, an instance of the class
+@code{yy::parser}.
 
 @menu
 * C++ Bison Interface::         Asking for C++ parser generation
@@ -10617,9 +10624,7 @@ int yyparse (void);
 @c - initial action
 
 The C++ deterministic parser is selected using the skeleton directive,
-@samp{%skeleton "lalr1.cc"}, or the synonymous command-line option
-@option{--skeleton=lalr1.cc}.
-@xref{Decl Summary}.
+@samp{%skeleton "lalr1.cc"}.  @xref{Decl Summary}.
 
 When run, @command{bison} will create several entities in the @samp{yy}
 namespace.
@@ -10629,18 +10634,21 @@ see @ref{%define Summary,,api.namespace}.  The various classes are generated
 in the following files:
 
 @table @file
+@item @var{file}.hh
+(Assuming the extension of the grammar file was @samp{.yy}.)  The
+declaration of the C++ parser class and auxiliary types.  By default, this
+file is not generated (@pxref{Decl Summary, ,%defines}).
+
+@item @var{file}.cc
+The implementation of the C++ parser class.  The basename and extension of
+these two files (@file{@var{file}.hh} and @file{@var{file}.cc}) follow the
+same rules as with regular C parsers (@pxref{Invocation}).
+
 @item location.hh
 The definition of the classes @code{position} and @code{location}, used for
 location tracking when enabled.  This file is not generated if user defined
 locations are used, i.e., if the @code{%define} variable
 @code{api.location.type} is defined.  @xref{C++ Location Values}.
-
-@item @var{file}.hh
-@itemx @var{file}.cc
-(Assuming the extension of the grammar file was @samp{.yy}.)  The
-declaration and implementation of the C++ parser class.  The basename and
-extension of these two files follow the same rules as with regular C parsers
-(@pxref{Invocation}).
 
 @item position.hh
 @itemx stack.hh
@@ -10659,7 +10667,7 @@ complete and accurate documentation.
 @c   debug_stream.
 @c - Reporting errors
 
-The output files @file{@var{output}.hh} and @file{@var{output}.cc} declare
+The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare
 and define the parser class in the namespace @code{yy}.  The class name
 defaults to @code{parser}, but may be changed using @samp{%define
 parser_class_name @{@var{name}@}}.  The interface of this class is detailed
@@ -10668,16 +10676,20 @@ semantics is slightly changed since it describes an additional member of the
 parser class, and an additional argument for its constructor.
 
 @defcv {Type} {parser} {semantic_type}
-@defcvx {Type} {parser} {location_type}
-The types for semantic values and locations (if enabled).
+The types for semantic values. @xref{C++ Semantic Values}.
+@end defcv
+
+@defcv {Type} {parser} {location_type}
+The type of locations, if location tracking is enabled.  @xref{C++ Location
+Values}.
 @end defcv
 
 @defcv {Type} {parser} {token}
 A structure that contains (only) the @code{yytokentype} enumeration, which
-defines the tokens.  To refer to the token @code{FOO},
-use @code{yy::parser::token::FOO}.  The scanner can use
-@samp{typedef yy::parser::token token;} to ``import'' the token enumeration
-(@pxref{Calc++ Scanner}).
+defines the tokens.  To refer to the token @code{FOO}, use
+@code{yy::parser::token::FOO}.  The scanner can use @samp{typedef
+yy::parser::token token;} to ``import'' the token enumeration (@pxref{Calc++
+Scanner}).
 @end defcv
 
 @defcv {Type} {parser} {syntax_error}
@@ -10687,7 +10699,7 @@ equivalent with first invoking @code{error} to report the location and
 message of the syntax error, and then to invoke @code{YYERROR} to enter the
 error-recovery mode.  But contrary to @code{YYERROR} which can only be
 invoked from user actions (i.e., written in the action itself), the
-exception can be thrown from function invoked from the user action.
+exception can be thrown from functions invoked from the user action.
 @end defcv
 
 @deftypeop {Constructor} {parser} {} parser ()
@@ -10721,9 +10733,9 @@ Get or set the stream used for tracing the parsing.  It defaults to
 @end deftypemethod
 
 @deftypemethod {parser} {debug_level_type} debug_level ()
-@deftypemethodx {parser} {void} set_debug_level (debug_level @var{l})
-Get or set the tracing level.  Currently its value is either 0, no trace,
-or nonzero, full tracing.
+@deftypemethodx {parser} {void} set_debug_level (debug_level_type @var{l})
+Get or set the tracing level (an integral).  Currently its value is either
+0, no trace, or nonzero, full tracing.
 @end deftypemethod
 
 @deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
@@ -10741,9 +10753,9 @@ parser uses it to report a parser error occurring at @var{l}, described by
 @c - Printer and destructor
 
 Bison supports two different means to handle semantic values in C++.  One is
-alike the C interface, and relies on unions (@pxref{C++ Unions}).  As C++
-practitioners know, unions are inconvenient in C++, therefore another
-approach is provided, based on variants (@pxref{C++ Variants}).
+alike the C interface, and relies on unions.  As C++ practitioners know,
+unions are inconvenient in C++, therefore another approach is provided,
+based on variants.
 
 @menu
 * C++ Unions::             Semantic values cannot be objects
@@ -10753,18 +10765,18 @@ approach is provided, based on variants (@pxref{C++ Variants}).
 @node C++ Unions
 @subsubsection C++ Unions
 
-The @code{%union} directive works as for C, see @ref{Union Decl, ,The
-Union Declaration}.  In particular it produces a genuine
-@code{union}, which have a few specific features in C++.
+The @code{%union} directive works as for C, see @ref{Union Decl, ,The Union
+Declaration}.  In particular it produces a genuine @code{union}, which have
+a few specific features in C++.
 @itemize @minus
 @item
 The type @code{YYSTYPE} is defined but its use is discouraged: rather
 you should refer to the parser's encapsulated type
 @code{yy::parser::semantic_type}.
 @item
-Non POD (Plain Old Data) types cannot be used.  C++ forbids any
-instance of classes with constructors in unions: only @emph{pointers}
-to such objects are allowed.
+Non POD (Plain Old Data) types cannot be used.  C++98 forbids any instance
+of classes with constructors in unions: only @emph{pointers} to such objects
+are allowed.  C++11 relaxed this constraints, but at the cost of safety.
 @end itemize
 
 Because objects have to be stored via pointers, memory is not
