@@ -125,6 +125,18 @@ m4_define([b4_variant_define],
       return *new (yyas_<T> ()) T ();
     }
 
+# if defined __cplusplus && 201103L <= __cplusplus
+    /// Instantiate a \a T in here from \a t.
+    template <typename T, typename U>
+    T&
+    emplace (U&& u)
+    {]b4_parse_assert_if([
+      YYASSERT (!yytypeid_);
+      YYASSERT (sizeof (T) <= S);
+      yytypeid_ = & typeid (T);])[
+      return *new (yyas_<T> ()) T (std::forward <U>(u));
+    }
+# else
     /// Instantiate a \a T in here from \a t.
     template <typename T>
     T&
@@ -135,6 +147,7 @@ m4_define([b4_variant_define],
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
     }
+# endif
 
     /// Instantiate an empty \a T in here.
     /// Obsolete, use emplace.
@@ -200,10 +213,10 @@ m4_define([b4_variant_define],
     void
     move (self_type& other)
     {
-      emplace<T> ();
 # if defined __cplusplus && 201103L <= __cplusplus
-      as<T> () = std::move (other.as<T> ());
+      emplace<T> (std::move (other.as<T> ()));
 # else
+      emplace<T> ();
       swap<T> (other);
 # endif
       other.destroy<T> ();
@@ -215,8 +228,7 @@ m4_define([b4_variant_define],
     void
     move (self_type&& other)
     {
-      emplace<T> ();
-      as<T> () = std::move (other.as<T> ());
+      emplace<T> (std::move (other.as<T> ()));
       other.destroy<T> ();
     }
 #endif

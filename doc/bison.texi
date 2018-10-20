@@ -10836,12 +10836,17 @@ in midrule actions.  It is mandatory to use typed midrule actions
 (@pxref{Typed Midrule Actions}).
 
 @deftypemethod {semantic_type} {T&} emplace<T> ()
-Initialize, but leave empty.  Returns the address where the actual value may
-be stored.  Requires that the variant was not initialized yet.
+Initialize, but leave empty.  Return a reference to where the actual value
+may be stored.  Requires that the variant was not initialized yet.
 @end deftypemethod
 
 @deftypemethod {semantic_type} {T&} emplace<T> (const T& @var{t})
-Initialize, and copy-construct from @var{t}.
+Initialize, and copy-construct from @var{t}.  Available in C++98/C++03 only.
+@end deftypemethod
+
+@deftypemethod {semantic_type} {T&} emplace<T, U> (U&& @var{u})
+Build a variant of type @code{T} from the forwarding reference @var{u}.
+Available in C++11 and later only.
 @end deftypemethod
 
 
