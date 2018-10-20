@@ -10835,12 +10835,12 @@ of alternative types such as @samp{$<int>2} or @samp{$<std::string>$}, even
 in midrule actions.  It is mandatory to use typed midrule actions
 (@pxref{Typed Midrule Actions}).
 
-@deftypemethod {semantic_type} {T&} build<T> ()
+@deftypemethod {semantic_type} {T&} emplace<T> ()
 Initialize, but leave empty.  Returns the address where the actual value may
 be stored.  Requires that the variant was not initialized yet.
 @end deftypemethod
 
-@deftypemethod {semantic_type} {T&} build<T> (const T& @var{t})
+@deftypemethod {semantic_type} {T&} emplace<T> (const T& @var{t})
 Initialize, and copy-construct from @var{t}.
 @end deftypemethod
 
@@ -11166,11 +11166,11 @@ initialized.  So the code would look like:
 
 @example
 [0-9]+   @{
-           yylval->build<int> () = text_to_int (yytext);
+           yylval->emplace<int> () = text_to_int (yytext);
            return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval->build<std::string> () = yytext;
+           yylval->emplace<std::string> () = yytext;
            return yy::parser::token::IDENTIFIER;
          @}
 @end example
@@ -11180,11 +11180,11 @@ or
 
 @example
 [0-9]+   @{
-           yylval->build (text_to_int (yytext));
+           yylval->emplace (text_to_int (yytext));
            return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval->build (yytext);
+           yylval->emplace (yytext);
            return yy::parser::token::IDENTIFIER;
          @}
 @end example

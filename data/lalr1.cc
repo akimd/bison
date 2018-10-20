@@ -862,7 +862,7 @@ b4_dollar_popdef])[]dnl
       /* Variants are always initialized to an empty instance of the
          correct type. The default '$$ = $1' action is NOT applied
          when using variants.  */
-      b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])], [
+      b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [emplace])], [
       /* If YYLEN is nonzero, implement the default value of the
          action: '$$ = $1'.  Otherwise, use the top of the stack.
 

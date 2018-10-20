@@ -117,7 +117,7 @@ m4_define([b4_variant_define],
     /// Instantiate an empty \a T in here.
     template <typename T>
     T&
-    build ()
+    emplace ()
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
@@ -128,12 +128,30 @@ m4_define([b4_variant_define],
     /// Instantiate a \a T in here from \a t.
     template <typename T>
     T&
-    build (const T& t)
+    emplace (const T& t)
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
+    }
+
+    /// Instantiate an empty \a T in here.
+    /// Obsolete, use emplace.
+    template <typename T>
+    T&
+    build ()
+    {
+      return emplace<T> ();
+    }
+
+    /// Instantiate a \a T in here from \a t.
+    /// Obsolete, use emplace.
+    template <typename T>
+    T&
+    build (const T& t)
+    {
+      return emplace<T> (t);
     }
 
     /// Accessor to a built \a T.
@@ -182,7 +200,7 @@ m4_define([b4_variant_define],
     void
     move (self_type& other)
     {
-      build<T> ();
+      emplace<T> ();
 # if defined __cplusplus && 201103L <= __cplusplus
       as<T> () = std::move (other.as<T> ());
 # else
@@ -197,7 +215,7 @@ m4_define([b4_variant_define],
     void
     move (self_type&& other)
     {
-      build<T> ();
+      emplace<T> ();
       as<T> () = std::move (other.as<T> ());
       other.destroy<T> ();
     }
@@ -208,7 +226,7 @@ m4_define([b4_variant_define],
     void
     copy (const self_type& other)
     {
-      build<T> (other.as<T> ());
+      emplace<T> (other.as<T> ());
     }
 
     /// Destroy the stored \a T.
