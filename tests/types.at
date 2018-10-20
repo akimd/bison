@@ -66,14 +66,19 @@ AT_CLEANUP
 #          $3: PARSER-ACTION,
 #          $4: INPUT,
 #          $5: SCANNER-ACTION,
-#          $6: RESULT)
+#          $6: RESULT,
+#          $7: REQUIREMENT)
 # --------------------------------------
 # Compile the grammar and check the expected result.
 # BISON-DIRECTIVES are passed to AT_SETUP, contrary to MORE-BISON-DIRECTIVES.
+#
+# Use REQUIREMENT e.g. skip the test if the compiler does not meet the
+# requirements.
 m4_pushdef([_AT_TEST],
 [
 AT_SETUP([$1])
 AT_KEYWORDS([api.value.type])
+$7
 AT_BISON_OPTION_PUSHDEFS([%debug $1 $2])
 AT_DATA_GRAMMAR([test.y],
 [[%debug
@@ -100,8 +105,9 @@ start: $3;
 ]])
 
 AT_FULL_COMPILE([[test]])
-AT_PARSER_CHECK([./test], 0, [$6
-], [stderr])
+AT_PARSER_CHECK([[./test]], 0, [[$6
+]])
+
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
@@ -111,7 +117,8 @@ AT_CLEANUP
 #         $3: PARSER-ACTION,
 #         $4: INPUT,
 #         $5: SCANNER-ACTION,
-#         $6: RESULT)
+#         $6: RESULT,
+#         $7: REQUIREMENT)
 # --------------------------------------
 # Check with and without %defines, to avoid regressions.  It turns out
 # that in that case yacc.c calls the set-up of the %union twice,
@@ -121,8 +128,8 @@ AT_CLEANUP
 # a second time doubled the side-effects and resulted in a double
 # definition of the union members.
 m4_pushdef([AT_TEST],
-[_AT_TEST([$1],          [$2], [$3], [$4], [$5], [$6])
- _AT_TEST([$1 %defines], [$2], [$3], [$4], [$5], [$6])
+[_AT_TEST([$1],          [$2], [$3], [$4], [$5], [$6], [$7])
+ _AT_TEST([$1 %defines], [$2], [$3], [$4], [$5], [$6], [$7])
 ])
 
 m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
@@ -248,17 +255,35 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
 
   # A Bison-defined variant, for lalr1.cc only.
   m4_if(b4_skel, [lalr1.cc], [
-  AT_TEST([%skeleton "]b4_skel["
-           %define api.value.type variant],
-          [%token <int> '1';
-           %token <std::string> '2';],
-          ['1' '2' { std::cout << $1 << ", " << $2 << '\n'; }],
-          ["12"],
-          [if (res == '1')
-             AT_VAL.build (10);
-           else if (res == '2')
-             AT_VAL.build<std::string> ("two");],
-          [10, two])])
+    AT_TEST([%skeleton "]b4_skel["
+             %define api.value.type variant],
+            [%token <int> '1';
+             %token <std::string> '2';],
+            ['1' '2' { std::cout << $1 << ", " << $2 << '\n'; }],
+            ["12"],
+            [if (res == '1')
+               AT_VAL.build (10);
+             else if (res == '2')
+               AT_VAL.build<std::string> ("two");],
+            [10, two])
+
+    # Move-only types.
+    AT_TEST([%skeleton "]b4_skel["
+             %code requires { #include <memory> }
+             %define api.value.type variant],
+            [[%token <std::unique_ptr<int>> '1';
+             %token <std::unique_ptr<std::string>> '2';]],
+            ['1' '2' { std::cout << *$1 << ", " << *$2 << '\n'; }],
+            ["12"],
+            [[if (res == '1')
+               ]AT_VAL[.emplace <std::unique_ptr<int>>
+                 (std::make_unique <int> (10));
+             else if (res == '2')
+               ]AT_VAL[.emplace <std::unique_ptr<std::string>>
+                 (std::make_unique <std::string> ("two"));]],
+            [10, two],
+            [AT_REQUIRE_CXX_VERSION(14)])])
+  ])
 ])
 
 m4_popdef([AT_TEST])

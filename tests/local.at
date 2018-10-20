@@ -138,7 +138,7 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 # This sucks hard, GNU M4 should really provide M5-like $$1.
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
-       [m4_fatal([$0: Invalid arguments: $@])])dnl
+       [m4_fatal([$0: invalid arguments: $@])])dnl
 m4_pushdef([AT_AUTOMOVE_IF],
 [m4_bmatch([$3], [%define api\.value\.automove], [$1], [$2])])
 m4_pushdef([AT_DEFINES_IF],
@@ -901,6 +901,33 @@ AT_COMPILE_CXX([cxx-only.o], [cxx-only.cc])
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS $LDFLAGS c-only.o cxx-only.o -o c-and-cxx ||
           exit 77], [0], [ignore], [ignore])
 AT_PARSER_CHECK([./c-and-cxx])
+])
+
+
+# AT_REQUIRE_CXX_VERSION(STD)
+# ---------------------------
+# Skip unless this compiler supports at least C++ STD (e.g., "11",
+# "14", etc.).
+m4_define([AT_REQUIRE_CXX_VERSION],
+[AT_DATA([check.cc],
+[[int main ()
+{
+#if __cplusplus < ]m4_case([$1],
+                           [98], [199711],
+                           [03], [199711],
+                           [11], [201103],
+                           [14], [201402],
+                           [17], [201703],
+                           [2a], [201709],
+                           [m4_fatal([$0: invalid arguments: $@])])[
+  return 77;
+#else
+  return 0;
+#endif
+}
+]])
+AT_COMPILE_CXX([check])
+AT_CHECK([@&t@./check])
 ])
 
 
