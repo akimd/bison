@@ -184,7 +184,7 @@ m4_define([b4_variant_define],
     {
       build<T> ();
 # if defined __cplusplus && 201103L <= __cplusplus
-      as<T> () = YY_MOVE (other.as<T> ());
+      as<T> () = std::move (other.as<T> ());
 # else
       swap<T> (other);
 # endif
@@ -198,7 +198,7 @@ m4_define([b4_variant_define],
     move (self_type&& other)
     {
       build<T> ();
-      as<T> () = YY_MOVE (other.as<T> ());
+      as<T> () = std::move (other.as<T> ());
       other.destroy<T> ();
     }
 #endif
