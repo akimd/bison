@@ -339,9 +339,9 @@ Parsers Written In Other Languages
 C++ Parsers
 
 * C++ Bison Interface::         Asking for C++ parser generation
+* C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
 * C++ Location Values::         The position and location classes
-* C++ Parser Interface::        Instantiating and running the parser
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 
@@ -10603,9 +10603,9 @@ int yyparse (void);
 
 @menu
 * C++ Bison Interface::         Asking for C++ parser generation
+* C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
 * C++ Location Values::         The position and location classes
-* C++ Parser Interface::        Instantiating and running the parser
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 @end menu
@@ -10650,6 +10650,89 @@ newer.
 
 All these files are documented using Doxygen; run @command{doxygen} for a
 complete and accurate documentation.
+
+@node C++ Parser Interface
+@subsection C++ Parser Interface
+@c - define parser_class_name
+@c - Ctor
+@c - parse, error, set_debug_level, debug_level, set_debug_stream,
+@c   debug_stream.
+@c - Reporting errors
+
+The output files @file{@var{output}.hh} and @file{@var{output}.cc} declare
+and define the parser class in the namespace @code{yy}.  The class name
+defaults to @code{parser}, but may be changed using @samp{%define
+parser_class_name @{@var{name}@}}.  The interface of this class is detailed
+below.  It can be extended using the @code{%parse-param} feature: its
+semantics is slightly changed since it describes an additional member of the
+parser class, and an additional argument for its constructor.
+
+@defcv {Type} {parser} {semantic_type}
+@defcvx {Type} {parser} {location_type}
+The types for semantic values and locations (if enabled).
+@end defcv
+
+@defcv {Type} {parser} {token}
+A structure that contains (only) the @code{yytokentype} enumeration, which
+defines the tokens.  To refer to the token @code{FOO},
+use @code{yy::parser::token::FOO}.  The scanner can use
+@samp{typedef yy::parser::token token;} to ``import'' the token enumeration
+(@pxref{Calc++ Scanner}).
+@end defcv
+
+@defcv {Type} {parser} {syntax_error}
+This class derives from @code{std::runtime_error}.  Throw instances of it
+from the scanner or from the actions to raise parse errors.  This is
+equivalent with first invoking @code{error} to report the location and
+message of the syntax error, and then to invoke @code{YYERROR} to enter the
+error-recovery mode.  But contrary to @code{YYERROR} which can only be
+invoked from user actions (i.e., written in the action itself), the
+exception can be thrown from function invoked from the user action.
+@end defcv
+
+@deftypeop {Constructor} {parser} {} parser ()
+@deftypeopx {Constructor} {parser} {} parser (@var{type1} @var{arg1}, ...)
+Build a new parser object.  There are no arguments, unless
+@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
+@end deftypeop
+
+@deftypeop {Constructor} {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
+@deftypeopx {Constructor}  {syntax_error} {} syntax_error (const std::string& @var{m})
+Instantiate a syntax-error exception.
+@end deftypeop
+
+@deftypemethod {parser} {int} parse ()
+Run the syntactic analysis, and return 0 on success, 1 otherwise.
+
+@cindex exceptions
+The whole function is wrapped in a @code{try}/@code{catch} block, so that
+when an exception is thrown, the @code{%destructor}s are called to release
+the lookahead symbol, and the symbols pushed on the stack.
+
+Exception related code in the generated parser is protected by CPP guards
+(@code{#if}) and disabled when exceptions are not supported (i.e., passing
+@code{-fno-exceptions} to the C++ compiler).
+@end deftypemethod
+
+@deftypemethod {parser} {std::ostream&} debug_stream ()
+@deftypemethodx {parser} {void} set_debug_stream (std::ostream& @var{o})
+Get or set the stream used for tracing the parsing.  It defaults to
+@code{std::cerr}.
+@end deftypemethod
+
+@deftypemethod {parser} {debug_level_type} debug_level ()
+@deftypemethodx {parser} {void} set_debug_level (debug_level @var{l})
+Get or set the tracing level.  Currently its value is either 0, no trace,
+or nonzero, full tracing.
+@end deftypemethod
+
+@deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
+@deftypemethodx {parser} {void} error (const std::string& @var{m})
+The definition for this member function must be supplied by the user: the
+parser uses it to report a parser error occurring at @var{l}, described by
+@var{m}.  If location tracking is not enabled, the second signature is used.
+@end deftypemethod
+
 
 @node C++ Semantic Values
 @subsection C++ Semantic Values
@@ -11019,89 +11102,6 @@ files, reused by other parsers as follows:
 %define api.location.type @{master::location@}
 %code requires @{ #include <master/location.hh> @}
 @end example
-
-
-@node C++ Parser Interface
-@subsection C++ Parser Interface
-@c - define parser_class_name
-@c - Ctor
-@c - parse, error, set_debug_level, debug_level, set_debug_stream,
-@c   debug_stream.
-@c - Reporting errors
-
-The output files @file{@var{output}.hh} and @file{@var{output}.cc} declare
-and define the parser class in the namespace @code{yy}.  The class name
-defaults to @code{parser}, but may be changed using @samp{%define
-parser_class_name @{@var{name}@}}.  The interface of this class is detailed
-below.  It can be extended using the @code{%parse-param} feature: its
-semantics is slightly changed since it describes an additional member of the
-parser class, and an additional argument for its constructor.
-
-@defcv {Type} {parser} {semantic_type}
-@defcvx {Type} {parser} {location_type}
-The types for semantic values and locations (if enabled).
-@end defcv
-
-@defcv {Type} {parser} {token}
-A structure that contains (only) the @code{yytokentype} enumeration, which
-defines the tokens.  To refer to the token @code{FOO},
-use @code{yy::parser::token::FOO}.  The scanner can use
-@samp{typedef yy::parser::token token;} to ``import'' the token enumeration
-(@pxref{Calc++ Scanner}).
-@end defcv
-
-@defcv {Type} {parser} {syntax_error}
-This class derives from @code{std::runtime_error}.  Throw instances of it
-from the scanner or from the actions to raise parse errors.  This is
-equivalent with first invoking @code{error} to report the location and
-message of the syntax error, and then to invoke @code{YYERROR} to enter the
-error-recovery mode.  But contrary to @code{YYERROR} which can only be
-invoked from user actions (i.e., written in the action itself), the
-exception can be thrown from function invoked from the user action.
-@end defcv
-
-@deftypeop {Constructor} {parser} {} parser ()
-@deftypeopx {Constructor} {parser} {} parser (@var{type1} @var{arg1}, ...)
-Build a new parser object.  There are no arguments, unless
-@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
-@end deftypeop
-
-@deftypeop {Constructor} {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
-@deftypeopx {Constructor}  {syntax_error} {} syntax_error (const std::string& @var{m})
-Instantiate a syntax-error exception.
-@end deftypeop
-
-@deftypemethod {parser} {int} parse ()
-Run the syntactic analysis, and return 0 on success, 1 otherwise.
-
-@cindex exceptions
-The whole function is wrapped in a @code{try}/@code{catch} block, so that
-when an exception is thrown, the @code{%destructor}s are called to release
-the lookahead symbol, and the symbols pushed on the stack.
-
-Exception related code in the generated parser is protected by CPP guards
-(@code{#if}) and disabled when exceptions are not supported (i.e., passing
-@code{-fno-exceptions} to the C++ compiler).
-@end deftypemethod
-
-@deftypemethod {parser} {std::ostream&} debug_stream ()
-@deftypemethodx {parser} {void} set_debug_stream (std::ostream& @var{o})
-Get or set the stream used for tracing the parsing.  It defaults to
-@code{std::cerr}.
-@end deftypemethod
-
-@deftypemethod {parser} {debug_level_type} debug_level ()
-@deftypemethodx {parser} {void} set_debug_level (debug_level @var{l})
-Get or set the tracing level.  Currently its value is either 0, no trace,
-or nonzero, full tracing.
-@end deftypemethod
-
-@deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
-@deftypemethodx {parser} {void} error (const std::string& @var{m})
-The definition for this member function must be supplied by the user: the
-parser uses it to report a parser error occurring at @var{l}, described by
-@var{m}.  If location tracking is not enabled, the second signature is used.
-@end deftypemethod
 
 
 @node C++ Scanner Interface
