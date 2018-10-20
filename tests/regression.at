@@ -1012,7 +1012,7 @@ start:
   ;
 
 %destructor { fprintf (stderr, "DESTRUCTOR\n"); } 'a';
-%printer { fprintf (yyoutput, "PRINTER"); } 'a';
+%printer { fprintf (yyo, "PRINTER"); } 'a';
 
 %%
 ]AT_YYERROR_DEFINE[

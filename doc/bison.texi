@@ -3193,14 +3193,14 @@ type:
 %code requires @{ #include "type1.h" @}
 %union @{ type1 field1; @}
 %destructor @{ type1_free ($$); @} <field1>
-%printer @{ type1_print (yyoutput, $$); @} <field1>
+%printer @{ type1_print (yyo, $$); @} <field1>
 @end group
 
 @group
 %code requires @{ #include "type2.h" @}
 %union @{ type2 field2; @}
 %destructor @{ type2_free ($$); @} <field2>
-%printer @{ type2_print (yyoutput, $$); @} <field2>
+%printer @{ type2_print (yyo, $$); @} <field2>
 @end group
 @end example
 
@@ -5166,11 +5166,12 @@ Decl, , Freeing Discarded Symbols}).
 
 @deffn {Directive} %printer @{ @var{code} @} @var{symbols}
 @findex %printer
+@vindex yyo
 @vindex yyoutput
 @c This is the same text as for %destructor.
 Invoke the braced @var{code} whenever the parser displays one of the
-@var{symbols}.  Within @var{code}, @code{yyoutput} denotes the output stream
-(a @code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
+@var{symbols}.  Within @var{code}, @code{yyo} denotes the output stream (a
+@code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
 @code{$<@var{tag}>$}) designates the semantic value associated with the
 symbol, and @code{@@$} its location.  The additional parser parameters are
 also available (@pxref{Parser Function, , The Parser Function
@@ -5195,10 +5196,10 @@ For example:
 %type  <character> chr
 %token TAGLESS
 
-%printer @{ fprintf (yyoutput, "'%c'", $$); @} <character>
-%printer @{ fprintf (yyoutput, "&%p", $$); @} <*>
-%printer @{ fprintf (yyoutput, "\"%s\"", $$); @} STRING1 string1
-%printer @{ fprintf (yyoutput, "<>"); @} <>
+%printer @{ fprintf (yyo, "'%c'", $$); @} <character>
+%printer @{ fprintf (yyo, "&%p", $$); @} <*>
+%printer @{ fprintf (yyo, "\"%s\"", $$); @} STRING1 string1
+%printer @{ fprintf (yyo, "<>"); @} <>
 @end example
 
 @noindent
@@ -9861,9 +9862,9 @@ prologue:
 %define parse.trace
 
 /* Formatting semantic values.  */
-%printer @{ fprintf (yyoutput, "%s", $$->name); @} VAR;
-%printer @{ fprintf (yyoutput, "%s()", $$->name); @} FNCT;
-%printer @{ fprintf (yyoutput, "%g", $$); @} <double>;
+%printer @{ fprintf (yyo, "%s", $$->name); @} VAR;
+%printer @{ fprintf (yyo, "%s()", $$->name); @} FNCT;
+%printer @{ fprintf (yyo, "%g", $$); @} <double>;
 @end example
 
 The @code{%define} directive instructs Bison to generate run-time trace
@@ -11541,7 +11542,7 @@ regular destructors.  All the values are printed using their
 
 @comment file: calc++/parser.yy
 @example
-%printer @{ yyoutput << $$; @} <*>;
+%printer @{ yyo << $$; @} <*>;
 @end example
 
 @noindent

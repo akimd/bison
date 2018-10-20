@@ -506,54 +506,54 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 # Define the "yy_symbol_print" function.
 m4_define_default([b4_yy_symbol_print_define],
 [[
-/*----------------------------------------.
-| Print this symbol's value on YYOUTPUT.  |
-`----------------------------------------*/
+/*-----------------------------------.
+| Print this symbol's value on YYO.  |
+`-----------------------------------*/
 
 ]b4_function_define([yy_symbol_value_print],
     [static void],
-               [[FILE *yyoutput],                       [yyoutput]],
+               [[FILE *yyo],                            [yyo]],
                [[int yytype],                           [yytype]],
                [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  FILE *yyo = yyoutput;
-]b4_parse_param_use([yyo], [yylocationp])dnl
+  FILE *yyoutput = yyo;
+]b4_parse_param_use([yyoutput], [yylocationp])dnl
 [  if (!yyvaluep)
     return;]
 dnl glr.c does not feature yytoknum.
 m4_if(b4_skeleton, ["yacc.c"],
 [[# ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
 ]])dnl
   b4_symbol_actions([printer])[
 }
 
 
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*---------------------------.
+| Print this symbol on YYO.  |
+`---------------------------*/
 
 ]b4_function_define([yy_symbol_print],
     [static void],
-               [[FILE *yyoutput],                       [yyoutput]],
+               [[FILE *yyo],                            [yyo]],
                [[int yytype],                           [yytype]],
                [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  YYFPRINTF (yyoutput, "%s %s (",
+  YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-]b4_locations_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
-  YYFPRINTF (yyoutput, ": ");
+]b4_locations_if([  YY_LOCATION_PRINT (yyo, *yylocationp);
+  YYFPRINTF (yyo, ": ");
 ])dnl
-[  yy_symbol_value_print (yyoutput, yytype, yyvaluep]dnl
+[  yy_symbol_value_print (yyo, yytype, yyvaluep]dnl
 b4_locations_if([, yylocationp])[]b4_user_args[);
-  YYFPRINTF (yyoutput, ")");
+  YYFPRINTF (yyo, ")");
 }]dnl
 ])
 

@@ -247,8 +247,8 @@ AT_SKEL_CC_IF(
 {
   semantic_value ival;
 };
-%printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
-                          [[fprintf (yyoutput, "%d", $$)]])[; } <ival>;
+%printer { ]AT_SKEL_CC_IF([[yyo << $$]],
+                          [[fprintf (yyo, "%d", $$)]])[; } <ival>;
 
 %code provides
 {

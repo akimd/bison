@@ -184,9 +184,9 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   {]b4_locations_if([[
     YYUSE (yylocationp);]])[
     YYUSE (yyvaluep);
-    std::ostream& yyoutput = debug_stream ();
-    std::ostream& yyo = yyoutput;
-    YYUSE (yyo);
+    std::ostream& yyo = debug_stream ();
+    std::ostream& yyoutput = yyo;
+    YYUSE (yyoutput);
     ]b4_symbol_actions([printer])[
   }
 
