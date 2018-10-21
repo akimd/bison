@@ -338,7 +338,6 @@ m4_ifdef([b4_position_file], [[
 m4_ifdef([b4_location_file], [[
 ]b4_output_begin([b4_dir_prefix], [b4_location_file])[
 ]b4_copyright([Locations for Bison parsers in C++])[
-
 /**
  ** \file ]b4_location_path[
  ** Define the ]b4_namespace_ref[::location class.

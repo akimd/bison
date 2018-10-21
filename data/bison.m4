@@ -58,7 +58,18 @@ Bison output files to be licensed under the GNU General Public
 License without this special exception.
 
 This special exception was added by the Free Software Foundation in
-version 2.2 of Bison.])])
+version 2.2 of Bison.])
+])
+
+
+# b4_disclaimer
+# -------------
+# Issue a warning about private implementation details.
+m4_define([b4_disclaimer],
+[b4_comment([Undocumented macros, especially those whose name start with YY_,
+are private implementation details.  Do not rely on them.])
+])
+
 
 
 # b4_required_version_if(VERSION, IF_NEWER, IF_OLDER)

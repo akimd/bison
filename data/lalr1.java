@@ -82,12 +82,11 @@ m4_define([b4_define_state],[[
     ]b4_yystype[ yylval = null;
 ]])
 
-b4_output_begin([b4_parser_file_name])
-b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-             [2007-2015, 2018])
-
-b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
-])[
+b4_output_begin([b4_parser_file_name])[
+]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
+             [2007-2015, 2018])[
+]b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);[
+]])[
 ]b4_user_pre_prologue[
 ]b4_user_post_prologue[
 ]b4_percent_code_get([[imports]])
