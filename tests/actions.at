@@ -397,11 +397,8 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-## FIXME: test Java, and iterate over skeletons.
-AT_TEST([yacc.c])
-AT_TEST([glr.c])
-AT_TEST([lalr1.cc])
-AT_TEST([glr.cc])
+## FIXME: test Java.
+m4_map([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])
 
@@ -1726,10 +1723,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_TEST([yacc.c])
-AT_TEST([glr.c])
-AT_TEST([lalr1.cc])
-AT_TEST([glr.cc])
+m4_map([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])
 
