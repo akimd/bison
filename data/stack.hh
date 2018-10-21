@@ -36,12 +36,7 @@ m4_define([b4_stack_define],
     typedef typename S::const_reverse_iterator const_iterator;
     typedef typename S::size_type size_type;
 
-    stack ()
-    {
-      seq_.reserve (200);
-    }
-
-    stack (size_type n)
+    stack (size_type n = 200)
       : seq_ (n)
     {}
 
