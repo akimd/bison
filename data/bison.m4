@@ -613,13 +613,15 @@ m4_define([b4_user_code],
 b4_syncline([@oline@], [@ofile@])])
 
 
-# b4_define_user_code(MACRO)
-# --------------------------
-# From b4_MACRO, build b4_user_MACRO that includes the synclines.
+# b4_define_user_code(MACRO, COMMENT)
+# -----------------------------------
+# From b4_MACRO, if defined, build b4_user_MACRO that includes the synclines.
 m4_define([b4_define_user_code],
 [m4_define([b4_user_$1],
-[b4_user_code([b4_$1])])])
-
+           [m4_ifdef([b4_$1],
+                     [m4_ifval([$2],
+                               [b4_comment([$2])
+])b4_user_code([b4_$1])])])])
 
 # b4_user_actions
 # b4_user_initial_action
@@ -629,9 +631,9 @@ m4_define([b4_define_user_code],
 # ----------------------
 # Macros that issue user code, ending with synclines.
 b4_define_user_code([actions])
-b4_define_user_code([initial_action])
-b4_define_user_code([post_prologue])
-b4_define_user_code([pre_prologue])
+b4_define_user_code([initial_action], [User initialization code.])
+b4_define_user_code([post_prologue], [Second part of user prologue.])
+b4_define_user_code([pre_prologue], [First part of user prologue.])
 b4_define_user_code([union_members])
 
 
@@ -1056,8 +1058,6 @@ b4_check_user_names_wrap([[code]], [[qualifier]])
 ## ---------------- ##
 
 # m4_define_default([b4_lex_param], [])   dnl breaks other skeletons
-m4_define_default([b4_pre_prologue], [])
-m4_define_default([b4_post_prologue], [])
 m4_define_default([b4_epilogue], [])
 m4_define_default([b4_parse_param], [])
 

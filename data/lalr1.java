@@ -87,10 +87,10 @@ b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
              [2007-2015, 2018])
 
 b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
-])[/* First part of user declarations.  */
-]b4_user_pre_prologue
-b4_user_post_prologue
-b4_percent_code_get([[imports]])
+])[
+]b4_user_pre_prologue[
+]b4_user_post_prologue[
+]b4_percent_code_get([[imports]])
 [/**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
  *
@@ -586,7 +586,6 @@ b4_define_state])[
     yystack.push (yystate, yylval ]b4_locations_if([, yylloc])[);
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yylval], [], [yylloc])dnl
-    /* User initialization code.  */
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[
@@ -597,7 +596,6 @@ b4_dollar_popdef[]dnl
         push_parse_initialize ();
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yylval], [], [yylloc])dnl
-    /* User initialization code.  */
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[

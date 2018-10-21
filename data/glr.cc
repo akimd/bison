@@ -44,7 +44,7 @@
 #   filename member).
 
 # We require a pure interface.
-m4_define([b4_pure_flag],      [1])
+m4_define([b4_pure_flag], [1])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 b4_bison_locations_if([m4_include(b4_pkgdatadir/[location.cc])])

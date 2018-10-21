@@ -418,13 +418,11 @@ m4_if(b4_prefix, [yy], [],
 // Take the name prefix into account.
 [#]define yylex   b4_prefix[]lex])[
 
-// First part of user declarations.
 ]b4_user_pre_prologue[
 
 ]b4_defines_if([[#include "@basename(]b4_spec_defines_file[@)"]],
                [b4_shared_declarations([cc])])[
 
-// User implementation prologue.
 ]b4_user_post_prologue[
 ]b4_percent_code_get[
 
@@ -768,7 +766,6 @@ m4_if(b4_prefix, [yy], [],
 
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yyla.value], [], [yyla.location])dnl
-    // User initialization code.
     b4_user_initial_action
 b4_dollar_popdef])[]dnl
 
