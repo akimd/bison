@@ -145,21 +145,21 @@ m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],
 [m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
-m4_pushdef([AT_SKEL_CC_IF],
+m4_pushdef([AT_CXX_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
-m4_pushdef([AT_SKEL_JAVA_IF],
+m4_pushdef([AT_JAVA_IF],
 [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 # The target language: "c", "c++", or "java".
 m4_pushdef([AT_LANG],
-[AT_SKEL_JAVA_IF([java],
-                 [AT_SKEL_CC_IF([c++],
-                                [c])])])
+[AT_JAVA_IF([java],
+            [AT_CXX_IF([c++],
+                       [c])])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
-[AT_SKEL_CC_IF([AT_GLR_IF([$2], [$1])], [$2])])
+[AT_CXX_IF([AT_GLR_IF([$2], [$1])], [$2])])
 m4_pushdef([AT_GLR_CC_IF],
-[AT_SKEL_CC_IF([AT_GLR_IF([$1], [$2])], [$2])])
+[AT_CXX_IF([AT_GLR_IF([$1], [$2])], [$2])])
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
@@ -239,13 +239,13 @@ m4_pushdef([AT_YYERROR_SEES_LOC_IF],
 # are using the C++ parsers.
 m4_pushdef([AT_PURE_LEX_IF],
 [AT_PURE_IF([$1],
-            [AT_SKEL_CC_IF([$1], [$2])])])
+            [AT_CXX_IF([$1], [$2])])])
 
 m4_pushdef([AT_YYSTYPE],
-[AT_SKEL_CC_IF([AT_NAMESPACE[::parser::semantic_type]],
+[AT_CXX_IF([AT_NAMESPACE[::parser::semantic_type]],
                [AT_API_PREFIX[STYPE]])])
 m4_pushdef([AT_YYLTYPE],
-[AT_SKEL_CC_IF([AT_NAMESPACE[::parser::location_type]],
+[AT_CXX_IF([AT_NAMESPACE[::parser::location_type]],
                [AT_API_PREFIX[LTYPE]])])
 
 
@@ -274,7 +274,7 @@ AT_PURE_LEX_IF(
 
 # Handle the different types of location components.
 
-AT_SKEL_CC_IF(
+AT_CXX_IF(
   [AT_LOCATION_TYPE_IF(
     [AT_LOC_PUSHDEF([first.l], [first.c], [last.l], [last.c])],
     [AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])])],
@@ -317,9 +317,9 @@ m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
 m4_popdef([AT_GLR_IF])
-m4_popdef([AT_SKEL_CC_IF])
+m4_popdef([AT_CXX_IF])
 m4_popdef([AT_LANG])
-m4_popdef([AT_SKEL_JAVA_IF])
+m4_popdef([AT_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
@@ -854,8 +854,8 @@ m4_define([AT_LANG_HDR(c++)],  [hh])
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
 # compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
-# OUTPUT.java along with it.  Relies on AT_SKEL_CC_IF and
-# AT_SKEL_JAVA_IF.
+# OUTPUT.java along with it.  Relies on AT_CXX_IF and
+# AT_JAVA_IF.
 m4_define([AT_FULL_COMPILE],
 [AT_BISON_CHECK([-o $1.AT_LANG_EXT $1.y])
  AT_LANG_COMPILE([$1],

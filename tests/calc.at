@@ -48,7 +48,7 @@ m4_pushdef([AT_CALC_MAIN],
 [#include <assert.h>
 #include <unistd.h>
 
-AT_SKEL_CC_IF([[
+AT_CXX_IF([[
 namespace
 {
   /* A C++ ]AT_NAME_PREFIX[parse that simulates the C signature.  */
@@ -93,7 +93,7 @@ main (int argc, const char **argv)
       return 3;
     }
 
-]AT_SKEL_CC_IF([], [AT_DEBUG_IF([  ]AT_NAME_PREFIX[debug = 1;])])[
+]AT_CXX_IF([], [AT_DEBUG_IF([  ]AT_NAME_PREFIX[debug = 1;])])[
   status = ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([[&result, &count]])[);
   if (fclose (input))
     perror ("fclose");
@@ -206,7 +206,7 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
 AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
 ]$4
-AT_SKEL_CC_IF(
+AT_CXX_IF(
 [%define global_tokens_and_yystype])[
 %code requires
 {
@@ -247,8 +247,8 @@ AT_SKEL_CC_IF(
 {
   semantic_value ival;
 };
-%printer { ]AT_SKEL_CC_IF([[yyo << $$]],
-                          [[fprintf (yyo, "%d", $$)]])[; } <ival>;
+%printer { ]AT_CXX_IF([[yyo << $$]],
+                      [[fprintf (yyo, "%d", $$)]])[; } <ival>;
 
 %code provides
 {
@@ -272,7 +272,7 @@ static int power (int base, int exponent);
 ]AT_YYLEX_DECLARE_EXTERN[
 }
 
-]AT_SKEL_CC_IF([AT_LOCATION_TYPE_IF([[
+]AT_CXX_IF([AT_LOCATION_TYPE_IF([[
 %initial-action
 {
   @$.first.l = @$.first.c = 1;
@@ -333,7 +333,7 @@ power (int base, int exponent)
   return res;
 }
 
-]AT_SKEL_CC_IF(
+]AT_CXX_IF(
 [AT_LOCATION_TYPE_IF([[
 namespace
 {
@@ -354,12 +354,12 @@ namespace
 [AT_CALC_LEX
 AT_CALC_MAIN])])
 
-AT_DEFINES_IF([AT_DATA_SOURCE([[calc-lex.c]AT_SKEL_CC_IF([[c]])],
-[[#include "calc.h]AT_SKEL_CC_IF([[h]])["
+AT_DEFINES_IF([AT_DATA_SOURCE([[calc-lex.]AT_LANG_EXT],
+[[#include "calc.]AT_LANG_HDR["
 
 ]AT_CALC_LEX])
-AT_DATA_SOURCE([[calc-main.c]AT_SKEL_CC_IF([[c]])],
-[[#include "calc.h]AT_SKEL_CC_IF([[h]])["
+AT_DATA_SOURCE([[calc-main.]AT_LANG_EXT],
+[[#include "calc.]AT_LANG_HDR["
 
 ]AT_CALC_MAIN])
 ])

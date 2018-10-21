@@ -182,8 +182,8 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
              };
            }
            %token <up->ival> '1' '2'
-           %printer { ]AT_SKEL_CC_IF([[yyo << $$]],
-                                     [[fprintf (yyo, "%d", $$)]])[; } <up->ival>
+           %printer { ]AT_CXX_IF([[yyo << $$]],
+                                 [[fprintf (yyo, "%d", $$)]])[; } <up->ival>
            ],
           ['1' '2'
            {
@@ -238,10 +238,10 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
            %define api.value.type union],
           [%token <int> ONE 101;
            %token <float> TWO 102 THREE 103;
-           %printer { ]AT_SKEL_CC_IF([[yyo << $$]],
-                                     [[fprintf (yyo, "%d", $$)]])[; } <int>
-           %printer { ]AT_SKEL_CC_IF([[yyo << $$]],
-                                     [[fprintf (yyo, "%f", $$)]])[; } <float>
+           %printer { ]AT_CXX_IF([[yyo << $$]],
+                                 [[fprintf (yyo, "%d", $$)]])[; } <int>
+           %printer { ]AT_CXX_IF([[yyo << $$]],
+                                 [[fprintf (yyo, "%f", $$)]])[; } <float>
           ],
           [ONE TWO THREE { printf ("%d %2.1f %2.1f\n", $1, $2, $3); }],
           [{ 101, 102, 103, EOF }],

@@ -1565,7 +1565,7 @@ exp: 'a' { fprintf (stdout, "x: %d, y: %d\n", x, y); };
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[
 
-]AT_SKEL_CC_IF(
+]AT_CXX_IF(
 [int
 yyparse (int x, int y)
 {

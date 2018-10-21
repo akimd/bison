@@ -252,15 +252,15 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_YYLEX_DECLARE[
 }
 %%
-exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << '\n']],
-                      [[LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
+exp: { ]AT_CXX_IF([[std::cerr << @$ << '\n']],
+                  [[LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
 %%
 ]AT_YYERROR_DEFINE[
 
 ]AT_YYLEX_PROTOTYPE[
 {]AT_PURE_IF([
   YYUSE(lvalp);
-  YYUSE(llocp);], [AT_SKEL_CC_IF([
+  YYUSE(llocp);], [AT_CXX_IF([
   YYUSE(lvalp);
   YYUSE(llocp);])])[
   return 'x';
@@ -268,7 +268,7 @@ exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << '\n']],
 
 int
 main (void)
-{]AT_SKEL_CC_IF([[
+{]AT_CXX_IF([[
   yy::parser p;
   p.set_debug_level (!!getenv("YYDEBUG"));
   return p.parse ();]], [[
@@ -369,7 +369,7 @@ main (void)
   loc.]AT_FIRST_COLUMN[ = C1;         \
   loc.]AT_LAST_LINE[ = L2;            \
   loc.]AT_LAST_COLUMN[ = C2;          \
-  ]AT_SKEL_CC_IF([std::cout << loc],
+  ]AT_CXX_IF([std::cout << loc],
                  [LOCATION_PRINT(stdout, loc)])[;\
   putchar ('\n');
 
@@ -1651,7 +1651,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 # define YYSTYPE sem_type
 
-]AT_SKEL_CC_IF([[
+]AT_CXX_IF([[
 # include <iostream>
   namespace
   {
@@ -1698,7 +1698,7 @@ float: UNTYPED INT
 };
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(AT_SKEL_CC_IF([[{yy::parser::token::UNTYPED,
+]AT_YYLEX_DEFINE(AT_CXX_IF([[{yy::parser::token::UNTYPED,
                                  yy::parser::token::INT,
                                   EOF}]],
                                [[{UNTYPED, INT, EOF}]]),
