@@ -20,6 +20,7 @@
 
 BUILT_SOURCES += $(rpcalc_sources)
 CLEANFILES +=  %D%/rpcalc.[ch] %D%/rpcalc.output
+CLEANDIRS += %D%/*.dSYM
 
 rpcalc_extracted = %D%/rpcalc.y
 rpcalc_sources = $(rpcalc_extracted)

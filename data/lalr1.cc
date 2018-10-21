@@ -20,6 +20,7 @@ m4_include(b4_pkgdatadir/[c++.m4])
 # api.value.type=variant is valid.
 m4_define([b4_value_type_setup_variant])
 
+
 # b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
 # --------------------------------------------------------------
 # Declare "parser::yy<TABLE-NAME>_" whose contents is CONTENT.
@@ -88,7 +89,7 @@ m4_define([_b4_rhs_value],
 
 m4_define([b4_rhs_value],
 [b4_percent_define_ifdef([api.value.automove],
-                         [YY_MOVE(_b4_rhs_value($@))],
+                         [YY_MOVE (_b4_rhs_value($@))],
                          [_b4_rhs_value($@)])])
 
 
@@ -147,10 +148,11 @@ b4_bison_locations_if([# Backward compatibility.
 m4_include(b4_pkgdatadir/[stack.hh])
 b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
 
+
 # b4_shared_declarations(hh|cc)
 # -----------------------------
 # Declaration that might either go into the header (if --defines, $1 = hh)
-# or open coded in the parser body.
+# or in the implementation file.
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([# include <cassert>])[
@@ -161,9 +163,8 @@ m4_define([b4_shared_declarations],
 # include <vector>
 
 ]b4_cxx_portability[
-]b4_defines_if([[
-# include "stack.hh"
-]b4_bison_locations_if([[# include "location.hh"]])])[
+]m4_ifdef([b4_location_include],
+          [[# include ]b4_location_include])[
 ]b4_variant_if([b4_variant_includes])[
 
 ]b4_attribute_define[
@@ -173,10 +174,9 @@ m4_define([b4_shared_declarations],
 
 ]b4_namespace_open[
 
-]b4_defines_if([],
-[b4_stack_define
-b4_bison_locations_if([b4_position_define
-b4_location_define])])[
+]b4_stack_define[
+]b4_bison_locations_if([m4_ifndef([b4_location_file],
+                                  [b4_location_define])])[
 
 ]b4_variant_if([b4_variant_define])[
 
@@ -333,7 +333,8 @@ b4_location_define])])[
       stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) sym);
 #if defined __cplusplus && __cplusplus < 201103L
       /// Assignment, needed by push_back by some old implementations.
-      stack_symbol_type& operator= (YY_MOVE_REF (stack_symbol_type) that);
+      /// Moves the contents of that.
+      stack_symbol_type& operator= (stack_symbol_type& that);
 #endif
     };
 
@@ -415,12 +416,10 @@ b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
-#define yylex   b4_prefix[]lex])[
+[#]define yylex   b4_prefix[]lex])[
 
 // First part of user declarations.
 ]b4_user_pre_prologue[
-
-]b4_null_define[
 
 ]b4_defines_if([[#include "@basename(]b4_spec_defines_file[@)"]],
                [b4_shared_declarations([cc])])[
@@ -604,6 +603,10 @@ m4_if(b4_prefix, [yy], [],
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
                       [value], [YY_MOVE_OR_COPY], [YY_MOVE (that.value)])])[
+#if defined __cplusplus && 201103L <= __cplusplus
+    // that is emptied.
+    that.state = empty_state;
+#endif
   }
 
   ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) that)
@@ -617,13 +620,15 @@ m4_if(b4_prefix, [yy], [],
 
 #if defined __cplusplus && __cplusplus < 201103L
   ]b4_parser_class_name[::stack_symbol_type&
-  ]b4_parser_class_name[::stack_symbol_type::operator= (YY_MOVE_REF (stack_symbol_type) that)
+  ]b4_parser_class_name[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
     state = that.state;
     ]b4_variant_if([b4_symbol_variant([that.type_get ()],
-                                      [value], [move], [YY_MOVE (that.value)])],
-                   [[value = YY_MOVE (that.value);]])[]b4_locations_if([
-    location = YY_MOVE (that.location);])[
+                                      [value], [move], [that.value])],
+                   [[value = that.value;]])[]b4_locations_if([
+    location = that.location;])[
+    // that is emptied.
+    that.state = empty_state;
     return *this;
   }
 #endif
@@ -672,9 +677,9 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym)
   {
 #if defined __cplusplus && 201103L <= __cplusplus
-    yypush_ (m, stack_symbol_type (s, YY_MOVE (sym)));
+    yypush_ (m, stack_symbol_type (s, std::move (sym)));
 #else
-    stack_symbol_type ss(s, sym);
+    stack_symbol_type ss (s, sym);
     yypush_ (m, ss);
 #endif
   }
@@ -857,7 +862,7 @@ b4_dollar_popdef])[]dnl
       /* Variants are always initialized to an empty instance of the
          correct type. The default '$$ = $1' action is NOT applied
          when using variants.  */
-      b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [build])], [
+      b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [emplace])], [
       /* If YYLEN is nonzero, implement the default value of the
          action: '$$ = $1'.  Otherwise, use the top of the stack.
 

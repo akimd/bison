@@ -339,17 +339,19 @@ Parsers Written In Other Languages
 C++ Parsers
 
 * C++ Bison Interface::         Asking for C++ parser generation
+* C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
 * C++ Location Values::         The position and location classes
-* C++ Parser Interface::        Instantiating and running the parser
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 
 C++ Location Values
 
-* C++ position::                One point in the source file
-* C++ location::                Two points in the source file
-* User Defined Location Type::  Required interface for locations
+* C++ position::                  One point in the source file
+* C++ location::                  Two points in the source file
+* Exposing the Location Classes:: Using the Bison location class in your
+                                  project
+* User Defined Location Type::    Required interface for locations
 
 A Complete C++ Example
 
@@ -3191,14 +3193,14 @@ type:
 %code requires @{ #include "type1.h" @}
 %union @{ type1 field1; @}
 %destructor @{ type1_free ($$); @} <field1>
-%printer @{ type1_print (yyoutput, $$); @} <field1>
+%printer @{ type1_print (yyo, $$); @} <field1>
 @end group
 
 @group
 %code requires @{ #include "type2.h" @}
 %union @{ type2 field2; @}
 %destructor @{ type2_free ($$); @} <field2>
-%printer @{ type2_print (yyoutput, $$); @} <field2>
+%printer @{ type2_print (yyo, $$); @} <field2>
 @end group
 @end example
 
@@ -4786,6 +4788,14 @@ status 63).
 %require "@var{version}"
 @end example
 
+Some deprecated behaviors are disabled for some required @var{version}:
+@table @code
+@item "3.2"
+The C++ deprecated files @file{position.hh} and @file{stack.hh} are no
+longer generated.
+@end table
+
+
 @node Token Decl
 @subsection Token Type Names
 @cindex declaring token type names
@@ -5156,11 +5166,12 @@ Decl, , Freeing Discarded Symbols}).
 
 @deffn {Directive} %printer @{ @var{code} @} @var{symbols}
 @findex %printer
+@vindex yyo
 @vindex yyoutput
 @c This is the same text as for %destructor.
 Invoke the braced @var{code} whenever the parser displays one of the
-@var{symbols}.  Within @var{code}, @code{yyoutput} denotes the output stream
-(a @code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
+@var{symbols}.  Within @var{code}, @code{yyo} denotes the output stream (a
+@code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
 @code{$<@var{tag}>$}) designates the semantic value associated with the
 symbol, and @code{@@$} its location.  The additional parser parameters are
 also available (@pxref{Parser Function, , The Parser Function
@@ -5185,10 +5196,10 @@ For example:
 %type  <character> chr
 %token TAGLESS
 
-%printer @{ fprintf (yyoutput, "'%c'", $$); @} <character>
-%printer @{ fprintf (yyoutput, "&%p", $$); @} <*>
-%printer @{ fprintf (yyoutput, "\"%s\"", $$); @} STRING1 string1
-%printer @{ fprintf (yyoutput, "<>"); @} <>
+%printer @{ fprintf (yyo, "'%c'", $$); @} <character>
+%printer @{ fprintf (yyo, "&%p", $$); @} <*>
+%printer @{ fprintf (yyo, "\"%s\"", $$); @} STRING1 string1
+%printer @{ fprintf (yyo, "<>"); @} <>
 @end example
 
 @noindent
@@ -5727,7 +5738,7 @@ delimiters) denote finite choice (e.g., a variation of a feature).  String
 values denote remaining cases (e.g., a file name).
 
 It is an error if a @var{variable} is defined by @code{%define} multiple
-times, but see @ref{Bison Options,,-D @var{name}[=@var{value}]}.
+times, but see @ref{Bison Options,,@option{-D @var{name}[=@var{value}]}}.
 @end deffn
 
 The rest of this section summarizes variables and values that
@@ -5807,6 +5818,67 @@ The parser namespace is @code{foo} and @code{yylex} is referenced as
 @end itemize
 @end deffn
 @c api.namespace
+
+@c ================================================== api.location.file
+@deffn {Directive} {%define api.location.file} "@var{file}"
+@deffnx {Directive} {%define api.location.file} @code{none}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Define the name of the file in which Bison's default location and position
+types are generated. @xref{Exposing the Location Classes}.
+
+@item Accepted Values:
+@table @asis
+@item @code{none}
+If locations are enabled, generate the definition of the @code{position} and
+@code{location} classes in the header file if @code{%defines}, otherwise in
+the parser implementation.
+
+@item "@var{file}"
+Generate the definition of the @code{position} and @code{location} classes
+in @var{file}.  This file name can be relative (to where the parser file is
+output) or absolute.
+@end table
+
+@item Default Value:
+Not applicable if locations are not enabled, or if a user location type is
+specified (see @code{api.location.type}).  Otherwise, Bison's
+@code{location} is generated in @file{location.hh} (@pxref{C++ location}).
+
+@item History:
+Introduced in Bison 3.2.
+@end itemize
+@end deffn
+
+@c ================================================== api.location.file
+@deffn {Directive} {%define api.location.include} @{"@var{file}"@}
+@deffnx {Directive} {%define api.location.include} @{<@var{file}>@}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Specify how the generated file that defines the @code{position} and
+@code{location} classes is included.  This makes sense when the
+@code{location} class is exposed to the rest of your application/library in
+another directory.  @xref{Exposing the Location Classes}.
+
+@item Accepted Values: Argument for @code{#include}.
+
+@item Default Value:
+@samp{"@var{dir}/location.hh"} where @var{dir} is the directory part of the
+output.  For instance @file{src/parse} if
+@option{--output=src/parse/parser.cc} was given.
+
+@item History:
+Introduced in Bison 3.2.
+@end itemize
+
+@end deffn
+
 
 @c ================================================== api.location.type
 @deffn {Directive} {%define api.location.type} @{@var{type}@}
@@ -6239,8 +6311,7 @@ Obsoleted by @code{api.namespace}
 
 @item Purpose: Issue runtime assertions to catch invalid uses.
 In C++, when variants are used (@pxref{C++ Variants}), symbols must be
-constructed and
-destroyed properly.  This option checks these constraints.
+constructed and destroyed properly.  This option checks these constraints.
 
 @item Accepted Values: Boolean
 
@@ -7026,7 +7097,7 @@ Obviously, in location tracking pure parsers, @code{yyerror} should have
 an access to the current location. With @code{%define api.pure}, this is
 indeed the case for the GLR parsers, but not for the Yacc parser, for
 historical reasons, and this is the why @code{%define api.pure full} should be
-prefered over @code{%define api.pure}.
+preferred over @code{%define api.pure}.
 
 When @code{%locations %define api.pure full} is used, @code{yyerror} has the
 following signature:
@@ -9090,11 +9161,11 @@ The following grammar file, @file{calc.y}, will be used in the sequel:
 @end group
 @group
 %token <ival> NUM
-%nterm <ival> exp
+%type  <ival> exp
 @end group
 @group
 %token <sval> STR
-%nterm <sval> useless
+%type  <sval> useless
 @end group
 @group
 %left '+' '-'
@@ -9535,7 +9606,7 @@ The graphical output
 @end ifnotinfo
 is very similar to the textual one, and as such it is easier understood by
 making direct comparisons between them.  @xref{Debugging, , Debugging Your
-Parser}, for a detailled analysis of the textual report.
+Parser}, for a detailed analysis of the textual report.
 
 @ifnotinfo
 @float Figure,fig:graph
@@ -9562,7 +9633,7 @@ the target states.
 
 @subheading Graphical Representation of Shifts
 
-Shifts are shown as solid arrows, labelled with the lookahead token for that
+Shifts are shown as solid arrows, labeled with the lookahead token for that
 shift. The following describes a reduction in the @file{rr.output} file:
 
 @example
@@ -9582,7 +9653,7 @@ A Graphviz rendering of this portion of the graph could be:
 @subheading Graphical Representation of Reductions
 
 Reductions are shown as solid arrows, leading to a diamond-shaped node
-bearing the number of the reduction rule. The arrow is labelled with the
+bearing the number of the reduction rule. The arrow is labeled with the
 appropriate comma separated lookahead tokens. If the reduction is the default
 action for the given state, there is no such label.
 
@@ -9608,9 +9679,9 @@ are distinguished by a red filling color on these nodes, just like how they are
 reported between square brackets in the verbose file.
 
 The reduction corresponding to the rule number 0 is the acceptation
-state. It is shown as a blue diamond, labelled ``Acc''.
+state. It is shown as a blue diamond, labeled ``Acc''.
 
-@subheading Graphical representation of go tos
+@subheading Graphical Representation of Gotos
 
 The @samp{go to} jump transitions are represented as dotted lines bearing
 the name of the rule being jumped to.
@@ -9791,9 +9862,9 @@ prologue:
 %define parse.trace
 
 /* Formatting semantic values.  */
-%printer @{ fprintf (yyoutput, "%s", $$->name); @} VAR;
-%printer @{ fprintf (yyoutput, "%s()", $$->name); @} FNCT;
-%printer @{ fprintf (yyoutput, "%g", $$); @} <double>;
+%printer @{ fprintf (yyo, "%s", $$->name); @} VAR;
+%printer @{ fprintf (yyo, "%s()", $$->name); @} FNCT;
+%printer @{ fprintf (yyo, "%g", $$); @} <double>;
 @end example
 
 The @code{%define} directive instructs Bison to generate run-time trace
@@ -10244,7 +10315,7 @@ Activate miscellaneous @var{feature}. @var{feature} can be one of:
 @itemx diagnostics-show-caret
 Show caret errors, in a manner similar to GCC's
 @option{-fdiagnostics-show-caret}, or Clang's
-@option{-fcaret-diagnotics}. The location provided with the message is used
+@option{-fcaret-diagnostics}. The location provided with the message is used
 to quote the corresponding line of the source file, underlining the
 important part of it with carets (@samp{^}). Here is an example, using the
 following file @file{in.y}:
@@ -10523,6 +10594,10 @@ int yyparse (void);
 @node Other Languages
 @chapter Parsers Written In Other Languages
 
+In addition to C, Bison can generate parsers in C++ and Java.  This chapter
+is devoted to these languages.  The reader is expected to understand how
+Bison works; read the introductory chapters first if you don't.
+
 @menu
 * C++ Parsers::                 The interface to generate C++ parser classes
 * Java Parsers::                The interface to generate Java parser classes
@@ -10531,11 +10606,14 @@ int yyparse (void);
 @node C++ Parsers
 @section C++ Parsers
 
+The Bison parser in C++ is an object, an instance of the class
+@code{yy::parser}.
+
 @menu
 * C++ Bison Interface::         Asking for C++ parser generation
+* C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
 * C++ Location Values::         The position and location classes
-* C++ Parser Interface::        Instantiating and running the parser
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 @end menu
@@ -10547,9 +10625,7 @@ int yyparse (void);
 @c - initial action
 
 The C++ deterministic parser is selected using the skeleton directive,
-@samp{%skeleton "lalr1.cc"}, or the synonymous command-line option
-@option{--skeleton=lalr1.cc}.
-@xref{Decl Summary}.
+@samp{%skeleton "lalr1.cc"}.  @xref{Decl Summary}.
 
 When run, @command{bison} will create several entities in the @samp{yy}
 namespace.
@@ -10559,30 +10635,117 @@ see @ref{%define Summary,,api.namespace}.  The various classes are generated
 in the following files:
 
 @table @file
-@item position.hh
-@itemx location.hh
-The definition of the classes @code{position} and @code{location}, used for
-location tracking when enabled.  These files are not generated if the
-@code{%define} variable @code{api.location.type} is defined.  @xref{C++
-Location Values}.
-
-@item stack.hh
-An auxiliary class @code{stack} used by the parser.
-
 @item @var{file}.hh
-@itemx @var{file}.cc
 (Assuming the extension of the grammar file was @samp{.yy}.)  The
-declaration and implementation of the C++ parser class.  The basename
-and extension of these two files follow the same rules as with regular C
-parsers (@pxref{Invocation}).
+declaration of the C++ parser class and auxiliary types.  By default, this
+file is not generated (@pxref{Decl Summary, ,%defines}).
 
-The header is @emph{mandatory}; you must either pass
-@option{-d}/@option{--defines} to @command{bison}, or use the
-@samp{%defines} directive.
+@item @var{file}.cc
+The implementation of the C++ parser class.  The basename and extension of
+these two files (@file{@var{file}.hh} and @file{@var{file}.cc}) follow the
+same rules as with regular C parsers (@pxref{Invocation}).
+
+@item location.hh
+The definition of the classes @code{position} and @code{location}, used for
+location tracking when enabled.  This file is not generated if user defined
+locations are used, i.e., if the @code{%define} variable
+@code{api.location.type} is defined.  @xref{C++ Location Values}.
+
+@item position.hh
+@itemx stack.hh
+Useless legacy files.  To get rid of then, use @samp{%require "3.2"} or
+newer.
 @end table
 
-All these files are documented using Doxygen; run @command{doxygen}
-for a complete and accurate documentation.
+All these files are documented using Doxygen; run @command{doxygen} for a
+complete and accurate documentation.
+
+@node C++ Parser Interface
+@subsection C++ Parser Interface
+@c - define parser_class_name
+@c - Ctor
+@c - parse, error, set_debug_level, debug_level, set_debug_stream,
+@c   debug_stream.
+@c - Reporting errors
+
+The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare
+and define the parser class in the namespace @code{yy}.  The class name
+defaults to @code{parser}, but may be changed using @samp{%define
+parser_class_name @{@var{name}@}}.  The interface of this class is detailed
+below.  It can be extended using the @code{%parse-param} feature: its
+semantics is slightly changed since it describes an additional member of the
+parser class, and an additional argument for its constructor.
+
+@defcv {Type} {parser} {semantic_type}
+The types for semantic values. @xref{C++ Semantic Values}.
+@end defcv
+
+@defcv {Type} {parser} {location_type}
+The type of locations, if location tracking is enabled.  @xref{C++ Location
+Values}.
+@end defcv
+
+@defcv {Type} {parser} {token}
+A structure that contains (only) the @code{yytokentype} enumeration, which
+defines the tokens.  To refer to the token @code{FOO}, use
+@code{yy::parser::token::FOO}.  The scanner can use @samp{typedef
+yy::parser::token token;} to ``import'' the token enumeration (@pxref{Calc++
+Scanner}).
+@end defcv
+
+@defcv {Type} {parser} {syntax_error}
+This class derives from @code{std::runtime_error}.  Throw instances of it
+from the scanner or from the actions to raise parse errors.  This is
+equivalent with first invoking @code{error} to report the location and
+message of the syntax error, and then to invoke @code{YYERROR} to enter the
+error-recovery mode.  But contrary to @code{YYERROR} which can only be
+invoked from user actions (i.e., written in the action itself), the
+exception can be thrown from functions invoked from the user action.
+@end defcv
+
+@deftypeop {Constructor} {parser} {} parser ()
+@deftypeopx {Constructor} {parser} {} parser (@var{type1} @var{arg1}, ...)
+Build a new parser object.  There are no arguments, unless
+@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
+@end deftypeop
+
+@deftypeop {Constructor} {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
+@deftypeopx {Constructor}  {syntax_error} {} syntax_error (const std::string& @var{m})
+Instantiate a syntax-error exception.
+@end deftypeop
+
+@deftypemethod {parser} {int} parse ()
+Run the syntactic analysis, and return 0 on success, 1 otherwise.
+
+@cindex exceptions
+The whole function is wrapped in a @code{try}/@code{catch} block, so that
+when an exception is thrown, the @code{%destructor}s are called to release
+the lookahead symbol, and the symbols pushed on the stack.
+
+Exception related code in the generated parser is protected by CPP guards
+(@code{#if}) and disabled when exceptions are not supported (i.e., passing
+@code{-fno-exceptions} to the C++ compiler).
+@end deftypemethod
+
+@deftypemethod {parser} {std::ostream&} debug_stream ()
+@deftypemethodx {parser} {void} set_debug_stream (std::ostream& @var{o})
+Get or set the stream used for tracing the parsing.  It defaults to
+@code{std::cerr}.
+@end deftypemethod
+
+@deftypemethod {parser} {debug_level_type} debug_level ()
+@deftypemethodx {parser} {void} set_debug_level (debug_level_type @var{l})
+Get or set the tracing level (an integral).  Currently its value is either
+0, no trace, or nonzero, full tracing.
+@end deftypemethod
+
+@deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
+@deftypemethodx {parser} {void} error (const std::string& @var{m})
+The definition for this member function must be supplied by the user: the
+parser uses it to report a parser error occurring at @var{l}, described by
+@var{m}.  If location tracking is not enabled, the second signature is used.
+@end deftypemethod
+
 
 @node C++ Semantic Values
 @subsection C++ Semantic Values
@@ -10591,9 +10754,9 @@ for a complete and accurate documentation.
 @c - Printer and destructor
 
 Bison supports two different means to handle semantic values in C++.  One is
-alike the C interface, and relies on unions (@pxref{C++ Unions}).  As C++
-practitioners know, unions are inconvenient in C++, therefore another
-approach is provided, based on variants (@pxref{C++ Variants}).
+alike the C interface, and relies on unions.  As C++ practitioners know,
+unions are inconvenient in C++, therefore another approach is provided,
+based on variants.
 
 @menu
 * C++ Unions::             Semantic values cannot be objects
@@ -10603,18 +10766,18 @@ approach is provided, based on variants (@pxref{C++ Variants}).
 @node C++ Unions
 @subsubsection C++ Unions
 
-The @code{%union} directive works as for C, see @ref{Union Decl, ,The
-Union Declaration}.  In particular it produces a genuine
-@code{union}, which have a few specific features in C++.
+The @code{%union} directive works as for C, see @ref{Union Decl, ,The Union
+Declaration}.  In particular it produces a genuine @code{union}, which have
+a few specific features in C++.
 @itemize @minus
 @item
 The type @code{YYSTYPE} is defined but its use is discouraged: rather
 you should refer to the parser's encapsulated type
 @code{yy::parser::semantic_type}.
 @item
-Non POD (Plain Old Data) types cannot be used.  C++ forbids any
-instance of classes with constructors in unions: only @emph{pointers}
-to such objects are allowed.
+Non POD (Plain Old Data) types cannot be used.  C++98 forbids any instance
+of classes with constructors in unions: only @emph{pointers} to such objects
+are allowed.  C++11 relaxed this constraints, but at the cost of safety.
 @end itemize
 
 Because objects have to be stored via pointers, memory is not
@@ -10629,10 +10792,11 @@ Bison provides a @emph{variant} based implementation of semantic values for
 C++.  This alleviates all the limitations reported in the previous section,
 and in particular, object types can be used without pointers.
 
-To enable variant-based semantic values, set @code{%define} variable
-@code{variant} (@pxref{%define Summary,, variant}).  Once this defined,
-@code{%union} is ignored, and instead of using the name of the fields of the
-@code{%union} to ``type'' the symbols, use genuine types.
+To enable variant-based semantic values, set the @code{%define} variable
+@code{api.value.type} to @code{variant} (@pxref{%define Summary,,
+@code{api.value.type}}).  Then @code{%union} is ignored; instead of using
+the name of the fields of the @code{%union} to ``type'' the symbols, use
+genuine types.
 
 For instance, instead of:
 
@@ -10671,13 +10835,18 @@ of alternative types such as @samp{$<int>2} or @samp{$<std::string>$}, even
 in midrule actions.  It is mandatory to use typed midrule actions
 (@pxref{Typed Midrule Actions}).
 
-@deftypemethod {semantic_type} {T&} build<T> ()
-Initialize, but leave empty.  Returns the address where the actual value may
-be stored.  Requires that the variant was not initialized yet.
+@deftypemethod {semantic_type} {T&} emplace<T> ()
+Initialize, but leave empty.  Return a reference to where the actual value
+may be stored.  Requires that the variant was not initialized yet.
 @end deftypemethod
 
-@deftypemethod {semantic_type} {T&} build<T> (const T& @var{t})
-Initialize, and copy-construct from @var{t}.
+@deftypemethod {semantic_type} {T&} emplace<T> (const T& @var{t})
+Initialize, and copy-construct from @var{t}.  Available in C++98/C++03 only.
+@end deftypemethod
+
+@deftypemethod {semantic_type} {T&} emplace<T, U> (U&& @var{u})
+Build a variant of type @code{T} from the forwarding reference @var{u}.
+Available in C++11 and later only.
 @end deftypemethod
 
 
@@ -10731,27 +10900,29 @@ classes will not be generated, and the user defined type will be used.
 @menu
 * C++ position::         One point in the source file
 * C++ location::         Two points in the source file
-* User Defined Location Type::  Required interface for locations
+* Exposing the Location Classes:: Using the Bison location class in your
+                                  project
+* User Defined Location Type::    Required interface for locations
 @end menu
 
 @node C++ position
 @subsubsection C++ @code{position}
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
 @deftypeivar {position} {std::string*} file
-The name of the file.  It will always be handled as a pointer, the
-parser will never duplicate nor deallocate it.  As an experimental
-feature you may change it to @samp{@var{type}*} using @samp{%define
-filename_type "@var{type}"}.
+The name of the file.  It will always be handled as a pointer, the parser
+will never duplicate nor deallocate it.  As an experimental feature you may
+change it to @samp{@var{type}*} using @samp{%define filename_type
+"@var{type}"}.
 @end deftypeivar
 
 @deftypeivar {position} {unsigned} line
@@ -10802,7 +10973,7 @@ Create a @code{Location} from the endpoints of the range.
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = 0, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
@@ -10843,6 +11014,55 @@ positions.
 Report @var{p} on @var{o}, taking care of special cases such as: no
 @code{filename} defined, or equal filename/line or column.
 @end deftypefun
+
+@node Exposing the Location Classes
+@subsubsection Exposing the Location Classes
+
+When both @code{%defines} and @code{%locations} are enabled, Bison generates
+an additional file: @file{location.hh}.  If you don't use locations outside
+of the parser, you may avoid its creation with @samp{%define
+api.location.file none}.
+
+However this file is useful if, for instance, your parser builds an abstract
+syntax tree decorated with locations: you may use Bison's @code{location}
+type independently of Bison's parser.  You may name the file differently,
+e.g., @samp{%define api.location.file "include/ast/location.hh"}: this name
+can have directory components, or even be absolute.  The way the location
+file is included is controlled by @code{api.location.include}.
+
+This way it is possible to have several parsers share the same location
+file.
+
+For instance, in @file{src/foo/parser.yy}, generate the
+@file{include/ast/loc.hh} file:
+
+@example
+// src/foo/parser.yy
+%locations
+%define api.namespace @{foo@}
+%define api.location.file "include/ast/loc.hh"
+%define api.location.include @{<ast/loc.hh>@}
+@end example
+
+@noindent
+and use it in @file{src/bar/parser.yy}:
+
+@example
+// src/bar/parser.yy
+%locations
+%define api.namespace @{bar@}
+%code requires @{#include <ast/loc.hh>@}
+%define api.location.type @{bar::location@}
+@end example
+
+Absolute file names are supported; it is safe in your @file{Makefile} to
+pass the flag
+@option{-Dapi.location.file='"$(top_srcdir)/include/ast/loc.hh"'} to
+@command{bison} for @file{src/foo/parser.yy}.  The generated file will not
+have references to this absolute path, thanks to @samp{%define
+api.location.include @{<ast/loc.hh>@}}.  Adding @samp{-I
+$(top_srcdir)/include} to your @code{CPPFLAGS} will suffice for the compiler
+to find @file{ast/loc.hh}.
 
 @node User Defined Location Type
 @subsubsection User Defined Location Type
@@ -10901,88 +11121,6 @@ files, reused by other parsers as follows:
 %code requires @{ #include <master/location.hh> @}
 @end example
 
-@node C++ Parser Interface
-@subsection C++ Parser Interface
-@c - define parser_class_name
-@c - Ctor
-@c - parse, error, set_debug_level, debug_level, set_debug_stream,
-@c   debug_stream.
-@c - Reporting errors
-
-The output files @file{@var{output}.hh} and @file{@var{output}.cc} declare
-and define the parser class in the namespace @code{yy}.  The class name
-defaults to @code{parser}, but may be changed using @samp{%define
-parser_class_name @{@var{name}@}}.  The interface of this class is detailed
-below.  It can be extended using the @code{%parse-param} feature: its
-semantics is slightly changed since it describes an additional member of the
-parser class, and an additional argument for its constructor.
-
-@defcv {Type} {parser} {semantic_type}
-@defcvx {Type} {parser} {location_type}
-The types for semantic values and locations (if enabled).
-@end defcv
-
-@defcv {Type} {parser} {token}
-A structure that contains (only) the @code{yytokentype} enumeration, which
-defines the tokens.  To refer to the token @code{FOO},
-use @code{yy::parser::token::FOO}.  The scanner can use
-@samp{typedef yy::parser::token token;} to ``import'' the token enumeration
-(@pxref{Calc++ Scanner}).
-@end defcv
-
-@defcv {Type} {parser} {syntax_error}
-This class derives from @code{std::runtime_error}.  Throw instances of it
-from the scanner or from the actions to raise parse errors.  This is
-equivalent with first invoking @code{error} to report the location and
-message of the syntax error, and then to invoke @code{YYERROR} to enter the
-error-recovery mode.  But contrary to @code{YYERROR} which can only be
-invoked from user actions (i.e., written in the action itself), the
-exception can be thrown from function invoked from the user action.
-@end defcv
-
-@deftypemethod {parser} {} parser (@var{type1} @var{arg1}, ...)
-Build a new parser object.  There are no arguments by default, unless
-@samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
-@end deftypemethod
-
-@deftypemethod {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
-@deftypemethodx {syntax_error} {} syntax_error (const std::string& @var{m})
-Instantiate a syntax-error exception.
-@end deftypemethod
-
-@deftypemethod {parser} {int} parse ()
-Run the syntactic analysis, and return 0 on success, 1 otherwise.
-
-@cindex exceptions
-The whole function is wrapped in a @code{try}/@code{catch} block, so that
-when an exception is thrown, the @code{%destructor}s are called to release
-the lookahead symbol, and the symbols pushed on the stack.
-
-Exception related code in the generated parser is protected by CPP guards
-(@code{#if}) and disabled when exceptions are not supported (i.e., passing
-@code{-fno-exceptions} to the C++ compiler).
-@end deftypemethod
-
-@deftypemethod {parser} {std::ostream&} debug_stream ()
-@deftypemethodx {parser} {void} set_debug_stream (std::ostream& @var{o})
-Get or set the stream used for tracing the parsing.  It defaults to
-@code{std::cerr}.
-@end deftypemethod
-
-@deftypemethod {parser} {debug_level_type} debug_level ()
-@deftypemethodx {parser} {void} set_debug_level (debug_level @var{l})
-Get or set the tracing level.  Currently its value is either 0, no trace,
-or nonzero, full tracing.
-@end deftypemethod
-
-@deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
-@deftypemethodx {parser} {void} error (const std::string& @var{m})
-The definition for this member function must be supplied by the user:
-the parser uses it to report a parser error occurring at @var{l},
-described by @var{m}.  If location tracking is not enabled, the second
-signature is used.
-@end deftypemethod
-
 
 @node C++ Scanner Interface
 @subsection C++ Scanner Interface
@@ -11003,14 +11141,14 @@ depends whether you use unions, or variants.
 @node Split Symbols
 @subsubsection Split Symbols
 
-The interface is as follows.
+The generated parser expects @code{yylex} to have the following prototype.
 
-@deftypemethod {parser} {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
-@deftypemethodx {parser} {int} yylex (semantic_type* @var{yylval}, @var{type1} @var{arg1}, ...)
+@deftypefun {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
+@deftypefunx {int} yylex (semantic_type* @var{yylval}, @var{type1} @var{arg1}, ...)
 Return the next token.  Its type is the return value, its semantic value and
 location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 @samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.
-@end deftypemethod
+@end deftypefun
 
 Note that when using variants, the interface for @code{yylex} is the same,
 but @code{yylval} is handled differently.
@@ -11033,11 +11171,11 @@ initialized.  So the code would look like:
 
 @example
 [0-9]+   @{
-           yylval->build<int> () = text_to_int (yytext);
+           yylval->emplace<int> () = text_to_int (yytext);
            return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval->build<std::string> () = yytext;
+           yylval->emplace<std::string> () = yytext;
            return yy::parser::token::IDENTIFIER;
          @}
 @end example
@@ -11047,11 +11185,11 @@ or
 
 @example
 [0-9]+   @{
-           yylval->build (text_to_int (yytext));
+           yylval->emplace (text_to_int (yytext));
            return yy::parser::token::INTEGER;
          @}
 [a-z]+   @{
-           yylval->build (yytext);
+           yylval->emplace (yytext);
            return yy::parser::token::IDENTIFIER;
          @}
 @end example
@@ -11060,32 +11198,28 @@ or
 @node Complete Symbols
 @subsubsection Complete Symbols
 
-If you specified both @code{%define api.value.type variant} and
-@code{%define api.token.constructor},
-the @code{parser} class also defines the class @code{parser::symbol_type}
-which defines a @emph{complete} symbol, aggregating its type (i.e., the
-traditional value returned by @code{yylex}), its semantic value (i.e., the
-value passed in @code{yylval}, and possibly its location (@code{yylloc}).
+With both @code{%define api.value.type variant} and @code{%define
+api.token.constructor}, the parser defines the type @code{symbol_type}, and
+expects @code{yylex} to have the following prototype.
 
-@deftypemethod {symbol_type} {} symbol_type (token_type @var{type},  const semantic_type& @var{value}, const location_type& @var{location})
-Build a complete terminal symbol which token type is @var{type}, and which
-semantic value is @var{value}.  If location tracking is enabled, also pass
-the @var{location}.
-@end deftypemethod
+@deftypefun {parser::symbol_type} yylex ()
+@deftypefunx {parser::symbol_type} yylex (var{type1} @var{arg1}, ...)
+Return a @emph{complete} symbol, aggregating its type (i.e., the traditional
+value returned by @code{yylex}), its semantic value, and possibly its
+location.  Invocations of @samp{%lex-param @{@var{type1} @var{arg1}@}} yield
+additional arguments.
+@end deftypefun
 
-This interface is low-level and should not be used for two reasons.  First,
-it is inconvenient, as you still have to build the semantic value, which is
-a variant, and second, because consistency is not enforced: as with unions,
-it is still possible to give an integer as semantic value for a string.
+For each token type, Bison generates named constructors as follows.
 
-So for each token type, Bison generates named constructors as follows.
-
-@deftypemethod {symbol_type} {} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypemethodx {symbol_type} {} {make_@var{token}} (const location_type& @var{location})
+@deftypemethod {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} (const location_type& @var{location})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} ()
 Build a complete terminal symbol for the token type @var{token} (not
-including the @code{api.token.prefix}) whose possible semantic value is
-@var{value} of adequate @var{value_type}.  If location tracking is enabled,
-also pass the @var{location}.
+including the @code{api.token.prefix}), whose semantic value, if it has one,
+is @var{value} of adequate @var{value_type}.  Pass the @var{location} iff
+location tracking is enabled.
 @end deftypemethod
 
 For instance, given the following declarations:
@@ -11098,7 +11232,7 @@ For instance, given the following declarations:
 @end example
 
 @noindent
-Bison generates the following functions:
+Bison generates:
 
 @example
 symbol_type make_IDENTIFIER (const std::string&, const location_type&);
@@ -11117,6 +11251,7 @@ which should be used in a Lex-scanner as follows.
 
 Tokens that do not have an identifier are not accessible: you cannot simply
 use characters such as @code{':'}, they must be declared with @code{%token}.
+
 
 @node A Complete C++ Example
 @subsection A Complete C++ Example
@@ -11412,7 +11547,7 @@ regular destructors.  All the values are printed using their
 
 @comment file: calc++/parser.yy
 @example
-%printer @{ yyoutput << $$; @} <*>;
+%printer @{ yyo << $$; @} <*>;
 @end example
 
 @noindent
@@ -11435,13 +11570,13 @@ assignment:
 %left "+" "-";
 %left "*" "/";
 exp:
-  exp "+" exp   @{ $$ = $1 + $3; @}
+  "number"
+| "identifier"  @{ $$ = drv.variables[$1]; @}
+| exp "+" exp   @{ $$ = $1 + $3; @}
 | exp "-" exp   @{ $$ = $1 - $3; @}
 | exp "*" exp   @{ $$ = $1 * $3; @}
 | exp "/" exp   @{ $$ = $1 / $3; @}
 | "(" exp ")"   @{ std::swap ($$, $2); @}
-| "identifier"  @{ $$ = drv.variables[$1]; @}
-| "number"      @{ std::swap ($$, $1); @};
 %%
 @end example
 
@@ -12776,7 +12911,7 @@ In an action, the location of the @var{n}-th symbol of the right-hand side
 of the rule.  @xref{Tracking Locations}.
 
 In a grammar, the Bison-generated nonterminal symbol for a midrule action
-with a semantical value.  @xref{Midrule Action Translation}.
+with a semantic value.  @xref{Midrule Action Translation}.
 @end deffn
 
 @deffn {Variable} @@@var{name}
@@ -12787,7 +12922,7 @@ In an action, the location of a symbol addressed by @var{name}.
 
 @deffn {Symbol} $@@@var{n}
 In a grammar, the Bison-generated nonterminal symbol for a midrule action
-with no semantical value.  @xref{Midrule Action Translation}.
+with no semantics value.  @xref{Midrule Action Translation}.
 @end deffn
 
 @deffn {Variable} $$
@@ -13610,11 +13745,16 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: getLVal defvar deftypefn deftypefnx gotos msgfmt Corbett LALR's
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
-@c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType
-@c LocalWords: parsers parser's
+@c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType yyo
+@c LocalWords: parsers parser's documentencoding documentlanguage Wempty
 @c LocalWords: associativity subclasses precedences unresolvable runnable
-@c LocalWords: allocators subunit initializations unreferenced untyped
-@c LocalWords: errorVerbose subtype subtypes
+@c LocalWords: allocators subunit initializations unreferenced untyped dir
+@c LocalWords: errorVerbose subtype subtypes Wmidrule midrule's src rvalues
+@c LocalWords: automove evolutions Wother Wconflicts PNG lookaheads Acc
+@c LocalWords: xsltproc XSL xsl xhtml html num Wprecedence Werror fcaret
+@c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
+@c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif
+@c LocalWords: Wdeprecated Wregister noinput yyloc yypos
 
 @c Local Variables:
 @c ispell-dictionary: "american"

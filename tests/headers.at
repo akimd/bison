@@ -143,7 +143,7 @@ exp:
 ]AT_YYLEX_DEFINE(["x"])[
 ]])
 
-AT_BISON_CHECK([-d -o input.AT_SKEL_CC_IF([cc], [c]) input.y])
+AT_BISON_CHECK([-d -o input.AT_LANG_EXT input.y])
 
 AT_LANG_COMPILE([input.o])
 
@@ -154,10 +154,10 @@ AT_MAIN_DEFINE
 
 # Check that the headers are self-contained, and protected against
 # multiple inclusions.  While at it, check they are sane for C++.
-for h in *.AT_SKEL_CC_IF([hh], [h])
+for h in *.AT_LANG_HDR
 do
   # No shell expansion with AT_DATA.
-  cat >$h.AT_SKEL_CC_IF([cc], [c]) <<EOF
+  cat >$h.AT_LANG_EXT <<EOF
 AT_DATA_SOURCE_PROLOGUE
 #include "$h"
 #include "$h"
@@ -235,7 +235,7 @@ exp:
 ]AT_YYLEX_DEFINE(["$1"])[
 ]])
 
-AT_BISON_CHECK([-d -o $1.AT_SKEL_CC_IF([cc], [c]) $1.y])
+AT_BISON_CHECK([-d -o $1.AT_LANG_EXT $1.y])
 
 AT_LANG_COMPILE([$1.o])
 AT_CHECK([[echo "$1" >>expout]])

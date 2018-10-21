@@ -35,7 +35,7 @@ while (<STDIN>)
             $arg =~ s/^=//;
             $arg = lc ($arg);
             my $dir_arg = $arg;
-            # If the argument is compite (e.g., for --define[=NAME[=VALUE]]),
+            # If the argument is complete (e.g., for --define[=NAME[=VALUE]]),
             # put each word in @var, to build @var{name}[=@var{value}], not
             # @var{name[=value]}].
             $arg =~ s/(\w+)/\@var{$1}/g;

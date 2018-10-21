@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	=======================
 
 	The DJGPP port of Bison offers LFN and SFN support depending on which
-	OS it is running. If LFN support is available or not is determinated at
+	OS it is running. If LFN support is available or not is determined at
 	run time.  If LFN support is available (DOS session under Win9X, Win2K,
 	WinXP, etc.) the standard posix file name extensions will be used.
 	These are: y.tab.c, y.tab.c++, y.tab.h, y.output, etc.  If only SFN

@@ -23,7 +23,7 @@ number=1
 # Exit status of this script.
 exit=true
 
-# top_buiddir.
+# top_builddir.
 cwd=`pwd`
 
 # The exercised program.

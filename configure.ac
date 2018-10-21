@@ -163,7 +163,7 @@ if test "$enable_gcc_warnings" = yes; then
   gl_WARN_ADD([-Wno-null-conversion], [FLEX_SCANNER_CXXFLAGS])
   # So does G++ 4.8...
   gl_WARN_ADD([-Wno-sign-compare], [FLEX_SCANNER_CXXFLAGS])
-  # ... possiby in std=c++11 mode.
+  # ... possibly in std=c++11 mode.
   gl_WARN_ADD([-Wno-zero-as-null-pointer-constant], [FLEX_SCANNER_CXXFLAGS])
   CXXFLAGS=$save_CXXFLAGS
   # Clang++ deprecates compiling C.
@@ -219,7 +219,6 @@ gl_INIT
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])
 AM_WITH_DMALLOC
-BISON_PREREQ_TIMEVAR
 
 # Gettext.
 # We use gnulib, which is only guaranteed to work properly with the
@@ -268,7 +267,7 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
 
-gt_JAVACOMP([1.3], [1.4])
+gt_JAVACOMP([1.7], [1.7])
 gt_JAVAEXEC
 
 AC_CONFIG_FILES([Makefile

@@ -190,12 +190,15 @@ Use liberally.
 
 ** TESTSUITEFLAGS
 
-The default is for make check to run all tests sequentially. This can be
-very time consumming when checking repeatedly or on slower setups. This can
-be sped up in two ways:
+To run just the testsuite (not the tests related to the examples), run `make
+check-local`.
+
+The default is for make check-local to run all tests sequentially.  This can
+be very time consuming when checking repeatedly or on slower setups.  This
+can be sped up in two ways:
 
 Using -j, in a make-like fashion, for example:
-  $ make check TESTSUITEFLAGS='-j8'
+  $ make check-local TESTSUITEFLAGS='-j8'
 
 Running only the tests of a certain category, as specified in the AT files
 with AT_KEYWORDS([[category]]). Categories include:
@@ -206,7 +209,7 @@ with AT_KEYWORDS([[category]]). Categories include:
   - report, for automaton dumps
 
 To run a specific set of tests, use -k (for "keyword"). For example:
-  $ make check TESTSUITEFLAGS='-k c++'
+  $ make check-local TESTSUITEFLAGS='-k c++'
 
 Both can be combined.
 

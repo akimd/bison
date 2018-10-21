@@ -45,9 +45,13 @@ done
 [$2[
 %%
 foo: %empty {};
-]])[
+]])
 
-]AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
+# There is not AT_DATA_UNQUOTED.
+AT_CHECK([$PERL -pi -e 's{\$at_dir}'"{$at_group_dir}g" $1])
+
+
+AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
 # Ignore the files non-generated files
 ]AT_CHECK_FILES([$4], [$1])[
 ]$6[
@@ -72,7 +76,7 @@ AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.tab.c],
 
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -y],
                 [y.dot y.output y.tab.c y.tab.h y.xml])
-# With '-o y.tab.c', we expect 'y.output' etc. (for compatility with Yacc).
+# With '-o y.tab.c', we expect 'y.output' etc. (for compatibility with Yacc).
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -o y.tab.c],
                 [y.dot y.output y.tab.c y.tab.h y.xml])
 
@@ -145,6 +149,9 @@ AT_CHECK([grep 'include .subdir/' $1.cc], 1, [])
 AT_CHECK([grep 'include .subdir/' $1.hh], 1, [])
 ])
 
+AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc"], [],
+                [foo.tab.cc])
+
 AT_CHECK_OUTPUT([foo.yy], [%skeleton "lalr1.cc" %verbose], [],
                 [foo.output foo.tab.cc])
 
@@ -175,6 +182,23 @@ AT_CHECK_OUTPUT([gram_dir/foo.yy],
                 [%skeleton "lalr1.cc" %defines %locations %verbose %file-prefix "output_dir/foo"],
                 [],
                 [output_dir/foo.output output_dir/foo.tab.cc output_dir/foo.tab.hh output_dir/location.hh output_dir/position.hh output_dir/stack.hh])
+
+# %require "3.2" => no position.hh not stack.hh.
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %locations %define api.location.file none %require "3.2"],
+                [],
+                [foo.tab.cc foo.tab.hh])
+
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %locations %define api.location.file "foo.loc.hh" %require "3.2"],
+                [],
+                [foo.loc.hh foo.tab.cc foo.tab.hh])
+
+# Absolute paths.
+AT_CHECK_OUTPUT([foo.yy],
+                [%skeleton "lalr1.cc" %defines %locations %define api.location.file "$at_dir/foo.loc.hh" %require "3.2"],
+                [],
+                [foo.loc.hh foo.tab.cc foo.tab.hh])
 
 
 # AT_CHECK_CONFLICTING_OUTPUT(INPUT-FILE, DIRECTIVES, FLAGS, STDERR,

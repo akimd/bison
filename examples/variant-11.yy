@@ -15,12 +15,13 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+%require "3.2"
 %debug
 %language "c++"
-%defines
 %define api.token.constructor
 %define api.value.type variant
 %define api.value.automove
+%define api.location.file none
 %define parse.assert
 %locations
 
@@ -66,7 +67,7 @@
   make_string_uptr (Args&&... args)
   {
     // std::make_unique is C++14.
-    return std::unique_ptr<std::string>(new std::string{std::forward<Args>(args)...});
+    return string_uptr (new std::string{std::forward<Args> (args)...});
   }
 
   // Convert to string.
@@ -101,10 +102,13 @@ list:
 ;
 
 item:
-  TEXT    { $$ = $1; }
+  TEXT
 | NUMBER  { $$ = make_string_uptr (to_string ($1)); }
 ;
 %%
+
+// The last number return by the scanner is max - 1.
+int max = 4;
 
 namespace yy
 {
@@ -121,22 +125,17 @@ namespace yy
   yylex ()
   {
     static auto count = 0u;
-    auto stage = count;
+    const auto stage = count;
     ++count;
     auto loc = parser::location_type{nullptr, stage + 1, stage + 1};
-    switch (stage)
-      {
-      case 0:
-        return parser::make_TEXT (make_string_uptr ("I have three numbers for you."), std::move (loc));
-      case 1:
-      case 2:
-      case 3:
-        return parser::make_NUMBER (stage, std::move (loc));
-      case 4:
-        return parser::make_TEXT (make_string_uptr ("And that's all!"), std::move (loc));
-      default:
-        return parser::make_END_OF_FILE (std::move (loc));
-      }
+    if (stage == 0)
+      return parser::make_TEXT (make_string_uptr ("I have numbers for you."), std::move (loc));
+    else if (stage < max)
+      return parser::make_NUMBER (stage, std::move (loc));
+    else if (stage == max)
+      return parser::make_TEXT (make_string_uptr ("And that's all!"), std::move (loc));
+    else
+      return parser::make_END_OF_FILE (std::move (loc));
   }
 
   // Mandatory error function
@@ -148,8 +147,10 @@ namespace yy
 }
 
 int
-main ()
+main (int argc, const char *argv[])
 {
+  if (2 <= argc && isdigit (*argv[1]))
+    max = strtol (argv[1], nullptr, 10);
   auto&& p = yy::parser{};
   p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();

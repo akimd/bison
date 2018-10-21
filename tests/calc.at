@@ -247,8 +247,8 @@ AT_SKEL_CC_IF(
 {
   semantic_value ival;
 };
-%printer { ]AT_SKEL_CC_IF([[yyoutput << $$]],
-                          [[fprintf (yyoutput, "%d", $$)]])[; } <ival>;
+%printer { ]AT_SKEL_CC_IF([[yyo << $$]],
+                          [[fprintf (yyo, "%d", $$)]])[; } <ival>;
 
 %code provides
 {
@@ -303,7 +303,7 @@ line:
 ;
 
 exp:
-  NUM                { $$ = $1;             }
+  NUM
 | exp '=' exp
   {
     if ($1 != $3)
@@ -495,9 +495,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
 AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]]), [], [$2])
-AT_CHECK_SPACES(m4_join([ ],
-                        [calc.AT_SKEL_CC_IF([cc], [c])],
-                        [AT_DEFINES_IF([calc.AT_SKEL_CC_IF([hh], [h])])]))
+AT_CHECK_SPACES([calc.AT_LANG_EXT AT_DEFINES_IF([calc.AT_LANG_HDR])])
 
 # Test the priorities.
 _AT_CHECK_CALC([$1],
@@ -570,7 +568,7 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1], [113],
 calc: error: 2222 != 1])
 
 # Check that yyerrok works properly: second error is not reported,
-# third and fourth are.  Parse status is succesfull.
+# third and fourth are.  Parse status is succesful.
 _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)], [113],
 [1.2: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 1.10: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
@@ -696,6 +694,8 @@ AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %debug %
 AT_CHECK_CALC_LALR1_CC([%define parse.error verbose %debug %define api.prefix {calc} %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 AT_CHECK_CALC_LALR1_CC([%defines %locations %define parse.error verbose %debug %define api.prefix {calc} %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 
+AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.location.file none])
+AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.location.file "my-location.hh"])
 
 
 # --------------------------- #

@@ -15,11 +15,12 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+%require "3.2"
 %debug
 %language "c++"
-%defines
 %define api.token.constructor
 %define api.value.type variant
+%define api.location.file none
 %define parse.assert
 %locations
 
@@ -48,7 +49,7 @@ typedef std::vector<std::string> strings_type;
     {
       o << '{';
       const char *sep = "";
-      for (strings_type::const_iterator i = ss.begin(), end = ss.end();
+      for (strings_type::const_iterator i = ss.begin (), end = ss.end ();
            i != end; ++i)
         {
           o << sep << *i;
@@ -89,13 +90,18 @@ list:
 ;
 
 item:
-  TEXT    { std::swap ($$, $1); }
+  TEXT
 | NUMBER  { $$ = to_string ($1); }
 ;
 %%
 
 namespace yy
 {
+  // Use nullptr with pre-C++11.
+#if defined __cplusplus && __cplusplus < 201103L
+# define nullptr 0
+#endif
+
   // The yylex function providing subsequent tokens:
   // TEXT         "I have three numbers for you."
   // NUMBER       1
@@ -110,7 +116,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
+    parser::location_type loc (nullptr, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:

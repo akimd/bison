@@ -61,18 +61,30 @@ This special exception was added by the Free Software Foundation in
 version 2.2 of Bison.])])
 
 
+# b4_required_version_if(VERSION, IF_NEWER, IF_OLDER)
+# ---------------------------------------------------
+# If the version %require'd by the user is VERSION (or newer) expand
+# IF_NEWER, otherwise IF_OLDER.  VERSION should be an integer, e.g.,
+# 302 for 3.2.
+m4_define([b4_required_version_if],
+[m4_if(m4_eval($1 <= b4_required_version),
+              [1], [$2], [$3])])
+
+
 ## -------- ##
 ## Output.  ##
 ## -------- ##
 
-# b4_output_begin(FILE)
-# ---------------------
+# b4_output_begin(FILE1, FILE2)
+# -----------------------------
 # Enable output, i.e., send to diversion 0, expand after "#", and
 # generate the tag to output into FILE.  Must be followed by EOL.
+# FILE is FILE1 concatenated to FILE2.  FILE2 can be empty, or be
+# absolute: do the right thing.
 m4_define([b4_output_begin],
 [m4_changecom()
 m4_divert_push(0)dnl
-@output(m4_unquote([$1])@)@dnl
+@output(m4_unquote([$1])@,m4_unquote([$2])@)@dnl
 ])
 
 
@@ -715,7 +727,7 @@ _b4_percent_define_ifdef([$1],
 # Mimic muscle_percent_define_get_loc in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is undefined, complain fatally since that's
 # a Bison or skeleton error.  Otherwise, return its definition location in a
-# form approriate for the first two arguments of b4_warn_at, b4_complain_at, or
+# form appropriate for the first two arguments of b4_warn_at, b4_complain_at, or
 # b4_fatal_at.  Don't record this as a Bison usage of VARIABLE as there's no
 # reason to suspect that the user-supplied value has yet influenced the output.
 #
@@ -787,6 +799,39 @@ m4_define([b4_percent_define_ifdef],
 [_b4_percent_define_ifdef([$1],
                          [b4_percent_define_use([$1])$2],
                          [$3])])
+
+
+# b4_percent_define_check_file_complain(VARIABLE)
+# -----------------------------------------------
+# Warn about %define variable VARIABLE having an incorrect
+# value.
+m4_define([b4_percent_define_check_file_complain],
+[b4_complain_at(b4_percent_define_get_loc([$1]),
+                [[%%define variable '%s' requires 'none' or '"..."' values]],
+                [$1])])
+
+
+# b4_percent_define_check_file(MACRO, VARIABLE, DEFAULT)
+# ------------------------------------------------------
+# If the %define variable VARIABLE:
+# - is undefined, then if DEFAULT is non-empty, define MACRO to DEFAULT
+# - is a string, define MACRO to its value
+# - is the keyword 'none', do nothing
+# - otherwise, warn about the incorrect value.
+m4_define([b4_percent_define_check_file],
+[b4_percent_define_ifdef([$2],
+  [m4_case(b4_percent_define_get_kind([$2]),
+    [string],
+         [m4_define([$1], b4_percent_define_get([$2]))],
+    [keyword],
+         [m4_if(b4_percent_define_get([$2]), [none], [],
+                [b4_percent_define_check_file_complain([$2])])],
+    [b4_percent_define_check_file_complain([$2])])
+   ],
+   [m4_ifval([$3],
+             [m4_define([$1], [$3])])])
+])
+
 
 
 ## --------- ##
@@ -951,7 +996,7 @@ m4_define([b4_percent_code_ifdef],
 # b4_parse_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
 # b4_token_ctor_if([IF-YYLEX-RETURNS-A-TOKEN], [IF-NOT])
-# ----------------------------------------------
+# ----------------------------------------------------------
 b4_percent_define_if_define([token_ctor], [api.token.constructor])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])

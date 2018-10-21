@@ -20,6 +20,7 @@
 
 BUILT_SOURCES += $(mfcalc_sources)
 CLEANFILES +=  %D%/mfcalc.[ch] %D%/mfcalc.output
+CLEANDIRS += %D%/*.dSYM
 
 mfcalc_extracted = %D%/calc.h %D%/mfcalc.y
 mfcalc_sources = $(mfcalc_extracted)

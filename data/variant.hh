@@ -55,15 +55,15 @@ dummy[]_b4_char_sizeof_counter])
 # ---------------------------
 # To be mapped on the list of type names to produce:
 #
-#    char dummy1[sizeof(type_name_1)];
-#    char dummy2[sizeof(type_name_2)];
+#    char dummy1[sizeof (type_name_1)];
+#    char dummy2[sizeof (type_name_2)];
 #
 # for defined type names.
 m4_define([b4_char_sizeof],
 [b4_symbol_if([$1], [has_type],
 [
 m4_map([      b4_symbol_tag_comment], [$@])dnl
-      char _b4_char_sizeof_dummy@{sizeof(b4_symbol([$1], [type]))@};
+      char _b4_char_sizeof_dummy@{sizeof (b4_symbol([$1], [type]))@};
 ])])
 
 
@@ -117,7 +117,7 @@ m4_define([b4_variant_define],
     /// Instantiate an empty \a T in here.
     template <typename T>
     T&
-    build ()
+    emplace ()
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
@@ -125,15 +125,46 @@ m4_define([b4_variant_define],
       return *new (yyas_<T> ()) T ();
     }
 
+# if defined __cplusplus && 201103L <= __cplusplus
+    /// Instantiate a \a T in here from \a t.
+    template <typename T, typename U>
+    T&
+    emplace (U&& u)
+    {]b4_parse_assert_if([
+      YYASSERT (!yytypeid_);
+      YYASSERT (sizeof (T) <= S);
+      yytypeid_ = & typeid (T);])[
+      return *new (yyas_<T> ()) T (std::forward <U>(u));
+    }
+# else
     /// Instantiate a \a T in here from \a t.
     template <typename T>
     T&
-    build (const T& t)
+    emplace (const T& t)
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
       YYASSERT (sizeof (T) <= S);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
+    }
+# endif
+
+    /// Instantiate an empty \a T in here.
+    /// Obsolete, use emplace.
+    template <typename T>
+    T&
+    build ()
+    {
+      return emplace<T> ();
+    }
+
+    /// Instantiate a \a T in here from \a t.
+    /// Obsolete, use emplace.
+    template <typename T>
+    T&
+    build (const T& t)
+    {
+      return emplace<T> (t);
     }
 
     /// Accessor to a built \a T.
@@ -163,7 +194,7 @@ m4_define([b4_variant_define],
     /// Both variants must be built beforehand, because swapping the actual
     /// data requires reading it (with as()), and this is not possible on
     /// unconstructed variants: it would require some dynamic testing, which
-    /// should not be the variant's responsability.
+    /// should not be the variant's responsibility.
     /// Swapping between built and (possibly) non-built is done with
     /// variant::move ().
     template <typename T>
@@ -182,10 +213,10 @@ m4_define([b4_variant_define],
     void
     move (self_type& other)
     {
-      build<T> ();
 # if defined __cplusplus && 201103L <= __cplusplus
-      as<T> () = YY_MOVE (other.as<T> ());
+      emplace<T> (std::move (other.as<T> ()));
 # else
+      emplace<T> ();
       swap<T> (other);
 # endif
       other.destroy<T> ();
@@ -197,8 +228,7 @@ m4_define([b4_variant_define],
     void
     move (self_type&& other)
     {
-      build<T> ();
-      as<T> () = YY_MOVE (other.as<T> ());
+      emplace<T> (std::move (other.as<T> ()));
       other.destroy<T> ();
     }
 #endif
@@ -208,7 +238,7 @@ m4_define([b4_variant_define],
     void
     copy (const self_type& other)
     {
-      build<T> (other.as<T> ());
+      emplace<T> (other.as<T> ());
     }
 
     /// Destroy the stored \a T.
@@ -222,7 +252,7 @@ m4_define([b4_variant_define],
 
   private:
     /// Prohibit blind copies.
-    self_type& operator=(const self_type&);
+    self_type& operator= (const self_type&);
     variant (const self_type&);
 
     /// Accessor to raw memory as \a T.
@@ -271,7 +301,7 @@ m4_define([b4_value_type_declare],
     {]b4_type_foreach([b4_char_sizeof])[};
 
     /// Symbol semantic values.
-    typedef variant<sizeof(union_type)> semantic_type;][]dnl
+    typedef variant<sizeof (union_type)> semantic_type;][]dnl
 ])
 
 

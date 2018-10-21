@@ -231,9 +231,9 @@ b4_public_types_define([cc])])[
   {]b4_locations_if([[
     YYUSE (yylocationp);]])[
     YYUSE (yyvaluep);
-    std::ostream& yyoutput = debug_stream ();
-    std::ostream& yyo = yyoutput;
-    YYUSE (yyo);
+    std::ostream& yyo = debug_stream ();
+    std::ostream& yyoutput = yyo;
+    YYUSE (yyoutput);
     ]b4_symbol_actions([printer])[
   }
 
@@ -281,28 +281,31 @@ b4_public_types_define([cc])])[
 b4_namespace_close
 ])
 
+
 # b4_shared_declarations(hh|cc)
 # -----------------------------
 # Declaration that might either go into the header (if --defines, $1 = hh)
-# or open coded in the parser body.
+# or in the implementation file.
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 b4_percent_code_get([[requires]])[
-
+#include <iostream>
 #include <stdexcept>
 ]b4_parse_assert_if([#include <cassert>])[
 #include <string>
-#include <iostream>]b4_defines_if([
-b4_bison_locations_if([[#include "location.hh"]])])[
+
+]m4_ifdef([b4_location_file],
+          [[# include ]b4_location_include])[
+
+]b4_null_define[
 
 ]b4_cxx_portability[
 ]b4_variant_if([b4_variant_includes])[
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
-]b4_defines_if([],
-[b4_bison_locations_if([b4_position_define
-b4_location_define])])[
+]b4_bison_locations_if([m4_ifndef([b4_location_file],
+                                  [b4_location_define])])[
 
 ]b4_variant_if([b4_variant_define])[
 

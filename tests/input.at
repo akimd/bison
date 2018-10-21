@@ -20,6 +20,31 @@ AT_BANNER([[Input Processing.]])
 # Mostly test that we are robust to mistakes.
 
 
+## ----------------------------- ##
+## Invalid number of arguments.  ##
+## ----------------------------- ##
+
+AT_SETUP([Invalid number of arguments])
+
+AT_BISON_CHECK([], [1], [],
+[[bison: missing operand
+Try 'bison --help' for more information.
+]])
+
+AT_BISON_CHECK([1.y 2.y], [1], [],
+[[bison: extra operand '2.y'
+Try 'bison --help' for more information.
+]])
+
+AT_BISON_CHECK([--skeleton], [1], [],
+[[bison: option '--skeleton' requires an argument
+Try 'bison --help' for more information.
+]])
+
+AT_CLEANUP
+
+
+
 ## ----------------- ##
 ## Invalid options.  ##
 ## ----------------- ##
@@ -1620,6 +1645,29 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 input.y:1.9-21:     accepted value: 'pull'
 input.y:1.9-21:     accepted value: 'push'
 input.y:1.9-21:     accepted value: 'both'
+]])
+
+AT_CLEANUP
+
+
+
+## ------------------------ ##
+## %define file variables.  ##
+## ------------------------ ##
+
+AT_SETUP([["%define" file variables]])
+
+AT_DATA([[input.y]],
+[[%skeleton "lalr1.cc"
+%locations
+%define api.location.file {bogus}
+%%
+start: %empty;
+]])
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
+[[input.y:3.9-25: error: %define variable 'api.location.file' requires 'none' or '"..."' values
+ %define api.location.file {bogus}
+         ^^^^^^^^^^^^^^^^^
 ]])
 
 AT_CLEANUP

@@ -51,8 +51,9 @@ int report_flag = report_none;
 int trace_flag = trace_none;
 
 static struct bison_language const valid_languages[] = {
-  { "c", "c-skel.m4", ".c", ".h", true },
-  { "c++", "c++-skel.m4", ".cc", ".hh", true },
+  /* lang,  skeleton,       ext,     hdr,     add_tab */
+  { "c",    "c-skel.m4",    ".c",    ".h",    true },
+  { "c++",  "c++-skel.m4",  ".cc",   ".hh",   true },
   { "java", "java-skel.m4", ".java", ".java", false },
   { "", "", "", "", false }
 };
@@ -127,7 +128,7 @@ flags_argmatch (const char *opt,
 
 /** Decode a set of sub arguments.
  *
- *  \param FlagName  the flag familly to update.
+ *  \param FlagName  the flag family to update.
  *  \param Args      the effective sub arguments to decode.
  *  \param All       the "all" value.
  *
@@ -360,6 +361,8 @@ FEATURE is a list of comma separated words that can include:\n\
       fputs (_("General help using GNU software: "
                "<http://www.gnu.org/gethelp/>.\n"),
              stdout);
+
+#if (defined __GLIBC__ && __GLIBC__ >= 2) && !defined __UCLIBC__
       /* Don't output this redundant message for English locales.
          Note we still output for 'C' so that it gets included in the
          man page.  */
@@ -372,6 +375,7 @@ FEATURE is a list of comma separated words that can include:\n\
            email address.  */
         fputs (_("Report translation bugs to "
                  "<http://translationproject.org/team/>.\n"), stdout);
+#endif
       fputs (_("For complete documentation, run: info bison.\n"), stdout);
     }
 
@@ -429,8 +433,7 @@ language_argmatch (char const *arg, int prio, location loc)
 
   if (prio < language_prio)
     {
-      int i;
-      for (i = 0; valid_languages[i].language[0]; i++)
+      for (int i = 0; valid_languages[i].language[0]; ++i)
         if (c_strcasecmp (arg, valid_languages[i].language) == 0)
           {
             language_prio = prio;
@@ -721,7 +724,7 @@ getargs (int argc, char *argv[])
   if (argc - optind != 1)
     {
       if (argc - optind < 1)
-        error (0, 0, _("%s: missing operand"), quotearg_colon (argv[argc - 1]));
+        error (0, 0, _("missing operand"));
       else
         error (0, 0, _("extra operand %s"), quote (argv[optind + 1]));
       usage (EXIT_FAILURE);

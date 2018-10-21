@@ -36,7 +36,7 @@ CLEANFILES +=					\
   %D%/parser.output				\
   %D%/parser.stamp				\
   %D%/scanner.cc
-
+CLEANDIRS += %D%/*.dSYM
 
 ## -------------------- ##
 ## Building & testing.  ##

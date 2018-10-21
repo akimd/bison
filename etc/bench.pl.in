@@ -53,7 +53,7 @@ will generate eight different cases.
 
 =item B<-b>, B<--bench>
 
-Predefined benches, that is, combimation between a grammar and a I<directives>
+Predefined benches, that is, combination between a grammar and a I<directives>
 request.
 
 =over 4

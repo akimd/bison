@@ -2,6 +2,20 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+
+* Noteworthy changes in release 3.1.91 (2018-10-18) [beta]
+
+** Bug fixes
+
+  With modern C++, the parser stack failed to grow properly.
+
+* Noteworthy changes in release 3.1.90 (2018-10-17) [beta]
+
+** Backward incompatible changes
+
+  Support for DJGPP, which have been unmaintained and untested for years, is
+  obsolete.  Unless there is activity to revive it, it will be removed.
+
 ** New features
 
 *** C++: Support for move semantics (lalr1.cc)
@@ -21,8 +35,8 @@ GNU Bison NEWS
     %%
 
     %token <int> INT "int";
-    %nterm <std::unique_ptr<int>> int;
-    %nterm <std::vector<std::unique_ptr<int>>> list;
+    %type <std::unique_ptr<int>> int;
+    %type <std::vector<std::unique_ptr<int>>> list;
 
     list:
       %empty    {}
@@ -62,6 +76,88 @@ GNU Bison NEWS
   generated code is valid C++98/03, but will use copies instead of moves.
 
   The new examples/variant-11.yy shows these features in action.
+
+*** C++: The implicit default semantic action is always run
+
+  When variants are enabled, the default action was not run, so
+
+    exp: "number"
+
+  was equivalent to
+
+    exp: "number"  {}
+
+  It now behaves like in all the other cases, as
+
+    exp: "number"  { $$ = $1; }
+
+  possibly using std::move if automove is enabled.
+
+  We do not expect backward compatibility issues.  However, beware of
+  forward compatibility issues: if you rely on default actions with
+  variants, be sure to '%require "3.2"' to avoid older versions of Bison to
+  generate incorrect parsers.
+
+*** C++: Renaming location.hh
+
+  When both %defines and %locations are enabled, Bison generates a
+  location.hh file.  If you don't use locations outside of the parser, you
+  may avoid its creation with:
+
+    %define api.location.file none
+
+  However this file is useful if, for instance, your parser builds an AST
+  decorated with locations: you may use Bison's location independently of
+  Bison's parser.  You can now give it another name, for instance:
+
+    %define api.location.file "my-location.hh"
+
+  This name can have directory components, and even be absolute.  The name
+  under which the location file is included is controlled by
+  api.location.include.
+
+  This way it is possible to have several parsers share the same location
+  file.
+
+  For instance, in src/foo/parser.hh, generate the include/ast/loc.hh file:
+
+    %locations
+    %define api.namespace {foo}
+    %define api.location.file "include/ast/loc.hh"
+    %define api.location.include {<ast/loc.hh>}
+
+  and use it in src/bar/parser.hh:
+
+    %locations
+    %define api.namespace {bar}
+    %code requires {#include <ast/loc.hh>}
+    %define api.location.type {bar::location}
+
+  Absolute file names are supported, so in your Makefile, passing the flag
+  -Dapi.location.file='"$(top_srcdir)/include/ast/location.hh"' to bison is
+  safe.
+
+*** C++: stack.hh and position.hh are deprecated
+
+  When asked to generate a header file (%defines), the lalr1.cc skeleton
+  generates a stack.hh file.  This file had no interest for users; it is now
+  made useless: its content is included in the parser definition.  It is
+  still generated for backward compatibility.
+
+  When in addition to %defines, location support is requested (%locations),
+  the file position.hh is also generated.  It is now also useless: its
+  content is now included in location.hh.
+
+  These files are no longer generated when your grammar file requires at
+  least Bison 3.2 (%require "3.2").
+
+** Bug fixes
+
+  Portability issues on MinGW and VS2015.
+
+  Portability issues in the test suite.
+
+  Portability/warning issues with Flex.
 
 * Noteworthy changes in release 3.1 (2018-08-27) [stable]
 
@@ -3024,7 +3120,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
  LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir
  LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles outout PROG
- LocalWords:  Heimbigner
+ LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW
 
 Local Variables:
 mode: outline

@@ -110,23 +110,20 @@ matrix:
     ## Clang.  ##
     ## ------- ##
 
-# Travis is not ready yet for llvm-toolchain-trusty-7.
-#
-#    - name: "Clang 7 ASAN and libc++"
-#      os: linux
-#      addons:
-#        apt:
-#          sources:
-#            - llvm-toolchain-trusty-7
-#            - ubuntu-toolchain-r-test
-#          packages:
-#            - clang-7.0
-#            - libc++-dev
-#            # For llvm-symbolizer.
-#            - llvm-7.0
-#      env:
-#        - MATRIX_EVAL="CC='clang-7.0 -fsanitize=address' CXX='clang++-7.0 -fsanitize=address -stdlib=libc++'"
-#        - ASAN_SYMBOLIZER_PATH=/usr/lib/llvm-7.0/bin/llvm-symbolizer
+    - name: "Clang 7 libc++ and ASAN"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-7
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-7
+            - libc++-7-dev
+            - libc++abi-7-dev
+      env:
+        # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
+        - MATRIX_EVAL="CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
 
     - name: "Clang 6 -O3 and libc++"
       os: linux
@@ -139,10 +136,10 @@ matrix:
             - clang-6.0
             - libc++-dev
       env:
-        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - MATRIX_EVAL="CC=clang-6.0 && CXX='clang++-6.0 -stdlib=libc++'"
         - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
-    - name: "Clang 5 ASAN"
+    - name: "Clang 5"
       os: linux
       addons:
         apt:
@@ -152,7 +149,7 @@ matrix:
             - clang-5.0
             - libc++-dev
       env:
-        - MATRIX_EVAL="CC='clang-5.0 -fsanitize=address' CXX='clang++-5.0 -fsanitize=address -stdlib=libc++'"
+        - MATRIX_EVAL="CC='clang-5.0' CXX='clang++-5.0'"
 
     - name: "Clang 4"
       os: linux

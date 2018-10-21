@@ -43,6 +43,7 @@ AM_CFLAGS = $(WARN_CFLAGS)
 # instead of "-Ilib" avoids infinite recursions on #include_next.
 AM_CPPFLAGS = -I. -I./lib -I$(top_srcdir) -I$(top_srcdir)/lib
 BUILT_SOURCES =
+CLEANDIRS =
 CLEANFILES =
 DISTCLEANFILES =
 EXTRA_DIST += $(dist_TESTS)
@@ -63,6 +64,9 @@ include examples/local.mk
 include lib/local.mk
 include src/local.mk
 include tests/local.mk
+
+clean-local:
+	rm -rf $(CLEANDIRS)
 
 # See comments in build-aux/git-version-gen.  However, we make .version depend
 # on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the

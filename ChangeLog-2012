@@ -3671,12 +3671,12 @@
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
 	Copyright years.
-	* data/glr.c: Add 2007 and 2008 here, consistenly with the comments.
+	* data/glr.c: Add 2007 and 2008 here, consistently with the comments.
 
 2009-02-25  Akim Demaille  <demaille@gostai.com>
 
 	Style changes.
-	* etc/bench.pl.in (generate_grammar_list): Consitently use
+	* etc/bench.pl.in (generate_grammar_list): Consistently use
 	location_type, not yy::location.
 
 2009-02-25  Akim Demaille  <demaille@gostai.com>
@@ -3702,7 +3702,7 @@
 	Remove trailing blanks.
 	The epilogue has its own ending \n, no need to add another.
 
-	* data/glr.c, data/lalr1.java, data/yacc.c: dnl when outputing the
+	* data/glr.c, data/lalr1.java, data/yacc.c: dnl when outputting the
 	epilogue.
 	* data/glr.cc: dnl when extending the epilogue.
 	Remove stray "private:".
@@ -3764,7 +3764,7 @@
 2008-12-11  Akim Demaille  <demaille@gostai.com>
 
 	Pass the token type to yysyntax_error.
-	* data/yacc.c (yysyntax_error): Take the transated token instead
+	* data/yacc.c (yysyntax_error): Take the translated token instead
 	of the raw number.
 	Adjust callers.
 	* TODO: Update.
@@ -5019,7 +5019,7 @@
 
 	Now instead of monolithic tables, we define one macro per cell.  For
 	instance "b4_symbol(0, tag)" is a macro name which contents is
-	self-decriptive.  The macro "b4_symbol" provides easier access to
+	self-descriptive.  The macro "b4_symbol" provides easier access to
 	these cells.
 
 	* src/output.c (type_names_output): Remove.
@@ -5200,7 +5200,7 @@
 
 2008-11-09  Akim Demaille  <demaille@gostai.com>
 
-	Agregate yylval and yylloc.
+	Aggregate yylval and yylloc.
 	* data/lalr1.cc (parser::yylval, parser::yylloc): Replace by...
 	(parser::yyla): this.
 
@@ -5815,7 +5815,7 @@
 	of members.  Document that token names are added as fields.
 	Document constructors accurately.  Remove error method.
 	(Java Scanner Interface): Move note on %pure-parser to Java Bison
-	Interface.  Describe %code lexer and yylex accutately.
+	Interface.  Describe %code lexer and yylex accurately.
 	Remove documentation that does not match the code.
 	(Java Action Features): New.
 	(Java Differences): Add reference.  Add item on semantic values.
@@ -6432,7 +6432,7 @@
 	* djgpp/config.site: Copyright timestamp adjusted.
 	* djgpp/config_h.sed: Copyright timestamp adjusted.
 	* djgpp/djunpack.bat: Copyright timestamp adjusted.
-	* djgpp/fnchnage.lst: Add filenames that are not 8.3 clean to the
+	* djgpp/fnchange.lst: Add filenames that are not 8.3 clean to the
 	filename translation list.
 	* djgpp/subpipe.c (init_subpipe): Check the environment variables
 	TMPDIR, TMP and TEMP, in that order, to determinate where the temp
@@ -7588,7 +7588,7 @@
 2007-03-07  Juan Manuel Guerrero  <juan.guerrero@gmx.de>
 
 	DJGPP spefic issue.  Inhibit the use of disallowed characters for
-	file name genertion on Win98, WinXP, etc.  These are |<>":?*\
+	file name generation on Win98, WinXP, etc.  These are |<>":?*\
 	and concern testsuite case 46.
 	* Makefile.am: djgpp/testsuite.sed added to EXTRA_DIST
 	* djgpp/testsuite.sed: Inhibit the use of disallowed characters.
@@ -8796,7 +8796,7 @@
 2006-12-13  Paul Eggert  <eggert@cs.ucla.edu>
 
 	* TODO: Add pointer to Sylvain Schmitz's work on static detection
-	of potential ambiguities in GLR grammers.
+	of potential ambiguities in GLR grammars.
 
 2006-12-12  Joel E. Denny  <jdenny@ces.clemson.edu>
 
@@ -9059,7 +9059,7 @@
 	* src/scan-gram.l (<SC_BRACED_CODE>): Use val->code for BRACED_CODE,
 	which is "{...}" in the parser.
 	* tests/Makefile.am (maintainer-check-valgrind): Set
-	VALGRIND_OPTS='--leak-check=full --show-reacheable=yes' before invoking
+	VALGRIND_OPTS='--leak-check=full --show-reachable=yes' before invoking
 	Valgrind.
 	* tests/calc.at (_AT_DATA_CALC_Y): fclose the FILE* so Valgrind doesn't
 	complain.
@@ -12349,7 +12349,7 @@
 	* data/lalr1.cc: here.
 	(location.hh): Include it after the user prologue, in case the
 	filename type is defined by the user.
-	Forward declation location and position before the pre-prologue.
+	Forward declaration location and position before the pre-prologue.
 	(yyresult_): Rename as...
 	(yyresult): this, it's a local variable, not an attribute.
 	* data/Makefile.am (dist_pkgdata_DATA): Adjust.
@@ -12439,8 +12439,8 @@
 	(Table of Symbols): Under YYSTACK_USE_ALLOCA, Don't claim that the
 	user must declare alloca.
 
-	* HACKING (release): Forwarn the Translation Project about
-	stable releses.
+	* HACKING (release): Forewarn the Translation Project about
+	stable releases.
 
 2005-09-20  Akim Demaille  <akim@epita.fr>
 
@@ -13165,7 +13165,7 @@
 	not GNU M4, and that it works with any POSIX-compatible Awk.
 	* examples/calc++/Makefile.am (run_extexi): Remove; not used.
 	($(calc_extracted)): Renamed from $(calc_sources_extracted),
-	so that we also get calc++-parser.yy.  Geneate it.
+	so that we also get calc++-parser.yy.  Generate it.
 	Use $(AWK), not gawk, since any conforming Awk will do.
 	Put comment before action, since older 'make' can't handle comment
 	in action.
@@ -13993,7 +13993,7 @@
 	* src/LR0.c (allocate_itemsets): Use xnmalloc, not xcalloc,
 	to allocate kernel_base, kernel_items, kernel_size, since
 	they needn't be initialized to 0.
-	(allocate_storgae): Likewise, for shiftset, redset, shift_symbol.
+	(allocate_storage): Likewise, for shiftset, redset, shift_symbol.
 	* src/closure.c (new_closure): Likewise, for itemset.
 	* src/derives.c (derives_compute): Likewise, for delts, derives, q.
 	* src/lalr.c (set_goto_map): Likewise, for temp_map.
@@ -14181,7 +14181,7 @@
 2004-10-05  Akim Demaille  <akim@epita.fr>
 
 	In Bison 1.875's yacc.c, YYLLOC_DEFAULT was called regardless
-	whether the reducion was empty or not.  This leaves room to
+	whether the reduction was empty or not.  This leaves room to
 	improve the use of YYLLOC_DEFAULT in such a case.
 	lalr1.cc is still experimental, so changing this is acceptable.
 	And finally, there are probably not many users who changed the
@@ -16524,7 +16524,7 @@
 	(struct state): Renamed from struct state_s.
 	(state): Renamed from state_t.
 	(transitions): Renamed from transitions_t.  Unused (and
-	misspelled) transtion_s tag removed.
+	misspelled) transition_s tag removed.
 	(errs): Renamed from errs_t.  Unused errs_s tag removed.
 	(reductions): Renamed from reductions_t.  Unused tag
 	reductions_s removed.
@@ -16612,9 +16612,9 @@
 
 
 	Fix misspelling in names.
-	* src/vcg.h (enum_alignment_e): Renamed from enum_alignement_e.
+	* src/vcg.h (enum_alignment_e): Renamed from enum_alignment_e.
 	* src/vcg_defaults.h (G_NODE_ALIGNMENT): Renamed from
-	G_NODE_ALIGNEMENT.
+	G_NODE_ALIGNMENT.
 
 
 	* lib/timevar.c (timevar_report): Renamed from time_report,
@@ -16866,7 +16866,7 @@
 	* src/tables.c (conflict_row, pack_vector): Likewise.
 	* src/vcg.c (get_color_str, get_textmode_str, get_shape_str,
 	get_layoutalgorithm_str, get_decision_str, get_orientation_str,
-	get_node_alignement_str, get_arrow_mode_str, get_crossing_type_str,
+	get_node_alignment_str, get_arrow_mode_str, get_crossing_type_str,
 	get_view_str, get_linestyle_str, get_arrowstyle_str): Likewise.
 
 	* lib/argmatch.h (ARRAY_CARDINALITY): Do not bother to #undef.
@@ -17365,7 +17365,7 @@
 	(scanner_last_string_free): Remove; not used.
 	(percent_percent_count): Move decl to just before use.
 	(SC_ESCAPED_CHARACTER): Return ID at unexpected end of file,
-	not the (never otherwised-used) CHARACTER.
+	not the (never otherwise-used) CHARACTER.
 
 2002-11-07  Akim Demaille  <akim@epita.fr>
 
@@ -18052,7 +18052,7 @@
 	suite using a GLR parser driven by LALR tables.  It fails with -O2
 	because `struct stat' gives two different answers on my machine:
 	88 (definition of an auto var) and later 96 (memset on this var).
-	Hence the stack is badly corrumpted.  The headers inclusion is to
+	Hence the stack is badly corrupted.  The headers inclusion is to
 	blame: if I move the awk.h inclusion before GLR's system header
 	inclusion, the two struct stat have the same size.
 
@@ -18962,7 +18962,7 @@
 
 2002-07-16  Akim Demaille  <akim@epita.fr>
 
-	* src/assoc.c, src/asssoc.h (assoc_t, assoc_to_string): New.
+	* src/assoc.c, src/assoc.h (assoc_t, assoc_to_string): New.
 	Adjust all former `associativity' dependencies.
 	* src/symtab.c (symbol_new): Default associativity is `undef', not
 	`right'.
@@ -20105,7 +20105,7 @@
 
 	* data/bison.c++: Catch up with bison.simple:
 	2002-05-24  Paul Hilfinger  <Hilfinger@CS.Berkeley.EDU>
-	and Paul Eggert  <eggert@twinsun.com>: `error' handing.
+	and Paul Eggert  <eggert@twinsun.com>: `error' handling.
 	2002-05-26  Akim Demaille  <akim@epita.fr>: stos_, token_number_,
 	and popping traces.
 
@@ -20455,7 +20455,7 @@
 	single characters while replacing `[' and `]' with quadrigraphs, to
 	avoid troubles with M4 quotes.
 	(copy_comment): Output characters with copy_character.
-	(read_additionnal_code): Likewise.
+	(read_additional_code): Likewise.
 	(copy_string2): Likewise.
 	(copy_definition): Likewise.
 
@@ -20638,7 +20638,7 @@
 	* data/bison.simple, data/bison.c++: Adjust.
 	* tests/torture.at (Big triangle): Move the limit from 254 to
 	500.
-	* tests/regression.at (Web2c Actions): Ajust.
+	* tests/regression.at (Web2c Actions): Adjust.
 
 	Trying with bigger grammars shows various phenomena: at 3000 (28Mb
 	of grammar file) bison is killed by my system, at 2000 (12Mb) bison
@@ -20949,7 +20949,7 @@
 
 2002-03-05  Robert Anisko  <robert@lrde.epita.fr>
 
-	* src/reader.c (read_additionnal_code): `c' should be an integer, not
+	* src/reader.c (read_additional_code): `c' should be an integer, not
 	a character.
 	Reported by Nicolas Tisserand and Nicolas Burrus.
 
@@ -21070,7 +21070,7 @@
 
 	* src/L0.c, src/LR0.h (nstates): Be size_t.
 	Adjust comparisons (signed vs unsigned).
-	* src/conflics.c, src/lalr.c, src/lalr.h, src/output.c (LA): Now a
+	* src/conflicts.c, src/lalr.c, src/lalr.h, src/output.c (LA): Now a
 	bitset*.
 	Adjust all dependencies.
 
@@ -22337,7 +22337,7 @@
 
 	* src/bison.simple: Remove #line just before %%epilogue. It
 	is now handled in ...
-	* src/reader.c (read_additionnal_code): Add the output of a
+	* src/reader.c (read_additional_code): Add the output of a
 	#line for the epilogue.
 
 2001-12-10  Marc Autret  <autret_m@epita.fr>
@@ -22797,7 +22797,7 @@
 	on user names when possible.
 
 	(YYSTACK_USE_ALLOCA): Do not define; just use any existing defn.
-	Simplify test for whather <alloca.h> exists.
+	Simplify test for whether <alloca.h> exists.
 
 	(<stdlib.h>): Include if we will use malloc, and if standard C or C++.
 
@@ -23563,7 +23563,7 @@
 
 2001-10-04  Akim Demaille  <akim@epita.fr>
 
-	* src/reader.c (parse_union_decl): Push the caracters in
+	* src/reader.c (parse_union_decl): Push the characters in
 	union_obstack, not attrs_obstack.
 
 2001-10-04  Akim Demaille  <akim@epita.fr>
@@ -23844,7 +23844,7 @@
 
 	* src/vcg.h (graph_s): color, textcolor, bordercolor are now
 	enum color_e.
-	* src/print_graph.c (print_graph): Initalize graph.layoutalgorithm
+	* src/print_graph.c (print_graph): Initialize graph.layoutalgorithm
 	to `normal'.
 	* src/reader.c (parse_token_decl): Initialize token with tok_eof.
 	* src/lex.h: Adjust prototype.
@@ -23999,7 +23999,7 @@
 
 	* src/vcg.c: Remove includes of `complain.h' and `xalloc.h'.
 	(get_xxxx_str): Use assert () instead of complain ().
-	Remove return invokations in default cases.
+	Remove return invocations in default cases.
 	(get_decision_str): Modify default behaviour. Remove second argument.
 	Echo modifications on calls.
 	(output_graph): Fix.
@@ -24030,7 +24030,7 @@
 	informations about %union.
 	(parse_union_decl): Copy the union_obstack in the muscle stype.
 	* src/bison.simple: Add new #line directive.
-	Add typdef %%stype YYSTYPE.
+	Add typedef %%stype YYSTYPE.
 
 2001-09-23  Pascal Bart  <pascal.bart@epita.fr>
 
@@ -24115,7 +24115,7 @@
 	(parse_union_decl): Update.
 	(parse_macro_decl): Rename parse_muscle_decl.
 	Update to use renamed functions and variable.
-	(read_declarations, copy_action, read_additionnal_code, : Updated
+	(read_declarations, copy_action, read_additional_code, : Updated
 	with correct variables and functions names.
 	(packsymbols, reader): Likewise.
 
@@ -24196,7 +24196,7 @@
 
 2001-08-31  Pascal Bart  <pascal.bart@epita.fr>, Marc Autret  <autret_m@epita.fr>
 
-	* src/reader.c (read_additionnal_code): Rename %%user_code to
+	* src/reader.c (read_additional_code): Rename %%user_code to
 	%%epilogue.
 	* src/output.c (output): Rename %%declarations to %%prologue.
 	* src/bison.simple: Echo modifications.
@@ -24240,7 +24240,7 @@
 2001-08-29  Marc Autret  <autret_m@epita.fr>
 
 	* src/bison.simple: Add %%user_code directive at the end.
-	* src/reader.c (read_additionnal_code): New.
+	* src/reader.c (read_additional_code): New.
 	(reader): Use it.
 	* src/output.c (output_program): Remove.
 	(output): Update.
@@ -24303,7 +24303,7 @@
 	(readgram): Disable a piece of code that was writing a default
 	definition for 'YYSTYPE'.
 	(reader_output_yylsp): Remove.
-	(packsymbols): Output token defintions to a macro.
+	(packsymbols): Output token definitions to a macro.
 	(copy_definition): Disable C output.
 
 	* src/reader.c (parse_macro_decl): New function used to parse macro
@@ -24641,7 +24641,7 @@
 
 2001-07-08  Pascal Bart  <pascal.bart@epita.fr>
 
-	* src/bison.simple (yyparse): Suppress warning `comparaison
+	* src/bison.simple (yyparse): Suppress warning `comparison
 	between signed and unsigned'.
 
 2001-07-05  Pascal Bart  <pascal.bart@epita.fr>
@@ -25128,7 +25128,7 @@
 	* tests/calc.m4: Test it.
 
 	For regularity of the names, replace each
-	(nolineflag, toknumflag, rawtokenumflag, noparserflag): with...
+	(nolineflag, toknumflag, rawtoknumflag, noparserflag): with...
 	(no_lineflag, token_tableflag, rawflag, no_parserflag): this.
 	In addition replace each `flag' with `_flag'.
 
@@ -25731,7 +25731,7 @@
 
 	* src/getargs.c, src/Makefile.am, src/reader.c, src/version.c:
 	Have configure build version string instead of relying on ANSI string
-	concatentation.
+	concatenation.
 
 1999-06-14  Jesse Thilo  <jthilo@gnu.org>
 
@@ -25741,7 +25741,7 @@
 
 	* acconfig.h, configure.in:
 	Have configure build version string instead of relying on ANSI string
-	concatentation.
+	concatenation.
 
 1999-06-08  Jesse Thilo  <jthilo@gnu.org>
 

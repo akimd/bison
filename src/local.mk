@@ -13,8 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-LDADD = lib/libbison.a $(LIBINTL)
-
 bin_PROGRAMS = src/bison
 # Prettify Automake-computed names of compiled objects.
 src_bison_SHORTNAME = bison
@@ -106,16 +104,24 @@ BUILT_SOURCES +=                                \
   src/scan-gram.c                               \
   src/scan-skel.c
 
+src_bison_LDADD =                               \
+  $(LIBINTL)                                    \
+  $(LIBTHREAD)                                  \
+  lib/libbison.a
+
+
+
 
 ## ------ ##
 ## yacc.  ##
 ## ------ ##
 
 if ENABLE_YACC
-bin_SCRIPTS = src/yacc
+  bin_SCRIPTS = src/yacc
 endif
 EXTRA_SCRIPTS = src/yacc
 MOSTLYCLEANFILES += src/yacc
+CLEANDIRS += %D%/*.dSYM
 
 src/yacc:
 	$(AM_V_GEN)rm -f $@ $@.tmp

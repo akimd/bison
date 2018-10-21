@@ -162,18 +162,26 @@ int main()
     std::cerr << ss.value.as<int>() << '\n';
   }
 
-  // pushing on the stack.
+  // Pushing on the stack.
+  // Sufficiently many so that it will be resized.
+  // Probably 3 times (starting at 200).
   {
     parser::stack_type st;
-    for (int i = 0; i < 100; ++i)
+    const int mucho = 1700;
+    for (int i = 0; i < mucho; ++i)
       {
 #if defined __cplusplus && 201103L <= __cplusplus
-        st.push(parser::stack_symbol_type{1, parser::make_INT(123)});
+        st.push(parser::stack_symbol_type{1, parser::make_INT (i)});
 #else
-        parser::symbol_type s = parser::make_INT(123);
-        parser::stack_symbol_type ss(1, s);
-        st.push(ss);
+        parser::symbol_type s = parser::make_INT (i);
+        parser::stack_symbol_type ss (1, s);
+        st.push (ss);
 #endif
+      }
+    for (int i = mucho - 1; 0 <= i; --i)
+      {
+        assert (st[0].value.as<int>() == i);
+        st.pop ();
       }
   }
 }
@@ -453,7 +461,8 @@ AT_FULL_COMPILE([list])
 
 # Are we compiling with modern C++ enabled?
 AT_COMPILE_CXX([modern])
-AT_CHECK([./modern], [ignore], [ignore])
+here=. # Pacify cfg.mk's sc_at_parser_check.
+AT_CHECK([$here/modern], [ignore], [ignore])
 if test $at_status = 0; then
   modern=true
 else
@@ -1330,5 +1339,95 @@ int main ()
 
 AT_BISON_CHECK([[-o input.cc input.yy]])
 AT_FOR_EACH_CXX([AT_COMPILE_CXX([[input]])])
+
+AT_CLEANUP
+
+
+
+## ------------------ ##
+## Shared locations.  ##
+## ------------------ ##
+
+AT_SETUP([Shared locations])
+
+# AT_TEST([PREFIX], [DIRECTIVES])
+# -------------------------------
+# Generate and compile to *.o.  Make sure there is no (allowed) YY*
+# nor yy* identifiers in the header after applying api.prefix.  Check
+# that headers can be compiled by a C++ compiler.
+m4_pushdef([AT_TEST],
+[AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %define api.namespace {$1} $2])
+AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])
+AT_DATA_GRAMMAR([$1.yy],
+[[%skeleton "lalr1.cc"
+%define api.namespace {$1}
+$2
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%%
+exp: '0';
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["0"])[
+]])
+
+AT_BISON_CHECK([-fcaret -o $1.cc $1.yy])
+AT_LANG_COMPILE([$1.o], [], [-Iinclude])
+
+AT_LOC_POPDEF
+AT_BISON_OPTION_POPDEFS
+])
+
+mkdir -p include/ast
+
+AT_TEST([x1],
+        [%defines
+         %locations
+         %define api.location.file "include/ast/loc.hh"
+         %define api.location.include {<ast/loc.hh>}])
+
+# Check the CPP guard and Doxyen comments.
+AT_CHECK([sed -ne '/INCLUDED/p;/\\file/{p;n;p;}' include/ast/loc.hh], [],
+[[ ** \file ast/loc.hh
+ ** Define the x1::location class.
+#ifndef YY_YY_AST_LOC_HH_INCLUDED
+# define YY_YY_AST_LOC_HH_INCLUDED
+#endif // !YY_YY_AST_LOC_HH_INCLUDED
+]])
+
+AT_TEST([x2],
+        [%defines
+         %locations
+         %code requires {#include <ast/loc.hh>}
+         %define api.location.type {x1::location}])
+
+m4_popdef([AT_TEST])
+
+AT_DATA([main.cc],
+[AT_DATA_SOURCE_PROLOGUE
+[#include "x1.hh"
+#include "x2.hh"
+
+#define RUN(S)                                  \
+  do {                                          \
+    S::parser parser;                           \
+    int res = parser.parse();                   \
+    if (res)                                    \
+      std::cerr << #S": " << res << '\n';       \
+  } while (false)
+
+int
+main (void)
+{
+  RUN(x1);
+  RUN(x2);
+}
+]])# main.cc
+
+
+AT_COMPILE_CXX([parser], [[x[12].o main.cc]], [-Iinclude])
+AT_PARSER_CHECK([./parser], [0])
 
 AT_CLEANUP
