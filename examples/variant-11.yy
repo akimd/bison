@@ -116,7 +116,8 @@ namespace yy
   // TEXT         "I have three numbers for you."
   // NUMBER       1
   // NUMBER       2
-  // NUMBER       3
+  // NUMBER       ...
+  // NUMBER       max - 1
   // TEXT         "And that's all!"
   // END_OF_FILE
 
