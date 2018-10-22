@@ -360,7 +360,7 @@ m4_define([b4_shared_declarations],
     void yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym);
 
     /// Pop \a n symbols from the stack.
-    void yypop_ (unsigned n = 1);
+    void yypop_ (int n = 1);
 
     /// Constants.
     enum
@@ -689,7 +689,7 @@ m4_if(b4_prefix, [yy], [],
   }
 
   void
-  ]b4_parser_class_name[::yypop_ (unsigned n)
+  ]b4_parser_class_name[::yypop_ (int n)
   {
     yystack_.pop (n);
   }

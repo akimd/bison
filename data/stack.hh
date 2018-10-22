@@ -52,10 +52,28 @@ m4_define([b4_stack_define],
     /// Random access.
     ///
     /// Index 0 returns the topmost element.
+    T&
+    operator[] (int i)
+    {
+      return operator[] (size_type (i));
+    }
+
+    /// Random access.
+    ///
+    /// Index 0 returns the topmost element.
     const T&
     operator[] (size_type i) const
     {
       return seq_[size () - 1 - i];
+    }
+
+    /// Random access.
+    ///
+    /// Index 0 returns the topmost element.
+    const T&
+    operator[] (int i) const
+    {
+      return operator[] (size_type (i));
     }
 
     /// Steal the contents of \a t.
@@ -69,9 +87,9 @@ m4_define([b4_stack_define],
     }
 
     void
-    pop (size_type n = 1)
+    pop (int n = 1)
     {
-      for (; n; --n)
+      for (; 0 < n; --n)
         seq_.pop_back ();
     }
 
@@ -111,21 +129,20 @@ m4_define([b4_stack_define],
   class slice
   {
   public:
-    typedef typename S::size_type size_type;
-    slice (const S& stack, size_type range)
+    slice (const S& stack, int range)
       : stack_ (stack)
       , range_ (range)
     {}
 
     const T&
-    operator[] (size_type i) const
+    operator[] (int i) const
     {
       return stack_[range_ - i];
     }
 
   private:
     const S& stack_;
-    size_type range_;
+    int range_;
   };
 ]])
 
