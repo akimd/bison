@@ -1,9 +1,19 @@
 * Short term
+** yacc.c
+Now that ylwrap is fixed, we should include foo.tab.h from foo.tab.c rather
+than duplicating it.
+
 ** C++
 Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
 itself uses int (for yylen for instance), yet stack is based on size_t.
 
 Maybe locations should also move to ints.
+
+** C
+Introduce state_type rather than spreading yytype_int16 everywhere?
+
+** glr.c
+yyspaceLeft should probably be a pointer diff.
 
 ** Graphviz display code thoughts
 The code for the --graph option is over two files: print_graph, and
