@@ -27,7 +27,7 @@ b4_defines_if([b4_required_version_if([302], [],
 # ---------------
 m4_define([b4_stack_define],
 [[  /// A stack with random access from its top.
-  template <class T, class S = std::vector<T> >
+  template <typename T, typename S = std::vector<T> >
   class stack
   {
   public:
@@ -46,7 +46,7 @@ m4_define([b4_stack_define],
     T&
     operator[] (size_type i)
     {
-      return seq_[seq_.size () - 1 - i];
+      return seq_[size () - 1 - i];
     }
 
     /// Random access.
@@ -55,7 +55,7 @@ m4_define([b4_stack_define],
     const T&
     operator[] (size_type i) const
     {
-      return seq_[seq_.size () - 1 - i];
+      return seq_[size () - 1 - i];
     }
 
     /// Steal the contents of \a t.
@@ -107,7 +107,7 @@ m4_define([b4_stack_define],
   };
 
   /// Present a slice of the top of a stack.
-  template <class T, class S = stack<T> >
+  template <typename T, typename S = stack<T> >
   class slice
   {
   public:

@@ -11723,7 +11723,7 @@ The rules are simple.  The driver is used to report errors.
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
     throw yy::parser::syntax_error (loc, "integer is out of range: "
                                     + std::string(yytext));
-  return yy::parser::make_NUMBER (n, loc);
+  return yy::parser::make_NUMBER (int (n), loc);
 @}
 @end group
 @{id@}       return yy::parser::make_IDENTIFIER (yytext, loc);

@@ -114,9 +114,10 @@ namespace yy
   parser::symbol_type
   yylex ()
   {
-    static int stage = -1;
-    ++stage;
-    parser::location_type loc (nullptr, stage + 1, stage + 1);
+    static int count = 0;
+    const int stage = count;
+    ++count;
+    parser::location_type loc (nullptr, unsigned (stage + 1), unsigned (stage + 1));
     switch (stage)
       {
       case 0:

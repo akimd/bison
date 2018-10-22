@@ -1,4 +1,10 @@
 * Short term
+** C++
+Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
+itself uses int (for yylen for instance), yet stack is based on size_t.
+
+Maybe locations should also move to ints.
+
 ** Graphviz display code thoughts
 The code for the --graph option is over two files: print_graph, and
 graphviz. This is because Bison used to also produce VCG graphs, but since

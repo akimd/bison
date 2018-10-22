@@ -359,7 +359,7 @@ m4_define([b4_shared_declarations],
     /// \warning the contents of \a sym.value is stolen.
     void yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym);
 
-    /// Pop \a n symbols the three stacks.
+    /// Pop \a n symbols from the stack.
     void yypop_ (unsigned n = 1);
 
     /// Constants.

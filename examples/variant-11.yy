@@ -124,10 +124,10 @@ namespace yy
   parser::symbol_type
   yylex ()
   {
-    static auto count = 0u;
-    const auto stage = count;
+    static int count = 0;
+    const int stage = count;
     ++count;
-    auto loc = parser::location_type{nullptr, stage + 1, stage + 1};
+    auto loc = parser::location_type{nullptr, unsigned (stage + 1), unsigned (stage + 1)};
     if (stage == 0)
       return parser::make_TEXT (make_string_uptr ("I have numbers for you."), std::move (loc));
     else if (stage < max)
