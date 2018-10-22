@@ -691,13 +691,13 @@ const char *source = YY_NULLPTR;
 static
 ]AT_YYLEX_PROTOTYPE[
 {
-  static unsigned counter = 0;
+  static int counter = 0;
 
-  unsigned c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
+  int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
   /* As in BASIC, line numbers go from 10 to 10.  */
-  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = 10 * c;
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = ]AT_CXX_IF([(unsigned)], [(int)])[(10 * c);
   ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
-  assert (c <= strlen (source));
+  assert (c <= (int) strlen (source));
   if (source[c])
     fprintf (stderr, "sending: '%c'", source[c]);
   else
@@ -1684,7 +1684,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %initial-action
 {
   $<ival>$ = 42;
-  $<fval>$ = 4.2;
+  $<fval>$ = 4.2f;
 }
 
 %%
@@ -1699,7 +1699,7 @@ float: UNTYPED INT
                                  yy::parser::token::INT,
                                   EOF}]],
                                [[{UNTYPED, INT, EOF}]]),
-                 [AT_VAL.ival = toknum * 10; AT_VAL.fval = toknum / 10.0;])[
+                 [AT_VAL.ival = (int) toknum * 10; AT_VAL.fval = (float) toknum / 10.0f;])[
 ]AT_MAIN_DEFINE[
 ]])
 
@@ -1816,7 +1816,7 @@ exp:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (toknum + 1) * 10])[
+]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (int) ((toknum + 1) * 10)])[
 ]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS

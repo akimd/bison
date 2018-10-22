@@ -137,9 +137,6 @@ main (int argc, char **argv)
 
 ]AT_YYLEX_PROTOTYPE[
 {
-  char buffer[256];
-  int c;
-  unsigned i;
   static int lineNum = 1;
   static int colNum = 0;
 
@@ -152,6 +149,7 @@ main (int argc, char **argv)
 
   while (1)
     {
+      int c;
       assert (!feof (stdin));
       c = getchar ();
       switch (c)
@@ -175,11 +173,12 @@ main (int argc, char **argv)
             yylloc.first_column = colNum;]])[
             if (isalpha (c))
               {
-                i = 0;
+                char buffer[256];
+                unsigned i = 0;
 
                 do
                   {
-                    buffer[i++] = c;
+                    buffer[i++] = (char) c;
                     colNum += 1;
                     assert (i != sizeof buffer - 1);
                     c = getchar ();

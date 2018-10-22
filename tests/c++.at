@@ -1181,12 +1181,12 @@ yylex (yy::parser::semantic_type *lvalp)
   // 'R': call YYERROR in the action
   // 's': reduction throws.
   // 'T': call YYABORT in the action
-  switch (int res = *input++)
+  switch (char res = *input++)
   {
   case 'l':
     throw std::runtime_error ("yylex");
   default:
-    lvalp->]AT_VARIANT_IF([build (Object (res))],
+    lvalp->]AT_VARIANT_IF([build<Object> (res)],
                           [obj = new Object (res)])[;
     // Fall through.
   case 0:

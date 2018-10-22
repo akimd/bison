@@ -163,7 +163,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           [if (res)
              {
                AT_VAL.ival = (res - '0') * 10;
-               AT_VAL.fval = (res - '0') / 10.f;
+               AT_VAL.fval = (float) (res - '0') / 10.f;
              }],
           [30 0.3])
 

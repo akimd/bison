@@ -429,7 +429,7 @@ static
   res = input[toknum++];
   ]$2[;]AT_LOCATION_IF([[
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
-  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = toknum;]])[
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = ]AT_CXX_IF([(unsigned )], [(int)])[toknum;]])[
   return res;
 }]dnl
 ])

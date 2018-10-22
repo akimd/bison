@@ -401,7 +401,7 @@ yylex (void)
 static int
 get_args (int argc, const char **argv)
 {
-  int res;
+  long res;
   char *endp;
   assert (argc == 2); (void) argc;
   res = strtol (argv[1], &endp, 10);
@@ -409,7 +409,7 @@ get_args (int argc, const char **argv)
   assert (0 <= res);
   assert (res <= INT_MAX);
   assert (errno != ERANGE);
-  return res;
+  return (int) res;
 }
 
 int
