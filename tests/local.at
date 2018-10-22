@@ -470,7 +470,7 @@ m4_define([AT_YYERROR_DECLARE(c)],
 [#include <stdio.h>
 ]AT_LOCATION_IF([[
 #if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
-static unsigned location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
+static int location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
 # ifndef LOCATION_PRINT
 #  define LOCATION_PRINT(File, Loc) location_print (File, &(Loc))
 # endif
@@ -485,10 +485,10 @@ m4_define([AT_YYERROR_DEFINE(c)],
 # if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
 /* Print *YYLOCP on YYO. */
 __attribute__((__unused__))
-static unsigned
+static int
 location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 {
-  unsigned res = 0;
+  int res = 0;
   int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
   if (0 <= yylocp->first_line)
     {

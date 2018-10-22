@@ -815,11 +815,11 @@ m4_define([b4_yy_location_print_define],
 
 YY_ATTRIBUTE_UNUSED
 ]b4_function_define([yy_location_print_],
-    [static unsigned],
+    [static int],
                [[FILE *yyo],                    [yyo]],
                [[YYLTYPE const * const yylocp], [yylocp]])[
 {
-  unsigned res = 0;
+  int res = 0;
   int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
   if (0 <= yylocp->first_line)
     {
