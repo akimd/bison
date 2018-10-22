@@ -107,7 +107,9 @@ if test "$enable_gcc_warnings" = yes; then
   # -Wno-keyword-macro: We use the "#define private public" dirty
   # trick in the test suite to check some private implementation
   # details for lalr1.cc.
-  warn_tests='-Wundef -pedantic -Wdeprecated -Wsign-compare -fno-color-diagnostics
+  warn_tests='-Wundef -pedantic -Wconversion
+    -Wdeprecated -Wsign-compare -Wsign-conversion
+    -fno-color-diagnostics
     -Wno-keyword-macro'
 
   AC_LANG_PUSH([C])
@@ -137,7 +139,7 @@ if test "$enable_gcc_warnings" = yes; then
     AS_VAR_APPEND([WARN_CFLAGS], [" $WARN_CFLAGS_TEST"])
 
   # Warnings for the test suite only.
-  for i in $warn_tests;
+  for i in $warn_tests -Wincompatible-pointer-types;
   do
     gl_WARN_ADD([$i], [WARN_CFLAGS_TEST])
   done
