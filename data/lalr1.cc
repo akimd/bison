@@ -190,6 +190,10 @@ m4_define([b4_shared_declarations],
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
 
+    /// Parse.  An alias for parse ().
+    /// \returns  0 iff parsing succeeded.
+    int operator() ();
+
     /// Parse.
     /// \returns  0 iff parsing succeeded.
     virtual int parse ();
@@ -741,6 +745,12 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class_name[::yy_table_value_is_error_ (int yyvalue)
   {
     return yyvalue == yytable_ninf_;
+  }
+
+  int
+  ]b4_parser_class_name[::operator() ()
+  {
+    return parse ();
   }
 
   int

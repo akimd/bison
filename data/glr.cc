@@ -167,6 +167,12 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   }
 
   int
+  ]b4_parser_class_name[::operator() ()
+  {
+    return parse ();
+  }
+
+  int
   ]b4_parser_class_name[::parse ()
   {
     return ::yyparse (*this]b4_user_args[);
@@ -266,6 +272,10 @@ b4_percent_code_get([[requires]])[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
+
+    /// Parse.  An alias for parse ().
+    /// \returns  0 iff parsing succeeded.
+    int operator() ();
 
     /// Parse.
     /// \returns  0 iff parsing succeeded.

@@ -10714,8 +10714,10 @@ Build a new parser object.  There are no arguments, unless
 Instantiate a syntax-error exception.
 @end deftypeop
 
-@deftypemethod {parser} {int} parse ()
-Run the syntactic analysis, and return 0 on success, 1 otherwise.
+@deftypemethod {parser} {int} operator() ()
+@deftypemethodx {parser} {int} parse ()
+Run the syntactic analysis, and return 0 on success, 1 otherwise.  Both
+routines are equivalent, @code{operator()} being more C++ish.
 
 @cindex exceptions
 The whole function is wrapped in a @code{try}/@code{catch} block, so that
