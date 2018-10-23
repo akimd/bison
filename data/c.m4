@@ -204,11 +204,12 @@ m4_define([b4_table_value_equals],
 ## Compiler issues.  ##
 ## ----------------- ##
 
-# b4_attribute_define
-# -------------------
-# Provide portable compiler "attributes".
+# b4_attribute_define([noreturn])
+# -------------------------------
+# Provide portable compiler "attributes".  If "noreturn" is passed, define
+# _Noreturn.
 m4_define([b4_attribute_define],
-[#ifndef YY_ATTRIBUTE
+[[#ifndef YY_ATTRIBUTE
 # if (defined __GNUC__                                               \
       && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
      || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
@@ -226,7 +227,7 @@ m4_define([b4_attribute_define],
 # define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
-#if !defined _Noreturn \
+]m4_bmatch([$1], [\bnoreturn\b], [[#if !defined _Noreturn \
      && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
 # if defined _MSC_VER && 1200 <= _MSC_VER
 #  define _Noreturn __declspec (noreturn)
@@ -235,7 +236,7 @@ m4_define([b4_attribute_define],
 # endif
 #endif
 
-/* Suppress unused-variable warnings by "using" E.  */
+]])[/* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
 #else
@@ -260,7 +261,7 @@ m4_define([b4_attribute_define],
 #ifndef YY_INITIAL_VALUE
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
-])
+]])
 
 
 # b4_null_define
