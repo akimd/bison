@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-me=`basename $1 .test`
+me=$(basename "$1" .test)
+medir=$(basename "$(dirname "$1")")
 
 # Number of the current test.
 number=1
@@ -27,7 +28,7 @@ exit=true
 cwd=`pwd`
 
 # The exercised program.
-for p in $cwd/examples/$me/$me $cwd/examples/$me
+for p in "$cwd/examples/$medir/$me" "$cwd/examples/$me"
 do
     if test -x "$p"; then
         prog=$p

@@ -69,5 +69,6 @@ CLEANFILES += %D%/variant.output %D%/variant-11.output
 CLEANDIRS += %D%/*.dSYM
 
 include %D%/calc++/local.mk
+include %D%/c++/local.mk
 include %D%/mfcalc/local.mk
 include %D%/rpcalc/local.mk

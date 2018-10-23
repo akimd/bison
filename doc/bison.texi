@@ -338,6 +338,7 @@ Parsers Written In Other Languages
 
 C++ Parsers
 
+* A Simple C++ Example::        A short introduction to C++ parsers
 * C++ Bison Interface::         Asking for C++ parser generation
 * C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
@@ -10610,6 +10611,7 @@ The Bison parser in C++ is an object, an instance of the class
 @code{yy::parser}.
 
 @menu
+* A Simple C++ Example::        A short introduction to C++ parsers
 * C++ Bison Interface::         Asking for C++ parser generation
 * C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
@@ -10617,6 +10619,224 @@ The Bison parser in C++ is an object, an instance of the class
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 @end menu
+
+@node A Simple C++ Example
+@subsection A Simple C++ Example
+
+This tutorial about C++ parsers is based on a simple, self contained
+example.  The following sections are the reference manual for Bison with
+C++, the last one showing a fully blown example (@pxref{A Complete C++
+Example}).
+
+To look nicer, our example will be in C++14.  It is not required: Bison
+supports the original C++98 standard.
+
+A Bison file has three parts.  In the first part, the prologue, we start by
+making sure we run a version of Bison which is recent enough, and that we
+generate C++.
+
+@comment file: c++/simple.yy: 1
+@example
+%require "@value{VERSION}"
+%language "c++"
+@end example
+
+Let's dive directly into the middle part: the grammar.  Our input is a
+simple list of strings, that we display once the parsing is done.
+
+@comment file: c++/simple.yy: 2
+@example
+%%
+@group
+result:
+  list  @{ std::cout << $1 << '\n'; @}
+;
+@end group
+
+%type <std::vector<std::string>> list;
+@group
+list:
+  %empty     @{ /* Generates an empty string list */ @}
+| list item  @{ $$ = $1; $$.push_back ($2); @}
+;
+@end group
+@end example
+
+We used a vector of strings as a semantic value!  To use genuine C++ objects
+as semantic values---not just PODs---we cannot rely on the union that Bison
+uses by default to store them, we need @emph{variants} (@pxref{C++
+Variants}):
+
+@comment file: c++/simple.yy: 1
+@example
+%define api.value.type variant
+@end example
+
+Our list of strings will be built from two types of items: numbers and
+strings:
+
+@comment file: c++/simple.yy: 2
+@example
+%type <std::string> item;
+%token <std::string> TEXT;
+%token <int> NUMBER;
+@group
+item:
+  TEXT
+| NUMBER  @{ $$ = to_string ($1); @}
+;
+@end group 
+@end example
+
+In the case of @code{TEXT}, the implicit default action applies: @w{@code{$$
+= $1}.}  We recommend that you keep the actions simple, and move details
+into auxiliary functions, as we did with @code{to_string}, which we
+implement in the prologue as follows:
+
+@comment file: c++/simple.yy: 1
+@example
+%code
+@{
+  #include <sstream>
+
+@group
+  // Convert to string.
+  template <typename T>
+  auto to_string (const T& t) -> std::string
+  @{
+    std::ostringstream o;
+    o << t;
+    return o.str ();
+  @}
+@end group
+@}
+@end example
+
+Obviously, the rule for @code{result} needs to print a vector of strings.
+Again, in the prologue, we add:
+
+@comment file: c++/simple.yy: 1
+@example
+%code
+@{
+  // Print a list of strings.
+  auto
+  operator<< (std::ostream& o, const std::vector<std::string>& ss)
+    -> std::ostream&
+  @{
+    o << '@{';
+    const char *sep = "";
+@group
+    for (const auto& s: ss)
+      @{
+        o << sep << s;
+        sep = ", ";
+      @}
+@end group
+    return o << '@}';
+  @}
+@}
+@end example
+
+@noindent
+You may want to move it into the @code{yy} namespace to avoid leaking it in
+your default namespace.
+
+@sp 1
+
+Our scanner deserves some attention.  The traditional interface of
+@code{yylex} is not type safe: since the token type and the token value are
+not correlated, you may return a @code{NUMBER} with a string as semantic
+value.  To avoid this, we use @emph{token constructors} (@pxref{Complete
+Symbols}).  This directive:
+
+@comment file: c++/simple.yy: 1
+@example
+%define api.token.constructor
+@end example
+
+@noindent
+requests that Bison generates the functions @code{make_TEXT} and
+@code{make_NUMBER}.  As a matter of fact, it is convenient to have also a
+symbol to mark the end of input, say @code{END_OF_FILE}:
+
+@comment file: c++/simple.yy: 1
+@example
+%token END_OF_FILE 0
+@end example
+
+@noindent
+The @code{0} tells Bison this token is special: when it is reached, parsing
+finishes.
+
+Everything is in place for our scanner:
+
+@comment file: c++/simple.yy: 1
+@example
+%code
+@{
+  namespace yy
+  @{
+    // Return the next token.
+    auto yylex () -> parser::symbol_type
+    @{
+      static int count = 0;
+      switch (int stage = count++)
+        @{
+@group
+        case 0:
+          return parser::make_TEXT ("I have three numbers for you.");
+@end group
+@group
+        case 1: case 2: case 3:
+          return parser::make_NUMBER (stage);
+@end group
+@group
+        case 4:
+          return parser::make_TEXT ("And that's all!");
+@end group
+@group
+        default:
+          return parser::make_END_OF_FILE ();
+@end group
+        @}
+    @}
+  @}
+@}
+@end example
+
+In the epilogue, the third part of a Bison grammar file, we leave simple
+details: the error reporting function, and the main function.
+
+@comment file: c++/simple.yy: 3
+@example
+%%
+namespace yy
+@{
+  // Report an error to the user.
+  auto parser::error (const std::string& msg) -> void
+  @{
+    std::cerr << msg << '\n';
+  @}
+@}
+
+int main ()
+@{
+  yy::parser parse;
+  return parse ();
+@}
+@end example
+
+Compile, and run!
+
+@example
+$ bison simple.yy -o simple.cc
+$ g++ -std=c++14 simple.cc -o simple
+@group
+$ ./simple
+@{I have three numbers for you., 1, 2, 3, And that's all!@}
+@end group
+@end example
 
 @node C++ Bison Interface
 @subsection C++ Bison Interface
@@ -13760,17 +13980,18 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: subdirectory Solaris nonassociativity perror schemas Malloy ints
 @c LocalWords: Scannerless ispell american ChangeLog smallexample CSTYPE CLTYPE
 @c LocalWords: clval CDEBUG cdebug deftypeopx yyterminate LocationType yyo
-@c LocalWords: parsers parser's documentencoding documentlanguage Wempty
+@c LocalWords: parsers parser's documentencoding documentlanguage Wempty ss
 @c LocalWords: associativity subclasses precedences unresolvable runnable
 @c LocalWords: allocators subunit initializations unreferenced untyped dir
 @c LocalWords: errorVerbose subtype subtypes Wmidrule midrule's src rvalues
-@c LocalWords: automove evolutions Wother Wconflicts PNG lookaheads Acc
+@c LocalWords: automove evolutions Wother Wconflicts PNG lookaheads Acc sep
 @c LocalWords: xsltproc XSL xsl xhtml html num Wprecedence Werror fcaret
 @c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
-@c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif
-@c LocalWords: Wdeprecated Wregister noinput yyloc yypos
+@c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif ish
+@c LocalWords: Wdeprecated Wregister noinput yyloc yypos PODs sstream Wsign
 
 @c Local Variables:
 @c ispell-dictionary: "american"
 @c fill-column: 76
 @c End:
+@c  LocalWords:  typename emplace Wconversion Wshorten

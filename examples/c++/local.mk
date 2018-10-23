@@ -1,5 +1,4 @@
-## Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
-## Inc.
+## Copyright (C) 2018 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,25 +17,29 @@
 ## Building & testing.  ##
 ## -------------------- ##
 
-BUILT_SOURCES += $(rpcalc_sources)
-CLEANFILES +=  %D%/rpcalc.[ch] %D%/rpcalc.output
+BUILT_SOURCES += $(simple_sources)
+CLEANFILES +=  %D%/simple.[ch] %D%/simple.output
 CLEANDIRS += %D%/*.dSYM
 
-rpcalc_extracted = %D%/rpcalc.y
-rpcalc_sources = $(rpcalc_extracted)
-extracted += $(rpcalc_extracted)
+simple_extracted = %D%/simple.yy
+simple_sources = $(simple_extracted)
+extracted += $(simple_extracted)
 
-check_PROGRAMS += %D%/rpcalc
-nodist_%C%_rpcalc_SOURCES = $(rpcalc_sources)
-# Don't use gnulib's system headers.
-%C%_rpcalc_CPPFLAGS = -I$(top_builddir)/%D%
-%C%_rpcalc_LDADD = -lm
+if ENABLE_CXX14
+  check_PROGRAMS += %D%/simple
+  nodist_%C%_simple_SOURCES = $(simple_sources)
 
-dist_TESTS += %D%/rpcalc.test
+  %C%_simple_CXXFLAGS = $(CXX11_CXXFLAGS)
+  # Don't use gnulib's system headers.
+  %C%_simple_CPPFLAGS = -I$(top_builddir)
+  dist_TESTS += %D%/simple.test
+  %D%/simple.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+endif
+
 
 ## ------------ ##
 ## Installing.  ##
 ## ------------ ##
 
-rpcalcdir = $(docdir)/examples/rpcalc
-rpcalc_DATA = $(rpcalc_extracted)
+cxxdir = $(docdir)/examples/c++
+cxx_DATA = $(simple_extracted)

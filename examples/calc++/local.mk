@@ -69,6 +69,7 @@ check_PROGRAMS += %D%/calc++
 nodist_%C%_calc___SOURCES =                     \
   $(calcxx_sources)
 
+# Don't use gnulib's system headers.
 %C%_calc___CPPFLAGS = -I$(top_builddir)/%D%
 %C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
 dist_TESTS += %D%/calc++.test
