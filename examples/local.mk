@@ -48,24 +48,8 @@ $(extracted): %D%/extracted.stamp
 
 
 examplesdir = $(docdir)/examples
-dist_examples_DATA = %D%/README %D%/variant.yy %D%/variant-11.yy
+dist_examples_DATA = %D%/README
 
-check_PROGRAMS += %D%/variant
-nodist_%C%_variant_SOURCES = %D%/variant.yy
-%C%_variant_CPPFLAGS = -I$(top_builddir)
-dist_TESTS += %D%/variant.test
-%D%/variant.cc: $(BISON_IN) $(dist_pkgdata_DATA)
-
-if ENABLE_CXX11
-  check_PROGRAMS += %D%/variant-11
-  nodist_%C%_variant_11_SOURCES = %D%/variant-11.yy
-  %C%_variant_11_CXXFLAGS = $(CXX11_CXXFLAGS)
-  %C%_variant_11_CPPFLAGS = -I$(top_builddir)
-  dist_TESTS += %D%/variant-11.test
-  %D%/variant-11.cc: $(BISON_IN) $(dist_pkgdata_DATA)
-endif
-
-CLEANFILES += %D%/variant.output %D%/variant-11.output
 CLEANDIRS += %D%/*.dSYM
 
 include %D%/calc++/local.mk

@@ -13,13 +13,16 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-## -------------------- ##
-## Building & testing.  ##
-## -------------------- ##
+cxxdir = $(examplesdir)/c++
+
+## -------- ##
+## Simple.  ##
+## -------- ##
 
 BUILT_SOURCES += $(simple_sources)
 CLEANFILES +=  %D%/simple.[ch] %D%/simple.output
 CLEANDIRS += %D%/*.dSYM
+cxx_DATA = $(simple_extracted)
 
 simple_extracted = %D%/simple.yy
 simple_sources = $(simple_extracted)
@@ -37,9 +40,24 @@ if ENABLE_CXX14
 endif
 
 
-## ------------ ##
-## Installing.  ##
-## ------------ ##
+## ---------- ##
+## Variants.  ##
+## ---------- ##
 
-cxxdir = $(docdir)/examples/c++
-cxx_DATA = $(simple_extracted)
+check_PROGRAMS += %D%/variant
+nodist_%C%_variant_SOURCES = %D%/variant.yy
+%C%_variant_CPPFLAGS = -I$(top_builddir)
+dist_TESTS += %D%/variant.test
+%D%/variant.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+
+if ENABLE_CXX11
+  check_PROGRAMS += %D%/variant-11
+  nodist_%C%_variant_11_SOURCES = %D%/variant-11.yy
+  %C%_variant_11_CXXFLAGS = $(CXX11_CXXFLAGS)
+  %C%_variant_11_CPPFLAGS = -I$(top_builddir)
+  dist_TESTS += %D%/variant-11.test
+  %D%/variant-11.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+endif
+
+dist_cxx_DATA = %D%/README %D%/variant.yy %D%/variant-11.yy
+CLEANFILES += %D%/variant.output %D%/variant-11.output

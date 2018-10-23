@@ -16,6 +16,10 @@ GNU Bison NEWS
 
   In C++ parsers, parser::operator() is now a synonym for the parser::parse.
 
+** Documentation
+
+  A new section, "A Simple C++ Example", is a tutorial for parsers in C++.
+
 * Noteworthy changes in release 3.1.91 (2018-10-18) [beta]
 
 ** Bug fixes
@@ -88,7 +92,7 @@ GNU Bison NEWS
   Enabling api.value.automove does not require support for modern C++.  The
   generated code is valid C++98/03, but will use copies instead of moves.
 
-  The new examples/variant-11.yy shows these features in action.
+  The new examples/c++/variant-11.yy shows these features in action.
 
 *** C++: The implicit default semantic action is always run
 
