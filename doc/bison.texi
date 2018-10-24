@@ -10846,10 +10846,11 @@ these two files (@file{@var{file}.hh} and @file{@var{file}.cc}) follow the
 same rules as with regular C parsers (@pxref{Invocation}).
 
 @item location.hh
-The definition of the classes @code{position} and @code{location}, used for
-location tracking when enabled.  This file is not generated if user defined
-locations are used, i.e., if the @code{%define} variable
-@code{api.location.type} is defined.  @xref{C++ Location Values}.
+Generated when both @code{%defines} and @code{%locations} are enabled, this
+file contains the definition of the classes @code{position} and
+@code{location}, used for location tracking.  This file is not generated if
+@samp{%define api.location.file none} is specified, or if user defined
+locations are used.  @xref{C++ Location Values}.
 
 @item position.hh
 @itemx stack.hh
