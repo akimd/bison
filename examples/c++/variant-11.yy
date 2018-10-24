@@ -69,16 +69,6 @@
     // std::make_unique is C++14.
     return string_uptr (new std::string{std::forward<Args> (args)...});
   }
-
-  // Convert to string.
-  template <typename T>
-    std::string
-    to_string (const T& t)
-  {
-    auto&& o = std::ostringstream{};
-    o << t;
-    return o.str ();
-  }
 }
 
 %token <string_uptr> TEXT;
@@ -103,7 +93,7 @@ list:
 
 item:
   TEXT
-| NUMBER  { $$ = make_string_uptr (to_string ($1)); }
+| NUMBER  { $$ = make_string_uptr (std::to_string ($1)); }
 ;
 %%
 

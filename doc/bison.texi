@@ -10672,48 +10672,8 @@ Variants}):
 %define api.value.type variant
 @end example
 
-Our list of strings will be built from two types of items: numbers and
-strings:
-
-@comment file: c++/simple.yy: 2
-@example
-%type <std::string> item;
-%token <std::string> TEXT;
-%token <int> NUMBER;
-@group
-item:
-  TEXT
-| NUMBER  @{ $$ = to_string ($1); @}
-;
-@end group 
-@end example
-
-In the case of @code{TEXT}, the implicit default action applies: @w{@code{$$
-= $1}.}  We recommend that you keep the actions simple, and move details
-into auxiliary functions, as we did with @code{to_string}, which we
-implement in the prologue as follows:
-
-@comment file: c++/simple.yy: 1
-@example
-%code
-@{
-  #include <sstream>
-
-@group
-  // Convert to string.
-  template <typename T>
-  auto to_string (const T& t) -> std::string
-  @{
-    std::ostringstream o;
-    o << t;
-    return o.str ();
-  @}
-@end group
-@}
-@end example
-
 Obviously, the rule for @code{result} needs to print a vector of strings.
-Again, in the prologue, we add:
+In the prologue, we add:
 
 @comment file: c++/simple.yy: 1
 @example
@@ -10740,7 +10700,27 @@ Again, in the prologue, we add:
 
 @noindent
 You may want to move it into the @code{yy} namespace to avoid leaking it in
-your default namespace.
+your default namespace.  We recommend that you keep the actions simple, and
+move details into auxiliary functions, as we did with @code{operator<<}.
+
+Our list of strings will be built from two types of items: numbers and
+strings:
+
+@comment file: c++/simple.yy: 2
+@example
+%type <std::string> item;
+%token <std::string> TEXT;
+%token <int> NUMBER;
+@group
+item:
+  TEXT
+| NUMBER  @{ $$ = std::to_string ($1); @}
+;
+@end group
+@end example
+
+In the case of @code{TEXT}, the implicit default action applies: @w{@code{$$
+= $1}.}
 
 @sp 1
 
