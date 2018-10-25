@@ -25,9 +25,9 @@ m4_define([b4_value_type_setup_variant])
 # --------------------------------------------------------------
 # Declare "parser::yy<TABLE-NAME>_" whose contents is CONTENT.
 m4_define([b4_integral_parser_table_declare],
-[m4_ifval([$3], [b4_comment([$3], [  ])
+[m4_ifval([$3], [b4_comment([$3], [    ])
 ])dnl
-  static const b4_int_type_for([$2]) yy$1_[[]];dnl
+    static const b4_int_type_for([$2]) yy$1_[[]];dnl
 ])
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
