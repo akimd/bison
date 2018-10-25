@@ -10848,7 +10848,7 @@ same rules as with regular C parsers (@pxref{Invocation}).
 @item location.hh
 Generated when both @code{%defines} and @code{%locations} are enabled, this
 file contains the definition of the classes @code{position} and
-@code{location}, used for location tracking.  This file is not generated if
+@code{location}, used for location tracking.  It is not generated if
 @samp{%define api.location.file none} is specified, or if user defined
 locations are used.  @xref{C++ Location Values}.
 
@@ -11406,7 +11406,7 @@ api.token.constructor}, the parser defines the type @code{symbol_type}, and
 expects @code{yylex} to have the following prototype.
 
 @deftypefun {parser::symbol_type} yylex ()
-@deftypefunx {parser::symbol_type} yylex (var{type1} @var{arg1}, ...)
+@deftypefunx {parser::symbol_type} yylex (@var{type1} @var{arg1}, ...)
 Return a @emph{complete} symbol, aggregating its type (i.e., the traditional
 value returned by @code{yylex}), its semantic value, and possibly its
 location.  Invocations of @samp{%lex-param @{@var{type1} @var{arg1}@}} yield
@@ -11432,6 +11432,7 @@ For instance, given the following declarations:
 %token <std::string> IDENTIFIER;
 %token <int> INTEGER;
 %token COLON;
+%token EOF 0;
 @end example
 
 @noindent
@@ -11441,20 +11442,22 @@ Bison generates:
 symbol_type make_IDENTIFIER (const std::string&, const location_type&);
 symbol_type make_INTEGER (const int&, const location_type&);
 symbol_type make_COLON (const location_type&);
+symbol_type make_EOF (const location_type&);
 @end example
 
 @noindent
-which should be used in a Lex-scanner as follows.
+which should be used in a Flex-scanner as follows.
 
 @example
-[0-9]+   return yy::parser::make_INTEGER (text_to_int (yytext), loc);
 [a-z]+   return yy::parser::make_IDENTIFIER (yytext, loc);
+[0-9]+   return yy::parser::make_INTEGER (text_to_int (yytext), loc);
 ":"      return yy::parser::make_COLON (loc);
+<<EOF>>  return yy::parser::make_EOF (loc);
 @end example
 
 Tokens that do not have an identifier are not accessible: you cannot simply
-use characters such as @code{':'}, they must be declared with @code{%token}.
-
+use characters such as @code{':'}, they must be declared with @code{%token},
+including the end-of-file token.
 
 @node A Complete C++ Example
 @subsection A Complete C++ Example
@@ -11523,7 +11526,7 @@ C++ parser expects it to be declared.  We can factor both as follows.
 
 @comment file: calc++/driver.hh
 @example
-// Tell Flex the lexer's prototype ...
+// Give Flex the prototype of yylex we want ...
 # define YY_DECL \
   yy::parser::symbol_type yylex (driver& drv)
 // ... and declare it for the parser's sake.
@@ -11779,7 +11782,7 @@ exp:
 | exp "-" exp   @{ $$ = $1 - $3; @}
 | exp "*" exp   @{ $$ = $1 * $3; @}
 | exp "/" exp   @{ $$ = $1 / $3; @}
-| "(" exp ")"   @{ std::swap ($$, $2); @}
+| "(" exp ")"   @{ $$ = $2; @}
 %%
 @end example
 
@@ -11915,7 +11918,7 @@ the blanks preceding tokens.  Comments would be treated equally.
 %@}
 @end group
 @{blank@}+   loc.step ();
-[\n]+      loc.lines (yyleng); loc.step ();
+\n+        loc.lines (yyleng); loc.step ();
 @end example
 
 @noindent
@@ -12857,7 +12860,7 @@ char *yylval = NULL;
 @group
 %%
 .*    yylval = yytext; return 1;
-\n    /* IGNORE */
+\n    continue;
 %%
 @end group
 @group
