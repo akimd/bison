@@ -11607,9 +11607,9 @@ driver::parse (const std::string &f)
   file = f;
   location.initialize (&file);
   scan_begin ();
-  yy::parser parser (*this);
-  parser.set_debug_level (trace_parsing);
-  int res = parser.parse ();
+  yy::parser parse (*this);
+  parse.set_debug_level (trace_parsing);
+  int res = parse ();
   scan_end ();
   return res;
 @}
@@ -11832,6 +11832,13 @@ then the parser's to get the set of defined tokens.
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 
+// Of course, when compiling C as C++, expect warnings about NULL.
+#if defined __clang__
+# pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+#elif defined __GNUC__
+# pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#endif
+
 #define FLEX_VERSION (YY_FLEX_MAJOR_VERSION * 100 + YY_FLEX_MINOR_VERSION)
 
 // Old versions of Flex (2.5.35) generate an incomplete documentation comment.
@@ -11872,14 +11879,27 @@ then the parser's to get the set of defined tokens.
 @end ignore
 
 @noindent
-Because there is no @code{#include}-like feature we don't need
-@code{yywrap}, we don't need @code{unput} either, and we parse an actual
-file, this is not an interactive session with the user.  Finally, we enable
-scanner tracing.
+Since our calculator has no @code{#include}-like feature, we don't need
+@code{yywrap}.  We don't need the @code{unput} and @code{input} functions
+either, and we parse an actual file, this is not an interactive session with
+the user.  Finally, we enable scanner tracing.
 
 @comment file: calc++/scanner.ll
 @example
-%option noyywrap nounput batch debug noinput
+%option noyywrap nounput noinput batch debug
+@end example
+
+@noindent
+The following function will be handy to convert a string denoting a number
+into a number token.
+
+@comment file: calc++/scanner.ll
+@example
+%@{
+  // A number symbol corresponding to the value in S.
+  yy::parser::symbol_type
+  make_NUMBER (const std::string &s, const yy::parser::location_type& loc);
+%@}
 @end example
 
 @noindent
@@ -11926,24 +11946,15 @@ The rules are simple.  The driver is used to report errors.
 
 @comment file: calc++/scanner.ll
 @example
-"-"      return yy::parser::make_MINUS  (loc);
-"+"      return yy::parser::make_PLUS   (loc);
-"*"      return yy::parser::make_STAR   (loc);
-"/"      return yy::parser::make_SLASH  (loc);
-"("      return yy::parser::make_LPAREN (loc);
-")"      return yy::parser::make_RPAREN (loc);
-":="     return yy::parser::make_ASSIGN (loc);
+"-"        return yy::parser::make_MINUS  (loc);
+"+"        return yy::parser::make_PLUS   (loc);
+"*"        return yy::parser::make_STAR   (loc);
+"/"        return yy::parser::make_SLASH  (loc);
+"("        return yy::parser::make_LPAREN (loc);
+")"        return yy::parser::make_RPAREN (loc);
+":="       return yy::parser::make_ASSIGN (loc);
 
-@group
-@{int@}      @{
-  errno = 0;
-  long n = strtol (yytext, NULL, 10);
-  if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    throw yy::parser::syntax_error (loc, "integer is out of range: "
-                                    + std::string(yytext));
-  return yy::parser::make_NUMBER (int (n), loc);
-@}
-@end group
+@{int@}      return make_NUMBER (yytext, loc);
 @{id@}       return yy::parser::make_IDENTIFIER (yytext, loc);
 @group
 .          @{
@@ -11953,6 +11964,25 @@ The rules are simple.  The driver is used to report errors.
 @end group
 <<EOF>>    return yy::parser::make_END (loc);
 %%
+@end example
+
+@noindent
+You should keep your rules simple, both in the parser and in the scanner.
+Throwing from the auxiliary functions is then very handy to report errors.
+
+@comment file: scanner.ll
+@example
+@group
+yy::parser::symbol_type
+make_NUMBER (const std::string &s, const yy::parser::location_type& loc)
+@{
+  errno = 0;
+  long n = strtol (s.c_str(), NULL, 10);
+  if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
+    throw yy::parser::syntax_error (loc, "integer is out of range: " + s);
+  return yy::parser::make_NUMBER ((int) n, loc);
+@}
+@end group
 @end example
 
 @noindent
@@ -12748,9 +12778,9 @@ too.  How can I reset the error flag of @code{yyparse}?
 or
 
 @quotation
-My parser includes support for an @samp{#include}-like feature, in
-which case I run @code{yyparse} from @code{yyparse}.  This fails
-although I did specify @samp{%define api.pure full}.
+My parser includes support for an @samp{#include}-like feature, in which
+case I run @code{yyparse} from @code{yyparse}.  This fails although I did
+specify @samp{%define api.pure full}.
 @end quotation
 
 These problems typically come not from Bison itself, but from
