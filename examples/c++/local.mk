@@ -61,5 +61,5 @@ if ENABLE_CXX11
   %D%/variant-11.cc: $(BISON_IN) $(dist_pkgdata_DATA)
 endif
 
-dist_cxx_DATA = %D%/README %D%/variant.yy %D%/variant-11.yy
-CLEANFILES += %D%/variant.output %D%/variant-11.output
+dist_cxx_DATA = %D%/README %D%/Makefile %D%/variant.yy %D%/variant-11.yy
+CLEANFILES += %D%/simple.output %D%/variant.output %D%/variant-11.output

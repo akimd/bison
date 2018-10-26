@@ -2,11 +2,16 @@ This directory contains examples of Bison grammar files in C++.
 
 * Examples in C++
 
+You can run `make` to compile these examples.  And `make clean` to tidy
+afterwards.
+
 ** simple.yy - Simple example in C++14
 A very simple example in C++, based on variants and symbol constructors.
 Variants allow to use any C++ type as semantic value type, and symbol
 constructors ensure consistency between declared token type and effective
 semantic value.
+
+Run as `./simple`.
 
 Extracted from the documentation: "A Simple C++ Example".
 https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html
@@ -14,10 +19,13 @@ https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example
 ** variant.yy - Self-contained example in C++98
 A varition of simple.yy, in C++98.
 
+Run as `./variant`.
+
 ** variant-11.yy - Self-contained example in modern C++
 Another variation of simple.yy, closely related to the previous one, but
 exhibiting support for C++11's move semantics.
 
+Run as `./variant` or `./variant NUMBER`.
 
 -----
 
