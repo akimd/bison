@@ -29,6 +29,7 @@ the scanner's.
 Local Variables:
 mode: outline
 fill-column: 76
+ispell-dictionary: "american"
 End:
 
 Copyright (C) 2018 Free Software Foundation, Inc.
@@ -48,4 +49,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# LocalWords:  mfcalc calc parsers yy MERCHANTABILITY
+# LocalWords:  mfcalc calc parsers yy MERCHANTABILITY Ctrl ispell american

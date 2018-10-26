@@ -39,6 +39,7 @@ https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Examp
 Local Variables:
 mode: outline
 fill-column: 76
+ispell-dictionary: "american"
 End:
 
 Copyright (C) 2018 Free Software Foundation, Inc.

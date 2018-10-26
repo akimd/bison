@@ -17,7 +17,7 @@ Extracted from the documentation: "A Simple C++ Example".
 https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html
 
 ** variant.yy - Self-contained example in C++98
-A varition of simple.yy, in C++98.
+A variation of simple.yy, in C++98.
 
 Run as `./variant`.
 
@@ -32,6 +32,7 @@ Run as `./variant` or `./variant NUMBER`.
 Local Variables:
 mode: outline
 fill-column: 76
+ispell-dictionary: "american"
 End:
 
 Copyright (C) 2018 Free Software Foundation, Inc.
@@ -43,4 +44,4 @@ Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the "GNU Free
 Documentation License" file as part of this distribution.
 
-# LocalWords:  mfcalc calc parsers yy
+# LocalWords:  mfcalc calc parsers yy ispell american

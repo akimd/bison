@@ -14003,9 +14003,9 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
 @c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif ish
 @c LocalWords: Wdeprecated Wregister noinput yyloc yypos PODs sstream Wsign
+@c LocalWords:  typename emplace Wconversion Wshorten
 
 @c Local Variables:
 @c ispell-dictionary: "american"
 @c fill-column: 76
 @c End:
-@c  LocalWords:  typename emplace Wconversion Wshorten
