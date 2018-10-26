@@ -24,4 +24,4 @@ cat >input <<EOF
 (1+2) * 3
 EOF
 run 0 9
-run 0 9 -p
+run -noerr 0 9 -p
