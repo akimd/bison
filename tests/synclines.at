@@ -418,6 +418,9 @@ exp: '0'
 ]AT_MAIN_DEFINE[
 ]])
 
+# Maybe we tried to create a file name that the file system does not
+# support.
+AT_SKIP_IF([[test ! -f \"\\\"\".y]])
 AT_FULL_COMPILE([\"\\\"\"])
 AT_BISON_OPTION_POPDEFS
 
