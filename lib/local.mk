@@ -30,7 +30,6 @@ lib_libbison_a_SOURCES +=                       \
   lib/ebitset.h                                 \
   lib/lbitset.c                                 \
   lib/lbitset.h                                 \
-  lib/libiberty.h                               \
   lib/vbitset.c                                 \
   lib/vbitset.h
 
