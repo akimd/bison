@@ -2,11 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Implementation details
+** Backward incompatible changes
 
-  A comment in the generated code now emphasizes that users should not
-  depend upon non-documented implementation details, such as macros starting
-  with YY_.
+  Support for DJGPP, which have been unmaintained and untested for years, is
+  obsolete.  Unless there is activity to revive it, it will be removed.
 
 ** Changes
 
@@ -20,18 +19,9 @@ GNU Bison NEWS
 
   A new section, "A Simple C++ Example", is a tutorial for parsers in C++.
 
-* Noteworthy changes in release 3.1.91 (2018-10-18) [beta]
-
-** Bug fixes
-
-  With modern C++, the parser stack failed to grow properly.
-
-* Noteworthy changes in release 3.1.90 (2018-10-17) [beta]
-
-** Backward incompatible changes
-
-  Support for DJGPP, which have been unmaintained and untested for years, is
-  obsolete.  Unless there is activity to revive it, it will be removed.
+  A comment in the generated code now emphasizes that users should not
+  depend upon non-documented implementation details, such as macros starting
+  with YY_.
 
 ** New features
 
