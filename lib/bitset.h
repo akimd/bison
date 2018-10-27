@@ -24,13 +24,13 @@
 /* This file is the public interface to the bitset abstract data type.
    Only use the functions and macros defined in this file.  */
 
-#include "bbitset.h"
-#include "obstack.h"
 #include <stdio.h>
-
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
 #endif
+
+#include "bbitset.h"
+#include "obstack.h"
 
 /* Attributes used to select a bitset implementation.  */
 enum bitset_attr {BITSET_FIXED = 1,    /* Bitset size fixed.  */
@@ -83,7 +83,6 @@ union bitset_union
     struct bbitset_struct b;
     bitset_windex size;                 /* Allocated size of array.  */
   } v;
-
 };
 
 
@@ -309,9 +308,7 @@ void bitset_dump (FILE *, bitset);
    bitset_iterator iter;
 
    BITSET_FOR_EACH (iter, src, i, 0)
-   {
-      printf ("%lu ", (unsigned long) i);
-   };
+     printf ("%lu ", (unsigned long) i);
 */
 #define BITSET_FOR_EACH(ITER, BSET, INDEX, MIN)                               \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;                        \
@@ -331,9 +328,7 @@ void bitset_dump (FILE *, bitset);
    bitset_iterator iter;
 
    BITSET_FOR_EACH_REVERSE (iter, src, i, 0)
-   {
-      printf ("%lu ", (unsigned long) i);
-   };
+    printf ("%lu ", (unsigned long) i);
 */
 #define BITSET_FOR_EACH_REVERSE(ITER, BSET, INDEX, MIN)                       \
   for (ITER.next = (MIN), ITER.num = BITSET_LIST_SIZE;                        \
