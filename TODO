@@ -224,6 +224,9 @@ YYERROR_VERBOSE?" by Simon Sobisch, on bison-help.
 This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.
 
+Bruce Mardle <marblypup@yahoo.co.uk>
+https://lists.gnu.org/archive/html/bison-patches/2015-09/msg00000.html
+
 ** Push parsers
 There is demand for push parsers in Java and C++.  And GLR I guess.
 

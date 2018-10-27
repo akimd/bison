@@ -10637,7 +10637,7 @@ generate C++.
 
 @comment file: c++/simple.yy: 1
 @example
-%require "@value{VERSION}"
+%require "3.2"
 %language "c++"
 @end example
 
