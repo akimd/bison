@@ -18,7 +18,7 @@ src/scan-skel.l
 src/symtab.c
 
 lib/argmatch.c
-lib/bitset_stats.c
+lib/bitset/stats.c
 lib/closeout.c
 lib/error.c
 lib/getopt.c

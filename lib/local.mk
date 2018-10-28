@@ -15,29 +15,6 @@
 
 include lib/gnulib.mk
 
-# Implementation of bitsets.
-lib_libbison_a_SOURCES +=                       \
-  lib/abitset.c                                 \
-  lib/abitset.h                                 \
-  lib/bbitset.h                                 \
-  lib/bitset.c                                  \
-  lib/bitset.h                                  \
-  lib/bitset_stats.c                            \
-  lib/bitset_stats.h                            \
-  lib/bitsetv.c                                 \
-  lib/bitsetv.h                                 \
-  lib/ebitset.c                                 \
-  lib/ebitset.h                                 \
-  lib/lbitset.c                                 \
-  lib/lbitset.h                                 \
-  lib/vbitset.c                                 \
-  lib/vbitset.h
-
-# Additional bitset operations.
-lib_libbison_a_SOURCES +=                       \
-  lib/bitsetv-print.h                           \
-  lib/bitsetv-print.c
-
 # Non-gnulib sources in Bison's internal library.
 lib_libbison_a_SOURCES +=                       \
   lib/get-errno.h                               \
