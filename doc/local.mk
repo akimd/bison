@@ -42,8 +42,8 @@ $(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
 # diff in the next run.  Note that $@ might not exist yet.
 	$(AM_V_GEN){ test ! -f $@ || cat $@; } >$@~
 	$(AM_V_at)test ! -f $@.tmp || rm -f $@.tmp
-	$(AM_V_at)src/bison$(EXEEXT) --help |				 \
-	  $(PERL) $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l >$@.tmp
+	$(AM_V_at)$(PERL) $(CROSS_OPTIONS_PL) $(top_srcdir)/src/scan-gram.l \
+	  <$(top_srcdir)/doc/bison.help >$@.tmp
 	$(AM_V_at)diff -u $@~ $@.tmp || true
 	$(AM_V_at)mv $@.tmp $@
 MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
@@ -66,7 +66,7 @@ doc/refcard.pdf: doc/refcard.tex
 
 # Some of our targets (cross-option.texi, bison.1) use "bison --help".
 # Since we want to ship the generated file to avoid additional
-# requirements over the user environment, we used not depend on
+# requirements over the user environment, we used to not depend on
 # src/bison itself, but on src/getargs.c and other files.  Yet, we
 # need "bison --help" to work to make help2man happy, so we used to
 # include "make src/bison" in the commands.  Then we may have a
@@ -87,8 +87,11 @@ EXTRA_DIST += $(top_srcdir)/doc/bison.help
 if ! CROSS_COMPILING
 MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
 $(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
-	$(AM_V_GEN)src/bison$(EXEEXT) --version >doc/bison.help.tmp
-	$(AM_V_at) src/bison$(EXEEXT) --help   >>doc/bison.help.tmp
+	$(AM_V_GEN)LC_ALL=C src/bison$(EXEEXT) --version >doc/bison.help.tmp
+	$(AM_V_at) LC_ALL=C src/bison$(EXEEXT) --help | \
+## Avoid variations in the output depending on whether we are
+## on a glibc system.
+	  sed '/translation bugs/d'  >>doc/bison.help.tmp
 	$(AM_V_at)$(top_srcdir)/build-aux/move-if-change doc/bison.help.tmp $@
 endif ! CROSS_COMPILING
 
