@@ -22,12 +22,17 @@
 ## Identification.  ##
 ## ---------------- ##
 
+# b4_generated_by
+# ---------------
+m4_define([b4_generated_by],
+[b4_comment([A Bison parser, made by GNU Bison b4_version.])
+])
+
 # b4_copyright(TITLE, [YEARS])
 # ----------------------------
 # If YEARS are not defined, use b4_copyright_years.
 m4_define([b4_copyright],
-[b4_comment([A Bison parser, made by GNU Bison b4_version.])
-
+[b4_generated_by
 b4_comment([$1
 
 ]m4_dquote(m4_text_wrap([Copyright (C)
