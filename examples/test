@@ -45,7 +45,7 @@ fi
 # -------
 cleanup ()
 {
-  local status=$?
+  status=$?
   if test -z "$DEBUG"; then
      cd $cwd
      rm -rf $$.dir
@@ -61,22 +61,22 @@ cd $$.dir
 # -noerr: ignore stderr, otherwise merge it into effective output.
 run ()
 {
-  local noerr=false
+  noerr=false
   case $1 in
     (-noerr) noerr=true; shift;;
   esac
 
   # Expected exit status.
-  local sta_exp="$1"
+  sta_exp=$1
   shift
   # Expected output.
-  local out_exp="$1"
+  out_exp=$1
   shift
   # Effective exit status.
-  local sta_eff=0
+  sta_eff=0
   $prog "$@" - <input >out_eff 2>err_eff || sta_eff=$?
   # Combine effective output and error streams.
-  local out_eff="$(cat out_eff && $noerr || sed -e 's/^/err: /g' err_eff)"
+  out_eff=$(cat out_eff && $noerr || sed -e 's/^/err: /g' err_eff)
   if test $sta_eff -eq $sta_exp; then
     if test "$out_eff" = "$out_exp"; then
       echo "$me: PASS: $number"
