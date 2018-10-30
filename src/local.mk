@@ -104,9 +104,19 @@ BUILT_SOURCES +=                                \
   src/scan-gram.c                               \
   src/scan-skel.c
 
+# Although conceptually most of these guys would make more sense in the
+# definition of libbison, beware that they might expand as flags such as
+# `-lm`.  Keep them here.  Or use a Libtool convenience library.
 src_bison_LDADD =                               \
+  $(ISNAND_LIBM)                                \
+  $(ISNANF_LIBM)                                \
+  $(ISNANL_LIBM)                                \
+  $(LDEXPL_LIBM)                                \
+  $(LDEXP_LIBM)                                 \
   $(LIBINTL)                                    \
   $(LIBTHREAD)                                  \
+  $(LIB_CLOCK_GETTIME)                          \
+  $(LIB_GETHRXTIME)                             \
   lib/libbison.a
 
 

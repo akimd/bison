@@ -45,15 +45,6 @@ lib_libbison_a_SOURCES +=                       \
   lib/path-join.h                               \
   lib/path-join.c
 
-lib_libbison_a_LIBADD +=                        \
-  $(ISNAND_LIBM)                                \
-  $(ISNANF_LIBM)                                \
-  $(ISNANL_LIBM)                                \
-  $(LDEXPL_LIBM)                                \
-  $(LDEXP_LIBM)                                 \
-  $(LIB_CLOCK_GETTIME)                          \
-  $(LIB_GETHRXTIME)
-
 # The Yacc compatibility library.
 if ENABLE_YACC
   lib_LIBRARIES = lib/liby.a
