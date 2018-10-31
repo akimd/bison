@@ -11810,6 +11810,7 @@ then the parser's to get the set of defined tokens.
 # include <cerrno>
 # include <climits>
 # include <cstdlib>
+# include <cstring> // strerror
 # include <string>
 # include "driver.hh"
 # include "parser.hh"
