@@ -228,15 +228,18 @@ m4_define([b4_attribute_define],
 #endif
 
 ]m4_bmatch([$1], [\bnoreturn\b], [[/* The _Noreturn keyword of C11.  */
-#if ! (defined _Noreturn \
-       || (defined __STDC_VERSION__ && 201112 <= __STDC_VERSION__))
-# if (3 <= __GNUC__ || (__GNUC__ == 2 && 8 <= __GNUC_MINOR__) \
-      || 0x5110 <= __SUNPRO_C)
-#  define _Noreturn __attribute__ ((__noreturn__))
-# elif defined _MSC_VER && 1200 <= _MSC_VER
-#  define _Noreturn __declspec (noreturn)
-# else
-#  define _Noreturn
+#if ! defined _Noreturn
+# if defined __cplusplus && 201103L <= __cplusplus
+#  define _Noreturn [[noreturn]]
+# elif !(defined __STDC_VERSION__ && 201112 <= __STDC_VERSION__)
+#  if (3 <= __GNUC__ || (__GNUC__ == 2 && 8 <= __GNUC_MINOR__) \
+       || 0x5110 <= __SUNPRO_C)
+#   define _Noreturn __attribute__ ((__noreturn__))
+#  elif defined _MSC_VER && 1200 <= _MSC_VER
+#   define _Noreturn __declspec (noreturn)
+#  else
+#   define _Noreturn
+#  endif
 # endif
 #endif
 
