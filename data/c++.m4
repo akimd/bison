@@ -272,7 +272,7 @@ m4_define([b4_symbol_type_declare],
       location_type location;])[
 
     private:
-#if defined __cplusplus && __cplusplus < 201103L
+#if !defined __cplusplus || __cplusplus < 201103L
       /// Assignment operator.
       basic_symbol& operator= (const basic_symbol& other);
 #endif
