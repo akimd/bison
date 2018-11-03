@@ -36,7 +36,13 @@ AT_BISON_CHECK([1.y 2.y], [1], [],
 Try 'bison --help' for more information.
 ]])
 
-AT_BISON_CHECK([--skeleton], [1], [],
+# For some reason, on some systems we use the system's getopt, not the
+# one we ship in gnulib.  So we can get two different error messages.
+# See https://lists.gnu.org/archive/html/bison-patches/2018-10/msg00154.html
+AT_BISON_CHECK([--skeleton], [1], [], [stderr])
+AT_CHECK([[sed -e \
+  "s/requires an argument -- skeleton/'--skeleton' requires an argument/" \
+  stderr]], 0,
 [[bison: option '--skeleton' requires an argument
 Try 'bison --help' for more information.
 ]])
