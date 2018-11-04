@@ -65,17 +65,16 @@ calcxx_sources =                                \
   $(calcxx_sources_generated)
 
 if FLEX_CXX_WORKS
-check_PROGRAMS += %D%/calc++
-nodist_%C%_calc___SOURCES =                     \
-  $(calcxx_sources)
-
-# Don't use gnulib's system headers.
-%C%_calc___CPPFLAGS = -I$(top_builddir)/%D%
-%C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
-dist_TESTS += %D%/calc++.test
-else
+if  ENABLE_CXX
+  check_PROGRAMS += %D%/calc++
+  nodist_%C%_calc___SOURCES = $(calcxx_sources)
+  # Don't use gnulib's system headers.
+  %C%_calc___CPPFLAGS = -I$(top_builddir)/%D%
+  %C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
+  TESTS += %D%/calc++.test
+endif  ENABLE_CXX
+endif FLEX_CXX_WORKS
 EXTRA_DIST += %D%/calc++.test
-endif
 
 
 ## ------------ ##

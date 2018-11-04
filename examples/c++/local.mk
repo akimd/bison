@@ -35,21 +35,25 @@ if ENABLE_CXX14
   %C%_simple_CXXFLAGS = $(CXX11_CXXFLAGS)
   # Don't use gnulib's system headers.
   %C%_simple_CPPFLAGS = -I$(top_builddir)
-  dist_TESTS += %D%/simple.test
+  TESTS += %D%/simple.test
   %D%/simple.cc: $(BISON_IN) $(dist_pkgdata_DATA)
 endif
+EXTRA_DIST += %D%/simple.test
 
 
 ## ---------- ##
 ## Variants.  ##
 ## ---------- ##
 
-check_PROGRAMS += %D%/variant
-nodist_%C%_variant_SOURCES = %D%/variant.yy
-# Don't use gnulib's system headers.
-%C%_variant_CPPFLAGS = -I$(top_builddir)
-dist_TESTS += %D%/variant.test
-%D%/variant.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+if ENABLE_CXX
+  check_PROGRAMS += %D%/variant
+  nodist_%C%_variant_SOURCES = %D%/variant.yy
+  # Don't use gnulib's system headers.
+  %C%_variant_CPPFLAGS = -I$(top_builddir)
+  TESTS += %D%/variant.test
+  %D%/variant.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+endif
+EXTRA_DIST += %D%/variant.test
 
 if ENABLE_CXX11
   check_PROGRAMS += %D%/variant-11
@@ -57,9 +61,10 @@ if ENABLE_CXX11
   %C%_variant_11_CXXFLAGS = $(CXX11_CXXFLAGS)
   # Don't use gnulib's system headers.
   %C%_variant_11_CPPFLAGS = -I$(top_builddir)
-  dist_TESTS += %D%/variant-11.test
+  TESTS += %D%/variant-11.test
   %D%/variant-11.cc: $(BISON_IN) $(dist_pkgdata_DATA)
 endif
+EXTRA_DIST += %D%/variant-11.test
 
 dist_cxx_DATA = %D%/README %D%/Makefile %D%/variant.yy %D%/variant-11.yy
 CLEANFILES += %D%/simple.output %D%/variant.output %D%/variant-11.output

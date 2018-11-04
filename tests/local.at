@@ -777,7 +777,7 @@ m4_define([AT_QUELL_VALGRIND],
 # otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
 # with trailing .o removed, and ".c" appended.
 m4_define([AT_COMPILE],
-[AT_CHECK([$BISON_C_WORKS], 0, ignore, ignore)
+[AT_SKIP_IF([[! $BISON_C_WORKS]])
 AT_CHECK(m4_join([ ],
                  [$CC $CFLAGS $CPPFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
@@ -797,7 +797,7 @@ AT_CHECK(m4_join([ ],
 # with trailing ".o" removed, and ".cc" appended.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
-AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
+AT_SKIP_IF([[! $BISON_CXX_WORKS]])
 AT_CHECK(m4_join([ ],
                  [$CXX $CXXFLAGS $CPPFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
