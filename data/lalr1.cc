@@ -272,8 +272,9 @@ m4_define([b4_shared_declarations],
     /// Print the state stack on the debug stream.
     virtual void yystack_print_ ();
 
-    // Debugging.
+    /// Debugging level.
     int yydebug_;
+    /// Debug stream.
     std::ostream* yycdebug_;
 
     /// \brief Display a symbol type, value and location.

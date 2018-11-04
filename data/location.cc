@@ -59,7 +59,7 @@ m4_ifdef([b4_location_file],
 # ------------------
 # Define the position and location classes.
 m4_define([b4_location_define],
-[[  /// Abstract a position.
+[[  /// A point in a source file.
   class position
   {
   public:]m4_ifdef([b4_location_constructors], [[
@@ -178,7 +178,7 @@ m4_define([b4_location_define],
     return ostr << pos.line << '.' << pos.column;
   }
 
-  /// Abstract a location.
+  /// Two points in a source file.
   class location
   {
   public:

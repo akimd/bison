@@ -679,14 +679,15 @@ m4_define([AT_CHECK_DOXYGEN],
          [m4_fatal([invalid argument: $1])])
 AT_SETUP([Doxygen $1 Documentation])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %locations])
 AT_DATA([input.yy],
-[[%skeleton "lalr1.cc"
+[[%require "3.2"
+%skeleton "lalr1.cc"
 %locations
 %defines
 %debug
 %%
-exp: /* empty */;
+exp: %empty;
 %%
 ]AT_YYERROR_DEFINE[
 ]])
