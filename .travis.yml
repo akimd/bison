@@ -12,9 +12,53 @@ env:
 
 matrix:
   include:
+    ## ------- ##
+    ## First.  ##
+    ## ------- ##
+
+    # Start with three completely different environments, to get
+    # errors asap.
+
+    - name: "GCC 7 -O3"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
+
+    - name: "Clang 7 libc++ and ASAN"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-7
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-7
+            - libc++-7-dev
+            - libc++abi-7-dev
+      env:
+        # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
+        - MATRIX_EVAL="CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
+
+    - name: "ICC"
+      os: linux
+      env:
+        # ICC's warnings are often very wrong (e.g., it thinks foo ?
+        # "bar" : "baz" is char* instead of const char*), so don't try
+        # to work around the, and obviously, don't die on them.
+        - MATRIX_EVAL="CC=icc && CXX=icpc"
+        - MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='
+
+
     ## ----- ##
     ## GCC.  ##
     ## ----- ##
+
     #- name: "GCC 8 with sanitizers"
     #  os: linux
     #  addons:
@@ -28,17 +72,6 @@ matrix:
     #    # configure:4951: gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer conftest.c
     #    # /usr/bin/ld: unrecognized option '--push-state'
     #    - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
-
-    - name: "GCC 7 -O3"
-      os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
     - name: "GCC 6"
       os: linux
@@ -109,21 +142,6 @@ matrix:
     ## ------- ##
     ## Clang.  ##
     ## ------- ##
-
-    - name: "Clang 7 libc++ and ASAN"
-      os: linux
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-trusty-7
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-7
-            - libc++-7-dev
-            - libc++abi-7-dev
-      env:
-        # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
 
     - name: "Clang 6 -O3 and libc++"
       os: linux
@@ -242,17 +260,6 @@ matrix:
         # See comment for 3.4.
         - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
 
-    ## ----- ##
-    ## ICC.  ##
-    ## ----- ##
-    - name: "ICC"
-      os: linux
-      env:
-        # ICC's warnings are often very wrong (e.g., it thinks foo ?
-        # "bar" : "baz" is char* instead of const char*), so don't try
-        # to work around the, and obviously, don't die on them.
-        - MATRIX_EVAL="CC=icc && CXX=icpc"
-        - MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='
 
 before_install:
   - eval "$MATRIX_EVAL"
