@@ -220,6 +220,10 @@ The users are not provided with enough tools to forge their error messages.
 See for instance "Is there an option to change the message produced by
 YYERROR_VERBOSE?" by Simon Sobisch, on bison-help.
 
+See also
+https://www.cs.tufts.edu/~nr/cs257/archive/clinton-jefferey/lr-error-messages.pdf
+and https://research.swtch.com/yyerror.
+
 ** %include
 This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.
