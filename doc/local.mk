@@ -32,7 +32,7 @@ $(doc_bison).html: $(FIGS_GV:.gv=.png)
 TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d -I doc
 CLEANDIRS += doc/bison.t2d
 
-MOSTLYCLEANFILES += $(top_srcdir)/doc/*.t
+MOSTLYCLEANFILES += $(top_srcdir)/doc/*.tmp
 
 CROSS_OPTIONS_PL = $(top_srcdir)/build-aux/cross-options.pl
 CROSS_OPTIONS_TEXI = $(top_srcdir)/doc/cross-options.texi
@@ -64,7 +64,7 @@ doc/refcard.pdf: doc/refcard.tex
 ## doc/bison.help.  ##
 ## ---------------- ##
 
-# Some of our targets (cross-option.texi, bison.1) use "bison --help".
+# Some of our targets (cross-options.texi, bison.1) use "bison --help".
 # Since we want to ship the generated file to avoid additional
 # requirements over the user environment, we used to not depend on
 # src/bison itself, but on src/getargs.c and other files.  Yet, we
@@ -80,7 +80,7 @@ doc/refcard.pdf: doc/refcard.tex
 # bison.help, which contains --version then --help.  This file can
 # depend on bison, which ensures its correctness.  But update it
 # *only* if needed (content changes).  This way, we avoid useless
-# compilations of cross-option.texi and bison.1.  At the cost of
+# compilations of cross-options.texi and bison.1.  At the cost of
 # repeated builds of bison.help.
 
 EXTRA_DIST += $(top_srcdir)/doc/bison.help
@@ -117,14 +117,14 @@ endif
 $(top_srcdir)/doc/bison.1: $(MAN_DEPS)
 	$(AM_V_GEN)$(HELP2MAN)			\
 	    --include=$(top_srcdir)/doc/bison.x	\
-	    --output=$@.t src/bison$(EXEEXT)
-	$(AM_V_at)if $(remove_time_stamp) $@ >$@a.t 2>/dev/null &&	 \
-	   $(remove_time_stamp) $@.t | cmp $@a.t - >/dev/null 2>&1; then \
-	  touch $@;							 \
-	else								 \
-	  mv $@.t $@;							 \
+	    --output=$@.tmp src/bison$(EXEEXT)
+	$(AM_V_at)if $(remove_time_stamp) $@ >$@a.tmp 2>/dev/null &&		\
+	   $(remove_time_stamp) $@.tmp | cmp $@a.tmp - >/dev/null 2>&1; then	\
+	  touch $@;								\
+	else									\
+	  mv $@.tmp $@;								\
 	fi
-	$(AM_V_at)rm -f $@*.t
+	$(AM_V_at)rm -f $@*.tmp
 
 if ENABLE_YACC
 nodist_man_MANS = doc/yacc.1
