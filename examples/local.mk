@@ -30,7 +30,8 @@ EXTEXIFLAGS = --synclines
 endif
 extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(EXTEXIFLAGS) $(doc) --
 extracted =
-CLEANFILES += $(extracted) %D%/extracted.stamp
+EXTRA_DIST += $(extracted)
+MAINTAINERCLEANFILES += $(extracted) %D%/extracted.stamp
 %D%/extracted.stamp: $(doc) $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
@@ -42,10 +43,32 @@ $(extracted): %D%/extracted.stamp
 	@test -f $@ || rm -f %D%/extracted.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/extracted.stamp
 
+
+## ------ ##
+## Dist.  ##
+## ------ ##
+
+# Ship the stamp file, otherwise it will be recreated, which is what
+# we want to avoid.
+EXTRA_DIST += %D%/extracted.stamp
+
+# Suppress the #lines from the examples when rolling the tarball, so
+# that regular users have readable examples even before installing
+# Bison.
+dist-hook: examples-unline
+.PHOMY: examples-unline
+examples-unline:
+	for e in $(extracted);			\
+	do					\
+	  e=$(distdir)/$$e;			\
+	  sed -e '/#line/d' $$e >$$e.tmp;	\
+	  mv -f $$e.tmp $$e;			\
+	done
+
+
 ## ---------- ##
 ## Examples.  ##
 ## ---------- ##
-
 
 examplesdir = $(docdir)/examples
 dist_examples_DATA = %D%/README
