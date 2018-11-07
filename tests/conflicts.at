@@ -1280,6 +1280,25 @@ AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
+## -------------------------- ##
+## %expect in grammar rules.  ##
+## -------------------------- ##
+
+AT_SETUP([%expect in grammar rules])
+
+AT_DATA([input.y],
+[[%expect 4
+%%
+exp:
+  "number"
+| exp "+" exp  %expect 2
+| exp "*" exp  %expect 2
+]])
+
+AT_BISON_CHECK([-o input.c -rall input.y])
+AT_CLEANUP
+
+
 ## ---------------------------------- ##
 ## %expect in grammar rule too much.  ##
 ## ---------------------------------- ##
