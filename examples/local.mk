@@ -56,7 +56,7 @@ EXTRA_DIST += %D%/extracted.stamp
 # that regular users have readable examples even before installing
 # Bison.
 dist-hook: examples-unline
-.PHOMY: examples-unline
+.PHONY: examples-unline
 examples-unline:
 	for e in $(extracted);			\
 	do					\
