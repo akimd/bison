@@ -57,9 +57,7 @@ extracted += $(calcxx_extracted)
 calcxx_sources_generated =                      \
   %D%/parser.cc                                 \
   %D%/parser.hh                                 \
-  %D%/location.hh                               \
-  %D%/position.hh                               \
-  %D%/stack.hh
+  %D%/location.hh
 calcxx_sources =                                \
   $(calcxx_sources_extracted)                   \
   $(calcxx_sources_generated)
@@ -69,7 +67,7 @@ if  ENABLE_CXX
   check_PROGRAMS += %D%/calc++
   nodist_%C%_calc___SOURCES = $(calcxx_sources)
   # Don't use gnulib's system headers.
-  %C%_calc___CPPFLAGS = -I$(top_builddir)/%D%
+  %C%_calc___CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
   %C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
   TESTS += %D%/calc++.test
 endif  ENABLE_CXX
