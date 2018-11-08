@@ -44,4 +44,5 @@ void conflicts_free (void);
 /* Were there conflicts? */
 extern int expected_sr_conflicts;
 extern int expected_rr_conflicts;
+
 #endif /* !CONFLICTS_H_ */

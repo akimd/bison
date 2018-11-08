@@ -26,6 +26,20 @@ GNU Bison NEWS
   The use of the %error-verbose directive is deprecated in favor of "%define
   parse.error verbose" since Bison 3.0, but no warning was issued.
 
+** Bug fixes
+
+*** Incorrect number of reduce-reduce conflicts
+
+  On a grammar such as
+
+     exp: "num" | "num" | "num"
+
+  bison used report a single RR conflict, instead of two.  This is now
+  fixed.  This was the oldest (known) bug in Bison: it was there when Bison
+  was entered in the RCS version control system, in December 1987.
+
+  Some grammar files might have to adjust their %expect-rr.
+
 * Noteworthy changes in release 3.2.2 (2018-11-21) [stable]
 
 ** Bug fixes

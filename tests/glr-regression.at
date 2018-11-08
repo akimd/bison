@@ -342,7 +342,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr3.c -rall glr-regr3.y]], 0, [],
 [[glr-regr3.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-glr-regr3.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+glr-regr3.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
 ]])
 AT_COMPILE([glr-regr3])
 
@@ -437,7 +437,7 @@ merge (YYSTYPE s1, YYSTYPE s2)
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr4.c -rall glr-regr4.y]], 0, [],
-[[glr-regr4.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+[[glr-regr4.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
 ]])
 AT_COMPILE([glr-regr4])
 
@@ -799,7 +799,7 @@ main (void)
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr9.c -rall glr-regr9.y]], 0, [],
-[[glr-regr9.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+[[glr-regr9.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
 ]])
 AT_COMPILE([glr-regr9])
 
@@ -1363,7 +1363,7 @@ main (void)
 AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr14.c -rall glr-regr14.y]], 0, [],
-[[glr-regr14.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
+[[glr-regr14.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 ]])
 AT_COMPILE([glr-regr14])
 
