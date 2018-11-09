@@ -1318,6 +1318,89 @@ AT_BISON_CHECK([-o input.c input.y], 1, [],
 AT_CLEANUP
 
 
+## ---------------------------- ##
+## %expect-rr in grammar rule.  ##
+## ---------------------------- ##
+
+AT_SETUP([%expect-rr in grammar rule])
+
+AT_DATA([input.y],
+[[%glr-parser
+%expect-rr 3
+%%
+exp
+: a '1'
+| a '2'
+| a '3'
+| b '1'
+| b '2'
+| b '3'
+a:
+b: %expect-rr 3
+]])
+
+AT_BISON_CHECK([-o input.c input.y])
+AT_CLEANUP
+
+
+## ------------------------------------- ##
+## %expect-rr too much in grammar rule.  ##
+## ------------------------------------- ##
+
+AT_SETUP([%expect-rr too much in grammar rule])
+
+AT_DATA([input.y],
+[[%glr-parser
+%expect-rr 3
+%%
+exp
+: a '1'
+| a '2'
+| a '3'
+| b '1'
+| b '2'
+| b '3'
+a:
+b: %expect-rr 4
+]])
+
+AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
+[[input.y:12.4-15: error: reduce/reduce conflicts for rule 8: 3 found, 4 expected
+ b: %expect-rr 4
+    ^^^^^^^^^^^^
+]])
+AT_CLEANUP
+
+
+## --------------------------------------- ##
+## %expect-rr not enough in grammar rule.  ##
+## --------------------------------------- ##
+
+AT_SETUP([%expect-rr not enough in grammar rule])
+
+AT_DATA([input.y],
+[[%glr-parser
+%expect-rr 3
+%%
+exp
+: a '1'
+| a '2'
+| a '3'
+| b '1'
+| b '2'
+| b '3'
+a:
+b: %expect-rr 2
+]])
+
+AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
+[[input.y:12.4-15: error: reduce/reduce conflicts for rule 8: 3 found, 2 expected
+ b: %expect-rr 2
+    ^^^^^^^^^^^^
+]])
+AT_CLEANUP
+
+
 ## ------------------------- ##
 ## %prec with user strings.  ##
 ## ------------------------- ##
