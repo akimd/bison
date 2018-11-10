@@ -53,15 +53,15 @@ static boundary scanner_cursor;
 static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
-#define RETURN_PERCENT_PARAM(Value)                     \
-  RETURN_VALUE(PERCENT_PARAM, param, param_ ## Value)
+#define RETURN_PERCENT_PARAM(Value)             \
+  RETURN_VALUE(PERCENT_PARAM, param_ ## Value)
 
-#define RETURN_PERCENT_FLAG(Value)                              \
-  RETURN_VALUE(PERCENT_FLAG, uniqstr, uniqstr_new (Value))
+#define RETURN_PERCENT_FLAG(Value)                      \
+  RETURN_VALUE(PERCENT_FLAG, uniqstr_new (Value))
 
-#define RETURN_VALUE(Token, Field, Value)       \
+#define RETURN_VALUE(Token, Value)              \
   do {                                          \
-    val->Field = Value;                         \
+    val->Token = Value;                         \
     return Token;                               \
   } while (0)
 
@@ -134,6 +134,7 @@ letter    [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
 notletter [^.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]{-}[%\{]
 id        {letter}({letter}|[-0-9])*
 int       [0-9]+
+xint      0[xX][0-9abcdefABCDEF]+
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */
@@ -281,20 +282,14 @@ eqopt    ([[:space:]]*=)?
   ";"                     return SEMICOLON;
 
   {id} {
-    val->uniqstr = uniqstr_new (yytext);
+    val->ID = uniqstr_new (yytext);
     id_loc = *loc;
     bracketed_id_str = NULL;
     BEGIN SC_AFTER_IDENTIFIER;
   }
 
-  {int} {
-    val->integer = scan_integer (yytext, 10, *loc);
-    return INT;
-  }
-  0[xX][0-9abcdefABCDEF]+ {
-    val->integer = scan_integer (yytext, 16, *loc);
-    return INT;
-  }
+  {int}      RETURN_VALUE (INT, scan_integer (yytext, 10, *loc));
+  {xint}     RETURN_VALUE (INT, scan_integer (yytext, 16, *loc));
 
   /* Identifiers may not start with a digit.  Yet, don't silently
      accept "1FOO" as "1 FOO".  */
@@ -437,7 +432,7 @@ eqopt    ([[:space:]]*=)?
       {
         if (INITIAL == bracketed_id_context_state)
           {
-            val->uniqstr = bracketed_id_str;
+            val->BRACKETED_ID = bracketed_id_str;
             bracketed_id_str = 0;
             *loc = bracketed_id_loc;
             return BRACKETED_ID;
@@ -464,7 +459,7 @@ eqopt    ([[:space:]]*=)?
 {
   . {
     ROLLBACK_CURRENT_TOKEN;
-    val->uniqstr = bracketed_id_str;
+    val->BRACKETED_ID = bracketed_id_str;
     bracketed_id_str = 0;
     *loc = bracketed_id_loc;
     BEGIN INITIAL;
@@ -517,10 +512,9 @@ eqopt    ([[:space:]]*=)?
 {
   "\"" {
     STRING_FINISH;
-    loc->start = token_start;
-    val->code = last_string;
     BEGIN INITIAL;
-    return STRING;
+    loc->start = token_start;
+    RETURN_VALUE (STRING, last_string);
   }
   <<EOF>>   unexpected_eof (token_start, "\"");
   "\n"      unexpected_newline (token_start, "\"");
@@ -536,14 +530,14 @@ eqopt    ([[:space:]]*=)?
   "'" {
     STRING_FINISH;
     loc->start = token_start;
-    val->character = last_string[0];
+    val->CHAR = last_string[0];
 
     /* FIXME: Eventually, make these errors.  */
     if (last_string[0] == '\0')
     {
       complain (loc, Wother, _("empty character literal"));
       /* '\0' seems dangerous even if we are about to complain.  */
-      val->character = '\'';
+      val->CHAR = '\'';
     }
     else if (last_string[1] != '\0')
       complain (loc, Wother,
@@ -570,7 +564,7 @@ eqopt    ([[:space:]]*=)?
       {
         STRING_FINISH;
         loc->start = token_start;
-        val->uniqstr = uniqstr_new (last_string);
+        val->TAG = uniqstr_new (last_string);
         STRING_FREE;
         BEGIN INITIAL;
         return TAG;
@@ -725,9 +719,8 @@ eqopt    ([[:space:]]*=)?
       {
         STRING_FINISH;
         loc->start = code_start;
-        val->code = last_string;
         BEGIN INITIAL;
-        return BRACED_CODE;
+        RETURN_VALUE (BRACED_CODE, last_string);
       }
   }
 }
@@ -740,9 +733,8 @@ eqopt    ([[:space:]]*=)?
       {
         STRING_FINISH;
         loc->start = code_start;
-        val->code = last_string;
         BEGIN INITIAL;
-        return BRACED_PREDICATE;
+        RETURN_VALUE (BRACED_PREDICATE, last_string);
       }
     else
       obstack_1grow (&obstack_for_string, '}');
@@ -758,9 +750,8 @@ eqopt    ([[:space:]]*=)?
   "%}" {
     STRING_FINISH;
     loc->start = code_start;
-    val->code = last_string;
     BEGIN INITIAL;
-    return PROLOGUE;
+    RETURN_VALUE (PROLOGUE, last_string);
   }
 
   <<EOF>>   unexpected_eof (code_start, "%}");
@@ -777,9 +768,8 @@ eqopt    ([[:space:]]*=)?
   <<EOF>> {
     STRING_FINISH;
     loc->start = code_start;
-    val->code = last_string;
     BEGIN INITIAL;
-    return EPILOGUE;
+    RETURN_VALUE (EPILOGUE, last_string);
   }
 }
 
