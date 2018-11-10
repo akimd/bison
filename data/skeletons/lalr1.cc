@@ -512,34 +512,7 @@ m4_if(b4_prefix, [yy], [],
   std::string
   ]b4_parser_class[::yytnamerr_ (int yytoken)
   {
-    const char *yystr = yytname_[yytoken];
-    if (*yystr == '"')
-      {
-        std::string yyr;
-        char const *yyp = yystr;
-
-        for (;;)
-          switch (*++yyp)
-            {
-            case '\'':
-            case ',':
-              goto do_not_strip_quotes;
-
-            case '\\':
-              if (*++yyp != '\\')
-                goto do_not_strip_quotes;
-              // Fall through.
-            default:
-              yyr += *yyp;
-              break;
-
-            case '"':
-              return yyr;
-            }
-      do_not_strip_quotes: ;
-      }
-
-    return yystr;
+    return yytname_[yytoken];
   }
 ]])[
 

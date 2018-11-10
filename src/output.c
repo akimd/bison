@@ -165,7 +165,10 @@ prepare_symbols (void)
     set_quoting_flags (qo, QA_SPLIT_TRIGRAPHS);
     for (int i = 0; i < nsyms; i++)
       {
-        char *cp = quotearg_alloc (symbols[i]->tag, -1, qo);
+        char *cp =
+          symbols[i]->tag[0] == '"'
+          ? xstrdup (symbols[i]->tag)
+          : quotearg_alloc (symbols[i]->tag, -1, qo);
         /* Width of the next token, including the two quotes, the
            comma and the space.  */
         int width = strlen (cp) + 2;

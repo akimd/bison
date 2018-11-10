@@ -541,6 +541,20 @@ static void yypdumpstack (struct yyGLRStack* yystackp)
   } while (0)
 #endif
 
+/** Grammar symbol */
+typedef int yySymbol;
+
+#if ]b4_api_PREFIX[DEBUG || YYERROR_VERBOSE
+/** A printable representation of TOKEN.  */
+static inline const char*
+yytokenName (yySymbol yytoken)
+{
+  if (yytoken == YYEMPTY)
+    return "";
+  else
+    return yytname[yytoken];
+}
+#endif
 
 #if YYERROR_VERBOSE
 
@@ -565,50 +579,14 @@ yystpcpy (char *yydest, const char *yysrc)
 # endif
 
 # ifndef yytnamerr
-/* Copy to YYRES the name of YYTOKEN after stripping away unnecessary
-   quotes and backslashes, so that it's suitable for yyerror.  The
-   heuristic is that double-quoting is unnecessary unless the string
-   contains an apostrophe, a comma, or backslash (other than
-   backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
-   null, do not copy; instead, return the length of what the result
-   would have been.  */
+/* Copy to YYRES the name of YYTOKEN.  If YYRES is null, do not copy;
+   instead, return the length of what the result would have been.  */
 static size_t
 yytnamerr (char *yyres, int yytoken)
 {
-  const char *yystr = yytname[yytoken];
-  if (*yystr == '"')
-    {
-      size_t yyn = 0;
-      char const *yyp = yystr;
-
-      for (;;)
-        switch (*++yyp)
-          {
-          case '\'':
-          case ',':
-            goto do_not_strip_quotes;
-
-          case '\\':
-            if (*++yyp != '\\')
-              goto do_not_strip_quotes;
-            /* Fall through.  */
-          default:
-            if (yyres)
-              yyres[yyn] = *yyp;
-            yyn++;
-            break;
-
-          case '"':
-            if (yyres)
-              yyres[yyn] = '\0';
-            return yyn;
-          }
-    do_not_strip_quotes: ;
-    }
-
+  const char *yystr = yytokenName (yytoken);
   if (! yyres)
     return strlen (yystr);
-
   return (size_t) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
@@ -620,9 +598,6 @@ typedef int yyStateNum;
 
 /** Rule numbers, as in LALR(1) machine */
 typedef int yyRuleNum;
-
-/** Grammar symbol */
-typedef int yySymbol;
 
 /** Item references, as in LALR(1) machine */
 typedef short yyItemNum;
@@ -727,18 +702,6 @@ yyMemoryExhausted (yyGLRStack* yystackp)
 {
   YYLONGJMP (yystackp->yyexception_buffer, 2);
 }
-
-#if ]b4_api_PREFIX[DEBUG || YYERROR_VERBOSE
-/** A printable representation of TOKEN.  */
-static inline const char*
-yytokenName (yySymbol yytoken)
-{
-  if (yytoken == YYEMPTY)
-    return "";
-  else
-    return yytname[yytoken];
-}
-#endif
 
 /** Fill in YYVSP[YYLOW1 .. YYLOW0-1] from the chain of states starting
  *  at YYVSP[YYLOW0].yystate.yypred.  Leaves YYVSP[YYLOW1].yystate.yypred

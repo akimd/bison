@@ -1041,47 +1041,12 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
 # endif
 
 # ifndef yytnamerr
-/* Copy to YYRES the name of YYTOKEN after stripping away unnecessary
-   quotes and backslashes, so that it's suitable for yyerror.  The
-   heuristic is that double-quoting is unnecessary unless the string
-   contains an apostrophe, a comma, or backslash (other than
-   backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
-   null, do not copy; instead, return the length of what the result
-   would have been.  */
+/* Copy to YYRES the name of YYTOKEN.  If YYRES is null, do not copy;
+   instead, return the length of what the result would have been.  */
 static YYSIZE_T
 yytnamerr (char *yyres, int yytoken)
 {
   const char *yystr = yytname[yytoken];
-  if (*yystr == '"')
-    {
-      YYSIZE_T yyn = 0;
-      char const *yyp = yystr;
-
-      for (;;)
-        switch (*++yyp)
-          {
-          case '\'':
-          case ',':
-            goto do_not_strip_quotes;
-
-          case '\\':
-            if (*++yyp != '\\')
-              goto do_not_strip_quotes;
-            /* Fall through.  */
-          default:
-            if (yyres)
-              yyres[yyn] = *yyp;
-            yyn++;
-            break;
-
-          case '"':
-            if (yyres)
-              yyres[yyn] = '\0';
-            return yyn;
-          }
-    do_not_strip_quotes: ;
-    }
-
   if (! yyres)
     return yystrlen (yystr);
 

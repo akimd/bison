@@ -493,40 +493,14 @@ b4_define_state])[
   }
 
 ]b4_error_verbose_if([[
-  /* The name of YYTOKEN after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
+  /* The name of YYTOKEN.  */
   private final String yytnamerr_ (int yytoken)
   {
     String yystr = yytname_[yytoken];
-    if (yystr.charAt (0) == '"')
-      {
-        StringBuffer yyr = new StringBuffer ();
-        strip_quotes: for (int i = 1; i < yystr.length (); i++)
-          switch (yystr.charAt (i))
-            {
-            case '\'':
-            case ',':
-              break strip_quotes;
-
-            case '\\':
-              if (yystr.charAt(++i) != '\\')
-                break strip_quotes;
-              /* Fall through.  */
-            default:
-              yyr.append (yystr.charAt (i));
-              break;
-
-            case '"':
-              return yyr.toString ();
-            }
-      }
-    else if (yystr.equals ("$end"))
+    if (yystr.equals ("$end"))
       return "end of input";
-
-    return yystr;
+    else
+      return yystr;
   }
 ]])[
 

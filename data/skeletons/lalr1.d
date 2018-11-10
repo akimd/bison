@@ -398,39 +398,12 @@ b4_lexer_if([[
     return YYNEWSTATE;
   }
 
-  /* The name of YYTOKEN after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
+  /* The name of YYTOKEN.  */
   private final string yytnamerr_ (int yytoken)
   {
     string yystr = yytname_[yytoken];
-    if (yystr[0] == '"')
-      {
-        string yyr;
-        strip_quotes: for (int i = 1; i < yystr.length; i++)
-          switch (yystr[i])
-            {
-            case '\'':
-            case ',':
-              break strip_quotes;
-
-            case '\\':
-              if (yystr[++i] != '\\')
-                break strip_quotes;
-              goto default;
-            default:
-              yyr ~= yystr[i];
-              break;
-
-            case '"':
-              return yyr;
-            }
-      }
-    else if (yystr=="$end")
+    if (yystr=="$end")
       return "end of input";
-
     return yystr;
   }
 
