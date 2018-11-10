@@ -17,7 +17,6 @@ src/scan-gram.l
 src/scan-skel.l
 src/symtab.c
 
-djgpp/subpipe.c
 lib/argmatch.c
 lib/bitset_stats.c
 lib/closeout.c

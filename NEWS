@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Backward incompatible changes
+
+  Support for DJGPP, which has been unmaintained and untested for years, is
+  removed.
 
 * Noteworthy changes in release 3.2.1 (2018-11-09) [stable]
 
@@ -14,7 +18,7 @@ GNU Bison NEWS
 
 ** Backward incompatible changes
 
-  Support for DJGPP, which have been unmaintained and untested for years, is
+  Support for DJGPP, which has been unmaintained and untested for years, is
   obsolete.  Unless there is activity to revive it, it will be removed.
 
 ** Changes
@@ -184,7 +188,7 @@ GNU Bison NEWS
   release of Bison 3.0, five years ago.  Generated parsers do not require a
   C99 compiler.
 
-  Support for DJGPP, which have been unmaintained and untested for years, is
+  Support for DJGPP, which has been unmaintained and untested for years, is
   obsolete. Unless there is activity to revive it, the next release of Bison
   will have it removed.
 

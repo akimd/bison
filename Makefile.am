@@ -57,7 +57,6 @@ noinst_LIBRARIES =
 
 include build-aux/local.mk
 include data/local.mk
-include djgpp/local.mk
 include doc/local.mk
 include etc/local.mk
 include examples/local.mk
