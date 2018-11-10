@@ -522,7 +522,7 @@ m4_if(b4_prefix, [yy], [],
   {
     if (*yystr == '"')
       {
-        std::string yyr = "";
+        std::string yyr;
         char const *yyp = yystr;
 
         for (;;)
