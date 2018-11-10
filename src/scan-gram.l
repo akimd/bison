@@ -969,7 +969,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
   /* Instead of '\'', display "'".  */
   if (STREQ (token_end, "'\\''"))
     token_end = "\"'\"";
-  complain (&loc, complaint, _(msgid), token_end);
+  complain (&loc, complaint, msgid, token_end);
 }
 
 
@@ -982,7 +982,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
 static void
 unexpected_eof (boundary start, char const *token_end)
 {
-  unexpected_end (start, N_("missing %s at end of file"), token_end);
+  unexpected_end (start, _("missing %s at end of file"), token_end);
 }
 
 
@@ -993,7 +993,7 @@ unexpected_eof (boundary start, char const *token_end)
 static void
 unexpected_newline (boundary start, char const *token_end)
 {
-  unexpected_end (start, N_("missing %s at end of line"), token_end);
+  unexpected_end (start, _("missing %s at end of line"), token_end);
 }
 
 
