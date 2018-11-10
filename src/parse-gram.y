@@ -621,15 +621,13 @@ named_ref.opt:
 | BRACKETED_ID   { $$ = named_ref_new ($1, @1); }
 ;
 
+
 /*---------------------.
 | variable and value.  |
 `---------------------*/
 
-/* The STRING form of variable is deprecated and is not M4-friendly.
-   For example, M4 fails for '%define "[" "value"'.  */
 variable:
   ID
-| STRING { $$ = uniqstr_new ($1); }
 ;
 
 /* Some content or empty by default. */
