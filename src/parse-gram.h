@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.1.91.31-00793.  */
+/* A Bison parser, made by GNU Bison 3.2.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -55,7 +55,7 @@ extern int gram_debug;
 
   #include "symlist.h"
   #include "symtab.h"
-#line 222 "src/parse-gram.y" /* yacc.c:1906  */
+#line 215 "src/parse-gram.y" /* yacc.c:1906  */
 
   typedef enum
   {
@@ -64,10 +64,16 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 645 "src/parse-gram.y" /* yacc.c:1906  */
-#include "muscle-tab.h"
+#line 634 "src/parse-gram.y" /* yacc.c:1906  */
 
-#line 71 "src/parse-gram.h" /* yacc.c:1906  */
+  #include "muscle-tab.h"
+  typedef struct
+  {
+    char const *chars;
+    muscle_kind kind;
+  } value_type;
+
+#line 77 "src/parse-gram.h" /* yacc.c:1906  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -138,35 +144,64 @@ extern int gram_debug;
 
 union GRAM_STYPE
 {
-#line 183 "src/parse-gram.y" /* yacc.c:1906  */
-unsigned char character;
-#line 187 "src/parse-gram.y" /* yacc.c:1906  */
-char *code;
-#line 192 "src/parse-gram.y" /* yacc.c:1906  */
-uniqstr uniqstr;
-#line 200 "src/parse-gram.y" /* yacc.c:1906  */
-int integer;
-#line 204 "src/parse-gram.y" /* yacc.c:1906  */
-symbol *symbol;
-#line 209 "src/parse-gram.y" /* yacc.c:1906  */
-assoc assoc;
-#line 212 "src/parse-gram.y" /* yacc.c:1906  */
-symbol_list *list;
-#line 215 "src/parse-gram.y" /* yacc.c:1906  */
-named_ref *named_ref;
-#line 242 "src/parse-gram.y" /* yacc.c:1906  */
-param_type param;
-#line 409 "src/parse-gram.y" /* yacc.c:1906  */
-code_props_type code_type;
-#line 647 "src/parse-gram.y" /* yacc.c:1906  */
 
-  struct
-  {
-    char const *chars;
-    muscle_kind kind;
-  } value;
-
-#line 170 "src/parse-gram.h" /* yacc.c:1906  */
+  /* precedence_declarator  */
+  assoc precedence_declarator;
+  /* "string"  */
+  char* STRING;
+  /* "{...}"  */
+  char* BRACED_CODE;
+  /* "%?{...}"  */
+  char* BRACED_PREDICATE;
+  /* "epilogue"  */
+  char* EPILOGUE;
+  /* "%{...%}"  */
+  char* PROLOGUE;
+  /* code_props_type  */
+  code_props_type code_props_type;
+  /* "integer"  */
+  int INT;
+  /* named_ref.opt  */
+  named_ref* yytype_87;
+  /* "%param"  */
+  param_type PERCENT_PARAM;
+  /* symbol.prec  */
+  symbol* yytype_74;
+  /* id  */
+  symbol* id;
+  /* id_colon  */
+  symbol* id_colon;
+  /* symbol  */
+  symbol* symbol;
+  /* string_as_id  */
+  symbol* string_as_id;
+  /* symbols.prec  */
+  symbol_list* yytype_73;
+  /* symbols.1  */
+  symbol_list* yytype_75;
+  /* generic_symlist  */
+  symbol_list* generic_symlist;
+  /* generic_symlist_item  */
+  symbol_list* generic_symlist_item;
+  /* "%<flag>"  */
+  uniqstr PERCENT_FLAG;
+  /* "[identifier]"  */
+  uniqstr BRACKETED_ID;
+  /* "identifier"  */
+  uniqstr ID;
+  /* "identifier:"  */
+  uniqstr ID_COLON;
+  /* "<tag>"  */
+  uniqstr TAG;
+  /* tag  */
+  uniqstr tag;
+  /* variable  */
+  uniqstr variable;
+  /* "char"  */
+  unsigned char CHAR;
+  /* value  */
+  value_type value;
+#line 205 "src/parse-gram.h" /* yacc.c:1906  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
