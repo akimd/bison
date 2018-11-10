@@ -592,10 +592,10 @@ rules_or_grammar_declaration:
 
 rules:
   id_colon named_ref.opt { current_lhs ($1, @1, $2); } rhses.1
-  {
-    /* Free the current lhs. */
-    current_lhs (0, @1, 0);
-  }
+    {
+      /* Free the current lhs. */
+      current_lhs (0, @1, 0);
+    }
 ;
 
 rhses.1:

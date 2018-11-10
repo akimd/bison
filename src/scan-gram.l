@@ -591,10 +591,11 @@ eqopt    ([[:space:]]*=)?
 <SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
 {
   \\[0-7]{1,3} {
+    verify (UCHAR_MAX < ULONG_MAX);
     unsigned long c = strtoul (yytext + 1, NULL, 8);
     if (!c || UCHAR_MAX < c)
       complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                   yytext+1);
+                yytext+1);
     else
       obstack_1grow (&obstack_for_string, c);
   }
@@ -604,7 +605,7 @@ eqopt    ([[:space:]]*=)?
     unsigned long c = strtoul (yytext + 2, NULL, 16);
     if (!c || UCHAR_MAX < c)
       complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                   yytext+1);
+                yytext+1);
     else
       obstack_1grow (&obstack_for_string, c);
   }
@@ -624,7 +625,7 @@ eqopt    ([[:space:]]*=)?
     int c = convert_ucn_to_byte (yytext);
     if (c <= 0)
       complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                   yytext+1);
+                yytext+1);
     else
       obstack_1grow (&obstack_for_string, c);
   }
@@ -636,7 +637,7 @@ eqopt    ([[:space:]]*=)?
     else
       p = quotearg_style_mem (escape_quoting_style, p, 1);
     complain (loc, complaint, _("invalid character after \\-escape: %s"),
-                 p);
+              p);
   }
 }
 
@@ -853,7 +854,7 @@ scan_integer (char const *number, int base, location loc)
   if (INT_MAX < num)
     {
       complain (&loc, complaint, _("integer out of range: %s"),
-                   quote (number));
+                quote (number));
       num = INT_MAX;
     }
 
