@@ -10,11 +10,18 @@ GNU Bison NEWS
   - relative paths (allowing to relocate an installation of bison)
   - use gettext-h in gnulib instead of gettext
   - constexpr/noexcept in C++
+  - resolving %type/%nterm/%type inconsistencies
 
 ** Backward incompatible changes
 
   Support for DJGPP, which has been unmaintained and untested for years, is
   removed.
+
+** Deprecated features
+
+  The directive %nterm, an historical heritage from an ancestor of Bison,
+  was never officially documented.  Its use now triggers warnings.
+  Eventually, support will be removed.  Use %type instead.
 
 * Noteworthy changes in release 3.2.1 (2018-11-09) [stable]
 

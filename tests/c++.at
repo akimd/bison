@@ -210,7 +210,7 @@ AT_DATA_GRAMMAR([input.yy],
 [[%skeleton "lalr1.cc"
 %define api.value.automove
 %token <int> NUMBER "number"
-%nterm <int> exp
+%type <int> exp
 %%
 exp:
   "number"          { $$ = $1; $$; }
@@ -576,7 +576,7 @@ AT_DATA_GRAMMAR([[input.y]],
 }
 
 %token <int> NUMBER;
-%nterm <int> expr;
+%type <int> expr;
 %token EOI 0;
 %printer { yyo << $$; } <int>;
 %destructor { std::cerr << "destroy: " << $$ << '\n'; } <int>

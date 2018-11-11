@@ -344,7 +344,7 @@ AT_TEST([%destructor syncline],
 %union {
   int ival;
 }
-%nterm <ival> exp
+%type <ival> exp
 %%
 exp: '0' { $$ = 0; };
 %%
@@ -369,7 +369,7 @@ AT_TEST([%printer syncline],
 %union {
   int ival;
 }
-%nterm <ival> exp
+%type <ival> exp
 %%
 exp: '0' { $$ = 0; };
 %%

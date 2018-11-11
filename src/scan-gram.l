@@ -240,7 +240,6 @@ eqopt    ([[:space:]]*=)?
   "%no-lines"                       return PERCENT_NO_LINES;
   "%nonassoc"                       return PERCENT_NONASSOC;
   "%nondeterministic-parser"        return PERCENT_NONDETERMINISTIC_PARSER;
-  "%nterm"                          return PERCENT_NTERM;
   "%output"                         return PERCENT_OUTPUT;
   "%param"                          RETURN_PERCENT_PARAM(both);
   "%parse-param"                    RETURN_PERCENT_PARAM(parse);
@@ -260,7 +259,7 @@ eqopt    ([[:space:]]*=)?
   "%verbose"                        return PERCENT_VERBOSE;
   "%yacc"                           return PERCENT_YACC;
 
-  /* deprecated */
+  /* Deprecated since Bison 2.7.90, 2012. */
   "%default"[-_]"prec"              DEPRECATED("%default-prec");
   "%error"[-_]"verbose"             DEPRECATED("%define parse.error verbose");
   "%expect"[-_]"rr"                 DEPRECATED("%expect-rr");
@@ -272,6 +271,12 @@ eqopt    ([[:space:]]*=)?
   "%output"{eqopt}                  DEPRECATED("%output");
   "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
   "%token"[-_]"table"               DEPRECATED("%token-table");
+
+  "%nterm"  {
+    /* Deprecated since Bison 3.3, but was a rather stealth feature.  */
+    deprecated_directive (loc, yytext, "%type");
+    return PERCENT_NTERM;
+  }
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
