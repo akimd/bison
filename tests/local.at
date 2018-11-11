@@ -940,11 +940,11 @@ m4_define([AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR],
 [[#include <iostream>
 #include <stdexcept>
 
-void foo()
+void foo ()
 {
   try
     {
-      throw std::runtime_error("foo");
+      throw std::runtime_error ("foo");
     }
   catch (...)
     {
@@ -953,11 +953,11 @@ void foo()
     }
 }
 
-int main()
+int main ()
 {
   try
     {
-      foo();
+      foo ();
     }
   catch (...)
     {

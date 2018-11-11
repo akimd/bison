@@ -396,7 +396,7 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
 # properly to the linker, and is unable to save a file named this way.
 # Don't try with such compilers.
 AT_DATA([\"\\\"\".c],
-[[int main() { return 0; }
+[[int main (void) { return 0; }
 ]])
 
 AT_CHECK([AT_CXX_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".c -o \"\\\"\" ||
