@@ -1037,7 +1037,8 @@ b4_both_if([[
                        b4_rhs_location(yynrhs, yyi + 1)])[);
   }
 
-  /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
+  /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+     as returned by yylex, with out-of-bounds checking.  */
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)

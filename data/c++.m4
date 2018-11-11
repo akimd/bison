@@ -476,11 +476,12 @@ m4_define([b4_symbol_constructor_define], [])
 # Define yytranslate_.  Sometimes used in the header file ($1=hh),
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
-[[  // Symbol number corresponding to token number t.
-  ]b4_inline([$1])b4_parser_class_name[::token_number_type
+[  b4_inline([$1])b4_parser_class_name[::token_number_type
   ]b4_parser_class_name[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)
   {
+    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
+    // TOKEN-NUM as returned by yylex.
     static
     const token_number_type
     translate_table[] =
