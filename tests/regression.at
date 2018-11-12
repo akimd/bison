@@ -32,7 +32,7 @@ AT_DATA_GRAMMAR([input.y],
 #define YYSTYPE int *
 %}
 
-%error-verbose
+%define parse.error verbose
 
 %%
 
@@ -452,7 +452,7 @@ AT_DATA_GRAMMAR([input.y],
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
-[%error-verbose
+[%define parse.error verbose
 %token MYEOF 0 "end of file"
 %token 'a' "a"
 %token B_TOKEN "b"
@@ -841,7 +841,7 @@ m4_define([_AT_DATA_DANCER_Y],
 $1
 %token ARROW INVALID NUMBER STRING DATA
 %verbose
-%error-verbose
+%define parse.error verbose
 /* Grammar follows */
 %%
 line: header body
@@ -924,7 +924,7 @@ AT_LALR1_CC_IF([[#include <cstdlib>]],
 ]AT_YYERROR_DECLARE])[
 %}
 $1
-%error-verbose
+%define parse.error verbose
 %token A 1000
 %token B
 
@@ -1001,7 +1001,7 @@ AT_DATA_GRAMMAR([input.y],
 ]AT_YYLEX_DECLARE[
 %}
 %debug
-%error-verbose
+%define parse.error verbose
 %%
 
 start:
@@ -1124,7 +1124,7 @@ AT_DATA_GRAMMAR([input.y],
   ]AT_YYLEX_DECLARE[
 }
 
-%error-verbose
+%define parse.error verbose
 %right END 0
 %left TK1 1 TK2 2 "tok alias" 3
 
@@ -1471,7 +1471,7 @@ AT_DATA_GRAMMAR([input.y],
   #define YYMAXDEPTH 8
 }
 %debug
-%error-verbose
+%define parse.error verbose
 
 %%
 

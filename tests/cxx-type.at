@@ -445,7 +445,7 @@ AT_PARSER_CHECK([[./types test-input]], 0,
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
-_AT_TEST_GLR_CXXTYPES([%error-verbose],
+_AT_TEST_GLR_CXXTYPES([%define parse.error verbose],
                       [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
                 [_AT_AMBIG_GLR_OUTPUT], [_AT_VERBOSE_GLR_STDERR])

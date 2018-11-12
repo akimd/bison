@@ -122,7 +122,7 @@ m4_pushdef([AT_TEST],
 AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[$1
-%error-verbose
+%define parse.error verbose
 ]AT_VARIANT_IF([], [%union {int integer;}])[
 %code {
 ]AT_PUSH_IF([[
@@ -204,7 +204,7 @@ m4_pushdef([AT_TEST],
 AT_DATA_GRAMMAR([$1.y],
 [[%define api.prefix {$1_}
 $2
-%error-verbose
+%define parse.error verbose
 %union
 {
   int integer;

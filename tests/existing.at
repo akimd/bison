@@ -77,7 +77,7 @@ m4_popdef([AT_LALR1_DIFF_CHECK])
 # computation of nullable.  It reported 485 SR conflicts!
 
 AT_TEST_EXISTING_GRAMMAR([[GNU AWK 3.1.0 Grammar]],
-[[%error-verbose
+[[%define parse.error verbose
 
 %token FUNC_CALL NAME REGEXP
 %token ERROR
@@ -1459,7 +1459,7 @@ State 427 conflicts: 9 shift/reduce, 2 reduce/reduce
 # Bison once reported shift/reduce conflicts that it shouldn't have.
 
 AT_TEST_EXISTING_GRAMMAR([[GNU pic (Groff 1.18.1) Grammar]],
-[[%error-verbose
+[[%define parse.error verbose
 
 %token LABEL
 %token VARIABLE

@@ -694,7 +694,7 @@ AT_DATA_GRAMMAR([[input.y]],
   ]AT_YYLEX_DECLARE[
 }
 
-%error-verbose
+%define parse.error verbose
 %nonassoc 'a'
 
 %%

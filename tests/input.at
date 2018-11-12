@@ -2258,7 +2258,7 @@ AT_KEYWORDS([[deprec]])
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %default-prec
-%error-verbose
+%define parse.error verbose
 %expect-rr 42
 %file-prefix "foo"
 %file-prefix

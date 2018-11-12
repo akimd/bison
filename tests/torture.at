@@ -51,7 +51,7 @@ my $max = $ARGV[0] || 10;
 
 print <<EOF;
 ]AT_DATA_GRAMMAR_PROLOGUE[
-%error-verbose
+%define parse.error verbose
 %debug
 %{
 #include <stdio.h>
@@ -158,7 +158,7 @@ my $max = $ARGV[0] || 10;
 
 print <<EOF;
 ]AT_DATA_GRAMMAR_PROLOGUE[
-%error-verbose
+%define parse.error verbose
 %debug
 %{
 #include <stdio.h>
@@ -255,7 +255,7 @@ use Text::Wrap;
 my $max = $ARGV[0] || 10;
 
 print <<EOF;
-%error-verbose
+%define parse.error verbose
 %debug
 %{
 ]AT_DATA_SOURCE_PROLOGUE[
@@ -379,7 +379,7 @@ AT_DATA_GRAMMAR([input.y],
   ]AT_YYERROR_DECLARE[
 %}
 ]$2[
-%error-verbose
+%define parse.error verbose
 %debug
 %token WAIT_FOR_EOF
 %%

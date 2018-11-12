@@ -1540,7 +1540,7 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 %glr-parser
 %locations
 %define api.pure
-%error-verbose
+%define parse.error verbose
 
 %union { int dummy; }
 
@@ -1760,7 +1760,7 @@ AT_SETUP([Predicates])
 
 AT_DATA_GRAMMAR([input.y],
 [[%glr-parser
-%error-verbose
+%define parse.error verbose
 %expect-rr 1
 %code requires
 {

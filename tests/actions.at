@@ -1792,7 +1792,7 @@ AT_BISON_OPTION_PUSHDEFS([%pure-parser %debug])
 
 AT_DATA_GRAMMAR([input.y],
 [[
-%error-verbose
+%define parse.error verbose
 %debug
 %pure-parser
 %code {

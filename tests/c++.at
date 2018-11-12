@@ -564,7 +564,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %define parse.assert
 %define api.value.type variant
 %define api.token.constructor
-%error-verbose
+%define parse.error verbose
 
 %code
 {
@@ -1011,7 +1011,7 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 AT_DATA_GRAMMAR([[input.yy]],
 [[%skeleton "lalr1.cc"
 %debug
-%error-verbose
+%define parse.error verbose
 $1
 %code requires
 {
