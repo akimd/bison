@@ -296,26 +296,26 @@ m4_define([b4_shared_declarations],
     struct by_state
     {
       /// Default constructor.
-      by_state ();
+      by_state () YY_NOEXCEPT;
 
       /// The symbol type as needed by the constructor.
       typedef state_type kind_type;
 
       /// Constructor.
-      by_state (kind_type s);
+      by_state (kind_type s) YY_NOEXCEPT;
 
       /// Copy constructor.
-      by_state (const by_state& other);
+      by_state (const by_state& other) YY_NOEXCEPT;
 
       /// Record that this symbol is empty.
-      void clear ();
+      void clear () YY_NOEXCEPT;
 
       /// Steal the symbol type from \a that.
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
       /// \a empty_symbol when empty.
-      symbol_number_type type_get () const;
+      symbol_number_type type_get () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
       enum { empty_state = -1 };
@@ -570,16 +570,16 @@ m4_if(b4_prefix, [yy], [],
 ]b4_token_ctor_if([], [b4_public_types_define([cc])])[
 
   // by_state.
-  ]b4_parser_class_name[::by_state::by_state ()
+  ]b4_parser_class_name[::by_state::by_state () YY_NOEXCEPT
     : state (empty_state)
   {}
 
-  ]b4_parser_class_name[::by_state::by_state (const by_state& other)
+  ]b4_parser_class_name[::by_state::by_state (const by_state& other) YY_NOEXCEPT
     : state (other.state)
   {}
 
   void
-  ]b4_parser_class_name[::by_state::clear ()
+  ]b4_parser_class_name[::by_state::clear () YY_NOEXCEPT
   {
     state = empty_state;
   }
@@ -591,12 +591,12 @@ m4_if(b4_prefix, [yy], [],
     that.clear ();
   }
 
-  ]b4_parser_class_name[::by_state::by_state (state_type s)
+  ]b4_parser_class_name[::by_state::by_state (state_type s) YY_NOEXCEPT
     : state (s)
   {}
 
   ]b4_parser_class_name[::symbol_number_type
-  ]b4_parser_class_name[::by_state::type_get () const
+  ]b4_parser_class_name[::by_state::type_get () const YY_NOEXCEPT
   {
     if (state == empty_state)
       return empty_symbol;

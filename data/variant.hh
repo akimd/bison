@@ -94,7 +94,7 @@ m4_define([b4_variant_define],
     typedef variant<S> self_type;
 
     /// Empty construction.
-    variant ()
+    variant () YY_NOEXCEPT
       : yybuffer_ ()]b4_parse_assert_if([
       , yytypeid_ (YY_NULLPTR)])[
     {}
@@ -109,7 +109,7 @@ m4_define([b4_variant_define],
     }
 
     /// Destruction, allowed only if empty.
-    ~variant ()
+    ~variant () YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
     ])[}
@@ -170,7 +170,7 @@ m4_define([b4_variant_define],
     /// Accessor to a built \a T.
     template <typename T>
     T&
-    as ()
+    as () YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
@@ -181,7 +181,7 @@ m4_define([b4_variant_define],
     /// Const accessor to a built \a T (for %printer).
     template <typename T>
     const T&
-    as () const
+    as () const YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
@@ -199,7 +199,7 @@ m4_define([b4_variant_define],
     /// variant::move ().
     template <typename T>
     void
-    swap (self_type& other)
+    swap (self_type& other) YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == *other.yytypeid_);])[
@@ -258,7 +258,7 @@ m4_define([b4_variant_define],
     /// Accessor to raw memory as \a T.
     template <typename T>
     T*
-    yyas_ ()
+    yyas_ () YY_NOEXCEPT
     {
       void *yyp = yybuffer_.yyraw;
       return static_cast<T*> (yyp);
@@ -267,7 +267,7 @@ m4_define([b4_variant_define],
     /// Const accessor to raw memory as \a T.
     template <typename T>
     const T*
-    yyas_ () const
+    yyas_ () const YY_NOEXCEPT
     {
       const void *yyp = yybuffer_.yyraw;
       return static_cast<const T*> (yyp);

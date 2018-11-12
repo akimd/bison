@@ -86,33 +86,38 @@ m4_define([b4_stack_define],
       operator[](0).move (t);
     }
 
+    /// Pop elements from the stack.
     void
-    pop (int n = 1)
+    pop (int n = 1) YY_NOEXCEPT
     {
       for (; 0 < n; --n)
         seq_.pop_back ();
     }
 
+    /// Pop all elements from the stack.
     void
-    clear ()
+    clear () YY_NOEXCEPT
     {
       seq_.clear ();
     }
 
+    /// Number of elements on the stack.
     size_type
-    size () const
+    size () const YY_NOEXCEPT
     {
       return seq_.size ();
     }
 
+    /// Iterator on top of the stack (going downwards).
     const_iterator
-    begin () const
+    begin () const YY_NOEXCEPT
     {
       return seq_.rbegin ();
     }
 
+    /// Bottom of the stack.
     const_iterator
-    end () const
+    end () const YY_NOEXCEPT
     {
       return seq_.rend ();
     }
