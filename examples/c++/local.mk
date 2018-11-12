@@ -32,7 +32,7 @@ if ENABLE_CXX14
   check_PROGRAMS += %D%/simple
   nodist_%C%_simple_SOURCES = $(simple_sources)
 
-  %C%_simple_CXXFLAGS = $(CXX11_CXXFLAGS)
+  %C%_simple_CXXFLAGS = $(CXX11_CXXFLAGS) $(WARN_CXXFLAGS_TEST)
   # Don't use gnulib's system headers.
   %C%_simple_CPPFLAGS = -I$(top_builddir)
   TESTS += %D%/simple.test
@@ -58,7 +58,7 @@ EXTRA_DIST += %D%/variant.test
 if ENABLE_CXX11
   check_PROGRAMS += %D%/variant-11
   nodist_%C%_variant_11_SOURCES = %D%/variant-11.yy
-  %C%_variant_11_CXXFLAGS = $(CXX11_CXXFLAGS)
+  %C%_variant_11_CXXFLAGS = $(CXX11_CXXFLAGS) $(WARN_CXXFLAGS_TEST)
   # Don't use gnulib's system headers.
   %C%_variant_11_CPPFLAGS = -I$(top_builddir)
   TESTS += %D%/variant-11.test
