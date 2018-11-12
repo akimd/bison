@@ -223,7 +223,6 @@ eqopt    ([[:space:]]*=)?
   "%destructor"                     return PERCENT_DESTRUCTOR;
   "%dprec"                          return PERCENT_DPREC;
   "%empty"                          return PERCENT_EMPTY;
-  "%error-verbose"                  return PERCENT_ERROR_VERBOSE;
   "%expect"                         return PERCENT_EXPECT;
   "%expect-rr"                      return PERCENT_EXPECT_RR;
   "%file-prefix"                    return PERCENT_FILE_PREFIX;
@@ -258,6 +257,10 @@ eqopt    ([[:space:]]*=)?
   "%union"                          return PERCENT_UNION;
   "%verbose"                        return PERCENT_VERBOSE;
   "%yacc"                           return PERCENT_YACC;
+
+  /* Deprecated since Bison 3.0 (2013-07-25), but the warning is
+     issued only since Bison 3.3. */
+  "%error-verbose"                  DEPRECATED("%define parse.error verbose");
 
   /* Deprecated since Bison 2.7.90, 2012. */
   "%default"[-_]"prec"              DEPRECATED("%default-prec");

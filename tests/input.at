@@ -2188,11 +2188,12 @@ AT_DATA_GRAMMAR([[input.y]],
 %output = "foo"
 %pure_parser
 %token_table
+%error-verbose
 %glr-parser
 %% exp : '0'
 ]])
 
-AT_BISON_CHECK([[input.y]], [[0]], [[]],
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
 [[input.y:10.1-13: warning: deprecated directive: '%default_prec', use '%default-prec' [-Wdeprecated]
 input.y:11.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
 input.y:12.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
@@ -2207,6 +2208,9 @@ input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wd
 input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
 input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
+input.y:27.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
+input.y:27-6: error: %define variable 'parse.error' redefined
+input.y:11-6:     previous definition
 ]])
 
 AT_CLEANUP

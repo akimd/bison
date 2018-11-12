@@ -143,7 +143,6 @@
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
-  PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR       "%expect-rr"
   PERCENT_FLAG            "%<flag>"
@@ -289,12 +288,6 @@ prologue_declaration:
     {
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
-    }
-| "%error-verbose"
-    {
-      muscle_percent_define_insert ("parse.error", @1, muscle_keyword,
-                                    "verbose",
-                                    MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
