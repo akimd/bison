@@ -168,13 +168,15 @@ int main()
   {
     parser::stack_type st;
     const int mucho = 1700;
+    const int int_reduction_state = 1; // Read list.output to find it.
     for (int i = 0; i < mucho; ++i)
       {
 #if defined __cplusplus && 201103L <= __cplusplus
-        st.push(parser::stack_symbol_type{1, parser::make_INT (i)});
+        st.push(parser::stack_symbol_type{int_reduction_state,
+                                          parser::make_INT (i)});
 #else
         parser::symbol_type s = parser::make_INT (i);
-        parser::stack_symbol_type ss (1, s);
+        parser::stack_symbol_type ss (int_reduction_state, s);
         st.push (ss);
 #endif
       }
