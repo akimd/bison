@@ -125,7 +125,7 @@ m4_define([b4_variant_define],
       return *new (yyas_<T> ()) T ();
     }
 
-# if defined __cplusplus && 201103L <= __cplusplus
+# if 201103L <= YY_CPLUSPLUS
     /// Instantiate a \a T in here from \a t.
     template <typename T, typename U>
     T&
@@ -213,7 +213,7 @@ m4_define([b4_variant_define],
     void
     move (self_type& other)
     {
-# if defined __cplusplus && 201103L <= __cplusplus
+# if 201103L <= YY_CPLUSPLUS
       emplace<T> (std::move (other.as<T> ()));
 # else
       emplace<T> ();
@@ -222,7 +222,7 @@ m4_define([b4_variant_define],
       other.destroy<T> ();
     }
 
-# if defined __cplusplus && 201103L <= __cplusplus
+# if 201103L <= YY_CPLUSPLUS
     /// Move the content of \a other to this.
     template <typename T>
     void

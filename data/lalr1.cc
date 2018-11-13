@@ -336,7 +336,7 @@ m4_define([b4_shared_declarations],
       stack_symbol_type (YY_RVREF (stack_symbol_type) that);
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) sym);
-#if !defined __cplusplus || __cplusplus < 201103L
+#if YY_CPLUSPLUS < 201103L
       /// Assignment, needed by push_back by some old implementations.
       /// Moves the contents of that.
       stack_symbol_type& operator= (stack_symbol_type& that);
@@ -612,7 +612,7 @@ m4_if(b4_prefix, [yy], [],
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
                       [value], [YY_MOVE_OR_COPY], [YY_MOVE (that.value)])])[
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
     // that is emptied.
     that.state = empty_state;
 #endif
@@ -627,7 +627,7 @@ m4_if(b4_prefix, [yy], [],
     that.type = empty_symbol;
   }
 
-#if !defined __cplusplus || __cplusplus < 201103L
+#if YY_CPLUSPLUS < 201103L
   ]b4_parser_class_name[::stack_symbol_type&
   ]b4_parser_class_name[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
@@ -685,7 +685,7 @@ m4_if(b4_prefix, [yy], [],
   void
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym)
   {
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
     yypush_ (m, stack_symbol_type (s, std::move (sym)));
 #else
     stack_symbol_type ss (s, sym);
