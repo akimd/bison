@@ -956,7 +956,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
   loc.end = scanner_cursor;
   size_t i = strlen (token_end);
 
-/* Adjust scanner cursor so that any later message does not count
+  /* Adjust scanner cursor so that any later message does not count
      the characters about to be inserted.  */
   scanner_cursor.column -= i;
 
