@@ -33,9 +33,7 @@ typedef std::vector<std::string> strings_type;
 
 %code // *.cc
 {
-#include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <sstream>
 
   namespace yy
