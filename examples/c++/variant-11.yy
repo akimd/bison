@@ -37,9 +37,8 @@
 
 %code // *.cc
 {
-#include <algorithm>
+#include <climits>  // INT_MIN, INT_MAX
 #include <iostream>
-#include <iterator>
 #include <sstream>
 
   namespace yy
@@ -141,7 +140,10 @@ int
 main (int argc, const char *argv[])
 {
   if (2 <= argc && isdigit (*argv[1]))
-    max = strtol (argv[1], nullptr, 10);
+    {
+      auto maxl = strtol (argv[1], nullptr, 10);
+      max = INT_MIN <= maxl && maxl <= INT_MAX ? int(maxl) : 4;
+    }
   auto&& p = yy::parser{};
   p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();
