@@ -45,7 +45,7 @@ AT_BANNER([[Java Push Parsing Tests]])
 # are instantiated with different main() procedures.
 m4_define([AT_TRIVIAL_GRAMMAR],[
 %define parser_class_name {YYParser}
-%error-verbose
+%define parse.error verbose
 
 %code imports {
 import java.io.*;

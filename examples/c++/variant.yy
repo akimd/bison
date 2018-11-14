@@ -33,9 +33,7 @@ typedef std::vector<std::string> strings_type;
 
 %code // *.cc
 {
-#include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <sstream>
 
   namespace yy
@@ -98,8 +96,10 @@ item:
 namespace yy
 {
   // Use nullptr with pre-C++11.
-#if defined __cplusplus && __cplusplus < 201103L
-# define nullptr 0
+#if !defined __cplusplus || __cplusplus < 201103L
+# define NULLPTR 0
+#else
+# define NULLPTR nullptr
 #endif
 
   // The yylex function providing subsequent tokens:
@@ -114,9 +114,10 @@ namespace yy
   parser::symbol_type
   yylex ()
   {
-    static int stage = -1;
-    ++stage;
-    parser::location_type loc (nullptr, stage + 1, stage + 1);
+    static int count = 0;
+    const int stage = count;
+    ++count;
+    parser::location_type loc (NULLPTR, unsigned (stage + 1), unsigned (stage + 1));
     switch (stage)
       {
       case 0:

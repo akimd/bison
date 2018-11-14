@@ -97,6 +97,7 @@
 
 %define api.prefix {gram_}
 %define api.pure full
+%define api.value.type union
 %define locations
 %define parse.error verbose
 %define parse.lac full
@@ -142,7 +143,6 @@
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
-  PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR       "%expect-rr"
   PERCENT_FLAG            "%<flag>"
@@ -180,16 +180,13 @@
 %token TAG_ANY         "<*>"
 %token TAG_NONE        "<>"
 
-%union {unsigned char character;}
-%type <character> CHAR
-%printer { fputs (char_name ($$), yyo); } CHAR
+%type <unsigned char> CHAR
+%printer { fputs (char_name ($$), yyo); } <unsigned char>
 
-%union {char *code;};
-%type <code> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING
+%type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
-%printer { fprintf (yyo, "{\n%s\n}", $$); } <code>
+%printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
 
-%union {uniqstr uniqstr;}
 %type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
@@ -197,23 +194,18 @@
 %printer { fprintf (yyo, "%%%s", $$); } PERCENT_FLAG
 %printer { fprintf (yyo, "<%s>", $$); } TAG tag
 
-%union {int integer;};
-%token <integer> INT "integer"
-%printer { fprintf (yyo, "%d", $$); } <integer>
+%token <int> INT "integer"
+%printer { fprintf (yyo, "%d", $$); } <int>
 
-%union {symbol *symbol;}
-%type <symbol> id id_colon string_as_id symbol symbol.prec
-%printer { fprintf (yyo, "%s", $$->tag); } <symbol>
+%type <symbol*> id id_colon string_as_id symbol symbol.prec
+%printer { fprintf (yyo, "%s", $$->tag); } <symbol*>
 %printer { fprintf (yyo, "%s:", $$->tag); } id_colon
 
-%union {assoc assoc;};
 %type <assoc> precedence_declarator
 
-%union {symbol_list *list;}
-%type <list>  symbols.1 symbols.prec generic_symlist generic_symlist_item
+%type <symbol_list*>  symbols.1 symbols.prec generic_symlist generic_symlist_item
 
-%union {named_ref *named_ref;}
-%type <named_ref> named_ref.opt
+%type <named_ref*> named_ref.opt
 
 /*---------.
 | %param.  |
@@ -239,8 +231,7 @@
   static void add_param (param_type type, char *decl, location loc);
   static param_type current_param = param_none;
 };
-%union {param_type param;}
-%token <param> PERCENT_PARAM "%param";
+%token <param_type> PERCENT_PARAM "%param";
 %printer
 {
   switch ($$)
@@ -253,7 +244,7 @@
 #undef CASE
       case param_none: aver (false); break;
     }
-} <param>;
+} <param_type>;
 
 
                      /*==========\
@@ -297,12 +288,6 @@ prologue_declaration:
     {
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
-    }
-| "%error-verbose"
-    {
-      muscle_percent_define_insert ("parse.error", @1, muscle_keyword,
-                                    "verbose",
-                                    MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
@@ -405,9 +390,8 @@ grammar_declaration:
     }
 ;
 
-%type <code_type> code_props_type;
-%union {code_props_type code_type;};
-%printer { fprintf (yyo, "%s", code_props_type_string ($$)); } <code_type>;
+%type <code_props_type> code_props_type;
+%printer { fprintf (yyo, "%s", code_props_type_string ($$)); } <code_props_type>;
 code_props_type:
   "%destructor"  { $$ = destructor; }
 | "%printer"     { $$ = printer; }
@@ -592,10 +576,10 @@ rules_or_grammar_declaration:
 
 rules:
   id_colon named_ref.opt { current_lhs ($1, @1, $2); } rhses.1
-  {
-    /* Free the current lhs. */
-    current_lhs (0, @1, 0);
-  }
+    {
+      /* Free the current lhs. */
+      current_lhs (0, @1, 0);
+    }
 ;
 
 rhses.1:
@@ -630,28 +614,25 @@ named_ref.opt:
 | BRACKETED_ID   { $$ = named_ref_new ($1, @1); }
 ;
 
+
 /*---------------------.
 | variable and value.  |
 `---------------------*/
 
-/* The STRING form of variable is deprecated and is not M4-friendly.
-   For example, M4 fails for '%define "[" "value"'.  */
 variable:
   ID
-| STRING { $$ = uniqstr_new ($1); }
 ;
 
 /* Some content or empty by default. */
-%code requires {#include "muscle-tab.h"};
-%union
-{
-  struct
+%code requires {
+  #include "muscle-tab.h"
+  typedef struct
   {
     char const *chars;
     muscle_kind kind;
-  } value;
+  } value_type;
 };
-%type <value> value;
+%type <value_type> value;
 %printer
 {
   switch ($$.kind)
@@ -660,7 +641,7 @@ variable:
     case muscle_keyword: fprintf (yyo,   "%s",   $$.chars); break;
     case muscle_string:  fprintf (yyo, "\"%s\"", $$.chars); break;
     }
-} <value>;
+} <value_type>;
 
 value:
   %empty  { $$.kind = muscle_keyword; $$.chars = ""; }

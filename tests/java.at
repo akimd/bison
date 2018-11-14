@@ -241,7 +241,7 @@ AT_YYERROR_SEES_LOC_IF([],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
 # 3. If error-verbose is not used, strip the', unexpected....' part.
-m4_bmatch([$1], [%error-verbose], [],
+m4_bmatch([$1], [%define parse.error verbose], [],
 [[sed 's/syntax error, .*$/syntax error/' expout >at-expout
 mv at-expout expout]])
 # 4. Check
@@ -344,12 +344,12 @@ AT_CLEANUP
 # --------------------------------------
 # Start a testing chunk which compiles 'calc' grammar with
 # BISON-DIRECTIVES, and performs several tests over the parser.
-# Run the test with and without %error-verbose.
+# Run the test with and without %define parse.error verbose.
 m4_define([AT_CHECK_JAVA_CALC],
 [_AT_CHECK_JAVA_CALC([$1], [$2])
-_AT_CHECK_JAVA_CALC([%error-verbose $1], [$2])
+_AT_CHECK_JAVA_CALC([%define parse.error verbose $1], [$2])
 _AT_CHECK_JAVA_CALC([%locations $1], [$2])
-_AT_CHECK_JAVA_CALC([%error-verbose %locations $1], [$2])
+_AT_CHECK_JAVA_CALC([%define parse.error verbose %locations $1], [$2])
 ])# AT_CHECK_JAVA_CALC
 
 
@@ -392,7 +392,7 @@ AT_DATA([[YYParser.y]], [
 %language "Java"
 %locations
 %debug
-%error-verbose
+%define parse.error verbose
 %token-table
 %token END "end"
 $1

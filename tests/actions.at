@@ -252,15 +252,15 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_YYLEX_DECLARE[
 }
 %%
-exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << '\n']],
-                      [[LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
+exp: { ]AT_CXX_IF([[std::cerr << @$ << '\n']],
+                  [[LOCATION_PRINT(stderr, @$); fputc ('\n', stderr)]])[; }
 %%
 ]AT_YYERROR_DEFINE[
 
 ]AT_YYLEX_PROTOTYPE[
 {]AT_PURE_IF([
   YYUSE(lvalp);
-  YYUSE(llocp);], [AT_SKEL_CC_IF([
+  YYUSE(llocp);], [AT_CXX_IF([
   YYUSE(lvalp);
   YYUSE(llocp);])])[
   return 'x';
@@ -268,7 +268,7 @@ exp: { ]AT_SKEL_CC_IF([[std::cerr << @$ << '\n']],
 
 int
 main (void)
-{]AT_SKEL_CC_IF([[
+{]AT_CXX_IF([[
   yy::parser p;
   p.set_debug_level (!!getenv("YYDEBUG"));
   return p.parse ();]], [[
@@ -369,7 +369,7 @@ main (void)
   loc.]AT_FIRST_COLUMN[ = C1;         \
   loc.]AT_LAST_LINE[ = L2;            \
   loc.]AT_LAST_COLUMN[ = C2;          \
-  ]AT_SKEL_CC_IF([std::cout << loc],
+  ]AT_CXX_IF([std::cout << loc],
                  [LOCATION_PRINT(stdout, loc)])[;\
   putchar ('\n');
 
@@ -397,11 +397,8 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-## FIXME: test Java, and iterate over skeletons.
-AT_TEST([yacc.c])
-AT_TEST([glr.c])
-AT_TEST([lalr1.cc])
-AT_TEST([glr.cc])
+## FIXME: test Java.
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])
 
@@ -694,13 +691,13 @@ const char *source = YY_NULLPTR;
 static
 ]AT_YYLEX_PROTOTYPE[
 {
-  static unsigned counter = 0;
+  static int counter = 0;
 
-  unsigned c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
+  int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
   /* As in BASIC, line numbers go from 10 to 10.  */
-  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = 10 * c;
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = ]AT_CXX_IF([(unsigned)], [(int)])[(10 * c);
   ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
-  assert (c <= strlen (source));
+  assert (c <= (int) strlen (source));
   if (source[c])
     fprintf (stderr, "sending: '%c'", source[c]);
   else
@@ -1651,7 +1648,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 # define YYSTYPE sem_type
 
-]AT_SKEL_CC_IF([[
+]AT_CXX_IF([[
 # include <iostream>
   namespace
   {
@@ -1687,7 +1684,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %initial-action
 {
   $<ival>$ = 42;
-  $<fval>$ = 4.2;
+  $<fval>$ = 4.2f;
 }
 
 %%
@@ -1698,11 +1695,11 @@ float: UNTYPED INT
 };
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(AT_SKEL_CC_IF([[{yy::parser::token::UNTYPED,
+]AT_YYLEX_DEFINE(AT_CXX_IF([[{yy::parser::token::UNTYPED,
                                  yy::parser::token::INT,
                                   EOF}]],
                                [[{UNTYPED, INT, EOF}]]),
-                 [AT_VAL.ival = toknum * 10; AT_VAL.fval = toknum / 10.0;])[
+                 [AT_VAL.ival = (int) toknum * 10; AT_VAL.fval = (float) toknum / 10.0f;])[
 ]AT_MAIN_DEFINE[
 ]])
 
@@ -1726,10 +1723,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_TEST([yacc.c])
-AT_TEST([glr.c])
-AT_TEST([lalr1.cc])
-AT_TEST([glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])
 
@@ -1798,7 +1792,7 @@ AT_BISON_OPTION_PUSHDEFS([%pure-parser %debug])
 
 AT_DATA_GRAMMAR([input.y],
 [[
-%error-verbose
+%define parse.error verbose
 %debug
 %pure-parser
 %code {
@@ -1822,7 +1816,7 @@ exp:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (toknum + 1) * 10])[
+]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (int) ((toknum + 1) * 10)])[
 ]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS

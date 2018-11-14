@@ -50,14 +50,12 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
     AC_LANG_POP([C++])])
 
  case $bison_cv_cxx_works in
- yes)
-    BISON_CXX_WORKS=':';;
- no | cross)
-    BISON_CXX_WORKS='exit 77';;
+   yes)        BISON_CXX_WORKS=':';;
+   no | cross) BISON_CXX_WORKS='false';;
  esac
 
  AC_SUBST([BISON_CXX_WORKS])
- AM_CONDITIONAL(BISON_CXX_WORKS, test $bison_cv_cxx_works = yes)
+ AM_CONDITIONAL([ENABLE_CXX], [test $bison_cv_cxx_works = yes])
 ])
 
 # BISON_CXX_COMPILER_POSIXLY_CORRECT

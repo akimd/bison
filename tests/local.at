@@ -138,28 +138,28 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 # This sucks hard, GNU M4 should really provide M5-like $$1.
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
 [m4_if([$1$2], $[1]$[2], [],
-       [m4_fatal([$0: Invalid arguments: $@])])dnl
+       [m4_fatal([$0: invalid arguments: $@])])dnl
 m4_pushdef([AT_AUTOMOVE_IF],
 [m4_bmatch([$3], [%define api\.value\.automove], [$1], [$2])])
 m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],
 [m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
-m4_pushdef([AT_SKEL_CC_IF],
+m4_pushdef([AT_CXX_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
-m4_pushdef([AT_SKEL_JAVA_IF],
+m4_pushdef([AT_JAVA_IF],
 [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 # The target language: "c", "c++", or "java".
 m4_pushdef([AT_LANG],
-[AT_SKEL_JAVA_IF([java],
-                 [AT_SKEL_CC_IF([c++],
-                                [c])])])
+[AT_JAVA_IF([java],
+            [AT_CXX_IF([c++],
+                       [c])])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
-[AT_SKEL_CC_IF([AT_GLR_IF([$2], [$1])], [$2])])
+[AT_CXX_IF([AT_GLR_IF([$2], [$1])], [$2])])
 m4_pushdef([AT_GLR_CC_IF],
-[AT_SKEL_CC_IF([AT_GLR_IF([$1], [$2])], [$2])])
+[AT_CXX_IF([AT_GLR_IF([$1], [$2])], [$2])])
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
@@ -239,13 +239,13 @@ m4_pushdef([AT_YYERROR_SEES_LOC_IF],
 # are using the C++ parsers.
 m4_pushdef([AT_PURE_LEX_IF],
 [AT_PURE_IF([$1],
-            [AT_SKEL_CC_IF([$1], [$2])])])
+            [AT_CXX_IF([$1], [$2])])])
 
 m4_pushdef([AT_YYSTYPE],
-[AT_SKEL_CC_IF([AT_NAMESPACE[::parser::semantic_type]],
+[AT_CXX_IF([AT_NAMESPACE[::parser::semantic_type]],
                [AT_API_PREFIX[STYPE]])])
 m4_pushdef([AT_YYLTYPE],
-[AT_SKEL_CC_IF([AT_NAMESPACE[::parser::location_type]],
+[AT_CXX_IF([AT_NAMESPACE[::parser::location_type]],
                [AT_API_PREFIX[LTYPE]])])
 
 
@@ -274,7 +274,7 @@ AT_PURE_LEX_IF(
 
 # Handle the different types of location components.
 
-AT_SKEL_CC_IF(
+AT_CXX_IF(
   [AT_LOCATION_TYPE_IF(
     [AT_LOC_PUSHDEF([first.l], [first.c], [last.l], [last.c])],
     [AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])])],
@@ -317,9 +317,9 @@ m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
 m4_popdef([AT_GLR_IF])
-m4_popdef([AT_SKEL_CC_IF])
+m4_popdef([AT_CXX_IF])
 m4_popdef([AT_LANG])
-m4_popdef([AT_SKEL_JAVA_IF])
+m4_popdef([AT_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
@@ -429,7 +429,7 @@ static
   res = input[toknum++];
   ]$2[;]AT_LOCATION_IF([[
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
-  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = toknum;]])[
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = ]AT_CXX_IF([(unsigned )], [(int)])[toknum;]])[
   return res;
 }]dnl
 ])
@@ -470,7 +470,7 @@ m4_define([AT_YYERROR_DECLARE(c)],
 [#include <stdio.h>
 ]AT_LOCATION_IF([[
 #if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
-static unsigned location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
+static int location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
 # ifndef LOCATION_PRINT
 #  define LOCATION_PRINT(File, Loc) location_print (File, &(Loc))
 # endif
@@ -485,10 +485,10 @@ m4_define([AT_YYERROR_DEFINE(c)],
 # if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
 /* Print *YYLOCP on YYO. */
 __attribute__((__unused__))
-static unsigned
+static int
 location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 {
-  unsigned res = 0;
+  int res = 0;
   int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
   if (0 <= yylocp->first_line)
     {
@@ -777,7 +777,7 @@ m4_define([AT_QUELL_VALGRIND],
 # otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
 # with trailing .o removed, and ".c" appended.
 m4_define([AT_COMPILE],
-[AT_CHECK([$BISON_C_WORKS], 0, ignore, ignore)
+[AT_SKIP_IF([[! $BISON_C_WORKS]])
 AT_CHECK(m4_join([ ],
                  [$CC $CFLAGS $CPPFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
@@ -797,7 +797,7 @@ AT_CHECK(m4_join([ ],
 # with trailing ".o" removed, and ".cc" appended.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS(c++)
-AT_CHECK([$BISON_CXX_WORKS], 0, ignore, ignore)
+AT_SKIP_IF([[! $BISON_CXX_WORKS]])
 AT_CHECK(m4_join([ ],
                  [$CXX $CXXFLAGS $CPPFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
@@ -854,8 +854,8 @@ m4_define([AT_LANG_HDR(c++)],  [hh])
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
 # compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
-# OUTPUT.java along with it.  Relies on AT_SKEL_CC_IF and
-# AT_SKEL_JAVA_IF.
+# OUTPUT.java along with it.  Relies on AT_CXX_IF and
+# AT_JAVA_IF.
 m4_define([AT_FULL_COMPILE],
 [AT_BISON_CHECK([-o $1.AT_LANG_EXT $1.y])
  AT_LANG_COMPILE([$1],
@@ -904,6 +904,33 @@ AT_PARSER_CHECK([./c-and-cxx])
 ])
 
 
+# AT_REQUIRE_CXX_VERSION(STD)
+# ---------------------------
+# Skip unless this compiler supports at least C++ STD (e.g., "11",
+# "14", etc.).
+m4_define([AT_REQUIRE_CXX_VERSION],
+[AT_DATA([check.cc],
+[[int main ()
+{
+#if !defined __cplusplus || __cplusplus < ]m4_case([$1],
+    [98], [199711],
+    [03], [199711],
+    [11], [201103],
+    [14], [201402],
+    [17], [201703],
+    [2a], [201709],
+    [m4_fatal([$0: invalid arguments: $@])])[
+  return 77;
+#else
+  return 0;
+#endif
+}
+]])
+AT_COMPILE_CXX([check])
+AT_CHECK([@&t@./check])
+])
+
+
 # AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR
 # ------------------------------------
 # Check that we can expect exceptions to be handled properly.
@@ -913,11 +940,11 @@ m4_define([AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR],
 [[#include <iostream>
 #include <stdexcept>
 
-void foo()
+void foo ()
 {
   try
     {
-      throw std::runtime_error("foo");
+      throw std::runtime_error ("foo");
     }
   catch (...)
     {
@@ -926,11 +953,11 @@ void foo()
     }
 }
 
-int main()
+int main ()
 {
   try
     {
-      foo();
+      foo ();
     }
   catch (...)
     {
@@ -1027,11 +1054,11 @@ m4_define([AT_JAVA_PARSER_CHECK],
 #   # ---------------------------------------------------------------------
 #   m4_define([AT_TEST_SYNTAX_ERROR],
 #   [
-#     AT_TEST_TABLES_AND_PARSE([$1[ with %error-verbose]], [[verbose]],
+#     AT_TEST_TABLES_AND_PARSE([$1[ with %define parse.error verbose]], [[verbose]],
 #                              [[last-state]],
-#                              [[%error-verbose ]$2], [$3], [$4],
+#                              [[%define parse.error verbose ]$2], [$3], [$4],
 #                              [[]], [$5], [], [$6], [$7], [$8])
-#     AT_TEST_TABLES_AND_PARSE([$1[ with no %error-verbose]], [[no verbose]],
+#     AT_TEST_TABLES_AND_PARSE([$1[ with no %define parse.error verbose]], [[no verbose]],
 #                              [[last-state]],
 #                              [$2], [$3], [$4],
 #                              [[]], [$5], [], [$6], [$7], [$8])

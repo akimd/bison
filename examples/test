@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-me=`basename $1 .test`
+me=$(basename "$1" .test)
+medir=$(basename "$(dirname "$1")")
 
 # Number of the current test.
 number=1
@@ -24,10 +25,10 @@ number=1
 exit=true
 
 # top_builddir.
-cwd=`pwd`
+cwd=$(pwd)
 
 # The exercised program.
-for p in $cwd/examples/$me/$me $cwd/examples/$me
+for p in "$cwd/examples/$medir/$me" "$cwd/examples/$me"
 do
     if test -x "$p"; then
         prog=$p
@@ -44,7 +45,7 @@ fi
 # -------
 cleanup ()
 {
-  local status=$?
+  status=$?
   if test -z "$DEBUG"; then
      cd $cwd
      rm -rf $$.dir
@@ -55,21 +56,27 @@ trap cleanup 0 1 2 13 15
 mkdir $$.dir
 cd $$.dir
 
-# run EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
-# ---------------------------------------------------------
+# run [-noerr] EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
+# ------------------------------------------------------------------
+# -noerr: ignore stderr, otherwise merge it into effective output.
 run ()
 {
+  noerr=false
+  case $1 in
+    (-noerr) noerr=true; shift;;
+  esac
+
   # Expected exit status.
-  local sta_exp="$1"
+  sta_exp=$1
   shift
   # Expected output.
-  local out_exp="$1"
+  out_exp=$1
   shift
   # Effective exit status.
-  local sta_eff=0
-  $prog "$@" - <input >out_eff || sta_eff=$?
-  # Effective output.
-  local out_eff="`cat out_eff`"
+  sta_eff=0
+  $prog "$@" - <input >out_eff 2>err_eff || sta_eff=$?
+  # Combine effective output and error streams.
+  out_eff=$(cat out_eff && $noerr || sed -e 's/^/err: /g' err_eff)
   if test $sta_eff -eq $sta_exp; then
     if test "$out_eff" = "$out_exp"; then
       echo "$me: PASS: $number"
@@ -81,7 +88,7 @@ run ()
     echo "$me: FAIL: $number (expected status: $sta_exp, effective: $sta_eff)"
     exit=false
   fi
-  number=`expr $number + 1`
+  number=$(expr $number + 1)
 }
 
 # We have cd'd one level deeper.

@@ -36,7 +36,13 @@ AT_BISON_CHECK([1.y 2.y], [1], [],
 Try 'bison --help' for more information.
 ]])
 
-AT_BISON_CHECK([--skeleton], [1], [],
+# For some reason, on some systems we use the system's getopt, not the
+# one we ship in gnulib.  So we can get two different error messages.
+# See https://lists.gnu.org/archive/html/bison-patches/2018-10/msg00154.html
+AT_BISON_CHECK([--skeleton], [1], [], [stderr])
+AT_CHECK([[sed -e \
+  "s/requires an argument -- skeleton/'--skeleton' requires an argument/" \
+  stderr]], 0,
 [[bison: option '--skeleton' requires an argument
 Try 'bison --help' for more information.
 ]])
@@ -2182,11 +2188,12 @@ AT_DATA_GRAMMAR([[input.y]],
 %output = "foo"
 %pure_parser
 %token_table
+%error-verbose
 %glr-parser
 %% exp : '0'
 ]])
 
-AT_BISON_CHECK([[input.y]], [[0]], [[]],
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
 [[input.y:10.1-13: warning: deprecated directive: '%default_prec', use '%default-prec' [-Wdeprecated]
 input.y:11.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
 input.y:12.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
@@ -2201,6 +2208,9 @@ input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wd
 input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
 input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
+input.y:27.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
+input.y:27-6: error: %define variable 'parse.error' redefined
+input.y:11-6:     previous definition
 ]])
 
 AT_CLEANUP
@@ -2252,7 +2262,7 @@ AT_KEYWORDS([[deprec]])
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %default-prec
-%error-verbose
+%define parse.error verbose
 %expect-rr 42
 %file-prefix "foo"
 %file-prefix

@@ -1,17 +1,17 @@
-# Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 include lib/gnulib.mk
 
@@ -30,7 +30,6 @@ lib_libbison_a_SOURCES +=                       \
   lib/ebitset.h                                 \
   lib/lbitset.c                                 \
   lib/lbitset.h                                 \
-  lib/libiberty.h                               \
   lib/vbitset.c                                 \
   lib/vbitset.h
 
@@ -45,15 +44,6 @@ lib_libbison_a_SOURCES +=                       \
   lib/get-errno.c                               \
   lib/path-join.h                               \
   lib/path-join.c
-
-lib_libbison_a_LIBADD +=                        \
-  $(ISNAND_LIBM)                                \
-  $(ISNANF_LIBM)                                \
-  $(ISNANL_LIBM)                                \
-  $(LDEXPL_LIBM)                                \
-  $(LDEXP_LIBM)                                 \
-  $(LIB_CLOCK_GETTIME)                          \
-  $(LIB_GETHRXTIME)
 
 # The Yacc compatibility library.
 if ENABLE_YACC

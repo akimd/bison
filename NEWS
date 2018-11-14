@@ -2,19 +2,59 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Expected features for Bison 3.3
 
-* Noteworthy changes in release 3.1.91 (2018-10-18) [beta]
-
-** Bug fixes
-
-  With modern C++, the parser stack failed to grow properly.
-
-* Noteworthy changes in release 3.1.90 (2018-10-17) [beta]
+  - per-rule %expect/%expect-rr
+  - improve syntax errors (UTF-8, internationalization)
+  - move bitsets to gnulib
+  - relative paths (allowing to relocate an installation of bison)
+  - use gettext-h in gnulib instead of gettext
+  - constexpr/noexcept in C++
+  - resolving %type/%nterm/%type inconsistencies
 
 ** Backward incompatible changes
 
-  Support for DJGPP, which have been unmaintained and untested for years, is
+  Support for DJGPP, which has been unmaintained and untested for years, is
+  removed.
+
+** Deprecated features
+
+  The directive %nterm, an historical heritage from an ancestor of Bison,
+  was never officially documented.  Its use now triggers warnings.
+  Eventually, support will be removed.  Use %type instead.
+
+  The use of the %error-verbose directive is deprecated in favor of "%define
+  parse.error verbose" since Bison 3.0, but no warning was issued.
+
+* Noteworthy changes in release 3.2.1 (2018-11-09) [stable]
+
+** Bug fixes
+
+  Several portability issues have been fixed in the build system, in the
+  test suite, and in the generated parsers in C++.
+
+* Noteworthy changes in release 3.2 (2018-10-29) [stable]
+
+** Backward incompatible changes
+
+  Support for DJGPP, which has been unmaintained and untested for years, is
   obsolete.  Unless there is activity to revive it, it will be removed.
+
+** Changes
+
+  %printers should use yyo rather than yyoutput to denote the output stream.
+
+  Variant-based symbols in C++ should use emplace() rather than build().
+
+  In C++ parsers, parser::operator() is now a synonym for the parser::parse.
+
+** Documentation
+
+  A new section, "A Simple C++ Example", is a tutorial for parsers in C++.
+
+  A comment in the generated code now emphasizes that users should not
+  depend upon non-documented implementation details, such as macros starting
+  with YY_.
 
 ** New features
 
@@ -75,7 +115,7 @@ GNU Bison NEWS
   Enabling api.value.automove does not require support for modern C++.  The
   generated code is valid C++98/03, but will use copies instead of moves.
 
-  The new examples/variant-11.yy shows these features in action.
+  The new examples/c++/variant-11.yy shows these features in action.
 
 *** C++: The implicit default semantic action is always run
 
@@ -167,7 +207,7 @@ GNU Bison NEWS
   release of Bison 3.0, five years ago.  Generated parsers do not require a
   C99 compiler.
 
-  Support for DJGPP, which have been unmaintained and untested for years, is
+  Support for DJGPP, which has been unmaintained and untested for years, is
   obsolete. Unless there is activity to revive it, the next release of Bison
   will have it removed.
 

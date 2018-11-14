@@ -168,13 +168,15 @@ int main()
   {
     parser::stack_type st;
     const int mucho = 1700;
+    const int int_reduction_state = 1; // Read list.output to find it.
     for (int i = 0; i < mucho; ++i)
       {
 #if defined __cplusplus && 201103L <= __cplusplus
-        st.push(parser::stack_symbol_type{1, parser::make_INT (i)});
+        st.push(parser::stack_symbol_type{int_reduction_state,
+                                          parser::make_INT (i)});
 #else
         parser::symbol_type s = parser::make_INT (i);
-        parser::stack_symbol_type ss (1, s);
+        parser::stack_symbol_type ss (int_reduction_state, s);
         st.push (ss);
 #endif
       }
@@ -210,7 +212,7 @@ AT_DATA_GRAMMAR([input.yy],
 [[%skeleton "lalr1.cc"
 %define api.value.automove
 %token <int> NUMBER "number"
-%nterm <int> exp
+%type <int> exp
 %%
 exp:
   "number"          { $$ = $1; $$; }
@@ -573,7 +575,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %define parse.assert
 %define api.value.type variant
 %define api.token.constructor
-%error-verbose
+%define parse.error verbose
 
 %code
 {
@@ -585,7 +587,7 @@ AT_DATA_GRAMMAR([[input.y]],
 }
 
 %token <int> NUMBER;
-%nterm <int> expr;
+%type <int> expr;
 %token EOI 0;
 %printer { yyo << $$; } <int>;
 %destructor { std::cerr << "destroy: " << $$ << '\n'; } <int>
@@ -688,14 +690,15 @@ m4_define([AT_CHECK_DOXYGEN],
          [m4_fatal([invalid argument: $1])])
 AT_SETUP([Doxygen $1 Documentation])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %locations])
 AT_DATA([input.yy],
-[[%skeleton "lalr1.cc"
+[[%require "3.2"
+%skeleton "lalr1.cc"
 %locations
 %defines
 %debug
 %%
-exp: /* empty */;
+exp: %empty;
 %%
 ]AT_YYERROR_DEFINE[
 ]])
@@ -1019,7 +1022,7 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" $1])
 AT_DATA_GRAMMAR([[input.yy]],
 [[%skeleton "lalr1.cc"
 %debug
-%error-verbose
+%define parse.error verbose
 $1
 %code requires
 {
@@ -1190,12 +1193,12 @@ yylex (yy::parser::semantic_type *lvalp)
   // 'R': call YYERROR in the action
   // 's': reduction throws.
   // 'T': call YYABORT in the action
-  switch (int res = *input++)
+  switch (char res = *input++)
   {
   case 'l':
     throw std::runtime_error ("yylex");
   default:
-    lvalp->]AT_VARIANT_IF([build (Object (res))],
+    lvalp->]AT_VARIANT_IF([build<Object> (res)],
                           [obj = new Object (res)])[;
     // Fall through.
   case 0:

@@ -41,7 +41,7 @@ AT_DATA_GRAMMAR([$1.y],
 ]AT_YYLEX_DECLARE_EXTERN[
 %}
 %%
-dummy: /* empty */;
+dummy: %empty;
 %%
 #include <$1.h>
 ])
@@ -81,7 +81,7 @@ AT_DATA_GRAMMAR([input.y],
 ]AT_YYLEX_DEFINE[
 %}
 %%
-exp: /* empty */;
+exp: %empty;
 ]])
 
 AT_BISON_CHECK([--defines -o input.c input.y])
@@ -122,7 +122,7 @@ m4_pushdef([AT_TEST],
 AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[$1
-%error-verbose
+%define parse.error verbose
 ]AT_VARIANT_IF([], [%union {int integer;}])[
 %code {
 ]AT_PUSH_IF([[
@@ -204,7 +204,7 @@ m4_pushdef([AT_TEST],
 AT_DATA_GRAMMAR([$1.y],
 [[%define api.prefix {$1_}
 $2
-%error-verbose
+%define parse.error verbose
 %union
 {
   int integer;
@@ -317,6 +317,7 @@ AT_CHECK([[$PERL -n -0777 -e '
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)?
       |YY_COPY
+      |YY_CPLUSPLUS
       |YY_IGNORE_MAYBE_UNINITIALIZED_(?:BEGIN|END)
       |YY_INITIAL_VALUE
       |YY_MOVE

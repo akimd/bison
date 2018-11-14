@@ -73,32 +73,20 @@ AT_DATA([[input.y]],
 [[%verbose
 %output "input.c"
 
-%nterm useless1
-%nterm useless2
-%nterm useless3
-%nterm useless4
-%nterm useless5
-%nterm useless6
-%nterm useless7
-%nterm useless8
-%nterm useless9
-
 %token useful
 %%
 exp: useful;
+useless1:
+useless2:
+useless3:
 ]])
 
 AT_BISON_CHECK([[input.y]], 0, [],
-[[input.y: warning: 9 nonterminals useless in grammar [-Wother]
-input.y:4.8-15: warning: nonterminal useless in grammar: useless1 [-Wother]
-input.y:5.8-15: warning: nonterminal useless in grammar: useless2 [-Wother]
-input.y:6.8-15: warning: nonterminal useless in grammar: useless3 [-Wother]
-input.y:7.8-15: warning: nonterminal useless in grammar: useless4 [-Wother]
-input.y:8.8-15: warning: nonterminal useless in grammar: useless5 [-Wother]
-input.y:9.8-15: warning: nonterminal useless in grammar: useless6 [-Wother]
-input.y:10.8-15: warning: nonterminal useless in grammar: useless7 [-Wother]
-input.y:11.8-15: warning: nonterminal useless in grammar: useless8 [-Wother]
-input.y:12.8-15: warning: nonterminal useless in grammar: useless9 [-Wother]
+[[input.y: warning: 3 nonterminals useless in grammar [-Wother]
+input.y: warning: 3 rules useless in grammar [-Wother]
+input.y:7.1-8: warning: nonterminal useless in grammar: useless1 [-Wother]
+input.y:8.1-8: warning: nonterminal useless in grammar: useless2 [-Wother]
+input.y:9.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -106,12 +94,10 @@ AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
    useless1
    useless2
    useless3
-   useless4
-   useless5
-   useless6
-   useless7
-   useless8
-   useless9
+Rules useless in grammar
+    2 useless1: %empty
+    3 useless2: %empty
+    4 useless3: %empty
 ]])
 
 AT_CLEANUP

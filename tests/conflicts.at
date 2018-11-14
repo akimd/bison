@@ -405,17 +405,17 @@ AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
 AT_BISON_OPTION_PUSHDEFS([$1])
 
 m4_pushdef([AT_YYLEX_PROTOTYPE],
-[AT_SKEL_CC_IF([[int yylex (yy::parser::semantic_type *lvalp)]],
-               [[int yylex (YYSTYPE *lvalp)]])])
+[AT_CXX_IF([[int yylex (yy::parser::semantic_type *lvalp)]],
+           [[int yylex (YYSTYPE *lvalp)]])])
 
-AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
-[AT_SKEL_JAVA_IF([[
+AT_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
+[AT_JAVA_IF([[
 
 %code imports {
   import java.io.IOException;
 }]], [[
 
-%code {]AT_SKEL_CC_IF([[
+%code {]AT_CXX_IF([[
   #include <string>]], [[
   #include <assert.h>
   #include <stdio.h>
@@ -424,7 +424,7 @@ AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
   #define USE(Var)
 }
 
-]AT_SKEL_CC_IF([[%defines]], [[%define api.pure]])])[
+]AT_CXX_IF([[%defines]], [[%define api.pure]])])[
 
 ]AT_YACC_IF([[
 %code {
@@ -442,11 +442,11 @@ AT_SKEL_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 
 ]$2[
 
-]AT_SKEL_JAVA_IF([[%code lexer {]], [[%%]])[
+]AT_JAVA_IF([[%code lexer {]], [[%%]])[
 
 /*--------.
 | yylex.  |
-`--------*/]AT_SKEL_JAVA_IF([[
+`--------*/]AT_JAVA_IF([[
 
 public String input = "]$3[";
 public int index = 0;
@@ -469,7 +469,7 @@ public Object getLVal ()
   return *input++;
 }]])[
 ]AT_YYERROR_DEFINE[
-]AT_SKEL_JAVA_IF([[
+]AT_JAVA_IF([[
 };
 
 %%]])[
@@ -486,8 +486,8 @@ m4_pushdef([AT_EXPECTING], [m4_if($5, [ab], [[, expecting 'a' or 'b']],
                                   $5, [a],  [[, expecting 'a']],
                                   $5, [b],  [[, expecting 'b']])])
 
-AT_SKEL_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]]],
-                [AT_PARSER_CHECK([[./input]], [[1]]]),
+AT_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]]],
+           [AT_PARSER_CHECK([[./input]], [[1]]]),
 [[]],
 [[syntax error, unexpected ]$4[]AT_EXPECTING[
 ]])
@@ -694,7 +694,7 @@ AT_DATA_GRAMMAR([[input.y]],
   ]AT_YYLEX_DECLARE[
 }
 
-%error-verbose
+%define parse.error verbose
 %nonassoc 'a'
 
 %%

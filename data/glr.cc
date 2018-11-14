@@ -47,7 +47,7 @@
 m4_define([b4_locations_flag], [1])
 # FIXME: this is possible with variants, not without.
 b4_variant_if([m4_define([b4_location_constructors])])
-m4_define([b4_pure_flag],      [1])
+m4_define([b4_pure_flag], [1])
 
 m4_include(b4_pkgdatadir/[c++.m4])
 b4_bison_locations_if([m4_include(b4_pkgdatadir/[location.cc])])
@@ -211,6 +211,12 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   }
 
   int
+  ]b4_parser_class_name[::operator() ()
+  {
+    return parse ();
+  }
+
+  int
   ]b4_parser_class_name[::parse ()
   {
     return ::yyparse (*this]b4_user_args[);
@@ -320,6 +326,10 @@ b4_percent_code_get([[requires]])[
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
 
+    /// Parse.  An alias for parse ().
+    /// \returns  0 iff parsing succeeded.
+    int operator() ();
+
     /// Parse.
     /// \returns  0 iff parsing succeeded.
     virtual int parse ();
@@ -399,9 +409,9 @@ b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2015, 2018])[
-
 // C++ GLR parser skeleton written by Akim Demaille.
 
+]b4_disclaimer[
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations([hh])[
 ]b4_cpp_guard_close([b4_spec_defines_file])[

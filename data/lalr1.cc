@@ -190,6 +190,10 @@ m4_define([b4_shared_declarations],
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
 
+    /// Parse.  An alias for parse ().
+    /// \returns  0 iff parsing succeeded.
+    int operator() ();
+
     /// Parse.
     /// \returns  0 iff parsing succeeded.
     virtual int parse ();
@@ -268,8 +272,9 @@ m4_define([b4_shared_declarations],
     /// Print the state stack on the debug stream.
     virtual void yystack_print_ ();
 
-    // Debugging.
+    /// Debugging level.
     int yydebug_;
+    /// Debug stream.
     std::ostream* yycdebug_;
 
     /// \brief Display a symbol type, value and location.
@@ -331,7 +336,7 @@ m4_define([b4_shared_declarations],
       stack_symbol_type (YY_RVREF (stack_symbol_type) that);
       /// Steal the contents from \a sym to build this.
       stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) sym);
-#if defined __cplusplus && __cplusplus < 201103L
+#if YY_CPLUSPLUS < 201103L
       /// Assignment, needed by push_back by some old implementations.
       /// Moves the contents of that.
       stack_symbol_type& operator= (stack_symbol_type& that);
@@ -359,8 +364,8 @@ m4_define([b4_shared_declarations],
     /// \warning the contents of \a sym.value is stolen.
     void yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym);
 
-    /// Pop \a n symbols the three stacks.
-    void yypop_ (unsigned n = 1);
+    /// Pop \a n symbols from the stack.
+    void yypop_ (int n = 1);
 
     /// Constants.
     enum
@@ -392,6 +397,10 @@ m4_define([b4_shared_declarations],
 ]b4_percent_code_get([[provides]])[
 ]])
 
+## -------------- ##
+## Output files.  ##
+## -------------- ##
+
 b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
@@ -403,6 +412,7 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
 
+]b4_disclaimer[
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations(hh)[
 ]b4_cpp_guard_close([b4_spec_defines_file])
@@ -410,21 +420,20 @@ b4_output_end
 ])
 
 
-b4_output_begin([b4_parser_file_name])
-b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])
-b4_percent_code_get([[top]])[]dnl
+b4_output_begin([b4_parser_file_name])[
+]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])[
+]b4_disclaimer[
+]b4_percent_code_get([[top]])[]dnl
 m4_if(b4_prefix, [yy], [],
 [
 // Take the name prefix into account.
 [#]define yylex   b4_prefix[]lex])[
 
-// First part of user declarations.
 ]b4_user_pre_prologue[
 
 ]b4_defines_if([[#include "@basename(]b4_spec_defines_file[@)"]],
                [b4_shared_declarations([cc])])[
 
-// User implementation prologue.
 ]b4_user_post_prologue[
 ]b4_percent_code_get[
 
@@ -513,7 +522,7 @@ m4_if(b4_prefix, [yy], [],
   {
     if (*yystr == '"')
       {
-        std::string yyr = "";
+        std::string yyr;
         char const *yyp = yystr;
 
         for (;;)
@@ -603,7 +612,7 @@ m4_if(b4_prefix, [yy], [],
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
                       [value], [YY_MOVE_OR_COPY], [YY_MOVE (that.value)])])[
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
     // that is emptied.
     that.state = empty_state;
 #endif
@@ -618,7 +627,7 @@ m4_if(b4_prefix, [yy], [],
     that.type = empty_symbol;
   }
 
-#if defined __cplusplus && __cplusplus < 201103L
+#if YY_CPLUSPLUS < 201103L
   ]b4_parser_class_name[::stack_symbol_type&
   ]b4_parser_class_name[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
@@ -676,7 +685,7 @@ m4_if(b4_prefix, [yy], [],
   void
   ]b4_parser_class_name[::yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym)
   {
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
     yypush_ (m, stack_symbol_type (s, std::move (sym)));
 #else
     stack_symbol_type ss (s, sym);
@@ -685,7 +694,7 @@ m4_if(b4_prefix, [yy], [],
   }
 
   void
-  ]b4_parser_class_name[::yypop_ (unsigned n)
+  ]b4_parser_class_name[::yypop_ (int n)
   {
     yystack_.pop (n);
   }
@@ -740,6 +749,12 @@ m4_if(b4_prefix, [yy], [],
   }
 
   int
+  ]b4_parser_class_name[::operator() ()
+  {
+    return parse ();
+  }
+
+  int
   ]b4_parser_class_name[::parse ()
   {
     // State.
@@ -768,7 +783,6 @@ m4_if(b4_prefix, [yy], [],
 
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yyla.value], [], [yyla.location])dnl
-    // User initialization code.
     b4_user_initial_action
 b4_dollar_popdef])[]dnl
 

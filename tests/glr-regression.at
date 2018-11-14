@@ -1000,8 +1000,7 @@ static int
 merge (YYSTYPE s1, YYSTYPE s2)
 {
   /* Not invoked. */
-  char dummy = s1.dummy + s2.dummy;
-  return dummy;
+  return s1.dummy + s2.dummy;
 }
 
 ]AT_YYERROR_DEFINE[
@@ -1119,7 +1118,7 @@ change_lookahead:
 
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["ab"],
-                 [yylval.value = res + 'A' - 'a'])[
+                 [yylval.value = (char) (res + 'A' - 'a')])[
 
 static void
 print_lookahead (char const *reduction)
@@ -1319,11 +1318,11 @@ static int
 yylex (void)
 {
   static char const input[] = "abcdddd";
-  static size_t toknum;
-  assert (toknum < sizeof input);
+  static int toknum = 0;
+  assert (toknum < (int) sizeof input);
   yylloc.first_line = yylloc.last_line = 1;
   yylloc.first_column = yylloc.last_column = toknum + 1;
-  yylval.value = input[toknum] + 'A' - 'a';
+  yylval.value = (char) (input[toknum] + 'A' - 'a');
   return input[toknum++];
 }
 
@@ -1350,8 +1349,7 @@ print_lookahead (char const *reduction)
 static char
 merge (union YYSTYPE s1, union YYSTYPE s2)
 {
-  char dummy = s1.value + s2.value;
-  return dummy;
+  return (char) (s1.value + s2.value);
 }
 
 int
@@ -1542,7 +1540,7 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 %glr-parser
 %locations
 %define api.pure
-%error-verbose
+%define parse.error verbose
 
 %union { int dummy; }
 
@@ -1578,8 +1576,8 @@ static int
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
   static char const input[] = "ab";
-  static size_t toknum;
-  assert (toknum < sizeof input);
+  static int toknum = 0;
+  assert (toknum < (int) sizeof input);
   lvalp->dummy = 0;
   llocp->first_line = llocp->last_line = 2;
   llocp->first_column = toknum + 1;
@@ -1762,7 +1760,7 @@ AT_SETUP([Predicates])
 
 AT_DATA_GRAMMAR([input.y],
 [[%glr-parser
-%error-verbose
+%define parse.error verbose
 %expect-rr 1
 %code requires
 {

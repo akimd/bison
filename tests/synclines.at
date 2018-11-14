@@ -344,7 +344,7 @@ AT_TEST([%destructor syncline],
 %union {
   int ival;
 }
-%nterm <ival> exp
+%type <ival> exp
 %%
 exp: '0' { $$ = 0; };
 %%
@@ -369,7 +369,7 @@ AT_TEST([%printer syncline],
 %union {
   int ival;
 }
-%nterm <ival> exp
+%type <ival> exp
 %%
 exp: '0' { $$ = 0; };
 %%
@@ -396,10 +396,10 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
 # properly to the linker, and is unable to save a file named this way.
 # Don't try with such compilers.
 AT_DATA([\"\\\"\".c],
-[[int main() { return 0; }
+[[int main (void) { return 0; }
 ]])
 
-AT_CHECK([AT_SKEL_CC_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".c -o \"\\\"\" ||
+AT_CHECK([AT_CXX_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".c -o \"\\\"\" ||
           exit 77], [0], [ignore], [ignore])
 
 AT_DATA_GRAMMAR([\"\\\"\".y],
@@ -418,16 +418,16 @@ exp: '0'
 ]AT_MAIN_DEFINE[
 ]])
 
+# Maybe we tried to create a file name that the file system does not
+# support.
+AT_SKIP_IF([[test ! -f \"\\\"\".y]])
 AT_FULL_COMPILE([\"\\\"\"])
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
 ])
 
-AT_TEST([yacc.c])
-AT_TEST([glr.c])
-AT_TEST([lalr1.cc])
-AT_TEST([glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])
 
@@ -453,15 +453,12 @@ AT_DATA_GRAMMAR([input.y],
 exp: '0'
 ]])
 AT_BISON_CHECK([--no-lines -o input.AT_LANG_EXT -d input.y])
-AT_CHECK([[grep '#line' ]AT_SKEL_CC_IF([*.cc *.hh], [*.c *.h])], 1)
+AT_CHECK([[grep '#line'] *.AT_LANG_EXT *.AT_LANG_HDR], 1)
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
 ])
 
-AT_TEST([yacc.c])
-AT_TEST([glr.c])
-AT_TEST([lalr1.cc])
-AT_TEST([glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])

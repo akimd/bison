@@ -53,8 +53,14 @@ m4_define([b4_inline],
 # b4_cxx_portability
 # ------------------
 m4_define([b4_cxx_portability],
-[// Support move semantics when possible.
-#if defined __cplusplus && 201103L <= __cplusplus
+[#if defined __cplusplus
+# define YY_CPLUSPLUS __cplusplus
+#else
+# define YY_CPLUSPLUS 199711L
+#endif
+
+// Support move semantics when possible.
+#if 201103L <= YY_CPLUSPLUS
 # define YY_MOVE           std::move
 # define YY_MOVE_OR_COPY   move
 # define YY_MOVE_REF(Type) Type&&
@@ -272,7 +278,7 @@ m4_define([b4_symbol_type_declare],
       location_type location;])[
 
     private:
-#if defined __cplusplus && __cplusplus < 201103L
+#if !defined __cplusplus || __cplusplus < 201103L
       /// Assignment operator.
       basic_symbol& operator= (const basic_symbol& other);
 #endif
@@ -478,11 +484,12 @@ m4_define([b4_symbol_constructor_define], [])
 # Define yytranslate_.  Sometimes used in the header file ($1=hh),
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
-[[  // Symbol number corresponding to token number t.
-  ]b4_inline([$1])b4_parser_class_name[::token_number_type
+[  b4_inline([$1])b4_parser_class_name[::token_number_type
   ]b4_parser_class_name[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)
   {
+    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
+    // TOKEN-NUM as returned by yylex.
     static
     const token_number_type
     translate_table[] =

@@ -21,11 +21,19 @@
 #ifndef _BBITSET_H
 #define _BBITSET_H
 
-#include "libiberty.h"
-
-#include <stdbool.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stddef.h>
+
+#include "xalloc.h"
+
+#ifndef __attribute__
+# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8)
+#  define __attribute__(x)
+# endif
+#endif
+
+#define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 
 /* Currently we support five flavours of bitsets:
    BITSET_ARRAY:  Array of bits (fixed size, fast for dense bitsets).

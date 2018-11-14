@@ -82,15 +82,14 @@ m4_define([b4_define_state],[[
     ]b4_yystype[ yylval = null;
 ]])
 
-b4_output_begin([b4_parser_file_name])
-b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-             [2007-2015, 2018])
-
-b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
-])[/* First part of user declarations.  */
-]b4_user_pre_prologue
-b4_user_post_prologue
-b4_percent_code_get([[imports]])
+b4_output_begin([b4_parser_file_name])[
+]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
+             [2007-2015, 2018])[
+]b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);[
+]])[
+]b4_user_pre_prologue[
+]b4_user_post_prologue[
+]b4_percent_code_get([[imports]])
 [/**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
  *
@@ -586,7 +585,6 @@ b4_define_state])[
     yystack.push (yystate, yylval ]b4_locations_if([, yylloc])[);
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yylval], [], [yylloc])dnl
-    /* User initialization code.  */
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[
@@ -597,7 +595,6 @@ b4_dollar_popdef[]dnl
         push_parse_initialize ();
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yylval], [], [yylloc])dnl
-    /* User initialization code.  */
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[
@@ -1040,7 +1037,8 @@ b4_both_if([[
                        b4_rhs_location(yynrhs, yyi + 1)])[);
   }
 
-  /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
+  /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+     as returned by yylex, with out-of-bounds checking.  */
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)

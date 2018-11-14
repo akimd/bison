@@ -27,7 +27,7 @@ b4_defines_if([b4_required_version_if([302], [],
 # ---------------
 m4_define([b4_stack_define],
 [[  /// A stack with random access from its top.
-  template <class T, class S = std::vector<T> >
+  template <typename T, typename S = std::vector<T> >
   class stack
   {
   public:
@@ -36,12 +36,7 @@ m4_define([b4_stack_define],
     typedef typename S::const_reverse_iterator const_iterator;
     typedef typename S::size_type size_type;
 
-    stack ()
-    {
-      seq_.reserve (200);
-    }
-
-    stack (size_type n)
+    stack (size_type n = 200)
       : seq_ (n)
     {}
 
@@ -51,7 +46,16 @@ m4_define([b4_stack_define],
     T&
     operator[] (size_type i)
     {
-      return seq_[seq_.size () - 1 - i];
+      return seq_[size () - 1 - i];
+    }
+
+    /// Random access.
+    ///
+    /// Index 0 returns the topmost element.
+    T&
+    operator[] (int i)
+    {
+      return operator[] (size_type (i));
     }
 
     /// Random access.
@@ -60,7 +64,16 @@ m4_define([b4_stack_define],
     const T&
     operator[] (size_type i) const
     {
-      return seq_[seq_.size () - 1 - i];
+      return seq_[size () - 1 - i];
+    }
+
+    /// Random access.
+    ///
+    /// Index 0 returns the topmost element.
+    const T&
+    operator[] (int i) const
+    {
+      return operator[] (size_type (i));
     }
 
     /// Steal the contents of \a t.
@@ -74,9 +87,9 @@ m4_define([b4_stack_define],
     }
 
     void
-    pop (size_type n = 1)
+    pop (int n = 1)
     {
-      for (; n; --n)
+      for (; 0 < n; --n)
         seq_.pop_back ();
     }
 
@@ -112,30 +125,30 @@ m4_define([b4_stack_define],
   };
 
   /// Present a slice of the top of a stack.
-  template <class T, class S = stack<T> >
+  template <typename T, typename S = stack<T> >
   class slice
   {
   public:
-    typedef typename S::size_type size_type;
-    slice (const S& stack, size_type range)
+    slice (const S& stack, int range)
       : stack_ (stack)
       , range_ (range)
     {}
 
     const T&
-    operator[] (size_type i) const
+    operator[] (int i) const
     {
       return stack_[range_ - i];
     }
 
   private:
     const S& stack_;
-    size_type range_;
+    int range_;
   };
 ]])
 
 m4_ifdef([b4_stack_file],
 [b4_output_begin([b4_dir_prefix], [b4_stack_file])[
+]b4_generated_by[
 // Starting with Bison 3.2, this file is useless: the structure it
 // used to define is now defined with the parser itself.
 //

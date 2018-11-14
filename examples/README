@@ -24,15 +24,7 @@ https://www.gnu.org/software/bison/manual/html_node/Multi_002dfunction-Calc.html
 
 * Examples in C++
 
-** variant.yy - Self-contained example in C++
-A simple C++ example in a single file, based on variants and symbol
-constructors.  Variants allow to use any C++ type as semantic value type,
-and symbol constructors ensure consistency between declared token type and
-effective semantic value.
-
-** variant-11.yy - Self-contained example in modern C++
-Another simple C++ example, closely related to the previous one, but
-exhibiting support for C++11's move semantics.
+** c++ - A directory of simple C++ examples
 
 ** calc++ - A Complete C++ Example
 A fully featured C++ version of the canonical example for parsers: a
@@ -47,6 +39,7 @@ https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Examp
 Local Variables:
 mode: outline
 fill-column: 76
+ispell-dictionary: "american"
 End:
 
 Copyright (C) 2018 Free Software Foundation, Inc.

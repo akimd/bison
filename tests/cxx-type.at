@@ -137,9 +137,6 @@ main (int argc, char **argv)
 
 ]AT_YYLEX_PROTOTYPE[
 {
-  char buffer[256];
-  int c;
-  unsigned i;
   static int lineNum = 1;
   static int colNum = 0;
 
@@ -152,6 +149,7 @@ main (int argc, char **argv)
 
   while (1)
     {
+      int c;
       assert (!feof (stdin));
       c = getchar ();
       switch (c)
@@ -175,11 +173,12 @@ main (int argc, char **argv)
             yylloc.first_column = colNum;]])[
             if (isalpha (c))
               {
-                i = 0;
+                char buffer[256];
+                unsigned i = 0;
 
                 do
                   {
-                    buffer[i++] = c;
+                    buffer[i++] = (char) c;
                     colNum += 1;
                     assert (i != sizeof buffer - 1);
                     c = getchar ();
@@ -446,7 +445,7 @@ AT_PARSER_CHECK([[./types test-input]], 0,
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
-_AT_TEST_GLR_CXXTYPES([%error-verbose],
+_AT_TEST_GLR_CXXTYPES([%define parse.error verbose],
                       [%merge <stmtMerge>], [%merge <stmtMerge>])
 AT_PARSER_CHECK([[./types test-input]], 0,
                 [_AT_AMBIG_GLR_OUTPUT], [_AT_VERBOSE_GLR_STDERR])

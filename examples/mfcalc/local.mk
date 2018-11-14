@@ -1,18 +1,18 @@
-# Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
-# Inc.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
+## Inc.
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## -------------------- ##
 ## Building & testing.  ##
@@ -28,7 +28,8 @@ extracted += $(mfcalc_extracted)
 
 check_PROGRAMS += %D%/mfcalc
 nodist_%C%_mfcalc_SOURCES = $(mfcalc_sources)
-%C%_mfcalc_CPPFLAGS = -I$(top_builddir)/%D%
+# Don't use gnulib's system headers.
+%C%_mfcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
 %C%_mfcalc_LDADD = -lm
 
 dist_TESTS += %D%/mfcalc.test

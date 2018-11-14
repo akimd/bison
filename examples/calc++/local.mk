@@ -1,18 +1,18 @@
-# Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
-# Inc.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## Copyright (C) 2005-2006, 2008-2015, 2018 Free Software Foundation,
+## Inc.
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## ------------------- ##
 ## Parser generation.  ##
@@ -57,24 +57,22 @@ extracted += $(calcxx_extracted)
 calcxx_sources_generated =                      \
   %D%/parser.cc                                 \
   %D%/parser.hh                                 \
-  %D%/location.hh                               \
-  %D%/position.hh                               \
-  %D%/stack.hh
+  %D%/location.hh
 calcxx_sources =                                \
   $(calcxx_sources_extracted)                   \
   $(calcxx_sources_generated)
 
 if FLEX_CXX_WORKS
-check_PROGRAMS += %D%/calc++
-nodist_%C%_calc___SOURCES =                     \
-  $(calcxx_sources)
-
-%C%_calc___CPPFLAGS = -I$(top_builddir)/%D%
-%C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
-dist_TESTS += %D%/calc++.test
-else
+if  ENABLE_CXX
+  check_PROGRAMS += %D%/calc++
+  nodist_%C%_calc___SOURCES = $(calcxx_sources)
+  # Don't use gnulib's system headers.
+  %C%_calc___CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  %C%_calc___CXXFLAGS = $(AM_CXXFLAGS) $(FLEX_SCANNER_CXXFLAGS)
+  TESTS += %D%/calc++.test
+endif  ENABLE_CXX
+endif FLEX_CXX_WORKS
 EXTRA_DIST += %D%/calc++.test
-endif
 
 
 ## ------------ ##

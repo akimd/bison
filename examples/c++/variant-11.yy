@@ -37,9 +37,8 @@
 
 %code // *.cc
 {
-#include <algorithm>
+#include <climits>  // INT_MIN, INT_MAX
 #include <iostream>
-#include <iterator>
 #include <sstream>
 
   namespace yy
@@ -69,16 +68,6 @@
     // std::make_unique is C++14.
     return string_uptr (new std::string{std::forward<Args> (args)...});
   }
-
-  // Convert to string.
-  template <typename T>
-    std::string
-    to_string (const T& t)
-  {
-    auto&& o = std::ostringstream{};
-    o << t;
-    return o.str ();
-  }
 }
 
 %token <string_uptr> TEXT;
@@ -103,7 +92,7 @@ list:
 
 item:
   TEXT
-| NUMBER  { $$ = make_string_uptr (to_string ($1)); }
+| NUMBER  { $$ = make_string_uptr (std::to_string ($1)); }
 ;
 %%
 
@@ -116,7 +105,8 @@ namespace yy
   // TEXT         "I have three numbers for you."
   // NUMBER       1
   // NUMBER       2
-  // NUMBER       3
+  // NUMBER       ...
+  // NUMBER       max - 1
   // TEXT         "And that's all!"
   // END_OF_FILE
 
@@ -124,10 +114,10 @@ namespace yy
   parser::symbol_type
   yylex ()
   {
-    static auto count = 0u;
-    const auto stage = count;
+    static int count = 0;
+    const int stage = count;
     ++count;
-    auto loc = parser::location_type{nullptr, stage + 1, stage + 1};
+    auto loc = parser::location_type{nullptr, unsigned (stage + 1), unsigned (stage + 1)};
     if (stage == 0)
       return parser::make_TEXT (make_string_uptr ("I have numbers for you."), std::move (loc));
     else if (stage < max)
@@ -150,7 +140,10 @@ int
 main (int argc, const char *argv[])
 {
   if (2 <= argc && isdigit (*argv[1]))
-    max = strtol (argv[1], nullptr, 10);
+    {
+      auto maxl = strtol (argv[1], nullptr, 10);
+      max = INT_MIN <= maxl && maxl <= INT_MAX ? int(maxl) : 4;
+    }
   auto&& p = yy::parser{};
   p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();

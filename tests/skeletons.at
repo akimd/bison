@@ -91,7 +91,7 @@ m4_pushdef([AT_GRAM],
   int yylex (void);
 %}
 
-%error-verbose
+%define parse.error verbose
 %token 'a'
 
 %%

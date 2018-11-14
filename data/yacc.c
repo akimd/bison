@@ -299,9 +299,8 @@ m4_define([b4_shared_declarations],
 ## Output files.  ##
 ## -------------- ##
 
-b4_output_begin([b4_parser_file_name])
-b4_copyright([Bison implementation for Yacc-like parsers in C])[
-
+b4_output_begin([b4_parser_file_name])[
+]b4_copyright([Bison implementation for Yacc-like parsers in C])[
 /* C LALR(1) parser skeleton written by Richard Stallman, by
    simplifying the original so-called "semantic" parser.  */
 
@@ -312,8 +311,9 @@ b4_copyright([Bison implementation for Yacc-like parsers in C])[
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-]b4_identification
-b4_percent_code_get([[top]])[]dnl
+]b4_disclaimer[
+]b4_identification[
+]b4_percent_code_get([[top]])[]dnl
 m4_if(b4_api_prefix, [yy], [],
 [[/* Substitute the type names.  */
 #define YYSTYPE         ]b4_api_PREFIX[STYPE]b4_locations_if([[
@@ -335,9 +335,7 @@ m4_if(b4_api_prefix, [yy], [],
 #define yychar          ]b4_prefix[char]b4_locations_if([[
 #define yylloc          ]b4_prefix[lloc]])]))[
 
-/* Copy the first part of user declarations.  */
 ]b4_user_pre_prologue[
-
 ]b4_null_define[
 
 /* Enabling verbose error messages.  */
@@ -354,9 +352,8 @@ m4_if(b4_api_prefix, [yy], [],
 ]])dnl
 b4_shared_declarations[
 
-/* Copy the second part of user declarations.  */
-]b4_user_post_prologue
-b4_percent_code_get[]dnl
+]b4_user_post_prologue[
+]b4_percent_code_get[]dnl
 
 [#ifdef short
 # undef short
@@ -565,16 +562,16 @@ union yyalloc
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  ]b4_states_number[
 
-/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
-   by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  ]b4_undef_token_number[
 #define YYMAXUTOK   ]b4_user_token_number_max[
 
+/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+   as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, without out-of-bounds checking.  */
+   as returned by yylex.  */
 static const ]b4_int_type_for([b4_translate])[ yytranslate[] =
 {
   ]b4_translate[
@@ -791,7 +788,7 @@ yy_lac_stack_realloc (YYSIZE_T *yycapacity, YYSIZE_T yyadd,
                       yytype_int16 **yytop, yytype_int16 *yytop_empty)
 {
   YYSIZE_T yysize_old =
-    *yytop == yytop_empty ? 0 : *yytop - *yybottom + 1;
+    (YYSIZE_T) (*yytop == yytop_empty ? 0 : *yytop - *yybottom + 1);
   YYSIZE_T yysize_new = yysize_old + yyadd;
   if (*yycapacity < yysize_new)
     {
@@ -957,7 +954,7 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
         YYDPRINTF ((stderr, " R%d", yyrule - 1));
         if (yyesp != yyes_prev)
           {
-            YYSIZE_T yysize = yyesp - *yyes + 1;
+            YYSIZE_T yysize = (YYSIZE_T) (yyesp - *yyes + 1);
             if (yylen < yysize)
               {
                 yyesp -= yylen;
@@ -973,15 +970,14 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
           yyesp = yyes_prev -= yylen;
       }
       {
-        int yystate;
+        yytype_int16 yystate;
         {
-          int yylhs = yyr1[yyrule] - YYNTOKENS;
-          yystate = yypgoto[yylhs] + *yyesp;
-          if (yystate < 0 || YYLAST < yystate
-              || yycheck[yystate] != *yyesp)
-            yystate = yydefgoto[yylhs];
-          else
-            yystate = yytable[yystate];
+          const int yylhs = yyr1[yyrule] - YYNTOKENS;
+          const int yyi = yypgoto[yylhs] + *yyesp;
+          yystate = ((yytype_int16)
+                     (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyesp
+                      ? yytable[yyi]
+                      : yydefgoto[yylhs]));
         }
         if (yyesp == yyes_prev)
           {
@@ -1001,7 +997,7 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
               }
             *++yyesp = yystate;
           }
-        YYDPRINTF ((stderr, " G%d", yystate));
+        YYDPRINTF ((stderr, " G%d", (int) yystate));
       }
     }
 }]])[
@@ -1089,7 +1085,7 @@ yytnamerr (char *yyres, const char *yystr)
   if (! yyres)
     return yystrlen (yystr);
 
-  return yystpcpy (yyres, yystr) - yyres;
+  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
 
@@ -1279,13 +1275,10 @@ b4_function_define([[yyparse]], [[int]], b4_parse_param)[
 ]b4_function_define([[yypull_parse]], [[int]],
   [[[yypstate *yyps]], [[yyps]]]m4_ifset([b4_parse_param], [,
   b4_parse_param]))[
-{
-  int yystatus;
-  yypstate *yyps_local;]b4_pure_if([[
-  int yychar;
-  YYSTYPE yylval;]b4_locations_if([[
+{]b4_pure_if([b4_locations_if([[
   static YYLTYPE yyloc_default][]b4_yyloc_default[;
   YYLTYPE yylloc = yyloc_default;]])])[
+  yypstate *yyps_local;
   if (yyps)
     yyps_local = yyps;
   else
@@ -1299,8 +1292,10 @@ b4_function_define([[yyparse]], [[int]], b4_parse_param)[
           return 2;
         }
     }
-  do {
-    yychar = ]b4_lex[;
+  int yystatus;
+  do {]b4_pure_if([[
+    YYSTYPE yylval;
+    int ]])[yychar = ]b4_lex[;
     yystatus =
       yypush_parse (yyps_local]b4_pure_if([[, yychar, &yylval]b4_locations_if([[, &yylloc]])])m4_ifset([b4_parse_param], [, b4_args(b4_parse_param)])[);
   } while (yystatus == YYPUSH_MORE);
@@ -1433,7 +1428,6 @@ b4_function_define([[yyparse]], [[int]], b4_parse_param)[
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([m4_define([b4_dollar_dollar_used])yylval], [],
                   [b4_push_if([b4_pure_if([*])yypushed_loc], [yylloc])])dnl
-/* User initialization code.  */
 b4_user_initial_action
 b4_dollar_popdef[]dnl
 m4_ifdef([b4_dollar_dollar_used],[[  yyvsp[0] = yylval;
@@ -1451,12 +1445,12 @@ b4_locations_if([[  yylsp[0] = ]b4_push_if([b4_pure_if([*])yypushed_loc], [yyllo
   yyssp++;
 
  yysetstate:
-  *yyssp = yystate;
+  *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
 #ifdef yyoverflow
       {
@@ -1476,10 +1470,9 @@ b4_locations_if([[  yylsp[0] = ]b4_push_if([b4_pure_if([*])yypushed_loc], [yyllo
                     &yyvs1, yysize * sizeof (*yyvsp),]b4_locations_if([
                     &yyls1, yysize * sizeof (*yylsp),])[
                     &yystacksize);
-]b4_locations_if([
-        yyls = yyls1;])[
         yyss = yyss1;
-        yyvs = yyvs1;
+        yyvs = yyvs1;]b4_locations_if([
+        yyls = yyls1;])[
       }
 #else /* no yyoverflow */
 # ifndef YYSTACK_RELOCATE
@@ -1653,7 +1646,7 @@ yyreduce:
     int yychar_backup = yychar;
     switch (yyn)
       {
-        ]b4_user_actions[
+]b4_user_actions[
         default: break;
       }
     if (yychar_backup != yychar)
@@ -1687,14 +1680,13 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
+  {
+    const int yylhs = yyr1[yyn] - YYNTOKENS;
+    const int yyi = yypgoto[yylhs] + *yyssp;
+    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
+               ? yytable[yyi]
+               : yydefgoto[yylhs]);
+  }
 
   goto yynewstate;
 
@@ -1910,10 +1902,10 @@ yypushreturn:]])[
 ]b4_epilogue[]dnl
 b4_output_end
 
-b4_defines_if(
-[b4_output_begin([b4_spec_defines_file])[
+b4_defines_if([[
+]b4_output_begin([b4_spec_defines_file])[
 ]b4_copyright([Bison interface for Yacc-like parsers in C])[
-
+]b4_disclaimer[
 ]b4_shared_declarations[
-]b4_output_end
-])# b4_defines_if
+]b4_output_end[
+]])# b4_defines_if
