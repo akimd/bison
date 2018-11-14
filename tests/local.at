@@ -539,6 +539,9 @@ main (int argc, char const* argv[])
   return ]AT_NAME_PREFIX[parse ();
 }]])
 
+m4_define([AT_LANG_FOR_EACH_STD(c)],
+[$1])
+
 
 ## ----- ##
 ## C++.  ##
@@ -573,21 +576,24 @@ main (int argc, char const* argv[])
   return p.parse ();
 }]])
 
+m4_define([AT_LANG_FOR_EACH_STD(c++)],
+[AT_FOR_EACH_CXX([$1])])
+
 m4_define([AT_FOR_EACH_CXX],
-[[at_for_each_cxx_CXXFLAGS_save=$CXXFLAGS
-for at_cxx_std in '' \
-                  ${CXX98_CXXFLAGS:+"$CXX98_CXXFLAGS"} \
-                  ${CXX03_CXXFLAGS:+"$CXX03_CXXFLAGS"} \
-                  ${CXX11_CXXFLAGS:+"$CXX11_CXXFLAGS"} \
-                  ${CXX14_CXXFLAGS:+"$CXX14_CXXFLAGS"} \
-                  ${CXX17_CXXFLAGS:+"$CXX17_CXXFLAGS"} \
-                  ${CXX2A_CXXFLAGS:+"$CXX2A_CXXFLAGS"}
+[[at_for_each_std_CXXFLAGS_save=$CXXFLAGS
+for at_std in '' \
+              ${CXX98_CXXFLAGS:+"$CXX98_CXXFLAGS"} \
+              ${CXX03_CXXFLAGS:+"$CXX03_CXXFLAGS"} \
+              ${CXX11_CXXFLAGS:+"$CXX11_CXXFLAGS"} \
+              ${CXX14_CXXFLAGS:+"$CXX14_CXXFLAGS"} \
+              ${CXX17_CXXFLAGS:+"$CXX17_CXXFLAGS"} \
+              ${CXX2A_CXXFLAGS:+"$CXX2A_CXXFLAGS"}
 do
   ]AS_ECHO(["======== Testing with C++ standard flags: '$at_cxx_std'"])[
-  CXXFLAGS="$at_for_each_cxx_CXXFLAGS_save $at_cxx_std"
+  CXXFLAGS="$at_for_each_std_CXXFLAGS_save $at_std"
   ]$1[
 done
-CXXFLAGS=$at_for_each_cxx_CXXFLAGS_save
+CXXFLAGS=$at_for_each_std_CXXFLAGS_save
 ]])
 
 ## ------ ##
@@ -619,7 +625,8 @@ m4_define([AT_MAIN_DEFINE(java)],
   }
 }]])
 
-
+m4_define([AT_LANG_FOR_EACH_STD(java)],
+[$1])
 
 ## --------------- ##
 ## Running Bison.  ##
@@ -819,6 +826,11 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
          [[0]], [ignore], [ignore])])
 
 
+# AT_LANG_FOR_EACH_STD(BODY)
+# -------------------------------
+m4_define([AT_LANG_FOR_EACH_STD],  [AT_LANG_DISPATCH([$0], $@)])
+
+
 # AT_LANG_COMPILE(OUTPUT, [SOURCES = OUTPUT.c], [EXTRA-COMPILER-FLAGS])
 # ---------------------------------------------------------------------
 # Compile SOURCES into OUTPUT.  Skip if compiler does not work.
@@ -904,11 +916,11 @@ AT_PARSER_CHECK([./c-and-cxx])
 ])
 
 
-# AT_REQUIRE_CXX_VERSION(STD)
-# ---------------------------
+# AT_REQUIRE_CXX_STD(STD, [IF-FAIL = SKIP])
+# -----------------------------------------
 # Skip unless this compiler supports at least C++ STD (e.g., "11",
 # "14", etc.).
-m4_define([AT_REQUIRE_CXX_VERSION],
+m4_define([AT_REQUIRE_CXX_STD],
 [AT_DATA([check.cc],
 [[int main ()
 {
@@ -920,14 +932,19 @@ m4_define([AT_REQUIRE_CXX_VERSION],
     [17], [201703],
     [2a], [201709],
     [m4_fatal([$0: invalid arguments: $@])])[
-  return 77;
+  return 1;
 #else
   return 0;
 #endif
 }
 ]])
 AT_COMPILE_CXX([check])
-AT_CHECK([@&t@./check])
+AT_CHECK([@&t@./check], [ignore])
+m4_ifval([$2],
+         [if test $at_status != 0; then
+            $2
+          fi],
+         [SKIP_IF([test $at_status != 0])])
 ])
 
 
