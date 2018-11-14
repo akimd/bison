@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.1.91.26-501d.  */
+/* A Bison parser, made by GNU Bison 3.2.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -30,6 +30,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 #ifndef YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
 # define YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
 /* Debug traces.  */
@@ -48,11 +51,11 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 21 "src/parse-gram.y" /* yacc.c:1913  */
+#line 21 "src/parse-gram.y" /* yacc.c:1905  */
 
   #include "symlist.h"
   #include "symtab.h"
-#line 222 "src/parse-gram.y" /* yacc.c:1913  */
+#line 214 "src/parse-gram.y" /* yacc.c:1905  */
 
   typedef enum
   {
@@ -61,10 +64,16 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 645 "src/parse-gram.y" /* yacc.c:1913  */
-#include "muscle-tab.h"
+#line 627 "src/parse-gram.y" /* yacc.c:1905  */
 
-#line 68 "src/parse-gram.h" /* yacc.c:1913  */
+  #include "muscle-tab.h"
+  typedef struct
+  {
+    char const *chars;
+    muscle_kind kind;
+  } value_type;
+
+#line 77 "src/parse-gram.h" /* yacc.c:1905  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -89,44 +98,43 @@ extern int gram_debug;
     PERCENT_DEFAULT_PREC = 272,
     PERCENT_DEFINE = 273,
     PERCENT_DEFINES = 274,
-    PERCENT_ERROR_VERBOSE = 275,
-    PERCENT_EXPECT = 276,
-    PERCENT_EXPECT_RR = 277,
-    PERCENT_FLAG = 278,
-    PERCENT_FILE_PREFIX = 279,
-    PERCENT_GLR_PARSER = 280,
-    PERCENT_INITIAL_ACTION = 281,
-    PERCENT_LANGUAGE = 282,
-    PERCENT_NAME_PREFIX = 283,
-    PERCENT_NO_DEFAULT_PREC = 284,
-    PERCENT_NO_LINES = 285,
-    PERCENT_NONDETERMINISTIC_PARSER = 286,
-    PERCENT_OUTPUT = 287,
-    PERCENT_REQUIRE = 288,
-    PERCENT_SKELETON = 289,
-    PERCENT_START = 290,
-    PERCENT_TOKEN_TABLE = 291,
-    PERCENT_VERBOSE = 292,
-    PERCENT_YACC = 293,
-    BRACED_CODE = 294,
-    BRACED_PREDICATE = 295,
-    BRACKETED_ID = 296,
-    CHAR = 297,
-    EPILOGUE = 298,
-    EQUAL = 299,
-    ID = 300,
-    ID_COLON = 301,
-    PERCENT_PERCENT = 302,
-    PIPE = 303,
-    PROLOGUE = 304,
-    SEMICOLON = 305,
-    TAG = 306,
-    TAG_ANY = 307,
-    TAG_NONE = 308,
-    INT = 309,
-    PERCENT_PARAM = 310,
-    PERCENT_UNION = 311,
-    PERCENT_EMPTY = 312
+    PERCENT_EXPECT = 275,
+    PERCENT_EXPECT_RR = 276,
+    PERCENT_FLAG = 277,
+    PERCENT_FILE_PREFIX = 278,
+    PERCENT_GLR_PARSER = 279,
+    PERCENT_INITIAL_ACTION = 280,
+    PERCENT_LANGUAGE = 281,
+    PERCENT_NAME_PREFIX = 282,
+    PERCENT_NO_DEFAULT_PREC = 283,
+    PERCENT_NO_LINES = 284,
+    PERCENT_NONDETERMINISTIC_PARSER = 285,
+    PERCENT_OUTPUT = 286,
+    PERCENT_REQUIRE = 287,
+    PERCENT_SKELETON = 288,
+    PERCENT_START = 289,
+    PERCENT_TOKEN_TABLE = 290,
+    PERCENT_VERBOSE = 291,
+    PERCENT_YACC = 292,
+    BRACED_CODE = 293,
+    BRACED_PREDICATE = 294,
+    BRACKETED_ID = 295,
+    CHAR = 296,
+    EPILOGUE = 297,
+    EQUAL = 298,
+    ID = 299,
+    ID_COLON = 300,
+    PERCENT_PERCENT = 301,
+    PIPE = 302,
+    PROLOGUE = 303,
+    SEMICOLON = 304,
+    TAG = 305,
+    TAG_ANY = 306,
+    TAG_NONE = 307,
+    INT = 308,
+    PERCENT_PARAM = 309,
+    PERCENT_UNION = 310,
+    PERCENT_EMPTY = 311
   };
 #endif
 
@@ -135,35 +143,64 @@ extern int gram_debug;
 
 union GRAM_STYPE
 {
-#line 183 "src/parse-gram.y" /* yacc.c:1913  */
-unsigned char character;
-#line 187 "src/parse-gram.y" /* yacc.c:1913  */
-char *code;
-#line 192 "src/parse-gram.y" /* yacc.c:1913  */
-uniqstr uniqstr;
-#line 200 "src/parse-gram.y" /* yacc.c:1913  */
-int integer;
-#line 204 "src/parse-gram.y" /* yacc.c:1913  */
-symbol *symbol;
-#line 209 "src/parse-gram.y" /* yacc.c:1913  */
-assoc assoc;
-#line 212 "src/parse-gram.y" /* yacc.c:1913  */
-symbol_list *list;
-#line 215 "src/parse-gram.y" /* yacc.c:1913  */
-named_ref *named_ref;
-#line 242 "src/parse-gram.y" /* yacc.c:1913  */
-param_type param;
-#line 409 "src/parse-gram.y" /* yacc.c:1913  */
-code_props_type code_type;
-#line 647 "src/parse-gram.y" /* yacc.c:1913  */
 
-  struct
-  {
-    char const *chars;
-    muscle_kind kind;
-  } value;
-
-#line 167 "src/parse-gram.h" /* yacc.c:1913  */
+  /* precedence_declarator  */
+  assoc precedence_declarator;
+  /* "string"  */
+  char* STRING;
+  /* "{...}"  */
+  char* BRACED_CODE;
+  /* "%?{...}"  */
+  char* BRACED_PREDICATE;
+  /* "epilogue"  */
+  char* EPILOGUE;
+  /* "%{...%}"  */
+  char* PROLOGUE;
+  /* code_props_type  */
+  code_props_type code_props_type;
+  /* "integer"  */
+  int INT;
+  /* named_ref.opt  */
+  named_ref* yytype_86;
+  /* "%param"  */
+  param_type PERCENT_PARAM;
+  /* symbol.prec  */
+  symbol* yytype_73;
+  /* id  */
+  symbol* id;
+  /* id_colon  */
+  symbol* id_colon;
+  /* symbol  */
+  symbol* symbol;
+  /* string_as_id  */
+  symbol* string_as_id;
+  /* symbols.prec  */
+  symbol_list* yytype_72;
+  /* symbols.1  */
+  symbol_list* yytype_74;
+  /* generic_symlist  */
+  symbol_list* generic_symlist;
+  /* generic_symlist_item  */
+  symbol_list* generic_symlist_item;
+  /* "%<flag>"  */
+  uniqstr PERCENT_FLAG;
+  /* "[identifier]"  */
+  uniqstr BRACKETED_ID;
+  /* "identifier"  */
+  uniqstr ID;
+  /* "identifier:"  */
+  uniqstr ID_COLON;
+  /* "<tag>"  */
+  uniqstr TAG;
+  /* tag  */
+  uniqstr tag;
+  /* variable  */
+  uniqstr variable;
+  /* "char"  */
+  unsigned char CHAR;
+  /* value  */
+  value_type value;
+#line 204 "src/parse-gram.h" /* yacc.c:1905  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
