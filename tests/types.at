@@ -78,7 +78,7 @@ m4_pushdef([_AT_TEST],
 [
 AT_SETUP([$1])
 AT_KEYWORDS([api.value.type])
-$7
+
 AT_BISON_OPTION_PUSHDEFS([%debug $1 $2])
 AT_DATA_GRAMMAR([test.y],
 [[%debug
@@ -104,9 +104,12 @@ start: $3;
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_FULL_COMPILE([[test]])
-AT_PARSER_CHECK([[./test]], 0, [[$6
+AT_LANG_FOR_EACH_STD([
+  $7
+  AT_FULL_COMPILE([[test]])
+  AT_PARSER_CHECK([[./test]], 0, [[$6
 ]])
+])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -282,7 +285,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
                ]AT_VAL[.emplace <std::unique_ptr<std::string>>
                  (std::make_unique <std::string> ("two"));]],
             [10, two],
-            [AT_REQUIRE_CXX_VERSION(14)])])
+            [AT_REQUIRE_CXX_STD(14, [echo "$at_std not supported"; continue])])])
   ])
 ])
 
