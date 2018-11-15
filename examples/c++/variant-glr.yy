@@ -15,6 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+%require "3.2"
 %debug
 %language "c++"
 %glr-parser
@@ -139,7 +140,7 @@ namespace yy
   {
     static int stage = -1;
     ++stage;
-    parser::location_type loc(YY_NULLPTR, stage + 1, stage + 1);
+    parser::location_type loc(YY_NULLPTR, unsigned(stage + 1), unsigned(stage + 1));
     switch (stage)
       {
       case 0:
