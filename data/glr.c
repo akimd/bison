@@ -1573,7 +1573,7 @@ yysplitStack (yyGLRStack* yystackp, size_t yyk)
     }
   if (yystackp->yytops.yysize >= yystackp->yytops.yycapacity)
     {]b4_variant_if([
-      YYASSERT (!"Not implemented");])[
+      YYASSERT (("Not implemented" && 0));])[
       yyGLRState** yynewStates = YY_NULLPTR;
       yybool* yynewLookaheadNeeds;
 
