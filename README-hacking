@@ -377,6 +377,13 @@ Here's a brief reminder of how to roll the tarballs and upload them:
 
 ** Update Bison manual on www.gnu.org.
 
+The instructions below are obsolete, and left in case one would like to run
+the commands by hand.  Today, one just needs to run
+
+  $ make web-manual-update
+
+See README-release.
+
 *** You need a non-anonymous checkout of the web pages directory.
 
   $ cvs -d YOUR_USERID@cvs.savannah.gnu.org:/web/bison checkout bison
@@ -412,12 +419,8 @@ files, add a line to the file .symlinks.  This will ensure that hyperlinks
 to the removed files will redirect to the entire manual; this is better than
 a 404 error.
 
-There is a problem with 'index.html' being written twice (once for POSIX
-function 'index', once for the table of contents); you can ignore this
-issue.
-
 ** Announce
-The "make stable" (or alpha/beta) command just created a template,
+The "make release" command just created a template,
 $HOME/announce-bison-X.Y.  Otherwise, to generate it, run:
 
   make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
