@@ -30,7 +30,9 @@ matrix:
       env:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
-    - name: "Clang 7 libc++ and ASAN"
+    # ASAN is time consuming, and we timeout the 50min granted by
+    # Travis if we run all the tests in on go.  Run in two parts.
+    - name: "Clang 7 libc++ and ASAN part 1"
       os: linux
       addons:
         apt:
@@ -43,7 +45,22 @@ matrix:
             - libc++abi-7-dev
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
+        - MATRIX_EVAL="PART=1 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
+
+    - name: "Clang 7 libc++ and ASAN part 2"
+      os: linux
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-trusty-7
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-7
+            - libc++-7-dev
+            - libc++abi-7-dev
+      env:
+        # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
+        - MATRIX_EVAL="PART=2 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
 
     - name: "ICC"
       os: linux
@@ -292,9 +309,9 @@ script:
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS
-  - make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
-  - make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
-  - make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }
+  - if test ${PART-1} = 1; then make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
+  - if test ${PART-1} = 1; then make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
+  - if test ${PART-2} = 2; then make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
 
 after_script:
   - if [[ $CC == "icc" ]]; then uninstall_intel_software; fi
