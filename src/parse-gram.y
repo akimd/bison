@@ -82,7 +82,11 @@
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
 
-  static void version_check (location const *loc, char const *version);
+  /* Handle a %require directive.  */
+  static void do_require (location const *loc, char const *version);
+
+  /* Handle a %skeleton directive.  */
+  static void do_skeleton (location const *loc, char const *skel);
 
   static void gram_error (location const *, char const *);
 
@@ -308,31 +312,8 @@ prologue_declaration:
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%param" { current_param = $1; } params { current_param = param_none; }
-| "%require" STRING             { version_check (&@2, $2); }
-| "%skeleton" STRING
-    {
-      char const *skeleton_user = $2;
-      if (strchr (skeleton_user, '/'))
-        {
-          size_t dir_length = strlen (current_file);
-          char *skeleton_build;
-          while (dir_length && current_file[dir_length - 1] != '/')
-            --dir_length;
-          while (dir_length && current_file[dir_length - 1] == '/')
-            --dir_length;
-          skeleton_build =
-            xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
-          if (dir_length > 0)
-            {
-              memcpy (skeleton_build, current_file, dir_length);
-              skeleton_build[dir_length++] = '/';
-            }
-          strcpy (skeleton_build + dir_length, skeleton_user);
-          skeleton_user = uniqstr_new (skeleton_build);
-          free (skeleton_build);
-        }
-      skeleton_arg (skeleton_user, grammar_prio, @1);
-    }
+| "%require" STRING             { do_require (&@2, $2); }
+| "%skeleton" STRING            { do_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
 | "%yacc"                       { yacc_flag = true; }
@@ -802,7 +783,7 @@ add_param (param_type type, char *decl, location loc)
 
 
 static void
-version_check (location const *loc, char const *version)
+do_require (location const *loc, char const *version)
 {
   /* Changes of behavior are only on minor version changes, so "3.0.5"
      is the same as "3.0". */
@@ -838,6 +819,32 @@ version_check (location const *loc, char const *version)
       exit (EX_MISMATCH);
     }
 }
+
+static void
+do_skeleton (location const *loc, char const *skel)
+{
+  char const *skeleton_user = skel;
+  if (strchr (skeleton_user, '/'))
+    {
+      size_t dir_length = strlen (current_file);
+      while (dir_length && current_file[dir_length - 1] != '/')
+        --dir_length;
+      while (dir_length && current_file[dir_length - 1] == '/')
+        --dir_length;
+      char *skeleton_build =
+        xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
+      if (dir_length > 0)
+        {
+          memcpy (skeleton_build, current_file, dir_length);
+          skeleton_build[dir_length++] = '/';
+        }
+      strcpy (skeleton_build + dir_length, skeleton_user);
+      skeleton_user = uniqstr_new (skeleton_build);
+      free (skeleton_build);
+    }
+  skeleton_arg (skeleton_user, grammar_prio, *loc);
+}
+
 
 static void
 gram_error (location const *loc, char const *msg)
