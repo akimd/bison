@@ -2,6 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  C++ portability issues.
 
 * Noteworthy changes in release 3.2.1 (2018-11-09) [stable]
 
