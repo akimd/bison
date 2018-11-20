@@ -604,7 +604,7 @@ m4_define([b4_yylloc_default_define],
         {                                                               \
           (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
         }                                                               \
-    while (/*CONSTCOND*/ false)
+    while (false)
 # endif
 ]])
 
