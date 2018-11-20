@@ -26,6 +26,12 @@ GNU Bison NEWS
   The use of the %error-verbose directive is deprecated in favor of "%define
   parse.error verbose" since Bison 3.0, but no warning was issued.
 
+* Noteworthy changes in release 3.2.2 (2018-11-21) [stable]
+
+** Bug fixes
+
+  C++ portability issues.
+
 * Noteworthy changes in release 3.2.1 (2018-11-09) [stable]
 
 ** Bug fixes
