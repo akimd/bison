@@ -190,3 +190,4 @@
 /localtime-buffer.m4
 /sys_resource_h.m4
 /timespec.m4
+/intl-thread-locale.m4
