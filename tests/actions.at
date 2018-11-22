@@ -519,6 +519,8 @@ AT_DATA_GRAMMAR([[input.y]],
 #define RANGE(Location) ]AT_LALR1_CC_IF([(Location).begin.line, (Location).end.line],
       [(Location).first_line, (Location).last_line])[
 
+#define USE(SYM)
+
 /* Display the symbol type Symbol.  */
 #define V(Symbol, Value, Location, Sep) \
    fprintf (stderr, #Symbol " (%d@%d-%d)%s", Value, RANGE(Location), Sep)
@@ -610,8 +612,8 @@ input:
 ;
 
 check-spontaneous-errors:
-  raise         { abort(); $$ = $1; }
-| '(' raise ')' { abort(); $$ = $2; }
+  raise         { abort(); USE(($$, $1)); }
+| '(' raise ')' { abort(); USE(($$, $2)); }
 | error
   {
     $$ = 5;
