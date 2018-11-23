@@ -21,6 +21,7 @@ matrix:
 
     - name: "GCC 7 -O3"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -34,10 +35,11 @@ matrix:
     # Travis if we run all the tests in on go.  Run in two parts.
     - name: "Clang 7 libc++ and ASAN part 1"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-7
+            - llvm-toolchain-xenial-7
             - ubuntu-toolchain-r-test
           packages:
             - clang-7
@@ -49,10 +51,11 @@ matrix:
 
     - name: "Clang 7 libc++ and ASAN part 2"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-7
+            - llvm-toolchain-xenial-7
             - ubuntu-toolchain-r-test
           packages:
             - clang-7
@@ -64,6 +67,7 @@ matrix:
 
     - name: "ICC"
       os: linux
+      dist: xenial
       env:
         # ICC's warnings are often very wrong (e.g., it thinks foo ?
         # "bar" : "baz" is char* instead of const char*), so don't try
@@ -78,6 +82,7 @@ matrix:
 
     #- name: "GCC 8 with sanitizers"
     #  os: linux
+    #  dist: xenial
     #  addons:
     #    apt:
     #      sources:
@@ -87,11 +92,15 @@ matrix:
     #  env:
     #    # Can't use UBSAN: I get:
     #    # configure:4951: gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer conftest.c
-    #    # /usr/bin/ld: unrecognized option '--push-state'
+    #    # /usr/bin/ld: unrecognized option '--push-state' (on trusty)
+    #    # /usr/bin/ld: unrecognized option '--push-state--no-as-needed' (on xenial)
+    #    #
+    #    # https://stackoverflow.com/questions/50024731/ suggests using the gold linker.
     #    - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
 
     - name: "GCC 6"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -103,6 +112,7 @@ matrix:
 
     - name: "GCC 5"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -114,6 +124,7 @@ matrix:
 
     - name: "GCC 4.9"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -125,6 +136,7 @@ matrix:
 
     - name: "GCC 4.8"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -136,6 +148,7 @@ matrix:
 
     - name: "GCC 4.7"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -147,6 +160,7 @@ matrix:
 
     - name: "GCC 4.6"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -162,10 +176,11 @@ matrix:
 
     - name: "Clang 6 -O3 and libc++"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-xenial-6.0
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
@@ -176,10 +191,11 @@ matrix:
 
     - name: "Clang 5"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-xenial-5.0
           packages:
             - clang-5.0
             - libc++-dev
@@ -188,10 +204,11 @@ matrix:
 
     - name: "Clang 4"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-4.0
+            - llvm-toolchain-xenial-4.0
           packages:
             - clang-4.0
       env:
@@ -199,10 +216,11 @@ matrix:
 
     - name: "Clang 3.9"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
-            - llvm-toolchain-trusty-3.9
+            - llvm-toolchain-xenial-3.9
           packages:
             - clang-3.9
       env:
@@ -210,6 +228,7 @@ matrix:
 
     - name: "Clang 3.8"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -222,6 +241,7 @@ matrix:
 
     - name: "CLang 3.7"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -234,6 +254,7 @@ matrix:
 
     - name: "Clang 3.6"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -246,6 +267,7 @@ matrix:
 
     - name: "Clang 3.5"
       os: linux
+      dist: xenial
       addons:
         apt:
           sources:
@@ -258,6 +280,8 @@ matrix:
 
     - name: "Clang 3.4"
       os: linux
+      # Not available on Xenial.
+      dist: trusty
       addons:
         apt:
           packages:
@@ -269,6 +293,8 @@ matrix:
 
     - name: "Clang 3.3"
       os: linux
+      # Not available on Xenial.
+      dist: trusty
       addons:
         apt:
           packages:
@@ -295,6 +321,7 @@ before_install:
   - gettext --version
   - dot -V
   - help2man --version
+  - ld --version
   - m4 --version
   - makeinfo --version
 
@@ -304,6 +331,10 @@ script:
   # so `git describe` fails, so bootstrap fails.
   - git describe || git tag v3.0 -m "Fake version 3.0."
   - git describe
+  # Unset this variable, otherwise, Java programs' stderr is cluttered
+  # with `Picked up _JAVA_OPTIONS: -Xmx2048m -Xms512m`, which makes
+  # the test suite fail.
+  - unset _JAVA_OPTIONS
   - ./bootstrap
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
