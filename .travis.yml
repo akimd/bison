@@ -299,7 +299,6 @@ before_install:
   - makeinfo --version
 
 script:
-  - git show
   - git tag -l
   # For some reasons, sometimes the checkout does not have any tags,
   # so `git describe` fails, so bootstrap fails.
