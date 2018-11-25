@@ -317,6 +317,7 @@ prologue_declaration:
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
 | "%yacc"                       { yacc_flag = true; }
+| error ";"                     { current_class = unknown_sym; yyerrok; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
 
@@ -495,7 +496,7 @@ tag:
 | "<>"  { $$ = uniqstr_new (""); }
 ;
 
-/* One token definition.  */
+/* One symbol (token or nterm depending on current_class) definition.  */
 symbol_def:
   TAG
     {
@@ -509,18 +510,38 @@ symbol_def:
     }
 | id INT
     {
+      if (current_class != token_sym)
+        {
+          gram_error (&@2,
+                      _("non-terminals cannot be given an explicit number"));
+          YYERROR;
+        }
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
     }
 | id string_as_id
     {
+      if (current_class != token_sym)
+        {
+          gram_error (&@2,
+                      _("non-terminals cannot be given a string alias"));
+          YYERROR;
+        }
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_make_alias ($1, $2, @$);
     }
 | id INT string_as_id
     {
+      if (current_class != token_sym)
+        {
+          gram_error (&@2,
+                      _("non-terminals cannot be given an explicit number"));
+          gram_error (&@3,
+                      _("non-terminals cannot be given a string alias"));
+          YYERROR;
+        }
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
