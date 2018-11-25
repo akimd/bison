@@ -140,10 +140,12 @@ AT_DATA([input.y],
 [[%nterm expr "expression";
 %nterm term 123;
 %nterm fact 124 "factor";
+%nterm '+' '*';
+%nterm "number";
 %%
 expr: expr '+' term | term;
 term: term '*' fact | fact;
-fact: '0';
+fact: "number";
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
@@ -168,6 +170,18 @@ input.y:3.13-15: error: non-terminals cannot be given an explicit number
 input.y:3.17-24: error: non-terminals cannot be given a string alias
  %nterm fact 124 "factor";
                  ^^^^^^^^
+input.y:4.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm '+' '*';
+ ^^^^^^
+input.y:4.8-10: error: character literals cannot be non-terminals
+ %nterm '+' '*';
+        ^^^
+input.y:5.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm "number";
+ ^^^^^^
+input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
+ %nterm "number";
+        ^^^^^^^^
 ]])
 
 AT_CLEANUP

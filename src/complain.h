@@ -78,8 +78,7 @@ void complain_init (void);
 
 typedef enum
   {
-    /**< Issue no warnings.  */
-    Wnone             = 0,
+    Wnone             = 0,       /**< Issue no warnings.  */
 
     Wmidrule_values   = 1 << warning_midrule_values,
     Wyacc             = 1 << warning_yacc,

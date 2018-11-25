@@ -553,6 +553,9 @@ symbol_def:
 symbol_defs.1:
   symbol_def
 | symbol_defs.1 symbol_def
+  /* FIXME: cannot do that, results in infinite loop in LAC.
+| error                    { yyerrok; }
+  */
 ;
 
 
@@ -669,6 +672,12 @@ id:
     { $$ = symbol_from_uniqstr ($1, @1); }
 | CHAR
     {
+      if (current_class == nterm_sym)
+        {
+          gram_error (&@1,
+                      _("character literals cannot be non-terminals"));
+          YYERROR;
+        }
       $$ = symbol_get (char_name ($1), @1);
       symbol_class_set ($$, token_sym, @1, false);
       symbol_user_token_number_set ($$, $1, @1);
