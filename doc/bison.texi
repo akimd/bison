@@ -4810,18 +4810,16 @@ The basic way to declare a token type name (terminal symbol) is as follows:
 %token @var{name}
 @end example
 
-Bison will convert this into a @code{#define} directive in
-the parser, so that the function @code{yylex} (if it is in this file)
-can use the name @var{name} to stand for this token type's code.
+Bison will convert this into a @code{#define} directive in the parser, so
+that the function @code{yylex} (if it is in this file) can use the name
+@var{name} to stand for this token type's code.
 
-Alternatively, you can use @code{%left}, @code{%right},
-@code{%precedence}, or
-@code{%nonassoc} instead of @code{%token}, if you wish to specify
-associativity and precedence.  @xref{Precedence Decl, ,Operator
-Precedence}.
+Alternatively, you can use @code{%left}, @code{%right}, @code{%precedence},
+or @code{%nonassoc} instead of @code{%token}, if you wish to specify
+associativity and precedence.  @xref{Precedence Decl, ,Operator Precedence}.
 
-You can explicitly specify the numeric code for a token type by appending
-a nonnegative decimal or hexadecimal integer value in the field immediately
+You can explicitly specify the numeric code for a token type by appending a
+nonnegative decimal or hexadecimal integer value in the field immediately
 following the token name:
 
 @example
@@ -4830,14 +4828,14 @@ following the token name:
 @end example
 
 @noindent
-It is generally best, however, to let Bison choose the numeric codes for
-all token types.  Bison will automatically select codes that don't conflict
-with each other or with normal characters.
+It is generally best, however, to let Bison choose the numeric codes for all
+token types.  Bison will automatically select codes that don't conflict with
+each other or with normal characters.
 
 In the event that the stack type is a union, you must augment the
 @code{%token} or other token declaration to include the data type
-alternative delimited by angle-brackets (@pxref{Multiple Types, ,More
-Than One Value Type}).
+alternative delimited by angle-brackets (@pxref{Multiple Types, ,More Than
+One Value Type}).
 
 For example:
 
@@ -4851,9 +4849,9 @@ For example:
 @end group
 @end example
 
-You can associate a literal string token with a token type name by
-writing the literal string at the end of a @code{%token}
-declaration which declares the name.  For example:
+You can associate a literal string token with a token type name by writing
+the literal string at the end of a @code{%token} declaration which declares
+the name.  For example:
 
 @example
 %token arrow "=>"
@@ -4872,14 +4870,14 @@ equivalent literal string tokens:
 @noindent
 Once you equate the literal string and the token name, you can use them
 interchangeably in further declarations or the grammar rules.  The
-@code{yylex} function can use the token name or the literal string to
-obtain the token type code number (@pxref{Calling Convention}).
-Syntax error messages passed to @code{yyerror} from the parser will reference
-the literal string instead of the token name.
+@code{yylex} function can use the token name or the literal string to obtain
+the token type code number (@pxref{Calling Convention}).  Syntax error
+messages passed to @code{yyerror} from the parser will reference the literal
+string instead of the token name.
 
 The token numbered as 0 corresponds to end of file; the following line
-allows for nicer error messages referring to ``end of file'' instead
-of ``$end'':
+allows for nicer error messages referring to ``end of file'' instead of
+``$end'':
 
 @example
 %token END 0 "end of file"
@@ -4891,12 +4889,11 @@ of ``$end'':
 @cindex declaring operator precedence
 @cindex operator precedence, declaring
 
-Use the @code{%left}, @code{%right}, @code{%nonassoc}, or
-@code{%precedence} declaration to
-declare a token and specify its precedence and associativity, all at
-once.  These are called @dfn{precedence declarations}.
-@xref{Precedence, ,Operator Precedence}, for general information on
-operator precedence.
+Use the @code{%left}, @code{%right}, @code{%nonassoc}, or @code{%precedence}
+declaration to declare a token and specify its precedence and associativity,
+all at once.  These are called @dfn{precedence declarations}.
+@xref{Precedence, ,Operator Precedence}, for general information on operator
+precedence.
 
 The syntax of a precedence declaration is nearly the same as that of
 @code{%token}: either
@@ -4918,34 +4915,32 @@ all the @var{symbols}:
 
 @itemize @bullet
 @item
-The associativity of an operator @var{op} determines how repeated uses
-of the operator nest: whether @samp{@var{x} @var{op} @var{y} @var{op}
-@var{z}} is parsed by grouping @var{x} with @var{y} first or by
-grouping @var{y} with @var{z} first.  @code{%left} specifies
-left-associativity (grouping @var{x} with @var{y} first) and
-@code{%right} specifies right-associativity (grouping @var{y} with
-@var{z} first).  @code{%nonassoc} specifies no associativity, which
-means that @samp{@var{x} @var{op} @var{y} @var{op} @var{z}} is
-considered a syntax error.
+The associativity of an operator @var{op} determines how repeated uses of
+the operator nest: whether @samp{@var{x} @var{op} @var{y} @var{op} @var{z}}
+is parsed by grouping @var{x} with @var{y} first or by grouping @var{y} with
+@var{z} first.  @code{%left} specifies left-associativity (grouping @var{x}
+with @var{y} first) and @code{%right} specifies right-associativity
+(grouping @var{y} with @var{z} first).  @code{%nonassoc} specifies no
+associativity, which means that @samp{@var{x} @var{op} @var{y} @var{op}
+@var{z}} is considered a syntax error.
 
-@code{%precedence} gives only precedence to the @var{symbols}, and
-defines no associativity at all.  Use this to define precedence only,
-and leave any potential conflict due to associativity enabled.
+@code{%precedence} gives only precedence to the @var{symbols}, and defines
+no associativity at all.  Use this to define precedence only, and leave any
+potential conflict due to associativity enabled.
 
 @item
 The precedence of an operator determines how it nests with other operators.
 All the tokens declared in a single precedence declaration have equal
-precedence and nest together according to their associativity.
-When two tokens declared in different precedence declarations associate,
-the one declared later has the higher precedence and is grouped first.
+precedence and nest together according to their associativity.  When two
+tokens declared in different precedence declarations associate, the one
+declared later has the higher precedence and is grouped first.
 @end itemize
 
 For backward compatibility, there is a confusing difference between the
-argument lists of @code{%token} and precedence declarations.
-Only a @code{%token} can associate a literal string with a token type name.
-A precedence declaration always interprets a literal string as a reference to a
-separate token.
-For example:
+argument lists of @code{%token} and precedence declarations.  Only a
+@code{%token} can associate a literal string with a token type name.  A
+precedence declaration always interprets a literal string as a reference to
+a separate token.  For example:
 
 @example
 %left  OR "<="         // Does not declare an alias.
@@ -4968,25 +4963,22 @@ used.  This is done with a @code{%type} declaration, like this:
 @end example
 
 @noindent
-Here @var{nonterminal} is the name of a nonterminal symbol, and
-@var{type} is the name given in the @code{%union} to the alternative
-that you want (@pxref{Union Decl, ,The Union Declaration}).  You
-can give any number of nonterminal symbols in the same @code{%type}
-declaration, if they have the same value type.  Use spaces to separate
-the symbol names.
+Here @var{nonterminal} is the name of a nonterminal symbol, and @var{type}
+is the name given in the @code{%union} to the alternative that you want
+(@pxref{Union Decl, ,The Union Declaration}).  You can give any number of
+nonterminal symbols in the same @code{%type} declaration, if they have the
+same value type.  Use spaces to separate the symbol names.
 
-You can also declare the value type of a terminal symbol.  To do this,
-use the same @code{<@var{type}>} construction in a declaration for the
-terminal symbol.  All kinds of token declarations allow
-@code{<@var{type}>}.
+You can also declare the value type of a terminal symbol.  To do this, use
+the same @code{<@var{type}>} construction in a declaration for the terminal
+symbol.  All kinds of token declarations allow @code{<@var{type}>}.
 
 @node Initial Action Decl
 @subsection Performing Actions before Parsing
 @findex %initial-action
 
-Sometimes your parser needs to perform some initializations before
-parsing.  The @code{%initial-action} directive allows for such arbitrary
-code.
+Sometimes your parser needs to perform some initializations before parsing.
+The @code{%initial-action} directive allows for such arbitrary code.
 
 @deffn {Directive} %initial-action @{ @var{code} @}
 @findex %initial-action
