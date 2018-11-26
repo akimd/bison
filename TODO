@@ -1,3 +1,11 @@
+* Completion
+Several features are not available in all the backends.
+
+- push parsers: glr.cc, lalr1.cc
+- ielr: C++ and Java
+- glr: Java
+- token constructors: Java and C
+
 * Short term
 ** yacc.c
 Now that ylwrap is fixed, we should include foo.tab.h from foo.tab.c rather
@@ -69,11 +77,6 @@ back-ported.
        user semantic actions for why this is necessary.  */
     yytoken = yytranslate_ (yychar);
 
-
-** stack.hh
-Get rid of it.  The original idea is nice, but actually it makes
-the code harder to follow, and uselessly different from the other
-skeletons.
 
 ** Get rid of fake #lines [Bison: ...]
 Possibly as simple as checking whether the column number is nonnegative.
@@ -277,7 +280,9 @@ https://lists.gnu.org/archive/html/bug-bison/2016-06/msg00000.html
 http://www.cs.cornell.edu/andru/papers/cupex/
 
 * Unit rules
-Maybe we could expand unit rules, i.e., transform
+Maybe we could expand unit rules (or "injections", see
+https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,
+transform
 
         exp: arith | bool;
         arith: exp '+' exp;
@@ -287,11 +292,11 @@ into
 
         exp: exp '+' exp | exp '&' exp;
 
-when there are no actions.  This can significantly speed up some
-grammars.  I can't find the papers.  In particular the book 'LR
-parsing: Theory and Practice' is impossible to find, but according to
-'Parsing Techniques: a Practical Guide', it includes information about
-this issue.  Does anybody have it?
+when there are no actions.  This can significantly speed up some grammars.
+I can't find the papers.  In particular the book 'LR parsing: Theory and
+Practice' is impossible to find, but according to 'Parsing Techniques: a
+Practical Guide', it includes information about this issue.  Does anybody
+have it?
 
 
 
@@ -330,10 +335,6 @@ It is unfortunate that there is a total order for precedence.  It
 makes it impossible to have modular precedence information.  We should
 move to partial orders (sounds like series/parallel orders to me).
 
-** RR conflicts
-See if we can use precedence between rules to solve RR conflicts.  See
-what POSIX says.
-
 
 * $undefined
 From Hans:
@@ -343,20 +344,6 @@ addition to the $undefined value.
 
 Suggest: Change the name $undefined to undefined; looks better in outputs.
 
-
-* Default Action
-From Hans:
-- For use with my C++ parser, I transported the "switch (yyn)" statement
-that Bison writes to the bison.simple skeleton file. This way, I can remove
-the current default rule $$ = $1 implementation, which causes a double
-assignment to $$ which may not be OK under C++, replacing it with a
-"default:" part within the switch statement.
-
-Note that the default rule $$ = $1, when typed, is perfectly OK under C,
-but in the C++ implementation I made, this rule is different from
-$<type_name>$ = $<type_name>1. I therefore think that one should implement
-a Bison option where every typed default rule is explicitly written out
-(same typed ruled can of course be grouped together).
 
 * Pre and post actions.
 From: Florian Krohm <florian@edamail.fishkill.ibm.com>
