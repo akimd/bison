@@ -267,7 +267,7 @@ m4_define([_AT_UNUSED_VALUES_DECLARATIONS],
 # CHECK_MIDRULE_VALUES is set, then --warnings=midrule-values is set.
 m4_define([AT_CHECK_UNUSED_VALUES],
 [AT_DATA([input.y],
-m4_ifval($1, [
+m4_ifval([$1], [
 
 
 ], [_AT_UNUSED_VALUES_DECLARATIONS
@@ -294,11 +294,11 @@ l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<
 m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
 n: INT | INT <integer>{ } INT <integer>{ } INT { };
 o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-]]m4_ifval($1, [
+]]m4_ifval([$1], [
 _AT_UNUSED_VALUES_DECLARATIONS])
 )
 
-AT_BISON_CHECK(m4_ifval($2, [--warnings=midrule-values ])[-fcaret input.y],
+AT_BISON_CHECK(m4_ifval([$2], [--warnings=midrule-values ])[-fcaret input.y],
                [0], [],
 [[input.y:12.10-32: warning: unset value: $][$ [-Wother]
  a: INT | INT { } INT { } INT { };
@@ -315,7 +315,7 @@ input.y:12.26-28: warning: unused value: $][5 [-Wother]
 input.y:13.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
  b: INT | %empty;
           ^^^^^^
-]]m4_ifval($2, [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
               ^^^^^^^
 input.y:14.26-41: warning: unset value: $][$ [-Wmidrule-values]
@@ -330,7 +330,7 @@ input.y:14.22-24: warning: unused value: $][3 [-Wother]
 input.y:14.43-45: warning: unused value: $][5 [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
                                            ^^^
-]]m4_ifval($2, [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
               ^^^
 ]]])[[input.y:15.10-49: warning: unset value: $][$ [-Wother]
@@ -357,13 +357,13 @@ input.y:18.10-58: warning: unset value: $][$ [-Wother]
 input.y:18.10-12: warning: unused value: $][1 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
           ^^^
-]]m4_ifval($2, [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
               ^^^^^^^^^^^^^^^^
 ]]])[[input.y:18.31-33: warning: unused value: $][3 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                ^^^
-]]m4_ifval($2, [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                    ^^^^^^^^^^^^^^^^
 ]]])[[input.y:18.52-54: warning: unused value: $][5 [-Wother]
@@ -378,13 +378,13 @@ input.y:19.10-12: warning: unused value: $][1 [-Wother]
 input.y:19.31-33: warning: unused value: $][3 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                ^^^
-]]m4_ifval($2, [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]]])[[input.y:19.66-68: warning: unused value: $][5 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                                                   ^^^
-]]m4_ifval($2, [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
  j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
                   ^^^^^^^^^^^^^^^^^^^^
 ]]])[[input.y:22.10-68: warning: unset value: $][$ [-Wother]
@@ -396,7 +396,7 @@ input.y:22.10-12: warning: unused value: $][1 [-Wother]
 input.y:22.14-16: warning: unused value: $][2 [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
               ^^^
-]]m4_ifval($2, [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]]])[[input.y:25.23-25: warning: unset value: $][$ [-Wother]
