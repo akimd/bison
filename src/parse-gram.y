@@ -530,7 +530,7 @@ symbol_def:
         }
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
-      symbol_make_alias ($1, $2, @$);
+      symbol_make_alias ($1, $2, @2);
     }
 | id INT string_as_id
     {
@@ -545,7 +545,7 @@ symbol_def:
       symbol_class_set ($1, current_class, @1, true);
       symbol_type_set ($1, current_type, @1);
       symbol_user_token_number_set ($1, $2, @2);
-      symbol_make_alias ($1, $3, @$);
+      symbol_make_alias ($1, $3, @3);
     }
 ;
 

@@ -188,35 +188,6 @@ AT_CHECK([grep 'tests = {{{{{{{{{{}}}}}}}}}};' input.c], 0, [ignore])
 AT_CLEANUP
 
 
-## ------------------ ##
-## Duplicate string.  ##
-## ------------------ ##
-
-
-AT_SETUP([Duplicate string])
-
-AT_BISON_OPTION_PUSHDEFS
-AT_DATA([input.y],
-[[/* 'Bison -v' used to dump core when two tokens are defined with the same
-   string, as LE and GE below. */
-
-%token NUM
-%token LE "<="
-%token GE "<="
-
-%%
-exp: '(' exp ')' | NUM ;
-%%
-]])
-AT_BISON_OPTION_POPDEFS
-
-AT_BISON_CHECK([-v -o input.c input.y], 0, [],
-[[input.y:6.8-14: warning: symbol "<=" used more than once as a literal string [-Wother]
-]])
-
-AT_CLEANUP
-
-
 ## ------------------- ##
 ## Rule Line Numbers.  ##
 ## ------------------- ##
@@ -477,15 +448,15 @@ AT_BISON_OPTION_POPDEFS
 # the user specification is eliminated.
 AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
-input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
+input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
 ]])
 AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
  %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
         ^^^^^^^
-input.y:22.8-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
+input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
  %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]])
 AT_COMPILE([input])
 

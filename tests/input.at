@@ -801,6 +801,63 @@ input.y:7.6-8: warning: unset value: $$ [-Wother]
 AT_CLEANUP
 
 
+## ------------------ ##
+## Duplicate string.  ##
+## ------------------ ##
+
+
+AT_SETUP([Duplicate string])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([input.y],
+[[/* 'Bison -v' used to dump core when two tokens are defined with the same
+   string, as LE and GE below. */
+
+%token NUM
+%token LE "<="
+%token GE "<="
+
+%%
+exp: '(' exp ')' | NUM ;
+%%
+]])
+AT_BISON_OPTION_POPDEFS
+
+AT_BISON_CHECK([-v -o input.c input.y], 0, [],
+[[input.y:6.11-14: warning: symbol "<=" used more than once as a literal string [-Wother]
+]])
+
+AT_CLEANUP
+
+
+## ------------------ ##
+## Token collisions.  ##
+## ------------------ ##
+
+AT_SETUP([Token collisions])
+
+AT_DATA([[input.y]],
+[[%token FOO 42 "foo"
+         BAR 42 "foo"
+%%
+exp: FOO BAR;
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.17-21: warning: symbol "foo" used more than once as a literal string [-Wother]
+          BAR 42 "foo"
+                 ^^^^^
+input.y:2.10-12: error: user token number 42 redeclaration for BAR
+          BAR 42 "foo"
+          ^^^
+input.y:1.8-10:      previous declaration for FOO
+ %token FOO 42 "foo"
+        ^^^
+]])
+
+AT_CLEANUP
+
+
 ## ---------------------- ##
 ## Incompatible Aliases.  ##
 ## ---------------------- ##
