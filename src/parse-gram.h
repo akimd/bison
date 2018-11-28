@@ -64,7 +64,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 636 "src/parse-gram.y" /* yacc.c:1918  */
+#line 621 "src/parse-gram.y" /* yacc.c:1918  */
 
   #include "muscle-tab.h"
   typedef struct
@@ -160,8 +160,10 @@ union GRAM_STYPE
   code_props_type code_props_type;
   /* "integer"  */
   int INT;
+  /* int.opt  */
+  int yytype_79;
   /* named_ref.opt  */
-  named_ref* yytype_86;
+  named_ref* yytype_87;
   /* "%param"  */
   param_type PERCENT_PARAM;
   /* symbol.prec  */
@@ -174,6 +176,8 @@ union GRAM_STYPE
   symbol* symbol;
   /* string_as_id  */
   symbol* string_as_id;
+  /* string_as_id.opt  */
+  symbol* yytype_94;
   /* symbols.prec  */
   symbol_list* yytype_72;
   /* symbols.1  */
@@ -200,7 +204,7 @@ union GRAM_STYPE
   unsigned char CHAR;
   /* value  */
   value_type value;
-#line 204 "src/parse-gram.h" /* yacc.c:1918  */
+#line 208 "src/parse-gram.h" /* yacc.c:1918  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
