@@ -503,50 +503,35 @@ symbol_def:
       current_type = $1;
       tag_seen = true;
     }
-| id
+| id int.opt[num] string_as_id.opt[alias]
     {
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-    }
-| id INT
-    {
-      if (current_class != token_sym)
+      symbol_class_set ($id, current_class, @id, true);
+      symbol_type_set ($id, current_type, @id);
+      if (0 <= $num)
         {
-          gram_error (&@2,
-                      _("non-terminals cannot be given an explicit number"));
-          YYERROR;
+          if (current_class != token_sym)
+            gram_error (&@num,
+                        _("non-terminals cannot be given an explicit number"));
+          else
+            symbol_user_token_number_set ($id, $num, @num);
         }
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-      symbol_user_token_number_set ($1, $2, @2);
-    }
-| id string_as_id
-    {
-      if (current_class != token_sym)
+      if ($alias)
         {
-          gram_error (&@2,
-                      _("non-terminals cannot be given a string alias"));
-          YYERROR;
+          if (current_class != token_sym)
+            gram_error (&@alias,
+                        _("non-terminals cannot be given a string alias"));
+          else
+            symbol_make_alias ($id, $alias, @alias);
         }
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-      symbol_make_alias ($1, $2, @2);
+      if (current_class != token_sym && (0 <= $num || !$alias))
+        YYERROR;
     }
-| id INT string_as_id
-    {
-      if (current_class != token_sym)
-        {
-          gram_error (&@2,
-                      _("non-terminals cannot be given an explicit number"));
-          gram_error (&@3,
-                      _("non-terminals cannot be given a string alias"));
-          YYERROR;
-        }
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-      symbol_user_token_number_set ($1, $2, @2);
-      symbol_make_alias ($1, $3, @3);
-    }
+;
+
+%type <int> int.opt;
+int.opt:
+  %empty  { $$ = -1; }
+| INT
 ;
 
 /* One or more symbol definitions. */
@@ -701,6 +686,12 @@ string_as_id:
       $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
       symbol_class_set ($$, token_sym, @1, false);
     }
+;
+
+%type <symbol*> string_as_id.opt;
+string_as_id.opt:
+  %empty             { $$ = NULL; }
+| string_as_id
 ;
 
 epilogue.opt:
