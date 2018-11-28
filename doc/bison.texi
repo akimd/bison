@@ -2952,31 +2952,30 @@ Look again at the example of the previous section:
 @end example
 
 @noindent
-Notice that there are two @var{Prologue} sections here, but there's a
-subtle distinction between their functionality.  For example, if you
-decide to override Bison's default definition for @code{YYLTYPE}, in
-which @var{Prologue} section should you write your new definition?
-You should write it in the first since Bison will insert that code
-into the parser implementation file @emph{before} the default
-@code{YYLTYPE} definition.  In which @var{Prologue} section should you
-prototype an internal function, @code{trace_token}, that accepts
-@code{YYLTYPE} and @code{yytokentype} as arguments?  You should
-prototype it in the second since Bison will insert that code
-@emph{after} the @code{YYLTYPE} and @code{yytokentype} definitions.
+Notice that there are two @var{Prologue} sections here, but there's a subtle
+distinction between their functionality.  For example, if you decide to
+override Bison's default definition for @code{YYLTYPE}, in which
+@var{Prologue} section should you write your new definition?  You should
+write it in the first since Bison will insert that code into the parser
+implementation file @emph{before} the default @code{YYLTYPE} definition.  In
+which @var{Prologue} section should you prototype an internal function,
+@code{trace_token}, that accepts @code{YYLTYPE} and @code{yytokentype} as
+arguments?  You should prototype it in the second since Bison will insert
+that code @emph{after} the @code{YYLTYPE} and @code{yytokentype}
+definitions.
 
 This distinction in functionality between the two @var{Prologue} sections is
-established by the appearance of the @code{%union} between them.
-This behavior raises a few questions.
-First, why should the position of a @code{%union} affect definitions related to
-@code{YYLTYPE} and @code{yytokentype}?
-Second, what if there is no @code{%union}?
-In that case, the second kind of @var{Prologue} section is not available.
-This behavior is not intuitive.
+established by the appearance of the @code{%union} between them.  This
+behavior raises a few questions.  First, why should the position of a
+@code{%union} affect definitions related to @code{YYLTYPE} and
+@code{yytokentype}?  Second, what if there is no @code{%union}?  In that
+case, the second kind of @var{Prologue} section is not available.  This
+behavior is not intuitive.
 
 To avoid this subtle @code{%union} dependency, rewrite the example using a
-@code{%code top} and an unqualified @code{%code}.
-Let's go ahead and add the new @code{YYLTYPE} definition and the
-@code{trace_token} prototype at the same time:
+@code{%code top} and an unqualified @code{%code}.  Let's go ahead and add
+the new @code{YYLTYPE} definition and the @code{trace_token} prototype at
+the same time:
 
 @example
 %code top @{
@@ -3084,36 +3083,33 @@ Thus, they belong in one or more @code{%code requires}:
 @end example
 
 @noindent
-Now Bison will insert @code{#include "ptypes.h"} and the new
-@code{YYLTYPE} definition before the Bison-generated @code{YYSTYPE}
-and @code{YYLTYPE} definitions in both the parser implementation file
-and the parser header file.  (By the same reasoning, @code{%code
-requires} would also be the appropriate place to write your own
-definition for @code{YYSTYPE}.)
+Now Bison will insert @code{#include "ptypes.h"} and the new @code{YYLTYPE}
+definition before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
+definitions in both the parser implementation file and the parser header
+file.  (By the same reasoning, @code{%code requires} would also be the
+appropriate place to write your own definition for @code{YYSTYPE}.)
 
-When you are writing dependency code for @code{YYSTYPE} and
-@code{YYLTYPE}, you should prefer @code{%code requires} over
-@code{%code top} regardless of whether you instruct Bison to generate
-a parser header file.  When you are writing code that you need Bison
-to insert only into the parser implementation file and that has no
-special need to appear at the top of that file, you should prefer the
-unqualified @code{%code} over @code{%code top}.  These practices will
-make the purpose of each block of your code explicit to Bison and to
-other developers reading your grammar file.  Following these
-practices, we expect the unqualified @code{%code} and @code{%code
-requires} to be the most important of the four @var{Prologue}
+When you are writing dependency code for @code{YYSTYPE} and @code{YYLTYPE},
+you should prefer @code{%code requires} over @code{%code top} regardless of
+whether you instruct Bison to generate a parser header file.  When you are
+writing code that you need Bison to insert only into the parser
+implementation file and that has no special need to appear at the top of
+that file, you should prefer the unqualified @code{%code} over @code{%code
+top}.  These practices will make the purpose of each block of your code
+explicit to Bison and to other developers reading your grammar file.
+Following these practices, we expect the unqualified @code{%code} and
+@code{%code requires} to be the most important of the four @var{Prologue}
 alternatives.
 
-At some point while developing your parser, you might decide to
-provide @code{trace_token} to modules that are external to your
-parser.  Thus, you might wish for Bison to insert the prototype into
-both the parser header file and the parser implementation file.  Since
-this function is not a dependency required by @code{YYSTYPE} or
-@code{YYLTYPE}, it doesn't make sense to move its prototype to a
-@code{%code requires}.  More importantly, since it depends upon
-@code{YYLTYPE} and @code{yytokentype}, @code{%code requires} is not
-sufficient.  Instead, move its prototype from the unqualified
-@code{%code} to a @code{%code provides}:
+At some point while developing your parser, you might decide to provide
+@code{trace_token} to modules that are external to your parser.  Thus, you
+might wish for Bison to insert the prototype into both the parser header
+file and the parser implementation file.  Since this function is not a
+dependency required by @code{YYSTYPE} or @code{YYLTYPE}, it doesn't make
+sense to move its prototype to a @code{%code requires}.  More importantly,
+since it depends upon @code{YYLTYPE} and @code{yytokentype}, @code{%code
+requires} is not sufficient.  Instead, move its prototype from the
+unqualified @code{%code} to a @code{%code provides}:
 
 @example
 @group
@@ -3166,18 +3162,16 @@ sufficient.  Instead, move its prototype from the unqualified
 @end example
 
 @noindent
-Bison will insert the @code{trace_token} prototype into both the
-parser header file and the parser implementation file after the
-definitions for @code{yytokentype}, @code{YYLTYPE}, and
-@code{YYSTYPE}.
+Bison will insert the @code{trace_token} prototype into both the parser
+header file and the parser implementation file after the definitions for
+@code{yytokentype}, @code{YYLTYPE}, and @code{YYSTYPE}.
 
-The above examples are careful to write directives in an order that
-reflects the layout of the generated parser implementation and header
-files: @code{%code top}, @code{%code requires}, @code{%code provides},
-and then @code{%code}.  While your grammar files may generally be
-easier to read if you also follow this order, Bison does not require
-it.  Instead, Bison lets you choose an organization that makes sense
-to you.
+The above examples are careful to write directives in an order that reflects
+the layout of the generated parser implementation and header files:
+@code{%code top}, @code{%code requires}, @code{%code provides}, and then
+@code{%code}.  While your grammar files may generally be easier to read if
+you also follow this order, Bison does not require it.  Instead, Bison lets
+you choose an organization that makes sense to you.
 
 You may declare any of these directives multiple times in the grammar file.
 In that case, Bison concatenates the contained code in declaration order.
