@@ -395,11 +395,11 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
 # ICC is unable to handle these file names: it fails to pass them
 # properly to the linker, and is unable to save a file named this way.
 # Don't try with such compilers.
-AT_DATA([\"\\\"\".c],
+AT_DATA([\"\\\"\".AT_LANG_EXT],
 [[int main (void) { return 0; }
 ]])
 
-AT_CHECK([AT_CXX_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".c -o \"\\\"\" ||
+AT_CHECK([AT_CXX_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".]AT_LANG_EXT[ -o \"\\\"\" ||
           exit 77], [0], [ignore], [ignore])
 
 AT_DATA_GRAMMAR([\"\\\"\".y],
