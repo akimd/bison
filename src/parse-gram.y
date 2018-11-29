@@ -191,7 +191,7 @@
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
 %printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
 
-%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
+%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (yyo, "%s:", $$); } ID_COLON
@@ -425,16 +425,15 @@ symbol_declaration:
 ;
 
 precedence_declaration:
-  precedence_declarator tag.opt symbols.prec
+  precedence_declarator tag.opt symbols.prec[syms]
     {
       ++current_prec;
-      for (symbol_list *list = $3; list; list = list->next)
+      for (symbol_list *list = $syms; list; list = list->next)
         {
-          symbol_type_set (list->content.sym, current_type, @2);
+          symbol_type_set (list->content.sym, $[tag.opt], @[tag.opt]);
           symbol_precedence_set (list->content.sym, current_prec, $1, @1);
         }
-      symbol_list_free ($3);
-      current_type = NULL;
+      symbol_list_free ($syms);
     }
 ;
 
@@ -446,8 +445,8 @@ precedence_declarator:
 ;
 
 tag.opt:
-  %empty { current_type = NULL; }
-| TAG    { current_type = $1; tag_seen = true; }
+  %empty { $$ = NULL; }
+| TAG    { $$ = $1; tag_seen = true; }
 ;
 
 /* Just like symbols.1 but accept INT for the sake of POSIX.  */
@@ -481,8 +480,8 @@ symbols.1:
 ;
 
 generic_symlist:
-  generic_symlist_item { $$ = $1; }
-| generic_symlist generic_symlist_item { $$ = symbol_list_append ($1, $2); }
+  generic_symlist_item
+| generic_symlist generic_symlist_item   { $$ = symbol_list_append ($1, $2); }
 ;
 
 generic_symlist_item:
@@ -586,7 +585,7 @@ rhs:
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
 | rhs tag.opt "{...}"[act] named_ref.opt[name]
-    { grammar_current_rule_action_append ($act, @act, $name, current_type); }
+    { grammar_current_rule_action_append ($act, @act, $name, $[tag.opt]); }
 | rhs "%?{...}"
     { grammar_current_rule_predicate_append ($2, @2); }
 | rhs "%empty"
