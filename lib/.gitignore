@@ -291,16 +291,6 @@
 /xtime.h
 /bitset.c
 /bitset.h
-/bitset/expandable.c
-/bitset/list.c
-/bitset/array.c
-/bitset/vector.c
-/bitset/stats.c
-/bitset/list.h
-/bitset/expandable.h
-/bitset/array.h
-/bitset/vector.h
-/bitset/stats.h
-/bitset/base.h
+/bitset/
 /bitsetv.c
 /bitsetv.h
