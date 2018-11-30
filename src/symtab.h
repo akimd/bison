@@ -137,6 +137,10 @@ struct sym_content
   location prec_location;
   int prec;
   assoc assoc;
+
+  /** The user specified token number.
+
+      E.g., %token FOO 42.*/
   int user_token_number;
 
   symbol_class class;
@@ -212,7 +216,10 @@ code_props *symbol_code_props_get (symbol *sym, code_props_type kind);
     Do nothing if invoked with \c undef_assoc as \c assoc.  */
 void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 
-/** Set the \c class associated with \c sym.  */
+/** Set the \c class associated with \c sym.
+
+    Whether \c declaring means whether this class definition comes
+    from %nterm or %token.  */
 void symbol_class_set (symbol *sym, symbol_class class, location loc,
                        bool declaring);
 

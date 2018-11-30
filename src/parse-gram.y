@@ -466,8 +466,8 @@ symbol.prec:
 | symbol INT
     {
       $$ = $1;
-      symbol_user_token_number_set ($1, $2, @2);
       symbol_class_set ($1, token_sym, @1, false);
+      symbol_user_token_number_set ($1, $2, @2);
     }
 ;
 
@@ -507,23 +507,9 @@ symbol_def:
       symbol_class_set ($id, current_class, @id, true);
       symbol_type_set ($id, current_type, @id);
       if (0 <= $num)
-        {
-          if (current_class != token_sym)
-            gram_error (&@num,
-                        _("non-terminals cannot be given an explicit number"));
-          else
-            symbol_user_token_number_set ($id, $num, @num);
-        }
+        symbol_user_token_number_set ($id, $num, @num);
       if ($alias)
-        {
-          if (current_class != token_sym)
-            gram_error (&@alias,
-                        _("non-terminals cannot be given a string alias"));
-          else
-            symbol_make_alias ($id, $alias, @alias);
-        }
-      if (current_class != token_sym && (0 <= $num || $alias))
-        YYERROR;
+        symbol_make_alias ($id, $alias, @alias);
     }
 ;
 
