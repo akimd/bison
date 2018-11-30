@@ -77,6 +77,7 @@ CLEANDIRS += %D%/*.dSYM
 
 include %D%/calc++/local.mk
 include %D%/c++/local.mk
+include %D%/d/local.mk
 include %D%/java/local.mk
 include %D%/mfcalc/local.mk
 include %D%/rpcalc/local.mk
