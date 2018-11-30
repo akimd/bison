@@ -85,7 +85,7 @@ $(TESTSUITE): $(TESTSUITE_AT)
 
 # Move into %D%/ so that testsuite.dir etc. be created there.
 RUN_TESTSUITE = $(TESTSUITE) -C %D% $(TESTSUITEFLAGS)
-check_SCRIPTS = $(BISON) %D%/atconfig %D%/atlocal
+check_SCRIPTS += $(BISON) %D%/atconfig %D%/atlocal
 RUN_TESTSUITE_deps = all $(TESTSUITE) $(check_SCRIPTS)
 
 clean-local: clean-local-tests

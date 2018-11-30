@@ -33,6 +33,10 @@ do
     if test -x "$p"; then
         prog=$p
         break
+    elif test -f "$p.class"; then
+        pwd
+        prog="$SHELL $cwd/javaexec.sh -cp $(dirname $p) $(basename $p)"
+        break
     fi
 done
 if test x"$prog" = x; then
@@ -82,10 +86,12 @@ run ()
       echo "$me: PASS: $number"
     else
       echo "$me: FAIL: $number (expected output: $out_exp, effective: $out_eff)"
+      cat err_eff
       exit=false
     fi
   else
     echo "$me: FAIL: $number (expected status: $sta_exp, effective: $sta_eff)"
+    cat err_eff
     exit=false
   fi
   number=$(expr $number + 1)

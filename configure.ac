@@ -280,6 +280,7 @@ AC_SUBST([GCC])
 
 gt_JAVACOMP([1.7], [1.7])
 gt_JAVAEXEC
+AM_CONDITIONAL([ENABLE_JAVA], [test x"$CONF_JAVAC" != x && test x"$CONF_JAVA" != x])
 
 AC_CONFIG_FILES([Makefile
                  po/Makefile.in

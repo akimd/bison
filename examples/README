@@ -34,6 +34,12 @@ Extracted from the documentation: "A Complete C++ Example".
 https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
 
 
+* Examples in Java
+
+** java/Calc.y
+The usual calculator.
+
+
 -----
 
 Local Variables:

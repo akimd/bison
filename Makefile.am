@@ -52,6 +52,7 @@ MOSTLYCLEANFILES =
 SUFFIXES =
 TESTS = $(dist_TESTS)
 check_PROGRAMS =
+check_SCRIPTS =
 dist_TESTS =
 noinst_LIBRARIES =
 
