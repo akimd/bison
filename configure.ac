@@ -188,6 +188,15 @@ BISON_C_COMPILER_POSIXLY_CORRECT
 BISON_TEST_FOR_WORKING_CXX_COMPILER
 BISON_CXX_COMPILER_POSIXLY_CORRECT
 
+# D.
+AM_CONDITIONAL([ENABLE_D], [true])
+
+# Java.
+gt_JAVACOMP([1.7], [1.7])
+gt_JAVAEXEC
+AM_CONDITIONAL([ENABLE_JAVA], [test x"$CONF_JAVAC" != x && test x"$CONF_JAVA" != x])
+
+
 AC_ARG_ENABLE([yacc],
   [AC_HELP_STRING([--disable-yacc],
      [do not build a yacc command or an -ly library])],
@@ -277,10 +286,6 @@ AM_CONDITIONAL([CROSS_COMPILING], [test "$cross_compiling" = yes])
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])
-
-gt_JAVACOMP([1.7], [1.7])
-gt_JAVAEXEC
-AM_CONDITIONAL([ENABLE_JAVA], [test x"$CONF_JAVAC" != x && test x"$CONF_JAVA" != x])
 
 AC_CONFIG_FILES([Makefile
                  po/Makefile.in
