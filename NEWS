@@ -26,6 +26,96 @@ GNU Bison NEWS
   The use of the %error-verbose directive is deprecated in favor of "%define
   parse.error verbose" since Bison 3.0, but no warning was issued.
 
+** New features
+
+*** %expect and %expect-rr modifiers on individual rules
+
+  One can now document (and check) which rules participate in shift/reduce
+  and reduce/reduce conflicts.  This is particularly important GLR parsers,
+  where conflicts are a normal occurrence.  For example,
+
+      %glr-parser
+      %expect 1
+      %%
+
+      ...
+
+      argument_list:
+        arguments %expect 1
+      | arguments ','
+      | %empty
+      ;
+
+      arguments:
+        expression
+      | argument_list ',' expression
+      ;
+
+      ...
+
+  Looking at the output from -v, one can see that the shift-reduce conflict
+  here is due to the fact that the parser does not know whether to reduce
+  arguments to argument_list until it sees the token _after_ the following
+  ','.  By marking the rule with %expect 1 (because there is a conflict in
+  one state), we document the source of the 1 overall shift-reduce conflict.
+
+  In GLR parsers, we can use %expect-rr in a rule for reduce/reduce
+  conflicts.  In this case, we mark each of the conflicting rules.  For
+  example,
+
+      %glr-parser
+      %expect-rr 1
+
+      %%
+
+      stmt:
+        target_list '=' expr ';'
+      | expr_list ';'
+      ;
+
+      target_list:
+        target
+      | target ',' target_list
+      ;
+
+      target:
+        ID %expect-rr 1
+      ;
+
+      expr_list:
+        expr
+      | expr ',' expr_list
+      ;
+
+      expr:
+        ID %expect-rr 1
+      | ...
+      ;
+
+  In a statement such as
+
+      x, y = 3, 4;
+
+  the parser must reduce x to a target or an expr, but does not know which
+  until it sees the '='.  So we notate the two possible reductions to
+  indicate that each conflicts in one rule.
+
+*** More POSIX Yacc compatibility warnings
+
+  More Bison specific directives are now reported with -y or -Wyacc.  This
+  change was ready since the release of Bison 3.0 in September 2015.  It was
+  delayed because Autoconf used to define YACC as `bison -y`, which resulted
+  in numerous warnings for Bison users that use the GNU Build System.
+
+  If you still experience that problem, either redefine YACC as `bison -o
+  y.tab.c`, or pass -Wno-yacc to Bison.
+
+*** The tables yyrhs and yyphrs are back
+
+  Because no Bison skeleton uses them, these tables were removed (no longer
+  computed, nor passed to the skeletons) in 2008.  However, some users have
+  expressed interest in being able to use these tables in their skeletons.
+
 ** Bug fixes
 
 *** Incorrect number of reduce-reduce conflicts
@@ -39,6 +129,21 @@ GNU Bison NEWS
   was entered in the RCS version control system, in December 1987.
 
   Some grammar files might have to adjust their %expect-rr.
+
+*** Parser directives that were not careful enough
+
+  Passing invalid arguments to %nterm, for instance character literals, used
+  to result in unclear error messages.
+
+** Documentation
+
+  The examples (installed in .../share/doc/bison/examples), now include a
+  Java calculator.
+
+** Changes
+
+  The C++ output now use noexcept and constexpr.  Please, report missing
+  annotations.
 
 * Noteworthy changes in release 3.2.2 (2018-11-21) [stable]
 
