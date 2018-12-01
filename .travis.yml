@@ -339,7 +339,7 @@ script:
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS
-  - if test ${PART-1} = 1; then make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
+  - if test ${PART-1} = 1; then make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat test-suite.log && cat tests/testsuite.log && false; }; fi
   - if test ${PART-1} = 1; then make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
   - if test ${PART-2} = 2; then make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
 
