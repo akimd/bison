@@ -27,13 +27,13 @@ b4_percent_define_ifdef([package], [module b4_percent_define_get([package]);
 ])[
 version(D_Version2) {
 } else {
-  static assert(false,"need compiler for D Version 2");
+  static assert(false, "need compiler for D Version 2");
 }
 
-/* First part of user declarations.  */
-]b4_pre_prologue
-b4_percent_code_get([[imports]])
-[static import std.stream;
+]b4_user_pre_prologue[
+]b4_user_post_prologue[
+]b4_percent_code_get([[imports]])[
+import std.format;
 
 /**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
@@ -126,16 +126,16 @@ b4_locations_if([, ref ]b4_location_type[ loc])[)
   }
 
   // Print the state stack on the debug stream.
-  public final void print (std.stream.OutputStream stream)
+  public final void print (File stream)
   {
-    stream.writeString ("Stack now");
+    stream.write ("Stack now");
 
     for (int i = 0; i < stack.length; i++)
       {
         stream.write (' ');
-        stream.writef ("%d",stack[i].state);
+        stream.write ("%d", stack[i].state);
       }
-    stream.writefln ();
+    stream.writeln ();
   }
 }
 ]b4_locations_if(b4_position_type_if([[[
@@ -143,9 +143,9 @@ static assert(__traits(compiles,
               (new ]b4_position_type[[1])[0]=(new ]b4_position_type[[1])[0]),
               "struct/class ]b4_position_type[ must be default-constructible "
               "and assignable");
-static assert(__traits(compiles,(new string[1])[0]=(new ]b4_position_type[).toString()),
+static assert(__traits(compiles, (new string[1])[0]=(new ]b4_position_type[).toString()),
               "error: struct/class ]b4_position_type[ must have toString method");
-]]],[[
+]]], [[
   /**
    * A struct denoting a point in the input.*/
 public struct ]b4_position_type[ {
@@ -160,24 +160,24 @@ public struct ]b4_position_type[ {
   /**
    * Return a string representation of the position. */
   public string toString() const {
-    return std.string.format("%s:%d.%d",filename,line,column);
+    return format("%s:%d.%d", filename, line, column);
   }
 }
 ]])b4_location_type_if([[[
-static assert(__traits(compiles,(new ]b4_location_type[((new ]b4_position_type[[1])[0]))) &&
-              __traits(compiles,(new ]b4_location_type[((new ]b4_position_type[[1])[0],(new ]b4_position_type[[1])[0]))),
+static assert(__traits(compiles, (new ]b4_location_type[((new ]b4_position_type[[1])[0]))) &&
+              __traits(compiles, (new ]b4_location_type[((new ]b4_position_type[[1])[0], (new ]b4_position_type[[1])[0]))),
               "error: struct/class ]b4_location_type[ must have "
-              "default constructor and constructors this(]b4_position_type[) and this(]b4_position_type[,]b4_position_type[).");
-static assert(__traits(compiles,(new ]b4_location_type[[1])[0].begin=(new ]b4_location_type[[1])[0].begin) &&
-              __traits(compiles,(new ]b4_location_type[[1])[0].begin=(new ]b4_location_type[[1])[0].end) &&
-              __traits(compiles,(new ]b4_location_type[[1])[0].end=(new ]b4_location_type[[1])[0].begin) &&
-              __traits(compiles,(new ]b4_location_type[[1])[0].end=(new ]b4_location_type[[1])[0].end),
+              "default constructor and constructors this(]b4_position_type[) and this(]b4_position_type[, ]b4_position_type[).");
+static assert(__traits(compiles, (new ]b4_location_type[[1])[0].begin=(new ]b4_location_type[[1])[0].begin) &&
+              __traits(compiles, (new ]b4_location_type[[1])[0].begin=(new ]b4_location_type[[1])[0].end) &&
+              __traits(compiles, (new ]b4_location_type[[1])[0].end=(new ]b4_location_type[[1])[0].begin) &&
+              __traits(compiles, (new ]b4_location_type[[1])[0].end=(new ]b4_location_type[[1])[0].end),
               "error: struct/class ]b4_location_type[ must have assignment-compatible "
               "members/properties 'begin' and 'end'.");
-static assert(__traits(compiles,(new string[1])[0]=(new ]b4_location_type[[1])[0].toString()),
+static assert(__traits(compiles, (new string[1])[0]=(new ]b4_location_type[[1])[0].toString()),
               "error: struct/class ]b4_location_type[ must have toString method.");
 
-private immutable bool yy_location_is_class = !__traits(compiles,*(new ]b4_location_type[((new ]b4_position_type[[1])[0])));]]],[[
+private immutable bool yy_location_is_class = !__traits(compiles, *(new ]b4_location_type[((new ]b4_position_type[[1])[0])));]]], [[
 /**
  * A class defining a pair of positions.  Positions, defined by the
  * <code>]b4_position_type[</code> class, denote a point in the input.
@@ -223,9 +223,9 @@ public class ]b4_location_type[
 
 private immutable bool yy_location_is_class = true;
 
-]]))m4_ifdef([b4_stype],[private union YYSemanticType
+]]))m4_ifdef([b4_union_members], [private union YYSemanticType
 {
-b4_user_stype
+b4_union_members
 };
 
 ]m4_if(b4_tag_seen_flag, 0,
@@ -274,7 +274,7 @@ b4_lexer_if([[
    */
   public this] (b4_parse_param_decl([b4_lex_param_decl])[) {
     this.yylexer = new YYLexer(]b4_lex_param_call[);
-    this.yyDebugStream = std.cstream.derr;
+    this.yyDebugStream = stderr;
     ]b4_parse_param_cons[
   }
 ]])
@@ -285,23 +285,23 @@ b4_lexer_if([[
    */
   b4_lexer_if([[protected]], [[public]]) [this (]b4_parse_param_decl([[Lexer yylexer]])[) {
     this.yylexer = yylexer;
-    this.yyDebugStream = std.cstream.derr;
+    this.yyDebugStream = stderr;
     ]b4_parse_param_cons[
   }
 
-  private std.stream.OutputStream yyDebugStream;
+  private File yyDebugStream;
 
   /**
-   * Return the <tt>std.stream.OutputStream</tt> on which the debugging output is
+   * Return the <tt>File</tt> on which the debugging output is
    * printed.
    */
-  public std.stream.OutputStream getDebugStream () { return yyDebugStream; }
+  public File getDebugStream () { return yyDebugStream; }
 
   /**
-   * Set the <tt>std.stream.OutputStream</tt> on which the debug output is printed.
+   * Set the <tt>std.File</tt> on which the debug output is printed.
    * @@param s The stream that is used for debugging output.
    */
-  public final void setDebugStream(std.stream.OutputStream s) { yyDebugStream = s; }
+  public final void setDebugStream(File s) { yyDebugStream = s; }
 
   private int yydebug = 0;
 
@@ -327,7 +327,7 @@ b4_lexer_if([[
 
   [protected final void yycdebug (string s) {
     if (yydebug > 0)
-      yyDebugStream.writeLine (s);
+      yyDebugStream.writeln (s);
   }
 
   /**
@@ -353,8 +353,8 @@ b4_lexer_if([[
   private static immutable int YYREDUCE = 6;
   private static immutable int YYERRLAB1 = 7;
   private static immutable int YYRETURN = 8;
-
-  private static immutable YYSemanticType yy_semantic_null = cast(YYSemanticType)null;
+]b4_locations_if([
+  private static immutable YYSemanticType yy_semantic_null = cast(YYSemanticType)null;])[
   private int yyerrstatus_ = 0;
 
   /**
@@ -428,7 +428,7 @@ b4_lexer_if([[
             case '\\':
               if (yystr[++i] != '\\')
                 break strip_quotes;
-              /* Fall through.  */
+              goto default;
             default:
               yyr ~= yystr[i];
               break;
@@ -455,10 +455,10 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
       string message = s ~ (yytype < yyntokens_ ? " token " : " nterm ")
               ~ yytname_[yytype] ~ " ("]b4_locations_if([
               ~ yylocationp.toString() ~ ": "])[;
-      static if (__traits(compiles,message~=yyvaluep.toString ()))
+      static if (__traits(compiles, message~=yyvaluep.toString ()))
               message ~= yyvaluep.toString ();
       else
-              message ~= std.string.format ("%s",&yyvaluep);
+              message ~= format ("%s", &yyvaluep);
       message ~= ")";
       yycdebug (message);
     }
@@ -521,7 +521,7 @@ m4_popdef([b4_at_dollar])])dnl
         /* New state.  Unlike in the C/C++ skeletons, the state is already
            pushed when we come here.  */
       case YYNEWSTATE:
-        yycdebug (std.string.format("Entering state %d\n",yystate));
+        yycdebug (format("Entering state %d\n", yystate));
         if (yydebug > 0)
           yystack.print (yyDebugStream);
 
@@ -544,9 +544,9 @@ m4_popdef([b4_at_dollar])])dnl
           yychar = yylex ();]
           b4_locations_if([[
           static if (yy_location_is_class) {
-            yylloc = new ]b4_location_type[(yylexer.startPos,yylexer.endPos);
+            yylloc = new ]b4_location_type[(yylexer.startPos, yylexer.endPos);
           } else {
-            yylloc = ]b4_location_type[(yylexer.startPos,yylexer.endPos);
+            yylloc = ]b4_location_type[(yylexer.startPos, yylexer.endPos);
           }]])
           yylval = yylexer.semanticVal;[
         }
@@ -561,7 +561,7 @@ m4_popdef([b4_at_dollar])])dnl
         {
           yytoken = yytranslate_ (yychar);
           yy_symbol_print ("Next token is",
-                           yytoken,yylval]b4_locations_if([, yylloc])[);
+                           yytoken, yylval]b4_locations_if([, yylloc])[);
         }
 
         /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -655,9 +655,9 @@ m4_popdef([b4_at_dollar])])dnl
         label = YYERRLAB1;
         break;
 
-      /*---------------------------------------------------.
+      /*-------------------------------------------------.
       | errorlab -- error raised explicitly by YYERROR.  |
-      `---------------------------------------------------*/
+      `-------------------------------------------------*/
       case YYERROR:
 
         ]b4_locations_if([yyerrloc = yystack.locationAt (yylen - 1);])[
@@ -824,104 +824,34 @@ m4_popdef([b4_at_dollar])])dnl
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
   private static immutable ]b4_int_type_for([b4_pact])[ yypact_ninf_ = ]b4_pact_ninf[;
-  private static immutable ]b4_int_type_for([b4_pact])[ yypact_[] =
-    ]m4_dquote([
-  ]b4_pact[
-    ])[;
-
-  /* YYDEFACT[S] -- default reduction number in state S.  Performed when
-     YYTABLE doesn't specify something else to do.  Zero means the
-     default is an error.  */
-  private static immutable ]b4_int_type_for([b4_defact])[ yydefact_[] =
-    ]m4_dquote([
-  ]b4_defact[
-    ])[;
-
-  /* YYPGOTO[NTERM-NUM].  */
-  private static immutable ]b4_int_type_for([b4_pgoto])[ yypgoto_[] =
-    ]m4_dquote([
-  ]b4_pgoto[
-    ])[;
-
-  /* YYDEFGOTO[NTERM-NUM].  */
-  private static immutable ]b4_int_type_for([b4_defgoto])[
-  yydefgoto_[] =
-    ]m4_dquote([
-  ]b4_defgoto[
-    ])[;
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
      number is the opposite.  If YYTABLE_NINF_, syntax error.  */
   private static immutable ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
-  private static immutable ]b4_int_type_for([b4_table])[
-  yytable_[] =
-    ]m4_dquote([
-  ]b4_table[
-    ])[;
 
-  /* YYCHECK.  */
-  private static immutable ]b4_int_type_for([b4_check])[
-  yycheck_[] =
-    ]m4_dquote([
-  ]b4_check[
-    ])[;
-
-  /* STOS_[STATE-NUM] -- The (internal number of the) accessing
-     symbol of state STATE-NUM.  */
-  private static immutable ]b4_int_type_for([b4_stos])[
-  yystos_[] =
-    ]m4_dquote([
-  ]b4_stos[
-    ])[;
+  ]b4_parser_tables_define[
 
   /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
      to YYLEX-NUM.  */
-  private static immutable ]b4_int_type_for([b4_toknum])[
-  yytoken_number_[] =
-    ]m4_dquote([
+  private static immutable ]b4_int_type_for([b4_toknum])[[]
+  yytoken_number_ =
+  @{
   ]b4_toknum[
-    ])[;
-
-  /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-  private static immutable ]b4_int_type_for([b4_r1])[
-  yyr1_[] =
-    ]m4_dquote([
-  ]b4_r1[
-    ])[;
-
-  /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
-  private static immutable ]b4_int_type_for([b4_r2])[
-  yyr2_[] =
-    ]m4_dquote([
-  ]b4_r2[
-    ])[;
+  @};
 
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
-  private static immutable string yytname_[] =
-    ]m4_dquote([
+  private static immutable string[] yytname_ =
+  @{
   ]b4_tname[
-    ])[;
-
-  /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
-  private static immutable ]b4_int_type_for([b4_rhs])[ yyrhs_[] =
-    ]m4_dquote([
-  ]b4_rhs[
-    ])[;
-
-  /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
-     YYRHS.  */
-  private static immutable ]b4_int_type_for([b4_prhs])[ yyprhs_[] =
-    ]m4_dquote([
-  ]b4_prhs[
-    ])[;
+  @};
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-  private static immutable ]b4_int_type_for([b4_rline])[ yyrline_[] =
-    ]m4_dquote([
+  private static immutable ]b4_int_type_for([b4_rline])[[] yyrline_ =
+  @{
   ]b4_rline[
-    ])[;
+  @};
 
   // Report on the debug stream that the rule yyrule is going to be reduced.
   private final void yy_reduce_print (int yyrule, ref YYStack yystack)
@@ -932,22 +862,22 @@ m4_popdef([b4_at_dollar])])dnl
     int yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
-    yycdebug (std.string.format("Reducing stack by rule %d (line %d), ",
-              yyrule - 1,yylno));
+    yycdebug (format("Reducing stack by rule %d (line %d), ",
+              yyrule - 1, yylno));
 
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
-      yy_symbol_print (std.string.format("   $%d =",yyi + 1),
-                       yyrhs_[yyprhs_[yyrule] + yyi],
+      yy_symbol_print (format("   $%d =", yyi + 1),
+                       yystos_[yystack.stateAt(yynrhs - (yyi + 1))],
                        ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
                        b4_rhs_location(yynrhs, yyi + 1)])[);
   }
 
   /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-  private static immutable ]b4_int_type_for([b4_translate])[ yytranslate_table_[] =
-    ]m4_dquote([
+  private static immutable ]b4_int_type_for([b4_translate])[[] yytranslate_table_ =
+  @{
   ]b4_translate[
-    ])[;
+  @};
 
   private static ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
   {

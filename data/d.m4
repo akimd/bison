@@ -125,6 +125,18 @@ m4_define([b4_int_type_for],
 m4_define([b4_null], [null])
 
 
+# b4_integral_parser_table_define(NAME, DATA, COMMENT)
+#-----------------------------------------------------
+# Define "yy<TABLE-NAME>" whose contents is CONTENT.
+m4_define([b4_integral_parser_table_define],
+[m4_ifvaln([$3], [b4_comment([$3], [  ])])dnl
+private static immutable b4_int_type_for([$2])[[]] yy$1_ =
+@{
+  $2
+@};dnl
+])
+
+
 ## ------------------------- ##
 ## Assigning token numbers.  ##
 ## ------------------------- ##
@@ -133,7 +145,8 @@ m4_define([b4_null], [null])
 # ---------------------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[$1 = $2])
+[b4_token_format([  %s = %s,
+], [$1])])
 
 # b4_token_enums(LIST-OF-PAIRS-TOKEN-NAME-TOKEN-NUMBER)
 # -----------------------------------------------------
@@ -144,10 +157,7 @@ public enum YYTokenType {
 
   /** Token returned by the scanner to signal the end of its input.  */
   EOF = 0,
-
-m4_map_sep([  b4_token_enum], [,
-],
-           [$@])
+b4_symbol_foreach([b4_token_enum])
 }
 ])
 
@@ -183,21 +193,34 @@ m4_define([b4_position_type], b4_percent_define_ifdef([[position_type]],[b4_perc
 ## ----------------- ##
 
 
-# b4_lhs_value([TYPE])
-# --------------------
-# Expansion of $<TYPE>$.
-m4_define([b4_lhs_value], [(yyval]m4_ifval($1, [.$1])[)])
+# b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
+# ----------------------------------------------
+# See README.  FIXME: factor in c-like?
+m4_define([b4_symbol_value],
+[m4_ifval([$3],
+          [($1.$3)],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [($1.b4_symbol([$2], [type]))],
+                                  [$1])],
+                    [$1])])])
+
+# b4_lhs_value(SYMBOL-NUM, [TYPE])
+# --------------------------------
+# See README.
+m4_define([b4_lhs_value],
+[b4_symbol_value([yyval], [$1], [$2])])
 
 
-# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
-# --------------------------------------
-# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
-# symbols on RHS.
+# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
+# --------------------------------------------------
+# See README.
 #
 # In this simple implementation, %token and %type have class names
 # between the angle brackets.
 m4_define([b4_rhs_value],
-[((yystack.valueAt ($1-($2)))m4_ifval($3, [.$3]))])
+[b4_symbol_value([(yystack.valueAt ($1-($2)))], [$3], [$4])])
+
 
 # b4_lhs_location()
 # -----------------
@@ -206,9 +229,9 @@ m4_define([b4_lhs_location],
 [(yyloc)])
 
 
-# b4_rhs_location(RULE-LENGTH, NUM)
+# b4_rhs_location(RULE-LENGTH, POS)
 # ---------------------------------
-# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
 [yystack.locationAt ($1-($2))])
