@@ -78,38 +78,45 @@ m4_define([b4_variant_includes],
 #endif
 ]])
 
-# b4_variant_define
-# -----------------
-# Define "variant".
-m4_define([b4_variant_define],
-[[  /// A char[S] buffer to store and retrieve objects.
+
+
+## -------------------------- ##
+## Adjustments for variants.  ##
+## -------------------------- ##
+
+
+# b4_value_type_declare
+# ---------------------
+# Declare semantic_type.
+m4_define([b4_value_type_declare],
+[[  /// A buffer to store and retrieve objects.
   ///
   /// Sort of a variant, but does not keep track of the nature
   /// of the stored data, since that knowledge is available
-  /// via the current state.
-  template <size_t S>
-  struct variant
+  /// via the current parser state.
+  class semantic_type
   {
+  public:
     /// Type of *this.
-    typedef variant<S> self_type;
+    typedef semantic_type self_type;
 
     /// Empty construction.
-    variant () YY_NOEXCEPT
+    semantic_type () YY_NOEXCEPT
       : yybuffer_ ()]b4_parse_assert_if([
       , yytypeid_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
     template <typename T>
-    variant (YY_RVREF (T) t)]b4_parse_assert_if([
+    semantic_type (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
     {
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       new (yyas_<T> ()) T (YY_MOVE (t));
     }
 
     /// Destruction, allowed only if empty.
-    ~variant () YY_NOEXCEPT
+    ~semantic_type () YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
     ])[}
@@ -120,7 +127,7 @@ m4_define([b4_variant_define],
     emplace ()
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T ();
     }
@@ -132,7 +139,7 @@ m4_define([b4_variant_define],
     emplace (U&& u)
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (std::forward <U>(u));
     }
@@ -143,7 +150,7 @@ m4_define([b4_variant_define],
     emplace (const T& t)
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
     }
@@ -174,7 +181,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
-      YYASSERT (sizeof (T) <= S);])[
+      YYASSERT (sizeof (T) <= size);])[
       return *yyas_<T> ();
     }
 
@@ -185,7 +192,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
-      YYASSERT (sizeof (T) <= S);])[
+      YYASSERT (sizeof (T) <= size);])[
       return *yyas_<T> ();
     }
 
@@ -196,7 +203,7 @@ m4_define([b4_variant_define],
     /// unconstructed variants: it would require some dynamic testing, which
     /// should not be the variant's responsibility.
     /// Swapping between built and (possibly) non-built is done with
-    /// variant::move ().
+    /// self_type::move ().
     template <typename T>
     void
     swap (self_type& other) YY_NOEXCEPT
@@ -253,7 +260,7 @@ m4_define([b4_variant_define],
   private:
     /// Prohibit blind copies.
     self_type& operator= (const self_type&);
-    variant (const self_type&);
+    semantic_type (const self_type&);
 
     /// Accessor to raw memory as \a T.
     template <typename T>
@@ -273,36 +280,26 @@ m4_define([b4_variant_define],
       return static_cast<const T*> (yyp);
      }
 
+    /// An auxiliary type to compute the largest semantic type.
+    union union_type
+    {]b4_type_foreach([b4_char_sizeof])[    };
+
+    /// The size of the largest semantic type.
+    enum { size = sizeof (union_type) };
+
+    /// A buffer to store semantic values.
     union
     {
       /// Strongest alignment constraints.
       long double yyalign_me;
       /// A buffer large enough to store any of the semantic values.
-      char yyraw[S];
+      char yyraw[size];
     } yybuffer_;]b4_parse_assert_if([
 
     /// Whether the content is built: if defined, the name of the stored type.
     const std::type_info *yytypeid_;])[
   };
 ]])
-
-
-## -------------------------- ##
-## Adjustments for variants.  ##
-## -------------------------- ##
-
-
-# b4_value_type_declare
-# ---------------------
-# Declare semantic_type.
-m4_define([b4_value_type_declare],
-[[    /// An auxiliary type to compute the largest semantic type.
-    union union_type
-    {]b4_type_foreach([b4_char_sizeof])[};
-
-    /// Symbol semantic values.
-    typedef variant<sizeof (union_type)> semantic_type;][]dnl
-])
 
 
 # How the semantic value is extracted when using variants.

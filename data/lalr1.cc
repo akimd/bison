@@ -178,8 +178,6 @@ m4_define([b4_shared_declarations],
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
                                   [b4_location_define])])[
 
-]b4_variant_if([b4_variant_define])[
-
   /// A Bison parser.
   class ]b4_parser_class_name[
   {
