@@ -53,6 +53,10 @@ static boundary scanner_cursor;
 static size_t no_cr_read (FILE *, char *, size_t);
 #define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
 
+/* Report that yytext is an extension, and evaluate to its token type.  */
+#define BISON_DIRECTIVE(Directive)                              \
+  (bison_directive (loc, yytext), PERCENT_ ## Directive)
+
 #define RETURN_PERCENT_PARAM(Value)             \
   RETURN_VALUE(PERCENT_PARAM, param_ ## Value)
 
@@ -214,49 +218,49 @@ eqopt    ([[:space:]]*=)?
 
 <INITIAL>
 {
-  "%binary"                         return PERCENT_NONASSOC;
-  "%code"                           return PERCENT_CODE;
+  "%binary"                         return BISON_DIRECTIVE(NONASSOC);
+  "%code"                           return BISON_DIRECTIVE(CODE);
   "%debug"                          RETURN_PERCENT_FLAG("parse.trace");
-  "%default-prec"                   return PERCENT_DEFAULT_PREC;
-  "%define"                         return PERCENT_DEFINE;
-  "%defines"                        return PERCENT_DEFINES;
-  "%destructor"                     return PERCENT_DESTRUCTOR;
-  "%dprec"                          return PERCENT_DPREC;
-  "%empty"                          return PERCENT_EMPTY;
-  "%expect"                         return PERCENT_EXPECT;
-  "%expect-rr"                      return PERCENT_EXPECT_RR;
-  "%file-prefix"                    return PERCENT_FILE_PREFIX;
-  "%fixed-output-files"             return PERCENT_YACC;
-  "%initial-action"                 return PERCENT_INITIAL_ACTION;
-  "%glr-parser"                     return PERCENT_GLR_PARSER;
-  "%language"                       return PERCENT_LANGUAGE;
+  "%default-prec"                   return BISON_DIRECTIVE(DEFAULT_PREC);
+  "%define"                         return BISON_DIRECTIVE(DEFINE);
+  "%defines"                        return BISON_DIRECTIVE(DEFINES);
+  "%destructor"                     return BISON_DIRECTIVE(DESTRUCTOR);
+  "%dprec"                          return BISON_DIRECTIVE(DPREC);
+  "%empty"                          return BISON_DIRECTIVE(EMPTY);
+  "%expect"                         return BISON_DIRECTIVE(EXPECT);
+  "%expect-rr"                      return BISON_DIRECTIVE(EXPECT_RR);
+  "%file-prefix"                    return BISON_DIRECTIVE(FILE_PREFIX);
+  "%fixed-output-files"             return BISON_DIRECTIVE(YACC);
+  "%initial-action"                 return BISON_DIRECTIVE(INITIAL_ACTION);
+  "%glr-parser"                     return BISON_DIRECTIVE(GLR_PARSER);
+  "%language"                       return BISON_DIRECTIVE(LANGUAGE);
   "%left"                           return PERCENT_LEFT;
   "%lex-param"                      RETURN_PERCENT_PARAM(lex);
   "%locations"                      RETURN_PERCENT_FLAG("locations");
-  "%merge"                          return PERCENT_MERGE;
-  "%name-prefix"                    return PERCENT_NAME_PREFIX;
-  "%no-default-prec"                return PERCENT_NO_DEFAULT_PREC;
-  "%no-lines"                       return PERCENT_NO_LINES;
+  "%merge"                          return BISON_DIRECTIVE(MERGE);
+  "%name-prefix"                    return BISON_DIRECTIVE(NAME_PREFIX);
+  "%no-default-prec"                return BISON_DIRECTIVE(NO_DEFAULT_PREC);
+  "%no-lines"                       return BISON_DIRECTIVE(NO_LINES);
   "%nonassoc"                       return PERCENT_NONASSOC;
-  "%nondeterministic-parser"        return PERCENT_NONDETERMINISTIC_PARSER;
-  "%output"                         return PERCENT_OUTPUT;
+  "%nondeterministic-parser"        return BISON_DIRECTIVE(NONDETERMINISTIC_PARSER);
+  "%output"                         return BISON_DIRECTIVE(OUTPUT);
   "%param"                          RETURN_PERCENT_PARAM(both);
   "%parse-param"                    RETURN_PERCENT_PARAM(parse);
   "%prec"                           return PERCENT_PREC;
-  "%precedence"                     return PERCENT_PRECEDENCE;
-  "%printer"                        return PERCENT_PRINTER;
+  "%precedence"                     return BISON_DIRECTIVE(PRECEDENCE);
+  "%printer"                        return BISON_DIRECTIVE(PRINTER);
   "%pure-parser"                    RETURN_PERCENT_FLAG("api.pure");
-  "%require"                        return PERCENT_REQUIRE;
+  "%require"                        return BISON_DIRECTIVE(REQUIRE);
   "%right"                          return PERCENT_RIGHT;
-  "%skeleton"                       return PERCENT_SKELETON;
+  "%skeleton"                       return BISON_DIRECTIVE(SKELETON);
   "%start"                          return PERCENT_START;
-  "%term"                           return PERCENT_TOKEN;
+  "%term"                           return BISON_DIRECTIVE(TOKEN);
   "%token"                          return PERCENT_TOKEN;
-  "%token-table"                    return PERCENT_TOKEN_TABLE;
+  "%token-table"                    return BISON_DIRECTIVE(TOKEN_TABLE);
   "%type"                           return PERCENT_TYPE;
   "%union"                          return PERCENT_UNION;
-  "%verbose"                        return PERCENT_VERBOSE;
-  "%yacc"                           return PERCENT_YACC;
+  "%verbose"                        return BISON_DIRECTIVE(VERBOSE);
+  "%yacc"                           return BISON_DIRECTIVE(YACC);
 
   /* Deprecated since Bison 3.0 (2013-07-25), but the warning is
      issued only since Bison 3.3. */

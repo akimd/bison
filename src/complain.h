@@ -78,8 +78,7 @@ void complain_init (void);
 
 typedef enum
   {
-    /**< Issue no warnings.  */
-    Wnone             = 0,
+    Wnone             = 0,       /**< Issue no warnings.  */
 
     Wmidrule_values   = 1 << warning_midrule_values,
     Wyacc             = 1 << warning_yacc,
@@ -119,6 +118,9 @@ void complain_indent (location const *loc, warnings flags, unsigned *indent,
                       char const *message, ...)
   __attribute__ ((__format__ (__printf__, 4, 5)));
 
+
+/** GNU Bison extension not valid with POSIX Yacc.  */
+void bison_directive (location const *loc, char const *directive);
 
 /** Report an obsolete syntax, suggest the updated one.  */
 void deprecated_directive (location const *loc,

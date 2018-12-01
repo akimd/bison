@@ -316,6 +316,7 @@ AT_CHECK([[$PERL -n -0777 -e '
       |YYPUSH_MORE(?:_DEFINED)?
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)?
+      |YY_CONSTEXPR
       |YY_COPY
       |YY_CPLUSPLUS
       |YY_IGNORE_MAYBE_UNINITIALIZED_(?:BEGIN|END)
@@ -323,6 +324,7 @@ AT_CHECK([[$PERL -n -0777 -e '
       |YY_MOVE
       |YY_MOVE_OR_COPY
       |YY_MOVE_REF
+      |YY_NOEXCEPT
       |YY_NULLPTR
       |YY_RVREF
       |YY_\w+_INCLUDED

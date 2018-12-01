@@ -296,26 +296,26 @@ m4_define([b4_shared_declarations],
     struct by_state
     {
       /// Default constructor.
-      by_state ();
+      by_state () YY_NOEXCEPT;
 
       /// The symbol type as needed by the constructor.
       typedef state_type kind_type;
 
       /// Constructor.
-      by_state (kind_type s);
+      by_state (kind_type s) YY_NOEXCEPT;
 
       /// Copy constructor.
-      by_state (const by_state& other);
+      by_state (const by_state& other) YY_NOEXCEPT;
 
       /// Record that this symbol is empty.
-      void clear ();
+      void clear () YY_NOEXCEPT;
 
       /// Steal the symbol type from \a that.
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
       /// \a empty_symbol when empty.
-      symbol_number_type type_get () const;
+      symbol_number_type type_get () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
       enum { empty_state = -1 };
@@ -570,16 +570,16 @@ m4_if(b4_prefix, [yy], [],
 ]b4_token_ctor_if([], [b4_public_types_define([cc])])[
 
   // by_state.
-  ]b4_parser_class_name[::by_state::by_state ()
+  ]b4_parser_class_name[::by_state::by_state () YY_NOEXCEPT
     : state (empty_state)
   {}
 
-  ]b4_parser_class_name[::by_state::by_state (const by_state& other)
+  ]b4_parser_class_name[::by_state::by_state (const by_state& other) YY_NOEXCEPT
     : state (other.state)
   {}
 
   void
-  ]b4_parser_class_name[::by_state::clear ()
+  ]b4_parser_class_name[::by_state::clear () YY_NOEXCEPT
   {
     state = empty_state;
   }
@@ -591,12 +591,12 @@ m4_if(b4_prefix, [yy], [],
     that.clear ();
   }
 
-  ]b4_parser_class_name[::by_state::by_state (state_type s)
+  ]b4_parser_class_name[::by_state::by_state (state_type s) YY_NOEXCEPT
     : state (s)
   {}
 
   ]b4_parser_class_name[::symbol_number_type
-  ]b4_parser_class_name[::by_state::type_get () const
+  ]b4_parser_class_name[::by_state::type_get () const YY_NOEXCEPT
   {
     if (state == empty_state)
       return empty_symbol;
@@ -793,17 +793,22 @@ b4_dollar_popdef])[]dnl
     yystack_.clear ();
     yypush_ (YY_NULLPTR, 0, YY_MOVE (yyla));
 
-    // A new symbol was pushed on the stack.
+  /*-----------------------------------------------.
+  | yynewstate -- push a new symbol on the stack.  |
+  `-----------------------------------------------*/
   yynewstate:
     YYCDEBUG << "Entering state " << yystack_[0].state << '\n';
 
     // Accept?
     if (yystack_[0].state == yyfinal_)
-      goto yyacceptlab;
+      YYACCEPT;
 
     goto yybackup;
 
-    // Backup.
+
+  /*-----------.
+  | yybackup.  |
+  `-----------*/
   yybackup:
     // Try to take a decision without lookahead.
     yyn = yypact_[yystack_[0].state];
@@ -856,6 +861,7 @@ b4_dollar_popdef])[]dnl
     yypush_ ("Shifting", yyn, YY_MOVE (yyla));
     goto yynewstate;
 
+
   /*-----------------------------------------------------------.
   | yydefault -- do the default action for the current state.  |
   `-----------------------------------------------------------*/
@@ -865,8 +871,9 @@ b4_dollar_popdef])[]dnl
       goto yyerrlab;
     goto yyreduce;
 
+
   /*-----------------------------.
-  | yyreduce -- Do a reduction.  |
+  | yyreduce -- do a reduction.  |
   `-----------------------------*/
   yyreduce:
     yylen = yyr2_[yyn];
@@ -926,6 +933,7 @@ b4_dollar_popdef])[]dnl
     }
     goto yynewstate;
 
+
   /*--------------------------------------.
   | yyerrlab -- here on detecting error.  |
   `--------------------------------------*/
@@ -963,17 +971,17 @@ b4_dollar_popdef])[]dnl
   | yyerrorlab -- error raised explicitly by YYERROR.  |
   `---------------------------------------------------*/
   yyerrorlab:
-
-    /* Pacify compilers like GCC when the user code never invokes
-       YYERROR and the label yyerrorlab therefore never appears in user
-       code.  */
+    /* Pacify compilers when the user code never invokes YYERROR and
+       the label yyerrorlab therefore never appears in user code.  */
     if (false)
-      goto yyerrorlab;
+      YYERROR;
+
     /* Do not reclaim the symbols of the rule whose action triggered
        this YYERROR.  */
     yypop_ (yylen);
     yylen = 0;
     goto yyerrlab1;
+
 
   /*-------------------------------------------------------------.
   | yyerrlab1 -- common code for both syntax error and YYERROR.  |
@@ -1015,16 +1023,26 @@ b4_dollar_popdef])[]dnl
     }
     goto yynewstate;
 
-    // Accept.
+
+  /*-------------------------------------.
+  | yyacceptlab -- YYACCEPT comes here.  |
+  `-------------------------------------*/
   yyacceptlab:
     yyresult = 0;
     goto yyreturn;
 
-    // Abort.
+
+  /*-----------------------------------.
+  | yyabortlab -- YYABORT comes here.  |
+  `-----------------------------------*/
   yyabortlab:
     yyresult = 1;
     goto yyreturn;
 
+
+  /*-----------------------------------------------------.
+  | yyreturn -- parsing is finished, return the result.  |
+  `-----------------------------------------------------*/
   yyreturn:
     if (!yyla.empty ())
       yy_destroy_ ("Cleanup: discarding lookahead", yyla);

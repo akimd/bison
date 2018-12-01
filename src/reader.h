@@ -52,6 +52,8 @@ void grammar_current_rule_empty_set (location loc);
 void grammar_current_rule_prec_set (symbol *precsym, location loc);
 void grammar_current_rule_dprec_set (int dprec, location loc);
 void grammar_current_rule_merge_set (uniqstr name, location loc);
+void grammar_current_rule_expect_sr (int count, location loc);
+void grammar_current_rule_expect_rr (int count, location loc);
 void grammar_current_rule_symbol_append (symbol *sym, location loc,
                                          named_ref *nref);
 /* Attach an ACTION to the current rule.  */

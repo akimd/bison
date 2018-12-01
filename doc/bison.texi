@@ -2952,31 +2952,30 @@ Look again at the example of the previous section:
 @end example
 
 @noindent
-Notice that there are two @var{Prologue} sections here, but there's a
-subtle distinction between their functionality.  For example, if you
-decide to override Bison's default definition for @code{YYLTYPE}, in
-which @var{Prologue} section should you write your new definition?
-You should write it in the first since Bison will insert that code
-into the parser implementation file @emph{before} the default
-@code{YYLTYPE} definition.  In which @var{Prologue} section should you
-prototype an internal function, @code{trace_token}, that accepts
-@code{YYLTYPE} and @code{yytokentype} as arguments?  You should
-prototype it in the second since Bison will insert that code
-@emph{after} the @code{YYLTYPE} and @code{yytokentype} definitions.
+Notice that there are two @var{Prologue} sections here, but there's a subtle
+distinction between their functionality.  For example, if you decide to
+override Bison's default definition for @code{YYLTYPE}, in which
+@var{Prologue} section should you write your new definition?  You should
+write it in the first since Bison will insert that code into the parser
+implementation file @emph{before} the default @code{YYLTYPE} definition.  In
+which @var{Prologue} section should you prototype an internal function,
+@code{trace_token}, that accepts @code{YYLTYPE} and @code{yytokentype} as
+arguments?  You should prototype it in the second since Bison will insert
+that code @emph{after} the @code{YYLTYPE} and @code{yytokentype}
+definitions.
 
 This distinction in functionality between the two @var{Prologue} sections is
-established by the appearance of the @code{%union} between them.
-This behavior raises a few questions.
-First, why should the position of a @code{%union} affect definitions related to
-@code{YYLTYPE} and @code{yytokentype}?
-Second, what if there is no @code{%union}?
-In that case, the second kind of @var{Prologue} section is not available.
-This behavior is not intuitive.
+established by the appearance of the @code{%union} between them.  This
+behavior raises a few questions.  First, why should the position of a
+@code{%union} affect definitions related to @code{YYLTYPE} and
+@code{yytokentype}?  Second, what if there is no @code{%union}?  In that
+case, the second kind of @var{Prologue} section is not available.  This
+behavior is not intuitive.
 
 To avoid this subtle @code{%union} dependency, rewrite the example using a
-@code{%code top} and an unqualified @code{%code}.
-Let's go ahead and add the new @code{YYLTYPE} definition and the
-@code{trace_token} prototype at the same time:
+@code{%code top} and an unqualified @code{%code}.  Let's go ahead and add
+the new @code{YYLTYPE} definition and the @code{trace_token} prototype at
+the same time:
 
 @example
 %code top @{
@@ -3084,36 +3083,33 @@ Thus, they belong in one or more @code{%code requires}:
 @end example
 
 @noindent
-Now Bison will insert @code{#include "ptypes.h"} and the new
-@code{YYLTYPE} definition before the Bison-generated @code{YYSTYPE}
-and @code{YYLTYPE} definitions in both the parser implementation file
-and the parser header file.  (By the same reasoning, @code{%code
-requires} would also be the appropriate place to write your own
-definition for @code{YYSTYPE}.)
+Now Bison will insert @code{#include "ptypes.h"} and the new @code{YYLTYPE}
+definition before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
+definitions in both the parser implementation file and the parser header
+file.  (By the same reasoning, @code{%code requires} would also be the
+appropriate place to write your own definition for @code{YYSTYPE}.)
 
-When you are writing dependency code for @code{YYSTYPE} and
-@code{YYLTYPE}, you should prefer @code{%code requires} over
-@code{%code top} regardless of whether you instruct Bison to generate
-a parser header file.  When you are writing code that you need Bison
-to insert only into the parser implementation file and that has no
-special need to appear at the top of that file, you should prefer the
-unqualified @code{%code} over @code{%code top}.  These practices will
-make the purpose of each block of your code explicit to Bison and to
-other developers reading your grammar file.  Following these
-practices, we expect the unqualified @code{%code} and @code{%code
-requires} to be the most important of the four @var{Prologue}
+When you are writing dependency code for @code{YYSTYPE} and @code{YYLTYPE},
+you should prefer @code{%code requires} over @code{%code top} regardless of
+whether you instruct Bison to generate a parser header file.  When you are
+writing code that you need Bison to insert only into the parser
+implementation file and that has no special need to appear at the top of
+that file, you should prefer the unqualified @code{%code} over @code{%code
+top}.  These practices will make the purpose of each block of your code
+explicit to Bison and to other developers reading your grammar file.
+Following these practices, we expect the unqualified @code{%code} and
+@code{%code requires} to be the most important of the four @var{Prologue}
 alternatives.
 
-At some point while developing your parser, you might decide to
-provide @code{trace_token} to modules that are external to your
-parser.  Thus, you might wish for Bison to insert the prototype into
-both the parser header file and the parser implementation file.  Since
-this function is not a dependency required by @code{YYSTYPE} or
-@code{YYLTYPE}, it doesn't make sense to move its prototype to a
-@code{%code requires}.  More importantly, since it depends upon
-@code{YYLTYPE} and @code{yytokentype}, @code{%code requires} is not
-sufficient.  Instead, move its prototype from the unqualified
-@code{%code} to a @code{%code provides}:
+At some point while developing your parser, you might decide to provide
+@code{trace_token} to modules that are external to your parser.  Thus, you
+might wish for Bison to insert the prototype into both the parser header
+file and the parser implementation file.  Since this function is not a
+dependency required by @code{YYSTYPE} or @code{YYLTYPE}, it doesn't make
+sense to move its prototype to a @code{%code requires}.  More importantly,
+since it depends upon @code{YYLTYPE} and @code{yytokentype}, @code{%code
+requires} is not sufficient.  Instead, move its prototype from the
+unqualified @code{%code} to a @code{%code provides}:
 
 @example
 @group
@@ -3166,18 +3162,16 @@ sufficient.  Instead, move its prototype from the unqualified
 @end example
 
 @noindent
-Bison will insert the @code{trace_token} prototype into both the
-parser header file and the parser implementation file after the
-definitions for @code{yytokentype}, @code{YYLTYPE}, and
-@code{YYSTYPE}.
+Bison will insert the @code{trace_token} prototype into both the parser
+header file and the parser implementation file after the definitions for
+@code{yytokentype}, @code{YYLTYPE}, and @code{YYSTYPE}.
 
-The above examples are careful to write directives in an order that
-reflects the layout of the generated parser implementation and header
-files: @code{%code top}, @code{%code requires}, @code{%code provides},
-and then @code{%code}.  While your grammar files may generally be
-easier to read if you also follow this order, Bison does not require
-it.  Instead, Bison lets you choose an organization that makes sense
-to you.
+The above examples are careful to write directives in an order that reflects
+the layout of the generated parser implementation and header files:
+@code{%code top}, @code{%code requires}, @code{%code provides}, and then
+@code{%code}.  While your grammar files may generally be easier to read if
+you also follow this order, Bison does not require it.  Instead, Bison lets
+you choose an organization that makes sense to you.
 
 You may declare any of these directives multiple times in the grammar file.
 In that case, Bison concatenates the contained code in declaration order.
@@ -4810,18 +4804,16 @@ The basic way to declare a token type name (terminal symbol) is as follows:
 %token @var{name}
 @end example
 
-Bison will convert this into a @code{#define} directive in
-the parser, so that the function @code{yylex} (if it is in this file)
-can use the name @var{name} to stand for this token type's code.
+Bison will convert this into a @code{#define} directive in the parser, so
+that the function @code{yylex} (if it is in this file) can use the name
+@var{name} to stand for this token type's code.
 
-Alternatively, you can use @code{%left}, @code{%right},
-@code{%precedence}, or
-@code{%nonassoc} instead of @code{%token}, if you wish to specify
-associativity and precedence.  @xref{Precedence Decl, ,Operator
-Precedence}.
+Alternatively, you can use @code{%left}, @code{%right}, @code{%precedence},
+or @code{%nonassoc} instead of @code{%token}, if you wish to specify
+associativity and precedence.  @xref{Precedence Decl, ,Operator Precedence}.
 
-You can explicitly specify the numeric code for a token type by appending
-a nonnegative decimal or hexadecimal integer value in the field immediately
+You can explicitly specify the numeric code for a token type by appending a
+nonnegative decimal or hexadecimal integer value in the field immediately
 following the token name:
 
 @example
@@ -4830,14 +4822,14 @@ following the token name:
 @end example
 
 @noindent
-It is generally best, however, to let Bison choose the numeric codes for
-all token types.  Bison will automatically select codes that don't conflict
-with each other or with normal characters.
+It is generally best, however, to let Bison choose the numeric codes for all
+token types.  Bison will automatically select codes that don't conflict with
+each other or with normal characters.
 
 In the event that the stack type is a union, you must augment the
 @code{%token} or other token declaration to include the data type
-alternative delimited by angle-brackets (@pxref{Multiple Types, ,More
-Than One Value Type}).
+alternative delimited by angle-brackets (@pxref{Multiple Types, ,More Than
+One Value Type}).
 
 For example:
 
@@ -4851,9 +4843,9 @@ For example:
 @end group
 @end example
 
-You can associate a literal string token with a token type name by
-writing the literal string at the end of a @code{%token}
-declaration which declares the name.  For example:
+You can associate a literal string token with a token type name by writing
+the literal string at the end of a @code{%token} declaration which declares
+the name.  For example:
 
 @example
 %token arrow "=>"
@@ -4872,14 +4864,14 @@ equivalent literal string tokens:
 @noindent
 Once you equate the literal string and the token name, you can use them
 interchangeably in further declarations or the grammar rules.  The
-@code{yylex} function can use the token name or the literal string to
-obtain the token type code number (@pxref{Calling Convention}).
-Syntax error messages passed to @code{yyerror} from the parser will reference
-the literal string instead of the token name.
+@code{yylex} function can use the token name or the literal string to obtain
+the token type code number (@pxref{Calling Convention}).  Syntax error
+messages passed to @code{yyerror} from the parser will reference the literal
+string instead of the token name.
 
 The token numbered as 0 corresponds to end of file; the following line
-allows for nicer error messages referring to ``end of file'' instead
-of ``$end'':
+allows for nicer error messages referring to ``end of file'' instead of
+``$end'':
 
 @example
 %token END 0 "end of file"
@@ -4891,12 +4883,11 @@ of ``$end'':
 @cindex declaring operator precedence
 @cindex operator precedence, declaring
 
-Use the @code{%left}, @code{%right}, @code{%nonassoc}, or
-@code{%precedence} declaration to
-declare a token and specify its precedence and associativity, all at
-once.  These are called @dfn{precedence declarations}.
-@xref{Precedence, ,Operator Precedence}, for general information on
-operator precedence.
+Use the @code{%left}, @code{%right}, @code{%nonassoc}, or @code{%precedence}
+declaration to declare a token and specify its precedence and associativity,
+all at once.  These are called @dfn{precedence declarations}.
+@xref{Precedence, ,Operator Precedence}, for general information on operator
+precedence.
 
 The syntax of a precedence declaration is nearly the same as that of
 @code{%token}: either
@@ -4918,34 +4909,32 @@ all the @var{symbols}:
 
 @itemize @bullet
 @item
-The associativity of an operator @var{op} determines how repeated uses
-of the operator nest: whether @samp{@var{x} @var{op} @var{y} @var{op}
-@var{z}} is parsed by grouping @var{x} with @var{y} first or by
-grouping @var{y} with @var{z} first.  @code{%left} specifies
-left-associativity (grouping @var{x} with @var{y} first) and
-@code{%right} specifies right-associativity (grouping @var{y} with
-@var{z} first).  @code{%nonassoc} specifies no associativity, which
-means that @samp{@var{x} @var{op} @var{y} @var{op} @var{z}} is
-considered a syntax error.
+The associativity of an operator @var{op} determines how repeated uses of
+the operator nest: whether @samp{@var{x} @var{op} @var{y} @var{op} @var{z}}
+is parsed by grouping @var{x} with @var{y} first or by grouping @var{y} with
+@var{z} first.  @code{%left} specifies left-associativity (grouping @var{x}
+with @var{y} first) and @code{%right} specifies right-associativity
+(grouping @var{y} with @var{z} first).  @code{%nonassoc} specifies no
+associativity, which means that @samp{@var{x} @var{op} @var{y} @var{op}
+@var{z}} is considered a syntax error.
 
-@code{%precedence} gives only precedence to the @var{symbols}, and
-defines no associativity at all.  Use this to define precedence only,
-and leave any potential conflict due to associativity enabled.
+@code{%precedence} gives only precedence to the @var{symbols}, and defines
+no associativity at all.  Use this to define precedence only, and leave any
+potential conflict due to associativity enabled.
 
 @item
 The precedence of an operator determines how it nests with other operators.
 All the tokens declared in a single precedence declaration have equal
-precedence and nest together according to their associativity.
-When two tokens declared in different precedence declarations associate,
-the one declared later has the higher precedence and is grouped first.
+precedence and nest together according to their associativity.  When two
+tokens declared in different precedence declarations associate, the one
+declared later has the higher precedence and is grouped first.
 @end itemize
 
 For backward compatibility, there is a confusing difference between the
-argument lists of @code{%token} and precedence declarations.
-Only a @code{%token} can associate a literal string with a token type name.
-A precedence declaration always interprets a literal string as a reference to a
-separate token.
-For example:
+argument lists of @code{%token} and precedence declarations.  Only a
+@code{%token} can associate a literal string with a token type name.  A
+precedence declaration always interprets a literal string as a reference to
+a separate token.  For example:
 
 @example
 %left  OR "<="         // Does not declare an alias.
@@ -4968,25 +4957,22 @@ used.  This is done with a @code{%type} declaration, like this:
 @end example
 
 @noindent
-Here @var{nonterminal} is the name of a nonterminal symbol, and
-@var{type} is the name given in the @code{%union} to the alternative
-that you want (@pxref{Union Decl, ,The Union Declaration}).  You
-can give any number of nonterminal symbols in the same @code{%type}
-declaration, if they have the same value type.  Use spaces to separate
-the symbol names.
+Here @var{nonterminal} is the name of a nonterminal symbol, and @var{type}
+is the name given in the @code{%union} to the alternative that you want
+(@pxref{Union Decl, ,The Union Declaration}).  You can give any number of
+nonterminal symbols in the same @code{%type} declaration, if they have the
+same value type.  Use spaces to separate the symbol names.
 
-You can also declare the value type of a terminal symbol.  To do this,
-use the same @code{<@var{type}>} construction in a declaration for the
-terminal symbol.  All kinds of token declarations allow
-@code{<@var{type}>}.
+You can also declare the value type of a terminal symbol.  To do this, use
+the same @code{<@var{type}>} construction in a declaration for the terminal
+symbol.  All kinds of token declarations allow @code{<@var{type}>}.
 
 @node Initial Action Decl
 @subsection Performing Actions before Parsing
 @findex %initial-action
 
-Sometimes your parser needs to perform some initializations before
-parsing.  The @code{%initial-action} directive allows for such arbitrary
-code.
+Sometimes your parser needs to perform some initializations before parsing.
+The @code{%initial-action} directive allows for such arbitrary code.
 
 @deffn {Directive} %initial-action @{ @var{code} @}
 @findex %initial-action
@@ -5254,6 +5240,53 @@ in GLR parsers, using the declaration:
 %expect-rr @var{n}
 @end example
 
+You may wish to be more specific in your
+specification of expected conflicts.  To this end, you can also attach
+@code{%expect} and @code{%expect-rr} modifiers to individual rules.
+The interpretation of these modifiers differs from their use as
+declarations.  When attached to rules, they indicate the number of states
+in which the rule is involved in a conflict.  You will need to consult the
+output resulting from @samp{-v} to determine appropriate numbers to use.
+For example, for the following grammar fragment, the first rule for
+@code{empty_dims} appears in two states in which the @samp{[} token is a
+lookahead.  Having determined that, you can document this fact with an
+@code{%expect} modifier as follows:
+
+@example
+dims:
+  empty_dims
+| '[' expr ']' dims
+;
+
+empty_dims:
+  %empty   %expect 2
+| empty_dims '[' ']'
+;
+@end example
+
+Mid-rule actions generate implicit rules that are also subject to conflicts
+(@pxref{Midrule Conflicts,, Conflicts due to Midrule Actions}). To attach
+an @code{%expect} or @code{%expect-rr} annotation to an implicit
+mid-rule action's rule, put it before the action.  For example,
+
+@example
+%glr-parser
+%expect-rr 1
+
+%%
+
+clause:
+  "condition" %expect-rr 1 @{ value_mode(); @} '(' exprs ')'
+| "condition" %expect-rr 1 @{ class_mode(); @} '(' types ')'
+;
+@end example
+
+@noindent
+Here, the appropriate mid-rule action will not be determined until after
+the @samp{(} token is shifted.  Thus,
+the two actions will clash with each other, and we should expect one
+reduce/reduce conflict for each.
+
 In general, using @code{%expect} involves these steps:
 
 @itemize @bullet
@@ -5269,8 +5302,17 @@ go back to the beginning.
 
 @item
 Add an @code{%expect} declaration, copying the number @var{n} from the
-number which Bison printed.  With GLR parsers, add an
+number that Bison printed.  With GLR parsers, add an
 @code{%expect-rr} declaration as well.
+
+@item
+Optionally, count up the number of states in which one or more
+conflicted reductions for particular rules appear and add these numbers
+to the affected rules as @code{%expect-rr} or @code{%expect} modifiers
+as appropriate.  Rules that are in conflict appear in the output listing
+surrounded by square brackets or, in the case of reduce/reduce conflicts,
+as reductions having the same lookahead symbol as a square-bracketed
+reduction in the same state.
 @end itemize
 
 Now Bison will report an error if you introduce an unexpected conflict,
@@ -5491,7 +5533,14 @@ Start-Symbol}).
 @end deffn
 
 @deffn {Directive} %expect
-Declare the expected number of shift-reduce conflicts
+Declare the expected number of shift-reduce conflicts, either overall or
+for a given rule
+(@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
+@end deffn
+
+@deffn {Directive} %expect-rr
+Declare the expected number of reduce-reduce conflicts, either overall or
+for a given rule
 (@pxref{Expect Decl, ,Suppressing Conflict Warnings}).
 @end deffn
 
@@ -11821,12 +11870,6 @@ then the parser's to get the set of defined tokens.
 @comment file: calc++/scanner.ll
 @example
 %@{
-// Work around an incompatibility in flex (at least versions 2.5.31 through
-// 2.5.33): it generates code that does not conform to C89.  See Debian bug
-// 333231 <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.
-# undef yywrap
-# define yywrap() 1
-
 // Pacify warnings in yy_init_buffer (observed with Flex 2.6.4)
 // and GCC 6.4.0, 7.3.0.
 #if defined __GNUC__ && !defined __clang__ && 6 <= __GNUC__
@@ -11910,7 +11953,7 @@ Abbreviations allow for more readable rules.
 @example
 id    [a-zA-Z][a-zA-Z_0-9]*
 int   [0-9]+
-blank [ \t]
+blank [ \t\r]
 @end example
 
 @noindent

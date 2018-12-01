@@ -20,7 +20,7 @@
 
 # Don't depend on $(BISON) otherwise we would rebuild these files
 # in srcdir, including during distcheck, which is forbidden.
-%D%/parser.stamp: $(BISON_IN)
+%D%/parser.stamp: $(BISON_IN) $(dist_pkgdata_DATA)
 SUFFIXES += .yy .stamp
 .yy.stamp:
 	$(AM_V_YACC)rm -f $@

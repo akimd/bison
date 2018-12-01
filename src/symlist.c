@@ -49,6 +49,8 @@ symbol_list_sym_new (symbol *sym, location loc)
   res->dprec_location = empty_location;
   res->merger = 0;
   res->merger_declaration_location = empty_location;
+  res->expected_sr_conflicts = -1;
+  res->expected_rr_conflicts = -1;
 
   res->next = NULL;
 
@@ -172,9 +174,8 @@ symbol_list_length (symbol_list const *l)
 symbol_list *
 symbol_list_n_get (symbol_list *l, int n)
 {
-  int i;
   aver (0 <= n);
-  for (i = 0; i < n; ++i)
+  for (int i = 0; i < n; ++i)
     {
       l = l->next;
       aver (l);

@@ -1,4 +1,4 @@
-## Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+## Copyright (C) 2018 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -13,18 +13,22 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-include lib/gnulib.mk
+javadir = $(docdir)/%D%
 
-# Non-gnulib sources in Bison's internal library.
-lib_libbison_a_SOURCES +=                       \
-  lib/get-errno.h                               \
-  lib/get-errno.c                               \
-  lib/path-join.h                               \
-  lib/path-join.c
+## ------ ##
+## Calc.  ##
+## ------ ##
 
-# The Yacc compatibility library.
-if ENABLE_YACC
-  lib_LIBRARIES = lib/liby.a
-  EXTRA_LIBRARIES = lib/liby.a
-  lib_liby_a_SOURCES = lib/main.c lib/yyerror.c
+if ENABLE_JAVA
+  check_SCRIPTS += %D%/Calc.class
+  TESTS += %D%/Calc.test
 endif
+
+%D%/Calc.java: %D%/Calc.y $(BISON_IN) $(dist_pkgdata_DATA)
+	$(AM_V_GEN)$(BISON) $< -o $@
+
+%D%/Calc.class: %D%/Calc.java
+	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh $<
+
+dist_java_DATA = %D%/Calc.y
+CLEANFILES += %D%/Calc.class %D%/Calc.java

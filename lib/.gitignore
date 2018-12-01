@@ -289,3 +289,8 @@
 /timespec.h
 /xtime.c
 /xtime.h
+/bitset.c
+/bitset.h
+/bitset/
+/bitsetv.c
+/bitsetv.h

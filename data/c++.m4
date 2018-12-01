@@ -72,6 +72,20 @@ m4_define([b4_cxx_portability],
 # define YY_MOVE_REF(Type) Type&
 # define YY_RVREF(Type)    const Type&
 # define YY_COPY(Type)     const Type&
+#endif
+
+// Support noexcept when possible.
+#if 201103L <= YY_CPLUSPLUS
+# define YY_NOEXCEPT noexcept
+#else
+# define YY_NOEXCEPT
+#endif[]dnl
+
+// Support noexcept when possible.
+#if 201703 <= YY_CPLUSPLUS
+# define YY_CONSTEXPR constexpr
+#else
+# define YY_CONSTEXPR
 #endif[]dnl
 ])
 
@@ -266,7 +280,7 @@ m4_define([b4_symbol_type_declare],
       void clear ();
 
       /// Whether empty.
-      bool empty () const;
+      bool empty () const YY_NOEXCEPT;
 
       /// Destructive move, \a s is emptied into this.
       void move (basic_symbol& s);
@@ -307,10 +321,10 @@ m4_define([b4_symbol_type_declare],
 
       /// The (internal) type number (corresponding to \a type).
       /// \a empty when empty.
-      symbol_number_type type_get () const;
+      symbol_number_type type_get () const YY_NOEXCEPT;
 
       /// The token.
-      token_type token () const;
+      token_type token () const YY_NOEXCEPT;
 
       /// The symbol type.
       /// \a empty_symbol when empty.
@@ -404,7 +418,7 @@ m4_define([b4_public_types_define],
 
   template <typename Base>
   bool
-  ]b4_parser_class_name[::basic_symbol<Base>::empty () const
+  ]b4_parser_class_name[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
     return Base::type_get () == empty_symbol;
   }
@@ -447,13 +461,13 @@ m4_define([b4_public_types_define],
   }
 
   ]b4_inline([$1])[int
-  ]b4_parser_class_name[::by_type::type_get () const
+  ]b4_parser_class_name[::by_type::type_get () const YY_NOEXCEPT
   {
     return type;
   }
 ]b4_token_ctor_if([[
   ]b4_inline([$1])b4_parser_class_name[::token_type
-  ]b4_parser_class_name[::by_type::token () const
+  ]b4_parser_class_name[::by_type::token () const YY_NOEXCEPT
   {
     // YYTOKNUM[NUM] -- (External) token number corresponding to the
     // (internal) symbol number NUM (which must be that of a token).  */
@@ -606,7 +620,7 @@ m4_define([b4_yylloc_default_define],
         {                                                               \
           (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
         }                                                               \
-    while (/*CONSTCOND*/ false)
+    while (false)
 # endif
 ]])
 

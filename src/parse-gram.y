@@ -82,7 +82,11 @@
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
 
-  static void version_check (location const *loc, char const *version);
+  /* Handle a %require directive.  */
+  static void do_require (location const *loc, char const *version);
+
+  /* Handle a %skeleton directive.  */
+  static void do_skeleton (location const *loc, char const *skel);
 
   static void gram_error (location const *, char const *);
 
@@ -187,7 +191,7 @@
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
 %printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
 
-%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag variable
+%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (yyo, "%s:", $$); } ID_COLON
@@ -308,34 +312,12 @@ prologue_declaration:
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%param" { current_param = $1; } params { current_param = param_none; }
-| "%require" STRING             { version_check (&@2, $2); }
-| "%skeleton" STRING
-    {
-      char const *skeleton_user = $2;
-      if (strchr (skeleton_user, '/'))
-        {
-          size_t dir_length = strlen (current_file);
-          char *skeleton_build;
-          while (dir_length && current_file[dir_length - 1] != '/')
-            --dir_length;
-          while (dir_length && current_file[dir_length - 1] == '/')
-            --dir_length;
-          skeleton_build =
-            xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
-          if (dir_length > 0)
-            {
-              memcpy (skeleton_build, current_file, dir_length);
-              skeleton_build[dir_length++] = '/';
-            }
-          strcpy (skeleton_build + dir_length, skeleton_user);
-          skeleton_user = uniqstr_new (skeleton_build);
-          free (skeleton_build);
-        }
-      skeleton_arg (skeleton_user, grammar_prio, @1);
-    }
+| "%require" STRING             { do_require (&@2, $2); }
+| "%skeleton" STRING            { do_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
 | "%yacc"                       { yacc_flag = true; }
+| error ";"                     { current_class = unknown_sym; yyerrok; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
 
@@ -443,16 +425,15 @@ symbol_declaration:
 ;
 
 precedence_declaration:
-  precedence_declarator tag.opt symbols.prec
+  precedence_declarator tag.opt symbols.prec[syms]
     {
       ++current_prec;
-      for (symbol_list *list = $3; list; list = list->next)
+      for (symbol_list *list = $syms; list; list = list->next)
         {
-          symbol_type_set (list->content.sym, current_type, @2);
+          symbol_type_set (list->content.sym, $[tag.opt], @[tag.opt]);
           symbol_precedence_set (list->content.sym, current_prec, $1, @1);
         }
-      symbol_list_free ($3);
-      current_type = NULL;
+      symbol_list_free ($syms);
     }
 ;
 
@@ -464,8 +445,8 @@ precedence_declarator:
 ;
 
 tag.opt:
-  %empty { current_type = NULL; }
-| TAG    { current_type = $1; tag_seen = true; }
+  %empty { $$ = NULL; }
+| TAG    { $$ = $1; tag_seen = true; }
 ;
 
 /* Just like symbols.1 but accept INT for the sake of POSIX.  */
@@ -499,8 +480,8 @@ symbols.1:
 ;
 
 generic_symlist:
-  generic_symlist_item { $$ = $1; }
-| generic_symlist generic_symlist_item { $$ = symbol_list_append ($1, $2); }
+  generic_symlist_item
+| generic_symlist generic_symlist_item   { $$ = symbol_list_append ($1, $2); }
 ;
 
 generic_symlist_item:
@@ -514,43 +495,51 @@ tag:
 | "<>"  { $$ = uniqstr_new (""); }
 ;
 
-/* One token definition.  */
+/* One symbol (token or nterm depending on current_class) definition.  */
 symbol_def:
   TAG
     {
       current_type = $1;
       tag_seen = true;
     }
-| id
+| id int.opt[num] string_as_id.opt[alias]
     {
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
+      symbol_class_set ($id, current_class, @id, true);
+      symbol_type_set ($id, current_type, @id);
+      if (0 <= $num)
+        {
+          if (current_class != token_sym)
+            gram_error (&@num,
+                        _("non-terminals cannot be given an explicit number"));
+          else
+            symbol_user_token_number_set ($id, $num, @num);
+        }
+      if ($alias)
+        {
+          if (current_class != token_sym)
+            gram_error (&@alias,
+                        _("non-terminals cannot be given a string alias"));
+          else
+            symbol_make_alias ($id, $alias, @alias);
+        }
+      if (current_class != token_sym && (0 <= $num || !$alias))
+        YYERROR;
     }
-| id INT
-    {
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-      symbol_user_token_number_set ($1, $2, @2);
-    }
-| id string_as_id
-    {
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-      symbol_make_alias ($1, $2, @$);
-    }
-| id INT string_as_id
-    {
-      symbol_class_set ($1, current_class, @1, true);
-      symbol_type_set ($1, current_type, @1);
-      symbol_user_token_number_set ($1, $2, @2);
-      symbol_make_alias ($1, $3, @$);
-    }
+;
+
+%type <int> int.opt;
+int.opt:
+  %empty  { $$ = -1; }
+| INT
 ;
 
 /* One or more symbol definitions. */
 symbol_defs.1:
   symbol_def
 | symbol_defs.1 symbol_def
+  /* FIXME: cannot do that, results in infinite loop in LAC.
+| error                    { yyerrok; }
+  */
 ;
 
 
@@ -596,7 +585,7 @@ rhs:
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
 | rhs tag.opt "{...}"[act] named_ref.opt[name]
-    { grammar_current_rule_action_append ($act, @act, $name, current_type); }
+    { grammar_current_rule_action_append ($act, @act, $name, $[tag.opt]); }
 | rhs "%?{...}"
     { grammar_current_rule_predicate_append ($2, @2); }
 | rhs "%empty"
@@ -607,6 +596,10 @@ rhs:
     { grammar_current_rule_dprec_set ($3, @3); }
 | rhs "%merge" TAG
     { grammar_current_rule_merge_set ($3, @3); }
+| rhs "%expect" INT
+    { grammar_current_rule_expect_sr ($3, @3); }
+| rhs "%expect-rr" INT
+    { grammar_current_rule_expect_rr ($3, @3); }
 ;
 
 named_ref.opt:
@@ -663,6 +656,12 @@ id:
     { $$ = symbol_from_uniqstr ($1, @1); }
 | CHAR
     {
+      if (current_class == nterm_sym)
+        {
+          gram_error (&@1,
+                      _("character literals cannot be non-terminals"));
+          YYERROR;
+        }
       $$ = symbol_get (char_name ($1), @1);
       symbol_class_set ($$, token_sym, @1, false);
       symbol_user_token_number_set ($$, $1, @1);
@@ -686,6 +685,12 @@ string_as_id:
       $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
       symbol_class_set ($$, token_sym, @1, false);
     }
+;
+
+%type <symbol*> string_as_id.opt;
+string_as_id.opt:
+  %empty             { $$ = NULL; }
+| string_as_id
 ;
 
 epilogue.opt:
@@ -802,7 +807,7 @@ add_param (param_type type, char *decl, location loc)
 
 
 static void
-version_check (location const *loc, char const *version)
+do_require (location const *loc, char const *version)
 {
   /* Changes of behavior are only on minor version changes, so "3.0.5"
      is the same as "3.0". */
@@ -838,6 +843,32 @@ version_check (location const *loc, char const *version)
       exit (EX_MISMATCH);
     }
 }
+
+static void
+do_skeleton (location const *loc, char const *skel)
+{
+  char const *skeleton_user = skel;
+  if (strchr (skeleton_user, '/'))
+    {
+      size_t dir_length = strlen (current_file);
+      while (dir_length && current_file[dir_length - 1] != '/')
+        --dir_length;
+      while (dir_length && current_file[dir_length - 1] == '/')
+        --dir_length;
+      char *skeleton_build =
+        xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
+      if (dir_length > 0)
+        {
+          memcpy (skeleton_build, current_file, dir_length);
+          skeleton_build[dir_length++] = '/';
+        }
+      strcpy (skeleton_build + dir_length, skeleton_user);
+      skeleton_user = uniqstr_new (skeleton_build);
+      free (skeleton_build);
+    }
+  skeleton_arg (skeleton_user, grammar_prio, *loc);
+}
+
 
 static void
 gram_error (location const *loc, char const *msg)

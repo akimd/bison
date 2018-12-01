@@ -435,8 +435,6 @@ namespace yy
            return parser::token::TEXT;]])[
          }
     }
-
-    abort ();
   }
 }
 

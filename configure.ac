@@ -113,6 +113,7 @@ if test "$enable_gcc_warnings" = yes; then
     -fno-color-diagnostics
     -Wno-keyword-macro'
 
+
   AC_LANG_PUSH([C])
   # Clang supports many of GCC's -W options, but only issues warnings
   # on the ones it does not recognize.  In that case, gl_WARN_ADD
@@ -126,6 +127,11 @@ if test "$enable_gcc_warnings" = yes; then
   # CFLAGS, and restore CFLAGS after the tests.
   save_CFLAGS=$CFLAGS
   gl_WARN_ADD([-Werror=unknown-warning-option], [CFLAGS])
+  # Accept this warning only if it is not too touchy (e.g., clang 3.3
+  # and 3.4).
+  gl_WARN_ADD([-Wunreachable-code], [WARN_CFLAGS],
+              [AC_LANG_PROGRAM([],
+              [[if (sizeof (long) < sizeof (int)) return 1;]])])
   for i in $warn_common $warn_c;
   do
     gl_WARN_ADD([$i], [WARN_CFLAGS])
@@ -147,6 +153,7 @@ if test "$enable_gcc_warnings" = yes; then
   CFLAGS=$save_CFLAGS
   AC_LANG_POP([C])
 
+
   AC_LANG_PUSH([C++])
   save_CXXFLAGS=$CXXFLAGS
   gl_WARN_ADD([-Werror=unknown-warning-option], [CXXFLAGS])
@@ -154,6 +161,11 @@ if test "$enable_gcc_warnings" = yes; then
   do
     gl_WARN_ADD([$i], [WARN_CXXFLAGS])
   done
+  # Accept this warning only if it is not too touchy (e.g., clang 3.3
+  # and 3.4).
+  gl_WARN_ADD([-Wunreachable-code], [WARN_CXXFLAGS],
+              [AC_LANG_PROGRAM([],
+              [[if (sizeof (long) < sizeof (int)) return 1;]])])
   gl_WARN_ADD([-Wzero-as-null-pointer-constant], [WARN_CXXFLAGS],
               [AC_LANG_PROGRAM([], [nullptr])])
   gl_WARN_ADD([-Werror], [WERROR_CXXFLAGS])
@@ -268,6 +280,7 @@ AC_SUBST([GCC])
 
 gt_JAVACOMP([1.7], [1.7])
 gt_JAVAEXEC
+AM_CONDITIONAL([ENABLE_JAVA], [test x"$CONF_JAVAC" != x && test x"$CONF_JAVA" != x])
 
 AC_CONFIG_FILES([Makefile
                  po/Makefile.in

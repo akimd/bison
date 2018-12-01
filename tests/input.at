@@ -130,6 +130,62 @@ AT_BISON_CHECK([input.y], [1], [],
 AT_CLEANUP
 
 
+## --------------------- ##
+## Invalid %nterm uses.  ##
+## --------------------- ##
+
+AT_SETUP([Invalid %nterm uses])
+
+AT_DATA([input.y],
+[[%nterm expr "expression";
+%nterm term 123;
+%nterm fact 124 "factor";
+%nterm '+' '*';
+%nterm "number";
+%%
+expr: expr '+' term | term;
+term: term '*' fact | fact;
+fact: "number";
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:1.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm expr "expression";
+ ^^^^^^
+input.y:1.13-24: error: non-terminals cannot be given a string alias
+ %nterm expr "expression";
+             ^^^^^^^^^^^^
+input.y:2.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm term 123;
+ ^^^^^^
+input.y:2.13-15: error: non-terminals cannot be given an explicit number
+ %nterm term 123;
+             ^^^
+input.y:3.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm fact 124 "factor";
+ ^^^^^^
+input.y:3.13-15: error: non-terminals cannot be given an explicit number
+ %nterm fact 124 "factor";
+             ^^^
+input.y:3.17-24: error: non-terminals cannot be given a string alias
+ %nterm fact 124 "factor";
+                 ^^^^^^^^
+input.y:4.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm '+' '*';
+ ^^^^^^
+input.y:4.8-10: error: character literals cannot be non-terminals
+ %nterm '+' '*';
+        ^^^
+input.y:5.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm "number";
+ ^^^^^^
+input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
+ %nterm "number";
+        ^^^^^^^^
+]])
+
+AT_CLEANUP
+
 
 ## ------------ ##
 ## Invalid $n.  ##
@@ -211,7 +267,7 @@ m4_define([_AT_UNUSED_VALUES_DECLARATIONS],
 # CHECK_MIDRULE_VALUES is set, then --warnings=midrule-values is set.
 m4_define([AT_CHECK_UNUSED_VALUES],
 [AT_DATA([input.y],
-m4_ifval($1, [
+m4_ifval([$1], [
 
 
 ], [_AT_UNUSED_VALUES_DECLARATIONS
@@ -238,11 +294,11 @@ l: INT | INT { $<integer>$ = $<integer>1; } INT { $<integer>$ = $<integer>2 + $<
 m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
 n: INT | INT <integer>{ } INT <integer>{ } INT { };
 o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-]]m4_ifval($1, [
+]]m4_ifval([$1], [
 _AT_UNUSED_VALUES_DECLARATIONS])
 )
 
-AT_BISON_CHECK(m4_ifval($2, [--warnings=midrule-values ])[-fcaret input.y],
+AT_BISON_CHECK(m4_ifval([$2], [--warnings=midrule-values ])[-fcaret input.y],
                [0], [],
 [[input.y:12.10-32: warning: unset value: $][$ [-Wother]
  a: INT | INT { } INT { } INT { };
@@ -259,7 +315,7 @@ input.y:12.26-28: warning: unused value: $][5 [-Wother]
 input.y:13.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
  b: INT | %empty;
           ^^^^^^
-]]m4_ifval($2, [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
               ^^^^^^^
 input.y:14.26-41: warning: unset value: $][$ [-Wmidrule-values]
@@ -274,7 +330,7 @@ input.y:14.22-24: warning: unused value: $][3 [-Wother]
 input.y:14.43-45: warning: unused value: $][5 [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
                                            ^^^
-]]m4_ifval($2, [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
               ^^^
 ]]])[[input.y:15.10-49: warning: unset value: $][$ [-Wother]
@@ -301,13 +357,13 @@ input.y:18.10-58: warning: unset value: $][$ [-Wother]
 input.y:18.10-12: warning: unused value: $][1 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
           ^^^
-]]m4_ifval($2, [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
               ^^^^^^^^^^^^^^^^
 ]]])[[input.y:18.31-33: warning: unused value: $][3 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                ^^^
-]]m4_ifval($2, [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
                                    ^^^^^^^^^^^^^^^^
 ]]])[[input.y:18.52-54: warning: unused value: $][5 [-Wother]
@@ -322,13 +378,13 @@ input.y:19.10-12: warning: unused value: $][1 [-Wother]
 input.y:19.31-33: warning: unused value: $][3 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                ^^^
-]]m4_ifval($2, [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]]])[[input.y:19.66-68: warning: unused value: $][5 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
                                                                   ^^^
-]]m4_ifval($2, [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
  j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
                   ^^^^^^^^^^^^^^^^^^^^
 ]]])[[input.y:22.10-68: warning: unset value: $][$ [-Wother]
@@ -340,7 +396,7 @@ input.y:22.10-12: warning: unused value: $][1 [-Wother]
 input.y:22.14-16: warning: unused value: $][2 [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
               ^^^
-]]m4_ifval($2, [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
+]]m4_ifval([$2], [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]]])[[input.y:25.23-25: warning: unset value: $][$ [-Wother]
@@ -377,7 +433,13 @@ input.y:26.40-42: warning: unset value: $][$ [-Wother]
 
 AT_BISON_CHECK([-Wnone,yacc -fcaret input.y],
                [0], [],
-[[input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+[m4_ifval([$1], [], [[input.y:3.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
+ %destructor { destroy ($$); } <integer>;
+ ^^^^^^^^^^^
+]])[input.y:13.10-15: warning: POSIX Yacc does not support %empty [-Wyacc]
+ b: INT | %empty;
+          ^^^^^^
+input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
  m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
                        ^^^^^^^^^^^^
 input.y:24.49-65: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
@@ -395,7 +457,10 @@ input.y:26.23-25: warning: POSIX Yacc does not support typed midrule actions [-W
 input.y:26.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
  o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
                                         ^^^
-]])
+]m4_ifval([$1], [[input.y:30.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
+ %destructor { destroy ($$); } <integer>;
+ ^^^^^^^^^^^
+]])])
 ])
 
 ## --------------- ##
@@ -731,6 +796,63 @@ input.y:6.12-14: warning: unused value: $2 [-Wother]
 input.y:7.6-8: warning: unset value: $$ [-Wother]
  end: { }  ;
       ^^^
+]])
+
+AT_CLEANUP
+
+
+## ------------------ ##
+## Duplicate string.  ##
+## ------------------ ##
+
+
+AT_SETUP([Duplicate string])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([input.y],
+[[/* 'Bison -v' used to dump core when two tokens are defined with the same
+   string, as LE and GE below. */
+
+%token NUM
+%token LE "<="
+%token GE "<="
+
+%%
+exp: '(' exp ')' | NUM ;
+%%
+]])
+AT_BISON_OPTION_POPDEFS
+
+AT_BISON_CHECK([-v -o input.c input.y], 0, [],
+[[input.y:6.11-14: warning: symbol "<=" used more than once as a literal string [-Wother]
+]])
+
+AT_CLEANUP
+
+
+## ------------------ ##
+## Token collisions.  ##
+## ------------------ ##
+
+AT_SETUP([Token collisions])
+
+AT_DATA([[input.y]],
+[[%token FOO 42 "foo"
+         BAR 42 "foo"
+%%
+exp: FOO BAR;
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.17-21: warning: symbol "foo" used more than once as a literal string [-Wother]
+          BAR 42 "foo"
+                 ^^^^^
+input.y:2.10-12: error: user token number 42 redeclaration for BAR
+          BAR 42 "foo"
+          ^^^
+input.y:1.8-10:      previous declaration for FOO
+ %token FOO 42 "foo"
+        ^^^
 ]])
 
 AT_CLEANUP
@@ -1113,7 +1235,9 @@ AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc input.y], [1], [],
-[[input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+[[input.y:1.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
+input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+input.y:13.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
 input.y:20.8-16: error: POSIX Yacc forbids dashes in symbol names: with-dash [-Werror=yacc]
 ]])
 

@@ -87,6 +87,11 @@ typedef struct symbol_list
   int merger;
   location merger_declaration_location;
 
+  /* Counts of the number of expected conflicts for this rule, or -1 if none
+     given. */
+  int expected_sr_conflicts;
+  int expected_rr_conflicts;
+
   /* The list.  */
   struct symbol_list *next;
 } symbol_list;

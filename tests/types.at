@@ -270,6 +270,24 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
                AT_VAL.build<std::string> ("two");],
             [10, two])
 
+    # Test a regression where we passed user types (we can include
+    # commas) to a CPP macro.
+    AT_TEST([%skeleton "]b4_skel["
+             %define api.value.type variant],
+            [%token <std::pair<int, int>> '1';
+             %token <std::pair<std::string, std::string>> '2';],
+            ['1' '2'
+              {
+                std::cout << $1.first << ':' << $1.second << ", "
+                          << $2.first << ':' << $2.second << '\n';
+              }],
+            ["12"],
+            [if (res == '1')
+               AT_VAL.build (std::make_pair (10, 11));
+             else if (res == '2')
+               AT_VAL.build (std::make_pair<std::string, std::string> ("two", "deux"));],
+            [10:11, two:deux])
+
     # Move-only types.
     AT_TEST([%skeleton "]b4_skel["
              %code requires { #include <memory> }
