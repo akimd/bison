@@ -391,7 +391,7 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 #   If has_id, the id.  Guaranteed to be usable as a C identifier.
 #   Prefixed by api.token.prefix if defined.
 # - tag: string.
-#   A representat of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
+#   A representation of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
 # - user_number: integer
 #   The assigned (external) number as used by yylex.
 # - is_token: 0 or 1
@@ -497,7 +497,7 @@ m4_define([b4_symbol_actions],
 m4_ifval(m4_defn([b4_actions_]),
 [switch (m4_default([$2], [yytype]))
     {
-      m4_defn([b4_actions_])
+m4_defn([b4_actions_])[]dnl
       default:
         break;
     }dnl
@@ -569,7 +569,7 @@ m4_define([b4_token_format],
 # Run actions for the symbol NUMS that all have the same type-name.
 # Skip NUMS that have no type-name.
 #
-# To specify the action to run, define b4_dollar_dollar(NUMBER,
+# To specify the action to run, define b4_dollar_dollar(SYMBOL-NUM,
 # TAG, TYPE).
 m4_define([_b4_type_action],
 [b4_symbol_if([$1], [has_type],

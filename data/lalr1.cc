@@ -61,23 +61,23 @@ m4_define([b4_lhs_value],
 # -----------------
 # Expansion of @$.
 m4_define([b4_lhs_location],
-          [yylhs.location])
+[yylhs.location])
 
 
-# b4_rhs_data(RULE-LENGTH, NUM)
+# b4_rhs_data(RULE-LENGTH, POS)
 # -----------------------------
-# Return the data corresponding to the symbol #NUM, where the current
+# Return the data corresponding to the symbol #POS, where the current
 # rule has RULE-LENGTH symbols on RHS.
 m4_define([b4_rhs_data],
-          [yystack_@{b4_subtract($@)@}])
+[yystack_@{b4_subtract($@)@}])
 
 
-# b4_rhs_state(RULE-LENGTH, NUM)
+# b4_rhs_state(RULE-LENGTH, POS)
 # ------------------------------
-# The state corresponding to the symbol #NUM, where the current
+# The state corresponding to the symbol #POS, where the current
 # rule has RULE-LENGTH symbols on RHS.
 m4_define([b4_rhs_state],
-          [b4_rhs_data([$1], [$2]).state])
+[b4_rhs_data([$1], [$2]).state])
 
 
 # b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
@@ -93,12 +93,12 @@ m4_define([b4_rhs_value],
                          [_b4_rhs_value($@)])])
 
 
-# b4_rhs_location(RULE-LENGTH, NUM)
+# b4_rhs_location(RULE-LENGTH, POS)
 # ---------------------------------
-# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-          [b4_rhs_data([$1], [$2]).location])
+[b4_rhs_data([$1], [$2]).location])
 
 
 # b4_symbol_action(SYMBOL-NUM, KIND)

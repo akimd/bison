@@ -528,10 +528,11 @@ m4_define([b4_lhs_value],
 [b4_symbol_value([yyval], [$1])])
 
 
-# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
+# b4_rhs_value(RULE-LENGTH, POS, [TYPE])
 # --------------------------------------
-# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
+# Expansion of $<TYPE>POS, where the current rule has RULE-LENGTH
 # symbols on RHS.
+# FIXME: Dead code.
 m4_define([b4_rhs_value],
 [b4_symbol_value([yysemantic_stack_@{($1) - ($2)@}], [$3])])
 
@@ -543,9 +544,9 @@ m4_define([b4_lhs_location],
 [(yyloc)])
 
 
-# b4_rhs_location(RULE-LENGTH, NUM)
+# b4_rhs_location(RULE-LENGTH, POS)
 # ---------------------------------
-# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
 [(yylocation_stack_@{($1) - ($2)@})])
