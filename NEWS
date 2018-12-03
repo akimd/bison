@@ -113,8 +113,8 @@ GNU Bison NEWS
 *** The tables yyrhs and yyphrs are back
 
   Because no Bison skeleton uses them, these tables were removed (no longer
-  computed, nor passed to the skeletons) in 2008.  However, some users have
-  expressed interest in being able to use these tables in their skeletons.
+  passed to the skeletons, not even computed) in 2008.  However, some users
+  have expressed interest in being able to use them in their own skeletons.
 
 ** Bug fixes
 
@@ -124,7 +124,7 @@ GNU Bison NEWS
 
      exp: "num" | "num" | "num"
 
-  bison used report a single RR conflict, instead of two.  This is now
+  bison used to report a single RR conflict, instead of two.  This is now
   fixed.  This was the oldest (known) bug in Bison: it was there when Bison
   was entered in the RCS version control system, in December 1987.
 
