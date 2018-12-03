@@ -25,7 +25,8 @@ if ENABLE_JAVA
 endif
 
 %D%/Calc.java: %D%/Calc.y $(BISON_IN) $(dist_pkgdata_DATA)
-	$(AM_V_GEN)$(BISON) $< -o $@
+	$(AM_V_GEN)$(MKDIR_P) %D%
+	$(AM_V_at)$(BISON) $< -o $@
 
 %D%/Calc.class: %D%/Calc.java
 	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh $<
