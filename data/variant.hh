@@ -304,20 +304,28 @@ m4_define([b4_value_type_declare],
 
 # How the semantic value is extracted when using variants.
 
-# b4_symbol_value(VAL, [TYPE])
-# ----------------------------
+# b4_symbol_value(VAL, SYMBOL-NUM, [TYPE])
+# ----------------------------------------
 m4_define([b4_symbol_value],
-[m4_ifval([$2],
-          [$1.as< $2 > ()],
-          [$1])])
+[m4_ifval([$3],
+          [$1.as< $3 > ()],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [$1.as < b4_symbol([$2], [type]) > ()],
+                                  [$1])],
+                    [$1])])])
 
-# b4_symbol_value_template(VAL, [TYPE])
-# -------------------------------------
+# b4_symbol_value_template(VAL, SYMBOL-NUM, [TYPE])
+# -------------------------------------------------
 # Same as b4_symbol_value, but used in a template method.
 m4_define([b4_symbol_value_template],
-[m4_ifval([$2],
-          [$1.template as< $2 > ()],
-          [$1])])
+[m4_ifval([$3],
+          [$1.template as< $3 > ()],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [$1.template as < b4_symbol([$2], [type]) > ()],
+                                  [$1])],
+                    [$1])])])
 
 
 

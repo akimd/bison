@@ -627,10 +627,9 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 
     case LHS_REF:
       {
-        if (!type_name)
-          type_name = symbol_list_n_type_name_get (rule, 0);
-
-        if (!type_name)
+        symbol_list *sym = symbol_list_n_get (rule, 0);
+        if (!type_name
+            && !sym->content.sym->content->type_name)
           {
             if (union_seen | tag_seen)
               {
@@ -649,7 +648,8 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
               untyped_var_seen = true;
           }
 
-        obstack_sgrow (&obstack_for_string, "]b4_lhs_value(");
+        obstack_printf (&obstack_for_string, "]b4_lhs_value(%d, ",
+                        sym->content.sym->content->number);
         obstack_quote (&obstack_for_string, type_name);
         obstack_sgrow (&obstack_for_string, ")[");
         rule->action_props.is_value_used = true;
@@ -661,9 +661,9 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
       {
         if (max_left_semantic_context < 1 - n)
           max_left_semantic_context = 1 - n;
-        if (!type_name && 0 < n)
-          type_name = symbol_list_n_type_name_get (effective_rule, n);
-        if (!type_name)
+        symbol_list *sym = 0 < n ? symbol_list_n_get (effective_rule, n) : NULL;
+        if (!type_name
+            && (!sym || !sym->content.sym->content->type_name))
           {
             if (union_seen | tag_seen)
               complain (&dollar_loc, complaint,
@@ -674,12 +674,17 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
           }
 
         obstack_printf (&obstack_for_string,
-                        "]b4_rhs_value(%d, %d, ", effective_rule_length, n);
+                        "]b4_rhs_value(%d, %d, ",
+                        effective_rule_length, n);
+        if (sym)
+          obstack_printf (&obstack_for_string, "%d, ", sym->content.sym->content->number);
+        else
+          obstack_sgrow (&obstack_for_string, "[], ");
+
         obstack_quote (&obstack_for_string, type_name);
         obstack_sgrow (&obstack_for_string, ")[");
         if (0 < n)
           {
-            symbol_list *sym = symbol_list_n_get (effective_rule, n);
             if (muscle_percent_define_ifdef ("api.value.automove")
                 && sym->action_props.is_value_used)
               complain (&dollar_loc, Wother,

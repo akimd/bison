@@ -468,8 +468,8 @@ m4_define([b4_symbol_action_location],
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
 [b4_dollar_pushdef([(*yyvaluep)],
-                   b4_symbol_if([$1], [has_type],
-                                [m4_dquote(b4_symbol([$1], [type]))]),
+                   [$1],
+                   [],
                    [(*yylocationp)])dnl
     _b4_symbol_case([$1])[]dnl
 b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])

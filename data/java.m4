@@ -219,21 +219,56 @@ m4_define([b4_position_type], [b4_percent_define_get([[api.position.type]])])
 ## ----------------- ##
 
 
+# b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
+# ----------------------------------------------
+# Expansion of $$, $1, $<TYPE-TAG>3, etc.
+#
+# The semantic value from a given VAL.
+#
+# VAL: some semantic value storage (typically a union).
+#   e.g., yylval
+# SYMBOL-NUM: the symbol number from which we extract the
+#   type tag.
+# TYPE-TAG, the user forced the <TYPE-TAG>.
+#
+# The result can be used safely, it is put in parens to avoid nasty
+# precedence issues.
+m4_define([b4_symbol_value],
+[m4_ifval([$3],
+          [(($3)($1))],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [((b4_symbol([$2], [type]))($1))],
+                                  [$1])],
+                    [$1])])])
+
+
 # b4_lhs_value([TYPE])
 # --------------------
 # Expansion of $<TYPE>$.
 m4_define([b4_lhs_value], [yyval])
 
 
-# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
-# --------------------------------------
-# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
+# b4_rhs_data(RULE-LENGTH, POS)
+# -----------------------------
+# Expansion of $<TYPE>POS, where the current rule has RULE-LENGTH
+# symbols on RHS.
+#
+# In this simple implementation, %token and %type have class names
+# between the angle brackets.
+m4_define([b4_rhs_data],
+[yystack.valueAt ($1-($2))])
+
+# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
+# --------------------------------------------------
+# Expansion of $<TYPE>POS, where the current rule has RULE-LENGTH
 # symbols on RHS.
 #
 # In this simple implementation, %token and %type have class names
 # between the angle brackets.
 m4_define([b4_rhs_value],
-[(m4_ifval($3, [($3)])[](yystack.valueAt ($1-($2))))])
+[b4_symbol_value([b4_rhs_data([$1], [$2])], [$3], [$4])])
+
 
 # b4_lhs_location()
 # -----------------

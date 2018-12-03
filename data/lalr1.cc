@@ -41,20 +41,20 @@ m4_define([b4_integral_parser_table_define],
   };dnl
 ])
 
-# b4_symbol_value_template(VAL, [TYPE])
-# -------------------------------------
+# b4_symbol_value_template(VAL, SYMBOL-NUM, [TYPE])
+# -------------------------------------------------
 # Same as b4_symbol_value, but used in a template method.  It makes
 # a difference when using variants.  Note that b4_value_type_setup_union
 # overrides b4_symbol_value, so we must override it again.
 m4_copy([b4_symbol_value], [b4_symbol_value_template])
 m4_append([b4_value_type_setup_union],
-          [m4_copy_force([b4_symbol_value_union], [b4_symbol_value_template])])
+[m4_copy_force([b4_symbol_value_union], [b4_symbol_value_template])])
 
-# b4_lhs_value([TYPE])
-# --------------------
-# Expansion of $<TYPE>$.
+# b4_lhs_value(SYMBOL-NUM, SYMBOL-NUM, [TYPE])
+# --------------------------------------------
+# Expansion of $$ or $<TYPE>$, for symbol SYMBOL-NUM.
 m4_define([b4_lhs_value],
-          [b4_symbol_value([yylhs.value], [$1])])
+[b4_symbol_value([yylhs.value], [$1], [$2])])
 
 
 # b4_lhs_location()
@@ -80,12 +80,12 @@ m4_define([b4_rhs_state],
 [b4_rhs_data([$1], [$2]).state])
 
 
-# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
-# --------------------------------------
-# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
+# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
+# --------------------------------------------------
+# Expansion of $<TYPE>POS, where the current rule has RULE-LENGTH
 # symbols on RHS.
 m4_define([_b4_rhs_value],
-          [b4_symbol_value([b4_rhs_data([$1], [$2]).value], [$3])])
+[b4_symbol_value([b4_rhs_data([$1], [$2]).value], [$3], [$4])])
 
 m4_define([b4_rhs_value],
 [b4_percent_define_ifdef([api.value.automove],
@@ -109,9 +109,9 @@ m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
 [m4_pushdef([b4_symbol_value], m4_defn([b4_symbol_value_template]))[]dnl
 b4_dollar_pushdef([yysym.value],
-                   b4_symbol_if([$1], [has_type],
-                                [m4_dquote(b4_symbol([$1], [type]))]),
-                   [yysym.location])dnl
+                  [$1],
+                  [],
+                  [yysym.location])dnl
       _b4_symbol_case([$1])
 b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
         b4_symbol([$1], [$2])
@@ -780,7 +780,7 @@ m4_if(b4_prefix, [yy], [],
     YYCDEBUG << "Starting parse\n";
 
 ]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yyla.value], [], [yyla.location])dnl
+b4_dollar_pushdef([yyla.value], [], [], [yyla.location])dnl
     b4_user_initial_action
 b4_dollar_popdef])[]dnl
 
