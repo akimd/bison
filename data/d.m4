@@ -219,7 +219,7 @@ m4_define([b4_lhs_value],
 # In this simple implementation, %token and %type have class names
 # between the angle brackets.
 m4_define([b4_rhs_value],
-[b4_symbol_value([(yystack.valueAt ($1-($2)))], [$3], [$4])])
+[b4_symbol_value([(yystack.valueAt (b4_subtract([$1], [$2])))], [$3], [$4])])
 
 
 # b4_lhs_location()
@@ -234,7 +234,7 @@ m4_define([b4_lhs_location],
 # Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yystack.locationAt ($1-($2))])
+[yystack.locationAt ([$1], [$2])])
 
 
 # b4_lex_param

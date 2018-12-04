@@ -242,7 +242,7 @@ m4_define([b4_lhs_value], [yyval])
 # -----------------------------
 # See README.
 m4_define([b4_rhs_data],
-[yystack.valueAt ($1-($2))])
+[yystack.valueAt (b4_subtract($@))])
 
 # b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
 # --------------------------------------------------
@@ -266,7 +266,7 @@ m4_define([b4_lhs_location],
 # Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yystack.locationAt ($1-($2))])
+[yystack.locationAt (b4_subtract($@))])
 
 
 # b4_lex_param
