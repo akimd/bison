@@ -378,44 +378,9 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 ## Symbols.  ##
 ## --------- ##
 
-# In order to unify the handling of the various aspects of symbols
-# (tag, type_name, whether terminal, etc.), bison.exe defines one
-# macro per (token, field), where field can has_id, id, etc.: see
-# src/output.c:prepare_symbols_definitions().
+# For a description of the Symbol handling, see README.
 #
-# The various FIELDS are:
-#
-# - has_id: 0 or 1.
-#   Whether the symbol has an id.
-# - id: string
-#   If has_id, the id.  Guaranteed to be usable as a C identifier.
-#   Prefixed by api.token.prefix if defined.
-# - tag: string.
-#   A representation of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
-# - user_number: integer
-#   The assigned (external) number as used by yylex.
-# - is_token: 0 or 1
-#   Whether this is a terminal symbol.
-# - number: integer
-#   The internalized number (used after yytranslate).
-# - has_type: 0, 1
-#   Whether has a semantic value.
-# - type_tag: string
-#   When api.value.type=union, the generated name for the union member.
-#   yytype_INT etc. for symbols that has_id, otherwise yytype_1 etc.
-# - type
-#   If it has a semantic value, its type tag, or, if variant are used,
-#   its type.
-#   In the case of api.value.type=union, type is the real type (e.g. int).
-# - has_printer: 0, 1
-# - printer: string
-# - printer_file: string
-# - printer_line: integer
-#   If the symbol has a printer, everything about it.
-# - has_destructor, destructor, destructor_file, destructor_line
-#   Likewise.
-#
-# The following macros provide access to these values.
+# The following macros provide access to symbol related values.
 
 # _b4_symbol(NUM, FIELD)
 # ----------------------

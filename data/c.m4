@@ -375,18 +375,7 @@ m4_define([b4_token_enums_defines],
 
 # b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
 # ----------------------------------------------
-# Expansion of $$, $1, $<TYPE-TAG>3, etc.
-#
-# The semantic value from a given VAL.
-#
-# VAL: some semantic value storage (typically a union).
-#   e.g., yylval
-# SYMBOL-NUM: the symbol number from which we extract the
-#   type tag.
-# TYPE-TAG, the user forced the <TYPE-TAG>.
-#
-# The result can be used safely, it is put in parens to avoid nasty
-# precedence issues.
+# See README.
 m4_define([b4_symbol_value],
 [m4_ifval([$3],
           [($1.$3)],

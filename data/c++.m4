@@ -523,15 +523,12 @@ m4_define([b4_yytranslate_define],
 
 # b4_lhs_value([TYPE])
 # --------------------
-# Expansion of $<TYPE>$.
 m4_define([b4_lhs_value],
 [b4_symbol_value([yyval], [$1])])
 
 
 # b4_rhs_value(RULE-LENGTH, POS, [TYPE])
 # --------------------------------------
-# Expansion of $<TYPE>POS, where the current rule has RULE-LENGTH
-# symbols on RHS.
 # FIXME: Dead code.
 m4_define([b4_rhs_value],
 [b4_symbol_value([yysemantic_stack_@{($1) - ($2)@}], [$3])])

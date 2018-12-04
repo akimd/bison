@@ -50,9 +50,9 @@ m4_copy([b4_symbol_value], [b4_symbol_value_template])
 m4_append([b4_value_type_setup_union],
 [m4_copy_force([b4_symbol_value_union], [b4_symbol_value_template])])
 
-# b4_lhs_value(SYMBOL-NUM, SYMBOL-NUM, [TYPE])
-# --------------------------------------------
-# Expansion of $$ or $<TYPE>$, for symbol SYMBOL-NUM.
+# b4_lhs_value(SYMBOL-NUM, [TYPE])
+# --------------------------------
+# See README.
 m4_define([b4_lhs_value],
 [b4_symbol_value([yylhs.value], [$1], [$2])])
 
@@ -66,8 +66,7 @@ m4_define([b4_lhs_location],
 
 # b4_rhs_data(RULE-LENGTH, POS)
 # -----------------------------
-# Return the data corresponding to the symbol #POS, where the current
-# rule has RULE-LENGTH symbols on RHS.
+# See README.
 m4_define([b4_rhs_data],
 [yystack_@{b4_subtract($@)@}])
 
@@ -82,8 +81,7 @@ m4_define([b4_rhs_state],
 
 # b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
 # --------------------------------------------------
-# Expansion of $<TYPE>POS, where the current rule has RULE-LENGTH
-# symbols on RHS.
+# See README.
 m4_define([_b4_rhs_value],
 [b4_symbol_value([b4_rhs_data([$1], [$2]).value], [$3], [$4])])
 

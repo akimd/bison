@@ -306,6 +306,7 @@ m4_define([b4_value_type_declare],
 
 # b4_symbol_value(VAL, SYMBOL-NUM, [TYPE])
 # ----------------------------------------
+# See README.
 m4_define([b4_symbol_value],
 [m4_ifval([$3],
           [$1.as< $3 > ()],
