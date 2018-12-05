@@ -31,5 +31,5 @@ endif
 %D%/Calc.class: %D%/Calc.java
 	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh $<
 
-dist_java_DATA = %D%/Calc.y
+dist_java_DATA = %D%/Calc.y %D%/Makefile
 CLEANFILES += %D%/Calc.class %D%/Calc.java

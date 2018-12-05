@@ -31,5 +31,5 @@ endif
 %D%/calc: %D%/calc.d
 	$(AM_V_GEN) $(DC) $(DCFLAGS) -of$@ $<
 
-dist_d_DATA = %D%/calc.y
+dist_d_DATA = %D%/calc.y %D%/Makefile
 CLEANFILES += %D%/calc %D%/Calc.d
