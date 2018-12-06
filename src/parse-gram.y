@@ -522,7 +522,7 @@ symbol_def:
           else
             symbol_make_alias ($id, $alias, @alias);
         }
-      if (current_class != token_sym && (0 <= $num || !$alias))
+      if (current_class != token_sym && (0 <= $num || $alias))
         YYERROR;
     }
 ;
