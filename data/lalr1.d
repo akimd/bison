@@ -223,9 +223,9 @@ public class ]b4_location_type[
 
 private immutable bool yy_location_is_class = true;
 
-]]))m4_ifdef([b4_union_members], [private union YYSemanticType
+]]))m4_ifdef([b4_user_union_members], [private union YYSemanticType
 {
-b4_union_members
+b4_user_union_members
 };
 
 ]m4_if(b4_tag_seen_flag, 0,
