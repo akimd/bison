@@ -335,10 +335,9 @@ m4_define([b4_symbol_value_template],
 ## ------------- ##
 
 
-# _b4_symbol_constructor_declare(SYMBOL-NUMBER)
-# ---------------------------------------------
-# Declare the overloaded version of make_symbol for the (common) type of
-# these SYMBOL-NUMBERS.  Use at class-level.
+# _b4_symbol_constructor_declare(SYMBOL-NUM)
+# ------------------------------------------
+# Declare make_SYMBOL for SYMBOL-NUM.  Use at class-level.
 m4_define([_b4_symbol_constructor_declare],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [    static
@@ -361,9 +360,9 @@ b4_symbol_foreach([_b4_symbol_constructor_declare])])
 
 
 
-# _b4_symbol_constructor_define(SYMBOL-NUMBER)
-# --------------------------------------------
-# Define symbol constructor for this SYMBOL-NUMBER.
+# _b4_symbol_constructor_define(SYMBOL-NUM)
+# -----------------------------------------
+# Define make_SYMBOL for SYMBOL-NUM.
 m4_define([_b4_symbol_constructor_define],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
 [  inline
@@ -381,8 +380,8 @@ b4_join(b4_symbol_if([$1], [has_type],
 ])])])
 
 
-# b4_basic_symbol_constructor_declare
-# -----------------------------------
+# b4_basic_symbol_constructor_declare(SYMBOL-NUM)
+# -----------------------------------------------
 # Generate a constructor declaration for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_declare],
 [[# if 201103L <= YY_CPLUSPLUS
@@ -398,8 +397,8 @@ m4_define([b4_basic_symbol_constructor_declare],
 #endif
 ]])
 
-# b4_basic_symbol_constructor_define
-# ----------------------------------
+# b4_basic_symbol_constructor_define(SYMBOL-NUM)
+# ----------------------------------------------
 # Generate a constructor implementation for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_define],
 [[# if 201103L <= YY_CPLUSPLUS
