@@ -226,11 +226,10 @@ private immutable bool yy_location_is_class = true;
 ]]))m4_ifdef([b4_user_union_members], [private union YYSemanticType
 {
 b4_user_union_members
-};
-
-]m4_if(b4_tag_seen_flag, 0,
-[[private alias int YYSemanticType;]]))
-b4_token_enums(b4_tokens)[
+};],
+[m4_if(b4_tag_seen_flag, 0,
+[[private alias int YYSemanticType;]])])[
+]b4_token_enums(b4_tokens)[
 ]b4_public_if([public ])dnl
 b4_abstract_if([abstract ])dnl
 b4_final_if([final ])dnl
