@@ -64,7 +64,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 606 "src/parse-gram.y" /* yacc.c:1917  */
+#line 602 "src/parse-gram.y" /* yacc.c:1917  */
 
   #include "muscle-tab.h"
   typedef struct
