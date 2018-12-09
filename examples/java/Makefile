@@ -15,7 +15,7 @@ all: Calc.class
 	$(JAVAC) $(JAVACFLAGS) $<
 
 run: Calc.class
-	echo "Type arithmetic expressions.  Quit with ctrl-d."
+	@echo "Type arithmetic expressions.  Quit with ctrl-d."
 	$(JAVA) $(JAVAFLAGS) Calc
 
 html: Calc.html

@@ -137,8 +137,12 @@ GNU Bison NEWS
 
 ** Documentation
 
-  The examples (installed in .../share/doc/bison/examples), now include a
-  Java calculator.
+  The examples/ directory (installed in .../share/doc/bison/examples) has
+  been restructured per language for clarity.  The examples come with a
+  README and a Makefile.  Not only can they be used to toy with Bison, they
+  can also be starting points for your own grammars.
+
+  There is now a Java example.
 
 ** Changes
 
@@ -647,7 +651,7 @@ GNU Bison NEWS
 
   Traditional Yacc generates 'y.tab.c' whatever the name of the input file.
   Therefore Makefiles written for Yacc expect 'y.tab.c' (and possibly
-  'y.tab.h' and 'y.outout') to be generated from 'foo.y'.
+  'y.tab.h' and 'y.output') to be generated from 'foo.y'.
 
   To this end, for ages, AC_PROG_YACC, Autoconf's macro to look for an
   implementation of Yacc, was using Bison as 'bison -y'.  While it does
@@ -3284,7 +3288,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
  LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
  LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir
- LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles outout PROG
+ LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG
  LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW
 
 Local Variables:

@@ -71,13 +71,11 @@ examples-unline:
 ## ---------- ##
 
 examplesdir = $(docdir)/examples
-dist_examples_DATA = %D%/README
+dist_examples_DATA = %D%/README.md
 
 CLEANDIRS += %D%/*.dSYM
 
-include %D%/calc++/local.mk
+include %D%/c/local.mk
 include %D%/c++/local.mk
 include %D%/d/local.mk
 include %D%/java/local.mk
-include %D%/mfcalc/local.mk
-include %D%/rpcalc/local.mk

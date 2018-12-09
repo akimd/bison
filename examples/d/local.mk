@@ -23,6 +23,7 @@ if ENABLE_D
   check_SCRIPTS += %D%/calc
   TESTS += %D%/calc.test
 endif
+EXTRA_DIST += %D%/calc.test
 
 %D%/calc.d: %D%/calc.y $(BISON_IN) $(dist_pkgdata_DATA)
 	$(AM_V_GEN)$(MKDIR_P) %D%
@@ -31,5 +32,5 @@ endif
 %D%/calc: %D%/calc.d
 	$(AM_V_GEN) $(DC) $(DCFLAGS) -of$@ $<
 
-dist_d_DATA = %D%/calc.y %D%/Makefile
-CLEANFILES += %D%/calc %D%/Calc.d
+dist_d_DATA = %D%/calc.y %D%/Makefile %D%/README.md
+CLEANFILES += %D%/calc %D%/calc.[do]

@@ -13,6 +13,7 @@ evaluate.
 The program calc++ expects the file to parse as argument; pass `-` to read
 the standard input (and then hit <Ctrl-d>, control-d, to end your input).
 
+```
 $ ./calc++ -
 one := 1
 two := 2
@@ -20,14 +21,14 @@ three := 3
 (one + two * three) * two * three
 <Ctrl-d>
 42
+```
 
 You may pass `-p` to activate the parser debug traces, and `-s` to activate
 the scanner's.
 
------
+<!---
 
 Local Variables:
-mode: outline
 fill-column: 76
 ispell-dictionary: "american"
 End:
@@ -50,3 +51,4 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # LocalWords:  mfcalc calc parsers yy MERCHANTABILITY Ctrl ispell american
+--->

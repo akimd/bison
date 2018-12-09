@@ -38,5 +38,6 @@ dist_TESTS += %D%/mfcalc.test
 ## Installing.  ##
 ## ------------ ##
 
-mfcalcdir = $(docdir)/examples/mfcalc
+mfcalcdir = $(docdir)/%D%
 mfcalc_DATA = $(mfcalc_extracted)
+dist_mfcalc_DATA = %D%/Makefile

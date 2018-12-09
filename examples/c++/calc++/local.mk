@@ -79,6 +79,6 @@ EXTRA_DIST += %D%/calc++.test
 ## Installing.  ##
 ## ------------ ##
 
-calcxxdir = $(docdir)/examples/calc++
+calcxxdir = $(docdir)/%D%
 calcxx_DATA = $(calcxx_extracted)
-dist_calcxx_DATA = %D%/README %D%/Makefile
+dist_calcxx_DATA = %D%/README.md %D%/Makefile

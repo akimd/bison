@@ -13,24 +13,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-javadir = $(docdir)/%D%
+cdir = $(docdir)/%D%
+dist_c_DATA = %D%/README.md
 
-## ------ ##
-## Calc.  ##
-## ------ ##
-
-if ENABLE_JAVA
-  check_SCRIPTS += %D%/Calc.class
-  TESTS += %D%/Calc.test
-endif
-EXTRA_DIST += %D%/Calc.test
-
-%D%/Calc.java: %D%/Calc.y $(BISON_IN) $(dist_pkgdata_DATA)
-	$(AM_V_GEN)$(MKDIR_P) %D%
-	$(AM_V_at)$(BISON) $< -o $@
-
-%D%/Calc.class: %D%/Calc.java
-	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh $<
-
-dist_java_DATA = %D%/Calc.y %D%/Makefile %D%/README.md
-CLEANFILES += %D%/*.class %D%/Calc.java
+include %D%/mfcalc/local.mk
+include %D%/rpcalc/local.mk

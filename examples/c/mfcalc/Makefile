@@ -1,25 +1,25 @@
 # This Makefile is designed to be simple and readable.  It does not
 # aim at portability.  It requires GNU Make.
 
+BASE = mfcalc
 BISON = bison
-DC = dmd
 XSLTPROC = xsltproc
 
-all: calc
+all: $(BASE)
 
-%.d %.xml %.gv: %.y
-	$(BISON) $(BISONFLAGS) --xml --graph=$*.gv -o $*.d $<
+%.c %.xml %.gv: %.y
+	$(BISON) $(BISONFLAGS) --xml --graph=$*.gv -o $*.c $<
 
-%: %.d
-	$(DC) $(DCFLAGS) $<
+%: %.c
+	$(CC) $(CFLAGS) -o $@ $<
 
-run: calc
+run: $(BASE)
 	@echo "Type arithmetic expressions.  Quit with ctrl-d."
 	./$<
 
-html: calc.html
+html: $(BASE).html
 %.html: %.xml
 	$(XSLTPROC) $(XSLTPROCFLAGS) -o $@ $$($(BISON) --print-datadir)/xslt/xml2xhtml.xsl $<
 
 clean:
-	rm -f calc calc.d calc.xml calc.gv calc.html *.o
+	rm -f $(BASE) $(BASE).c $(BASE).html $(BASE).xml $(BASE).gv $(BASE).output
