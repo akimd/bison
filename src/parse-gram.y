@@ -458,16 +458,12 @@ symbols.prec:
 ;
 
 symbol.prec:
-  symbol
+  symbol[id] int.opt[num]
     {
-      $$ = $1;
-      symbol_class_set ($1, token_sym, @1, false);
-    }
-| symbol INT
-    {
-      $$ = $1;
-      symbol_class_set ($1, token_sym, @1, false);
-      symbol_user_token_number_set ($1, $2, @2);
+      $$ = $id;
+      symbol_class_set ($id, token_sym, @id, false);
+      if (0 <= $num)
+        symbol_user_token_number_set ($id, $num, @num);
     }
 ;
 
