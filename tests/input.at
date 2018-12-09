@@ -483,6 +483,45 @@ AT_CHECK_UNUSED_VALUES([1], [1])
 AT_CLEANUP
 
 
+## --------------------------- ##
+## Symbol class redefinition.  ##
+## --------------------------- ##
+
+AT_SETUP([Symbol class redefinition])
+
+AT_DATA([[input.y]],
+[[%token FOO
+%nterm FOO BAR
+%token BAR
+%%
+FOO: BAR
+BAR:
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
+ %nterm FOO BAR
+ ^^^^^^
+input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
+ %nterm FOO BAR
+        ^^^
+input.y:1.8-10:     previous definition
+ %token FOO
+        ^^^
+input.y:3.8-10: error: symbol BAR redeclared as a token
+ %token BAR
+        ^^^
+input.y:2.12-14:    previous definition
+ %nterm FOO BAR
+            ^^^
+input.y:5.1-3: error: rule given for FOO, which is a token
+ FOO: BAR
+ ^^^
+]])
+
+AT_CLEANUP
+
+
 ## --------------------------------------------- ##
 ## Default %printer and %destructor redeclared.  ##
 ## --------------------------------------------- ##
