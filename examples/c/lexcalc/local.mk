@@ -13,9 +13,20 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-cdir = $(docdir)/%D%
-dist_c_DATA = %D%/README.md
+lexcalcdir = $(docdir)/%D%
 
-include %D%/lexcalc/local.mk
-include %D%/mfcalc/local.mk
-include %D%/rpcalc/local.mk
+## ------ ##
+## Calc.  ##
+## ------ ##
+
+check_PROGRAMS += %D%/lexcalc
+TESTS += %D%/lexcalc.test
+EXTRA_DIST += %D%/lexcalc.test
+%C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
+
+# Don't use gnulib's system headers.
+%C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+
+dist_lexcalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
+CLEANFILES += %D%/lexcalc %D%/*.o %D%/parse.c %D%/scan.c
+CLEANDIRS += %D%/*.dSYM

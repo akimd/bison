@@ -14,7 +14,7 @@ all: $(BASE)
 	$(CC) $(CFLAGS) -o $@ $<
 
 run: $(BASE)
-	@echo "Type arithmetic expressions in reverse polish notation.  Quit with ctrl-d."
+	@echo "Type arithmetic expressions in Reverse Polish Notation.  Quit with ctrl-d."
 	./$<
 
 html: $(BASE).html

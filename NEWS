@@ -142,7 +142,8 @@ GNU Bison NEWS
   README and a Makefile.  Not only can they be used to toy with Bison, they
   can also be starting points for your own grammars.
 
-  There is now a Java example.
+  There is now a Java example, and a simple example in C based on Flex and
+  Bison (examples/c/lexcalc/).
 
 ** Changes
 
