@@ -1096,10 +1096,10 @@ AT_DATA_GRAMMAR([input.y],
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 }
-
 %define parse.error verbose
+%token TK_ALIAS 3 "tok alias"
 %right END 0
-%left TK1 1 TK2 2 "tok alias" 3
+%left TK1 1 TK2 2 "tok alias"
 
 %%
 
