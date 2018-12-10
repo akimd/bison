@@ -11088,19 +11088,16 @@ in midrule actions.  It is mandatory to use typed midrule actions
 (@pxref{Typed Midrule Actions}).
 
 @deftypemethod {semantic_type} {T&} emplace<T> ()
-Initialize, but leave empty.  Return a reference to where the actual value
-may be stored.  Requires that the variant was not initialized yet.
+@deftypemethodx {semantic_type} {T&} emplace<T> (const T& @var{t})
+Available in C++98/C++03 only.  Default construct/copy-construct from
+@var{t}.  Return a reference to where the actual value may be stored.
+Requires that the variant was not initialized yet.
 @end deftypemethod
 
-@deftypemethod {semantic_type} {T&} emplace<T> (const T& @var{t})
-Initialize, and copy-construct from @var{t}.  Available in C++98/C++03 only.
+@deftypemethod {semantic_type} {T&} emplace<T, U> (U&&... @var{u})
+Available in C++11 and later only.  Build a variant of type @code{T} from
+the variadic forwarding references @var{u...}.
 @end deftypemethod
-
-@deftypemethod {semantic_type} {T&} emplace<T, U> (U&& @var{u})
-Build a variant of type @code{T} from the forwarding reference @var{u}.
-Available in C++11 and later only.
-@end deftypemethod
-
 
 @strong{Warning}: We do not use Boost.Variant, for two reasons.  First, it
 appeared unacceptable to require Boost on the user's machine (i.e., the

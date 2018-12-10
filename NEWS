@@ -100,6 +100,22 @@ GNU Bison NEWS
   until it sees the '='.  So we notate the two possible reductions to
   indicate that each conflicts in one rule.
 
+*** C++: Variadic emplace
+
+  If your application requires C++11, you may now use a variadic emplace for
+  semantic values:
+
+    %define api.value.type variant
+    %token <std::pair<int, int>> PAIR
+
+  in your scanner:
+
+    int yylex (parser::semantic_type *lvalp)
+    {
+      lvalp->emplace <std::pair<int, int>> (1, 2);
+      return parser::token::PAIR;
+    }
+
 *** More POSIX Yacc compatibility warnings
 
   More Bison specific directives are now reported with -y or -Wyacc.  This

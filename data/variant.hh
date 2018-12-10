@@ -121,6 +121,18 @@ m4_define([b4_value_type_declare],
       YYASSERT (!yytypeid_);
     ])[}
 
+# if 201103L <= YY_CPLUSPLUS
+    /// Instantiate a \a T in here from \a t.
+    template <typename T, typename... U>
+    T&
+    emplace (U&&... u)
+    {]b4_parse_assert_if([
+      YYASSERT (!yytypeid_);
+      YYASSERT (sizeof (T) <= size);
+      yytypeid_ = & typeid (T);])[
+      return *new (yyas_<T> ()) T (std::forward <U>(u)...);
+    }
+# else
     /// Instantiate an empty \a T in here.
     template <typename T>
     T&
@@ -132,18 +144,6 @@ m4_define([b4_value_type_declare],
       return *new (yyas_<T> ()) T ();
     }
 
-# if 201103L <= YY_CPLUSPLUS
-    /// Instantiate a \a T in here from \a t.
-    template <typename T, typename U>
-    T&
-    emplace (U&& u)
-    {]b4_parse_assert_if([
-      YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= size);
-      yytypeid_ = & typeid (T);])[
-      return *new (yyas_<T> ()) T (std::forward <U>(u));
-    }
-# else
     /// Instantiate a \a T in here from \a t.
     template <typename T>
     T&
