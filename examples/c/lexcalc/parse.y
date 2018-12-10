@@ -86,9 +86,8 @@ void yyerror(int *nerrs, const char *msg)
 int main (void)
 {
   int nerrs = 0;
-  // Enable parser runtime debugging.
-  if (!!getenv ("YYDEBUG"))
-    yydebug = 1;
+  // Possibly enable parser runtime debugging.
+  yydebug = !!getenv ("YYDEBUG");
   yyparse (&nerrs);
   // Exit on failure if there were errors.
   return !!nerrs;
