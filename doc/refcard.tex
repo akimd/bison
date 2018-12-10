@@ -358,7 +358,7 @@ otherwise it will have the format {\tt {\it name}.tab.h}, where
 
 In the above, {\it t} is a {\it type} defined in the {\tt \%union}
 definition,  {\it n} is a {\it terminal} symbol name, {\it m} is a
-{\it non-terminal} symbol name, and {\it association} can be one of
+{\it nonterminal} symbol name, and {\it association} can be one of
 {\tt \%left}, {\tt \%right}, or {\tt \%nonassoc}.
 
 \vskip .10truein
@@ -401,16 +401,16 @@ Rules take the form:
 
 \vskip -\baselineskip
 \beginexample
-     non-terminal : {\it statement} 1
-                  | {\it statement} 2
-                      \vdots
-                  | {\it statement n}
-                  ;
+     nonterminal : {\it statement} 1
+                 | {\it statement} 2
+                     \vdots
+                 | {\it statement n}
+                 ;
 \endexample
 
 Where {\it statements} can be either empty, or contain
 a mixture of C code (enclosed in {\tt \{...\}}), and the
-symbols that make up the non-terminal. For example:
+symbols that make up the nonterminal. For example:
 
 \vskip -\baselineskip
 \beginexample

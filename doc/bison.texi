@@ -9947,7 +9947,7 @@ Entering state 1
 This first batch shows a specific feature of this grammar: the first rule
 (which is in line 34 of @file{mfcalc.y} can be reduced without even having
 to look for the first token.  The resulting left-hand symbol (@code{$$}) is
-a valueless (@samp{()}) @code{input} non terminal (@code{nterm}).
+a valueless (@samp{()}) @code{input} nonterminal (@code{nterm}).
 
 Then the parser calls the scanner.
 @example

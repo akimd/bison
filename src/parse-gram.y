@@ -641,7 +641,7 @@ id:
       if (current_class == nterm_sym)
         {
           gram_error (&@1,
-                      _("character literals cannot be non-terminals"));
+                      _("character literals cannot be nonterminals"));
           YYERROR;
         }
       $$ = symbol_get (char_name ($1), @1);

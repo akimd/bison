@@ -40,7 +40,7 @@ typedef enum
 {
   unknown_sym,          /**< Undefined.  */
   token_sym,            /**< Terminal. */
-  nterm_sym             /**< Non-terminal. */
+  nterm_sym             /**< Nonterminal. */
 } symbol_class;
 
 
