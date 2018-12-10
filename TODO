@@ -10,7 +10,6 @@ Several features are not available in all the backends.
 ** consistency
 nonterminal vs non terminal vs non-terminal
 token vs terminal
-redeclaration vs redefinition
 
 ** yacc.c
 Now that ylwrap is fixed, we should include foo.tab.h from foo.tab.c rather
