@@ -130,6 +130,28 @@ AT_BISON_CHECK([input.y], [1], [],
 AT_CLEANUP
 
 
+## -------------------------- ##
+## Yacc warnings on symbols.  ##
+## -------------------------- ##
+
+AT_SETUP([Yacc warnings on symbols])
+
+AT_DATA([input.y],
+[[%nterm exp
+%token NUM 0x40 "number"
+%%
+exp: "number";
+]])
+
+AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
+[[input.y:1.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
+ %nterm exp
+ ^^^^^^
+]])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## Invalid %nterm uses.  ##
 ## --------------------- ##
@@ -149,36 +171,21 @@ fact: "number";
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:1.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm expr "expression";
- ^^^^^^
-input.y:1.13-24: error: nonterminals cannot be given a string alias
+[[input.y:1.13-24: error: nonterminals cannot be given a string alias
  %nterm expr "expression";
              ^^^^^^^^^^^^
-input.y:2.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm term 123;
- ^^^^^^
 input.y:2.13-15: error: nonterminals cannot be given an explicit number
  %nterm term 123;
              ^^^
-input.y:3.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm fact 124 "factor";
- ^^^^^^
 input.y:3.13-15: error: nonterminals cannot be given an explicit number
  %nterm fact 124 "factor";
              ^^^
 input.y:3.17-24: error: nonterminals cannot be given a string alias
  %nterm fact 124 "factor";
                  ^^^^^^^^
-input.y:4.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm '+' '*';
- ^^^^^^
 input.y:4.8-10: error: character literals cannot be nonterminals
  %nterm '+' '*';
         ^^^
-input.y:5.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm "number";
- ^^^^^^
 input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
  %nterm "number";
         ^^^^^^^^
@@ -499,10 +506,7 @@ BAR:
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:2.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm FOO BAR
- ^^^^^^
-input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
+[[input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
  %nterm FOO BAR
         ^^^
 input.y:1.8-10:     previous definition

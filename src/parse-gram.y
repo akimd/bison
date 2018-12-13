@@ -202,7 +202,7 @@
 %printer { fprintf (yyo, "%d", $$); } <int>
 
 %type <symbol*> id id_colon string_as_id symbol symbol.prec
-%printer { fprintf (yyo, "%s", $$->tag); } <symbol*>
+%printer { fprintf (yyo, "%s", $$ ? $$->tag : "<NULL>"); } <symbol*>
 %printer { fprintf (yyo, "%s:", $$->tag); } id_colon
 
 %type <assoc> precedence_declarator

@@ -243,6 +243,7 @@ eqopt    ([[:space:]]*=)?
   "%no-lines"                       return BISON_DIRECTIVE(NO_LINES);
   "%nonassoc"                       return PERCENT_NONASSOC;
   "%nondeterministic-parser"        return BISON_DIRECTIVE(NONDETERMINISTIC_PARSER);
+  "%nterm"                          return BISON_DIRECTIVE(NTERM);
   "%output"                         return BISON_DIRECTIVE(OUTPUT);
   "%param"                          RETURN_PERCENT_PARAM(both);
   "%parse-param"                    RETURN_PERCENT_PARAM(parse);
@@ -278,12 +279,6 @@ eqopt    ([[:space:]]*=)?
   "%output"{eqopt}                  DEPRECATED("%output");
   "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
   "%token"[-_]"table"               DEPRECATED("%token-table");
-
-  "%nterm"  {
-    /* Deprecated since Bison 3.3, but was a rather stealth feature.  */
-    deprecated_directive (loc, yytext, "%type");
-    return PERCENT_NTERM;
-  }
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
