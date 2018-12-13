@@ -147,6 +147,9 @@ AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
 [[input.y:1.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
  %nterm exp
  ^^^^^^
+input.y:2.12-15: warning: POSIX Yacc does not support hexadecimal literals [-Wyacc]
+ %token NUM 0x40 "number"
+            ^^^^
 ]])
 
 AT_CLEANUP

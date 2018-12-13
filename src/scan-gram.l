@@ -846,6 +846,10 @@ static unsigned long
 scan_integer (char const *number, int base, location loc)
 {
   verify (INT_MAX < ULONG_MAX);
+  if (base == 16)
+    complain (&loc, Wyacc,
+              _("POSIX Yacc does not support hexadecimal literals"));
+
   unsigned long num = strtoul (number, NULL, base);
 
   if (INT_MAX < num)
