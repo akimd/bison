@@ -521,6 +521,8 @@ eqopt    ([[:space:]]*=)?
     STRING_FINISH;
     BEGIN INITIAL;
     loc->start = token_start;
+    complain (loc, Wyacc,
+              _("POSIX Yacc does not support string literals"));
     RETURN_VALUE (STRING, last_string);
   }
   <<EOF>>   unexpected_eof (token_start, "\"");

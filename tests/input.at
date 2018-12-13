@@ -150,6 +150,12 @@ AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
 input.y:2.12-15: warning: POSIX Yacc does not support hexadecimal literals [-Wyacc]
  %token NUM 0x40 "number"
             ^^^^
+input.y:2.17-24: warning: POSIX Yacc does not support string literals [-Wyacc]
+ %token NUM 0x40 "number"
+                 ^^^^^^^^
+input.y:4.6-13: warning: POSIX Yacc does not support string literals [-Wyacc]
+ exp: "number";
+      ^^^^^^^^
 ]])
 
 AT_CLEANUP
@@ -1283,8 +1289,12 @@ AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([--yacc input.y], [1], [],
 [[input.y:1.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
 input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+input.y:10.21-34: error: POSIX Yacc does not support string literals [-Werror=yacc]
+input.y:12.23-38: error: POSIX Yacc does not support string literals [-Werror=yacc]
 input.y:13.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
 input.y:20.8-16: error: POSIX Yacc forbids dashes in symbol names: with-dash [-Werror=yacc]
+input.y:22.15-28: error: POSIX Yacc does not support string literals [-Werror=yacc]
+input.y:24.17-32: error: POSIX Yacc does not support string literals [-Werror=yacc]
 ]])
 
 # Dashes are fine for GNU Bison.
