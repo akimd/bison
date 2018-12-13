@@ -161,6 +161,40 @@ input.y:4.6-13: warning: POSIX Yacc does not support string literals [-Wyacc]
 AT_CLEANUP
 
 
+## --------------- ##
+## Yacc warnings.  ##
+## --------------- ##
+
+AT_SETUP([Yacc warnings])
+
+AT_DATA([input.y],
+[[%destructor {} <int>
+%printer {} <int>
+%type <int> exp a b
+%%
+exp: a b             { $$ = $1 + $2; };
+a: <int>{ $$ = 42; } { $$ = $1; };
+b: %empty            { $$ = 42; };
+]])
+
+AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
+[[input.y:1.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
+ %destructor {} <int>
+ ^^^^^^^^^^^
+input.y:2.1-8: warning: POSIX Yacc does not support %printer [-Wyacc]
+ %printer {} <int>
+ ^^^^^^^^
+input.y:6.9-20: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ a: <int>{ $$ = 42; } { $$ = $1; };
+         ^^^^^^^^^^^^
+input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
+ b: %empty            { $$ = 42; };
+    ^^^^^^
+]])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## Invalid %nterm uses.  ##
 ## --------------------- ##
@@ -447,36 +481,6 @@ input.y:26.40-42: warning: unset value: $][$ [-Wother]
                                         ^^^
 ]])
 
-AT_BISON_CHECK([-Wnone,yacc -fcaret input.y],
-               [0], [],
-[m4_ifval([$1], [], [[input.y:3.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
- %destructor { destroy ($$); } <integer>;
- ^^^^^^^^^^^
-]])[input.y:13.10-15: warning: POSIX Yacc does not support %empty [-Wyacc]
- b: INT | %empty;
-          ^^^^^^
-input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
-                       ^^^^^^^^^^^^
-input.y:24.49-65: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
-                                                 ^^^^^^^^^^^^^^^^^
-input.y:25.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                       ^^^
-input.y:25.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                        ^^^
-input.y:26.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                       ^^^
-input.y:26.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                                        ^^^
-]m4_ifval([$1], [[input.y:30.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
- %destructor { destroy ($$); } <integer>;
- ^^^^^^^^^^^
-]])])
 ])
 
 ## --------------- ##
