@@ -417,7 +417,6 @@ symbol_declaration:
     }
 | "%type" TAG symbols.1
     {
-      tag_seen = true;
       for (symbol_list *list = $3; list; list = list->next)
         symbol_type_set (list->content.sym, $2, @2);
       symbol_list_free ($3);
@@ -446,7 +445,7 @@ precedence_declarator:
 
 tag.opt:
   %empty { $$ = NULL; }
-| TAG    { $$ = $1; tag_seen = true; }
+| TAG    { $$ = $1; }
 ;
 
 /* Just like symbols.1 but accept INT for the sake of POSIX.  */
@@ -496,7 +495,6 @@ symbol_def:
   TAG
     {
       current_type = $1;
-      tag_seen = true;
     }
 | id int.opt[num] string_as_id.opt[alias]
     {

@@ -248,6 +248,8 @@ extern symbol *startsymbol;
 /** The location of the \c \%start declaration.  */
 extern location startsymbol_location;
 
+/** Whether a symbol declared with a type tag.  */
+extern bool tag_seen;
 
 
 /*-------------------.
