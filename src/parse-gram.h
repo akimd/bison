@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.2.1.94-fe97.  */
+/* A Bison parser, made by GNU Bison 3.2.1.108-19b4e.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -64,7 +64,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 602 "src/parse-gram.y" /* yacc.c:1917  */
+#line 660 "src/parse-gram.y" /* yacc.c:1917  */
 
   #include "muscle-tab.h"
   typedef struct
@@ -161,13 +161,15 @@ union GRAM_STYPE
   /* "integer"  */
   int INT;
   /* int.opt  */
-  int yytype_79;
+  int yytype_78;
   /* named_ref.opt  */
-  named_ref* yytype_87;
+  named_ref* yytype_90;
   /* "%param"  */
   param_type PERCENT_PARAM;
-  /* symbol.prec  */
-  symbol* yytype_73;
+  /* token_decl  */
+  symbol* token_decl;
+  /* token_decl_for_prec  */
+  symbol* token_decl_for_prec;
   /* id  */
   symbol* id;
   /* id_colon  */
@@ -177,15 +179,25 @@ union GRAM_STYPE
   /* string_as_id  */
   symbol* string_as_id;
   /* string_as_id.opt  */
-  symbol* yytype_94;
-  /* symbols.prec  */
-  symbol_list* yytype_72;
-  /* symbols.1  */
-  symbol_list* yytype_74;
+  symbol* yytype_97;
   /* generic_symlist  */
   symbol_list* generic_symlist;
   /* generic_symlist_item  */
   symbol_list* generic_symlist_item;
+  /* nterm_decls  */
+  symbol_list* nterm_decls;
+  /* token_decls  */
+  symbol_list* token_decls;
+  /* token_decl.1  */
+  symbol_list* yytype_76;
+  /* token_decls_for_prec  */
+  symbol_list* token_decls_for_prec;
+  /* token_decl_for_prec.1  */
+  symbol_list* yytype_80;
+  /* symbol_decls  */
+  symbol_list* symbol_decls;
+  /* symbol_decl.1  */
+  symbol_list* yytype_83;
   /* "%<flag>"  */
   uniqstr PERCENT_FLAG;
   /* "[identifier]"  */
@@ -197,7 +209,7 @@ union GRAM_STYPE
   /* "<tag>"  */
   uniqstr TAG;
   /* tag.opt  */
-  uniqstr yytype_71;
+  uniqstr yytype_70;
   /* tag  */
   uniqstr tag;
   /* variable  */
@@ -206,7 +218,7 @@ union GRAM_STYPE
   unsigned char CHAR;
   /* value  */
   value_type value;
-#line 210 "src/parse-gram.h" /* yacc.c:1917  */
+#line 222 "src/parse-gram.h" /* yacc.c:1917  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
