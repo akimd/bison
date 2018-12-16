@@ -195,11 +195,11 @@ input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
 AT_CLEANUP
 
 
-## --------------------- ##
-## Invalid %nterm uses.  ##
-## --------------------- ##
+## ----------------------------- ##
+## Invalid symbol declarations.  ##
+## ----------------------------- ##
 
-AT_SETUP([Invalid %nterm uses])
+AT_SETUP([Invalid symbol declarations])
 
 AT_DATA([input.y],
 [[%nterm expr "expression";
@@ -207,6 +207,9 @@ AT_DATA([input.y],
 %nterm fact 124 "factor";
 %nterm '+' '*';
 %nterm "number";
+%token "tok1" 1;
+%left "tok2" 2;
+%type "tok3" 3;
 %%
 expr: expr '+' term | term;
 term: term '*' fact | fact;
@@ -232,6 +235,15 @@ input.y:4.8-10: error: character literals cannot be nonterminals
 input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
  %nterm "number";
         ^^^^^^^^
+input.y:6.8-13: error: syntax error, unexpected string, expecting char or identifier or <tag>
+ %token "tok1" 1;
+        ^^^^^^
+input.y:7.14: error: syntax error, unexpected integer
+ %left "tok2" 2;
+              ^
+input.y:8.14: error: syntax error, unexpected integer
+ %type "tok3" 3;
+              ^
 ]])
 
 AT_CLEANUP
