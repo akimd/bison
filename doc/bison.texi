@@ -239,6 +239,7 @@ Bison Declarations
 * Token Decl::        Declaring terminal symbols.
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
+* Symbol Decls::      Summary of the Syntax of Symbol Declarations.
 * Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
 * Printer Decl::      Declaring how symbol values are displayed.
@@ -4757,6 +4758,7 @@ and Context-Free Grammars}).
 * Token Decl::        Declaring terminal symbols.
 * Precedence Decl::   Declaring terminals with precedence and associativity.
 * Type Decl::         Declaring the choice of type for a nonterminal symbol.
+* Symbol Decls::      Summary of the Syntax of Symbol Declarations.
 * Initial Action Decl::  Code run before parsing starts.
 * Destructor Decl::   Declaring how symbols are freed.
 * Printer Decl::      Declaring how symbol values are displayed.
@@ -4804,7 +4806,7 @@ The basic way to declare a token type name (terminal symbol) is as follows:
 %token @var{name}
 @end example
 
-Bison will convert this into a @code{#define} directive in the parser, so
+Bison will convert this into a definition in the parser, so
 that the function @code{yylex} (if it is in this file) can use the name
 @var{name} to stand for this token type's code.
 
@@ -4945,6 +4947,7 @@ a separate token.  For example:
 @subsection Nonterminal Symbols
 @cindex declaring value types, nonterminals
 @cindex value types, nonterminals, declaring
+@findex %nterm
 @findex %type
 
 @noindent
@@ -4963,9 +4966,40 @@ is the name given in the @code{%union} to the alternative that you want
 nonterminal symbols in the same @code{%type} declaration, if they have the
 same value type.  Use spaces to separate the symbol names.
 
-You can also declare the value type of a terminal symbol.  To do this, use
-the same @code{<@var{type}>} construction in a declaration for the terminal
-symbol.  All kinds of token declarations allow @code{<@var{type}>}.
+While POSIX Yacc allows @code{%type} only for nonterminals, Bison accepts
+that this directive be also applied to terminal symbols.  To declare
+exclusively nonterminal symbols, use @code{%nterm}:
+
+@example
+%nterm <@var{type}> @var{nonterminal}@dots{}
+@end example
+
+@node Symbol Decls
+@subsection Syntax of Symbol Declarations
+@findex %left
+@findex %nterm
+@findex %token
+@findex %type
+
+The syntax of the various directives to declare symbols is as follows.
+
+@example
+%token @var{tag}? ( @var{id} @var{number}? @var{string}? )+ ( @var{tag} ( @var{id} @var{number}? @var{string}? )+ )*
+%left  @var{tag}? ( @var{id} @var{number}?)+ ( @var{tag} ( @var{id} @var{number}? )+ )*
+%type  @var{tag}? ( @var{id} | @var{char} | @var{string} )+ ( @var{tag} ( @var{id} | @var{char} | @var{string} )+ )*
+%nterm @var{tag}? @var{id}+ ( @var{tag} @var{id}+ )*
+@end example
+
+@noindent
+where @var{tag} denotes a type tag such as @samp{<ival>}, @var{id} denotes
+an identifier such as @samp{NUM}, @var{number} a decimal or hexadecimal
+integer such as @samp{300} or @samp{0x12d}, @var{char} a character literal
+such as @samp{'+'}, and @var{string} a string literal such as
+@samp{"number"}.  The postfix quantifiers are @samp{?} (zero or one),
+@samp{*} (zero or more) and @samp{+} (one or more).
+
+The directives @code{%precedence}, @code{%right} and @code{%nonassoc} behave
+like @code{%left}.
 
 @node Initial Action Decl
 @subsection Performing Actions before Parsing
@@ -5522,9 +5556,14 @@ Assign a precedence to rules lacking an explicit @code{%prec} modifier
 @end deffn
 @end ifset
 
+@deffn {Directive} %nterm
+Declare the type of semantic values for a nonterminal symbol (@pxref{Type
+Decl, ,Nonterminal Symbols}).
+@end deffn
+
 @deffn {Directive} %type
-Declare the type of semantic values for a nonterminal symbol
-(@pxref{Type Decl, ,Nonterminal Symbols}).
+Declare the type of semantic values for a symbol (@pxref{Type Decl,
+,Nonterminal Symbols}).
 @end deffn
 
 @deffn {Directive} %start
@@ -13439,6 +13478,11 @@ Bison declaration to assign precedence and nonassociativity to token(s).
 @xref{Precedence Decl, ,Operator Precedence}.
 @end deffn
 
+@deffn {Directive} %nterm
+Bison declaration to declare nonterminals.  @xref{Type Decl, ,Nonterminal
+Symbols}.
+@end deffn
+
 @deffn {Directive} %output "@var{file}"
 Bison declaration to set the name of the parser implementation file.
 @xref{Decl Summary}.
@@ -13502,7 +13546,7 @@ implementation file.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %type
-Bison declaration to declare nonterminals.  @xref{Type Decl,
+Bison declaration to declare symbol value types.  @xref{Type Decl,
 ,Nonterminal Symbols}.
 @end deffn
 

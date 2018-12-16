@@ -159,8 +159,30 @@ GNU Bison NEWS
 
 ** Changes
 
-  The C++ output now use noexcept and constexpr.  Please, report missing
-  annotations.
+*** Parsers in C++
+
+  They now use noexcept and constexpr.  Please, report missing annotations.
+
+*** Symbol Declarations
+
+  The syntax of the variation directives to declare symbols was overhauled
+  for more consistency, and also better POSIX Yacc compliance (which, for
+  instance, allows "%type" without actually providing a type).  The %nterm
+  directive, supported by Bison since its inception, is now documented and
+  officially supported.
+
+  The syntax is now as follows:
+
+    %token TAG? ( ID NUMBER? STRING? )+ ( TAG ( ID NUMBER? STRING? )+ )*
+    %left  TAG? ( ID NUMBER?)+ ( TAG ( ID NUMBER? )+ )*
+    %type  TAG? ( ID | CHAR | STRING )+ ( TAG ( ID | CHAR | STRING )+ )*
+    %nterm TAG? ID+ ( TAG ID+ )*
+
+  where TAG denotes a type tag such as ‘<ival>’, ID denotes an identifier
+  such as ‘NUM’, NUMBER a decimal or hexadecimal integer such as ‘300’ or
+  ‘0x12d’, CHAR a character literal such as ‘'+'’, and STRING a string
+  literal such as ‘"number"’.  The postfix quantifiers are ‘?’ (zero or
+  one), ‘*’ (zero or more) and ‘+’ (one or more).
 
 * Noteworthy changes in release 3.2.2 (2018-11-21) [stable]
 
