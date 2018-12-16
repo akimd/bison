@@ -75,9 +75,9 @@ skeletons.
 
 ## Symbols
 
-In order to unify the handling of the various aspects of symbols
-(tag, type_name, whether terminal, etc.), bison.exe defines one
-macro per (token, field), where field can has_id, id, etc.: see
+In order to unify the handling of the various aspects of symbols (tag, type
+name, whether terminal, etc.), bison.exe defines one macro per (token,
+field), where field can `has_id`, `id`, etc.: see
 src/output.c:prepare_symbols_definitions().
 
 The various FIELDS are:
@@ -94,7 +94,8 @@ The various FIELDS are:
 - is_token: 0 or 1
   Whether this is a terminal symbol.
 - number: integer
-  The internalized number (used after yytranslate).
+  The internalized number (used after yytranslate).  This is the same
+  number that serves as key b4_symbol(NUM, FIELD).
 - has_type: 0, 1
   Whether has a semantic value.
 - type_tag: string

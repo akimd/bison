@@ -237,6 +237,106 @@ input.y:5.8-15: error: syntax error, unexpected string, expecting char or identi
 AT_CLEANUP
 
 
+## --------------------- ##
+## Symbol declarations.  ##
+## --------------------- ##
+
+# Check the parsing of %token, %nterm, %type and %left...
+AT_SETUP([Symbol declarations])
+
+AT_DATA([dump-symbols.m4],
+[[m4@&t@_define([b4_symbol_dump],
+[$1, d@&t@nl
+b4_symbol_if([$1], [is_token], [Token], [Nonterminal]), d@&t@nl
+b4_symbol([$1], [tag]), d@&t@nl
+b4_symbol([$1], [id]), d@&t@nl
+b4_symbol([$1], [user_number]), d@&t@nl
+b4_symbol([$1], [type]),
+])
+
+b4_output_begin([symbols.csv])
+number, class, tag, id, user_number, type,
+b4_symbol_foreach([b4_symbol_dump])d@&t@nl
+b4_output_end
+]])
+
+AT_DATA([input.y],
+[[%token 'a' A1 1 "A1" A2 A3 "A3" A4 4
+      <type_b> 'b' B5 5 "B5" B6 B7 "B8" B9 9
+      <type_c> 'c' C10 10 "C10" C11 C12 "C12" C13 13
+
+%left 'd' D20 20 "D20" D21 D22 "D22" D23 23
+      <type_e> 'e' E25 25 "E25" E26 E27 "E28" E29 29
+      <type_f> 'f' F30 30 "F30" F31 F32 "F32" F33 33
+
+%type 'g' G40 "D40" G21 G22 G23
+      <type_h> 'h' H25 "H25" H26 H27 "H28" H29
+      <type_i> 'i' I30 "I30" I31 I32 "I32" I33
+
+%nterm j60 j61 j62 j63
+      <type_k> k75 k76 k77 k79
+      <type_l> l80 l81 l82 l83
+%%
+exp:;
+]])
+
+AT_BISON_CHECK([-Wno-other -S./dump-symbols.m4 input.y])
+AT_CHECK([cat symbols.csv], [],
+[[number, class, tag, id, user_number, type,
+0, Token, $end, , 0, ,
+1, Nonterminal, error, error, 256, ,
+2, Nonterminal, $undefined, , 257, ,
+3, Token, 'a', , 97, ,
+4, Token, "A1", A1, 1, ,
+5, Token, A2, A2, 258, ,
+6, Token, "A3", A3, 259, ,
+7, Token, A4, A4, 4, ,
+8, Token, 'b', , 98, type_b,
+9, Token, "B5", B5, 5, type_b,
+10, Token, B6, B6, 260, type_b,
+11, Token, "B8", B7, 261, type_b,
+12, Token, B9, B9, 9, type_b,
+13, Token, 'c', , 99, type_c,
+14, Token, "C10", C10, 10, type_c,
+15, Token, C11, C11, 262, type_c,
+16, Token, "C12", C12, 263, type_c,
+17, Token, C13, C13, 13, type_c,
+18, Token, 'd', , 100, ,
+19, Token, D20, D20, 20, ,
+20, Token, "D20", , 264, ,
+21, Token, D21, D21, 265, ,
+22, Token, D22, D22, 266, ,
+23, Token, "D22", , 267, ,
+24, Token, D23, D23, 23, ,
+25, Token, 'e', , 101, type_e,
+26, Token, E25, E25, 25, type_e,
+27, Token, "E25", , 268, type_e,
+28, Token, E26, E26, 269, type_e,
+29, Token, E27, E27, 270, type_e,
+30, Token, "E28", , 271, type_e,
+31, Token, E29, E29, 29, type_e,
+32, Token, 'f', , 102, type_f,
+33, Token, F30, F30, 30, type_f,
+34, Token, "F30", , 272, type_f,
+35, Token, F31, F31, 273, type_f,
+36, Token, F32, F32, 274, type_f,
+37, Token, "F32", , 275, type_f,
+38, Token, F33, F33, 33, type_f,
+39, Token, 'g', , 103, ,
+40, Token, "D40", , 276, ,
+41, Token, 'h', , 104, type_h,
+42, Token, "H25", , 277, type_h,
+43, Token, "H28", , 278, type_h,
+44, Token, 'i', , 105, type_i,
+45, Token, "I30", , 279, type_i,
+46, Token, "I32", , 280, type_i,
+47, Nonterminal, $accept, , -1, ,
+48, Nonterminal, exp, exp, -1, ,
+]])
+
+AT_CLEANUP
+
+
 ## ------------ ##
 ## Invalid $n.  ##
 ## ------------ ##
