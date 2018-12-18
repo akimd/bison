@@ -340,13 +340,21 @@ m4_define([b4_symbol_value_template],
 # Declare make_SYMBOL for SYMBOL-NUM.  Use at class-level.
 m4_define([_b4_symbol_constructor_declare],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[    static
+[#if 201103L <= YY_CPLUSPLUS
+    static
     symbol_type
     make_[]_b4_symbol([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
-                     [YY_COPY (b4_symbol([$1], [type])) v]),
-        b4_locations_if([YY_COPY (location_type) l])));
-
+                     [b4_symbol([$1], [type]) v]),
+        b4_locations_if([location_type l])));
+#else
+    static
+    symbol_type
+    make_[]_b4_symbol([$1], [id]) (dnl
+b4_join(b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
+        b4_locations_if([const location_type& l])));
+#endif
 ])])])
 
 
@@ -365,18 +373,31 @@ b4_symbol_foreach([_b4_symbol_constructor_declare])])
 # Define make_SYMBOL for SYMBOL-NUM.
 m4_define([_b4_symbol_constructor_define],
 [b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[  inline
+[# if 201103L <= YY_CPLUSPLUS
+  inline
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
-                     [YY_COPY (b4_symbol([$1], [type])) v]),
-        b4_locations_if([YY_COPY (location_type) l])))
+                     [b4_symbol([$1], [type]) v]),
+        b4_locations_if([location_type l])))
   {
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
-                                b4_symbol_if([$1], [has_type], [YY_MOVE (v)]),
-                                b4_locations_if([YY_MOVE (l)])));
+                                b4_symbol_if([$1], [has_type], [std::move (v)]),
+                                b4_locations_if([std::move (l)])));
   }
-
+#else
+  inline
+  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
+b4_join(b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
+        b4_locations_if([const location_type& l])))
+  {
+    return symbol_type (b4_join([token::b4_symbol([$1], [id])],
+                                b4_symbol_if([$1], [has_type], [v]),
+                                b4_locations_if([l])));
+  }
+#endif
 ])])])
 
 
