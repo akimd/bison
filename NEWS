@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Properly support token constructors in C++ with types that include commas
+  (e.g., std::pair<int, int>).  A regression introduced in Bison 3.2.
 
 * Noteworthy changes in release 3.2.2 (2018-11-21) [stable]
 

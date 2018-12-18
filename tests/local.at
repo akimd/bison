@@ -248,16 +248,25 @@ m4_pushdef([AT_YYLTYPE],
 [AT_CXX_IF([AT_NAMESPACE[::parser::location_type]],
                [AT_API_PREFIX[LTYPE]])])
 
-
-AT_PURE_LEX_IF(
+AT_TOKEN_CTOR_IF(
+[m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
+ m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
+ m4_pushdef([AT_YYLEX_FORMALS],     [])
+ m4_pushdef([AT_YYLEX_RETURN],      [yy::parser::symbol_type])
+ m4_pushdef([AT_YYLEX_ARGS],        [])
+ m4_pushdef([AT_USE_LEX_ARGS],      [])
+ m4_pushdef([AT_YYLEX_PRE_FORMALS], [])
+ m4_pushdef([AT_YYLEX_PRE_ARGS],    [])],
+[AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [(*llocp)])
  m4_pushdef([AT_VAL], [(*lvalp)])
  m4_pushdef([AT_YYLEX_FORMALS],
             [AT_YYSTYPE *lvalp[]AT_LOCATION_IF([, AT_YYLTYPE *llocp])])
+ m4_pushdef([AT_YYLEX_RETURN], [int])
  m4_pushdef([AT_YYLEX_ARGS],
             [lvalp[]AT_LOCATION_IF([, llocp])])
  m4_pushdef([AT_USE_LEX_ARGS],
-            [(void) lvalp;AT_LOCATION_IF([(void) llocp])])
+            [(void) lvalp;AT_LOCATION_IF([(void) llocp;])])
  m4_pushdef([AT_YYLEX_PRE_FORMALS],
             [AT_YYLEX_FORMALS, ])
  m4_pushdef([AT_YYLEX_PRE_ARGS],
@@ -266,11 +275,12 @@ AT_PURE_LEX_IF(
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
  m4_pushdef([AT_YYLEX_FORMALS],     [void])
+ m4_pushdef([AT_YYLEX_RETURN],      [int])
  m4_pushdef([AT_YYLEX_ARGS],        [])
- m4_pushdef([AT_USE_LEX_ARGS],    [])
+ m4_pushdef([AT_USE_LEX_ARGS],      [])
  m4_pushdef([AT_YYLEX_PRE_FORMALS], [])
  m4_pushdef([AT_YYLEX_PRE_ARGS],    [])
-])
+])])
 
 # Handle the different types of location components.
 
@@ -403,7 +413,7 @@ $2])
 # ACTION may compute yylval for instance, using "res" as token type,
 # and "toknum" as the number of calls to yylex (starting at 0).
 m4_define([AT_YYLEX_PROTOTYPE],
-[int AT_NAME_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
+[AT_YYLEX_RETURN AT_NAME_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl
 ])
 
 m4_define([AT_YYLEX_DECLARE_EXTERN],
@@ -424,15 +434,15 @@ static
              [[static int const input[] = ]$1])[;
   static size_t toknum = 0;
   int res;
-  ]AT_USE_LEX_ARGS[;
+  ]AT_USE_LEX_ARGS[
   assert (toknum < sizeof input / sizeof input[0]);
   res = input[toknum++];
-  ]$2[;]AT_LOCATION_IF([[
+  ]$2[;]AT_TOKEN_CTOR_IF([], [[
+  ]AT_LOCATION_IF([[
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
   ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = ]AT_CXX_IF([(unsigned )], [(int)])[toknum;]])[
-  return res;
-}]dnl
-])
+  return res;]])[
+}]])
 
 # AT_YYERROR_FORMALS
 # AT_YYERROR_PROTOTYPE
