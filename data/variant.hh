@@ -335,6 +335,16 @@ m4_define([b4_symbol_value_template],
 ## ------------- ##
 
 
+# _b4_includes_tokens(SYMBOL-NUM...)
+# ----------------------------------
+# Expands to non-empty iff one of the SYMBOL-NUM denotes
+# a token.
+m4_define([_b4_is_token],
+          [b4_symbol_if([$1], [is_token], [1])])
+m4_define([_b4_includes_tokens],
+          [m4_map([_b4_is_token], [$@])])
+
+
 # _b4_token_maker_declare(SYMBOL-NUM)
 # -----------------------------------
 # Declare make_SYMBOL for SYMBOL-NUM.  Use at class-level.
@@ -358,12 +368,38 @@ m4_define([_b4_token_maker_declare],
 ])])
 
 
+# _b4_type_constructor_declare(SYMBOL-NUM...)
+# -------------------------------------------
+# Declare a unique make_symbol for all the SYMBOL-NUM (they
+# have the same type).  Use at class-level.
+m4_define([_b4_type_constructor_declare],
+[m4_ifval(_b4_includes_tokens($@),
+[#if 201103L <= YY_CPLUSPLUS
+    static
+    symbol_type
+    make_symbol (dnl
+b4_join([int tok],
+        b4_symbol_if([$1], [has_type],
+                     [b4_symbol([$1], [type]) v]),
+        b4_locations_if([location_type l])));
+#else
+    static
+    symbol_type
+    make_symbol (dnl
+b4_join([int tok],
+        b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
+        b4_locations_if([const location_type& l])));
+#endif
+])])
+
+
 # b4_symbol_constructor_declare
 # -----------------------------
-# Declare symbol constructors for all the value types.
-# Use at class-level.
+# Declare symbol constructors.  Use at class-level.
 m4_define([b4_symbol_constructor_declare],
 [    // Symbol constructors declarations.
+b4_type_foreach([_b4_type_constructor_declare])
 b4_symbol_foreach([_b4_token_maker_declare])])
 
 
@@ -394,6 +430,50 @@ m4_define([_b4_token_maker_define],
                      b4_locations_if([const location_type& l])))
   {
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
+                                b4_symbol_if([$1], [has_type], [v]),
+                                b4_locations_if([l])));
+  }
+#endif
+])])
+
+
+# _b4_type_constructor_define(SYMBOL-NUM...)
+# ------------------------------------------
+# Declare a unique make_symbol for all the SYMBOL-NUM (they
+# have the same type).  Use at class-level.
+m4_define([_b4_type_clause],
+[b4_symbol_if([$1], [is_token],
+              [b4_symbol_if([$1], [has_id],
+                            [tok == token::b4_symbol([$1], [id])],
+                            [tok == b4_symbol([$1], [user_number])])])])
+
+m4_define([_b4_type_constructor_define],
+[m4_ifval(_b4_includes_tokens($@),
+[#if 201103L <= YY_CPLUSPLUS
+  inline
+  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_symbol (dnl
+b4_join([int tok],
+        b4_symbol_if([$1], [has_type],
+                     [b4_symbol([$1], [type]) v]),
+        b4_locations_if([location_type l])))
+  {b4_parse_assert_if([
+    assert (m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@])));])[
+    return symbol_type (]b4_join([token_type (tok)],
+                                b4_symbol_if([$1], [has_type], [std::move (v)]),
+                                b4_locations_if([std::move (l)])));
+  }
+#else
+  inline
+  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_symbol (dnl
+b4_join([int tok],
+        b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
+        b4_locations_if([const location_type& l])))
+  {b4_parse_assert_if([
+    assert (m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@])));])[
+    return symbol_type (]b4_join([token_type (tok)],
                                 b4_symbol_if([$1], [has_type], [v]),
                                 b4_locations_if([l])));
   }
@@ -452,4 +532,5 @@ m4_define([b4_basic_symbol_constructor_define],
 # Define the overloaded versions of make_symbol for all the value types.
 m4_define([b4_symbol_constructor_define],
 [  // Implementation of make_symbol for each symbol type.
+b4_type_foreach([_b4_type_constructor_define])
 b4_symbol_foreach([_b4_token_maker_define])])
