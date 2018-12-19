@@ -259,9 +259,8 @@ m4_define([b4_symbol_type_declare],
       basic_symbol ();
 
       /// Move or copy constructor.
-      basic_symbol (YY_RVREF (basic_symbol) other);
+      basic_symbol (YY_RVREF (basic_symbol) other);]b4_variant_if([[
 
-]b4_variant_if([[
       /// Constructor for valueless symbols, and symbols from each type.
 ]b4_type_foreach([b4_basic_symbol_constructor_declare])], [[
       /// Constructor for valueless symbols.
@@ -360,8 +359,8 @@ m4_define([b4_public_types_define],
     , location (YY_MOVE (other.location))])[
   {]b4_variant_if([
     b4_symbol_variant([other.type_get ()], [value], [YY_MOVE_OR_COPY],
-                      [YY_MOVE (other.value)])])[
-  }
+                      [YY_MOVE (other.value)])
+  ])[}
 
 ]b4_variant_if([[
   // Implementation of basic_symbol constructor for each type.
@@ -475,7 +474,7 @@ m4_define([b4_public_types_define],
     {
   ]b4_toknum[
     };
-    return static_cast<token_type> (yytoken_number_[type]);
+    return token_type (yytoken_number_[type]);
   }
 ]])[]dnl
 

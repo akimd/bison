@@ -335,25 +335,25 @@ m4_define([b4_symbol_value_template],
 ## ------------- ##
 
 
-# _b4_symbol_constructor_declare(SYMBOL-NUM)
-# ------------------------------------------
+# _b4_token_maker_declare(SYMBOL-NUM)
+# -----------------------------------
 # Declare make_SYMBOL for SYMBOL-NUM.  Use at class-level.
-m4_define([_b4_symbol_constructor_declare],
+m4_define([_b4_token_maker_declare],
 [b4_token_visible_if([$1],
 [#if 201103L <= YY_CPLUSPLUS
     static
     symbol_type
-    make_[]_b4_symbol([$1], [id]) (dnl
-b4_join(b4_symbol_if([$1], [has_type],
-                     [b4_symbol([$1], [type]) v]),
-        b4_locations_if([location_type l])));
+    make_[]_b4_symbol([$1], [id]) (b4_join(
+               b4_symbol_if([$1], [has_type],
+               [b4_symbol([$1], [type]) v]),
+               b4_locations_if([location_type l])));
 #else
     static
     symbol_type
-    make_[]_b4_symbol([$1], [id]) (dnl
-b4_join(b4_symbol_if([$1], [has_type],
-                     [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])));
+    make_[]_b4_symbol([$1], [id]) (b4_join(
+               b4_symbol_if([$1], [has_type],
+               [const b4_symbol([$1], [type])& v]),
+               b4_locations_if([const location_type& l])));
 #endif
 ])])
 
@@ -364,22 +364,22 @@ b4_join(b4_symbol_if([$1], [has_type],
 # Use at class-level.
 m4_define([b4_symbol_constructor_declare],
 [    // Symbol constructors declarations.
-b4_symbol_foreach([_b4_symbol_constructor_declare])])
+b4_symbol_foreach([_b4_token_maker_declare])])
 
 
 
-# _b4_symbol_constructor_define(SYMBOL-NUM)
-# -----------------------------------------
+# _b4_token_maker_define(SYMBOL-NUM)
+# ----------------------------------
 # Define make_SYMBOL for SYMBOL-NUM.
-m4_define([_b4_symbol_constructor_define],
+m4_define([_b4_token_maker_define],
 [b4_token_visible_if([$1],
 [#if 201103L <= YY_CPLUSPLUS
   inline
   b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
-b4_join(b4_symbol_if([$1], [has_type],
+  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (b4_join(
+                     b4_symbol_if([$1], [has_type],
                      [b4_symbol([$1], [type]) v]),
-        b4_locations_if([location_type l])))
+                     b4_locations_if([location_type l])))
   {
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
                                 b4_symbol_if([$1], [has_type], [std::move (v)]),
@@ -388,10 +388,10 @@ b4_join(b4_symbol_if([$1], [has_type],
 #else
   inline
   b4_parser_class_name::symbol_type
-  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
-b4_join(b4_symbol_if([$1], [has_type],
+  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (b4_join(
+                     b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
-        b4_locations_if([const location_type& l])))
+                     b4_locations_if([const location_type& l])))
   {
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
                                 b4_symbol_if([$1], [has_type], [v]),
@@ -446,9 +446,10 @@ m4_define([b4_basic_symbol_constructor_define],
 #endif
 ]])
 
+
 # b4_symbol_constructor_define
 # ----------------------------
 # Define the overloaded versions of make_symbol for all the value types.
 m4_define([b4_symbol_constructor_define],
 [  // Implementation of make_symbol for each symbol type.
-b4_symbol_foreach([_b4_symbol_constructor_define])])
+b4_symbol_foreach([_b4_token_maker_define])])
