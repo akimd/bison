@@ -90,12 +90,15 @@ The various FIELDS are:
 - tag: string.
   A representation of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
 - user_number: integer
-  The assigned (external) number as used by yylex.
+  The external number as used by yylex.  Can be ASCII code when a character,
+  some number chosen by bison, or some user number in the case of
+  %token FOO <NUM>.  Corresponds to yychar in yacc.c.
 - is_token: 0 or 1
   Whether this is a terminal symbol.
 - number: integer
-  The internalized number (used after yytranslate).  This is the same
-  number that serves as key b4_symbol(NUM, FIELD).
+  The internal number (computed from the external number by yytranslate).
+  Corresponds to yytoken in yacc.c.  This is the same number that serves as
+  key in b4_symbol(NUM, FIELD).
 - has_type: 0, 1
   Whether has a semantic value.
 - type_tag: string

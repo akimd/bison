@@ -339,7 +339,7 @@ m4_define([b4_symbol_value_template],
 # ------------------------------------------
 # Declare make_SYMBOL for SYMBOL-NUM.  Use at class-level.
 m4_define([_b4_symbol_constructor_declare],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
+[b4_token_visible_if([$1],
 [#if 201103L <= YY_CPLUSPLUS
     static
     symbol_type
@@ -355,7 +355,7 @@ b4_join(b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
         b4_locations_if([const location_type& l])));
 #endif
-])])])
+])])
 
 
 # b4_symbol_constructor_declare
@@ -372,8 +372,8 @@ b4_symbol_foreach([_b4_symbol_constructor_declare])])
 # -----------------------------------------
 # Define make_SYMBOL for SYMBOL-NUM.
 m4_define([_b4_symbol_constructor_define],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[# if 201103L <= YY_CPLUSPLUS
+[b4_token_visible_if([$1],
+[#if 201103L <= YY_CPLUSPLUS
   inline
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
@@ -398,14 +398,14 @@ b4_join(b4_symbol_if([$1], [has_type],
                                 b4_locations_if([l])));
   }
 #endif
-])])])
+])])
 
 
 # b4_basic_symbol_constructor_declare(SYMBOL-NUM)
 # -----------------------------------------------
 # Generate a constructor declaration for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_declare],
-[[# if 201103L <= YY_CPLUSPLUS
+[[#if 201103L <= YY_CPLUSPLUS
       basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_symbol_if([$1], [has_type], [b4_symbol([$1], [type])&& v]),
@@ -418,11 +418,12 @@ m4_define([b4_basic_symbol_constructor_declare],
 #endif
 ]])
 
+
 # b4_basic_symbol_constructor_define(SYMBOL-NUM)
 # ----------------------------------------------
 # Generate a constructor implementation for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_define],
-[[# if 201103L <= YY_CPLUSPLUS
+[[#if 201103L <= YY_CPLUSPLUS
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
