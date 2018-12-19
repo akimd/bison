@@ -96,10 +96,36 @@ GNU Bison NEWS
   until it sees the '='.  So we notate the two possible reductions to
   indicate that each conflicts in one rule.
 
+*** C++: Actual token constructors
+
+  When variants and token constructors are enabled, in addition to the
+  type-safe named token constructors (make_ID, amke_INT, etc.), we now
+  generate genuine constructors for symbol_type.
+
+  For instance with these declarations
+
+    %token           ':'
+       <std::string> ID
+       <int>         INT;
+
+  you may use these constructors:
+
+    symbol_type (int token, const std::string&);
+    symbol_type (int token, const int&);
+    symbol_type (int token);
+
+  which should be used in a Flex-scanner as follows.
+
+    %%
+    [a-z]+   return yy::parser::symbol_type (ID, yytext);
+    [0-9]+   return yy::parser::symbol_type (INT, text_to_int (yytext);
+    ":"      return yy::parser::symbol_type (’:’);
+    <<EOF>>  return yy::parser::symbol_type (0);
+
 *** C++: Variadic emplace
 
-  If your application requires C++11, you may now use a variadic emplace for
-  semantic values:
+  If your application requires C++11 and you don't use symbol constructors,
+  you may now use a variadic emplace for semantic values:
 
     %define api.value.type variant
     %token <std::pair<int, int>> PAIR

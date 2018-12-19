@@ -332,7 +332,17 @@ m4_define([b4_symbol_type_declare],
     };
 
     /// "External" symbols: returned by the scanner.
-    typedef basic_symbol<by_type> symbol_type;
+    struct symbol_type : basic_symbol<by_type>
+    {]b4_variant_if([[
+      /// Superclass.
+      typedef basic_symbol<by_type> super_type;
+
+      /// Empty symbol.
+      symbol_type () {};
+
+      /// Constructor for valueless symbols, and symbols from each type.
+]b4_type_foreach([_b4_symbol_constructor_declare])[
+    ]])[};
 ]])
 
 
