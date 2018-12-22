@@ -162,7 +162,7 @@ m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
 # --------------
 # Output the definition of the tokens as enums.
 m4_define([b4_token_enums],
-[[enum yytokentype
+[[enum token_type
       {
         ]m4_join([,
         ],
@@ -217,15 +217,6 @@ m4_define([b4_public_types_declare],
       syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m);]b4_locations_if([
       location_type location;])[
     };
-
-    /// Tokens.
-    struct token
-    {
-      ]b4_token_enums[
-    };
-
-    /// (External) token type, as returned by yylex.
-    typedef token::yytokentype token_type;
 
     /// Symbol type: an internal symbol number.
     typedef int symbol_number_type;
@@ -300,6 +291,8 @@ m4_define([b4_symbol_type_declare],
     /// Type access provider for token (enum) based symbols.
     struct by_type
     {
+      ]b4_token_enums[
+
       /// Default constructor.
       by_type ();
 
@@ -322,7 +315,7 @@ m4_define([b4_symbol_type_declare],
       /// \a empty when empty.
       symbol_number_type type_get () const YY_NOEXCEPT;
 
-      /// The token.
+      /// The external token number.
       token_type token () const YY_NOEXCEPT;
 
       /// The symbol type.
@@ -332,17 +325,23 @@ m4_define([b4_symbol_type_declare],
     };
 
     /// "External" symbols: returned by the scanner.
-    struct symbol_type : basic_symbol<by_type>
+    struct token : basic_symbol<by_type>
     {]b4_variant_if([[
       /// Superclass.
       typedef basic_symbol<by_type> super_type;
 
       /// Empty symbol.
-      symbol_type () {};
+      token () {};
 
       /// Constructor for valueless symbols, and symbols from each type.
 ]b4_type_foreach([_b4_token_constructor_declare])dnl
     ])[};
+
+    /// (External) token type, as returned by yylex.
+    typedef token::token_type token_type;
+
+    /// Backward compatible alias.
+    typedef token symbol_type;
 ]])
 
 

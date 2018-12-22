@@ -267,6 +267,12 @@ b4_percent_code_get([[requires]])[
   class ]b4_parser_class_name[
   {
   public:
+    /// Tokens.
+    struct token
+    {
+      ]b4_token_enums[
+    };
+
 ]b4_public_types_declare[
 
     /// Build a parser object.

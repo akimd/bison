@@ -352,14 +352,14 @@ m4_define([_b4_token_maker_declare],
 [b4_token_visible_if([$1],
 [#if 201103L <= YY_CPLUSPLUS
     static
-    symbol_type
+    token
     make_[]_b4_symbol([$1], [id]) (b4_join(
                b4_symbol_if([$1], [has_type],
                [b4_symbol([$1], [type]) v]),
                b4_locations_if([location_type l])));
 #else
     static
-    symbol_type
+    token
     make_[]_b4_symbol([$1], [id]) (b4_join(
                b4_symbol_if([$1], [has_type],
                [const b4_symbol([$1], [type])& v]),
@@ -375,13 +375,13 @@ m4_define([_b4_token_maker_declare],
 m4_define([_b4_token_constructor_declare],
 [m4_ifval(_b4_includes_tokens($@),
 [#if 201103L <= YY_CPLUSPLUS
-    symbol_type (b4_join(
+      token (b4_join(
         [int tok],
         b4_symbol_if([$1], [has_type],
                      [b4_symbol([$1], [type]) v]),
         b4_locations_if([location_type l])));
 #else
-    symbol_type (b4_join(
+      token (b4_join(
         [int tok],
         b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
@@ -406,27 +406,27 @@ m4_define([_b4_token_maker_define],
 [b4_token_visible_if([$1],
 [#if 201103L <= YY_CPLUSPLUS
   inline
-  b4_parser_class_name::symbol_type
+  b4_parser_class_name::token
   b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (b4_join(
                      b4_symbol_if([$1], [has_type],
                      [b4_symbol([$1], [type]) v]),
                      b4_locations_if([location_type l])))
   {
-    return symbol_type (b4_join([token::b4_symbol([$1], [id])],
-                                b4_symbol_if([$1], [has_type], [std::move (v)]),
-                                b4_locations_if([std::move (l)])));
+    return {b4_join([token::b4_symbol([$1], [id])],
+                    b4_symbol_if([$1], [has_type], [std::move (v)]),
+                    b4_locations_if([std::move (l)]))};
   }
 #else
   inline
-  b4_parser_class_name::symbol_type
+  b4_parser_class_name::token
   b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (b4_join(
                      b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),
                      b4_locations_if([const location_type& l])))
   {
-    return symbol_type (b4_join([token::b4_symbol([$1], [id])],
-                                b4_symbol_if([$1], [has_type], [v]),
-                                b4_locations_if([l])));
+    return token (b4_join([token::b4_symbol([$1], [id])],
+                          b4_symbol_if([$1], [has_type], [v]),
+                          b4_locations_if([l])));
   }
 #endif
 ])])
@@ -446,7 +446,7 @@ m4_define([_b4_token_constructor_define],
 [m4_ifval(_b4_includes_tokens($@),
 [[#if 201103L <= YY_CPLUSPLUS
   inline
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_join(
+  ]b4_parser_class_name[::token::token (]b4_join(
         [int tok],
         b4_symbol_if([$1], [has_type],
                      [b4_symbol([$1], [type]) v]),
@@ -459,7 +459,7 @@ m4_define([_b4_token_constructor_define],
   }
 #else
   inline
-  ]b4_parser_class_name[::symbol_type::symbol_type (]b4_join(
+  ]b4_parser_class_name[::token::token (]b4_join(
         [int tok],
         b4_symbol_if([$1], [has_type],
                      [const b4_symbol([$1], [type])& v]),

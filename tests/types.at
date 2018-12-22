@@ -299,11 +299,11 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
                           << $2.first << ':' << $2.second << '\n';
               }],
             ["12"],
-            [[typedef yy::parser::symbol_type symbol;
+            [[typedef yy::parser::token token;
              if (res)
-               return symbol (res, std::make_pair (res - '0', res - '0' + 1));
+               return token (res, std::make_pair (res - '0', res - '0' + 1));
              else
-               return symbol (res)]],
+               return token (res)]],
             [1:2, 2:3])
 
     # Move-only types, and variadic emplace.

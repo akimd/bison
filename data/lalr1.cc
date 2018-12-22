@@ -127,7 +127,7 @@ b4_dollar_popdef[]dnl
 m4_define([b4_lex],
 [b4_token_ctor_if(
 [b4_function_call([yylex],
-                  [symbol_type], m4_ifdef([b4_lex_param], b4_lex_param))],
+                  [token], m4_ifdef([b4_lex_param], b4_lex_param))],
 [b4_function_call([yylex], [int],
                   [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
 b4_locations_if([, [[location*], [&yyla.location]]])dnl
@@ -230,7 +230,7 @@ m4_define([b4_shared_declarations],
     /// \param yystate   the state where the error occurred.
     /// \param yyla      the lookahead token.
     virtual std::string yysyntax_error_ (state_type yystate,
-                                         const symbol_type& yyla) const;
+                                         const token& yyla) const;
 
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -331,7 +331,7 @@ m4_define([b4_shared_declarations],
       /// Move or copy construction.
       stack_symbol_type (YY_RVREF (stack_symbol_type) that);
       /// Steal the contents from \a sym to build this.
-      stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) sym);
+      stack_symbol_type (state_type s, YY_MOVE_REF (token) sym);
 #if YY_CPLUSPLUS < 201103L
       /// Assignment, needed by push_back by some old implementations.
       /// Moves the contents of that.
@@ -358,7 +358,7 @@ m4_define([b4_shared_declarations],
     /// \param s    the state
     /// \param sym  the symbol (for its value and location).
     /// \warning the contents of \a sym.value is stolen.
-    void yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym);
+    void yypush_ (const char* m, state_type s, YY_MOVE_REF (token) sym);
 
     /// Pop \a n symbols from the stack.
     void yypop_ (int n = 1);
@@ -614,7 +614,7 @@ m4_if(b4_prefix, [yy], [],
 #endif
   }
 
-  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) that)
+  ]b4_parser_class_name[::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (token) that)
     : super_type (s]b4_variant_if([], [, YY_MOVE (that.value)])[]b4_locations_if([, YY_MOVE (that.location)])[)
   {]b4_variant_if([
     b4_symbol_variant([that.type_get ()],
@@ -679,12 +679,12 @@ m4_if(b4_prefix, [yy], [],
   }
 
   void
-  ]b4_parser_class_name[::yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym)
+  ]b4_parser_class_name[::yypush_ (const char* m, state_type s, YY_MOVE_REF (token) tok)
   {
 #if 201103L <= YY_CPLUSPLUS
-    yypush_ (m, stack_symbol_type (s, std::move (sym)));
+    yypush_ (m, stack_symbol_type (s, std::move (tok)));
 #else
-    stack_symbol_type ss (s, sym);
+    stack_symbol_type ss (s, tok);
     yypush_ (m, ss);
 #endif
   }
@@ -763,7 +763,7 @@ m4_if(b4_prefix, [yy], [],
     int yyerrstatus_ = 0;
 
     /// The lookahead symbol.
-    symbol_type yyla;]b4_locations_if([[
+    token yyla;]b4_locations_if([[
 
     /// The locations where the error started and ended.
     stack_symbol_type yyerror_range[3];]])[
@@ -819,7 +819,7 @@ b4_dollar_popdef])[]dnl
         try
 #endif // YY_EXCEPTIONS
           {]b4_token_ctor_if([[
-            symbol_type yylookahead (]b4_lex[);
+            token yylookahead (]b4_lex[);
             yyla.move (yylookahead);]], [[
             yyla.type = yytranslate_ (]b4_lex[);]])[
           }
@@ -1083,8 +1083,8 @@ b4_dollar_popdef])[]dnl
   // Generate an error message.
   std::string
   ]b4_parser_class_name[::yysyntax_error_ (]dnl
-b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
-                    [state_type, const symbol_type&])[) const
+b4_error_verbose_if([state_type yystate, const token& yyla],
+                    [state_type, const token&])[) const
   {]b4_error_verbose_if([[
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
