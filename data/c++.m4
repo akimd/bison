@@ -341,8 +341,8 @@ m4_define([b4_symbol_type_declare],
       symbol_type () {};
 
       /// Constructor for valueless symbols, and symbols from each type.
-]b4_type_foreach([_b4_symbol_constructor_declare])[
-    ]])[};
+]b4_type_foreach([_b4_token_constructor_declare])dnl
+    ])[};
 ]])
 
 
@@ -488,16 +488,16 @@ m4_define([b4_public_types_define],
   }
 ]])[]dnl
 
-b4_symbol_constructor_define])
+b4_token_constructor_define])
 
 
-# b4_symbol_constructor_declare
-# b4_symbol_constructor_define
-# -----------------------------
+# b4_token_constructor_declare
+# b4_tolen_constructor_define
+# ----------------------------
 # Declare/define symbol constructors for all the value types.
 # Use at class-level.  Redefined in variant.hh.
-m4_define([b4_symbol_constructor_declare], [])
-m4_define([b4_symbol_constructor_define], [])
+m4_define([b4_token_constructor_declare], [])
+m4_define([b4_token_constructor_define], [])
 
 
 # b4_yytranslate_define(cc|hh)

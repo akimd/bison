@@ -216,7 +216,7 @@ m4_define([b4_shared_declarations],
     /// Report a syntax error.
     void error (const syntax_error& err);
 
-]b4_symbol_constructor_declare[
+]b4_token_constructor_declare[
 
   private:
     /// This class is not copyable.

@@ -368,11 +368,11 @@ m4_define([_b4_token_maker_declare],
 ])])
 
 
-# _b4_symbol_constructor_declare(SYMBOL-NUM...)
-# ---------------------------------------------
+# _b4_token_constructor_declare(SYMBOL-NUM...)
+# --------------------------------------------
 # Declare a unique make_symbol for all the SYMBOL-NUM (they
 # have the same type).  Use at class-level.
-m4_define([_b4_symbol_constructor_declare],
+m4_define([_b4_token_constructor_declare],
 [m4_ifval(_b4_includes_tokens($@),
 [#if 201103L <= YY_CPLUSPLUS
     symbol_type (b4_join(
@@ -390,10 +390,10 @@ m4_define([_b4_symbol_constructor_declare],
 ])])
 
 
-# b4_symbol_constructor_declare
-# -----------------------------
-# Declare symbol constructors.  Use at class-level.
-m4_define([b4_symbol_constructor_declare],
+# b4_token_constructor_declare
+# ----------------------------
+# Declare token constructors.  Use at class-level.
+m4_define([b4_token_constructor_declare],
 [    // Symbol constructors declarations.
 b4_symbol_foreach([_b4_token_maker_declare])])
 
@@ -432,8 +432,8 @@ m4_define([_b4_token_maker_define],
 ])])
 
 
-# _b4_symbol_constructor_define(SYMBOL-NUM...)
-# --------------------------------------------
+# _b4_token_constructor_define(SYMBOL-NUM...)
+# -------------------------------------------
 # Declare a unique make_symbol for all the SYMBOL-NUM (they
 # have the same type).  Use at class-level.
 m4_define([_b4_type_clause],
@@ -442,7 +442,7 @@ m4_define([_b4_type_clause],
                             [tok == token::b4_symbol([$1], [id])],
                             [tok == b4_symbol([$1], [user_number])])])])
 
-m4_define([_b4_symbol_constructor_define],
+m4_define([_b4_token_constructor_define],
 [m4_ifval(_b4_includes_tokens($@),
 [[#if 201103L <= YY_CPLUSPLUS
   inline
@@ -520,10 +520,10 @@ m4_define([b4_basic_symbol_constructor_define],
 ]])
 
 
-# b4_symbol_constructor_define
-# ----------------------------
+# b4_token_constructor_define
+# ---------------------------
 # Define the overloaded versions of make_symbol for all the value types.
-m4_define([b4_symbol_constructor_define],
+m4_define([b4_token_constructor_define],
 [  // Implementation of make_symbol for each symbol type.
-b4_type_foreach([_b4_symbol_constructor_define])
+b4_type_foreach([_b4_token_constructor_define])
 b4_symbol_foreach([_b4_token_maker_define])])
