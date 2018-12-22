@@ -32,6 +32,13 @@ dist_pkgdata_DATA =                             \
   data/variant.hh                               \
   data/yacc.c
 
+# Experimental support for the D language.
+dist_pkgdata_DATA +=				\
+  data/README-D.txt				\
+  data/d-skel.m4				\
+  data/d.m4					\
+  data/lalr1.d
+
 m4sugardir = $(pkgdatadir)/m4sugar
 dist_m4sugar_DATA =                             \
   data/m4sugar/foreach.m4                       \

@@ -26,13 +26,13 @@ AM_CXXFLAGS =							\
 doc = $(top_srcdir)/doc/bison.texi
 extexi = $(top_srcdir)/%D%/extexi
 if ENABLE_GCC_WARNINGS
-EXTEXIFLAGS = --synclines
+  EXTEXIFLAGS = --synclines
 endif
 extract = VERSION="$(VERSION)" $(PERL) $(extexi) $(EXTEXIFLAGS) $(doc) --
 extracted =
 EXTRA_DIST += $(extracted)
 MAINTAINERCLEANFILES += $(extracted) %D%/extracted.stamp
-%D%/extracted.stamp: $(doc) $(extexi)
+%D%/extracted.stamp: $(doc) doc/version.texi $(extexi)
 	$(AM_V_GEN)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
@@ -71,12 +71,11 @@ examples-unline:
 ## ---------- ##
 
 examplesdir = $(docdir)/examples
-dist_examples_DATA = %D%/README
+dist_examples_DATA = %D%/README.md
 
 CLEANDIRS += %D%/*.dSYM
 
-include %D%/calc++/local.mk
+include %D%/c/local.mk
 include %D%/c++/local.mk
+include %D%/d/local.mk
 include %D%/java/local.mk
-include %D%/mfcalc/local.mk
-include %D%/rpcalc/local.mk

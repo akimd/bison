@@ -7,6 +7,9 @@ Several features are not available in all the backends.
 - token constructors: Java and C
 
 * Short term
+** consistency
+token vs terminal
+
 ** yacc.c
 Now that ylwrap is fixed, we should include foo.tab.h from foo.tab.c rather
 than duplicating it.
@@ -210,9 +213,10 @@ Provide better assistance for understanding the conflicts by providing
 a sample text exhibiting the (LALR) ambiguity.  See the paper from
 DeRemer and Penello: they already provide the algorithm.
 
-** Statically check for potential ambiguities in GLR grammars.  See
-<http://www.i3s.unice.fr/~schmitz/papers.html#expamb> for an approach.
-
+** Statically check for potential ambiguities in GLR grammars
+See <http://www.lsv.fr/~schmitz/pub/expamb.pdf> for an approach.
+An Experimental Ambiguity Detection Tool ∗ Sylvain Schmitz
+LORIA, INRIA Nancy - Grand Est, Nancy, France
 
 * Extensions
 ** Multiple start symbols

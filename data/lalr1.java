@@ -584,7 +584,7 @@ b4_define_state])[
     /* Initialize the stack.  */
     yystack.push (yystate, yylval ]b4_locations_if([, yylloc])[);
 ]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yylval], [], [yylloc])dnl
+b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[
@@ -594,7 +594,7 @@ b4_dollar_popdef[]dnl
       {
         push_parse_initialize ();
 ]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yylval], [], [yylloc])dnl
+b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[
@@ -1033,7 +1033,7 @@ b4_both_if([[
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yy_symbol_print ("   $" + (yyi + 1) + " =",
                        yystos_[yystack.stateAt(yynrhs - (yyi + 1))],
-                       ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
+                       ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
                        b4_rhs_location(yynrhs, yyi + 1)])[);
   }
 

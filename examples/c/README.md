@@ -3,10 +3,7 @@ This directory contains examples of Bison grammar files.
 Most of them come from the documentation, which should be installed together
 with Bison.  The URLs are provided for convenience.
 
-
-* Examples in C
-
-** rpcalc - Reverse Polish Notation Calculator
+# rpcalc - Reverse Polish Notation Calculator
 The first example is that of a simple double-precision Reverse Polish
 Notation calculator (a calculator using postfix operators). This example
 provides a good starting point, since operator precedence is not an issue.
@@ -14,36 +11,16 @@ provides a good starting point, since operator precedence is not an issue.
 Extracted from the documentation: "Reverse Polish Notation Calculator"
 https://www.gnu.org/software/bison/manual/html_node/RPN-Calc.html
 
-** mfcalc - Multi-Function Calculator
+# mfcalc - Multi-Function Calculator
 A more complete C example: a multi-function calculator.
 
 Extracted from the documentation: "Multi-Function Calculator: mfcalc".
 https://www.gnu.org/software/bison/manual/html_node/Multi_002dfunction-Calc.html
 
 
-
-* Examples in C++
-
-** c++ - A directory of simple C++ examples
-
-** calc++ - A Complete C++ Example
-A fully featured C++ version of the canonical example for parsers: a
-calculator.  Also uses Flex for the scanner.
-
-Extracted from the documentation: "A Complete C++ Example".
-https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
-
-
-* Examples in Java
-
-** java/Calc.y
-The usual calculator.
-
-
------
+<!---
 
 Local Variables:
-mode: outline
 fill-column: 76
 ispell-dictionary: "american"
 End:
@@ -58,3 +35,4 @@ Texts.  A copy of the license is included in the "GNU Free
 Documentation License" file as part of this distribution.
 
 # LocalWords:  mfcalc calc parsers yy
+--->

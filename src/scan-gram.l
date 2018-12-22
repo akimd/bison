@@ -243,6 +243,7 @@ eqopt    ([[:space:]]*=)?
   "%no-lines"                       return BISON_DIRECTIVE(NO_LINES);
   "%nonassoc"                       return PERCENT_NONASSOC;
   "%nondeterministic-parser"        return BISON_DIRECTIVE(NONDETERMINISTIC_PARSER);
+  "%nterm"                          return BISON_DIRECTIVE(NTERM);
   "%output"                         return BISON_DIRECTIVE(OUTPUT);
   "%param"                          RETURN_PERCENT_PARAM(both);
   "%parse-param"                    RETURN_PERCENT_PARAM(parse);
@@ -278,12 +279,6 @@ eqopt    ([[:space:]]*=)?
   "%output"{eqopt}                  DEPRECATED("%output");
   "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
   "%token"[-_]"table"               DEPRECATED("%token-table");
-
-  "%nterm"  {
-    /* Deprecated since Bison 3.3, but was a rather stealth feature.  */
-    deprecated_directive (loc, yytext, "%type");
-    return PERCENT_NTERM;
-  }
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
@@ -526,6 +521,8 @@ eqopt    ([[:space:]]*=)?
     STRING_FINISH;
     BEGIN INITIAL;
     loc->start = token_start;
+    complain (loc, Wyacc,
+              _("POSIX Yacc does not support string literals"));
     RETURN_VALUE (STRING, last_string);
   }
   <<EOF>>   unexpected_eof (token_start, "\"");
@@ -851,6 +848,10 @@ static unsigned long
 scan_integer (char const *number, int base, location loc)
 {
   verify (INT_MAX < ULONG_MAX);
+  if (base == 16)
+    complain (&loc, Wyacc,
+              _("POSIX Yacc does not support hexadecimal literals"));
+
   unsigned long num = strtoul (number, NULL, base);
 
   if (INT_MAX < num)

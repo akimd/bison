@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 me=$(basename "$1" .test)
-medir=$(basename "$(dirname "$1")")
+medir=$(dirname "$1" | sed -e 's,.*examples/,,')
 
 # Number of the current test.
 number=1
@@ -28,7 +28,7 @@ exit=true
 cwd=$(pwd)
 
 # The exercised program.
-for p in "$cwd/examples/$medir/$me" "$cwd/examples/$me"
+for p in "$cwd/examples/$medir/$me"
 do
     if test -x "$p"; then
         prog=$p
@@ -40,7 +40,8 @@ do
     fi
 done
 if test x"$prog" = x; then
-    echo "$me: ERROR: cannot find program to exercise"
+    echo "$me: ERROR: cannot find program to exercise in:"
+    echo "$me: ERROR:   $cwd/examples/$medir/$me"
     exit 1
 fi
 

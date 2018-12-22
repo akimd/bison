@@ -117,7 +117,7 @@ typedef struct
 
 /* What is the symbol labelling the transition to
    TRANSITIONS->states[Num]?  Can be a token (amongst which the error
-   token), or non terminals in case of gotos.  */
+   token), or nonterminals in case of gotos.  */
 
 # define TRANSITION_SYMBOL(Transitions, Num) \
   (Transitions->states[Num]->accessing_symbol)

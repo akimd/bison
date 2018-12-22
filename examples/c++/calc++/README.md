@@ -1,6 +1,10 @@
-This directory contains calc++, a simple Bison grammar file in C++.
+# calc++ - A Flex+Bison calculator
 
-Please, read the corresponding chapter in the documentation: "A Complete C++
+This directory contains calc++, a Bison grammar file in C++.  If you never
+saw the traditional implementation in C, please first read
+examples/c/lexcalc, which can be seen as a C precursor of this example.
+
+Read the corresponding chapter in the documentation: "A Complete C++
 Example".  It is also available on line (maybe with a different version of
 Bison):
 https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
@@ -13,6 +17,7 @@ evaluate.
 The program calc++ expects the file to parse as argument; pass `-` to read
 the standard input (and then hit <Ctrl-d>, control-d, to end your input).
 
+```
 $ ./calc++ -
 one := 1
 two := 2
@@ -20,14 +25,13 @@ three := 3
 (one + two * three) * two * three
 <Ctrl-d>
 42
+```
 
 You may pass `-p` to activate the parser debug traces, and `-s` to activate
 the scanner's.
 
------
-
+<!---
 Local Variables:
-mode: outline
 fill-column: 76
 ispell-dictionary: "american"
 End:
@@ -49,4 +53,5 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# LocalWords:  mfcalc calc parsers yy MERCHANTABILITY Ctrl ispell american
+# LocalWords:  calc parsers yy MERCHANTABILITY Ctrl ispell american
+--->

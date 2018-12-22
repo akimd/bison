@@ -176,7 +176,7 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
 ]AT_YYLEX_PROTOTYPE[
 {
   int c;
-  /* Skip current token, then white spaces.  */
+  /* Skip white spaces.  */
   do
     {
 ]AT_LOCATION_IF(
@@ -186,7 +186,7 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
     }
   while ((c = get_char (]AT_YYLEX_ARGS[)) == ' ' || c == '\t');
 
-  /* process numbers   */
+  /* Process numbers   */
   if (c == '.' || isdigit (c))
     {
       unget_char (]AT_YYLEX_PRE_ARGS[ c);

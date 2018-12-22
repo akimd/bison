@@ -130,11 +130,76 @@ AT_BISON_CHECK([input.y], [1], [],
 AT_CLEANUP
 
 
-## --------------------- ##
-## Invalid %nterm uses.  ##
-## --------------------- ##
+## -------------------------- ##
+## Yacc warnings on symbols.  ##
+## -------------------------- ##
 
-AT_SETUP([Invalid %nterm uses])
+AT_SETUP([Yacc warnings on symbols])
+
+AT_DATA([input.y],
+[[%nterm exp
+%token NUM 0x40 "number"
+%%
+exp: "number";
+]])
+
+AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
+[[input.y:1.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
+ %nterm exp
+ ^^^^^^
+input.y:2.12-15: warning: POSIX Yacc does not support hexadecimal literals [-Wyacc]
+ %token NUM 0x40 "number"
+            ^^^^
+input.y:2.17-24: warning: POSIX Yacc does not support string literals [-Wyacc]
+ %token NUM 0x40 "number"
+                 ^^^^^^^^
+input.y:4.6-13: warning: POSIX Yacc does not support string literals [-Wyacc]
+ exp: "number";
+      ^^^^^^^^
+]])
+
+AT_CLEANUP
+
+
+## --------------- ##
+## Yacc warnings.  ##
+## --------------- ##
+
+AT_SETUP([Yacc warnings])
+
+AT_DATA([input.y],
+[[%destructor {} <int>
+%printer {} <int>
+%type <int> exp a b
+%%
+exp: a b             { $$ = $1 + $2; };
+a: <int>{ $$ = 42; } { $$ = $1; };
+b: %empty            { $$ = 42; };
+]])
+
+AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
+[[input.y:1.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
+ %destructor {} <int>
+ ^^^^^^^^^^^
+input.y:2.1-8: warning: POSIX Yacc does not support %printer [-Wyacc]
+ %printer {} <int>
+ ^^^^^^^^
+input.y:6.9-20: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
+ a: <int>{ $$ = 42; } { $$ = $1; };
+         ^^^^^^^^^^^^
+input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
+ b: %empty            { $$ = 42; };
+    ^^^^^^
+]])
+
+AT_CLEANUP
+
+
+## ----------------------------- ##
+## Invalid symbol declarations.  ##
+## ----------------------------- ##
+
+AT_SETUP([Invalid symbol declarations])
 
 AT_DATA([input.y],
 [[%nterm expr "expression";
@@ -142,6 +207,9 @@ AT_DATA([input.y],
 %nterm fact 124 "factor";
 %nterm '+' '*';
 %nterm "number";
+%token "tok1" 1;
+%left "tok2" 2;
+%type "tok3" 3;
 %%
 expr: expr '+' term | term;
 term: term '*' fact | fact;
@@ -149,39 +217,133 @@ fact: "number";
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:1.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm expr "expression";
- ^^^^^^
-input.y:1.13-24: error: non-terminals cannot be given a string alias
+[[input.y:1.13-24: error: nonterminals cannot be given a string alias
  %nterm expr "expression";
              ^^^^^^^^^^^^
-input.y:2.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm term 123;
- ^^^^^^
-input.y:2.13-15: error: non-terminals cannot be given an explicit number
+input.y:2.13-15: error: nonterminals cannot be given an explicit number
  %nterm term 123;
              ^^^
-input.y:3.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm fact 124 "factor";
- ^^^^^^
-input.y:3.13-15: error: non-terminals cannot be given an explicit number
+input.y:3.13-15: error: nonterminals cannot be given an explicit number
  %nterm fact 124 "factor";
              ^^^
-input.y:3.17-24: error: non-terminals cannot be given a string alias
+input.y:3.17-24: error: nonterminals cannot be given a string alias
  %nterm fact 124 "factor";
                  ^^^^^^^^
-input.y:4.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm '+' '*';
- ^^^^^^
-input.y:4.8-10: error: character literals cannot be non-terminals
+input.y:4.8-10: error: character literals cannot be nonterminals
  %nterm '+' '*';
         ^^^
-input.y:5.1-6: warning: deprecated directive, use '%type' [-Wdeprecated]
- %nterm "number";
- ^^^^^^
 input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
  %nterm "number";
         ^^^^^^^^
+input.y:6.8-13: error: syntax error, unexpected string, expecting char or identifier or <tag>
+ %token "tok1" 1;
+        ^^^^^^
+input.y:7.14: error: syntax error, unexpected integer
+ %left "tok2" 2;
+              ^
+input.y:8.14: error: syntax error, unexpected integer
+ %type "tok3" 3;
+              ^
+]])
+
+AT_CLEANUP
+
+
+## --------------------- ##
+## Symbol declarations.  ##
+## --------------------- ##
+
+# Check the parsing of %token, %nterm, %type and %left...
+AT_SETUP([Symbol declarations])
+
+AT_DATA([dump-symbols.m4],
+[[m4@&t@_define([b4_symbol_dump],
+[$1, d@&t@nl
+b4_symbol_if([$1], [is_token], [Token], [Nonterminal]), d@&t@nl
+b4_symbol([$1], [tag]), d@&t@nl
+b4_symbol([$1], [id]), d@&t@nl
+b4_symbol([$1], [user_number]), d@&t@nl
+b4_symbol([$1], [type]),
+])
+
+b4_output_begin([symbols.csv])
+number, class, tag, id, user_number, type,
+b4_symbol_foreach([b4_symbol_dump])d@&t@nl
+b4_output_end
+]])
+
+AT_DATA([input.y],
+[[%token 'a' A1 1 "A1" A2 A3 "A3" A4 4
+      <type_b> 'b' B5 5 "B5" B6 B7 "B8" B9 9
+      <type_c> 'c' C10 10 "C10" C11 C12 "C12" C13 13
+
+%left 'd' D20 20 "D20" D21 D22 "D22" D23 23
+      <type_e> 'e' E25 25 "E25" E26 E27 "E28" E29 29
+      <type_f> 'f' F30 30 "F30" F31 F32 "F32" F33 33
+
+%type 'g' G40 "D40" G21 G22 G23
+      <type_h> 'h' H25 "H25" H26 H27 "H28" H29
+      <type_i> 'i' I30 "I30" I31 I32 "I32" I33
+
+%nterm j60 j61 j62 j63
+      <type_k> k75 k76 k77 k79
+      <type_l> l80 l81 l82 l83
+%%
+exp:;
+]])
+
+AT_BISON_CHECK([-Wno-other -S./dump-symbols.m4 input.y])
+AT_CHECK([cat symbols.csv], [],
+[[number, class, tag, id, user_number, type,
+0, Token, $end, , 0, ,
+1, Nonterminal, error, error, 256, ,
+2, Nonterminal, $undefined, , 257, ,
+3, Token, 'a', , 97, ,
+4, Token, "A1", A1, 1, ,
+5, Token, A2, A2, 258, ,
+6, Token, "A3", A3, 259, ,
+7, Token, A4, A4, 4, ,
+8, Token, 'b', , 98, type_b,
+9, Token, "B5", B5, 5, type_b,
+10, Token, B6, B6, 260, type_b,
+11, Token, "B8", B7, 261, type_b,
+12, Token, B9, B9, 9, type_b,
+13, Token, 'c', , 99, type_c,
+14, Token, "C10", C10, 10, type_c,
+15, Token, C11, C11, 262, type_c,
+16, Token, "C12", C12, 263, type_c,
+17, Token, C13, C13, 13, type_c,
+18, Token, 'd', , 100, ,
+19, Token, D20, D20, 20, ,
+20, Token, "D20", , 264, ,
+21, Token, D21, D21, 265, ,
+22, Token, D22, D22, 266, ,
+23, Token, "D22", , 267, ,
+24, Token, D23, D23, 23, ,
+25, Token, 'e', , 101, type_e,
+26, Token, E25, E25, 25, type_e,
+27, Token, "E25", , 268, type_e,
+28, Token, E26, E26, 269, type_e,
+29, Token, E27, E27, 270, type_e,
+30, Token, "E28", , 271, type_e,
+31, Token, E29, E29, 29, type_e,
+32, Token, 'f', , 102, type_f,
+33, Token, F30, F30, 30, type_f,
+34, Token, "F30", , 272, type_f,
+35, Token, F31, F31, 273, type_f,
+36, Token, F32, F32, 274, type_f,
+37, Token, "F32", , 275, type_f,
+38, Token, F33, F33, 33, type_f,
+39, Token, 'g', , 103, ,
+40, Token, "D40", , 276, ,
+41, Token, 'h', , 104, type_h,
+42, Token, "H25", , 277, type_h,
+43, Token, "H28", , 278, type_h,
+44, Token, 'i', , 105, type_i,
+45, Token, "I30", , 279, type_i,
+46, Token, "I32", , 280, type_i,
+47, Nonterminal, $accept, , -1, ,
+48, Nonterminal, exp, exp, -1, ,
 ]])
 
 AT_CLEANUP
@@ -431,36 +593,6 @@ input.y:26.40-42: warning: unset value: $][$ [-Wother]
                                         ^^^
 ]])
 
-AT_BISON_CHECK([-Wnone,yacc -fcaret input.y],
-               [0], [],
-[m4_ifval([$1], [], [[input.y:3.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
- %destructor { destroy ($$); } <integer>;
- ^^^^^^^^^^^
-]])[input.y:13.10-15: warning: POSIX Yacc does not support %empty [-Wyacc]
- b: INT | %empty;
-          ^^^^^^
-input.y:24.23-34: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
-                       ^^^^^^^^^^^^
-input.y:24.49-65: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- m: INT | INT <integer>{ $][$ = $][1; } INT <integer>{ $][$ = $][2 + $][3; } INT { $][$ = $][4 + $][5; };
-                                                 ^^^^^^^^^^^^^^^^^
-input.y:25.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                       ^^^
-input.y:25.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                        ^^^
-input.y:26.23-25: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                       ^^^
-input.y:26.40-42: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                                        ^^^
-]m4_ifval([$1], [[input.y:30.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
- %destructor { destroy ($$); } <integer>;
- ^^^^^^^^^^^
-]])])
 ])
 
 ## --------------- ##
@@ -480,6 +612,42 @@ AT_CLEANUP
 AT_SETUP([Unused values before symbol declarations])
 AT_CHECK_UNUSED_VALUES([1])
 AT_CHECK_UNUSED_VALUES([1], [1])
+AT_CLEANUP
+
+
+## --------------------------- ##
+## Symbol class redefinition.  ##
+## --------------------------- ##
+
+AT_SETUP([Symbol class redefinition])
+
+AT_DATA([[input.y]],
+[[%token FOO
+%nterm FOO BAR
+%token BAR
+%%
+FOO: BAR
+BAR:
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
+ %nterm FOO BAR
+        ^^^
+input.y:1.8-10:     previous definition
+ %token FOO
+        ^^^
+input.y:3.8-10: error: symbol BAR redeclared as a token
+ %token BAR
+        ^^^
+input.y:2.12-14:    previous definition
+ %nterm FOO BAR
+            ^^^
+input.y:5.1-3: error: rule given for FOO, which is a token
+ FOO: BAR
+ ^^^
+]])
+
 AT_CLEANUP
 
 
@@ -1237,8 +1405,12 @@ AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([--yacc input.y], [1], [],
 [[input.y:1.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
 input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
+input.y:10.21-34: error: POSIX Yacc does not support string literals [-Werror=yacc]
+input.y:12.23-38: error: POSIX Yacc does not support string literals [-Werror=yacc]
 input.y:13.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
 input.y:20.8-16: error: POSIX Yacc forbids dashes in symbol names: with-dash [-Werror=yacc]
+input.y:22.15-28: error: POSIX Yacc does not support string literals [-Werror=yacc]
+input.y:24.17-32: error: POSIX Yacc does not support string literals [-Werror=yacc]
 ]])
 
 # Dashes are fine for GNU Bison.

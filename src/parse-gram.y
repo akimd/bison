@@ -52,7 +52,6 @@
   static named_ref *current_lhs_named_ref;
   static symbol *current_lhs_symbol;
   static symbol_class current_class = unknown_sym;
-  static uniqstr current_type = NULL;
 
   /** Set the new current left-hand side symbol, possibly common
    * to several right-hand side parts of rule.
@@ -201,13 +200,14 @@
 %token <int> INT "integer"
 %printer { fprintf (yyo, "%d", $$); } <int>
 
-%type <symbol*> id id_colon string_as_id symbol symbol.prec
-%printer { fprintf (yyo, "%s", $$->tag); } <symbol*>
+%type <symbol*> id id_colon string_as_id symbol token_decl token_decl_for_prec
+%printer { fprintf (yyo, "%s", $$ ? $$->tag : "<NULL>"); } <symbol*>
 %printer { fprintf (yyo, "%s:", $$->tag); } id_colon
 
 %type <assoc> precedence_declarator
 
-%type <symbol_list*>  symbols.1 symbols.prec generic_symlist generic_symlist_item
+%destructor { symbol_list_free ($$); } <symbol_list*>
+%printer { symbol_list_syms_print ($$, yyo); } <symbol_list*>
 
 %type <named_ref*> named_ref.opt
 
@@ -332,8 +332,7 @@ params:
 `----------------------*/
 
 grammar_declaration:
-  precedence_declaration
-| symbol_declaration
+  symbol_declaration
 | "%start" symbol
     {
       grammar_start_symbol_set ($2, @2);
@@ -402,37 +401,29 @@ grammar_declaration:
 ;
 
 
-
-
+%type <symbol_list*> nterm_decls symbol_decls symbol_decl.1
+      token_decls token_decls_for_prec
+      token_decl.1 token_decl_for_prec.1;
 symbol_declaration:
-  "%nterm" { current_class = nterm_sym; } symbol_defs.1
+  "%nterm" { current_class = nterm_sym; } nterm_decls[syms]
     {
       current_class = unknown_sym;
-      current_type = NULL;
+      symbol_list_free ($syms);
     }
-| "%token" { current_class = token_sym; } symbol_defs.1
+| "%token" { current_class = token_sym; } token_decls[syms]
     {
       current_class = unknown_sym;
-      current_type = NULL;
+      symbol_list_free ($syms);
     }
-| "%type" TAG symbols.1
+| "%type" symbol_decls[syms]
     {
-      tag_seen = true;
-      for (symbol_list *list = $3; list; list = list->next)
-        symbol_type_set (list->content.sym, $2, @2);
-      symbol_list_free ($3);
+      symbol_list_free ($syms);
     }
-;
-
-precedence_declaration:
-  precedence_declarator tag.opt symbols.prec[syms]
+| precedence_declarator token_decls_for_prec[syms]
     {
       ++current_prec;
       for (symbol_list *list = $syms; list; list = list->next)
-        {
-          symbol_type_set (list->content.sym, $[tag.opt], @[tag.opt]);
-          symbol_precedence_set (list->content.sym, current_prec, $1, @1);
-        }
+        symbol_precedence_set (list->content.sym, current_prec, $1, @1);
       symbol_list_free ($syms);
     }
 ;
@@ -446,39 +437,10 @@ precedence_declarator:
 
 tag.opt:
   %empty { $$ = NULL; }
-| TAG    { $$ = $1; tag_seen = true; }
+| TAG    { $$ = $1; }
 ;
 
-/* Just like symbols.1 but accept INT for the sake of POSIX.  */
-symbols.prec:
-  symbol.prec
-    { $$ = symbol_list_sym_new ($1, @1); }
-| symbols.prec symbol.prec
-    { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
-;
-
-symbol.prec:
-  symbol
-    {
-      $$ = $1;
-      symbol_class_set ($1, token_sym, @1, false);
-    }
-| symbol INT
-    {
-      $$ = $1;
-      symbol_user_token_number_set ($1, $2, @2);
-      symbol_class_set ($1, token_sym, @1, false);
-    }
-;
-
-/* One or more symbols to be %typed. */
-symbols.1:
-  symbol
-    { $$ = symbol_list_sym_new ($1, @1); }
-| symbols.1 symbol
-    { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
-;
-
+%type <symbol_list*> generic_symlist generic_symlist_item;
 generic_symlist:
   generic_symlist_item
 | generic_symlist generic_symlist_item   { $$ = symbol_list_append ($1, $2); }
@@ -495,35 +457,54 @@ tag:
 | "<>"  { $$ = uniqstr_new (""); }
 ;
 
-/* One symbol (token or nterm depending on current_class) definition.  */
-symbol_def:
-  TAG
+/*-----------------------.
+| nterm_decls (%nterm).  |
+`-----------------------*/
+
+// A non empty list of possibly tagged symbols for %nterm.
+// 
+// Can easily be defined like symbol_decls but restricted to ID, but
+// using token_decls allows to reudce the number of rules, and also to
+// make nicer error messages on "%nterm 'a'" or '%nterm FOO "foo"'.
+nterm_decls:
+  token_decls
+;
+
+/*-----------------------------------.
+| token_decls (%token, and %nterm).  |
+`-----------------------------------*/
+
+// A non empty list of possibly tagged symbols for %token or %nterm.
+token_decls:
+  token_decl.1[syms]
     {
-      current_type = $1;
-      tag_seen = true;
+      $$ = $syms;
     }
-| id int.opt[num] string_as_id.opt[alias]
+| TAG token_decl.1[syms]
     {
+      $$ = symbol_list_type_set ($syms, $TAG, @TAG);
+    }
+| token_decls TAG token_decl.1[syms]
+    {
+      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG, @TAG));
+    }
+;
+
+// One or more symbol declarations for %token or %nterm.
+token_decl.1:
+  token_decl                { $$ = symbol_list_sym_new ($1, @1); }
+| token_decl.1 token_decl   { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
+
+// One symbol declaration for %token or %nterm.
+token_decl:
+  id int.opt[num] string_as_id.opt[alias]
+    {
+      $$ = $id;
       symbol_class_set ($id, current_class, @id, true);
-      symbol_type_set ($id, current_type, @id);
       if (0 <= $num)
-        {
-          if (current_class != token_sym)
-            gram_error (&@num,
-                        _("non-terminals cannot be given an explicit number"));
-          else
-            symbol_user_token_number_set ($id, $num, @num);
-        }
+        symbol_user_token_number_set ($id, $num, @num);
       if ($alias)
-        {
-          if (current_class != token_sym)
-            gram_error (&@alias,
-                        _("non-terminals cannot be given a string alias"));
-          else
-            symbol_make_alias ($id, $alias, @alias);
-        }
-      if (current_class != token_sym && (0 <= $num || !$alias))
-        YYERROR;
+        symbol_make_alias ($id, $alias, @alias);
     }
 ;
 
@@ -533,15 +514,74 @@ int.opt:
 | INT
 ;
 
-/* One or more symbol definitions. */
-symbol_defs.1:
-  symbol_def
-| symbol_defs.1 symbol_def
-  /* FIXME: cannot do that, results in infinite loop in LAC.
-| error                    { yyerrok; }
-  */
+/*-------------------------------------.
+| token_decls_for_prec (%left, etc.).  |
+`-------------------------------------*/
+
+// A non empty list of possibly tagged tokens for precedence declaration.
+//
+// Similar to %token (token_decls), but in '%left FOO 1 "foo"', it treats
+// FOO and "foo" as two different symbols instead of aliasing them.
+token_decls_for_prec:
+  token_decl_for_prec.1[syms]
+    {
+      $$ = $syms;
+    }
+| TAG token_decl_for_prec.1[syms]
+    {
+      $$ = symbol_list_type_set ($syms, $TAG, @TAG);
+    }
+| token_decls_for_prec TAG token_decl_for_prec.1[syms]
+    {
+      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG, @TAG));
+    }
 ;
 
+// One or more token declarations for precedence declaration.
+token_decl_for_prec.1:
+  token_decl_for_prec
+    { $$ = symbol_list_sym_new ($1, @1); }
+| token_decl_for_prec.1 token_decl_for_prec
+    { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
+
+// One token declaration for precedence declaration.
+token_decl_for_prec:
+  id int.opt[num]
+    {
+      $$ = $id;
+      symbol_class_set ($id, token_sym, @id, false);
+      if (0 <= $num)
+        symbol_user_token_number_set ($id, $num, @num);
+    }
+| string_as_id
+;
+
+
+/*-----------------------.
+| symbol_decls (%type).  |
+`-----------------------*/
+
+// A non empty list of typed symbols.
+symbol_decls:
+  symbol_decl.1[syms]
+    {
+      $$ = $syms;
+    }
+| TAG symbol_decl.1[syms]
+    {
+      $$ = symbol_list_type_set ($syms, $TAG, @TAG);
+    }
+| symbol_decls TAG symbol_decl.1[syms]
+    {
+      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG, @TAG));
+    }
+;
+
+// One or more token declarations.
+symbol_decl.1:
+  symbol                { $$ = symbol_list_sym_new ($1, @1); }
+| symbol_decl.1 symbol  { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
+;
 
         /*------------------------------------------.
         | The grammar section: between the two %%.  |
@@ -659,7 +699,7 @@ id:
       if (current_class == nterm_sym)
         {
           gram_error (&@1,
-                      _("character literals cannot be non-terminals"));
+                      _("character literals cannot be nonterminals"));
           YYERROR;
         }
       $$ = symbol_get (char_name ($1), @1);

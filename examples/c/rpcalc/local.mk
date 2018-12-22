@@ -38,5 +38,6 @@ dist_TESTS += %D%/rpcalc.test
 ## Installing.  ##
 ## ------------ ##
 
-rpcalcdir = $(docdir)/examples/rpcalc
+rpcalcdir = $(docdir)/%D%
 rpcalc_DATA = $(rpcalc_extracted)
+dist_rpcalc_DATA = %D%/Makefile

@@ -126,17 +126,16 @@ m4_define([b4_locuser_args],
 ## ----------------- ##
 
 
-# b4_lhs_value([TYPE])
-# --------------------
-# Expansion of $<TYPE>$.
+# b4_lhs_value(SYMBOL-NUM, [TYPE])
+# --------------------------------
+# See README.
 m4_define([b4_lhs_value],
-[b4_symbol_value([(*yyvalp)], [$1])])
+[b4_symbol_value([(*yyvalp)], [$1], [$2])])
 
 
-# b4_rhs_data(RULE-LENGTH, NUM)
+# b4_rhs_data(RULE-LENGTH, POS)
 # -----------------------------
-# Expand to the semantic stack place that contains value and location
-# of symbol number NUM in a rule of length RULE-LENGTH.
+# See README.
 m4_define([b4_rhs_data],
 [((yyGLRStackItem const *)yyvsp)@{YYFILL (b4_subtract([$2], [$1]))@}.yystate])
 
@@ -147,12 +146,11 @@ b4_glr_cc_if([
   [yyvsp@{YYFILL (b4_subtract([$2], [$1]))@}.yystate])
 ])
 
-# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
-# --------------------------------------
-# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
-# symbols on RHS.
+# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
+# --------------------------------------------------
+# Expansion of $$ or $<TYPE>$, for symbol SYMBOL-NUM.
 m4_define([b4_rhs_value],
-[b4_symbol_value([b4_rhs_data([$1], [$2]).yysemantics.yysval], [$3])])
+[b4_symbol_value([b4_rhs_data([$1], [$2]).yysemantics.yysval], [$3], [$4])])
 
 
 
@@ -689,7 +687,7 @@ struct yyGLRState {]b4_variant_if([[
   size_t yyposn;
   ]b4_variant_if([struct], [union])[ {
     /** First in a chain of alternative reductions producing the
-     *  non-terminal corresponding to this state, threaded through
+     *  nonterminal corresponding to this state, threaded through
      *  yynext.  */
     yySemanticOption* yyfirstVal;
     /** Semantic value for this state.  */
@@ -2438,7 +2436,7 @@ yyrecoverSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
   yylval = yyval_default;]])b4_locations_if([
   yylloc = yyloc_default;])[
 ]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yylval], [], [yylloc])dnl
+b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
   b4_user_initial_action
 b4_dollar_popdef])[]dnl
 [

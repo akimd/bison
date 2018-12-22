@@ -13,7 +13,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-cxxdir = $(examplesdir)/c++
+cxxdir = $(docdir)/%D%
+include %D%/calc++/local.mk
 
 ## -------- ##
 ## Simple.  ##
@@ -77,5 +78,5 @@ if ENABLE_CXX11
 endif
 EXTRA_DIST += %D%/variant-11.test
 
-dist_cxx_DATA = %D%/README %D%/Makefile %D%/variant.yy %D%/variant-11.yy
+dist_cxx_DATA = %D%/README.md %D%/Makefile %D%/variant.yy %D%/variant-11.yy
 CLEANFILES += %D%/simple.output %D%/variant.output %D%/variant-11.output

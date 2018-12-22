@@ -78,72 +78,79 @@ m4_define([b4_variant_includes],
 #endif
 ]])
 
-# b4_variant_define
-# -----------------
-# Define "variant".
-m4_define([b4_variant_define],
-[[  /// A char[S] buffer to store and retrieve objects.
+
+
+## -------------------------- ##
+## Adjustments for variants.  ##
+## -------------------------- ##
+
+
+# b4_value_type_declare
+# ---------------------
+# Declare semantic_type.
+m4_define([b4_value_type_declare],
+[[  /// A buffer to store and retrieve objects.
   ///
   /// Sort of a variant, but does not keep track of the nature
   /// of the stored data, since that knowledge is available
-  /// via the current state.
-  template <size_t S>
-  struct variant
+  /// via the current parser state.
+  class semantic_type
   {
+  public:
     /// Type of *this.
-    typedef variant<S> self_type;
+    typedef semantic_type self_type;
 
     /// Empty construction.
-    variant () YY_NOEXCEPT
+    semantic_type () YY_NOEXCEPT
       : yybuffer_ ()]b4_parse_assert_if([
       , yytypeid_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
     template <typename T>
-    variant (YY_RVREF (T) t)]b4_parse_assert_if([
+    semantic_type (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
     {
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       new (yyas_<T> ()) T (YY_MOVE (t));
     }
 
     /// Destruction, allowed only if empty.
-    ~variant () YY_NOEXCEPT
+    ~semantic_type () YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
     ])[}
 
+# if 201103L <= YY_CPLUSPLUS
+    /// Instantiate a \a T in here from \a t.
+    template <typename T, typename... U>
+    T&
+    emplace (U&&... u)
+    {]b4_parse_assert_if([
+      YYASSERT (!yytypeid_);
+      YYASSERT (sizeof (T) <= size);
+      yytypeid_ = & typeid (T);])[
+      return *new (yyas_<T> ()) T (std::forward <U>(u)...);
+    }
+# else
     /// Instantiate an empty \a T in here.
     template <typename T>
     T&
     emplace ()
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T ();
     }
 
-# if 201103L <= YY_CPLUSPLUS
-    /// Instantiate a \a T in here from \a t.
-    template <typename T, typename U>
-    T&
-    emplace (U&& u)
-    {]b4_parse_assert_if([
-      YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= S);
-      yytypeid_ = & typeid (T);])[
-      return *new (yyas_<T> ()) T (std::forward <U>(u));
-    }
-# else
     /// Instantiate a \a T in here from \a t.
     template <typename T>
     T&
     emplace (const T& t)
     {]b4_parse_assert_if([
       YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= S);
+      YYASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
     }
@@ -174,7 +181,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
-      YYASSERT (sizeof (T) <= S);])[
+      YYASSERT (sizeof (T) <= size);])[
       return *yyas_<T> ();
     }
 
@@ -185,7 +192,7 @@ m4_define([b4_variant_define],
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
       YYASSERT (*yytypeid_ == typeid (T));
-      YYASSERT (sizeof (T) <= S);])[
+      YYASSERT (sizeof (T) <= size);])[
       return *yyas_<T> ();
     }
 
@@ -196,7 +203,7 @@ m4_define([b4_variant_define],
     /// unconstructed variants: it would require some dynamic testing, which
     /// should not be the variant's responsibility.
     /// Swapping between built and (possibly) non-built is done with
-    /// variant::move ().
+    /// self_type::move ().
     template <typename T>
     void
     swap (self_type& other) YY_NOEXCEPT
@@ -253,7 +260,7 @@ m4_define([b4_variant_define],
   private:
     /// Prohibit blind copies.
     self_type& operator= (const self_type&);
-    variant (const self_type&);
+    semantic_type (const self_type&);
 
     /// Accessor to raw memory as \a T.
     template <typename T>
@@ -273,12 +280,20 @@ m4_define([b4_variant_define],
       return static_cast<const T*> (yyp);
      }
 
+    /// An auxiliary type to compute the largest semantic type.
+    union union_type
+    {]b4_type_foreach([b4_char_sizeof])[    };
+
+    /// The size of the largest semantic type.
+    enum { size = sizeof (union_type) };
+
+    /// A buffer to store semantic values.
     union
     {
       /// Strongest alignment constraints.
       long double yyalign_me;
       /// A buffer large enough to store any of the semantic values.
-      char yyraw[S];
+      char yyraw[size];
     } yybuffer_;]b4_parse_assert_if([
 
     /// Whether the content is built: if defined, the name of the stored type.
@@ -287,40 +302,31 @@ m4_define([b4_variant_define],
 ]])
 
 
-## -------------------------- ##
-## Adjustments for variants.  ##
-## -------------------------- ##
-
-
-# b4_value_type_declare
-# ---------------------
-# Declare semantic_type.
-m4_define([b4_value_type_declare],
-[[    /// An auxiliary type to compute the largest semantic type.
-    union union_type
-    {]b4_type_foreach([b4_char_sizeof])[};
-
-    /// Symbol semantic values.
-    typedef variant<sizeof (union_type)> semantic_type;][]dnl
-])
-
-
 # How the semantic value is extracted when using variants.
 
-# b4_symbol_value(VAL, [TYPE])
-# ----------------------------
+# b4_symbol_value(VAL, SYMBOL-NUM, [TYPE])
+# ----------------------------------------
+# See README.
 m4_define([b4_symbol_value],
-[m4_ifval([$2],
-          [$1.as< $2 > ()],
-          [$1])])
+[m4_ifval([$3],
+          [$1.as< $3 > ()],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [$1.as < b4_symbol([$2], [type]) > ()],
+                                  [$1])],
+                    [$1])])])
 
-# b4_symbol_value_template(VAL, [TYPE])
-# -------------------------------------
+# b4_symbol_value_template(VAL, SYMBOL-NUM, [TYPE])
+# -------------------------------------------------
 # Same as b4_symbol_value, but used in a template method.
 m4_define([b4_symbol_value_template],
-[m4_ifval([$2],
-          [$1.template as< $2 > ()],
-          [$1])])
+[m4_ifval([$3],
+          [$1.template as< $3 > ()],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [$1.template as < b4_symbol([$2], [type]) > ()],
+                                  [$1])],
+                    [$1])])])
 
 
 
@@ -329,20 +335,27 @@ m4_define([b4_symbol_value_template],
 ## ------------- ##
 
 
-# _b4_symbol_constructor_declare(SYMBOL-NUMBER)
-# ---------------------------------------------
-# Declare the overloaded version of make_symbol for the (common) type of
-# these SYMBOL-NUMBERS.  Use at class-level.
+# _b4_symbol_constructor_declare(SYMBOL-NUM)
+# ------------------------------------------
+# Declare make_SYMBOL for SYMBOL-NUM.  Use at class-level.
 m4_define([_b4_symbol_constructor_declare],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[    static
+[b4_token_visible_if([$1],
+[#if 201103L <= YY_CPLUSPLUS
+    static
     symbol_type
     make_[]_b4_symbol([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
-                     [YY_COPY (b4_symbol([$1], [type])) v]),
-        b4_locations_if([YY_COPY (location_type) l])));
-
-])])])
+                     [b4_symbol([$1], [type]) v]),
+        b4_locations_if([location_type l])));
+#else
+    static
+    symbol_type
+    make_[]_b4_symbol([$1], [id]) (dnl
+b4_join(b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
+        b4_locations_if([const location_type& l])));
+#endif
+])])
 
 
 # b4_symbol_constructor_declare
@@ -355,31 +368,44 @@ b4_symbol_foreach([_b4_symbol_constructor_declare])])
 
 
 
-# _b4_symbol_constructor_define(SYMBOL-NUMBER)
-# --------------------------------------------
-# Define symbol constructor for this SYMBOL-NUMBER.
+# _b4_symbol_constructor_define(SYMBOL-NUM)
+# -----------------------------------------
+# Define make_SYMBOL for SYMBOL-NUM.
 m4_define([_b4_symbol_constructor_define],
-[b4_symbol_if([$1], [is_token], [b4_symbol_if([$1], [has_id],
-[  inline
+[b4_token_visible_if([$1],
+[#if 201103L <= YY_CPLUSPLUS
+  inline
   b4_parser_class_name::symbol_type
   b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
 b4_join(b4_symbol_if([$1], [has_type],
-                     [YY_COPY (b4_symbol([$1], [type])) v]),
-        b4_locations_if([YY_COPY (location_type) l])))
+                     [b4_symbol([$1], [type]) v]),
+        b4_locations_if([location_type l])))
   {
     return symbol_type (b4_join([token::b4_symbol([$1], [id])],
-                                b4_symbol_if([$1], [has_type], [YY_MOVE (v)]),
-                                b4_locations_if([YY_MOVE (l)])));
+                                b4_symbol_if([$1], [has_type], [std::move (v)]),
+                                b4_locations_if([std::move (l)])));
   }
+#else
+  inline
+  b4_parser_class_name::symbol_type
+  b4_parser_class_name::make_[]_b4_symbol([$1], [id]) (dnl
+b4_join(b4_symbol_if([$1], [has_type],
+                     [const b4_symbol([$1], [type])& v]),
+        b4_locations_if([const location_type& l])))
+  {
+    return symbol_type (b4_join([token::b4_symbol([$1], [id])],
+                                b4_symbol_if([$1], [has_type], [v]),
+                                b4_locations_if([l])));
+  }
+#endif
+])])
 
-])])])
 
-
-# b4_basic_symbol_constructor_declare
-# -----------------------------------
+# b4_basic_symbol_constructor_declare(SYMBOL-NUM)
+# -----------------------------------------------
 # Generate a constructor declaration for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_declare],
-[[# if 201103L <= YY_CPLUSPLUS
+[[#if 201103L <= YY_CPLUSPLUS
       basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_symbol_if([$1], [has_type], [b4_symbol([$1], [type])&& v]),
@@ -392,11 +418,12 @@ m4_define([b4_basic_symbol_constructor_declare],
 #endif
 ]])
 
-# b4_basic_symbol_constructor_define
-# ----------------------------------
+
+# b4_basic_symbol_constructor_define(SYMBOL-NUM)
+# ----------------------------------------------
 # Generate a constructor implementation for basic_symbol from given type.
 m4_define([b4_basic_symbol_constructor_define],
-[[# if 201103L <= YY_CPLUSPLUS
+[[#if 201103L <= YY_CPLUSPLUS
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],

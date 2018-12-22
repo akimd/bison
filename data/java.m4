@@ -219,21 +219,40 @@ m4_define([b4_position_type], [b4_percent_define_get([[api.position.type]])])
 ## ----------------- ##
 
 
-# b4_lhs_value([TYPE])
-# --------------------
-# Expansion of $<TYPE>$.
+# b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
+# ----------------------------------------------
+# See README.
+m4_define([b4_symbol_value],
+[m4_ifval([$3],
+          [(($3)($1))],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [((b4_symbol([$2], [type]))($1))],
+                                  [$1])],
+                    [$1])])])
+
+
+# b4_lhs_value([SYMBOL-NUM], [TYPE])
+# ----------------------------------
+# See README.
 m4_define([b4_lhs_value], [yyval])
 
 
-# b4_rhs_value(RULE-LENGTH, NUM, [TYPE])
-# --------------------------------------
-# Expansion of $<TYPE>NUM, where the current rule has RULE-LENGTH
-# symbols on RHS.
+# b4_rhs_data(RULE-LENGTH, POS)
+# -----------------------------
+# See README.
+m4_define([b4_rhs_data],
+[yystack.valueAt (b4_subtract($@))])
+
+# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
+# --------------------------------------------------
+# See README.
 #
 # In this simple implementation, %token and %type have class names
 # between the angle brackets.
 m4_define([b4_rhs_value],
-[(m4_ifval($3, [($3)])[](yystack.valueAt ($1-($2))))])
+[b4_symbol_value([b4_rhs_data([$1], [$2])], [$3], [$4])])
+
 
 # b4_lhs_location()
 # -----------------
@@ -242,12 +261,12 @@ m4_define([b4_lhs_location],
 [(yyloc)])
 
 
-# b4_rhs_location(RULE-LENGTH, NUM)
+# b4_rhs_location(RULE-LENGTH, POS)
 # ---------------------------------
-# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yystack.locationAt ($1-($2))])
+[yystack.locationAt (b4_subtract($@))])
 
 
 # b4_lex_param

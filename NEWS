@@ -19,10 +19,6 @@ GNU Bison NEWS
 
 ** Deprecated features
 
-  The directive %nterm, an historical heritage from an ancestor of Bison,
-  was never officially documented.  Its use now triggers warnings.
-  Eventually, support will be removed.  Use %type instead.
-
   The use of the %error-verbose directive is deprecated in favor of "%define
   parse.error verbose" since Bison 3.0, but no warning was issued.
 
@@ -100,6 +96,22 @@ GNU Bison NEWS
   until it sees the '='.  So we notate the two possible reductions to
   indicate that each conflicts in one rule.
 
+*** C++: Variadic emplace
+
+  If your application requires C++11, you may now use a variadic emplace for
+  semantic values:
+
+    %define api.value.type variant
+    %token <std::pair<int, int>> PAIR
+
+  in your scanner:
+
+    int yylex (parser::semantic_type *lvalp)
+    {
+      lvalp->emplace <std::pair<int, int>> (1, 2);
+      return parser::token::PAIR;
+    }
+
 *** More POSIX Yacc compatibility warnings
 
   More Bison specific directives are now reported with -y or -Wyacc.  This
@@ -113,8 +125,8 @@ GNU Bison NEWS
 *** The tables yyrhs and yyphrs are back
 
   Because no Bison skeleton uses them, these tables were removed (no longer
-  computed, nor passed to the skeletons) in 2008.  However, some users have
-  expressed interest in being able to use these tables in their skeletons.
+  passed to the skeletons, not even computed) in 2008.  However, some users
+  have expressed interest in being able to use them in their own skeletons.
 
 ** Bug fixes
 
@@ -124,7 +136,7 @@ GNU Bison NEWS
 
      exp: "num" | "num" | "num"
 
-  bison used report a single RR conflict, instead of two.  This is now
+  bison used to report a single RR conflict, instead of two.  This is now
   fixed.  This was the oldest (known) bug in Bison: it was there when Bison
   was entered in the RCS version control system, in December 1987.
 
@@ -137,13 +149,47 @@ GNU Bison NEWS
 
 ** Documentation
 
-  The examples (installed in .../share/doc/bison/examples), now include a
-  Java calculator.
+  The examples/ directory (installed in .../share/doc/bison/examples) has
+  been restructured per language for clarity.  The examples come with a
+  README and a Makefile.  Not only can they be used to toy with Bison, they
+  can also be starting points for your own grammars.
+
+  There is now a Java example, and a simple example in C based on Flex and
+  Bison (examples/c/lexcalc/).
 
 ** Changes
 
-  The C++ output now use noexcept and constexpr.  Please, report missing
-  annotations.
+*** Parsers in C++
+
+  They now use noexcept and constexpr.  Please, report missing annotations.
+
+*** Symbol Declarations
+
+  The syntax of the variation directives to declare symbols was overhauled
+  for more consistency, and also better POSIX Yacc compliance (which, for
+  instance, allows "%type" without actually providing a type).  The %nterm
+  directive, supported by Bison since its inception, is now documented and
+  officially supported.
+
+  The syntax is now as follows:
+
+    %token TAG? ( ID NUMBER? STRING? )+ ( TAG ( ID NUMBER? STRING? )+ )*
+    %left  TAG? ( ID NUMBER?)+ ( TAG ( ID NUMBER? )+ )*
+    %type  TAG? ( ID | CHAR | STRING )+ ( TAG ( ID | CHAR | STRING )+ )*
+    %nterm TAG? ID+ ( TAG ID+ )*
+
+  where TAG denotes a type tag such as ‘<ival>’, ID denotes an identifier
+  such as ‘NUM’, NUMBER a decimal or hexadecimal integer such as ‘300’ or
+  ‘0x12d’, CHAR a character literal such as ‘'+'’, and STRING a string
+  literal such as ‘"number"’.  The postfix quantifiers are ‘?’ (zero or
+  one), ‘*’ (zero or more) and ‘+’ (one or more).
+
+* Noteworthy changes in release 3.2.3 (2018-12-18) [stable]
+
+** Bug fixes
+
+  Properly support token constructors in C++ with types that include commas
+  (e.g., std::pair<int, int>).  A regression introduced in Bison 3.2.
 
 * Noteworthy changes in release 3.2.2 (2018-11-21) [stable]
 
@@ -647,7 +693,7 @@ GNU Bison NEWS
 
   Traditional Yacc generates 'y.tab.c' whatever the name of the input file.
   Therefore Makefiles written for Yacc expect 'y.tab.c' (and possibly
-  'y.tab.h' and 'y.outout') to be generated from 'foo.y'.
+  'y.tab.h' and 'y.output') to be generated from 'foo.y'.
 
   To this end, for ages, AC_PROG_YACC, Autoconf's macro to look for an
   implementation of Yacc, was using Bison as 'bison -y'.  While it does
@@ -3284,7 +3330,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
  LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
  LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir
- LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles outout PROG
+ LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG
  LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW
 
 Local Variables:
