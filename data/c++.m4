@@ -245,7 +245,7 @@ m4_define([b4_symbol_type_declare],
       basic_symbol ();
 
       /// Move or copy constructor.
-      basic_symbol (YY_RVREF (basic_symbol) other);
+      basic_symbol (YY_RVREF (basic_symbol) that);
 
 ]b4_variant_if([[
       /// Constructor for valueless symbols, and symbols from each type.
@@ -280,7 +280,7 @@ m4_define([b4_symbol_type_declare],
     private:
 #if YY_CPLUSPLUS < 201103L
       /// Assignment operator.
-      basic_symbol& operator= (const basic_symbol& other);
+      basic_symbol& operator= (const basic_symbol& that);
 #endif
     };
 
@@ -291,7 +291,7 @@ m4_define([b4_symbol_type_declare],
       by_type ();
 
       /// Copy constructor.
-      by_type (const by_type& other);
+      by_type (const by_type& that);
 
       /// The symbol type as needed by the constructor.
       typedef token_type kind_type;
@@ -340,13 +340,13 @@ m4_define([b4_public_types_define],
   {}
 
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (YY_RVREF (basic_symbol) other)
-    : Base (YY_MOVE (other))
-    , value (]b4_variant_if([], [YY_MOVE (other.value)]))b4_locations_if([
-    , location (YY_MOVE (other.location))])[
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (YY_RVREF (basic_symbol) that)
+    : Base (YY_MOVE (that))
+    , value (]b4_variant_if([], [YY_MOVE (that.value)]))b4_locations_if([
+    , location (YY_MOVE (that.location))])[
   {]b4_variant_if([
-    b4_symbol_variant([other.type_get ()], [value], [YY_MOVE_OR_COPY],
-                      [YY_MOVE (other.value)])])[
+    b4_symbol_variant([that.type_get ()], [value], [YY_MOVE_OR_COPY],
+                      [YY_MOVE (that.value)])])[
   }
 
 ]b4_variant_if([[
@@ -423,8 +423,8 @@ m4_define([b4_public_types_define],
     : type (empty_symbol)
   {}
 
-  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (const by_type& other)
-    : type (other.type)
+  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (const by_type& that)
+    : type (that.type)
   {}
 
   ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (token_type t)
