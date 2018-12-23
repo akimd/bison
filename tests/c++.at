@@ -103,7 +103,7 @@ AT_KEYWORDS([variant])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
 # Store strings and integers in a vector of strings.
-AT_DATA_GRAMMAR([list.y],
+AT_DATA_GRAMMAR([list.yy],
 [[%skeleton "lalr1.cc"
 %define api.value.type variant
 %define parse.assert
@@ -142,24 +142,33 @@ exp: "int" { $$.push_back ($1); }
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
 
+template <typename Exp, typename Eff>
+void assert_eq (const Exp& exp, const Eff& eff)
+{
+  if (getenv ("DEBUG"))
+    std::cerr << "Assert: " << exp << " == " << eff << '\n';
+  if (exp != eff)
+    std::cerr << "Assertion failed: " << exp << " != " << eff << '\n';
+}
+
 int main()
 {
   using yy::parser;
   // symbol_type: construction, accessor.
   {
-    parser::symbol_type s = parser::make_INT(12);
-    std::cerr << s.value.as<int>() << '\n';
+    parser::symbol_type s = parser::make_INT (12);
+    assert_eq (s.value.as<int> (), 12);
   }
 
   // stack_symbol_type: construction, accessor.
   {
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
     auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
 #else
-    parser::symbol_type s = parser::make_INT(123);
+    parser::symbol_type s = parser::make_INT (123);
     parser::stack_symbol_type ss(1, s);
 #endif
-    std::cerr << ss.value.as<int>() << '\n';
+    assert_eq (ss.value.as<int> (), 123);
   }
 
   // Pushing on the stack.
@@ -170,7 +179,7 @@ int main()
     const int mucho = 1700;
     for (int i = 0; i < mucho; ++i)
       {
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
         st.push(parser::stack_symbol_type{1, parser::make_INT (i)});
 #else
         parser::symbol_type s = parser::make_INT (i);
@@ -180,19 +189,17 @@ int main()
       }
     for (int i = mucho - 1; 0 <= i; --i)
       {
-        assert (st[0].value.as<int>() == i);
+        assert_eq (st[0].value.as<int>(), i);
         st.pop ();
       }
   }
 }
 ]])
 
+AT_BISON_CHECK([[-o list.cc list.yy]])
 AT_FOR_EACH_CXX([
-AT_FULL_COMPILE([list])
-AT_PARSER_CHECK([./list], 0, [],
-[12
-123
-])
+  AT_COMPILE_CXX([list])
+  AT_PARSER_CHECK([./list])
 ])
 
 AT_BISON_OPTION_POPDEFS
