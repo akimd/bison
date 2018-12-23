@@ -160,6 +160,17 @@ int main()
     assert_eq (s.value.as<int> (), 12);
   }
 
+  // symbol_type: move constructor.
+#if 201103L <= YY_CPLUSPLUS
+  {
+    auto s = parser::make_INT (42);
+    auto s2 = std::move (s);
+    assert_eq (s2.value.as<int> (), 42);
+    // Used to crash here, because s was improperly cleared, and
+    // its destructor tried to delete its (moved) value.
+  }
+#endif
+
   // stack_symbol_type: construction, accessor.
   {
 #if 201103L <= YY_CPLUSPLUS
