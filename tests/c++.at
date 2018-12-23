@@ -134,7 +134,7 @@ AT_DATA_GRAMMAR([list.y],
   } <std::vector<int>>
 
 %code requires { #include <vector> }
-%code { int yylex (yy::parser::semantic_type* yylval); }
+%code { int yylex (yy::parser::semantic_type* lvalp); }
 
 %%
 exp: "int" { $$.push_back ($1); }
@@ -335,10 +335,8 @@ AT_DATA_GRAMMAR([list.y],
 {
   namespace yy
   {
-    static]AT_TOKEN_CTOR_IF([[
-    parser::symbol_type yylex ()]], [[
-    parser::token_type yylex (parser::semantic_type* yylval]AT_LOCATION_IF([,
-                              parser::location_type* yylloc])[)]])[;
+    static
+    ]AT_YYLEX_PROTOTYPE[;
 
     // Conversion to string.
     template <typename T>
@@ -394,10 +392,8 @@ item:
 #define STAGE_MAX 5
 namespace yy
 {
-  static]AT_TOKEN_CTOR_IF([[
-  parser::symbol_type yylex ()]], [[
-  parser::token_type yylex (parser::semantic_type* yylval]AT_LOCATION_IF([,
-                            parser::location_type* yylloc])[)]])[
+  static
+  ]AT_YYLEX_PROTOTYPE[
   {]AT_LOCATION_IF([
     typedef parser::location_type location;])[
     // The 5 is a syntax error whose recovery requires that we discard
@@ -409,13 +405,13 @@ namespace yy
       case 0:]AT_TOKEN_CTOR_IF([[
         return parser::make_END_OF_FILE (]AT_LOCATION_IF([location ()])[);]],
 [AT_LOCATION_IF([
-        *yylloc = location ();])[
+        *llocp = location ();])[
         return parser::token::END_OF_FILE;]])[
 
       case ',':]AT_TOKEN_CTOR_IF([[
         return parser::make_COMMA (]AT_LOCATION_IF([location ()])[);]],
 [AT_LOCATION_IF([
-        *yylloc = location ();])[
+        *llocp = location ();])[
         return parser::token::COMMA;]])[
 
       default:
@@ -423,15 +419,15 @@ namespace yy
         if (stage % 2)
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_NUMBER (stage]AT_LOCATION_IF([, location ()])[);]], [[
-           yylval->BUILD (int, stage);]AT_LOCATION_IF([
-           *yylloc = location ();])[
+           lvalp->BUILD (int, stage);]AT_LOCATION_IF([
+           *llocp = location ();])[
            return parser::token::NUMBER;]])[
          }
        else
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_TEXT (to_string (stage)]AT_LOCATION_IF([, location ()])[);]], [[
-           yylval->BUILD (string, to_string (stage));]AT_LOCATION_IF([
-           *yylloc = location ();])[
+           lvalp->BUILD (string, to_string (stage));]AT_LOCATION_IF([
+           *llocp = location ();])[
            return parser::token::TEXT;]])[
          }
     }
@@ -1305,7 +1301,7 @@ AT_DATA_GRAMMAR([input.yy], [
 
 %code
 {
-  int yylex (yy::parser::semantic_type *yylval);
+  int yylex (yy::parser::semantic_type *lvalp);
 }
 
 %%
@@ -1313,12 +1309,12 @@ exp: ZERO
 
 %%
 
-int yylex (yy::parser::semantic_type *yylval)
+int yylex (yy::parser::semantic_type *lvalp)
 {
   // Note: this argument is unused, but named on purpose.  There used to be a
   // bug with a macro that erroneously expanded this identifier to
   // yystackp->yyval.
-  YYUSE (yylval);
+  YYUSE (lvalp);
   return yy::parser::token::ZERO;
 }
 

@@ -186,7 +186,7 @@ m4_pushdef([AT_PUSH_IF],
 [m4_bmatch([$3], [%define api.push-pull \(both\|pull\)], [$1], [$2])])
 # AT_NAME_PREFIX.
 m4_pushdef([AT_NAME_PREFIX],
-[m4_bmatch([$3], [\(%define api\.\|prefix\|%name-prefix\) .*],
+[m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) .*],
    [m4_bregexp([$3],
      [\(%define api\.prefix\|%name-prefix\) [\{\"]\([^\"\}]*\)[\"\}]],
      [\2])],
