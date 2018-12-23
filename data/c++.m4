@@ -303,8 +303,8 @@ m4_define([b4_symbol_type_declare],
       /// Default constructor.
       by_type ();
 
-      /// Copy constructor.
-      by_type (const by_type& that);
+      /// Move or copy constructor.
+      by_type (YY_RVREF (by_type) that);
 
       /// The symbol type as needed by the constructor.
       typedef token_type kind_type;
@@ -368,7 +368,7 @@ m4_define([b4_public_types_define],
     , value (]b4_variant_if([], [YY_MOVE (that.value)]))b4_locations_if([
     , location (YY_MOVE (that.location))])[
   {]b4_variant_if([
-    b4_symbol_variant([that.type_get ()], [value], [YY_MOVE_OR_COPY],
+    b4_symbol_variant([this->type_get ()], [value], [YY_MOVE_OR_COPY],
                       [YY_MOVE (that.value)])
   ])[}
 
@@ -446,9 +446,17 @@ m4_define([b4_public_types_define],
     : type (empty_symbol)
   {}
 
+#if 201103L <= YY_CPLUSPLUS
+  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (by_type&& that)
+    : type (that.type)
+  {
+    that.clear ();
+  }
+#else
   ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (const by_type& that)
     : type (that.type)
   {}
+#endif
 
   ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
