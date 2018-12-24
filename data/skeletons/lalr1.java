@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_include(b4_pkgdatadir/[java.m4])
+m4_include(b4_skeletonsdir/[java.m4])
 
 b4_defines_if([b4_fatal([%s: %%defines does not make sense in Java],
               [b4_skeleton])])

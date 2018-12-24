@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_include([d.m4])
+m4_include(b4_skeletonsdir/[d.m4])
 
 
 m4_divert_push(0)dnl

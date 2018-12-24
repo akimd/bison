@@ -22,7 +22,7 @@ b4_percent_define_ifdef([[api.value.union.name]],
   [b4_complain_at(b4_percent_define_get_loc([[api.value.union.name]]),
                   [named %union is invalid in C++])])
 
-m4_include(b4_pkgdatadir/[c.m4])
+m4_include(b4_skeletonsdir/[c.m4])
 
 b4_percent_define_check_kind([api.namespace], [code], [deprecated])
 b4_percent_define_check_kind([parser_class_name], [code], [deprecated])

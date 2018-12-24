@@ -46,8 +46,8 @@
 # We require a pure interface.
 m4_define([b4_pure_flag], [1])
 
-m4_include(b4_pkgdatadir/[c++.m4])
-b4_bison_locations_if([m4_include(b4_pkgdatadir/[location.cc])])
+m4_include(b4_skeletonsdir/[c++.m4])
+b4_bison_locations_if([m4_include(b4_skeletonsdir/[location.cc])])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
@@ -354,5 +354,5 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 # Let glr.c (and b4_shared_declarations) believe that the user
 # arguments include the parser itself.
 m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_wrap]))
-m4_include(b4_pkgdatadir/[glr.c])
+m4_include(b4_skeletonsdir/[glr.c])
 m4_popdef([b4_parse_param])

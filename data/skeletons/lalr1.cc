@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_include(b4_pkgdatadir/[c++.m4])
+m4_include(b4_skeletonsdir/[c++.m4])
 
 # api.value.type=variant is valid.
 m4_define([b4_value_type_setup_variant])
@@ -142,9 +142,9 @@ m4_define([b4_parser_class_name],
 
 b4_bison_locations_if([# Backward compatibility.
    m4_define([b4_location_constructors])
-   m4_include(b4_pkgdatadir/[location.cc])])
-m4_include(b4_pkgdatadir/[stack.hh])
-b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
+   m4_include(b4_skeletonsdir/[location.cc])])
+m4_include(b4_skeletonsdir/[stack.hh])
+b4_variant_if([m4_include(b4_skeletonsdir/[variant.hh])])
 
 
 # b4_shared_declarations(hh|cc)
