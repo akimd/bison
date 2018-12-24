@@ -171,6 +171,14 @@ int main()
   }
 #endif
 
+  // symbol_type: copy constructor.
+  {
+    parser::symbol_type s = parser::make_INT (51);
+    parser::symbol_type s2 = s;
+    assert_eq (s.value.as<int> (), 51);
+    assert_eq (s2.value.as<int> (), 51);
+  }
+
   // stack_symbol_type: construction, accessor.
   {
 #if 201103L <= YY_CPLUSPLUS
