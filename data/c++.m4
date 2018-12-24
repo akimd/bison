@@ -258,8 +258,13 @@ m4_define([b4_symbol_type_declare],
       /// Default constructor.
       basic_symbol ();
 
-      /// Move or copy constructor.
-      basic_symbol (YY_RVREF (basic_symbol) that);]b4_variant_if([[
+#if 201103L <= YY_CPLUSPLUS
+      /// Move constructor.
+      basic_symbol (basic_symbol&& that);
+#endif
+
+      /// Copy constructor.
+      basic_symbol (const basic_symbol& that);]b4_variant_if([[
 
       /// Constructor for valueless symbols, and symbols from each type.
 ]b4_type_foreach([b4_basic_symbol_constructor_declare])], [[
@@ -303,8 +308,13 @@ m4_define([b4_symbol_type_declare],
       /// Default constructor.
       by_type ();
 
-      /// Move or copy constructor.
-      by_type (YY_RVREF (by_type) that);
+#if 201103L <= YY_CPLUSPLUS
+      /// Move constructor.
+      by_type (by_type&& that);
+#endif
+
+      /// Copy constructor.
+      by_type (const by_type& that);
 
       /// The symbol type as needed by the constructor.
       typedef token_type kind_type;
@@ -362,13 +372,25 @@ m4_define([b4_public_types_define],
     , location ()])[
   {}
 
+#if 201103L <= YY_CPLUSPLUS
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (YY_RVREF (basic_symbol) that)
-    : Base (YY_MOVE (that))
-    , value (]b4_variant_if([], [YY_MOVE (that.value)]))b4_locations_if([
-    , location (YY_MOVE (that.location))])[
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (basic_symbol&& that)
+    : Base (std::move (that))
+    , value (]b4_variant_if([], [std::move (that.value)]))b4_locations_if([
+    , location (std::move (that.location))])[
   {]b4_variant_if([
-    b4_symbol_variant([this->type_get ()], [value], [YY_MOVE_OR_COPY],
+    b4_symbol_variant([this->type_get ()], [value], [move],
+                      [std::move (that.value)])
+  ])[}
+#endif
+
+  template <typename Base>
+  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
+    : Base (that)
+    , value (]b4_variant_if([], [that.value]))b4_locations_if([
+    , location (that.location)])[
+  {]b4_variant_if([
+    b4_symbol_variant([this->type_get ()], [value], [copy],
                       [YY_MOVE (that.value)])
   ])[}
 
@@ -452,11 +474,11 @@ m4_define([b4_public_types_define],
   {
     that.clear ();
   }
-#else
+#endif
+
   ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (const by_type& that)
     : type (that.type)
   {}
-#endif
 
   ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))

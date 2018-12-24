@@ -210,6 +210,14 @@ GNU Bison NEWS
   literal such as ‘"number"’.  The postfix quantifiers are ‘?’ (zero or
   one), ‘*’ (zero or more) and ‘+’ (one or more).
 
+* Noteworthy changes in release 3.2.4 (2018-12-24) [stable]
+
+** Bug fixes
+
+  Fix the move constructor of symbol_type.
+
+  Always provide a copy constructor for symbol_type, even in modern C++.
+
 * Noteworthy changes in release 3.2.3 (2018-12-18) [stable]
 
 ** Bug fixes
