@@ -301,7 +301,7 @@ m4_define([b4_shared_declarations],
       by_state (kind_type s) YY_NOEXCEPT;
 
       /// Copy constructor.
-      by_state (const by_state& other) YY_NOEXCEPT;
+      by_state (const by_state& that) YY_NOEXCEPT;
 
       /// Record that this symbol is empty.
       void clear () YY_NOEXCEPT;
@@ -570,8 +570,8 @@ m4_if(b4_prefix, [yy], [],
     : state (empty_state)
   {}
 
-  ]b4_parser_class_name[::by_state::by_state (const by_state& other) YY_NOEXCEPT
-    : state (other.state)
+  ]b4_parser_class_name[::by_state::by_state (const by_state& that) YY_NOEXCEPT
+    : state (that.state)
   {}
 
   void

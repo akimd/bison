@@ -196,7 +196,7 @@ m4_define([b4_value_type_declare],
       return *yyas_<T> ();
     }
 
-    /// Swap the content with \a other, of same type.
+    /// Swap the content with \a that, of same type.
     ///
     /// Both variants must be built beforehand, because swapping the actual
     /// data requires reading it (with as()), and this is not possible on
@@ -206,46 +206,46 @@ m4_define([b4_value_type_declare],
     /// self_type::move ().
     template <typename T>
     void
-    swap (self_type& other) YY_NOEXCEPT
+    swap (self_type& that) YY_NOEXCEPT
     {]b4_parse_assert_if([
       YYASSERT (yytypeid_);
-      YYASSERT (*yytypeid_ == *other.yytypeid_);])[
-      std::swap (as<T> (), other.as<T> ());
+      YYASSERT (*yytypeid_ == *that.yytypeid_);])[
+      std::swap (as<T> (), that.as<T> ());
     }
 
-    /// Move the content of \a other to this.
+    /// Move the content of \a that to this.
     ///
-    /// Destroys \a other.
+    /// Destroys \a that.
     template <typename T>
     void
-    move (self_type& other)
+    move (self_type& that)
     {
 # if 201103L <= YY_CPLUSPLUS
-      emplace<T> (std::move (other.as<T> ()));
+      emplace<T> (std::move (that.as<T> ()));
 # else
       emplace<T> ();
-      swap<T> (other);
+      swap<T> (that);
 # endif
-      other.destroy<T> ();
+      that.destroy<T> ();
     }
 
 # if 201103L <= YY_CPLUSPLUS
-    /// Move the content of \a other to this.
+    /// Move the content of \a that to this.
     template <typename T>
     void
-    move (self_type&& other)
+    move (self_type&& that)
     {
-      emplace<T> (std::move (other.as<T> ()));
-      other.destroy<T> ();
+      emplace<T> (std::move (that.as<T> ()));
+      that.destroy<T> ();
     }
 #endif
 
-    /// Copy the content of \a other to this.
+    /// Copy the content of \a that to this.
     template <typename T>
     void
-    copy (const self_type& other)
+    copy (const self_type& that)
     {
-      emplace<T> (other.as<T> ());
+      emplace<T> (that.as<T> ());
     }
 
     /// Destroy the stored \a T.
