@@ -209,7 +209,7 @@ GNU Bison NEWS
   The syntax is now as follows:
 
     %token TAG? ( ID NUMBER? STRING? )+ ( TAG ( ID NUMBER? STRING? )+ )*
-    %left  TAG? ( ID NUMBER?)+ ( TAG ( ID NUMBER? )+ )*
+    %left  TAG? ( ID NUMBER? )+ ( TAG ( ID NUMBER? )+ )*
     %type  TAG? ( ID | CHAR | STRING )+ ( TAG ( ID | CHAR | STRING )+ )*
     %nterm TAG? ID+ ( TAG ID+ )*
 

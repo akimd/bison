@@ -172,7 +172,6 @@ m4_define([b4_shared_declarations],
 
 ]b4_namespace_open[
 
-]b4_stack_define[
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
                                   [b4_location_define])])[
 
@@ -338,6 +337,8 @@ m4_define([b4_shared_declarations],
       stack_symbol_type& operator= (stack_symbol_type& that);
 #endif
     };
+
+]b4_stack_define[
 
     /// Stack type.
     typedef stack<stack_symbol_type> stack_type;
