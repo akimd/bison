@@ -382,6 +382,7 @@ Frequently Asked Questions
 * Strings are Destroyed::       @code{yylval} Loses Track of Strings
 * Implementing Gotos/Loops::    Control Flow in the Calculator
 * Multiple start-symbols::      Factoring closely related grammars
+* Enabling Relocatability::     Moving Bison/using it through network shares
 * Secure?  Conform?::           Is Bison POSIX safe?
 * I can't build Bison::         Troubleshooting
 * Where can I find help?::      Troubleshouting
@@ -12875,6 +12876,7 @@ are addressed.
 * Implementing Gotos/Loops::    Control Flow in the Calculator
 * Multiple start-symbols::      Factoring closely related grammars
 * Secure?  Conform?::           Is Bison POSIX safe?
+* Enabling Relocatability::     Moving Bison/using it through network shares
 * I can't build Bison::         Troubleshooting
 * Where can I find help?::      Troubleshouting
 * Bug Reports::                 Troublereporting
@@ -13156,6 +13158,8 @@ However, Bison is intended to be a reliable program that conforms to the
 POSIX specification for Yacc.  If you run into problems, please send us a
 bug report.
 
+@include relocatable.texi
+
 @node I can't build Bison
 @section I can't build Bison
 
@@ -13209,7 +13213,7 @@ hearts.
 I found a bug.  What should I include in the bug report?
 @end quotation
 
-Before you send a bug report, make sure you are using the latest
+Before sending a bug report, make sure you are using the latest
 version.  Check @url{https://ftp.gnu.org/pub/gnu/bison/} or one of its
 mirrors.  Be sure to include the version number in your bug report.  If
 the bug is present in the latest version but not in a previous version,

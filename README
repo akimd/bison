@@ -8,6 +8,16 @@ Bison requires GNU m4 1.4.6 or later.  See:
 
       https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz
 
+** Relocatability
+If you pass '--enable-relocatable' to 'configure', Bison is relocatable.
+
+A relocatable program can be moved or copied to a different location on the
+file system.  It can also be used through mount points for network sharing.
+It is possible to make symlinks to the installed and moved programs, and
+invoke them through the symlink.
+
+See "Enabling Relocatability" in the documentation.
+
 ** Internationalization
 Bison supports two catalogs: one for Bison itself (i.e., for the
 maintainer-side parser generation), and one for the generated parsers (i.e.,

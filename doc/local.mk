@@ -19,7 +19,8 @@ info_TEXINFOS = doc/bison.texi
 doc_bison_TEXINFOS =                            \
   $(CROSS_OPTIONS_TEXI)                         \
   doc/fdl.texi                                  \
-  doc/gpl-3.0.texi
+  doc/gpl-3.0.texi                              \
+  doc/relocatable.texi
 
 # Cannot express dependencies directly on file names because of Automake.
 # Obfuscate with a variable.

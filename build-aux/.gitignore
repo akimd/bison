@@ -23,3 +23,7 @@
 /useless-if-before-free
 /vc-list-files
 /ylwrap
+/config.libpath
+/install-reloc
+/reloc-ldflags
+/relocatable.sh.in

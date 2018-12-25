@@ -24,6 +24,15 @@ GNU Bison NEWS
 
 ** New features
 
+*** Bison is now relocatable
+
+  If you pass '--enable-relocatable' to 'configure', Bison is relocatable.
+
+  A relocatable program can be moved or copied to a different location on
+  the file system.  It can also be used through mount points for network
+  sharing.  It is possible to make symlinks to the installed and moved
+  programs, and invoke them through the symlink.
+
 *** %expect and %expect-rr modifiers on individual rules
 
   One can now document (and check) which rules participate in shift/reduce
