@@ -2,8 +2,7 @@ This package contains the GNU Bison parser generator.
 
 * Installation
 ** Build
-See the file INSTALL for generic compilation and installation
-instructions.
+See the file INSTALL for generic compilation and installation instructions.
 
 Bison requires GNU m4 1.4.6 or later.  See:
 
@@ -11,22 +10,22 @@ Bison requires GNU m4 1.4.6 or later.  See:
 
 ** Internationalization
 Bison supports two catalogs: one for Bison itself (i.e., for the
-maintainer-side parser generation), and one for the generated parsers
-(i.e., for the user-side parser execution).  The requirements between
-both differ: bison needs ngettext, the generated parsers do not.  To
-simplify the build system, neither are installed if ngettext is not
-supported, even if generated parsers could have been localized.  See
-http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00006.html for
-more details.
+maintainer-side parser generation), and one for the generated parsers (i.e.,
+for the user-side parser execution).  The requirements between both differ:
+bison needs ngettext, the generated parsers do not.  To simplify the build
+system, neither are installed if ngettext is not supported, even if
+generated parsers could have been localized.  See
+http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00006.html for more
+details.
 
 * Questions
-See the section FAQ in the documentation (doc/bison.info) for
-frequently asked questions.  The documentation is also available in
-PDF and HTML, provided you have a recent version of Texinfo installed:
-run "make pdf" or "make html".
+See the section FAQ in the documentation (doc/bison.info) for frequently
+asked questions.  The documentation is also available in PDF and HTML,
+provided you have a recent version of Texinfo installed: run "make pdf" or
+"make html".
 
-If you have questions about using Bison and the documentation does
-not answer them, please send mail to <help-bison@gnu.org>.
+If you have questions about using Bison and the documentation does not
+answer them, please send mail to <help-bison@gnu.org>.
 
 * Bug reports
 Please send bug reports to <bug-bison@gnu.org>.  Be sure to include the
@@ -34,8 +33,8 @@ version number from 'bison --version', and a complete, self-contained test
 case in each bug report.
 
 * Copyright statements
-For any copyright year range specified as YYYY-ZZZZ in this package,
-note that the range specifies every single year in that closed interval.
+For any copyright year range specified as YYYY-ZZZZ in this package, note
+that the range specifies every single year in that closed interval.
 
 -----
 
