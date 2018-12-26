@@ -37,7 +37,7 @@ if ENABLE_CXX14
   # Don't use gnulib's system headers.
   %C%_simple_CPPFLAGS = -I$(top_builddir)
   TESTS += %D%/simple.test
-  %D%/simple.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+  %D%/simple.cc: $(dependencies)
 endif
 EXTRA_DIST += %D%/simple.test
 
@@ -52,7 +52,7 @@ if ENABLE_CXX
   # Don't use gnulib's system headers.
   %C%_variant_CPPFLAGS = -I$(top_builddir)
   TESTS += %D%/variant.test
-  %D%/variant.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+  %D%/variant.cc: $(dependencies)
 endif
 EXTRA_DIST += %D%/variant.test
 
@@ -63,7 +63,7 @@ if ENABLE_CXX11
   # Don't use gnulib's system headers.
   %C%_variant_11_CPPFLAGS = -I$(top_builddir)
   TESTS += %D%/variant-11.test
-  %D%/variant-11.cc: $(BISON_IN) $(dist_pkgdata_DATA)
+  %D%/variant-11.cc: $(dependencies)
 endif
 EXTRA_DIST += %D%/variant-11.test
 

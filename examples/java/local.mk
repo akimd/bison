@@ -25,7 +25,7 @@ if ENABLE_JAVA
 endif
 EXTRA_DIST += %D%/Calc.test
 
-%D%/Calc.java: %D%/Calc.y $(BISON_IN) $(dist_pkgdata_DATA)
+%D%/Calc.java: %D%/Calc.y $(dependencies)
 	$(AM_V_GEN)$(MKDIR_P) %D%
 	$(AM_V_at)$(BISON) $< -o $@
 
