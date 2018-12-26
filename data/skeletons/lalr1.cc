@@ -180,7 +180,7 @@ m4_define([b4_shared_declarations],
   {
   public:
 ]b4_public_types_declare[
-]b4_symbol_type_declare[
+]b4_symbol_type_define[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
@@ -215,7 +215,7 @@ m4_define([b4_shared_declarations],
     /// Report a syntax error.
     void error (const syntax_error& err);
 
-]b4_token_constructor_declare[
+]b4_token_constructor_define[
 
   private:
     /// This class is not copyable.

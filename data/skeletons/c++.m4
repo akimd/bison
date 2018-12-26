@@ -238,11 +238,11 @@ m4_define([b4_public_types_declare],
 ]])
 
 
-# b4_symbol_type_declare
-# ----------------------
+# b4_symbol_type_define
+# ---------------------
 # Define symbol_type, the external type for symbols used for symbol
 # constructors.
-m4_define([b4_symbol_type_declare],
+m4_define([b4_symbol_type_define],
 [[    /// A complete symbol.
     ///
     /// Expects its Base type to provide access to the symbol type
@@ -267,7 +267,7 @@ m4_define([b4_symbol_type_declare],
       basic_symbol (const basic_symbol& that);]b4_variant_if([[
 
       /// Constructor for valueless symbols, and symbols from each type.
-]b4_type_foreach([b4_basic_symbol_constructor_declare])], [[
+]b4_type_foreach([b4_basic_symbol_constructor_define])], [[
       /// Constructor for valueless symbols.
       basic_symbol (typename Base::kind_type t]b4_locations_if([,
                     YY_MOVE_REF (location_type) l])[);
@@ -351,7 +351,7 @@ m4_define([b4_symbol_type_declare],
       symbol_type () {};
 
       /// Constructor for valueless symbols, and symbols from each type.
-]b4_type_foreach([_b4_token_constructor_declare])dnl
+]b4_type_foreach([_b4_token_constructor_define])dnl
     ])[};
 ]])
 
@@ -394,9 +394,7 @@ m4_define([b4_public_types_define],
                       [YY_MOVE (that.value)])
   ])[}
 
-]b4_variant_if([[
-  // Implementation of basic_symbol constructor for each type.
-]b4_type_foreach([b4_basic_symbol_constructor_define])], [[
+]b4_variant_if([], [[
   /// Constructor for valueless symbols.
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
@@ -517,16 +515,13 @@ m4_define([b4_public_types_define],
     return token_type (yytoken_number_[type]);
   }
 ]])[]dnl
+])
 
-b4_token_constructor_define])
 
-
-# b4_token_constructor_declare
 # b4_tolen_constructor_define
 # ----------------------------
-# Declare/define symbol constructors for all the value types.
+# Define symbol constructors for all the value types.
 # Use at class-level.  Redefined in variant.hh.
-m4_define([b4_token_constructor_declare], [])
 m4_define([b4_token_constructor_define], [])
 
 
