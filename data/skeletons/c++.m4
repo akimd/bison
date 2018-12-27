@@ -275,8 +275,8 @@ m4_define([b4_symbol_type_define],
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
                     YY_RVREF (semantic_type) v]b4_locations_if([,
-                    YY_RVREF (location_type) l])[);]])[
-
+                    YY_RVREF (location_type) l])[);
+]])[
       /// Destroy the symbol.
       ~basic_symbol ();
 
@@ -540,7 +540,7 @@ m4_define([b4_yytranslate_define],
     const token_number_type
     translate_table[] =
     {
-]b4_translate[
+  ]b4_translate[
     };
     const unsigned user_token_number_max_ = ]b4_user_token_number_max[;
     const token_number_type undef_token_ = ]b4_undef_token_number[;

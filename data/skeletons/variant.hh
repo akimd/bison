@@ -419,15 +419,6 @@ m4_define([_b4_token_constructor_define],
 ]])])
 
 
-# b4_token_constructor_declare
-# ----------------------------
-# Declare token constructors.  Use at class-level.
-m4_define([b4_token_constructor_declare],
-[    // Symbol constructors declarations.
-b4_symbol_foreach([_b4_token_maker_declare])])
-
-
-
 # b4_basic_symbol_constructor_define(SYMBOL-NUM)
 # ----------------------------------------------
 # Generate a constructor for basic_symbol from given type.
@@ -458,5 +449,5 @@ m4_define([b4_basic_symbol_constructor_define],
 # ---------------------------
 # Define the overloaded versions of make_symbol for all the value types.
 m4_define([b4_token_constructor_define],
-[  // Implementation of make_symbol for each symbol type.
+[    // Implementation of make_symbol for each symbol type.
 b4_symbol_foreach([_b4_token_maker_define])])
