@@ -253,8 +253,8 @@ m4_define([b4_shared_declarations],
     // Tables.
 ]b4_parser_tables_declare[]b4_error_verbose_if([
 
-    /// Convert the symbol name \a n to a form suitable for a diagnostic.
-    static std::string yytnamerr_ (const char *n);])[
+    /// The symbol name of \a yytoken in a form suitable for a diagnostic.
+    static std::string yytnamerr_ (int yytoken);])[
 
 ]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
     /// For a symbol, its name in clear.
@@ -509,14 +509,10 @@ m4_if(b4_prefix, [yy], [],
 
 ]b4_namespace_open[]b4_error_verbose_if([[
 
-  /* Return YYSTR after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
   std::string
-  ]b4_parser_class[::yytnamerr_ (const char *yystr)
+  ]b4_parser_class[::yytnamerr_ (int yytoken)
   {
+    const char *yystr = yytname_[yytoken];
     if (*yystr == '"')
       {
         std::string yyr;
@@ -1094,8 +1090,8 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
     size_t yycount = 0;
     // Its maximum.
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-    // Arguments of yyformat.
-    char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+    // Arguments of yyformat as symbol numbers.
+    int yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
 
     /* There are many possibilities here to consider:
        - If this state is a consistent state with a default action, then
@@ -1125,7 +1121,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
     if (!yyla.empty ())
       {
         int yytoken = yyla.type_get ();
-        yyarg[yycount++] = yytname_[yytoken];
+        yyarg[yycount++] = yytoken;
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
           {
@@ -1146,7 +1142,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
                       break;
                     }
                   else
-                    yyarg[yycount++] = yytname_[yyx];
+                    yyarg[yycount++] = yyx;
                 }
           }
       }

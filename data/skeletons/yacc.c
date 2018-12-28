@@ -1041,7 +1041,7 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
 # endif
 
 # ifndef yytnamerr
-/* Copy to YYRES the contents of YYSTR after stripping away unnecessary
+/* Copy to YYRES the name of YYTOKEN after stripping away unnecessary
    quotes and backslashes, so that it's suitable for yyerror.  The
    heuristic is that double-quoting is unnecessary unless the string
    contains an apostrophe, a comma, or backslash (other than
@@ -1049,8 +1049,9 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
    null, do not copy; instead, return the length of what the result
    would have been.  */
 static YYSIZE_T
-yytnamerr (char *yyres, const char *yystr)
+yytnamerr (char *yyres, int yytoken)
 {
+  const char *yystr = yytname[yytoken];
   if (*yystr == '"')
     {
       YYSIZE_T yyn = 0;
@@ -1103,13 +1104,13 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 ]b4_lac_if([[yytype_int16 *yyesa, yytype_int16 **yyes,
                 YYSIZE_T *yyes_capacity, ]])[yytype_int16 *yyssp, int yytoken)
 {
-  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytoken);
   YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat. */
-  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  /* Arguments of yyformat as symbol numbers. */
+  int yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
      "expected"). */
   int yycount = 0;
@@ -1146,7 +1147,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
     {
       int yyn = yypact[*yyssp];]b4_lac_if([[
       YYDPRINTF ((stderr, "Constructing syntax error message\n"));]])[
-      yyarg[yycount++] = yytname[yytoken];
+      yyarg[yycount++] = yytoken;
       if (!yypact_value_is_default (yyn))
         {]b4_lac_if([], [[
           /* Start YYX at -YYN if negative to avoid negative indexes in
@@ -1180,9 +1181,9 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                     yysize = yysize0;
                     break;
                   }
-                yyarg[yycount++] = yytname[yyx];
+                yyarg[yycount++] = yyx;
                 {
-                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yyx);
                   if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
                     yysize = yysize1;
                   else

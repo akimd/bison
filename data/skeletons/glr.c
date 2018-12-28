@@ -565,7 +565,7 @@ yystpcpy (char *yydest, const char *yysrc)
 # endif
 
 # ifndef yytnamerr
-/* Copy to YYRES the contents of YYSTR after stripping away unnecessary
+/* Copy to YYRES the name of YYTOKEN after stripping away unnecessary
    quotes and backslashes, so that it's suitable for yyerror.  The
    heuristic is that double-quoting is unnecessary unless the string
    contains an apostrophe, a comma, or backslash (other than
@@ -573,8 +573,9 @@ yystpcpy (char *yydest, const char *yysrc)
    null, do not copy; instead, return the length of what the result
    would have been.  */
 static size_t
-yytnamerr (char *yyres, const char *yystr)
+yytnamerr (char *yyres, int yytoken)
 {
+  const char *yystr = yytname[yytoken];
   if (*yystr == '"')
     {
       size_t yyn = 0;
@@ -734,8 +735,8 @@ yytokenName (yySymbol yytoken)
 {
   if (yytoken == YYEMPTY)
     return "";
-
-  return yytname[yytoken];
+  else
+    return yytname[yytoken];
 }
 #endif
 
@@ -2050,15 +2051,15 @@ yyreportSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
 #else
   {
   yySymbol yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
-  size_t yysize0 = yytnamerr (YY_NULLPTR, yytokenName (yytoken));
+  size_t yysize0 = yytnamerr (YY_NULLPTR, yytoken);
   size_t yysize = yysize0;
   yybool yysize_overflow = yyfalse;
   char* yymsg = YY_NULLPTR;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat. */
-  char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  /* Arguments of yyformat as symbol numbers. */
+  int yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
      "expected").  */
   int yycount = 0;
@@ -2089,7 +2090,7 @@ yyreportSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
   if (yytoken != YYEMPTY)
     {
       int yyn = yypact[yystackp->yytops.yystates[0]->yylrState];
-      yyarg[yycount++] = yytokenName (yytoken);
+      yyarg[yycount++] = yytoken;
       if (!yypact_value_is_default (yyn))
         {
           /* Start YYX at -YYN if negative to avoid negative indexes in
@@ -2110,9 +2111,9 @@ yyreportSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
                     yysize = yysize0;
                     break;
                   }
-                yyarg[yycount++] = yytokenName (yyx);
+                yyarg[yycount++] = yyx;
                 {
-                  size_t yysz = yysize + yytnamerr (YY_NULLPTR, yytokenName (yyx));
+                  size_t yysz = yysize + yytnamerr (YY_NULLPTR, yyx);
                   if (yysz < yysize)
                     yysize_overflow = yytrue;
                   yysize = yysz;

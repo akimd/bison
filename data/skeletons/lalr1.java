@@ -493,13 +493,14 @@ b4_define_state])[
   }
 
 ]b4_error_verbose_if([[
-  /* Return YYSTR after stripping away unnecessary quotes and
+  /* The name of YYTOKEN after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
      that double-quoting is unnecessary unless the string contains an
      apostrophe, a comma, or backslash (other than backslash-backslash).
      YYSTR is taken from yytname.  */
-  private final String yytnamerr_ (String yystr)
+  private final String yytnamerr_ (int yytoken)
   {
+    String yystr = yytname_[yytoken];
     if (yystr.charAt (0) == '"')
       {
         StringBuffer yyr = new StringBuffer ();
@@ -938,7 +939,7 @@ b4_both_if([[
                with internationalization.  */
             StringBuffer res =
               new StringBuffer ("syntax error, unexpected ");
-            res.append (yytnamerr_ (yytname_[tok]));
+            res.append (yytnamerr_ (tok));
             int yyn = yypact_[yystate];
             if (!yy_pact_value_is_default_ (yyn))
               {
@@ -963,7 +964,7 @@ b4_both_if([[
                           && !yy_table_value_is_error_ (yytable_[x + yyn]))
                         {
                           res.append (count++ == 0 ? ", expecting " : " or ");
-                          res.append (yytnamerr_ (yytname_[x]));
+                          res.append (yytnamerr_ (x));
                         }
                   }
               }

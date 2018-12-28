@@ -398,13 +398,14 @@ b4_lexer_if([[
     return YYNEWSTATE;
   }
 
-  /* Return YYSTR after stripping away unnecessary quotes and
+  /* The name of YYTOKEN after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
      that double-quoting is unnecessary unless the string contains an
      apostrophe, a comma, or backslash (other than backslash-backslash).
      YYSTR is taken from yytname.  */
-  private final string yytnamerr_ (string yystr)
+  private final string yytnamerr_ (int yytoken)
   {
+    string yystr = yytname_[yytoken];
     if (yystr[0] == '"')
       {
         string yyr;
@@ -757,7 +758,7 @@ m4_popdef([b4_at_dollar])])dnl
         // FIXME: This method of building the message is not compatible
         // with internationalization.
         string res = "syntax error, unexpected ";
-        res ~= yytnamerr_ (yytname_[tok]);
+        res ~= yytnamerr_ (tok);
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
         {
@@ -782,7 +783,7 @@ m4_popdef([b4_at_dollar])])dnl
                      && !yy_table_value_is_error_ (yytable_[x + yyn]))
                  {
                     res ~= count++ == 0 ? ", expecting " : " or ";
-                    res ~= yytnamerr_ (yytname_[x]);
+                    res ~= yytnamerr_ (x);
                  }
             }
         }
