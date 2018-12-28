@@ -143,6 +143,7 @@
 /* Define the tokens together with their human representation.  */
 %token GRAM_EOF 0 "end of file"
 %token STRING     "string"
+       TSTRING    "translatable string"
 
 %token PERCENT_TOKEN       "%token"
 %token PERCENT_NTERM       "%nterm"
@@ -216,8 +217,8 @@
 %type <unsigned char> CHAR
 %printer { fputs (char_name ($$), yyo); } <unsigned char>
 
-%type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING
-%printer { fputs ($$, yyo); }  <char*>
+%type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING TSTRING
+%printer { fputs ($$, yyo); } <char*>
 
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
@@ -532,7 +533,7 @@ token_decl.1:
 
 // One symbol declaration for %token or %nterm.
 token_decl:
-  id int.opt[num] string_as_id.opt[alias]
+  id int.opt[num] alias
     {
       $$ = $id;
       symbol_class_set ($id, current_class, @id, true);
@@ -548,6 +549,19 @@ int.opt:
   %empty  { $$ = -1; }
 | INT
 ;
+
+%type <symbol*> alias;
+alias:
+  %empty         { $$ = NULL; }
+| string_as_id   { $$ = $1; }
+| TSTRING
+    {
+      $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
+      symbol_class_set ($$, token_sym, @1, false);
+      $$->translatable = true;
+    }
+;
+
 
 /*-------------------------------------.
 | token_decls_for_prec (%left, etc.).  |
@@ -780,12 +794,6 @@ string_as_id:
       $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
       symbol_class_set ($$, token_sym, @1, false);
     }
-;
-
-%type <symbol*> string_as_id.opt;
-string_as_id.opt:
-  %empty             { $$ = NULL; }
-| string_as_id
 ;
 
 epilogue.opt:
