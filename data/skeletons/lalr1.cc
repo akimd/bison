@@ -511,8 +511,15 @@ m4_if(b4_prefix, [yy], [],
 
   std::string
   ]b4_parser_class[::yytnamerr_ (int yytoken)
-  {
-    return yytname_[yytoken];
+  {]m4_ifdef([b4_translatable], [[
+    // YYTRANSLATABLE[TOKEN-NUM] -- Whether YYTNAME[TOKEN-NUM] is
+    // internationalizable.  */
+    static ]b4_int_type_for([b4_translate])[ yytranslatable[] =
+    {
+  ]b4_translatable[
+    };
+    return yytranslatable[yytoken] ? _(yytname_[yytoken]) : yytname_[yytoken];]], [[
+    return yytname_[yytoken];]])[
   }
 ]])[
 

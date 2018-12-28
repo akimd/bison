@@ -1045,8 +1045,16 @@ yy_lac (yytype_int16 *yyesa, yytype_int16 **yyes,
    instead, return the length of what the result would have been.  */
 static YYSIZE_T
 yytnamerr (char *yyres, int yytoken)
-{
-  const char *yystr = yytname[yytoken];
+{]m4_ifdef([b4_translatable], [[
+  /* YYTRANSLATABLE[SYMBOL-NUM] -- Whether YYTNAME[SYMBOL-NUM] is
+     internationalizable.  */
+  static ]b4_int_type_for([b4_translate])[ yytranslatable[] =
+  {
+  ]b4_translatable[
+  };
+  const char *yystr
+    = yytranslatable[yytoken] ? _(yytname[yytoken]) : yytname[yytoken];]], [[
+  const char *yystr = yytname[yytoken];]])[
   if (! yyres)
     return yystrlen (yystr);
 

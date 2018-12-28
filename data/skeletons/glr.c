@@ -548,11 +548,17 @@ typedef int yySymbol;
 /** A printable representation of TOKEN.  */
 static inline const char*
 yytokenName (yySymbol yytoken)
-{
+{]m4_ifdef([b4_translatable], [[
+  /* YYTRANSLATABLE[SYMBOL-NUM] -- Whether YYTNAME[SYMBOL-NUM] is
+     internationalizable.  */
+  static ]b4_int_type_for([b4_translate])[ yytranslatable[] =
+  {
+  ]b4_translatable[
+  };]])[
   if (yytoken == YYEMPTY)
-    return "";
-  else
-    return yytname[yytoken];
+    return "";]m4_ifdef([b4_translatable], [[
+  return yytranslatable[yytoken] ? _(yytname[yytoken]) : yytname[yytoken];]], [[
+  return yytname[yytoken];]])[
 }
 #endif
 
@@ -582,7 +588,7 @@ yystpcpy (char *yydest, const char *yysrc)
 /* Copy to YYRES the name of YYTOKEN.  If YYRES is null, do not copy;
    instead, return the length of what the result would have been.  */
 static size_t
-yytnamerr (char *yyres, int yytoken)
+yytnamerr (char *yyres, yySymbol yytoken)
 {
   const char *yystr = yytokenName (yytoken);
   if (! yyres)

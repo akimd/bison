@@ -98,6 +98,7 @@ symbol_new (uniqstr tag, location loc)
               _("POSIX Yacc forbids dashes in symbol names: %s"), tag);
 
   res->tag = tag;
+  res->translatable = false;
   res->location = loc;
   res->location_of_lhs = false;
   res->alias = NULL;
@@ -874,7 +875,7 @@ dummy_symbol_get (location loc)
 }
 
 bool
-symbol_is_dummy (const symbol *sym)
+symbol_is_dummy (symbol const *sym)
 {
   return sym->tag[0] == '@' || (sym->tag[0] == '$' && sym->tag[1] == '@');
 }

@@ -107,8 +107,8 @@ static void unexpected_newline (boundary, char const *);
 %}
  /* A C-like comment in directives/rules. */
 %x SC_YACC_COMMENT
- /* Strings and characters in directives/rules. */
-%x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
+ /* Characters and strings in directives/rules. */
+%x SC_ESCAPED_CHARACTER SC_ESCAPED_STRING SC_ESCAPED_TSTRING
  /* A identifier was just read in directives/rules.  Special state
     to capture the sequence 'identifier :'. */
 %x SC_AFTER_IDENTIFIER
@@ -313,6 +313,7 @@ eqopt    ([[:space:]]*=)?
 
   /* Strings. */
   "\""        token_start = loc->start; BEGIN SC_ESCAPED_STRING;
+  "_(\""      token_start = loc->start; BEGIN SC_ESCAPED_TSTRING;
 
   /* Prologue. */
   "%{"        code_start = loc->start; BEGIN SC_PROLOGUE;
@@ -373,7 +374,7 @@ eqopt    ([[:space:]]*=)?
   | added value.                                                  |
   `--------------------------------------------------------------*/
 
-<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_TAG>
+<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING,SC_TAG>
 {
   \0        complain (loc, complaint, _("invalid null character"));
 }
@@ -533,6 +534,20 @@ eqopt    ([[:space:]]*=)?
   "\n"      unexpected_newline (token_start, "\"");
 }
 
+<SC_ESCAPED_TSTRING>
+{
+  "\")" {
+    STRING_FINISH;
+    BEGIN INITIAL;
+    loc->start = token_start;
+    complain (loc, Wyacc,
+              _("POSIX Yacc does not support string literals"));
+    RETURN_VALUE (TSTRING, last_string);
+  }
+  <<EOF>>   unexpected_eof (token_start, "\"");
+  "\n"      unexpected_newline (token_start, "\"");
+}
+
   /*----------------------------------------------------------.
   | Scanning a Bison character literal, decoding its escapes. |
   | The initial quote is already eaten.                       |
@@ -595,7 +610,7 @@ eqopt    ([[:space:]]*=)?
   | Decode escaped characters.  |
   `----------------------------*/
 
-<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
+<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING>
 {
   \\[0-7]{1,3} {
     verify (UCHAR_MAX < ULONG_MAX);
@@ -791,7 +806,7 @@ eqopt    ([[:space:]]*=)?
   | By default, grow the string obstack with the input.  |
   `-----------------------------------------------------*/
 
-<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>. |
+<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING>. |
   <SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE>\n    STRING_GROW;
 
 %%
