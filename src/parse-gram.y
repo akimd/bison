@@ -140,32 +140,27 @@
   boundary_set (&@$.end, grammar_file, 1, 1, 1);
 }
 
-/* Define the tokens together with their human representation.  */
-%token GRAM_EOF 0 "end of file"
-%token STRING     "string"
-       TSTRING    "translatable string"
-
-%token PERCENT_TOKEN       "%token"
-%token PERCENT_NTERM       "%nterm"
-
-%token PERCENT_TYPE        "%type"
-%token PERCENT_DESTRUCTOR  "%destructor"
-%token PERCENT_PRINTER     "%printer"
-
-%token PERCENT_LEFT        "%left"
-%token PERCENT_RIGHT       "%right"
-%token PERCENT_NONASSOC    "%nonassoc"
-%token PERCENT_PRECEDENCE  "%precedence"
-
-%token PERCENT_PREC          "%prec"
-%token PERCENT_DPREC         "%dprec"
-%token PERCENT_MERGE         "%merge"
-
-/*----------------------.
-| Global Declarations.  |
-`----------------------*/
-
 %token
+  GRAM_EOF 0          _("end of file")
+  STRING              _("string")
+  TSTRING             _("translatable string")
+
+  PERCENT_TOKEN       "%token"
+  PERCENT_NTERM       "%nterm"
+
+  PERCENT_TYPE        "%type"
+  PERCENT_DESTRUCTOR  "%destructor"
+  PERCENT_PRINTER     "%printer"
+
+  PERCENT_LEFT        "%left"
+  PERCENT_RIGHT       "%right"
+  PERCENT_NONASSOC    "%nonassoc"
+  PERCENT_PRECEDENCE  "%precedence"
+
+  PERCENT_PREC        "%prec"
+  PERCENT_DPREC       "%dprec"
+  PERCENT_MERGE       "%merge"
+
   PERCENT_CODE            "%code"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
@@ -191,24 +186,23 @@
   PERCENT_TOKEN_TABLE     "%token-table"
   PERCENT_VERBOSE         "%verbose"
   PERCENT_YACC            "%yacc"
-;
 
-%token BRACED_CODE     "{...}"
-%token BRACED_PREDICATE "%?{...}"
-%token BRACKETED_ID    "[identifier]"
-%token CHAR            "character literal"
-%token COLON           ":"
-%token EPILOGUE        "epilogue"
-%token EQUAL           "="
-%token ID              "identifier"
-%token ID_COLON        "identifier:"
-%token PERCENT_PERCENT "%%"
-%token PIPE            "|"
-%token PROLOGUE        "%{...%}"
-%token SEMICOLON       ";"
-%token TAG             "<tag>"
-%token TAG_ANY         "<*>"
-%token TAG_NONE        "<>"
+  BRACED_CODE       "{...}"
+  BRACED_PREDICATE  "%?{...}"
+  BRACKETED_ID      _("[identifier]")
+  CHAR              _("character literal")
+  COLON             ":"
+  EPILOGUE          _("epilogue")
+  EQUAL             "="
+  ID                _("identifier")
+  ID_COLON          _("identifier:")
+  PERCENT_PERCENT   "%%"
+  PIPE              "|"
+  PROLOGUE          "%{...%}"
+  SEMICOLON         ";"
+  TAG               _("<tag>")
+  TAG_ANY           "<*>"
+  TAG_NONE          "<>"
 
  /* Experimental feature, don't rely on it.  */
 %code pre-printer  {tron (yyo);}
@@ -231,7 +225,7 @@
 %printer { fprintf (yyo, "%%%s", $$); } PERCENT_FLAG
 %printer { fprintf (yyo, "<%s>", $$); } TAG tag
 
-%token <int> INT "integer"
+%token <int> INT _("integer literal")
 %printer { fprintf (yyo, "%d", $$); } <int>
 
 %type <symbol*> id id_colon string_as_id symbol token_decl token_decl_for_prec
