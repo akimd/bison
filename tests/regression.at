@@ -431,8 +431,8 @@ AT_DATA_GRAMMAR([input.y],
 %token B_TOKEN "b"
 %token C_TOKEN 'c'
 %token 'd' D_TOKEN
-%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081"
+%token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081"
 %%
 exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 %%
@@ -442,21 +442,15 @@ exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 ]])
 AT_BISON_OPTION_POPDEFS
 
-# Checking the warning message guarantees that the trigraph "??!" isn't
-# unnecessarily escaped here even though it would need to be if encoded in a
-# C-string literal.  Also notice that unnecessary escaping, such as "\?", from
+# Notice that unnecessary escaping, such as "\?", from
 # the user specification is eliminated.
-AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
-[[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
-input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
-]])
 AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
- %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+ %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081"
         ^^^^^^^
-input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
- %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+input.y:22.16-60: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201" used more than once as a literal string [-Wother]
+ %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081"
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ]])
 AT_COMPILE([input])
 

@@ -1244,7 +1244,7 @@ char quote[] = "@:>@@:>@,";
 %type <ival> '@<:@'
 
 /* Exercise quotes in strings.  */
-%token FAKE "fake @<:@@:>@ \a\b\f\n\r\t\v\"\'\?\\\u005B\U0000005c ??!??'??(??)??-??/??<??=??> \x1\1"
+%token FAKE "fake @<:@@:>@ \a\b\f\n\r\t\v\"\'\?\\\u005B\U0000005c \x1\1"
 
 %%
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 1.  */
