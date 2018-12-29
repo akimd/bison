@@ -25,6 +25,9 @@
 
 m4_pushdef([AT_CALC_MAIN],   [AT_LANG_DISPATCH([$0], $@)])
 
+m4_pushdef([AT_TOKEN_TRANSLATE_IF],
+[AT_ERROR_CUSTOM_IF([$1], [AT_ERROR_DETAILED_IF([$1], [$2])])])
+
 m4_define([AT_CALC_MAIN(c)],
 [[#include <assert.h>
 #include <unistd.h>
@@ -417,6 +420,21 @@ void location_print (FILE *o, Span s);
 
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE_EXTERN[
+
+  ]AT_TOKEN_TRANSLATE_IF([[
+    static
+    const char *
+    _ (const char *cp)
+    {
+      /* Make sure only "end of input" is translated.  */
+      if (strcmp (cp, "end of input") == 0)
+        return "end of file";
+      else if (strcmp (cp, "number") == 0)
+        return "nombre";
+      else
+        return cp;
+    }
+  ]])[
 }
 ]])[
 
@@ -428,8 +446,8 @@ void location_print (FILE *o, Span s);
 }]])[
 
 /* Bison Declarations */
-%token CALC_EOF 0 "end of input"
-%token <ival> NUM "number"
+%token CALC_EOF 0 _("end of input")
+%token <ival> NUM   "number"
 %type  <ival> exp
 
 %nonassoc '='   /* comparison          */
@@ -523,6 +541,7 @@ AT_DATA_SOURCE([[calc-main.]AT_LANG_EXT],
 
 ]AT_CALC_MAIN])
 ])
+
 ])# _AT_DATA_CALC_Y
 
 
@@ -712,12 +731,12 @@ _AT_CHECK_CALC_ERROR([$1], [1],
 +1],
                      [[final: 0 0 1]],
                      [20],
-                     [[2.1: syntax error on token ['+'] (expected: [end of input] [number] ['-'] ['\n'] ['('] ['!'])]])
+                     [[2.1: syntax error on token ['+'] (expected: ]AT_TOKEN_TRANSLATE_IF([[[end of file]]], [[[end of input]]])[ [number] ['-'] ['\n'] ['('] ['!'])]])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null],
                      [[final: 0 0 1]],
                      [4],
-                     [[1.1: syntax error on token [end of input] (expected: [number] ['-'] ['\n'] ['('] ['!'])]])
+                     [[1.1: syntax error on token ]AT_TOKEN_TRANSLATE_IF([[[end of file]]], [[[end of input]]])[ (expected: [number] ['-'] ['\n'] ['('] ['!'])]])
 
 # Exercise the error token: without it, we die at the first error,
 # hence be sure to
@@ -968,5 +987,6 @@ AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %verbose])
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose %debug %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose %debug %define api.prefix {calc} %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 
+m4_popdef([AT_TOKEN_TRANSLATE_IF])
 m4_popdef([AT_CALC_MAIN])
 m4_popdef([AT_CALC_YYLEX])
