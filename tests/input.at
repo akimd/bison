@@ -1720,7 +1720,8 @@ AT_FULL_COMPILE([input])
 AT_PARSER_CHECK([./input])
 
 AT_BISON_OPTION_POPDEFS
-AT_CLEANUP()
+AT_CLEANUP
+
 
 ## ---------------- ##
 ## %define errors.  ##
@@ -1823,6 +1824,7 @@ AT_BISON_CHECK([[-Dunused-d -Funused-f input-unused.y]], [[1]], [],
 
 AT_CLEANUP
 
+
 ## --------------------------- ##
 ## %define Boolean variables.  ##
 ## --------------------------- ##
@@ -1842,6 +1844,7 @@ AT_BISON_CHECK([[Input.y]], [1], [],
 ]])
 
 AT_CLEANUP
+
 
 ## ------------------------ ##
 ## %define code variables.  ##
@@ -1974,6 +1977,7 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 
 AT_CLEANUP
 
+
 ## -------------------------------- ##
 ## %define backward compatibility.  ##
 ## -------------------------------- ##
@@ -2013,6 +2017,7 @@ input.y:5.9-15: warning: deprecated directive, use '%define api.value.type varia
 
 AT_CLEANUP
 
+
 ## ------------------------- ##
 ## Unused %define api.pure.  ##
 ## ------------------------- ##
@@ -2045,6 +2050,7 @@ AT_CHECK_API_PURE([[%language "java"]], [[true]])
 AT_CHECK_API_PURE([[%language "java"]], [[false]])
 
 AT_CLEANUP
+
 
 ## -------------------------------- ##
 ## C++ namespace reference errors.  ##
@@ -2094,6 +2100,7 @@ AT_CHECK_NAMESPACE_ERROR([[::]],
                          [[namespace reference has a trailing "::"]])
 
 AT_CLEANUP
+
 
 ## ------------------------ ##
 ## Bad character literals.  ##
@@ -2165,6 +2172,7 @@ three.y:4.8-11: warning: extra characters in character literal [-Wother]
 
 AT_CLEANUP
 
+
 ## ------------------------- ##
 ## Bad escapes in literals.  ##
 ## ------------------------- ##
@@ -2214,6 +2222,7 @@ input.y:5.19: error: invalid character after \-escape: \001
 
 AT_CLEANUP
 
+
 ## ------------------------- ##
 ## LAC: Errors for %define.  ##
 ## ------------------------- ##
@@ -2236,6 +2245,7 @@ AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
 ]])
 
 AT_CLEANUP
+
 
 ## ---------------------- ##
 ## -Werror combinations.  ##
@@ -2457,6 +2467,7 @@ m4_popdef([AT_TEST])
 
 AT_CLEANUP
 
+
 ##----------------------- ##
 ## Deprecated directives. ##
 ## ---------------------- ##
@@ -2511,6 +2522,7 @@ input.y:11-6:     previous definition
 
 AT_CLEANUP
 
+
 ## ---------------------------- ##
 ## Unput's effect on locations. ##
 ## ---------------------------- ##
@@ -2546,6 +2558,7 @@ input.y:13.11-21:     previous definition
 ]])
 
 AT_CLEANUP
+
 
 ## -------------------------- ##
 ## Non-deprecated directives. ##
