@@ -44,6 +44,13 @@ m4_define([_AT_DATA_CALC_Y],
 [m4_if([$1$2$3], $[1]$[2]$[3], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 
+m4_pushdef([AT_TOKEN_TRANSLATE_IF],
+[AT_ERROR_VERBOSE_IF(
+     [$1],
+     [AT_GLR_IF([AT_DEBUG_IF([$1],
+                             [$2])],
+                [$2])])])
+
 m4_pushdef([AT_CALC_MAIN],
 [#include <assert.h>
 #include <unistd.h>
@@ -270,6 +277,21 @@ static int power (int base, int exponent);
 
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE_EXTERN[
+
+]AT_TOKEN_TRANSLATE_IF([[
+  static
+  const char *
+  _ (const char *cp)
+  {
+    /* Make sure only "end of input" is translated.  */
+    if (strcmp (cp, "end of input") == 0)
+      return "end of file";
+    else if (strcmp (cp, "number") == 0)
+      return "nombre";
+    else
+      return cp;
+  }
+]])[
 }
 
 ]AT_LOCATION_TYPE_SPAN_IF([[
@@ -280,8 +302,8 @@ static int power (int base, int exponent);
 }]])[
 
 /* Bison Declarations */
-%token CALC_EOF 0 "end of input"
-%token <ival> NUM "number"
+%token CALC_EOF 0 _("end of input")
+%token <ival> NUM   "number"
 %type  <ival> exp
 
 %nonassoc '='   /* comparison          */
@@ -362,6 +384,8 @@ AT_DATA_SOURCE([[calc-main.]AT_LANG_EXT],
 
 ]AT_CALC_MAIN])
 ])
+
+m4_popdef([AT_TOKEN_TRANSLATE_IF])
 m4_popdef([AT_CALC_MAIN])
 m4_popdef([AT_CALC_LEX])
 ])# _AT_DATA_CALC_Y
@@ -533,7 +557,7 @@ _AT_CHECK_CALC_ERROR([$1], [1],
                      [2.1: syntax error, unexpected '+'])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
-                     [1.1: syntax error, unexpected end of input])
+                     [1.1: syntax error, unexpected end of file])
 
 # Exercise the error token: without it, we die at the first error,
 # hence be sure to

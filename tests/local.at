@@ -144,7 +144,9 @@ m4_pushdef([AT_AUTOMOVE_IF],
 m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],
-[m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
+           [m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
+m4_pushdef([AT_ERROR_VERBOSE_IF],
+           [m4_bmatch([$3], [%define parse\.error verbose], [$1], [$2])])
 m4_pushdef([AT_CXX_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_JAVA_IF],
@@ -336,6 +338,7 @@ m4_popdef([AT_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_DEFINES_IF])
+m4_popder([AT_ERROR_VERBOSE_IF])
 m4_popdef([AT_DEBUG_IF])
 AT_LOC_POPDEF])dnl
 ])# AT_BISON_OPTION_POPDEFS
