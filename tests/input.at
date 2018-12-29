@@ -232,16 +232,16 @@ input.y:3.17-24: error: nonterminals cannot be given a string alias
 input.y:4.8-10: error: character literals cannot be nonterminals
  %nterm '+' '*';
         ^^^
-input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
+input.y:5.8-15: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
  %nterm "number";
         ^^^^^^^^
-input.y:6.8-13: error: syntax error, unexpected string, expecting char or identifier or <tag>
+input.y:6.8-13: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
  %token "tok1" 1;
         ^^^^^^
-input.y:7.14: error: syntax error, unexpected integer
+input.y:7.14: error: syntax error, unexpected integer literal
  %left "tok2" 2;
               ^
-input.y:8.14: error: syntax error, unexpected integer
+input.y:8.14: error: syntax error, unexpected integer literal
  %type "tok3" 3;
               ^
 ]])
