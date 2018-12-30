@@ -853,6 +853,7 @@ AT_CLEANUP
 
 m4_popdef([AT_TEST])
 
+
 ## -------------------------------------- ##
 ## Syntax error discarding no lookahead.  ##
 ## -------------------------------------- ##
@@ -936,12 +937,14 @@ AT_CLEANUP
 ## Syntax error as exception.  ##
 ## --------------------------- ##
 
-AT_SETUP([[Syntax error as exception]])
+# AT_TEST([BISON-DIRECTIVES = ''])
+m4_pushdef([AT_TEST],
+[AT_SETUP([[Syntax error as exception: $1]])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+AT_BISON_OPTION_PUSHDEFS([$1])
 
-AT_DATA_GRAMMAR([[input.y]],
-[[%skeleton "lalr1.cc"
+AT_DATA_GRAMMAR([[input.yy]],
+[[$1
 %defines
 
 %code
@@ -950,7 +953,6 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (yy::parser::semantic_type *);
 }
 
-%define api.value.type variant
 %define parse.error verbose
 %define parse.trace
 %%
@@ -969,7 +971,7 @@ item:
   'a'
 | 's'
   {
-    throw yy::parser::syntax_error ("invalid expression");
+    throw syntax_error ("invalid expression");
   }
 
 %%
@@ -982,7 +984,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_DATA_SOURCE([input-scan.cc],
+AT_DATA_SOURCE([scan.cc],
 [[#include "input.hh"
 
 int
@@ -1000,8 +1002,10 @@ yylex (yy::parser::semantic_type *)
 }
 ]])
 
+AT_BISON_CHECK([[-o input.cc input.yy]])
+
 AT_FOR_EACH_CXX([
-AT_FULL_COMPILE([[input]], [[scan]])
+AT_LANG_COMPILE([[input]], [[input.cc scan.cc]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
 [[error: invalid expression
@@ -1013,7 +1017,11 @@ caught error
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+])
 
+AT_TEST([%skeleton "lalr1.cc"])
+
+m4_popdef([AT_TEST])
 
 ## ------------------ ##
 ## Exception safety.  ##
