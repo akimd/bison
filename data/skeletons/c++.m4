@@ -214,7 +214,11 @@ m4_define([b4_public_types_declare],
     /// Syntax errors thrown from user actions.
     struct syntax_error : std::runtime_error
     {
-      syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m);]b4_locations_if([
+      syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
+        : std::runtime_error (m)]b4_locations_if([
+        , location (l)])[
+      {}]b4_locations_if([
+
       location_type location;])[
     };
 
@@ -360,12 +364,7 @@ m4_define([b4_symbol_type_define],
 # -----------------------------
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
-[  b4_inline([$1])b4_parser_class_name[::syntax_error::syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
-    : std::runtime_error (m)]b4_locations_if([
-    , location (l)])[
-  {}
-
-  // basic_symbol.
+[[  // basic_symbol.
   template <typename Base>
   ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
     : value ()]b4_locations_if([
