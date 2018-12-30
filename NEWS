@@ -147,6 +147,11 @@ GNU Bison NEWS
       return parser::token::PAIR;
     }
 
+*** C++: Syntax error exceptions in GLR
+
+  The glr.cc skeleton now supports syntax_error exceptions thrown from user
+  actions, or from the scanner.
+
 *** More POSIX Yacc compatibility warnings
 
   More Bison specific directives are now reported with -y or -Wyacc.  This

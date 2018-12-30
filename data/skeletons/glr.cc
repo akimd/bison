@@ -163,8 +163,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   }
 
   ]b4_parser_class_name::~b4_parser_class_name[ ()
-  {
-  }
+  {}
 
   int
   ]b4_parser_class_name[::operator() ()
@@ -256,6 +255,15 @@ b4_percent_code_get([[requires]])[
           [[# include ]b4_location_include])[
 
 ]b4_null_define[
+
+// Whether we are compiled with exception support.
+#ifndef YY_EXCEPTIONS
+# if defined __GNUC__ && !defined __EXCEPTIONS
+#  define YY_EXCEPTIONS 0
+# else
+#  define YY_EXCEPTIONS 1
+# endif
+#endif
 
 ]b4_YYDEBUG_define[
 

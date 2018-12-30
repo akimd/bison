@@ -7,6 +7,11 @@ Several features are not available in all the backends.
 - token constructors: Java and C
 
 * Short term
+** glr.c: too many definitions of YYLLOC_DEFAULT
+See test 241.
+
+241. headers.at:187: testing Sane headers: %locations c++ %glr-parser ...
+
 ** consistency
 token vs terminal
 
@@ -108,6 +113,11 @@ since it is no longer bound to a particular parser, it's just a
 as lr0.cc, why upper case?
 
 * Various
+** Rewrite glr.cc in C++
+As a matter of fact, it would be very interesting to see how much we can
+share between lalr1.cc and glr.cc.  Most of the skeletons should be common.
+It would be a very nice source of inspiration for the other languages.
+
 ** YYERRCODE
 Defined to 256, but not used, not documented.  Probably the token
 number for the error token, which POSIX wants to be 256, but which
