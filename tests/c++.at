@@ -103,7 +103,7 @@ AT_KEYWORDS([variant])
 
 AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %debug $1])
 # Store strings and integers in a vector of strings.
-AT_DATA_GRAMMAR([list.y],
+AT_DATA_GRAMMAR([list.yy],
 [[%skeleton "lalr1.cc"
 %define api.value.type variant
 %define parse.assert
@@ -134,7 +134,7 @@ AT_DATA_GRAMMAR([list.y],
   } <std::vector<int>>
 
 %code requires { #include <vector> }
-%code { int yylex (yy::parser::semantic_type* yylval); }
+%code { int yylex (yy::parser::semantic_type* lvalp); }
 
 %%
 exp: "int" { $$.push_back ($1); }
@@ -142,24 +142,52 @@ exp: "int" { $$.push_back ($1); }
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
 
+template <typename Exp, typename Eff>
+void assert_eq (const Exp& exp, const Eff& eff)
+{
+  if (getenv ("DEBUG"))
+    std::cerr << "Assert: " << exp << " == " << eff << '\n';
+  if (exp != eff)
+    std::cerr << "Assertion failed: " << exp << " != " << eff << '\n';
+}
+
 int main()
 {
   using yy::parser;
   // symbol_type: construction, accessor.
   {
-    parser::symbol_type s = parser::make_INT(12);
-    std::cerr << s.value.as<int>() << '\n';
+    parser::symbol_type s = parser::make_INT (12);
+    assert_eq (s.value.as<int> (), 12);
+  }
+
+  // symbol_type: move constructor.
+#if 201103L <= YY_CPLUSPLUS
+  {
+    auto s = parser::make_INT (42);
+    auto s2 = std::move (s);
+    assert_eq (s2.value.as<int> (), 42);
+    // Used to crash here, because s was improperly cleared, and
+    // its destructor tried to delete its (moved) value.
+  }
+#endif
+
+  // symbol_type: copy constructor.
+  {
+    parser::symbol_type s = parser::make_INT (51);
+    parser::symbol_type s2 = s;
+    assert_eq (s.value.as<int> (), 51);
+    assert_eq (s2.value.as<int> (), 51);
   }
 
   // stack_symbol_type: construction, accessor.
   {
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
     auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
 #else
-    parser::symbol_type s = parser::make_INT(123);
+    parser::symbol_type s = parser::make_INT (123);
     parser::stack_symbol_type ss(1, s);
 #endif
-    std::cerr << ss.value.as<int>() << '\n';
+    assert_eq (ss.value.as<int> (), 123);
   }
 
   // Pushing on the stack.
@@ -171,7 +199,7 @@ int main()
     const int int_reduction_state = 1; // Read list.output to find it.
     for (int i = 0; i < mucho; ++i)
       {
-#if defined __cplusplus && 201103L <= __cplusplus
+#if 201103L <= YY_CPLUSPLUS
         st.push(parser::stack_symbol_type{int_reduction_state,
                                           parser::make_INT (i)});
 #else
@@ -182,19 +210,17 @@ int main()
       }
     for (int i = mucho - 1; 0 <= i; --i)
       {
-        assert (st[0].value.as<int>() == i);
+        assert_eq (st[0].value.as<int>(), i);
         st.pop ();
       }
   }
 }
 ]])
 
+AT_BISON_CHECK([[-o list.cc list.yy]])
 AT_FOR_EACH_CXX([
-AT_FULL_COMPILE([list])
-AT_PARSER_CHECK([./list], 0, [],
-[12
-123
-])
+  AT_COMPILE_CXX([list])
+  AT_PARSER_CHECK([./list])
 ])
 
 AT_BISON_OPTION_POPDEFS
@@ -335,10 +361,8 @@ AT_DATA_GRAMMAR([list.y],
 {
   namespace yy
   {
-    static]AT_TOKEN_CTOR_IF([[
-    parser::symbol_type yylex ()]], [[
-    parser::token_type yylex (parser::semantic_type* yylval]AT_LOCATION_IF([,
-                              parser::location_type* yylloc])[)]])[;
+    static
+    ]AT_YYLEX_PROTOTYPE[;
 
     // Conversion to string.
     template <typename T>
@@ -394,10 +418,8 @@ item:
 #define STAGE_MAX 5
 namespace yy
 {
-  static]AT_TOKEN_CTOR_IF([[
-  parser::symbol_type yylex ()]], [[
-  parser::token_type yylex (parser::semantic_type* yylval]AT_LOCATION_IF([,
-                            parser::location_type* yylloc])[)]])[
+  static
+  ]AT_YYLEX_PROTOTYPE[
   {]AT_LOCATION_IF([
     typedef parser::location_type location;])[
     // The 5 is a syntax error whose recovery requires that we discard
@@ -409,13 +431,13 @@ namespace yy
       case 0:]AT_TOKEN_CTOR_IF([[
         return parser::make_END_OF_FILE (]AT_LOCATION_IF([location ()])[);]],
 [AT_LOCATION_IF([
-        *yylloc = location ();])[
+        *llocp = location ();])[
         return parser::token::END_OF_FILE;]])[
 
       case ',':]AT_TOKEN_CTOR_IF([[
         return parser::make_COMMA (]AT_LOCATION_IF([location ()])[);]],
 [AT_LOCATION_IF([
-        *yylloc = location ();])[
+        *llocp = location ();])[
         return parser::token::COMMA;]])[
 
       default:
@@ -423,15 +445,15 @@ namespace yy
         if (stage % 2)
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_NUMBER (stage]AT_LOCATION_IF([, location ()])[);]], [[
-           yylval->BUILD (int, stage);]AT_LOCATION_IF([
-           *yylloc = location ();])[
+           lvalp->BUILD (int, stage);]AT_LOCATION_IF([
+           *llocp = location ();])[
            return parser::token::NUMBER;]])[
          }
        else
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_TEXT (to_string (stage)]AT_LOCATION_IF([, location ()])[);]], [[
-           yylval->BUILD (string, to_string (stage));]AT_LOCATION_IF([
-           *yylloc = location ();])[
+           lvalp->BUILD (string, to_string (stage));]AT_LOCATION_IF([
+           *llocp = location ();])[
            return parser::token::TEXT;]])[
          }
     }
@@ -840,6 +862,7 @@ AT_CLEANUP
 
 m4_popdef([AT_TEST])
 
+
 ## -------------------------------------- ##
 ## Syntax error discarding no lookahead.  ##
 ## -------------------------------------- ##
@@ -923,12 +946,14 @@ AT_CLEANUP
 ## Syntax error as exception.  ##
 ## --------------------------- ##
 
-AT_SETUP([[Syntax error as exception]])
+# AT_TEST([BISON-DIRECTIVES = ''])
+m4_pushdef([AT_TEST],
+[AT_SETUP([[Syntax error as exception: $1]])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
+AT_BISON_OPTION_PUSHDEFS([$1])
 
-AT_DATA_GRAMMAR([[input.y]],
-[[%skeleton "lalr1.cc"
+AT_DATA_GRAMMAR([[input.yy]],
+[[$1
 %defines
 
 %code
@@ -937,7 +962,6 @@ AT_DATA_GRAMMAR([[input.y]],
   int yylex (yy::parser::semantic_type *);
 }
 
-%define api.value.type variant
 %define parse.error verbose
 %define parse.trace
 %%
@@ -956,7 +980,7 @@ item:
   'a'
 | 's'
   {
-    throw yy::parser::syntax_error ("invalid expression");
+    throw syntax_error ("invalid expression");
   }
 
 %%
@@ -969,7 +993,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_DATA_SOURCE([input-scan.cc],
+AT_DATA_SOURCE([scan.cc],
 [[#include "input.hh"
 
 int
@@ -987,8 +1011,10 @@ yylex (yy::parser::semantic_type *)
 }
 ]])
 
+AT_BISON_CHECK([[-o input.cc input.yy]])
+
 AT_FOR_EACH_CXX([
-AT_FULL_COMPILE([[input]], [[scan]])
+AT_LANG_COMPILE([[input]], [[input.cc scan.cc]])
 
 AT_PARSER_CHECK([[./input]], [[0]], [[]],
 [[error: invalid expression
@@ -1000,7 +1026,12 @@ caught error
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+])
 
+AT_TEST([%skeleton "lalr1.cc"])
+AT_TEST([%skeleton "glr.cc"])
+
+m4_popdef([AT_TEST])
 
 ## ------------------ ##
 ## Exception safety.  ##
@@ -1314,7 +1345,7 @@ AT_DATA_GRAMMAR([input.yy], [
 
 %code
 {
-  int yylex (yy::parser::semantic_type *yylval);
+  int yylex (yy::parser::semantic_type *lvalp);
 }
 
 %%
@@ -1322,12 +1353,12 @@ exp: ZERO
 
 %%
 
-int yylex (yy::parser::semantic_type *yylval)
+int yylex (yy::parser::semantic_type *lvalp)
 {
   // Note: this argument is unused, but named on purpose.  There used to be a
   // bug with a macro that erroneously expanded this identifier to
   // yystackp->yyval.
-  YYUSE (yylval);
+  YYUSE (lvalp);
   return yy::parser::token::ZERO;
 }
 

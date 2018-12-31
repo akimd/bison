@@ -382,6 +382,7 @@ Frequently Asked Questions
 * Strings are Destroyed::       @code{yylval} Loses Track of Strings
 * Implementing Gotos/Loops::    Control Flow in the Calculator
 * Multiple start-symbols::      Factoring closely related grammars
+* Enabling Relocatability::     Moving Bison/using it through network shares
 * Secure?  Conform?::           Is Bison POSIX safe?
 * I can't build Bison::         Troubleshooting
 * Where can I find help?::      Troubleshouting
@@ -11500,6 +11501,57 @@ additional arguments.
 
 For each token type, Bison generates named constructors as follows.
 
+@deftypeop  {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token}, const @var{value_type}& @var{value}, const location_type& @var{location})
+@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token}, const location_type& @var{location})
+@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token}, const @var{value_type}& @var{value})
+@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token})
+Build a complete terminal symbol for the token type @var{token} (including
+the @code{api.token.prefix}), whose semantic value, if it has one, is
+@var{value} of adequate @var{value_type}.  Pass the @var{location} iff
+location tracking is enabled.
+
+Consistency between @var{token} and @var{value_type} is checked via an
+@code{assert}.
+@end deftypeop
+
+For instance, given the following declarations:
+
+@example
+%define api.token.prefix @{TOK_@}
+%token <std::string> IDENTIFIER;
+%token <int> INTEGER;
+%token ':';
+@end example
+
+@noindent
+you may use these constructors:
+
+@example
+symbol_type (int token, const std::string&, const location_type&);
+symbol_type (int token, const int&, const location_type&);
+symbol_type (int token, const location_type&);
+@end example
+
+@noindent
+which should be used in a Flex-scanner as follows.
+
+@example
+%%
+[a-z]+   return yy::parser::symbol_type (TOK_IDENTIFIER, yytext, loc);
+[0-9]+   return yy::parser::symbol_type (TOK_INTEGER, text_to_int (yytext), loc);
+":"      return yy::parser::symbol_type (':', loc);
+<<EOF>>  return yy::parser::symbol_type (0, loc);
+@end example
+
+@sp 1
+
+Note that it is possible to generate and compile type incorrect code
+(e.g. @samp{symbol_type (':', yytext, loc)}).  It will fail at run time,
+provided the assertions are enabled (i.e., @option{-DNDEBUG} was not passed
+to the compiler).  Bison supports an alternative that guarantees that type
+incorrect code will not even compile.  Indeed, it generates @emph{named
+constructors} as follows.
+
 @deftypemethod {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
 @deftypemethodx {parser} {symbol_type} {make_@var{token}} (const location_type& @var{location})
 @deftypemethodx {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value})
@@ -11531,7 +11583,7 @@ symbol_type make_EOF (const location_type&);
 @end example
 
 @noindent
-which should be used in a Flex-scanner as follows.
+which should be used in a scanner as follows.
 
 @example
 [a-z]+   return yy::parser::make_IDENTIFIER (yytext, loc);
@@ -11543,6 +11595,7 @@ which should be used in a Flex-scanner as follows.
 Tokens that do not have an identifier are not accessible: you cannot simply
 use characters such as @code{':'}, they must be declared with @code{%token},
 including the end-of-file token.
+
 
 @node A Complete C++ Example
 @subsection A Complete C++ Example
@@ -12823,6 +12876,7 @@ are addressed.
 * Implementing Gotos/Loops::    Control Flow in the Calculator
 * Multiple start-symbols::      Factoring closely related grammars
 * Secure?  Conform?::           Is Bison POSIX safe?
+* Enabling Relocatability::     Moving Bison/using it through network shares
 * I can't build Bison::         Troubleshooting
 * Where can I find help?::      Troubleshouting
 * Bug Reports::                 Troublereporting
@@ -13104,6 +13158,8 @@ However, Bison is intended to be a reliable program that conforms to the
 POSIX specification for Yacc.  If you run into problems, please send us a
 bug report.
 
+@include relocatable.texi
+
 @node I can't build Bison
 @section I can't build Bison
 
@@ -13157,7 +13213,7 @@ hearts.
 I found a bug.  What should I include in the bug report?
 @end quotation
 
-Before you send a bug report, make sure you are using the latest
+Before sending a bug report, make sure you are using the latest
 version.  Check @url{https://ftp.gnu.org/pub/gnu/bison/} or one of its
 mirrors.  Be sure to include the version number in your bug report.  If
 the bug is present in the latest version but not in a previous version,

@@ -29,6 +29,13 @@ EXTRA_DIST = .prev-version .version cfg.mk PACKAGING \
 
 dist_doc_DATA = AUTHORS COPYING NEWS README THANKS TODO
 
+# Let generated files (e.g., from exampkles/) depend on this variable,
+# to make sure they are regenerated when there are changes in Bison.
+#
+# Don't depend on $(BISON) otherwise we would rebuild these files
+# in srcdir, including during distcheck, which is forbidden.
+dependencies = $(BISON_IN) $(dist_skeletons_DATA)
+
 ## Running the bison from this tarball.  To generate our own parser,
 ## but also to run the tests.  Of course, you ought to keep a sane
 ## version of Bison nearby...

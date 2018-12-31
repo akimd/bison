@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_include(b4_pkgdatadir/[c++.m4])
+m4_include(b4_skeletonsdir/[c++.m4])
 
 # api.value.type=variant is valid.
 m4_define([b4_value_type_setup_variant])
@@ -142,9 +142,9 @@ m4_define([b4_parser_class_name],
 
 b4_bison_locations_if([# Backward compatibility.
    m4_define([b4_location_constructors])
-   m4_include(b4_pkgdatadir/[location.cc])])
-m4_include(b4_pkgdatadir/[stack.hh])
-b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
+   m4_include(b4_skeletonsdir/[location.cc])])
+m4_include(b4_skeletonsdir/[stack.hh])
+b4_variant_if([m4_include(b4_skeletonsdir/[variant.hh])])
 
 
 # b4_shared_declarations(hh|cc)
@@ -172,7 +172,6 @@ m4_define([b4_shared_declarations],
 
 ]b4_namespace_open[
 
-]b4_stack_define[
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
                                   [b4_location_define])])[
 
@@ -181,8 +180,7 @@ m4_define([b4_shared_declarations],
   {
   public:
 ]b4_public_types_declare[
-]b4_symbol_type_declare[
-
+]b4_symbol_type_define[
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class_name[ ();
@@ -217,7 +215,7 @@ m4_define([b4_shared_declarations],
     /// Report a syntax error.
     void error (const syntax_error& err);
 
-]b4_symbol_constructor_declare[
+]b4_token_constructor_define[
 
   private:
     /// This class is not copyable.
@@ -302,7 +300,7 @@ m4_define([b4_shared_declarations],
       by_state (kind_type s) YY_NOEXCEPT;
 
       /// Copy constructor.
-      by_state (const by_state& other) YY_NOEXCEPT;
+      by_state (const by_state& that) YY_NOEXCEPT;
 
       /// Record that this symbol is empty.
       void clear () YY_NOEXCEPT;
@@ -339,6 +337,8 @@ m4_define([b4_shared_declarations],
       stack_symbol_type& operator= (stack_symbol_type& that);
 #endif
     };
+
+]b4_stack_define[
 
     /// Stack type.
     typedef stack<stack_symbol_type> stack_type;
@@ -571,8 +571,8 @@ m4_if(b4_prefix, [yy], [],
     : state (empty_state)
   {}
 
-  ]b4_parser_class_name[::by_state::by_state (const by_state& other) YY_NOEXCEPT
-    : state (other.state)
+  ]b4_parser_class_name[::by_state::by_state (const by_state& that) YY_NOEXCEPT
+    : state (that.state)
   {}
 
   void

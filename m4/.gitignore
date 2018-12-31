@@ -191,3 +191,7 @@
 /sys_resource_h.m4
 /timespec.m4
 /intl-thread-locale.m4
+/canonicalize.m4
+/readlink.m4
+/relocatable-lib.m4
+/relocatable.m4

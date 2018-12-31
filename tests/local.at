@@ -167,8 +167,11 @@ m4_pushdef([AT_LEXPARAM_IF],
 [m4_bmatch([$3], [%lex-param], [$1], [$2])])
 m4_pushdef([AT_LOCATION_IF],
 [m4_bmatch([$3], [%locations], [$1], [$2])])
-m4_pushdef([AT_LOCATION_TYPE_IF],
-[m4_bmatch([$3], [%define \(api\.location\.type\|location_type\)], [$1], [$2])])
+# Whether we use the Span location type (see calc.at), whose members are
+# not named like those of the default location type (on purpose, to make
+# sure we can use a user type).
+m4_pushdef([AT_LOCATION_TYPE_SPAN_IF],
+[m4_bmatch([$3], [%define \(api\.location\.type\|location_type\) \{Span\}], [$1], [$2])])
 m4_pushdef([AT_PARAM_IF],
 [m4_bmatch([$3], [%parse-param], [$1], [$2])])
 # Comma-terminated list of formals parse-parameters.
@@ -186,7 +189,7 @@ m4_pushdef([AT_PUSH_IF],
 [m4_bmatch([$3], [%define api.push-pull \(both\|pull\)], [$1], [$2])])
 # AT_NAME_PREFIX.
 m4_pushdef([AT_NAME_PREFIX],
-[m4_bmatch([$3], [\(%define api\.\|prefix\|%name-prefix\) .*],
+[m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) .*],
    [m4_bregexp([$3],
      [\(%define api\.prefix\|%name-prefix\) [\{\"]\([^\"\}]*\)[\"\}]],
      [\2])],
@@ -285,7 +288,7 @@ AT_TOKEN_CTOR_IF(
 # Handle the different types of location components.
 
 AT_CXX_IF(
-  [AT_LOCATION_TYPE_IF(
+  [AT_LOCATION_TYPE_SPAN_IF(
     [AT_LOC_PUSHDEF([first.l], [first.c], [last.l], [last.c])],
     [AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])])],
   [AT_LOC_PUSHDEF([first_line], [first_column], [last_line], [last_column])])
@@ -318,7 +321,7 @@ m4_popdef([AT_TOKEN_PREFIX])
 m4_popdef([AT_TOKEN_CTOR_IF])
 m4_popdef([AT_NAMESPACE])
 m4_popdef([AT_NAME_PREFIX])
-m4_popdef([AT_LOCATION_TYPE_IF])
+m4_popdef([AT_LOCATION_TYPE_SPAN_IF])
 m4_popdef([AT_LOCATION_IF])
 m4_popdef([AT_PARSE_PARAMS])
 m4_popdef([AT_PUSH_IF])

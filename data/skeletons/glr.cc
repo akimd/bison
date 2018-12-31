@@ -49,9 +49,9 @@ m4_define([b4_locations_flag], [1])
 b4_variant_if([m4_define([b4_location_constructors])])
 m4_define([b4_pure_flag], [1])
 
-m4_include(b4_pkgdatadir/[c++.m4])
-b4_bison_locations_if([m4_include(b4_pkgdatadir/[location.cc])])
-b4_variant_if([m4_include(b4_pkgdatadir/[variant.hh])])
+m4_include(b4_skeletonsdir/[c++.m4])
+b4_bison_locations_if([m4_include(b4_skeletonsdir/[location.cc])])
+b4_variant_if([m4_include(b4_skeletonsdir/[variant.hh])])
 
 m4_define([b4_parser_class_name],
           [b4_percent_define_get([[parser_class_name]])])
@@ -207,8 +207,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   }
 
   ]b4_parser_class_name::~b4_parser_class_name[ ()
-  {
-  }
+  {}
 
   int
   ]b4_parser_class_name[::operator() ()
@@ -307,6 +306,16 @@ b4_percent_code_get([[requires]])[
 
 ]b4_cxx_portability[
 ]b4_variant_if([b4_variant_includes])[
+
+// Whether we are compiled with exception support.
+#ifndef YY_EXCEPTIONS
+# if defined __GNUC__ && !defined __EXCEPTIONS
+#  define YY_EXCEPTIONS 0
+# else
+#  define YY_EXCEPTIONS 1
+# endif
+#endif
+
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
@@ -318,7 +327,7 @@ b4_percent_code_get([[requires]])[
   {
   public:
 ]b4_public_types_declare[
-]b4_symbol_type_declare[
+]b4_symbol_type_define[
 
     /// Build a parser object.
     ]b4_parser_class_name[ (]b4_parse_param_decl[);
@@ -349,7 +358,7 @@ b4_percent_code_get([[requires]])[
     /// \param msg    a description of the syntax error.
     virtual void error (]b4_locations_if([[const location_type& loc, ]])[const std::string& msg);
 
-]b4_symbol_constructor_declare[
+]b4_token_constructor_define[
 
 # if ]b4_api_PREFIX[DEBUG
   public:
@@ -418,5 +427,5 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 # Let glr.c (and b4_shared_declarations) believe that the user
 # arguments include the parser itself.
 m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_wrap]))
-m4_include(b4_pkgdatadir/[glr.c])
+m4_include(b4_skeletonsdir/[glr.c])
 m4_popdef([b4_parse_param])

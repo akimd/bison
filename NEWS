@@ -24,6 +24,15 @@ GNU Bison NEWS
 
 ** New features
 
+*** Bison is now relocatable
+
+  If you pass '--enable-relocatable' to 'configure', Bison is relocatable.
+
+  A relocatable program can be moved or copied to a different location on
+  the file system.  It can also be used through mount points for network
+  sharing.  It is possible to make symlinks to the installed and moved
+  programs, and invoke them through the symlink.
+
 *** %expect and %expect-rr modifiers on individual rules
 
   One can now document (and check) which rules participate in shift/reduce
@@ -96,10 +105,36 @@ GNU Bison NEWS
   until it sees the '='.  So we notate the two possible reductions to
   indicate that each conflicts in one rule.
 
+*** C++: Actual token constructors
+
+  When variants and token constructors are enabled, in addition to the
+  type-safe named token constructors (make_ID, amke_INT, etc.), we now
+  generate genuine constructors for symbol_type.
+
+  For instance with these declarations
+
+    %token           ':'
+       <std::string> ID
+       <int>         INT;
+
+  you may use these constructors:
+
+    symbol_type (int token, const std::string&);
+    symbol_type (int token, const int&);
+    symbol_type (int token);
+
+  which should be used in a Flex-scanner as follows.
+
+    %%
+    [a-z]+   return yy::parser::symbol_type (ID, yytext);
+    [0-9]+   return yy::parser::symbol_type (INT, text_to_int (yytext);
+    ":"      return yy::parser::symbol_type (’:’);
+    <<EOF>>  return yy::parser::symbol_type (0);
+
 *** C++: Variadic emplace
 
-  If your application requires C++11, you may now use a variadic emplace for
-  semantic values:
+  If your application requires C++11 and you don't use symbol constructors,
+  you may now use a variadic emplace for semantic values:
 
     %define api.value.type variant
     %token <std::pair<int, int>> PAIR
@@ -111,6 +146,11 @@ GNU Bison NEWS
       lvalp->emplace <std::pair<int, int>> (1, 2);
       return parser::token::PAIR;
     }
+
+*** C++: Syntax error exceptions in GLR
+
+  The glr.cc skeleton now supports syntax_error exceptions thrown from user
+  actions, or from the scanner.
 
 *** More POSIX Yacc compatibility warnings
 
@@ -174,7 +214,7 @@ GNU Bison NEWS
   The syntax is now as follows:
 
     %token TAG? ( ID NUMBER? STRING? )+ ( TAG ( ID NUMBER? STRING? )+ )*
-    %left  TAG? ( ID NUMBER?)+ ( TAG ( ID NUMBER? )+ )*
+    %left  TAG? ( ID NUMBER? )+ ( TAG ( ID NUMBER? )+ )*
     %type  TAG? ( ID | CHAR | STRING )+ ( TAG ( ID | CHAR | STRING )+ )*
     %nterm TAG? ID+ ( TAG ID+ )*
 
@@ -183,6 +223,14 @@ GNU Bison NEWS
   ‘0x12d’, CHAR a character literal such as ‘'+'’, and STRING a string
   literal such as ‘"number"’.  The postfix quantifiers are ‘?’ (zero or
   one), ‘*’ (zero or more) and ‘+’ (one or more).
+
+* Noteworthy changes in release 3.2.4 (2018-12-24) [stable]
+
+** Bug fixes
+
+  Fix the move constructor of symbol_type.
+
+  Always provide a copy constructor for symbol_type, even in modern C++.
 
 * Noteworthy changes in release 3.2.3 (2018-12-18) [stable]
 

@@ -25,7 +25,7 @@ if ENABLE_D
 endif
 EXTRA_DIST += %D%/calc.test
 
-%D%/calc.d: %D%/calc.y $(BISON_IN) $(dist_pkgdata_DATA)
+%D%/calc.d: %D%/calc.y $(dependencies)
 	$(AM_V_GEN)$(MKDIR_P) %D%
 	$(AM_V_at)$(BISON) $< -o $@
 

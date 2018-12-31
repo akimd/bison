@@ -91,20 +91,20 @@ might be needed.
 
 ** First checkout
 
-Obviously, if you are reading these notes, you did manage to check out
-this package from the repository.  For the record, you will find all the
-relevant information on:
+Obviously, if you are reading these notes, you did manage to check out this
+package from the repository.  For the record, you will find all the relevant
+information on:
 
         http://savannah.gnu.org/git/?group=bison
 
-Bison uses Git submodules: subscriptions to other Git repositories.
-In particular it uses gnulib, the GNU portability library.  To ask Git
-to perform the first checkout of the submodules, run
+Bison uses Git submodules: subscriptions to other Git repositories.  In
+particular it uses gnulib, the GNU portability library.  To ask Git to
+perform the first checkout of the submodules, run
 
-       $ git submodule update --init
+        $ git submodule update --init
 
-The next step is to get other files needed to build, which are
-extracted from other source packages:
+The next step is to get other files needed to build, which are extracted
+from other source packages:
 
         $ ./bootstrap
 
@@ -115,14 +115,15 @@ bootstrap.
 
 If it fails with missing symbols (e.g., "error: possibly undefined macro:
 AC_PROG_GNU_M4"), you are likely to have forgotten the submodule
-initialization part.  Otherwise, there you are!  Just
+initialization part.  To recover from it, run `git reset --hard HEAD`, and
+restart with the submodule initialization.  Otherwise, there you are!  Just
 
         $ ./configure
         $ make
         $ make check
 
-At this point, there should be no difference between your local copy,
-and the master copy:
+At this point, there should be no difference between your local copy, and
+the master copy:
 
         $ git diff
 
@@ -132,9 +133,9 @@ Enjoy!
 
 ** Updating
 
-The use of submodules make things somewhat different because git does
-not support recursive operations: submodules must be taken care of
-explicitly by the user.
+The use of submodules make things somewhat different because git does not
+support recursive operations: submodules must be taken care of explicitly by
+the user.
 
 *** Updating Bison
 

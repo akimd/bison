@@ -203,6 +203,7 @@ AC_ARG_ENABLE([yacc],
      [do not build a yacc command or an -ly library])],
   , [enable_yacc=yes])
 AM_CONDITIONAL([ENABLE_YACC], [test "$enable_yacc" = yes])
+AC_CONFIG_FILES([src/yacc], [chmod +x src/yacc])
 
 # Checks for programs.
 AM_MISSING_PROG([DOT], [dot])

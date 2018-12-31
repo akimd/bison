@@ -13,9 +13,16 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+CLEANDIRS += %D%/*.dSYM
+
 bin_PROGRAMS = src/bison
 # Prettify Automake-computed names of compiled objects.
 src_bison_SHORTNAME = bison
+
+src_bison_CPPFLAGS = $(AM_CPPFLAGS) -DINSTALLDIR=\"$(bindir)\"
+if RELOCATABLE_VIA_LD
+  src_bison_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
+endif
 
 src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
 src_bison_SOURCES =                             \
@@ -127,16 +134,7 @@ src_bison_LDADD =                               \
 ## ------ ##
 
 if ENABLE_YACC
-  bin_SCRIPTS = src/yacc
+  nodist_bin_SCRIPTS = src/yacc
 endif
 EXTRA_SCRIPTS = src/yacc
 MOSTLYCLEANFILES += src/yacc
-CLEANDIRS += %D%/*.dSYM
-
-src/yacc:
-	$(AM_V_GEN)rm -f $@ $@.tmp
-	$(AM_V_at)$(MKDIR_P) src
-	$(AM_V_at)echo '#! /bin/sh' >$@.tmp
-	$(AM_V_at)echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@.tmp
-	$(AM_V_at)chmod a+x $@.tmp
-	$(AM_V_at)mv $@.tmp $@
