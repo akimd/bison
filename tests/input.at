@@ -1833,14 +1833,14 @@ AT_SETUP([["%define" Boolean variables]])
 
 AT_DATA([Input.y],
 [[%language "Java"
-%define public maybe
 %define api.parser.class {Input}
+%define api.parser.public {maybe}
 %%
 start: %empty;
 ]])
 
 AT_BISON_CHECK([[Input.y]], [1], [],
-[[Input.y:2.9-14: error: invalid value for %define Boolean variable 'public'
+[[Input.y:3.9-25: error: invalid value for %define Boolean variable 'api.parser.public'
 ]])
 
 AT_CLEANUP

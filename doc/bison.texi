@@ -10979,11 +10979,6 @@ complete and accurate documentation.
 
 @node C++ Parser Interface
 @subsection C++ Parser Interface
-@c - define api.parser.class
-@c - Ctor
-@c - parse, error, set_debug_level, debug_level, set_debug_stream,
-@c   debug_stream.
-@c - Reporting errors
 
 The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare and
 define the parser class in the namespace @code{yy}.  The class name defaults
@@ -12359,11 +12354,6 @@ properly, the position class should override the @code{equals} and
 
 @node Java Parser Interface
 @subsection Java Parser Interface
-@c - define api.parser.class
-@c - Ctor
-@c - parse, error, set_debug_level, debug_level, set_debug_stream,
-@c   debug_stream.
-@c - Reporting errors
 
 The name of the generated parser class defaults to @code{YYParser}.  The
 @code{YY} prefix may be changed using the @samp{%define api.prefix}.
@@ -12371,18 +12361,19 @@ Alternatively, use @samp{%define api.parser.class @{@var{name}@}} to give a
 custom name to the class.  The interface of this class is detailed below.
 
 By default, the parser class has package visibility.  A declaration
-@samp{%define public} will change to public visibility.  Remember that,
-according to the Java language specification, the name of the @file{.java}
-file should match the name of the class in this case.  Similarly, you can
-use @code{abstract}, @code{final} and @code{strictfp} with the
-@code{%define} declaration to add other modifiers to the parser class.
-A single @samp{%define annotations @{@var{annotations}@}} directive can
-be used to add any number of annotations to the parser class.
+@samp{%define api.parser.public} will change to public visibility.  Remember
+that, according to the Java language specification, the name of the
+@file{.java} file should match the name of the class in this case.
+Similarly, you can use @code{api.parser.abstract}, @code{api.parser.final}
+and @code{api.parser.strictfp} with the @code{%define} declaration to add
+other modifiers to the parser class.  A single @samp{%define
+api.parser.annotations @{@var{annotations}@}} directive can be used to add
+any number of annotations to the parser class.
 
 The Java package name of the parser class can be specified using the
 @samp{%define package} directive.  The superclass and the implemented
 interfaces of the parser class can be specified with the @code{%define
-extends} and @samp{%define implements} directives.
+api.parser.extends} and @samp{%define api.parser.implements} directives.
 
 The parser class defines an inner class, @code{Location}, that is used
 for location tracking (see @ref{Java Location Values}), and a inner
@@ -12799,29 +12790,44 @@ The prefix of the parser class name @code{@var{prefix}Parser} if
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define abstract}
+@deffn {Directive} {%define api.parser.abstract}
 Whether the parser class is declared @code{abstract}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define annotations} @{@var{annotations}@}
+@deffn {Directive} {%define api.parser.annotations} @{@var{annotations}@}
 The Java annotations for the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define extends} @{@var{superclass}@}
+@deffn {Directive} {%define api.parser.class} @{@var{name}@}
+The name of the parser class.  Default is @code{YYParser} or
+@code{@var{api.prefix}Parser}.  @xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.extends} @{@var{superclass}@}
 The superclass of the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define final}
+@deffn {Directive} {%define api.parser.final}
 Whether the parser class is declared @code{final}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define implements} @{@var{interfaces}@}
+@deffn {Directive} {%define api.parser.implements} @{@var{interfaces}@}
 The implemented interfaces of the parser class, a comma-separated list.
 Default is none.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.public}
+Whether the parser class is declared @code{public}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.strictfp}
+Whether the parser class is declared @code{strictfp}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
@@ -12850,11 +12856,6 @@ The package to put the parser class in.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define api.parser.class} @{@var{name}@}
-The name of the parser class.  Default is @code{YYParser} or
-@code{@var{api.prefix}Parser}.  @xref{Java Bison Interface}.
-@end deffn
-
 @deffn {Directive} {%define api.position.type} @{@var{class}@}
 The name of the class used for positions. This class must be supplied by
 the user.  Default is @code{Position}.
@@ -12862,19 +12863,9 @@ Formerly named @code{position_type}.
 @xref{Java Location Values}.
 @end deffn
 
-@deffn {Directive} {%define public}
-Whether the parser class is declared @code{public}.  Default is false.
-@xref{Java Bison Interface}.
-@end deffn
-
 @deffn {Directive} {%define api.value.type} @{@var{class}@}
 The base type of semantic values.  Default is @code{Object}.
 @xref{Java Semantic Values}.
-@end deffn
-
-@deffn {Directive} {%define strictfp}
-Whether the parser class is declared @code{strictfp}.  Default is false.
-@xref{Java Bison Interface}.
 @end deffn
 
 @deffn {Directive} {%define throws} @{@var{exceptions}@}

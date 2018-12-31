@@ -46,20 +46,20 @@ m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
 # ---------------------------
 # The declaration of the parser class ("class YYParser"), with all its
 # qualifiers/annotations.
-b4_percent_define_default([[public]],   [[false]])
-b4_percent_define_default([[abstract]], [[false]])
-b4_percent_define_default([[final]],    [[false]])
-b4_percent_define_default([[strictfp]], [[false]])
+b4_percent_define_default([[api.parser.abstract]], [[false]])
+b4_percent_define_default([[api.parser.final]],    [[false]])
+b4_percent_define_default([[api.parser.public]],   [[false]])
+b4_percent_define_default([[api.parser.strictfp]], [[false]])
 
 m4_define([b4_parser_class_declaration],
-[b4_percent_define_get3([annotations], [], [ ])dnl
-b4_percent_define_flag_if([public],   [public ])dnl
-b4_percent_define_flag_if([abstract], [abstract ])dnl
-b4_percent_define_flag_if([final],    [final ])dnl
-b4_percent_define_flag_if([strictfp], [strictfp ])dnl
+[b4_percent_define_get3([api.parser.annotations], [], [ ])dnl
+b4_percent_define_flag_if([api.parser.public],   [public ])dnl
+b4_percent_define_flag_if([api.parser.abstract], [abstract ])dnl
+b4_percent_define_flag_if([api.parser.final],    [final ])dnl
+b4_percent_define_flag_if([api.parser.strictfp], [strictfp ])dnl
 [class ]b4_parser_class[]dnl
-b4_percent_define_get3([extends], [ extends ])dnl
-b4_percent_define_get3([implements], [ implements ])])
+b4_percent_define_get3([api.parser.extends], [ extends ])dnl
+b4_percent_define_get3([api.parser.implements], [ implements ])])
 
 
 # b4_lexer_if(TRUE, FALSE)

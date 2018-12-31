@@ -1,8 +1,6 @@
 %language "D"
 
 %define api.parser.class {Calc}
-%define public
-
 %define parse.error verbose
 
 %code imports {

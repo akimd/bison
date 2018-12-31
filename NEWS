@@ -30,10 +30,18 @@ GNU Bison NEWS
   @code{YYTOKENTYPE}, @code{yytokentype}, @code{YYSTYPE}, @code{YYLTYPE},
   etc.
 
-  The following variables have been renamed for consistency.  Backward
-  compatibility is ensured, but upgrading is recommended.
+  The following variables, mostly related to parsers in Java, have been
+  renamed for consistency.  Backward compatibility is ensured, but upgrading
+  is recommended.
 
-    parser_class_name          -> api.parser.class
+    abstract           -> api.parser.abstract
+    annotations        -> api.parser.annotations
+    extends            -> api.parser.extends
+    final              -> api.parser.final
+    implements         -> api.parser.implements
+    parser_class_name  -> api.parser.class
+    public             -> api.parser.public
+    strictfp           -> api.parser.strictfp
 
 ** New features
 
@@ -118,6 +126,8 @@ GNU Bison NEWS
   until it sees the '='.  So we notate the two possible reductions to
   indicate that each conflicts in one rule.
 
+  This feature needs user feedback, and might evolve in the future.
+
 *** C++: Actual token constructors
 
   When variants and token constructors are enabled, in addition to the
@@ -143,6 +153,10 @@ GNU Bison NEWS
     [0-9]+   return yy::parser::symbol_type (INT, text_to_int (yytext);
     ":"      return yy::parser::symbol_type (’:’);
     <<EOF>>  return yy::parser::symbol_type (0);
+
+  Correct matching between token types and value types is checked via
+  'assert'.  For instance, 'symbol_type (ID, 42)' would abort (while
+  'make_ID (42)' would not even compile).
 
 *** C++: Variadic emplace
 

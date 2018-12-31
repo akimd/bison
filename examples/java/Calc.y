@@ -1,7 +1,7 @@
 %language "Java"
 
 %define api.parser.class {Calc}
-%define public
+%define api.parser.public
 
 %define parse.error verbose
 %locations
