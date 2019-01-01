@@ -50,7 +50,7 @@ m4_include(b4_skeletonsdir/[c++.m4])
 b4_bison_locations_if([m4_include(b4_skeletonsdir/[location.cc])])
 
 m4_define([b4_parser_class],
-          [b4_percent_define_get([[parser_class_name]])])
+          [b4_percent_define_get([[api.parser.class]])])
 
 # Save the parse parameters.
 m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))

@@ -44,7 +44,7 @@ public interface Lexer
 - the following (non-standard) %defines are supported:
 
   %define package "<package_name>"
-  %define parser_class_name "my_class_name>"
+  %define api.parser.class "my_class_name>"
   %define position_type "my_position_type"
   %define location_type "my_location_type"
 

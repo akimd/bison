@@ -25,7 +25,7 @@ b4_percent_define_ifdef([[api.value.union.name]],
 m4_include(b4_skeletonsdir/[c.m4])
 
 b4_percent_define_check_kind([api.namespace], [code], [deprecated])
-b4_percent_define_check_kind([parser_class_name], [code], [deprecated])
+b4_percent_define_check_kind([api.parser.class], [code], [deprecated])
 
 
 ## ----- ##
@@ -94,7 +94,7 @@ m4_define([b4_cxx_portability],
 ## Default values.  ##
 ## ---------------- ##
 
-b4_percent_define_default([[parser_class_name]], [[parser]])
+b4_percent_define_default([[api.parser.class]], [[parser]])
 
 # Don't do that so that we remember whether we're using a user
 # request, or the default value.

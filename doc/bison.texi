@@ -1807,10 +1807,10 @@ token type is an identifier, that identifier is defined by Bison as a C
 macro whose definition is the appropriate number.  In this example,
 therefore, @code{NUM} becomes a macro for @code{yylex} to use.
 
-The semantic value of the token (if it has one) is stored into the
-global variable @code{yylval}, which is where the Bison parser will look
-for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, whose value
-was defined at the beginning of the grammar via @samp{%define api.value.type
+The semantic value of the token (if it has one) is stored into the global
+variable @code{yylval}, which is where the Bison parser will look for it.
+(The C data type of @code{yylval} is @code{YYSTYPE}, whose value was defined
+at the beginning of the grammar via @samp{%define api.value.type
 @{double@}}; @pxref{Rpcalc Declarations,,Declarations for @code{rpcalc}}.)
 
 A token type code of zero is returned if the end-of-input is encountered.
@@ -5987,6 +5987,29 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @end itemize
 @end deffn
 
+@c ================================================== api.parser.class
+@deffn Directive {%define api.parser.class} @{@var{name}@}
+@itemize @bullet
+@item Language(s):
+C++, Java
+
+@item Purpose:
+The name of the parser class.
+
+@item Accepted Values:
+Any valid identifier.
+
+@item Default Value:
+In C++, @code{parser}.  In Java, @code{YYParser} or
+@code{@var{name-prefix}Parser} (@pxref{Java Bison Interface}).
+
+@item History:
+Introduced in Bison 3.3 to replace @code{parser_class_name}.
+@end itemize
+@end deffn
+@c api.parser.class
+
+
 @c ================================================== api.prefix
 @deffn {Directive} {%define api.prefix} @{@var{prefix}@}
 
@@ -6388,8 +6411,8 @@ LR(1) family.  @xref{LR Table Construction}.
 @c ================================================== namespace
 @deffn Directive %define namespace @{@var{namespace}@}
 Obsoleted by @code{api.namespace}
-@c namespace
 @end deffn
+@c namespace
 
 @c ================================================== parse.assert
 @deffn Directive {%define parse.assert}
@@ -6471,6 +6494,17 @@ compiled.
 @end itemize
 @end deffn
 @c parse.trace
+
+@c ================================================== parser_class_name
+@deffn Directive %define parser_class_name @{@var{name}@}
+Obsoleted by @code{api.parser.class}
+@end deffn
+@c parser_class_name
+
+
+
+
+
 
 @node %code Summary
 @subsection %code Summary
@@ -10950,19 +10984,19 @@ complete and accurate documentation.
 
 @node C++ Parser Interface
 @subsection C++ Parser Interface
-@c - define parser_class_name
+@c - define api.parser.class
 @c - Ctor
 @c - parse, error, set_debug_level, debug_level, set_debug_stream,
 @c   debug_stream.
 @c - Reporting errors
 
-The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare
-and define the parser class in the namespace @code{yy}.  The class name
-defaults to @code{parser}, but may be changed using @samp{%define
-parser_class_name @{@var{name}@}}.  The interface of this class is detailed
-below.  It can be extended using the @code{%parse-param} feature: its
-semantics is slightly changed since it describes an additional member of the
-parser class, and an additional argument for its constructor.
+The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare and
+define the parser class in the namespace @code{yy}.  The class name defaults
+to @code{parser}, but may be changed using @samp{%define api.parser.class
+@{@var{name}@}}.  The interface of this class is detailed below.  It can be
+extended using the @code{%parse-param} feature: its semantics is slightly
+changed since it describes an additional member of the parser class, and an
+additional argument for its constructor.
 
 @defcv {Type} {parser} {semantic_type}
 The types for semantic values. @xref{C++ Semantic Values}.
@@ -12330,17 +12364,17 @@ properly, the position class should override the @code{equals} and
 
 @node Java Parser Interface
 @subsection Java Parser Interface
-@c - define parser_class_name
+@c - define api.parser.class
 @c - Ctor
 @c - parse, error, set_debug_level, debug_level, set_debug_stream,
 @c   debug_stream.
 @c - Reporting errors
 
 The name of the generated parser class defaults to @code{YYParser}.  The
-@code{YY} prefix may be changed using the @code{%name-prefix} directive
-or the @option{-p}/@option{--name-prefix} option.  Alternatively, use
-@samp{%define parser_class_name @{@var{name}@}} to give a custom name to
-the class.  The interface of this class is detailed below.
+@code{YY} prefix may be changed using the @code{%name-prefix} directive or
+the @option{-p}/@option{--name-prefix} option.  Alternatively, use
+@samp{%define api.parser.class @{@var{name}@}} to give a custom name to the
+class.  The interface of this class is detailed below.
 
 By default, the parser class has package visibility.  A declaration
 @samp{%define public} will change to public visibility.  Remember that,
@@ -12719,7 +12753,7 @@ constructor that @emph{creates} a lexer.  Default is none.
 
 @deffn {Directive} %name-prefix "@var{prefix}"
 The prefix of the parser class name @code{@var{prefix}Parser} if
-@samp{%define parser_class_name} is not used.  Default is @code{YY}.
+@samp{%define api.parser.class} is not used.  Default is @code{YY}.
 @xref{Java Bison Interface}.
 @end deffn
 
@@ -12822,10 +12856,9 @@ The package to put the parser class in.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define parser_class_name} @{@var{name}@}
+@deffn {Directive} {%define api.parser.class} @{@var{name}@}
 The name of the parser class.  Default is @code{YYParser} or
-@code{@var{name-prefix}Parser}.
-@xref{Java Bison Interface}.
+@code{@var{name-prefix}Parser}.  @xref{Java Bison Interface}.
 @end deffn
 
 @deffn {Directive} {%define api.position.type} @{@var{class}@}

@@ -138,7 +138,7 @@ m4_pushdef([b4_copyright_years],
            [2002-2015, 2018])
 
 m4_define([b4_parser_class],
-          [b4_percent_define_get([[parser_class_name]])])
+          [b4_percent_define_get([[api.parser.class]])])
 
 b4_bison_locations_if([# Backward compatibility.
    m4_define([b4_location_constructors])

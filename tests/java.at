@@ -37,7 +37,7 @@ AT_DATA([Calc.y],
 [[/* Infix notation calculator--calc */
 %language "Java"
 %name-prefix "Calc"
-%define parser_class_name {Calc}
+%define api.parser.class {Calc}
 %define public
 
 ]$4[
@@ -463,7 +463,7 @@ AT_CHECK_JAVA_GREP([[class PrefixParser]])
 AT_CHECK_JAVA_MINIMAL([[%define api.token.prefix {TOK_}]])
 AT_CHECK_JAVA_GREP([[.*TOK_END.*]])
 
-AT_CHECK_JAVA_MINIMAL([[%define parser_class_name {ParserClassName}]])
+AT_CHECK_JAVA_MINIMAL([[%define api.parser.class {ParserClassName}]])
 AT_CHECK_JAVA_GREP([[class ParserClassName]])
 
 AT_CHECK_JAVA_MINIMAL([[%define package {user_java_package}]])

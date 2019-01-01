@@ -180,7 +180,7 @@ b4_percent_define_check_kind([[extends]],           [code], [deprecated])
 b4_percent_define_check_kind([[implements]],        [code], [deprecated])
 b4_percent_define_check_kind([[init_throws]],       [code], [deprecated])
 b4_percent_define_check_kind([[lex_throws]],        [code], [deprecated])
-b4_percent_define_check_kind([[parser_class_name]], [code], [deprecated])
+b4_percent_define_check_kind([[api.parser.class]], [code], [deprecated])
 b4_percent_define_check_kind([[throws]],            [code], [deprecated])
 
 
@@ -195,8 +195,8 @@ b4_percent_define_default([[api.value.type]], [[Object]])
 # %name-prefix
 m4_define_default([b4_prefix], [[YY]])
 
-b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])
-m4_define([b4_parser_class], [b4_percent_define_get([[parser_class_name]])])
+b4_percent_define_default([[api.parser.class]], [b4_prefix[]Parser])
+m4_define([b4_parser_class], [b4_percent_define_get([[api.parser.class]])])
 
 b4_percent_define_default([[lex_throws]], [[java.io.IOException]])
 m4_define([b4_lex_throws], [b4_percent_define_get([[lex_throws]])])

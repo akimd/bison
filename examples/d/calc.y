@@ -1,6 +1,6 @@
 %language "D"
 %name-prefix "Calc"
-%define parser_class_name {Calc}
+%define api.parser.class {Calc}
 %define public
 
 %define parse.error verbose

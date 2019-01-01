@@ -44,7 +44,7 @@ AT_BANNER([[Java Push Parsing Tests]])
 # This is missing main(), so two versions
 # are instantiated with different main() procedures.
 m4_define([AT_TRIVIAL_GRAMMAR],[
-%define parser_class_name {YYParser}
+%define api.parser.class {YYParser}
 %define parse.error verbose
 
 %code imports {
@@ -346,7 +346,7 @@ AT_DATA([input],[[1 + 2 * 3 = 7
 AT_DATA([Calc.y],[[/* Infix notation calculator--calc */
 %language "Java"
 %name-prefix "Calc"
-%define parser_class_name {Calc}
+%define api.parser.class {Calc}
 
 %code {
 static class UserLexer implements Calc.Lexer
@@ -620,7 +620,7 @@ AT_BISON_OPTION_PUSHDEFS
 AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
 %language "Java"
 %name-prefix "Calc"
-%define parser_class_name {Calc}
+%define api.parser.class {Calc}
 %lex-param { Reader rdr }
 %locations
 
