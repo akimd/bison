@@ -98,18 +98,15 @@ b4_locations_if([,
 [yylloc.initialize ();]m4_ifdef([b4_initial_action], [
 m4_defn([b4_initial_action])]))])[
 
-# Hijack the post prologue to insert early definition of YYLLOC_DEFAULT
-# and declaration of yyerror.
+# Hijack the post prologue to declare yyerror.
 ]m4_append([b4_post_prologue],
 [b4_syncline([@oline@], [@ofile@])[
-]b4_yylloc_default_define[
-#define YYRHSLOC(Rhs, K) ((Rhs)[K].yystate.yyloc)
 ]b4_function_declare([yyerror],
     [static void],b4_locations_if([
     [[const ]b4_namespace_ref::b4_parser_class_name[::location_type *yylocationp],
                         [yylocationp]],])
     b4_parse_param,
-    [[const char* msg], [msg]])])
+    [[const char* msg], [msg]])])[
 
 
 #undef yynerrs
@@ -158,8 +155,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 #if ]b4_api_PREFIX[DEBUG
     ]m4_ifset([b4_parse_param], [  ], [ :])[yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
 #endif]b4_parse_param_cons[
-  {
-  }
+  {}
 
   ]b4_parser_class_name::~b4_parser_class_name[ ()
   {}

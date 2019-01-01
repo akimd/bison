@@ -7,11 +7,6 @@ Several features are not available in all the backends.
 - token constructors: Java and C
 
 * Short term
-** glr.c: too many definitions of YYLLOC_DEFAULT
-See test 241.
-
-241. headers.at:187: testing Sane headers: %locations c++ %glr-parser ...
-
 ** consistency
 token vs terminal
 
