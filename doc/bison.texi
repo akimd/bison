@@ -5682,17 +5682,15 @@ are chosen as if the grammar file were named @file{@var{prefix}.y}.
 
 @deffn {Directive} %language "@var{language}"
 Specify the programming language for the generated parser.  Currently
-supported languages include C, C++, and Java.
-@var{language} is case-insensitive.
-
+supported languages include C, C++, and Java.  @var{language} is
+case-insensitive.
 @end deffn
 
 @deffn {Directive} %locations
-Generate the code processing the locations (@pxref{Action Features,
-,Special Features for Use in Actions}).  This mode is enabled as soon as
-the grammar uses the special @samp{@@@var{n}} tokens, but if your
-grammar does not use it, using @samp{%locations} allows for more
-accurate syntax error messages.
+Generate the code processing the locations (@pxref{Action Features, ,Special
+Features for Use in Actions}).  This mode is enabled as soon as the grammar
+uses the special @samp{@@@var{n}} tokens, but if your grammar does not use
+it, using @samp{%locations} allows for more accurate syntax error messages.
 @end deffn
 
 @deffn {Directive} %name-prefix "@var{prefix}"
