@@ -366,14 +366,14 @@ m4_define([b4_symbol_type_define],
 m4_define([b4_public_types_define],
 [[  // basic_symbol.
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol ()
+  ]b4_parser_class[::basic_symbol<Base>::basic_symbol ()
     : value ()]b4_locations_if([
     , location ()])[
   {}
 
 #if 201103L <= YY_CPLUSPLUS
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (basic_symbol&& that)
+  ]b4_parser_class[::basic_symbol<Base>::basic_symbol (basic_symbol&& that)
     : Base (std::move (that))
     , value (]b4_variant_if([], [std::move (that.value)]))b4_locations_if([
     , location (std::move (that.location))])[
@@ -384,7 +384,7 @@ m4_define([b4_public_types_define],
 #endif
 
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
+  ]b4_parser_class[::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
     : Base (that)
     , value (]b4_variant_if([], [that.value]))b4_locations_if([
     , location (that.location)])[
@@ -396,7 +396,7 @@ m4_define([b4_public_types_define],
 ]b4_variant_if([], [[
   /// Constructor for valueless symbols.
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
+  ]b4_parser_class[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
           b4_locations_if([YY_MOVE_REF (location_type) l]))[)
     : Base (t)
@@ -405,7 +405,7 @@ m4_define([b4_public_types_define],
   {}
 
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::basic_symbol (]b4_join(
+  ]b4_parser_class[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
           [YY_RVREF (semantic_type) v],
           b4_locations_if([YY_RVREF (location_type) l]))[)
@@ -417,14 +417,14 @@ m4_define([b4_public_types_define],
     ]b4_symbol_variant([this->type_get ()], [value], [YY_MOVE_OR_COPY], [YY_MOVE (v)])])[}]])[
 
   template <typename Base>
-  ]b4_parser_class_name[::basic_symbol<Base>::~basic_symbol ()
+  ]b4_parser_class[::basic_symbol<Base>::~basic_symbol ()
   {
     clear ();
   }
 
   template <typename Base>
   void
-  ]b4_parser_class_name[::basic_symbol<Base>::clear ()
+  ]b4_parser_class[::basic_symbol<Base>::clear ()
   {]b4_variant_if([[
     // User destructor.
     symbol_number_type yytype = this->type_get ();
@@ -444,14 +444,14 @@ m4_define([b4_public_types_define],
 
   template <typename Base>
   bool
-  ]b4_parser_class_name[::basic_symbol<Base>::empty () const YY_NOEXCEPT
+  ]b4_parser_class[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
     return Base::type_get () == empty_symbol;
   }
 
   template <typename Base>
   void
-  ]b4_parser_class_name[::basic_symbol<Base>::move (basic_symbol& s)
+  ]b4_parser_class[::basic_symbol<Base>::move (basic_symbol& s)
   {
     super_type::move (s);
     ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [move],
@@ -461,47 +461,47 @@ m4_define([b4_public_types_define],
   }
 
   // by_type.
-  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type ()
+  ]b4_inline([$1])b4_parser_class[::by_type::by_type ()
     : type (empty_symbol)
   {}
 
 #if 201103L <= YY_CPLUSPLUS
-  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (by_type&& that)
+  ]b4_inline([$1])b4_parser_class[::by_type::by_type (by_type&& that)
     : type (that.type)
   {
     that.clear ();
   }
 #endif
 
-  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (const by_type& that)
+  ]b4_inline([$1])b4_parser_class[::by_type::by_type (const by_type& that)
     : type (that.type)
   {}
 
-  ]b4_inline([$1])b4_parser_class_name[::by_type::by_type (token_type t)
+  ]b4_inline([$1])b4_parser_class[::by_type::by_type (token_type t)
     : type (yytranslate_ (t))
   {}
 
   ]b4_inline([$1])[void
-  ]b4_parser_class_name[::by_type::clear ()
+  ]b4_parser_class[::by_type::clear ()
   {
     type = empty_symbol;
   }
 
   ]b4_inline([$1])[void
-  ]b4_parser_class_name[::by_type::move (by_type& that)
+  ]b4_parser_class[::by_type::move (by_type& that)
   {
     type = that.type;
     that.clear ();
   }
 
   ]b4_inline([$1])[int
-  ]b4_parser_class_name[::by_type::type_get () const YY_NOEXCEPT
+  ]b4_parser_class[::by_type::type_get () const YY_NOEXCEPT
   {
     return type;
   }
 ]b4_token_ctor_if([[
-  ]b4_inline([$1])b4_parser_class_name[::token_type
-  ]b4_parser_class_name[::by_type::token () const YY_NOEXCEPT
+  ]b4_inline([$1])b4_parser_class[::token_type
+  ]b4_parser_class[::by_type::token () const YY_NOEXCEPT
   {
     // YYTOKNUM[NUM] -- (External) token number corresponding to the
     // (internal) symbol number NUM (which must be that of a token).  */
@@ -529,8 +529,8 @@ m4_define([b4_token_constructor_define], [])
 # Define yytranslate_.  Sometimes used in the header file ($1=hh),
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
-[  b4_inline([$1])b4_parser_class_name[::token_number_type
-  ]b4_parser_class_name[::yytranslate_ (]b4_token_ctor_if([token_type],
+[  b4_inline([$1])b4_parser_class[::token_number_type
+  ]b4_parser_class[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)
   {
     // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to

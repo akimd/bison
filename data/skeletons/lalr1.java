@@ -100,7 +100,7 @@ b4_public_if([public ])dnl
 b4_abstract_if([abstract ])dnl
 b4_final_if([final ])dnl
 b4_strictfp_if([strictfp ])dnl
-[class ]b4_parser_class_name[]dnl
+[class ]b4_parser_class[]dnl
 b4_percent_define_get3([extends], [ extends ])dnl
 b4_percent_define_get3([implements], [ implements ])[
 {
@@ -187,7 +187,7 @@ b4_locations_if([[
 
   /**
    * Communication interface between the scanner and the Bison-generated
-   * parser <tt>]b4_parser_class_name[</tt>.
+   * parser <tt>]b4_parser_class[</tt>.
    */
   public interface Lexer {
     /** Token returned by the scanner to signal the end of its input.  */
@@ -247,7 +247,7 @@ b4_lexer_if([[
   /**
    * Instantiates the Bison-generated parser.
    */
-  public ]b4_parser_class_name (b4_parse_param_decl([b4_lex_param_decl])[) ]b4_maybe_throws([b4_init_throws])[
+  public ]b4_parser_class (b4_parse_param_decl([b4_lex_param_decl])[) ]b4_maybe_throws([b4_init_throws])[
   {
     ]b4_percent_code_get([[init]])[
     this.yylexer = new YYLexer(]b4_lex_param_call[);
@@ -259,7 +259,7 @@ b4_lexer_if([[
    * Instantiates the Bison-generated parser.
    * @@param yylexer The scanner that will supply tokens to the parser.
    */
-  b4_lexer_if([[protected]], [[public]]) b4_parser_class_name[ (]b4_parse_param_decl([[Lexer yylexer]])[) ]b4_maybe_throws([b4_init_throws])[
+  b4_lexer_if([[protected]], [[public]]) b4_parser_class[ (]b4_parse_param_decl([[Lexer yylexer]])[) ]b4_maybe_throws([b4_init_throws])[
   {
     ]b4_percent_code_get([[init]])[
     this.yylexer = yylexer;

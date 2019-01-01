@@ -196,7 +196,7 @@ b4_percent_define_default([[api.value.type]], [[Object]])
 m4_define_default([b4_prefix], [[YY]])
 
 b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])
-m4_define([b4_parser_class_name], [b4_percent_define_get([[parser_class_name]])])
+m4_define([b4_parser_class], [b4_percent_define_get([[parser_class_name]])])
 
 b4_percent_define_default([[lex_throws]], [[java.io.IOException]])
 m4_define([b4_lex_throws], [b4_percent_define_get([[lex_throws]])])

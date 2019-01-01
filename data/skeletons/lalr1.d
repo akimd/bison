@@ -44,7 +44,7 @@ import std.format;
 
 /**
  * Communication interface between the scanner and the Bison-generated
- * parser <tt>]b4_parser_class_name[</tt>.
+ * parser <tt>]b4_parser_class[</tt>.
  */
 public interface Lexer
 {
@@ -233,7 +233,7 @@ b4_user_union_members
 ]b4_public_if([public ])dnl
 b4_abstract_if([abstract ])dnl
 b4_final_if([final ])dnl
-[class ]b4_parser_class_name[]dnl
+[class ]b4_parser_class[]dnl
 b4_percent_define_get3([extends], [ extends ])dnl
 b4_percent_define_get3([implements], [ implements ])[
 {

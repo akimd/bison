@@ -179,7 +179,7 @@ b4_percent_define_default([[stype]], [[YYSemanticType]])])
 m4_define_default([b4_prefix], [[YY]])
 
 b4_percent_define_default([[parser_class_name]], [b4_prefix[]YYParser])])
-m4_define([b4_parser_class_name], [b4_percent_define_get([[parser_class_name]])])
+m4_define([b4_parser_class], [b4_percent_define_get([[parser_class_name]])])
 
 #b4_percent_define_default([[location_type]], [Location])])
 m4_define([b4_location_type], b4_percent_define_ifdef([[location_type]],[b4_percent_define_get([[location_type]])],[YYLocation]))
