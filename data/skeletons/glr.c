@@ -652,17 +652,19 @@ typedef ]b4_variant_if([struct], [union])[ yyGLRStackItem yyGLRStackItem;
 typedef struct yyGLRStack yyGLRStack;
 
 struct yyGLRState {]b4_variant_if([[
-  yyGLRState()
+  yyGLRState ()
   {
     // std::cerr << "Default ctor: " << this << '\n';
   }
-  yyGLRState(const yyGLRState& that)
+
+  yyGLRState (const yyGLRState&)
   {
-    abort();
+    abort ();
     //    std::cerr << "Cpy ctor\n";
-    *this = that;
+    // *this = that;
   }
-  yyGLRState& operator=(const yyGLRState& that)
+
+  yyGLRState& operator= (const yyGLRState& that)
   {
     //    std::cerr << "Assign: " << this << " = " << &that << '\n';
     YYASSERT (that.yyisState);
