@@ -217,67 +217,67 @@ eqopt    ([[:space:]]*=)?
 
 <INITIAL>
 {
-  "%binary"                         return BISON_DIRECTIVE(NONASSOC);
-  "%code"                           return BISON_DIRECTIVE(CODE);
-  "%debug"                          RETURN_PERCENT_FLAG("parse.trace");
-  "%default-prec"                   return BISON_DIRECTIVE(DEFAULT_PREC);
-  "%define"                         return BISON_DIRECTIVE(DEFINE);
-  "%defines"                        return BISON_DIRECTIVE(DEFINES);
-  "%destructor"                     return BISON_DIRECTIVE(DESTRUCTOR);
-  "%dprec"                          return BISON_DIRECTIVE(DPREC);
-  "%empty"                          return BISON_DIRECTIVE(EMPTY);
-  "%expect"                         return BISON_DIRECTIVE(EXPECT);
-  "%expect-rr"                      return BISON_DIRECTIVE(EXPECT_RR);
-  "%file-prefix"                    return BISON_DIRECTIVE(FILE_PREFIX);
-  "%fixed-output-files"             return BISON_DIRECTIVE(YACC);
-  "%initial-action"                 return BISON_DIRECTIVE(INITIAL_ACTION);
-  "%glr-parser"                     return BISON_DIRECTIVE(GLR_PARSER);
-  "%language"                       return BISON_DIRECTIVE(LANGUAGE);
+  "%binary"                         return BISON_DIRECTIVE (NONASSOC);
+  "%code"                           return BISON_DIRECTIVE (CODE);
+  "%debug"                          RETURN_PERCENT_FLAG ("parse.trace");
+  "%default-prec"                   return BISON_DIRECTIVE (DEFAULT_PREC);
+  "%define"                         return BISON_DIRECTIVE (DEFINE);
+  "%defines"                        return BISON_DIRECTIVE (DEFINES);
+  "%destructor"                     return BISON_DIRECTIVE (DESTRUCTOR);
+  "%dprec"                          return BISON_DIRECTIVE (DPREC);
+  "%empty"                          return BISON_DIRECTIVE (EMPTY);
+  "%expect"                         return BISON_DIRECTIVE (EXPECT);
+  "%expect-rr"                      return BISON_DIRECTIVE (EXPECT_RR);
+  "%file-prefix"                    return BISON_DIRECTIVE (FILE_PREFIX);
+  "%fixed-output-files"             return BISON_DIRECTIVE (YACC);
+  "%initial-action"                 return BISON_DIRECTIVE (INITIAL_ACTION);
+  "%glr-parser"                     return BISON_DIRECTIVE (GLR_PARSER);
+  "%language"                       return BISON_DIRECTIVE (LANGUAGE);
   "%left"                           return PERCENT_LEFT;
-  "%lex-param"                      RETURN_PERCENT_PARAM(lex);
-  "%locations"                      RETURN_PERCENT_FLAG("locations");
-  "%merge"                          return BISON_DIRECTIVE(MERGE);
-  "%name-prefix"                    return BISON_DIRECTIVE(NAME_PREFIX);
-  "%no-default-prec"                return BISON_DIRECTIVE(NO_DEFAULT_PREC);
-  "%no-lines"                       return BISON_DIRECTIVE(NO_LINES);
+  "%lex-param"                      RETURN_PERCENT_PARAM (lex);
+  "%locations"                      RETURN_PERCENT_FLAG ("locations");
+  "%merge"                          return BISON_DIRECTIVE (MERGE);
+  "%name-prefix"                    return BISON_DIRECTIVE (NAME_PREFIX);
+  "%no-default-prec"                return BISON_DIRECTIVE (NO_DEFAULT_PREC);
+  "%no-lines"                       return BISON_DIRECTIVE (NO_LINES);
   "%nonassoc"                       return PERCENT_NONASSOC;
-  "%nondeterministic-parser"        return BISON_DIRECTIVE(NONDETERMINISTIC_PARSER);
-  "%nterm"                          return BISON_DIRECTIVE(NTERM);
-  "%output"                         return BISON_DIRECTIVE(OUTPUT);
-  "%param"                          RETURN_PERCENT_PARAM(both);
-  "%parse-param"                    RETURN_PERCENT_PARAM(parse);
+  "%nondeterministic-parser"        return BISON_DIRECTIVE (NONDETERMINISTIC_PARSER);
+  "%nterm"                          return BISON_DIRECTIVE (NTERM);
+  "%output"                         return BISON_DIRECTIVE (OUTPUT);
+  "%param"                          RETURN_PERCENT_PARAM (both);
+  "%parse-param"                    RETURN_PERCENT_PARAM (parse);
   "%prec"                           return PERCENT_PREC;
-  "%precedence"                     return BISON_DIRECTIVE(PRECEDENCE);
-  "%printer"                        return BISON_DIRECTIVE(PRINTER);
-  "%pure-parser"                    RETURN_PERCENT_FLAG("api.pure");
-  "%require"                        return BISON_DIRECTIVE(REQUIRE);
+  "%precedence"                     return BISON_DIRECTIVE (PRECEDENCE);
+  "%printer"                        return BISON_DIRECTIVE (PRINTER);
+  "%pure-parser"                    RETURN_PERCENT_FLAG ("api.pure");
+  "%require"                        return BISON_DIRECTIVE (REQUIRE);
   "%right"                          return PERCENT_RIGHT;
-  "%skeleton"                       return BISON_DIRECTIVE(SKELETON);
+  "%skeleton"                       return BISON_DIRECTIVE (SKELETON);
   "%start"                          return PERCENT_START;
-  "%term"                           return BISON_DIRECTIVE(TOKEN);
+  "%term"                           return BISON_DIRECTIVE (TOKEN);
   "%token"                          return PERCENT_TOKEN;
-  "%token-table"                    return BISON_DIRECTIVE(TOKEN_TABLE);
+  "%token-table"                    return BISON_DIRECTIVE (TOKEN_TABLE);
   "%type"                           return PERCENT_TYPE;
   "%union"                          return PERCENT_UNION;
-  "%verbose"                        return BISON_DIRECTIVE(VERBOSE);
-  "%yacc"                           return BISON_DIRECTIVE(YACC);
+  "%verbose"                        return BISON_DIRECTIVE (VERBOSE);
+  "%yacc"                           return BISON_DIRECTIVE (YACC);
 
   /* Deprecated since Bison 3.0 (2013-07-25), but the warning is
      issued only since Bison 3.3. */
-  "%error-verbose"                  DEPRECATED("%define parse.error verbose");
+  "%error-verbose"                  DEPRECATED ("%define parse.error verbose");
 
   /* Deprecated since Bison 2.7.90, 2012. */
-  "%default"[-_]"prec"              DEPRECATED("%default-prec");
-  "%error"[-_]"verbose"             DEPRECATED("%define parse.error verbose");
-  "%expect"[-_]"rr"                 DEPRECATED("%expect-rr");
-  "%file-prefix"{eqopt}             DEPRECATED("%file-prefix");
-  "%fixed"[-_]"output"[-_]"files"   DEPRECATED("%fixed-output-files");
-  "%name"[-_]"prefix"{eqopt}        DEPRECATED("%name-prefix");
-  "%no"[-_]"default"[-_]"prec"      DEPRECATED("%no-default-prec");
-  "%no"[-_]"lines"                  DEPRECATED("%no-lines");
-  "%output"{eqopt}                  DEPRECATED("%output");
-  "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
-  "%token"[-_]"table"               DEPRECATED("%token-table");
+  "%default"[-_]"prec"              DEPRECATED ("%default-prec");
+  "%error"[-_]"verbose"             DEPRECATED ("%define parse.error verbose");
+  "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
+  "%file-prefix"{eqopt}             DEPRECATED ("%file-prefix");
+  "%fixed"[-_]"output"[-_]"files"   DEPRECATED ("%fixed-output-files");
+  "%name"[-_]"prefix"{eqopt}        DEPRECATED ("%name-prefix");
+  "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
+  "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
+  "%output"{eqopt}                  DEPRECATED ("%output");
+  "%pure"[-_]"parser"               DEPRECATED ("%pure-parser");
+  "%token"[-_]"table"               DEPRECATED ("%token-table");
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
