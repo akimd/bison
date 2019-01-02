@@ -1,5 +1,5 @@
 %language "D"
-%name-prefix "Calc"
+
 %define api.parser.class {Calc}
 %define public
 

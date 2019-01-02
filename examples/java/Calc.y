@@ -1,9 +1,19 @@
 %language "Java"
-%name-prefix "Calc"
+
 %define api.parser.class {Calc}
 %define public
 
-%define parse.error verbose %locations
+%define parse.error verbose
+%locations
+
+%code imports {
+  import java.io.IOException;
+  import java.io.InputStream;
+  import java.io.InputStreamReader;
+  import java.io.Reader;
+  import java.io.StreamTokenizer;
+}
+
 %code {
   public static void main (String args[]) throws IOException
   {
@@ -11,14 +21,6 @@
     Calc p = new Calc (l);
     p.parse ();
   }
-}
-
-%code imports {
-  import java.io.StreamTokenizer;
-  import java.io.InputStream;
-  import java.io.InputStreamReader;
-  import java.io.Reader;
-  import java.io.IOException;
 }
 
 /* Bison Declarations */
