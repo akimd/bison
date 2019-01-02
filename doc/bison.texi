@@ -5692,6 +5692,10 @@ it, using @samp{%locations} allows for more accurate syntax error messages.
 @end deffn
 
 @deffn {Directive} %name-prefix "@var{prefix}"
+Obsoleted by @samp{%define api.prefix @{@var{prefix}@}}.  @xref{Multiple
+Parsers, ,Multiple Parsers in the Same Program}.  For C++ parsers, see the
+@samp{%define api.namespace} documentation in this section.
+
 Rename the external symbols used in the parser so that they start with
 @var{prefix} instead of @samp{yy}.  The precise list of symbols renamed in C
 parsers is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
@@ -5700,9 +5704,11 @@ parsers is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
 @code{yypull_parse}, @code{yypstate}, @code{yypstate_new} and
 @code{yypstate_delete} will also be renamed.  For example, if you use
 @samp{%name-prefix "c_"}, the names become @code{c_parse}, @code{c_lex}, and
-so on.  For C++ parsers, see the @samp{%define api.namespace} documentation
-in this section.  @xref{Multiple Parsers, ,Multiple Parsers in the Same
-Program}.
+so on.
+
+Contrary to defining @code{api.prefix}, some symbols are @emph{not} renamed
+by @code{%name-prefix}, for instance @code{YYDEBUG}, @code{YYTOKENTYPE},
+@code{yytokentype}, @code{YYSTYPE}, @code{YYLTYPE}.
 @end deffn
 
 @ifset defaultprec
@@ -5880,21 +5886,8 @@ Any absolute or relative C++ namespace reference without a trailing
 @code{"::"}.  For example, @code{"foo"} or @code{"::foo::bar"}.
 
 @item Default Value:
-The value specified by @code{%name-prefix}, which defaults to @code{yy}.
-This usage of @code{%name-prefix} is for backward compatibility and can be
-confusing since @code{%name-prefix} also specifies the textual prefix for
-the lexical analyzer function.  Thus, if you specify @code{%name-prefix}, it
-is best to also specify @samp{%define api.namespace} so that
-@code{%name-prefix} @emph{only} affects the lexical analyzer function.  For
-example, if you specify:
-
-@example
-%define api.namespace @{foo@}
-%name-prefix "bar::"
-@end example
-
-The parser namespace is @code{foo} and @code{yylex} is referenced as
-@code{bar::lex}.
+@code{yy}, unless you used the obsolete @samp{%name-prefix "@var{prefix}"}
+directive.
 @end itemize
 @end deffn
 @c api.namespace
@@ -5996,7 +5989,7 @@ Any valid identifier.
 
 @item Default Value:
 In C++, @code{parser}.  In Java, @code{YYParser} or
-@code{@var{name-prefix}Parser} (@pxref{Java Bison Interface}).
+@code{@var{api.prefix}Parser} (@pxref{Java Bison Interface}).
 
 @item History:
 Introduced in Bison 3.3 to replace @code{parser_class_name}.
@@ -6709,7 +6702,7 @@ extern int cdebug;
 
 Prior to Bison 2.6, a feature similar to @code{api.prefix} was provided by
 the obsolete directive @code{%name-prefix} (@pxref{Table of Symbols, ,Bison
-Symbols}) and the option @code{--name-prefix} (@pxref{Bison Options}).
+Symbols}) and the option @option{--name-prefix} (@pxref{Bison Options}).
 
 @node Interface
 @chapter Parser C-Language Interface
@@ -12240,7 +12233,7 @@ single Java source file named @file{@var{basename}.java} containing the
 parser implementation.  Using a grammar file without a @file{.y} suffix is
 currently broken.  The basename of the parser implementation file can be
 changed by the @code{%file-prefix} directive or the
-@option{-p}/@option{--name-prefix} option.  The entire parser implementation
+@option{-b}/@option{--file-prefix} option.  The entire parser implementation
 file name can be changed by the @code{%output} directive or the
 @option{-o}/@option{--output} option.  The parser implementation file
 contains a single class for the parser.
@@ -12373,10 +12366,9 @@ properly, the position class should override the @code{equals} and
 @c - Reporting errors
 
 The name of the generated parser class defaults to @code{YYParser}.  The
-@code{YY} prefix may be changed using the @code{%name-prefix} directive or
-the @option{-p}/@option{--name-prefix} option.  Alternatively, use
-@samp{%define api.parser.class @{@var{name}@}} to give a custom name to the
-class.  The interface of this class is detailed below.
+@code{YY} prefix may be changed using the @samp{%define api.prefix}.
+Alternatively, use @samp{%define api.parser.class @{@var{name}@}} to give a
+custom name to the class.  The interface of this class is detailed below.
 
 By default, the parser class has package visibility.  A declaration
 @samp{%define public} will change to public visibility.  Remember that,
@@ -12753,12 +12745,6 @@ constructor that @emph{creates} a lexer.  Default is none.
 @xref{Java Scanner Interface}.
 @end deffn
 
-@deffn {Directive} %name-prefix "@var{prefix}"
-The prefix of the parser class name @code{@var{prefix}Parser} if
-@samp{%define api.parser.class} is not used.  Default is @code{YY}.
-@xref{Java Bison Interface}.
-@end deffn
-
 @deffn {Directive} %parse-param @{@var{type} @var{name}@}
 A parameter for the parser class added as parameters to constructor(s)
 and as fields initialized by the constructor(s).  Default is none.
@@ -12805,6 +12791,12 @@ Code (after the second @code{%%}) appended to the end of the file,
 @deffn {Directive} %@{ @var{code} @dots{} %@}
 Not supported.  Use @code{%code imports} instead.
 @xref{Java Differences}.
+@end deffn
+
+@deffn {Directive} {%define api.prefix} @{@var{prefix}@}
+The prefix of the parser class name @code{@var{prefix}Parser} if
+@samp{%define api.parser.class} is not used.  Default is @code{YY}.
+@xref{Java Bison Interface}.
 @end deffn
 
 @deffn {Directive} {%define abstract}
@@ -12860,7 +12852,7 @@ The package to put the parser class in.  Default is none.
 
 @deffn {Directive} {%define api.parser.class} @{@var{name}@}
 The name of the parser class.  Default is @code{YYParser} or
-@code{@var{name-prefix}Parser}.  @xref{Java Bison Interface}.
+@code{@var{api.prefix}Parser}.  @xref{Java Bison Interface}.
 @end deffn
 
 @deffn {Directive} {%define api.position.type} @{@var{class}@}

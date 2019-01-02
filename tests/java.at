@@ -263,7 +263,7 @@ AT_DATA_JAVA_CALC_Y([$1
 $2
 }])
 
-AT_BISON_CHECK([-o Calc.java Calc.y])
+AT_BISON_CHECK([-Wno-deprecated -o Calc.java Calc.y])
 AT_JAVA_COMPILE([Calc.java])
 
 # Test the priorities.
@@ -401,7 +401,7 @@ start: END {$2};
 %%
 class m4_default([$3], [Position]) {}
 ])
-AT_BISON_CHECK([[YYParser.y]])
+AT_BISON_CHECK([[-Wno-deprecated YYParser.y]])
 AT_CHECK([[grep '[mb]4_' YYParser.y]], [1], [ignore])
 AT_JAVA_COMPILE([[YYParser.java]])
 ])

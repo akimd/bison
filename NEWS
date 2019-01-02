@@ -19,8 +19,16 @@ GNU Bison NEWS
 
 ** Deprecated features
 
-  The use of the %error-verbose directive is deprecated in favor of "%define
-  parse.error verbose" since Bison 3.0, but no warning was issued.
+  The %error-verbose directive is deprecated in favor of '%define
+  parse.error verbose' since Bison 3.0, but no warning was issued.
+
+  The '%name-prefix "xx"' directive is deprecated in favor of '%define
+  api.prefix {xx}' since Bison 3.0, but no warning was issued.  These
+  directives are slightly different, you might need to adjust your code.
+  %name-prefix renames only symbols with external linkage, while api.prefix
+  also renames types and macros, including @code{YYDEBUG},
+  @code{YYTOKENTYPE}, @code{yytokentype}, @code{YYSTYPE}, @code{YYLTYPE},
+  etc.
 
   The following variables have been renamed for consistency.  Backward
   compatibility is ensured, but upgrading is recommended.

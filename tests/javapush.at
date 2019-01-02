@@ -345,7 +345,7 @@ AT_DATA([input],[[1 + 2 * 3 = 7
 # Compose pieces to build the actual .y file.
 AT_DATA([Calc.y],[[/* Infix notation calculator--calc */
 %language "Java"
-%name-prefix "Calc"
+
 %define api.parser.class {Calc}
 
 %code {
@@ -619,7 +619,7 @@ AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
 %language "Java"
-%name-prefix "Calc"
+
 %define api.parser.class {Calc}
 %lex-param { Reader rdr }
 %locations

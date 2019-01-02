@@ -237,7 +237,6 @@ eqopt    ([[:space:]]*=)?
   "%lex-param"                      RETURN_PERCENT_PARAM (lex);
   "%locations"                      RETURN_PERCENT_FLAG ("locations");
   "%merge"                          return BISON_DIRECTIVE (MERGE);
-  "%name-prefix"                    return BISON_DIRECTIVE (NAME_PREFIX);
   "%no-default-prec"                return BISON_DIRECTIVE (NO_DEFAULT_PREC);
   "%no-lines"                       return BISON_DIRECTIVE (NO_LINES);
   "%nonassoc"                       return PERCENT_NONASSOC;
@@ -266,13 +265,19 @@ eqopt    ([[:space:]]*=)?
      issued only since Bison 3.3. */
   "%error-verbose"                  DEPRECATED ("%define parse.error verbose");
 
+  /* Deprecated since Bison 2.6 (2012-07-19), but the warning is
+     issued only since Bison 3.3. */
+  "%name"[-_]"prefix"{eqopt} {
+    deprecated_directive (loc, yytext, "%define api.prefix");
+    return BISON_DIRECTIVE (NAME_PREFIX);
+  }
+
   /* Deprecated since Bison 2.7.90, 2012. */
   "%default"[-_]"prec"              DEPRECATED ("%default-prec");
   "%error"[-_]"verbose"             DEPRECATED ("%define parse.error verbose");
   "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
   "%file-prefix"{eqopt}             DEPRECATED ("%file-prefix");
   "%fixed"[-_]"output"[-_]"files"   DEPRECATED ("%fixed-output-files");
-  "%name"[-_]"prefix"{eqopt}        DEPRECATED ("%name-prefix");
   "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
   "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
   "%output"{eqopt}                  DEPRECATED ("%output");

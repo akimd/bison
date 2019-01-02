@@ -445,18 +445,22 @@ sed '/^Starting/d
 / \$[[0-9$]]* = /d
 /^yydestructor:/d' stderr >at-stderr
 mv at-stderr stderr
+
 # 2. Create the reference error message.
 AT_DATA([[expout]],
 [$5
 ])
+
 # 3. If locations are not used, remove them.
 AT_YYERROR_SEES_LOC_IF([],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
+
 # 4. If error-verbose is not used, strip the', unexpected....' part.
 m4_bmatch([$1], [%define parse.error verbose], [],
 [[sed 's/syntax error, .*$/syntax error/' expout >at-expout
 mv at-expout expout]])
+
 # 5. Check
 AT_CHECK([cat stderr], 0, [expout])
 ])
@@ -494,7 +498,7 @@ AT_SETUP([Calculator $1 $2])
 AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
-AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]]), [], [$2])
+AT_FULL_COMPILE([calc], AT_DEFINES_IF([[lex], [main]], [[], []]), [$2], [-Wno-deprecated])
 AT_CHECK_SPACES([calc.AT_LANG_EXT AT_DEFINES_IF([calc.AT_LANG_HDR])])
 
 # Test the priorities.

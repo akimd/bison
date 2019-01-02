@@ -84,7 +84,9 @@ AT_DATA_GRAMMAR([input.y],
 exp: %empty;
 ]])
 
-AT_BISON_CHECK([--defines -o input.c input.y])
+AT_BISON_CHECK([--defines -o input.c input.y], [], [],
+[[input.y:11.1-12: warning: deprecated directive: '%name-prefix', use '%define api.prefix' [-Wdeprecated]
+]])
 
 # YYLTYPE should be defined, and MY_LLOC declared.
 AT_DATA([caller.c],
