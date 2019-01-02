@@ -941,7 +941,7 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([[Syntax error as exception: $1]])
 
-AT_BISON_OPTION_PUSHDEFS([$1])
+AT_BISON_OPTION_PUSHDEFS([$1 %debug])
 
 AT_DATA_GRAMMAR([[input.yy]],
 [[$1
@@ -984,6 +984,7 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
+# Another file to check syntax_error's linkage.
 AT_DATA_SOURCE([scan.cc],
 [[#include "input.hh"
 
@@ -991,7 +992,11 @@ int
 yylex (yy::parser::semantic_type *)
 {
   // 's': syntax error, 'l': lexical error.
-  static char const *input = "asal";
+  //
+  // Leave enough valid tokens to make sure we recovered from the
+  // previous error, otherwise we might hide some error messages
+  // (discarded during error recovery).
+  static char const *input = "asaaalaa";
   switch (int res = *input++)
   {
     case 'l':
