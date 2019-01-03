@@ -8697,7 +8697,7 @@ Enable LAC to improve syntax error handling.
 @item @code{none} (default)
 @item @code{full}
 @end itemize
-This feature is currently only available for deterministic parsers in C.
+This feature is currently only available for deterministic parsers in C and C++.
 @end deffn
 
 Conceptually, the LAC mechanism is straight-forward.  Whenever the parser
@@ -11685,7 +11685,7 @@ location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 Note that when using variants, the interface for @code{yylex} is the same,
 but @code{yylval} is handled differently.
 
-Regular union-based code in Lex scanner typically look like:
+Regular union-based code in Lex scanner typically looks like:
 
 @example
 [0-9]+   @{

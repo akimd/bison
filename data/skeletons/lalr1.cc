@@ -20,6 +20,14 @@ m4_include(b4_skeletonsdir/[c++.m4])
 # api.value.type=variant is valid.
 m4_define([b4_value_type_setup_variant])
 
+# Check the value of %define parse.lac, where LAC stands for lookahead
+# correction.
+b4_percent_define_default([[parse.lac]], [[none]])
+b4_define_flag_if([lac])
+m4_define([b4_lac_flag],
+          [m4_if(b4_percent_define_get([[parse.lac]]),
+                 [none], [[0]], [[1]])])
+
 
 # b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
 # --------------------------------------------------------------
@@ -220,7 +228,18 @@ m4_define([b4_shared_declarations],
   private:
     /// This class is not copyable.
     ]b4_parser_class[ (const ]b4_parser_class[&);
-    ]b4_parser_class[& operator= (const ]b4_parser_class[&);
+    ]b4_parser_class[& operator= (const ]b4_parser_class[&);]b4_lac_if([[
+
+    /// Check the lookahead yytoken.
+    /// \returns  true iff the token will be eventually shifted.
+    bool yy_lac_check_ (int yytoken) const;
+    /// Establish the initial context if no initial context currently exists.
+    /// \returns  true iff the token will be eventually shifted.
+    bool yy_lac_establish_ (int yytoken);
+    /// Discard any previous initial lookahead context because of event.
+    /// \param event  the event which caused the lookahead to be discarded.
+    ///               Only used for debbuging output.
+    void yy_lac_discard_ (const char* event);]])[
 
     /// State numbers.
     typedef int state_type;
@@ -344,7 +363,16 @@ m4_define([b4_shared_declarations],
     typedef stack<stack_symbol_type> stack_type;
 
     /// The stack.
-    stack_type yystack_;
+    stack_type yystack_;]b4_lac_if([[
+    /// The stack for LAC.
+    /// Logically, the yy_lac_stack's lifetime is confined to the function
+    /// yy_lac_check_. We just store it as a member of this class to hold
+    /// on to the memory and to avoid frequent reallocations.
+    /// Since yy_lac_check_ is const, this member must be mutable.
+    mutable std::vector<state_type> yylac_stack_;
+    /// Whether an initial LAC context was established.
+    bool yy_lac_established_;
+]])[
 
     /// Push a new state on the stack.
     /// \param m    a debug message to display
@@ -774,7 +802,11 @@ m4_if(b4_prefix, [yy], [],
     stack_symbol_type yyerror_range[3];]])[
 
     /// The return value of parse ().
-    int yyresult;
+    int yyresult;]b4_lac_if([[
+
+    /// Discard the LAC context in case there still is one left from a
+    /// previous invocation.
+    yy_lac_discard_ ("init");]])[
 
 #if YY_EXCEPTIONS
     try
@@ -843,14 +875,21 @@ b4_dollar_popdef])[]dnl
        to detect an error, take that action.  */
     yyn += yyla.type_get ();
     if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yyla.type_get ())
-      goto yydefault;
+      {]b4_lac_if([[
+        if (!yy_lac_establish_ (yyla.type_get ()))
+           goto yyerrlab;]])[
+        goto yydefault;
+      }
 
     // Reduce or error.
     yyn = yytable_[yyn];
     if (yyn <= 0)
       {
         if (yy_table_value_is_error_ (yyn))
-          goto yyerrlab;
+          goto yyerrlab;]b4_lac_if([[
+        if (!yy_lac_establish_ (yyla.type_get ()))
+           goto yyerrlab;
+]])[
         yyn = -yyn;
         goto yyreduce;
       }
@@ -860,7 +899,8 @@ b4_dollar_popdef])[]dnl
       --yyerrstatus_;
 
     // Shift the lookahead token.
-    yypush_ ("Shifting", yyn, YY_MOVE (yyla));
+    yypush_ ("Shifting", yyn, YY_MOVE (yyla));]b4_lac_if([[
+    yy_lac_discard_ ("shift");]])[
     goto yynewstate;
 
 
@@ -1020,7 +1060,8 @@ b4_dollar_popdef])[]dnl
       yyerror_range[2].location = yyla.location;
       YYLLOC_DEFAULT (error_token.location, yyerror_range, 2);]])[
 
-      // Shift the error token.
+      // Shift the error token.]b4_lac_if([[
+      yy_lac_discard_ ("error recovery");]])[
       error_token.state = yyn;
       yypush_ ("Shifting", YY_MOVE (error_token));
     }
@@ -1085,7 +1126,147 @@ b4_dollar_popdef])[]dnl
   {
     error (]b4_join(b4_locations_if([yyexc.location]),
                     [[yyexc.what ()]])[);
+  }]b4_lac_if([[
+
+  bool
+  ]b4_parser_class[::yy_lac_check_ (int yytoken) const
+  {
+    // Logically, the yylac_stack's lifetime is confined to this function.
+    // Clear it, to get rid of potential left-overs from previous call.
+    yylac_stack_.clear ();
+    // Reduce until we encounter a shift and thereby accept the token.
+#if ]b4_api_PREFIX[DEBUG
+    YYCDEBUG << "LAC: checking lookahead " << yytname_[yytoken] << ':';
+#endif
+    size_t lac_top = 0;
+    while (true)
+      {
+        state_type top_state = (yylac_stack_.empty ()
+                                ? yystack_[lac_top].state
+                                : yylac_stack_.back ());
+        int yyrule = yypact_[top_state];
+        if (yy_pact_value_is_default_ (yyrule)
+            || (yyrule += yytoken) < 0 || yylast_ < yyrule
+            || yycheck_[yyrule] != yytoken)
+          {
+            // Use the default action.
+            yyrule = yydefact_[top_state];
+            if (yyrule == 0)
+              {
+                YYCDEBUG << " Err\n";
+                return false;
+              }
+          }
+        else
+          {
+            // Use the action from yytable.
+            yyrule = yytable_[yyrule];
+            if (yy_table_value_is_error_ (yyrule))
+              {
+                YYCDEBUG << " Err\n";
+                return false;
+              }
+            if (0 < yyrule)
+              {
+                YYCDEBUG << " S" << yyrule << '\n';
+                return true;
+              }
+            yyrule = -yyrule;
+          }
+        // By now we know we have to simulate a reduce.
+        YYCDEBUG << " R" << yyrule - 1;
+        // Pop the corresponding number of values from the stack.
+        {
+          size_t yylen = yyr2_[yyrule];
+          // First pop from the LAC stack as many tokens as possible.
+          size_t lac_size = yylac_stack_.size ();
+          if (yylen < lac_size)
+            {
+              for (size_t i = 0; i < yylen; ++i)
+                yylac_stack_.pop_back ();
+              yylen = 0;
+            }
+          else if (lac_size)
+            {
+              yylac_stack_.clear ();
+              yylen -= lac_size;
+            }
+          // Only aftwerwards look at the main stack.
+          // We simulate popping elements by incrementing lac_top.
+          lac_top += yylen;
+        }
+        // Keep top_state in sync with the updated stack.
+        top_state = (yylac_stack_.empty ()
+                     ? yystack_[lac_top].state
+                     : yylac_stack_.back ());
+        // Push the resulting state of the reduction.
+        state_type state = yy_lr_goto_state_ (top_state, yyr1_[yyrule]);
+        YYCDEBUG << " G" << state;
+        yylac_stack_.push_back (state);
+      }
   }
+
+  // Establish the initial context if no initial context currently exists.
+  bool
+  ]b4_parser_class[::yy_lac_establish_ (int yytoken)
+  {
+    /* Establish the initial context for the current lookahead if no initial
+       context is currently established.
+
+       We define a context as a snapshot of the parser stacks.  We define
+       the initial context for a lookahead as the context in which the
+       parser initially examines that lookahead in order to select a
+       syntactic action.  Thus, if the lookahead eventually proves
+       syntactically unacceptable (possibly in a later context reached via a
+       series of reductions), the initial context can be used to determine
+       the exact set of tokens that would be syntactically acceptable in the
+       lookahead's place.  Moreover, it is the context after which any
+       further semantic actions would be erroneous because they would be
+       determined by a syntactically unacceptable token.
+
+       yy_lac_establish_ should be invoked when a reduction is about to be
+       performed in an inconsistent state (which, for the purposes of LAC,
+       includes consistent states that don't know they're consistent because
+       their default reductions have been disabled).
+
+       For parse.lac=full, the implementation of yy_lac_establish_ is as
+       follows.  If no initial context is currently established for the
+       current lookahead, then check if that lookahead can eventually be
+       shifted if syntactic actions continue from the current context.  */
+    if (!yy_lac_established_)
+      {
+#if ]b4_api_PREFIX[DEBUG
+        YYCDEBUG << "LAC: initial context established for "
+                 << yytname_[yytoken] << '\n';
+#endif
+        yy_lac_established_ = true;
+        return yy_lac_check_ (yytoken);
+      }
+    return true;
+  }
+
+  // Discard any previous initial lookahead context.
+  void
+  ]b4_parser_class[::yy_lac_discard_ (const char* evt)
+  {
+   /* Discard any previous initial lookahead context because of Event,
+      which may be a lookahead change or an invalidation of the currently
+      established initial context for the current lookahead.
+
+      The most common example of a lookahead change is a shift.  An example
+      of both cases is syntax error recovery.  That is, a syntax error
+      occurs when the lookahead is syntactically erroneous for the
+      currently established initial context, so error recovery manipulates
+      the parser stacks to try to find a new initial context in which the
+      current lookahead is syntactically acceptable.  If it fails to find
+      such a context, it discards the lookahead.  */
+    if (yy_lac_established_)
+      {
+        YYCDEBUG << "LAC: initial context discarded due to "
+                 << evt << '\n';
+        yy_lac_established_ = false;
+      }
+  }]])[
 
   // Generate an error message.
   std::string
@@ -1115,24 +1296,40 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
          a consistent state with a default action.  There might have
          been a previous inconsistent state, consistent state with a
          non-default action, or user semantic action that manipulated
-         yyla.  (However, yyla is currently not documented for users.)
+         yyla.  (However, yyla is currently not documented for users.)]b4_lac_if([[
+         In the first two cases, it might appear that the current syntax
+         error should have been detected in the previous state when
+         yy_lac_check was invoked.  However, at that time, there might
+         have been a different syntax error that discarded a different
+         initial context during error recovery, leaving behind the
+         current lookahead.]], [[
        - Of course, the expected token list depends on states to have
          correct lookahead information, and it depends on the parser not
          to perform extra reductions after fetching a lookahead from the
-         scanner and before detecting a syntax error.  Thus, state
-         merging (from LALR or IELR) and default reductions corrupt the
-         expected token list.  However, the list is correct for
-         canonical LR with one exception: it will still contain any
-         token that will not be accepted due to an error action in a
-         later state.
+         scanner and before detecting a syntax error.  Thus, state merging
+         (from LALR or IELR) and default reductions corrupt the expected
+         token list.  However, the list is correct for canonical LR with
+         one exception: it will still contain any token that will not be
+         accepted due to an error action in a later state.]])[
     */
     if (!yyla.empty ())
       {
         int yytoken = yyla.type_get ();
-        yyarg[yycount++] = yytname_[yytoken];
+        yyarg[yycount++] = yytname_[yytoken];]b4_lac_if([[
+
+#if ]b4_api_PREFIX[DEBUG
+        // Execute LAC once. We don't care if it is succesful, we
+        // only do it for the sake of debugging output.
+        if (!yy_lac_established_)
+          yy_lac_check_ (yytoken);
+#endif]])[
+
         int yyn = yypact_[yystate];
         if (!yy_pact_value_is_default_ (yyn))
-          {
+          {]b4_lac_if([[
+            for (int yyx = 0; yyx < yyntokens_; ++yyx)
+              if (yyx != yyterror_ && yy_lac_check_(yyx))
+                {]], [[
             /* Start YYX at -YYN if negative to avoid negative indexes in
                YYCHECK.  In other words, skip the first -YYN actions for
                this state because they are default actions.  */
@@ -1143,7 +1340,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
             for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
               if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
                   && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
-                {
+                {]])[
                   if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
                     {
                       yycount = 1;
