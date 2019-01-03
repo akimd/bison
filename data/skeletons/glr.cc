@@ -284,6 +284,7 @@ b4_percent_code_get([[requires]])[
     /// \returns  0 iff parsing succeeded.
     virtual int parse ();
 
+#if ]b4_api_PREFIX[DEBUG
     /// The current debugging stream.
     std::ostream& debug_stream () const;
     /// Set the current debugging stream.
@@ -295,8 +296,8 @@ b4_percent_code_get([[requires]])[
     debug_level_type debug_level () const;
     /// Set the current debugging level.
     void set_debug_level (debug_level_type l);
+#endif
 
-  public:
     /// Report a syntax error.]b4_locations_if([[
     /// \param loc    where the syntax error is found.]])[
     /// \param msg    a description of the syntax error.
