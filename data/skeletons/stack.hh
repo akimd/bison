@@ -88,10 +88,17 @@ m4_define([b4_stack_define],
 
       /// Pop elements from the stack.
       void
-      pop (int n = 1) YY_NOEXCEPT
+      pop (size_type n = 1) YY_NOEXCEPT
       {
         for (; 0 < n; --n)
           seq_.pop_back ();
+      }
+
+      /// Pop elements from the stack.
+      void
+      pop (int n) YY_NOEXCEPT
+      {
+         pop (size_type (n));
       }
 
       /// Pop all elements from the stack.

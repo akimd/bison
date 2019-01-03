@@ -8697,7 +8697,7 @@ Enable LAC to improve syntax error handling.
 @item @code{none} (default)
 @item @code{full}
 @end itemize
-This feature is currently only available for deterministic parsers in C.
+This feature is currently only available for deterministic parsers in C and C++.
 @end deffn
 
 Conceptually, the LAC mechanism is straight-forward.  Whenever the parser
