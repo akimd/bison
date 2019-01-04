@@ -18,6 +18,7 @@
 # FIXME: Duplication with calc.at.
 AT_BANNER([[Named references tests.]])
 
+# FIXME: large duplication with calc.at.
 AT_SETUP([Tutorial calculator])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
@@ -86,8 +87,7 @@ exp:
 ]AT_YYERROR_DEFINE[
 static int get_char (void)
 {
-  int res = getc (input);
-  return res;
+  return getc (input);
 }
 
 static void unget_char (int c)
