@@ -95,14 +95,7 @@ b4_output_begin([b4_parser_file_name])[
  *
  * @@author LALR (1) parser skeleton written by Paolo Bonzini.
  */
-]b4_percent_define_get3([annotations], [], [ ])dnl
-b4_public_if([public ])dnl
-b4_abstract_if([abstract ])dnl
-b4_final_if([final ])dnl
-b4_strictfp_if([strictfp ])dnl
-[class ]b4_parser_class[]dnl
-b4_percent_define_get3([extends], [ extends ])dnl
-b4_percent_define_get3([implements], [ implements ])[
+]b4_parser_class_declaration[
 {
   ]b4_identification[
 ]b4_error_verbose_if([[
@@ -389,8 +382,7 @@ b4_lexer_if([[
     }
 
     // Print the state stack on the debug stream.
-    public void print (java.io.PrintStream out)
-    {
+    public void print (java.io.PrintStream out) {
       out.print ("Stack now");
 
       for (int i = 0; i <= height; i++)

@@ -46,25 +46,22 @@ m4_define([b4_percent_define_get3],
 m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
 
 
-# b4_public_if(TRUE, FALSE)
-# -------------------------
-b4_percent_define_default([[public]], [[false]])
-m4_define([b4_public_if],
-[b4_percent_define_flag_if([public], [$1], [$2])])
-
-
-# b4_abstract_if(TRUE, FALSE)
+# b4_parser_class_declaration
 # ---------------------------
+# The declaration of the parser class ("class YYParser"), with all its
+# qualifiers/annotations.
+b4_percent_define_default([[public]],   [[false]])
 b4_percent_define_default([[abstract]], [[false]])
-m4_define([b4_abstract_if],
-[b4_percent_define_flag_if([abstract], [$1], [$2])])
+b4_percent_define_default([[final]],    [[false]])
 
-
-# b4_final_if(TRUE, FALSE)
-# ---------------------------
-b4_percent_define_default([[final]], [[false]])
-m4_define([b4_final_if],
-[b4_percent_define_flag_if([final], [$1], [$2])])
+m4_define([b4_parser_class_declaration],
+[b4_percent_define_get3([annotations], [], [ ])dnl
+b4_percent_define_flag_if([public],   [public ])dnl
+b4_percent_define_flag_if([abstract], [abstract ])dnl
+b4_percent_define_flag_if([final],    [final ])dnl
+[class ]b4_parser_class[]dnl
+b4_percent_define_get3([extends], [ extends ])dnl
+b4_percent_define_get3([implements], [ implements ])])
 
 
 # b4_lexer_if(TRUE, FALSE)
@@ -74,20 +71,22 @@ m4_define([b4_lexer_if],
 
 
 # b4_position_type_if(TRUE, FALSE)
-# ------------------------
+# --------------------------------
 m4_define([b4_position_type_if],
 [b4_percent_define_ifdef([[position_type]], [$1], [$2])])
 
 
 # b4_location_type_if(TRUE, FALSE)
-# ------------------------
+# --------------------------------
 m4_define([b4_location_type_if],
 [b4_percent_define_ifdef([[location_type]], [$1], [$2])])
 
 
 # b4_locations_if(TRUE, FALSE)
+# ----------------------------
 m4_define([b4_locations_if],
-[m4_if(b4_locations_flag,1,[$1],[$2])])
+[m4_if(b4_locations_flag, 1, [$1], [$2])])
+
 
 # b4_identification
 # -----------------

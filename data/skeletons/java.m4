@@ -42,32 +42,24 @@ m4_define([b4_percent_define_get3],
 m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
 
 
-# b4_public_if(TRUE, FALSE)
-# -------------------------
-b4_percent_define_default([[public]], [[false]])
-m4_define([b4_public_if],
-[b4_percent_define_flag_if([public], [$1], [$2])])
-
-
-# b4_abstract_if(TRUE, FALSE)
+# b4_parser_class_declaration
 # ---------------------------
+# The declaration of the parser class ("class YYParser"), with all its
+# qualifiers/annotations.
+b4_percent_define_default([[public]],   [[false]])
 b4_percent_define_default([[abstract]], [[false]])
-m4_define([b4_abstract_if],
-[b4_percent_define_flag_if([abstract], [$1], [$2])])
-
-
-# b4_final_if(TRUE, FALSE)
-# ---------------------------
-b4_percent_define_default([[final]], [[false]])
-m4_define([b4_final_if],
-[b4_percent_define_flag_if([final], [$1], [$2])])
-
-
-# b4_strictfp_if(TRUE, FALSE)
-# ---------------------------
+b4_percent_define_default([[final]],    [[false]])
 b4_percent_define_default([[strictfp]], [[false]])
-m4_define([b4_strictfp_if],
-[b4_percent_define_flag_if([strictfp], [$1], [$2])])
+
+m4_define([b4_parser_class_declaration],
+[b4_percent_define_get3([annotations], [], [ ])dnl
+b4_percent_define_flag_if([public],   [public ])dnl
+b4_percent_define_flag_if([abstract], [abstract ])dnl
+b4_percent_define_flag_if([final],    [final ])dnl
+b4_percent_define_flag_if([strictfp], [strictfp ])dnl
+[class ]b4_parser_class[]dnl
+b4_percent_define_get3([extends], [ extends ])dnl
+b4_percent_define_get3([implements], [ implements ])])
 
 
 # b4_lexer_if(TRUE, FALSE)
@@ -180,7 +172,7 @@ b4_percent_define_check_kind([[extends]],           [code], [deprecated])
 b4_percent_define_check_kind([[implements]],        [code], [deprecated])
 b4_percent_define_check_kind([[init_throws]],       [code], [deprecated])
 b4_percent_define_check_kind([[lex_throws]],        [code], [deprecated])
-b4_percent_define_check_kind([[api.parser.class]], [code], [deprecated])
+b4_percent_define_check_kind([[api.parser.class]],  [code], [deprecated])
 b4_percent_define_check_kind([[throws]],            [code], [deprecated])
 
 

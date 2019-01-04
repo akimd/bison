@@ -129,12 +129,8 @@ b4_locations_if([, ref ]b4_location_type[ loc])[)
   public final void print (File stream)
   {
     stream.write ("Stack now");
-
     for (int i = 0; i < stack.length; i++)
-      {
-        stream.write (' ');
-        stream.write ("%d", stack[i].state);
-      }
+      stream.write (" %d", stack[i].state);
     stream.writeln ();
   }
 }
@@ -230,12 +226,7 @@ b4_user_union_members
 [m4_if(b4_tag_seen_flag, 0,
 [[private alias int YYSemanticType;]])])[
 ]b4_token_enums(b4_tokens)[
-]b4_public_if([public ])dnl
-b4_abstract_if([abstract ])dnl
-b4_final_if([final ])dnl
-[class ]b4_parser_class[]dnl
-b4_percent_define_get3([extends], [ extends ])dnl
-b4_percent_define_get3([implements], [ implements ])[
+]b4_parser_class_declaration[
 {
   ]b4_identification[
 
