@@ -278,6 +278,7 @@ static int power (int base, int exponent);
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE_EXTERN[
 
+#define N_
 ]AT_TOKEN_TRANSLATE_IF([[
   static
   const char *

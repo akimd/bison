@@ -175,7 +175,8 @@ prepare_symbols (void)
           : quotearg_alloc (symbols[i]->tag, -1, qo);
         /* Width of the next token, including the two quotes, the
            comma and the space.  */
-        int width = strlen (cp) + 2;
+        int width
+          = strlen (cp) + 2 + (symbols[i]->translatable ? strlen ("N_()") : 0);
 
         if (j + width > 75)
           {
@@ -185,7 +186,11 @@ prepare_symbols (void)
 
         if (i)
           obstack_1grow (&format_obstack, ' ');
+        if (symbols[i]->translatable)
+          obstack_sgrow (&format_obstack, "N_(");
         obstack_escape (&format_obstack, cp);
+        if (symbols[i]->translatable)
+          obstack_1grow (&format_obstack, ')');
         free (cp);
         obstack_1grow (&format_obstack, ',');
         j += width;
