@@ -35,8 +35,8 @@
 This manual (@value{UPDATED}) is for GNU Bison (version @value{VERSION}),
 the GNU parser generator.
 
-Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018 Free Software
-Foundation, Inc.
+Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018-2019 Free
+Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document under
