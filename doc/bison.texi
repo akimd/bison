@@ -10496,36 +10496,36 @@ Tuning the parser:
 @table @option
 @item -t
 @itemx --debug
-In the parser implementation file, define the macro @code{YYDEBUG} to
-1 if it is not already defined, so that the debugging facilities are
-compiled.  @xref{Tracing, ,Tracing Your Parser}.
+In the parser implementation file, define the macro @code{YYDEBUG} to 1 if
+it is not already defined, so that the debugging facilities are compiled.
+@xref{Tracing, ,Tracing Your Parser}.
 
 @item -D @var{name}[=@var{value}]
 @itemx --define=@var{name}[=@var{value}]
 @itemx -F @var{name}[=@var{value}]
 @itemx --force-define=@var{name}[=@var{value}]
 Each of these is equivalent to @samp{%define @var{name} "@var{value}"}
-(@pxref{%define Summary}) except that Bison processes multiple
-definitions for the same @var{name} as follows:
+(@pxref{%define Summary}) except that Bison processes multiple definitions
+for the same @var{name} as follows:
 
 @itemize
 @item
 Bison quietly ignores all command-line definitions for @var{name} except
 the last.
 @item
-If that command-line definition is specified by a @code{-D} or
-@code{--define}, Bison reports an error for any @code{%define}
-definition for @var{name}.
+If that command-line definition is specified by a @option{-D} or
+@option{--define}, Bison reports an error for any @code{%define} definition
+for @var{name}.
 @item
-If that command-line definition is specified by a @code{-F} or
-@code{--force-define} instead, Bison quietly ignores all @code{%define}
+If that command-line definition is specified by a @option{-F} or
+@option{--force-define} instead, Bison quietly ignores all @code{%define}
 definitions for @var{name}.
 @item
 Otherwise, Bison reports an error if there are multiple @code{%define}
 definitions for @var{name}.
 @end itemize
 
-You should avoid using @code{-F} and @code{--force-define} in your
+You should avoid using @option{-F} and @option{--force-define} in your
 make files unless you are confident that it is safe to quietly ignore
 any conflicting @code{%define} that may be added to the grammar file.
 
@@ -10542,7 +10542,7 @@ Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
 @item -p @var{prefix}
 @itemx --name-prefix=@var{prefix}
 Pretend that @code{%name-prefix "@var{prefix}"} was specified (@pxref{Decl
-Summary}).  Obsoleted by @code{-Dapi.prefix=@var{prefix}}.  @xref{Multiple
+Summary}).  Obsoleted by @option{-Dapi.prefix=@var{prefix}}.  @xref{Multiple
 Parsers, ,Multiple Parsers in the Same Program}.
 
 @item -l
@@ -10585,8 +10585,8 @@ file containing macro definitions for the token type names defined in
 the grammar, as well as a few other declarations.  @xref{Decl Summary}.
 
 @item -d
-This is the same as @code{--defines} except @code{-d} does not accept a
-@var{file} argument since POSIX Yacc requires that @code{-d} can be bundled
+This is the same as @option{--defines} except @option{-d} does not accept a
+@var{file} argument since POSIX Yacc requires that @option{-d} can be bundled
 with other short options.
 
 @item -b @var{file-prefix}
@@ -11038,7 +11038,7 @@ the lookahead symbol, and the symbols pushed on the stack.
 
 Exception related code in the generated parser is protected by CPP guards
 (@code{#if}) and disabled when exceptions are not supported (i.e., passing
-@code{-fno-exceptions} to the C++ compiler).
+@option{-fno-exceptions} to the C++ compiler).
 @end deftypemethod
 
 @deftypemethod {parser} {std::ostream&} debug_stream ()
