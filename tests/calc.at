@@ -422,6 +422,7 @@ void location_print (FILE *o, Span s);
   ]AT_YYLEX_DECLARE_EXTERN[
 
   ]AT_TOKEN_TRANSLATE_IF([[
+#define N_
     static
     const char *
     _ (const char *cp)
