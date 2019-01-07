@@ -1447,9 +1447,9 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 
 
 
-## ------------------------------- ##
+## ------------------------------ ##
 ## %define lr.default-reduction.  ##
-## ------------------------------- ##
+## ------------------------------ ##
 
 # AT_TEST_LR_DEFAULT_REDUCTIONS(GRAMMAR, INPUT, TABLES)
 # -----------------------------------------------------

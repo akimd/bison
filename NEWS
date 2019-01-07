@@ -2,16 +2,6 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Expected features for Bison 3.3
-
-  - per-rule %expect/%expect-rr
-  - improve syntax errors (UTF-8, internationalization)
-  - move bitsets to gnulib
-  - relative paths (allowing to relocate an installation of bison)
-  - use gettext-h in gnulib instead of gettext
-  - constexpr/noexcept in C++
-  - resolving %type/%nterm/%type inconsistencies
-
 ** Backward incompatible changes
 
   Support for DJGPP, which has been unmaintained and untested for years, is
