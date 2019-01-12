@@ -114,9 +114,10 @@ extern int trace_flag;
 
 enum feature
   {
-    feature_none  = 0,         /**< No additional feature.  */
-    feature_caret = 1 << 0,    /**< Enhance the output of errors with carets.  */
-    feature_all   = ~0         /**< All above features.  */
+    feature_none           = 0,       /**< No additional feature.  */
+    feature_caret          = 1 << 0,  /**< Output errors with carets.  */
+    feature_fixit_parsable = 1 << 1,  /**< Issue instructions to fix the sources.  */
+    feature_all            = ~0       /**< All above features.  */
   };
 /** What additional features to use.  */
 extern int feature_flag;
