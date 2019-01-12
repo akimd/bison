@@ -1015,19 +1015,22 @@ AT_FOR_EACH_CXX([
 
   # Leave enough valid tokens to make sure we recovered from the
   # previous error, otherwise we might hide some error messages
-  # (discarded during error recovery).
-  AT_PARSER_CHECK([[echo "asaaalaa" | ./input ]], [[0]], [[]],
+  # (discarded during error recoevery).
+  echo "asaaalaa" >in
+  AT_PARSER_CHECK([[./input < in]], [[0]], [[]],
 [[error: invalid expression
 caught error
 error: invalid character
 caught error
 ]])
 
-  AT_PARSER_CHECK([[echo "!as" | ./input ]], [1], [],
+  echo "!as" >in
+  AT_PARSER_CHECK([[./input < in]], [1], [],
 [[error: invalid expression
 ]])
 
-  AT_PARSER_CHECK([[echo "!al" | ./input ]], [1], [],
+  echo "!al" >in
+  AT_PARSER_CHECK([[./input < in]], [1], [],
 [[error: invalid character
 ]])
 
