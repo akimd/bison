@@ -2533,9 +2533,11 @@ AT_CLEANUP
 ## ---------------------------- ##
 ## Unput's effect on locations. ##
 ## ---------------------------- ##
-dnl When the scanner detects a deprecated construct, it unputs the correct
-dnl version, but it should *not* have any impact on the scanner cursor. If it
-dnl does, the locations of directives on the same line become erroneous.
+
+# When the scanner detects a deprecated construct, it unputs the
+# correct version, but it should *not* have any impact on the scanner
+# cursor. If it does, the locations of directives on the same line
+# become erroneous.
 
 AT_SETUP([[Unput's effect on locations]])
 
