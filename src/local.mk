@@ -46,6 +46,8 @@ src_bison_SOURCES =                             \
   src/derives.h                                 \
   src/files.c                                   \
   src/files.h                                   \
+  src/fixits.c                                  \
+  src/fixits.h                                  \
   src/flex-scanner.h                            \
   src/getargs.c                                 \
   src/getargs.h                                 \
