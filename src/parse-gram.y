@@ -43,8 +43,9 @@
   #include "named-ref.h"
   #include "quotearg.h"
   #include "reader.h"
-  #include "scan-gram.h"
   #include "scan-code.h"
+  #include "scan-gram.h"
+  #include "vasnprintf.h"
   #include "xmemdup0.h"
 
   static int current_prec = 0;
@@ -80,6 +81,10 @@
      '}').  Call gram_scanner_last_string_free to release the latest
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
+
+  /* Handle a %name-prefix directive.  */
+  static void do_name_prefix (location const *loc,
+                              char const *directive, char const *value);
 
   /* Handle a %require directive.  */
   static void do_require (location const *loc, char const *version);
@@ -190,7 +195,9 @@
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
 %printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
 
-%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag tag.opt variable
+%type <uniqstr>
+  BRACKETED_ID ID ID_COLON PERCENT_FLAG PERCENT_NAME_PREFIX TAG
+  tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (yyo, "%s:", $$); } ID_COLON
@@ -307,7 +314,7 @@ prologue_declaration:
       code_scanner_last_string_free ();
     }
 | "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
-| "%name-prefix" STRING         { spec_name_prefix = $2; }
+| "%name-prefix" STRING         { do_name_prefix (&@$, $1, $2); }
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
@@ -843,6 +850,31 @@ add_param (param_type type, char *decl, location loc)
     }
 
   gram_scanner_last_string_free ();
+}
+
+
+static void
+do_name_prefix (location const *loc,
+                char const *directive, char const *value)
+{
+  spec_name_prefix = value;
+
+  char buf1[1024];
+  size_t len1 = sizeof (buf1);
+  char *old = asnprintf (buf1, &len1, "%s\"%s\"", directive, value);
+  if (!old)
+    xalloc_die ();
+  char buf2[1024];
+  size_t len2 = sizeof (buf2);
+  char *new = asnprintf (buf2, &len2, "%%define api.prefix {%s}", value);
+  if (!new)
+    xalloc_die ();
+  bison_directive (loc, old);
+  deprecated_directive (loc, old, new);
+  if (old != buf1)
+    free (old);
+  if (new != buf2)
+    free (new);
 }
 
 

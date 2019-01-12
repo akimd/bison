@@ -2514,7 +2514,7 @@ input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-pre
 input.y:14.1-15.2: warning: deprecated directive: '%file-prefix\n =', use '%file-prefix' [-Wdeprecated]
 input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
 input.y:18.1-19: warning: deprecated directive: '%fixed_output-files', use '%fixed-output-files' [-Wdeprecated]
-input.y:20.1-13: warning: deprecated directive: '%name-prefix=', use '%define api.prefix' [-Wdeprecated]
+input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
 input.y:21.1-16: warning: deprecated directive: '%no-default_prec', use '%no-default-prec' [-Wdeprecated]
 input.y:22.1-16: warning: deprecated directive: '%no_default-prec', use '%no-default-prec' [-Wdeprecated]
 input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wdeprecated]
@@ -2524,7 +2524,7 @@ input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-tabl
 input.y:27.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
 input.y:27-6: error: %define variable 'parse.error' redefined
 input.y:11-6:     previous definition
-input.y:29.1-12: warning: deprecated directive: '%name-prefix', use '%define api.prefix' [-Wdeprecated]
+input.y:29.1-18: warning: deprecated directive: '%name-prefix "bar"', use '%define api.prefix {bar}' [-Wdeprecated]
 ]])
 
 AT_CLEANUP

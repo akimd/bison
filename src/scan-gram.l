@@ -144,7 +144,8 @@ splice   (\\[ \f\t\v]*\n)*
 
 /* An equal sign, with optional leading whitespaces. This is used in some
    deprecated constructs. */
-eqopt    ([[:space:]]*=)?
+sp       [[:space:]]*
+eqopt    ({sp}=)?
 
 %%
 %{
@@ -266,10 +267,7 @@ eqopt    ([[:space:]]*=)?
 
   /* Deprecated since Bison 2.6 (2012-07-19), but the warning is
      issued only since Bison 3.3. */
-  "%name"[-_]"prefix"{eqopt} {
-    deprecated_directive (loc, yytext, "%define api.prefix");
-    return BISON_DIRECTIVE (NAME_PREFIX);
-  }
+  "%name"[-_]"prefix"{eqopt}{sp}    RETURN_VALUE (PERCENT_NAME_PREFIX, uniqstr_new (yytext));
 
   /* Deprecated since Bison 2.7.90, 2012. */
   "%default"[-_]"prec"              DEPRECATED ("%default-prec");
