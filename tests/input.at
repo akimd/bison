@@ -2508,28 +2508,7 @@ AT_DATA_GRAMMAR([[input.y]],
 exp : '0'
 ]])
 
-AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:10.1-13: warning: deprecated directive: '%default_prec', use '%default-prec' [-Wdeprecated]
-input.y:11.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:12.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
-input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
-input.y:14.1-15.2: warning: deprecated directive: '%file-prefix\n =', use '%file-prefix' [-Wdeprecated]
-input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
-input.y:18.1-19: warning: deprecated directive: '%fixed_output-files', use '%fixed-output-files' [-Wdeprecated]
-input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
-input.y:21.1-16: warning: deprecated directive: '%no-default_prec', use '%no-default-prec' [-Wdeprecated]
-input.y:22.1-16: warning: deprecated directive: '%no_default-prec', use '%no-default-prec' [-Wdeprecated]
-input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wdeprecated]
-input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
-input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
-input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
-input.y:27.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:27-14: error: %define variable 'parse.error' redefined
-input.y:11-14:     previous definition
-input.y:29.1-18: warning: deprecated directive: '%name-prefix "bar"', use '%define api.prefix {bar}' [-Wdeprecated]
-]])
-
-AT_BISON_CHECK([[-ffixit input.y]], [[1]], [[]],
+AT_DATA([errors-all],
 [[input.y:10.1-13: warning: deprecated directive: '%default_prec', use '%default-prec' [-Wdeprecated]
 fix-it:"input.y":{10:1-10:14}:"%default-prec"
 input.y:11.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
@@ -2564,6 +2543,72 @@ input.y:27-14: error: %define variable 'parse.error' redefined
 input.y:11-14:     previous definition
 input.y:29.1-18: warning: deprecated directive: '%name-prefix "bar"', use '%define api.prefix {bar}' [-Wdeprecated]
 fix-it:"input.y":{29:1-29:19}:"%define api.prefix {bar}"
+]])
+
+AT_CHECK([[sed -e '/^fix-it:/d' errors-all >experr]])
+AT_BISON_CHECK([[input.y]], [[1]], [[]], [experr])
+
+AT_CHECK([cp errors-all experr])
+AT_BISON_CHECK([[-ffixit input.y]], [[1]], [[]], [experr])
+
+# Update the input file.
+AT_CHECK([cp input.y input.y.orig])
+AT_CHECK([sed -e '/fix-it/d' <errors-all >experr])
+AT_CHECK([echo "bison: file 'input.y' was updated (backup: 'input.y~')" >>experr])
+AT_BISON_CHECK([[--update input.y]], [[1]], [[]], [experr])
+
+# Check the backup.
+AT_CHECK([diff input.y.orig input.y~])
+
+# Check the update.
+AT_CHECK([cat input.y], [],
+[[%code top {
+/* Load config.h, and adjust to the compiler.
+  We used to do it here, but each time we add a new line,
+  we have to adjust all the line numbers in error messages.
+  It's simpler to use a constant include to a varying file.  */
+#include <testsuite.h>
+}
+
+
+%default-prec
+%define parse.error verbose
+%expect-rr 0
+%file-prefix "foo"
+%file-prefix
+"bar"
+%fixed-output-files
+%fixed-output-files
+%fixed-output-files
+%define api.prefix {foo}
+%no-default-prec
+%no-default-prec
+%no-lines
+%output "foo"
+%pure-parser
+%token-table
+%define parse.error verbose
+%glr-parser
+%define api.prefix {bar}
+%%
+exp : '0'
+]])
+
+# Unfortunately so far we don't remove duplicate definitions,
+# so there are still warnings.
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
+[[input.y:26.1-27: error: %define variable 'parse.error' redefined
+ %define parse.error verbose
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:11.1-27:     previous definition
+ %define parse.error verbose
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:28.1-24: error: %define variable 'api.prefix' redefined
+ %define api.prefix {bar}
+ ^~~~~~~~~~~~~~~~~~~~~~~~
+input.y:19.1-24:     previous definition
+ %define api.prefix {foo}
+ ^~~~~~~~~~~~~~~~~~~~~~~~
 ]])
 
 AT_CLEANUP

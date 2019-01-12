@@ -315,3 +315,6 @@
 /xstrndup.h
 /xtime.c
 /xtime.h
+/rename.c
+/rmdir.c
+/same-inode.h

@@ -55,7 +55,7 @@ extern char *dir_prefix;
    and therefore GCC warns about a name clash. */
 extern uniqstr grammar_file;
 
-/* The current file name.  Might change with %include, or with #line.  */
+/* The current file name.  Might change with #line.  */
 extern uniqstr current_file;
 
 /* The computed base for output file names.  */

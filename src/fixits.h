@@ -23,6 +23,9 @@
 /* Declare a fix to apply.  */
 void fixits_register (location const *loc, char const* update);
 
+/* Apply the fixits: update the source file.  */
+void fixits_run (void);
+
 /* Free the registered fixits.  */
 void fixits_free (void);
 

@@ -40,7 +40,7 @@ extern bool xml_flag;                   /* for -x */
 extern bool no_lines_flag;              /* for -l */
 extern bool token_table_flag;           /* for -k */
 extern bool yacc_flag;                  /* for -y */
-
+extern bool update_flag;                /* for -u */
 
 /* GLR_PARSER is true if the input file says to use the GLR
    (Generalized LR) parser, and to output some additional information
