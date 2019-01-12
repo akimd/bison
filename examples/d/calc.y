@@ -156,4 +156,3 @@ void main ()
   Calc p = new Calc (l);
   p.parse ();
 }
-
