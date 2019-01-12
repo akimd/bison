@@ -32,7 +32,7 @@ exp: %empty;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:2.9-22: error: '%union' and '%define api.value.type' cannot be used together
+[[input.y:2.1-38: error: '%union' and '%define api.value.type' cannot be used together
 ]])
 
 AT_CLEANUP
@@ -51,7 +51,7 @@ exp: %empty;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[[input.y:2.9-22: error: '%yacc' and '%define api.value.type "union"' cannot be used together
+[[input.y:2.1-28: error: '%yacc' and '%define api.value.type "union"' cannot be used together
 ]])
 
 AT_CLEANUP

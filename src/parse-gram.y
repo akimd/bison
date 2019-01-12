@@ -291,7 +291,7 @@ prologue_declaration:
     }
 | "%define" variable value
     {
-      muscle_percent_define_insert ($2, @2, $3.kind, $3.chars,
+      muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%defines"                       { defines_flag = true; }
