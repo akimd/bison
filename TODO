@@ -45,6 +45,14 @@ file", or "end of input", whatever.
 
 ** use gettext-h in gnulib instead of gettext
 ** use gnulib-po
+For some reason, according to syntax-check, we have to keep getopt.c in
+POTIFILES.in, but not bitset/stats.c, although both come from gnulib.  But
+bitset/stats.c is a symlink, not getopt.c.  This is fishy and should be
+fixed.
+
+Meanwhile, bitset/stats.c is removed from the set of translations, which is
+not too much of a problem as users are not expected to see this.
+
 
 * Completion
 Several features are not available in all the backends.
