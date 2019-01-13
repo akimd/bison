@@ -76,18 +76,17 @@ static size_t no_cr_read (FILE *, char *, size_t);
 
 #define DEPRECATED(Msg)                                         \
   do {                                                          \
-    size_t i;                                                   \
     deprecated_directive (loc, yytext, Msg);                    \
     scanner_cursor.column -= mbsnwidth (Msg, strlen (Msg), 0);  \
-    for (i = strlen (Msg); i != 0; --i)                         \
+    for (size_t i = strlen (Msg); i != 0; --i)                  \
       unput (Msg[i - 1]);                                       \
   } while (0)
 
 /* A string representing the most recently saved token.  */
-static char *last_string;
+static char *last_string = NULL;
 
 /* Bracketed identifier. */
-static uniqstr bracketed_id_str = 0;
+static uniqstr bracketed_id_str = NULL;
 static location bracketed_id_loc;
 static boundary bracketed_id_start;
 static int bracketed_id_context_state = 0;
