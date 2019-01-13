@@ -420,8 +420,7 @@ namespace yy
 {
   static
   ]AT_YYLEX_PROTOTYPE[
-  {]AT_LOCATION_IF([
-    typedef parser::location_type location;])[
+  {
     // The 5 is a syntax error whose recovery requires that we discard
     // the lookahead.  This tests a regression, see
     // <http://savannah.gnu.org/support/?108481>.

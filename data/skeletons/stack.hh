@@ -122,32 +122,31 @@ m4_define([b4_stack_define],
         return seq_.rend ();
       }
 
+      /// Present a slice of the top of a stack.
+      class slice
+      {
+      public:
+        slice (const stack& stack, int range)
+          : stack_ (stack)
+          , range_ (range)
+        {}
+
+        const T&
+        operator[] (int i) const
+        {
+          return stack_[range_ - i];
+        }
+
+      private:
+        const stack& stack_;
+        int range_;
+      };
+
     private:
       stack (const stack&);
       stack& operator= (const stack&);
       /// The wrapped container.
       S seq_;
-    };
-
-    /// Present a slice of the top of a stack.
-    template <typename T, typename S = stack<T> >
-    class slice
-    {
-    public:
-      slice (const S& stack, int range)
-        : stack_ (stack)
-        , range_ (range)
-      {}
-
-      const T&
-      operator[] (int i) const
-      {
-        return stack_[range_ - i];
-      }
-
-    private:
-      const S& stack_;
-      int range_;
     };
 ]])
 
