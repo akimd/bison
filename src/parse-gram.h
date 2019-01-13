@@ -56,7 +56,7 @@ extern int gram_debug;
 
   #include "symlist.h"
   #include "symtab.h"
-#line 225 "src/parse-gram.y" /* yacc.c:1918  */
+#line 230 "src/parse-gram.y" /* yacc.c:1918  */
 
   typedef enum
   {
@@ -65,7 +65,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 667 "src/parse-gram.y" /* yacc.c:1918  */
+#line 673 "src/parse-gram.y" /* yacc.c:1918  */
 
   #include "muscle-tab.h"
   typedef struct
@@ -99,43 +99,44 @@ extern int gram_debug;
     PERCENT_DEFAULT_PREC = 272,
     PERCENT_DEFINE = 273,
     PERCENT_DEFINES = 274,
-    PERCENT_EXPECT = 275,
-    PERCENT_EXPECT_RR = 276,
-    PERCENT_FLAG = 277,
-    PERCENT_FILE_PREFIX = 278,
-    PERCENT_GLR_PARSER = 279,
-    PERCENT_INITIAL_ACTION = 280,
-    PERCENT_LANGUAGE = 281,
-    PERCENT_NAME_PREFIX = 282,
-    PERCENT_NO_DEFAULT_PREC = 283,
-    PERCENT_NO_LINES = 284,
-    PERCENT_NONDETERMINISTIC_PARSER = 285,
-    PERCENT_OUTPUT = 286,
-    PERCENT_REQUIRE = 287,
-    PERCENT_SKELETON = 288,
-    PERCENT_START = 289,
-    PERCENT_TOKEN_TABLE = 290,
-    PERCENT_VERBOSE = 291,
-    PERCENT_YACC = 292,
-    BRACED_CODE = 293,
-    BRACED_PREDICATE = 294,
-    BRACKETED_ID = 295,
-    CHAR = 296,
-    EPILOGUE = 297,
-    EQUAL = 298,
-    ID = 299,
-    ID_COLON = 300,
-    PERCENT_PERCENT = 301,
-    PIPE = 302,
-    PROLOGUE = 303,
-    SEMICOLON = 304,
-    TAG = 305,
-    TAG_ANY = 306,
-    TAG_NONE = 307,
-    INT = 308,
-    PERCENT_PARAM = 309,
-    PERCENT_UNION = 310,
-    PERCENT_EMPTY = 311
+    PERCENT_ERROR_VERBOSE = 275,
+    PERCENT_EXPECT = 276,
+    PERCENT_EXPECT_RR = 277,
+    PERCENT_FLAG = 278,
+    PERCENT_FILE_PREFIX = 279,
+    PERCENT_GLR_PARSER = 280,
+    PERCENT_INITIAL_ACTION = 281,
+    PERCENT_LANGUAGE = 282,
+    PERCENT_NAME_PREFIX = 283,
+    PERCENT_NO_DEFAULT_PREC = 284,
+    PERCENT_NO_LINES = 285,
+    PERCENT_NONDETERMINISTIC_PARSER = 286,
+    PERCENT_OUTPUT = 287,
+    PERCENT_REQUIRE = 288,
+    PERCENT_SKELETON = 289,
+    PERCENT_START = 290,
+    PERCENT_TOKEN_TABLE = 291,
+    PERCENT_VERBOSE = 292,
+    PERCENT_YACC = 293,
+    BRACED_CODE = 294,
+    BRACED_PREDICATE = 295,
+    BRACKETED_ID = 296,
+    CHAR = 297,
+    EPILOGUE = 298,
+    EQUAL = 299,
+    ID = 300,
+    ID_COLON = 301,
+    PERCENT_PERCENT = 302,
+    PIPE = 303,
+    PROLOGUE = 304,
+    SEMICOLON = 305,
+    TAG = 306,
+    TAG_ANY = 307,
+    TAG_NONE = 308,
+    INT = 309,
+    PERCENT_PARAM = 310,
+    PERCENT_UNION = 311,
+    PERCENT_EMPTY = 312
   };
 #endif
 
@@ -162,9 +163,9 @@ union GRAM_STYPE
   /* "integer"  */
   int INT;
   /* int.opt  */
-  int yytype_78;
+  int yytype_79;
   /* named_ref.opt  */
-  named_ref* yytype_90;
+  named_ref* yytype_91;
   /* "%param"  */
   param_type PERCENT_PARAM;
   /* token_decl  */
@@ -180,7 +181,7 @@ union GRAM_STYPE
   /* string_as_id  */
   symbol* string_as_id;
   /* string_as_id.opt  */
-  symbol* yytype_97;
+  symbol* yytype_98;
   /* generic_symlist  */
   symbol_list* generic_symlist;
   /* generic_symlist_item  */
@@ -190,15 +191,17 @@ union GRAM_STYPE
   /* token_decls  */
   symbol_list* token_decls;
   /* token_decl.1  */
-  symbol_list* yytype_76;
+  symbol_list* yytype_77;
   /* token_decls_for_prec  */
   symbol_list* token_decls_for_prec;
   /* token_decl_for_prec.1  */
-  symbol_list* yytype_80;
+  symbol_list* yytype_81;
   /* symbol_decls  */
   symbol_list* symbol_decls;
   /* symbol_decl.1  */
-  symbol_list* yytype_83;
+  symbol_list* yytype_84;
+  /* "%error-verbose"  */
+  uniqstr PERCENT_ERROR_VERBOSE;
   /* "%<flag>"  */
   uniqstr PERCENT_FLAG;
   /* "%name-prefix"  */
@@ -212,7 +215,7 @@ union GRAM_STYPE
   /* "<tag>"  */
   uniqstr TAG;
   /* tag.opt  */
-  uniqstr yytype_70;
+  uniqstr yytype_71;
   /* tag  */
   uniqstr tag;
   /* variable  */
@@ -221,7 +224,7 @@ union GRAM_STYPE
   unsigned char CHAR;
   /* value  */
   value_type value;
-#line 225 "src/parse-gram.h" /* yacc.c:1918  */
+#line 228 "src/parse-gram.h" /* yacc.c:1918  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
