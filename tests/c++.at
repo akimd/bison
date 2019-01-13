@@ -249,13 +249,13 @@ exp:
 AT_BISON_CHECK([[-fcaret input.yy]], [0], [],
 [[input.yy:16.33-34: warning: multiple occurrences of $2 with api.value.automove [-Wother]
  | "twice" exp       { $$ = $2 + $2; }
-                                 ^^
+                                 ^~
 input.yy:17.33-36: warning: multiple occurrences of $2 with api.value.automove [-Wother]
  | "thrice" exp[val] { $$ = $2 + $val + $2; }
-                                 ^^^^
+                                 ^~~~
 input.yy:17.40-41: warning: multiple occurrences of $2 with api.value.automove [-Wother]
  | "thrice" exp[val] { $$ = $2 + $val + $2; }
-                                        ^^
+                                        ^~
 ]])
 
 AT_BISON_OPTION_POPDEFS

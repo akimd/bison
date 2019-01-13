@@ -454,10 +454,10 @@ input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used
 AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
  %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-        ^^^^^^^
+        ^~~~~~~
 input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
  %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
 AT_COMPILE([input])
 
