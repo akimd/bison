@@ -263,7 +263,7 @@ eqopt    ({sp}=)?
 
   /* Deprecated since Bison 3.0 (2013-07-25), but the warning is
      issued only since Bison 3.3. */
-  "%error-verbose"                  DEPRECATED ("%define parse.error verbose");
+  "%error-verbose"                  RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
 
   /* Deprecated since Bison 2.6 (2012-07-19), but the warning is
      issued only since Bison 3.3. */
@@ -271,7 +271,7 @@ eqopt    ({sp}=)?
 
   /* Deprecated since Bison 2.7.90, 2012. */
   "%default"[-_]"prec"              DEPRECATED ("%default-prec");
-  "%error"[-_]"verbose"             DEPRECATED ("%define parse.error verbose");
+  "%error"[-_]"verbose"             RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
   "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
   "%file-prefix"{eqopt}             DEPRECATED ("%file-prefix");
   "%fixed"[-_]"output"[-_]"files"   DEPRECATED ("%fixed-output-files");

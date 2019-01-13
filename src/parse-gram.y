@@ -82,6 +82,9 @@
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
 
+  /* Handle a %error-verbose directive.  */
+  static void do_error_verbose (location const *loc, char const *directive);
+
   /* Handle a %name-prefix directive.  */
   static void do_name_prefix (location const *loc,
                               char const *directive, char const *value);
@@ -151,6 +154,7 @@
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
+  PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR       "%expect-rr"
   PERCENT_FLAG            "%<flag>"
@@ -196,7 +200,8 @@
 %printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
 
 %type <uniqstr>
-  BRACKETED_ID ID ID_COLON PERCENT_FLAG PERCENT_NAME_PREFIX TAG
+  BRACKETED_ID ID ID_COLON
+  PERCENT_ERROR_VERBOSE PERCENT_FLAG PERCENT_NAME_PREFIX TAG
   tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
@@ -300,6 +305,7 @@ prologue_declaration:
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
     }
+| "%error-verbose"                 { do_error_verbose (&@$, $1); }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
 | "%file-prefix" STRING            { spec_file_prefix = $2; }
@@ -850,6 +856,15 @@ add_param (param_type type, char *decl, location loc)
     }
 
   gram_scanner_last_string_free ();
+}
+
+
+static void
+do_error_verbose (location const *loc, char const *directive)
+{
+  bison_directive (loc, directive);
+  muscle_percent_define_insert (directive, *loc, muscle_keyword, "",
+                                MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
 }
 
 

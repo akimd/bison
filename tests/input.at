@@ -2537,10 +2537,8 @@ input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parse
 fix-it:"input.y":{25:1-25:13}:"%pure-parser"
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
 fix-it:"input.y":{26:1-26:13}:"%token-table"
-input.y:27.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
-fix-it:"input.y":{27:1-27:15}:"%define parse.error verbose"
-input.y:27-14: error: %define variable 'parse.error' redefined
-input.y:11-14:     previous definition
+input.y:27.1-14: error: %define variable 'parse.error' redefined
+input.y:11.1-14:     previous definition
 input.y:29.1-18: warning: deprecated directive: '%name-prefix "bar"', use '%define api.prefix {bar}' [-Wdeprecated]
 fix-it:"input.y":{29:1-29:19}:"%define api.prefix {bar}"
 ]])
@@ -2587,7 +2585,7 @@ AT_CHECK([cat input.y], [],
 %output "foo"
 %pure-parser
 %token-table
-%define parse.error verbose
+%error-verbose
 %glr-parser
 %define api.prefix {bar}
 %%
@@ -2597,9 +2595,9 @@ exp : '0'
 # Unfortunately so far we don't remove duplicate definitions,
 # so there are still warnings.
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
-[[input.y:26.1-27: error: %define variable 'parse.error' redefined
- %define parse.error verbose
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[input.y:26.1-14: error: %define variable 'parse.error' redefined
+ %error-verbose
+ ^~~~~~~~~~~~~~
 input.y:11.1-27:     previous definition
  %define parse.error verbose
  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2642,12 +2640,10 @@ AT_BISON_CHECK([[input.y]], [[1]], [[]],
 input.y:11.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:12.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:13.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:13.16-29: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:13.3-29: error: %define variable 'parse.error' redefined
-input.y:13-14:       previous definition
-input.y:14.16-29: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:14.3-29: error: %define variable 'parse.error' redefined
-input.y:13.3-29:     previous definition
+input.y:13.16-29: error: %define variable 'parse.error' redefined
+input.y:13.1-14:      previous definition
+input.y:14.16-29: error: %define variable 'parse.error' redefined
+input.y:13.16-29:     previous definition
 ]])
 
 AT_CLEANUP
