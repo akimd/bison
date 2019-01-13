@@ -2539,6 +2539,7 @@ input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-tabl
 fix-it:"input.y":{26:1-26:13}:"%token-table"
 input.y:27.1-14: error: %define variable 'parse.error' redefined
 input.y:11.1-14:     previous definition
+fix-it:"input.y":{27:1-27:15}:""
 input.y:29.1-18: warning: deprecated directive: '%name-prefix "bar"', use '%define api.prefix {bar}' [-Wdeprecated]
 fix-it:"input.y":{29:1-29:19}:"%define api.prefix {bar}"
 ]])
@@ -2585,23 +2586,15 @@ AT_CHECK([cat input.y], [],
 %output "foo"
 %pure-parser
 %token-table
-%error-verbose
+
 %glr-parser
 %define api.prefix {bar}
 %%
 exp : '0'
 ]])
 
-# Unfortunately so far we don't remove duplicate definitions,
-# so there are still warnings.
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
-[[input.y:26.1-14: error: %define variable 'parse.error' redefined
- %error-verbose
- ^~~~~~~~~~~~~~
-input.y:11.1-27:     previous definition
- %define parse.error verbose
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:28.1-24: error: %define variable 'api.prefix' redefined
+[[input.y:28.1-24: error: %define variable 'api.prefix' redefined
  %define api.prefix {bar}
  ^~~~~~~~~~~~~~~~~~~~~~~~
 input.y:19.1-24:     previous definition
