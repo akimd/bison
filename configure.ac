@@ -98,7 +98,7 @@ if test "$enable_gcc_warnings" = yes; then
     -fparse-all-comments -Wdocumentation
     -Wformat -Wnull-dereference -Wpointer-arith -Wshadow -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wstrict-prototypes'
-  warn_cxx='-Wnoexcept'
+  warn_cxx='-Wextra-semi -Wnoexcept'
   # Warnings for the test suite only.
   #
   # -fno-color-diagnostics: Clang's use of colors in the error

@@ -352,7 +352,7 @@ m4_define([b4_symbol_type_define],
       typedef basic_symbol<by_type> super_type;
 
       /// Empty symbol.
-      symbol_type () {};
+      symbol_type () {}
 
       /// Constructor for valueless symbols, and symbols from each type.
 ]b4_type_foreach([_b4_token_constructor_define])dnl
