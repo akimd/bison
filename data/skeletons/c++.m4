@@ -260,7 +260,10 @@ m4_define([b4_symbol_type_define],
       typedef Base super_type;
 
       /// Default constructor.
-      basic_symbol ();
+      basic_symbol ()
+        : value ()]b4_locations_if([
+        , location ()])[
+      {}
 
 #if 201103L <= YY_CPLUSPLUS
       /// Move constructor.
@@ -282,10 +285,29 @@ m4_define([b4_symbol_type_define],
                     YY_RVREF (location_type) l])[);
 ]])[
       /// Destroy the symbol.
-      ~basic_symbol ();
+      ~basic_symbol ()
+      {
+        clear ();
+      }
 
       /// Destroy contents, and record that is empty.
-      void clear ();
+      void clear ()
+      {]b4_variant_if([[
+        // User destructor.
+        symbol_number_type yytype = this->type_get ();
+        basic_symbol<Base>& yysym = *this;
+        (void) yysym;
+        switch (yytype)
+        {
+]b4_symbol_foreach([b4_symbol_destructor])dnl
+[       default:
+          break;
+        }
+
+        // Type destructor.
+]b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
+        Base::clear ();
+      }
 
       /// Whether empty.
       bool empty () const YY_NOEXCEPT;
@@ -365,12 +387,6 @@ m4_define([b4_symbol_type_define],
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
 [[  // basic_symbol.
-  template <typename Base>
-  ]b4_parser_class[::basic_symbol<Base>::basic_symbol ()
-    : value ()]b4_locations_if([
-    , location ()])[
-  {}
-
 #if 201103L <= YY_CPLUSPLUS
   template <typename Base>
   ]b4_parser_class[::basic_symbol<Base>::basic_symbol (basic_symbol&& that)
@@ -415,32 +431,6 @@ m4_define([b4_public_types_define],
   {]b4_variant_if([[
     (void) v;
     ]b4_symbol_variant([this->type_get ()], [value], [YY_MOVE_OR_COPY], [YY_MOVE (v)])])[}]])[
-
-  template <typename Base>
-  ]b4_parser_class[::basic_symbol<Base>::~basic_symbol ()
-  {
-    clear ();
-  }
-
-  template <typename Base>
-  void
-  ]b4_parser_class[::basic_symbol<Base>::clear ()
-  {]b4_variant_if([[
-    // User destructor.
-    symbol_number_type yytype = this->type_get ();
-    basic_symbol<Base>& yysym = *this;
-    (void) yysym;
-    switch (yytype)
-    {
-]b4_symbol_foreach([b4_symbol_destructor])dnl
-[   default:
-      break;
-    }
-
-    // Type destructor.
-  ]b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
-    Base::clear ();
-  }
 
   template <typename Base>
   bool

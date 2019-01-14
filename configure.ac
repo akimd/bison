@@ -96,7 +96,8 @@ AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
   warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
     -fparse-all-comments -Wdocumentation
-    -Wformat -Wnull-dereference -Wpointer-arith -Wshadow -Wwrite-strings'
+    -Wformat -Wnull-dereference -Wpointer-arith -Wshadow
+    -Wundefined-func-template -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wstrict-prototypes'
   warn_cxx='-Wextra-semi -Wnoexcept'
   # Warnings for the test suite only.

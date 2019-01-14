@@ -125,7 +125,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[$1
 %define parse.error verbose
-]AT_VARIANT_IF([], [%union {int integer;}])[
+]AT_VARIANT_IF([%token <int> 'x'], [%union {int integer;}])[
 %code {
 ]AT_PUSH_IF([[
 #if defined __GNUC__ && 7 == __GNUC__
