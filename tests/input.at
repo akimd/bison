@@ -2586,7 +2586,6 @@ AT_CHECK([cat input.y], [],
 %output "foo"
 %pure-parser
 %token-table
-
 %glr-parser
 %define api.prefix {bar}
 %%
@@ -2594,7 +2593,7 @@ exp : '0'
 ]])
 
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
-[[input.y:28.1-24: error: %define variable 'api.prefix' redefined
+[[input.y:27.1-24: error: %define variable 'api.prefix' redefined
  %define api.prefix {bar}
  ^~~~~~~~~~~~~~~~~~~~~~~~
 input.y:19.1-24:     previous definition
