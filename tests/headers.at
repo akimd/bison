@@ -86,6 +86,7 @@ exp: %empty;
 
 AT_BISON_CHECK([--defines -o input.c input.y], [], [],
 [[input.y:11.1-18: warning: deprecated directive: '%name-prefix "my_"', use '%define api.prefix {my_}' [-Wdeprecated]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 # YYLTYPE should be defined, and MY_LLOC declared.

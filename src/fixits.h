@@ -26,6 +26,9 @@ void fixits_register (location const *loc, char const* update);
 /* Apply the fixits: update the source file.  */
 void fixits_run (void);
 
+/* Whether there are no fixits. */
+bool fixits_empty (void);
+
 /* Free the registered fixits.  */
 void fixits_free (void);
 
