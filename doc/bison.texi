@@ -6650,6 +6650,28 @@ For example, if you use @samp{%define api.prefix @{c@}}, the names become
 @code{cparse}, @code{clex}, @dots{}, @code{CSTYPE}, @code{CLTYPE}, and so
 on.
 
+Users of Flex must update the signature of the generated @code{yylex}
+function.  Since the Flex scanner usually includes the generated header of
+the parser (to get the definitions of the tokens, etc.), the most convenient
+way is to insert the declaration of @code{yylex} in the @code{provides}
+section:
+
+@example
+%define api.prefix @{c@}
+// Emitted in the header file, after the definition of YYSTYPE.
+%code provides
+@{
+  // Tell Flex the expected prototype of yylex.
+  #define YY_DECL                             \
+    int clex (CSTYPE*y ylval, CLTYPE *yylloc)
+
+  // Declare the scanner.
+  YY_DECL;
+@}
+@end example
+
+@sp 1
+
 The @code{%define} variable @code{api.prefix} works in two different ways.
 In the implementation file, it works by adding macro definitions to the
 beginning of the parser implementation file, defining @code{yyparse} as

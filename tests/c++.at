@@ -1242,7 +1242,8 @@ yylex (yy::parser::semantic_type *lvalp)
   default:
     lvalp->]AT_VARIANT_IF([build<Object> (res)],
                           [obj = new Object (res)])[;
-    // Fall through.
+    goto zero;
+  zero:
   case 0:
     return res;
   }
