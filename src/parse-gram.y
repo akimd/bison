@@ -83,20 +83,20 @@
   static char const *translate_code_braceless (char *code, location loc);
 
   /* Handle a %error-verbose directive.  */
-  static void do_error_verbose (location const *loc, char const *directive);
+  static void handle_error_verbose (location const *loc, char const *directive);
 
   /* Handle a %name-prefix directive.  */
-  static void do_name_prefix (location const *loc,
-                              char const *directive, char const *value);
+  static void handle_name_prefix (location const *loc,
+                                  char const *directive, char const *value);
 
   /* Handle a %require directive.  */
-  static void do_require (location const *loc, char const *version);
+  static void handle_require (location const *loc, char const *version);
 
   /* Handle a %skeleton directive.  */
-  static void do_skeleton (location const *loc, char const *skel);
+  static void handle_skeleton (location const *loc, char const *skel);
 
   /* Handle a %yacc directive.  */
-  static void do_yacc (location const *loc, char const *directive);
+  static void handle_yacc (location const *loc, char const *directive);
 
   static void gram_error (location const *, char const *);
 
@@ -309,7 +309,7 @@ prologue_declaration:
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
     }
-| "%error-verbose"                 { do_error_verbose (&@$, $1); }
+| "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
 | "%file-prefix" STRING            { spec_file_prefix = $2; }
@@ -324,16 +324,16 @@ prologue_declaration:
       code_scanner_last_string_free ();
     }
 | "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
-| "%name-prefix" STRING         { do_name_prefix (&@$, $1, $2); }
+| "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%param" { current_param = $1; } params { current_param = param_none; }
-| "%require" STRING             { do_require (&@2, $2); }
-| "%skeleton" STRING            { do_skeleton (&@2, $2); }
+| "%require" STRING             { handle_require (&@2, $2); }
+| "%skeleton" STRING            { handle_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
-| "%yacc"                       { do_yacc (&@$, $1); }
+| "%yacc"                       { handle_yacc (&@$, $1); }
 | error ";"                     { current_class = unknown_sym; yyerrok; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
@@ -864,7 +864,7 @@ add_param (param_type type, char *decl, location loc)
 
 
 static void
-do_error_verbose (location const *loc, char const *directive)
+handle_error_verbose (location const *loc, char const *directive)
 {
   bison_directive (loc, directive);
   muscle_percent_define_insert (directive, *loc, muscle_keyword, "",
@@ -873,8 +873,8 @@ do_error_verbose (location const *loc, char const *directive)
 
 
 static void
-do_name_prefix (location const *loc,
-                char const *directive, char const *value)
+handle_name_prefix (location const *loc,
+                    char const *directive, char const *value)
 {
   spec_name_prefix = value;
 
@@ -898,7 +898,7 @@ do_name_prefix (location const *loc,
 
 
 static void
-do_require (location const *loc, char const *version)
+handle_require (location const *loc, char const *version)
 {
   /* Changes of behavior are only on minor version changes, so "3.0.5"
      is the same as "3.0". */
@@ -936,7 +936,7 @@ do_require (location const *loc, char const *version)
 }
 
 static void
-do_skeleton (location const *loc, char const *skel)
+handle_skeleton (location const *loc, char const *skel)
 {
   char const *skeleton_user = skel;
   if (strchr (skeleton_user, '/'))
@@ -961,7 +961,7 @@ do_skeleton (location const *loc, char const *skel)
 }
 
 static void
-do_yacc (location const *loc, char const *directive)
+handle_yacc (location const *loc, char const *directive)
 {
   bison_directive (loc, directive);
   bool warned = false;
