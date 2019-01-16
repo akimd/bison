@@ -171,7 +171,7 @@ AT_BISON_CHECK([-fcaret one.y], [1], [],
 [[one.y:11.13-18: error: only one %empty allowed per rule
    %empty {} %empty
              ^~~~~~
-one.y:11.3-8: previous declaration
+one.y:11.3-8:       previous declaration
    %empty {} %empty
    ^~~~~~
 ]])
