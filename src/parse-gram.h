@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.2.90.11-ccb3-dirty.  */
+/* A Bison parser, made by GNU Bison 3.2.90.23-0bbcb-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -52,11 +52,11 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 21 "src/parse-gram.y" /* yacc.c:1918  */
+#line 21 "src/parse-gram.y" /* yacc.c:1921  */
 
   #include "symlist.h"
   #include "symtab.h"
-#line 230 "src/parse-gram.y" /* yacc.c:1918  */
+#line 234 "src/parse-gram.y" /* yacc.c:1921  */
 
   typedef enum
   {
@@ -65,7 +65,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 673 "src/parse-gram.y" /* yacc.c:1918  */
+#line 677 "src/parse-gram.y" /* yacc.c:1921  */
 
   #include "muscle-tab.h"
   typedef struct
@@ -74,7 +74,7 @@ extern int gram_debug;
     muscle_kind kind;
   } value_type;
 
-#line 78 "src/parse-gram.h" /* yacc.c:1918  */
+#line 78 "src/parse-gram.h" /* yacc.c:1921  */
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -206,6 +206,8 @@ union GRAM_STYPE
   uniqstr PERCENT_FLAG;
   /* "%name-prefix"  */
   uniqstr PERCENT_NAME_PREFIX;
+  /* "%yacc"  */
+  uniqstr PERCENT_YACC;
   /* "[identifier]"  */
   uniqstr BRACKETED_ID;
   /* "identifier"  */
@@ -224,7 +226,7 @@ union GRAM_STYPE
   unsigned char CHAR;
   /* value  */
   value_type value;
-#line 228 "src/parse-gram.h" /* yacc.c:1918  */
+#line 230 "src/parse-gram.h" /* yacc.c:1921  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
