@@ -2526,8 +2526,12 @@ input.y:14.1-15.2: warning: deprecated directive: '%file-prefix\n =', use '%file
 fix-it:"input.y":{14:1-15:3}:"%file-prefix"
 input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
 fix-it:"input.y":{17:1-17:20}:"%fixed-output-files"
-input.y:18.1-19: warning: deprecated directive: '%fixed_output-files', use '%fixed-output-files' [-Wdeprecated]
-fix-it:"input.y":{18:1-18:20}:"%fixed-output-files"
+input.y:18.1-19: warning: duplicate directive: %fixed_output-files [-Wother]
+input.y:17.1-19: previous declaration
+fix-it:"input.y":{18:1-18:20}:""
+input.y:19.1-19: warning: duplicate directive: %fixed-output-files [-Wother]
+input.y:17.1-19: previous declaration
+fix-it:"input.y":{19:1-19:20}:""
 input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
 fix-it:"input.y":{20:1-20:20}:"%define api.prefix {foo}"
 input.y:21.1-16: warning: deprecated directive: '%no-default_prec', use '%no-default-prec' [-Wdeprecated]
@@ -2550,11 +2554,11 @@ fix-it:"input.y":{29:1-29:19}:"%define api.prefix {bar}"
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
-AT_CHECK([[sed -e '/^fix-it:/d' errors-all >experr]])
-AT_BISON_CHECK([[input.y]], [[1]], [[]], [experr])
-
 AT_CHECK([cp errors-all experr])
 AT_BISON_CHECK([[-ffixit input.y]], [[1]], [[]], [experr])
+
+AT_CHECK([[sed -e '/^fix-it:/d' errors-all >experr]])
+AT_BISON_CHECK([[input.y]], [[1]], [[]], [experr])
 
 # Update the input file.
 AT_CHECK([cp input.y input.y.orig])
@@ -2583,8 +2587,6 @@ AT_CHECK([cat input.y], [],
 %file-prefix
 "bar"
 %fixed-output-files
-%fixed-output-files
-%fixed-output-files
 %define api.prefix {foo}
 %no-default-prec
 %no-default-prec
@@ -2599,10 +2601,10 @@ exp : '0'
 ]])
 
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
-[[input.y:27.1-24: error: %define variable 'api.prefix' redefined
+[[input.y:25.1-24: error: %define variable 'api.prefix' redefined
  %define api.prefix {bar}
  ^~~~~~~~~~~~~~~~~~~~~~~~
-input.y:19.1-24:     previous definition
+input.y:17.1-24:     previous definition
  %define api.prefix {foo}
  ^~~~~~~~~~~~~~~~~~~~~~~~
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]

@@ -126,6 +126,10 @@ void bison_directive (location const *loc, char const *directive);
 void deprecated_directive (location const *loc,
                            char const *obsolete, char const *updated);
 
+/** Report a repeated directive.  */
+void duplicate_directive (char const *directive,
+                          location first, location second);
+
 /** Report a repeated directive for a rule.  */
 void duplicate_rule_directive (char const *directive,
                                location first, location second);

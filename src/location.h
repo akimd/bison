@@ -126,6 +126,9 @@ location_cmp (location a, location b)
   return res;
 }
 
+/* Whether this is the empty location.  */
+bool location_empty (location loc);
+
 /* LOC_STR must be formatted as 'file:line.column', it will be modified.  */
 void boundary_set_from_string (boundary *bound, char *loc_str);
 

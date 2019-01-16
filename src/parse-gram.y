@@ -95,6 +95,9 @@
   /* Handle a %skeleton directive.  */
   static void do_skeleton (location const *loc, char const *skel);
 
+  /* Handle a %yacc directive.  */
+  static void do_yacc (location const *loc, char const *directive);
+
   static void gram_error (location const *, char const *);
 
   /* A string that describes a char (e.g., 'a' -> "'a'").  */
@@ -201,8 +204,9 @@
 
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
-  PERCENT_ERROR_VERBOSE PERCENT_FLAG PERCENT_NAME_PREFIX TAG
-  tag tag.opt variable
+  PERCENT_ERROR_VERBOSE PERCENT_FLAG PERCENT_NAME_PREFIX
+  PERCENT_YACC
+  TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (yyo, "%s:", $$); } ID_COLON
@@ -329,7 +333,7 @@ prologue_declaration:
 | "%skeleton" STRING            { do_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
-| "%yacc"                       { yacc_flag = true; }
+| "%yacc"                       { do_yacc (&@$, $1); }
 | error ";"                     { current_class = unknown_sym; yyerrok; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
@@ -956,6 +960,25 @@ do_skeleton (location const *loc, char const *skel)
   skeleton_arg (skeleton_user, grammar_prio, *loc);
 }
 
+static void
+do_yacc (location const *loc, char const *directive)
+{
+  bison_directive (loc, directive);
+  bool warned = false;
+
+  if (location_empty (yacc_loc))
+    yacc_loc = *loc;
+  else
+    {
+      duplicate_directive (directive, yacc_loc, *loc);
+      warned = true;
+    }
+
+  if (!warned
+      && STRNEQ (directive, "%fixed-output-files")
+      && STRNEQ (directive, "%yacc"))
+    deprecated_directive (loc, directive, "%fixed-output-files");
+}
 
 static void
 gram_error (location const *loc, char const *msg)
