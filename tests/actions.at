@@ -174,7 +174,34 @@ AT_BISON_CHECK([-fcaret one.y], [1], [],
 one.y:11.3-8:       previous declaration
    %empty {} %empty
    ^~~~~~
+one.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
+
+AT_BISON_CHECK([-fcaret -u one.y], [1], [],
+[[one.y:11.13-18: error: only one %empty allowed per rule
+   %empty {} %empty
+             ^~~~~~
+one.y:11.3-8:       previous declaration
+   %empty {} %empty
+   ^~~~~~
+bison: file 'one.y' was updated (backup: 'one.y~')
+]])
+
+AT_CHECK([cat one.y], [],
+[[%code top {
+/* Load config.h, and adjust to the compiler.
+  We used to do it here, but each time we add a new line,
+  we have to adjust all the line numbers in error messages.
+  It's simpler to use a constant include to a varying file.  */
+#include <testsuite.h>
+}
+
+%%
+exp:
+  %empty {} @&t@
+;
+]])
+
 
 AT_DATA_GRAMMAR([[two.y]],
 [[%%
