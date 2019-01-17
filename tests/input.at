@@ -2522,14 +2522,15 @@ input.y:12.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [
 fix-it:"input.y":{12:1-12:11}:"%expect-rr"
 input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
 fix-it:"input.y":{13:1-13:15}:"%file-prefix"
-input.y:14.1-15.2: warning: deprecated directive: '%file-prefix\n =', use '%file-prefix' [-Wdeprecated]
-fix-it:"input.y":{14:1-15:3}:"%file-prefix"
+input.y:14.1-16.5: warning: duplicate directive: '%file-prefix\n =' [-Wother]
+input.y:13.1-20:       previous declaration [-Wother]
+fix-it:"input.y":{14:1-16:6}:""
 input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
 fix-it:"input.y":{17:1-17:20}:"%fixed-output-files"
-input.y:18.1-19: warning: duplicate directive: %fixed_output-files [-Wother]
+input.y:18.1-19: warning: duplicate directive: '%fixed_output-files' [-Wother]
 input.y:17.1-19:     previous declaration [-Wother]
 fix-it:"input.y":{18:1-18:20}:""
-input.y:19.1-19: warning: duplicate directive: %fixed-output-files [-Wother]
+input.y:19.1-19: warning: duplicate directive: '%fixed-output-files' [-Wother]
 input.y:17.1-19:     previous declaration [-Wother]
 fix-it:"input.y":{19:1-19:20}:""
 input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
@@ -2584,8 +2585,6 @@ AT_CHECK([cat input.y], [],
 %define parse.error verbose
 %expect-rr 0
 %file-prefix "foo"
-%file-prefix
-"bar"
 %fixed-output-files
 %define api.prefix {foo}
 %no-default-prec
@@ -2601,10 +2600,10 @@ exp : '0'
 ]])
 
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
-[[input.y:25.1-24: error: %define variable 'api.prefix' redefined
+[[input.y:23.1-24: error: %define variable 'api.prefix' redefined
  %define api.prefix {bar}
  ^~~~~~~~~~~~~~~~~~~~~~~~
-input.y:17.1-24:     previous definition
+input.y:15.1-24:     previous definition
  %define api.prefix {foo}
  ^~~~~~~~~~~~~~~~~~~~~~~~
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
@@ -2677,7 +2676,10 @@ AT_DATA_GRAMMAR([[input.y]],
 ]])
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
-[[input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+[[input.y:14.1-15.5: warning: duplicate directive: '%file-prefix' [-Wother]
+input.y:13.1-18:       previous declaration [-Wother]
+input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_CLEANUP

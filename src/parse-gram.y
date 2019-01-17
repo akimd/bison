@@ -85,6 +85,11 @@
   /* Handle a %error-verbose directive.  */
   static void handle_error_verbose (location const *loc, char const *directive);
 
+  /* Handle a %file-prefix directive.  */
+  static void handle_file_prefix (location const *loc,
+                                  location const *dir_loc,
+                                  char const *directive, char const *value);
+
   /* Handle a %name-prefix directive.  */
   static void handle_name_prefix (location const *loc,
                                   char const *directive, char const *value);
@@ -204,7 +209,7 @@
 
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
-  PERCENT_ERROR_VERBOSE PERCENT_FLAG PERCENT_NAME_PREFIX
+  PERCENT_ERROR_VERBOSE PERCENT_FILE_PREFIX PERCENT_FLAG PERCENT_NAME_PREFIX
   PERCENT_YACC
   TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
@@ -312,7 +317,7 @@ prologue_declaration:
 | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
-| "%file-prefix" STRING            { spec_file_prefix = $2; }
+| "%file-prefix" STRING            { handle_file_prefix (&@$, &@1, $1, $2); }
 | "%glr-parser"
     {
       nondeterministic_parser = true;
@@ -871,6 +876,30 @@ handle_error_verbose (location const *loc, char const *directive)
                                 MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
 }
 
+
+static void
+handle_file_prefix (location const *loc,
+                    location const *dir_loc,
+                    char const *directive, char const *value)
+{
+  bison_directive (loc, directive);
+  bool warned = false;
+
+  if (location_empty (spec_file_prefix_loc))
+    {
+      spec_file_prefix_loc = *loc;
+      spec_file_prefix = value;
+    }
+  else
+    {
+      duplicate_directive (directive, spec_file_prefix_loc, *loc);
+      warned = true;
+    }
+
+  if (!warned
+      && STRNEQ (directive, "%file-prefix"))
+    deprecated_directive (dir_loc, directive, "%file-prefix");
+}
 
 static void
 handle_name_prefix (location const *loc,

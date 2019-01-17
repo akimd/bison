@@ -228,7 +228,7 @@ eqopt    ({sp}=)?
   "%empty"                          return BISON_DIRECTIVE (EMPTY);
   "%expect"                         return BISON_DIRECTIVE (EXPECT);
   "%expect-rr"                      return BISON_DIRECTIVE (EXPECT_RR);
-  "%file-prefix"                    return BISON_DIRECTIVE (FILE_PREFIX);
+  "%file-prefix"                    RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
   "%fixed-output-files"             RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
   "%initial-action"                 return BISON_DIRECTIVE (INITIAL_ACTION);
   "%glr-parser"                     return BISON_DIRECTIVE (GLR_PARSER);
@@ -273,7 +273,7 @@ eqopt    ({sp}=)?
   "%default"[-_]"prec"              DEPRECATED ("%default-prec");
   "%error"[-_]"verbose"             RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
   "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
-  "%file-prefix"{eqopt}             DEPRECATED ("%file-prefix");
+  "%file-prefix"{eqopt}             RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
   "%fixed"[-_]"output"[-_]"files"   RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
   "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
   "%no"[-_]"lines"                  DEPRECATED ("%no-lines");

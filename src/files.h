@@ -21,6 +21,7 @@
 #ifndef FILES_H_
 # define FILES_H_
 
+# include "location.h"
 # include "uniqstr.h"
 
 /* File name specified with -o for the output file, or 0 if no -o.  */
@@ -34,6 +35,7 @@ extern const char *spec_name_prefix;
 
 /* File name prefix specified with -b, or 0 if no -b.  */
 extern char const *spec_file_prefix;
+extern location spec_file_prefix_loc;
 
 /* --verbose. */
 extern char *spec_verbose_file;
