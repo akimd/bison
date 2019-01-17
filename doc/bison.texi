@@ -4278,16 +4278,16 @@ final action does not use @code{$3}).  Bison reports these errors when the
 Bison}):
 
 @example
-$ bison -Wmidrule-value mid.y
+$ @kbd{bison -Wmidrule-value mid.y}
 @group
 mid.y:2.6-13: warning: unset value: $$
  exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-      ^^^^^^^^
+      ^~~~~~~~
 @end group
 @group
 mid.y:2.19-31: warning: unused value: $3
  exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-                   ^^^^^^^^^^^^^
+                   ^~~~~~~~~~~~~
 @end group
 @end example
 
@@ -6663,7 +6663,7 @@ section:
 @{
   // Tell Flex the expected prototype of yylex.
   #define YY_DECL                             \
-    int clex (CSTYPE*y ylval, CLTYPE *yylloc)
+    int clex (CSTYPE *yylval, CLTYPE *yylloc)
 
   // Declare the scanner.
   YY_DECL;
@@ -9331,7 +9331,7 @@ calc.y: warning: 1 nonterminal useless in grammar [-Wother]
 calc.y: warning: 1 rule useless in grammar [-Wother]
 calc.y:19.1-7: warning: nonterminal useless in grammar: useless [-Wother]
  useless: STR;
- ^^^^^^^
+ ^~~~~~~
 calc.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
 @end example
 
@@ -9864,12 +9864,12 @@ Used to output an xhtml enhancement of the @samp{.output} file.
 
 Sample usage (requires @command{xsltproc}):
 @example
-$ bison -x gr.y
+$ @kbd{bison -x gr.y}
 @group
-$ bison --print-datadir
+$ @kbd{bison --print-datadir}
 /usr/local/share/bison
 @end group
-$ xsltproc /usr/local/share/bison/xslt/xml2xhtml.xsl gr.xml >gr.html
+$ @kbd{xsltproc /usr/local/share/bison/xslt/xml2xhtml.xsl gr.xml >gr.html}
 @end example
 
 @c ================================================= Tracing
@@ -10375,17 +10375,17 @@ Bison reports:
 @group
 warning: useless precedence and associativity for "="
  %nonassoc "="
-           ^^^
+           ^~~
 @end group
 @group
 warning: useless associativity for "*", use %precedence
  %left "*"
-       ^^^
+       ^~~
 @end group
 @group
 warning: useless precedence for "("
  %precedence "("
-             ^^^
+             ^~~
 @end group
 @end example
 
@@ -10434,8 +10434,8 @@ the following commands are @emph{not} equivalent, as the first will not treat
 S/R conflicts as errors.
 
 @example
-$ bison -Werror=yacc,conflicts-sr input.y
-$ bison -Werror=yacc,error=conflicts-sr input.y
+$ @kbd{bison -Werror=yacc,conflicts-sr input.y}
+$ @kbd{bison -Werror=yacc,error=conflicts-sr input.y}
 @end example
 
 @item -Wno-error
@@ -10471,27 +10471,27 @@ When invoked with @option{-fcaret} (or nothing), Bison will report:
 @group
 in.y:3.20-23: error: ambiguous reference: '$exp'
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-                    ^^^^
+                    ^~~~
 @end group
 @group
 in.y:3.1-3:       refers to: $exp at $$
  exp: exp '+' exp @{ $exp = $1 + $2; @};
- ^^^
+ ^~~
 @end group
 @group
 in.y:3.6-8:       refers to: $exp at $1
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-      ^^^
+      ^~~
 @end group
 @group
 in.y:3.14-16:     refers to: $exp at $3
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-              ^^^
+              ^~~
 @end group
 @group
 in.y:3.32-33: error: $2 of 'exp' has no declared type
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-                                ^^
+                                ^~
 @end group
 @end example
 
@@ -10948,10 +10948,10 @@ int main ()
 Compile, and run!
 
 @example
-$ bison simple.yy -o simple.cc
-$ g++ -std=c++14 simple.cc -o simple
+$ @kbd{bison simple.yy -o simple.cc}
+$ @kbd{g++ -std=c++14 simple.cc -o simple}
 @group
-$ ./simple
+$ @kbd{./simple}
 @{I have three numbers for you., 1, 2, 3, And that's all!@}
 @end group
 @end example
