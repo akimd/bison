@@ -2527,10 +2527,10 @@ fix-it:"input.y":{14:1-15:3}:"%file-prefix"
 input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
 fix-it:"input.y":{17:1-17:20}:"%fixed-output-files"
 input.y:18.1-19: warning: duplicate directive: %fixed_output-files [-Wother]
-input.y:17.1-19:     previous declaration
+input.y:17.1-19:     previous declaration [-Wother]
 fix-it:"input.y":{18:1-18:20}:""
 input.y:19.1-19: warning: duplicate directive: %fixed-output-files [-Wother]
-input.y:17.1-19:     previous declaration
+input.y:17.1-19:     previous declaration [-Wother]
 fix-it:"input.y":{19:1-19:20}:""
 input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
 fix-it:"input.y":{20:1-20:20}:"%define api.prefix {foo}"
