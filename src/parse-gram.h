@@ -56,7 +56,7 @@ extern int gram_debug;
 
   #include "symlist.h"
   #include "symtab.h"
-#line 234 "src/parse-gram.y" /* yacc.c:1921  */
+#line 239 "src/parse-gram.y" /* yacc.c:1921  */
 
   typedef enum
   {
@@ -65,7 +65,7 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 677 "src/parse-gram.y" /* yacc.c:1921  */
+#line 682 "src/parse-gram.y" /* yacc.c:1921  */
 
   #include "muscle-tab.h"
   typedef struct
@@ -204,6 +204,8 @@ union GRAM_STYPE
   uniqstr PERCENT_ERROR_VERBOSE;
   /* "%<flag>"  */
   uniqstr PERCENT_FLAG;
+  /* "%file-prefix"  */
+  uniqstr PERCENT_FILE_PREFIX;
   /* "%name-prefix"  */
   uniqstr PERCENT_NAME_PREFIX;
   /* "%yacc"  */
@@ -226,7 +228,7 @@ union GRAM_STYPE
   unsigned char CHAR;
   /* value  */
   value_type value;
-#line 230 "src/parse-gram.h" /* yacc.c:1921  */
+#line 232 "src/parse-gram.h" /* yacc.c:1921  */
 };
 
 typedef union GRAM_STYPE GRAM_STYPE;
