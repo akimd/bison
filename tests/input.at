@@ -2550,8 +2550,9 @@ fix-it:"input.y":{26:1-26:13}:"%token-table"
 input.y:27.1-14: error: %define variable 'parse.error' redefined
 input.y:11.1-14:     previous definition
 fix-it:"input.y":{27:1-27:15}:""
-input.y:29.1-18: warning: deprecated directive: '%name-prefix "bar"', use '%define api.prefix {bar}' [-Wdeprecated]
-fix-it:"input.y":{29:1-29:19}:"%define api.prefix {bar}"
+input.y:29.1-18: warning: duplicate directive: '%name-prefix "bar"' [-Wother]
+input.y:13.1-20:     previous declaration [-Wother]
+fix-it:"input.y":{29:1-29:19}:""
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -2594,20 +2595,11 @@ AT_CHECK([cat input.y], [],
 %pure-parser
 %token-table
 %glr-parser
-%define api.prefix {bar}
 %%
 exp : '0'
 ]])
 
-AT_BISON_CHECK([[-fcaret input.y]], [[1]], [],
-[[input.y:23.1-24: error: %define variable 'api.prefix' redefined
- %define api.prefix {bar}
- ^~~~~~~~~~~~~~~~~~~~~~~~
-input.y:15.1-24:     previous definition
- %define api.prefix {foo}
- ^~~~~~~~~~~~~~~~~~~~~~~~
-input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
-]])
+AT_BISON_CHECK([[input.y]])
 
 AT_CLEANUP
 

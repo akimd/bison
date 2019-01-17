@@ -32,6 +32,7 @@ extern char *parser_file_name;
 
 /* Symbol prefix specified with -p, or 0 if no -p.  */
 extern const char *spec_name_prefix;
+extern location spec_name_prefix_loc;
 
 /* File name prefix specified with -b, or 0 if no -b.  */
 extern char const *spec_file_prefix;
