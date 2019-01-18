@@ -160,6 +160,7 @@ exclude = \
   $(foreach a,$(1),$(eval $(subst $$,$$$$,exclude_file_name_regexp--sc_$(a))))
 $(call exclude,                                                                 \
   bindtextdomain=^lib/main.c$$                                                  \
+  cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
   program_name=^lib/main.c$$                                                    \
   prohibit_always-defined_macros=^data/skeletons/yacc.c$$                       \
