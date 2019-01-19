@@ -294,13 +294,13 @@ b4_percent_code_get([[requires]])[
 ]b4_parse_assert_if([#include <cassert>])[
 #include <string>
 
-]m4_ifdef([b4_location_file],
-          [[# include ]b4_location_include])[
-
-]b4_null_define[
-
 ]b4_cxx_portability[
+]m4_ifdef([b4_location_include],
+          [[# include ]b4_location_include])[
 ]b4_variant_if([b4_variant_includes])[
+
+]b4_attribute_define[
+]b4_null_define[
 
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
@@ -314,6 +314,7 @@ b4_percent_code_get([[requires]])[
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
+
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
                                   [b4_location_define])])[
 
