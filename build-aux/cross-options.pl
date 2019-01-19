@@ -48,7 +48,11 @@ while (<STDIN>)
             # are strings and have the same syntax as on the command line.
             if ($dir_arg eq 'name[=value]')
             {
-                $dir_arg = '@var{name} ["@var{value}"]';
+                # -D/-F do not add quotes to the argument.
+                $dir_arg =
+                    $dir eq "%define"
+                    ? '@var{name} [@var{value}]'
+                    : '@var{name} ["@var{value}"]';
             }
             else
             {

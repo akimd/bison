@@ -1,6 +1,6 @@
 # Bison Regressions.                               -*- Autotest -*-
 
-# Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -419,7 +419,7 @@ AT_CLEANUP
 AT_SETUP([Token definitions])
 
 AT_BISON_OPTION_PUSHDEFS
-# Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
+
 AT_DATA_GRAMMAR([input.y],
 [%{
 ]AT_YYERROR_DECLARE[
@@ -427,7 +427,7 @@ AT_DATA_GRAMMAR([input.y],
 %}
 [%define parse.error verbose
 %token MYEOF 0 "end of file"
-%token 'a' "a"
+%token 'a' "a"  // Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 %token B_TOKEN "b"
 %token C_TOKEN 'c'
 %token 'd' D_TOKEN
@@ -450,13 +450,14 @@ AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
 input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
 ]])
+
 AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
  %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-        ^^^^^^^
+        ^~~~~~~
 input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
  %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
 AT_COMPILE([input])
 

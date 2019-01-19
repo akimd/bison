@@ -1,7 +1,7 @@
 /* Output the generated parsing program for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018 Free Software
-   Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2019 Free
+   Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -137,6 +137,46 @@ string_output (FILE *out, char const *string)
 }
 
 
+/*----------------------------.
+| Prepare the symbols names.  |
+`----------------------------*/
+
+static void
+prepare_symbol_names (char const *muscle_name)
+{
+  /* We assume that the table will be output starting at column 2. */
+  int j = 2;
+  struct quoting_options *qo = clone_quoting_options (0);
+  set_quoting_style (qo, c_quoting_style);
+  set_quoting_flags (qo, QA_SPLIT_TRIGRAPHS);
+  for (int i = 0; i < nsyms; i++)
+    {
+      char *cp = quotearg_alloc (symbols[i]->tag, -1, qo);
+      /* Width of the next token, including the two quotes, the
+         comma and the space.  */
+      int width = strlen (cp) + 2;
+
+      if (j + width > 75)
+        {
+          obstack_sgrow (&format_obstack, "\n ");
+          j = 1;
+        }
+
+      if (i)
+        obstack_1grow (&format_obstack, ' ');
+      obstack_escape (&format_obstack, cp);
+      free (cp);
+      obstack_1grow (&format_obstack, ',');
+      j += width;
+    }
+  free (qo);
+  obstack_sgrow (&format_obstack, " ]b4_null[");
+
+  /* Finish table and store. */
+  muscle_insert (muscle_name, obstack_finish0 (&format_obstack));
+}
+
+
 /*------------------------------------------------------------------.
 | Prepare the muscles related to the symbols: translate, tname, and |
 | toknum.                                                           |
@@ -157,38 +197,7 @@ prepare_symbols (void)
                                      1, max_user_token_number + 1);
 
   /* tname -- token names.  */
-  {
-    /* We assume that the table will be output starting at column 2. */
-    int j = 2;
-    struct quoting_options *qo = clone_quoting_options (0);
-    set_quoting_style (qo, c_quoting_style);
-    set_quoting_flags (qo, QA_SPLIT_TRIGRAPHS);
-    for (int i = 0; i < nsyms; i++)
-      {
-        char *cp = quotearg_alloc (symbols[i]->tag, -1, qo);
-        /* Width of the next token, including the two quotes, the
-           comma and the space.  */
-        int width = strlen (cp) + 2;
-
-        if (j + width > 75)
-          {
-            obstack_sgrow (&format_obstack, "\n ");
-            j = 1;
-          }
-
-        if (i)
-          obstack_1grow (&format_obstack, ' ');
-        obstack_escape (&format_obstack, cp);
-        free (cp);
-        obstack_1grow (&format_obstack, ',');
-        j += width;
-      }
-    free (qo);
-    obstack_sgrow (&format_obstack, " ]b4_null[");
-
-    /* Finish table and store. */
-    muscle_insert ("tname", obstack_finish0 (&format_obstack));
-  }
+  prepare_symbol_names ("tname");
 
   /* Output YYTOKNUM. */
   {
@@ -227,7 +236,7 @@ prepare_rules (void)
       prhs[r] = i;
       /* RHS of the rule R. */
       for (item_number *rhsp = rules[r].rhs; 0 <= *rhsp; ++rhsp)
-	rhs[i++] = *rhsp;
+        rhs[i++] = *rhsp;
       /* Separator in RHS. */
       rhs[i++] = -1;
 
@@ -236,7 +245,7 @@ prepare_rules (void)
       /* LHS of the rule R. */
       r1[r] = rules[r].lhs->number;
       /* Length of rule R's RHS. */
-      r2[r] = rule_rhs_length(&rules[r]);
+      r2[r] = rule_rhs_length (&rules[r]);
       /* Dynamic precedence (GLR).  */
       dprec[r] = rules[r].dprec;
       /* Merger-function index (GLR).  */
@@ -656,7 +665,7 @@ prepare (void)
   MUSCLE_INSERT_BOOL ("tag_seen_flag", tag_seen);
   MUSCLE_INSERT_BOOL ("token_table_flag", token_table_flag);
   MUSCLE_INSERT_BOOL ("use_push_for_pull_flag", use_push_for_pull_flag);
-  MUSCLE_INSERT_BOOL ("yacc_flag", yacc_flag);
+  MUSCLE_INSERT_BOOL ("yacc_flag", !location_empty (yacc_loc));
 
   /* File names.  */
   if (spec_name_prefix)

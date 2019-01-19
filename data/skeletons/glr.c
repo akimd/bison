@@ -2,7 +2,7 @@
 
 # GLR skeleton for Bison
 
-# Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,9 +31,6 @@ b4_glr_cc_if([
 # those of c.m4.
 m4_if(b4_skeleton, ["glr.c"],
       [m4_include(b4_skeletonsdir/[c.m4])])
-
-m4_define([b4_glr_cc_if],
-          [m4_if(b4_skeleton, ["glr.cc"], [$1], [$2])])
 
 
 b4_glr_cc_if([
@@ -221,7 +218,7 @@ b4_glr_cc_if([],
 [b4_defines_if(
 [b4_output_begin([b4_spec_defines_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C],
-             [2002-2015, 2018])[
+             [2002-2015, 2018-2019])[
 ]b4_cpp_guard_open([b4_spec_defines_file])[
 ]b4_shared_declarations[
 ]b4_cpp_guard_close([b4_spec_defines_file])[
@@ -235,7 +232,7 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C],
 
 b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison GLR parsers in C],
-             [2002-2015, 2018])[
+             [2002-2015, 2018-2019])[
 /* C GLR parser skeleton written by Paul Hilfinger.  */
 
 ]b4_disclaimer[
@@ -251,8 +248,7 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 #define yyparse ]b4_prefix[parse
 #define yylex   ]b4_prefix[lex
 #define yyerror ]b4_prefix[error
-#define yydebug ]b4_prefix[debug
-]]b4_pure_if([], [[
+#define yydebug ]b4_prefix[debug]]b4_pure_if([], [[
 #define yylval  ]b4_prefix[lval
 #define yychar  ]b4_prefix[char
 #define yynerrs ]b4_prefix[nerrs]b4_locations_if([[
@@ -352,7 +348,7 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
 #define YYNNTS  ]b4_nterms_number[
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  ]b4_rules_number[
-/* YYNRULES -- Number of states.  */
+/* YYNSTATES -- Number of states.  */
 #define YYNSTATES  ]b4_states_number[
 /* YYMAXRHS -- Maximum number of symbols on right-hand side of rule.  */
 #define YYMAXRHS ]b4_r2_max[
@@ -360,8 +356,14 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
    accessed by $0, $-1, etc., in any rule.  */
 #define YYMAXLEFT ]b4_max_left_semantic_context[
 
+/* YYMAXUTOK -- Last valid token number (for yychar).  */
+#define YYMAXUTOK   ]b4_user_token_number_max[]b4_glr_cc_if([[
+/* YYFAULTYTOK -- Token number (for yychar) that denotes a
+   syntax_error thrown from the scanner.  */
+#define YYFAULTYTOK (YYMAXUTOK + 1)]])[
+/* YYUNDEFTOK -- Symbol number (for yytoken) that denotes an unknown
+   token.  */
 #define YYUNDEFTOK  ]b4_undef_token_number[
-#define YYMAXUTOK   ]b4_user_token_number_max[
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, with out-of-bounds checking.  */
@@ -609,7 +611,10 @@ yytnamerr (char *yyres, const char *yystr)
           case '\\':
             if (*++yyp != '\\')
               goto do_not_strip_quotes;
-            /* Fall through.  */
+            else
+              goto append;
+
+          append:
           default:
             if (yyres)
               yyres[yyn] = *yyp;
@@ -852,12 +857,15 @@ yygetToken (int *yycharp][]b4_pure_if([, yyGLRStack* yystackp])[]b4_user_formals
           *yycharp = ]b4_lex[;
 #if YY_EXCEPTIONS
         }
-      catch (const ]b4_namespace_ref[::]b4_parser_class_name[::syntax_error& yyexc)
-        {]b4_locations_if([
+      catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
+        {
+          YYDPRINTF ((stderr, "Caught exception: %s\n", yyexc.what()));]b4_locations_if([
           yylloc = yyexc.location;])[
           yyerror (]b4_lyyerror_args[yyexc.what ());
-          // Map to the undef token.
-          *yycharp = YYMAXUTOK + 1;
+          // Map errors caught in the scanner to the undefined token
+          // (YYUNDEFTOK), so that error handling is started.
+          // However, record this with this special value of yychar.
+          *yycharp = YYFAULTYTOK;
         }
 #endif // YY_EXCEPTIONS]], [[
       *yycharp = ]b4_lex[;]])[
@@ -939,7 +947,7 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
   yystackp->yyerror_range[1].yystate.yyloc = *yylocp;
 ]])[]b4_glr_cc_if([[
 #if YY_EXCEPTIONS
-  typedef ]b4_namespace_ref[::]b4_parser_class_name[::syntax_error syntax_error;
+  typedef ]b4_namespace_ref[::]b4_parser_class[::syntax_error syntax_error;
   try
   {
 #endif // YY_EXCEPTIONS]])[
@@ -951,7 +959,8 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
 #if YY_EXCEPTIONS
   }
   catch (const syntax_error& yyexc)
-    {]b4_locations_if([
+    {
+      YYDPRINTF ((stderr, "Caught exception: %s\n", yyexc.what()));]b4_locations_if([
       *yylocp = yyexc.location;])[
       yyerror (]b4_yyerror_args[yyexc.what ());
       YYERROR;
@@ -1054,7 +1063,7 @@ yydefaultAction (yyStateNum yystate)
 #define yytable_value_is_error(Yytable_value) \
   ]b4_table_value_equals([[table]], [[Yytable_value]], [b4_table_ninf])[
 
-/** Set *YYACTION to the action to take in YYSTATE on seeing YYTOKEN.
+/** The action to take in YYSTATE on seeing YYTOKEN.
  *  Result R means
  *    R < 0:  Reduce on rule -R.
  *    R = 0:  Error.
@@ -1062,26 +1071,25 @@ yydefaultAction (yyStateNum yystate)
  *  Set *YYCONFLICTS to a pointer into yyconfl to a 0-terminated list
  *  of conflicting reductions.
  */
-static inline void
-yygetLRActions (yyStateNum yystate, int yytoken,
-                int* yyaction, const short** yyconflicts)
+static inline int
+yygetLRActions (yyStateNum yystate, yySymbol yytoken, const short** yyconflicts)
 {
   int yyindex = yypact[yystate] + yytoken;
   if (yyisDefaultedState (yystate)
       || yyindex < 0 || YYLAST < yyindex || yycheck[yyindex] != yytoken)
     {
-      *yyaction = -yydefact[yystate];
       *yyconflicts = yyconfl;
+      return -yydefact[yystate];
     }
   else if (! yytable_value_is_error (yytable[yyindex]))
     {
-      *yyaction = yytable[yyindex];
       *yyconflicts = yyconfl + yyconflp[yyindex];
+      return yytable[yyindex];
     }
   else
     {
-      *yyaction = 0;
       *yyconflicts = yyconfl + yyconflp[yyindex];
+      return 0;
     }
 }
 
@@ -2150,7 +2158,7 @@ yyprocessOneStack (yyGLRStack* yystackp, size_t yyk,
 
           yystackp->yytops.yylookaheadNeeds[yyk] = yytrue;
           yytoken = ]b4_yygetToken_call[;
-          yygetLRActions (yystate, yytoken, &yyaction, &yyconflicts);
+          yyaction = yygetLRActions (yystate, yytoken, &yyconflicts);
 
           while (*yyconflicts != 0)
             {
@@ -2515,9 +2523,8 @@ b4_dollar_popdef])[]dnl
           else
             {
               yySymbol yytoken = ]b4_yygetToken_call;[
-              int yyaction;
               const short* yyconflicts;
-              yygetLRActions (yystate, yytoken, &yyaction, &yyconflicts);
+              int yyaction = yygetLRActions (yystate, yytoken, &yyconflicts);
               if (*yyconflicts != 0)
                 break;
               if (yyisShiftAction (yyaction))
@@ -2531,8 +2538,11 @@ b4_dollar_popdef])[]dnl
                 }
               else if (yyisErrorAction (yyaction))
                 {]b4_locations_if([[
-                  yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[
-                  yyreportSyntaxError (&yystack]b4_user_args[);
+                  yystack.yyerror_range[1].yystate.yyloc = yylloc;]])[]b4_glr_cc_if([[
+                  /* Don't issue an error message again for exceptions
+                     thrown from the scanner.  */
+                  if (yychar != YYFAULTYTOK)
+  ]])[                  yyreportSyntaxError (&yystack]b4_user_args[);
                   goto yyuser_error;
                 }
               else
@@ -2592,10 +2602,9 @@ b4_dollar_popdef])[]dnl
           yyposn += 1;
           for (yys = 0; yys < yystack.yytops.yysize; yys += 1)
             {
-              int yyaction;
-              const short* yyconflicts;
               yyStateNum yystate = yystack.yytops.yystates[yys]->yylrState;
-              yygetLRActions (yystate, yytoken_to_shift, &yyaction,
+              const short* yyconflicts;
+              int yyaction = yygetLRActions (yystate, yytoken_to_shift,
                               &yyconflicts);
               /* Note that yyconflicts were handled by yyprocessOneStack.  */
               YYDPRINTF ((stderr, "On stack %lu, ", (unsigned long) yys));

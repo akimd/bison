@@ -1,4 +1,4 @@
-## Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+## Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -46,6 +46,8 @@ src_bison_SOURCES =                             \
   src/derives.h                                 \
   src/files.c                                   \
   src/files.h                                   \
+  src/fixits.c                                  \
+  src/fixits.h                                  \
   src/flex-scanner.h                            \
   src/getargs.c                                 \
   src/getargs.h                                 \

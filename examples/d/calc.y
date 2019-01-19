@@ -1,8 +1,6 @@
 %language "D"
-%name-prefix "Calc"
-%define parser_class_name {Calc}
-%define public
 
+%define api.parser.class {Calc}
 %define parse.error verbose
 
 %code imports {
@@ -158,4 +156,3 @@ void main ()
   Calc p = new Calc (l);
   p.parse ();
 }
-

@@ -2,7 +2,7 @@
 
 # Java language support for Bison
 
-# Copyright (C) 2007-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2007-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,32 +42,24 @@ m4_define([b4_percent_define_get3],
 m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
 
 
-# b4_public_if(TRUE, FALSE)
-# -------------------------
-b4_percent_define_default([[public]], [[false]])
-m4_define([b4_public_if],
-[b4_percent_define_flag_if([public], [$1], [$2])])
-
-
-# b4_abstract_if(TRUE, FALSE)
+# b4_parser_class_declaration
 # ---------------------------
-b4_percent_define_default([[abstract]], [[false]])
-m4_define([b4_abstract_if],
-[b4_percent_define_flag_if([abstract], [$1], [$2])])
+# The declaration of the parser class ("class YYParser"), with all its
+# qualifiers/annotations.
+b4_percent_define_default([[api.parser.abstract]], [[false]])
+b4_percent_define_default([[api.parser.final]],    [[false]])
+b4_percent_define_default([[api.parser.public]],   [[false]])
+b4_percent_define_default([[api.parser.strictfp]], [[false]])
 
-
-# b4_final_if(TRUE, FALSE)
-# ---------------------------
-b4_percent_define_default([[final]], [[false]])
-m4_define([b4_final_if],
-[b4_percent_define_flag_if([final], [$1], [$2])])
-
-
-# b4_strictfp_if(TRUE, FALSE)
-# ---------------------------
-b4_percent_define_default([[strictfp]], [[false]])
-m4_define([b4_strictfp_if],
-[b4_percent_define_flag_if([strictfp], [$1], [$2])])
+m4_define([b4_parser_class_declaration],
+[b4_percent_define_get3([api.parser.annotations], [], [ ])dnl
+b4_percent_define_flag_if([api.parser.public],   [public ])dnl
+b4_percent_define_flag_if([api.parser.abstract], [abstract ])dnl
+b4_percent_define_flag_if([api.parser.final],    [final ])dnl
+b4_percent_define_flag_if([api.parser.strictfp], [strictfp ])dnl
+[class ]b4_parser_class[]dnl
+b4_percent_define_get3([api.parser.extends], [ extends ])dnl
+b4_percent_define_get3([api.parser.implements], [ implements ])])
 
 
 # b4_lexer_if(TRUE, FALSE)
@@ -180,7 +172,7 @@ b4_percent_define_check_kind([[extends]],           [code], [deprecated])
 b4_percent_define_check_kind([[implements]],        [code], [deprecated])
 b4_percent_define_check_kind([[init_throws]],       [code], [deprecated])
 b4_percent_define_check_kind([[lex_throws]],        [code], [deprecated])
-b4_percent_define_check_kind([[parser_class_name]], [code], [deprecated])
+b4_percent_define_check_kind([[api.parser.class]],  [code], [deprecated])
 b4_percent_define_check_kind([[throws]],            [code], [deprecated])
 
 
@@ -195,8 +187,8 @@ b4_percent_define_default([[api.value.type]], [[Object]])
 # %name-prefix
 m4_define_default([b4_prefix], [[YY]])
 
-b4_percent_define_default([[parser_class_name]], [b4_prefix[]Parser])
-m4_define([b4_parser_class_name], [b4_percent_define_get([[parser_class_name]])])
+b4_percent_define_default([[api.parser.class]], [b4_prefix[]Parser])
+m4_define([b4_parser_class], [b4_percent_define_get([[api.parser.class]])])
 
 b4_percent_define_default([[lex_throws]], [[java.io.IOException]])
 m4_define([b4_lex_throws], [b4_percent_define_get([[lex_throws]])])

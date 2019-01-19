@@ -1,6 +1,7 @@
 src/complain.c
 src/conflicts.c
 src/files.c
+src/fixits.c
 src/getargs.c
 src/gram.c
 src/graphviz.c
@@ -18,7 +19,6 @@ src/scan-skel.l
 src/symtab.c
 
 lib/argmatch.c
-lib/bitset/stats.c
 lib/closeout.c
 lib/error.c
 lib/getopt.c

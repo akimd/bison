@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ m4_pattern_allow([^BISON_USE_NLS$])
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
         [bug-bison@gnu.org])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2018])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2019])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
 
@@ -96,9 +96,11 @@ AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
   warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
     -fparse-all-comments -Wdocumentation
-    -Wformat -Wnull-dereference -Wpointer-arith -Wwrite-strings'
-  warn_c='-Wbad-function-cast -Wshadow -Wstrict-prototypes'
-  warn_cxx='-Wnoexcept'
+    -Wformat -Wimplicit-fallthrough -Wnull-dereference
+    -Wpointer-arith -Wshadow
+    -Wwrite-strings'
+  warn_c='-Wbad-function-cast -Wstrict-prototypes'
+  warn_cxx='-Wextra-semi -Wnoexcept -Wundefined-func-template'
   # Warnings for the test suite only.
   #
   # -fno-color-diagnostics: Clang's use of colors in the error

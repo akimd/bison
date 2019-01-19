@@ -1,3 +1,59 @@
+* Bison 3.4
+** injection rules
+** improve syntax errors (UTF-8, internationalization)
+Bison depends on the current locale.  For instance:
+
+%define parse.error verbose
+%code top {
+ #include <stdio.h>
+ #include <stdlib.h>
+ void yyerror(const char* msg) { fprintf(stderr, "%s\n", msg); }
+ int yylex() { return 0; }
+}
+%%
+exp: "↦" | "🎅🐃" | '\n'
+%%
+int main() { return yyparse(); }
+
+gives different results with/without LC_ALL=C.
+
+$ LC_ALL=C /opt/local/bin/bison /tmp/mangle.y -o ascii.c
+$ /opt/local/bin/bison /tmp/mangle.y -o utf8.c
+$ diff -u ascii.c utf8.c -I#line
+--- ascii.c     2019-01-12 08:15:35.878010093 +0100
++++ utf8.c      2019-01-12 08:15:38.856495929 +0100
+@@ -415,9 +415,8 @@
+    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
+ static const char *const yytname[] =
+ {
+-  "$end", "error", "$undefined", "\"\\342\\206\\246\"",
+-  "\"\\360\\237\\216\\205\\360\\237\\220\\203\"", "'\\n'", "$accept",
+-  "exp", YY_NULLPTR
++  "$end", "error", "$undefined", "\"↦\"", "\"🎅🐃\"", "'\\n'",
++  "$accept", "exp", YY_NULLPTR
+ };
+ #endif
+
+$ gcc ascii.c -o ascii && ./ascii
+syntax error, unexpected $end, expecting "\342\206\246" or "\360\237\216\205\360\237\220\203" or '\n'
+$ gcc utf8.c -o utf8 && ./utf8
+syntax error, unexpected $end, expecting ↦ or 🎅🐃 or '\n'
+
+
+While at it, we should stop using "$end" by default, in favor of "end of
+file", or "end of input", whatever.
+
+** use gettext-h in gnulib instead of gettext
+** use gnulib-po
+For some reason, according to syntax-check, we have to keep getopt.c in
+POTIFILES.in, but not bitset/stats.c, although both come from gnulib.  But
+bitset/stats.c is a symlink, not getopt.c.  This is fishy and should be
+fixed.
+
+Meanwhile, bitset/stats.c is removed from the set of translations, which is
+not too much of a problem as users are not expected to see this.
+
+
 * Completion
 Several features are not available in all the backends.
 
@@ -6,12 +62,16 @@ Several features are not available in all the backends.
 - glr: Java
 - token constructors: Java and C
 
+* Bugs
+** Autotest has quotation issues
+tests/input.at:1730:AT_SETUP([%define errors])
+
+->
+
+$ ./tests/testsuite -l | grep errors | sed q
+  38: input.at:1730      errors
+
 * Short term
-** glr.c: too many definitions of YYLLOC_DEFAULT
-See test 241.
-
-241. headers.at:187: testing Sane headers: %locations c++ %glr-parser ...
-
 ** consistency
 token vs terminal
 
@@ -416,8 +476,8 @@ End:
 
 -----
 
-Copyright (C) 2001-2004, 2006, 2008-2015, 2018 Free Software Foundation,
-Inc.
+Copyright (C) 2001-2004, 2006, 2008-2015, 2018-2019 Free Software
+Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 

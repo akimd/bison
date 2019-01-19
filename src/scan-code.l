@@ -1,6 +1,6 @@
 /* Bison Action Scanner                             -*- C -*-
 
-   Copyright (C) 2006-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 2006-2015, 2018-2019 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,24 +21,24 @@
 %option prefix="code_" outfile="lex.yy.c"
 
 %{
-/* Work around a bug in flex 2.5.31.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
-#undef code_wrap
-#define code_wrap() 1
+#include <c-ctype.h>
+#include <get-errno.h>
+#include <quote.h>
+
+#include <src/complain.h>
+#include <src/getargs.h>
+#include <src/muscle-tab.h>
+#include <src/reader.h>
+#include <src/scan-code.h>
+#include <src/symlist.h>
 
 #define FLEX_PREFIX(Id) code_ ## Id
 #include <src/flex-scanner.h>
 
-#include <src/complain.h>
-#include <src/reader.h>
-#include <src/getargs.h>
-#include <src/muscle-tab.h>
-#include <src/scan-code.h>
-#include <src/symlist.h>
-
-#include <c-ctype.h>
-#include <get-errno.h>
-#include <quote.h>
+/* Work around a bug in flex 2.5.31.  See Debian bug 333231
+   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+#undef code_wrap
+#define code_wrap() 1
 
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */

@@ -2,7 +2,7 @@
 
 # D language support for Bison
 
-# Copyright (C) 2018 Free Software Foundation, Inc.
+# Copyright (C) 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ m4_define([b4_comment], [/* m4_bpatsubst([$1], [
 # ----------------------
 # Join two lists with a comma if necessary.
 m4_define([b4_list2],
-	  [$1[]m4_ifval(m4_quote($1), [m4_ifval(m4_quote($2), [[, ]])])[]$2])
+          [$1[]m4_ifval(m4_quote($1), [m4_ifval(m4_quote($2), [[, ]])])[]$2])
 
 
 # b4_percent_define_get3(DEF, PRE, POST, NOT)
@@ -37,8 +37,8 @@ m4_define([b4_list2],
 # Expand to the value of DEF surrounded by PRE and POST if it's %define'ed,
 # otherwise NOT.
 m4_define([b4_percent_define_get3],
-	  [m4_ifval(m4_quote(b4_percent_define_get([$1])),
-		[$2[]b4_percent_define_get([$1])[]$3], [$4])])
+          [m4_ifval(m4_quote(b4_percent_define_get([$1])),
+                [$2[]b4_percent_define_get([$1])[]$3], [$4])])
 
 
 # b4_flag_value(BOOLEAN-FLAG)
@@ -46,25 +46,22 @@ m4_define([b4_percent_define_get3],
 m4_define([b4_flag_value], [b4_flag_if([$1], [true], [false])])
 
 
-# b4_public_if(TRUE, FALSE)
-# -------------------------
-b4_percent_define_default([[public]], [[false]])
-m4_define([b4_public_if],
-[b4_percent_define_flag_if([public], [$1], [$2])])
-
-
-# b4_abstract_if(TRUE, FALSE)
+# b4_parser_class_declaration
 # ---------------------------
-b4_percent_define_default([[abstract]], [[false]])
-m4_define([b4_abstract_if],
-[b4_percent_define_flag_if([abstract], [$1], [$2])])
+# The declaration of the parser class ("class YYParser"), with all its
+# qualifiers/annotations.
+b4_percent_define_default([[api.parser.abstract]], [[false]])
+b4_percent_define_default([[api.parser.final]],    [[false]])
+b4_percent_define_default([[api.parser.public]],   [[false]])
 
-
-# b4_final_if(TRUE, FALSE)
-# ---------------------------
-b4_percent_define_default([[final]], [[false]])
-m4_define([b4_final_if],
-[b4_percent_define_flag_if([final], [$1], [$2])])
+m4_define([b4_parser_class_declaration],
+[b4_percent_define_get3([api.parser.annotations], [], [ ])dnl
+b4_percent_define_flag_if([api.parser.public],   [public ])dnl
+b4_percent_define_flag_if([api.parser.abstract], [abstract ])dnl
+b4_percent_define_flag_if([api.parser.final],    [final ])dnl
+[class ]b4_parser_class[]dnl
+b4_percent_define_get3([api.parser.extends], [ extends ])dnl
+b4_percent_define_get3([api.parser.implements], [ implements ])])
 
 
 # b4_lexer_if(TRUE, FALSE)
@@ -74,20 +71,22 @@ m4_define([b4_lexer_if],
 
 
 # b4_position_type_if(TRUE, FALSE)
-# ------------------------
+# --------------------------------
 m4_define([b4_position_type_if],
 [b4_percent_define_ifdef([[position_type]], [$1], [$2])])
 
 
 # b4_location_type_if(TRUE, FALSE)
-# ------------------------
+# --------------------------------
 m4_define([b4_location_type_if],
 [b4_percent_define_ifdef([[location_type]], [$1], [$2])])
 
 
 # b4_locations_if(TRUE, FALSE)
+# ----------------------------
 m4_define([b4_locations_if],
-[m4_if(b4_locations_flag,1,[$1],[$2])])
+[m4_if(b4_locations_flag, 1, [$1], [$2])])
+
 
 # b4_identification
 # -----------------
@@ -111,7 +110,7 @@ m4_define([b4_identification],
 m4_define([b4_int_type],
 [m4_if(b4_ints_in($@,   [-128],   [127]), [1], [byte],
        b4_ints_in($@, [-32768], [32767]), [1], [short],
-					       [int])])
+                                               [int])])
 
 # b4_int_type_for(NAME)
 # ---------------------
@@ -178,8 +177,8 @@ b4_percent_define_default([[stype]], [[YYSemanticType]])])
 # %name-prefix
 m4_define_default([b4_prefix], [[YY]])
 
-b4_percent_define_default([[parser_class_name]], [b4_prefix[]YYParser])])
-m4_define([b4_parser_class_name], [b4_percent_define_get([[parser_class_name]])])
+b4_percent_define_default([[api.parser.class]], [b4_prefix[]YYParser])])
+m4_define([b4_parser_class], [b4_percent_define_get([[api.parser.class]])])
 
 #b4_percent_define_default([[location_type]], [Location])])
 m4_define([b4_location_type], b4_percent_define_ifdef([[location_type]],[b4_percent_define_get([[location_type]])],[YYLocation]))
@@ -254,11 +253,11 @@ m4_define([b4_parse_param], b4_parse_param))
 m4_define([b4_lex_param_decl],
 [m4_ifset([b4_lex_param],
           [b4_remove_comma([$1],
-			   b4_param_decls(b4_lex_param))],
-	  [$1])])
+                           b4_param_decls(b4_lex_param))],
+          [$1])])
 
 m4_define([b4_param_decls],
-	  [m4_map([b4_param_decl], [$@])])
+          [m4_map([b4_param_decl], [$@])])
 m4_define([b4_param_decl], [, $1])
 
 m4_define([b4_remove_comma], [m4_ifval(m4_quote($1), [$1, ], [])m4_shift2($@)])
@@ -271,8 +270,8 @@ m4_define([b4_remove_comma], [m4_ifval(m4_quote($1), [$1, ], [])m4_shift2($@)])
 m4_define([b4_parse_param_decl],
 [m4_ifset([b4_parse_param],
           [b4_remove_comma([$1],
-			   b4_param_decls(b4_parse_param))],
-	  [$1])])
+                           b4_param_decls(b4_parse_param))],
+          [$1])])
 
 
 
@@ -281,11 +280,11 @@ m4_define([b4_parse_param_decl],
 # Delegating the lexer parameters to the lexer constructor.
 m4_define([b4_lex_param_call],
           [m4_ifset([b4_lex_param],
-	            [b4_remove_comma([$1],
-				     b4_param_calls(b4_lex_param))],
-	            [$1])])
+                    [b4_remove_comma([$1],
+                                     b4_param_calls(b4_lex_param))],
+                    [$1])])
 m4_define([b4_param_calls],
-	  [m4_map([b4_param_call], [$@])])
+          [m4_map([b4_param_call], [$@])])
 m4_define([b4_param_call], [, $2])
 
 
@@ -295,13 +294,13 @@ m4_define([b4_param_call], [, $2])
 # Extra initialisations of the constructor.
 m4_define([b4_parse_param_cons],
           [m4_ifset([b4_parse_param],
-		    [b4_constructor_calls(b4_parse_param)])])
+                    [b4_constructor_calls(b4_parse_param)])])
 
 m4_define([b4_constructor_calls],
-	  [m4_map([b4_constructor_call], [$@])])
+          [m4_map([b4_constructor_call], [$@])])
 m4_define([b4_constructor_call],
-	  [this.$2 = $2;
-	  ])
+          [this.$2 = $2;
+          ])
 
 
 
@@ -310,12 +309,12 @@ m4_define([b4_constructor_call],
 # Extra instance variables.
 m4_define([b4_parse_param_vars],
           [m4_ifset([b4_parse_param],
-		    [
+                    [
     /* User arguments.  */
 b4_var_decls(b4_parse_param)])])
 
 m4_define([b4_var_decls],
-	  [m4_map_sep([b4_var_decl], [
+          [m4_map_sep([b4_var_decl], [
 ], [$@])])
 m4_define([b4_var_decl],
-	  [    protected $1;])
+          [    protected $1;])

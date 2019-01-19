@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,23 +21,23 @@
 %option prefix="skel_" outfile="lex.yy.c"
 
 %{
-/* Work around a bug in flex 2.5.31.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
-#undef skel_wrap
-#define skel_wrap() 1
-
-#define FLEX_PREFIX(Id) skel_ ## Id
-#include <src/flex-scanner.h>
-
-#include <error.h>
 #include <dirname.h>
+#include <error.h>
 #include <path-join.h>
 #include <quotearg.h>
 
 #include <src/complain.h>
-#include <src/getargs.h>
 #include <src/files.h>
+#include <src/getargs.h>
 #include <src/scan-skel.h>
+
+#define FLEX_PREFIX(Id) skel_ ## Id
+#include <src/flex-scanner.h>
+
+/* Work around a bug in flex 2.5.31.  See Debian bug 333231
+   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+#undef skel_wrap
+#define skel_wrap() 1
 
 #define YY_DECL static int skel_lex (void)
 YY_DECL;

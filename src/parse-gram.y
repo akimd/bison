@@ -1,6 +1,6 @@
 /* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -43,8 +43,9 @@
   #include "named-ref.h"
   #include "quotearg.h"
   #include "reader.h"
-  #include "scan-gram.h"
   #include "scan-code.h"
+  #include "scan-gram.h"
+  #include "vasnprintf.h"
   #include "xmemdup0.h"
 
   static int current_prec = 0;
@@ -81,11 +82,26 @@
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
 
+  /* Handle a %error-verbose directive.  */
+  static void handle_error_verbose (location const *loc, char const *directive);
+
+  /* Handle a %file-prefix directive.  */
+  static void handle_file_prefix (location const *loc,
+                                  location const *dir_loc,
+                                  char const *directive, char const *value);
+
+  /* Handle a %name-prefix directive.  */
+  static void handle_name_prefix (location const *loc,
+                                  char const *directive, char const *value);
+
   /* Handle a %require directive.  */
-  static void do_require (location const *loc, char const *version);
+  static void handle_require (location const *loc, char const *version);
 
   /* Handle a %skeleton directive.  */
-  static void do_skeleton (location const *loc, char const *skel);
+  static void handle_skeleton (location const *loc, char const *skel);
+
+  /* Handle a %yacc directive.  */
+  static void handle_yacc (location const *loc, char const *directive);
 
   static void gram_error (location const *, char const *);
 
@@ -146,6 +162,7 @@
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
   PERCENT_DEFINES         "%defines"
+  PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR       "%expect-rr"
   PERCENT_FLAG            "%<flag>"
@@ -190,7 +207,11 @@
 %printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
 %printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
 
-%type <uniqstr> BRACKETED_ID ID ID_COLON PERCENT_FLAG TAG tag tag.opt variable
+%type <uniqstr>
+  BRACKETED_ID ID ID_COLON
+  PERCENT_ERROR_VERBOSE PERCENT_FILE_PREFIX PERCENT_FLAG PERCENT_NAME_PREFIX
+  PERCENT_YACC
+  TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
 %printer { fprintf (yyo, "%s:", $$); } ID_COLON
@@ -284,7 +305,7 @@ prologue_declaration:
     }
 | "%define" variable value
     {
-      muscle_percent_define_insert ($2, @2, $3.kind, $3.chars,
+      muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%defines"                       { defines_flag = true; }
@@ -293,9 +314,10 @@ prologue_declaration:
       defines_flag = true;
       spec_defines_file = xstrdup ($2);
     }
+| "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
-| "%file-prefix" STRING            { spec_file_prefix = $2; }
+| "%file-prefix" STRING            { handle_file_prefix (&@$, &@1, $1, $2); }
 | "%glr-parser"
     {
       nondeterministic_parser = true;
@@ -307,16 +329,16 @@ prologue_declaration:
       code_scanner_last_string_free ();
     }
 | "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
-| "%name-prefix" STRING         { spec_name_prefix = $2; }
+| "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%param" { current_param = $1; } params { current_param = param_none; }
-| "%require" STRING             { do_require (&@2, $2); }
-| "%skeleton" STRING            { do_skeleton (&@2, $2); }
+| "%require" STRING             { handle_require (&@2, $2); }
+| "%skeleton" STRING            { handle_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
-| "%yacc"                       { yacc_flag = true; }
+| "%yacc"                       { handle_yacc (&@$, $1); }
 | error ";"                     { current_class = unknown_sym; yyerrok; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
@@ -462,7 +484,7 @@ tag:
 `-----------------------*/
 
 // A non empty list of possibly tagged symbols for %nterm.
-// 
+//
 // Can easily be defined like symbol_decls but restricted to ID, but
 // using token_decls allows to reudce the number of rules, and also to
 // make nicer error messages on "%nterm 'a'" or '%nterm FOO "foo"'.
@@ -847,7 +869,74 @@ add_param (param_type type, char *decl, location loc)
 
 
 static void
-do_require (location const *loc, char const *version)
+handle_error_verbose (location const *loc, char const *directive)
+{
+  bison_directive (loc, directive);
+  muscle_percent_define_insert (directive, *loc, muscle_keyword, "",
+                                MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
+}
+
+
+static void
+handle_file_prefix (location const *loc,
+                    location const *dir_loc,
+                    char const *directive, char const *value)
+{
+  bison_directive (loc, directive);
+  bool warned = false;
+
+  if (location_empty (spec_file_prefix_loc))
+    {
+      spec_file_prefix_loc = *loc;
+      spec_file_prefix = value;
+    }
+  else
+    {
+      duplicate_directive (directive, spec_file_prefix_loc, *loc);
+      warned = true;
+    }
+
+  if (!warned
+      && STRNEQ (directive, "%file-prefix"))
+    deprecated_directive (dir_loc, directive, "%file-prefix");
+}
+
+static void
+handle_name_prefix (location const *loc,
+                    char const *directive, char const *value)
+{
+  bison_directive (loc, directive);
+
+  char buf1[1024];
+  size_t len1 = sizeof (buf1);
+  char *old = asnprintf (buf1, &len1, "%s\"%s\"", directive, value);
+  if (!old)
+    xalloc_die ();
+
+  if (location_empty (spec_name_prefix_loc))
+    {
+      spec_name_prefix = value;
+      spec_name_prefix_loc = *loc;
+
+      char buf2[1024];
+      size_t len2 = sizeof (buf2);
+      char *new = asnprintf (buf2, &len2, "%%define api.prefix {%s}", value);
+      if (!new)
+        xalloc_die ();
+      deprecated_directive (loc, old, new);
+      if (new != buf2)
+        free (new);
+    }
+  else
+    duplicate_directive (old, spec_file_prefix_loc, *loc);
+
+  if (old != buf1)
+    free (old);
+}
+
+
+static void
+handle_require (location const *loc, char const *version)
 {
   /* Changes of behavior are only on minor version changes, so "3.0.5"
      is the same as "3.0". */
@@ -885,7 +974,7 @@ do_require (location const *loc, char const *version)
 }
 
 static void
-do_skeleton (location const *loc, char const *skel)
+handle_skeleton (location const *loc, char const *skel)
 {
   char const *skeleton_user = skel;
   if (strchr (skeleton_user, '/'))
@@ -909,6 +998,25 @@ do_skeleton (location const *loc, char const *skel)
   skeleton_arg (skeleton_user, grammar_prio, *loc);
 }
 
+static void
+handle_yacc (location const *loc, char const *directive)
+{
+  bison_directive (loc, directive);
+  bool warned = false;
+
+  if (location_empty (yacc_loc))
+    yacc_loc = *loc;
+  else
+    {
+      duplicate_directive (directive, yacc_loc, *loc);
+      warned = true;
+    }
+
+  if (!warned
+      && STRNEQ (directive, "%fixed-output-files")
+      && STRNEQ (directive, "%yacc"))
+    deprecated_directive (loc, directive, "%fixed-output-files");
+}
 
 static void
 gram_error (location const *loc, char const *msg)

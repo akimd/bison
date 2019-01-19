@@ -1,6 +1,6 @@
 # Java skeleton for Bison -*- autoconf -*-
 
-# Copyright (C) 2007-2011 Free Software Foundation, Inc.
+# Copyright (C) 2007-2011, 2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ m4_include(b4_skeletonsdir/[d.m4])
 m4_divert_push(0)dnl
 @output(b4_parser_file_name@)@
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in D],
-             [2007-2012])
+             [2007-2012, 2019])
 
 b4_percent_define_ifdef([package], [module b4_percent_define_get([package]);
 ])[
@@ -44,7 +44,7 @@ import std.format;
 
 /**
  * Communication interface between the scanner and the Bison-generated
- * parser <tt>]b4_parser_class_name[</tt>.
+ * parser <tt>]b4_parser_class[</tt>.
  */
 public interface Lexer
 {
@@ -129,12 +129,8 @@ b4_locations_if([, ref ]b4_location_type[ loc])[)
   public final void print (File stream)
   {
     stream.write ("Stack now");
-
     for (int i = 0; i < stack.length; i++)
-      {
-        stream.write (' ');
-        stream.write ("%d", stack[i].state);
-      }
+      stream.write (" %d", stack[i].state);
     stream.writeln ();
   }
 }
@@ -230,12 +226,7 @@ b4_user_union_members
 [m4_if(b4_tag_seen_flag, 0,
 [[private alias int YYSemanticType;]])])[
 ]b4_token_enums(b4_tokens)[
-]b4_public_if([public ])dnl
-b4_abstract_if([abstract ])dnl
-b4_final_if([final ])dnl
-[class ]b4_parser_class_name[]dnl
-b4_percent_define_get3([extends], [ extends ])dnl
-b4_percent_define_get3([implements], [ implements ])[
+]b4_parser_class_declaration[
 {
   ]b4_identification[
 

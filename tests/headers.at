@@ -1,6 +1,6 @@
 # Bison Parser Headers.                               -*- Autotest -*-
 
-# Copyright (C) 2001-2002, 2006-2007, 2009-2015, 2018 Free Software
+# Copyright (C) 2001-2002, 2006-2007, 2009-2015, 2018-2019 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -84,7 +84,10 @@ AT_DATA_GRAMMAR([input.y],
 exp: %empty;
 ]])
 
-AT_BISON_CHECK([--defines -o input.c input.y])
+AT_BISON_CHECK([--defines -o input.c input.y], [], [],
+[[input.y:11.1-18: warning: deprecated directive: '%name-prefix "my_"', use '%define api.prefix {my_}' [-Wdeprecated]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
 
 # YYLTYPE should be defined, and MY_LLOC declared.
 AT_DATA([caller.c],
@@ -123,7 +126,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[$1
 %define parse.error verbose
-]AT_VARIANT_IF([], [%union {int integer;}])[
+]AT_VARIANT_IF([%token <int> 'x'], [%union {int integer;}])[
 %code {
 ]AT_PUSH_IF([[
 #if defined __GNUC__ && 7 == __GNUC__

@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -21,27 +21,26 @@
 %option prefix="gram_" outfile="lex.yy.c"
 
 %{
-/* Work around a bug in flex 2.5.31.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
-#undef gram_wrap
-#define gram_wrap() 1
-
-#define FLEX_PREFIX(Id) gram_ ## Id
-#include <src/flex-scanner.h>
+#include <c-ctype.h>
+#include <mbswidth.h>
+#include <quote.h>
+#include <quotearg.h>
 
 #include <src/complain.h>
 #include <src/files.h>
 #include <src/getargs.h>
 #include <src/gram.h>
-#include <quotearg.h>
 #include <src/reader.h>
+#include <src/scan-gram.h>
 #include <src/uniqstr.h>
 
-#include <c-ctype.h>
-#include <mbswidth.h>
-#include <quote.h>
+#define FLEX_PREFIX(Id) gram_ ## Id
+#include <src/flex-scanner.h>
 
-#include <src/scan-gram.h>
+/* Work around a bug in flex 2.5.31.  See Debian bug 333231
+   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+#undef gram_wrap
+#define gram_wrap() 1
 
 #define YY_DECL GRAM_LEX_DECL
 
@@ -77,18 +76,17 @@ static size_t no_cr_read (FILE *, char *, size_t);
 
 #define DEPRECATED(Msg)                                         \
   do {                                                          \
-    size_t i;                                                   \
     deprecated_directive (loc, yytext, Msg);                    \
     scanner_cursor.column -= mbsnwidth (Msg, strlen (Msg), 0);  \
-    for (i = strlen (Msg); i != 0; --i)                         \
+    for (size_t i = strlen (Msg); i != 0; --i)                  \
       unput (Msg[i - 1]);                                       \
   } while (0)
 
 /* A string representing the most recently saved token.  */
-static char *last_string;
+static char *last_string = NULL;
 
 /* Bracketed identifier. */
-static uniqstr bracketed_id_str = 0;
+static uniqstr bracketed_id_str = NULL;
 static location bracketed_id_loc;
 static boundary bracketed_id_start;
 static int bracketed_id_context_state = 0;
@@ -146,7 +144,8 @@ splice   (\\[ \f\t\v]*\n)*
 
 /* An equal sign, with optional leading whitespaces. This is used in some
    deprecated constructs. */
-eqopt    ([[:space:]]*=)?
+sp       [[:space:]]*
+eqopt    ({sp}=)?
 
 %%
 %{
@@ -218,67 +217,69 @@ eqopt    ([[:space:]]*=)?
 
 <INITIAL>
 {
-  "%binary"                         return BISON_DIRECTIVE(NONASSOC);
-  "%code"                           return BISON_DIRECTIVE(CODE);
-  "%debug"                          RETURN_PERCENT_FLAG("parse.trace");
-  "%default-prec"                   return BISON_DIRECTIVE(DEFAULT_PREC);
-  "%define"                         return BISON_DIRECTIVE(DEFINE);
-  "%defines"                        return BISON_DIRECTIVE(DEFINES);
-  "%destructor"                     return BISON_DIRECTIVE(DESTRUCTOR);
-  "%dprec"                          return BISON_DIRECTIVE(DPREC);
-  "%empty"                          return BISON_DIRECTIVE(EMPTY);
-  "%expect"                         return BISON_DIRECTIVE(EXPECT);
-  "%expect-rr"                      return BISON_DIRECTIVE(EXPECT_RR);
-  "%file-prefix"                    return BISON_DIRECTIVE(FILE_PREFIX);
-  "%fixed-output-files"             return BISON_DIRECTIVE(YACC);
-  "%initial-action"                 return BISON_DIRECTIVE(INITIAL_ACTION);
-  "%glr-parser"                     return BISON_DIRECTIVE(GLR_PARSER);
-  "%language"                       return BISON_DIRECTIVE(LANGUAGE);
+  "%binary"                         return BISON_DIRECTIVE (NONASSOC);
+  "%code"                           return BISON_DIRECTIVE (CODE);
+  "%debug"                          RETURN_PERCENT_FLAG ("parse.trace");
+  "%default-prec"                   return BISON_DIRECTIVE (DEFAULT_PREC);
+  "%define"                         return BISON_DIRECTIVE (DEFINE);
+  "%defines"                        return BISON_DIRECTIVE (DEFINES);
+  "%destructor"                     return BISON_DIRECTIVE (DESTRUCTOR);
+  "%dprec"                          return BISON_DIRECTIVE (DPREC);
+  "%empty"                          return BISON_DIRECTIVE (EMPTY);
+  "%expect"                         return BISON_DIRECTIVE (EXPECT);
+  "%expect-rr"                      return BISON_DIRECTIVE (EXPECT_RR);
+  "%file-prefix"                    RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
+  "%fixed-output-files"             RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
+  "%initial-action"                 return BISON_DIRECTIVE (INITIAL_ACTION);
+  "%glr-parser"                     return BISON_DIRECTIVE (GLR_PARSER);
+  "%language"                       return BISON_DIRECTIVE (LANGUAGE);
   "%left"                           return PERCENT_LEFT;
-  "%lex-param"                      RETURN_PERCENT_PARAM(lex);
-  "%locations"                      RETURN_PERCENT_FLAG("locations");
-  "%merge"                          return BISON_DIRECTIVE(MERGE);
-  "%name-prefix"                    return BISON_DIRECTIVE(NAME_PREFIX);
-  "%no-default-prec"                return BISON_DIRECTIVE(NO_DEFAULT_PREC);
-  "%no-lines"                       return BISON_DIRECTIVE(NO_LINES);
+  "%lex-param"                      RETURN_PERCENT_PARAM (lex);
+  "%locations"                      RETURN_PERCENT_FLAG ("locations");
+  "%merge"                          return BISON_DIRECTIVE (MERGE);
+  "%no-default-prec"                return BISON_DIRECTIVE (NO_DEFAULT_PREC);
+  "%no-lines"                       return BISON_DIRECTIVE (NO_LINES);
   "%nonassoc"                       return PERCENT_NONASSOC;
-  "%nondeterministic-parser"        return BISON_DIRECTIVE(NONDETERMINISTIC_PARSER);
-  "%nterm"                          return BISON_DIRECTIVE(NTERM);
-  "%output"                         return BISON_DIRECTIVE(OUTPUT);
-  "%param"                          RETURN_PERCENT_PARAM(both);
-  "%parse-param"                    RETURN_PERCENT_PARAM(parse);
+  "%nondeterministic-parser"        return BISON_DIRECTIVE (NONDETERMINISTIC_PARSER);
+  "%nterm"                          return BISON_DIRECTIVE (NTERM);
+  "%output"                         return BISON_DIRECTIVE (OUTPUT);
+  "%param"                          RETURN_PERCENT_PARAM (both);
+  "%parse-param"                    RETURN_PERCENT_PARAM (parse);
   "%prec"                           return PERCENT_PREC;
-  "%precedence"                     return BISON_DIRECTIVE(PRECEDENCE);
-  "%printer"                        return BISON_DIRECTIVE(PRINTER);
-  "%pure-parser"                    RETURN_PERCENT_FLAG("api.pure");
-  "%require"                        return BISON_DIRECTIVE(REQUIRE);
+  "%precedence"                     return BISON_DIRECTIVE (PRECEDENCE);
+  "%printer"                        return BISON_DIRECTIVE (PRINTER);
+  "%pure-parser"                    RETURN_PERCENT_FLAG ("api.pure");
+  "%require"                        return BISON_DIRECTIVE (REQUIRE);
   "%right"                          return PERCENT_RIGHT;
-  "%skeleton"                       return BISON_DIRECTIVE(SKELETON);
+  "%skeleton"                       return BISON_DIRECTIVE (SKELETON);
   "%start"                          return PERCENT_START;
-  "%term"                           return BISON_DIRECTIVE(TOKEN);
+  "%term"                           return BISON_DIRECTIVE (TOKEN);
   "%token"                          return PERCENT_TOKEN;
-  "%token-table"                    return BISON_DIRECTIVE(TOKEN_TABLE);
+  "%token-table"                    return BISON_DIRECTIVE (TOKEN_TABLE);
   "%type"                           return PERCENT_TYPE;
   "%union"                          return PERCENT_UNION;
-  "%verbose"                        return BISON_DIRECTIVE(VERBOSE);
-  "%yacc"                           return BISON_DIRECTIVE(YACC);
+  "%verbose"                        return BISON_DIRECTIVE (VERBOSE);
+  "%yacc"                           RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
 
   /* Deprecated since Bison 3.0 (2013-07-25), but the warning is
      issued only since Bison 3.3. */
-  "%error-verbose"                  DEPRECATED("%define parse.error verbose");
+  "%error-verbose"                  RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
+
+  /* Deprecated since Bison 2.6 (2012-07-19), but the warning is
+     issued only since Bison 3.3. */
+  "%name"[-_]"prefix"{eqopt}{sp}    RETURN_VALUE (PERCENT_NAME_PREFIX, uniqstr_new (yytext));
 
   /* Deprecated since Bison 2.7.90, 2012. */
-  "%default"[-_]"prec"              DEPRECATED("%default-prec");
-  "%error"[-_]"verbose"             DEPRECATED("%define parse.error verbose");
-  "%expect"[-_]"rr"                 DEPRECATED("%expect-rr");
-  "%file-prefix"{eqopt}             DEPRECATED("%file-prefix");
-  "%fixed"[-_]"output"[-_]"files"   DEPRECATED("%fixed-output-files");
-  "%name"[-_]"prefix"{eqopt}        DEPRECATED("%name-prefix");
-  "%no"[-_]"default"[-_]"prec"      DEPRECATED("%no-default-prec");
-  "%no"[-_]"lines"                  DEPRECATED("%no-lines");
-  "%output"{eqopt}                  DEPRECATED("%output");
-  "%pure"[-_]"parser"               DEPRECATED("%pure-parser");
-  "%token"[-_]"table"               DEPRECATED("%token-table");
+  "%default"[-_]"prec"              DEPRECATED ("%default-prec");
+  "%error"[-_]"verbose"             RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
+  "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
+  "%file-prefix"{eqopt}             RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
+  "%fixed"[-_]"output"[-_]"files"   RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
+  "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
+  "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
+  "%output"{eqopt}                  DEPRECATED ("%output");
+  "%pure"[-_]"parser"               DEPRECATED ("%pure-parser");
+  "%token"[-_]"table"               DEPRECATED ("%token-table");
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));

@@ -1,9 +1,6 @@
-/* Output an xml of the generated parser, for Bison.
+/* Support for fixing grammar files.
 
-   Copyright (C) 2007, 2009-2015, 2018-2019 Free Software Foundation,
-   Inc.
-
-   This file is part of Bison, the GNU Compiler Compiler.
+   Copyright (C) 2019 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,14 +15,21 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-#ifndef PRINT_XML_H_
-# define PRINT_XML_H_
+#ifndef FIXITS_H_
+# define FIXITS_H_ 1
 
-void xml_indent (FILE *out, int level);
-void xml_puts (FILE *, int, char const *);
-void xml_printf (FILE *, int, char const *, ...);
-char const *xml_escape_n (int n, char const *str);
-char const *xml_escape (char const *str);
-void print_xml (void);
+# include "location.h"
 
-#endif /* !PRINT_XML_H_ */
+/* Declare a fix to apply.  */
+void fixits_register (location const *loc, char const* update);
+
+/* Apply the fixits: update the source file.  */
+void fixits_run (void);
+
+/* Whether there are no fixits. */
+bool fixits_empty (void);
+
+/* Free the registered fixits.  */
+void fixits_free (void);
+
+#endif /* !FIXITS_H_ */

@@ -1,7 +1,7 @@
 /* Top level entry point of Bison.
 
    Copyright (C) 1984, 1986, 1989, 1992, 1995, 2000-2002, 2004-2015,
-   2018 Free Software Foundation, Inc.
+   2018-2019 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -35,6 +35,7 @@
 #include "conflicts.h"
 #include "derives.h"
 #include "files.h"
+#include "fixits.h"
 #include "getargs.h"
 #include "gram.h"
 #include "lalr.h"
@@ -210,7 +211,6 @@ main (int argc, char *argv[])
      contains things such as user actions, prologue, epilogue etc.  */
   gram_scanner_free ();
   muscle_free ();
-  uniqstrs_free ();
   code_scanner_free ();
   skel_scanner_free ();
   quotearg_free ();
@@ -226,6 +226,19 @@ main (int argc, char *argv[])
   timevar_print (stderr);
 
   cleanup_caret ();
+
+  /* Fix input file now, even if there are errors: that's less
+     warnings in the following runs.  */
+  if (!fixits_empty ())
+    {
+      if (update_flag)
+        fixits_run ();
+      else
+        complain (NULL, Wother,
+                  _("fix-its can be applied.  Rerun with option '--update'."));
+      fixits_free ();
+    }
+  uniqstrs_free ();
 
   return complaint_status ? EXIT_FAILURE : EXIT_SUCCESS;
 }

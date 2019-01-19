@@ -2,6 +2,7 @@
 
 @relocatable_sh@
 if test "@RELOCATABLE@" = yes; then
+  prefix="@prefix@"
   exec_prefix="@exec_prefix@"
   bindir="@bindir@"
   orig_installdir="$bindir" # see Makefile.am's *_SCRIPTS variables
@@ -18,5 +19,7 @@ else
   }
 fi
 
+prefix=@prefix@
+exec_prefix=@exec_prefix@
 bindir=`relocate "@bindir@"`
 exec "$bindir/bison" -y "$@"

@@ -2,7 +2,7 @@
 
 # Macros for the GNU Bison Test suite.
 
-# Copyright (C) 2003-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2003-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -707,8 +707,9 @@ if test "$POSIXLY_CORRECT_IS_EXPORTED" = false; then
   # Build expected stderr up to and including the "warnings being
   # treated as errors" message.
   ]AT_DATA([[experr]], [$4])[
-  $PERL -pi -e 's{(.*): warning: (.*)\[-W(.*)\]$}
-                 {$][1: error: $][2\@<:@-Werror=$][3@:>@}' experr
+  $PERL -pi -e 's{(.*): warning:}{$][1: error:};' \
+            -e 's{\[-W(.*)\]$}{@<:@-Werror=$][1@:>@}' \
+                 experr
   ]AT_CHECK([[sed 's,.*/$,,' stderr 1>&2]], [[0]], [[]], [experr])[
 
   # Now check --warnings=error.
@@ -874,15 +875,16 @@ m4_define([AT_LANG_HDR(c)],    [h])
 m4_define([AT_LANG_HDR(c++)],  [hh])
 
 
-# AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2], [EXTRA-COMPILER-FLAGS)
-# ------------------------------------------------------------------
+# AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2],
+#                 [$4: EXTRA-COMPILER-FLAGS, [$5: EXTRA-BISON-FLAGS])
+# -------------------------------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
 # compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
 # OUTPUT.java along with it.  Relies on AT_CXX_IF and
 # AT_JAVA_IF.
 m4_define([AT_FULL_COMPILE],
-[AT_BISON_CHECK([-o $1.AT_LANG_EXT $1.y])
+[AT_BISON_CHECK([$5 -o $1.AT_LANG_EXT $1.y])
  AT_LANG_COMPILE([$1],
                  m4_join([ ],
                          [$1.AT_LANG_EXT],

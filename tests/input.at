@@ -1,6 +1,6 @@
 # Checking the Bison scanner.                    -*- Autotest -*-
 
-# Copyright (C) 2002-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -146,16 +146,16 @@ exp: "number";
 AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
 [[input.y:1.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
  %nterm exp
- ^^^^^^
+ ^~~~~~
 input.y:2.12-15: warning: POSIX Yacc does not support hexadecimal literals [-Wyacc]
  %token NUM 0x40 "number"
-            ^^^^
+            ^~~~
 input.y:2.17-24: warning: POSIX Yacc does not support string literals [-Wyacc]
  %token NUM 0x40 "number"
-                 ^^^^^^^^
+                 ^~~~~~~~
 input.y:4.6-13: warning: POSIX Yacc does not support string literals [-Wyacc]
  exp: "number";
-      ^^^^^^^^
+      ^~~~~~~~
 ]])
 
 AT_CLEANUP
@@ -180,16 +180,16 @@ b: %empty            { $$ = 42; };
 AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
 [[input.y:1.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
  %destructor {} <int>
- ^^^^^^^^^^^
+ ^~~~~~~~~~~
 input.y:2.1-8: warning: POSIX Yacc does not support %printer [-Wyacc]
  %printer {} <int>
- ^^^^^^^^
+ ^~~~~~~~
 input.y:6.9-20: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
  a: <int>{ $$ = 42; } { $$ = $1; };
-         ^^^^^^^^^^^^
+         ^~~~~~~~~~~~
 input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
  b: %empty            { $$ = 42; };
-    ^^^^^^
+    ^~~~~~
 ]])
 
 AT_CLEANUP
@@ -219,25 +219,25 @@ fact: "number";
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-24: error: nonterminals cannot be given a string alias
  %nterm expr "expression";
-             ^^^^^^^^^^^^
+             ^~~~~~~~~~~~
 input.y:2.13-15: error: nonterminals cannot be given an explicit number
  %nterm term 123;
-             ^^^
+             ^~~
 input.y:3.13-15: error: nonterminals cannot be given an explicit number
  %nterm fact 124 "factor";
-             ^^^
+             ^~~
 input.y:3.17-24: error: nonterminals cannot be given a string alias
  %nterm fact 124 "factor";
-                 ^^^^^^^^
+                 ^~~~~~~~
 input.y:4.8-10: error: character literals cannot be nonterminals
  %nterm '+' '*';
-        ^^^
+        ^~~
 input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
  %nterm "number";
-        ^^^^^^^^
+        ^~~~~~~~
 input.y:6.8-13: error: syntax error, unexpected string, expecting char or identifier or <tag>
  %token "tok1" 1;
-        ^^^^^^
+        ^~~~~~
 input.y:7.14: error: syntax error, unexpected integer
  %left "tok2" 2;
               ^
@@ -364,10 +364,10 @@ exp: %empty { @$ = @1 ; };
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.20-21: error: integer out of range: '$1'
  exp: %empty { $$ = $1 ; };
-                    ^^
+                    ^~
 input.y:3.20-21: error: integer out of range: '@1'
  exp: %empty { @$ = @1 ; };
-                    ^^
+                    ^~
 ]])
 
 AT_CLEANUP
@@ -393,19 +393,19 @@ exp: foo { $$; } foo { $2; } foo
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:5.12-13: error: $$ for the midrule at $2 of 'exp' has no declared type
  exp: foo { $$; } foo { $2; } foo
-            ^^
+            ^~
 input.y:5.24-25: error: $2 of 'exp' has no declared type
  exp: foo { $$; } foo { $2; } foo
-                        ^^
+                        ^~
 input.y:5.6-32: warning: type clash on default action: <bar> != <> [-Wother]
  exp: foo { $$; } foo { $2; } foo
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:6.6-8: warning: type clash on default action: <bar> != <> [-Wother]
     | foo
-      ^^^
+      ^~~
 input.y:7.6-11: warning: empty rule for typed nonterminal, and no action [-Wother]
     | %empty
-      ^^^^^^
+      ^~~~~~
 ]])
 
 AT_CLEANUP
@@ -464,133 +464,133 @@ AT_BISON_CHECK(m4_ifval([$2], [--warnings=midrule-values ])[-fcaret input.y],
                [0], [],
 [[input.y:12.10-32: warning: unset value: $][$ [-Wother]
  a: INT | INT { } INT { } INT { };
-          ^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~
 input.y:12.10-12: warning: unused value: $][1 [-Wother]
  a: INT | INT { } INT { } INT { };
-          ^^^
+          ^~~
 input.y:12.18-20: warning: unused value: $][3 [-Wother]
  a: INT | INT { } INT { } INT { };
-                  ^^^
+                  ^~~
 input.y:12.26-28: warning: unused value: $][5 [-Wother]
  a: INT | INT { } INT { } INT { };
-                          ^^^
+                          ^~~
 input.y:13.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
  b: INT | %empty;
-          ^^^^^^
+          ^~~~~~
 ]]m4_ifval([$2], [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-              ^^^^^^^
+              ^~~~~~~
 input.y:14.26-41: warning: unset value: $][$ [-Wmidrule-values]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-                          ^^^^^^^^^^^^^^^^
+                          ^~~~~~~~~~~~~~~~
 ]]])[[input.y:14.10-62: warning: unset value: $][$ [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:14.22-24: warning: unused value: $][3 [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-                      ^^^
+                      ^~~
 input.y:14.43-45: warning: unused value: $][5 [-Wother]
  c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-                                           ^^^
+                                           ^~~
 ]]m4_ifval([$2], [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-              ^^^
+              ^~~
 ]]])[[input.y:15.10-49: warning: unset value: $][$ [-Wother]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:15.18-20: warning: unused value: $][3 [-Wother]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-                  ^^^
+                  ^~~
 input.y:15.30-32: warning: unused value: $][5 [-Wother]
  d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-                              ^^^
+                              ^~~
 input.y:16.10-37: warning: unset value: $][$ [-Wother]
  e: INT | INT { } INT {  } INT { $][1; };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:16.18-20: warning: unused value: $][3 [-Wother]
  e: INT | INT { } INT {  } INT { $][1; };
-                  ^^^
+                  ^~~
 input.y:16.27-29: warning: unused value: $][5 [-Wother]
  e: INT | INT { } INT {  } INT { $][1; };
-                           ^^^
+                           ^~~
 input.y:18.10-58: warning: unset value: $][$ [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:18.10-12: warning: unused value: $][1 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-          ^^^
+          ^~~
 ]]m4_ifval([$2], [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-              ^^^^^^^^^^^^^^^^
+              ^~~~~~~~~~~~~~~~
 ]]])[[input.y:18.31-33: warning: unused value: $][3 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-                               ^^^
+                               ^~~
 ]]m4_ifval([$2], [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-                                   ^^^^^^^^^^^^^^^^
+                                   ^~~~~~~~~~~~~~~~
 ]]])[[input.y:18.52-54: warning: unused value: $][5 [-Wother]
  g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-                                                    ^^^
+                                                    ^~~
 input.y:19.10-72: warning: unset value: $][$ [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:19.10-12: warning: unused value: $][1 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-          ^^^
+          ^~~
 input.y:19.31-33: warning: unused value: $][3 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-                               ^^^
+                               ^~~
 ]]m4_ifval([$2], [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]]])[[input.y:19.66-68: warning: unused value: $][5 [-Wother]
  h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-                                                                  ^^^
+                                                                  ^~~
 ]]m4_ifval([$2], [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
  j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
-                  ^^^^^^^^^^^^^^^^^^^^
+                  ^~~~~~~~~~~~~~~~~~~~
 ]]])[[input.y:22.10-68: warning: unset value: $][$ [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:22.10-12: warning: unused value: $][1 [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-          ^^^
+          ^~~
 input.y:22.14-16: warning: unused value: $][2 [-Wother]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-              ^^^
+              ^~~
 ]]m4_ifval([$2], [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
  k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]]])[[input.y:25.23-25: warning: unset value: $][$ [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                       ^^^
+                       ^~~
 input.y:25.40-42: warning: unset value: $][$ [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                        ^^^
+                                        ^~~
 input.y:25.10-50: warning: unset value: $][$ [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:25.10-12: warning: unused value: $][1 [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-          ^^^
+          ^~~
 input.y:25.23-25: warning: unused value: $][2 [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                       ^^^
+                       ^~~
 input.y:25.27-29: warning: unused value: $][3 [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                           ^^^
+                           ^~~
 input.y:25.40-42: warning: unused value: $][4 [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                        ^^^
+                                        ^~~
 input.y:25.44-46: warning: unused value: $][5 [-Wother]
  n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                            ^^^
+                                            ^~~
 input.y:26.23-25: warning: unset value: $][$ [-Wother]
  o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                       ^^^
+                       ^~~
 input.y:26.40-42: warning: unset value: $][$ [-Wother]
  o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                                        ^^^
+                                        ^~~
 ]])
 
 ])
@@ -633,19 +633,19 @@ BAR:
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
  %nterm FOO BAR
-        ^^^
+        ^~~
 input.y:1.8-10:     previous definition
  %token FOO
-        ^^^
+        ^~~
 input.y:3.8-10: error: symbol BAR redeclared as a token
  %token BAR
-        ^^^
+        ^~~
 input.y:2.12-14:    previous definition
  %nterm FOO BAR
-            ^^^
+            ^~~
 input.y:5.1-3: error: rule given for FOO, which is a token
  FOO: BAR
- ^^^
+ ^~~
 ]])
 
 AT_CLEANUP
@@ -678,40 +678,40 @@ start: %empty;
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <> <>
-             ^^^^^^^^^^^^^^^^^
+             ^~~~~~~~~~~~~~~~~
 input.y:1.13-29:     previous declaration
  %destructor { destroy ($$); } <> <>
-             ^^^^^^^^^^^^^^^^^
+             ^~~~~~~~~~~~~~~~~
 input.y:2.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <> <>
-          ^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~
 input.y:2.10-24:     previous declaration
  %printer { print ($$); } <> <>
-          ^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~
 input.y:4.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <>
-             ^^^^^^^^^^^^^^^^^
+             ^~~~~~~~~~~~~~~~~
 input.y:1.13-29:     previous declaration
  %destructor { destroy ($$); } <> <>
-             ^^^^^^^^^^^^^^^^^
+             ^~~~~~~~~~~~~~~~~
 input.y:5.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <>
-          ^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~
 input.y:2.10-24:     previous declaration
  %printer { print ($$); } <> <>
-          ^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~
 input.y:11.13-29: error: %destructor redeclaration for <>
  %destructor { destroy ($$); } <>;
-             ^^^^^^^^^^^^^^^^^
+             ^~~~~~~~~~~~~~~~~
 input.y:1.13-29:      previous declaration
  %destructor { destroy ($$); } <> <>
-             ^^^^^^^^^^^^^^^^^
+             ^~~~~~~~~~~~~~~~~
 input.y:12.10-24: error: %printer redeclaration for <>
  %printer { print ($$); } <>;
-          ^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~
 input.y:2.10-24:      previous declaration
  %printer { print ($$); } <> <>
-          ^^^^^^^^^^^^^^^
+          ^~~~~~~~~~~~~~~
 ]])
 ])
 
@@ -781,16 +781,16 @@ exp: bar;
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.16-18: error: symbol bar is used, but is not defined as a token and has no rules
  %destructor {} bar
-                ^^^
+                ^~~
 input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules [-Wother]
  %printer {} foo baz
-                 ^^^
+                 ^~~
 input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules [-Wother]
  %printer {} foo baz
-             ^^^
+             ^~~
 input.y:3.13-15: warning: symbol qux is used, but is not defined as a token and has no rules [-Wother]
  %type <foo> qux
-             ^^^
+             ^~~
 ]])
 
 AT_CLEANUP
@@ -910,13 +910,13 @@ tagged: { } ;
 AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:6.8-45: warning: unset value: $$ [-Wother]
  start: end end tagged tagged { $<tag>1; $3; } ;
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:6.12-14: warning: unused value: $2 [-Wother]
  start: end end tagged tagged { $<tag>1; $3; } ;
-            ^^^
+            ^~~
 input.y:7.6-8: warning: unset value: $$ [-Wother]
  end: { } ;
-      ^^^
+      ^~~
 ]])
 
 AT_DATA([[input.y]],
@@ -957,13 +957,13 @@ end: { }  ;
 AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:6.8-22: warning: unset value: $$ [-Wother]
  start: end end { $1; } ;
-        ^^^^^^^^^^^^^^^
+        ^~~~~~~~~~~~~~~
 input.y:6.12-14: warning: unused value: $2 [-Wother]
  start: end end { $1; } ;
-            ^^^
+            ^~~
 input.y:7.6-8: warning: unset value: $$ [-Wother]
  end: { }  ;
-      ^^^
+      ^~~
 ]])
 
 AT_CLEANUP
@@ -1014,13 +1014,13 @@ exp: FOO BAR;
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.17-21: warning: symbol "foo" used more than once as a literal string [-Wother]
           BAR 42 "foo"
-                 ^^^^^
+                 ^~~~~
 input.y:2.10-12: error: user token number 42 redeclaration for BAR
           BAR 42 "foo"
-          ^^^
+          ^~~
 input.y:1.8-10:      previous declaration for FOO
  %token FOO 42 "foo"
-        ^^^
+        ^~~
 ]])
 
 AT_CLEANUP
@@ -1048,10 +1048,10 @@ exp: foo;
 ]],
 [[input.y:3.7-11: error: %type redeclaration for foo
  %type <baz> foo
-       ^^^^^
+       ^~~~~
 input.y:2.7-11:     previous declaration
  %type <bar> "foo"
-       ^^^^^
+       ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"
@@ -1062,10 +1062,10 @@ exp: foo;
 ]],
 [[input.y:3.10-14: error: %printer redeclaration for foo
  %printer {baz} foo
-          ^^^^^
+          ^~~~~
 input.y:2.10-14:     previous declaration
  %printer {bar} "foo"
-          ^^^^^
+          ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"
@@ -1076,10 +1076,10 @@ exp: foo;
 ]],
 [[input.y:3.13-17: error: %destructor redeclaration for foo
  %destructor {baz} foo
-             ^^^^^
+             ^~~~~
 input.y:2.13-17:     previous declaration
  %destructor {bar} "foo"
-             ^^^^^
+             ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"
@@ -1090,10 +1090,10 @@ exp: foo;
 ]],
 [[input.y:3.1-5: error: %left redeclaration for foo
  %left foo
- ^^^^^
+ ^~~~~
 input.y:2.1-5:     previous declaration
  %left "foo"
- ^^^^^
+ ^~~~~
 ]])
 
 # This time, declare the alias after its use.
@@ -1107,10 +1107,10 @@ exp: foo;
 ]],
 [[input.y:2.1-5: error: %left redeclaration for foo
  %left foo
- ^^^^^
+ ^~~~~
 input.y:1.1-5:     previous declaration
  %left "foo"
- ^^^^^
+ ^~~~~
 ]])
 
 # Printer.
@@ -1122,10 +1122,10 @@ exp: foo;
 ]],
 [[input.y:2.10-11: error: %printer redeclaration for foo
  %printer {} foo
-          ^^
+          ^~
 input.y:1.10-11:     previous declaration
  %printer {} "foo"
-          ^^
+          ^~
 ]])
 
 # Destructor.
@@ -1137,10 +1137,10 @@ exp: foo;
 ]],
 [[input.y:2.13-14: error: %destructor redeclaration for foo
  %destructor {} foo
-             ^^
+             ^~
 input.y:1.13-14:     previous declaration
  %destructor {} "foo"
-             ^^
+             ^~
 ]])
 
 m4_popdef([AT_TEST])
@@ -1170,7 +1170,7 @@ AT_DATA([input.y],
 AT_BISON_CHECK([-fcaret  input.y], [1], [],
 [[input.y:1.1-2: error: syntax error, unexpected {...}
  {}
- ^^
+ ^~
 ]])
 
 
@@ -1513,19 +1513,19 @@ start: %empty;
 AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
 [[input.y:1.10-2.0: error: missing '"' at end of line
  %token A "a
-          ^^
+          ^~
 input.y:4.10-5.0: error: missing "'" at end of line
  %token C '1
-          ^^
+          ^~
 input.y:14.11-15.0: error: missing "'" at end of line
  %type <f> 'a
-           ^^
+           ^~
 input.y:16.11-17.0: error: missing '"' at end of line
  %type <f> "a
-           ^^
+           ^~
 input.y:19.13-20.0: error: missing '}' at end of file
  %destructor { free ($$)
-             ^^^^^^^^^^^
+             ^~~~~~~~~~~
 input.y:20.1: error: syntax error, unexpected end of file
 ]])
 
@@ -1740,10 +1740,11 @@ start: %empty;
 ]])
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
-[[input-redefined.y:2.9-11: error: %define variable 'var' redefined
-input-redefined.y:1.9-11:     previous definition
-input-redefined.y:3.10-12: error: %define variable 'var' redefined
-input-redefined.y:2.9-11:      previous definition
+[[input-redefined.y:2.1-20: error: %define variable 'var' redefined
+input-redefined.y:1.1-20:     previous definition
+input-redefined.y:3.2-21: error: %define variable 'var' redefined
+input-redefined.y:2.1-20:     previous definition
+input-redefined.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_DATA([input-unused.y],
@@ -1753,7 +1754,7 @@ start: %empty;
 ]])
 
 AT_BISON_CHECK([[input-unused.y]], [[1]], [],
-[[input-unused.y:1.9-11: error: %define variable 'var' is not used
+[[input-unused.y:1.1-19: error: %define variable 'var' is not used
 ]])
 
 AT_CLEANUP
@@ -1797,8 +1798,9 @@ AT_DATA([[input-dg.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
-[[input-dg.y:1.9-11: error: %define variable 'var' redefined
+[[input-dg.y:1.1-18: error: %define variable 'var' redefined
 <command line>:2:      previous definition
+input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_DATA([[input-dg.y]],
@@ -1807,10 +1809,11 @@ AT_DATA([[input-dg.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
-[[input-dg.y:1.9-11: error: %define variable 'var' redefined
+[[input-dg.y:1.1-18: error: %define variable 'var' redefined
  %define var "gram"
-         ^^^
+ ^~~~~~~~~~~~~~~~~~
 <command line>:3:      previous definition
+input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_DATA([[input-unused.y]],
@@ -1833,14 +1836,14 @@ AT_SETUP([["%define" Boolean variables]])
 
 AT_DATA([Input.y],
 [[%language "Java"
-%define public maybe
-%define parser_class_name {Input}
+%define api.parser.class {Input}
+%define api.parser.public {maybe}
 %%
 start: %empty;
 ]])
 
 AT_BISON_CHECK([[Input.y]], [1], [],
-[[Input.y:2.9-14: error: invalid value for %define Boolean variable 'public'
+[[Input.y:3.1-33: error: invalid value for %define Boolean variable 'api.parser.public'
 ]])
 
 AT_CLEANUP
@@ -1865,15 +1868,15 @@ start: TOK;
 ]])
 
 AT_BISON_CHECK([[input.yy]], [0], [],
-[[input.yy:2.9-25: warning: %define variable 'api.location.type' requires '{...}' values [-Wdeprecated]
-input.yy:4.9-18: warning: %define variable 'api.prefix' requires '{...}' values [-Wdeprecated]
-input.yy:5.9-24: warning: %define variable 'api.token.prefix' requires '{...}' values [-Wdeprecated]
-input.yy:3.9-21: warning: %define variable 'api.namespace' requires '{...}' values [-Wdeprecated]
+[[input.yy:2.$3: warning: %define variable 'api.location.type' requires '{...}' values [-Wdeprecated]
+input.yy:4.$3: warning: %define variable 'api.prefix' requires '{...}' values [-Wdeprecated]
+input.yy:5.$3: warning: %define variable 'api.token.prefix' requires '{...}' values [-Wdeprecated]
+input.yy:3.$3: warning: %define variable 'api.namespace' requires '{...}' values [-Wdeprecated]
 ]])
 ])
 
-AT_TEST([],  [])
-AT_TEST(["], ["])
+AT_TEST([],  [],  [1-30])
+AT_TEST(["], ["], [1-32])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
@@ -1897,11 +1900,11 @@ exp: %empty
 ]])
 
 AT_BISON_CHECK([[input.y]], [0], [],
-[[input.y:5.9-15: warning: %define variable 'lr.type' requires keyword values [-Wdeprecated]
-input.y:3.9-28: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
-input.y:4.9-33: warning: %define variable 'lr.keep-unreachable-state' requires keyword values [-Wdeprecated]
-input.y:2.9-21: warning: %define variable 'api.push-pull' requires keyword values [-Wdeprecated]
-input.y:1.9-16: warning: %define variable 'api.pure' requires keyword values [-Wdeprecated]
+[[input.y:5.1-40: warning: %define variable 'lr.type' requires keyword values [-Wdeprecated]
+input.y:3.1-40: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
+input.y:4.1-40: warning: %define variable 'lr.keep-unreachable-state' requires keyword values [-Wdeprecated]
+input.y:2.1-40: warning: %define variable 'api.push-pull' requires keyword values [-Wdeprecated]
+input.y:1.1-38: warning: %define variable 'api.pure' requires keyword values [-Wdeprecated]
 ]])
 ])
 
@@ -1929,12 +1932,12 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
-[[input.y:1.9-28: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
+[[input.y:1.1-34: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
  %define lr.default-reduction bogus
-         ^^^^^^^^^^^^^^^^^^^^
-input.y:1.9-28:     accepted value: 'most'
-input.y:1.9-28:     accepted value: 'consistent'
-input.y:1.9-28:     accepted value: 'accepting'
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-34:     accepted value: 'most'
+input.y:1.1-34:     accepted value: 'consistent'
+input.y:1.1-34:     accepted value: 'accepting'
 ]])
 
 # Back-end.
@@ -1944,12 +1947,12 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
-[[input.y:1.9-21: error: invalid value for %define variable 'api.push-pull': 'neither'
+[[input.y:1.1-29: error: invalid value for %define variable 'api.push-pull': 'neither'
  %define api.push-pull neither
-         ^^^^^^^^^^^^^
-input.y:1.9-21:     accepted value: 'pull'
-input.y:1.9-21:     accepted value: 'push'
-input.y:1.9-21:     accepted value: 'both'
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-29:     accepted value: 'pull'
+input.y:1.1-29:     accepted value: 'push'
+input.y:1.1-29:     accepted value: 'both'
 ]])
 
 AT_CLEANUP
@@ -1970,9 +1973,9 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
-[[input.y:3.9-25: error: %define variable 'api.location.file' requires 'none' or '"..."' values
+[[input.y:3.1-33: error: %define variable 'api.location.file' requires 'none' or '"..."' values
  %define api.location.file {bogus}
-         ^^^^^^^^^^^^^^^^^
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
 
 AT_CLEANUP
@@ -1991,28 +1994,33 @@ AT_DATA([[input.y]],
 %define namespace "foo"
 %define api.namespace {foo}
 %define variant
+%define parser_class_name {parser}
 %%
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [1], [],
-[[input.y:1.9-21: warning: deprecated directive, use '%define api.push-pull both' [-Wdeprecated]
+[[input.y:1.1-26: warning: deprecated directive, use '%define api.push-pull both' [-Wdeprecated]
  %define api.push_pull both
-         ^^^^^^^^^^^^^
-input.y:2.9-34: warning: deprecated directive, use '%define lr.keep-unreachable-state maybe' [-Wdeprecated]
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:2.1-40: warning: deprecated directive, use '%define lr.keep-unreachable-state maybe' [-Wdeprecated]
  %define lr.keep_unreachable_states maybe
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^
-input.y:3.9-17: warning: deprecated directive, use '%define api.namespace foo' [-Wdeprecated]
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:3.1-23: warning: deprecated directive, use '%define api.namespace {foo}' [-Wdeprecated]
  %define namespace "foo"
-         ^^^^^^^^^
-input.y:4.9-21: error: %define variable 'api.namespace' redefined
+ ^~~~~~~~~~~~~~~~~~~~~~~
+input.y:4.1-27: error: %define variable 'api.namespace' redefined
  %define api.namespace {foo}
-         ^^^^^^^^^^^^^
-input.y:3.9-17:     previous definition
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:3.1-23:     previous definition
  %define namespace "foo"
-         ^^^^^^^^^
-input.y:5.9-15: warning: deprecated directive, use '%define api.value.type variant' [-Wdeprecated]
+ ^~~~~~~~~~~~~~~~~~~~~~~
+input.y:5.1-15: warning: deprecated directive, use '%define api.value.type variant' [-Wdeprecated]
  %define variant
-         ^^^^^^^
+ ^~~~~~~~~~~~~~~
+input.y:6.1-34: warning: deprecated directive, use '%define api.parser.class {parser}' [-Wdeprecated]
+ %define parser_class_name {parser}
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_CLEANUP
@@ -2024,11 +2032,11 @@ AT_CLEANUP
 
 AT_SETUP([[Unused %define api.pure]])
 
-# AT_CHECK_API_PURE(DECLS, VALUE)
+# AT_TEST(DECLS, VALUE, LOCATION)
 # -------------------------------
 # Make sure Bison reports that '%define api.pure VALUE' is unused when DECLS
 # are specified.
-m4_define([AT_CHECK_API_PURE],
+m4_pushdef([AT_TEST],
 [
 AT_DATA([[input.y]],
 [[%define api.pure ]$2[
@@ -2038,16 +2046,18 @@ start: %empty;
 ]])
 
 AT_BISON_CHECK([[input.y]], [[1]], [],
-[[input.y:1.9-16: error: %define variable 'api.pure' is not used
+[[input.y:]$3[: error: %define variable 'api.pure' is not used
 ]])
 ])
 
-AT_CHECK_API_PURE([[%language "c++"]], [[]])
-AT_CHECK_API_PURE([[%language "c++"]], [[false]])
-AT_CHECK_API_PURE([[%language "c++" %glr-parser]], [[""]])
-AT_CHECK_API_PURE([[%language "c++" %glr-parser]], [[false]])
-AT_CHECK_API_PURE([[%language "java"]], [[true]])
-AT_CHECK_API_PURE([[%language "java"]], [[false]])
+AT_TEST([[%language "c++"]],             [[]],      [[1.1-16]])
+AT_TEST([[%language "c++"]],             [[false]], [[1.1-22]])
+AT_TEST([[%language "c++" %glr-parser]], [[""]],    [[1.1-19]])
+AT_TEST([[%language "c++" %glr-parser]], [[false]], [[1.1-22]])
+AT_TEST([[%language "java"]],            [[true]],  [[1.1-21]])
+AT_TEST([[%language "java"]],            [[false]], [[1.1-22]])
+
+m4_popdef([AT_TEST])
 
 AT_CLEANUP
 
@@ -2073,31 +2083,31 @@ start: %empty;
 
 AT_BISON_CHECK([[input.y]], [1], [],
 [m4_foreach([b4_arg], m4_dquote(m4_shift($@)),
-[[input.y:3.9-21: error: ]b4_arg[
-]])])
+[b4_arg
+])])
 ])
 
 AT_CHECK_NAMESPACE_ERROR([[]],
-                         [[namespace reference is empty]])
+                         [[input.y:3.1-24: error: namespace reference is empty]])
 AT_CHECK_NAMESPACE_ERROR([[ @tb@@tb@  @tb@ @tb@]],
-                         [[namespace reference is empty]])
+                         [[input.y:3.1-57: error: namespace reference is empty]])
 AT_CHECK_NAMESPACE_ERROR([[foo::::bar]],
-                         [[namespace reference has consecutive "::"]])
+                         [[input.y:3.1-34: error: namespace reference has consecutive "::"]])
 AT_CHECK_NAMESPACE_ERROR([[foo:: @tb@::bar]],
-                         [[namespace reference has consecutive "::"]])
+                         [[input.y:3.1-38: error: namespace reference has consecutive "::"]])
 AT_CHECK_NAMESPACE_ERROR([[::::bar]],
-                         [[namespace reference has consecutive "::"]])
+                         [[input.y:3.1-31: error: namespace reference has consecutive "::"]])
 AT_CHECK_NAMESPACE_ERROR([[:: ::bar]],
-                         [[namespace reference has consecutive "::"]])
+                         [[input.y:3.1-32: error: namespace reference has consecutive "::"]])
 AT_CHECK_NAMESPACE_ERROR([[foo::bar::@tb@::]],
-                         [[namespace reference has consecutive "::"]],
-                         [[namespace reference has a trailing "::"]])
+                         [[input.y:3.1-43: error: namespace reference has consecutive "::"]],
+                         [[input.y:3.1-43: error: namespace reference has a trailing "::"]])
 AT_CHECK_NAMESPACE_ERROR([[foo::bar::]],
-                         [[namespace reference has a trailing "::"]])
+                         [[input.y:3.1-34: error: namespace reference has a trailing "::"]])
 AT_CHECK_NAMESPACE_ERROR([[foo::bar:: @tb@]],
-                         [[namespace reference has a trailing "::"]])
+                         [[input.y:3.1-41: error: namespace reference has a trailing "::"]])
 AT_CHECK_NAMESPACE_ERROR([[::]],
-                         [[namespace reference has a trailing "::"]])
+                         [[input.y:3.1-26: error: namespace reference has a trailing "::"]])
 
 AT_CLEANUP
 
@@ -2125,7 +2135,7 @@ AT_CHECK([[$PERL -e "print 'start: \'';" >> empty.y || exit 77]])
 AT_BISON_CHECK([-fcaret empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal [-Wother]
  start: '';
-        ^^
+        ^~
 empty.y:3.8-4.0: error: missing "'" at end of line
  start: '
         ^
@@ -2306,15 +2316,15 @@ m4_pushdef([AT_TEST],
 %%
 exp: %empty;
 ]])
-AT_BISON_CHECK([[$2 input.y]], [[1]], [[]],
+AT_BISON_CHECK([[$2 -Wno-deprecated input.y]], [[1]], [[]],
 [[$3: error: '%name-prefix' and '%define api.prefix' cannot be used together
 ]])
 ])
 
-AT_TEST([%define api.prefix {foo} %name-prefix "bar"], [], [input.y:1.9-18])
-AT_TEST([], [-Dapi.prefix={foo} -p bar], [<command line>:2])
-AT_TEST([%name-prefix "bar"], [-Dapi.prefix={foo}], [<command line>:2])
-AT_TEST([%define api.prefix {foo}], [-p bar], [input.y:1.9-18])
+AT_TEST([%define api.prefix {foo} %name-prefix "bar"], [], [input.y:1.1-24])
+AT_TEST([], [-Dapi.prefix={foo} -p bar],                   [<command line>:2])
+AT_TEST([%name-prefix "bar"], [-Dapi.prefix={foo}],        [<command line>:2])
+AT_TEST([%define api.prefix {foo}], [-p bar],              [input.y:1.1-24])
 
 m4_popdef([AT_TEST])
 
@@ -2346,18 +2356,19 @@ AT_TEST([[%union foo {};
 %define api.value.union.name foo]],
 [[input.y:3.8-10: error: %define variable 'api.value.union.name' redefined
 input.y:1.8-10:     previous definition
-input.y:4.9-28: error: %define variable 'api.value.union.name' redefined
+input.y:4.1-32: error: %define variable 'api.value.union.name' redefined
 input.y:3.8-10:     previous definition
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_TEST([[%define api.value.union.name {foo}]],
-[[input.y:1.9-28: error: %define variable 'api.value.union.name' requires keyword values
-input.y:1.9-28: error: %define variable 'api.value.union.name' is not used
+[[input.y:1.1-34: error: %define variable 'api.value.union.name' requires keyword values
+input.y:1.1-34: error: %define variable 'api.value.union.name' is not used
 ]])
 
 AT_TEST([[%define api.value.union.name "foo"]],
-[[input.y:1.9-28: error: %define variable 'api.value.union.name' requires keyword values
-input.y:1.9-28: error: %define variable 'api.value.union.name' is not used
+[[input.y:1.1-34: error: %define variable 'api.value.union.name' requires keyword values
+input.y:1.1-34: error: %define variable 'api.value.union.name' is not used
 ]])
 
 m4_popdef([AT_TEST])
@@ -2497,28 +2508,98 @@ AT_DATA_GRAMMAR([[input.y]],
 %token_table
 %error-verbose
 %glr-parser
-%% exp : '0'
+%name-prefix "bar"
+%%
+exp : '0'
 ]])
 
-AT_BISON_CHECK([[input.y]], [[1]], [[]],
+AT_DATA([errors-all],
 [[input.y:10.1-13: warning: deprecated directive: '%default_prec', use '%default-prec' [-Wdeprecated]
+fix-it:"input.y":{10:1-10:14}:"%default-prec"
 input.y:11.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
+fix-it:"input.y":{11:1-11:15}:"%define parse.error verbose"
 input.y:12.1-10: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
+fix-it:"input.y":{12:1-12:11}:"%expect-rr"
 input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
-input.y:14.1-15.2: warning: deprecated directive: '%file-prefix\n =', use '%file-prefix' [-Wdeprecated]
+fix-it:"input.y":{13:1-13:15}:"%file-prefix"
+input.y:14.1-16.5: warning: duplicate directive: '%file-prefix\n =' [-Wother]
+input.y:13.1-20:       previous declaration [-Wother]
+fix-it:"input.y":{14:1-16:6}:""
 input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
-input.y:18.1-19: warning: deprecated directive: '%fixed_output-files', use '%fixed-output-files' [-Wdeprecated]
-input.y:20.1-13: warning: deprecated directive: '%name-prefix=', use '%name-prefix' [-Wdeprecated]
+fix-it:"input.y":{17:1-17:20}:"%fixed-output-files"
+input.y:18.1-19: warning: duplicate directive: '%fixed_output-files' [-Wother]
+input.y:17.1-19:     previous declaration [-Wother]
+fix-it:"input.y":{18:1-18:20}:""
+input.y:19.1-19: warning: duplicate directive: '%fixed-output-files' [-Wother]
+input.y:17.1-19:     previous declaration [-Wother]
+fix-it:"input.y":{19:1-19:20}:""
+input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
+fix-it:"input.y":{20:1-20:20}:"%define api.prefix {foo}"
 input.y:21.1-16: warning: deprecated directive: '%no-default_prec', use '%no-default-prec' [-Wdeprecated]
+fix-it:"input.y":{21:1-21:17}:"%no-default-prec"
 input.y:22.1-16: warning: deprecated directive: '%no_default-prec', use '%no-default-prec' [-Wdeprecated]
+fix-it:"input.y":{22:1-22:17}:"%no-default-prec"
 input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wdeprecated]
+fix-it:"input.y":{23:1-23:10}:"%no-lines"
 input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
+fix-it:"input.y":{24:1-24:10}:"%output"
 input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
+fix-it:"input.y":{25:1-25:13}:"%pure-parser"
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
-input.y:27.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:27-6: error: %define variable 'parse.error' redefined
-input.y:11-6:     previous definition
+fix-it:"input.y":{26:1-26:13}:"%token-table"
+input.y:27.1-14: error: %define variable 'parse.error' redefined
+input.y:11.1-14:     previous definition
+fix-it:"input.y":{27:1-27:15}:""
+input.y:29.1-18: warning: duplicate directive: '%name-prefix "bar"' [-Wother]
+input.y:13.1-20:     previous declaration [-Wother]
+fix-it:"input.y":{29:1-29:19}:""
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
+
+AT_CHECK([cp errors-all experr])
+AT_BISON_CHECK([[-ffixit input.y]], [[1]], [[]], [experr])
+
+AT_CHECK([[sed -e '/^fix-it:/d' errors-all >experr]])
+AT_BISON_CHECK([[input.y]], [[1]], [[]], [experr])
+
+# Update the input file.
+AT_CHECK([cp input.y input.y.orig])
+AT_CHECK([sed -e '/fix-it/d' <errors-all >experr])
+AT_CHECK([echo "bison: file 'input.y' was updated (backup: 'input.y~')" >>experr])
+AT_BISON_CHECK([[--update input.y]], [[1]], [[]], [experr])
+
+# Check the backup.
+AT_CHECK([diff input.y.orig input.y~])
+
+# Check the update.
+AT_CHECK([cat input.y], [],
+[[%code top {
+/* Load config.h, and adjust to the compiler.
+  We used to do it here, but each time we add a new line,
+  we have to adjust all the line numbers in error messages.
+  It's simpler to use a constant include to a varying file.  */
+#include <testsuite.h>
+}
+
+
+%default-prec
+%define parse.error verbose
+%expect-rr 0
+%file-prefix "foo"
+%fixed-output-files
+%define api.prefix {foo}
+%no-default-prec
+%no-default-prec
+%no-lines
+%output "foo"
+%pure-parser
+%token-table
+%glr-parser
+%%
+exp : '0'
+]])
+
+AT_BISON_CHECK([[input.y]])
 
 AT_CLEANUP
 
@@ -2526,9 +2607,11 @@ AT_CLEANUP
 ## ---------------------------- ##
 ## Unput's effect on locations. ##
 ## ---------------------------- ##
-dnl When the scanner detects a deprecated construct, it unputs the correct
-dnl version, but it should *not* have any impact on the scanner cursor. If it
-dnl does, the locations of directives on the same line become erroneous.
+
+# When the scanner detects a deprecated construct, it unputs the
+# correct version, but it should *not* have any impact on the scanner
+# cursor. If it does, the locations of directives on the same line
+# become erroneous.
 
 AT_SETUP([[Unput's effect on locations]])
 
@@ -2549,12 +2632,11 @@ AT_BISON_CHECK([[input.y]], [[1]], [[]],
 input.y:11.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:12.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:13.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:13.16-29: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:13.11-21: error: %define variable 'parse.error' redefined
-input.y:13-6:         previous definition
-input.y:14.16-29: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:14.11-21: error: %define variable 'parse.error' redefined
-input.y:13.11-21:     previous definition
+input.y:13.16-29: error: %define variable 'parse.error' redefined
+input.y:13.1-14:      previous definition
+input.y:14.16-29: error: %define variable 'parse.error' redefined
+input.y:13.16-29:     previous definition
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_CLEANUP
@@ -2577,7 +2659,6 @@ AT_DATA_GRAMMAR([[input.y]],
 %file-prefix
 "bar"
 %fixed-output-files
-%name-prefix "foo"
 %no-default-prec
 %no-lines
 %output "foo"
@@ -2587,7 +2668,10 @@ AT_DATA_GRAMMAR([[input.y]],
 ]])
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
-[[input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+[[input.y:14.1-15.5: warning: duplicate directive: '%file-prefix' [-Wother]
+input.y:13.1-18:       previous declaration [-Wother]
+input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
 AT_CLEANUP
@@ -2607,7 +2691,7 @@ exp: <int> {}
 AT_BISON_CHECK([[-fcaret input.y]], [[0]], [[]],
 [[input.y:10.6-13: warning: only midrule actions can be typed: int [-Wother]
  exp: <int> {}
-      ^^^^^^^^
+      ^~~~~~~~
 ]])
 
 AT_CLEANUP

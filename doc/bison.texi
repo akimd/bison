@@ -32,11 +32,11 @@
 
 @copying
 
-This manual (@value{UPDATED}) is for GNU Bison (version
-@value{VERSION}), the GNU parser generator.
+This manual (@value{UPDATED}) is for GNU Bison (version @value{VERSION}),
+the GNU parser generator.
 
-Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018 Free Software
-Foundation, Inc.
+Copyright @copyright{} 1988-1993, 1995, 1998-2015, 2018-2019 Free
+Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document under
@@ -436,39 +436,37 @@ This edition corresponds to version @value{VERSION} of Bison.
 @node Conditions
 @unnumbered Conditions for Using Bison
 
-The distribution terms for Bison-generated parsers permit using the
-parsers in nonfree programs.  Before Bison version 2.2, these extra
-permissions applied only when Bison was generating LALR(1)
-parsers in C@.  And before Bison version 1.24, Bison-generated
-parsers could be used only in programs that were free software.
+The distribution terms for Bison-generated parsers permit using the parsers
+in nonfree programs.  Before Bison version 2.2, these extra permissions
+applied only when Bison was generating LALR(1) parsers in C@.  And before
+Bison version 1.24, Bison-generated parsers could be used only in programs
+that were free software.
 
-The other GNU programming tools, such as the GNU C
-compiler, have never
-had such a requirement.  They could always be used for nonfree
-software.  The reason Bison was different was not due to a special
-policy decision; it resulted from applying the usual General Public
-License to all of the Bison source code.
+The other GNU programming tools, such as the GNU C compiler, have never had
+such a requirement.  They could always be used for nonfree software.  The
+reason Bison was different was not due to a special policy decision; it
+resulted from applying the usual General Public License to all of the Bison
+source code.
 
 The main output of the Bison utility---the Bison parser implementation
-file---contains a verbatim copy of a sizable piece of Bison, which is
-the code for the parser's implementation.  (The actions from your
-grammar are inserted into this implementation at one point, but most
-of the rest of the implementation is not changed.)  When we applied
-the GPL terms to the skeleton code for the parser's implementation,
-the effect was to restrict the use of Bison output to free software.
+file---contains a verbatim copy of a sizable piece of Bison, which is the
+code for the parser's implementation.  (The actions from your grammar are
+inserted into this implementation at one point, but most of the rest of the
+implementation is not changed.)  When we applied the GPL terms to the
+skeleton code for the parser's implementation, the effect was to restrict
+the use of Bison output to free software.
 
-We didn't change the terms because of sympathy for people who want to
-make software proprietary.  @strong{Software should be free.}  But we
-concluded that limiting Bison's use to free software was doing little to
-encourage people to make other software free.  So we decided to make the
-practical conditions for using Bison match the practical conditions for
-using the other GNU tools.
+We didn't change the terms because of sympathy for people who want to make
+software proprietary.  @strong{Software should be free.}  But we concluded
+that limiting Bison's use to free software was doing little to encourage
+people to make other software free.  So we decided to make the practical
+conditions for using Bison match the practical conditions for using the
+other GNU tools.
 
-This exception applies when Bison is generating code for a parser.
-You can tell whether the exception applies to a Bison output file by
-inspecting the file for text beginning with ``As a special
-exception@dots{}''.  The text spells out the exact terms of the
-exception.
+This exception applies when Bison is generating code for a parser.  You can
+tell whether the exception applies to a Bison output file by inspecting the
+file for text beginning with ``As a special exception@dots{}''.  The text
+spells out the exact terms of the exception.
 
 @node Copying
 @unnumbered GNU GENERAL PUBLIC LICENSE
@@ -477,9 +475,9 @@ exception.
 @node Concepts
 @chapter The Concepts of Bison
 
-This chapter introduces many of the basic concepts without which the
-details of Bison will not make sense.  If you do not already know how to
-use Bison or Yacc, we suggest you start by reading this chapter carefully.
+This chapter introduces many of the basic concepts without which the details
+of Bison will not make sense.  If you do not already know how to use Bison
+or Yacc, we suggest you start by reading this chapter carefully.
 
 @menu
 * Language and Grammar:: Languages and context-free grammars,
@@ -1807,10 +1805,10 @@ token type is an identifier, that identifier is defined by Bison as a C
 macro whose definition is the appropriate number.  In this example,
 therefore, @code{NUM} becomes a macro for @code{yylex} to use.
 
-The semantic value of the token (if it has one) is stored into the
-global variable @code{yylval}, which is where the Bison parser will look
-for it.  (The C data type of @code{yylval} is @code{YYSTYPE}, whose value
-was defined at the beginning of the grammar via @samp{%define api.value.type
+The semantic value of the token (if it has one) is stored into the global
+variable @code{yylval}, which is where the Bison parser will look for it.
+(The C data type of @code{yylval} is @code{YYSTYPE}, whose value was defined
+at the beginning of the grammar via @samp{%define api.value.type
 @{double@}}; @pxref{Rpcalc Declarations,,Declarations for @code{rpcalc}}.)
 
 A token type code of zero is returned if the end-of-input is encountered.
@@ -4280,16 +4278,16 @@ final action does not use @code{$3}).  Bison reports these errors when the
 Bison}):
 
 @example
-$ bison -Wmidrule-value mid.y
+$ @kbd{bison -Wmidrule-value mid.y}
 @group
 mid.y:2.6-13: warning: unset value: $$
  exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-      ^^^^^^^^
+      ^~~~~~~~
 @end group
 @group
 mid.y:2.19-31: warning: unused value: $3
  exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-                   ^^^^^^^^^^^^^
+                   ^~~~~~~~~~~~~
 @end group
 @end example
 
@@ -5682,51 +5680,51 @@ are chosen as if the grammar file were named @file{@var{prefix}.y}.
 
 @deffn {Directive} %language "@var{language}"
 Specify the programming language for the generated parser.  Currently
-supported languages include C, C++, and Java.
-@var{language} is case-insensitive.
-
+supported languages include C, C++, and Java.  @var{language} is
+case-insensitive.
 @end deffn
 
 @deffn {Directive} %locations
-Generate the code processing the locations (@pxref{Action Features,
-,Special Features for Use in Actions}).  This mode is enabled as soon as
-the grammar uses the special @samp{@@@var{n}} tokens, but if your
-grammar does not use it, using @samp{%locations} allows for more
-accurate syntax error messages.
+Generate the code processing the locations (@pxref{Action Features, ,Special
+Features for Use in Actions}).  This mode is enabled as soon as the grammar
+uses the special @samp{@@@var{n}} tokens, but if your grammar does not use
+it, using @samp{%locations} allows for more accurate syntax error messages.
 @end deffn
 
 @deffn {Directive} %name-prefix "@var{prefix}"
+Obsoleted by @samp{%define api.prefix @{@var{prefix}@}}.  @xref{Multiple
+Parsers, ,Multiple Parsers in the Same Program}.  For C++ parsers, see the
+@samp{%define api.namespace} documentation in this section.
+
 Rename the external symbols used in the parser so that they start with
-@var{prefix} instead of @samp{yy}.  The precise list of symbols renamed
-in C parsers
-is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
-@code{yylval}, @code{yychar}, @code{yydebug}, and
-(if locations are used) @code{yylloc}.  If you use a push parser,
-@code{yypush_parse}, @code{yypull_parse}, @code{yypstate},
-@code{yypstate_new} and @code{yypstate_delete} will
-also be renamed.  For example, if you use @samp{%name-prefix "c_"}, the
-names become @code{c_parse}, @code{c_lex}, and so on.
-For C++ parsers, see the @samp{%define api.namespace} documentation in this
-section.
-@xref{Multiple Parsers, ,Multiple Parsers in the Same Program}.
+@var{prefix} instead of @samp{yy}.  The precise list of symbols renamed in C
+parsers is @code{yyparse}, @code{yylex}, @code{yyerror}, @code{yynerrs},
+@code{yylval}, @code{yychar}, @code{yydebug}, and (if locations are used)
+@code{yylloc}.  If you use a push parser, @code{yypush_parse},
+@code{yypull_parse}, @code{yypstate}, @code{yypstate_new} and
+@code{yypstate_delete} will also be renamed.  For example, if you use
+@samp{%name-prefix "c_"}, the names become @code{c_parse}, @code{c_lex}, and
+so on.
+
+Contrary to defining @code{api.prefix}, some symbols are @emph{not} renamed
+by @code{%name-prefix}, for instance @code{YYDEBUG}, @code{YYTOKENTYPE},
+@code{yytokentype}, @code{YYSTYPE}, @code{YYLTYPE}.
 @end deffn
 
 @ifset defaultprec
 @deffn {Directive} %no-default-prec
 Do not assign a precedence to rules lacking an explicit @code{%prec}
-modifier (@pxref{Contextual Precedence, ,Context-Dependent
-Precedence}).
+modifier (@pxref{Contextual Precedence, ,Context-Dependent Precedence}).
 @end deffn
 @end ifset
 
 @deffn {Directive} %no-lines
 Don't generate any @code{#line} preprocessor commands in the parser
-implementation file.  Ordinarily Bison writes these commands in the
-parser implementation file so that the C compiler and debuggers will
-associate errors and object code with your source file (the grammar
-file).  This directive causes them to associate errors with the parser
-implementation file, treating it as an independent source file in its
-own right.
+implementation file.  Ordinarily Bison writes these commands in the parser
+implementation file so that the C compiler and debuggers will associate
+errors and object code with your source file (the grammar file).  This
+directive causes them to associate errors with the parser implementation
+file, treating it as an independent source file in its own right.
 @end deffn
 
 @deffn {Directive} %output "@var{file}"
@@ -5794,15 +5792,14 @@ The number of parser states (@pxref{Parser States}).
 @end deffn
 
 @deffn {Directive} %verbose
-Write an extra output file containing verbose descriptions of the
-parser states and what is done for each type of lookahead token in
-that state.  @xref{Understanding, , Understanding Your Parser}, for more
-information.
+Write an extra output file containing verbose descriptions of the parser
+states and what is done for each type of lookahead token in that state.
+@xref{Understanding, , Understanding Your Parser}, for more information.
 @end deffn
 
 @deffn {Directive} %yacc
-Pretend the option @option{--yacc} was given, i.e., imitate Yacc,
-including its naming conventions.  @xref{Bison Options}, for more.
+Pretend the option @option{--yacc} was given, i.e., imitate Yacc, including
+its naming conventions.  @xref{Bison Options}, for more.
 @end deffn
 
 
@@ -5810,11 +5807,10 @@ including its naming conventions.  @xref{Bison Options}, for more.
 @subsection %define Summary
 
 There are many features of Bison's behavior that can be controlled by
-assigning the feature a single value.  For historical reasons, some
-such features are assigned values by dedicated directives, such as
-@code{%start}, which assigns the start symbol.  However, newer such
-features are associated with variables, which are assigned by the
-@code{%define} directive:
+assigning the feature a single value.  For historical reasons, some such
+features are assigned values by dedicated directives, such as @code{%start},
+which assigns the start symbol.  However, newer such features are associated
+with variables, which are assigned by the @code{%define} directive:
 
 @deffn {Directive} %define @var{variable}
 @deffnx {Directive} %define @var{variable} @var{value}
@@ -5831,12 +5827,12 @@ It is an error if a @var{variable} is defined by @code{%define} multiple
 times, but see @ref{Bison Options,,@option{-D @var{name}[=@var{value}]}}.
 @end deffn
 
-The rest of this section summarizes variables and values that
-@code{%define} accepts.
+The rest of this section summarizes variables and values that @code{%define}
+accepts.
 
-Some @var{variable}s take Boolean values.  In this case, Bison will
-complain if the variable definition does not meet one of the following
-four conditions:
+Some @var{variable}s take Boolean values.  In this case, Bison will complain
+if the variable definition does not meet one of the following four
+conditions:
 
 @enumerate
 @item @code{@var{value}} is @code{true}
@@ -5851,11 +5847,11 @@ In this case, Bison selects a default value.
 @end enumerate
 
 What @var{variable}s are accepted, as well as their meanings and default
-values, depend on the selected target language and/or the parser
-skeleton (@pxref{Decl Summary,,%language}, @pxref{Decl
-Summary,,%skeleton}).
-Unaccepted @var{variable}s produce an error.
-Some of the accepted @var{variable}s are described below.
+values, depend on the selected target language and/or the parser skeleton
+(@pxref{Decl Summary,,%language}, @pxref{Decl Summary,,%skeleton}).
+Unaccepted @var{variable}s produce an error.  Some of the accepted
+@var{variable}s are described below.
+
 
 @c ================================================== api.namespace
 @deffn Directive {%define api.namespace} @{@var{namespace}@}
@@ -5890,24 +5886,12 @@ Any absolute or relative C++ namespace reference without a trailing
 @code{"::"}.  For example, @code{"foo"} or @code{"::foo::bar"}.
 
 @item Default Value:
-The value specified by @code{%name-prefix}, which defaults to @code{yy}.
-This usage of @code{%name-prefix} is for backward compatibility and can
-be confusing since @code{%name-prefix} also specifies the textual prefix
-for the lexical analyzer function.  Thus, if you specify
-@code{%name-prefix}, it is best to also specify @samp{%define
-api.namespace} so that @code{%name-prefix} @emph{only} affects the
-lexical analyzer function.  For example, if you specify:
-
-@example
-%define api.namespace @{foo@}
-%name-prefix "bar::"
-@end example
-
-The parser namespace is @code{foo} and @code{yylex} is referenced as
-@code{bar::lex}.
+@code{yy}, unless you used the obsolete @samp{%name-prefix "@var{prefix}"}
+directive.
 @end itemize
 @end deffn
 @c api.namespace
+
 
 @c ================================================== api.location.file
 @deffn {Directive} {%define api.location.file} "@var{file}"
@@ -5942,6 +5926,7 @@ specified (see @code{api.location.type}).  Otherwise, Bison's
 Introduced in Bison 3.2.
 @end itemize
 @end deffn
+
 
 @c ================================================== api.location.file
 @deffn {Directive} {%define api.location.include} @{"@var{file}"@}
@@ -5989,6 +5974,30 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @end itemize
 @end deffn
 
+
+@c ================================================== api.parser.class
+@deffn Directive {%define api.parser.class} @{@var{name}@}
+@itemize @bullet
+@item Language(s):
+C++, Java
+
+@item Purpose:
+The name of the parser class.
+
+@item Accepted Values:
+Any valid identifier.
+
+@item Default Value:
+In C++, @code{parser}.  In Java, @code{YYParser} or
+@code{@var{api.prefix}Parser} (@pxref{Java Bison Interface}).
+
+@item History:
+Introduced in Bison 3.3 to replace @code{parser_class_name}.
+@end itemize
+@end deffn
+@c api.parser.class
+
+
 @c ================================================== api.prefix
 @deffn {Directive} {%define api.prefix} @{@var{prefix}@}
 
@@ -6005,6 +6014,7 @@ Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
 @item History: introduced in Bison 2.6
 @end itemize
 @end deffn
+
 
 @c ================================================== api.pure
 @deffn Directive {%define api.pure} @var{purity}
@@ -6353,6 +6363,7 @@ introduced as @code{lr.default-reductions} in 2.5, renamed as
 @end itemize
 @end deffn
 
+
 @c ============================================ lr.keep-unreachable-state
 
 @deffn Directive {%define lr.keep-unreachable-state}
@@ -6371,6 +6382,7 @@ introduced as @code{lr.keep_unreachable_states} in 2.3b, renamed as
 @end deffn
 @c lr.keep-unreachable-state
 
+
 @c ================================================== lr.type
 
 @deffn Directive {%define lr.type} @var{type}
@@ -6387,11 +6399,13 @@ LR(1) family.  @xref{LR Table Construction}.
 @end itemize
 @end deffn
 
+
 @c ================================================== namespace
 @deffn Directive %define namespace @{@var{namespace}@}
 Obsoleted by @code{api.namespace}
-@c namespace
 @end deffn
+@c namespace
+
 
 @c ================================================== parse.assert
 @deffn Directive {%define parse.assert}
@@ -6452,6 +6466,7 @@ syntax error handling.  @xref{LAC}.
 @end deffn
 @c parse.lac
 
+
 @c ================================================== parse.trace
 @deffn Directive {%define parse.trace}
 
@@ -6473,6 +6488,18 @@ compiled.
 @end itemize
 @end deffn
 @c parse.trace
+
+
+@c ================================================== parser_class_name
+@deffn Directive %define parser_class_name @{@var{name}@}
+Obsoleted by @code{api.parser.class}
+@end deffn
+@c parser_class_name
+
+
+
+
+
 
 @node %code Summary
 @subsection %code Summary
@@ -6623,6 +6650,28 @@ For example, if you use @samp{%define api.prefix @{c@}}, the names become
 @code{cparse}, @code{clex}, @dots{}, @code{CSTYPE}, @code{CLTYPE}, and so
 on.
 
+Users of Flex must update the signature of the generated @code{yylex}
+function.  Since the Flex scanner usually includes the generated header of
+the parser (to get the definitions of the tokens, etc.), the most convenient
+way is to insert the declaration of @code{yylex} in the @code{provides}
+section:
+
+@example
+%define api.prefix @{c@}
+// Emitted in the header file, after the definition of YYSTYPE.
+%code provides
+@{
+  // Tell Flex the expected prototype of yylex.
+  #define YY_DECL                             \
+    int clex (CSTYPE *yylval, CLTYPE *yylloc)
+
+  // Declare the scanner.
+  YY_DECL;
+@}
+@end example
+
+@sp 1
+
 The @code{%define} variable @code{api.prefix} works in two different ways.
 In the implementation file, it works by adding macro definitions to the
 beginning of the parser implementation file, defining @code{yyparse} as
@@ -6675,7 +6724,7 @@ extern int cdebug;
 
 Prior to Bison 2.6, a feature similar to @code{api.prefix} was provided by
 the obsolete directive @code{%name-prefix} (@pxref{Table of Symbols, ,Bison
-Symbols}) and the option @code{--name-prefix} (@pxref{Bison Options}).
+Symbols}) and the option @option{--name-prefix} (@pxref{Bison Options}).
 
 @node Interface
 @chapter Parser C-Language Interface
@@ -9282,7 +9331,7 @@ calc.y: warning: 1 nonterminal useless in grammar [-Wother]
 calc.y: warning: 1 rule useless in grammar [-Wother]
 calc.y:19.1-7: warning: nonterminal useless in grammar: useless [-Wother]
  useless: STR;
- ^^^^^^^
+ ^~~~~~~
 calc.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
 @end example
 
@@ -9815,12 +9864,12 @@ Used to output an xhtml enhancement of the @samp{.output} file.
 
 Sample usage (requires @command{xsltproc}):
 @example
-$ bison -x gr.y
+$ @kbd{bison -x gr.y}
 @group
-$ bison --print-datadir
+$ @kbd{bison --print-datadir}
 /usr/local/share/bison
 @end group
-$ xsltproc /usr/local/share/bison/xslt/xml2xhtml.xsl gr.xml >gr.html
+$ @kbd{xsltproc /usr/local/share/bison/xslt/xml2xhtml.xsl gr.xml >gr.html}
 @end example
 
 @c ================================================= Tracing
@@ -10220,6 +10269,43 @@ Print the name of the directory containing locale-dependent data.
 @item --print-datadir
 Print the name of the directory containing skeletons and XSLT.
 
+@item -u
+@item --update
+Update the grammar file (remove duplicates, update deprecated directives,
+etc.).  Leaves a backup of the original file with a @code{~} appended.  For
+instance:
+
+@example
+@group
+$ @kbd{cat foo.y}
+%error-verbose
+%define parse.error verbose
+%%
+exp:;
+@end group
+@group
+$ @kbd{bison -u foo.y}
+foo.y:1.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
+ %error-verbose
+ ^~~~~~~~~~~~~~
+foo.y:2.1-27: error: %define variable 'parse.error' redefined
+ %define parse.error verbose
+ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+foo.y:1.1-14:     previous definition
+ %error-verbose
+ ^~~~~~~~~~~~~~
+bison: file 'foo.y' was updated (backup: 'foo.y~')
+@end group
+@group
+$ @kbd{cat foo.y}
+%define parse.error verbose
+%%
+exp:;
+@end group
+@end example
+
+See the documentation of @option{--feature=fixit} below for more details.
+
 @item -y
 @itemx --yacc
 Act more like the traditional Yacc command.  This can cause different
@@ -10326,17 +10412,17 @@ Bison reports:
 @group
 warning: useless precedence and associativity for "="
  %nonassoc "="
-           ^^^
+           ^~~
 @end group
 @group
 warning: useless associativity for "*", use %precedence
  %left "*"
-       ^^^
+       ^~~
 @end group
 @group
 warning: useless precedence for "("
  %precedence "("
-             ^^^
+             ^~~
 @end group
 @end example
 
@@ -10385,8 +10471,8 @@ the following commands are @emph{not} equivalent, as the first will not treat
 S/R conflicts as errors.
 
 @example
-$ bison -Werror=yacc,conflicts-sr input.y
-$ bison -Werror=yacc,error=conflicts-sr input.y
+$ @kbd{bison -Werror=yacc,conflicts-sr input.y}
+$ @kbd{bison -Werror=yacc,error=conflicts-sr input.y}
 @end example
 
 @item -Wno-error
@@ -10422,27 +10508,27 @@ When invoked with @option{-fcaret} (or nothing), Bison will report:
 @group
 in.y:3.20-23: error: ambiguous reference: '$exp'
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-                    ^^^^
+                    ^~~~
 @end group
 @group
 in.y:3.1-3:       refers to: $exp at $$
  exp: exp '+' exp @{ $exp = $1 + $2; @};
- ^^^
+ ^~~
 @end group
 @group
 in.y:3.6-8:       refers to: $exp at $1
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-      ^^^
+      ^~~
 @end group
 @group
 in.y:3.14-16:     refers to: $exp at $3
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-              ^^^
+              ^~~
 @end group
 @group
 in.y:3.32-33: error: $2 of 'exp' has no declared type
  exp: exp '+' exp @{ $exp = $1 + $2; @};
-                                ^^
+                                ^~
 @end group
 @end example
 
@@ -10460,6 +10546,61 @@ in.y:3.32-33: error: $2 of ‘exp’ has no declared type
 
 This option is activated by default.
 
+@item fixit
+@itemx diagnostics-parseable-fixits
+Show machine-readable fixes, in a manner similar to GCC's and Clang's
+@option{-fdiagnostics-parseable-fixits}.
+
+Fix-its are generated for duplicate directives:
+
+@example
+@group
+$ @kbd{cat foo.y}
+%define api.prefix @{foo@}
+%define api.prefix @{bar@}
+%%
+exp:;
+@end group
+
+@group
+$ @kbd{bison -ffixit foo.y}
+foo.y:2.1-24: error: %define variable 'api.prefix' redefined
+ %define api.prefix @{bar@}
+ ^~~~~~~~~~~~~~~~~~~~~~~~
+foo.y:1.1-24:     previous definition
+ %define api.prefix @{foo@}
+ ^~~~~~~~~~~~~~~~~~~~~~~~
+fix-it:"foo.y":@{2:1-2:25@}:""
+foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+@end group
+@end example
+
+They are also generated to update deprecated directives, unless
+@option{-Wno-deprecated} was given:
+
+@example
+@group
+$ @kbd{cat /tmp/foo.yy}
+%error-verbose
+%name-prefix "foo"
+%%
+exp:;
+@end group
+@group
+$ @kbd{bison foo.y}
+foo.y:1.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
+ %error-verbose
+ ^~~~~~~~~~~~~~
+foo.y:2.1-18: warning: deprecated directive, use '%define api.prefix @{foo@}' [-Wdeprecated]
+ %name-prefix "foo"
+ ^~~~~~~~~~~~~~~~~~
+foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+@end group
+@end example
+
+The fix-its are applied by @command{bison} itself when given the option
+@option{-u}/@option{--update}.  See its documentation above.
+
 @end table
 @end table
 
@@ -10469,36 +10610,36 @@ Tuning the parser:
 @table @option
 @item -t
 @itemx --debug
-In the parser implementation file, define the macro @code{YYDEBUG} to
-1 if it is not already defined, so that the debugging facilities are
-compiled.  @xref{Tracing, ,Tracing Your Parser}.
+In the parser implementation file, define the macro @code{YYDEBUG} to 1 if
+it is not already defined, so that the debugging facilities are compiled.
+@xref{Tracing, ,Tracing Your Parser}.
 
 @item -D @var{name}[=@var{value}]
 @itemx --define=@var{name}[=@var{value}]
 @itemx -F @var{name}[=@var{value}]
 @itemx --force-define=@var{name}[=@var{value}]
 Each of these is equivalent to @samp{%define @var{name} "@var{value}"}
-(@pxref{%define Summary}) except that Bison processes multiple
-definitions for the same @var{name} as follows:
+(@pxref{%define Summary}) except that Bison processes multiple definitions
+for the same @var{name} as follows:
 
 @itemize
 @item
 Bison quietly ignores all command-line definitions for @var{name} except
 the last.
 @item
-If that command-line definition is specified by a @code{-D} or
-@code{--define}, Bison reports an error for any @code{%define}
-definition for @var{name}.
+If that command-line definition is specified by a @option{-D} or
+@option{--define}, Bison reports an error for any @code{%define} definition
+for @var{name}.
 @item
-If that command-line definition is specified by a @code{-F} or
-@code{--force-define} instead, Bison quietly ignores all @code{%define}
+If that command-line definition is specified by a @option{-F} or
+@option{--force-define} instead, Bison quietly ignores all @code{%define}
 definitions for @var{name}.
 @item
 Otherwise, Bison reports an error if there are multiple @code{%define}
 definitions for @var{name}.
 @end itemize
 
-You should avoid using @code{-F} and @code{--force-define} in your
+You should avoid using @option{-F} and @option{--force-define} in your
 make files unless you are confident that it is safe to quietly ignore
 any conflicting @code{%define} that may be added to the grammar file.
 
@@ -10515,7 +10656,7 @@ Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
 @item -p @var{prefix}
 @itemx --name-prefix=@var{prefix}
 Pretend that @code{%name-prefix "@var{prefix}"} was specified (@pxref{Decl
-Summary}).  Obsoleted by @code{-Dapi.prefix=@var{prefix}}.  @xref{Multiple
+Summary}).  Obsoleted by @option{-Dapi.prefix=@var{prefix}}.  @xref{Multiple
 Parsers, ,Multiple Parsers in the Same Program}.
 
 @item -l
@@ -10558,8 +10699,8 @@ file containing macro definitions for the token type names defined in
 the grammar, as well as a few other declarations.  @xref{Decl Summary}.
 
 @item -d
-This is the same as @code{--defines} except @code{-d} does not accept a
-@var{file} argument since POSIX Yacc requires that @code{-d} can be bundled
+This is the same as @option{--defines} except @option{-d} does not accept a
+@var{file} argument since POSIX Yacc requires that @option{-d} can be bundled
 with other short options.
 
 @item -b @var{file-prefix}
@@ -10899,10 +11040,10 @@ int main ()
 Compile, and run!
 
 @example
-$ bison simple.yy -o simple.cc
-$ g++ -std=c++14 simple.cc -o simple
+$ @kbd{bison simple.yy -o simple.cc}
+$ @kbd{g++ -std=c++14 simple.cc -o simple}
 @group
-$ ./simple
+$ @kbd{./simple}
 @{I have three numbers for you., 1, 2, 3, And that's all!@}
 @end group
 @end example
@@ -10952,19 +11093,14 @@ complete and accurate documentation.
 
 @node C++ Parser Interface
 @subsection C++ Parser Interface
-@c - define parser_class_name
-@c - Ctor
-@c - parse, error, set_debug_level, debug_level, set_debug_stream,
-@c   debug_stream.
-@c - Reporting errors
 
-The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare
-and define the parser class in the namespace @code{yy}.  The class name
-defaults to @code{parser}, but may be changed using @samp{%define
-parser_class_name @{@var{name}@}}.  The interface of this class is detailed
-below.  It can be extended using the @code{%parse-param} feature: its
-semantics is slightly changed since it describes an additional member of the
-parser class, and an additional argument for its constructor.
+The output files @file{@var{file}.hh} and @file{@var{file}.cc} declare and
+define the parser class in the namespace @code{yy}.  The class name defaults
+to @code{parser}, but may be changed using @samp{%define api.parser.class
+@{@var{name}@}}.  The interface of this class is detailed below.  It can be
+extended using the @code{%parse-param} feature: its semantics is slightly
+changed since it describes an additional member of the parser class, and an
+additional argument for its constructor.
 
 @defcv {Type} {parser} {semantic_type}
 The types for semantic values. @xref{C++ Semantic Values}.
@@ -11016,7 +11152,7 @@ the lookahead symbol, and the symbols pushed on the stack.
 
 Exception related code in the generated parser is protected by CPP guards
 (@code{#if}) and disabled when exceptions are not supported (i.e., passing
-@code{-fno-exceptions} to the C++ compiler).
+@option{-fno-exceptions} to the C++ compiler).
 @end deftypemethod
 
 @deftypemethod {parser} {std::ostream&} debug_stream ()
@@ -12201,22 +12337,22 @@ The Java parser skeletons are selected using the @code{%language "Java"}
 directive or the @option{-L java}/@option{--language=java} option.
 
 @c FIXME: Documented bug.
-When generating a Java parser, @code{bison @var{basename}.y} will
-create a single Java source file named @file{@var{basename}.java}
-containing the parser implementation.  Using a grammar file without a
-@file{.y} suffix is currently broken.  The basename of the parser
-implementation file can be changed by the @code{%file-prefix}
-directive or the @option{-p}/@option{--name-prefix} option.  The
-entire parser implementation file name can be changed by the
-@code{%output} directive or the @option{-o}/@option{--output} option.
-The parser implementation file contains a single class for the parser.
+When generating a Java parser, @code{bison @var{basename}.y} will create a
+single Java source file named @file{@var{basename}.java} containing the
+parser implementation.  Using a grammar file without a @file{.y} suffix is
+currently broken.  The basename of the parser implementation file can be
+changed by the @code{%file-prefix} directive or the
+@option{-b}/@option{--file-prefix} option.  The entire parser implementation
+file name can be changed by the @code{%output} directive or the
+@option{-o}/@option{--output} option.  The parser implementation file
+contains a single class for the parser.
 
 You can create documentation for generated parsers using Javadoc.
 
-Contrary to C parsers, Java parsers do not use global variables; the
-state of the parser is always local to an instance of the parser class.
-Therefore, all Java parsers are ``pure'', and the @code{%pure-parser}
-and @code{%define api.pure} directives do nothing when used in Java.
+Contrary to C parsers, Java parsers do not use global variables; the state
+of the parser is always local to an instance of the parser class.
+Therefore, all Java parsers are ``pure'', and the @code{%pure-parser} and
+@code{%define api.pure} directives do nothing when used in Java.
 
 Push parsers are currently unsupported in Java and @code{%define
 api.push-pull} have no effect.
@@ -12332,31 +12468,26 @@ properly, the position class should override the @code{equals} and
 
 @node Java Parser Interface
 @subsection Java Parser Interface
-@c - define parser_class_name
-@c - Ctor
-@c - parse, error, set_debug_level, debug_level, set_debug_stream,
-@c   debug_stream.
-@c - Reporting errors
 
 The name of the generated parser class defaults to @code{YYParser}.  The
-@code{YY} prefix may be changed using the @code{%name-prefix} directive
-or the @option{-p}/@option{--name-prefix} option.  Alternatively, use
-@samp{%define parser_class_name @{@var{name}@}} to give a custom name to
-the class.  The interface of this class is detailed below.
+@code{YY} prefix may be changed using the @samp{%define api.prefix}.
+Alternatively, use @samp{%define api.parser.class @{@var{name}@}} to give a
+custom name to the class.  The interface of this class is detailed below.
 
 By default, the parser class has package visibility.  A declaration
-@samp{%define public} will change to public visibility.  Remember that,
-according to the Java language specification, the name of the @file{.java}
-file should match the name of the class in this case.  Similarly, you can
-use @code{abstract}, @code{final} and @code{strictfp} with the
-@code{%define} declaration to add other modifiers to the parser class.
-A single @samp{%define annotations @{@var{annotations}@}} directive can
-be used to add any number of annotations to the parser class.
+@samp{%define api.parser.public} will change to public visibility.  Remember
+that, according to the Java language specification, the name of the
+@file{.java} file should match the name of the class in this case.
+Similarly, you can use @code{api.parser.abstract}, @code{api.parser.final}
+and @code{api.parser.strictfp} with the @code{%define} declaration to add
+other modifiers to the parser class.  A single @samp{%define
+api.parser.annotations @{@var{annotations}@}} directive can be used to add
+any number of annotations to the parser class.
 
 The Java package name of the parser class can be specified using the
 @samp{%define package} directive.  The superclass and the implemented
 interfaces of the parser class can be specified with the @code{%define
-extends} and @samp{%define implements} directives.
+api.parser.extends} and @samp{%define api.parser.implements} directives.
 
 The parser class defines an inner class, @code{Location}, that is used
 for location tracking (see @ref{Java Location Values}), and a inner
@@ -12719,12 +12850,6 @@ constructor that @emph{creates} a lexer.  Default is none.
 @xref{Java Scanner Interface}.
 @end deffn
 
-@deffn {Directive} %name-prefix "@var{prefix}"
-The prefix of the parser class name @code{@var{prefix}Parser} if
-@samp{%define parser_class_name} is not used.  Default is @code{YY}.
-@xref{Java Bison Interface}.
-@end deffn
-
 @deffn {Directive} %parse-param @{@var{type} @var{name}@}
 A parameter for the parser class added as parameters to constructor(s)
 and as fields initialized by the constructor(s).  Default is none.
@@ -12773,29 +12898,50 @@ Not supported.  Use @code{%code imports} instead.
 @xref{Java Differences}.
 @end deffn
 
-@deffn {Directive} {%define abstract}
+@deffn {Directive} {%define api.prefix} @{@var{prefix}@}
+The prefix of the parser class name @code{@var{prefix}Parser} if
+@samp{%define api.parser.class} is not used.  Default is @code{YY}.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.abstract}
 Whether the parser class is declared @code{abstract}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define annotations} @{@var{annotations}@}
+@deffn {Directive} {%define api.parser.annotations} @{@var{annotations}@}
 The Java annotations for the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define extends} @{@var{superclass}@}
+@deffn {Directive} {%define api.parser.class} @{@var{name}@}
+The name of the parser class.  Default is @code{YYParser} or
+@code{@var{api.prefix}Parser}.  @xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.extends} @{@var{superclass}@}
 The superclass of the parser class.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define final}
+@deffn {Directive} {%define api.parser.final}
 Whether the parser class is declared @code{final}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define implements} @{@var{interfaces}@}
+@deffn {Directive} {%define api.parser.implements} @{@var{interfaces}@}
 The implemented interfaces of the parser class, a comma-separated list.
 Default is none.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.public}
+Whether the parser class is declared @code{public}.  Default is false.
+@xref{Java Bison Interface}.
+@end deffn
+
+@deffn {Directive} {%define api.parser.strictfp}
+Whether the parser class is declared @code{strictfp}.  Default is false.
 @xref{Java Bison Interface}.
 @end deffn
 
@@ -12824,12 +12970,6 @@ The package to put the parser class in.  Default is none.
 @xref{Java Bison Interface}.
 @end deffn
 
-@deffn {Directive} {%define parser_class_name} @{@var{name}@}
-The name of the parser class.  Default is @code{YYParser} or
-@code{@var{name-prefix}Parser}.
-@xref{Java Bison Interface}.
-@end deffn
-
 @deffn {Directive} {%define api.position.type} @{@var{class}@}
 The name of the class used for positions. This class must be supplied by
 the user.  Default is @code{Position}.
@@ -12837,19 +12977,9 @@ Formerly named @code{position_type}.
 @xref{Java Location Values}.
 @end deffn
 
-@deffn {Directive} {%define public}
-Whether the parser class is declared @code{public}.  Default is false.
-@xref{Java Bison Interface}.
-@end deffn
-
 @deffn {Directive} {%define api.value.type} @{@var{class}@}
 The base type of semantic values.  Default is @code{Object}.
 @xref{Java Semantic Values}.
-@end deffn
-
-@deffn {Directive} {%define strictfp}
-Whether the parser class is declared @code{strictfp}.  Default is false.
-@xref{Java Bison Interface}.
 @end deffn
 
 @deffn {Directive} {%define throws} @{@var{exceptions}@}

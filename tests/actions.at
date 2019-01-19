@@ -1,6 +1,6 @@
 # Executing Actions.                               -*- Autotest -*-
 
-# Copyright (C) 2001-2015, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -130,7 +130,7 @@ b: {} {};
 AT_BISON_CHECK([-fcaret -Wempty-rule 1.y], [0], [],
 [[1.y:11.17-18: warning: empty rule without %empty [-Wempty-rule]
  a: /* empty. */ {};
-                 ^^
+                 ^~
 ]])
 
 AT_DATA_GRAMMAR([[2.y]],
@@ -144,10 +144,10 @@ c: /* empty. */ {};
 AT_BISON_CHECK([-fcaret 2.y], [0], [],
 [[2.y:11.17-18: warning: empty rule without %empty [-Wempty-rule]
  a: /* empty. */ {};
-                 ^^
+                 ^~
 2.y:13.17-18: warning: empty rule without %empty [-Wempty-rule]
  c: /* empty. */ {};
-                 ^^
+                 ^~
 ]])
 
 AT_BISON_CHECK([-fcaret -Wno-empty-rule 2.y], [0])
@@ -170,11 +170,38 @@ exp:
 AT_BISON_CHECK([-fcaret one.y], [1], [],
 [[one.y:11.13-18: error: only one %empty allowed per rule
    %empty {} %empty
-             ^^^^^^
-one.y:11.3-8: previous declaration
+             ^~~~~~
+one.y:11.3-8:       previous declaration
    %empty {} %empty
-   ^^^^^^
+   ^~~~~~
+one.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
+
+AT_BISON_CHECK([-fcaret -u one.y], [1], [],
+[[one.y:11.13-18: error: only one %empty allowed per rule
+   %empty {} %empty
+             ^~~~~~
+one.y:11.3-8:       previous declaration
+   %empty {} %empty
+   ^~~~~~
+bison: file 'one.y' was updated (backup: 'one.y~')
+]])
+
+AT_CHECK([cat one.y], [],
+[[%code top {
+/* Load config.h, and adjust to the compiler.
+  We used to do it here, but each time we add a new line,
+  we have to adjust all the line numbers in error messages.
+  It's simpler to use a constant include to a varying file.  */
+#include <testsuite.h>
+}
+
+%%
+exp:
+  %empty {} @&t@
+;
+]])
+
 
 AT_DATA_GRAMMAR([[two.y]],
 [[%%
@@ -188,13 +215,13 @@ exp:
 AT_BISON_CHECK([-fcaret two.y], [1], [],
 [[two.y:11.7-12: error: %empty on non-empty rule
    'a' %empty    {}
-       ^^^^^^
+       ^~~~~~
 two.y:12.3-8: error: %empty on non-empty rule
  | %empty 'a'    {}
-   ^^^^^^
+   ^~~~~~
 two.y:13.3-8: error: %empty on non-empty rule
  | %empty {}     {}
-   ^^^^^^
+   ^~~~~~
 ]])
 
 AT_CLEANUP
@@ -1514,16 +1541,16 @@ input.y:32.3-23: warning: unused value: $3 [-Wother]
 AT_BISON_CHECK([-fcaret -o input.c input.y], 0,,
 [[input.y:24.57-59: warning: useless %destructor for type <*> [-Wother]
  %printer    { #error "<*> printer should not be used" } <*>
-                                                         ^^^
+                                                         ^~~
 input.y:24.57-59: warning: useless %printer for type <*> [-Wother]
  %printer    { #error "<*> printer should not be used" } <*>
-                                                         ^^^
+                                                         ^~~
 input.y:33.3-23: warning: unset value: $$ [-Wother]
    {           @$ = 4; } // Only used.
-   ^^^^^^^^^^^^^^^^^^^^^
+   ^~~~~~~~~~~~~~~~~~~~~
 input.y:32.3-23: warning: unused value: $3 [-Wother]
    { USE ($$); @$ = 3; } // Only set.
-   ^^^^^^^^^^^^^^^^^^^^^
+   ^~~~~~~~~~~~~~~~~~~~~
 ]])
 
 AT_COMPILE([input])

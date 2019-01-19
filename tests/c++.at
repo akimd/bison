@@ -1,7 +1,7 @@
 # Checking the C++ Features.                    -*- Autotest -*-
 
-# Copyright (C) 2004-2005, 2007-2015, 2018 Free Software Foundation,
-# Inc.
+# Copyright (C) 2004-2005, 2007-2015, 2018-2019 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -249,13 +249,13 @@ exp:
 AT_BISON_CHECK([[-fcaret input.yy]], [0], [],
 [[input.yy:16.33-34: warning: multiple occurrences of $2 with api.value.automove [-Wother]
  | "twice" exp       { $$ = $2 + $2; }
-                                 ^^
+                                 ^~
 input.yy:17.33-36: warning: multiple occurrences of $2 with api.value.automove [-Wother]
  | "thrice" exp[val] { $$ = $2 + $val + $2; }
-                                 ^^^^
+                                 ^~~~
 input.yy:17.40-41: warning: multiple occurrences of $2 with api.value.automove [-Wother]
  | "thrice" exp[val] { $$ = $2 + $val + $2; }
-                                        ^^
+                                        ^~
 ]])
 
 AT_BISON_OPTION_POPDEFS
@@ -420,8 +420,7 @@ namespace yy
 {
   static
   ]AT_YYLEX_PROTOTYPE[
-  {]AT_LOCATION_IF([
-    typedef parser::location_type location;])[
+  {
     // The 5 is a syntax error whose recovery requires that we discard
     // the lookahead.  This tests a regression, see
     // <http://savannah.gnu.org/support/?108481>.
@@ -950,7 +949,7 @@ AT_CLEANUP
 m4_pushdef([AT_TEST],
 [AT_SETUP([[Syntax error as exception: $1]])
 
-AT_BISON_OPTION_PUSHDEFS([$1])
+AT_BISON_OPTION_PUSHDEFS([$1 %debug])
 
 AT_DATA_GRAMMAR([[input.yy]],
 [[$1
@@ -966,14 +965,17 @@ AT_DATA_GRAMMAR([[input.yy]],
 %define parse.trace
 %%
 
-start:
-  thing
-| start thing
+start: with-recovery | '!' without-recovery;
+
+with-recovery:
+  %empty
+| with-recovery item
+| with-recovery error   { std::cerr << "caught error\n"; }
 ;
 
-thing:
-  error   { std::cerr << "caught error\n"; }
-| item
+without-recovery:
+  %empty
+| without-recovery item
 ;
 
 item:
@@ -993,16 +995,19 @@ yy::parser::error (const std::string &m)
 ]AT_MAIN_DEFINE[
 ]])
 
+# Another file to check syntax_error's linkage.
 AT_DATA_SOURCE([scan.cc],
 [[#include "input.hh"
 
+// 'a': valid item, 's': syntax error, 'l': lexical error.
 int
-yylex (yy::parser::semantic_type *)
+yylex (yy::parser::semantic_type *lval)
 {
-  // 's': syntax error, 'l': lexical error.
-  static char const *input = "asal";
-  switch (int res = *input++)
+  switch (int res = getchar ())
   {
+    // Don't choke on echo's \n.
+    case '\n':
+      return yylex (lval);
     case 'l':
       throw yy::parser::syntax_error ("invalid character");
     default:
@@ -1014,15 +1019,30 @@ yylex (yy::parser::semantic_type *)
 AT_BISON_CHECK([[-o input.cc input.yy]])
 
 AT_FOR_EACH_CXX([
-AT_LANG_COMPILE([[input]], [[input.cc scan.cc]])
+  AT_LANG_COMPILE([[input]], [[input.cc scan.cc]])
 
-AT_PARSER_CHECK([[./input]], [[0]], [[]],
+  # Leave enough valid tokens to make sure we recovered from the
+  # previous error, otherwise we might hide some error messages
+  # (discarded during error recoevery).
+  echo "asaaalaa" >in
+  AT_PARSER_CHECK([[./input < in]], [[0]], [[]],
 [[error: invalid expression
 caught error
 error: invalid character
 caught error
 ]])
-])
+
+  echo "!as" >in
+  AT_PARSER_CHECK([[./input < in]], [1], [],
+[[error: invalid expression
+]])
+
+  echo "!al" >in
+  AT_PARSER_CHECK([[./input < in]], [1], [],
+[[error: invalid character
+]])
+
+]) # AT_FOR_EACH_CXX
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -1032,6 +1052,8 @@ AT_TEST([%skeleton "lalr1.cc"])
 AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
+
+
 
 ## ------------------ ##
 ## Exception safety.  ##
@@ -1229,7 +1251,8 @@ yylex (yy::parser::semantic_type *lvalp)
   default:
     lvalp->]AT_VARIANT_IF([build<Object> (res)],
                           [obj = new Object (res)])[;
-    // Fall through.
+    goto zero;
+  zero:
   case 0:
     return res;
   }

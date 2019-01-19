@@ -1,5 +1,5 @@
 ## Customize maint.mk                           -*- makefile -*-
-## Copyright (C) 2008-2015, 2018 Free Software Foundation, Inc.
+## Copyright (C) 2008-2015, 2018-2019 Free Software Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -160,9 +160,10 @@ exclude = \
   $(foreach a,$(1),$(eval $(subst $$,$$$$,exclude_file_name_regexp--sc_$(a))))
 $(call exclude,                                                                 \
   bindtextdomain=^lib/main.c$$                                                  \
+  cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
   program_name=^lib/main.c$$                                                    \
-  prohibit_always-defined_macros=^data/yacc.c$$                                 \
+  prohibit_always-defined_macros=^data/skeletons/yacc.c$$                       \
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$              \
   prohibit_always-defined_macros+=?|^tests/regression.at$$                      \
   prohibit_doubled_word=^tests/named-refs.at$$                                  \
@@ -170,8 +171,9 @@ $(call exclude,                                                                 
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$              \
   prohibit_strcmp=^doc/bison\.texi|tests/local\.at$$                            \
   prohibit_tab_based_indentation=install-icc.sh|\.(am|mk)$$|^\.git|Makefile$$   \
-  require_config_h_first=^(lib/yyerror|data/(glr|yacc))\.c$$                    \
-  space_before_open_paren=^data/                                                \
+  require_config_h=^(lib/yyerror|data/skeletons/(glr|yacc))\.c$$                \
+  require_config_h_first=^(lib/yyerror|data/skeletons/(glr|yacc))\.c$$          \
+  space_before_open_paren=^data/skeletons/                                      \
   two_space_separator_in_usage=^(bootstrap|build-aux/install-icc.sh)            \
   unmarked_diagnostics=^(doc/bison.texi$$|tests/c\+\+\.at$$)                    \
 )
