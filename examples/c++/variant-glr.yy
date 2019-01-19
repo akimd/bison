@@ -22,6 +22,7 @@
 %defines
 %define api.token.constructor
 %define api.value.type variant
+%define api.location.file none
  // FIXME: does not work: %define parse.assert
 %locations
 %expect-rr 3
@@ -118,9 +119,9 @@ list:
 ;
 
 item:
-  TEXT %dprec 1 { $$ = $1; }
-| TEXT %dprec 2 { $$ = $1; }
-| NUMBER        { $$ = string_cast ($1); }
+  TEXT %dprec 1 %expect-rr 3 { $$ = $1; }
+| TEXT %dprec 2 %expect-rr 3 { $$ = $1; }
+| NUMBER  { $$ = string_cast ($1); }
 ;
 %%
 
