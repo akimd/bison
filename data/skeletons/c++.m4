@@ -507,7 +507,7 @@ m4_define([b4_public_types_define],
 ])
 
 
-# b4_tolen_constructor_define
+# b4_token_constructor_define
 # ----------------------------
 # Define symbol constructors for all the value types.
 # Use at class-level.  Redefined in variant.hh.
