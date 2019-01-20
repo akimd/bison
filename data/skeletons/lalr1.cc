@@ -562,6 +562,8 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class::~b4_parser_class[ ()
   {}
 
+  ]b4_parser_class[::syntax_error::~syntax_error () YY_NOEXCEPT YY_NOTHROW
+  {}
 
   /*---------------.
   | Symbol types.  |

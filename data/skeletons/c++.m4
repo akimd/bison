@@ -77,8 +77,10 @@ m4_define([b4_cxx_portability],
 // Support noexcept when possible.
 #if 201103L <= YY_CPLUSPLUS
 # define YY_NOEXCEPT noexcept
+# define YY_NOTHROW
 #else
 # define YY_NOEXCEPT
+# define YY_NOTHROW throw ()
 #endif
 
 // Support noexcept when possible.
@@ -217,7 +219,14 @@ m4_define([b4_public_types_declare],
       syntax_error (]b4_locations_if([const location_type& l, ])[const std::string& m)
         : std::runtime_error (m)]b4_locations_if([
         , location (l)])[
-      {}]b4_locations_if([
+      {}
+
+      syntax_error (const syntax_error& s)
+        : std::runtime_error (s.what ())]b4_locations_if([
+        , location (s.location)])[
+      {}
+
+      ~syntax_error () YY_NOEXCEPT YY_NOTHROW;]b4_locations_if([
 
       location_type location;])[
     };

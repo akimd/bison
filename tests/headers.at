@@ -330,6 +330,7 @@ AT_CHECK([[$PERL -n -0777 -e '
       |YY_MOVE_OR_COPY
       |YY_MOVE_REF
       |YY_NOEXCEPT
+      |YY_NOTHROW
       |YY_NULLPTR
       |YY_RVREF
       |YY_\w+_INCLUDED

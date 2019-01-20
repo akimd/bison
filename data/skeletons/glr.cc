@@ -160,6 +160,9 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   ]b4_parser_class::~b4_parser_class[ ()
   {}
 
+  ]b4_parser_class[::syntax_error::~syntax_error () YY_NOEXCEPT YY_NOTHROW
+  {}
+
   int
   ]b4_parser_class[::operator() ()
   {
