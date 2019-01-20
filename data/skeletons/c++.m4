@@ -79,7 +79,7 @@ m4_define([b4_cxx_portability],
 # define YY_NOEXCEPT noexcept
 #else
 # define YY_NOEXCEPT
-#endif[]dnl
+#endif
 
 // Support noexcept when possible.
 #if 201703 <= YY_CPLUSPLUS
