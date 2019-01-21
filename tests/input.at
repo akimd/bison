@@ -2500,7 +2500,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %no-default_prec
 %no_default-prec
 %no_lines
-%output = "foo"
+%output = "output.c"
 %pure_parser
 %token_table
 %error-verbose
@@ -2559,7 +2559,9 @@ AT_BISON_CHECK([[-ffixit input.y]], [], [], [experr])
 AT_CHECK([[sed -e '/^fix-it:/d' errors-all >experr]])
 AT_BISON_CHECK([[input.y]], [], [], [experr])
 
-# Update the input file.
+
+# Update the input file.  Make sure we generated nothing.
+AT_CHECK([rm -f output.c])
 AT_CHECK([cp input.y input.y.orig])
 AT_CHECK([sed -e '/fix-it/d' <errors-all >experr])
 AT_CHECK([echo "bison: file 'input.y' was updated (backup: 'input.y~')" >>experr])
@@ -2567,6 +2569,9 @@ AT_BISON_CHECK([[--update input.y]], [], [[]], [experr])
 
 # Check the backup.
 AT_CHECK([diff input.y.orig input.y~])
+
+# Check we did not generate any file.
+AT_CHECK([test ! -f output.c])
 
 # Check the update.
 AT_CHECK([cat input.y], [],
@@ -2588,7 +2593,7 @@ AT_CHECK([cat input.y], [],
 %no-default-prec
 %no-default-prec
 %no-lines
-%output "foo"
+%output "output.c"
 %pure-parser
 %token-table
 %glr-parser

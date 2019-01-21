@@ -10272,8 +10272,8 @@ Print the name of the directory containing skeletons and XSLT.
 @item -u
 @item --update
 Update the grammar file (remove duplicates, update deprecated directives,
-etc.).  Leaves a backup of the original file with a @code{~} appended.  For
-instance:
+etc.) and exit (i.e., do not generate any of the output files).  Leaves a
+backup of the original file with a @code{~} appended.  For instance:
 
 @example
 @group
