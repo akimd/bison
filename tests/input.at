@@ -2523,15 +2523,15 @@ fix-it:"input.y":{12:1-12:11}:"%expect-rr"
 input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
 fix-it:"input.y":{13:1-13:15}:"%file-prefix"
 input.y:14.1-16.5: warning: duplicate directive: '%file-prefix\n =' [-Wother]
-input.y:13.1-20:       previous declaration [-Wother]
+input.y:13.1-20:       previous declaration
 fix-it:"input.y":{14:1-16:6}:""
 input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
 fix-it:"input.y":{17:1-17:20}:"%fixed-output-files"
 input.y:18.1-19: warning: duplicate directive: '%fixed_output-files' [-Wother]
-input.y:17.1-19:     previous declaration [-Wother]
+input.y:17.1-19:     previous declaration
 fix-it:"input.y":{18:1-18:20}:""
 input.y:19.1-19: warning: duplicate directive: '%fixed-output-files' [-Wother]
-input.y:17.1-19:     previous declaration [-Wother]
+input.y:17.1-19:     previous declaration
 fix-it:"input.y":{19:1-19:20}:""
 input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
 fix-it:"input.y":{20:1-20:20}:"%define api.prefix {foo}"
@@ -2551,7 +2551,7 @@ input.y:27.1-14: error: %define variable 'parse.error' redefined
 input.y:11.1-14:     previous definition
 fix-it:"input.y":{27:1-27:15}:""
 input.y:29.1-18: warning: duplicate directive: '%name-prefix "bar"' [-Wother]
-input.y:13.1-20:     previous declaration [-Wother]
+input.y:13.1-20:     previous declaration
 fix-it:"input.y":{29:1-29:19}:""
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2669,7 +2669,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
 [[input.y:14.1-15.5: warning: duplicate directive: '%file-prefix' [-Wother]
-input.y:13.1-18:       previous declaration [-Wother]
+input.y:13.1-18:       previous declaration
 input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
