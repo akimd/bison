@@ -1740,7 +1740,7 @@ start: %empty;
 ]])
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
-[[input-redefined.y:2.1-20: error: %define variable 'var' redefined
+[[input-redefined.y:2.1-20: warning: %define variable 'var' redefined [-Wother]
 input-redefined.y:1.1-20:     previous definition
 input-redefined.y:3.2-21: error: %define variable 'var' redefined
 input-redefined.y:2.1-20:     previous definition
@@ -2333,8 +2333,8 @@ AT_CLEANUP
 
 AT_SETUP([[Redefined %union name]])
 
-# AT_TEST(DIRECTIVES, ERROR)
-# --------------------------
+# AT_TEST(DIRECTIVES, EXIT-STATUS, ERROR)
+# ---------------------------------------
 m4_pushdef([AT_TEST],
 [AT_DATA([[input.y]],
 [$1
@@ -2342,27 +2342,28 @@ m4_pushdef([AT_TEST],
 exp: %empty;
 ])
 
-AT_BISON_CHECK([[input.y]], [[1]], [[]],
-[$2])
+AT_BISON_CHECK([[input.y]], [$2], [[]],
+[$3])
 ])
 
 AT_TEST([[%union foo {};
 %union {};
 %union foo {};
 %define api.value.union.name foo]],
-[[input.y:3.8-10: error: %define variable 'api.value.union.name' redefined
+[0],
+[[input.y:3.8-10: warning: %define variable 'api.value.union.name' redefined [-Wother]
 input.y:1.8-10:     previous definition
-input.y:4.1-32: error: %define variable 'api.value.union.name' redefined
+input.y:4.1-32: warning: %define variable 'api.value.union.name' redefined [-Wother]
 input.y:3.8-10:     previous definition
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
-AT_TEST([[%define api.value.union.name {foo}]],
+AT_TEST([[%define api.value.union.name {foo}]], [1],
 [[input.y:1.1-34: error: %define variable 'api.value.union.name' requires keyword values
 input.y:1.1-34: error: %define variable 'api.value.union.name' is not used
 ]])
 
-AT_TEST([[%define api.value.union.name "foo"]],
+AT_TEST([[%define api.value.union.name "foo"]], [1],
 [[input.y:1.1-34: error: %define variable 'api.value.union.name' requires keyword values
 input.y:1.1-34: error: %define variable 'api.value.union.name' is not used
 ]])
@@ -2543,7 +2544,7 @@ input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parse
 fix-it:"input.y":{25:1-25:13}:"%pure-parser"
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
 fix-it:"input.y":{26:1-26:13}:"%token-table"
-input.y:27.1-14: error: %define variable 'parse.error' redefined
+input.y:27.1-14: warning: %define variable 'parse.error' redefined [-Wother]
 input.y:11.1-14:     previous definition
 fix-it:"input.y":{27:1-27:15}:""
 input.y:29.1-18: warning: duplicate directive: '%name-prefix "bar"' [-Wother]
@@ -2553,16 +2554,16 @@ input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wothe
 ]])
 
 AT_CHECK([cp errors-all experr])
-AT_BISON_CHECK([[-ffixit input.y]], [[1]], [[]], [experr])
+AT_BISON_CHECK([[-ffixit input.y]], [], [], [experr])
 
 AT_CHECK([[sed -e '/^fix-it:/d' errors-all >experr]])
-AT_BISON_CHECK([[input.y]], [[1]], [[]], [experr])
+AT_BISON_CHECK([[input.y]], [], [], [experr])
 
 # Update the input file.
 AT_CHECK([cp input.y input.y.orig])
 AT_CHECK([sed -e '/fix-it/d' <errors-all >experr])
 AT_CHECK([echo "bison: file 'input.y' was updated (backup: 'input.y~')" >>experr])
-AT_BISON_CHECK([[--update input.y]], [[1]], [[]], [experr])
+AT_BISON_CHECK([[--update input.y]], [], [[]], [experr])
 
 # Check the backup.
 AT_CHECK([diff input.y.orig input.y~])
@@ -2628,10 +2629,11 @@ AT_BISON_CHECK([[input.y]], [[1]], [[]],
 input.y:11.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:12.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:13.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
-input.y:13.16-29: error: %define variable 'parse.error' redefined
+input.y:13.16-29: warning: %define variable 'parse.error' redefined [-Wother]
 input.y:13.1-14:      previous definition
-input.y:14.16-29: error: %define variable 'parse.error' redefined
+input.y:14.16-29: warning: %define variable 'parse.error' redefined [-Wother]
 input.y:13.16-29:     previous definition
+input.y: error: reduce/reduce conflicts: 0 found, 42 expected
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
