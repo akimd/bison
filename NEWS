@@ -2,8 +2,57 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+A new mailing list was created, Bison Announce.  It is low traffic, and is
+only about announcing new releases and important messages (e.g., polls about
+major decisions to make).
 
-* Noteworthy changes in release 3.2.91 (2019-01-19) [beta]
+https://lists.gnu.org/mailman/listinfo/bison-announce
+
+** Backward incompatible changes
+
+  Support for DJGPP, which has been unmaintained and untested for years, is
+  removed.
+
+** Deprecated features
+
+  A new feature, --update (see below) helps adjusting existing grammars to
+  deprecations.
+
+*** Deprecated directives
+
+  The %error-verbose directive is deprecated in favor of '%define
+  parse.error verbose' since Bison 3.0, but no warning was issued.
+
+  The '%name-prefix "xx"' directive is deprecated in favor of '%define
+  api.prefix {xx}' since Bison 3.0, but no warning was issued.  These
+  directives are slightly different, you might need to adjust your code.
+  %name-prefix renames only symbols with external linkage, while api.prefix
+  also renames types and macros, including YYDEBUG, YYTOKENTYPE,
+  yytokentype, YYSTYPE, YYLTYPE, etc.
+
+  Users of Flex that move from '%name-prefix "xx"' to '%define api.prefix
+  {xx}' will typically have to update YY_DECL from
+
+    #define YY_DECL int xxlex (YYSTYPE *yylval, YYLTYPE *yylloc)
+
+  to
+
+    #define YY_DECL int xxlex (XXSTYPE *yylval, XXLTYPE *yylloc)
+
+*** Deprecated %define variable names
+
+  The following variables, mostly related to parsers in Java, have been
+  renamed for consistency.  Backward compatibility is ensured, but upgrading
+  is recommended.
+
+    abstract           -> api.parser.abstract
+    annotations        -> api.parser.annotations
+    extends            -> api.parser.extends
+    final              -> api.parser.final
+    implements         -> api.parser.implements
+    parser_class_name  -> api.parser.class
+    public             -> api.parser.public
+    strictfp           -> api.parser.strictfp
 
 ** New features
 
@@ -59,61 +108,14 @@ GNU Bison NEWS
     %%
     exp:;
 
-* Noteworthy changes in release 3.2.90 (2019-01-12) [beta]
-
-** Backward incompatible changes
-
-  Support for DJGPP, which has been unmaintained and untested for years, is
-  removed.
-
-** Deprecated features
-
-*** Deprecated directives
-
-  The %error-verbose directive is deprecated in favor of '%define
-  parse.error verbose' since Bison 3.0, but no warning was issued.
-
-  The '%name-prefix "xx"' directive is deprecated in favor of '%define
-  api.prefix {xx}' since Bison 3.0, but no warning was issued.  These
-  directives are slightly different, you might need to adjust your code.
-  %name-prefix renames only symbols with external linkage, while api.prefix
-  also renames types and macros, including YYDEBUG, YYTOKENTYPE,
-  yytokentype, YYSTYPE, YYLTYPE, etc.
-
-  Users of Flex that move from '%name-prefix "xx"' to '%define api.prefix
-  {xx}' will typically have to update YY_DECL from
-
-    #define YY_DECL int xxlex (YYSTYPE *yylval, YYLTYPE *yylloc)
-
-  to
-
-    #define YY_DECL int xxlex (XXSTYPE *yylval, XXLTYPE *yylloc)
-
-*** Deprecated %define variable names
-
-  The following variables, mostly related to parsers in Java, have been
-  renamed for consistency.  Backward compatibility is ensured, but upgrading
-  is recommended.
-
-    abstract           -> api.parser.abstract
-    annotations        -> api.parser.annotations
-    extends            -> api.parser.extends
-    final              -> api.parser.final
-    implements         -> api.parser.implements
-    parser_class_name  -> api.parser.class
-    public             -> api.parser.public
-    strictfp           -> api.parser.strictfp
-
-** New features
-
 *** Bison is now relocatable
 
   If you pass '--enable-relocatable' to 'configure', Bison is relocatable.
 
   A relocatable program can be moved or copied to a different location on
   the file system.  It can also be used through mount points for network
-  sharing.  It is possible to make symlinks to the installed and moved
-  programs, and invoke them through the symlink.
+  sharing.  It is possible to make symbolic links to the installed and moved
+  programs, and invoke them through the symbolic link.
 
 *** %expect and %expect-rr modifiers on individual rules
 
@@ -192,7 +194,7 @@ GNU Bison NEWS
 *** C++: Actual token constructors
 
   When variants and token constructors are enabled, in addition to the
-  type-safe named token constructors (make_ID, amke_INT, etc.), we now
+  type-safe named token constructors (make_ID, make_INT, etc.), we now
   generate genuine constructors for symbol_type.
 
   For instance with these declarations
@@ -309,7 +311,7 @@ GNU Bison NEWS
   where TAG denotes a type tag such as ‘<ival>’, ID denotes an identifier
   such as ‘NUM’, NUMBER a decimal or hexadecimal integer such as ‘300’ or
   ‘0x12d’, CHAR a character literal such as ‘'+'’, and STRING a string
-  literal such as ‘"number"’.  The postfix quantifiers are ‘?’ (zero or
+  literal such as ‘"number"’.  The post-fix quantifiers are ‘?’ (zero or
   one), ‘*’ (zero or more) and ‘+’ (one or more).
 
 * Noteworthy changes in release 3.2.4 (2018-12-24) [stable]
@@ -3466,10 +3468,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
  LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
  LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir
- LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG
- LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW
+ LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG DECL num
+ LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
+ LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
+ LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
+ LocalWords:  noexcept constexpr ispell american
 
 Local Variables:
+ispell-dictionary: "american"
 mode: outline
 fill-column: 76
 End:

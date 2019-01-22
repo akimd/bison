@@ -1,5 +1,7 @@
 * Bison 3.4
 ** injection rules
+** glr.cc
+move glr.c into the yy namespace
 ** improve syntax errors (UTF-8, internationalization)
 Bison depends on the current locale.  For instance:
 
