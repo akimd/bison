@@ -9,8 +9,8 @@ src/location.c
 src/main.c
 src/muscle-tab.c
 src/parse-gram.y
+src/print-graph.c
 src/print.c
-src/print_graph.c
 src/reader.c
 src/reduce.c
 src/scan-code.l

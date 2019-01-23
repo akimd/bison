@@ -55,10 +55,10 @@ src_bison_SOURCES =                             \
   src/gram.h                                    \
   src/graphviz.c                                \
   src/graphviz.h                                \
-  src/lalr.c                                    \
-  src/lalr.h                                    \
   src/ielr.c                                    \
   src/ielr.h                                    \
+  src/lalr.c                                    \
+  src/lalr.h                                    \
   src/location.c                                \
   src/location.h                                \
   src/main.c                                    \
@@ -71,12 +71,12 @@ src_bison_SOURCES =                             \
   src/output.c                                  \
   src/output.h                                  \
   src/parse-gram.y                              \
+  src/print-graph.c                             \
+  src/print-graph.h                             \
   src/print-xml.c                               \
   src/print-xml.h                               \
   src/print.c                                   \
   src/print.h                                   \
-  src/print_graph.c                             \
-  src/print_graph.h                             \
   src/reader.c                                  \
   src/reader.h                                  \
   src/reduce.c                                  \
