@@ -75,7 +75,7 @@
 
    RULES[R].line -- the line where R was defined.
 
-   RULES[R].useful -- true iff the rule is used (i.e., false if thrown
+   RULES[R].useful -- whether the rule is used (i.e., false if thrown
    away by reduce).
 
    The right hand side is stored as symbol numbers in a portion of
@@ -210,15 +210,15 @@ extern rule *rules;
 /* A function that selects a rule.  */
 typedef bool (*rule_filter) (rule const *);
 
-/* Return true IFF the rule has a 'number' smaller than NRULES.  That is, it is
-   useful in the grammar.  */
+/* Whether the rule has a 'number' smaller than NRULES.  That is, it
+   is useful in the grammar.  */
 bool rule_useful_in_grammar_p (rule const *r);
 
-/* Return true IFF the rule has a 'number' higher than NRULES.  That is, it is
+/* Whether the rule has a 'number' higher than NRULES.  That is, it is
    useless in the grammar.  */
 bool rule_useless_in_grammar_p (rule const *r);
 
-/* Return true IFF the rule is not flagged as useful but is useful in the
+/* Whether the rule is not flagged as useful but is useful in the
    grammar.  In other words, it was discarded because of conflicts.  */
 bool rule_useless_in_parser_p (rule const *r);
 
@@ -229,7 +229,7 @@ void rule_lhs_print (rule const *r, sym_content const *previous_lhs,
                      FILE *out);
 void rule_lhs_print_xml (rule const *r, FILE *out, int level);
 
-/* Return the length of the RHS.  */
+/* The length of the RHS.  */
 size_t rule_rhs_length (rule const *r);
 
 /* Print this rule's RHS on OUT.  */
@@ -252,7 +252,7 @@ extern int max_user_token_number;
 /* Dump RITEM for traces. */
 void ritem_print (FILE *out);
 
-/* Return the size of the longest rule RHS.  */
+/* The size of the longest rule RHS.  */
 size_t ritem_longest_rhs (void);
 
 /* Print the grammar's rules that match FILTER on OUT under TITLE.  */
