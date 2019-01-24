@@ -171,9 +171,6 @@ class in the printers/destructors, which is not good for an operator<<
 since it is no longer bound to a particular parser, it's just a
 (standalone symbol).
 
-** Rename LR0.cc
-as lr0.cc, why upper case?
-
 * Various
 ** Rewrite glr.cc in C++
 As a matter of fact, it would be very interesting to see how much we can

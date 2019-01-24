@@ -21,7 +21,6 @@
 #include <config.h>
 #include "system.h"
 
-#include "LR0.h"
 #include "closure.h"
 #include "complain.h"
 #include "conflicts.h"
@@ -30,6 +29,7 @@
 #include "gram.h"
 #include "graphviz.h"
 #include "lalr.h"
+#include "lr0.h"
 #include "print-graph.h"
 #include "reader.h"
 #include "state.h"

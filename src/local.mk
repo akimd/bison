@@ -30,8 +30,6 @@ src_bison_SOURCES =                             \
   src/AnnotationList.h                          \
   src/InadequacyList.c                          \
   src/InadequacyList.h                          \
-  src/LR0.c                                     \
-  src/LR0.h                                     \
   src/Sbitset.c                                 \
   src/Sbitset.h                                 \
   src/assoc.c                                   \
@@ -61,6 +59,8 @@ src_bison_SOURCES =                             \
   src/lalr.h                                    \
   src/location.c                                \
   src/location.h                                \
+  src/lr0.c                                     \
+  src/lr0.h                                     \
   src/main.c                                    \
   src/muscle-tab.c                              \
   src/muscle-tab.h                              \
