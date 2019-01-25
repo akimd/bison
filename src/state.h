@@ -81,6 +81,8 @@
 #ifndef STATE_H_
 # define STATE_H_
 
+# include <stdbool.h>
+
 # include <bitset.h>
 
 # include "gram.h"
@@ -208,9 +210,9 @@ struct state
      store in this member a reference to the node containing each state.  */
   struct state_list *state_list;
 
-  /* If non-zero, then no lookahead sets on reduce actions are needed to
-     decide what to do in state S.  */
-  char consistent;
+  /* Whether no lookahead sets on reduce actions are needed to decide
+     what to do in state S.  */
+  bool consistent;
 
   /* If some conflicts were solved thanks to precedence/associativity,
      a human readable description of the resolution.  */
