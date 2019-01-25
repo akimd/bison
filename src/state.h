@@ -51,11 +51,11 @@
    lookahead token alone).  When the states are generated, these
    actions are represented in two other lists.
 
-   Each transition structure describes the possible transitions out
-   of one state, the state whose number is in the number field.  Each
-   contains a vector of numbers of the states that transitions can go
-   to.  The accessing_symbol fields of those states' cores say what
-   kind of input leads to them.
+   Each transition structure describes the possible transitions out of
+   one state (there are NUM of them).  Each contains a vector of
+   numbers of the states that transitions can go to.  The
+   accessing_symbol fields of those states' cores say what kind of
+   input leads to them.
 
    A transition to state zero should be ignored: conflict resolution
    deletes transitions by having them point to zero.
@@ -233,8 +233,8 @@ state *state_new (symbol_number accessing_symbol,
                   size_t core_size, item_number *core);
 state *state_new_isocore (state const *s);
 
-/* Set the transitions of STATE.  */
-void state_transitions_set (state *s, int num, state **trans);
+/* Record that from S we can reach all the DST states (NUM of them).  */
+void state_transitions_set (state *s, int num, state **dst);
 
 /* Set the reductions of STATE.  */
 void state_reductions_set (state *s, int num, rule **reds);
