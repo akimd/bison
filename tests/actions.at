@@ -543,7 +543,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 #define YYINITDEPTH 10
 #define YYMAXDEPTH 10
-#define RANGE(Location) ]AT_LALR1_CC_IF([(Location).begin.line, (Location).end.line],
+#define RANGE(Location) ]AT_CXX_IF([(Location).begin.line, (Location).end.line],
       [(Location).first_line, (Location).last_line])[
 
 #define USE(SYM)
@@ -572,8 +572,8 @@ AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
 /* FIXME: This %printer isn't actually tested.  */
 %printer
   {
-    ]AT_LALR1_CC_IF([yyo << $$;],
-                    [fprintf (yyo, "%d", $$)])[;
+    ]AT_CXX_IF([yyo << $$;],
+               [fprintf (yyo, "%d", $$)])[;
   }
   '(' 'x' 'y' ')' ';' thing line input '!' raise check-spontaneous-errors END
 
@@ -734,9 +734,8 @@ static
   fprintf (stderr, " (%d@%d-%d)\n", c, RANGE (]AT_LOC[));
   return source[c];
 }
-]AT_LALR1_CC_IF(
-[static bool yydebug;
-int
+]AT_LALR1_CC_IF([static bool yydebug;])[
+]AT_CXX_IF([int
 yyparse ()
 {
   yy::parser parser;
@@ -999,11 +998,14 @@ AT_CLEANUP
 AT_CHECK_PRINTER_AND_DESTRUCTOR([])
 AT_CHECK_PRINTER_AND_DESTRUCTOR([], [ with union])
 
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [ with union])
+
 AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "lalr1.cc"])
 AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "lalr1.cc"], [ with union])
 
-AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser])
-AT_CHECK_PRINTER_AND_DESTRUCTOR([%glr-parser], [ with union])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "glr.cc"])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "glr.cc"], [ with union])
 
 
 
