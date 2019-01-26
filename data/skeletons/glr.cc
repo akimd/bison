@@ -325,8 +325,10 @@ b4_percent_code_get([[requires]])[
   class ]b4_parser_class[
   {
   public:
+]m4_pushdef([b4_symbol_action], [b4_cxx_symbol_action($][@)])[
 ]b4_public_types_declare[
 ]b4_symbol_type_define[
+]m4_popdef([b4_symbol_action])[
 
     /// Build a parser object.
     ]b4_parser_class[ (]b4_parse_param_decl[);

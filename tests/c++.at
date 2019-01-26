@@ -339,8 +339,9 @@ AT_DATA_GRAMMAR([list.y],
 
   typedef std::vector<string> strings_type;
 
-  namespace yy
-  {
+// FIXME: Put into yy:: once glr.cc is itself in it.
+//  namespace yy
+//  {
     // Must be available early, as is used in %destructor.
     std::ostream&
     operator<<(std::ostream& o, const strings_type& s)
@@ -354,7 +355,7 @@ AT_DATA_GRAMMAR([list.y],
         }
       return o << ')';
     }
-  }
+//  }
 }
 
 %code // code for the .cc file.
@@ -363,6 +364,9 @@ AT_DATA_GRAMMAR([list.y],
   {
     static
     ]AT_YYLEX_PROTOTYPE[;
+  }
+
+// FIXME: Put into yy:: once glr.cc is itself in it.
 
     // Conversion to string.
     template <typename T>
@@ -374,7 +378,6 @@ AT_DATA_GRAMMAR([list.y],
       o << t;
       return string (o.str ());
     }
-  }
 }
 
 %token <::string> TEXT;
@@ -478,9 +481,17 @@ int main()
 ]])
 
 AT_FOR_EACH_CXX([
-AT_FULL_COMPILE([list])
 
-# Are we compiling with modern C++ enabled?
+  AT_FULL_COMPILE([list])
+  
+  # FIXME: Currently glr.cc is not robust enough to pass this test:
+  # many calls to the destructor are missing.  Yet it "works", it
+  # "only leaks", so at least make sure it runs properly.
+  AT_GLR_CC_IF(
+[AT_PARSER_CHECK([./list], 0, [[(0, 1, 2, 4, 6)
+]],
+[ignore])],
+[# Are we compiling with modern C++ enabled?
 AT_COMPILE_CXX([modern])
 here=. # Pacify cfg.mk's sc_at_parser_check.
 AT_CHECK([$here/modern], [ignore], [ignore])
@@ -545,6 +556,8 @@ Destroy: (0, 1, 2, 4, 6)
 fi
 ])
 
+])# AT_FOR_EACH_CXX
+
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
@@ -559,14 +572,14 @@ AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructo
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_} %locations]])
 AT_TEST([[%skeleton "lalr1.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_} %locations %define api.value.automove]])
 
-## FIXME: Does not work!  The calls to the destructor are missing.
-# AT_TEST([[%skeleton "glr.cc"]])
-# AT_TEST([[%skeleton "glr.cc" %define parse.assert]])
-# AT_TEST([[%skeleton "glr.cc" %locations %define parse.assert]])
-# AT_TEST([[%skeleton "glr.cc" %define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
-# AT_TEST([[%skeleton "glr.cc" %define parse.assert %define api.token.constructor]])
-# AT_TEST([[%skeleton "glr.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
-# AT_TEST([[%skeleton "glr.cc" %locations %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
+## FIXME: Does not work!  Calls to the destructor are missing.
+AT_TEST([[%skeleton "glr.cc"]])
+#AT_TEST([[%skeleton "glr.cc" %define parse.assert]])
+#AT_TEST([[%skeleton "glr.cc" %locations %define parse.assert]])
+#AT_TEST([[%skeleton "glr.cc" %define parse.assert %code {\n#define TWO_STAGE_BUILD\n}]])
+#AT_TEST([[%skeleton "glr.cc" %define parse.assert %define api.token.constructor]])
+#AT_TEST([[%skeleton "glr.cc" %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
+#AT_TEST([[%skeleton "glr.cc" %locations %define parse.assert %define api.token.constructor %define api.token.prefix {TOK_}]])
 
 m4_popdef([AT_TEST])
 
