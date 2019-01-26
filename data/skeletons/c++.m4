@@ -83,7 +83,7 @@ m4_define([b4_cxx_portability],
 # define YY_NOTHROW throw ()
 #endif
 
-// Support noexcept when possible.
+// Support constexpr when possible.
 #if 201703 <= YY_CPLUSPLUS
 # define YY_CONSTEXPR constexpr
 #else
