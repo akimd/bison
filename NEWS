@@ -5,11 +5,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release 3.3 (2019-01-26) [stable]
 
-A new mailing list was created, Bison Announce.  It is low traffic, and is
-only about announcing new releases and important messages (e.g., polls about
-major decisions to make).
+  A new mailing list was created, Bison Announce.  It is low traffic, and is
+  only about announcing new releases and important messages (e.g., polls
+  about major decisions to make).
 
-https://lists.gnu.org/mailman/listinfo/bison-announce
+  https://lists.gnu.org/mailman/listinfo/bison-announce
 
 ** Backward incompatible changes
 
