@@ -72,7 +72,7 @@ typedef enum
     needed,
     /** Defined with %type or %token (good).  */
     declared,
-  } status;
+  } declaration_status;
 
 enum code_props_type
   {
@@ -144,7 +144,7 @@ struct sym_content
   int user_token_number;
 
   symbol_class class;
-  status status;
+  declaration_status status;
 };
 
 /** Undefined user number.  */
@@ -321,7 +321,7 @@ typedef struct {
 
   /** Its status : "undeclared", "used" or "declared".
       It cannot be "needed".  */
-  status status;
+  declaration_status status;
 
   /** Any \c %destructor and %printer declared for this
       semantic type.  */
