@@ -10601,6 +10601,8 @@ foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 The fix-its are applied by @command{bison} itself when given the option
 @option{-u}/@option{--update}.  See its documentation above.
 
+@item syntax-only
+Do not generate the output files.
 @end table
 @end table
 
