@@ -10308,26 +10308,26 @@ See the documentation of @option{--feature=fixit} below for more details.
 
 @item -y
 @itemx --yacc
-Act more like the traditional Yacc command.  This can cause different
-diagnostics to be generated, and may change behavior in other minor
-ways.  Most importantly, imitate Yacc's output file name conventions,
-so that the parser implementation file is called @file{y.tab.c}, and
-the other outputs are called @file{y.output} and @file{y.tab.h}.
-Also, if generating a deterministic parser in C, generate
-@code{#define} statements in addition to an @code{enum} to associate
-token numbers with token names.  Thus, the following shell script can
-substitute for Yacc, and the Bison distribution contains such a script
-for compatibility with POSIX:
+Act more like the traditional @command{yacc} command.  This can cause
+different diagnostics to be generated (it implies @option{-Wyacc}), and may
+change behavior in other minor ways.  Most importantly, imitate Yacc's
+output file name conventions, so that the parser implementation file is
+called @file{y.tab.c}, and the other outputs are called @file{y.output} and
+@file{y.tab.h}.  Also, if generating a deterministic parser in C, generate
+@code{#define} statements in addition to an @code{enum} to associate token
+numbers with token names.  Thus, the following shell script can substitute
+for Yacc, and the Bison distribution contains such a script for
+compatibility with POSIX:
 
 @example
 #! /bin/sh
 bison -y "$@@"
 @end example
 
-The @option{-y}/@option{--yacc} option is intended for use with
-traditional Yacc grammars.  If your grammar uses a Bison extension
-like @samp{%glr-parser}, Bison might not be Yacc-compatible even if
-this option is specified.
+The @option{-y}/@option{--yacc} option is intended for use with traditional
+Yacc grammars.  If your grammar uses Bison extensions like
+@samp{%glr-parser}, Bison might not be Yacc-compatible even if this option
+is specified.
 
 @item -W [@var{category}]
 @itemx --warnings[=@var{category}]

@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Changes
+
+  The option -y/--yacc used to imply -Werror=yacc, which turns uses of Bison
+  extensions into errors.  It now makes them simple warnings (-Wyacc).
 
 * Noteworthy changes in release 3.3 (2019-01-26) [stable]
 

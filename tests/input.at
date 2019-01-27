@@ -1402,15 +1402,15 @@ without_period: "WITHOUT.PERIOD";
 AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
-AT_BISON_CHECK([--yacc input.y], [1], [],
-[[input.y:1.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
-input.y:9.8-16: error: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Werror=yacc]
-input.y:10.21-34: error: POSIX Yacc does not support string literals [-Werror=yacc]
-input.y:12.23-38: error: POSIX Yacc does not support string literals [-Werror=yacc]
-input.y:13.1-5: error: POSIX Yacc does not support %code [-Werror=yacc]
-input.y:20.8-16: error: POSIX Yacc forbids dashes in symbol names: with-dash [-Werror=yacc]
-input.y:22.15-28: error: POSIX Yacc does not support string literals [-Werror=yacc]
-input.y:24.17-32: error: POSIX Yacc does not support string literals [-Werror=yacc]
+AT_BISON_CHECK([--yacc input.y], [], [],
+[[input.y:1.1-5: warning: POSIX Yacc does not support %code [-Wyacc]
+input.y:9.8-16: warning: POSIX Yacc forbids dashes in symbol names: WITH-DASH [-Wyacc]
+input.y:10.21-34: warning: POSIX Yacc does not support string literals [-Wyacc]
+input.y:12.23-38: warning: POSIX Yacc does not support string literals [-Wyacc]
+input.y:13.1-5: warning: POSIX Yacc does not support %code [-Wyacc]
+input.y:20.8-16: warning: POSIX Yacc forbids dashes in symbol names: with-dash [-Wyacc]
+input.y:22.15-28: warning: POSIX Yacc does not support string literals [-Wyacc]
+input.y:24.17-32: warning: POSIX Yacc does not support string literals [-Wyacc]
 ]])
 
 # Dashes are fine for GNU Bison.
