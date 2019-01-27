@@ -23,6 +23,7 @@
 
 #include <bitset.h>
 #include <bitset/stats.h>
+#include <closeout.h>
 #include <configmake.h>
 #include <progname.h>
 #include <quote.h>
@@ -30,7 +31,6 @@
 #include <relocatable.h> /* relocate2 */
 #include <timevar.h>
 
-#include "closeout.h"
 #include "complain.h"
 #include "conflicts.h"
 #include "derives.h"
