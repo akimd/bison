@@ -27,7 +27,7 @@
    data so that closure can be called.  n is the number of elements to
    allocate for itemset.  */
 
-void new_closure (unsigned n);
+void closure_new (unsigned n);
 
 
 /* Given the kernel (aka core) of a state (a sorted vector of item numbers
@@ -49,7 +49,7 @@ void closure (item_number const *items, size_t n);
 
 /* Frees ITEMSET, RULESET and internal data.  */
 
-void free_closure (void);
+void closure_free (void);
 
 extern item_number *itemset;
 extern size_t nitemset;
