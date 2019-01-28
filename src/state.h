@@ -239,15 +239,15 @@ void state_transitions_set (state *s, int num, state **dst);
 /* Set the reductions of STATE.  */
 void state_reductions_set (state *s, int num, rule **reds);
 
-int state_reduction_find (state *s, rule *r);
+int state_reduction_find (state *s, rule const *r);
 
 /* Set the errs of STATE.  */
 void state_errs_set (state *s, int num, symbol **errors);
 
 /* Print on OUT all the lookahead tokens such that this STATE wants to
    reduce R.  */
-void state_rule_lookahead_tokens_print (state *s, rule *r, FILE *out);
-void state_rule_lookahead_tokens_print_xml (state *s, rule *r,
+void state_rule_lookahead_tokens_print (state *s, rule const *r, FILE *out);
+void state_rule_lookahead_tokens_print_xml (state *s, rule const *r,
                                             FILE *out, int level);
 
 /* Create/destroy the states hash table.  */

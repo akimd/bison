@@ -166,6 +166,7 @@ item_number_is_rule_number (item_number i)
   return i < 0;
 }
 
+
 /*--------.
 | Rules.  |
 `--------*/
@@ -206,6 +207,15 @@ typedef struct
 } rule;
 
 extern rule *rules;
+
+/* Get the rule associated to this item.  ITEM points inside RITEM.  */
+rule const *item_rule (item_number const *item);
+
+/* Pretty-print this ITEM (as in the report).  ITEM points inside
+   RITEM.  PREVIOUS_RULE is used to see if the lhs is common, in which
+   case LHS is factored.  Passing NULL is fine.  */
+void item_print (item_number *item, rule const *previous_rule,
+                 FILE *out);
 
 /* A function that selects a rule.  */
 typedef bool (*rule_filter) (rule const *);
