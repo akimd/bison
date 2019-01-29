@@ -232,6 +232,9 @@ bool rule_useless_in_grammar_p (rule const *r);
    grammar.  In other words, it was discarded because of conflicts.  */
 bool rule_useless_in_parser_p (rule const *r);
 
+/* Whether the rule has a single RHS, and no user action. */
+bool rule_useless_chain_p (rule const *r);
+
 /* Print this rule's number and lhs on OUT.  If a PREVIOUS_LHS was
    already displayed (by a previous call for another rule), avoid
    useless repetitions.  */
