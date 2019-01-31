@@ -500,7 +500,7 @@ AT_TEST_TABLES_AND_PARSE([[%define lr.type canonical-lr: ]$1],
 AT_TEST_LR_TYPE([[Single State Split]],
 [[%left 'a'
 // Conflict resolution renders state 12 unreachable for canonical LR(1).  We
-// keep it so that the paser table diff is easier to code.
+// keep it so that the parser table diff is easier to code.
 %define lr.keep-unreachable-state]],
 [[
 S: 'a' A 'a' /* rule 1 */
@@ -733,7 +733,7 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 AT_TEST_LR_TYPE([[Lane Split]],
 [[%left 'a'
 // Conflict resolution renders state 16 unreachable for canonical LR(1).  We
-// keep it so that the paser table diff is easier to code.
+// keep it so that the parser table diff is easier to code.
 %define lr.keep-unreachable-state]],
 [[
 /* Similar to the last test case set but two states must be split.  */
@@ -977,7 +977,7 @@ dnl PARSER-EXIT-VALUE, PARSER-STDOUT, PARSER-STDERR
 AT_TEST_LR_TYPE([[Complex Lane Split]],
 [[%left 'a'
 // Conflict resolution renders state 16 unreachable for canonical LR(1).  We
-// keep it so that the paser table diff is easier to code.
+// keep it so that the parser table diff is easier to code.
 %define lr.keep-unreachable-state]],
 [[
 /* Similar to the last test case set but forseeing the S/R conflict from the
