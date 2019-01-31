@@ -159,9 +159,9 @@ typedef struct
     if (!TRANSITION_IS_DISABLED (Transitions, Iter))
 
 
-/* Return the state such SHIFTS contain a shift/goto to it on SYM.
-   Abort if none found.  */
-struct state *transitions_to (transitions *shifts, symbol_number sym);
+/* The destination of the transition (shift/goto) from state S on
+   label SYM (term or nterm).  Abort if none found.  */
+struct state *transitions_to (state *s, symbol_number sym);
 
 
 /*-------.
