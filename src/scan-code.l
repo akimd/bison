@@ -631,7 +631,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
         if (!type_name
             && !sym->content.sym->content->type_name)
           {
-            if (union_seen | tag_seen)
+            if (union_seen || tag_seen)
               {
                 if (rule->midrule_parent_rule)
                   complain (&dollar_loc, complaint,
@@ -665,7 +665,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
         if (!type_name
             && (!sym || !sym->content.sym->content->type_name))
           {
-            if (union_seen | tag_seen)
+            if (union_seen || tag_seen)
               complain (&dollar_loc, complaint,
                         _("$%s of %s has no declared type"), cp,
                         quote (effective_rule->content.sym->tag));
