@@ -745,8 +745,8 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
 | Initialize the scanner.  |
 `-------------------------*/
 
-/* Translate the dollars and ats in \a self, in the context \a sc_context
-   (SC_RULE_ACTION, SC_SYMBOL_ACTION, INITIAL).  */
+/* Translate the '$...' and '@...' in \a self, in the context \a
+   sc_context (SC_RULE_ACTION, SC_SYMBOL_ACTION, INITIAL).  */
 
 static char const *
 translate_action (code_props *self, int sc_context)
