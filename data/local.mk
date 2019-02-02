@@ -15,7 +15,7 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 dist_pkgdata_DATA =                             \
-  data/README
+  data/README.md
 
 skeletonsdir = $(pkgdatadir)/skeletons
 dist_skeletons_DATA =                           \
