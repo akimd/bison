@@ -199,6 +199,88 @@ AT_CLEANUP
 
 
 
+## --------------- ##
+## Useless Parts.  ##
+## --------------- ##
+
+AT_SETUP([Useless Parts])
+
+# We used to emit code that used symbol numbers before the useless
+# symbol elimination, hence before the renumbering of the useful
+# symbols.  As a result, the evaluation of the skeleton failed because
+# it used non existing symbol numbers.  Which is the happy scenario:
+# we could use numbers of other existing symbols...
+# http://lists.gnu.org/archive/html/bug-bison/2019-01/msg00044.html
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([[input.y]],
+[[%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
+%union { void* ptr; }
+%type <ptr> used1
+%type <ptr> used2
+
+%%
+start
+ : used1
+ ;
+
+used1
+ : used2 { $$ = $1; }
+ ;
+
+unused
+ : used2
+ ;
+
+used2
+ : { $$ = YY_NULLPTR; }
+ ;
+]])
+
+AT_BISON_CHECK([[-fcaret -rall -o input.c input.y]], 0, [],
+[[input.y: warning: 1 nonterminal useless in grammar [-Wother]
+input.y: warning: 1 rule useless in grammar [-Wother]
+input.y:18.1-6: warning: nonterminal useless in grammar: unused [-Wother]
+ unused
+ ^~~~~~
+]])
+
+
+AT_CHECK([[sed -n '/^State 0/q;/^$/!p' input.output]], 0,
+[[Nonterminals useless in grammar
+   unused
+Rules useless in grammar
+    4 unused: used2
+Grammar
+    0 $accept: start $end
+    1 start: used1
+    2 used1: used2
+    3 used2: %empty
+Terminals, with rules where they appear
+$end (0) 0
+error (256)
+Nonterminals, with rules where they appear
+$accept (3)
+    on left: 0
+start (4)
+    on left: 1, on right: 0
+used1 <ptr> (5)
+    on left: 2, on right: 1
+used2 <ptr> (6)
+    on left: 3, on right: 2
+]])
+
+# Make sure the generated parser is correct.
+AT_COMPILE([input.o])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
+
 ## ------------------- ##
 ## Reduced Automaton.  ##
 ## ------------------- ##

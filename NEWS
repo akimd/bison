@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Bison 3.3 failed to generate parsers for grammars with unused non terminal
+  symbols.
 
 * Noteworthy changes in release 3.3.1 (2019-01-27) [stable]
 
