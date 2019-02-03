@@ -4,7 +4,7 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  Bison 3.3 failed to generate parsers for grammars with unused non terminal
+  Bison 3.3 failed to generate parsers for grammars with unused nonterminal
   symbols.
 
 * Noteworthy changes in release 3.3.1 (2019-01-27) [stable]
