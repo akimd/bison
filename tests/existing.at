@@ -475,7 +475,7 @@ dnl   - 56 -> 326: reduce -> shift on '*', '/', and '%'
 dnl   - 58 -> 327: reduce -> shift on '*', '/', and '%'
 dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 [AT_COND_CASE([[LALR]], [],
-[[@@ -712,7 +712,7 @@
+[[@@ -747,7 +747,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -484,7 +484,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -5379,7 +5379,7 @@
+@@ -5414,7 +5414,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -493,7 +493,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -5399,7 +5399,7 @@
+@@ -5434,7 +5434,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -502,7 +502,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -6214,7 +6214,7 @@
+@@ -6249,7 +6249,7 @@
    156         | . '$' non_post_simp_exp
 
      NAME  shift, and go to state 9
@@ -511,7 +511,7 @@ dnl   - 61 -> 328: reduce -> shift on '*', '/', and '%'
 
      NAME      [reduce using rule 152 (opt_variable)]
      '$'       [reduce using rule 152 (opt_variable)]
-@@ -11099,3 +11099,274 @@
+@@ -11134,3 +11134,274 @@
     45 statement: LEX_FOR '(' opt_exp semi opt_nls exp semi opt_nls opt_exp r_paren opt_nls statement .
 
      $default  reduce using rule 45 (statement)
@@ -2110,7 +2110,7 @@ dnl   - 266 -> 424
 dnl   - 339 -> 426
 dnl   - 383 -> 427
 [AT_COND_CASE([[LALR]], [],
-[[@@ -1223,7 +1223,7 @@
+[[@@ -1249,7 +1249,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2119,7 +2119,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -1377,7 +1377,7 @@
+@@ -1403,7 +1403,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2128,7 +2128,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -1854,7 +1854,7 @@
+@@ -1880,7 +1880,7 @@
 
      text                   go to state 162
      place                  go to state 114
@@ -2137,7 +2137,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -2047,7 +2047,7 @@
+@@ -2073,7 +2073,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2146,7 +2146,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -2571,7 +2571,7 @@
+@@ -2597,7 +2597,7 @@
      position_not_place     go to state 99
      expr_pair              go to state 191
      place                  go to state 101
@@ -2155,7 +2155,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -2732,7 +2732,7 @@
+@@ -2758,7 +2758,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2164,7 +2164,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -2875,7 +2875,7 @@
+@@ -2901,7 +2901,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2173,7 +2173,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -3018,7 +3018,7 @@
+@@ -3044,7 +3044,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2182,7 +2182,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -3256,7 +3256,7 @@
+@@ -3282,7 +3282,7 @@
 
  State 102
 
@@ -2191,7 +2191,7 @@ dnl   - 383 -> 427
    147      | label . corner
    153 label: label . '.' LABEL
    180 corner: . DOT_N
-@@ -3645,7 +3645,7 @@
+@@ -3671,7 +3671,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2200,7 +2200,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -3804,7 +3804,7 @@
+@@ -3830,7 +3830,7 @@
      text_expr              go to state 239
      text                   go to state 113
      place                  go to state 114
@@ -2209,7 +2209,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -4481,7 +4481,7 @@
+@@ -4507,7 +4507,7 @@
      $default  reduce using rule 89 (object_spec)
 
      place                  go to state 114
@@ -2218,7 +2218,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -4673,7 +4673,7 @@
+@@ -4699,7 +4699,7 @@
      $default  reduce using rule 91 (object_spec)
 
      place                  go to state 114
@@ -2227,7 +2227,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -4867,7 +4867,7 @@
+@@ -4893,7 +4893,7 @@
      $default  reduce using rule 95 (object_spec)
 
      place                  go to state 114
@@ -2236,7 +2236,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -5065,7 +5065,7 @@
+@@ -5091,7 +5091,7 @@
      $default  reduce using rule 93 (object_spec)
 
      place                  go to state 114
@@ -2245,7 +2245,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -5260,7 +5260,7 @@
+@@ -5286,7 +5286,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2254,7 +2254,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -5403,7 +5403,7 @@
+@@ -5429,7 +5429,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2263,7 +2263,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -5546,7 +5546,7 @@
+@@ -5572,7 +5572,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2272,7 +2272,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -5689,7 +5689,7 @@
+@@ -5715,7 +5715,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2281,7 +2281,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -6475,7 +6475,7 @@
+@@ -6501,7 +6501,7 @@
 
      expr_pair              go to state 280
      place                  go to state 114
@@ -2290,7 +2290,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -6633,7 +6633,7 @@
+@@ -6659,7 +6659,7 @@
      $default  reduce using rule 105 (object_spec)
 
      place                  go to state 114
@@ -2299,7 +2299,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -6825,7 +6825,7 @@
+@@ -6851,7 +6851,7 @@
      $default  reduce using rule 107 (object_spec)
 
      place                  go to state 114
@@ -2308,7 +2308,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -7017,7 +7017,7 @@
+@@ -7043,7 +7043,7 @@
      $default  reduce using rule 114 (object_spec)
 
      place                  go to state 114
@@ -2317,7 +2317,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -7264,7 +7264,7 @@
+@@ -7290,7 +7290,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2326,7 +2326,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -7408,7 +7408,7 @@
+@@ -7434,7 +7434,7 @@
      $default  reduce using rule 109 (object_spec)
 
      place                  go to state 114
@@ -2335,7 +2335,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -7819,12 +7819,12 @@
+@@ -7845,12 +7845,12 @@
      position_not_place     go to state 296
      expr_pair              go to state 100
      place                  go to state 297
@@ -2350,7 +2350,7 @@ dnl   - 383 -> 427
 
 
  State 165
-@@ -7987,7 +7987,7 @@
+@@ -8013,7 +8013,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2359,7 +2359,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -8172,7 +8172,7 @@
+@@ -8198,7 +8198,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2368,7 +2368,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -8333,7 +8333,7 @@
+@@ -8359,7 +8359,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2377,7 +2377,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -8494,7 +8494,7 @@
+@@ -8520,7 +8520,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2386,7 +2386,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -8655,7 +8655,7 @@
+@@ -8681,7 +8681,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2395,7 +2395,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -8816,7 +8816,7 @@
+@@ -8842,7 +8842,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2404,7 +2404,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -8977,7 +8977,7 @@
+@@ -9003,7 +9003,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2413,7 +2413,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -9138,7 +9138,7 @@
+@@ -9164,7 +9164,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2422,7 +2422,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -9299,7 +9299,7 @@
+@@ -9325,7 +9325,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2431,7 +2431,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -9460,7 +9460,7 @@
+@@ -9486,7 +9486,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2440,7 +2440,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -9623,7 +9623,7 @@
+@@ -9649,7 +9649,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2449,7 +2449,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -9784,7 +9784,7 @@
+@@ -9810,7 +9810,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2458,7 +2458,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -9921,7 +9921,7 @@
+@@ -9947,7 +9947,7 @@
 
      $default  reduce using rule 47 (any_expr)
 
@@ -2467,7 +2467,7 @@ dnl   - 383 -> 427
 
 
  State 193
-@@ -10152,7 +10152,7 @@
+@@ -10178,7 +10178,7 @@
 
      expr_pair              go to state 317
      place                  go to state 114
@@ -2476,7 +2476,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -10298,7 +10298,7 @@
+@@ -10324,7 +10324,7 @@
 
      expr_pair              go to state 318
      place                  go to state 114
@@ -2485,7 +2485,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -10622,7 +10622,7 @@
+@@ -10648,7 +10648,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2494,7 +2494,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -10765,7 +10765,7 @@
+@@ -10791,7 +10791,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2503,7 +2503,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -10908,7 +10908,7 @@
+@@ -10934,7 +10934,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2512,7 +2512,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11051,7 +11051,7 @@
+@@ -11077,7 +11077,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2521,7 +2521,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11194,7 +11194,7 @@
+@@ -11220,7 +11220,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2530,7 +2530,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11337,7 +11337,7 @@
+@@ -11363,7 +11363,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2539,7 +2539,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11480,7 +11480,7 @@
+@@ -11506,7 +11506,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2548,7 +2548,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11637,7 +11637,7 @@
+@@ -11663,7 +11663,7 @@
      position_not_place     go to state 99
      expr_pair              go to state 100
      place                  go to state 101
@@ -2557,7 +2557,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11780,7 +11780,7 @@
+@@ -11806,7 +11806,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2566,7 +2566,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -11923,7 +11923,7 @@
+@@ -11949,7 +11949,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2575,7 +2575,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -12066,7 +12066,7 @@
+@@ -12092,7 +12092,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2584,7 +2584,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -12209,7 +12209,7 @@
+@@ -12235,7 +12235,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2593,7 +2593,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -12352,7 +12352,7 @@
+@@ -12378,7 +12378,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2602,7 +2602,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -12495,7 +12495,7 @@
+@@ -12521,7 +12521,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2611,7 +2611,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -12638,7 +12638,7 @@
+@@ -12664,7 +12664,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2620,7 +2620,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -12794,12 +12794,12 @@
+@@ -12820,12 +12820,12 @@
      position_not_place     go to state 99
      expr_pair              go to state 100
      place                  go to state 101
@@ -2635,7 +2635,7 @@ dnl   - 383 -> 427
 
 
  State 238
-@@ -12937,7 +12937,7 @@
+@@ -12963,7 +12963,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2644,7 +2644,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -13160,7 +13160,7 @@
+@@ -13186,7 +13186,7 @@
      text_expr              go to state 342
      text                   go to state 113
      place                  go to state 114
@@ -2653,7 +2653,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -13319,7 +13319,7 @@
+@@ -13345,7 +13345,7 @@
      text_expr              go to state 344
      text                   go to state 113
      place                  go to state 114
@@ -2662,7 +2662,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -13502,7 +13502,7 @@
+@@ -13528,7 +13528,7 @@
      text_expr              go to state 348
      text                   go to state 113
      place                  go to state 114
@@ -2671,7 +2671,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -13661,7 +13661,7 @@
+@@ -13687,7 +13687,7 @@
      text_expr              go to state 350
      text                   go to state 113
      place                  go to state 114
@@ -2680,7 +2680,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -13804,7 +13804,7 @@
+@@ -13830,7 +13830,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2689,7 +2689,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -14747,7 +14747,7 @@
+@@ -14773,7 +14773,7 @@
      position_not_place     go to state 99
      expr_pair              go to state 191
      place                  go to state 101
@@ -2698,7 +2698,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -15074,7 +15074,7 @@
+@@ -15100,7 +15100,7 @@
      text                   go to state 113
      expr_pair              go to state 365
      place                  go to state 114
@@ -2707,7 +2707,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -15693,12 +15693,12 @@
+@@ -15719,12 +15719,12 @@
      position_not_place     go to state 99
      expr_pair              go to state 100
      place                  go to state 101
@@ -2722,7 +2722,7 @@ dnl   - 383 -> 427
 
 
  State 315
-@@ -16124,7 +16124,7 @@
+@@ -16150,7 +16150,7 @@
 
      $default  reduce using rule 239 (expr)
 
@@ -2731,7 +2731,7 @@ dnl   - 383 -> 427
 
      Conflict between rule 239 and token OF resolved as shift ('<' < OF).
      Conflict between rule 239 and token BETWEEN resolved as shift ('<' < BETWEEN).
-@@ -17234,7 +17234,7 @@
+@@ -17260,7 +17260,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2740,7 +2740,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -17416,7 +17416,7 @@
+@@ -17442,7 +17442,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2749,7 +2749,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -17577,7 +17577,7 @@
+@@ -17603,7 +17603,7 @@
      text_expr              go to state 112
      text                   go to state 113
      place                  go to state 114
@@ -2758,7 +2758,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -17772,12 +17772,12 @@
+@@ -17798,12 +17798,12 @@
      position_not_place     go to state 99
      expr_pair              go to state 100
      place                  go to state 101
@@ -2773,7 +2773,7 @@ dnl   - 383 -> 427
 
 
  State 383
-@@ -18071,7 +18071,7 @@
+@@ -18097,7 +18097,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2782,7 +2782,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -18221,7 +18221,7 @@
+@@ -18247,7 +18247,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2791,7 +2791,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -18830,7 +18830,7 @@
+@@ -18856,7 +18856,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2800,7 +2800,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -18987,7 +18987,7 @@
+@@ -19013,7 +19013,7 @@
      '!'           shift, and go to state 94
 
      place                  go to state 114
@@ -2809,7 +2809,7 @@ dnl   - 383 -> 427
      ordinal                go to state 103
      optional_ordinal_last  go to state 104
      nth_primitive          go to state 105
-@@ -19089,3 +19089,440 @@
+@@ -19115,3 +19115,440 @@
     29 placeless_element: FOR VARIABLE '=' expr TO expr optional_by DO $@6 DELIMITED .
 
      $default  reduce using rule 29 (placeless_element)

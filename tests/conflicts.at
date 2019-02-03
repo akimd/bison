@@ -799,18 +799,19 @@ Grammar
 
 Terminals, with rules where they appear
 
-$end (0) 0
-error (256)
-NUM (258) 2
-OP (259) 1
+    $end (0) 0
+    error (256)
+    NUM (258) 2
+    OP (259) 1
 
 
 Nonterminals, with rules where they appear
 
-$accept (5)
-    on left: 0
-exp (6)
-    on left: 1 2, on right: 0 1
+    $accept (5)
+        on left: 0
+    exp (6)
+        on left: 1 2
+        on right: 0 1
 
 
 State 0
@@ -902,18 +903,19 @@ AT_CHECK([cat input.output], [],
 
 Terminals, with rules where they appear
 
-$end (0) 0
-error (256)
-NUM (258) 2
-OP (259) 1
+    $end (0) 0
+    error (256)
+    NUM (258) 2
+    OP (259) 1
 
 
 Nonterminals, with rules where they appear
 
-$accept (5)
-    on left: 0
-exp (6)
-    on left: 1 2, on right: 0 1
+    $accept (5)
+        on left: 0
+    exp (6)
+        on left: 1 2
+        on right: 0 1
 
 
 State 0
@@ -1095,21 +1097,24 @@ Grammar
 
 Terminals, with rules where they appear
 
-$end (0) 0
-'0' (48) 3 4
-error (256)
+    $end (0) 0
+    '0' (48) 3 4
+    error (256)
 
 
 Nonterminals, with rules where they appear
 
-$accept (4)
-    on left: 0
-exp (5)
-    on left: 1 2, on right: 0
-num (6)
-    on left: 3, on right: 1
-id (7)
-    on left: 4, on right: 2
+    $accept (4)
+        on left: 0
+    exp (5)
+        on left: 1 2
+        on right: 0
+    num (6)
+        on left: 3
+        on right: 1
+    id (7)
+        on left: 4
+        on right: 2
 
 
 State 0
@@ -1595,25 +1600,30 @@ Grammar
 
 Terminals, with rules where they appear
 
-$end (0) 0
-'a' (97) 1 2 4 8 9
-error (256)
+    $end (0) 0
+    'a' (97) 1 2 4 8 9
+    error (256)
 
 
 Nonterminals, with rules where they appear
 
-$accept (4)
-    on left: 0
-start (5)
-    on left: 1, on right: 0
-resolved_conflict (6)
-    on left: 2 3, on right: 1
-unreachable1 (7)
-    on left: 4 5, on right: 2
-unreachable2 (8)
-    on left: 6 7, on right: 4
-reported_conflicts (9)
-    on left: 8 9 10, on right: 1
+    $accept (4)
+        on left: 0
+    start (5)
+        on left: 1
+        on right: 0
+    resolved_conflict (6)
+        on left: 2 3
+        on right: 1
+    unreachable1 (7)
+        on left: 4 5
+        on right: 2
+    unreachable2 (8)
+        on left: 6 7
+        on right: 4
+    reported_conflicts (9)
+        on left: 8 9 10
+        on right: 1
 
 
 State 0

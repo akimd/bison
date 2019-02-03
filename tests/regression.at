@@ -247,23 +247,26 @@ AT_CHECK([cat input.output], [],
 
 Terminals, with rules where they appear
 
-$end (0) 0
-'a' (97) 2
-'b' (98) 2
-'c' (99) 4
-error (256)
+    $end (0) 0
+    'a' (97) 2
+    'b' (98) 2
+    'c' (99) 4
+    error (256)
 
 
 Nonterminals, with rules where they appear
 
-$accept (6)
-    on left: 0
-expr (7)
-    on left: 2 4, on right: 0
-$@1 (8)
-    on left: 1, on right: 2
-$@2 (9)
-    on left: 3, on right: 4
+    $accept (6)
+        on left: 0
+    expr (7)
+        on left: 2 4
+        on right: 0
+    $@1 (8)
+        on left: 1
+        on right: 2
+    $@2 (9)
+        on left: 3
+        on right: 4
 
 
 State 0
@@ -554,26 +557,30 @@ AT_CHECK([cat input.output], 0,
 
 Terminals, with rules where they appear
 
-$end (0) 0
-';' (59) 5
-'=' (61) 5
-error (256)
-undef_id_tok (258) 5
-const_id_tok (259) 5
+    $end (0) 0
+    ';' (59) 5
+    '=' (61) 5
+    error (256)
+    undef_id_tok (258) 5
+    const_id_tok (259) 5
 
 
 Nonterminals, with rules where they appear
 
-$accept (7)
-    on left: 0
-CONST_DEC_PART (8)
-    on left: 1, on right: 0
-CONST_DEC_LIST (9)
-    on left: 2 3, on right: 1 3
-CONST_DEC (10)
-    on left: 5, on right: 2 3
-$@1 (11)
-    on left: 4, on right: 5
+    $accept (7)
+        on left: 0
+    CONST_DEC_PART (8)
+        on left: 1
+        on right: 0
+    CONST_DEC_LIST (9)
+        on left: 2 3
+        on right: 1 3
+    CONST_DEC (10)
+        on left: 5
+        on right: 2 3
+    $@1 (11)
+        on left: 4
+        on right: 5
 
 
 State 0

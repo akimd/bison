@@ -48,15 +48,15 @@ AT_BISON_CHECK([[input.y]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
 [[Terminals unused in grammar
-   useless1
-   useless2
-   useless3
-   useless4
-   useless5
-   useless6
-   useless7
-   useless8
-   useless9
+    useless1
+    useless2
+    useless3
+    useless4
+    useless5
+    useless6
+    useless7
+    useless8
+    useless9
 ]])
 
 AT_CLEANUP
@@ -96,9 +96,9 @@ input.y:13.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
 [[Nonterminals useless in grammar
-   useless1
-   useless2
-   useless3
+    useless1
+    useless2
+    useless3
 Rules useless in grammar
     2 useless1: %empty
     3 useless2: %empty
@@ -178,25 +178,25 @@ input.y:18.1-8: warning: nonterminal useless in grammar: useless9 [-Wother]
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
 [[Nonterminals useless in grammar
-   useless1
-   useless2
-   useless3
-   useless4
-   useless5
-   useless6
-   useless7
-   useless8
-   useless9
+    useless1
+    useless2
+    useless3
+    useless4
+    useless5
+    useless6
+    useless7
+    useless8
+    useless9
 Terminals unused in grammar
-   '1'
-   '2'
-   '3'
-   '4'
-   '5'
-   '6'
-   '7'
-   '8'
-   '9'
+    '1'
+    '2'
+    '3'
+    '4'
+    '5'
+    '6'
+    '7'
+    '8'
+    '9'
 Rules useless in grammar
     2 useless1: '1'
     3 useless2: '2'
@@ -269,7 +269,7 @@ input.y:18.1-6: warning: nonterminal useless in grammar: unused [-Wother]
 
 AT_CHECK([[sed -n '/^State 0/q;/^$/!p' input.output]], 0,
 [[Nonterminals useless in grammar
-   unused
+    unused
 Rules useless in grammar
     4 unused: used2
 Grammar
@@ -278,17 +278,20 @@ Grammar
     2 used1: used2
     3 used2: %empty
 Terminals, with rules where they appear
-$end (0) 0
-error (256)
+    $end (0) 0
+    error (256)
 Nonterminals, with rules where they appear
-$accept (3)
-    on left: 0
-start (4)
-    on left: 1, on right: 0
-used1 <ptr> (5)
-    on left: 2, on right: 1
-used2 <ptr> (6)
-    on left: 3, on right: 2
+    $accept (3)
+        on left: 0
+    start (4)
+        on left: 1
+        on right: 0
+    used1 <ptr> (5)
+        on left: 2
+        on right: 1
+    used2 <ptr> (6)
+        on left: 3
+        on right: 2
 ]])
 
 # Make sure the generated parser is correct.
@@ -351,10 +354,10 @@ not-reduced.y:11.6-57: warning: rule useless in grammar [-Wother]
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' not-reduced.output]], 0,
 [[Nonterminals useless in grammar
-   not_reachable
-   non_productive
+    not_reachable
+    non_productive
 Terminals unused in grammar
-   useless_token
+    useless_token
 Rules useless in grammar
     2 exp: non_productive
     3 not_reachable: useful
@@ -430,8 +433,8 @@ input.y:5.15-25: warning: rule useless in grammar [-Wother]
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
 [[Nonterminals useless in grammar
-   underivable
-   indirection
+    underivable
+    indirection
 Rules useless in grammar
     2 exp: underivable
     3 underivable: indirection
