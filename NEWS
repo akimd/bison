@@ -9,6 +9,13 @@ GNU Bison NEWS
   When given -fsyntax-only, the diagnostics are reported, but no output is
   generated.
 
+* Noteworthy changes in release 3.3.2 (2019-02-03) [stable]
+
+** Bug fixes
+
+  Bison 3.3 failed to generate parsers for grammars with unused nonterminal
+  symbols.
+
 * Noteworthy changes in release 3.3.1 (2019-01-27) [stable]
 
 ** Changes
@@ -225,17 +232,18 @@ GNU Bison NEWS
     symbol_type (int token, const int&);
     symbol_type (int token);
 
-  which should be used in a Flex-scanner as follows.
-
-    %%
-    [a-z]+   return yy::parser::symbol_type (ID, yytext);
-    [0-9]+   return yy::parser::symbol_type (INT, text_to_int (yytext);
-    ":"      return yy::parser::symbol_type (’:’);
-    <<EOF>>  return yy::parser::symbol_type (0);
-
   Correct matching between token types and value types is checked via
-  'assert'.  For instance, 'symbol_type (ID, 42)' would abort (while
-  'make_ID (42)' would not even compile).
+  'assert'; for instance, 'symbol_type (ID, 42)' would abort.  Named
+  constructors are preferable, as they offer better type safety (for
+  instance 'make_ID (42)' would not even compile), but symbol_type
+  constructors may help when token types are discovered at run-time, e.g.,
+
+     [a-z]+   {
+                if (auto i = lookup_keyword (yytext))
+                  return yy::parser::symbol_type (i);
+                else
+                  return yy::parser::make_ID (yytext);
+              }
 
 *** C++: Variadic emplace
 
@@ -3488,7 +3496,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
  LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
  LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
- LocalWords:  noexcept constexpr ispell american
+ LocalWords:  noexcept constexpr ispell american deprecations
 
 Local Variables:
 ispell-dictionary: "american"
