@@ -68,9 +68,14 @@ AT_CLEANUP
 ## ---------------------- ##
 
 AT_SETUP([Useless Nonterminals])
+AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA([[input.y]],
-[[%verbose
+[[%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
+%verbose
 %output "input.c"
 
 %token useful
@@ -84,9 +89,9 @@ useless3:
 AT_BISON_CHECK([[input.y]], 0, [],
 [[input.y: warning: 3 nonterminals useless in grammar [-Wother]
 input.y: warning: 3 rules useless in grammar [-Wother]
-input.y:7.1-8: warning: nonterminal useless in grammar: useless1 [-Wother]
-input.y:8.1-8: warning: nonterminal useless in grammar: useless2 [-Wother]
-input.y:9.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
+input.y:11.1-8: warning: nonterminal useless in grammar: useless1 [-Wother]
+input.y:12.1-8: warning: nonterminal useless in grammar: useless2 [-Wother]
+input.y:13.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
 ]])
 
 AT_CHECK([[sed -n '/^Grammar/q;/^$/!p' input.output]], 0,
@@ -100,6 +105,10 @@ Rules useless in grammar
     4 useless3: %empty
 ]])
 
+# Make sure the generated parser is correct.
+AT_COMPILE([input.o])
+
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -110,10 +119,15 @@ AT_CLEANUP
 
 AT_SETUP([Useless Rules])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_KEYWORDS([report])
 
 AT_DATA([[input.y]],
-[[%verbose
+[[%code {
+  ]AT_YYERROR_DECLARE_EXTERN[
+  ]AT_YYLEX_DECLARE_EXTERN[
+}
+%verbose
 %output "input.c"
 %token useful
 %%
@@ -132,31 +146,31 @@ useless9: '9';
 AT_BISON_CHECK([[-fcaret input.y]], 0, [],
 [[input.y: warning: 9 nonterminals useless in grammar [-Wother]
 input.y: warning: 9 rules useless in grammar [-Wother]
-input.y:6.1-8: warning: nonterminal useless in grammar: useless1 [-Wother]
+input.y:10.1-8: warning: nonterminal useless in grammar: useless1 [-Wother]
  useless1: '1';
  ^~~~~~~~
-input.y:7.1-8: warning: nonterminal useless in grammar: useless2 [-Wother]
+input.y:11.1-8: warning: nonterminal useless in grammar: useless2 [-Wother]
  useless2: '2';
  ^~~~~~~~
-input.y:8.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
+input.y:12.1-8: warning: nonterminal useless in grammar: useless3 [-Wother]
  useless3: '3';
  ^~~~~~~~
-input.y:9.1-8: warning: nonterminal useless in grammar: useless4 [-Wother]
+input.y:13.1-8: warning: nonterminal useless in grammar: useless4 [-Wother]
  useless4: '4';
  ^~~~~~~~
-input.y:10.1-8: warning: nonterminal useless in grammar: useless5 [-Wother]
+input.y:14.1-8: warning: nonterminal useless in grammar: useless5 [-Wother]
  useless5: '5';
  ^~~~~~~~
-input.y:11.1-8: warning: nonterminal useless in grammar: useless6 [-Wother]
+input.y:15.1-8: warning: nonterminal useless in grammar: useless6 [-Wother]
  useless6: '6';
  ^~~~~~~~
-input.y:12.1-8: warning: nonterminal useless in grammar: useless7 [-Wother]
+input.y:16.1-8: warning: nonterminal useless in grammar: useless7 [-Wother]
  useless7: '7';
  ^~~~~~~~
-input.y:13.1-8: warning: nonterminal useless in grammar: useless8 [-Wother]
+input.y:17.1-8: warning: nonterminal useless in grammar: useless8 [-Wother]
  useless8: '8';
  ^~~~~~~~
-input.y:14.1-8: warning: nonterminal useless in grammar: useless9 [-Wother]
+input.y:18.1-8: warning: nonterminal useless in grammar: useless9 [-Wother]
  useless9: '9';
  ^~~~~~~~
 ]])
@@ -195,6 +209,10 @@ Rules useless in grammar
    10 useless9: '9'
 ]])
 
+# Make sure the generated parser is correct.
+AT_COMPILE([input.o])
+
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
