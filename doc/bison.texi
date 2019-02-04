@@ -11732,15 +11732,21 @@ symbol_type (int token, const int&, const location_type&);
 symbol_type (int token, const location_type&);
 @end example
 
-@noindent
-which should be used in a Flex-scanner as follows.
+Correct matching between token types and value types is checked via
+@code{assert}; for instance, @samp{symbol_type (ID, 42)} would abort.  Named
+constructors are preferable (see below), as they offer better type safety
+(for instance @samp{make_ID (42)} would not even compile), but symbol_type
+constructors may help when token types are discovered at run-time, e.g.,
 
 @example
-%%
-[a-z]+   return yy::parser::symbol_type (TOK_IDENTIFIER, yytext, loc);
-[0-9]+   return yy::parser::symbol_type (TOK_INTEGER, text_to_int (yytext), loc);
-":"      return yy::parser::symbol_type (':', loc);
-<<EOF>>  return yy::parser::symbol_type (0, loc);
+@group
+[a-z]+   @{
+           if (auto i = lookup_keyword (yytext))
+             return yy::parser::symbol_type (i, loc);
+           else
+             return yy::parser::make_ID (yytext, loc);
+         @}
+@end group
 @end example
 
 @sp 1
