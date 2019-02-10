@@ -23,6 +23,7 @@ check_PROGRAMS += %D%/calc
 TESTS += %D%/calc.test
 EXTRA_DIST += %D%/calc.test
 %C%_calc_SOURCES = %D%/calc.y
+%D%/calc.c: $(dependencies)
 
 # Don't use gnulib's system headers.
 %C%_calc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%

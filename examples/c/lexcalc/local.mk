@@ -23,6 +23,7 @@ check_PROGRAMS += %D%/lexcalc
 TESTS += %D%/lexcalc.test
 EXTRA_DIST += %D%/lexcalc.test
 %C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
+%D%/lexcalc.c: $(dependencies)
 
 # Don't use gnulib's system headers.
 %C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%

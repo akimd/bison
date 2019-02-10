@@ -28,6 +28,7 @@ extracted += $(rpcalc_extracted)
 
 check_PROGRAMS += %D%/rpcalc
 nodist_%C%_rpcalc_SOURCES = $(rpcalc_sources)
+%D%/rpcalc.c: $(dependencies)
 # Don't use gnulib's system headers.
 %C%_rpcalc_CPPFLAGS = -I$(top_builddir)/%D%
 %C%_rpcalc_LDADD = -lm

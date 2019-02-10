@@ -28,6 +28,7 @@ extracted += $(mfcalc_extracted)
 
 check_PROGRAMS += %D%/mfcalc
 nodist_%C%_mfcalc_SOURCES = $(mfcalc_sources)
+%D%/mfcalc.c: $(dependencies)
 # Don't use gnulib's system headers.
 %C%_mfcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
 %C%_mfcalc_LDADD = -lm
