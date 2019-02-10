@@ -1548,7 +1548,7 @@ after @samp{//}.
 
 @comment file: rpcalc.y
 @example
-/* Reverse Polish Notation calculator.  */
+/* Reverse Polish Notation calculator. */
 
 @group
 %@{
@@ -1562,7 +1562,7 @@ after @samp{//}.
 %define api.value.type @{double@}
 %token NUM
 
-%% /* Grammar rules and actions follow.  */
+%% /* Grammar rules and actions follow. */
 @end example
 
 The declarations section (@pxref{Prologue, , The prologue}) contains two
@@ -1625,7 +1625,7 @@ exp:
 | exp exp '*'   @{ $$ = $1 * $2;      @}
 | exp exp '/'   @{ $$ = $1 / $2;      @}
 | exp exp '^'   @{ $$ = pow ($1, $2); @}  /* Exponentiation */
-| exp 'n'       @{ $$ = -$1;          @}  /* Unary minus    */
+| exp 'n'       @{ $$ = -$1;          @}  /* Unary minus   */
 ;
 @end group
 %%
@@ -1828,7 +1828,7 @@ Here is the code for the lexical analyzer:
 /* The lexical analyzer returns a double floating point
    number on the stack and the token NUM, or the numeric code
    of the character read if not a number.  It skips all blanks
-   and tabs, and returns 0 for end-of-input.  */
+   and tabs, and returns 0 for end-of-input. */
 
 #include <ctype.h>
 @end group
@@ -1838,12 +1838,12 @@ int
 yylex (void)
 @{
   int c = getchar ();
-  /* Skip white space.  */
+  /* Skip white space. */
   while (c == ' ' || c == '\t')
     c = getchar ();
 @end group
 @group
-  /* Process numbers.  */
+  /* Process numbers. */
   if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
@@ -1852,10 +1852,10 @@ yylex (void)
     @}
 @end group
 @group
-  /* Return end-of-input.  */
+  /* Return end-of-input. */
   else if (c == EOF)
     return 0;
-  /* Return a single char.  */
+  /* Return a single char. */
   else
     return c;
 @}
@@ -1897,7 +1897,7 @@ here is the definition we will use:
 #include <stdio.h>
 
 @group
-/* Called by yyparse on error.  */
+/* Called by yyparse on error. */
 void
 yyerror (char const *s)
 @{
@@ -2000,7 +2000,7 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 @file{calc.y}, an infix desk-top calculator.
 
 @example
-/* Infix notation calculator.  */
+/* Infix notation calculator. */
 
 @group
 %@{
@@ -2012,7 +2012,7 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 @end group
 
 @group
-/* Bison declarations.  */
+/* Bison declarations. */
 %define api.value.type @{double@}
 %token NUM
 %left '-' '+'
@@ -2021,7 +2021,7 @@ parentheses nested to arbitrary depth.  Here is the Bison code for
 %right '^'        /* exponentiation */
 @end group
 
-%% /* The grammar follows.  */
+%% /* The grammar follows. */
 @group
 input:
   %empty
@@ -2160,7 +2160,7 @@ The C and Bison declarations for the location tracking calculator are
 the same as the declarations for the infix notation calculator.
 
 @example
-/* Location tracking calculator.  */
+/* Location tracking calculator. */
 
 %@{
   #include <math.h>
@@ -2168,7 +2168,7 @@ the same as the declarations for the infix notation calculator.
   void yyerror (char const *);
 %@}
 
-/* Bison declarations.  */
+/* Bison declarations. */
 %define api.value.type @{int@}
 %token NUM
 
@@ -2177,7 +2177,7 @@ the same as the declarations for the infix notation calculator.
 %precedence NEG
 %right '^'
 
-%% /* The grammar follows.  */
+%% /* The grammar follows. */
 @end example
 
 @noindent
@@ -2276,19 +2276,19 @@ yylex (void)
 @end group
 
 @group
-  /* Skip white space.  */
+  /* Skip white space. */
   while ((c = getchar ()) == ' ' || c == '\t')
     ++yylloc.last_column;
 @end group
 
 @group
-  /* Step.  */
+  /* Step. */
   yylloc.first_line = yylloc.last_line;
   yylloc.first_column = yylloc.last_column;
 @end group
 
 @group
-  /* Process numbers.  */
+  /* Process numbers. */
   if (isdigit (c))
     @{
       yylval = c - '0';
@@ -2303,12 +2303,12 @@ yylex (void)
     @}
 @end group
 
-  /* Return end-of-input.  */
+  /* Return end-of-input. */
   if (c == EOF)
     return 0;
 
 @group
-  /* Return a single char, and update location.  */
+  /* Return a single char, and update location. */
   if (c == '\n')
     @{
       ++yylloc.last_line;
@@ -2415,15 +2415,15 @@ Here are the C and Bison declarations for the multi-function calculator.
 @group
 %@{
   #include <stdio.h>  /* For printf, etc. */
-  #include <math.h>   /* For pow, used in the grammar.  */
-  #include "calc.h"   /* Contains definition of 'symrec'.  */
+  #include <math.h>   /* For pow, used in the grammar. */
+  #include "calc.h"   /* Contains definition of 'symrec'. */
   int yylex (void);
   void yyerror (char const *);
 %@}
 @end group
 
-%define api.value.type union /* Generate YYSTYPE from these types:  */
-%token <double>  NUM     /* Double precision number.  */
+%define api.value.type union /* Generate YYSTYPE from these types: */
+%token <double>  NUM     /* Double precision number. */
 %token <symrec*> VAR FUN /* Symbol table pointer: variable/function. */
 %type  <double>  exp
 
@@ -2467,7 +2467,7 @@ those which mention @code{VAR} or @code{FUN}, are new.
 
 @comment file: mfcalc.y: 3
 @example
-%% /* The grammar follows.  */
+%% /* The grammar follows. */
 @group
 input:
   %empty
@@ -2498,7 +2498,7 @@ exp:
 | '(' exp ')'        @{ $$ = $2;                         @}
 ;
 @end group
-/* End of grammar.  */
+/* End of grammar. */
 %%
 @end example
 
@@ -2518,12 +2518,12 @@ provides for either functions or variables to be placed in the table.
 @comment file: calc.h
 @example
 @group
-/* Function type.  */
+/* Function type. */
 typedef double (func_t) (double);
 @end group
 
 @group
-/* Data type for links in the chain of symbols.  */
+/* Data type for links in the chain of symbols. */
 struct symrec
 @{
   char *name;  /* name of symbol */
@@ -2540,7 +2540,7 @@ struct symrec
 @group
 typedef struct symrec symrec;
 
-/* The symbol table: a chain of 'struct symrec'.  */
+/* The symbol table: a chain of 'struct symrec'. */
 extern symrec *sym_table;
 
 symrec *putsym (char const *name, int sym_type);
@@ -2575,12 +2575,12 @@ struct init const arith_funs[] =
 @end group
 
 @group
-/* The symbol table: a chain of 'struct symrec'.  */
+/* The symbol table: a chain of 'struct symrec'. */
 symrec *sym_table;
 @end group
 
 @group
-/* Put arithmetic functions in table.  */
+/* Put arithmetic functions in table. */
 static void
 init_table (void)
 @end group
@@ -2617,7 +2617,7 @@ putsym (char const *name, int sym_type)
   symrec *res = (symrec *) malloc (sizeof (symrec));
   res->name = strdup (name);
   res->type = sym_type;
-  res->value.var = 0; /* Set value to 0 even if fun.  */
+  res->value.var = 0; /* Set value to 0 even if fun. */
   res->next = sym_table;
   sym_table = res;
   return res;
@@ -2664,7 +2664,7 @@ yylex (void)
 @{
   int c;
 
-  /* Ignore white space, get first nonwhite character.  */
+  /* Ignore white space, get first nonwhite character. */
   while ((c = getchar ()) == ' ' || c == '\t')
     continue;
 
@@ -2673,7 +2673,7 @@ yylex (void)
 @end group
 
 @group
-  /* Char starts a number => parse the number.         */
+  /* Char starts a number => parse the number. */
   if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
@@ -2690,11 +2690,11 @@ Bison generated a definition of @code{YYSTYPE} with a member named
 @comment file: mfcalc.y: 3
 @example
 @group
-  /* Char starts an identifier => read the name.       */
+  /* Char starts an identifier => read the name. */
   if (isalpha (c))
     @{
       /* Initially make the buffer long enough
-         for a 40-character symbol name.  */
+         for a 40-character symbol name. */
       static size_t length = 40;
       static char *symbuf = 0;
 @end group
@@ -2705,15 +2705,15 @@ Bison generated a definition of @code{YYSTYPE} with a member named
       do
 @group
         @{
-          /* If buffer is full, make it bigger.        */
+          /* If buffer is full, make it bigger. */
           if (i == length)
             @{
               length *= 2;
               symbuf = realloc (symbuf, length + 1);
             @}
-          /* Add this character to the buffer.         */
+          /* Add this character to the buffer. */
           symbuf[i++] = c;
-          /* Get another character.                    */
+          /* Get another character. */
           c = getchar ();
         @}
 @end group
@@ -2728,11 +2728,11 @@ Bison generated a definition of @code{YYSTYPE} with a member named
       symrec *s = getsym (symbuf);
       if (!s)
         s = putsym (symbuf, VAR);
-      yylval.VAR = s; /* or yylval.FUN = s.  */
+      yylval.VAR = s; /* or yylval.FUN = s. */
       return s->type;
     @}
 
-  /* Any other character is a token by itself.        */
+  /* Any other character is a token by itself. */
   return c;
 @}
 @end group
@@ -2748,7 +2748,7 @@ on user demand (@xref{Tracing, , Tracing Your Parser}, for details):
 @comment file: mfcalc.y: 3
 @example
 @group
-/* Called by yyparse on error.  */
+/* Called by yyparse on error. */
 void yyerror (char const *s)
 @{
   fprintf (stderr, "%s\n", s);
@@ -2760,7 +2760,7 @@ int main (int argc, char const* argv[])
 @end group
 @group
 @{
-  /* Enable parse traces on option -p.  */
+  /* Enable parse traces on option -p. */
   if (argc == 2 && strcmp(argv[1], "-p") == 0)
     yydebug = 1;
 @end group
@@ -2984,7 +2984,7 @@ the same time:
   #include <stdio.h>
 
   /* WARNING: The following code really belongs
-   * in a '%code requires'; see below.  */
+   * in a '%code requires'; see below. */
 
   #include "ptypes.h"
   #define YYLTYPE YYLTYPE
@@ -3769,15 +3769,15 @@ names on which you should not depend; instead, relying on C casts to access
 the semantic value with the appropriate type:
 
 @example
-/* For an "integer".  */
+/* For an "integer". */
 yylval.INT = 42;
 return INT;
 
-/* For an 'n', also declared as int.  */
+/* For an 'n', also declared as int. */
 *((int*)&yylval) = 42;
 return 'n';
 
-/* For an "identifier".  */
+/* For an "identifier". */
 yylval.ID = "42";
 return ID;
 @end example
@@ -3788,7 +3788,7 @@ the union member names.  For instance, with @samp{%define api.token.prefix
 @{TOK_@}}:
 
 @example
-/* For an "integer".  */
+/* For an "integer". */
 yylval.TOK_INT = 42;
 return TOK_INT;
 @end example
@@ -6704,7 +6704,7 @@ parsers.  To comply with this tradition, when @code{api.prefix} is used,
 @code{YYDEBUG} (not renamed) is used as a default value:
 
 @example
-/* Debug traces.  */
+/* Debug traces. */
 #ifndef CDEBUG
 # if defined YYDEBUG
 #  if YYDEBUG
@@ -6815,7 +6815,7 @@ Then call the parser like this:
 @example
 @{
   int nastiness, randomness;
-  @dots{}  /* @r{Store proper data in @code{nastiness} and @code{randomness}.}  */
+  @dots{}  /* @r{Store proper data in @code{nastiness} and @code{randomness}.} */
   value = yyparse (&nastiness, &randomness);
   @dots{}
 @}
@@ -6973,13 +6973,13 @@ int
 yylex (void)
 @{
   @dots{}
-  if (c == EOF)    /* Detect end-of-input.  */
+  if (c == EOF)    /* Detect end-of-input. */
     return 0;
   @dots{}
   if (c == '+' || c == '-')
-    return c;      /* Assume token type for '+' is '+'.  */
+    return c;      /* Assume token type for '+' is '+'. */
   @dots{}
-  return INT;      /* Return the type of the token.  */
+  return INT;      /* Return the type of the token. */
   @dots{}
 @}
 @end example
@@ -7041,8 +7041,8 @@ Thus, if the type is @code{int} (the default), you might write this in
 @example
 @group
   @dots{}
-  yylval = value;  /* Put value onto Bison stack.  */
-  return INT;      /* Return the type of the token.  */
+  yylval = value;  /* Put value onto Bison stack. */
+  return INT;      /* Return the type of the token. */
   @dots{}
 @end group
 @end example
@@ -7069,8 +7069,8 @@ then the code in @code{yylex} might look like this:
 @example
 @group
   @dots{}
-  yylval.intval = value; /* Put value onto Bison stack.  */
-  return INT;            /* Return the type of the token.  */
+  yylval.intval = value; /* Put value onto Bison stack. */
+  return INT;            /* Return the type of the token. */
   @dots{}
 @end group
 @end example
@@ -7111,8 +7111,8 @@ int
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 @{
   @dots{}
-  *lvalp = value;  /* Put value onto Bison stack.  */
-  return INT;      /* Return the type of the token.  */
+  *lvalp = value;  /* Put value onto Bison stack. */
+  return INT;      /* Return the type of the token. */
   @dots{}
 @}
 @end example
@@ -8327,7 +8327,7 @@ distinct.  In the above example, adding one rule to
 return_spec:
   type
 | name ':' type
-| "id" "bogus"       /* This rule is never used.  */
+| "id" "bogus"       /* This rule is never used. */
 ;
 @end group
 @end example
@@ -8970,7 +8970,7 @@ error recovery.  A simple and useful strategy is simply to skip the rest of
 the current input line or current statement if an error is detected:
 
 @example
-stmt: error ';'  /* On error, skip until ';' is read.  */
+stmt: error ';'  /* On error, skip until ';' is read. */
 @end example
 
 It is also useful to recover to the matching close-delimiter of an
@@ -9996,12 +9996,12 @@ prologue:
 
 @comment file: mfcalc.y: 2
 @example
-/* Generate the parser description file.  */
+/* Generate the parser description file. */
 %verbose
-/* Enable run-time traces (yydebug).  */
+/* Enable run-time traces (yydebug). */
 %define parse.trace
 
-/* Formatting semantic values.  */
+/* Formatting semantic values. */
 %printer @{ fprintf (yyo, "%s", $$->name); @} VAR;
 %printer @{ fprintf (yyo, "%s()", $$->name); @} FUN;
 %printer @{ fprintf (yyo, "%g", $$); @} <double>;
@@ -13078,7 +13078,7 @@ yyparse (char const *file)
     @}
 @end group
 @group
-  /* One token only.  */
+  /* One token only. */
   yylex ();
   if (fclose (yyin) != 0)
     @{
@@ -13164,7 +13164,7 @@ char *yylval = NULL;
 int
 main ()
 @{
-  /* Similar to using $1, $2 in a Bison action.  */
+  /* Similar to using $1, $2 in a Bison action. */
   char *fst = (yylex (), yylval);
   char *snd = (yylex (), yylval);
   printf ("\"%s\", \"%s\"\n", fst, snd);
@@ -13265,7 +13265,7 @@ available in the scanner (e.g., a global variable or using
 @code{%lex-param} etc.), and use the following:
 
 @example
-  /* @r{Prologue.}  */
+  /* @r{Prologue.} */
 %%
 %@{
   if (start_token)
@@ -13275,7 +13275,7 @@ available in the scanner (e.g., a global variable or using
       return t;
     @}
 %@}
-  /* @r{The rules.}  */
+  /* @r{The rules.} */
 @end example
 
 
