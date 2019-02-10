@@ -1,4 +1,4 @@
-## Copyright (C) 2018-2019 Free Software Foundation, Inc.
+## Copyright (C) 2019 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -13,10 +13,20 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-cdir = $(docdir)/%D%
-dist_c_DATA = %D%/README.md
+calcdir = $(docdir)/%D%
 
-include %D%/calc/local.mk
-include %D%/lexcalc/local.mk
-include %D%/mfcalc/local.mk
-include %D%/rpcalc/local.mk
+## ------ ##
+## Calc.  ##
+## ------ ##
+
+check_PROGRAMS += %D%/calc
+TESTS += %D%/calc.test
+EXTRA_DIST += %D%/calc.test
+%C%_calc_SOURCES = %D%/calc.y
+
+# Don't use gnulib's system headers.
+%C%_calc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+
+dist_calc_DATA = %D%/calc.y %D%/Makefile %D%/README.md
+CLEANFILES += %D%/calc %D%/*.o %D%/parse.c %D%/scan.c
+CLEANDIRS += %D%/*.dSYM

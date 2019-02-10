@@ -1,4 +1,12 @@
 * Bison 3.4
+** doc
+I feel its ugly to use the GNU style to declare functions in the doc.  It
+generates tons of white space in the page, and may contribute to bad page
+breaks.
+
+Also, we seem to teach YYPRINT very early on, although it should be
+considered deprecated: %printer is superior.
+
 ** injection rules
 ** glr.cc
 move glr.c into the yy namespace

@@ -9,6 +9,11 @@ GNU Bison NEWS
   When given -fsyntax-only, the diagnostics are reported, but no output is
   generated.
 
+** Documentation
+
+  A new example in C shows an simple infix calculator with a hand-written
+  scanner (examples/c/calc).
+
 * Noteworthy changes in release 3.3.2 (2019-02-03) [stable]
 
 ** Bug fixes
