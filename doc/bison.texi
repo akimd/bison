@@ -1543,7 +1543,8 @@ The source code for this calculator is named @file{rpcalc.y}.  The
 @subsection Declarations for @code{rpcalc}
 
 Here are the C and Bison declarations for the Reverse Polish Notation
-calculator.  As in C, comments are placed between @samp{/*@dots{}*/}.
+calculator.  As in C, comments are placed between @samp{/*@dots{}*/} or
+after @samp{//}.
 
 @comment file: rpcalc.y
 @example
@@ -1618,7 +1619,7 @@ line:
 
 @group
 exp:
-  NUM           @{ $$ = $1;           @}
+  NUM
 | exp exp '+'   @{ $$ = $1 + $2;      @}
 | exp exp '-'   @{ $$ = $1 - $2;      @}
 | exp exp '*'   @{ $$ = $1 * $2;      @}
@@ -1720,9 +1721,10 @@ value of the user's input line, that value is no longer needed.
 @subsubsection Explanation of @code{expr}
 
 The @code{exp} grouping has several rules, one for each kind of expression.
-The first rule handles the simplest expressions: those that are just numbers.
-The second handles an addition-expression, which looks like two expressions
-followed by a plus-sign.  The third handles subtraction, and so on.
+The first rule handles the simplest expressions: those that are just
+numbers.  The second handles an addition-expression, which looks like two
+expressions followed by a plus-sign.  The third handles subtraction, and so
+on.
 
 @example
 exp:
@@ -1737,9 +1739,9 @@ We have used @samp{|} to join all the rules for @code{exp}, but we could
 equally well have written them separately:
 
 @example
-exp: NUM ;
-exp: exp exp '+'     @{ $$ = $1 + $2; @};
-exp: exp exp '-'     @{ $$ = $1 - $2; @};
+exp: NUM;
+exp: exp exp '+'  @{ $$ = $1 + $2; @};
+exp: exp exp '-'  @{ $$ = $1 - $2; @};
 @dots{}
 @end example
 
@@ -1748,17 +1750,21 @@ terms of the value of its parts.  For example, in the rule for addition,
 @code{$1} refers to the first component @code{exp} and @code{$2} refers to
 the second one.  The third component, @code{'+'}, has no meaningful
 associated semantic value, but if it had one you could refer to it as
-@code{$3}.  When @code{yyparse} recognizes a sum expression using this
-rule, the sum of the two subexpressions' values is produced as the value of
-the entire expression.  @xref{Actions}.
+@code{$3}.  The first rule relies on the implicit default action: @samp{@{
+$$ = $1; @}}.
 
-You don't have to give an action for every rule.  When a rule has no
-action, Bison by default copies the value of @code{$1} into @code{$$}.
-This is what happens in the first rule (the one that uses @code{NUM}).
 
-The formatting shown here is the recommended convention, but Bison does
-not require it.  You can add or change white space as much as you wish.
-For example, this:
+When @code{yyparse} recognizes a sum expression using this rule, the sum of
+the two subexpressions' values is produced as the value of the entire
+expression.  @xref{Actions}.
+
+You don't have to give an action for every rule.  When a rule has no action,
+Bison by default copies the value of @code{$1} into @code{$$}.  This is what
+happens in the first rule (the one that uses @code{NUM}).
+
+The formatting shown here is the recommended convention, but Bison does not
+require it.  You can add or change white space as much as you wish.  For
+example, this:
 
 @example
 exp: NUM | exp exp '+' @{$$ = $1 + $2; @} | @dots{} ;
@@ -1831,11 +1837,10 @@ Here is the code for the lexical analyzer:
 int
 yylex (void)
 @{
-  int c;
-
+  int c = getchar ();
   /* Skip white space.  */
-  while ((c = getchar ()) == ' ' || c == '\t')
-    continue;
+  while (c == ' ' || c == '\t')
+    c = getchar ();
 @end group
 @group
   /* Process numbers.  */
@@ -1848,10 +1853,11 @@ yylex (void)
 @end group
 @group
   /* Return end-of-input.  */
-  if (c == EOF)
+  else if (c == EOF)
     return 0;
   /* Return a single char.  */
-  return c;
+  else
+    return c;
 @}
 @end group
 @end example
@@ -2032,7 +2038,7 @@ line:
 
 @group
 exp:
-  NUM                @{ $$ = $1;           @}
+  NUM
 | exp '+' exp        @{ $$ = $1 + $3;      @}
 | exp '-' exp        @{ $$ = $1 - $3;      @}
 | exp '*' exp        @{ $$ = $1 * $3;      @}
@@ -2212,7 +2218,7 @@ line:
 
 @group
 exp:
-  NUM           @{ $$ = $1; @}
+  NUM
 | exp '+' exp   @{ $$ = $1 + $3; @}
 | exp '-' exp   @{ $$ = $1 - $3; @}
 | exp '*' exp   @{ $$ = $1 * $3; @}
@@ -2417,8 +2423,8 @@ Here are the C and Bison declarations for the multi-function calculator.
 @end group
 
 %define api.value.type union /* Generate YYSTYPE from these types:  */
-%token <double>  NUM         /* Simple double precision number.  */
-%token <symrec*> VAR FNCT    /* Symbol table pointer: variable and function.  */
+%token <double>  NUM     /* Double precision number.  */
+%token <symrec*> VAR FUN /* Symbol table pointer: variable/function. */
 %type  <double>  exp
 
 @group
@@ -2441,7 +2447,7 @@ store these values.
 
 Since values can now have various types, it is necessary to associate a type
 with each grammar symbol whose semantic value is used.  These symbols are
-@code{NUM}, @code{VAR}, @code{FNCT}, and @code{exp}.  Their declarations are
+@code{NUM}, @code{VAR}, @code{FUN}, and @code{exp}.  Their declarations are
 augmented with their data type (placed between angle brackets).  For
 instance, values of @code{NUM} are stored in @code{double}.
 
@@ -2457,7 +2463,7 @@ declared explicitly so we can specify its value type.  @xref{Type Decl,
 
 Here are the grammar rules for the multi-function calculator.
 Most of them are copied directly from @code{calc}; three rules,
-those which mention @code{VAR} or @code{FNCT}, are new.
+those which mention @code{VAR} or @code{FUN}, are new.
 
 @comment file: mfcalc.y: 3
 @example
@@ -2479,10 +2485,10 @@ line:
 
 @group
 exp:
-  NUM                @{ $$ = $1;                         @}
+  NUM
 | VAR                @{ $$ = $1->value.var;              @}
 | VAR '=' exp        @{ $$ = $3; $1->value.var = $3;     @}
-| FNCT '(' exp ')'   @{ $$ = (*($1->value.fnctptr))($3); @}
+| FUN '(' exp ')'    @{ $$ = $1->value.fun ($3);         @}
 | exp '+' exp        @{ $$ = $1 + $3;                    @}
 | exp '-' exp        @{ $$ = $1 - $3;                    @}
 | exp '*' exp        @{ $$ = $1 * $3;                    @}
@@ -2513,7 +2519,7 @@ provides for either functions or variables to be placed in the table.
 @example
 @group
 /* Function type.  */
-typedef double (*func_t) (double);
+typedef double (func_t) (double);
 @end group
 
 @group
@@ -2521,11 +2527,11 @@ typedef double (*func_t) (double);
 struct symrec
 @{
   char *name;  /* name of symbol */
-  int type;    /* type of symbol: either VAR or FNCT */
+  int type;    /* type of symbol: either VAR or FUN */
   union
   @{
-    double var;      /* value of a VAR */
-    func_t fnctptr;  /* value of a FNCT */
+    double var;    /* value of a VAR */
+    func_t *fun;   /* value of a FUN */
   @} value;
   struct symrec *next;  /* link field */
 @};
@@ -2537,8 +2543,8 @@ typedef struct symrec symrec;
 /* The symbol table: a chain of 'struct symrec'.  */
 extern symrec *sym_table;
 
-symrec *putsym (char const *, int);
-symrec *getsym (char const *);
+symrec *putsym (char const *name, int sym_type);
+symrec *getsym (char const *name);
 @end group
 @end example
 
@@ -2550,13 +2556,13 @@ the symbol table:
 @group
 struct init
 @{
-  char const *fname;
-  double (*fnct) (double);
+  char const *name;
+  func_t *fun;
 @};
 @end group
 
 @group
-struct init const arith_fncts[] =
+struct init const arith_funs[] =
 @{
   @{ "atan", atan @},
   @{ "cos",  cos  @},
@@ -2575,15 +2581,15 @@ symrec *sym_table;
 
 @group
 /* Put arithmetic functions in table.  */
-static
-void
+static void
 init_table (void)
+@end group
+@group
 @{
-  int i;
-  for (i = 0; arith_fncts[i].fname != 0; i++)
+  for (int i = 0; arith_funs[i].name; i++)
     @{
-      symrec *ptr = putsym (arith_fncts[i].fname, FNCT);
-      ptr->value.fnctptr = arith_fncts[i].fnct;
+      symrec *ptr = putsym (arith_funs[i].name, FUN);
+      ptr->value.fun = arith_funs[i].fun;
     @}
 @}
 @end group
@@ -2594,7 +2600,7 @@ files, you can add additional functions to the calculator.
 
 Two important functions allow look-up and installation of symbols in the
 symbol table.  The function @code{putsym} is passed a name and the type
-(@code{VAR} or @code{FNCT}) of the object to be installed.  The object is
+(@code{VAR} or @code{FUN}) of the object to be installed.  The object is
 linked to the front of the list, and a pointer to the object is returned.
 The function @code{getsym} is passed the name of the symbol to look up.  If
 found, a pointer to that symbol is returned; otherwise zero is returned.
@@ -2606,29 +2612,26 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @group
 symrec *
-putsym (char const *sym_name, int sym_type)
+putsym (char const *name, int sym_type)
 @{
-  symrec *ptr = (symrec *) malloc (sizeof (symrec));
-  ptr->name = (char *) malloc (strlen (sym_name) + 1);
-  strcpy (ptr->name,sym_name);
-  ptr->type = sym_type;
-  ptr->value.var = 0; /* Set value to 0 even if fctn.  */
-  ptr->next = (struct symrec *)sym_table;
-  sym_table = ptr;
-  return ptr;
+  symrec *res = (symrec *) malloc (sizeof (symrec));
+  res->name = strdup (name);
+  res->type = sym_type;
+  res->value.var = 0; /* Set value to 0 even if fun.  */
+  res->next = sym_table;
+  sym_table = res;
+  return res;
 @}
 @end group
 
 @group
 symrec *
-getsym (char const *sym_name)
+getsym (char const *name)
 @{
-  symrec *ptr;
-  for (ptr = sym_table; ptr != (symrec *) 0;
-       ptr = (symrec *)ptr->next)
-    if (strcmp (ptr->name, sym_name) == 0)
-      return ptr;
-  return 0;
+  for (symrec *p = sym_table; p; p = p->next)
+    if (strcmp (p->name, name) == 0)
+      return p;
+  return NULL;
 @}
 @end group
 @end example
@@ -2643,7 +2646,7 @@ functions depending on what the symbol table says about them.
 
 The string is passed to @code{getsym} for look up in the symbol table.  If
 the name appears in the table, a pointer to its location and its type
-(@code{VAR} or @code{FNCT}) is returned to @code{yyparse}.  If it is not
+(@code{VAR} or @code{FUN}) is returned to @code{yyparse}.  If it is not
 already in the table, then it is installed as a @code{VAR} using
 @code{putsym}.  Again, a pointer and its type (which must be @code{VAR}) is
 returned to @code{yyparse}.
@@ -2694,13 +2697,11 @@ Bison generated a definition of @code{YYSTYPE} with a member named
          for a 40-character symbol name.  */
       static size_t length = 40;
       static char *symbuf = 0;
-      symrec *s;
-      int i;
 @end group
       if (!symbuf)
-        symbuf = (char *) malloc (length + 1);
+        symbuf = malloc (length + 1);
 
-      i = 0;
+      int i = 0;
       do
 @group
         @{
@@ -2708,7 +2709,7 @@ Bison generated a definition of @code{YYSTYPE} with a member named
           if (i == length)
             @{
               length *= 2;
-              symbuf = (char *) realloc (symbuf, length + 1);
+              symbuf = realloc (symbuf, length + 1);
             @}
           /* Add this character to the buffer.         */
           symbuf[i++] = c;
@@ -2724,10 +2725,10 @@ Bison generated a definition of @code{YYSTYPE} with a member named
 @end group
 
 @group
-      s = getsym (symbuf);
-      if (s == 0)
+      symrec *s = getsym (symbuf);
+      if (!s)
         s = putsym (symbuf, VAR);
-      *((symrec**) &yylval) = s;
+      yylval.VAR = s; /* or yylval.FUN = s.  */
       return s->type;
     @}
 
@@ -2748,22 +2749,22 @@ on user demand (@xref{Tracing, , Tracing Your Parser}, for details):
 @example
 @group
 /* Called by yyparse on error.  */
-void
-yyerror (char const *s)
+void yyerror (char const *s)
 @{
   fprintf (stderr, "%s\n", s);
 @}
 @end group
 
 @group
-int
-main (int argc, char const* argv[])
+int main (int argc, char const* argv[])
+@end group
+@group
 @{
-  int i;
   /* Enable parse traces on option -p.  */
-  for (i = 1; i < argc; ++i)
-    if (!strcmp(argv[i], "-p"))
-      yydebug = 1;
+  if (argc == 2 && strcmp(argv[1], "-p") == 0)
+    yydebug = 1;
+@end group
+@group
   init_table ();
   return yyparse ();
 @}
@@ -7011,9 +7012,9 @@ assuming that the characters of the token are stored in
 characters like @samp{"} that require escaping.
 
 @example
-for (i = 0; i < YYNTOKENS; i++)
+for (int i = 0; i < YYNTOKENS; i++)
   @{
-    if (yytname[i] != 0
+    if (yytname[i]
         && yytname[i][0] == '"'
         && ! strncmp (yytname[i] + 1, token_buffer,
                       strlen (token_buffer))
@@ -10002,7 +10003,7 @@ prologue:
 
 /* Formatting semantic values.  */
 %printer @{ fprintf (yyo, "%s", $$->name); @} VAR;
-%printer @{ fprintf (yyo, "%s()", $$->name); @} FNCT;
+%printer @{ fprintf (yyo, "%s()", $$->name); @} FUN;
 %printer @{ fprintf (yyo, "%g", $$); @} <double>;
 @end example
 
@@ -10015,7 +10016,7 @@ ill-named) @code{%verbose} directive.
 
 The set of @code{%printer} directives demonstrates how to format the
 semantic value in the traces.  Note that the specification can be done
-either on the symbol type (e.g., @code{VAR} or @code{FNCT}), or on the type
+either on the symbol type (e.g., @code{VAR} or @code{FUN}), or on the type
 tag: since @code{<double>} is the type for both @code{NUM} and @code{exp},
 this printer will be used for them.
 
@@ -10040,13 +10041,13 @@ a valueless (@samp{()}) @code{input} nonterminal (@code{nterm}).
 
 Then the parser calls the scanner.
 @example
-Reading a token: Next token is token FNCT (sin())
-Shifting token FNCT (sin())
+Reading a token: Next token is token FUN (sin())
+Shifting token FUN (sin())
 Entering state 6
 @end example
 
 @noindent
-That token (@code{token}) is a function (@code{FNCT}) whose value is
+That token (@code{token}) is a function (@code{FUN}) whose value is
 @samp{sin} as formatted per our @code{%printer} specification: @samp{sin()}.
 The parser stores (@code{Shifting}) that token, and others, until it can do
 something about it.
@@ -10101,7 +10102,7 @@ Next token is token ')' ()
 Shifting token ')' ()
 Entering state 31
 Reducing stack by rule 9 (line 47):
-   $1 = token FNCT (sin())
+   $1 = token FUN (sin())
    $2 = token '(' ()
    $3 = nterm exp (0.000000)
    $4 = token ')' ()
@@ -14226,8 +14227,8 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit nonfree
 @c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok rr
 @c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln Stallman Destructor
-@c LocalWords: symrec val tptr FNCT fnctptr func struct sym enum IEC syntaxes
-@c LocalWords: fnct putsym getsym fname arith fncts atan ptr malloc sizeof Lex
+@c LocalWords: symrec val tptr FUN func struct sym enum IEC syntaxes
+@c LocalWords: fun putsym getsym arith funs atan ptr malloc sizeof Lex
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
 @c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype Unary
 @c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs nonterminal
