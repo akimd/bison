@@ -60,7 +60,11 @@ sub normalize($)
 {
   local ($_) = @_;
 
-  s/^\@(c |comment|dots|end (ignore|group)|ignore|group).*\n//mg;
+  # If we just remove this lines, then the compiler's tracking of
+  # #lines is broken.  Leave lines that that accepted by all our tools
+  # (including flex, hence the leading space), and that will be easy
+  # to remove (see the Make examples-unline recipe).
+  s{^\@(c |comment|dots|end (ignore|group)|ignore|group).*}{ /**/}mg;
   s/\@value\{VERSION\}/$ENV{VERSION}/g;
   s/^\@(error|result)\{\}//mg;
   s/\@([{}@])/$1/g;

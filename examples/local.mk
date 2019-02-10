@@ -59,12 +59,8 @@ EXTRA_DIST += %D%/extracted.stamp
 dist-hook: examples-unline
 .PHONY: examples-unline
 examples-unline:
-	for e in $(extracted);			\
-	do					\
-	  e=$(distdir)/$$e;			\
-	  sed -e '/#line/d' $$e >$$e.tmp;	\
-	  mv -f $$e.tmp $$e;			\
-	done
+	cd $(distdir) && \
+	  perl -pi -0777 -e 's/#line.*\n//g;s{^ /\*\*/\n}{}mg' $(extracted)
 
 
 ## ---------- ##
