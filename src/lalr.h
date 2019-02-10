@@ -96,8 +96,8 @@ extern state_number *from_state;
 /** State number it leads to.  */
 extern state_number *to_state;
 
-/** Find the goto number of the goto from S on non-terminal SYM.  */
-goto_number map_goto (state_number s, symbol_number sym);
+/** The number of the goto from state SRC labeled with nterm SYM.  */
+goto_number map_goto (state_number src, symbol_number sym);
 
 /* goto_follows[i] is the set of tokens following goto i.  */
 extern bitsetv goto_follows;
