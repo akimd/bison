@@ -1,7 +1,18 @@
 This package contains the GNU Bison parser generator.
 
 * Installation
-** Build
+** Build from git
+Here are basic installation instructions for a repository checkout:
+
+    $ git submodules update --init
+    $ ./bootstrap
+
+then proceed with the usual 'configure && make' steps.
+
+README-hacking contains more information about building and modifying the
+software.
+
+** Build for tarball
 See the file INSTALL for generic compilation and installation instructions.
 
 Bison requires GNU m4 1.4.6 or later.  See:
