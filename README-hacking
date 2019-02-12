@@ -133,9 +133,15 @@ Enjoy!
 
 ** Updating
 
-The use of submodules make things somewhat different because git does not
-support recursive operations: submodules must be taken care of explicitly by
-the user.
+If you have git at version 1.8.2 or later, the command
+
+        $ git submodule update --recursive --remote
+
+will be useful for updating to the latest version of all submodules.
+
+Under earlier versions, use of submodules make things somewhat different
+because git does not yet support recursive operations: submodules must be taken
+care of explicitly. 
 
 *** Updating Bison
 

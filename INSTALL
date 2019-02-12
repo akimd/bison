@@ -1,0 +1,9 @@
+Here are basic installation instructions for a repository checkout:
+
+        $ git submodules update --init
+        $ ./bootstrap
+        $ ./configure
+        $ make
+
+README-hacking contains more information about buildomng and modifying
+the software.
