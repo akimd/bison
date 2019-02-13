@@ -88,8 +88,8 @@ EXTRA_DIST += $(top_srcdir)/doc/bison.help
 if ! CROSS_COMPILING
 MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
 $(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
-	$(AM_V_GEN)LC_ALL=C src/bison$(EXEEXT) --version >doc/bison.help.tmp
-	$(AM_V_at) LC_ALL=C src/bison$(EXEEXT) --help | \
+	$(AM_V_GEN)LC_ALL=C tests/bison --version >doc/bison.help.tmp
+	$(AM_V_at) LC_ALL=C tests/bison --help | \
 ## Avoid variations in the output depending on whether we are
 ## on a glibc system.
 	  sed '/translation bugs/d'  >>doc/bison.help.tmp
@@ -118,7 +118,7 @@ endif
 $(top_srcdir)/doc/bison.1: $(MAN_DEPS)
 	$(AM_V_GEN)$(HELP2MAN)			\
 	    --include=$(top_srcdir)/doc/bison.x	\
-	    --output=$@.tmp src/bison$(EXEEXT)
+	    --output=$@.tmp tests/bison
 	$(AM_V_at)if $(remove_time_stamp) $@ >$@a.tmp 2>/dev/null &&		\
 	   $(remove_time_stamp) $@.tmp | cmp $@a.tmp - >/dev/null 2>&1; then	\
 	  touch $@;								\
