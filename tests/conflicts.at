@@ -402,11 +402,7 @@ m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
 
 AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
 
-AT_BISON_OPTION_PUSHDEFS([$1])
-
-m4_pushdef([AT_YYLEX_PROTOTYPE],
-[AT_CXX_IF([[int yylex (yy::parser::semantic_type *lvalp)]],
-           [[int yylex (YYSTYPE *lvalp)]])])
+AT_BISON_OPTION_PUSHDEFS([$1 AT_CXX_IF([[%defines]], [[%define api.pure]])])
 
 AT_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 [AT_JAVA_IF([[
@@ -415,12 +411,10 @@ AT_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
   import java.io.IOException;
 }]], [[
 
-%code {]AT_CXX_IF([[
-  #include <string>]], [[
+%code {
   #include <assert.h>
-  #include <stdio.h>
-  ]AT_YYERROR_DECLARE])[
-  ]AT_YYLEX_PROTOTYPE[;
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
   #define USE(Var)
 }
 
@@ -442,37 +436,34 @@ AT_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 
 ]$2[
 
-]AT_JAVA_IF([[%code lexer {]], [[%%]])[
+]AT_JAVA_IF([[%code lexer {
 
-/*--------.
-| yylex.  |
-`--------*/]AT_JAVA_IF([[
+  /*--------.
+  | yylex.  |
+  `--------*/
 
-public String input = "]$3[";
-public int index = 0;
-public int yylex ()
-{
-  if (index < input.length ())
-    return input.charAt (index++);
-  else
-    return 0;
-}
-public Object getLVal ()
-{
-  return new Integer(1);
-}]], [[
+  public String input = "]$3[";
+  public int index = 0;
+  public int yylex ()
+  {
+    if (index < input.length ())
+      return input.charAt (index++);
+    else
+      return 0;
+  }
+  public Object getLVal ()
+  {
+    return new Integer(1);
+  }
 
-]AT_YYLEX_PROTOTYPE[
-{
-  static char const *input = "]$3[";
-  *lvalp = 1;
-  return *input++;
-}]])[
 ]AT_YYERROR_DEFINE[
-]AT_JAVA_IF([[
 };
-
-%%]])[
+%%
+]], [[
+%%
+]AT_YYLEX_DEFINE(["$3"], [[*lvalp = 1]])[
+]AT_YYERROR_DEFINE[
+]])[
 
 /*-------.
 | main.  |
@@ -493,7 +484,6 @@ AT_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]]],
 ]])
 
 m4_popdef([AT_EXPECTING])
-m4_popdef([AT_YYLEX_PROTOTYPE])
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
