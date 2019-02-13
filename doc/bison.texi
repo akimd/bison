@@ -105,6 +105,7 @@ Reference sections:
 * Debugging::           Understanding or debugging Bison parsers.
 * Invocation::          How to run Bison (to produce the parser implementation).
 * Other Languages::     Creating C++ and Java parsers.
+* History::             How Bison came to be
 * FAQ::                 Frequently Asked Questions
 * Table of Symbols::    All the keywords of the Bison language are explained.
 * Glossary::            Basic concepts are explained.
@@ -374,6 +375,14 @@ Java Parsers
 * Java Push Parser Interface::  Instantiating and running the a push parser
 * Java Differences::            Differences between C/C++ and Java Grammars
 * Java Declarations Summary::   List of Bison declarations used with Java
+
+A Brief History of the Greater Ungulates
+
+* Yacc::                        The original Yacc
+* yacchack::                    An obscure early implementation of re-entrancy
+* Byacc::                       Berkeley Yacc
+* Bison::                       This program
+* Other ungulates::             Similar programs
 
 Frequently Asked Questions
 
@@ -12991,6 +13000,130 @@ The exceptions thrown by user-supplied parser actions and
 @xref{Java Parser Interface}.
 @end deffn
 
+@c ================================================= History
+
+@node History
+@chapter A Brief History of the Greater Ungulates
+@cindex history
+@cindex ungulates
+
+@node Yacc
+@section The ancestral Yacc
+
+Bison originated as a workalike of a program called Yacc - Yet Another
+Compiler Compiler.@footnote{(Because of the acronym, the name is sometimes
+given as ``YACC'', but Johnson used ``Yacc'' in the descriptive paper
+included in the
+@url{https://s3.amazonaws.com/plan9-bell-labs/7thEdMan/v7vol2b.pdf, Version
+7 Unix Manual}} Yacc was written at Bell Labs as part of the very early
+development of Unix; one of its first uses was to develop the original
+Portable C Compiler. The same person, Steven C. Johnson, wrote Yacc and the
+original pcc.
+
+According to the author, Yacc was first invented in 1971 and reached a
+form recognizably similar to the C version in 1973.  Johnson published
+@url{https://dx.doi.org/10.1145/512760.512771, A Portable Compiler: Theory
+and Practice} in the Proceedings of the 5th ACM POPL Symposium in 1978.
+
+Yacc was not itself originally written in C but in its predecessor language,
+B.  This goes far to explain its odd interface, which exposes a large number
+of global variables rather than bundling them into a C struct.  All other
+Yacc-like programs are descended from the C port of Yacc.
+
+Yacc, through both its deployment in pcc and as a standalone tool for
+generating other parsers, helped drive the early spread of Unix.  Yacc
+itself, however, passed out of use after around 1990 when workalikes
+with less restrictive licenses and more features became available.
+
+Original Yacc became generally available when Caldera released the sources
+of old versions of Unix up to V7 and 32V in 2002.  By that time it had been
+long superseded in practical use by Bison even on Yacc's native Unix
+variants.
+
+@node yacchack
+@section yacchack
+
+One of the deficiencies of original Yacc was its inability to produce
+reentrant parsers.  This was first remedied by a set of drop-in
+modifications called ``yacchack'', published by Eric S. Raymond on USENET
+around 1983.  This code was quickly forgotten when zoo and Berkeley Yacc
+became available a few years later.
+
+@node Byacc
+@section Berkeley Yacc
+
+Berkeley Yacc was originated in 1985 by
+@url{https://apps.dtic.mil/dtic/tr/fulltext/u2/a611756.pdf, Robert Corbett}.
+It was originally named ``zoo'', but by October 1989 it became known as
+Berkeley Yacc or byacc.
+
+Berkeley Yacc had three advantages over the ancestral Yacc: it generated
+faster parsers, it could generate reentrant parsers, and the source cade
+was released to the public domain rather than being under an AT&T
+proprietary license. The better performance game from implementing
+techniques from DeRemer and Penello's seminal 1982 paper on LALR parsing;
+more on this in the next entry.
+
+Use of byacc spread rapidly due to its public domain license. However, once
+Bison became available, byacc itself passed out of general use.
+
+@node Bison
+@section Bison
+
+Robert Corbett actually wrote two (closely related) LALR parsers in 1985,
+both using the DeRemer/Penello techniques. One was zoo, the other was
+``Byson''. In 1987 Richard Stallman began working on Byson; the name changed
+to Bison and the interface became Yacc-compatible.
+
+The main visible difference between Yacc and Byson/Bison at the time of
+Byson's fiest release is that Byson supported the @@N construction (giving
+access to the starting and ending line number and character number
+associated with any of the symbols in the current rule).
+
+There was also the command '%expect N' which said not to mention
+the conflicts if there are N shift/reduce conflicts and no reduce/reduce
+conflicts.  In more recent versions of Bison, %expect and an %expect-rr
+variant for reduce-reduce conficts can be applied to individual rules.
+
+Later version of Bison added nany more new features.
+
+Bison error reporting has been improved in various ways. Notably. ancestral
+Yacc and Byson did not have carets in error messages.
+
+Compared to Yacc Bison uses a faster but less space-efficient encoding for
+the parse tables (see Corbett's PhD thesis from Berkeley, ``Static Semantics
+in Compiler Error Recovery'', June 1985, Report No. UCB/CSD 85/251), and
+more modern technique for generating the lookahead sets.  See Frank DeRemer
+and Thomas Pennello, @url{https://dx.doi.org/10.1145/69622.357187, Efficient
+Computation of LALR(1) Look-Ahead Sets}, ACM Transactions on Programming
+Languages and Systems (TOPLAS) 4, 4 (October 1982), 615-649.  Their
+technique has been the standard one since .
+
+(It has also been plausibly alleged the differences in the algorithms stem
+mainly from the horrible kludges that Johnson had to perpetrate to make
+the original Yacc fit in a PDP-11.)
+
+Named references, semantic predicates, %locations, %glr-parser, %printer,
+%destructor, dumps to DOT, %parse-param, %lex-param, and dumps to XSLT, LAC,
+and IELR(1) generation are new in Bison.
+
+Bison also has many features to support C++ that were not present in the
+ancestral Yacc or Byson.
+
+Bison obsolesced all previous Yacc variants and workalikes generating C by
+1995.
+
+@node Other ungulates
+@section Other ungulates
+
+The Yacc concept has frequently been ported to other languages. Some of the
+early ports are extinct along with the languages that hosted them; others
+have been superseded by parser skeletons shipped with Bison.
+
+However, independent implementations persist. One of the best-known
+still in use is David Beazley's ``PLY'' (Python Lex-Yacc) for
+Python. Another is goyacc, supporting the Go language. An ``ocamlyacc''
+is shipped as part of the Ocaml compiler suite.
 
 @c ================================================= FAQ
 
