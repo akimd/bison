@@ -195,3 +195,6 @@
 /readlink.m4
 /relocatable-lib.m4
 /relocatable.m4
+/libtextstyle.m4
+/rename.m4
+/rmdir.m4

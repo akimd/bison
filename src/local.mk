@@ -126,6 +126,7 @@ src_bison_LDADD =                               \
   $(LIBTHREAD)                                  \
   $(LIB_CLOCK_GETTIME)                          \
   $(LIB_GETHRXTIME)                             \
+  $(LIBTEXTSTYLE)                               \
   lib/libbison.a
 
 

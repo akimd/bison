@@ -15,7 +15,8 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 dist_pkgdata_DATA =                             \
-  data/README.md
+  data/README.md                                \
+  data/diagnostics.css
 
 skeletonsdir = $(pkgdatadir)/skeletons
 dist_skeletons_DATA =                           \
