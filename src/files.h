@@ -64,6 +64,9 @@ extern uniqstr current_file;
 /* The computed base for output file names.  */
 extern char *all_but_ext;
 
+/* Where our data files are installed.  */
+char const *pkgdatadir (void);
+
 void compute_output_file_names (void);
 void output_file_names_free (void);
 
