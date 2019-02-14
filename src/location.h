@@ -110,7 +110,7 @@ unsigned location_print (location loc, FILE *out);
 
 /* Free any allocated resources and close any open file handles that are
    left-over by the usage of location_caret.  */
-void cleanup_caret (void);
+void caret_free (void);
 
 /* Output to OUT the line and caret corresponding to location LOC.  */
 void location_caret (location loc, FILE *out);
