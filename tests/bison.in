@@ -26,6 +26,14 @@ BISON_PKGDATADIR=$abs_top_srcdir/data
 export BISON_PKGDATADIR
 
 stderr=tmp-bison.$$
+
+# If stderr is a tty, force --color=yes to simulate --color=auto
+# although we save and modify stderr.
+if test -t 2; then
+    set x --color=yes ${1+"$@"}
+    shift
+fi
+
 $PREBISON "$abs_top_builddir/src/bison" ${1+"$@"} 2>"$stderr"
 status=$?
 

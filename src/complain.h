@@ -24,6 +24,20 @@
 /* Sub-messages indent. */
 # define SUB_INDENT (4)
 
+/*---------------.
+| Error stream.  |
+`---------------*/
+
+/** Enable a style on \a out provided it's stderr.  */
+void begin_use_class (const char *style, FILE *out);
+
+/** Disable a style on \a out provided it's stderr.  */
+void end_use_class (const char *style, FILE *out);
+
+/** Flush \a out.  */
+void flush (FILE *out);
+
+
 /*-------------.
 | --warnings.  |
 `-------------*/
@@ -75,6 +89,9 @@ void warnings_argmatch (char *args);
 
 /** Initialize this module.  */
 void complain_init (void);
+
+/** Initialize support for colored messages.  */
+void complain_init_color (void);
 
 typedef enum
   {
