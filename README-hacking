@@ -195,6 +195,11 @@ update.
 ** make check
 Use liberally.
 
+** Updating the expectations
+Sometimes some changes have a large impact on the test suite (e.g., when we
+added the "[-Wother]" part to all the warnings).  Part of the update can be
+done with a crude tool: tests/update-test.  Read it for more information.
+
 ** TESTSUITEFLAGS
 
 To run just the testsuite (not the tests related to the examples), run `make

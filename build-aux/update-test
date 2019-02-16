@@ -1,0 +1,93 @@
+#! /usr/bin/env python
+
+# usage:
+# update-test _build/8d/tests/testsuite.dir/*.testsuite.log
+
+import argparse
+import os
+import re
+
+
+def getargs():
+    p = argparse.ArgumentParser(description='Update test cases.')
+    opt = p.add_argument
+    opt('tests', metavar='test', nargs='+', type=str, default=None,
+        help='test files to update')
+    opt('-v', '--verbose', action='store_true',
+        help='Be verbose')
+    return p.parse_args()
+
+args = getargs()
+subst = dict()
+
+
+def log(*args_):
+    if args.verbose:
+        print(*args_)
+
+
+def contents(file):
+    '''The contents of a file.'''
+    log(file)
+    f = open(file)
+    return f.read()
+
+
+def diff_to_re(match):
+    '''Convert a portion of patch into a regex substitution to perform.
+    No longer used, we now use the expected/effective parts.
+    '''
+    frm = []
+    to = []
+    is_diff = False
+    for l in match.group(1).splitlines():
+        print(l)
+        # t in [-+ ]
+        t = l[0]
+        l = l[1:]
+        if t in ['-', ' ']:
+            is_diff = True
+            frm.append(l)
+        if t in ['+', ' ']:
+            is_diff = True
+            to.append(l)
+    if is_diff:
+        frm = "\n".join(frm)
+        to = "\n".join(to)
+        subst[frm] = to
+
+
+def update(at_file, logfile):
+    test = contents(at_file)
+    if os.path.isfile(logfile):
+        log("LOG: ", logfile)
+        l = contents(logfile)
+        log("LOG: ", l)
+        global subst
+        subst = {}
+        re.sub(r'(?:^@@.*\n)((?:^[-+ ].*\n)+)',
+               diff_to_re, l, flags = re.MULTILINE)
+        print(subst)
+        if subst:
+            # Turn "subst{frm} -> to" into a large RE.
+            frm = '|'.join([re.escape(x) for x in subst])
+            log("FROM:", frm)
+            test = re.sub("(" + frm + ")",
+                          lambda m: subst[m.group(1)],
+                          test, flags=re.MULTILINE)
+    open(at_file, 'w').write(test)
+
+
+def process(logfile):
+    log = contents(logfile)
+    # Look for the file to update.
+    m = re.search(r'^\d+\. (\w+\.at):\d+: ', log, re.MULTILINE)
+    if not m:
+        return
+    at_file = 'tests/' + m.group(1)
+    print(at_file)
+    update(at_file, logfile)
+
+for t in args.tests:
+    log("FILE:", t)
+    process(t)
