@@ -318,6 +318,7 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 
 AT_TEST([[Screen width: 200 columns]],
 [[%token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                                                       %error-verbose
 %%
 exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ]],
@@ -340,11 +341,17 @@ input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ 
 input.y:9.8-33:       previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
+   10 |                                                        <warning>%error-verbose</warning>
+      |                                                        <warning>^~~~~~~~~~~~~~</warning>
+      |                                                        <insertion>%define parse.error verbose</insertion>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]],
 [[COLUMNS=200]])
 
 AT_TEST([[Screen width: 80 columns]],
 [[%token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                                                       %error-verbose
 %%
 exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ]],
@@ -367,11 +374,17 @@ input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ 
 input.y:9.8-33:       previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
+   10 |                                                        <warning>%error-verbose</warning>
+      |                                                        <warning>^~~~~~~~~~~~~~</warning>
+      |                                                        <insertion>%define parse.error verbose</insertion>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]],
 [[COLUMNS=80]])
 
 AT_TEST([[Screen width: 60 columns]],
 [[%token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+                                                       %error-verbose
 %%
 exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ]],
@@ -394,6 +407,11 @@ input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ 
 input.y:9.8-33:       previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
+   10 | ...         <warning>%error-verbose</warning>
+      |             <warning>^~~~~~~~~~~~~~</warning>
+      |             <insertion>%define parse.error verbose</insertion>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]],
 [[COLUMNS=60]])
 
@@ -419,12 +437,14 @@ exp : '0'
 ]])
 
 AT_BISON_CHECK([[-fcaret -Wno-other input.y]], [0], [],
-[[input.y:2.1-12: warning: deprecated directive, use '%define api.pure' [-Wdeprecated]
+[[input.y:2.1-12: warning: deprecated directive: '%pure-parser', use '%define api.pure' [-Wdeprecated]
     2 | %pure-parser
       | ^~~~~~~~~~~~
-input.y:3.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
+      | %define api.pure
+input.y:3.1-14: warning: deprecated directive: '%error-verbose', use '%define parse.error verbose' [-Wdeprecated]
     3 | %error-verbose
       | ^~~~~~~~~~~~~~
+      | %define parse.error verbose
 ]])
 
 AT_CLEANUP

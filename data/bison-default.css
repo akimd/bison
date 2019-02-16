@@ -17,9 +17,14 @@
 /* This is an experimental feature.  The class names may change in the
    future.  */
 
+/* Diagnostics.  */
 .warning   { color: purple; }
 .error     { color: red; }
 .note      { color: cyan; }
+.insertion { color: green; }
+
 /* Semantic values in Bison's own parser traces.  */
 .value     { color: green; }
+
+/* "Sections" in traces (--trace).  */
 .trace0    { color: green; }

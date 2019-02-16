@@ -125,6 +125,10 @@ void caret_free (void);
    with the color STYLE.  */
 void location_caret (location loc, const char* style, FILE *out);
 
+/* Display a suggestion of replacement for LOC with S.  To call after
+   location_caret.  */
+void location_caret_suggestion (location loc, const char *s, FILE *out);
+
 /* Return -1, 0, 1, depending whether a is before, equal, or
    after b.  */
 static inline int

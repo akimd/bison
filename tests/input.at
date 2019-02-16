@@ -2051,21 +2051,26 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [1], [],
-[[input.y:1.1-26: warning: deprecated directive, use '%define api.push-pull both' [-Wdeprecated]
+[[input.y:1.1-26: warning: deprecated directive: '%define api.push_pull both', use '%define api.push-pull both' [-Wdeprecated]
     1 | %define api.push_pull both
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:2.1-40: warning: deprecated directive, use '%define lr.keep-unreachable-state maybe' [-Wdeprecated]
+      | %define api.push-pull both
+input.y:2.1-40: warning: deprecated directive: '%define lr.keep_unreachable_states maybe', use '%define lr.keep-unreachable-state maybe' [-Wdeprecated]
     2 | %define lr.keep_unreachable_states maybe
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:3.1-23: warning: deprecated directive, use '%define api.namespace {foo}' [-Wdeprecated]
+      | %define lr.keep-unreachable-state maybe
+input.y:3.1-23: warning: deprecated directive: '%define namespace "foo"', use '%define api.namespace {foo}' [-Wdeprecated]
     3 | %define namespace "foo"
       | ^~~~~~~~~~~~~~~~~~~~~~~
-input.y:4.1-15: warning: deprecated directive, use '%define api.value.type variant' [-Wdeprecated]
+      | %define api.namespace {foo}
+input.y:4.1-15: warning: deprecated directive: '%define variant', use '%define api.value.type variant' [-Wdeprecated]
     4 | %define variant
       | ^~~~~~~~~~~~~~~
-input.y:5.1-34: warning: deprecated directive, use '%define api.parser.class {parser}' [-Wdeprecated]
+      | %define api.value.type variant
+input.y:5.1-34: warning: deprecated directive: '%define parser_class_name {parser}', use '%define api.parser.class {parser}' [-Wdeprecated]
     5 | %define parser_class_name {parser}
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      | %define api.parser.class {parser}
 input.y:2.1-40: error: invalid value for %define Boolean variable 'lr.keep-unreachable-state'
     2 | %define lr.keep_unreachable_states maybe
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
