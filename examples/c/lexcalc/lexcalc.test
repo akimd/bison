@@ -25,3 +25,8 @@ cat >input <<EOF
 EOF
 run 0 9
 run -noerr 0 9 -p
+
+cat >input <<EOF
+(1+2) *
+EOF
+run 1 'err: syntax error, unexpected end-of-line, expecting ( or number'

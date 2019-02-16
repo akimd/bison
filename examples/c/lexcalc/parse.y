@@ -15,8 +15,8 @@
 // Emitted on top of the implementation file.
 %code top
 {
-#include <stdio.h>  /* printf. */
-#include <stdlib.h> /* getenv. */
+#include <stdio.h>  // printf.
+#include <stdlib.h> // getenv.
 }
 
 %define api.pure full
@@ -39,7 +39,7 @@
 ;
 
 %token <int> NUM "number"
-%type <int> exp line
+%type <int> exp
 %printer { fprintf (yyo, "%d", $$); } <int>
 
 // Precedence (from lowest to highest) and associativity.
@@ -50,18 +50,18 @@
 // Rules.
 input:
   %empty
-| input line  { printf ("%d\n", $line); }
+| input line
 ;
 
 line:
-  exp EOL   { $$ = $1; }
+  exp EOL   { printf ("%d\n", $exp); }
 | error EOL { yyerrok; }
 ;
 
 exp:
-  exp "+" exp   { $$ = $1 + $3;  }
-| exp "-" exp   { $$ = $1 - $3;  }
-| exp "*" exp   { $$ = $1 * $3;  }
+  exp "+" exp   { $$ = $1 + $3; }
+| exp "-" exp   { $$ = $1 - $3; }
+| exp "*" exp   { $$ = $1 * $3; }
 | exp "/" exp
   {
     if ($3 == 0)
@@ -72,15 +72,15 @@ exp:
     else
       $$ = $1 / $3;
   }
-| "(" exp ")"   { $$ = $2;       }
+| "(" exp ")"   { $$ = $2; }
 | NUM           { $$ = $1; }
 ;
 %%
 // Epilogue (C code).
-void yyerror(int *nerrs, const char *msg)
+void yyerror (int *nerrs, const char *msg)
 {
   fprintf (stderr, "%s\n", msg);
-  ++nerrs;
+  ++*nerrs;
 }
 
 int main (void)
