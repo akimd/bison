@@ -90,9 +90,11 @@ MAINTAINERCLEANFILES += $(top_srcdir)/doc/bison.help
 $(top_srcdir)/doc/bison.help: src/bison$(EXEEXT)
 	$(AM_V_GEN)LC_ALL=C tests/bison --version >doc/bison.help.tmp
 	$(AM_V_at) LC_ALL=C tests/bison --help | \
+## Avoid depending on the path to Bison.
+	  sed -e 's,^Usage: .*/bison \[OPTION\],Usage: bison [OPTION],g' \
 ## Avoid variations in the output depending on whether we are
 ## on a glibc system.
-	  sed '/translation bugs/d'  >>doc/bison.help.tmp
+	      -e '/translation bugs/d'  >>doc/bison.help.tmp
 	$(AM_V_at)$(top_srcdir)/build-aux/move-if-change doc/bison.help.tmp $@
 endif ! CROSS_COMPILING
 
