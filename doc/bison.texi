@@ -379,7 +379,7 @@ Java Parsers
 A Brief History of the Greater Ungulates
 
 * Yacc::                        The original Yacc
-* yacchack::                    An obscure early implementation of re-entrancy
+* yacchack::                    An obscure early implementation of reentrancy
 * Byacc::                       Berkeley Yacc
 * Bison::                       This program
 * Other ungulates::             Similar programs
@@ -13010,20 +13010,21 @@ The exceptions thrown by user-supplied parser actions and
 @node Yacc
 @section The ancestral Yacc
 
-Bison originated as a workalike of a program called Yacc - Yet Another
-Compiler Compiler.@footnote{(Because of the acronym, the name is sometimes
+Bison originated as a workalike of a program called Yacc --- Yet Another
+Compiler Compiler.@footnote{Because of the acronym, the name is sometimes
 given as ``YACC'', but Johnson used ``Yacc'' in the descriptive paper
 included in the
 @url{https://s3.amazonaws.com/plan9-bell-labs/7thEdMan/v7vol2b.pdf, Version
-7 Unix Manual}} Yacc was written at Bell Labs as part of the very early
+7 Unix Manual}.} Yacc was written at Bell Labs as part of the very early
 development of Unix; one of its first uses was to develop the original
-Portable C Compiler. The same person, Steven C. Johnson, wrote Yacc and the
-original pcc.
+Portable C Compiler, pcc. The same person, Steven C. Johnson, wrote Yacc and
+the original pcc.
 
-According to the author, Yacc was first invented in 1971 and reached a
-form recognizably similar to the C version in 1973.  Johnson published
-@url{https://dx.doi.org/10.1145/512760.512771, A Portable Compiler: Theory
-and Practice} in the Proceedings of the 5th ACM POPL Symposium in 1978.
+According to the author
+@footnote{@url{https://lists.gnu.org/archive/html/bison-patches/2019-02/msg00061.html}},
+Yacc was first invented in 1971 and reached a form recognizably similar to
+the C version in 1973.  Johnson published @cite{A Portable Compiler: Theory
+and Practice} (@pxref{Bibliography,,Johnson 1978}).
 
 Yacc was not itself originally written in C but in its predecessor language,
 B.  This goes far to explain its odd interface, which exposes a large number
@@ -13052,17 +13053,16 @@ became available a few years later.
 @node Byacc
 @section Berkeley Yacc
 
-Berkeley Yacc was originated in 1985 by
-@url{https://apps.dtic.mil/dtic/tr/fulltext/u2/a611756.pdf, Robert Corbett}.
-It was originally named ``zoo'', but by October 1989 it became known as
-Berkeley Yacc or byacc.
+Berkeley Yacc was originated in 1985 by Robert Corbett
+(@pxref{Bibliography,,Corbett 1984}).  It was originally named ``zoo'', but
+by October 1989 it became known as Berkeley Yacc or byacc.
 
 Berkeley Yacc had three advantages over the ancestral Yacc: it generated
-faster parsers, it could generate reentrant parsers, and the source cade
+faster parsers, it could generate reentrant parsers, and the source code
 was released to the public domain rather than being under an AT&T
-proprietary license. The better performance game from implementing
-techniques from DeRemer and Penello's seminal 1982 paper on LALR parsing;
-more on this in the next entry.
+proprietary license.  The better performance came from implementing
+techniques from DeRemer and Penello's seminal paper on LALR parsing
+(@pxref{Bibliography,,DeRemer 1982}).
 
 Use of byacc spread rapidly due to its public domain license. However, once
 Bison became available, byacc itself passed out of general use.
@@ -13071,41 +13071,39 @@ Bison became available, byacc itself passed out of general use.
 @section Bison
 
 Robert Corbett actually wrote two (closely related) LALR parsers in 1985,
-both using the DeRemer/Penello techniques. One was zoo, the other was
+both using the DeRemer/Penello techniques. One was ``zoo'', the other was
 ``Byson''. In 1987 Richard Stallman began working on Byson; the name changed
 to Bison and the interface became Yacc-compatible.
 
 The main visible difference between Yacc and Byson/Bison at the time of
-Byson's fiest release is that Byson supported the @@N construction (giving
-access to the starting and ending line number and character number
+Byson's first release is that Byson supported the @code{@@@var{n}} construct
+(giving access to the starting and ending line number and character number
 associated with any of the symbols in the current rule).
 
-There was also the command '%expect N' which said not to mention
-the conflicts if there are N shift/reduce conflicts and no reduce/reduce
-conflicts.  In more recent versions of Bison, %expect and an %expect-rr
-variant for reduce-reduce conficts can be applied to individual rules.
+There was also the command @samp{%expect @var{n}} which said not to mention the
+conflicts if there are @var{n} shift/reduce conflicts and no reduce/reduce
+conflicts.  In more recent versions of Bison, @code{%expect} and its
+@code{%expect-rr} variant for reduce-reduce conflicts can be applied to
+individual rules.
 
-Later version of Bison added nany more new features.
+Later versions of Bison added many more new features.
 
 Bison error reporting has been improved in various ways. Notably. ancestral
 Yacc and Byson did not have carets in error messages.
 
 Compared to Yacc Bison uses a faster but less space-efficient encoding for
-the parse tables (see Corbett's PhD thesis from Berkeley, ``Static Semantics
-in Compiler Error Recovery'', June 1985, Report No. UCB/CSD 85/251), and
-more modern technique for generating the lookahead sets.  See Frank DeRemer
-and Thomas Pennello, @url{https://dx.doi.org/10.1145/69622.357187, Efficient
-Computation of LALR(1) Look-Ahead Sets}, ACM Transactions on Programming
-Languages and Systems (TOPLAS) 4, 4 (October 1982), 615-649.  Their
-technique has been the standard one since .
+the parse tables (@pxref{Bibliography,,Corbett 1984}), and more modern
+techniques for generating the lookahead sets (@pxref{Bibliography,,DeRemer
+1982}).  This approach is the standard one since then.
 
 (It has also been plausibly alleged the differences in the algorithms stem
 mainly from the horrible kludges that Johnson had to perpetrate to make
 the original Yacc fit in a PDP-11.)
 
-Named references, semantic predicates, %locations, %glr-parser, %printer,
-%destructor, dumps to DOT, %parse-param, %lex-param, and dumps to XSLT, LAC,
-and IELR(1) generation are new in Bison.
+Named references, semantic predicates, @code{%locations},
+@code{%glr-parser}, @code{%printer}, %destructor, dumps to DOT,
+@code{%parse-param}, @code{%lex-param}, and dumps to XSLT, LAC, and IELR(1)
+generation are new in Bison.
 
 Bison also has many features to support C++ that were not present in the
 ancestral Yacc or Byson.
@@ -14303,7 +14301,24 @@ resolution.  @xref{Unreachable States}.
 @node Bibliography
 @unnumbered Bibliography
 
+@c Please follow the followint canvas to add more references.
+
 @table @asis
+@item [Corbett 1984]
+@c author
+Robert Paul Corbett,
+@c title
+Static Semantics in Compiler Error Recovery
+@c in
+Ph.D. Dissertation, Report No. UCB/CSD 85/251,
+@c where
+Departement of Electrical Engineering and Computer Science, Compute Science
+Division, University of California, Berkeley, California
+@c when
+(June 1985).
+@c url
+@uref{http://xtf.lib.berkeley.edu/reports/TRWebData/accessPages/CSD-85-251.html}
+
 @item [Denny 2008]
 Joel E. Denny and Brian A. Malloy, IELR(1): Practical LR(1) Parser Tables
 for Non-LR(1) Grammars with Conflict Resolution, in @cite{Proceedings of the
@@ -14327,6 +14342,14 @@ Frank DeRemer and Thomas Pennello, Efficient Computation of LALR(1)
 Look-Ahead Sets, in @cite{ACM Transactions on Programming Languages and
 Systems}, Vol.@: 4, No.@: 4 (October 1982), pp.@:
 615--649. @uref{http://dx.doi.org/10.1145/69622.357187}
+
+@item [Johnson 1978]
+Steven C. Johnson,
+A portable compiler: theory and practice,
+in @cite{Proceedings of the 5th ACM SIGACT-SIGPLAN symposium on
+Principles of programming languages} (POPL '78),
+pp.@: 97--104.
+@uref{https://dx.doi.org/10.1145/512760.512771}.
 
 @item [Knuth 1965]
 Donald E. Knuth, On the Translation of Languages from Left to Right, in
@@ -14360,8 +14383,8 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit nonfree
 @c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok rr
 @c LocalWords: longjmp fprintf stderr yylloc YYLTYPE cos ln Stallman Destructor
-@c LocalWords: symrec val tptr FUN func struct sym enum IEC syntaxes
-@c LocalWords: fun putsym getsym arith funs atan ptr malloc sizeof Lex
+@c LocalWords: symrec val tptr FUN func struct sym enum IEC syntaxes Byacc
+@c LocalWords: fun putsym getsym arith funs atan ptr malloc sizeof Lex pcc
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
 @c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype Unary
 @c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs nonterminal
@@ -14410,7 +14433,11 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
 @c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif ish
 @c LocalWords: Wdeprecated Wregister noinput yyloc yypos PODs sstream Wsign
-@c LocalWords:  typename emplace Wconversion Wshorten
+@c LocalWords: typename emplace Wconversion Wshorten yacchack reentrancy
+@c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit
+@c LocalWords: DNDEBUG cstring Wzero workalike POPL workalikes byacc UCB
+@c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP
+@c LocalWords: Beazley's goyacc ocamlyacc
 
 @c Local Variables:
 @c ispell-dictionary: "american"
