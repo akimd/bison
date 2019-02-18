@@ -616,10 +616,10 @@ CXXFLAGS=$at_for_each_std_CXXFLAGS_save
 m4_define([AT_YYERROR_DEFINE(java)],
 [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)
 {
-    if (l == null)
-      System.err.println (s);
-    else
-      System.err.println (l + ": " + s);
+  if (l == null)
+    System.err.println (s);
+  else
+    System.err.println (l + ": " + s);
   }
 ]], [[
   public void yyerror (String s)
