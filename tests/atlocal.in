@@ -118,6 +118,9 @@ fi
 ## Other.  ##
 ## ------- ##
 
+: ${DC='@DC@'}
+: ${DCFLAGS='@DCFLAGS@'}
+
 # Empty if no javac was found
 : ${CONF_JAVAC='@CONF_JAVAC@'}
 

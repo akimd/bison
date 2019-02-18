@@ -44,11 +44,28 @@ m4_define([_AT_DATA_CALC_Y],
 [m4_if([$1$2$3], $[1]$[2]$[3], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 
-m4_pushdef([AT_CALC_MAIN],
-[#include <assert.h>
+AT_D_IF([m4_pushdef([AT_CALC_MAIN],
+[[int main (string[] args)
+{
+  semantic_value result = 0;
+  int count = 0;
+
+  if (args.length == 2)
+    input = File (args[1], "r");
+  else
+    input = stdin;
+
+  CalcLexer l = new CalcLexer ();
+  YYParser p = new YYParser (l);
+  int status = !p.parse ();
+  return status;
+}
+]])],
+[m4_pushdef([AT_CALC_MAIN],
+[[#include <assert.h>
 #include <unistd.h>
 
-AT_CXX_IF([[
+]AT_CXX_IF([[
 namespace
 {
   /* A C++ ]AT_NAME_PREFIX[parse that simulates the C signature.  */
@@ -101,10 +118,103 @@ main (int argc, const char **argv)
   assert (global_count == count);   (void) count;
   return status;
 }
-]])
+]])])
 
+AT_D_IF([m4_pushdef([AT_CALC_LEX],
+[[File input;
 
-m4_pushdef([AT_CALC_LEX],
+class CalcLexer : Lexer {
+
+  int prev_char = -1;
+
+  int
+  get_char ()
+  {
+    if (prev_char != -1)
+      {
+        auto res = prev_char;
+        prev_char = -1;
+        return res;
+      }
+    else
+      {
+        auto res = input.rawRead (new char[1]);
+        if (res.length == 0)
+          return -1;
+        else
+          return res[0];
+      }
+  }
+
+  void
+  unget_char (int c)
+  {
+    prev_char = c;
+  }
+
+  public void yyerror (string s)
+  {
+    stderr.writeln (s);
+  }
+
+  int
+  read_signed_integer ()
+  {
+    int c = get_char ();
+    int sign = 1;
+    int n = 0;
+
+    if (c == '-')
+      {
+        c = get_char ();
+        sign = -1;
+      }
+
+    while (isDigit (c))
+      {
+        n = 10 * n + (c - '0');
+        c = get_char ();
+      }
+
+    unget_char (c);
+    return sign * n;
+  }
+
+  YYSemanticType semanticVal_;
+
+  public final @property YYSemanticType semanticVal()
+  {
+    return semanticVal_;
+  }
+
+  int yylex ()
+  {
+    int c;
+    /* Skip white spaces.  */
+    do
+      {}
+    while ((c = get_char ()) == ' ' || c == '\t');
+
+    /* process numbers   */
+    if (c == '.' || isDigit (c))
+      {
+        unget_char (c);
+        semanticVal_.ival = read_signed_integer ();
+        return YYTokenType.NUM;
+      }
+
+    /* Return end-of-file.  */
+    if (c == EOF)
+    {
+      return YYTokenType.EOF;
+      }
+
+    /* Return single chars. */
+    return c;
+  }
+}
+]])],
+[m4_pushdef([AT_CALC_LEX],
 [[#include <ctype.h>
 
 ]AT_YYLEX_DECLARE_EXTERN[
@@ -202,12 +312,19 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
   return c;
 }
 ]])
+])
 
 AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
-]$4
-AT_CXX_IF(
-[%define global_tokens_and_yystype])[
+]$4[
+]AT_CXX_IF([%define global_tokens_and_yystype])[
+]AT_D_IF([[
+%code imports {
+  import std.ascii;
+  import std.stdio;
+  alias semantic_value = int;
+}
+]], [[
 %code requires
 {
 ]AT_LOCATION_TYPE_SPAN_IF([[
@@ -241,6 +358,7 @@ AT_CXX_IF(
   /* Exercise pre-prologue dependency to %union.  */
   typedef int semantic_value;
 }
+]])[
 
 /* Exercise %union. */
 %union
@@ -250,6 +368,7 @@ AT_CXX_IF(
 %printer { ]AT_CXX_IF([[yyo << $$]],
                       [[fprintf (yyo, "%d", $$)]])[; } <ival>;
 
+]AT_D_IF([], [[
 %code provides
 {
   #include <stdio.h>
@@ -271,6 +390,7 @@ static int power (int base, int exponent);
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE_EXTERN[
 }
+]])[
 
 ]AT_LOCATION_TYPE_SPAN_IF([[
 %initial-action
@@ -299,15 +419,17 @@ input:
 
 line:
   '\n'
-| exp '\n'           { ]AT_PARAM_IF([*result = global_result = $1], [USE ($1)])[; }
+| exp '\n'           { ]AT_PARAM_IF([*result = global_result = $1;], [AT_D_IF([], [USE ($1);])])[ }
 ;
 
 exp:
   NUM
 | exp '=' exp
   {
-    if ($1 != $3)
-      fprintf (stderr, "calc: error: %d != %d\n", $1, $3);
+    if ($1 != $3)]AT_D_IF([
+      stderr.writefln ("calc: error: %d != %d", $1, $3);], [
+      fprintf (stderr, "calc: error: %d != %d\n", $1, $3);], [
+      ])[
     $$ = $1;
   }
 | exp '+' exp        { $$ = $1 + $3;        }
@@ -317,9 +439,9 @@ exp:
 | '-' exp  %prec NEG { $$ = -$2;            }
 | exp '^' exp        { $$ = power ($1, $3); }
 | '(' exp ')'        { $$ = $2;             }
-| '(' error ')'      { $$ = 1111; yyerrok;  }
-| '!'                { $$ = 0; YYERROR;     }
-| '-' error          { $$ = 0; YYERROR;     }
+| '(' error ')'      { $$ = 1111; ]AT_D_IF([], [yyerrok;])[  }
+| '!'                { $$ = 0; ]AT_D_IF([return YYERROR], [YYERROR])[;     }
+| '-' error          { $$ = 0; ]AT_D_IF([return YYERROR], [YYERROR])[;     }
 ;
 %%
 
@@ -730,3 +852,23 @@ AT_CHECK_CALC_GLR_CC([%define parse.error verbose %debug %name-prefix "calc" %de
 
 AT_CHECK_CALC_GLR_CC([%locations %defines %define parse.error verbose %debug %name-prefix "calc" %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
 AT_CHECK_CALC_GLR_CC([%locations %defines %define parse.error verbose %debug %define api.prefix {calc} %verbose %yacc %parse-param {semantic_value *result} %parse-param {int *count}])
+
+
+
+# --------------------------- #
+# Simple LALR1 D Calculator.  #
+# --------------------------- #
+
+AT_BANNER([[Simple LALR(1) D Calculator.]])
+
+# First let's try using %skeleton
+AT_CHECK_CALC([%skeleton "lalr1.d"])
+
+# AT_CHECK_CALC_LALR1_D([BISON-OPTIONS])
+# ---------------------------------------
+# Start a testing chunk which compiles 'calc' grammar with
+# the C++ skeleton, and performs several tests over the parser.
+m4_define([AT_CHECK_CALC_LALR1_D],
+[AT_CHECK_CALC([%language "D" $1], [$2])])
+
+AT_CHECK_CALC_LALR1_D([])

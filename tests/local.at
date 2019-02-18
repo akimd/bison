@@ -147,13 +147,16 @@ m4_pushdef([AT_DEBUG_IF],
 [m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
 m4_pushdef([AT_CXX_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
+m4_pushdef([AT_D_IF],
+[m4_bmatch([$3], [%language "[Dd]"\|%skeleton "[a-z0-9]+\.d"], [$1], [$2])])
 m4_pushdef([AT_JAVA_IF],
 [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 # The target language: "c", "c++", or "java".
 m4_pushdef([AT_LANG],
 [AT_JAVA_IF([java],
             [AT_CXX_IF([c++],
-                       [c])])])
+                       [AT_D_IF([d],
+                                [c])])])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
@@ -633,6 +636,40 @@ done
 CXXFLAGS=$at_for_each_std_CXXFLAGS_save
 ]])
 
+
+
+## --- ##
+## D.  ##
+## --- ##
+
+# AT_DATA_GRAMMAR(NAME, CONTENT)
+# ------------------------------
+m4_copy([AT_DATA], [AT_DATA_GRAMMAR(d)])
+
+
+# No need to declare, it's part of the class interface.
+m4_define([AT_YYERROR_DECLARE(d)],        [])
+m4_define([AT_YYERROR_DECLARE_EXTERN(d)], [])
+
+m4_define([AT_YYERROR_DEFINE(d)],
+[[/* An error reporting function.  */
+public void error (]AT_LOCATION_IF([[location_type l, ]])[string m)
+{
+  // FIXME: location.
+  stderr.writeln (m);
+}]])
+
+
+m4_define([AT_MAIN_DEFINE(d)],
+[[int main ()
+{
+  Lexer l = new Lexer ();
+  Parser p = new Parser (l);
+  p.parse ();
+}]])
+
+
+
 ## ------ ##
 ## Java.  ##
 ## ------ ##
@@ -921,6 +958,25 @@ AT_CHECK(m4_join([ ],
          0, [ignore], [ignore])])
 
 
+# AT_COMPILE_D(OUTPUT, [SOURCES = OUTPUT.d], [EXTRA-COMPILER-FLAGS])
+# -------------------------------------------------------------------
+# Compile SOURCES into OUTPUT.  If the C++ compiler does not work,
+# ignore the test.
+#
+# If OUTPUT does not contain '.', assume that we are linking too,
+# otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
+# with trailing ".o" removed, and ".cc" appended.
+m4_define([AT_COMPILE_D],
+[AT_KEYWORDS(d)
+AT_CHECK(m4_join([ ],
+                 [$DC $DCFLAGS $3],
+                 [m4_bmatch([$1], [[.]], [-c])],
+                 [-of$1],
+                 [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).d])],
+                 [m4_bmatch([$1], [[.]], [], [$LIBS])]),
+         0, [ignore], [ignore])])
+
+
 # AT_JAVA_COMPILE(SOURCES)
 # ------------------------
 # Compile SOURCES into Java class files.  Skip the test if java or javac
@@ -948,6 +1004,7 @@ m4_define([AT_LANG_FOR_EACH_STD],  [AT_LANG_DISPATCH([$0], $@)])
 m4_define([AT_LANG_COMPILE],  [AT_LANG_DISPATCH([$0], $@)])
 m4_define([AT_LANG_COMPILE(c)],    [AT_COMPILE([$1], [$2], [$3])])
 m4_define([AT_LANG_COMPILE(c++)],  [AT_COMPILE_CXX([$1], [$2], [$3])])
+m4_define([AT_LANG_COMPILE(d)],    [AT_COMPILE_D([$1], [$2], [$3])])
 m4_define([AT_LANG_COMPILE(java)], [AT_JAVA_COMPILE([$1.java], [$2], [$3])])
 
 
@@ -957,6 +1014,7 @@ m4_define([AT_LANG_COMPILE(java)], [AT_JAVA_COMPILE([$1.java], [$2], [$3])])
 m4_define([AT_LANG_EXT],  [AT_LANG_DISPATCH([$0], $@)])
 m4_define([AT_LANG_EXT(c)],    [c])
 m4_define([AT_LANG_EXT(c++)],  [cc])
+m4_define([AT_LANG_EXT(d)],    [d])
 m4_define([AT_LANG_EXT(java)], [java])
 
 

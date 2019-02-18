@@ -69,7 +69,7 @@ public interface Lexer
    * to the next token and prepares to return the semantic value
    * ]b4_locations_if([and beginning/ending positions ])[of the token.
    * @@return the token identifier corresponding to the next token. */
-  YYTokenType yylex ();
+  int yylex ();
 
   /**
    * Entry point for error reporting.  Emits an error

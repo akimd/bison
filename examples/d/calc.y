@@ -108,7 +108,7 @@ class CalcLexer : Lexer {
     return semanticVal_;
   }
 
-  YYTokenType yylex ()
+  int yylex ()
   {
     int c;
     /* Skip white spaces.  */
