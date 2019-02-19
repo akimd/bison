@@ -437,26 +437,8 @@ AT_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
 ]$2[
 
 ]AT_JAVA_IF([[%code lexer {
-
-  /*--------.
-  | yylex.  |
-  `--------*/
-
-  public String input = "]$3[";
-  public int index = 0;
-  public int yylex ()
-  {
-    if (index < input.length ())
-      return input.charAt (index++);
-    else
-      return 0;
-  }
-  public Object getLVal ()
-  {
-    return new Integer(1);
-  }
-
-]AT_YYERROR_DEFINE[
+  ]AT_YYLEX_DEFINE([$3], [[return new Integer(1)]])[
+  ]AT_YYERROR_DEFINE[
 };
 %%
 ]], [[

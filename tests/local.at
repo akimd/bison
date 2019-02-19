@@ -427,25 +427,10 @@ m4_define([AT_YYLEX_DECLARE],
 [static AT_YYLEX_DECLARE_EXTERN[]dnl
 ])
 
-m4_define([AT_YYLEX_DEFINE],
-[[#include <assert.h>
-static
-]AT_YYLEX_PROTOTYPE[
-{
-  ]m4_bmatch([$1], [^\(".*"\)?$],
-             [[static char const input[] = ]m4_default([$1], [""])],
-             [[static int const input[] = ]$1])[;
-  static size_t toknum = 0;
-  int res;
-  ]AT_USE_LEX_ARGS[
-  assert (toknum < sizeof input / sizeof input[0]);
-  res = input[toknum++];
-  ]$2[;]AT_TOKEN_CTOR_IF([], [[
-  ]AT_LOCATION_IF([[
-  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
-  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = ]AT_CXX_IF([(unsigned )], [(int)])[toknum;]])[
-  return res;]])[
-}]])
+
+# AT_YYLEX_DEFINE([INPUT], [ACTION])
+m4_define([AT_YYLEX_DEFINE],  [AT_LANG_DISPATCH([$0], $@)])
+
 
 # AT_YYERROR_FORMALS
 # AT_YYERROR_PROTOTYPE
@@ -537,6 +522,27 @@ AT_YYERROR_SEES_LOC_IF([[
 }]])
 
 
+m4_define([AT_YYLEX_DEFINE(c)],
+[[#include <assert.h>
+static
+]AT_YYLEX_PROTOTYPE[
+{
+  ]m4_bmatch([$1], [^\(".*"\)?$],
+             [[static char const input[] = ]m4_default([$1], [""])],
+             [[static int const input[] = ]$1])[;
+  static size_t toknum = 0;
+  int res;
+  ]AT_USE_LEX_ARGS[
+  assert (toknum < sizeof input / sizeof input[0]);
+  res = input[toknum++];
+  ]$2[;]AT_TOKEN_CTOR_IF([], [[
+  ]AT_LOCATION_IF([[
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = ]AT_CXX_IF([(unsigned )], [(int)])[toknum;]])[
+  return res;]])[
+}]])
+
+
 m4_define([AT_MAIN_DEFINE(c)],
 [[#include <stdlib.h> /* getenv. */
 #include <string.h> /* strcmp. */
@@ -571,6 +577,12 @@ void
 {
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
 }]])
+
+
+# AT_YYERROR_DEFINE(c++)([INPUT], [ACTION])
+# -----------------------------------------
+# Same as in C.
+m4_copy([AT_YYLEX_DEFINE(c)], [AT_YYLEX_DEFINE(c++)])
 
 
 m4_define([AT_MAIN_DEFINE(c++)],
@@ -626,7 +638,29 @@ m4_define([AT_YYERROR_DEFINE(java)],
   {
     System.err.println (s);
   }
-]])])
+]])
+])
+
+m4_define([AT_YYLEX_DEFINE(java)],
+[[
+  /*--------.
+  | yylex.  |
+  `--------*/
+
+  public String input = "]$1[";
+  public int index = 0;
+  public int yylex ()
+  {
+    if (index < input.length ())
+      return input.charAt (index++);
+    else
+      return 0;
+  }
+  public Object getLVal ()
+  {
+    ]$2[;
+  }
+]])
 
 m4_define([AT_MAIN_DEFINE(java)],
 [[class input
