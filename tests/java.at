@@ -33,7 +33,7 @@ m4_define([_AT_DATA_JAVA_CALC_Y],
 [m4_if([$1$2$3], $[1]$[2]$[3], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
 AT_BISON_OPTION_PUSHDEFS([%language "Java" $4])
-AT_DATA([Calc.y],
+AT_DATA_GRAMMAR([Calc.y],
 [[/* Infix notation calculator--calc */
 %language "Java"
 %name-prefix "Calc"

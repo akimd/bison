@@ -1313,6 +1313,7 @@ AT_CLEANUP
 AT_SETUP([Typed symbol aliases])
 
 # Bison 2.0 broke typed symbol aliases - ensure they work.
+AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA_GRAMMAR([input.y],
 [[%union
@@ -1328,6 +1329,7 @@ exp: "MY TOKEN";
 
 AT_BISON_CHECK([-o input.c input.y])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1337,12 +1339,14 @@ AT_CLEANUP
 
 m4_define([AT_CHECK_REQUIRE],
 [AT_SETUP([Require $1])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%require "$1";
 %%
 empty_file: %empty;
 ]])
 AT_BISON_CHECK([-o input.c input.y], $2, [], ignore)
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
@@ -1361,6 +1365,7 @@ AT_SETUP([String aliases for character tokens])
 # Bison once thought a character token and its alias were different
 # symbols with the same user token number.
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%token 'a' "a"
 %%
@@ -1370,6 +1375,7 @@ start: 'a';
 
 AT_BISON_CHECK([-o input.c input.y])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1399,7 +1405,6 @@ without_period: "WITHOUT.PERIOD";
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 # POSIX Yacc accept periods, but not dashes.
 AT_BISON_CHECK([--yacc input.y], [], [],
@@ -1436,6 +1441,7 @@ input.y:11.10-16: error: invalid identifier: '1NV4L1D'
 input.y:12.10: error: invalid character: '-'
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1445,6 +1451,7 @@ AT_CLEANUP
 
 AT_SETUP([Numbered tokens])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([redecl.y],
 [[%token DECIMAL_1     11259375
          HEXADECIMAL_1 0xabcdef
@@ -1474,6 +1481,7 @@ AT_BISON_CHECK([too-large.y], [1], [],
 too-large.y:10.24-44: error: integer out of range: '0xFFFFFFFFFFFFFFFFFFF'
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -2379,6 +2387,7 @@ AT_CLEANUP
 ## -------------- ##
 
 AT_SETUP([[Stray $ or @]])
+AT_BISON_OPTION_PUSHDEFS
 
 # Give %printer and %destructor "<*> exp TOK" instead of "<*>" to
 # check that the warnings are reported once, not three times.
@@ -2407,6 +2416,7 @@ input.y:16.19: warning: stray '$' [-Wother]
 input.y:16.23: warning: stray '@' [-Wother]
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -2484,6 +2494,7 @@ AT_SETUP([[Deprecated directives]])
 
 AT_KEYWORDS([[deprec]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %default_prec
@@ -2603,6 +2614,7 @@ exp : '0'
 
 AT_BISON_CHECK([[input.y]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -2619,6 +2631,7 @@ AT_SETUP([[Unput's effect on locations]])
 
 AT_KEYWORDS([[deprec]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %glr-parser
@@ -2642,6 +2655,7 @@ input.y: error: reduce/reduce conflicts: 0 found, 42 expected
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -2653,6 +2667,7 @@ AT_SETUP([[Non-deprecated directives]])
 
 AT_KEYWORDS([[deprec]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[
 %default-prec
@@ -2677,6 +2692,7 @@ input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -2686,6 +2702,7 @@ AT_CLEANUP
 
 AT_SETUP([[Cannot type action]])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%%
 exp: <int> {}
@@ -2697,4 +2714,5 @@ AT_BISON_CHECK([[-fcaret input.y]], [[0]], [[]],
       ^~~~~~~~
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP

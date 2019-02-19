@@ -397,15 +397,13 @@ m4_define([AT_DATA_SOURCE],
 $2])
 ])
 
+
 # AT_DATA_GRAMMAR(NAME, CONTENT)
 # ------------------------------
 # Generate the file NAME, which CONTENT is preceded by
 # AT_DATA_GRAMMAR_PROLOGUE.
-m4_define([AT_DATA_GRAMMAR],
-[AT_DATA([$1],
-[AT_DATA_GRAMMAR_PROLOGUE
-$2])
-])
+m4_define([AT_DATA_GRAMMAR], [AT_LANG_DISPATCH([$0], $@)])
+
 
 # AT_YYLEX_PROTOTYPE
 # AT_YYLEX_DECLARE_EXTERN
@@ -454,6 +452,15 @@ m4_define([AT_MAIN_DEFINE],   [AT_LANG_DISPATCH([$0], $@)])
 ## --- ##
 ## C.  ##
 ## --- ##
+
+# AT_DATA_GRAMMAR(c)(NAME, CONTENT)
+# ---------------------------------
+# Generate the file NAME, with CONTENT.
+m4_define([AT_DATA_GRAMMAR(c)],
+[AT_DATA([$1],
+[AT_DATA_GRAMMAR_PROLOGUE
+$2])
+])
 
 m4_define([AT_YYERROR_FORMALS(c)],
 [AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE const * const llocp, ])AT_PARSE_PARAMS[const char *msg]])
@@ -566,6 +573,11 @@ m4_define([AT_LANG_FOR_EACH_STD(c)],
 ## C++.  ##
 ## ----- ##
 
+
+# AT_DATA_GRAMMAR(NAME, CONTENT)
+# ------------------------------
+m4_copy([AT_DATA_GRAMMAR(c)], [AT_DATA_GRAMMAR(c++)])
+
 # No need to declare, it's part of the class interface.
 m4_define([AT_YYERROR_DECLARE(c++)],        [])
 m4_define([AT_YYERROR_DECLARE_EXTERN(c++)], [])
@@ -624,6 +636,12 @@ CXXFLAGS=$at_for_each_std_CXXFLAGS_save
 ## ------ ##
 ## Java.  ##
 ## ------ ##
+
+
+# AT_DATA_GRAMMAR(NAME, CONTENT)
+# ------------------------------
+m4_copy([AT_DATA], [AT_DATA_GRAMMAR(java)])
+
 
 m4_define([AT_YYERROR_DEFINE(java)],
 [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)

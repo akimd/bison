@@ -295,6 +295,7 @@ AT_CLEANUP
 ## ----------------------- ##
 
 AT_SETUP([Misleading references])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -307,11 +308,13 @@ AT_BISON_CHECK([-o test.c test.y], 0, [],
 test.y:11.8-10:      refers to: $foo at $1
 test.y:11.12-18:     possibly meant: $[foo.bar] at $2
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Many kinds of errors])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %token IDENT
@@ -540,11 +543,13 @@ test.y:45.41-46:     possibly meant: $[then-a].f at $4
                                          ^~~~~~
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Missing identifiers in brackets])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -554,11 +559,13 @@ start: foo[] bar
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.12: error: an identifier expected
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Redundant words in brackets])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -568,11 +575,13 @@ start: foo[ a d ] bar
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.15: error: unexpected identifier in bracketed name: 'd'
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Comments in brackets])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -582,11 +591,13 @@ start: foo[/* comment */] bar
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.25: error: an identifier expected
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Stray symbols in brackets])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -599,11 +610,13 @@ AT_BISON_CHECK([-o test.c test.y], 1, [],
 test.y:11.25-27: error: invalid characters in bracketed name: '*&-'
 test.y:11.29-30: error: invalid characters in bracketed name: '+\0\001\002\377'
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Redundant words in LHS brackets])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -612,6 +625,7 @@ start[a s]: foo;
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.9: error: unexpected identifier in bracketed name: 's'
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
@@ -619,17 +633,20 @@ AT_CLEANUP
 # Bison used to free twice the named ref for "a", since a single copy
 # was used in two rules.
 AT_SETUP([Factored LHS])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
 start[a]: "foo" | "bar";
 ]])
 AT_BISON_CHECK([-o test.c test.y])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################
 
 AT_SETUP([Unresolved references])
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([test.y],
 [[
 %%
@@ -690,6 +707,7 @@ test.y:28.3-65:      symbol not found in production before $3: sym
 test.y:28.52-61: error: invalid reference: '$<aa>[sym]'
 test.y:28.3-65:      symbol not found in production: sym
 ]])
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 #######################################################################

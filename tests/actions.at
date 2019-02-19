@@ -119,6 +119,7 @@ AT_CLEANUP
 
 AT_SETUP([Implicitly empty rule])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[1.y]],
 [[%%
 exp: a b;
@@ -152,6 +153,7 @@ AT_BISON_CHECK([-fcaret 2.y], [0], [],
 
 AT_BISON_CHECK([-fcaret -Wno-empty-rule 2.y], [0])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 ## ------------------------ ##
@@ -160,6 +162,7 @@ AT_CLEANUP
 
 AT_SETUP([Invalid uses of %empty])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[one.y]],
 [[%%
 exp:
@@ -224,6 +227,7 @@ two.y:13.3-8: error: %empty on non-empty rule
    ^~~~~~
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 ## ---------------------- ##

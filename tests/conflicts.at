@@ -100,6 +100,7 @@ AT_CLEANUP
 
 AT_SETUP([Token declaration order: literals vs. identifiers])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]],
 [[%token 'a' 'b' C D
 %token E F 'g' 'h'
@@ -171,6 +172,7 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
 State 1
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -404,7 +406,7 @@ AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
 
 AT_BISON_OPTION_PUSHDEFS([$1 AT_CXX_IF([[%defines]], [[%define api.pure]])])
 
-AT_JAVA_IF([AT_DATA], [AT_DATA_GRAMMAR])([input.y],
+AT_DATA_GRAMMAR([input.y],
 [AT_JAVA_IF([[
 
 %code imports {
