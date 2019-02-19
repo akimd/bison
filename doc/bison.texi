@@ -4795,10 +4795,16 @@ status 63).
 @end example
 
 Some deprecated behaviors are disabled for some required @var{version}:
-@table @code
-@item "3.2"
+@table @asis
+@item @code{"3.2"} (or better)
 The C++ deprecated files @file{position.hh} and @file{stack.hh} are no
 longer generated.
+
+@item @code{"3.4"} (or better)
+To comply with the
+@uref{https://marc.info/?l=graphviz-devel&m=129418103126092, recommendations
+of the GraphViz team}, use the @code{.gv} extension instead of @code{.dot}
+for the name of the generated DOT file.  @xref{Graphviz}.
 @end table
 
 
@@ -6137,12 +6143,12 @@ start: FILE for ERROR;
 @end example
 
 @noindent
-generates the definition of the symbols @code{TOK_FILE}, @code{TOK_for},
-and @code{TOK_ERROR} in the generated source files.  In particular, the
-scanner must use these prefixed token names, while the grammar itself
-may still use the short names (as in the sample rule given above).  The
-generated informational files (@file{*.output}, @file{*.xml},
-@file{*.dot}) are not modified by this prefix.
+generates the definition of the symbols @code{TOK_FILE}, @code{TOK_for}, and
+@code{TOK_ERROR} in the generated source files.  In particular, the scanner
+must use these prefixed token names, while the grammar itself may still use
+the short names (as in the sample rule given above).  The generated
+informational files (@file{*.output}, @file{*.xml}, @file{*.gv}) are not
+modified by this prefix.
 
 Bison also prefixes the generated member names of the semantic value union.
 @xref{Type Generation,, Generating the Semantic Value Type}, for more
@@ -9732,8 +9738,8 @@ to help them understand LR parsers.
 This file is generated when the @option{--graph} option is specified
 (@pxref{Invocation, , Invoking Bison}).  Its name is made by removing
 @samp{.tab.c} or @samp{.c} from the parser implementation file name, and
-adding @samp{.dot} instead.  If the grammar file is @file{foo.y}, the
-Graphviz output file is called @file{foo.dot}.  A DOT file may also be
+adding @samp{.gv} instead.  If the grammar file is @file{foo.y}, the
+Graphviz output file is called @file{foo.gv}.  A DOT file may also be
 produced via an XML file and XSLT processing (@pxref{Xml,,Visualizing your
 parser in multiple formats}).
 
@@ -10767,12 +10773,12 @@ described under the @samp{-v} and @samp{-d} options.
 
 @item -g [@var{file}]
 @itemx --graph[=@var{file}]
-Output a graphical representation of the parser's
-automaton computed by Bison, in @uref{http://www.graphviz.org/, Graphviz}
+Output a graphical representation of the parser's automaton computed by
+Bison, in @uref{http://www.graphviz.org/, Graphviz}
 @uref{http://www.graphviz.org/doc/info/lang.html, DOT} format.
-@code{@var{file}} is optional.
-If omitted and the grammar file is @file{foo.y}, the output file will be
-@file{foo.dot}.
+@code{@var{file}} is optional.  If omitted and the grammar file is
+@file{foo.y}, the output file will be @file{foo.gv} if the @code{%required}
+version is 3.4 or better, @file{foo.dot} otherwise.
 
 @item -x [@var{file}]
 @itemx --xml[=@var{file}]

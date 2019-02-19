@@ -2,6 +2,12 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Changes
+
+  In conformance with the recommendations of the GraphViz team, if %require
+  "3.4" (or better) is specified, the option --graph generates a *.gv file
+  by default, instead of *.dot.
+
 ** New features
 
 *** Disabling output
@@ -13,6 +19,9 @@ GNU Bison NEWS
 
   A new example in C shows an simple infix calculator with a hand-written
   scanner (examples/c/calc).
+
+  A new example in C shows a reentrant parser (capable of recursive calls)
+  built with Flex and Bison (examples/c/reccalc).
 
 * Noteworthy changes in release 3.3.2 (2019-02-03) [stable]
 

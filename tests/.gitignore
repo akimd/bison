@@ -1,8 +1,6 @@
-/*.dot
 /*.output
 /atconfig
 /atlocal
-/autom4te.cache
 /bison
 /calc
 /calc.[chy]

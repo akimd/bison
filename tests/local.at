@@ -752,7 +752,7 @@ m4_define([AT_BISON_CHECK_XML],
   # Don't combine these Bison invocations since we want to be sure that
   # --report=all isn't required to get the full XML file.
   AT_BISON_CHECK_([[--report=all --report-file=xml-tests/test.output \
-             --graph=xml-tests/test.dot ]]AT_BISON_ARGS,
+             --graph=xml-tests/test.gv ]]AT_BISON_ARGS,
            [[0]], [ignore], [ignore])
   AT_BISON_CHECK_([[--xml=xml-tests/test.xml ]]AT_BISON_ARGS,
            [[0]], [ignore], [ignore])
@@ -761,7 +761,7 @@ m4_define([AT_BISON_CHECK_XML],
   AT_CHECK([[$XSLTPROC \
              `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2text.xsl \
              xml-tests/test.xml]], [[0]], [expout])
-  [sort xml-tests/test.dot > expout]
+  [sort xml-tests/test.gv > expout]
   AT_CHECK([[$XSLTPROC \
              `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2dot.xsl \
              xml-tests/test.xml | sort]], [[0]], [expout])
