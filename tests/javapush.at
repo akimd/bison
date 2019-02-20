@@ -673,30 +673,7 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
   }
 }
 
-%code {
-class Position {
-  public int line;
-  public int token;
-
-  public Position () { line = 0; token = 0; }
-
-  public Position (int l, int t) { line = l; token = t; }
-
-  public boolean equals (Position l)
-  {
-    return l.line == line && l.token == token;
-  }
-
-  public String toString ()
-  {
-    return Integer.toString(line)  + "." + Integer.toString(token);
-  }
-
-  public int lineno () { return line; }
-
-  public int token () { return token; }
-}//Class Position
-}
+%code { ]AT_JAVA_POSITION_DEFINE[ }
 
 %code {
 public static void main (String[] argv)

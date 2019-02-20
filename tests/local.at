@@ -643,6 +643,47 @@ CXXFLAGS=$at_for_each_std_CXXFLAGS_save
 m4_copy([AT_DATA], [AT_DATA_GRAMMAR(java)])
 
 
+# AT_JAVA_POSITION_DEFINE
+# -----------------------
+m4_define([AT_JAVA_POSITION_DEFINE],
+[[class Position {
+  public int line;
+  public int token;
+
+  public Position ()
+  {
+    line = 0;
+    token = 0;
+  }
+
+  public Position (int l, int t)
+  {
+    line = l;
+    token = t;
+  }
+
+  public boolean equals (Position l)
+  {
+    return l.line == line && l.token == token;
+  }
+
+  public String toString ()
+  {
+    return Integer.toString (line) + "." + Integer.toString(token);
+  }
+
+  public int lineno ()
+  {
+    return line;
+  }
+
+  public int token ()
+  {
+    return token;
+  }
+}]])
+
+
 m4_define([AT_YYERROR_DEFINE(java)],
 [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)
 {
