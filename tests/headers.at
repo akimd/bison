@@ -104,7 +104,7 @@ int my_parse (void);
 AT_COMPILE([caller.o])
 AT_COMPILE([input.o])
 AT_COMPILE([caller], [caller.o input.o])
-AT_PARSER_CHECK([./caller])
+AT_PARSER_CHECK([caller])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
@@ -352,7 +352,7 @@ AT_CHECK([[$PERL -n -0777 -e '
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
 
 AT_COMPILE_CXX([parser], [[x[1-9].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
-AT_PARSER_CHECK([./parser], [0], [[expout]])
+AT_PARSER_CHECK([parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])
 

@@ -91,7 +91,7 @@ AT_BISON_CHECK([[-o glr-regr1.c -rall glr-regr1.y]], 0, [],
 [[glr-regr1.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
 AT_COMPILE([glr-regr1])
-AT_PARSER_CHECK([[./glr-regr1 BPBPB]], 0,
+AT_PARSER_CHECK([[glr-regr1 BPBPB]], 0,
 [[E -> 'B'
 E -> 'B'
 E -> E 'P' E
@@ -215,14 +215,14 @@ AT_COMPILE([glr-regr2a])
 AT_DATA([input1.txt],
 [[s VARIABLE_1 t v x q
 ]])
-AT_PARSER_CHECK([[./glr-regr2a input1.txt]], 0,
+AT_PARSER_CHECK([[glr-regr2a input1.txt]], 0,
 [[Variable: 'VARIABLE_1'
 ]])
 
 AT_DATA([input2.txt],
 [[s VARIABLE_1 , ANOTHER_VARIABLE_2 t e
 ]])
-AT_PARSER_CHECK([[./glr-regr2a input2.txt]],
+AT_PARSER_CHECK([[glr-regr2a input2.txt]],
 0,
 [[Varlist: 'VARIABLE_1,ANOTHER_VARIABLE_2'
 ]])
@@ -230,7 +230,7 @@ AT_PARSER_CHECK([[./glr-regr2a input2.txt]],
 AT_DATA([input3.txt],
 [[s VARIABLE_3 t v x
 ]])
-AT_PARSER_CHECK([[./glr-regr2a input3.txt]], 0,
+AT_PARSER_CHECK([[glr-regr2a input3.txt]], 0,
 [[Variable: 'VARIABLE_3'
 ]])
 
@@ -349,7 +349,7 @@ AT_COMPILE([glr-regr3])
 AT_DATA([input.txt],
 [[p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2
 ]])
-AT_PARSER_CHECK([[./glr-regr3 input.txt]],
+AT_PARSER_CHECK([[glr-regr3 input.txt]],
 0,
 [[Result: 1c04
 ]])
@@ -441,7 +441,7 @@ AT_BISON_CHECK([[-o glr-regr4.c -rall glr-regr4.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr4])
 
-AT_PARSER_CHECK([[./glr-regr4]], 0,
+AT_PARSER_CHECK([[glr-regr4]], 0,
 [[merge{ S <- merge{ A <- A1 <- 'a' and A <- A2 <- 'a' } and S <- B <- 'a' }
 ]], [])
 
@@ -497,7 +497,7 @@ AT_BISON_CHECK([[-o glr-regr5.c -rall glr-regr5.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr5])
 
-AT_PARSER_CHECK([[./glr-regr5]], 1, [],
+AT_PARSER_CHECK([[glr-regr5]], 1, [],
 [syntax is ambiguous
 ])
 
@@ -545,7 +545,7 @@ AT_BISON_CHECK([[-o glr-regr6.c -rall glr-regr6.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr6])
 
-AT_PARSER_CHECK([[./glr-regr6]], 1,
+AT_PARSER_CHECK([[glr-regr6]], 1,
 [Destructor called.
 ],
 [syntax is ambiguous
@@ -634,7 +634,7 @@ AT_BISON_CHECK([[-o glr-regr7.c -rall glr-regr7.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr7])
 
-AT_PARSER_CHECK([[./glr-regr7]], 2, [],
+AT_PARSER_CHECK([[glr-regr7]], 2, [],
 [memory exhausted
 ])
 
@@ -723,7 +723,7 @@ AT_BISON_CHECK([[-o glr-regr8.c -rall glr-regr8.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr8])
 
-AT_PARSER_CHECK([[./glr-regr8]], 0,
+AT_PARSER_CHECK([[glr-regr8]], 0,
 [empty: 9/9
 1/9 - 9/9 - 13/17
 ],
@@ -803,7 +803,7 @@ AT_BISON_CHECK([[-o glr-regr9.c -rall glr-regr9.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr9])
 
-AT_PARSER_CHECK([[./glr-regr9]], 0, [],
+AT_PARSER_CHECK([[glr-regr9]], 0, [],
 [memory exhausted
 ])
 
@@ -859,7 +859,7 @@ AT_BISON_CHECK([[-o glr-regr10.c -rall glr-regr10.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr10])
 
-AT_PARSER_CHECK([[./glr-regr10]], 0, [], [])
+AT_PARSER_CHECK([[glr-regr10]], 0, [], [])
 
 AT_CLEANUP
 
@@ -917,7 +917,7 @@ AT_BISON_CHECK([[-o glr-regr11.c -rall glr-regr11.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr11])
 
-AT_PARSER_CHECK([[./glr-regr11]], 0, [], [])
+AT_PARSER_CHECK([[glr-regr11]], 0, [], [])
 
 AT_CLEANUP
 
@@ -1038,7 +1038,7 @@ glr-regr12.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
 ]])
 AT_COMPILE([glr-regr12])
 
-AT_PARSER_CHECK([[./glr-regr12]], 0, [], [])
+AT_PARSER_CHECK([[glr-regr12]], 0, [], [])
 
 AT_CLEANUP
 
@@ -1153,7 +1153,7 @@ AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o glr-regr13.c -rall glr-regr13.y]], 0, [], [])
 AT_COMPILE([glr-regr13])
 
-AT_PARSER_CHECK([[./glr-regr13]], 0,
+AT_PARSER_CHECK([[glr-regr13]], 0,
 [defstate_init <- empty string:
   yychar=YYEMPTY
 nondefstate <- empty string:
@@ -1367,7 +1367,7 @@ AT_BISON_CHECK([[-o glr-regr14.c -rall glr-regr14.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr14])
 
-AT_PARSER_CHECK([[./glr-regr14]], 0,
+AT_PARSER_CHECK([[glr-regr14]], 0,
 [conflict <- empty string:
   yychar='a', yylval='A', yylloc=(1,1),(1,1)
 defstate_look <- empty string:
@@ -1460,7 +1460,7 @@ AT_BISON_CHECK([[-o glr-regr15.c -rall glr-regr15.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr15])
 
-AT_PARSER_CHECK([[./glr-regr15]], 0, [],
+AT_PARSER_CHECK([[glr-regr15]], 0, [],
 [syntax is ambiguous
 ])
 
@@ -1520,7 +1520,7 @@ AT_BISON_CHECK([[-o glr-regr16.c -rall glr-regr16.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr16])
 
-AT_PARSER_CHECK([[./glr-regr16]], 0, [],
+AT_PARSER_CHECK([[glr-regr16]], 0, [],
 [syntax error
 ])
 
@@ -1594,7 +1594,7 @@ AT_BISON_CHECK([[-o glr-regr17.c -rall glr-regr17.y]], 0, [],
 ]])
 AT_COMPILE([glr-regr17])
 
-AT_PARSER_CHECK([[./glr-regr17]], 1, [],
+AT_PARSER_CHECK([[glr-regr17]], 1, [],
 [1.1-2.2: syntax is ambiguous
 ])
 
@@ -1688,7 +1688,7 @@ AT_BISON_CHECK([[-o input.c input.y]], 0, [],
 ]])
 AT_COMPILE([input])
 
-AT_PARSER_CHECK([[./input --debug]], 1, [],
+AT_PARSER_CHECK([[input --debug]], 1, [],
 [Starting parse
 Entering state 0
 Reading a token: Next token is token 'a' ()
@@ -1802,11 +1802,11 @@ main (int argc, const char* argv[])
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([[./input Nwin]], [0], [new])
-AT_PARSER_CHECK([[./input Owin]], [1], [], [[syntax error, unexpected 'n', expecting 'o'
+AT_PARSER_CHECK([[input Nwin]], [0], [new])
+AT_PARSER_CHECK([[input Owin]], [1], [], [[syntax error, unexpected 'n', expecting 'o'
 ]])
-AT_PARSER_CHECK([[./input Owio]], [0], [old])
-AT_PARSER_CHECK([[./input Nwio]], [1], [], [[syntax error, unexpected 'o', expecting 'n'
+AT_PARSER_CHECK([[input Owio]], [0], [old])
+AT_PARSER_CHECK([[input Nwio]], [1], [], [[syntax error, unexpected 'o', expecting 'n'
 ]])
 
 AT_CLEANUP

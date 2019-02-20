@@ -1020,7 +1020,7 @@ AT_COMPILE([c-only.o], [c-only.c])
 AT_COMPILE_CXX([cxx-only.o], [cxx-only.cc])
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS $LDFLAGS c-only.o cxx-only.o -o c-and-cxx ||
           exit 77], [0], [ignore], [ignore])
-AT_PARSER_CHECK([./c-and-cxx])
+AT_PARSER_CHECK([c-and-cxx])
 ])
 
 
@@ -1111,7 +1111,7 @@ AT_CHECK([@&t@./exception || exit 77], [0], [], [ignore])
 # Get rid of spurious messages when compiled with --coverage:
 # +profiling:/[...]/lib/fprintf.gcda:Merge mismatch for summaries
 m4_define([AT_PARSER_CHECK],
-[AT_CHECK([$5 $PREPARSER $1], [$2], [$3], [stderr])
+[AT_CHECK([$5 $PREPARSER ./$1], [$2], [$3], [stderr])
 AT_CHECK([sed >&2 -e '/^profiling:.*:Merge mismatch for summaries/d' stderr],
          [0], [], [$4])
 ])
@@ -1263,7 +1263,7 @@ m4_bmatch([$4], [%define lr.type canonical-lr],
 fi])
 AT_COMPILE([[input]])
 
-AT_PARSER_CHECK([[./input]],
+AT_PARSER_CHECK([[input]],
                 m4_ifval([$10], [m4_dquote($10)]),
                 m4_ifval([$11], [m4_dquote($11)]),
                 m4_ifval([$12], [m4_dquote($12)]))

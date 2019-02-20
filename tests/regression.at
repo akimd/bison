@@ -471,7 +471,7 @@ AT_COMPILE([input])
 AT_DATA([experr],
 [[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!", expecting a
 ]])
-AT_PARSER_CHECK([./input], 1, [], [experr])
+AT_PARSER_CHECK([input], 1, [], [experr])
 AT_CLEANUP
 
 
@@ -877,7 +877,7 @@ m4_define([AT_CHECK_DANCER],
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_DANCER_Y([$1])
 AT_FULL_COMPILE([dancer])
-AT_PARSER_CHECK([./dancer], 1, [],
+AT_PARSER_CHECK([dancer], 1, [],
 [syntax error, unexpected ':'
 ])
 AT_BISON_OPTION_POPDEFS
@@ -954,7 +954,7 @@ m4_define([AT_CHECK_EXPECT2],
 AT_BISON_OPTION_PUSHDEFS([$1])
 _AT_DATA_EXPECT2_Y([$1])
 AT_FULL_COMPILE([expect2])
-AT_PARSER_CHECK([./expect2], 1, [],
+AT_PARSER_CHECK([expect2], 1, [],
 [syntax error, unexpected '+', expecting A or B
 ])
 AT_BISON_OPTION_POPDEFS
@@ -1004,7 +1004,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input --debug], 1,
+AT_PARSER_CHECK([input --debug], 1,
 [[Bison would once convert this action to a midrule because of the subsequent braced code.
 ]],
 [[Starting parse
@@ -1133,7 +1133,7 @@ input.y:28.5-19: warning: rule useless in parser due to conflicts [-Wother]
 input.y:18.1-5: warning: useless precedence and associativity for TK1 [-Wprecedence]
 ]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]])
+AT_PARSER_CHECK([[input]])
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
@@ -1222,7 +1222,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], [[1]], [],
+AT_PARSER_CHECK([[input]], [[1]], [],
 [[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
 syntax error, unexpected $end, expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
 ]])
@@ -1339,7 +1339,7 @@ AT_BISON_CHECK([[-o input.c input.y]])
 [CFLAGS="$NO_WERROR_CFLAGS"]
 AT_COMPILE([[input]])
 
-AT_PARSER_CHECK([[./input]], [[2]], [],
+AT_PARSER_CHECK([[input]], [[2]], [],
 [[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B or 123456789112345678921234567893123456789412345678951234567896123C
 syntax error
 memory exhausted
@@ -1400,7 +1400,7 @@ AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
 [[input.y: warning: 21 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input --debug > stdout.txt 2> stderr.txt]], [[1]])
+AT_PARSER_CHECK([[input --debug > stdout.txt 2> stderr.txt]], [[1]])
 
 # Make sure syntax error doesn't forget that 'a' is expected.  It would
 # be forgotten without lookahead correction.
@@ -1475,7 +1475,7 @@ AT_BISON_OPTION_POPDEFS
 
 # Check for memory exhaustion during parsing.
 AT_LAC_CHECK([])
-AT_PARSER_CHECK([[./input --debug]], [[2]], [],
+AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
 Reading a token: Now at end of input.
@@ -1489,7 +1489,7 @@ Stack now 0
 # Induce an immediate syntax error with an undefined token, and check
 # for memory exhaustion while building syntax error message.
 AT_LAC_CHECK([z], [[0]])
-AT_PARSER_CHECK([[./input --debug]], [[2]], [],
+AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
 Reading a token: Next token is token $undefined ()
@@ -1563,7 +1563,7 @@ main (void)
 ]])
 
 AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input], 0, [[x: 1, y: 2
+AT_PARSER_CHECK([input], 0, [[x: 1, y: 2
 ]])
 AT_BISON_OPTION_POPDEFS
 

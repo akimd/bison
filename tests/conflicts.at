@@ -81,7 +81,7 @@ int main (void)
 AT_BISON_CHECK([-o input.c input.y])
 AT_COMPILE([input])
 
-AT_PARSER_CHECK([./input])
+AT_PARSER_CHECK([input])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -347,17 +347,17 @@ AT_COMPILE([input])
 
 m4_pushdef([AT_EXPECTING], [m4_if($2, [correct], [[, expecting $end]])])
 
-AT_PARSER_CHECK([./input '0<0'])
-AT_PARSER_CHECK([./input '0<0<0'], [1], [],
+AT_PARSER_CHECK([input '0<0'])
+AT_PARSER_CHECK([input '0<0<0'], [1], [],
          [syntax error, unexpected '<'AT_EXPECTING
 ])
 
-AT_PARSER_CHECK([./input '0>0'])
-AT_PARSER_CHECK([./input '0>0>0'], [1], [],
+AT_PARSER_CHECK([input '0>0'])
+AT_PARSER_CHECK([input '0>0>0'], [1], [],
          [syntax error, unexpected '>'AT_EXPECTING
 ])
 
-AT_PARSER_CHECK([./input '0<0>0'], [1], [],
+AT_PARSER_CHECK([input '0<0>0'], [1], [],
          [syntax error, unexpected '>'AT_EXPECTING
 ])
 
@@ -461,11 +461,11 @@ m4_pushdef([AT_EXPECTING], [m4_if($5, [ab], [[, expecting 'a' or 'b']],
                                   $5, [a],  [[, expecting 'a']],
                                   $5, [b],  [[, expecting 'b']])])
 
-AT_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]]],
-           [AT_PARSER_CHECK([[./input]], [[1]]]),
+AT_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]])],
+           [AT_PARSER_CHECK([[input]], [[1]],
 [[]],
 [[syntax error, unexpected ]$4[]AT_EXPECTING[
-]])
+]])])
 
 m4_popdef([AT_EXPECTING])
 AT_BISON_OPTION_POPDEFS
@@ -714,7 +714,7 @@ AT_BISON_CHECK([[-Dlr.type=canonical-lr -o input.c input.y]],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], [[1]], [[]],
+AT_PARSER_CHECK([[input]], [[1]], [[]],
 [[syntax error, unexpected 'a', expecting 'b'
 ]])
 
@@ -724,7 +724,7 @@ AT_BISON_CHECK([[-Dlr.type=canonical-lr -Dparse.lac=full \
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], [[1]], [[]],
+AT_PARSER_CHECK([[input]], [[1]], [[]],
 [[syntax error, unexpected 'a', expecting 'b' or 'c'
 ]])
 
@@ -734,7 +734,7 @@ AT_BISON_CHECK([[-Dlr.type=ielr -Dparse.lac=full -o input.c input.y]],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 ]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], [[1]], [[]],
+AT_PARSER_CHECK([[input]], [[1]], [[]],
 [[syntax error, unexpected 'a', expecting 'b' or 'c'
 ]])
 

@@ -1299,7 +1299,7 @@ AT_BISON_CHECK([-d -v -o input.c input.y])
 AT_COMPILE([input.o])
 AT_COMPILE([main.o])
 AT_COMPILE([input], [input.o main.o])
-AT_PARSER_CHECK([./input], 0,
+AT_PARSER_CHECK([input], 0,
 [[[@<:@],
 ]])
 
@@ -1725,7 +1725,7 @@ int main (void)
 }
 ]])
 AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input])
+AT_PARSER_CHECK([input])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP

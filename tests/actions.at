@@ -58,7 +58,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-d -v -o input.c input.y])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 0,
+AT_PARSER_CHECK([input], 0,
 [[0123456789
 ]])
 
@@ -107,7 +107,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([-d -v -o input.c input.y])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 0,
+AT_PARSER_CHECK([input], 0,
 [[66
 ]])
 
@@ -254,7 +254,7 @@ exp: %empty {}
 ]])
 
 AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input])
+AT_PARSER_CHECK([input])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
@@ -309,7 +309,7 @@ main (void)
 ]])
 
 AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input], 1, [],
+AT_PARSER_CHECK([input], 1, [],
 [m4_default([$4], [1.1])
 m4_default([$4], [1.1])[: syntax error
 ]])
@@ -416,7 +416,7 @@ main (void)
 ]])
 
 AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([./input], 0,
+AT_PARSER_CHECK([input], 0,
 [[1.1
 2.1-9
 3.1-4.0
@@ -485,7 +485,7 @@ sum_of_the_five_previous_values:
 
 AT_BISON_CHECK([-d -v -o input.c input.y], 0)
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input], 0,
+AT_PARSER_CHECK([input], 0,
 [[15
 ]])
 
@@ -514,7 +514,7 @@ sum: { printf ("%d\n", $0.val + $-1.val + $-2.val); } ;
 ]])
 
 AT_FULL_COMPILE([input])
-AT_PARSER_CHECK([[./input]], [[0]],
+AT_PARSER_CHECK([[input]], [[0]],
 [[6
 ]])
 
@@ -774,7 +774,7 @@ AT_FULL_COMPILE([input])
 # I.e., epsilon-reductions, as in "(x)" which ends by reducing
 # an empty "line" nterm.
 # FIXME: This location is not satisfying.  Depend on the lookahead?
-AT_PARSER_CHECK([./input '(x)'], 0, [],
+AT_PARSER_CHECK([input '(x)'], 0, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -795,7 +795,7 @@ Successful parse.
 # ends where starts the next token: END@10-19.
 #
 # So error recovery reports error@9-19.
-AT_PARSER_CHECK([./input '!'], 0, [],
+AT_PARSER_CHECK([input '!'], 0, [],
 [[sending: '!' (0@0-9)
 sending: END (1@10-19)
 raise (4@9-9): %empty
@@ -809,7 +809,7 @@ Successful parse.
 # -----------------------------------------------------------
 # This time the error is raised from a rule with 2 rhs symbols: @10-29.
 # It is recovered @10-29.
-AT_PARSER_CHECK([[./input '!!!']], 0, [],
+AT_PARSER_CHECK([[input '!!!']], 0, [],
 [[sending: '!' (0@0-9)
 sending: '!' (1@10-19)
 sending: '!' (2@20-29)
@@ -825,7 +825,7 @@ Successful parse.
 # ---------------------------------
 # '(y)' is an error, but can be recovered from.  But what's the location
 # of the error itself ('y'), and of the resulting reduction ('(error)').
-AT_PARSER_CHECK([./input '(y)'], 0, [],
+AT_PARSER_CHECK([input '(y)'], 0, [],
 [[sending: '(' (0@0-9)
 sending: 'y' (1@10-19)
 10.10-19.18: syntax error, unexpected 'y', expecting 'x'
@@ -855,7 +855,7 @@ Successful parse.
 #     '(', 'x', ')',
 #     '(', 'x', ')',
 #     'y'
-AT_PARSER_CHECK([./input '(xxxxx)(x)(x)y'], 1, [],
+AT_PARSER_CHECK([input '(xxxxx)(x)(x)y'], 1, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -903,7 +903,7 @@ Parsing FAILED.
 #     '(', 'x', ')',
 #     '(', 'x', ')',
 #     'x'
-AT_PARSER_CHECK([./input '(x)(x)x'], 1, [],
+AT_PARSER_CHECK([input '(x)(x)x'], 1, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -931,7 +931,7 @@ Parsing FAILED.
 # Upon stack overflow, all symbols on the stack should be destroyed.
 # Only check for yacc.c.
 AT_YACC_IF([
-AT_PARSER_CHECK([./input '(x)(x)(x)(x)(x)(x)(x)'], 2, [],
+AT_PARSER_CHECK([input '(x)(x)(x)(x)(x)(x)(x)'], 2, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)
 thing (1@10-19): 'x' (1@10-19)
@@ -1070,7 +1070,7 @@ AT_BISON_CHECK([-o input.c input.y], [], [],
 input.y:30.3-5: warning: useless %printer for type <*> [-Wother]
 ]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input --debug], 1,
+AT_PARSER_CHECK([input --debug], 1,
 [[<> destructor for 'd' @ 4.
 'b'/'c' destructor for 'c' @ 3.
 'b'/'c' destructor for 'b' @ 2.
@@ -1177,7 +1177,7 @@ AT_BISON_CHECK([-o input.c input.y], [], [],
 input.y:22.3-4: warning: useless %printer for type <> [-Wother]
 ]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input --debug], 1,
+AT_PARSER_CHECK([input --debug], 1,
 [[<*>/<field2>/e destructor.
 <*>/<field2>/e destructor.
 'd' destructor.
@@ -1307,7 +1307,7 @@ input1.y:30.3-4: warning: useless %printer for type <> [-Wother]
 
 AT_COMPILE([input$1])
 
-AT_PARSER_CHECK([./input$1 --debug], 0,
+AT_PARSER_CHECK([input$1 --debug], 0,
 [[<]]kind[[> for 'E' @ 1.
 <]]kind[[> for 'S' @ 1.
 ]],
@@ -1392,7 +1392,7 @@ AT_BISON_CHECK([-o input.c input.y], [], [],
 input.y:23.6-8: warning: useless %printer for type <*> [-Wother]
 ]])
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input --debug], [1], [],
+AT_PARSER_CHECK([input --debug], [1], [],
 [[Starting parse
 Entering state 0
 Reading a token: Next token is token 'a' ('a')
@@ -1560,7 +1560,7 @@ input.y:32.3-23: warning: unused value: $3 [-Wother]
 ]])
 
 AT_COMPILE([input])
-AT_PARSER_CHECK([./input --debug], 1,,
+AT_PARSER_CHECK([input --debug], 1,,
 [[Starting parse
 Entering state 0
 Reducing stack by rule 1 (line 30):
@@ -1739,7 +1739,7 @@ float: UNTYPED INT
 ]])
 
 AT_FULL_COMPILE([[input]])
-AT_PARSER_CHECK([./input --debug], 0, [], [stderr])
+AT_PARSER_CHECK([input --debug], 0, [], [stderr])
 # Don't be too picky on the traces, GLR is not exactly the same.  Keep
 # only the lines from the printer.
 AT_CHECK([[sed -ne '/ival:/p' stderr]], 0,
@@ -1810,7 +1810,7 @@ accept: %empty {
 AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], [[0]], [],
+AT_PARSER_CHECK([[input]], [[0]], [],
 [['b' destructor
 'a' destructor
 ]])
@@ -1858,7 +1858,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]], [[0]],
+AT_PARSER_CHECK([[input]], [[0]],
 [[a: 123
 a: 456
 ]])

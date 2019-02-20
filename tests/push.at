@@ -73,7 +73,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]])
+AT_PARSER_CHECK([[input]])
 
 AT_CLEANUP
 
@@ -127,7 +127,7 @@ main (void)
 
 AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
-AT_PARSER_CHECK([[./input]])
+AT_PARSER_CHECK([[input]])
 AT_BISON_OPTION_POPDEFS
 ])
 

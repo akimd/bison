@@ -392,7 +392,7 @@ m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-AT_PARSER_CHECK([./calc input], 0, [], [stderr])
+AT_PARSER_CHECK([calc input], 0, [], [stderr])
 ])
 
 
@@ -419,11 +419,11 @@ AT_PARSER_CHECK([./calc input], 0, [], [stderr])
 # is the number of expected lines on stderr.
 m4_define([_AT_CHECK_CALC_ERROR],
 [m4_bmatch([$3], [^/],
-           [AT_PARSER_CHECK([./calc $3], $2, [], [stderr])],
+           [AT_PARSER_CHECK([calc $3], $2, [], [stderr])],
            [AT_DATA([[input]],
 [[$3
 ]])
-AT_PARSER_CHECK([./calc input], $2, [], [stderr])])
+AT_PARSER_CHECK([calc input], $2, [], [stderr])])
 
 # Normalize the observed and expected error messages, depending upon the
 # options.

@@ -107,7 +107,7 @@ start: $3;
 AT_LANG_FOR_EACH_STD([
   $7
   AT_FULL_COMPILE([[test]])
-  AT_PARSER_CHECK([[./test]], 0, [[$6
+  AT_PARSER_CHECK([[test]], 0, [[$6
 ]])
 ])
 
