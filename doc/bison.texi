@@ -382,7 +382,7 @@ A Brief History of the Greater Ungulates
 * yacchack::                    An obscure early implementation of reentrancy
 * Byacc::                       Berkeley Yacc
 * Bison::                       This program
-* Other ungulates::             Similar programs
+* Other Ungulates::             Similar programs
 
 Frequently Asked Questions
 
@@ -13007,6 +13007,14 @@ The exceptions thrown by user-supplied parser actions and
 @cindex history
 @cindex ungulates
 
+@menu
+* Yacc::                        The original Yacc
+* yacchack::                    An obscure early implementation of reentrancy
+* Byacc::                       Berkeley Yacc
+* Bison::                       This program
+* Other Ungulates::             Similar programs
+@end menu
+
 @node Yacc
 @section The ancestral Yacc
 
@@ -13043,6 +13051,7 @@ variants.
 
 @node yacchack
 @section yacchack
+@cindex yacchack
 
 One of the deficiencies of original Yacc was its inability to produce
 reentrant parsers.  This was first remedied by a set of drop-in
@@ -13052,6 +13061,7 @@ became available a few years later.
 
 @node Byacc
 @section Berkeley Yacc
+@cindex byacc
 
 Berkeley Yacc was originated in 1985 by Robert Corbett
 (@pxref{Bibliography,,Corbett 1984}).  It was originally named ``zoo'', but
@@ -13069,6 +13079,7 @@ Bison became available, byacc itself passed out of general use.
 
 @node Bison
 @section Bison
+@cindex zoo
 
 Robert Corbett actually wrote two (closely related) LALR parsers in 1985,
 both using the DeRemer/Penello techniques. One was ``zoo'', the other was
@@ -13111,8 +13122,8 @@ ancestral Yacc or Byson.
 Bison obsolesced all previous Yacc variants and workalikes generating C by
 1995.
 
-@node Other ungulates
-@section Other ungulates
+@node Other Ungulates
+@section Other Ungulates
 
 The Yacc concept has frequently been ported to other languages. Some of the
 early ports are extinct along with the languages that hosted them; others
