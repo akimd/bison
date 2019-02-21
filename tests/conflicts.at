@@ -461,7 +461,10 @@ m4_pushdef([AT_EXPECTING], [m4_if($5, [ab], [[, expecting 'a' or 'b']],
                                   $5, [a],  [[, expecting 'a']],
                                   $5, [b],  [[, expecting 'b']])])
 
-AT_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]])],
+AT_JAVA_IF([AT_JAVA_PARSER_CHECK([[input]], [[0]],
+[[]],
+[[syntax error, unexpected ]$4[]AT_EXPECTING[
+]])],
            [AT_PARSER_CHECK([[input]], [[1]],
 [[]],
 [[syntax error, unexpected ]$4[]AT_EXPECTING[
