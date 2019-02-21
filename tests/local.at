@@ -727,7 +727,7 @@ m4_define([AT_MAIN_DEFINE(java)],
   public static void main (String args[]) throws IOException
   {
     YYParser p = new YYParser ();
-    p.parse ();
+    System.exit (p.parse () ? 0 : 1);
   }
 }]])
 
@@ -1020,7 +1020,7 @@ AT_COMPILE([c-only.o], [c-only.c])
 AT_COMPILE_CXX([cxx-only.o], [cxx-only.cc])
 AT_CHECK([$CXX $CXXFLAGS $CPPFLAGS $LDFLAGS c-only.o cxx-only.o -o c-and-cxx ||
           exit 77], [0], [ignore], [ignore])
-AT_PARSER_CHECK([c-and-cxx])
+AT_C_PARSER_CHECK([c-and-cxx])
 ])
 
 
@@ -1104,13 +1104,13 @@ AT_CHECK([@&t@./exception || exit 77], [0], [], [ignore])
 ## ---------------------------- ##
 
 
-# AT_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
-# ------------------------------------------------------------
+# AT_C_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
+# --------------------------------------------------------------
 # So that we can run './testsuite PREPARSER='valgrind -q' for instance.
 #
 # Get rid of spurious messages when compiled with --coverage:
 # +profiling:/[...]/lib/fprintf.gcda:Merge mismatch for summaries
-m4_define([AT_PARSER_CHECK],
+m4_define([AT_C_PARSER_CHECK],
 [AT_CHECK([$5 $PREPARSER ./$1], [$2], [$3], [stderr])
 AT_CHECK([sed >&2 -e '/^profiling:.*:Merge mismatch for summaries/d' stderr],
          [0], [], [$4])
@@ -1121,6 +1121,17 @@ AT_CHECK([sed >&2 -e '/^profiling:.*:Merge mismatch for summaries/d' stderr],
 # -----------------------------------------------------------------
 m4_define([AT_JAVA_PARSER_CHECK],
 [AT_CHECK([$5[ $SHELL ../../../javaexec.sh ]$1], [$2], [$3], [$4])])
+
+
+# AT_PARSER_CHECK(COMMAND, EXIT-STATUS, EXPOUT, EXPERR, [PRE])
+# ------------------------------------------------------------
+# If we know we are in Java (via AT_BISON_OPTION_PUSHDEFS/POPDEFS),
+# run AT_JAVA_PARSER_CHECK, otherwise AT_C_PARSER_CHECK.
+m4_define([AT_PARSER_CHECK],
+[m4_ifdef([AT_JAVA_IF],
+          [AT_JAVA_IF([AT_JAVA_PARSER_CHECK($@)],
+                      [AT_C_PARSER_CHECK($@)])],
+          [AT_C_PARSER_CHECK($@)])])
 
 
 # AT_TEST_TABLES_AND_PARSE(TITLE, COND-VALUE, TEST-SPEC,
