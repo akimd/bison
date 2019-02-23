@@ -44,7 +44,7 @@ do
 done
 echo "$input" > input
 run 0 '0'
-         
+
 cat >input <<EOF
 () + ()
 EOF
