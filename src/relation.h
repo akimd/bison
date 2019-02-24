@@ -42,9 +42,11 @@ void relation_print (relation r, size_t size,
 /* Compute the transitive closure of the FUNCTION on the relation R
    with SIZE vertices.
 
-   If R (NODE-1, NODE-2) then on exit FUNCTION[NODE - 1] was extended
-   (unioned) with FUNCTION[NODE - 2].  */
-void relation_digraph (relation r, relation_node size, bitsetv *function);
+   If R (NODE1, NODE2) then on exit FUNCTION[NODE1] was extended
+   (unioned) with FUNCTION[NODE2].
+
+   FUNCTION is in-out, R is read only.  */
+void relation_digraph (const relation r, relation_node size, bitsetv function);
 
 /* Destructively transpose *R_ARG, of size SIZE.  */
 void relation_transpose (relation *R_arg, relation_node size);
