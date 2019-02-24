@@ -84,9 +84,8 @@ yyerror (char const *s)
 int
 main (int argc, char const* argv[])
 {
-  int i;
   /* Enable parse traces on option -p.  */
-  for (i = 1; i < argc; ++i)
+  for (int i = 1; i < argc; ++i)
     if (!strcmp(argv[i], "-p"))
       yydebug = 1;
   return yyparse ();
