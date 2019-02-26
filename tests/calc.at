@@ -50,12 +50,8 @@ AT_D_IF([m4_pushdef([AT_CALC_MAIN],
   semantic_value result = 0;
   int count = 0;
 
-  if (args.length == 2)
-    input = File (args[1], "r");
-  else
-    input = stdin;
-
-  CalcLexer l = new CalcLexer ();
+  File input = args.length == 2 ? File (args[1], "r") : stdin;
+  CalcLexer l = new CalcLexer (input);
   YYParser p = new YYParser (l);
   int status = !p.parse ();
   return status;
@@ -121,9 +117,15 @@ main (int argc, const char **argv)
 ]])])
 
 AT_D_IF([m4_pushdef([AT_CALC_LEX],
-[[File input;
+[[class CalcLexer : Lexer
+{
 
-class CalcLexer : Lexer {
+  this (File i)
+  {
+    input = i;
+  }
+
+  File input;
 
   int prev_char = -1;
 
