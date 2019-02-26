@@ -685,17 +685,17 @@ m4_define([AT_JAVA_POSITION_DEFINE],
 
 
 m4_define([AT_YYERROR_DEFINE(java)],
-[AT_LOCATION_IF([[public void yyerror (Calc.Location l, String s)
+[AT_LOCATION_IF([[public void yyerror (Calc.Location l, String m)
 {
   if (l == null)
-    System.err.println (s);
+    System.err.println (m);
   else
-    System.err.println (l + ": " + s);
+    System.err.println (l + ": " + m);
   }
 ]], [[
-  public void yyerror (String s)
+  public void yyerror (String m)
   {
-    System.err.println (s);
+    System.err.println (m);
   }
 ]])
 ])
