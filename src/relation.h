@@ -36,7 +36,8 @@ typedef relation_nodes *relation;
 typedef void (relation_node_print) (relation_node node, FILE* out);
 
 /* Report a relation R that has SIZE vertices.  */
-void relation_print (relation r, size_t size,
+void relation_print (const char *title,
+                     relation r, size_t size,
                      relation_node_print print, FILE *out);
 
 /* Compute the transitive closure of the FUNCTION on the relation R
