@@ -239,6 +239,8 @@ void state_transitions_set (state *s, int num, state **dst);
 /* Set the reductions of STATE.  */
 void state_reductions_set (state *s, int num, rule **reds);
 
+/* The index of the reduction of state S that corresponds to rule R.
+   Aborts if there is no reduction of R in S.  */
 int state_reduction_find (state *s, rule const *r);
 
 /* Set the errs of STATE.  */
