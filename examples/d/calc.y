@@ -53,24 +53,23 @@ exp:
 ;
 
 %%
-class CalcLexer : Lexer {
+import std.range.primitives;
+
+auto calcLexer(R)(R range)
+  if (isInputRange!R && is (ElementType!R : dchar))
+{
+  return new CalcLexer!R(range);
+}
+
+class CalcLexer(R) : Lexer
+  if (isInputRange!R && is (ElementType!R : dchar))
+{
+  R input;
+
+  this(R r) { input = r; }
 
   // Should be a local in main, shared with %parse-param.
   int exit_status = 0;
-
-  int
-  get_char ()
-  {
-    import stdc = core.stdc.stdio;
-    return stdc.getc (stdc.stdin);
-  }
-
-  void
-  unget_char (int c)
-  {
-    import stdc = core.stdc.stdio;
-    stdc.ungetc (c, stdc.stdin);
-  }
 
   public void yyerror (string s)
   {
@@ -78,53 +77,39 @@ class CalcLexer : Lexer {
     stderr.writeln (s);
   }
 
-  int
-  read_signed_integer ()
-  {
-    int c = get_char ();
-    int sign = 1;
-    int n = 0;
-
-    if (c == '-')
-      {
-        c = get_char ();
-        sign = -1;
-      }
-
-    while (isDigit (c))
-      {
-        n = 10 * n + (c - '0');
-        c = get_char ();
-      }
-
-    unget_char (c);
-    return sign * n;
-  }
-
   YYSemanticType semanticVal_;
 
-  public final @property YYSemanticType semanticVal()
+  public final @property YYSemanticType semanticVal ()
   {
     return semanticVal_;
   }
 
   int yylex ()
   {
-    int c;
-    /* Skip white spaces.  */
-    do
-      {}
-    while ((c = get_char ()) == ' ' || c == '\t');
+    import std.uni : isWhite, isNumber;
 
-    /* process numbers   */
-    if (c == '.' || isDigit (c))
+    // Skip initial spaces
+    while (!input.empty && input.front != '\n' && isWhite (input.front))
+    {
+      input.popFront;
+    }
+
+    // Handle EOF.
+    if (input.empty)
+      return YYTokenType.EOF;
+
+    // Numbers.
+    if (input.front == '.' || input.front.isNumber)
       {
-        unget_char (c);
-        semanticVal_.ival = read_signed_integer ();
+        import std.conv : parse;
+        semanticVal_.ival = input.parse!int;
         return YYTokenType.NUM;
       }
 
-    switch (c)
+    // Individual characters
+    auto ch = input.front;
+    input.popFront;
+    switch (ch)
       {
       case EOF: return YYTokenType.EOF;
       case '=': return YYTokenType.EQ;
@@ -142,7 +127,16 @@ class CalcLexer : Lexer {
 
 int main ()
 {
-  CalcLexer l = new CalcLexer ();
+  import std.algorithm : map, joiner;
+  import std.stdio;
+  import std.utf : byDchar;
+
+  auto l = stdin
+    .byChunk(1024)      // avoid making a syscall roundtrip per char
+    .map!(chunk => cast(char[]) chunk) // because byChunk returns ubyte[]
+    .joiner             // combine chunks into a single virtual range of char
+    .calcLexer;
+
   Calc p = new Calc (l);
   p.parse ();
   return l.exit_status;
