@@ -54,11 +54,23 @@ exp:
 
 %%
 import std.range.primitives;
+import std.stdio;
 
 auto calcLexer(R)(R range)
   if (isInputRange!R && is (ElementType!R : dchar))
 {
   return new CalcLexer!R(range);
+}
+
+auto calcLexer (File f)
+{
+  import std.algorithm : map, joiner;
+  import std.utf : byDchar;
+
+  return f.byChunk(1024)        // avoid making a syscall roundtrip per char
+          .map!(chunk => cast(char[]) chunk) // because byChunk returns ubyte[]
+          .joiner               // combine chunks into a single virtual range of char
+          .calcLexer;           // forward to other overload
 }
 
 class CalcLexer(R) : Lexer
@@ -127,17 +139,8 @@ class CalcLexer(R) : Lexer
 
 int main ()
 {
-  import std.algorithm : map, joiner;
-  import std.stdio;
-  import std.utf : byDchar;
-
-  auto l = stdin
-    .byChunk(1024)      // avoid making a syscall roundtrip per char
-    .map!(chunk => cast(char[]) chunk) // because byChunk returns ubyte[]
-    .joiner             // combine chunks into a single virtual range of char
-    .calcLexer;
-
-  Calc p = new Calc (l);
+  auto l = calcLexer (stdin);
+  auto p = new Calc (l);
   p.parse ();
   return l.exit_status;
 }
