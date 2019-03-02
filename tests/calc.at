@@ -51,10 +51,9 @@ AT_D_IF([m4_pushdef([AT_CALC_MAIN],
   int count = 0;
 
   File input = args.length == 2 ? File (args[1], "r") : stdin;
-  CalcLexer l = new CalcLexer (input);
-  YYParser p = new YYParser (l);
-  int status = !p.parse ();
-  return status;
+  auto l = calcLexer (input);
+  auto p = new YYParser (l);
+  return !p.parse ();
 }
 ]])],
 [m4_pushdef([AT_CALC_MAIN],
@@ -117,69 +116,36 @@ main (int argc, const char **argv)
 ]])])
 
 AT_D_IF([m4_pushdef([AT_CALC_LEX],
-[[class CalcLexer : Lexer
+[[import std.range.primitives;
+import std.stdio;
+
+auto calcLexer(R)(R range)
+  if (isInputRange!R && is (ElementType!R : dchar))
 {
+  return new CalcLexer!R(range);
+}
 
-  this (File i)
-  {
-    input = i;
-  }
+auto calcLexer (File f)
+{
+  import std.algorithm : map, joiner;
+  import std.utf : byDchar;
 
-  File input;
+  return f.byChunk(1024)        // avoid making a syscall roundtrip per char
+          .map!(chunk => cast(char[]) chunk) // because byChunk returns ubyte[]
+          .joiner               // combine chunks into a single virtual range of char
+          .calcLexer;           // forward to other overload
+}
 
-  int prev_char = -1;
+class CalcLexer(R) : Lexer
+  if (isInputRange!R && is (ElementType!R : dchar))
+{
+  R input;
 
-  int
-  get_char ()
-  {
-    if (prev_char != -1)
-      {
-        auto res = prev_char;
-        prev_char = -1;
-        return res;
-      }
-    else
-      {
-        auto res = input.rawRead (new char[1]);
-        if (res.length == 0)
-          return -1;
-        else
-          return res[0];
-      }
-  }
-
-  void
-  unget_char (int c)
-  {
-    prev_char = c;
-  }
+  this(R r) { input = r; }
 
   public void yyerror (string s)
   {
     stderr.writeln (s);
-  }
-
-  int
-  read_signed_integer ()
-  {
-    int c = get_char ();
-    int sign = 1;
-    int n = 0;
-
-    if (c == '-')
-      {
-        c = get_char ();
-        sign = -1;
-      }
-
-    while (isDigit (c))
-      {
-        n = 10 * n + (c - '0');
-        c = get_char ();
-      }
-
-    unget_char (c);
-    return sign * n;
   }
 
   YYSemanticType semanticVal_;
@@ -191,27 +157,27 @@ AT_D_IF([m4_pushdef([AT_CALC_LEX],
 
   int yylex ()
   {
-    int c;
-    /* Skip white spaces.  */
-    do
-      {}
-    while ((c = get_char ()) == ' ' || c == '\t');
+    import std.uni : isWhite, isNumber;
 
-    /* process numbers   */
-    if (c == '.' || isDigit (c))
+    // Skip initial spaces
+    while (!input.empty && input.front != '\n' && isWhite (input.front))
+      input.popFront;
+
+    // Handle EOF.
+    if (input.empty)
+      return YYTokenType.EOF;
+
+    // Numbers.
+    if (input.front == '.' || input.front.isNumber)
       {
-        unget_char (c);
-        semanticVal_.ival = read_signed_integer ();
+        import std.conv : parse;
+        semanticVal_.ival = input.parse!int;
         return YYTokenType.NUM;
       }
 
-    /* Return end-of-file.  */
-    if (c == EOF)
-    {
-      return YYTokenType.EOF;
-      }
-
-    /* Return single chars. */
+    // Individual characters
+    auto c = input.front;
+    input.popFront;
     return c;
   }
 }
@@ -874,3 +840,14 @@ m4_define([AT_CHECK_CALC_LALR1_D],
 [AT_CHECK_CALC([%language "D" $1], [$2])])
 
 AT_CHECK_CALC_LALR1_D([])
+#AT_CHECK_CALC_LALR1_D([%locations])
+#AT_CHECK_CALC_LALR1_D([%locations %define api.location.type {Span}])
+AT_CHECK_CALC_LALR1_D([%define parse.error verbose %define api.prefix {calc} %verbose])
+
+#AT_CHECK_CALC_LALR1_D([%debug])
+
+#AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %verbose])
+#AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.token.prefix {TOK_} %verbose])
+
+#AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose %debug %verbose %parse-param {semantic_value *result} %parse-param {int *count}])
+#AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose %debug %define api.prefix {calc} %verbose %parse-param {semantic_value *result} %parse-param {int *count}])
