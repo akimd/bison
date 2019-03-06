@@ -114,6 +114,7 @@
   #define YYTYPE_UINT8 uint_fast8_t
 }
 
+%define api.header.include {"parse-gram.h"}
 %define api.prefix {gram_}
 %define api.pure full
 %define api.value.type union

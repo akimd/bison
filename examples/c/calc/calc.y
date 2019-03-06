@@ -7,6 +7,7 @@
   void yyerror (char const *);
 }
 
+%define api.header.include {"calc.h"}
 %define api.value.type union /* Generate YYSTYPE from these types:  */
 %token <double> NUM "number"
 %type  <double> expr term fact

@@ -15,6 +15,24 @@ GNU Bison NEWS
   When given -fsyntax-only, the diagnostics are reported, but no output is
   generated.
 
+*** Include the generated header (yacc.c)
+
+  Before, when --defines is used, bison generated a header, and pasted an
+  exact copy of it into the generated parser implementation file.  If the
+  header name is not "y.tab.h", it is now #included instead of being
+  duplicated.
+
+  To use an '#include' even if the header name is "y.tab.h" (which is what
+  happens with --yacc, or when using the Autotools' ylwrap), define
+  api.header.include to the exact argument to pass to #include.  For
+  instance:
+
+    %define api.header.include {"parse.h"}
+
+  or
+
+    %define api.header.include {<parser/parse.h>}
+
 ** Documentation
 
   A new example in C shows an simple infix calculator with a hand-written
