@@ -27,3 +27,4 @@
 /install-reloc
 /reloc-ldflags
 /relocatable.sh.in
+/libtool-reloc
