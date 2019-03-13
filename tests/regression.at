@@ -362,58 +362,6 @@ AT_CLEANUP
 
 
 
-## ---------------- ##
-## Invalid inputs.  ##
-## ---------------- ##
-
-
-AT_SETUP([Invalid inputs])
-
-AT_DATA([input.y],
-[[%%
-?
-default: 'a' }
-%&
-%a-does-not-exist
-%-
-%{
-]])
-
-AT_BISON_CHECK([input.y], [1], [],
-[[input.y:2.1: error: invalid character: '?'
-input.y:3.14: error: invalid character: '}'
-input.y:4.1: error: invalid character: '%'
-input.y:4.2: error: invalid character: '&'
-input.y:5.1-17: error: invalid directive: '%a-does-not-exist'
-input.y:6.1: error: invalid character: '%'
-input.y:6.2: error: invalid character: '-'
-input.y:7.1-8.0: error: missing '%}' at end of file
-input.y:7.1-8.0: error: syntax error, unexpected %{...%}
-]])
-
-AT_CLEANUP
-
-
-AT_SETUP([Invalid inputs with {}])
-
-AT_DATA([input.y],
-[[
-%destructor
-%initial-action
-%lex-param
-%parse-param
-%printer
-%union
-]])
-
-AT_BISON_CHECK([input.y], [1], [],
-[[input.y:3.1-15: error: syntax error, unexpected %initial-action, expecting {...}
-]])
-
-AT_CLEANUP
-
-
-
 ## ------------------- ##
 ## Token definitions.  ##
 ## ------------------- ##
