@@ -288,6 +288,24 @@ release:
 - Test with a very recent version of GCC for both C and C++.  Testing with
   older versions that are still in use is nice too.
 
+** gnulib
+To run tests on gnulib components (e.g., on bitset):
+
+    cd gnulib
+    ./gnulib-tool --test bitset-tests
+
+possibly within a specified environment:
+
+    CC='gcc-mp-8 -fsanitize=undefined' ./gnulib-tool --test bitset-tests
+
+To be able to run the tests several times, and to use symlinks instead of
+copies so that one can update the origin gnulib directory and immediately
+re-run the tests, run:
+
+    ./gnulib-tool --symlink --create-test --dir=/tmp/gnutest bitset-tests
+    cd /tmp/gnutest
+    ./configure CC='gcc-mp-8 -fsanitize=undefined'
+    make check
 
 * Release Procedure
 This section needs to be updated to take into account features from gnulib.
