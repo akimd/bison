@@ -972,8 +972,7 @@ AT_CHECK(m4_join([ ],
                  [$DC $DCFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c])],
                  [-of$1],
-                 [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).d])],
-                 [m4_bmatch([$1], [[.]], [], [$LIBS])]),
+                 [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).d])]),
          0, [ignore], [ignore])])
 
 
