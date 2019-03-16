@@ -313,7 +313,7 @@ prologue_declaration:
 | "%defines" STRING
     {
       defines_flag = true;
-      spec_defines_file = xstrdup ($2);
+      spec_header_file = xstrdup ($2);
     }
 | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT                    { expected_sr_conflicts = $2; }

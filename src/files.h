@@ -48,7 +48,7 @@ extern char *spec_graph_file;
 extern char *spec_xml_file;
 
 /* File name specified with --defines.  */
-extern char *spec_defines_file;
+extern char *spec_header_file;
 
 /* Directory prefix of output file names.  */
 extern char *dir_prefix;

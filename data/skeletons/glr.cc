@@ -351,15 +351,15 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 ])
 
 b4_defines_if(
-[b4_output_begin([b4_spec_defines_file])
+[b4_output_begin([b4_spec_header_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2015, 2018-2019])[
 // C++ GLR parser skeleton written by Akim Demaille.
 
 ]b4_disclaimer[
-]b4_cpp_guard_open([b4_spec_defines_file])[
+]b4_cpp_guard_open([b4_spec_header_file])[
 ]b4_shared_declarations[
-]b4_cpp_guard_close([b4_spec_defines_file])[
+]b4_cpp_guard_close([b4_spec_header_file])[
 ]b4_output_end])
 
 # Let glr.c (and b4_shared_declarations) believe that the user
