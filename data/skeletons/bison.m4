@@ -588,10 +588,11 @@ m4_define([b4_basename],
 
 # b4_syncline(LINE, FILE)
 # -----------------------
+# Emit "#line LINE FILE /* __LINE__ __FILE__ */".
 m4_define([b4_syncline],
 [b4_flag_if([synclines],
-[b4_sync_start([$1], [$2]) b4_sync_end([__line__],
-                                       [b4_basename(m4_quote(__file__))])[]dnl
+[b4_sync_start([$1], [$2])[]dnl
+b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])[]dnl
 ])])
 
 # b4_sync_start(LINE, FILE)
@@ -603,7 +604,17 @@ m4_define([b4_sync_start], [b4_comment([$2:$1])])
 # -----------------------
 # Syncline for the current place, which ends.  Typically a comment
 # left for the reader.
-m4_define([b4_sync_end],   [b4_comment([$2:$1])])
+m4_define([b4_sync_end],   [ b4_comment([$2:$1])]
+)
+# This generates dependencies on the Bison skeletons hence lots of
+# useless 'git diff'.  This location is useless for the regular
+# user (who does not care about the skeletons) and is actually not
+# useful for Bison developpers too (I, Akim, never used this to locate
+# the code in skeletons that generated output).  So disable it
+# completely.  If someone thinks this was actually useful, a %define
+# variable should be provided to control the level of verbosity of
+# '#line', in replacement of --no-lines.
+m4_define([b4_sync_end])
 
 
 # b4_user_code(USER-CODE)
