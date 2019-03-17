@@ -10,6 +10,34 @@ GNU Bison NEWS
 
 ** New features
 
+*** Colored diagnostics
+
+  As an experimental feature, Bison now generates colored diagnostics,
+  controlled by the new options --color and --style.
+
+  Install the libtextstyle library before configuring Bison to use them.
+  It is available from
+
+    https://alpha.gnu.org/gnu/gettext/
+
+  for instance
+
+    https://alpha.gnu.org/gnu/gettext/libtextstyle-0.7.tar.gz
+
+  The option --color supports the following arguments:
+    - always, yes: Enable colors.
+    - never, no: Disable colors.
+    - auto, tty (default): Enable colors if the output device is a tty.
+
+  To customize the styles, create a CSS file similar to
+
+    /* black-and-white.css */
+    .warning   { }
+    .error     { font-weight: 800; text-decoration: underline; }
+    .note      { }
+
+  then invoke bison with --style=black-and-white.css.
+
 *** Disabling output
 
   When given -fsyntax-only, the diagnostics are reported, but no output is

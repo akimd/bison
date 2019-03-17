@@ -1,3 +1,8 @@
-.warning   { color : purple; }
-.error     { color : red; }
-.note      { color : cyan; }
+/* CSS style for Bison's diagnostics.
+
+   This is an experimental feature.  The class names may change in the
+   future.  */
+
+.warning   { color: purple; }
+.error     { color: red; }
+.note      { color: cyan; }

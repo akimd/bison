@@ -319,3 +319,5 @@
 /rmdir.c
 /same-inode.h
 /assure.h
+/fsync.c
+/textstyle.in.h
