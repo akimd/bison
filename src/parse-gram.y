@@ -666,7 +666,7 @@ rhs:
 ;
 
 named_ref.opt:
-  %empty         { $$ = 0; }
+  %empty         { $$ = NULL; }
 | BRACKETED_ID   { $$ = named_ref_new ($1, @1); }
 ;
 

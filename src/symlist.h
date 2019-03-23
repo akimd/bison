@@ -26,7 +26,9 @@
 # include "symtab.h"
 # include "named-ref.h"
 
-/* A list of symbols, used during the parsing to store the rules.  */
+/* A list of symbols, used during the parsing for many different
+   purposes: rules, symbol declarations or properties (such as
+   %destructor, etc.)...  */
 typedef struct symbol_list
 {
   /**
@@ -67,9 +69,10 @@ typedef struct symbol_list
   struct symbol_list *midrule_parent_rule;
   int midrule_parent_rhs_index;
 
-  /* ---------------------------------------------- */
-  /* Apply to the rule (attached to the LHS only).  */
-  /* ---------------------------------------------- */
+  /*--------------------------------------------------------------.
+  | Used for rules only (attached to the "LHS", one per rule even |
+  | when several RHSs are bound to a single lhs via "|").         |
+  `--------------------------------------------------------------*/
 
   /* Precedence/associativity.  */
   symbol *ruleprec;

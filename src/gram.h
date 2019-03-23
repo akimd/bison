@@ -146,7 +146,6 @@ item_number_is_symbol_number (item_number i)
 /* Rule numbers.  */
 typedef int rule_number;
 # define RULE_NUMBER_MAX INT_MAX
-extern rule_number nrules;
 
 static inline item_number
 rule_number_as_item_number (rule_number r)
@@ -193,6 +192,7 @@ typedef struct
   /* This symbol was attached to the rule via %prec. */
   sym_content *precsym;
 
+  /* Location of the rhs.  */
   location location;
   bool useful;
   bool is_predicate;
@@ -206,7 +206,9 @@ typedef struct
   location action_location;
 } rule;
 
+/* The used rules (size NRULES).  */
 extern rule *rules;
+extern rule_number nrules;
 
 /* Get the rule associated to this item.  ITEM points inside RITEM.  */
 rule const *item_rule (item_number const *item);
