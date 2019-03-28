@@ -125,6 +125,9 @@ typedef enum
     (Never enabled, never disabled). */
 bool warning_is_unset (warnings flags);
 
+/** Whether warnings of \a flags should be reported. */
+bool warning_is_enabled (warnings flags);
+
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));
