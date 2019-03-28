@@ -418,7 +418,7 @@ list:
 ;
 
 item:
-  TEXT          { $$ = $][1; }
+  TEXT
 | NUMBER        { int v = $][1; if (v == 3) YYERROR; else $$ = to_string (v); }
 ;
 %%
@@ -1225,19 +1225,19 @@ $1
 start: list {]AT_VARIANT_IF([], [ delete $][1]; )[};
 
 list:
-  item       { $$ = $][1; }
+  item
   // Right recursion to load the stack.
 | item list  { $$ = $][1; ]AT_VARIANT_IF([], [delete $][2]; )[}
 ;
 
 item:
-  'a'     { $$ = $][1; }
+  'a'
 | 'e'     { YYUSE ($$); YYUSE ($][1); error ("syntax error"); }
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
 | 'E' 'a' { YYUSE ($][1); $$ = $][2; }
 | 'R'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYERROR; }
-| 'p'     { $$ = $][1; }
+| 'p'
 | 's'     { $$ = $][1; throw std::runtime_error ("reduction"); }
 | 'T'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYABORT; }
 ]m4_if([$2], [with],
@@ -1253,9 +1253,10 @@ yylex (yy::parser::semantic_type *lvalp)
   // 'E': syntax error, with yyerror that throws.
   // 'i': initial action throws.
   // 'l': yylex throws.
-  // 'R': call YYERROR in the action
+  // 'p': printer throws.
+  // 'R': call YYERROR in the action.
   // 's': reduction throws.
-  // 'T': call YYABORT in the action
+  // 'T': call YYABORT in the action.
   switch (char res = *input++)
   {
   case 'l':

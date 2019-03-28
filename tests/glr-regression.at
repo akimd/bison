@@ -147,12 +147,10 @@ command:
 
 var:
   'V'
-     { $$ = $1; }
   ;
 
 var_list:
   var
-    { $$ = $1; }
   | var ',' var_list
     {
       char *s = YY_CAST (char *, realloc ($1, strlen ($1) + 1 + strlen ($3) + 1));
@@ -1660,9 +1658,9 @@ AT_DATA_GRAMMAR([glr-regr18.y],
 }
 %%
 
-sym1: sym2 %merge<merge> { $$ = $1; } ;
-sym2: sym3 %merge<merge> { $$ = $1; } ;
-sym3: %merge<merge> { $$ = 0; } ;
+sym1: sym2   %merge<merge> { $$ = $1; };
+sym2: sym3   %merge<merge> { $$ = $1; };
+sym3: %empty %merge<merge> { $$ = 0; };
 
 %type <type1> sym1;
 %type <type2> sym2;
@@ -1675,11 +1673,19 @@ sym3: %merge<merge> { $$ = 0; } ;
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr18.c -rall glr-regr18.y]], 1, [],
-[[glr-regr18.y:28.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
-glr-regr18.y:27.18-24: note: previous declaration
-glr-regr18.y:29.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
-glr-regr18.y:28.18-24: note: previous declaration
+AT_BISON_CHECK([[-fcaret -o glr-regr18.c -rall glr-regr18.y]], 1, [],
+[[glr-regr18.y:28.20-26: error: result type clash on merge function 'merge': <type2> != <type1>
+   28 | sym2: sym3   %merge<merge> { $$ = $1; };
+      |                    ^~~~~~~
+glr-regr18.y:27.20-26: note: previous declaration
+   27 | sym1: sym2   %merge<merge> { $$ = $1; };
+      |                    ^~~~~~~
+glr-regr18.y:29.20-26: error: result type clash on merge function 'merge': <type3> != <type2>
+   29 | sym3: %empty %merge<merge> { $$ = 0; };
+      |                    ^~~~~~~
+glr-regr18.y:28.20-26: note: previous declaration
+   28 | sym2: sym3   %merge<merge> { $$ = $1; };
+      |                    ^~~~~~~
 ]])
 
 AT_CLEANUP

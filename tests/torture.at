@@ -418,7 +418,7 @@ AT_DATA_GRAMMAR([input.y],
 %define parse.error verbose
 %token WAIT_FOR_EOF
 %%
-exp: WAIT_FOR_EOF exp | %empty;
+exp: %empty | WAIT_FOR_EOF exp;
 %%
 ]AT_YYERROR_DEFINE[
 #include <assert.h>
