@@ -137,6 +137,7 @@ static const argmatch_warning_doc argmatch_warning_docs[] =
   { "empty-rule",       N_("empty rules without %empty") },
   { "midrule-values",   N_("unset or unused midrule values") },
   { "precedence",       N_("useless precedence and associativity") },
+  { "useless-action",   N_("useless explicit actions") },
   { "yacc",             N_("incompatibilities with POSIX Yacc") },
   { "other",            N_("all other warnings (enabled by default)") },
   { "all",              N_("all the warnings except 'counterexamples', 'dangling-alias' and 'yacc'") },
