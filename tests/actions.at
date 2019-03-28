@@ -115,6 +115,46 @@ AT_PARSER_CHECK([input], 0,
 AT_CLEANUP
 
 
+## ------------------------- ##
+## Useless default actions.  ##
+## ------------------------- ##
+
+AT_SETUP([Useless default actions])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA_GRAMMAR([[input.y]],
+[[%union {
+  int ival;
+  int ival2;
+}
+%type <ival> expr term fact
+%type <ival2> "number"
+%%
+expr: expr '+' term { $$ = $1; } // No warning: too many symbols.
+expr: term { $$ = $1; }
+term: term '*' fact { $$ = $1; } | fact {  $$  =  $1 ;  }
+// No warning: types differ.
+fact: "number" { $$ = $1; }
+// No warning: there is a midrule action.
+fact: <ival>{ $$ = 42; } { $$ = $1; }
+;
+%%
+]])
+AT_BISON_OPTION_POPDEFS
+
+AT_BISON_CHECK([-Wuseless-action -fcaret input.y], [], [],
+[[input.y:17.12-23: warning: useless explicit action [-Wuseless-action]
+   17 | expr: term { $$ = $1; }
+      |            ^~~~~~~~~~~~
+input.y:18.41-57: warning: useless explicit action [-Wuseless-action]
+   18 | term: term '*' fact { $$ = $1; } | fact {  $$  =  $1 ;  }
+      |                                         ^~~~~~~~~~~~~~~~~
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
+AT_CLEANUP
+
+
+
 ## ----------------------- ##
 ## Implicitly empty rule.  ##
 ## ----------------------- ##
