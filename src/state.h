@@ -112,7 +112,7 @@ typedef struct state state;
 
 typedef struct
 {
-  int num;
+  int num;            /** Size of destination STATES.  */
   state *states[1];
 } transitions;
 
