@@ -304,6 +304,49 @@ AT_CLEANUP
 
 
 ## ----------------- ##
+## Build relations.  ##
+## ----------------- ##
+
+AT_SETUP([Build relations])
+
+# The "includes" relation [DeRemer 1982] is between gotos, so of
+# course, for a given goto, there cannot be more that ngotos (number
+# of gotos) images.  But we manipulate the set of images of a goto as
+# a list, without checking that an image was not already introduced.
+# So we can "register" way more images than ngotos, leading to a crash
+# (heap buffer overflow).
+#
+# http://lists.gnu.org/archive/html/bug-bison/2019-03/msg00007.html
+
+AT_DATA([input.y],
+[[%%
+expr: term | term | term | term | term | term
+term: 'n'
+]])
+
+AT_BISON_CHECK([[-fcaret input.y]], [], [],
+[[input.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+input.y:2.14-17: warning: rule useless in parser due to conflicts [-Wother]
+ expr: term | term | term | term | term | term
+              ^~~~
+input.y:2.21-24: warning: rule useless in parser due to conflicts [-Wother]
+ expr: term | term | term | term | term | term
+                     ^~~~
+input.y:2.28-31: warning: rule useless in parser due to conflicts [-Wother]
+ expr: term | term | term | term | term | term
+                            ^~~~
+input.y:2.35-38: warning: rule useless in parser due to conflicts [-Wother]
+ expr: term | term | term | term | term | term
+                                   ^~~~
+input.y:2.42-45: warning: rule useless in parser due to conflicts [-Wother]
+ expr: term | term | term | term | term | term
+                                          ^~~~
+]])
+
+AT_CLEANUP
+
+
+## ----------------- ##
 ## Reduced Grammar.  ##
 ## ----------------- ##
 
