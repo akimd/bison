@@ -848,9 +848,10 @@ if test "$POSIXLY_CORRECT_IS_EXPORTED" = false; then
 
   # Now check -Wnone and --warnings=none by making sure that
   # -Werror doesn't change the exit status when -Wnone or
-  # --warnings=none is specified.
-  ]AT_BISON_CHECK_([$1[ -Wnone -Werror]], [[0]], [expout])[
-  ]AT_BISON_CHECK_([$1[ --warnings=none -Werror]], [[0]], [expout])[
+  # --warnings=none is specified.  With traces disabled, there should
+  # be no output on stderr.
+  ]AT_BISON_CHECK_([$1[ -Wnone,none -Werror --trace=none]], [[0]], [expout])[
+  ]AT_BISON_CHECK_([$1[ --warnings=none -Werror --trace=none]], [[0]], [expout])[
 
   ]AT_RESTORE_SPECIAL_FILES[
 fi]dnl

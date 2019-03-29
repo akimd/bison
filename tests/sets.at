@@ -315,34 +315,39 @@ AT_DATA([input.y],
 [[%%
 expr: expr "+" term | term
 term: term "*" fact | fact
+useless: "useless"
 fact: "num"
 ]])
 
 AT_BISON_CHECK([[--trace=grammar -o input.c input.y]], [], [],
-[[Reduced Grammar
+[[input.y: warning: 1 nonterminal useless in grammar [-Wother]
+input.y: warning: 1 rule useless in grammar [-Wother]
+input.y:4.1-7: warning: nonterminal useless in grammar: useless [-Wother]
+Reduced Grammar
 
-ntokens = 6, nvars = 4, nsyms = 10, nrules = 6, nritems = 17
+ntokens = 7, nvars = 4, nsyms = 11, nrules = 6, nritems = 17
 
 Variables
 ---------
 
 Value  Sprec  Sassoc  Tag
-    6      0       0  $accept
-    7      0       0  expr
-    8      0       0  term
-    9      0       0  fact
+    7      0       0  $accept
+    8      0       0  expr
+    9      0       0  term
+   10      0       0  fact
 
 
 Rules
 -----
 
-Num (Num, Prec, Assoc, Useful, UselessChain, Ritem Range) Lhs -> Rhs (Ritem range)
-  0 (  0,  0,  0,  t,  f,  0- 1)    6 ->   7   0
-  1 (  1,  0,  0,  t,  f,  3- 5)    7 ->   7   3   8
-  2 (  2,  0,  0,  t,  t,  7- 7)    7 ->   8
-  3 (  3,  0,  0,  t,  f,  9-11)    8 ->   8   4   9
-  4 (  4,  0,  0,  t,  t, 13-13)    8 ->   9
-  5 (  5,  0,  0,  t,  t, 15-15)    9 ->   5
+Num (Prec, Assoc, Useful, UselessChain) Lhs -> (Ritem Range) Rhs
+  0 ( 0,  0,  t,  f)    7 -> ( 0- 1)   8   0
+  1 ( 0,  0,  t,  f)    8 -> ( 3- 5)   8   3   9
+  2 ( 0,  0,  t,  t)    8 -> ( 7- 7)   9
+  3 ( 0,  0,  t,  f)    9 -> ( 9-11)   9   4  10
+  4 ( 0,  0,  t,  t)    9 -> (13-13)  10
+  5 ( 0,  0,  t,  t)   10 -> (17-17)   6
+  6 ( 0,  0,  f,  t)   11 -> (15-15)   5
 
 
 Rules interpreted
@@ -354,9 +359,10 @@ Rules interpreted
 3      term: term "*" fact
 4      term: fact
 5      fact: "num"
+6      useless: "useless"
 
 
-reduced input.y defines 6 terminals, 4 nonterminals, and 6 productions.
+reduced input.y defines 7 terminals, 4 nonterminals, and 6 productions.
 ]])
 
 AT_CLEANUP
