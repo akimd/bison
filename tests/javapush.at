@@ -273,8 +273,7 @@ input:
 
 line:
   '\n'
-| exp '\n'
-        {System.out.println("total = "+$[]1);}
+| exp '\n'    { System.out.println("total = "+$[]1); }
 | error '\n'
 ;
 
@@ -349,54 +348,52 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc */
 %define api.parser.class {Calc}
 
 %code {
-static class UserLexer implements Calc.Lexer
-{
-  StreamTokenizer st;
-  StringReader rdr;
-
-  public UserLexer(StringReader reader)
+  static class UserLexer implements Calc.Lexer
   {
-    rdr = reader;
-    st = new StreamTokenizer(rdr);
-    st.resetSyntax();
-    st.eolIsSignificant(true);
-    st.whitespaceChars(9, 9);
-    st.whitespaceChars(32, 32);
-    st.wordChars(48, 57);
-  }
+    StreamTokenizer st;
+    StringReader rdr;
 
-  Integer yylval;
+    public UserLexer(StringReader reader)
+    {
+      rdr = reader;
+      st = new StreamTokenizer(rdr);
+      st.resetSyntax();
+      st.eolIsSignificant(true);
+      st.whitespaceChars(9, 9);
+      st.whitespaceChars(32, 32);
+      st.wordChars(48, 57);
+    }
 
-  public Object getLVal() { return yylval; }
+    Integer yylval;
 
-  public void yyerror(String msg) { System.err.println(msg); }
+    public Object getLVal() { return yylval; }
 
-  public int yylex () throws IOException
-  {
-    switch (st.nextToken()) {
-    case StreamTokenizer.TT_EOF: return EOF;
-    case StreamTokenizer.TT_EOL: return (int) '\n';
-    case StreamTokenizer.TT_WORD:
-        yylval = new Integer (st.sval);
-        return NUM;
-    default: return st.ttype;
+    public void yyerror(String msg) { System.err.println(msg); }
+
+    public int yylex () throws IOException
+    {
+      switch (st.nextToken()) {
+      case StreamTokenizer.TT_EOF: return EOF;
+      case StreamTokenizer.TT_EOL: return (int) '\n';
+      case StreamTokenizer.TT_WORD:
+          yylval = new Integer (st.sval);
+          return NUM;
+      default: return st.ttype;
+      }
     }
   }
 }
 
-}
-
 %code {
-public static void main (String[] argv)
-      throws IOException
-{
-    StringReader reader = getinput(argv[0]);
-    UserLexer lexer = new UserLexer(reader);
-    Calc calc = new Calc(lexer);
-    calc.setDebugLevel(1);
-    calc.parse();
-}//main
-
+  public static void main (String[] argv)
+        throws IOException
+  {
+      StringReader reader = getinput(argv[0]);
+      UserLexer lexer = new UserLexer(reader);
+      Calc calc = new Calc(lexer);
+      calc.setDebugLevel(1);
+      calc.parse();
+  }//main
 }
 
 ]AT_CALC_BODY[
@@ -676,14 +673,14 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
 %code { ]AT_JAVA_POSITION_DEFINE[ }
 
 %code {
-public static void main (String[] argv)
-        throws IOException
-{
-  StringReader reader = getinput(argv[0]);
-  Calc calc = new Calc(reader);
-  calc.setDebugLevel(1);
-  calc.parse();
-}
+  public static void main (String[] argv)
+          throws IOException
+  {
+    StringReader reader = getinput(argv[0]);
+    Calc calc = new Calc(reader);
+    calc.setDebugLevel(1);
+    calc.parse();
+  }
 }
 
 ]AT_CALC_BODY[
