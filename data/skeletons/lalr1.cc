@@ -111,9 +111,9 @@ b4_dollar_pushdef([yysym.value],
                   [],
                   [yysym.location])dnl
       _b4_symbol_case([$1])[]dnl
-b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
         b4_symbol([$1], [$2])
-b4_syncline([@oline@], [@ofile@])
+b4_syncline([@oline@], [@ofile@])dnl
         break;
 
 m4_popdef([b4_symbol_value])[]dnl
@@ -412,9 +412,9 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 ]b4_disclaimer[
 ]b4_cpp_guard_open([b4_spec_header_file])[
 ]b4_shared_declarations(hh)[
-]b4_cpp_guard_close([b4_spec_header_file])
-b4_output_end
-])
+]b4_cpp_guard_close([b4_spec_header_file])[
+]b4_output_end[
+]])
 
 
 b4_output_begin([b4_parser_file_name])[

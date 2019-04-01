@@ -474,7 +474,7 @@ m4_define([b4_sync_start], [[#]line $1 $2])
 m4_define([b4_case],
 [  case $1:
 $2
-b4_syncline([@oline@], [@ofile@])
+b4_syncline([@oline@], [@ofile@])dnl
     break;])
 
 
@@ -484,7 +484,7 @@ m4_define([b4_predicate_case],
 [  case $1:
     if (! (
 $2)) YYERROR;
-b4_syncline([@oline@], [@ofile@])
+b4_syncline([@oline@], [@ofile@])dnl
     break;])
 
 
@@ -713,13 +713,13 @@ typedef ]b4_percent_define_get([[api.value.type]])[ ]b4_api_PREFIX[STYPE;
 [m4_bmatch(b4_percent_define_get([[api.value.type]]),
 [union\|union-directive],
 [[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-]b4_percent_define_get_syncline([[api.value.union.name]])[
-union ]b4_percent_define_get([[api.value.union.name]])[
+]b4_percent_define_get_syncline([[api.value.union.name]])dnl
+[union ]b4_percent_define_get([[api.value.union.name]])[
 {
 ]b4_user_union_members[
 };
-]b4_percent_define_get_syncline([[api.value.union.name]])[
-typedef union ]b4_percent_define_get([[api.value.union.name]])[ ]b4_api_PREFIX[STYPE;
+]b4_percent_define_get_syncline([[api.value.union.name]])dnl
+[typedef union ]b4_percent_define_get([[api.value.union.name]])[ ]b4_api_PREFIX[STYPE;
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif

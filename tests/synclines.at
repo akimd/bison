@@ -28,7 +28,7 @@ AT_BANNER([[Sync Lines.]])
 m4_define([_AT_SYNCLINES_COMPILE],
 [AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1], [ignore], [], [stderr])
 
-# Transform stderr into something like this:
+# Transform the file 'stderr' into something like this:
 #
 #   input.y:4: #error "4"
 #
@@ -121,7 +121,7 @@ EOF
 
 # AT_SYNCLINES_COMPILE(FILE)
 # --------------------------
-# Compile FILE expecting an error, and save in the file stdout the
+# Compile FILE expecting an error, and save in the file 'stdout' the
 # normalized output.  If we can't get a trustable location
 # from the compiler, just skip the test.
 #
@@ -449,11 +449,36 @@ AT_DATA_GRAMMAR([input.y],
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[
 %}
+%union {
+  int ival;
+}
 %%
 exp: '0'
 ]])
+
+# Generate without.* without the #line.  Don't use -o without.c which
+# would change the content (e.g., CPP guard depend on the output file
+# name).
 AT_BISON_CHECK([--no-lines -o input.AT_LANG_EXT -d input.y])
-AT_CHECK([[grep '#line'] *.AT_LANG_EXT *.AT_LANG_HDR], 1)
+AT_CHECK([mv input.]AT_LANG_EXT[ without.]AT_LANG_EXT[])
+AT_CHECK([mv input.]AT_LANG_HDR[ without.]AT_LANG_HDR[])
+# There is no #line at all.
+AT_CHECK([grep '#line' *.]AT_LANG_EXT[ *.]AT_LANG_HDR[], 1)
+
+# Generate with.* without the #line.
+AT_BISON_CHECK([-o input.AT_LANG_EXT -d input.y])
+AT_CHECK([mv input.]AT_LANG_EXT[ with.]AT_LANG_EXT[])
+AT_CHECK([mv input.]AT_LANG_HDR[ with.]AT_LANG_HDR[])
+
+# The implementation file with --no-line is exactly the
+# original one with #lines removed.
+AT_CHECK([grep -v '#line' with.]AT_LANG_EXT[ >expout])
+AT_CHECK([cat without.AT_LANG_EXT], 0, [expout])
+
+# Likewise for the header.
+AT_CHECK([grep -v '#line' with.]AT_LANG_HDR[ >expout])
+AT_CHECK([cat without.AT_LANG_HDR], 0, [expout])
+
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP

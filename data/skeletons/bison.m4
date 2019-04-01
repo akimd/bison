@@ -448,9 +448,9 @@ m4_define([b4_symbol_action],
                    [],
                    [(*yylocationp)])dnl
     _b4_symbol_case([$1])[]dnl
-b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
       b4_symbol([$1], [$2])
-b4_syncline([@oline@], [@ofile@])
+b4_syncline([@oline@], [@ofile@])dnl
         break;
 
 b4_dollar_popdef[]dnl
@@ -579,13 +579,15 @@ m4_define([b4_basename],
 [m4_bpatsubst([$1], [^.*/\([^/]+\)/*$], [\1])])
 
 
-# b4_syncline(LINE, FILE)
-# -----------------------
+# b4_syncline(LINE, FILE)dnl
+# --------------------------
+# Should always be following by a dnl.
+#
 # Emit "#line LINE FILE /* __LINE__ __FILE__ */".
 m4_define([b4_syncline],
 [b4_flag_if([synclines],
 [b4_sync_start([$1], [$2])[]dnl
-b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])[]dnl
+b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])
 ])])
 
 # b4_sync_start(LINE, FILE)
@@ -757,8 +759,10 @@ m4_define([b4_percent_define_get_kind],
           [m4_indir([b4_percent_define_kind(]$1[)])],
           [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
-# b4_percent_define_get_syncline(VARIABLE)
-# ----------------------------------------
+# b4_percent_define_get_syncline(VARIABLE)dnl
+# -------------------------------------------
+# Should always be following by a dnl.
+#
 # Mimic muscle_percent_define_get_syncline in ../src/muscle-tab.h exactly.
 # That is, if the %define variable VARIABLE is undefined, complain fatally
 # since that's a Bison or skeleton error.  Otherwise, return its definition
@@ -974,8 +978,7 @@ m4_ifval([$1], [m4_define([b4_percent_code_bison_qualifiers(]$1[)])])dnl
 m4_ifdef(b4_macro_name,
 [b4_comment([m4_if([$#], [0], [[Unqualified %code]],
                    [["%code ]$1["]])[ blocks.]])
-b4_user_code([m4_indir(b4_macro_name)])
-])dnl
+b4_user_code([m4_indir(b4_macro_name)])])dnl
 m4_popdef([b4_macro_name])])
 
 # b4_percent_code_ifdef(QUALIFIER, IF-TRUE, [IF-FALSE])
