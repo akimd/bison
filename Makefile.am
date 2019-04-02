@@ -42,7 +42,8 @@ dependencies = $(BISON_IN) $(src_bison_SOURCES) $(dist_skeletons_DATA)
 BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
 YACC = $(BISON) -o y.tab.c
-AM_YFLAGS = -d -v -Werror -Wall -Wno-yacc --report=all
+AM_YFLAGS_WITH_LINES = -d -v -Werror -Wall --report=all
+AM_YFLAGS = $(AM_YFLAGS_WITH_LINES) --no-lines
 
 # Initialization before completion by local.mk's.
 AM_CFLAGS = $(WARN_CFLAGS)
@@ -89,6 +90,7 @@ $(top_srcdir)/.version: configure
 	echo $(VERSION) > $@-t && mv $@-t $@
 dist-hook: gen-ChangeLog
 	echo $(VERSION) > $(distdir)/.tarball-version
+	cd $(distdir) && $(abs_top_builddir)/tests/bison $(AM_YFLAGS_WITH_LINES) src/parse-gram.y -o src/parse-gram.c
 
 .PHONY: update-b4-copyright update-package-copyright-year
 update-b4-copyright:
