@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.3.2.93-9d04-dirty.  */
+/* A Bison parser, made by GNU Bison 3.3.2.122-5915.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -52,11 +52,9 @@
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 21 "src/parse-gram.y"
 
   #include "symlist.h"
   #include "symtab.h"
-#line 240 "src/parse-gram.y"
 
   typedef enum
   {
@@ -65,7 +63,6 @@ extern int gram_debug;
     param_parse  = 1 << 1,
     param_both   = param_lex | param_parse
   } param_type;
-#line 683 "src/parse-gram.y"
 
   #include "muscle-tab.h"
   typedef struct
@@ -74,7 +71,6 @@ extern int gram_debug;
     muscle_kind kind;
   } value_type;
 
-#line 78 "src/parse-gram.h"
 
 /* Token type.  */
 #ifndef GRAM_TOKENTYPE
@@ -142,7 +138,6 @@ extern int gram_debug;
 
 /* Value type.  */
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
-
 union GRAM_STYPE
 {
 
@@ -228,9 +223,8 @@ union GRAM_STYPE
   unsigned char CHAR;
   /* value  */
   value_type value;
-#line 232 "src/parse-gram.h"
-};
 
+};
 typedef union GRAM_STYPE GRAM_STYPE;
 # define GRAM_STYPE_IS_TRIVIAL 1
 # define GRAM_STYPE_IS_DECLARED 1
