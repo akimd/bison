@@ -236,6 +236,9 @@ state *state_new_isocore (state const *s);
 /* Record that from S we can reach all the DST states (NUM of them).  */
 void state_transitions_set (state *s, int num, state **dst);
 
+/* Print the transitions of state s for debug.  */
+void state_transitions_print (const state *s, FILE *out);
+
 /* Set the reductions of STATE.  */
 void state_reductions_set (state *s, int num, rule **reds);
 
