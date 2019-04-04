@@ -465,7 +465,6 @@ m4_define([AT_DATA_CALC_Y],
 # Run 'calc' on INPUT and expect no STDOUT nor STDERR.
 #
 # If BISON-OPTIONS contains '%debug' but not '%glr-parser', then
-#
 # NUM-STDERR-LINES is the number of expected lines on stderr.
 # Currently this is ignored, though, since the output format is fluctuating.
 #
