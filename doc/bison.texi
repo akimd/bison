@@ -10349,6 +10349,23 @@ is specified.
 Output warnings falling in @var{category}.  @var{category} can be one
 of:
 @table @code
+@item conflicts-sr
+@itemx conflicts-rr
+S/R and R/R conflicts.  These warnings are enabled by default.  However, if
+the @code{%expect} or @code{%expect-rr} directive is specified, an
+unexpected number of conflicts is an error, and an expected number of
+conflicts is not reported, so @option{-W} and @option{--warning} then have
+no effect on the conflict report.
+
+@item deprecated
+Deprecated constructs whose support will be removed in future versions of
+Bison.
+
+@item empty-rule
+Empty rules without @code{%empty}.  @xref{Empty Rules}.  Disabled by
+default, but enabled by uses of @code{%empty}, unless
+@option{-Wno-empty-rule} was specified.
+
 @item midrule-values
 Warn about midrule values that are set but not used within any of the actions
 of the parent rule.
@@ -10368,26 +10385,6 @@ exp: '1' @{ $1 = 1; @} '+' exp @{ $$ = $2 + $4; @};
 These warnings are not enabled by default since they sometimes prove to
 be false alarms in existing grammars employing the Yacc constructs
 @code{$0} or @code{$-@var{n}} (where @var{n} is some positive integer).
-
-@item yacc
-Incompatibilities with POSIX Yacc.
-
-@item conflicts-sr
-@itemx conflicts-rr
-S/R and R/R conflicts.  These warnings are enabled by default.  However, if
-the @code{%expect} or @code{%expect-rr} directive is specified, an
-unexpected number of conflicts is an error, and an expected number of
-conflicts is not reported, so @option{-W} and @option{--warning} then have
-no effect on the conflict report.
-
-@item deprecated
-Deprecated constructs whose support will be removed in future versions of
-Bison.
-
-@item empty-rule
-Empty rules without @code{%empty}.  @xref{Empty Rules}.  Disabled by
-default, but enabled by uses of @code{%empty}, unless
-@option{-Wno-empty-rule} was specified.
 
 @item precedence
 Useless precedence and associativity directives.  Disabled by default.
@@ -10449,6 +10446,9 @@ One would get the exact same parser with the following directives instead:
 %precedence "*"
 @end group
 @end example
+
+@item yacc
+Incompatibilities with POSIX Yacc.
 
 @item other
 All warnings not categorized above.  These warnings are enabled by default.
