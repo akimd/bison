@@ -161,6 +161,7 @@ static const argmatch_warning_arg argmatch_warning_args[] =
   { "none",            Wnone },
   { "other",           Wother },
   { "precedence",      Wprecedence },
+  { "useless-action",  Wuseless_action },
   { "yacc",            Wyacc },
   { NULL, Wnone }
 };
