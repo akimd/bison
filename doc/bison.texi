@@ -1940,7 +1940,7 @@ With all the source in the grammar file, you use the following command
 to convert it into a parser implementation file:
 
 @example
-bison @var{file}.y
+$ @kbd{bison @var{file}.y}
 @end example
 
 @noindent
@@ -10213,38 +10213,37 @@ print_token_value (FILE *file, int type, YYSTYPE value)
 The usual way to invoke Bison is as follows:
 
 @example
-bison @var{infile}
+$ @kbd{bison @var{file}}
 @end example
 
-Here @var{infile} is the grammar file name, which usually ends in
-@samp{.y}.  The parser implementation file's name is made by replacing
-the @samp{.y} with @samp{.tab.c} and removing any leading directory.
-Thus, the @samp{bison foo.y} file name yields @file{foo.tab.c}, and
-the @samp{bison hack/foo.y} file name yields @file{foo.tab.c}.  It's
-also possible, in case you are writing C++ code instead of C in your
-grammar file, to name it @file{foo.ypp} or @file{foo.y++}.  Then, the
-output files will take an extension like the given one as input
-(respectively @file{foo.tab.cpp} and @file{foo.tab.c++}).  This
-feature takes effect with all options that manipulate file names like
-@samp{-o} or @samp{-d}.
+Here @var{file} is the grammar file name, which usually ends in @samp{.y}.
+The parser implementation file's name is made by replacing the @samp{.y}
+with @samp{.tab.c} and removing any leading directory.  Thus, the
+@samp{bison foo.y} file name yields @file{foo.tab.c}, and the @samp{bison
+hack/foo.y} file name yields @file{foo.tab.c}.  It's also possible, in case
+you are writing C++ code instead of C in your grammar file, to name it
+@file{foo.ypp} or @file{foo.y++}.  Then, the output files will take an
+extension like the given one as input (respectively @file{foo.tab.cpp} and
+@file{foo.tab.c++}).  This feature takes effect with all options that
+manipulate file names like @samp{-o} or @samp{-d}.
 
-For example :
+For example:
 
 @example
-bison -d @var{infile.yxx}
+$ @kbd{bison -d @var{file.yxx}}
 @end example
 @noindent
-will produce @file{infile.tab.cxx} and @file{infile.tab.hxx}, and
+will produce @file{file.tab.cxx} and @file{file.tab.hxx}, and
 
 @example
-bison -d -o @var{output.c++} @var{infile.y}
+$ @kbd{bison -d -o @var{output.c++} @var{file.y}}
 @end example
 @noindent
-will produce @file{output.c++} and @file{outfile.h++}.
+will produce @file{output.c++} and @file{output.h++}.
 
-For compatibility with POSIX, the standard Bison
-distribution also contains a shell script called @command{yacc} that
-invokes Bison with the @option{-y} option.
+For compatibility with POSIX, the standard Bison distribution also contains
+a shell script called @command{yacc} that invokes Bison with the @option{-y}
+option.
 
 @menu
 * Bison Options::     All the options described in detail,
@@ -12355,7 +12354,7 @@ The Java parser skeletons are selected using the @code{%language "Java"}
 directive or the @option{-L java}/@option{--language=java} option.
 
 @c FIXME: Documented bug.
-When generating a Java parser, @code{bison @var{basename}.y} will create a
+When generating a Java parser, @samp{bison @var{basename}.y} will create a
 single Java source file named @file{@var{basename}.java} containing the
 parser implementation.  Using a grammar file without a @file{.y} suffix is
 currently broken.  The basename of the parser implementation file can be
@@ -14318,7 +14317,7 @@ resolution.  @xref{Unreachable States}.
 @node Bibliography
 @unnumbered Bibliography
 
-@c Please follow the followint canvas to add more references.
+@c Please follow the following canvas to add more references.
 
 @table @asis
 @item [Corbett 1984]
@@ -14329,7 +14328,7 @@ Static Semantics in Compiler Error Recovery
 @c in
 Ph.D. Dissertation, Report No. UCB/CSD 85/251,
 @c where
-Departement of Electrical Engineering and Computer Science, Compute Science
+Department of Electrical Engineering and Computer Science, Compute Science
 Division, University of California, Berkeley, California
 @c when
 (June 1985).
@@ -14412,7 +14411,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
 @c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead yyoutput
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
-@c LocalWords: infile ypp yxx outfile itemx tex leaderfill Troubleshouting sqrt
+@c LocalWords: ypp yxx itemx tex leaderfill Troubleshouting sqrt GraphViz
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
 @c LocalWords: nbar yytext fst snd osplit ntwo strdup AST Troublereporting th
 @c LocalWords: YYSTACK DVI fdl printindex IELR nondeterministic nonterminals ps
@@ -14446,7 +14445,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: allocators subunit initializations unreferenced untyped dir
 @c LocalWords: errorVerbose subtype subtypes Wmidrule midrule's src rvalues
 @c LocalWords: automove evolutions Wother Wconflicts PNG lookaheads Acc sep
-@c LocalWords: xsltproc XSL xsl xhtml html num Wprecedence Werror fcaret
+@c LocalWords: xsltproc XSL xsl xhtml html num Wprecedence Werror fcaret gv
 @c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
 @c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif ish
 @c LocalWords: Wdeprecated Wregister noinput yyloc yypos PODs sstream Wsign
@@ -14454,7 +14453,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit
 @c LocalWords: DNDEBUG cstring Wzero workalike POPL workalikes byacc UCB
 @c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP
-@c LocalWords: Beazley's goyacc ocamlyacc
+@c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN
 
 @c Local Variables:
 @c ispell-dictionary: "american"
