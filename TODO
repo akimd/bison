@@ -53,6 +53,27 @@ syntax error, unexpected $end, expecting ↦ or 🎅🐃 or '\n'
 While at it, we should stop using "$end" by default, in favor of "end of
 file", or "end of input", whatever.
 
+** clean up
+*** lalr.c
+Introduce a goto struct, and use it in place of from_state/to_state.
+Rename states1 as path, length as pathlen.
+Introduce inline functions for things such as nullable[*rp - ntokens]
+where we need to map from symbol number to nterm number.
+
+There are probably a significant part of the the relations management that
+should be migrated on top of a bitsetv.
+
+*** closure
+It should probably take a "state*" instead of two arguments.
+
+*** traces
+The "automaton" and "set" categories are not so useful.  We should probably
+introduce lr(0) and lalr, just the way we have ielr categories.  The
+"closure" function is too verbose, it should probably have its own category.
+
+"set" can still be used for summariring the important sets.  That would make
+tests easy to maintain.
+
 ** use gettext-h in gnulib instead of gettext
 ** use gnulib-po
 For some reason, according to syntax-check, we have to keep getopt.c in
@@ -62,6 +83,28 @@ fixed.
 
 Meanwhile, bitset/stats.c is removed from the set of translations, which is
 not too much of a problem as users are not expected to see this.
+
+** bad diagnostics
+
+%token <val> NUM
+%type  <val> expr term fact
+
+%%
+
+res:  expr { printf ("%d\n", $1); };
+expr: expr '+' term { $$ = $1 + $3; } | term;
+term: NUM | { $$ = 0; };
+
+The second warning about fact is... useless.
+
+$ bison /tmp/bar.y
+/tmp/bar.y:2.24-27: warning: symbol fact is used, but is not defined as a token and has no rules [-Wother]
+ %type  <val> expr term fact
+                        ^~~~
+/tmp/bar.y: warning: 1 nonterminal useless in grammar [-Wother]
+/tmp/bar.y:2.24-27: warning: nonterminal useless in grammar: fact [-Wother]
+ %type  <val> expr term fact
+                        ^~~~
 
 
 * Completion
