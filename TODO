@@ -119,7 +119,10 @@ introduce lr(0) and lalr, just the way we have ielr categories.  The
 "set" can still be used for summariring the important sets.  That would make
 tests easy to maintain.
 
-
+*** complain.*
+Rename these guys as "diagnostics.*" (or "diagnose.*"), since that the name
+they have in gcc, clang, etc.  Likewise for the complain_* series of
+functions.
 
 * Completion
 Several features are not available in all the backends.
