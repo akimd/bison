@@ -90,6 +90,9 @@ void warnings_argmatch (char *args);
 /** Initialize this module.  */
 void complain_init (void);
 
+/** Reclaim resources.  */
+void complain_free (void);
+
 /** Initialize support for colored messages.  */
 void complain_init_color (void);
 
