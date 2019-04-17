@@ -220,28 +220,21 @@ unget_char (]AT_YYLEX_PRE_FORMALS[ int c)
 }
 
 static int
-read_signed_integer (]AT_YYLEX_FORMALS[)
+read_integer (]AT_YYLEX_FORMALS[)
 {
   int c = get_char (]AT_YYLEX_ARGS[);
-  int sign = 1;
-  int n = 0;
+  int res = 0;
 
   ]AT_USE_LEX_ARGS[;
-  if (c == '-')
-    {
-      c = get_char (]AT_YYLEX_ARGS[);
-      sign = -1;
-    }
-
   while (isdigit (c))
     {
-      n = 10 * n + (c - '0');
+      res = 10 * res + (c - '0');
       c = get_char (]AT_YYLEX_ARGS[);
     }
 
   unget_char (]AT_YYLEX_PRE_ARGS[ c);
 
-  return sign * n;
+  return res;
 }
 
 
@@ -268,7 +261,7 @@ read_signed_integer (]AT_YYLEX_FORMALS[)
   if (c == '.' || isdigit (c))
     {
       unget_char (]AT_YYLEX_PRE_ARGS[ c);
-      ]AT_VAL[.ival = read_signed_integer (]AT_YYLEX_ARGS[);
+      ]AT_VAL[.ival = read_integer (]AT_YYLEX_ARGS[);
       return ]AT_TOKEN_PREFIX[NUM;
     }
 
