@@ -89,23 +89,24 @@ extern int report_flag;
 `----------*/
 enum trace
   {
-    trace_none      = 0,       /**< No traces. */
-    trace_scan      = 1 << 0,  /**< Grammar scanner traces. */
-    trace_parse     = 1 << 1,  /**< Grammar parser traces. */
-    trace_resource  = 1 << 2,  /**< Memory allocation. */
-    trace_sets      = 1 << 3,  /**< Grammar sets: firsts, nullable etc. */
-    trace_bitsets   = 1 << 4,  /**< Use of bitsets. */
-    trace_tools     = 1 << 5,  /**< m4 invocation. */
-    trace_automaton = 1 << 6,  /**< Construction of the automaton. */
-    trace_grammar   = 1 << 7,  /**< Reading, reducing the grammar. */
-    trace_time      = 1 << 8,  /**< Time consumption. */
-    trace_skeleton  = 1 << 9,  /**< Skeleton postprocessing. */
-    trace_m4        = 1 << 10, /**< M4 traces. */
-    trace_muscles   = 1 << 11, /**< M4 definitions of the muscles. */
-    trace_ielr      = 1 << 12, /**< IELR conversion. */
-    trace_closure   = 1 << 13, /**< Input/output of closure(). */
-    trace_locations = 1 << 14, /**< Full display of locations. */
-    trace_all       = ~0       /**< All of the above.  */
+    trace_none        = 0,       /**< No traces. */
+    trace_scan        = 1 << 0,  /**< Grammar scanner traces. */
+    trace_parse       = 1 << 1,  /**< Grammar parser traces. */
+    trace_resource    = 1 << 2,  /**< Memory allocation. */
+    trace_sets        = 1 << 3,  /**< Grammar sets: firsts, nullable etc. */
+    trace_bitsets     = 1 << 4,  /**< Use of bitsets. */
+    trace_tools       = 1 << 5,  /**< m4 invocation. */
+    trace_automaton   = 1 << 6,  /**< Construction of the automaton. */
+    trace_grammar     = 1 << 7,  /**< Reading, reducing the grammar. */
+    trace_time        = 1 << 8,  /**< Time consumption. */
+    trace_skeleton    = 1 << 9,  /**< Skeleton postprocessing. */
+    trace_m4          = 1 << 10, /**< M4 traces. */
+    trace_muscles     = 1 << 11, /**< M4 definitions of the muscles. */
+    trace_ielr        = 1 << 12, /**< IELR conversion. */
+    trace_closure     = 1 << 13, /**< Input/output of closure(). */
+    trace_locations   = 1 << 14, /**< Full display of locations. */
+    trace_parse_stats = 1 << 15, /**< Facts about a parser run. */
+    trace_all         = ~0       /**< All of the above.  */
   };
 /** What debug items bison displays during its run.  */
 extern int trace_flag;

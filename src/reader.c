@@ -734,7 +734,9 @@ reader (void)
   gram_in = xfopen (grammar_file, "r");
 
   gram__flex_debug = trace_flag & trace_scan;
-  gram_debug = trace_flag & trace_parse;
+  gram_debug =
+    (trace_flag   & trace_parse       ? gram_debug_trace : gram_debug_none)
+    | (trace_flag & trace_parse_stats ? gram_debug_stats : gram_debug_none);
   gram_scanner_initialize ();
   gram_parse ();
   prepare_percent_define_front_end_variables ();
