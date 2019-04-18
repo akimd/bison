@@ -102,6 +102,7 @@ b4_percent_define_default([[api.value.union.name]],
                           [b4_api_PREFIX[][STYPE]])
 
 
+
 ## ------------------------ ##
 ## Pure/impure interfaces.  ##
 ## ------------------------ ##
@@ -138,7 +139,7 @@ b4_parse_param)
 
 
 # b4_parse_param_for(DECL, FORMAL, BODY)
-# ---------------------------------------
+# --------------------------------------
 # Iterate over the user parameters, binding the declaration to DECL,
 # the formal name to FORMAL, and evaluating the BODY.
 m4_define([b4_parse_param_for],
@@ -850,7 +851,7 @@ m4_define([b4_YYDEBUG_define],
 #endif]],
 [[#ifndef ]b4_api_PREFIX[DEBUG
 # if defined YYDEBUG
-#if YYDEBUG
+#  if YYDEBUG
 #   define ]b4_api_PREFIX[DEBUG 1
 #  else
 #   define ]b4_api_PREFIX[DEBUG 0
@@ -866,6 +867,15 @@ m4_define([b4_YYDEBUG_define],
 m4_define([b4_declare_yydebug],
 [b4_YYDEBUG_define[
 #if ]b4_api_PREFIX[DEBUG
+/* Values of ]b4_prefix[debug.  */
+enum ]b4_prefix[debug_type
+{
+  ]b4_prefix[debug_none = 0,]b4_yacc_if([[
+  ]b4_prefix[debug_trace = -1]], [[
+  ]b4_prefix[debug_trace = 1 << 0,
+  ]b4_prefix[debug_stats = 1 << 1,
+  ]b4_prefix[debug_all = -1]])[
+};
 extern int ]b4_prefix[debug;
 #endif][]dnl
 ])
