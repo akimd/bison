@@ -82,6 +82,26 @@ GNU Bison NEWS
         1 | %token FOO                     …
           |        ^~~
 
+*** Summary of a parser run (yacc.c)
+
+  Unless in POSIX Yacc mode, yydebug is now a bit field controlling the
+  types of traces:
+
+    - yydebug_trace: Enable (usual) parse traces.
+    - yydebug_stats: At the end of the parse, print a count of the parser
+      actions.
+
+  The main function use them as follows:
+
+    for (int i = 1; i < argc; ++i)
+      if (strcmp (argv[1], "-p") == 0)
+        yydebug |= yydebug_trace;
+      else if (strcmp (argv[1], "-s") == 0)
+        yydebug |= yydebug_stats;
+
+  In Yacc mode, yydebug remains a plain null/nonnull variable controlling
+  only the usual parse traces.
+
 *** Debug traces in Java
 
   The Java backend no longer emits code and data for parser tracing if the

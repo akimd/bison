@@ -49,13 +49,15 @@ syntax error, unexpected $end, expecting "\342\206\246" or "\360\237\216\205\360
 $ gcc utf8.c -o utf8 && ./utf8
 syntax error, unexpected $end, expecting ↦ or 🎅🐃 or '\n'
 
-
 While at it, we should stop using "$end" by default, in favor of "end of
 file", or "end of input", whatever.  See how lalr1.java does that.
 
 ** api.token.raw
 Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
 semantic value so that yyerror could be used to report invalid lexemes.
+
+** parse.lac.memory-trace
+This should rather be controled by more yydebug bits, like yy_debug_stats.
 
 * Bison 3.6
 ** Unit rules

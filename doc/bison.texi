@@ -366,9 +366,10 @@ Debugging Your Parser
 
 Tracing Your Parser
 
-* Enabling Traces::             Activating run-time trace support
-* Mfcalc Traces::               Extending @code{mfcalc} to support traces
-* The YYPRINT Macro::           Obsolete interface for semantic value reports
+* Enabling Traces::    Activating run-time trace support
+* Mfcalc Traces::      Extending @code{mfcalc} to support traces
+* The YYPRINT Macro::  Obsolete interface for semantic value reports
+* Parsing Summary::    Additional Traces
 
 Invoking Bison
 
@@ -2818,7 +2819,7 @@ int main (int argc, char const* argv[])
 @group
 @{
   /* Enable parse traces on option -p. */
-  if (argc == 2 && strcmp(argv[1], "-p") == 0)
+  if (argc == 2 && strcmp (argv[1], "-p") == 0)
     yydebug = 1;
 @end group
 @group
@@ -9971,6 +9972,7 @@ When a Bison grammar compiles properly but parses ``incorrectly'', the
 * Enabling Traces::    Activating run-time trace support
 * Mfcalc Traces::      Extending @code{mfcalc} to support traces
 * The YYPRINT Macro::  Obsolete interface for semantic value reports
+* Parsing Summary::    Additional Traces
 @end menu
 
 @node Enabling Traces
@@ -10009,7 +10011,7 @@ compatibility with previous versions of Bison.
 Add the @samp{%define parse.trace} directive (@pxref{%define
 Summary,,parse.trace}), or pass the @option{-Dparse.trace} option
 (@pxref{Tuning the Parser}).  This is a Bison extension, which is especially
-useful for languages that don't use a preprocessor.  Unless POSIX and Yacc
+useful for languages that don't use a preprocessor.  Unless POSIX Yacc
 portability matter to you, this is the preferred solution.
 @end table
 
@@ -10025,7 +10027,7 @@ define @code{YYFPRINTF}, @code{<stdio.h>} is automatically included
 and @code{YYFPRINTF} is defined to @code{fprintf}.
 
 Once you have compiled the program with trace facilities, the way to
-request a trace is to store a nonzero value in the variable @code{yydebug}.
+request a trace is to store @code{1} in the variable @code{yydebug}.
 You can do this by making the C code do it (in @code{main}, perhaps), or
 you can alter the value with a C debugger.
 
@@ -10062,15 +10064,16 @@ parser function is a finite-state machine interpreter, and aside from
 the actions it executes the same code over and over.  Only the values
 of variables show where in the grammar it is working.
 
+
 @node Mfcalc Traces
 @subsection Enabling Debug Traces for @code{mfcalc}
 
 The debugging information normally gives the token type of each token read,
 but not its semantic value.  The @code{%printer} directive allows specify
-how semantic values are reported, see @ref{Printer Decl, , Printing
-Semantic Values}.  For backward compatibility, Yacc like C parsers may also
-use the @code{YYPRINT} (@pxref{The YYPRINT Macro, , The @code{YYPRINT}
-Macro}), but its use is discouraged.
+how semantic values are reported, see @ref{Printer Decl, , Printing Semantic
+Values}.  For backward compatibility, Yacc-like C parsers may also use the
+@code{YYPRINT} (@pxref{The YYPRINT Macro, , The @code{YYPRINT} Macro}), but
+its use is discouraged.
 
 As a demonstration of @code{%printer}, consider the multi-function
 calculator, @code{mfcalc} (@pxref{Multi-function Calc}).  To enable run-time
@@ -10268,6 +10271,61 @@ print_token_value (FILE *file, int type, YYSTYPE value)
   else if (type == NUM)
     fprintf (file, "%d", value.val);
 @}
+@end example
+
+
+@node Parsing Summary
+@subsection Parsing Summary
+
+When not in POSIX Yacc mode, the @code{yydebug} variable actually controls
+several features; it is interpreted via bit masks:
+@table @code
+@item yydebug_none
+Disable all traces.  Equal to 0.
+
+@item yydebug_trace
+Enable parse traces.
+
+@item yydebug_stats
+At the end of the parse, print a count of the parser actions.
+
+@item yydebug_all
+Enable all traces.  Equal to -1.
+@end table
+
+All these identifiers follow @code{api.prefix}.  For instance to enable
+traces and summary when @samp{%define api.prefix @{calc_@}} is specified,
+use @samp{calc_debug = calc_debug_trace | calc_debug_stats}.
+
+As an example, the main function of MfCalc (@pxref{Mfcalc Main}) should be
+changed into:
+
+@example
+@group
+int main (int argc, char const* argv[])
+@end group
+@group
+@{
+  for (int i = 1; i < argc; ++i)
+    if (strcmp (argv[1], "-p") == 0)
+      yydebug |= yydebug_trace;
+    else if (strcmp (argv[1], "-s") == 0)
+      yydebug |= yydebug_stats;
+@end group
+@group
+  init_table ();
+  return yyparse ();
+@}
+@end group
+@end example
+
+Then, when run with @option{-s}, parsing facts would be printed at the end:
+
+@example
+$ @kbd{echo '1 + 2 * 3' | mfcalc -s}
+7
+num_reductions: 8
+num_shifts: 7
 @end example
 
 @c ================================================= Invoking Bison
