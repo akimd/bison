@@ -26,6 +26,9 @@ m4_include([named-refs.at])
 # Output file names.
 m4_include([output.at])
 
+# Diagnostics.
+m4_include([diagnostics.at])
+
 # Skeleton support.
 m4_include([skeletons.at])
 

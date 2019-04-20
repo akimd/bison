@@ -1,0 +1,71 @@
+# Checking diagnotics.                               -*- Autotest -*-
+
+# Copyright (C) 2019 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+AT_BANNER([[Diagnostics.]])
+
+# AT_TEST([TITLE], [GRAMMAR], [OUTPUT-WITH-STYLE])
+m4_pushdef([AT_TEST],
+[
+AT_SETUP([$1])
+AT_KEYWORDS([diagnostics])
+
+AT_BISON_OPTION_PUSHDEFS
+
+AT_DATA_GRAMMAR([[input.y]], [$2])
+
+AT_DATA([experr], [$3])
+AT_BISON_CHECK([-fcaret --style=debug -Wother input.y], [], [], [experr])
+
+# When no style, same messages, except the style.
+AT_CHECK([perl -pi -e 's{</?\w+>}{}g' experr])
+AT_BISON_CHECK([-fcaret -Wother input.y], [], [], [experr])
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
+])
+
+
+## ---------- ##
+## Warnings.  ##
+## ---------- ##
+
+AT_TEST([[Warnings]],
+[[%token FOO FOO FOO
+%token FOO  FOO  FOO
+%%
+exp:;
+]],
+[[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
+ %token FOO <warning>FOO</warning> FOO
+            <warning>^~~</warning>
+input.y:9.16-18: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
+ %token FOO FOO <warning>FOO</warning>
+                <warning>^~~</warning>
+input.y:10.8-10: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
+ %token <warning>FOO</warning>  FOO  FOO
+        <warning>^~~</warning>
+input.y:10.13-15: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
+ %token FOO  <warning>FOO</warning>  FOO
+             <warning>^~~</warning>
+input.y:10.18-20: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
+ %token FOO  FOO  <warning>FOO</warning>
+                  <warning>^~~</warning>
+]])
+
+
+m4_popdef([AT_TEST])
