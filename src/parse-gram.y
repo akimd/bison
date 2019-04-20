@@ -130,8 +130,8 @@
 {
   /* Bison's grammar can initial empty locations, hence a default
      location is needed. */
-  boundary_set (&@$.start, current_file, 1, 1);
-  boundary_set (&@$.end, current_file, 1, 1);
+  boundary_set (&@$.start, current_file, 1, 1, 1);
+  boundary_set (&@$.end, current_file, 1, 1, 1);
 }
 
 /* Define the tokens together with their human representation.  */

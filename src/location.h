@@ -49,15 +49,21 @@ typedef struct
   */
   int column;
 
+  /* If nonnegative, (origin-0) bytes number in the current line.
+     Never displayed, used when printing error messages with colors to
+     know where colors start and ends.  */
+  int byte;
+
 } boundary;
 
-/* Set the position of \a a. */
+/* Set the position of \a p. */
 static inline void
-boundary_set (boundary *b, const char *f, int l, int c)
+boundary_set (boundary *p, const char *f, int l, int c, int b)
 {
-  b->file = f;
-  b->line = l;
-  b->column = c;
+  p->file = f;
+  p->line = l;
+  p->column = c;
+  p->byte = b;
 }
 
 /* Return -1, 0, 1, depending whether a is before, equal, or
@@ -95,7 +101,7 @@ typedef struct
 
 # define GRAM_LTYPE location
 
-# define EMPTY_LOCATION_INIT {{NULL, 0, 0}, {NULL, 0, 0}}
+# define EMPTY_LOCATION_INIT {{NULL, 0, 0, 0}, {NULL, 0, 0, 0}}
 extern location const empty_location;
 
 /* Set *LOC and adjust scanner cursor to account for token TOKEN of

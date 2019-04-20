@@ -71,6 +71,7 @@ static size_t no_cr_read (FILE *, char *, size_t);
 #define ROLLBACK_CURRENT_TOKEN                                  \
   do {                                                          \
     scanner_cursor.column -= mbsnwidth (yytext, yyleng, 0);     \
+    scanner_cursor.byte -= yyleng;                              \
     yyless (0);                                                 \
   } while (0)
 
@@ -78,6 +79,7 @@ static size_t no_cr_read (FILE *, char *, size_t);
   do {                                                          \
     deprecated_directive (loc, yytext, Msg);                    \
     scanner_cursor.column -= mbsnwidth (Msg, strlen (Msg), 0);  \
+    scanner_cursor.byte -= strlen (Msg);                        \
     for (size_t i = strlen (Msg); i != 0; --i)                  \
       unput (Msg[i - 1]);                                       \
   } while (0)
@@ -944,7 +946,7 @@ handle_syncline (char *args, location loc)
       *strchr (file + 1, '"') = '\0';
       current_file = uniqstr_new (file + 1);
     }
-  boundary_set (&scanner_cursor, current_file, lineno, 1);
+  boundary_set (&scanner_cursor, current_file, lineno, 1, 1);
 }
 
 
@@ -965,6 +967,7 @@ unexpected_end (boundary start, char const *msgid, char const *token_end)
   /* Adjust scanner cursor so that any later message does not count
      the characters about to be inserted.  */
   scanner_cursor.column -= i;
+  scanner_cursor.byte -= i;
 
   while (i != 0)
     unput (token_end[--i]);

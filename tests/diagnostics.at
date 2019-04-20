@@ -28,11 +28,11 @@ AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([[input.y]], [$2])
 
 AT_DATA([experr], [$3])
-AT_BISON_CHECK([-fcaret --style=debug -Wother input.y], [], [], [experr])
+AT_BISON_CHECK([-fcaret --style=debug -Wall input.y], [], [], [experr])
 
 # When no style, same messages, except the style.
 AT_CHECK([perl -pi -e 's{</?\w+>}{}g' experr])
-AT_BISON_CHECK([-fcaret -Wother input.y], [], [], [experr])
+AT_BISON_CHECK([-fcaret -Wall input.y], [], [], [experr])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -48,7 +48,7 @@ AT_TEST([[Warnings]],
 [[%token FOO FOO FOO
 %token FOO  FOO  FOO
 %%
-exp:;
+exp: %empty;
 ]],
 [[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
  %token FOO <warning>FOO</warning> FOO
@@ -66,6 +66,45 @@ input.y:10.18-20: <warning>warning:</warning> symbol FOO redeclared [<warning>-W
  %token FOO  FOO  <warning>FOO</warning>
                   <warning>^~~</warning>
 ]])
+
+
+## ------------------------ ##
+## Single point locations.  ##
+## ------------------------ ##
+
+# Single point locations (equal boundaries) are troublesome: it's easy
+# to mess up the opening/closing of style.  They come from the parser,
+# rules with empty rhs.  Their position is therefore debatable
+# (between the previous token and the next one).
+
+AT_TEST([[Single point locations]],
+[[%%
+exp: a b c d e
+a: {}
+b:{
+};
+c:
+d
+:
+e:
+]],
+[[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ a: <warning>{}</warning>
+    <warning>^~</warning>
+input.y:12.3-13.1: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ b:<warning>{</warning>
+   <warning>^</warning>
+input.y:14.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ c<warning>:</warning>
+  <warning>^</warning>
+input.y:15.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ d
+  <warning>^</warning>
+input.y:17.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ e<warning>:</warning>
+  <warning>^</warning>
+]])
+
 
 
 m4_popdef([AT_TEST])
