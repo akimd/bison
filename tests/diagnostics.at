@@ -106,5 +106,30 @@ input.y:17.2: <warning>warning:</warning> empty rule without %empty [<warning>-W
 ]])
 
 
+## ------------- ##
+## Tabulations.  ##
+## ------------- ##
+
+# Make sure we treat tabulations as eight spaces.
+
+AT_TEST([[Tabulations]],
+[[%%
+exp: a b c
+a: {		}
+b: {            }
+c: {------------}
+]],
+[[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ a: <warning>{		}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:12.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ b: <warning>{            }</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:13.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ c: <warning>{------------}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+]])
+
+
 
 m4_popdef([AT_TEST])
