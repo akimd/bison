@@ -17,22 +17,31 @@
 
 AT_BANNER([[Diagnostics.]])
 
+
 # AT_TEST([TITLE], [GRAMMAR], [OUTPUT-WITH-STYLE])
+# ------------------------------------------------
 m4_pushdef([AT_TEST],
 [
 AT_SETUP([$1])
 AT_KEYWORDS([diagnostics])
+
+# We need UTF-8 support for correct screen-width computation of UTF-8
+# characters.  Skip the test if not available.
+AT_SKIP_IF([! locale -a | grep '^en_US.UTF-8$'])
 
 AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA_GRAMMAR([[input.y]], [$2])
 
 AT_DATA([experr], [$3])
-AT_BISON_CHECK([-fcaret --style=debug -Wall input.y], [], [], [experr])
+# Cannot use AT_BISON_CHECK easily as we need to change the
+# environment.
+# FIXME: Enhance AT_BISON_CHECK.
+AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --style=debug -Wall input.y], [], [], [experr])
 
-# When no style, same messages, except the style.
+# When no style, same messages, but without style.
 AT_CHECK([perl -pi -e 's{</?\w+>}{}g' experr])
-AT_BISON_CHECK([-fcaret -Wall input.y], [], [], [experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret -Wall input.y], [], [], [experr])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -106,18 +115,24 @@ input.y:17.2: <warning>warning:</warning> empty rule without %empty [<warning>-W
 ]])
 
 
-## ------------- ##
-## Tabulations.  ##
-## ------------- ##
+## -------------------------------------- ##
+## Tabulations and multibyte characters.  ##
+## -------------------------------------- ##
 
-# Make sure we treat tabulations as eight spaces.
+# Make sure we treat tabulations as eight spaces, and that multibyte
+# characters have correct width.
 
-AT_TEST([[Tabulations]],
+AT_TEST([[Tabulations and multibyte characters]],
 [[%%
-exp: a b c
+exp: a b c d e f g h
 a: {		}
 b: {            }
 c: {------------}
+d: {éééééééééééé}
+e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
+f: {	42	}
+g: {	"฿¥$€₦"	}
+h: {	🐃	}
 ]],
 [[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
  a: <warning>{		}</warning>
@@ -127,6 +142,21 @@ input.y:12.4-17: <warning>warning:</warning> empty rule without %empty [<warning
     <warning>^~~~~~~~~~~~~~</warning>
 input.y:13.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
  c: <warning>{------------}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:14.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ d: <warning>{éééééééééééé}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:15.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:16.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ f: <warning>{	42	}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ g: <warning>{	"฿¥$€₦"	}</warning>
+    <warning>^~~~~~~~~~~~~~</warning>
+input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+ h: <warning>{	🐃	}</warning>
     <warning>^~~~~~~~~~~~~~</warning>
 ]])
 

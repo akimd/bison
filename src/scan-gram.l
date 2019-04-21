@@ -135,10 +135,12 @@ static void unexpected_newline (boundary, char const *);
 %x SC_BRACKETED_ID SC_RETURN_BRACKETED_ID
 
 letter    [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-notletter [^.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]{-}[%\{]
 id        {letter}({letter}|[-0-9])*
 int       [0-9]+
 xint      0[xX][0-9abcdefABCDEF]+
+
+ /* UTF-8 Encoded Unicode Code Point, from Flex's documentation. */
+mbchar    [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]|[\xE1-\xEC\xEE\xEF]([\x80-\xBF]{2})|\xED[\x80-\x9F][\x80-\xBF]|\xF0[\x\90-\xBF]([\x80-\xBF]{2})|[\xF1-\xF3]([\x80-\xBF]{3})|\xF4[\x80-\x8F]([\x80-\xBF]{2})
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */
@@ -790,8 +792,16 @@ eqopt    ({sp}=)?
   | By default, grow the string obstack with the input.  |
   `-----------------------------------------------------*/
 
-<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>. |
-  <SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE>\n    STRING_GROW;
+<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
+{
+  /* Accept multibyte characters in one block instead of byte after
+     byte, so that add_column_width and mbsnwidth can compute correct
+     screen width.
+
+     Add a fallthrough "|." so that non UTF-8 input is still accepted
+     and does not jam the scanner.  */
+  {mbchar}|.   STRING_GROW;
+}
 
 %%
 
