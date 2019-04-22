@@ -161,5 +161,27 @@ input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning
 ]])
 
 
+## -------------- ##
+## Special files. ##
+## -------------- ##
+
+# Don't try to quote special files.
+# http://lists.gnu.org/archive/html/bug-bison/2019-04/msg00000.html
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90034
+
+AT_TEST([[Special files]],
+[[%%
+exp: a b
+a: {}
+#line 1 "/dev/stdout"
+b: {}
+]],
+[[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   11 | a: <warning>{}</warning>
+      |    <warning>^~</warning>
+/dev/stdout:1.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+]])
+
+
 
 m4_popdef([AT_TEST])
