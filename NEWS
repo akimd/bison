@@ -4,9 +4,31 @@ GNU Bison NEWS
 
 ** Changes
 
-  In conformance with the recommendations of the GraphViz team, if %require
+*** Graphviz output
+
+  In conformance with the recommendations of the Graphviz team, if %require
   "3.4" (or better) is specified, the option --graph generates a *.gv file
   by default, instead of *.dot.
+
+*** Diagnostics overhaul
+
+  Column numbers were wrong with multibyte characters, which would also
+  result in skewed diagnostics with carets.  Beside, because we were
+  indenting the quoted source with a single space, lines with tab characters
+  were incorrectly underlined.
+
+  To address these issues, and to be clearer, Bison now issues diagnostics
+  as GCC9 does.  For instance it used to display (there's a tab before the
+  opening brace):
+
+    foo.y:3.37-38: error: $2 of ‘expr’ has no declared type
+     expr: expr '+' "number"        { $$ = $1 + $2; }
+                                         ^~
+  It now reports
+
+    foo.y:3.37-38: error: $2 of ‘expr’ has no declared type
+        3 | expr: expr '+' "number" { $$ = $1 + $2; }
+          |                                     ^~
 
 ** New features
 
@@ -22,7 +44,7 @@ GNU Bison NEWS
 
   for instance
 
-    https://alpha.gnu.org/gnu/gettext/libtextstyle-0.7.tar.gz
+    https://alpha.gnu.org/gnu/gettext/libtextstyle-0.8.tar.gz
 
   The option --color supports the following arguments:
     - always, yes: Enable colors.

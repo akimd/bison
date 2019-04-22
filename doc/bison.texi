@@ -4291,13 +4291,13 @@ Bison}):
 $ @kbd{bison -Wmidrule-value mid.y}
 @group
 mid.y:2.6-13: warning: unset value: $$
- exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-      ^~~~~~~~
+    2 | exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
+      |      ^~~~~~~~
 @end group
 @group
 mid.y:2.19-31: warning: unused value: $3
- exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-                   ^~~~~~~~~~~~~
+    2 | exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
+      |                   ^~~~~~~~~~~~~
 @end group
 @end example
 
@@ -4803,7 +4803,7 @@ longer generated.
 @item @code{"3.4"} (or better)
 To comply with the
 @uref{https://marc.info/?l=graphviz-devel&m=129418103126092, recommendations
-of the GraphViz team}, use the @code{.gv} extension instead of @code{.dot}
+of the Graphviz team}, use the @code{.gv} extension instead of @code{.dot}
 for the name of the generated DOT file.  @xref{Graphviz}.
 @end table
 
@@ -9346,8 +9346,8 @@ useless: STR;
 calc.y: warning: 1 nonterminal useless in grammar [-Wother]
 calc.y: warning: 1 rule useless in grammar [-Wother]
 calc.y:19.1-7: warning: nonterminal useless in grammar: useless [-Wother]
- useless: STR;
- ^~~~~~~
+   19 | useless: STR;
+      | ^~~~~~~
 calc.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
 @end example
 
@@ -10301,14 +10301,14 @@ exp:;
 @group
 $ @kbd{bison -u foo.y}
 foo.y:1.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
- %error-verbose
- ^~~~~~~~~~~~~~
+    1 | %error-verbose
+      | ^~~~~~~~~~~~~~
 foo.y:2.1-27: error: %define variable 'parse.error' redefined
- %define parse.error verbose
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2 | %define parse.error verbose
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 foo.y:1.1-14:     previous definition
- %error-verbose
- ^~~~~~~~~~~~~~
+    1 | %error-verbose
+      | ^~~~~~~~~~~~~~
 bison: file 'foo.y' was updated (backup: 'foo.y~')
 @end group
 @group
@@ -10423,18 +10423,18 @@ Bison reports:
 @example
 @group
 warning: useless precedence and associativity for "="
- %nonassoc "="
-           ^~~
+      | %nonassoc "="
+      |           ^~~
 @end group
 @group
 warning: useless associativity for "*", use %precedence
- %left "*"
-       ^~~
+      | %left "*"
+      |       ^~~
 @end group
 @group
 warning: useless precedence for "("
- %precedence "("
-             ^~~
+      | %precedence "("
+      |             ^~~
 @end group
 @end example
 
@@ -10522,28 +10522,28 @@ When invoked with @option{-fcaret} (or nothing), Bison will report:
 @example
 @group
 in.y:3.20-23: error: ambiguous reference: '$exp'
- exp: exp '+' exp @{ $exp = $1 + $2; @};
-                    ^~~~
+    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
+      |                    ^~~~
 @end group
 @group
 in.y:3.1-3:       refers to: $exp at $$
- exp: exp '+' exp @{ $exp = $1 + $2; @};
- ^~~
+    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
+      | ^~~
 @end group
 @group
 in.y:3.6-8:       refers to: $exp at $1
- exp: exp '+' exp @{ $exp = $1 + $2; @};
-      ^~~
+    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
+      |      ^~~
 @end group
 @group
 in.y:3.14-16:     refers to: $exp at $3
- exp: exp '+' exp @{ $exp = $1 + $2; @};
-              ^~~
+    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
+      |              ^~~
 @end group
 @group
 in.y:3.32-33: error: $2 of 'exp' has no declared type
- exp: exp '+' exp @{ $exp = $1 + $2; @};
-                                ^~
+    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
+      |                                ^~
 @end group
 @end example
 
@@ -10580,11 +10580,11 @@ exp:;
 @group
 $ @kbd{bison -ffixit foo.y}
 foo.y:2.1-24: error: %define variable 'api.prefix' redefined
- %define api.prefix @{bar@}
- ^~~~~~~~~~~~~~~~~~~~~~~~
+    2 | %define api.prefix @{bar@}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
 foo.y:1.1-24:     previous definition
- %define api.prefix @{foo@}
- ^~~~~~~~~~~~~~~~~~~~~~~~
+    1 | %define api.prefix @{foo@}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~
 fix-it:"foo.y":@{2:1-2:25@}:""
 foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 @end group
@@ -10604,11 +10604,11 @@ exp:;
 @group
 $ @kbd{bison foo.y}
 foo.y:1.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
- %error-verbose
- ^~~~~~~~~~~~~~
+    1 | %error-verbose
+      | ^~~~~~~~~~~~~~
 foo.y:2.1-18: warning: deprecated directive, use '%define api.prefix @{foo@}' [-Wdeprecated]
- %name-prefix "foo"
- ^~~~~~~~~~~~~~~~~~
+    2 | %name-prefix "foo"
+      | ^~~~~~~~~~~~~~~~~~
 foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 @end group
 @end example
@@ -14411,7 +14411,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
 @c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead yyoutput
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
-@c LocalWords: ypp yxx itemx tex leaderfill Troubleshouting sqrt GraphViz
+@c LocalWords: ypp yxx itemx tex leaderfill Troubleshouting sqrt Graphviz
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
 @c LocalWords: nbar yytext fst snd osplit ntwo strdup AST Troublereporting th
 @c LocalWords: YYSTACK DVI fdl printindex IELR nondeterministic nonterminals ps
@@ -14425,7 +14425,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: YYENABLE bindtextdomain Makefile DEFS CPPFLAGS DBISON DeRemer
 @c LocalWords: autoreconf Pennello multisets nondeterminism Generalised baz ACM
 @c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
-@c LocalWords: Graphviz multitable headitem hh basename Doxygen fno filename
+@c LocalWords: multitable headitem hh basename Doxygen fno filename
 @c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
 @c LocalWords: Ctor defcv defcvx arg accessors arithmetics CPP ifndef CALCXX
 @c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
