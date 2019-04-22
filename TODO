@@ -1,4 +1,36 @@
 * Bison 3.4
+** use gettext-h in gnulib instead of gettext
+** use gnulib-po
+For some reason, according to syntax-check, we have to keep getopt.c in
+POTIFILES.in, but not bitset/stats.c, although both come from gnulib.  But
+bitset/stats.c is a symlink, not getopt.c.  This is fishy and should be
+fixed.
+
+Meanwhile, bitset/stats.c is removed from the set of translations, which is
+not too much of a problem as users are not expected to see this.
+
+** bad diagnostics
+%token <val> NUM
+%type  <val> expr term fact
+
+%%
+
+res:  expr { printf ("%d\n", $1); };
+expr: expr '+' term { $$ = $1 + $3; } | term;
+term: NUM | { $$ = 0; };
+
+The second warning about fact is... useless.
+
+$ bison /tmp/bar.y
+/tmp/bar.y:2.24-27: warning: symbol fact is used, but is not defined as a token and has no rules [-Wother]
+ %type  <val> expr term fact
+                        ^~~~
+/tmp/bar.y: warning: 1 nonterminal useless in grammar [-Wother]
+/tmp/bar.y:2.24-27: warning: nonterminal useless in grammar: fact [-Wother]
+ %type  <val> expr term fact
+                        ^~~~
+
+* Bison 3.5
 ** doc
 I feel its ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page
@@ -7,7 +39,6 @@ breaks.
 Also, we seem to teach YYPRINT very early on, although it should be
 considered deprecated: %printer is superior.
 
-** injection rules
 ** glr.cc
 move glr.c into the yy namespace
 ** improve syntax errors (UTF-8, internationalization)
@@ -53,6 +84,29 @@ syntax error, unexpected $end, expecting ↦ or 🎅🐃 or '\n'
 While at it, we should stop using "$end" by default, in favor of "end of
 file", or "end of input", whatever.
 
+* Bison 3.6
+** Unit rules
+Maybe we could expand unit rules (or "injections", see
+https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,
+transform
+
+        exp: arith | bool;
+        arith: exp '+' exp;
+        bool: exp '&' exp;
+
+into
+
+        exp: exp '+' exp | exp '&' exp;
+
+when there are no actions.  This can significantly speed up some grammars.
+I can't find the papers.  In particular the book 'LR parsing: Theory and
+Practice' is impossible to find, but according to 'Parsing Techniques: a
+Practical Guide', it includes information about this issue.  Does anybody
+have it?
+
+** Injection rules
+See above.
+
 ** clean up
 *** lalr.c
 Introduce a goto struct, and use it in place of from_state/to_state.
@@ -74,37 +128,6 @@ introduce lr(0) and lalr, just the way we have ielr categories.  The
 "set" can still be used for summariring the important sets.  That would make
 tests easy to maintain.
 
-** use gettext-h in gnulib instead of gettext
-** use gnulib-po
-For some reason, according to syntax-check, we have to keep getopt.c in
-POTIFILES.in, but not bitset/stats.c, although both come from gnulib.  But
-bitset/stats.c is a symlink, not getopt.c.  This is fishy and should be
-fixed.
-
-Meanwhile, bitset/stats.c is removed from the set of translations, which is
-not too much of a problem as users are not expected to see this.
-
-** bad diagnostics
-
-%token <val> NUM
-%type  <val> expr term fact
-
-%%
-
-res:  expr { printf ("%d\n", $1); };
-expr: expr '+' term { $$ = $1 + $3; } | term;
-term: NUM | { $$ = 0; };
-
-The second warning about fact is... useless.
-
-$ bison /tmp/bar.y
-/tmp/bar.y:2.24-27: warning: symbol fact is used, but is not defined as a token and has no rules [-Wother]
- %type  <val> expr term fact
-                        ^~~~
-/tmp/bar.y: warning: 1 nonterminal useless in grammar [-Wother]
-/tmp/bar.y:2.24-27: warning: nonterminal useless in grammar: fact [-Wother]
- %type  <val> expr term fact
-                        ^~~~
 
 
 * Completion
@@ -127,10 +150,6 @@ $ ./tests/testsuite -l | grep errors | sed q
 * Short term
 ** consistency
 token vs terminal
-
-** yacc.c
-Now that ylwrap is fixed, we should include foo.tab.h from foo.tab.c rather
-than duplicating it.
 
 ** C++
 Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
@@ -311,7 +330,7 @@ grammars she is working on.  We should probably also include some
 information about the variables (I'm not sure for instance we even
 specify what LR variant was used).
 
-**  GLR
+** GLR
 How would Paul like to display the conflicted actions?  In particular,
 what when two reductions are possible on a given lookahead token, but one is
 part of $default.  Should we make the two reductions explicit, or just
@@ -402,33 +421,6 @@ XML output for GNU Bison
 ** Counterexample generation
 https://lists.gnu.org/archive/html/bug-bison/2016-06/msg00000.html
 http://www.cs.cornell.edu/andru/papers/cupex/
-
-* Unit rules
-Maybe we could expand unit rules (or "injections", see
-https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,
-transform
-
-        exp: arith | bool;
-        arith: exp '+' exp;
-        bool: exp '&' exp;
-
-into
-
-        exp: exp '+' exp | exp '&' exp;
-
-when there are no actions.  This can significantly speed up some grammars.
-I can't find the papers.  In particular the book 'LR parsing: Theory and
-Practice' is impossible to find, but according to 'Parsing Techniques: a
-Practical Guide', it includes information about this issue.  Does anybody
-have it?
-
-
-
-* Documentation
-
-** History/Bibliography
-Some history of Bison and some bibliography would be most welcome.
-Are there any Texinfo standards for bibliography?
 
 * Coding system independence
 Paul notes:
