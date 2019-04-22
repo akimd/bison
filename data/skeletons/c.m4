@@ -730,7 +730,10 @@ typedef ]b4_percent_define_get([[api.value.type]])[ ]b4_api_PREFIX[STYPE;
 # -----------------------
 m4_define([b4_location_type_define],
 [[/* Location type.  */
-#if ! defined ]b4_api_PREFIX[LTYPE && ! defined ]b4_api_PREFIX[LTYPE_IS_DECLARED
+]b4_percent_define_ifdef([[api.location.type]],
+[[typedef ]b4_percent_define_get([[api.location.type]])[ ]b4_api_PREFIX[LTYPE;
+]],
+[[#if ! defined ]b4_api_PREFIX[LTYPE && ! defined ]b4_api_PREFIX[LTYPE_IS_DECLARED
 typedef struct ]b4_api_PREFIX[LTYPE ]b4_api_PREFIX[LTYPE;
 struct ]b4_api_PREFIX[LTYPE
 {
@@ -742,7 +745,7 @@ struct ]b4_api_PREFIX[LTYPE
 # define ]b4_api_PREFIX[LTYPE_IS_DECLARED 1
 # define ]b4_api_PREFIX[LTYPE_IS_TRIVIAL 1
 #endif
-]])
+]])])
 
 
 # b4_declare_yylstype

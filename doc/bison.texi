@@ -5975,7 +5975,7 @@ Introduced in Bison 3.2.
 @deffn {Directive} {%define api.location.type} @{@var{type}@}
 
 @itemize @bullet
-@item Language(s): C++, Java
+@item Language(s): C, C++, Java
 
 @item Purpose: Define the location type.
 @xref{User Defined Location Type}.
@@ -5985,8 +5985,7 @@ Introduced in Bison 3.2.
 @item Default Value: none
 
 @item History:
-Introduced in Bison 2.7 for C, C++ and Java.  Introduced under the name
-@code{location_type} for C++ in Bison 2.5 and for Java in Bison 2.4.
+Introduced in Bison 2.7 for C++ and Java, in Bison 3.4 for C.
 @end itemize
 @end deffn
 

@@ -157,6 +157,8 @@ m4_pushdef([AT_LANG],
             [AT_CXX_IF([c++],
                        [AT_D_IF([d],
                                 [c])])])])
+m4_pushdef([AT_C_IF],
+[m4_if(AT_LANG, [c], [$1], [$2])])
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
@@ -288,13 +290,12 @@ AT_TOKEN_CTOR_IF(
  m4_pushdef([AT_YYLEX_PRE_ARGS],    [])
 ])])
 
-# Handle the different types of location components.
 
-AT_CXX_IF(
-  [AT_LOCATION_TYPE_SPAN_IF(
+# Handle the different types of location components.
+AT_LOCATION_TYPE_SPAN_IF(
     [AT_LOC_PUSHDEF([first.l], [first.c], [last.l], [last.c])],
-    [AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])])],
-  [AT_LOC_PUSHDEF([first_line], [first_column], [last_line], [last_column])])
+    [AT_CXX_IF([AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])],
+               [AT_LOC_PUSHDEF([first_line], [first_column], [last_line], [last_column])])])
 
 
 AT_GLR_IF([AT_KEYWORDS([glr])])
@@ -334,6 +335,7 @@ m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
 m4_popdef([AT_GLR_IF])
 m4_popdef([AT_CXX_IF])
+m4_popdef([AT_C_IF])
 m4_popdef([AT_LANG])
 m4_popdef([AT_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
@@ -348,6 +350,12 @@ AT_LOC_POPDEF])dnl
 ## -------------------------- ##
 ## Generating Grammar Files.  ##
 ## -------------------------- ##
+
+# AT_LANG_CASE(LANG1, IF-LANG1, LANG2, IF-LANG2, ..., DEFAULT)
+# ------------------------------------------------------------
+m4_define([AT_LANG_CASE],
+[m4_case(AT_LANG, $@)])
+
 
 # _AT_LANG_DISPATCH(LANG, MACRO, ARGS)
 # ------------------------------------
@@ -990,7 +998,7 @@ AT_CHECK([[$SHELL ../../../javacomp.sh ]$1],
 
 
 # AT_LANG_FOR_EACH_STD(BODY)
-# -------------------------------
+# --------------------------
 m4_define([AT_LANG_FOR_EACH_STD],  [AT_LANG_DISPATCH([$0], $@)])
 
 

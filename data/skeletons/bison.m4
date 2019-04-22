@@ -1078,10 +1078,10 @@ m4_define_default([b4_location_initial_line],   [1])
 ## Sanity checks.  ##
 ## --------------- ##
 
-# api.location.prefix={...} (Java and C++).
+# api.location.type={...} (C, C++ and Java).
 b4_percent_define_check_kind([api.location.type], [code], [deprecated])
 
-# api.position.prefix={...} (Java).
+# api.position.type={...} (Java).
 b4_percent_define_check_kind([api.position.type], [code], [deprecated])
 
 # api.prefix >< %name-prefix.

@@ -289,18 +289,17 @@ AT_DATA_GRAMMAR([calc.y],
 %code requires
 {
 ]AT_LOCATION_TYPE_SPAN_IF([[
-# include <iostream>
-  struct Point
+  typedef struct
   {
     int l;
     int c;
-  };
+  } Point;
 
-  struct Span
+  typedef struct
   {
     Point first;
     Point last;
-  };
+  } Span;
 
 # define YYLLOC_DEFAULT(Current, Rhs, N)                                \
   do                                                                    \
@@ -313,7 +312,13 @@ AT_DATA_GRAMMAR([calc.y],
       {                                                                 \
         (Current).first = (Current).last = YYRHSLOC (Rhs, 0).last;      \
       }                                                                 \
-  while (false)
+  while (0)
+
+]AT_C_IF(
+[[#include <stdio.h>
+void location_print (FILE *o, Span s);
+#define LOCATION_PRINT location_print
+]])[
 
 ]])[
   /* Exercise pre-prologue dependency to %union.  */
@@ -416,7 +421,8 @@ power (int base, int exponent)
   return res;
 }
 
-]AT_LOCATION_TYPE_SPAN_IF([[
+]AT_LOCATION_TYPE_SPAN_IF([AT_CXX_IF([[
+#include <iostream>
 namespace
 {
   std::ostream&
@@ -430,7 +436,17 @@ namespace
     return o;
   }
 }
-]])[
+]], [[
+void
+location_print (FILE *o, Span s)
+{
+  fprintf (o, "%d.%d", s.first.l, s.first.c);
+  if (s.first.l != s.last.l)
+    fprintf (o, "-%d.%d", s.last.l, s.last.c - 1);
+  else if (s.first.c != s.last.c - 1)
+    fprintf (o, "-%d", s.last.c - 1);
+}
+]])])[
 ]AT_YYERROR_DEFINE[
 ]AT_DEFINES_IF([],
 [AT_CALC_LEX
@@ -684,6 +700,7 @@ AT_CHECK_CALC_LALR()
 
 AT_CHECK_CALC_LALR([%defines])
 AT_CHECK_CALC_LALR([%locations])
+AT_CHECK_CALC_LALR([%locations %define api.location.type {Span}])
 
 AT_CHECK_CALC_LALR([%name-prefix "calc"])
 AT_CHECK_CALC_LALR([%verbose])
@@ -726,6 +743,7 @@ AT_CHECK_CALC_GLR()
 
 AT_CHECK_CALC_GLR([%defines])
 AT_CHECK_CALC_GLR([%locations])
+AT_CHECK_CALC_GLR([%locations %define api.location.type {Span}])
 AT_CHECK_CALC_GLR([%name-prefix "calc"])
 AT_CHECK_CALC_GLR([%define api.prefix {calc}])
 AT_CHECK_CALC_GLR([%verbose])

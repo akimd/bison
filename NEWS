@@ -86,6 +86,15 @@ GNU Bison NEWS
 
     %define api.header.include {<parser/parse.h>}
 
+*** api.location.type is now supported in C (yacc.c, glr.c)
+
+  The %define variable api.location.type defines the name of the type to use
+  for locations.  When defined, Bison no longer defines YYLTYPE.
+
+  This can be used in programs with several parsers to factor their
+  definition of locations: let one of them generate them, and the others
+  just use them.
+
 ** Documentation
 
   A new example in C shows an simple infix calculator with a hand-written
