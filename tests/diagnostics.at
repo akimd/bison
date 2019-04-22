@@ -60,20 +60,20 @@ AT_TEST([[Warnings]],
 exp: %empty;
 ]],
 [[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
- %token FOO <warning>FOO</warning> FOO
-            <warning>^~~</warning>
+    9 | %token FOO <warning>FOO</warning> FOO
+      |            <warning>^~~</warning>
 input.y:9.16-18: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
- %token FOO FOO <warning>FOO</warning>
-                <warning>^~~</warning>
+    9 | %token FOO FOO <warning>FOO</warning>
+      |                <warning>^~~</warning>
 input.y:10.8-10: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
- %token <warning>FOO</warning>  FOO  FOO
-        <warning>^~~</warning>
+   10 | %token <warning>FOO</warning>  FOO  FOO
+      |        <warning>^~~</warning>
 input.y:10.13-15: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
- %token FOO  <warning>FOO</warning>  FOO
-             <warning>^~~</warning>
+   10 | %token FOO  <warning>FOO</warning>  FOO
+      |             <warning>^~~</warning>
 input.y:10.18-20: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
- %token FOO  FOO  <warning>FOO</warning>
-                  <warning>^~~</warning>
+   10 | %token FOO  FOO  <warning>FOO</warning>
+      |                  <warning>^~~</warning>
 ]])
 
 
@@ -98,20 +98,20 @@ d
 e:
 ]],
 [[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- a: <warning>{}</warning>
-    <warning>^~</warning>
+   11 | a: <warning>{}</warning>
+      |    <warning>^~</warning>
 input.y:12.3-13.1: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- b:<warning>{</warning>
-   <warning>^</warning>
+   12 | b:<warning>{</warning>
+      |   <warning>^</warning>
 input.y:14.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- c<warning>:</warning>
-  <warning>^</warning>
+   14 | c<warning>:</warning>
+      |  <warning>^</warning>
 input.y:15.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- d
-  <warning>^</warning>
+   15 | d
+      |  <warning>^</warning>
 input.y:17.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- e<warning>:</warning>
-  <warning>^</warning>
+   17 | e<warning>:</warning>
+      |  <warning>^</warning>
 ]])
 
 
@@ -135,29 +135,29 @@ g: {	"฿¥$€₦"	}
 h: {	🐃	}
 ]],
 [[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- a: <warning>{		}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   11 | a: <warning>{		}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:12.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- b: <warning>{            }</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   12 | b: <warning>{            }</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:13.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- c: <warning>{------------}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   13 | c: <warning>{------------}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:14.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- d: <warning>{éééééééééééé}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   14 | d: <warning>{éééééééééééé}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:15.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   15 | e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:16.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- f: <warning>{	42	}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   16 | f: <warning>{	42	}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- g: <warning>{	"฿¥$€₦"	}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   17 | g: <warning>{	"฿¥$€₦"	}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
- h: <warning>{	🐃	}</warning>
-    <warning>^~~~~~~~~~~~~~</warning>
+   18 | h: <warning>{	🐃	}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
 ]])
 
 

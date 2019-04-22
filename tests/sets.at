@@ -327,20 +327,20 @@ term: 'n'
 AT_BISON_CHECK([[-fcaret input.y]], [], [],
 [[input.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
 input.y:2.14-17: warning: rule useless in parser due to conflicts [-Wother]
- expr: term | term | term | term | term | term
-              ^~~~
+    2 | expr: term | term | term | term | term | term
+      |              ^~~~
 input.y:2.21-24: warning: rule useless in parser due to conflicts [-Wother]
- expr: term | term | term | term | term | term
-                     ^~~~
+    2 | expr: term | term | term | term | term | term
+      |                     ^~~~
 input.y:2.28-31: warning: rule useless in parser due to conflicts [-Wother]
- expr: term | term | term | term | term | term
-                            ^~~~
+    2 | expr: term | term | term | term | term | term
+      |                            ^~~~
 input.y:2.35-38: warning: rule useless in parser due to conflicts [-Wother]
- expr: term | term | term | term | term | term
-                                   ^~~~
+    2 | expr: term | term | term | term | term | term
+      |                                   ^~~~
 input.y:2.42-45: warning: rule useless in parser due to conflicts [-Wother]
- expr: term | term | term | term | term | term
-                                          ^~~~
+    2 | expr: term | term | term | term | term | term
+      |                                          ^~~~
 ]])
 
 AT_CLEANUP

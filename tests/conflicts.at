@@ -247,17 +247,17 @@ f: B
 
 AT_BISON_CHECK([-Wprecedence -fcaret -o input.c input.y], 0, [],
 [[input.y:7.1-9: warning: useless precedence and associativity for U [-Wprecedence]
- %nonassoc U
- ^~~~~~~~~
+    7 | %nonassoc U
+      | ^~~~~~~~~
 input.y:6.1-6: warning: useless precedence and associativity for V [-Wprecedence]
- %right V
- ^~~~~~
+    6 | %right V
+      | ^~~~~~
 input.y:5.1-5: warning: useless precedence and associativity for W [-Wprecedence]
- %left W
- ^~~~~
+    5 | %left W
+      | ^~~~~
 input.y:2.1-11: warning: useless precedence for Z [-Wprecedence]
- %precedence Z
- ^~~~~~~~~~~
+    2 | %precedence Z
+      | ^~~~~~~~~~~
 ]])
 
 AT_CLEANUP
@@ -287,8 +287,8 @@ AT_BISON_CHECK([-o input.c input.y], 0, [],
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 0, [],
 [[input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
- e: 'e' | /* Nothing. */;
-         ^
+    4 | e: 'e' | /* Nothing. */;
+      |         ^
 ]])
 
 AT_CLEANUP
@@ -1344,8 +1344,8 @@ b: %expect-rr 4
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
 [[input.y:12.4-15: error: reduce/reduce conflicts for rule 8: 3 found, 4 expected
- b: %expect-rr 4
-    ^~~~~~~~~~~~
+   12 | b: %expect-rr 4
+      |    ^~~~~~~~~~~~
 ]])
 AT_CLEANUP
 
@@ -1373,8 +1373,8 @@ b: %expect-rr 2
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
 [[input.y:12.4-15: error: reduce/reduce conflicts for rule 8: 3 found, 2 expected
- b: %expect-rr 2
-    ^~~~~~~~~~~~
+   12 | b: %expect-rr 2
+      |    ^~~~~~~~~~~~
 ]])
 AT_CLEANUP
 

@@ -145,17 +145,17 @@ exp: "number";
 
 AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
 [[input.y:1.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
- %nterm exp
- ^~~~~~
+    1 | %nterm exp
+      | ^~~~~~
 input.y:2.12-15: warning: POSIX Yacc does not support hexadecimal literals [-Wyacc]
- %token NUM 0x40 "number"
-            ^~~~
+    2 | %token NUM 0x40 "number"
+      |            ^~~~
 input.y:2.17-24: warning: POSIX Yacc does not support string literals [-Wyacc]
- %token NUM 0x40 "number"
-                 ^~~~~~~~
+    2 | %token NUM 0x40 "number"
+      |                 ^~~~~~~~
 input.y:4.6-13: warning: POSIX Yacc does not support string literals [-Wyacc]
- exp: "number";
-      ^~~~~~~~
+    4 | exp: "number";
+      |      ^~~~~~~~
 ]])
 
 AT_CLEANUP
@@ -179,17 +179,17 @@ b: %empty            { $$ = 42; };
 
 AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
 [[input.y:1.1-11: warning: POSIX Yacc does not support %destructor [-Wyacc]
- %destructor {} <int>
- ^~~~~~~~~~~
+    1 | %destructor {} <int>
+      | ^~~~~~~~~~~
 input.y:2.1-8: warning: POSIX Yacc does not support %printer [-Wyacc]
- %printer {} <int>
- ^~~~~~~~
+    2 | %printer {} <int>
+      | ^~~~~~~~
 input.y:6.9-20: warning: POSIX Yacc does not support typed midrule actions [-Wyacc]
- a: <int>{ $$ = 42; } { $$ = $1; };
-         ^~~~~~~~~~~~
+    6 | a: <int>{ $$ = 42; } { $$ = $1; };
+      |         ^~~~~~~~~~~~
 input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
- b: %empty            { $$ = 42; };
-    ^~~~~~
+    7 | b: %empty            { $$ = 42; };
+      |    ^~~~~~
 ]])
 
 AT_CLEANUP
@@ -218,32 +218,32 @@ fact: "number";
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-24: error: nonterminals cannot be given a string alias
- %nterm expr "expression";
-             ^~~~~~~~~~~~
+    1 | %nterm expr "expression";
+      |             ^~~~~~~~~~~~
 input.y:2.13-15: error: nonterminals cannot be given an explicit number
- %nterm term 123;
-             ^~~
+    2 | %nterm term 123;
+      |             ^~~
 input.y:3.13-15: error: nonterminals cannot be given an explicit number
- %nterm fact 124 "factor";
-             ^~~
+    3 | %nterm fact 124 "factor";
+      |             ^~~
 input.y:3.17-24: error: nonterminals cannot be given a string alias
- %nterm fact 124 "factor";
-                 ^~~~~~~~
+    3 | %nterm fact 124 "factor";
+      |                 ^~~~~~~~
 input.y:4.8-10: error: character literals cannot be nonterminals
- %nterm '+' '*';
-        ^~~
+    4 | %nterm '+' '*';
+      |        ^~~
 input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
- %nterm "number";
-        ^~~~~~~~
+    5 | %nterm "number";
+      |        ^~~~~~~~
 input.y:6.8-13: error: syntax error, unexpected string, expecting char or identifier or <tag>
- %token "tok1" 1;
-        ^~~~~~
+    6 | %token "tok1" 1;
+      |        ^~~~~~
 input.y:7.14: error: syntax error, unexpected integer
- %left "tok2" 2;
-              ^
+    7 | %left "tok2" 2;
+      |              ^
 input.y:8.14: error: syntax error, unexpected integer
- %type "tok3" 3;
-              ^
+    8 | %type "tok3" 3;
+      |              ^
 ]])
 
 AT_CLEANUP
@@ -363,11 +363,11 @@ exp: %empty { @$ = @1 ; };
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.20-21: error: integer out of range: '$1'
- exp: %empty { $$ = $1 ; };
-                    ^~
+    2 | exp: %empty { $$ = $1 ; };
+      |                    ^~
 input.y:3.20-21: error: integer out of range: '@1'
- exp: %empty { @$ = @1 ; };
-                    ^~
+    3 | exp: %empty { @$ = @1 ; };
+      |                    ^~
 ]])
 
 AT_CLEANUP
@@ -392,20 +392,20 @@ exp: foo { $$; } foo { $2; } foo
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:5.12-13: error: $$ for the midrule at $2 of 'exp' has no declared type
- exp: foo { $$; } foo { $2; } foo
-            ^~
+    5 | exp: foo { $$; } foo { $2; } foo
+      |            ^~
 input.y:5.24-25: error: $2 of 'exp' has no declared type
- exp: foo { $$; } foo { $2; } foo
-                        ^~
+    5 | exp: foo { $$; } foo { $2; } foo
+      |                        ^~
 input.y:5.6-32: warning: type clash on default action: <bar> != <> [-Wother]
- exp: foo { $$; } foo { $2; } foo
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5 | exp: foo { $$; } foo { $2; } foo
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:6.6-8: warning: type clash on default action: <bar> != <> [-Wother]
-    | foo
-      ^~~
+    6 |    | foo
+      |      ^~~
 input.y:7.6-11: warning: empty rule for typed nonterminal, and no action [-Wother]
-    | %empty
-      ^~~~~~
+    7 |    | %empty
+      |      ^~~~~~
 ]])
 
 AT_CLEANUP
@@ -463,134 +463,134 @@ _AT_UNUSED_VALUES_DECLARATIONS])
 AT_BISON_CHECK(m4_ifval([$2], [--warnings=midrule-values ])[-fcaret input.y],
                [0], [],
 [[input.y:12.10-32: warning: unset value: $][$ [-Wother]
- a: INT | INT { } INT { } INT { };
-          ^~~~~~~~~~~~~~~~~~~~~~~
+   12 | a: INT | INT { } INT { } INT { };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~
 input.y:12.10-12: warning: unused value: $][1 [-Wother]
- a: INT | INT { } INT { } INT { };
-          ^~~
+   12 | a: INT | INT { } INT { } INT { };
+      |          ^~~
 input.y:12.18-20: warning: unused value: $][3 [-Wother]
- a: INT | INT { } INT { } INT { };
-                  ^~~
+   12 | a: INT | INT { } INT { } INT { };
+      |                  ^~~
 input.y:12.26-28: warning: unused value: $][5 [-Wother]
- a: INT | INT { } INT { } INT { };
-                          ^~~
+   12 | a: INT | INT { } INT { } INT { };
+      |                          ^~~
 input.y:13.10-15: warning: empty rule for typed nonterminal, and no action [-Wother]
- b: INT | %empty;
-          ^~~~~~
+   13 | b: INT | %empty;
+      |          ^~~~~~
 ]]m4_ifval([$2], [[[input.y:14.14-20: warning: unset value: $][$ [-Wmidrule-values]
- c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-              ^~~~~~~
+   14 | c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+      |              ^~~~~~~
 input.y:14.26-41: warning: unset value: $][$ [-Wmidrule-values]
- c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-                          ^~~~~~~~~~~~~~~~
+   14 | c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+      |                          ^~~~~~~~~~~~~~~~
 ]]])[[input.y:14.10-62: warning: unset value: $][$ [-Wother]
- c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   14 | c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:14.22-24: warning: unused value: $][3 [-Wother]
- c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-                      ^~~
+   14 | c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+      |                      ^~~
 input.y:14.43-45: warning: unused value: $][5 [-Wother]
- c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
-                                           ^~~
+   14 | c: INT | INT { $][1; } INT { $<integer>2; } INT { $<integer>4; };
+      |                                           ^~~
 ]]m4_ifval([$2], [[[input.y:15.14-16: warning: unset value: $][$ [-Wmidrule-values]
- d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-              ^~~
+   15 | d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+      |              ^~~
 ]]])[[input.y:15.10-49: warning: unset value: $][$ [-Wother]
- d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   15 | d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:15.18-20: warning: unused value: $][3 [-Wother]
- d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-                  ^~~
+   15 | d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+      |                  ^~~
 input.y:15.30-32: warning: unused value: $][5 [-Wother]
- d: INT | INT { } INT { $][1; } INT { $<integer>2; };
-                              ^~~
+   15 | d: INT | INT { } INT { $][1; } INT { $<integer>2; };
+      |                              ^~~
 input.y:16.10-37: warning: unset value: $][$ [-Wother]
- e: INT | INT { } INT {  } INT { $][1; };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   16 | e: INT | INT { } INT {  } INT { $][1; };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:16.18-20: warning: unused value: $][3 [-Wother]
- e: INT | INT { } INT {  } INT { $][1; };
-                  ^~~
+   16 | e: INT | INT { } INT {  } INT { $][1; };
+      |                  ^~~
 input.y:16.27-29: warning: unused value: $][5 [-Wother]
- e: INT | INT { } INT {  } INT { $][1; };
-                           ^~~
+   16 | e: INT | INT { } INT {  } INT { $][1; };
+      |                           ^~~
 input.y:18.10-58: warning: unset value: $][$ [-Wother]
- g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   18 | g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:18.10-12: warning: unused value: $][1 [-Wother]
- g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-          ^~~
+   18 | g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+      |          ^~~
 ]]m4_ifval([$2], [[[input.y:18.14-29: warning: unused value: $][2 [-Wmidrule-values]
- g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-              ^~~~~~~~~~~~~~~~
+   18 | g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+      |              ^~~~~~~~~~~~~~~~
 ]]])[[input.y:18.31-33: warning: unused value: $][3 [-Wother]
- g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-                               ^~~
+   18 | g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+      |                               ^~~
 ]]m4_ifval([$2], [[[input.y:18.35-50: warning: unused value: $][4 [-Wmidrule-values]
- g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-                                   ^~~~~~~~~~~~~~~~
+   18 | g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+      |                                   ^~~~~~~~~~~~~~~~
 ]]])[[input.y:18.52-54: warning: unused value: $][5 [-Wother]
- g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
-                                                    ^~~
+   18 | g: INT | INT { $<integer>$; } INT { $<integer>$; } INT { };
+      |                                                    ^~~
 input.y:19.10-72: warning: unset value: $][$ [-Wother]
- h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   19 | h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:19.10-12: warning: unused value: $][1 [-Wother]
- h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-          ^~~
+   19 | h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+      |          ^~~
 input.y:19.31-33: warning: unused value: $][3 [-Wother]
- h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-                               ^~~
+   19 | h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+      |                               ^~~
 ]]m4_ifval([$2], [[[input.y:19.35-64: warning: unused value: $][4 [-Wmidrule-values]
- h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   19 | h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]]])[[input.y:19.66-68: warning: unused value: $][5 [-Wother]
- h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
-                                                                  ^~~
+   19 | h: INT | INT { $<integer>$; } INT { $<integer>$ = $<integer>2; } INT { };
+      |                                                                  ^~~
 ]]m4_ifval([$2], [[[input.y:21.18-37: warning: unused value: $][3 [-Wmidrule-values]
- j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
-                  ^~~~~~~~~~~~~~~~~~~~
+   21 | j: INT | INT INT { $<integer>$ = 1; } { $][$ = $][1 + $][2; };
+      |                  ^~~~~~~~~~~~~~~~~~~~
 ]]])[[input.y:22.10-68: warning: unset value: $][$ [-Wother]
- k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   22 | k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:22.10-12: warning: unused value: $][1 [-Wother]
- k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-          ^~~
+   22 | k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+      |          ^~~
 input.y:22.14-16: warning: unused value: $][2 [-Wother]
- k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-              ^~~
+   22 | k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+      |              ^~~
 ]]m4_ifval([$2], [[[input.y:22.35-64: warning: unused value: $][4 [-Wmidrule-values]
- k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   22 | k: INT | INT INT { $<integer>$; } { $<integer>$ = $<integer>3; } { };
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]]])[[input.y:25.23-25: warning: unset value: $][$ [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                       ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |                       ^~~
 input.y:25.40-42: warning: unset value: $][$ [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                        ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |                                        ^~~
 input.y:25.10-50: warning: unset value: $][$ [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:25.10-12: warning: unused value: $][1 [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-          ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |          ^~~
 input.y:25.23-25: warning: unused value: $][2 [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                       ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |                       ^~~
 input.y:25.27-29: warning: unused value: $][3 [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                           ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |                           ^~~
 input.y:25.40-42: warning: unused value: $][4 [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                        ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |                                        ^~~
 input.y:25.44-46: warning: unused value: $][5 [-Wother]
- n: INT | INT <integer>{ } INT <integer>{ } INT { };
-                                            ^~~
+   25 | n: INT | INT <integer>{ } INT <integer>{ } INT { };
+      |                                            ^~~
 input.y:26.23-25: warning: unset value: $][$ [-Wother]
- o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                       ^~~
+   26 | o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+      |                       ^~~
 input.y:26.40-42: warning: unset value: $][$ [-Wother]
- o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
-                                        ^~~
+   26 | o: INT | INT <integer>{ } INT <integer>{ } INT { $][$ = $][1 + $][2 + $][3 + $][4 + $][5; };
+      |                                        ^~~
 ]])
 
 ])
@@ -633,23 +633,23 @@ BAR:
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
- %nterm FOO BAR
-        ^~~
+    2 | %nterm FOO BAR
+      |        ^~~
 input.y:1.8-10:     previous definition
- %token FOO
-        ^~~
+    1 | %token FOO
+      |        ^~~
 input.y:3.8-10: error: symbol BAR redeclared as a token
- %token BAR
-        ^~~
+    3 | %token BAR
+      |        ^~~
 input.y:2.12-14:    previous definition
- %nterm FOO BAR
-            ^~~
+    2 | %nterm FOO BAR
+      |            ^~~
 input.y:4.8-12: error: symbol error redeclared as a nonterminal
- %nterm error // The token error cannot be redefined as an nterm.
-        ^~~~~
+    4 | %nterm error // The token error cannot be redefined as an nterm.
+      |        ^~~~~
 input.y:6.1-3: error: rule given for FOO, which is a token
- FOO: BAR
- ^~~
+    6 | FOO: BAR
+      | ^~~
 ]])
 
 AT_CLEANUP
@@ -681,41 +681,41 @@ start: %empty;
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-29: error: %destructor redeclaration for <>
- %destructor { destroy ($$); } <> <>
-             ^~~~~~~~~~~~~~~~~
+    1 | %destructor { destroy ($$); } <> <>
+      |             ^~~~~~~~~~~~~~~~~
 input.y:1.13-29:     previous declaration
- %destructor { destroy ($$); } <> <>
-             ^~~~~~~~~~~~~~~~~
+    1 | %destructor { destroy ($$); } <> <>
+      |             ^~~~~~~~~~~~~~~~~
 input.y:2.10-24: error: %printer redeclaration for <>
- %printer { print ($$); } <> <>
-          ^~~~~~~~~~~~~~~
+    2 | %printer { print ($$); } <> <>
+      |          ^~~~~~~~~~~~~~~
 input.y:2.10-24:     previous declaration
- %printer { print ($$); } <> <>
-          ^~~~~~~~~~~~~~~
+    2 | %printer { print ($$); } <> <>
+      |          ^~~~~~~~~~~~~~~
 input.y:4.13-29: error: %destructor redeclaration for <>
- %destructor { destroy ($$); } <>
-             ^~~~~~~~~~~~~~~~~
+    4 | %destructor { destroy ($$); } <>
+      |             ^~~~~~~~~~~~~~~~~
 input.y:1.13-29:     previous declaration
- %destructor { destroy ($$); } <> <>
-             ^~~~~~~~~~~~~~~~~
+    1 | %destructor { destroy ($$); } <> <>
+      |             ^~~~~~~~~~~~~~~~~
 input.y:5.10-24: error: %printer redeclaration for <>
- %printer { print ($$); } <>
-          ^~~~~~~~~~~~~~~
+    5 | %printer { print ($$); } <>
+      |          ^~~~~~~~~~~~~~~
 input.y:2.10-24:     previous declaration
- %printer { print ($$); } <> <>
-          ^~~~~~~~~~~~~~~
+    2 | %printer { print ($$); } <> <>
+      |          ^~~~~~~~~~~~~~~
 input.y:11.13-29: error: %destructor redeclaration for <>
- %destructor { destroy ($$); } <>;
-             ^~~~~~~~~~~~~~~~~
+   11 | %destructor { destroy ($$); } <>;
+      |             ^~~~~~~~~~~~~~~~~
 input.y:1.13-29:      previous declaration
- %destructor { destroy ($$); } <> <>
-             ^~~~~~~~~~~~~~~~~
+    1 | %destructor { destroy ($$); } <> <>
+      |             ^~~~~~~~~~~~~~~~~
 input.y:12.10-24: error: %printer redeclaration for <>
- %printer { print ($$); } <>;
-          ^~~~~~~~~~~~~~~
+   12 | %printer { print ($$); } <>;
+      |          ^~~~~~~~~~~~~~~
 input.y:2.10-24:      previous declaration
- %printer { print ($$); } <> <>
-          ^~~~~~~~~~~~~~~
+    2 | %printer { print ($$); } <> <>
+      |          ^~~~~~~~~~~~~~~
 ]])
 ])
 
@@ -785,17 +785,17 @@ exp: bar;
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.16-18: error: symbol bar is used, but is not defined as a token and has no rules
- %destructor {} bar
-                ^~~
+    2 | %destructor {} bar
+      |                ^~~
 input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules [-Wother]
- %printer {} foo baz
-                 ^~~
+    1 | %printer {} foo baz
+      |                 ^~~
 input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules [-Wother]
- %printer {} foo baz
-             ^~~
+    1 | %printer {} foo baz
+      |             ^~~
 input.y:3.13-15: warning: symbol qux is used, but is not defined as a token and has no rules [-Wother]
- %type <foo> qux
-             ^~~
+    3 | %type <foo> qux
+      |             ^~~
 ]])
 
 AT_CLEANUP
@@ -914,14 +914,14 @@ tagged: { } ;
 
 AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:6.8-45: warning: unset value: $$ [-Wother]
- start: end end tagged tagged { $<tag>1; $3; } ;
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6 | start: end end tagged tagged { $<tag>1; $3; } ;
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:6.12-14: warning: unused value: $2 [-Wother]
- start: end end tagged tagged { $<tag>1; $3; } ;
-            ^~~
+    6 | start: end end tagged tagged { $<tag>1; $3; } ;
+      |            ^~~
 input.y:7.6-8: warning: unset value: $$ [-Wother]
- end: { } ;
-      ^~~
+    7 | end: { } ;
+      |      ^~~
 ]])
 
 AT_DATA([[input.y]],
@@ -961,14 +961,14 @@ end: { }  ;
 
 AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:6.8-22: warning: unset value: $$ [-Wother]
- start: end end { $1; } ;
-        ^~~~~~~~~~~~~~~
+    6 | start: end end { $1; } ;
+      |        ^~~~~~~~~~~~~~~
 input.y:6.12-14: warning: unused value: $2 [-Wother]
- start: end end { $1; } ;
-            ^~~
+    6 | start: end end { $1; } ;
+      |            ^~~
 input.y:7.6-8: warning: unset value: $$ [-Wother]
- end: { }  ;
-      ^~~
+    7 | end: { }  ;
+      |      ^~~
 ]])
 
 AT_CLEANUP
@@ -1018,14 +1018,14 @@ exp: FOO BAR;
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.17-21: warning: symbol "foo" used more than once as a literal string [-Wother]
-          BAR 42 "foo"
-                 ^~~~~
+    2 |          BAR 42 "foo"
+      |                 ^~~~~
 input.y:2.10-12: error: user token number 42 redeclaration for BAR
-          BAR 42 "foo"
-          ^~~
+    2 |          BAR 42 "foo"
+      |          ^~~
 input.y:1.8-10:      previous declaration for FOO
- %token FOO 42 "foo"
-        ^~~
+    1 | %token FOO 42 "foo"
+      |        ^~~
 ]])
 
 AT_CLEANUP
@@ -1052,11 +1052,11 @@ AT_TEST([[%token foo "foo"
 exp: foo;
 ]],
 [[input.y:3.7-11: error: %type redeclaration for foo
- %type <baz> foo
-       ^~~~~
+    3 | %type <baz> foo
+      |       ^~~~~
 input.y:2.7-11:     previous declaration
- %type <bar> "foo"
-       ^~~~~
+    2 | %type <bar> "foo"
+      |       ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"
@@ -1066,11 +1066,11 @@ AT_TEST([[%token foo "foo"
 exp: foo;
 ]],
 [[input.y:3.10-14: error: %printer redeclaration for foo
- %printer {baz} foo
-          ^~~~~
+    3 | %printer {baz} foo
+      |          ^~~~~
 input.y:2.10-14:     previous declaration
- %printer {bar} "foo"
-          ^~~~~
+    2 | %printer {bar} "foo"
+      |          ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"
@@ -1080,11 +1080,11 @@ AT_TEST([[%token foo "foo"
 exp: foo;
 ]],
 [[input.y:3.13-17: error: %destructor redeclaration for foo
- %destructor {baz} foo
-             ^~~~~
+    3 | %destructor {baz} foo
+      |             ^~~~~
 input.y:2.13-17:     previous declaration
- %destructor {bar} "foo"
-             ^~~~~
+    2 | %destructor {bar} "foo"
+      |             ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"
@@ -1094,11 +1094,11 @@ AT_TEST([[%token foo "foo"
 exp: foo;
 ]],
 [[input.y:3.1-5: error: %left redeclaration for foo
- %left foo
- ^~~~~
+    3 | %left foo
+      | ^~~~~
 input.y:2.1-5:     previous declaration
- %left "foo"
- ^~~~~
+    2 | %left "foo"
+      | ^~~~~
 ]])
 
 # This time, declare the alias after its use.
@@ -1111,11 +1111,11 @@ AT_TEST([[%left "foo"
 exp: foo;
 ]],
 [[input.y:2.1-5: error: %left redeclaration for foo
- %left foo
- ^~~~~
+    2 | %left foo
+      | ^~~~~
 input.y:1.1-5:     previous declaration
- %left "foo"
- ^~~~~
+    1 | %left "foo"
+      | ^~~~~
 ]])
 
 # Printer.
@@ -1126,11 +1126,11 @@ AT_TEST([[%printer {} "foo"
 exp: foo;
 ]],
 [[input.y:2.10-11: error: %printer redeclaration for foo
- %printer {} foo
-          ^~
+    2 | %printer {} foo
+      |          ^~
 input.y:1.10-11:     previous declaration
- %printer {} "foo"
-          ^~
+    1 | %printer {} "foo"
+      |          ^~
 ]])
 
 # Destructor.
@@ -1141,11 +1141,11 @@ AT_TEST([[%destructor {} "foo"
 exp: foo;
 ]],
 [[input.y:2.13-14: error: %destructor redeclaration for foo
- %destructor {} foo
-             ^~
+    2 | %destructor {} foo
+      |             ^~
 input.y:1.13-14:     previous declaration
- %destructor {} "foo"
-             ^~
+    1 | %destructor {} "foo"
+      |             ^~
 ]])
 
 m4_popdef([AT_TEST])
@@ -1174,8 +1174,8 @@ AT_DATA([input.y],
 ])
 AT_BISON_CHECK([-fcaret  input.y], [1], [],
 [[input.y:1.1-2: error: syntax error, unexpected {...}
- {}
- ^~
+    1 | {}
+      | ^~
 ]])
 
 
@@ -1525,20 +1525,20 @@ start: %empty;
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 1, [],
 [[input.y:1.10-2.0: error: missing '"' at end of line
- %token A "a
-          ^~
+    1 | %token A "a
+      |          ^~
 input.y:4.10-5.0: error: missing "'" at end of line
- %token C '1
-          ^~
+    4 | %token C '1
+      |          ^~
 input.y:14.11-15.0: error: missing "'" at end of line
- %type <f> 'a
-           ^~
+   14 | %type <f> 'a
+      |           ^~
 input.y:16.11-17.0: error: missing '"' at end of line
- %type <f> "a
-           ^~
+   16 | %type <f> "a
+      |           ^~
 input.y:19.13-20.0: error: missing '}' at end of file
- %destructor { free ($$)
-             ^~~~~~~~~~~
+   19 | %destructor { free ($$)
+      |             ^~~~~~~~~~~
 input.y:20.1: error: syntax error, unexpected end of file
 ]])
 
@@ -1823,8 +1823,8 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.1-18: error: %define variable 'var' redefined
- %define var "gram"
- ^~~~~~~~~~~~~~~~~~
+    1 | %define var "gram"
+      | ^~~~~~~~~~~~~~~~~~
 <command line>:4:      previous definition
 input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -1946,8 +1946,8 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.1-34: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
- %define lr.default-reduction bogus
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1 | %define lr.default-reduction bogus
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:1.1-34:     accepted value: 'most'
 input.y:1.1-34:     accepted value: 'consistent'
 input.y:1.1-34:     accepted value: 'accepting'
@@ -1961,8 +1961,8 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.1-29: error: invalid value for %define variable 'api.push-pull': 'neither'
- %define api.push-pull neither
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1 | %define api.push-pull neither
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:1.1-29:     accepted value: 'pull'
 input.y:1.1-29:     accepted value: 'push'
 input.y:1.1-29:     accepted value: 'both'
@@ -1987,8 +1987,8 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:3.1-33: error: %define variable 'api.location.file' requires 'none' or '"..."' values
- %define api.location.file {bogus}
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3 | %define api.location.file {bogus}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
 
 AT_CLEANUP
@@ -2012,23 +2012,23 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-fcaret input.y]], [1], [],
 [[input.y:1.1-26: warning: deprecated directive, use '%define api.push-pull both' [-Wdeprecated]
- %define api.push_pull both
- ^~~~~~~~~~~~~~~~~~~~~~~~~~
+    1 | %define api.push_pull both
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:2.1-40: warning: deprecated directive, use '%define lr.keep-unreachable-state maybe' [-Wdeprecated]
- %define lr.keep_unreachable_states maybe
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2 | %define lr.keep_unreachable_states maybe
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:3.1-23: warning: deprecated directive, use '%define api.namespace {foo}' [-Wdeprecated]
- %define namespace "foo"
- ^~~~~~~~~~~~~~~~~~~~~~~
+    3 | %define namespace "foo"
+      | ^~~~~~~~~~~~~~~~~~~~~~~
 input.y:4.1-15: warning: deprecated directive, use '%define api.value.type variant' [-Wdeprecated]
- %define variant
- ^~~~~~~~~~~~~~~
+    4 | %define variant
+      | ^~~~~~~~~~~~~~~
 input.y:5.1-34: warning: deprecated directive, use '%define api.parser.class {parser}' [-Wdeprecated]
- %define parser_class_name {parser}
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    5 | %define parser_class_name {parser}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y:2.1-40: error: invalid value for %define Boolean variable 'lr.keep-unreachable-state'
- %define lr.keep_unreachable_states maybe
- ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2 | %define lr.keep_unreachable_states maybe
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -2143,20 +2143,20 @@ AT_CHECK([[$PERL -e "print 'start: \'';" >> empty.y || exit 77]])
 
 AT_BISON_CHECK([-fcaret empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal [-Wother]
- start: '';
-        ^~
+    2 | start: '';
+      |        ^~
 empty.y:3.8-4.0: error: missing "'" at end of line
- start: '
-        ^
+    3 | start: '
+      |        ^
 empty.y:3.8-4.0: warning: empty character literal [-Wother]
- start: '
-        ^
+    3 | start: '
+      |        ^
 empty.y:4.8: error: missing "'" at end of file
- start: '
-        ^
+    4 | start: '
+      |        ^
 empty.y:4.8: warning: empty character literal [-Wother]
- start: '
-        ^
+    4 | start: '
+      |        ^
 ]])
 
 AT_DATA([two.y],
@@ -2715,8 +2715,8 @@ exp: <int> {}
 
 AT_BISON_CHECK([[-fcaret input.y]], [[0]], [[]],
 [[input.y:10.6-13: warning: only midrule actions can be typed: int [-Wother]
- exp: <int> {}
-      ^~~~~~~~
+   10 | exp: <int> {}
+      |      ^~~~~~~~
 ]])
 
 AT_BISON_OPTION_POPDEFS

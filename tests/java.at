@@ -35,8 +35,8 @@ exp:
 AT_BISON_CHECK([[-fcaret YYParser.y]], [1], [],
 [[YYParser.y: error: %defines does not make sense in Java
 YYParser.y:4.13-30: error: %destructor does not make sense in Java
- %destructor { /* Nothing. */ } exp
-             ^~~~~~~~~~~~~~~~~~
+    4 | %destructor { /* Nothing. */ } exp
+      |             ^~~~~~~~~~~~~~~~~~
 ]])
 
 AT_CLEANUP
