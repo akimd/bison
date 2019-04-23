@@ -2509,8 +2509,8 @@ AT_DATA_GRAMMAR([[input.y]],
 %file-prefix
  =
 "bar"
-%fixed-output_files
-%fixed_output-files
+	%fixed-output_files
+        %fixed_output-files
 %fixed-output-files
 %name-prefix= "foo"
 %no-default_prec
@@ -2538,13 +2538,13 @@ fix-it:"input.y":{13:1-13:15}:"%file-prefix"
 input.y:14.1-16.5: warning: duplicate directive: '%file-prefix\n =' [-Wother]
 input.y:13.1-20:       previous declaration
 fix-it:"input.y":{14:1-16:6}:""
-input.y:17.1-19: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
-fix-it:"input.y":{17:1-17:20}:"%fixed-output-files"
-input.y:18.1-19: warning: duplicate directive: '%fixed_output-files' [-Wother]
-input.y:17.1-19:     previous declaration
-fix-it:"input.y":{18:1-18:20}:""
+input.y:17.9-27: warning: deprecated directive: '%fixed-output_files', use '%fixed-output-files' [-Wdeprecated]
+fix-it:"input.y":{17:2-17:21}:"%fixed-output-files"
+input.y:18.9-27: warning: duplicate directive: '%fixed_output-files' [-Wother]
+input.y:17.9-27:     previous declaration
+fix-it:"input.y":{18:9-18:28}:""
 input.y:19.1-19: warning: duplicate directive: '%fixed-output-files' [-Wother]
-input.y:17.1-19:     previous declaration
+input.y:17.9-27:     previous declaration
 fix-it:"input.y":{19:1-19:20}:""
 input.y:20.1-19: warning: deprecated directive: '%name-prefix= "foo"', use '%define api.prefix {foo}' [-Wdeprecated]
 fix-it:"input.y":{20:1-20:20}:"%define api.prefix {foo}"
@@ -2604,7 +2604,8 @@ AT_CHECK([cat input.y], [],
 %define parse.error verbose
 %expect-rr 0
 %file-prefix "foo"
-%fixed-output-files
+	%fixed-output-files
+        @&t@
 %define api.prefix {foo}
 %no-default-prec
 %no-default-prec
