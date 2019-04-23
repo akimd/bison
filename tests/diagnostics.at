@@ -112,6 +112,7 @@ input.y:16.2: <warning>warning:</warning> empty rule without %empty [<warning>-W
 input.y:17.3: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    17 | e:
       |   <warning>^</warning>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
 
@@ -158,6 +159,7 @@ input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning
 input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    18 | h: <warning>{	🐃	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
 
@@ -180,6 +182,7 @@ b: {}
    11 | a: <warning>{}</warning>
       |    <warning>^~</warning>
 /dev/stdout:1.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+/dev/stdout: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
 

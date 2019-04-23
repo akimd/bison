@@ -457,6 +457,7 @@ input.y:47.1-6: warning: useless associativity for UNARY, use %precedence [-Wpre
 input.y:50.1-5: warning: useless associativity for '$', use %precedence [-Wprecedence]
 input.y:51.1-5: warning: useless associativity for '(', use %precedence [-Wprecedence]
 input.y:51.1-5: warning: useless precedence and associativity for ')' [-Wprecedence]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]],
 
 dnl LAST-STATE
@@ -1428,6 +1429,7 @@ input.y:54.1-5: warning: useless associativity for HORELSE, use %precedence [-Wp
 input.y:55.1-5: warning: useless associativity for HANDTHEN, use %precedence [-Wprecedence]
 input.y:61.1-5: warning: useless associativity for HNOT, use %precedence [-Wprecedence]
 input.y:68.1-5: warning: useless associativity for UNEAR, use %precedence [-Wprecedence]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]],
 
 dnl LAST-STATE
@@ -2096,6 +2098,7 @@ input.y:157.1-5: warning: useless associativity for '`', use %precedence [-Wprec
 input.y:159.1-5: warning: useless associativity for '@<:@', use %precedence [-Wprecedence]
 input.y:170.1-5: warning: useless associativity for ',', use %precedence [-Wprecedence]
 input.y:181.1-6: warning: useless associativity for '!', use %precedence [-Wprecedence]
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]],
 
 dnl LAST-STATE
