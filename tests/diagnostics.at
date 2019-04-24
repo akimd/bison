@@ -103,15 +103,15 @@ e:
 input.y:12.3-13.1: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    12 | b:<warning>{</warning>
       |   <warning>^</warning>
-input.y:14.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   14 | c<warning>:</warning>
+input.y:14.3: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   14 | c:
+      |   <warning>^</warning>
+input.y:16.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   16 | :
       |  <warning>^</warning>
-input.y:15.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   15 | d
-      |  <warning>^</warning>
-input.y:17.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   17 | e<warning>:</warning>
-      |  <warning>^</warning>
+input.y:17.3: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   17 | e:
+      |   <warning>^</warning>
 ]])
 
 

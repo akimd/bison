@@ -30,6 +30,9 @@ GNU Bison NEWS
         3 | expr: expr '+' "number" { $$ = $1 + $2; }
           |                                     ^~
 
+  Other constructs now also have better locations, resulting in more precise
+  diagnostics.
+
 ** New features
 
 *** Colored diagnostics

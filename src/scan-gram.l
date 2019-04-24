@@ -289,6 +289,7 @@ eqopt    ({sp}=)?
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
   }
 
+  ":"                     return COLON;
   "="                     return EQUAL;
   "|"                     return PIPE;
   ";"                     return SEMICOLON;
@@ -402,6 +403,7 @@ eqopt    ({sp}=)?
       }
   }
   ":" {
+    ROLLBACK_CURRENT_TOKEN;
     BEGIN (bracketed_id_str ? SC_RETURN_BRACKETED_ID : INITIAL);
     *loc = id_loc;
     return ID_COLON;

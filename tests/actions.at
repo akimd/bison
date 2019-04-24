@@ -114,6 +114,7 @@ AT_PARSER_CHECK([input], 0,
 
 AT_CLEANUP
 
+
 ## ----------------------- ##
 ## Implicitly empty rule.  ##
 ## ----------------------- ##
@@ -156,6 +157,7 @@ AT_BISON_CHECK([-fcaret -Wno-empty-rule 2.y], [0])
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+
 
 
 ## ------------------------ ##
