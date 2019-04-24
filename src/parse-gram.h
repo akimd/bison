@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.3.2.122-5915.  */
+/* A Bison parser, made by GNU Bison 3.3.2.147-dd3d0.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -118,21 +118,22 @@ extern int gram_debug;
     BRACED_PREDICATE = 295,
     BRACKETED_ID = 296,
     CHAR = 297,
-    EPILOGUE = 298,
-    EQUAL = 299,
-    ID = 300,
-    ID_COLON = 301,
-    PERCENT_PERCENT = 302,
-    PIPE = 303,
-    PROLOGUE = 304,
-    SEMICOLON = 305,
-    TAG = 306,
-    TAG_ANY = 307,
-    TAG_NONE = 308,
-    INT = 309,
-    PERCENT_PARAM = 310,
-    PERCENT_UNION = 311,
-    PERCENT_EMPTY = 312
+    COLON = 298,
+    EPILOGUE = 299,
+    EQUAL = 300,
+    ID = 301,
+    ID_COLON = 302,
+    PERCENT_PERCENT = 303,
+    PIPE = 304,
+    PROLOGUE = 305,
+    SEMICOLON = 306,
+    TAG = 307,
+    TAG_ANY = 308,
+    TAG_NONE = 309,
+    INT = 310,
+    PERCENT_PARAM = 311,
+    PERCENT_UNION = 312,
+    PERCENT_EMPTY = 313
   };
 #endif
 
@@ -158,9 +159,9 @@ union GRAM_STYPE
   /* "integer"  */
   int INT;
   /* int.opt  */
-  int yytype_79;
+  int yytype_80;
   /* named_ref.opt  */
-  named_ref* yytype_91;
+  named_ref* yytype_92;
   /* "%param"  */
   param_type PERCENT_PARAM;
   /* token_decl  */
@@ -176,7 +177,7 @@ union GRAM_STYPE
   /* string_as_id  */
   symbol* string_as_id;
   /* string_as_id.opt  */
-  symbol* yytype_98;
+  symbol* yytype_99;
   /* generic_symlist  */
   symbol_list* generic_symlist;
   /* generic_symlist_item  */
@@ -186,15 +187,15 @@ union GRAM_STYPE
   /* token_decls  */
   symbol_list* token_decls;
   /* token_decl.1  */
-  symbol_list* yytype_77;
+  symbol_list* yytype_78;
   /* token_decls_for_prec  */
   symbol_list* token_decls_for_prec;
   /* token_decl_for_prec.1  */
-  symbol_list* yytype_81;
+  symbol_list* yytype_82;
   /* symbol_decls  */
   symbol_list* symbol_decls;
   /* symbol_decl.1  */
-  symbol_list* yytype_84;
+  symbol_list* yytype_85;
   /* "%error-verbose"  */
   uniqstr PERCENT_ERROR_VERBOSE;
   /* "%<flag>"  */
@@ -214,7 +215,7 @@ union GRAM_STYPE
   /* "<tag>"  */
   uniqstr TAG;
   /* tag.opt  */
-  uniqstr yytype_71;
+  uniqstr yytype_72;
   /* tag  */
   uniqstr tag;
   /* variable  */
