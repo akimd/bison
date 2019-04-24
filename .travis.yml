@@ -290,7 +290,7 @@ matrix:
       env:
         # No versioned name installed, but beware that Travis installs
         # a more modern clang earlier in the default PATH.
-        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
+        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++ && GETTEXT_VERSION=0.18.3'
 
     - name: "Clang 3.3"
       os: linux
@@ -302,7 +302,7 @@ matrix:
             - clang-3.3
       env:
         # See comment for 3.4.
-        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
+        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++ && GETTEXT_VERSION=0.18.3'
 
 
 before_install:
@@ -340,7 +340,10 @@ script:
   # with `Picked up _JAVA_OPTIONS: -Xmx2048m -Xms512m`, which makes
   # the test suite fail.
   - unset _JAVA_OPTIONS
+  - if [[ $GETTEXT_VERSION ]]; then sed -i -re "s/(AM_GNU_GETTEXT_VERSION).*/\1([$GETTEXT_VERSION])/" configure.ac; fi
   - ./bootstrap
+  # For some reason, gnulib-po/Makefile.in.in is about Gettext 0.19, so it will break here.  Override it.
+  - if [[ $GETTEXT_VERSION ]]; then autopoint --force; fi
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS

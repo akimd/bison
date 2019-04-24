@@ -1,6 +1,4 @@
 * Bison 3.4
-** use gettext-h in gnulib instead of gettext
-
 ** bad diagnostics
 %token <val> NUM
 %type  <val> expr term fact
@@ -33,6 +31,7 @@ considered deprecated: %printer is superior.
 
 ** glr.cc
 move glr.c into the yy namespace
+
 ** improve syntax errors (UTF-8, internationalization)
 Bison depends on the current locale.  For instance:
 
