@@ -2,37 +2,6 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Changes
-
-*** Graphviz output
-
-  In conformance with the recommendations of the Graphviz team, if %require
-  "3.4" (or better) is specified, the option --graph generates a *.gv file
-  by default, instead of *.dot.
-
-*** Diagnostics overhaul
-
-  Column numbers were wrong with multibyte characters, which would also
-  result in skewed diagnostics with carets.  Beside, because we were
-  indenting the quoted source with a single space, lines with tab characters
-  were incorrectly underlined.
-
-  To address these issues, and to be clearer, Bison now issues diagnostics
-  as GCC9 does.  For instance it used to display (there's a tab before the
-  opening brace):
-
-    foo.y:3.37-38: error: $2 of ‘expr’ has no declared type
-     expr: expr '+' "number"        { $$ = $1 + $2; }
-                                         ^~
-  It now reports
-
-    foo.y:3.37-38: error: $2 of ‘expr’ has no declared type
-        3 | expr: expr '+' "number" { $$ = $1 + $2; }
-          |                                     ^~
-
-  Other constructs now also have better locations, resulting in more precise
-  diagnostics.
-
 ** New features
 
 *** Colored diagnostics
@@ -95,6 +64,53 @@ GNU Bison NEWS
   definition of locations: let one of them generate them, and the others
   just use them.
 
+** Changes
+
+*** Graphviz output
+
+  In conformance with the recommendations of the Graphviz team, if %require
+  "3.4" (or better) is specified, the option --graph generates a *.gv file
+  by default, instead of *.dot.
+
+*** Diagnostics overhaul
+
+  Column numbers were wrong with multibyte characters, which would also
+  result in skewed diagnostics with carets.  Beside, because we were
+  indenting the quoted source with a single space, lines with tab characters
+  were incorrectly underlined.
+
+  To address these issues, and to be clearer, Bison now issues diagnostics
+  as GCC9 does.  For instance it used to display (there's a tab before the
+  opening brace):
+
+    foo.y:3.37-38: error: $2 of ‘expr’ has no declared type
+     expr: expr '+' "number"        { $$ = $1 + $2; }
+                                         ^~
+  It now reports
+
+    foo.y:3.37-38: error: $2 of ‘expr’ has no declared type
+        3 | expr: expr '+' "number" { $$ = $1 + $2; }
+          |                                     ^~
+
+  Other constructs now also have better locations, resulting in more precise
+  diagnostics.
+
+*** Fix-it hints for %empty
+
+  Running Bison with -Wempty-rules and --update will remove incorrect %empty
+  annotations, and add the missing ones.
+
+*** Generated reports
+
+  The format of the reports (parse.output) was improved for readadibility.
+
+*** Better support for --no-line.
+
+  When --no-line is used, the generated files are now cleaner: no lines are
+  generated instead of empty lines.  Together with using api.header.include,
+  that should help people saving the generated files into version control
+  systems get smaller diffs.
+
 ** Documentation
 
   A new example in C shows an simple infix calculator with a hand-written
@@ -102,6 +118,15 @@ GNU Bison NEWS
 
   A new example in C shows a reentrant parser (capable of recursive calls)
   built with Flex and Bison (examples/c/reccalc).
+
+  There is a new section about the history of Yaccs and Bison.
+
+** Bug fixes
+
+  A few obscure bugs were fixed, including the second oldest (known) bug in
+  Bison: it was there when Bison was entered in the RCS version control
+  system, in December 1987.  See the NEWS of Bison 3.3 for the previous
+  oldest bug.
 
 * Noteworthy changes in release 3.3.2 (2019-02-03) [stable]
 
