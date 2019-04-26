@@ -37,6 +37,10 @@ GNU Bison NEWS
   When given -fsyntax-only, the diagnostics are reported, but no output is
   generated.
 
+  The name of this option is somewhat misleading as bison does more than
+  just checking the syntax: every stage is run (including checking for
+  conflicts for instance), except the generation of the output files.
+
 *** Include the generated header (yacc.c)
 
   Before, when --defines is used, bison generated a header, and pasted an
@@ -102,7 +106,7 @@ GNU Bison NEWS
 
 *** Generated reports
 
-  The format of the reports (parse.output) was improved for readadibility.
+  The format of the reports (parse.output) was improved for readability.
 
 *** Better support for --no-line.
 

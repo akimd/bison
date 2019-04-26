@@ -10616,7 +10616,11 @@ The fix-its are applied by @command{bison} itself when given the option
 @option{-u}/@option{--update}.  See its documentation above.
 
 @item syntax-only
-Do not generate the output files.
+Do not generate the output files.  The name of this feature is somewhat
+misleading as more than just checking the syntax is done: every stage is run
+(including checking for conflicts for instance), except the generation of
+the output files.
+
 @end table
 @end table
 
