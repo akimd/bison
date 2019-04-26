@@ -14,7 +14,12 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AM_MAKEINFOFLAGS = --no-split
+AM_MAKEINFOFLAGS =                                              \
+  --no-split                                                    \
+  --set-customization-variable=SECTION_NAME_IN_TITLE=true       \
+  --set-customization-variable=AVOID_MENU_REDUNDANCY=true       \
+  --set-customization-variable=ICONS=true
+
 info_TEXINFOS = doc/bison.texi
 doc_bison_TEXINFOS =                            \
   $(CROSS_OPTIONS_TEXI)                         \

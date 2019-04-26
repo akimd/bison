@@ -7,6 +7,18 @@
 @settitle Bison @value{VERSION}
 @setchapternewpage odd
 
+@macro dwarning{text}
+@inlineraw{html, <b style="color:darkviolet">} \text\ @inlineraw{html, </b>}
+@end macro
+
+@macro derror{text}
+@inlineraw{html, <b style="color:red">} \text\ @inlineraw{html, </b>}
+@end macro
+
+@macro dnotice{text}
+@inlineraw{html, <b style="color:darkcyan">} \text\ @inlineraw{html, </b>}
+@end macro
+
 @finalout
 
 @c SMALL BOOK version
@@ -4280,24 +4292,24 @@ $@@3: %empty @{ d(); @};
 exp: @@1 "b" @@2 $@@3 "e" @{ f = $1; @}
 @end example
 
-There are probably two errors in the above example: the first midrule
-action does not generate a value (it does not use @code{$$} although the
-final action uses it), and the value of the second one is not used (the
-final action does not use @code{$3}).  Bison reports these errors when the
+There are probably two errors in the above example: the first midrule action
+does not generate a value (it does not use @code{$$} although the final
+action uses it), and the value of the second one is not used (the final
+action does not use @code{$3}).  Bison reports these errors when the
 @code{midrule-value} warnings are enabled (@pxref{Invocation, ,Invoking
 Bison}):
 
 @example
 $ @kbd{bison -Wmidrule-value mid.y}
 @group
-mid.y:2.6-13: warning: unset value: $$
-    2 | exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-      |      ^~~~~~~~
+mid.y:2.6-13: @dwarning{warning}: unset value: $$
+    2 | exp: @dwarning{@{ a(); @}} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
+      |      @dwarning{^~~~~~~~}
 @end group
 @group
-mid.y:2.19-31: warning: unused value: $3
-    2 | exp: @{ a(); @} "b" @{ $$ = c(); @} @{ d(); @} "e" @{ f = $1; @};
-      |                   ^~~~~~~~~~~~~
+mid.y:2.19-31: @dwarning{warning}: unused value: $3
+    2 | exp: @{ a(); @} "b" @dwarning{@{ $$ = c(); @}} @{ d(); @} "e" @{ f = $1; @};
+      |                   @dwarning{^~~~~~~~~~~~~}
 @end group
 @end example
 
@@ -4305,9 +4317,9 @@ mid.y:2.19-31: warning: unused value: $3
 
 It is sometimes useful to turn midrule actions into regular actions, e.g.,
 to factor them, or to escape from their limitations.  For instance, as an
-alternative to @emph{typed} midrule action, you may bury the midrule
-action inside a nonterminal symbol and to declare a printer and a destructor
-for that symbol:
+alternative to @emph{typed} midrule action, you may bury the midrule action
+inside a nonterminal symbol and to declare a printer and a destructor for
+that symbol:
 
 @example
 @group
@@ -9342,12 +9354,12 @@ useless: STR;
 @command{bison} reports:
 
 @example
-calc.y: warning: 1 nonterminal useless in grammar [-Wother]
-calc.y: warning: 1 rule useless in grammar [-Wother]
-calc.y:19.1-7: warning: nonterminal useless in grammar: useless [-Wother]
-   19 | useless: STR;
-      | ^~~~~~~
-calc.y: warning: 7 shift/reduce conflicts [-Wconflicts-sr]
+calc.y: @dwarning{warning}: 1 nonterminal useless in grammar [@dwarning{-Wother}]
+calc.y: @dwarning{warning}: 1 rule useless in grammar [@dwarning{-Wother}]
+calc.y:19.1-7: @dwarning{warning}: nonterminal useless in grammar: useless [@dwarning{-Wother}]
+   19 | @dwarning{useless: STR;}
+      | @dwarning{^~~~~~~}
+calc.y: @dwarning{warning}: 7 shift/reduce conflicts [@dwarning{-Wconflicts-sr}]
 @end example
 
 When given @option{--report=state}, in addition to @file{calc.tab.c}, it
@@ -10299,15 +10311,15 @@ exp:;
 @end group
 @group
 $ @kbd{bison -u foo.y}
-foo.y:1.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
-    1 | %error-verbose
-      | ^~~~~~~~~~~~~~
-foo.y:2.1-27: error: %define variable 'parse.error' redefined
-    2 | %define parse.error verbose
-      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+foo.y:1.1-14: @dwarning{warning}: deprecated directive, use '%define parse.error verbose' [@dwarning{-Wdeprecated}]
+    1 | @dwarning{%error-verbose}
+      | @dwarning{^~~~~~~~~~~~~~}
+foo.y:2.1-27: @dwarning{warning}: %define variable 'parse.error' redefined [@dwarning{-Wother}]
+    2 | @dwarning{%define parse.error verbose}
+      | @dwarning{^~~~~~~~~~~~~~~~~~~~~~~~~~~}
 foo.y:1.1-14:     previous definition
-    1 | %error-verbose
-      | ^~~~~~~~~~~~~~
+    1 | @dnotice{%error-verbose}
+      | @dnotice{^~~~~~~~~~~~~~}
 bison: file 'foo.y' was updated (backup: 'foo.y~')
 @end group
 @group
@@ -10421,19 +10433,19 @@ Bison reports:
 @c width in PDF.
 @example
 @group
-warning: useless precedence and associativity for "="
-      | %nonassoc "="
-      |           ^~~
+@dwarning{warning}: useless precedence and associativity for "="
+      | %nonassoc @dwarning{"="}
+      |           @dwarning{^~~}
 @end group
 @group
-warning: useless associativity for "*", use %precedence
-      | %left "*"
-      |       ^~~
+@dwarning{warning}: useless associativity for "*", use %precedence
+      | %left @dwarning{"*"}
+      |       @dwarning{^~~}
 @end group
 @group
-warning: useless precedence for "("
-      | %precedence "("
-      |             ^~~
+@dwarning{warning}: useless precedence for "("
+      | %precedence @dwarning{"("}
+      |             @dwarning{^~~}
 @end group
 @end example
 
@@ -10520,29 +10532,29 @@ When invoked with @option{-fcaret} (or nothing), Bison will report:
 
 @example
 @group
-in.y:3.20-23: error: ambiguous reference: '$exp'
-    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
-      |                    ^~~~
+in.y:3.20-23: @derror{error}: ambiguous reference: '$exp'
+    3 | exp: exp '+' exp @{ @derror{$exp} = $1 + $2; @};
+      |                    @derror{^~~~}
 @end group
 @group
 in.y:3.1-3:       refers to: $exp at $$
-    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
-      | ^~~
+    3 | @dnotice{exp}: exp '+' exp @{ $exp = $1 + $2; @};
+      | @dnotice{^~~}
 @end group
 @group
 in.y:3.6-8:       refers to: $exp at $1
-    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
-      |      ^~~
+    3 | exp: @dnotice{exp} '+' exp @{ $exp = $1 + $2; @};
+      |      @dnotice{^~~}
 @end group
 @group
 in.y:3.14-16:     refers to: $exp at $3
-    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
-      |              ^~~
+    3 | exp: exp '+' @dnotice{exp} @{ $exp = $1 + $2; @};
+      |              @dnotice{^~~}
 @end group
 @group
-in.y:3.32-33: error: $2 of 'exp' has no declared type
-    3 | exp: exp '+' exp @{ $exp = $1 + $2; @};
-      |                                ^~
+in.y:3.32-33: @derror{error}: $2 of 'exp' has no declared type
+    3 | exp: exp '+' exp @{ $exp = $1 + @derror{$2}; @};
+      |                                @derror{^~}
 @end group
 @end example
 
@@ -10550,11 +10562,11 @@ Whereas, when invoked with @option{-fno-caret}, Bison will only report:
 
 @example
 @group
-in.y:3.20-23: error: ambiguous reference: ‘$exp’
+in.y:3.20-23: @derror{error}: ambiguous reference: ‘$exp’
 in.y:3.1-3:       refers to: $exp at $$
 in.y:3.6-8:       refers to: $exp at $1
 in.y:3.14-16:     refers to: $exp at $3
-in.y:3.32-33: error: $2 of ‘exp’ has no declared type
+in.y:3.32-33: @derror{error}: $2 of ‘exp’ has no declared type
 @end group
 @end example
 
@@ -10578,14 +10590,14 @@ exp:;
 
 @group
 $ @kbd{bison -ffixit foo.y}
-foo.y:2.1-24: error: %define variable 'api.prefix' redefined
-    2 | %define api.prefix @{bar@}
-      | ^~~~~~~~~~~~~~~~~~~~~~~~
+foo.y:2.1-24: @derror{error}: %define variable 'api.prefix' redefined
+    2 | @derror{%define api.prefix @{bar@}}
+      | @derror{^~~~~~~~~~~~~~~~~~~~~~~~}
 foo.y:1.1-24:     previous definition
-    1 | %define api.prefix @{foo@}
-      | ^~~~~~~~~~~~~~~~~~~~~~~~
+    1 | @dnotice{%define api.prefix @{foo@}}
+      | @dnotice{^~~~~~~~~~~~~~~~~~~~~~~~}
 fix-it:"foo.y":@{2:1-2:25@}:""
-foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+foo.y: @dwarning{warning}: fix-its can be applied.  Rerun with option '--update'. [@dwarning{-Wother}]
 @end group
 @end example
 
@@ -10602,13 +10614,13 @@ exp:;
 @end group
 @group
 $ @kbd{bison foo.y}
-foo.y:1.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
-    1 | %error-verbose
-      | ^~~~~~~~~~~~~~
-foo.y:2.1-18: warning: deprecated directive, use '%define api.prefix @{foo@}' [-Wdeprecated]
-    2 | %name-prefix "foo"
-      | ^~~~~~~~~~~~~~~~~~
-foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+foo.y:1.1-14: @dwarning{warning}: deprecated directive, use '%define parse.error verbose' [@dwarning{-Wdeprecated}]
+    1 | @dwarning{%error-verbose}
+      | @dwarning{^~~~~~~~~~~~~~}
+foo.y:2.1-18: @dwarning{warning}: deprecated directive, use '%define api.prefix @{foo@}' [@dwarning{-Wdeprecated}]
+    2 | @dwarning{%name-prefix "foo"}
+      | @dwarning{^~~~~~~~~~~~~~~~~~}
+foo.y: @dwarning{warning}: fix-its can be applied.  Rerun with option '--update'. [@dwarning{-Wother}]
 @end group
 @end example
 
