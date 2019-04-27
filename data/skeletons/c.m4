@@ -544,8 +544,10 @@ m4_if(b4_skeleton, ["yacc.c"],
     YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
 ]])dnl
-  b4_symbol_actions([printer])[
-}
+b4_percent_code_get([[pre-printer]])dnl
+  b4_symbol_actions([printer])
+b4_percent_code_get([[post-printer]])dnl
+[}
 
 
 /*---------------------------.

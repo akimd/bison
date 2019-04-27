@@ -6,3 +6,5 @@
 .warning   { color: purple; }
 .error     { color: red; }
 .note      { color: cyan; }
+/* Semantic values in Bison's parser traces.  */
+.value     { color: green; }

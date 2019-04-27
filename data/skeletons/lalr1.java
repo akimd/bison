@@ -87,8 +87,8 @@ b4_output_begin([b4_parser_file_name])[
 ]])[
 ]b4_user_pre_prologue[
 ]b4_user_post_prologue[
-]b4_percent_code_get([[imports]])
-[/**
+]b4_percent_code_get([[imports]])[
+/**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
  *
  * @@author LALR (1) parser skeleton written by Paolo Bonzini.

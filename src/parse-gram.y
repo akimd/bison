@@ -112,6 +112,10 @@
   #define YYTYPE_INT8 int_fast8_t
   #define YYTYPE_UINT16 uint_fast16_t
   #define YYTYPE_UINT8 uint_fast8_t
+
+  /* Add style to semantic values in traces.  */
+  static void tron (FILE *yyo);
+  static void troff (FILE *yyo);
 }
 
 %define api.header.include {"parse-gram.h"}
@@ -202,12 +206,15 @@
 %token TAG_ANY         "<*>"
 %token TAG_NONE        "<>"
 
+ /* Experimental feature, don't rely on it.  */
+%code pre-printer  {tron (yyo);}
+%code post-printer {troff (yyo);}
+
 %type <unsigned char> CHAR
 %printer { fputs (char_name ($$), yyo); } <unsigned char>
 
 %type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING
-%printer { fputs (quotearg_style (c_quoting_style, $$), yyo); } STRING
-%printer { fprintf (yyo, "{\n%s\n}", $$); } <char*>
+%printer { fputs ($$, yyo); }  <char*>
 
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
@@ -1053,4 +1060,14 @@ current_lhs (symbol *sym, location loc, named_ref *ref)
      rules using "|".  Therefore free the parser's original copy.  */
   free (current_lhs_named_ref);
   current_lhs_named_ref = ref;
+}
+
+static void tron (FILE *yyo)
+{
+  begin_use_class ("value", yyo);
+}
+
+static void troff (FILE *yyo)
+{
+  end_use_class ("value", yyo);
 }
