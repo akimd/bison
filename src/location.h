@@ -135,7 +135,8 @@ location_cmp (location a, location b)
 /* Whether this is the empty location.  */
 bool location_empty (location loc);
 
-/* LOC_STR must be formatted as 'file:line.column', it will be modified.  */
-void boundary_set_from_string (boundary *bound, char *loc_str);
+/* STR must be formatted as 'file:line.column@byte' or 'file:line.column',
+   it will be modified.  */
+void boundary_set_from_string (boundary *bound, char *str);
 
 #endif /* ! defined LOCATION_H_ */

@@ -33,15 +33,17 @@ AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA_GRAMMAR([[input.y]], [$2])
 
-AT_DATA([experr], [$4])
+AT_DATA([experr.orig], [$4])
+
+# When no style, same messages, but without style.
+AT_CHECK([perl -p -e 's{</?\w+>}{}g' <experr.orig >experr])
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
 # FIXME: Enhance AT_BISON_CHECK.
-AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --style=debug -Wall input.y], [$3], [], [experr])
-
-# When no style, same messages, but without style.
-AT_CHECK([perl -pi -e 's{</?\w+>}{}g' experr])
 AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret -Wall input.y], [$3], [], [experr])
+
+AT_CHECK([cp experr.orig experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --style=debug -Wall input.y], [$3], [], [experr])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -211,5 +213,30 @@ input.y:9.1-24:      previous definition
       | <note>^~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
+
+
+## ---------------------------------------------- ##
+## Tabulations and multibyte characters from M4.  ##
+## ---------------------------------------------- ##
+
+# Locations coming from m4 need the byte-column for diagnostics.
+
+AT_TEST([[Locations from M4]],
+[[%define api.prefix		{sun}
+%define api.prefix      	{🌞}
+%%
+exp:;
+]],
+[1],
+[[input.y:10.1-35: <error>error:</error> %define variable 'api.prefix' redefined
+   10 | <error>%define api.prefix      	{🌞}</error>
+      | <error>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</error>
+input.y:9.1-37:      previous definition
+    9 | <note>%define api.prefix		{sun}</note>
+      | <note>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+]])
+
+
 
 m4_popdef([AT_TEST])
