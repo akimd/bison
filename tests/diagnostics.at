@@ -18,8 +18,8 @@
 AT_BANNER([[Diagnostics.]])
 
 
-# AT_TEST([TITLE], [GRAMMAR], [OUTPUT-WITH-STYLE])
-# ------------------------------------------------
+# AT_TEST($1: TITLE, $2: GRAMMAR, $3: EXIT-STATUS, $4: OUTPUT-WITH-STYLE)
+# -----------------------------------------------------------------------
 m4_pushdef([AT_TEST],
 [
 AT_SETUP([$1])
@@ -33,15 +33,15 @@ AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA_GRAMMAR([[input.y]], [$2])
 
-AT_DATA([experr], [$3])
+AT_DATA([experr], [$4])
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
 # FIXME: Enhance AT_BISON_CHECK.
-AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --style=debug -Wall input.y], [], [], [experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --style=debug -Wall input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
 AT_CHECK([perl -pi -e 's{</?\w+>}{}g' experr])
-AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret -Wall input.y], [], [], [experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret -Wall input.y], [$3], [], [experr])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -59,6 +59,7 @@ AT_TEST([[Warnings]],
 %%
 exp: %empty;
 ]],
+[0],
 [[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO <warning>FOO</warning> FOO
       |            <warning>^~~</warning>
@@ -97,6 +98,7 @@ d
 :
 e:
 ]],
+[0],
 [[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    11 | a: <warning>{}</warning>
       |    <warning>^~</warning>
@@ -135,6 +137,7 @@ f: {	42	}
 g: {	"฿¥$€₦"	}
 h: {	🐃	}
 ]],
+[0],
 [[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    11 | a: <warning>{		}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
@@ -163,9 +166,9 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ]])
 
 
-## -------------- ##
-## Special files. ##
-## -------------- ##
+## --------------- ##
+## Special files.  ##
+## --------------- ##
 
 # Don't try to quote special files.
 # http://lists.gnu.org/archive/html/bug-bison/2019-04/msg00000.html
@@ -178,6 +181,7 @@ a: {}
 #line 1 "/dev/stdout"
 b: {}
 ]],
+[0],
 [[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    11 | a: <warning>{}</warning>
       |    <warning>^~</warning>
@@ -186,5 +190,26 @@ b: {}
 ]])
 
 
+## ------------------- ##
+## Locations from M4.  ##
+## ------------------- ##
+
+# Locations coming from m4 need the byte-column for diagnostics.
+
+AT_TEST([[Locations from M4]],
+[[%define api.prefix {foo}
+%define api.prefix {bar}
+%%
+exp:;
+]],
+[1],
+[[input.y:10.1-24: <error>error:</error> %define variable 'api.prefix' redefined
+   10 | <error>%define api.prefix {bar}</error>
+      | <error>^~~~~~~~~~~~~~~~~~~~~~~~</error>
+input.y:9.1-24:      previous definition
+    9 | <note>%define api.prefix {foo}</note>
+      | <note>^~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+]])
 
 m4_popdef([AT_TEST])
