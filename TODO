@@ -105,7 +105,7 @@ Rename states1 as path, length as pathlen.
 Introduce inline functions for things such as nullable[*rp - ntokens]
 where we need to map from symbol number to nterm number.
 
-There are probably a significant part of the the relations management that
+There are probably a significant part of the relations management that
 should be migrated on top of a bitsetv.
 
 *** closure

@@ -30,7 +30,7 @@
         while (capacity < size + yyleng + 1);           \
         str = realloc (str, capacity);                  \
       }                                                 \
-    strncpy (str + size, yytext, yyleng);               \
+    memcpy (str + size, yytext, yyleng);                \
     size += yyleng;                                     \
     assert (size < capacity);                           \
   } while (0)

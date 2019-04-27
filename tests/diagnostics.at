@@ -223,13 +223,13 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 
 AT_TEST([[Locations from M4]],
 [[%define api.prefix		{sun}
-%define api.prefix      	{🌞}
+%define api.prefix		{🌞}
 %%
 exp:;
 ]],
 [1],
 [[input.y:10.1-35: <error>error:</error> %define variable 'api.prefix' redefined
-   10 | <error>%define api.prefix      	{🌞}</error>
+   10 | <error>%define api.prefix		{🌞}</error>
       | <error>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</error>
 input.y:9.1-37:      previous definition
     9 | <note>%define api.prefix		{sun}</note>

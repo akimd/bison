@@ -87,7 +87,7 @@ main (int argc, char const* argv[])
 {
   /* Enable parse traces on option -p.  */
   for (int i = 1; i < argc; ++i)
-    if (!strcmp(argv[i], "-p"))
+    if (!strcmp (argv[i], "-p"))
       yydebug = 1;
   return yyparse ();
 }
