@@ -22,8 +22,7 @@ reccalcdir = $(docdir)/%D%
 check_PROGRAMS += %D%/reccalc
 TESTS += %D%/reccalc.test
 EXTRA_DIST += %D%/reccalc.test %D%/scan.l
-%C%_reccalc_SOURCES = %D%/parse.y %D%/parse.h
-nodist_%C%_reccalc_SOURCES = %D%/scan.h %D%/scan.c
+nodist_%C%_reccalc_SOURCES = %D%/parse.y %D%/scan.h %D%/scan.c
 BUILT_SOURCES += $(nodist_%C%_reccalc_SOURCES)
 %D%/parse.c: $(dependencies)
 

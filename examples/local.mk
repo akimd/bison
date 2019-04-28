@@ -14,6 +14,24 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
+## Because some of our examples use
+##
+##     %C%_reccalc_SOURCES = %D%/parse.y
+##
+## Automake ships parse.y and parse.c, and possibly parse.h when it
+## "understands" that there is one.  This is not what we want: ship only
+## parser.y.  Yet we still want to use Automake to compile the sources
+## from parser.y.  The easiest seems to use
+##
+##     nodist_%C%_reccalc_SOURCES = %D%/parse.y
+##
+## together with
+##
+##     dist_reccalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
+##
+## which guarantees that parse.y is indeed shipped.
+
 dist_noinst_SCRIPTS = %D%/extexi %D%/test
 TEST_LOG_COMPILER = $(top_srcdir)/%D%/test
 
