@@ -88,9 +88,21 @@ clean-local:
 BUILT_SOURCES += $(top_srcdir)/.version
 $(top_srcdir)/.version: configure
 	echo $(VERSION) > $@-t && mv $@-t $@
-dist-hook: gen-ChangeLog
+dist-hook: gen-ChangeLog gen-synclines
 	echo $(VERSION) > $(distdir)/.tarball-version
-	cd $(distdir) && $(abs_top_builddir)/tests/bison $(AM_YFLAGS_WITH_LINES) src/parse-gram.y -o src/parse-gram.c
+
+# When generating a release, include the #lines in Bison's parser.  Do it
+# only if needed.  In particular, distcheck runs dist with read-only
+# sources, so don't try to update src/parse-gram.c: we don't have the
+# permissions.
+.PHONY: gen-synclines
+gen-synclines:
+	cd $(distdir) &&						\
+	if ! grep '#line' src/parse-gram.c >/dev/null 2>&1; then	\
+	  $(abs_top_builddir)/tests/bison				\
+	    $(AM_YFLAGS_WITH_LINES) src/parse-gram.y			\
+	    -o src/parse-gram.c;					\
+	fi
 
 .PHONY: update-b4-copyright update-package-copyright-year
 update-b4-copyright:
