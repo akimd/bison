@@ -33,7 +33,7 @@ doc_bison = doc/bison
 $(doc_bison).dvi: $(FIGS_GV:.gv=.eps)
 $(doc_bison).info: $(FIGS_GV:.gv=.txt)
 $(doc_bison).pdf: $(FIGS_GV:.gv=.pdf)
-$(doc_bison).html: $(FIGS_GV:.gv=.png)
+$(doc_bison).html: $(FIGS_GV:.gv=.svg)
 
 TEXI2DVI = texi2dvi --build-dir=doc/bison.t2d -I doc
 CLEANDIRS += doc/bison.t2d
@@ -142,14 +142,14 @@ endif
 ## Graphviz examples generation. ##
 ## ----------------------------- ##
 
-CLEANFILES += $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.png)
+CLEANFILES += $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.svg)
 FIGS_GV =                                               \
   doc/figs/example.gv                                   \
   doc/figs/example-reduce.gv doc/figs/example-shift.gv
 EXTRA_DIST +=                                                   \
   $(FIGS_GV) $(FIGS_GV:.gv=.txt)                                \
-  $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.png)
-SUFFIXES += .gv .eps .pdf .png
+  $(FIGS_GV:.gv=.eps) $(FIGS_GV:.gv=.pdf) $(FIGS_GV:.gv=.svg)
+SUFFIXES += .gv .eps .pdf .svg
 
 .gv.eps:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
@@ -161,9 +161,9 @@ SUFFIXES += .gv .eps .pdf .png
 	$(AM_V_at) $(DOT) -Gmargin=0 -Tpdf $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
-.gv.png:
+.gv.svg:
 	$(AM_V_GEN) $(MKDIR_P) `echo "./$@" | sed -e 's,/[^/]*$$,,'`
-	$(AM_V_at) $(DOT) -Gmargin=0 -Tpng $< >$@.tmp
+	$(AM_V_at) $(DOT) -Gmargin=0 -Tsvg $< >$@.tmp
 	$(AM_V_at) mv $@.tmp $@
 
 ## -------------- ##

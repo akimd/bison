@@ -9776,7 +9776,7 @@ Parser}, for a detailed analysis of the textual report.
 
 @ifnotinfo
 @float Figure,fig:graph
-@image{figs/example, 430pt}
+@center @image{figs/example, 430pt,,,.svg}
 @caption{A graphical rendering of the parser.}
 @end float
 @end ifnotinfo
@@ -9814,7 +9814,7 @@ State 3
 
 A Graphviz rendering of this portion of the graph could be:
 
-@center @image{figs/example-shift, 100pt}
+@center @image{figs/example-shift, 100pt,,,.svg}
 
 @subheading Graphical Representation of Reductions
 
@@ -9836,7 +9836,7 @@ State 1
 
 A Graphviz rendering of this portion of the graph could be:
 
-@center @image{figs/example-reduce, 120pt}
+@center @image{figs/example-reduce, 120pt,,,.svg}
 
 When unresolved conflicts are present, because in deterministic parsing
 a single decision can be made, Bison can arbitrarily choose to disable a
