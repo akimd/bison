@@ -29,5 +29,5 @@ nodist_%C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
 %C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
 
 dist_lexcalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
-CLEANFILES += %D%/lexcalc %D%/parse.c %D%/scan.c
+CLEANFILES += %D%/parse.[ch] %D%/scan.c %D%/parse.output
 CLEANDIRS += %D%/*.dSYM

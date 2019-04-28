@@ -31,6 +31,7 @@ $(calcxx_sources_generated): %D%/parser.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/parser.stamp
 CLEANFILES +=					\
   $(calcxx_sources_generated)			\
+  %D%/parser.dot				\
   %D%/parser.output				\
   %D%/parser.stamp				\
   %D%/scanner.cc

@@ -29,5 +29,5 @@ nodist_%C%_calc_SOURCES = %D%/calc.y
 %C%_calc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
 
 dist_calc_DATA = %D%/calc.y %D%/Makefile %D%/README.md
-CLEANFILES += %D%/calc %D%/*.o %D%/scan.c
+CLEANFILES += %D%/calc.[ch] %D%/calc.output %D%/scan.c
 CLEANDIRS += %D%/*.dSYM

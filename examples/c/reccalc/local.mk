@@ -48,5 +48,5 @@ DASH = -
 %C%_reccalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
 
 dist_reccalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
-CLEANFILES += %D%/reccalc %D%/*.o %D%/parse.[ch] %D%/scan.[ch] %D%/*.stamp
+CLEANFILES += %D%/parse.[ch] %D%/parse.output %D%/scan.[ch] %D%/*.stamp
 CLEANDIRS += %D%/*.dSYM
