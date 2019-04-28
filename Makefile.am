@@ -42,7 +42,7 @@ dependencies = $(BISON_IN) $(src_bison_SOURCES) $(dist_skeletons_DATA)
 BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
 YACC = $(BISON) -o y.tab.c
-AM_YFLAGS_WITH_LINES = --defines -Werror -Wall --report=all --graph
+AM_YFLAGS_WITH_LINES = --defines -Werror -Wall --report=all
 AM_YFLAGS = $(AM_YFLAGS_WITH_LINES) --no-lines
 
 # Initialization before completion by local.mk's.
