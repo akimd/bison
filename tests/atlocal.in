@@ -118,8 +118,14 @@ fi
 ## Other.  ##
 ## ------- ##
 
+# Empty if no D compiler was found.
 : ${DC='@DC@'}
 : ${DCFLAGS='@DCFLAGS@'}
+if test x"$DC" = x; then
+    BISON_DC_WORKS=false
+else
+    BISON_DC_WORKS=true
+fi
 
 # Empty if no javac was found
 : ${CONF_JAVAC='@CONF_JAVAC@'}

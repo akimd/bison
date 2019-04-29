@@ -977,6 +977,7 @@ AT_CHECK(m4_join([ ],
 # with trailing ".o" removed, and ".cc" appended.
 m4_define([AT_COMPILE_D],
 [AT_KEYWORDS(d)
+AT_SKIP_IF([[! $BISON_DC_WORKS]])
 AT_CHECK(m4_join([ ],
                  [$DC $DCFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c])],
