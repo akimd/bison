@@ -120,8 +120,8 @@ introduce lr(0) and lalr, just the way we have ielr categories.  The
 tests easy to maintain.
 
 *** complain.*
-Rename these guys as "diagnostics.*" (or "diagnose.*"), since that the name
-they have in gcc, clang, etc.  Likewise for the complain_* series of
+Rename these guys as "diagnostics.*" (or "diagnose.*"), since that's the
+name they have in gcc, clang, etc.  Likewise for the complain_* series of
 functions.
 
 * Completion
