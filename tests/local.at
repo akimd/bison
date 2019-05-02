@@ -1353,6 +1353,29 @@ m4_popdef([AT_COND_CASE])])
 
 
 
+# AT_SETS_CHECK(INPUT, SETS, EXPECTED)
+# ------------------------------------
+# Extract the information about the grammar sets from a bison
+# trace output (INPUT), and compare to EXPECTED.
+#
+# And remember, there is no alternation in portable sed.
+m4_define([AT_SETS_CHECK],
+[AT_DATA([extract.sed],
+[[#n
+]m4_foreach([m4_Set], [$2], [[
+/^]m4_Set[/ {
+   :]m4_Set[
+   p
+   n
+   /^ *$/ !b ]m4_Set[
+}
+]])])
+
+AT_CHECK([sed -f extract.sed $1], 0, [$3])
+])
+
+
+
 
 ## ----------------------- ##
 ## Launch the test suite.  ##

@@ -17,45 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# AT_EXTRACT_SETS(INPUT, OUTPUT)
-# ------------------------------
-# Extract the information about the grammar sets from a bison
-# trace output (INPUT), and save it in OUTPUT.
-# And remember, there is no alternation in portable sed.
-m4_define([AT_EXTRACT_SETS],
-[AT_DATA([extract.sed],
-[[#n
-/^NULLABLE$/ {
-   :null
-   p
-   n
-   /^ *$/ !b null
-}
-/^FIRSTS$/ {
-   :firsts
-   p
-   n
-   /^ *$/ !b firsts
-}
-/^FDERIVES$/ {
-   :fderiv
-   p
-   n
-   /^ *$/ !b fderiv
-}
-/^DERIVES$/ {
-   :deriv
-   p
-   n
-   /^ *$/ !b deriv
-}
-]])
-AT_CHECK([sed -f extract.sed $1], 0, [stdout])
-AT_CHECK([mv stdout $2])
-])
-
-
-
 AT_BANNER([[Grammar Sets (Firsts etc.).]])
 
 
@@ -79,8 +40,7 @@ e: 'e' | /* Nothing */;
 ]])
 
 AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
-AT_EXTRACT_SETS([stderr], [sets])
-AT_CHECK([[cat sets]], [],
+AT_SETS_CHECK([stderr], [[DERIVES], [NULLABLE], [FIRSTS], [FDERIVES]],
 [[DERIVES
   $accept derives
       0  e $end
@@ -209,8 +169,7 @@ exp:
 ]])
 
 AT_BISON_CHECK([[--trace=sets input.y]], [], [], [stderr])
-AT_EXTRACT_SETS([stderr], [sets])
-AT_CHECK([[cat sets]], [],
+AT_SETS_CHECK([stderr], [[DERIVES], [NULLABLE], [FIRSTS], [FDERIVES]],
 [[DERIVES
   $accept derives
       0  exp $end
