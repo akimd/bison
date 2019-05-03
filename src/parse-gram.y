@@ -49,7 +49,7 @@
   #include "xmemdup0.h"
 
   static int current_prec = 0;
-  static location current_lhs_location;
+  static location current_lhs_loc;
   static named_ref *current_lhs_named_ref;
   static symbol *current_lhs_symbol;
   static symbol_class current_class = unknown_sym;
@@ -651,7 +651,7 @@ rhses.1:
 %token PERCENT_EMPTY "%empty";
 rhs:
   %empty
-    { grammar_current_rule_begin (current_lhs_symbol, current_lhs_location,
+    { grammar_current_rule_begin (current_lhs_symbol, current_lhs_loc,
                                   current_lhs_named_ref); }
 | rhs symbol named_ref.opt
     { grammar_current_rule_symbol_append ($2, @2, $3); }
@@ -1050,7 +1050,7 @@ void
 current_lhs (symbol *sym, location loc, named_ref *ref)
 {
   current_lhs_symbol = sym;
-  current_lhs_location = loc;
+  current_lhs_loc = loc;
   if (sym)
     symbol_location_as_lhs_set (sym, loc);
   /* In order to simplify memory management, named references for lhs

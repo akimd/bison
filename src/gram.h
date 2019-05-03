@@ -203,7 +203,7 @@ typedef struct
   int expected_rr_conflicts;
 
   const char *action;
-  location action_location;
+  location action_loc;
 } rule;
 
 /* The used rules (size NRULES).  */

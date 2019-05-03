@@ -102,7 +102,7 @@ typedef struct
 # define GRAM_LTYPE location
 
 # define EMPTY_LOCATION_INIT {{NULL, 0, 0, 0}, {NULL, 0, 0, 0}}
-extern location const empty_location;
+extern location const empty_loc;
 
 /* Set *LOC and adjust scanner cursor to account for token TOKEN of
    size SIZE.  */

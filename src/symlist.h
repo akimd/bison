@@ -84,13 +84,13 @@ typedef struct symbol_list
   code_props action_props;
 
   /* The location of the first %empty for this rule, or \a
-     empty_location.  */
+     empty_loc.  */
   location percent_empty_loc;
 
   int dprec;
-  location dprec_location;
+  location dprec_loc;
   int merger;
-  location merger_declaration_location;
+  location merger_declaration_loc;
 
   /* Counts of the number of expected conflicts for this rule, or -1 if none
      given. */

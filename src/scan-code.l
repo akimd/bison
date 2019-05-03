@@ -57,8 +57,8 @@ static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
 /* A string to be pushed to obstack after dollar/at has been handled. */
 static char *ref_tail_fields;
 
-static location the_location;
-static location *loc = &the_location;
+static location current_loc;
+static location *loc = &current_loc;
 
 /* A string representing the most recent translation.  */
 static char *last_string;
@@ -187,7 +187,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   }
   "@$" {
     obstack_sgrow (&obstack_for_string, "]b4_at_dollar[");
-    muscle_percent_define_ensure("locations", the_location, true);
+    muscle_percent_define_ensure("locations", *loc, true);
   }
 }
 

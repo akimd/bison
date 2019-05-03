@@ -161,7 +161,7 @@ eqopt    ({sp}=)?
   int context_state PACIFY_CC (= 0);
 
   /* Location of most recent identifier, when applicable.  */
-  location id_loc PACIFY_CC (= empty_location);
+  location id_loc PACIFY_CC (= empty_loc);
 
   /* Where containing code started, when applicable.  Its initial
      value is relevant only when yylex is invoked in the SC_EPILOGUE
