@@ -259,6 +259,46 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
+
+## -------------------- ##
+## Add missing %empty.  ##
+## -------------------- ##
+
+AT_SETUP([Add missing %empty])
+
+AT_DATA([input.y],
+[[%%
+exp: a b c d e
+a: {}
+b:{
+};
+c:
+d
+:
+e:
+%%
+]])
+
+AT_BISON_CHECK([--update -Wall input.y], [], [], [ignore])
+AT_CHECK([cat input.y], [],
+[[%%
+exp: a b c d e
+a:  %empty {}
+b: %empty {
+};
+c: %empty @&t@
+d
+: %empty @&t@
+e: %empty @&t@
+%%
+]])
+
+# No warnings.
+AT_BISON_CHECK([-Wall input.y])
+
+AT_CLEANUP
+
+
 ## ------------------ ##
 ## Initial location.  ##
 ## ------------------ ##
