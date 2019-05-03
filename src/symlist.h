@@ -50,7 +50,6 @@ typedef struct symbol_list
      */
     semantic_type *sem_type;
   } content;
-  location location;
 
   /* Named reference. */
   named_ref *named_ref;
@@ -73,6 +72,9 @@ typedef struct symbol_list
   | Used for rules only (attached to the "LHS", one per rule even |
   | when several RHSs are bound to a single lhs via "|").         |
   `--------------------------------------------------------------*/
+
+  /* Location of the RHS. */
+  location rhs_loc;
 
   /* Precedence/associativity.  */
   symbol *ruleprec;

@@ -507,12 +507,12 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
                              dollar_or_at);
           }
         else if (midrule_rhs_index)
-          complain_indent (&rule->location, complaint, &indent,
+          complain_indent (&rule->rhs_loc, complaint, &indent,
                            _("symbol not found in production before $%d: "
                              "%.*s"),
                            midrule_rhs_index, len, cp);
         else
-          complain_indent (&rule->location, complaint, &indent,
+          complain_indent (&rule->rhs_loc, complaint, &indent,
                            _("symbol not found in production: %.*s"),
                            len, cp);
 
