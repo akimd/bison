@@ -196,16 +196,8 @@ one.y:11.3-8:       previous declaration
 bison: file 'one.y' was updated (backup: 'one.y~')
 ]])
 
-AT_CHECK([cat one.y], [],
-[[%code top {
-/* Load config.h, and adjust to the compiler.
-  We used to do it here, but each time we add a new line,
-  we have to adjust all the line numbers in error messages.
-  It's simpler to use a constant include to a varying file.  */
-#include <testsuite.h>
-}
-
-%%
+AT_CHECK([sed -e '1,8d' one.y], [],
+[[%%
 exp:
   %empty {} @&t@
 ;

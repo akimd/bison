@@ -2590,16 +2590,8 @@ AT_CHECK([diff input.y.orig input.y~])
 AT_CHECK([test ! -f output.c])
 
 # Check the update.
-AT_CHECK([cat input.y], [],
-[[%code top {
-/* Load config.h, and adjust to the compiler.
-  We used to do it here, but each time we add a new line,
-  we have to adjust all the line numbers in error messages.
-  It's simpler to use a constant include to a varying file.  */
-#include <testsuite.h>
-}
-
-
+AT_CHECK([sed -e '1,8d' input.y], [],
+[[
 %default-prec
 %define parse.error verbose
 %expect-rr 0

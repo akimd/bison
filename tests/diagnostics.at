@@ -20,6 +20,8 @@ AT_BANNER([[Diagnostics.]])
 
 # AT_TEST($1: TITLE, $2: GRAMMAR, $3: EXIT-STATUS, $4: OUTPUT-WITH-STYLE)
 # -----------------------------------------------------------------------
+# Run Bison on GRAMMAR with debugging style enabled, and expect
+# OUTPUT-WITH-STYLE as diagnostics.
 m4_pushdef([AT_TEST],
 [
 AT_SETUP([$1])
@@ -221,7 +223,7 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 
 # Locations coming from m4 need the byte-column for diagnostics.
 
-AT_TEST([[Locations from M4]],
+AT_TEST([[Tabulations and multibyte characters from M4]],
 [[%define api.prefix		{sun}
 %define api.prefix		{🌞}
 %%
