@@ -278,17 +278,17 @@ AT_DATA([[input.y]],
 [[%expect 1
 %%
 exp: e 'e';
-e: 'e' | /* Nothing. */;
+e: 'e' | %empty;
 ]])
 
 AT_BISON_CHECK([-o input.c input.y], 0, [],
-[[input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
+[[input.y:4.10-15: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_BISON_CHECK([-fcaret -o input.c input.y], 0, [],
-[[input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
-    4 | e: 'e' | /* Nothing. */;
-      |         ^
+[[input.y:4.10-15: warning: rule useless in parser due to conflicts [-Wother]
+    4 | e: 'e' | %empty;
+      |          ^~~~~~
 ]])
 
 AT_CLEANUP

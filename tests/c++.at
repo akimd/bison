@@ -893,7 +893,7 @@ error-reduce:
 
 consistent-error:
   'a'
-| /*empty*/ %prec 'a'
+| %empty %prec 'a'
 ;
 
 // Provide another context in which all rules are useful so that this
