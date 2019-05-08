@@ -15,9 +15,9 @@
 
 reccalcdir = $(docdir)/%D%
 
-## ------ ##
-## Calc.  ##
-## ------ ##
+## --------- ##
+## RecCalc.  ##
+## --------- ##
 
 if FLEX_WORKS
   check_PROGRAMS += %D%/reccalc

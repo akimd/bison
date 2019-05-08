@@ -15,9 +15,9 @@
 
 lexcalcdir = $(docdir)/%D%
 
-## ------ ##
-## Calc.  ##
-## ------ ##
+## --------- ##
+## LexCalc.  ##
+## --------- ##
 
 if FLEX_WORKS
   check_PROGRAMS += %D%/lexcalc
