@@ -41,7 +41,7 @@ extern bool no_lines_flag;              /* for -l */
 extern bool token_table_flag;           /* for -k */
 extern location yacc_loc;               /* for -y */
 extern bool update_flag;                /* for -u */
-extern bool style_debug;                /* --style=debug. */
+extern bool color_debug;                /* --color=debug. */
 /* GLR_PARSER is true if the input file says to use the GLR
    (Generalized LR) parser, and to output some additional information
    used by the GLR algorithm.  */

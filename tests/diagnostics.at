@@ -45,7 +45,7 @@ AT_CHECK([perl -p -e 's{</?\w+>}{}g' <experr.orig >experr])
 AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret -Wall input.y], [$3], [], [experr])
 
 AT_CHECK([cp experr.orig experr])
-AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --style=debug -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
 
 AT_BISON_OPTION_POPDEFS
 
