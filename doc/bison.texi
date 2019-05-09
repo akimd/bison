@@ -7,16 +7,49 @@
 @settitle Bison @value{VERSION}
 @setchapternewpage odd
 
+@tex
+\gdef\rgbWarning{0.50 0 0.50}
+\gdef\colorWarning{%
+ \setcolor{\rgbWarning}%
+}
+\gdef\rgbError{0.80 0 0}
+\gdef\colorError{%
+ \setcolor{\rgbError}%
+}
+\gdef\rgbNotice{0 0 0.80}
+\gdef\colorNotice{%
+ \setcolor{\rgbNotice}%
+}
+\gdef\colorOff{%
+ \setcolor{\maincolor}%
+}
+@end tex
+
+@ifnottex
+@macro colorWarning
+@inlineraw{html, <b style="color:darkviolet">}
+@end macro
+@macro colorError
+@inlineraw{html, <b style="color:red">}
+@end macro
+@macro colorNotice
+@inlineraw{html, <b style="color:darkcyan">}
+@end macro
+@macro colorOff
+@inlineraw{html, </b>}
+@end macro
+@end ifnottex
+
 @macro dwarning{text}
-@inlineraw{html, <b style="color:darkviolet">} \text\ @inlineraw{html, </b>}
+@colorWarning{}\text\@colorOff{}
 @end macro
 
 @macro derror{text}
-@inlineraw{html, <b style="color:red">} \text\ @inlineraw{html, </b>}
+@colorError{}\text\@colorOff{}
 @end macro
 
 @macro dnotice{text}
-@inlineraw{html, <b style="color:darkcyan">} \text\ @inlineraw{html, </b>}
+@colorNotice{}\text\@colorOff{}
 @end macro
 
 @finalout
