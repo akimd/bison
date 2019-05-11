@@ -11,8 +11,56 @@ env:
     # See https://github.com/nemequ/icc-travis.
     secure: B3manbbi0anCAGDJTdAa9TlodzRHeiYD87FKmFzS877dPm8Cm0BDvtUhKBUpBvP8+nbHOWFGrgDmLugSZjTGU+mAxtuQpamUFHvinu0BIk3qtjlqouwvbtIqUu8iiZ3Uqu+xKeAANKRy0YVZGLlEb9F3N119tJ/Fxp1p9bXL1qph+CZ25OFbUgZ2s4F+/AyHMUxJlNXKFe3Qean65hC6edhU3zoaKzr/g/wtbhRmcyWbkOa1dJqzr2yKotcPvrnApGhDzgMKFtohg/t7xfMADDVv6sGS5XNpt25Z+MUCmLg4Z9eD7u109jvRV1eu/jgVafqsthWEhXbuMiFgFhKBKGCNZ0dACIfKZSkFZI6FdM7ovJ6aNhSlxZ2169Ybd22rN1UTHeCQWySPcVVOg5taLVpqe+E8Xhnv4hBO5NrzElWwCMLxIdPUSwVStYvtDr8ZytHWzfot50vSnFKIFpTOr9hP4+AJMVmmqJfaJo2MLBft/q2xkztrMv3lQSj3m4+ma9kPDwXIu9uCutjlnhc00jNx9qegi5VfpAjxcG1R+pX4T20az6ByHk/7LPQsANkT31RJq/jAeD9LEuMOy8miha83q4QuvbFaqPK3PY0el/O1LZaXqLsV2aQ0uqH8YX0l4r5NzHdhb+3lYgvpMBO5ytr/EWJiEyNYV518050IUDE=
 
-matrix:
+# Run in two steps:
+# 1. Build the tarball
+#    On a modern distro, with all the needed dependencies, including the whole git history.
+# 2. Check it on various environments.
+#    Less dependencies, and little git content (we would like to have none, but it's not
+#    an option on Travis).
+stages:
+  - compile
+  - test
+
+# matrix.include and jobs.include are aliases (https://docs.travis-ci.com/user/conditional-builds-stages-jobs/).
+jobs:
   include:
+    - stage: "compile"
+      dist: xenial
+      script:
+        - sudo apt-get update -qq
+        - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo
+        - autoconf --version
+        - automake --version
+        - autopoint --version
+        - dot -V
+        - gettext --version
+        - help2man --version
+        - makeinfo --version
+        - m4 --version
+        - git tag -l
+        # For some reasons, sometimes the checkout does not have any tags,
+        # so `git describe` fails, so bootstrap fails.
+        - git describe || git tag v3.0 -m "Fake version 3.0."
+        - git describe
+
+        # Appears to be needed for the following command (https://github.com/AppImage/AppImageKit/issues/511).
+        - git submodule sync
+        # Travis makes a shallow clone, but we need it in full to build the ChangeLog and apply the fixes in git-log-fix.
+        - git fetch --unshallow || true
+
+        - ./bootstrap
+        - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
+        - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
+        - make -j2
+        - make -j2 dist
+        - dist=$(echo bison*.xz)
+        # Unfortunately we cannot deterministically know the name of the tarball without the full
+        # git history (because git describe --abbrev=4 may use more than 4 characters if there are
+        # conflicts).  Besides, one day we would like not to depend on the repository at all in the
+        # 'test' jobs.  So also expose this tarball on a name that only depends on the Travis build
+        # number.
+        - sftp bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
+
     ## ------- ##
     ## First.  ##
     ## ------- ##
@@ -21,6 +69,7 @@ matrix:
     # errors asap.
 
     - name: "GCC 7 -O3"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -33,8 +82,9 @@ matrix:
         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
     # ASAN is time consuming, and we timeout the 50min granted by
-    # Travis if we run all the tests in on go.  Run in two parts.
+    # Travis if we run all the tests in one go.  Run in two parts.
     - name: "Clang 7 libc++ and ASAN part 1"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -51,6 +101,7 @@ matrix:
         - MATRIX_EVAL="PART=1 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
 
     - name: "Clang 7 libc++ and ASAN part 2"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -67,6 +118,7 @@ matrix:
         - MATRIX_EVAL="PART=2 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
 
     - name: "ICC"
+      stage: test
       os: linux
       dist: xenial
       env:
@@ -100,6 +152,7 @@ matrix:
     #    - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
 
     - name: "GCC 6"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -112,6 +165,7 @@ matrix:
         - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 
     - name: "GCC 5"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -124,6 +178,7 @@ matrix:
          - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
     - name: "GCC 4.9"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -136,6 +191,7 @@ matrix:
          - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
 
     - name: "GCC 4.8"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -148,6 +204,7 @@ matrix:
          - MATRIX_EVAL="CC=gcc-4.8 && CXX=g++-4.8"
 
     - name: "GCC 4.7"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -160,6 +217,7 @@ matrix:
          - MATRIX_EVAL="CC=gcc-4.7 && CXX=g++-4.7"
 
     - name: "GCC 4.6"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -176,6 +234,7 @@ matrix:
     ## ------- ##
 
     - name: "Clang 6 -O3 and libc++"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -191,6 +250,7 @@ matrix:
         - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     - name: "Clang 5"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -204,6 +264,7 @@ matrix:
         - MATRIX_EVAL="CC='clang-5.0' CXX='clang++-5.0'"
 
     - name: "Clang 4"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -216,6 +277,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
 
     - name: "Clang 3.9"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -228,6 +290,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
 
     - name: "Clang 3.8"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -241,6 +304,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
 
     - name: "CLang 3.7"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -254,6 +318,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
 
     - name: "Clang 3.6"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -267,6 +332,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
 
     - name: "Clang 3.5"
+      stage: test
       os: linux
       dist: xenial
       addons:
@@ -280,6 +346,7 @@ matrix:
         - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
 
     - name: "Clang 3.4"
+      stage: test
       os: linux
       # Not available on Xenial.
       dist: trusty
@@ -290,9 +357,10 @@ matrix:
       env:
         # No versioned name installed, but beware that Travis installs
         # a more modern clang earlier in the default PATH.
-        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++ && GETTEXT_VERSION=0.18.3'
+        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
 
     - name: "Clang 3.3"
+      stage: test
       os: linux
       # Not available on Xenial.
       dist: trusty
@@ -302,50 +370,56 @@ matrix:
             - clang-3.3
       env:
         # See comment for 3.4.
-        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++ && GETTEXT_VERSION=0.18.3'
+        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
 
+## From https://docs.gitlab.com/ce/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor.
+## Applies to Travis too.  Applied to all the 'script's (of all the jobs).
+before_script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval "$(ssh-agent -s)"
+  # $SSH_PRIVATE_KEY is multiline.  Use $'...' to register its value: $'-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXX...\n...==\n-----END OPENSSH PRIVATE KEY-----'.
+  - echo "$SSH_PRIVATE_KEY" >/tmp/key.id_rsa
+  - chmod 600 /tmp/key.id_rsa
+  - ssh-add /tmp/key.id_rsa </dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - echo '|1|bpc51UGxoDZjCPiwRlCStW32trI=|rfh6mLoLZv/vAvOVrpZXI1hTLxg= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIR+ckMoJTNXHvAQLHWSfrRnrNJGW2ZR6kr5pBVDGCkz1v1RcQ5rleq0NAt9kS3v4hgnuLiEVnK7KDRzcEH3ikc=' >>~/.ssh/known_hosts
+  - chmod 600 ~/.ssh/known_hosts
 
-before_install:
+# Applies only to the jobs that don't have a 'script', i.e., applies to all the 'test' jobs, but not the 'compile' one.
+script:
   - eval "$MATRIX_EVAL"
-  - env
+  # Beware not too leak $SSH_PRIVATE_KEY.
+  # - env
   - sudo apt-get update -qq
-  - sudo apt-get install -qq autoconf automake autopoint doxygen flex gettext graphviz help2man m4 texinfo
+  - sudo apt-get install -qq doxygen flex m4
+  # Install and activate ICC.
   - if [[ $CC == "icc" ]]; then build-aux/install-icc.sh; fi
   - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
-  # Install and activate dmd
+  # Install and activate dmd.
   - mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
   - source $(source ~/dlang/install.sh dmd -a)
-  - autoconf --version
-  - automake --version
-  - autopoint --version
+
   - $CC --version
   - $CXX --version
   - dmd --version
   - doxygen --version
   - flex --version
-  - gettext --version
-  - dot -V
-  - help2man --version
   - ld --version
   - m4 --version
-  - makeinfo --version
 
-script:
-  - git tag -l
-  # For some reasons, sometimes the checkout does not have any tags,
-  # so `git describe` fails, so bootstrap fails.
-  - git describe || git tag v3.0 -m "Fake version 3.0."
-  - git describe
+  - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   # Unset this variable, otherwise, Java programs' stderr is cluttered
   # with `Picked up _JAVA_OPTIONS: -Xmx2048m -Xms512m`, which makes
   # the test suite fail.
   - unset _JAVA_OPTIONS
-  - if [[ $GETTEXT_VERSION ]]; then sed -i -re "s/(AM_GNU_GETTEXT_VERSION).*/\1([$GETTEXT_VERSION])/" configure.ac; fi
-  - ./bootstrap
-  # For some reason, gnulib-po/Makefile.in.in is about Gettext 0.19, so it will break here.  Override it.
-  - if [[ $GETTEXT_VERSION ]]; then autopoint --force; fi
-  - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
-  - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
+  - sftp bison@sftp.lrde.epita.fr:bison-$TRAVIS_BUILD_NUMBER.tar.xz
+  - tar xf bison-$TRAVIS_BUILD_NUMBER.tar.xz
+  - dir=$(tar tf bison-$TRAVIS_BUILD_NUMBER.tar.xz | sed 1q)
+  - cd $dir
+  - mkdir _build
+  - cd _build
+  - ../configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS
   - if test ${PART-1} = 1; then make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat test-suite.log && cat tests/testsuite.log && false; }; fi
   - if test ${PART-1} = 1; then make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
