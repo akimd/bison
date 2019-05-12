@@ -2,6 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Portability issues were fixed.
 
 * Noteworthy changes in release 3.3.90 (2019-04-28) [beta]
 
