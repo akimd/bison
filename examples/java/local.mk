@@ -27,10 +27,10 @@ EXTRA_DIST += %D%/Calc.test
 
 %D%/Calc.java: %D%/Calc.y $(dependencies)
 	$(AM_V_GEN)$(MKDIR_P) %D%
-	$(AM_V_at)$(BISON) $< -o $@
+	$(AM_V_at)$(BISON) $(srcdir)/%D%/Calc.y -o $@
 
 %D%/Calc.class: %D%/Calc.java
-	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh $<
+	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh $(srcdir)/%D%/Calc.java
 
 dist_java_DATA = %D%/Calc.y %D%/Makefile %D%/README.md
 CLEANFILES += %D%/*.class %D%/Calc.java

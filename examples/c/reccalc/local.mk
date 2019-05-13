@@ -41,7 +41,7 @@ DASH = -
 	$(AM_V_LEX)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at) $(LEX) -o %D%/scan.c --header-file=%D%/scan.h $<
+	$(AM_V_at)$(LEX) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
 	$(AM_V_at)mv $@.tmp $@
 
 # Don't use gnulib's system headers.
