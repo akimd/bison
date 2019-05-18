@@ -15,10 +15,10 @@ GNU Bison NEWS
 
 *** Colored diagnostics
 
-  As an experimental feature, Bison now generates colored diagnostics,
-  controlled by the new options --color and --style.
+  As an experimental feature, diagnostics are now colored, controlled by the
+  new options --color and --style.
 
-  Install the libtextstyle library before configuring Bison to use them.
+  To use them, install the libtextstyle library before configuring Bison.
   It is available from
 
     https://alpha.gnu.org/gnu/gettext/
@@ -34,12 +34,13 @@ GNU Bison NEWS
 
   To customize the styles, create a CSS file similar to
 
-    /* black-and-white.css */
+    /* bison-bw.css */
     .warning   { }
     .error     { font-weight: 800; text-decoration: underline; }
     .note      { }
 
-  then invoke bison with --style=black-and-white.css.
+  then invoke bison with --style=bison-bw.css, or set the BISON_STYLE
+  environment variable to "bison-bw.css".
 
 *** Disabling output
 
@@ -3623,7 +3624,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  redeclaration sval fcaret reentrant XSLT xsl Wmaybe yyvsp Tedi
  LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
  LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
- LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir
+ LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir bw
  LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG DECL num
  LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
  LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits

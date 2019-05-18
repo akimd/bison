@@ -16,7 +16,7 @@
 
 dist_pkgdata_DATA =                             \
   data/README.md                                \
-  data/diagnostics.css
+  data/bison-default.css
 
 skeletonsdir = $(pkgdatadir)/skeletons
 dist_skeletons_DATA =                           \
