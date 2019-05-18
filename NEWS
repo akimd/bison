@@ -2,14 +2,12 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Deprecated features
 
-* Noteworthy changes in release 3.3.91 (2019-05-12) [beta]
-
-** Bug fixes
-
-  Portability issues were fixed.
-
-* Noteworthy changes in release 3.3.90 (2019-04-28) [beta]
+  The %pure-parser directive is deprecated in favor of '%define api.pure'
+  since Bison 2.3b (2008-05-27), but no warning was issued; there is one
+  now.  Note that since Bison 2.7 you are strongly encouraged to use
+  '%define api.pure full' instead of '%define api.pure'.
 
 ** New features
 
