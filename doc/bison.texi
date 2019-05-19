@@ -11568,7 +11568,7 @@ Instead of using the built-in types you may use the @code{%define} variable
 The requirements over your @var{LocationType} are:
 @itemize
 @item
-it must be copyable;
+it must be copiable;
 
 @item
 in order to compute the (default) value of @code{@@$} in a reduction, the
@@ -11578,7 +11578,7 @@ parser basically runs
 @@$.end   = @@@var{N}.end; // The location of last right-hand side symbol.
 @end example
 @noindent
-so there must be copyable @code{begin} and @code{end} members;
+so there must be copiable @code{begin} and @code{end} members;
 
 @item
 alternatively you may redefine the computation of the default location, in
@@ -14473,7 +14473,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: YYENABLE bindtextdomain Makefile DEFS CPPFLAGS DBISON DeRemer
 @c LocalWords: autoreconf Pennello multisets nondeterminism Generalised baz ACM
 @c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
-@c LocalWords: multitable headitem hh basename Doxygen fno filename
+@c LocalWords: multitable headitem hh basename Doxygen fno filename gdef
 @c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
 @c LocalWords: Ctor defcv defcvx arg accessors arithmetics CPP ifndef CALCXX
 @c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
@@ -14494,14 +14494,17 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: errorVerbose subtype subtypes Wmidrule midrule's src rvalues
 @c LocalWords: automove evolutions Wother Wconflicts PNG lookaheads Acc sep
 @c LocalWords: xsltproc XSL xsl xhtml html num Wprecedence Werror fcaret gv
-@c LocalWords: fdiagnostics setlocale nullptr ast srcdir copyable iff drv
+@c LocalWords: fdiagnostics setlocale nullptr ast srcdir iff drv rgbWarning
 @c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif ish
 @c LocalWords: Wdeprecated Wregister noinput yyloc yypos PODs sstream Wsign
 @c LocalWords: typename emplace Wconversion Wshorten yacchack reentrancy
-@c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit
+@c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit svg
 @c LocalWords: DNDEBUG cstring Wzero workalike POPL workalikes byacc UCB
 @c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP
-@c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN
+@c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN colorWarning
+@c LocalWords: setcolor rgbError colorError rgbNotice colorNotice derror
+@c LocalWords: colorOff maincolor inlineraw darkviolet darkcyan dwarning
+@c LocalWords: dnotice copiable
 
 @c Local Variables:
 @c ispell-dictionary: "american"

@@ -218,7 +218,7 @@ m4_define([b4_shared_declarations],
 ]b4_token_constructor_define[
 
   private:
-    /// This class is not copyable.
+    /// This class is not copiable.
     ]b4_parser_class[ (const ]b4_parser_class[&);
     ]b4_parser_class[& operator= (const ]b4_parser_class[&);
 
