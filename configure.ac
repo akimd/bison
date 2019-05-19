@@ -215,6 +215,7 @@ $LEX_IS_FLEX || test "X$LEX" = X: || {
   AC_MSG_WARN([bypassing lex because flex is required])
   LEX=:
 }
+AM_CONDITIONAL([FLEX_WORKS], [$LEX_IS_FLEX])
 AM_CONDITIONAL([FLEX_CXX_WORKS],
   [$LEX_IS_FLEX && test $bison_cv_cxx_works = yes])
 AC_PROG_YACC

@@ -19,15 +19,17 @@ lexcalcdir = $(docdir)/%D%
 ## Calc.  ##
 ## ------ ##
 
-check_PROGRAMS += %D%/lexcalc
-TESTS += %D%/lexcalc.test
-EXTRA_DIST += %D%/lexcalc.test
-nodist_%C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
+if FLEX_WORKS
+  check_PROGRAMS += %D%/lexcalc
+  TESTS += %D%/lexcalc.test
+  nodist_%C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
+  # Don't use gnulib's system headers.
+  %C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+endif FLEX_WORKS
+
 %D%/parse.c: $(dependencies)
 
-# Don't use gnulib's system headers.
-%C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
-
+EXTRA_DIST += %D%/lexcalc.test
 dist_lexcalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
 CLEANFILES += %D%/parse.[ch] %D%/scan.c %D%/parse.output
 CLEANDIRS += %D%/*.dSYM

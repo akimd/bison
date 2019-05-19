@@ -19,11 +19,15 @@ reccalcdir = $(docdir)/%D%
 ## Calc.  ##
 ## ------ ##
 
-check_PROGRAMS += %D%/reccalc
-TESTS += %D%/reccalc.test
-EXTRA_DIST += %D%/reccalc.test %D%/scan.l
-nodist_%C%_reccalc_SOURCES = %D%/parse.y %D%/scan.h %D%/scan.c
-BUILT_SOURCES += $(nodist_%C%_reccalc_SOURCES)
+if FLEX_WORKS
+  check_PROGRAMS += %D%/reccalc
+  TESTS += %D%/reccalc.test
+  nodist_%C%_reccalc_SOURCES = %D%/parse.y %D%/scan.h %D%/scan.c
+  BUILT_SOURCES += $(nodist_%C%_reccalc_SOURCES)
+  # Don't use gnulib's system headers.
+  %C%_reccalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+endif FLEX_WORKS
+
 %D%/parse.c: $(dependencies)
 
 # Tell Make that parse.o depends on scan.h, so that scan.h is built
@@ -44,9 +48,8 @@ DASH = -
 	$(AM_V_at)$(LEX) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
 	$(AM_V_at)mv $@.tmp $@
 
-# Don't use gnulib's system headers.
-%C%_reccalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
 
+EXTRA_DIST += %D%/reccalc.test %D%/scan.l
 dist_reccalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
 CLEANFILES += %D%/parse.[ch] %D%/parse.output %D%/scan.[ch] %D%/*.stamp
 CLEANDIRS += %D%/*.dSYM
