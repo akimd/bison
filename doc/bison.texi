@@ -11568,7 +11568,7 @@ Instead of using the built-in types you may use the @code{%define} variable
 The requirements over your @var{LocationType} are:
 @itemize
 @item
-it must be copiable;
+it must be copyable;
 
 @item
 in order to compute the (default) value of @code{@@$} in a reduction, the
@@ -11578,7 +11578,7 @@ parser basically runs
 @@$.end   = @@@var{N}.end; // The location of last right-hand side symbol.
 @end example
 @noindent
-so there must be copiable @code{begin} and @code{end} members;
+so there must be copyable @code{begin} and @code{end} members;
 
 @item
 alternatively you may redefine the computation of the default location, in
@@ -14504,7 +14504,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN colorWarning
 @c LocalWords: setcolor rgbError colorError rgbNotice colorNotice derror
 @c LocalWords: colorOff maincolor inlineraw darkviolet darkcyan dwarning
-@c LocalWords: dnotice copiable
+@c LocalWords: dnotice copyable
 
 @c Local Variables:
 @c ispell-dictionary: "american"
