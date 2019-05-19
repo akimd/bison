@@ -2556,8 +2556,8 @@ input.y:23.1-9: warning: deprecated directive: '%no_lines', use '%no-lines' [-Wd
 fix-it:"input.y":{23:1-23:10}:"%no-lines"
 input.y:24.1-9: warning: deprecated directive: '%output =', use '%output' [-Wdeprecated]
 fix-it:"input.y":{24:1-24:10}:"%output"
-input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%pure-parser' [-Wdeprecated]
-fix-it:"input.y":{25:1-25:13}:"%pure-parser"
+input.y:25.1-12: warning: deprecated directive: '%pure_parser', use '%define api.pure' [-Wdeprecated]
+fix-it:"input.y":{25:1-25:13}:"%define api.pure"
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
 fix-it:"input.y":{26:1-26:13}:"%token-table"
 input.y:27.1-14: warning: %define variable 'parse.error' redefined [-Wother]
@@ -2603,7 +2603,7 @@ AT_CHECK([sed -e '1,8d' input.y], [],
 %no-default-prec
 %no-lines
 %output "output.c"
-%pure-parser
+%define api.pure
 %token-table
 %glr-parser
 %%
@@ -2678,7 +2678,6 @@ AT_DATA_GRAMMAR([[input.y]],
 %no-default-prec
 %no-lines
 %output "foo"
-%pure-parser
 %token-table
 %% exp : '0'
 ]])

@@ -94,6 +94,9 @@
   static void handle_name_prefix (location const *loc,
                                   char const *directive, char const *value);
 
+  /* Handle a %pure-parser directive.  */
+  static void handle_pure_parser (location const *loc, char const *directive);
+
   /* Handle a %require directive.  */
   static void handle_require (location const *loc, char const *version);
 
@@ -181,6 +184,7 @@
   PERCENT_NONDETERMINISTIC_PARSER
                           "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
+  PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_REQUIRE         "%require"
   PERCENT_SKELETON        "%skeleton"
   PERCENT_START           "%start"
@@ -219,7 +223,7 @@
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
   PERCENT_ERROR_VERBOSE PERCENT_FILE_PREFIX PERCENT_FLAG PERCENT_NAME_PREFIX
-  PERCENT_YACC
+  PERCENT_PURE_PARSER PERCENT_YACC
   TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
@@ -343,6 +347,7 @@ prologue_declaration:
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
 | "%output" STRING              { spec_outfile = $2; }
 | "%param" { current_param = $1; } params { current_param = param_none; }
+| "%pure-parser"                { handle_pure_parser (&@$, $1); }
 | "%require" STRING             { handle_require (&@2, $2); }
 | "%skeleton" STRING            { handle_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
@@ -910,6 +915,7 @@ handle_file_prefix (location const *loc,
     deprecated_directive (dir_loc, directive, "%file-prefix");
 }
 
+
 static void
 handle_name_prefix (location const *loc,
                     char const *directive, char const *value)
@@ -941,6 +947,16 @@ handle_name_prefix (location const *loc,
 
   if (old != buf1)
     free (old);
+}
+
+
+static void
+handle_pure_parser (location const *loc, char const *directive)
+{
+  bison_directive (loc, directive);
+  deprecated_directive (loc, directive, "%define api.pure");
+  muscle_percent_define_insert ("api.pure", *loc, muscle_keyword, "",
+                                MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
 }
 
 
@@ -1006,6 +1022,7 @@ handle_skeleton (location const *loc, char const *skel)
   skeleton_arg (skeleton_user, grammar_prio, *loc);
 }
 
+
 static void
 handle_yacc (location const *loc, char const *directive)
 {
@@ -1025,6 +1042,7 @@ handle_yacc (location const *loc, char const *directive)
       && STRNEQ (directive, "%yacc"))
     deprecated_directive (loc, directive, "%fixed-output-files");
 }
+
 
 static void
 gram_error (location const *loc, char const *msg)

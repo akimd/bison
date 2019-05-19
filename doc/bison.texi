@@ -12416,8 +12416,8 @@ You can create documentation for generated parsers using Javadoc.
 
 Contrary to C parsers, Java parsers do not use global variables; the state
 of the parser is always local to an instance of the parser class.
-Therefore, all Java parsers are ``pure'', and the @code{%pure-parser} and
-@code{%define api.pure} directives do nothing when used in Java.
+Therefore, all Java parsers are ``pure'', and the @code{%define api.pure}
+directive does nothing when used in Java.
 
 Push parsers are currently unsupported in Java and @code{%define
 api.push-pull} have no effect.

@@ -1870,7 +1870,7 @@ AT_DATA_GRAMMAR([input.y],
 [[
 %define parse.error verbose
 %debug
-%pure-parser
+%define api.pure
 %code {
 # include <stdio.h>
 # include <stdlib.h>

@@ -252,7 +252,6 @@ eqopt    ({sp}=)?
   "%prec"                           return PERCENT_PREC;
   "%precedence"                     return BISON_DIRECTIVE (PRECEDENCE);
   "%printer"                        return BISON_DIRECTIVE (PRINTER);
-  "%pure-parser"                    RETURN_PERCENT_FLAG ("api.pure");
   "%require"                        return BISON_DIRECTIVE (REQUIRE);
   "%right"                          return PERCENT_RIGHT;
   "%skeleton"                       return BISON_DIRECTIVE (SKELETON);
@@ -264,6 +263,10 @@ eqopt    ({sp}=)?
   "%union"                          return PERCENT_UNION;
   "%verbose"                        return BISON_DIRECTIVE (VERBOSE);
   "%yacc"                           RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
+
+  /* Deprecated since Bison 2.3b (2008-05-27), but the warning is
+     issued only since Bison 3.4. */
+  "%pure"[-_]"parser"               RETURN_VALUE (PERCENT_PURE_PARSER, uniqstr_new (yytext));
 
   /* Deprecated since Bison 3.0 (2013-07-25), but the warning is
      issued only since Bison 3.3. */
@@ -282,7 +285,6 @@ eqopt    ({sp}=)?
   "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
   "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
   "%output"{eqopt}                  DEPRECATED ("%output");
-  "%pure"[-_]"parser"               DEPRECATED ("%pure-parser");
   "%token"[-_]"table"               DEPRECATED ("%token-table");
 
   "%"{id} {
