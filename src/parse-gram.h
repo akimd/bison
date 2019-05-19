@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.3.2.153-f5a4-dirty.  */
+/* A Bison parser, made by GNU Bison 3.3.91.21-ba0ae5-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -108,32 +108,33 @@ extern int gram_debug;
     PERCENT_NO_LINES = 285,
     PERCENT_NONDETERMINISTIC_PARSER = 286,
     PERCENT_OUTPUT = 287,
-    PERCENT_REQUIRE = 288,
-    PERCENT_SKELETON = 289,
-    PERCENT_START = 290,
-    PERCENT_TOKEN_TABLE = 291,
-    PERCENT_VERBOSE = 292,
-    PERCENT_YACC = 293,
-    BRACED_CODE = 294,
-    BRACED_PREDICATE = 295,
-    BRACKETED_ID = 296,
-    CHAR = 297,
-    COLON = 298,
-    EPILOGUE = 299,
-    EQUAL = 300,
-    ID = 301,
-    ID_COLON = 302,
-    PERCENT_PERCENT = 303,
-    PIPE = 304,
-    PROLOGUE = 305,
-    SEMICOLON = 306,
-    TAG = 307,
-    TAG_ANY = 308,
-    TAG_NONE = 309,
-    INT = 310,
-    PERCENT_PARAM = 311,
-    PERCENT_UNION = 312,
-    PERCENT_EMPTY = 313
+    PERCENT_PURE_PARSER = 288,
+    PERCENT_REQUIRE = 289,
+    PERCENT_SKELETON = 290,
+    PERCENT_START = 291,
+    PERCENT_TOKEN_TABLE = 292,
+    PERCENT_VERBOSE = 293,
+    PERCENT_YACC = 294,
+    BRACED_CODE = 295,
+    BRACED_PREDICATE = 296,
+    BRACKETED_ID = 297,
+    CHAR = 298,
+    COLON = 299,
+    EPILOGUE = 300,
+    EQUAL = 301,
+    ID = 302,
+    ID_COLON = 303,
+    PERCENT_PERCENT = 304,
+    PIPE = 305,
+    PROLOGUE = 306,
+    SEMICOLON = 307,
+    TAG = 308,
+    TAG_ANY = 309,
+    TAG_NONE = 310,
+    INT = 311,
+    PERCENT_PARAM = 312,
+    PERCENT_UNION = 313,
+    PERCENT_EMPTY = 314
   };
 #endif
 
@@ -159,9 +160,9 @@ union GRAM_STYPE
   /* "integer"  */
   int INT;
   /* int.opt  */
-  int yytype_80;
+  int yytype_81;
   /* named_ref.opt  */
-  named_ref* yytype_92;
+  named_ref* yytype_93;
   /* "%param"  */
   param_type PERCENT_PARAM;
   /* token_decl  */
@@ -177,7 +178,7 @@ union GRAM_STYPE
   /* string_as_id  */
   symbol* string_as_id;
   /* string_as_id.opt  */
-  symbol* yytype_99;
+  symbol* yytype_100;
   /* generic_symlist  */
   symbol_list* generic_symlist;
   /* generic_symlist_item  */
@@ -187,15 +188,15 @@ union GRAM_STYPE
   /* token_decls  */
   symbol_list* token_decls;
   /* token_decl.1  */
-  symbol_list* yytype_78;
+  symbol_list* yytype_79;
   /* token_decls_for_prec  */
   symbol_list* token_decls_for_prec;
   /* token_decl_for_prec.1  */
-  symbol_list* yytype_82;
+  symbol_list* yytype_83;
   /* symbol_decls  */
   symbol_list* symbol_decls;
   /* symbol_decl.1  */
-  symbol_list* yytype_85;
+  symbol_list* yytype_86;
   /* "%error-verbose"  */
   uniqstr PERCENT_ERROR_VERBOSE;
   /* "%<flag>"  */
@@ -204,6 +205,8 @@ union GRAM_STYPE
   uniqstr PERCENT_FILE_PREFIX;
   /* "%name-prefix"  */
   uniqstr PERCENT_NAME_PREFIX;
+  /* "%pure-parser"  */
+  uniqstr PERCENT_PURE_PARSER;
   /* "%yacc"  */
   uniqstr PERCENT_YACC;
   /* "[identifier]"  */
@@ -215,7 +218,7 @@ union GRAM_STYPE
   /* "<tag>"  */
   uniqstr TAG;
   /* tag.opt  */
-  uniqstr yytype_72;
+  uniqstr yytype_73;
   /* tag  */
   uniqstr tag;
   /* variable  */
