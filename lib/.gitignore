@@ -321,3 +321,10 @@
 /assure.h
 /fsync.c
 /textstyle.in.h
+/windows-mutex.c
+/windows-mutex.h
+/windows-once.c
+/windows-once.h
+/windows-recmutex.c
+/windows-recmutex.h
+/windows-spinlock.h

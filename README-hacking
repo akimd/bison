@@ -309,7 +309,7 @@ re-run the tests, run:
 
     ./gnulib-tool --symlink --create-test --dir=/tmp/gnutest bitset-tests
     cd /tmp/gnutest
-    ./configure CC='gcc-mp-8 -fsanitize=undefined'
+    ./configure -C CC='gcc-mp-8 -fsanitize=undefined' CFLAGS='-ggdb'
     make check
 
 * Release Procedure
