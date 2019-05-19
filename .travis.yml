@@ -1,8 +1,7 @@
 # Travis defines and exports CC and CXX *after* we have defined our
-# environment variables via 'env'.  So, do not use 'env' to define
-# them.  Instead, put their definitions in MATRIX_EVAL, which we eval
-# after the definitions from Travis.
-
+# environment variables via 'env'.  So, do not use 'env' to define them.
+# Instead, put their definitions in MATRIX_EVAL, which we eval after the
+# definitions from Travis.
 language: cpp
 
 env:
@@ -21,7 +20,17 @@ stages:
   - compile
   - test
 
-# matrix.include and jobs.include are aliases (https://docs.travis-ci.com/user/conditional-builds-stages-jobs/).
+git:
+  # Manually handle submodules so that we don't have to uselessly waste 150s
+  # to download gnulib in the 'test' jobs.
+  submodules: false
+
+  # For the same reasons, we would like to not clone the repo either, but it
+  # does not seem to be possible.
+  depth: 1
+
+# matrix.include and jobs.include are aliases
+# (https://docs.travis-ci.com/user/conditional-builds-stages-jobs/).
 jobs:
   include:
     - stage: "compile"
@@ -37,19 +46,12 @@ jobs:
         - help2man --version
         - makeinfo --version
         - m4 --version
-        - git tag -l
-        # For some reasons, sometimes the checkout does not have any tags,
-        # so `git describe` fails, so bootstrap fails.
-        - git describe || git tag v3.0 -m "Fake version 3.0."
-        - git describe
 
-        # Appears to be needed for the following command (https://github.com/AppImage/AppImageKit/issues/511).
-        - git submodule sync
         # Travis makes a shallow clone, but we need it in full to build the ChangeLog and apply the fixes in git-log-fix.
         - git fetch --unshallow || true
+        - git submodule update --init --recursive
 
         - ./bootstrap
-        - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
         - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
         - make -j2
         - make -j2 dist
