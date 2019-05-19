@@ -90,7 +90,17 @@ m4_define([_AT_SYNCLINES_COMPILE],
 #    syncline.c:4:2: error: #error "4"
 #     #error "4"
 #      ^~~~~
+#
+# GCC 9 displays a left-hand margin with the line number:
+#
+#    syncline.c: In function 'foo':
+#    syncline.c:4:2: error: #error "4"
+#        4 | #error "4"
+#          |  ^~~~~
 AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
+  # Remove left-hand margin.
+  s/^[\d ]{6}\| //gm;
+
   # 1. Remove useless lines.
 
   # distcc clutter.
