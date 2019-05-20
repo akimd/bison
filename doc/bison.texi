@@ -2,10 +2,8 @@
 @comment %**start of header
 @setfilename bison.info
 @documentencoding UTF-8
-@documentlanguage en
 @include version.texi
 @settitle Bison @value{VERSION}
-@setchapternewpage odd
 
 @tex
 \gdef\rgbWarning{0.50 0 0.50}
@@ -58,6 +56,7 @@
 @c This edition has been formatted so that you can format and print it in
 @c the smallbook format.
 @c @smallbook
+@c @setchapternewpage odd
 
 @c Set following if you want to document %default-prec and %no-default-prec.
 @c This feature is experimental and may change in future Bison versions.
