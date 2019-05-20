@@ -36,7 +36,6 @@ jobs:
     - stage: "compile"
       dist: xenial
       script:
-        - sudo apt-get update -qq
         - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo
         - autoconf --version
         - automake --version
@@ -377,7 +376,7 @@ jobs:
 ## From https://docs.gitlab.com/ce/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor.
 ## Applies to Travis too.  Applied to all the 'script's (of all the jobs).
 before_script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - 'which ssh-agent || ( sudo apt-get install openssh-client -y )'
   - eval "$(ssh-agent -s)"
   # $SSH_PRIVATE_KEY is multiline.  Use $'...' to register its value: $'-----BEGIN OPENSSH PRIVATE KEY-----\nXXXXX...\n...==\n-----END OPENSSH PRIVATE KEY-----'.
   - echo "$SSH_PRIVATE_KEY" >/tmp/key.id_rsa
@@ -393,7 +392,6 @@ script:
   - eval "$MATRIX_EVAL"
   # Beware not too leak $SSH_PRIVATE_KEY.
   # - env
-  - sudo apt-get update -qq
   - sudo apt-get install -qq doxygen flex m4
   # Install and activate ICC.
   - if [[ $CC == "icc" ]]; then build-aux/install-icc.sh; fi
