@@ -455,20 +455,17 @@ Copying This Manual
 @unnumbered Introduction
 @cindex introduction
 
-@dfn{Bison} is a general-purpose parser generator that converts an
-annotated context-free grammar into a deterministic LR or generalized
-LR (GLR) parser employing LALR(1) parser tables.  As an experimental
-feature, Bison can also generate IELR(1) or canonical LR(1) parser
-tables.  Once you are proficient with Bison, you can use it to develop
-a wide range of language parsers, from those used in simple desk
-calculators to complex programming languages.
+@dfn{Bison} is a general-purpose parser generator that converts an annotated
+context-free grammar into a deterministic LR or generalized LR (GLR) parser
+employing LALR(1), IELR(1) or canonical LR(1) parser tables.  Once you are
+proficient with Bison, you can use it to develop a wide range of language
+parsers, from those used in simple desk calculators to complex programming
+languages.
 
-Bison is upward compatible with Yacc: all properly-written Yacc
-grammars ought to work with Bison with no change.  Anyone familiar
-with Yacc should be able to use Bison with little trouble.  You need
-to be fluent in C or C++ programming in order to use Bison or to
-understand this manual.  Java is also supported as an experimental
-feature.
+Bison is upward compatible with Yacc: all properly-written Yacc grammars
+ought to work with Bison with no change.  Anyone familiar with Yacc should
+be able to use Bison with little trouble.  You need to be fluent in C, C++
+or Java programming in order to use Bison or to understand this manual.
 
 We begin with tutorial chapters that explain the basic concepts of
 using Bison and show three explained examples, each building on the
@@ -580,10 +577,9 @@ are called LR(1) grammars.  In brief, in these grammars, it must be possible
 to tell how to parse any portion of an input string with just a single token
 of lookahead.  For historical reasons, Bison by default is limited by the
 additional restrictions of LALR(1), which is hard to explain simply.
-@xref{Mysterious Conflicts}, for more information on this.  As an
-experimental feature, you can escape these additional restrictions by
-requesting IELR(1) or canonical LR(1) parser tables.  @xref{LR Table
-Construction}, to learn how.
+@xref{Mysterious Conflicts}, for more information on this.  You can escape
+these additional restrictions by requesting IELR(1) or canonical LR(1)
+parser tables.  @xref{LR Table Construction}, to learn how.
 
 @cindex GLR parsing
 @cindex generalized LR (GLR) parsing
@@ -1280,8 +1276,7 @@ In addition to the @code{%dprec} and @code{%merge} directives,
 GLR parsers
 allow you to reject parses on the basis of arbitrary computations executed
 in user code, without having Bison treat this rejection as an error
-if there are alternative parses. (This feature is experimental and may
-evolve.  We welcome user feedback.)  For example,
+if there are alternative parses.  For example,
 
 @example
 widget:
@@ -4784,9 +4779,6 @@ value.  In order to force Bison to recognize @samp{name.suffix} in its
 entirety as the name of a semantic value, the bracketed syntax
 @samp{$[name.suffix]} must be used.
 
-The named references feature is experimental.  More user feedback will help
-to stabilize it.
-
 @node Declarations
 @section Bison Declarations
 @cindex declarations, Bison
@@ -6406,9 +6398,7 @@ Obsoleted by @code{api.location.type} since Bison 2.7.
 @item Language(s): all
 
 @item Purpose: Specify the kind of states that are permitted to
-contain default reductions.  @xref{Default Reductions}.  (The ability to
-specify where default reductions should be used is experimental.  More user
-feedback will help to stabilize it.)
+contain default reductions.  @xref{Default Reductions}.
 
 @item Accepted Values: @code{most}, @code{consistent}, @code{accepting}
 @item Default Value:
@@ -8370,8 +8360,7 @@ mysterious reduce/reduce conflicts.  The best way to fix all these problems
 is to select a different parser table construction algorithm.  Either
 IELR(1) or canonical LR(1) would suffice, but the former is more efficient
 and easier to debug during development.  @xref{LR Table Construction}, for
-details.  (Bison's IELR(1) and canonical LR(1) implementations are
-experimental.  More user feedback will help to stabilize them.)
+details.
 
 If you instead wish to work around LALR(1)'s limitations, you
 can often fix a mysterious conflict by identifying the two parser states
@@ -8438,9 +8427,6 @@ In this section, we explore several modern features of Bison that allow you
 to tune fundamental aspects of the generated LR-based parsers.  Some of
 these features easily eliminate shortcomings like those mentioned above.
 Others can be helpful purely for understanding your parser.
-
-Most of the features discussed in this section are still experimental.  More
-user feedback will help to stabilize them.
 
 @menu
 * LR Table Construction:: Choose a different construction algorithm.
@@ -8669,9 +8655,6 @@ The accepted values of @var{where} are:
 @item @code{consistent}
 @item @code{accepting} (default for canonical LR)
 @end itemize
-
-(The ability to specify where default reductions are permitted is
-experimental.  More user feedback will help to stabilize it.)
 @end deffn
 
 @node LAC
@@ -8707,9 +8690,7 @@ Enable LAC to improve syntax error handling.
 @item @code{none} (default)
 @item @code{full}
 @end itemize
-(This feature is experimental.  More user feedback will help to stabilize
-it.  Moreover, it is currently only available for deterministic parsers in
-C.)
+This feature is currently only available for deterministic parsers in C.
 @end deffn
 
 Conceptually, the LAC mechanism is straight-forward.  Whenever the parser
