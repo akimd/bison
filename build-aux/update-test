@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 # usage:
-# update-test _build/8d/tests/testsuite.dir/*.testsuite.log
+# update-test _build/8d/tests/testsuite.dir/*/testsuite.log
 
 import argparse
 import os
@@ -11,8 +11,8 @@ import re
 def getargs():
     p = argparse.ArgumentParser(description='Update test cases.')
     opt = p.add_argument
-    opt('tests', metavar='test', nargs='+', type=str, default=None,
-        help='test files to update')
+    opt('logs', metavar='log', nargs='+', type=str, default=None,
+        help='log files to process')
     opt('-v', '--verbose', action='store_true',
         help='Be verbose')
     return p.parse_args()
@@ -21,14 +21,14 @@ args = getargs()
 subst = dict()
 
 
-def log(*args_):
+def trace(*args_):
     if args.verbose:
         print(*args_)
 
 
 def contents(file):
     '''The contents of a file.'''
-    log(file)
+    trace(file)
     f = open(file)
     return f.read()
 
@@ -60,9 +60,9 @@ def diff_to_re(match):
 def update(at_file, logfile):
     test = contents(at_file)
     if os.path.isfile(logfile):
-        log("LOG: ", logfile)
+        trace("LOG: ", logfile)
         l = contents(logfile)
-        log("LOG: ", l)
+        trace("LOG: ", l)
         global subst
         subst = {}
         re.sub(r'(?:^@@.*\n)((?:^[-+ ].*\n)+)',
@@ -71,7 +71,7 @@ def update(at_file, logfile):
         if subst:
             # Turn "subst{frm} -> to" into a large RE.
             frm = '|'.join([re.escape(x) for x in subst])
-            log("FROM:", frm)
+            trace("FROM:", frm)
             test = re.sub("(" + frm + ")",
                           lambda m: subst[m.group(1)],
                           test, flags=re.MULTILINE)
@@ -81,13 +81,14 @@ def update(at_file, logfile):
 def process(logfile):
     log = contents(logfile)
     # Look for the file to update.
-    m = re.search(r'^\d+\. (\w+\.at):\d+: ', log, re.MULTILINE)
+    m = re.search(r'^\d+\. ([-\w]+\.at):\d+: ', log, re.MULTILINE)
     if not m:
+        trace("no diff found:", logfile)
         return
     at_file = 'tests/' + m.group(1)
     print(at_file)
     update(at_file, logfile)
 
-for t in args.tests:
-    log("FILE:", t)
-    process(t)
+for logfile in args.logs:
+    trace("FILE:", logfile)
+    process(logfile)
