@@ -33,7 +33,7 @@
 ## which guarantees that parse.y is indeed shipped.
 
 dist_noinst_SCRIPTS = %D%/extexi %D%/test
-TEST_LOG_COMPILER = $(top_srcdir)/%D%/test
+TEST_LOG_COMPILER = $(SHELL) $(top_srcdir)/%D%/test
 
 AM_CXXFLAGS =							\
   $(WARN_CXXFLAGS) $(WARN_CXXFLAGS_TEST) $(WERROR_CXXFLAGS)
