@@ -2715,11 +2715,11 @@ operators in @code{yylex}.
 int
 yylex (void)
 @{
-  int c;
+  int c = getchar ();
 
   /* Ignore white space, get first nonwhite character. */
-  while ((c = getchar ()) == ' ' || c == '\t')
-    continue;
+  while (c == ' ' || c == '\t')
+    c = getchar ();
 
   if (c == EOF)
     return 0;

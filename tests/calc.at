@@ -168,7 +168,7 @@ class CalcLexer(R) : Lexer
       return YYTokenType.EOF;
 
     // Numbers.
-    if (input.front == '.' || input.front.isNumber)
+    if (input.front.isNumber)
       {
         import std.conv : parse;
         semanticVal_.ival = input.parse!int;
@@ -257,8 +257,8 @@ read_integer (]AT_YYLEX_FORMALS[)
     }
   while ((c = get_char (]AT_YYLEX_ARGS[)) == ' ' || c == '\t');
 
-  /* Process numbers   */
-  if (c == '.' || isdigit (c))
+  /* Process numbers.   */
+  if (isdigit (c))
     {
       unget_char (]AT_YYLEX_PRE_ARGS[ c);
       ]AT_VAL[.ival = read_integer (]AT_YYLEX_ARGS[);
