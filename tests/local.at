@@ -567,10 +567,13 @@ m4_define([AT_MAIN_DEFINE(c)],
 int
 main (int argc, char const* argv[])
 {]AT_DEBUG_IF([[
-  if (getenv("YYDEBUG")
-      || (argc == 2
-          && (!strcmp (argv[1], "-d") || !strcmp (argv[1], "--debug"))))
-    yydebug |= 1;]], [[
+  yydebug = !!getenv("YYDEBUG");
+  for (int i = 1; i < argc; ++i)
+    if (!strcmp(argv[i], "-p")
+        || !strcmp (argv[i], "-d") || !strcmp (argv[i], "--debug"))
+      yydebug |= 1;
+    else if (!strcmp (argv[i], "-s") || !strcmp (argv[i], "--stat"))
+      yydebug |= 2;]], [[
   (void) argc;
   (void) argv;]])[
   return ]AT_NAME_PREFIX[parse ();
@@ -615,10 +618,14 @@ int
 main (int argc, char const* argv[])
 {
   ]AT_NAMESPACE[::parser p;]AT_DEBUG_IF([[
-  if (getenv("YYDEBUG")
-      || (argc == 2
-          && (!strcmp (argv[1], "-d") || !strcmp (argv[1], "--debug"))))
-    p.set_debug_level (true);]], [[
+  int debug = !!getenv("YYDEBUG");
+  for (int i = 1; i < argc; ++i)
+    if (!strcmp(argv[i], "-p")
+        || !strcmp (argv[i], "-d") || !strcmp (argv[i], "--debug"))
+      debug |= 1;
+    else if (!strcmp (argv[i], "-s") || !strcmp (argv[i], "--stat"))
+      debug |= 2;
+  p.set_debug_level (debug);]], [[
   (void) argc;
   (void) argv;]])[
   return p.parse ();
