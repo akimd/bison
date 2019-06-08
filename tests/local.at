@@ -137,7 +137,9 @@ m4_define([AT_BISON_OPTION_PUSHDEFS],
 # inside macros, because issuing '[$1]' is not possible in M4 :(.
 # This sucks hard, GNU M4 should really provide M5-like $$1.
 m4_define([_AT_BISON_OPTION_PUSHDEFS],
-[m4_if([$1$2], $[1]$[2], [],
+[m4_pushdef([AT_BISON_OPTIONS], [$3])
+
+m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: invalid arguments: $@])])dnl
 m4_pushdef([AT_AUTOMOVE_IF],
 [m4_bmatch([$3], [%define api\.value\.automove], [$1], [$2])])
@@ -306,7 +308,9 @@ AT_GLR_IF([AT_KEYWORDS([glr])])
 # -----------------------
 m4_define([AT_BISON_OPTION_POPDEFS],
 [m4_divert_text([KILL],
-[m4_popdef([AT_YYLEX_PRE_ARGS])
+[m4_popdef([AT_BISON_OPTIONS])
+
+m4_popdef([AT_YYLEX_PRE_ARGS])
 m4_popdef([AT_YYLEX_PRE_FORMALS])
 m4_popdef([AT_USE_LEX_ARGS])
 m4_popdef([AT_YYLEX_ARGS])
@@ -1126,7 +1130,7 @@ m4_ifval([$2],
          [if test $at_status != 0; then
             $2
           fi],
-         [SKIP_IF([test $at_status != 0])])
+         [AT_SKIP_IF([test $at_status != 0])])
 ])
 
 

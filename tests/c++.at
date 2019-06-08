@@ -1479,3 +1479,63 @@ AT_COMPILE_CXX([parser], [[x[12].o main.cc]], [-Iinclude])
 AT_PARSER_CHECK([parser], [0])
 
 AT_CLEANUP
+
+
+
+## ---------------- ##
+## Default action.  ##
+## ---------------- ##
+
+# In C++ we generate explicitly the code for the default action
+# instead of simply copying blindly the semantic value buffer.  This
+# is important when copying raw memory is not enough, as exemplified
+# by move-only types.
+
+AT_SETUP([Default action])
+AT_KEYWORDS([action])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"
+%define api.token.constructor
+%define api.value.type variant])
+
+AT_DATA_GRAMMAR([test.y],
+[[%code requires {
+#include <memory> // unique_ptr
+}
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+]AT_BISON_OPTIONS[
+%define api.value.automove
+%token ONE TWO EOI 0
+%type <std::unique_ptr<int>> ONE TWO one two one.opt two.opt
+%%
+exp: one.opt two.opt { std::cout << *$][1 << ", " << *$][2 << '\n'; }
+one.opt: one | %empty {}
+two.opt: two | %empty {}
+one: ONE
+two: TWO
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["12"],
+[ if (res == '1')
+    return yy::parser::make_ONE (std::make_unique<int> (10));
+  else if (res == '2')
+    return yy::parser::make_TWO (std::make_unique<int> (20));
+  else
+    return yy::parser::make_EOI ();
+])[
+]AT_MAIN_DEFINE[
+]])
+
+AT_LANG_FOR_EACH_STD([
+  AT_REQUIRE_CXX_STD(14, [echo "$at_std not supported"; continue])
+  AT_FULL_COMPILE([[test]], [], [], [], [-fcaret])
+  AT_PARSER_CHECK([[test]], 0, [[10, 20
+]])
+])
+
+AT_BISON_OPTION_POPDEFS
+
+AT_CLEANUP
