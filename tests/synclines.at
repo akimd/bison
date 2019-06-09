@@ -497,3 +497,68 @@ AT_CLEANUP
 m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])
+
+
+
+## ---------------- ##
+## Output columns.  ##
+## ---------------- ##
+
+AT_SETUP([Output columns])
+
+# This test is fragile: its point is to check the compiler's error
+# message, but it seems too hard to do portability (even between
+# version of GCC).  So instead, let's just check the generated code
+# itself.
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([input.y],
+[[%{
+]AT_YYERROR_DECLARE_EXTERN[
+]AT_YYLEX_DECLARE_EXTERN[
+%}
+%define api.value.type union
+%type <int> '0' exp
+%destructor { /* --BEGIN */
+              destructor
+              /* --END   */ } <*>
+%printer { /* --BEGIN */
+           printer
+           /* --END   */ } <*>
+
+
+
+%left '+'
+%%
+exp: exp '+' exp {  /* --BEGIN */
+                    $$ = $1 + $3;
+                    @$ = @1 + @3;
+                    /* --END */ }
+   | '0'
+]])
+
+AT_BISON_CHECK([-o input.c input.y])
+AT_CHECK([[sed -ne '/--BEGIN/,/--END/{' \
+    -e '/input.c/s/ [0-9]* / LINE /;' \
+    -e 'p;}' \
+    input.c]], 0,
+[[         { /* --BEGIN */
+           printer
+           /* --END   */ }
+         { /* --BEGIN */
+           printer
+           /* --END   */ }
+            { /* --BEGIN */
+              destructor
+              /* --END   */ }
+            { /* --BEGIN */
+              destructor
+              /* --END   */ }
+                 {  /* --BEGIN */
+                    (yyval.exp) = (yyvsp[-2].exp) + (yyvsp[0].exp);
+                    (yyloc) = (yylsp[-2]) + (yylsp[0]);
+                    /* --END */ }
+]])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP

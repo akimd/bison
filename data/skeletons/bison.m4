@@ -449,7 +449,7 @@ m4_define([b4_symbol_action],
                    [(*yylocationp)])dnl
     _b4_symbol_case([$1])[]dnl
 b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
-      b4_symbol([$1], [$2])
+b4_symbol([$1], [$2])
 b4_syncline([@oline@], [@ofile@])dnl
         break;
 
