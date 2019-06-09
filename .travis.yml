@@ -88,7 +88,7 @@ jobs:
       stage: test
       os: linux
       dist: xenial
-      addons:
+      addons: &clang7
         apt:
           sources:
             - llvm-toolchain-xenial-7
@@ -105,15 +105,7 @@ jobs:
       stage: test
       os: linux
       dist: xenial
-      addons:
-        apt:
-          sources:
-            - llvm-toolchain-xenial-7
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-7
-            - libc++-7-dev
-            - libc++abi-7-dev
+      addons: *clang7
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
         - MATRIX_EVAL="PART=2 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
