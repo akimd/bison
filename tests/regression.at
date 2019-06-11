@@ -1325,9 +1325,9 @@ S: A B A A B A A A A B A A A A A A A B C C A A A A A A A A A A A A B ;
 //       ^                     ^                               ^
 // LAC reallocs
 
-A: 'a' | /*empty*/ { printf ("inconsistent default reduction\n"); } ;
+A: 'a' | %empty { printf ("inconsistent default reduction\n"); } ;
 B: 'b' ;
-C: /*empty*/ { printf ("consistent default reduction\n"); } ;
+C: %empty { printf ("consistent default reduction\n"); } ;
 
 %%
 ]AT_YYERROR_DEFINE[
@@ -1405,7 +1405,7 @@ AT_DATA_GRAMMAR([input.y],
 %%
 
 S: A A A A A A A A A ;
-A: /*empty*/ | 'a' ;
+A: %empty | 'a' ;
 
 %%
 ]AT_YYERROR_DEFINE[
