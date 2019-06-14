@@ -20,20 +20,18 @@ stages:
   - compile
   - test
 
+# The 'test' jobs do not need the repo at all, only the 'compile'
+# does.  Let's save time, bandwith, energy, and polar bears.
 git:
-  # Manually handle submodules so that we don't have to uselessly waste 150s
-  # to download gnulib in the 'test' jobs.
-  submodules: false
-
-  # For the same reasons, we would like to not clone the repo either, but it
-  # does not seem to be possible.
-  depth: 1
+  clone: false
 
 # matrix.include and jobs.include are aliases
 # (https://docs.travis-ci.com/user/conditional-builds-stages-jobs/).
 jobs:
   include:
     - stage: "compile"
+      git:
+        clone: true
       dist: xenial
       script:
         - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo
@@ -112,6 +110,11 @@ jobs:
 
     - name: "ICC"
       stage: test
+      # We need the build-aux/install-icc.sh script.
+      git:
+        clone: true
+        submodules: false
+        depth: 1
       os: linux
       dist: xenial
       env:
