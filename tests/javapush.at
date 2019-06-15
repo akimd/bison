@@ -43,7 +43,7 @@ AT_BANNER([[Java Push Parsing Tests]])
 # Define a single copy of the trivial parser grammar.
 # This is missing main(), so two versions
 # are instantiated with different main() procedures.
-m4_define([AT_TRIVIAL_GRAMMAR],[
+m4_define([AT_TRIVIAL_GRAMMAR],[[
 %define api.parser.class {YYParser}
 %define parse.error verbose
 
@@ -57,11 +57,11 @@ import java.util.*;
 start: 'a' 'b' 'c' ;
 
 %%
-])
+]])
 
 # Define comon code across to be included in
 # class Main for the trivial parser tests.
-m4_define([AT_TRIVIAL_COMMON],[
+m4_define([AT_TRIVIAL_COMMON],[[
   static class YYerror implements YYParser.Lexer
   {
     public Object getLVal() {return null;}
@@ -82,29 +82,30 @@ m4_define([AT_TRIVIAL_COMMON],[
       teststate = -1;
   }
 
-  static String[[]] teststatename
-    = new String[[]]{"YYACCEPT","YYABORT","YYERROR","UNKNOWN","YYPUSH_MORE"};
+  static String[] teststatename
+    = new String[]{"YYACCEPT","YYABORT","YYERROR","UNKNOWN","YYPUSH_MORE"};
 
   static void check(int teststate, int expected, String msg)
   {
-    System.err.println("teststate="+teststatename[[teststate]]
-                       +"; expected="+teststatename[[expected]]);
-    if (teststate == expected)
-        return;
-    System.err.println("unexpected state: "+msg);
-    System.exit(1);
+    System.err.println("teststate="+teststatename[teststate]
+                       +"; expected="+teststatename[expected]);
+    if (teststate != expected)
+        {
+            System.err.println("unexpected state: "+msg);
+            System.exit(1);
+        }
   }
-])
+]])
 
-m4_define([AT_TRIVIAL_PARSER],[
-  AT_TRIVIAL_GRAMMAR
+m4_define([AT_TRIVIAL_PARSER],[[
+  ]AT_TRIVIAL_GRAMMAR[
 
   public class Main
   {
 
-  AT_TRIVIAL_COMMON
+  ]AT_TRIVIAL_COMMON[
 
-  static public void main (String[[]] argv)
+  static public void main (String[] args)
     throws IOException
   {
       setup();
@@ -131,17 +132,17 @@ m4_define([AT_TRIVIAL_PARSER],[
   }
 
 }
-])
+]])
 
-m4_define([AT_TRIVIAL_PARSER_INITIAL_ACTION],[
-  AT_TRIVIAL_GRAMMAR
+m4_define([AT_TRIVIAL_PARSER_INITIAL_ACTION],[[
+  ]AT_TRIVIAL_GRAMMAR[
 
   public class Main
   {
 
-  AT_TRIVIAL_COMMON
+  ]AT_TRIVIAL_COMMON[
 
-  static public void main (String[[]] argv)
+  static public void main (String[] args)
     throws IOException
   {
       setup();
@@ -159,7 +160,7 @@ m4_define([AT_TRIVIAL_PARSER_INITIAL_ACTION],[
   }
 
 }
-])
+]])
 
 ## ----------------------------------------------------- ##
 ## Trivial Push Parser with api.push-pull verification.  ##
@@ -359,9 +360,9 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc */
       st = new StreamTokenizer(rdr);
       st.resetSyntax();
       st.eolIsSignificant(true);
-      st.whitespaceChars(9, 9);
-      st.whitespaceChars(32, 32);
-      st.wordChars(48, 57);
+      st.whitespaceChars('\t', '\t');
+      st.whitespaceChars(' ', ' ');
+      st.wordChars('0', '9');
     }
 
     Integer yylval;
@@ -385,10 +386,10 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc */
 }
 
 %code {
-  public static void main (String[] argv)
+  public static void main (String[] args)
         throws IOException
   {
-      StringReader reader = getinput(argv[0]);
+      StringReader reader = getinput(args[0]);
       UserLexer lexer = new UserLexer(reader);
       Calc calc = new Calc(lexer);
       calc.setDebugLevel(1);
@@ -634,9 +635,9 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
     st = new StreamTokenizer(rdr);
     st.resetSyntax();
     st.eolIsSignificant(true);
-    st.whitespaceChars(9, 9);
-    st.whitespaceChars(32, 32);
-    st.wordChars(48, 57);
+    st.whitespaceChars('\t', '\t');
+    st.whitespaceChars(' ', ' ');
+    st.wordChars('0', '9');
   }
 
   Position yypos = new Position (1, 0);
@@ -673,10 +674,10 @@ AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
 %code { ]AT_JAVA_POSITION_DEFINE[ }
 
 %code {
-  public static void main (String[] argv)
+  public static void main (String[] args)
           throws IOException
   {
-    StringReader reader = getinput(argv[0]);
+    StringReader reader = getinput(args[0]);
     Calc calc = new Calc(reader);
     calc.setDebugLevel(1);
     calc.parse();

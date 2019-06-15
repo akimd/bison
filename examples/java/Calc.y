@@ -78,9 +78,9 @@ class CalcLexer implements Calc.Lexer {
     st = new StreamTokenizer (new InputStreamReader (is));
     st.resetSyntax ();
     st.eolIsSignificant (true);
-    st.whitespaceChars (9, 9);
-    st.whitespaceChars (32, 32);
-    st.wordChars (48, 57);
+    st.whitespaceChars ('\t', '\t');
+    st.whitespaceChars (' ', ' ');
+    st.wordChars ('0', '9');
   }
 
 

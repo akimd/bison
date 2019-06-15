@@ -127,17 +127,17 @@ class CalcLexer implements Calc.Lexer {
 ]])[
   StreamTokenizer st;
 
-  public ]AT_LEXPARAM_IF([[YYLexer]], [[CalcLexer]]) (InputStream is)
+  public ]AT_LEXPARAM_IF([[YYLexer]], [[CalcLexer]])[ (InputStream is)
   {
     st = new StreamTokenizer (new InputStreamReader (is));
     st.resetSyntax ();
     st.eolIsSignificant (true);
-    st.whitespaceChars (9, 9);
-    st.whitespaceChars (32, 32);
-    st.wordChars (48, 57);
+    st.whitespaceChars ('\t', '\t');
+    st.whitespaceChars (' ', ' ');
+    st.wordChars ('0', '9');
   }
 
-AT_LOCATION_IF([[
+]AT_LOCATION_IF([[
   Position yypos = new Position (1, 0);
 
   public Position getStartPos() {
@@ -157,15 +157,14 @@ AT_LOCATION_IF([[
   }
 
   public int yylex () throws IOException {
-    int ttype = st.nextToken ();
-    ]AT_LOCATION_IF([[yypos = new Position (yypos.lineno (),
-                                            yypos.token () + 1);]])[
+    int ttype = st.nextToken ();]AT_LOCATION_IF([[
+    yypos = new Position (yypos.lineno (), yypos.token () + 1);]])[
     if (ttype == st.TT_EOF)
       return EOF;
 
     else if (ttype == st.TT_EOL)
-      {
-        ]AT_LOCATION_IF([[yypos = new Position (yypos.lineno () + 1, 0);]])[
+      {]AT_LOCATION_IF([[
+        yypos = new Position (yypos.lineno () + 1, 0);]])[
         return (int) '\n';
       }
 
@@ -251,7 +250,7 @@ $2
 AT_BISON_CHECK([-Wno-deprecated -o Calc.java Calc.y])
 AT_JAVA_COMPILE([Calc.java])
 
-# Test the priorities.
+# Test the precedences.
 AT_DATA([[input]],
 [[1 + 2 * 3 = 7
 1 + 2 * -3 = -5
