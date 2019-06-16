@@ -200,7 +200,7 @@ m4_pushdef([AT_NAME_PREFIX],
    [m4_bregexp([$3],
      [\(%define api\.prefix\|%name-prefix\) [\{\"]\([^\"\}]*\)[\"\}]],
      [\2])],
-   [yy])])
+   [AT_JAVA_IF([YY], [yy])])])
 # AT_NAMESPACE: also consider api.prefix.  FIXME: Stop that confusion.
 m4_pushdef([AT_NAMESPACE],
 [m4_bmatch([$3], [\(%define api\.\(namespace\|prefix\)\|%name-prefix\) .*],
@@ -218,7 +218,7 @@ m4_pushdef([AT_VARIANT_IF],
 m4_pushdef([AT_API_prefix],
 [m4_bmatch([$3], [%define api\.prefix {.*}],
            [m4_bregexp([$3], [%define api\.prefix {\([^\}]*\)}], [\1])],
-           [yy])])
+           [AT_JAVA_IF([YY], [yy])])])
 m4_pushdef([AT_API_PREFIX],
 [m4_toupper(AT_API_prefix)])
 # yyerror receives the location if %location, and if the parser is pure. For
@@ -782,7 +782,7 @@ m4_define([AT_MAIN_DEFINE(java)],
 {
   public static void main (String args[]) throws IOException
   {
-    YYParser p = new YYParser ();
+    ]AT_API_prefix[Parser p = new ]AT_API_prefix[Parser ();
     System.exit (p.parse () ? 0 : 1);
   }
 }]])

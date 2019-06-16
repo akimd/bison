@@ -60,7 +60,7 @@ AT_BISON_OPTION_PUSHDEFS([%language "Java" $4])
 AT_DATA_GRAMMAR([Calc.y],
 [[/* Infix notation calculator--calc */
 %language "Java"
-%name-prefix "Calc"
+%define api.prefix {Calc}
 %define api.parser.class {Calc}
 %define public
 
@@ -442,6 +442,9 @@ AT_CHECK_JAVA_MINIMAL([])
 AT_CHECK_JAVA_GREP([[class YYParser]])
 
 AT_CHECK_JAVA_MINIMAL([[%name-prefix "Prefix"]])
+AT_CHECK_JAVA_GREP([[class PrefixParser]])
+
+AT_CHECK_JAVA_MINIMAL([[%define api.prefix {Prefix}]])
 AT_CHECK_JAVA_GREP([[class PrefixParser]])
 
 AT_CHECK_JAVA_MINIMAL([[%define api.token.prefix {TOK_}]])

@@ -6068,7 +6068,7 @@ Introduced in Bison 3.3 to replace @code{parser_class_name}.
 
 @item Accepted Values: String
 
-@item Default Value: @code{yy}
+@item Default Value: @code{YY} for Java, @code{yy} otherwise.
 
 @item History: introduced in Bison 2.6
 @end itemize
