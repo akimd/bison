@@ -18,8 +18,7 @@
 m4_include(b4_skeletonsdir/[d.m4])
 
 
-m4_divert_push(0)dnl
-@output(b4_parser_file_name@)@
+b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in D],
              [2007-2012, 2019])
 
@@ -131,7 +130,7 @@ b4_locations_if([, ref ]b4_location_type[ loc])[)
   {
     stream.write ("Stack now");
     for (int i = 0; i < stack.length; i++)
-      stream.write (" %d", stack[i].state);
+      stream.write (" ", stack[i].state);
     stream.writeln ();
   }
 }
@@ -155,7 +154,7 @@ public struct ]b4_position_type[ {
   public string filename = "(unspecified file)";
 
   /**
-   * Return a string representation of the position. */
+   * A string representation of the position. */
   public string toString() const {
     return format("%s:%d.%d", filename, line, column);
   }
@@ -207,7 +206,7 @@ public class ]b4_location_type[
   }
 
   /**
-   * Return a representation of the location. For this to be correct,
+   * A representation of the location. For this to be correct,
    * <code>]b4_position_type[</code> should override the <code>toString</code>
    * method.  */
   public const string toString () const {
@@ -283,7 +282,7 @@ b4_user_union_members
   private File yyDebugStream;
 
   /**
-   * Return the <tt>File</tt> on which the debugging output is
+   * The <tt>File</tt> on which the debugging output is
    * printed.
    */
   public File getDebugStream () { return yyDebugStream; }
@@ -349,7 +348,7 @@ b4_user_union_members
   private int yyerrstatus_ = 0;
 
   /**
-   * Return whether error recovery is being done.  In this state, the parser
+   * Whether error recovery is being done.  In this state, the parser
    * reads token until it reaches a known state, and then restarts normal
    * operation.  */
   public final bool recovering ()
@@ -447,7 +446,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
       string message = s ~ (yytype < yyntokens_ ? " token " : " nterm ")
               ~ yytname_[yytype] ~ " ("]b4_locations_if([
               ~ yylocationp.toString() ~ ": "])[;
-      static if (__traits(compiles, message~=yyvaluep.toString ()))
+      static if (__traits(compiles, message ~= yyvaluep.toString ()))
               message ~= yyvaluep.toString ();
       else
               message ~= format ("%s", &yyvaluep);
@@ -893,4 +892,4 @@ b4_percent_code_get[]dnl
 
 }
 b4_epilogue[]dnl
-m4_divert_pop(0)dnl
+b4_output_end

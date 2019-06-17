@@ -102,16 +102,14 @@ class CalcLexer(R) : Lexer
 
     // Skip initial spaces
     while (!input.empty && input.front != '\n' && isWhite (input.front))
-    {
       input.popFront;
-    }
 
     // Handle EOF.
     if (input.empty)
       return YYTokenType.EOF;
 
     // Numbers.
-    if (input.front == '.' || input.front.isNumber)
+    if (input.front.isNumber)
       {
         import std.conv : parse;
         semanticVal_.ival = input.parse!int;
