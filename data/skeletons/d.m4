@@ -38,6 +38,11 @@ m4_define([b4_comment],
 [_b4_comment([$1], [$2/* ], [$2   ], [  */])])
 
 
+# b4_sync_start(LINE, FILE)
+# -------------------------
+m4_define([b4_sync_start], [[#]line $1 $2])
+
+
 # b4_list2(LIST1, LIST2)
 # ----------------------
 # Join two lists with a comma if necessary.
