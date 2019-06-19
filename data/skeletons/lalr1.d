@@ -314,7 +314,7 @@ b4_user_union_members
   }]
 
   [protected final void yycdebug (string s) {
-    if (yydebug > 0)
+    if (0 < yydebug)
       yyDebugStream.writeln (s);
   }
 
@@ -440,7 +440,7 @@ b4_user_union_members
     ref ]b4_yystype[ yyvaluep]dnl
 b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
-    if (yydebug > 0) {
+    if (0 < yydebug) {
       string message = s ~ (yytype < yyntokens_ ? " token " : " nterm ")
               ~ yytname_[yytype] ~ " ("]b4_locations_if([
               ~ yylocationp.toString() ~ ": "])[;
