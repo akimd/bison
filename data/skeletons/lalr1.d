@@ -260,17 +260,15 @@ b4_user_union_members
 
 ]b4_lexer_if([[
   /**
-   * Instantiates the Bison-generated parser.
+   * Instantiate the Bison-generated parser.
    */
   public this] (b4_parse_param_decl([b4_lex_param_decl])[) {
-    this.yylexer = new YYLexer(]b4_lex_param_call[);
-    this.yyDebugStream = stderr;
-]b4_parse_param_cons[
+    this (new YYLexer(]b4_lex_param_call[));
   }
 ]])[
 
   /**
-   * Instantiates the Bison-generated parser.
+   * Instantiate the Bison-generated parser.
    * @@param yylexer The scanner that will supply tokens to the parser.
    */
   ]b4_lexer_if([[protected]], [[public]]) [this (]b4_parse_param_decl([[Lexer yylexer]])[) {
