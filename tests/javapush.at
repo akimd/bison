@@ -43,9 +43,11 @@ AT_BANNER([[Java Push Parsing Tests]])
 # Define a single copy of the trivial parser grammar.
 # This is missing main(), so two versions
 # are instantiated with different main() procedures.
-m4_define([AT_TRIVIAL_GRAMMAR],[[
+m4_define([AT_TRIVIAL_GRAMMAR],
+[[
 %define api.parser.class {YYParser}
 %define parse.error verbose
+%define parse.trace
 
 %code imports {
 import java.io.*;
@@ -213,7 +215,8 @@ AT_CLEANUP
 
 AT_SETUP([Trivial Push Parser with %initial-action])
 AT_BISON_OPTION_PUSHDEFS
-AT_DATA([[input.y]],[[%language "Java"
+AT_DATA([[input.y]],
+[[%language "Java"
 %initial-action {
 System.err.println("Initial action invoked");
 }
@@ -327,7 +330,8 @@ AT_BISON_OPTION_PUSHDEFS
 # may be incorrect and you will have
 # to modify that file as well.
 
-AT_DATA([input],[[1 + 2 * 3 = 7
+AT_DATA([input],
+[[1 + 2 * 3 = 7
 1 + 2 * -3 = -5
 
 -1^2 = -1
@@ -343,10 +347,12 @@ AT_DATA([input],[[1 + 2 * 3 = 7
 ]])
 
 # Compose pieces to build the actual .y file.
-AT_DATA([Calc.y],[[/* Infix notation calculator--calc */
+AT_DATA([Calc.y],
+[[/* Infix notation calculator--calc */
 %language "Java"
 
 %define api.parser.class {Calc}
+%define parse.trace
 
 %code {
   static class UserLexer implements Calc.Lexer
@@ -615,10 +621,12 @@ AT_CLEANUP
 AT_SETUP([Calc parser with %locations %code lexer and api.push-pull both])
 AT_BISON_OPTION_PUSHDEFS
 
-AT_DATA([Calc.y],[[/* Infix notation calculator--calc.  */
+AT_DATA([Calc.y],
+[[/* Infix notation calculator--calc.  */
 %language "Java"
 
 %define api.parser.class {Calc}
+%define parse.trace
 %lex-param { Reader rdr }
 %locations
 
@@ -826,7 +834,8 @@ Next token is token '\n' (14.0: 64)
 # may be incorrect and you will have
 # to modify that file as well.
 
-AT_DATA([input],[[1 + 2 * 3 = 7
+AT_DATA([input],
+[[1 + 2 * 3 = 7
 1 + 2 * -3 = -5
 
 -1^2 = -1

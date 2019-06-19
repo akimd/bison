@@ -6,6 +6,11 @@ GNU Bison NEWS
 
   In Java, %define api.prefix was ignored.  It now behaves as expected.
 
+** New features
+
+  The Java backend no longer emits code and data for parser tracing if the
+  %define variable parse.trace is not defined.
+
 * Noteworthy changes in release 3.4.1 (2019-05-22) [stable]
 
 ** Bug fixes

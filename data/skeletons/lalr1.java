@@ -19,10 +19,6 @@ m4_include(b4_skeletonsdir/[java.m4])
 
 b4_defines_if([b4_complain([%defines does not make sense in Java])])
 
-# We do not depend on %debug in Java, but pacify warnings about
-# non-used flags.
-b4_parse_trace_if
-
 m4_define([b4_symbol_no_destructor_assert],
 [b4_symbol_if([$1], [has_destructor],
               [b4_complain_at(m4_unquote(b4_symbol([$1], [destructor_loc])),
@@ -258,6 +254,7 @@ b4_locations_if([[
     ]b4_parse_param_cons[
   }
 
+]b4_parse_trace_if([[
   private java.io.PrintStream yyDebugStream = System.err;
 
   /**
@@ -285,6 +282,7 @@ b4_locations_if([[
    * @@param level The verbosity level for debugging output.
    */
   public final void setDebugLevel(int level) { yydebug = level; }
+]])[
 
   /**
    * Print an error message via the lexer.
@@ -314,12 +312,12 @@ b4_locations_if([[
   public final void yyerror (]b4_position_type[ pos, String msg)
   {
     yylexer.yyerror (new ]b4_location_type[ (pos), msg);
-  }]])
-
-  [protected final void yycdebug (String s) {
-    if (yydebug > 0)
+  }]])[
+]b4_parse_trace_if([[
+  protected final void yycdebug (String s) {
+    if (0 < yydebug)
       yyDebugStream.println (s);
-  }
+  }]])[
 
   private final class YYStack {
     private int[] stateStack = new int[16];
@@ -463,17 +461,17 @@ b4_locations_if([[
        This behavior is undocumented and Bison
        users should not rely upon it.  */
     ]b4_yystype[ yyval = (0 < yylen) ? yystack.valueAt (yylen - 1) : yystack.valueAt (0);
-    ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[
+    ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[]b4_parse_trace_if([[
 
-    yyReducePrint (yyn, yystack);
+    yyReducePrint (yyn, yystack);]])[
 
     switch (yyn)
       {
         ]b4_user_actions[
         default: break;
-      }
+      }]b4_parse_trace_if([[
 
-    yySymbolPrint ("-> $$ =", yyr1_[yyn], yyval]b4_locations_if([, yyloc])[);
+    yySymbolPrint ("-> $$ =", yyr1_[yyn], yyval]b4_locations_if([, yyloc])[);]])[
 
     yystack.pop (yylen);
     yylen = 0;
@@ -520,7 +518,7 @@ b4_locations_if([[
     return yystr;
   }
 ]])[
-
+]b4_parse_trace_if([[
   /*--------------------------------.
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
@@ -529,12 +527,11 @@ b4_locations_if([[
                              ]b4_yystype[ yyvaluep]dnl
                               b4_locations_if([, Object yylocationp])[)
   {
-    if (yydebug > 0)
     yycdebug (s + (yytype < yyntokens_ ? " token " : " nterm ")
               + yytname_[yytype] + " ("]b4_locations_if([
               + yylocationp + ": "])[
               + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
-  }
+  }]])[
 
 ]b4_push_if([],[[
   /**
@@ -561,8 +558,8 @@ b4_locations_if([[
     ]b4_locations_if([/* @@$.  */
     b4_location_type yyloc;])[
 ]b4_push_if([],[[
-]b4_define_state[
-    yycdebug ("Starting parse\n");
+]b4_define_state[]b4_parse_trace_if([[
+    yycdebug ("Starting parse\n");]])[
     yyerrstatus_ = 0;
 
     /* Initialize the stack.  */
@@ -581,8 +578,8 @@ b4_dollar_popdef[]dnl
 b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
     b4_user_initial_action
 b4_dollar_popdef[]dnl
-])[
-        yycdebug ("Starting parse\n");
+])[]b4_parse_trace_if([[
+        yycdebug ("Starting parse\n");]])[
         yyerrstatus_ = 0;
       } else
         label = YYGETTOKEN;
@@ -594,10 +591,10 @@ b4_dollar_popdef[]dnl
       {
         /* New state.  Unlike in the C/C++ skeletons, the state is already
            pushed when we come here.  */
-      case YYNEWSTATE:
+      case YYNEWSTATE:]b4_parse_trace_if([[
         yycdebug ("Entering state " + yystate + "\n");
-        if (yydebug > 0)
-          yystack.print (yyDebugStream);
+        if (0 < yydebug)
+          yystack.print (yyDebugStream);]])[
 
         /* Accept?  */
         if (yystate == yyfinal_)
@@ -619,14 +616,13 @@ b4_dollar_popdef[]dnl
           {
 ]b4_push_if([[
             if (!push_token_consumed)
-              return YYPUSH_MORE;
-            yycdebug ("Reading a token: ");
+              return YYPUSH_MORE;]b4_parse_trace_if([[
+            yycdebug ("Reading a token: ");]])[
             yychar = yylextoken;
             yylval = yylexval;]b4_locations_if([
             yylloc = yylexloc;])[
-            push_token_consumed = false;]])[
-]b4_push_if([],[[
-            yycdebug ("Reading a token: ");
+            push_token_consumed = false;]], [b4_parse_trace_if([[
+            yycdebug ("Reading a token: ");]])[
             yychar = yylexer.yylex ();
             yylval = yylexer.getLVal ();]b4_locations_if([
             yylloc = new b4_location_type (yylexer.getStartPos (),
@@ -637,14 +633,14 @@ b4_dollar_popdef[]dnl
         /* Convert token to internal form.  */
         if (yychar <= Lexer.EOF)
           {
-            yychar = yytoken = Lexer.EOF;
-            yycdebug ("Now at end of input.\n");
+            yychar = yytoken = Lexer.EOF;]b4_parse_trace_if([[
+            yycdebug ("Now at end of input.\n");]])[
           }
         else
           {
-            yytoken = yytranslate_ (yychar);
+            yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
             yySymbolPrint ("Next token is", yytoken,
-                           yylval]b4_locations_if([, yylloc])[);
+                           yylval]b4_locations_if([, yylloc])[);]])[
           }
 
         /* If the proper action on seeing token YYTOKEN is to reduce or to
@@ -667,10 +663,10 @@ b4_dollar_popdef[]dnl
 
         else
           {
-            /* Shift the lookahead token.  */
+            /* Shift the lookahead token.  */]b4_parse_trace_if([[
             yySymbolPrint ("Shifting", yytoken,
                            yylval]b4_locations_if([, yylloc])[);
-
+]])[
             /* Discard the token being shifted.  */
             yychar = yyempty_;
 
@@ -779,9 +775,9 @@ b4_dollar_popdef[]dnl
 
             ]b4_locations_if([yyerrloc = yystack.locationAt (0);])[
             yystack.pop ();
-            yystate = yystack.stateAt (0);
-            if (yydebug > 0)
-              yystack.print (yyDebugStream);
+            yystate = yystack.stateAt (0);]b4_parse_trace_if([[
+            if (0 < yydebug)
+              yystack.print (yyDebugStream);]])[
           }
 
         if (label == YYABORT)
@@ -795,9 +791,9 @@ b4_dollar_popdef[]dnl
         yyloc = yylloc (yystack, 2);
         yystack.pop (2);])[
 
-        /* Shift the error token.  */
+        /* Shift the error token.  */]b4_parse_trace_if([[
         yySymbolPrint ("Shifting", yystos_[yyn],
-                       yylval]b4_locations_if([, yyloc])[);
+                       yylval]b4_locations_if([, yyloc])[);]])[
 
         yystate = yyn;
         yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
@@ -996,6 +992,7 @@ b4_dollar_popdef[]dnl
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
 
+]b4_parse_trace_if([[
   ]b4_integral_parser_table_define([rline], [b4_rline],
   [[YYRLINE[YYN] -- Source line where rule number YYN was defined.]])[
 
@@ -1018,7 +1015,7 @@ b4_dollar_popdef[]dnl
                      yystos_[yystack.stateAt(yynrhs - (yyi + 1))],
                      ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
                      b4_rhs_location(yynrhs, yyi + 1)])[);
-  }
+  }]])[
 
   /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
      as returned by yylex, with out-of-bounds checking.  */
