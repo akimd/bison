@@ -80,60 +80,6 @@ public interface Lexer
    void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[string s);
 }
 
-private final struct YYStackElement{
-  int state;
-  ]b4_yystype[ value;]b4_locations_if(
-  b4_location_type[[] location;])[
-}
-
-private final struct YYStack {
-  private YYStackElement[] stack = [];
-
-  public final @@property ulong height()
-  {
-    return stack.length;
-  }
-
-  public final void push (int state, ]b4_yystype[ value]dnl
-b4_locations_if([, ref ]b4_location_type[ loc])[)
-  {
-    stack ~= YYStackElement(state, value]b4_locations_if([, loc])[);
-  }
-
-  public final void pop ()
-  {
-    pop (1);
-  }
-
-  public final void pop (int num)
-  {
-    stack.length -= num;
-  }
-
-  public final int stateAt (int i)
-  {
-    return stack[$-i-1].state;
-  }
-
-  ]b4_locations_if([[public final ref ]b4_location_type[ locationAt (int i)
-  {
-    return stack[$-i-1].location;
-  }
-
-  ]])[public final ref ]b4_yystype[ valueAt (int i)
-  {
-    return stack[$-i-1].value;
-  }
-]b4_parse_trace_if([[
-  // Print the state stack on the debug stream.
-  public final void print (File stream)
-  {
-    stream.write ("Stack now");
-    for (int i = 0; i < stack.length; i++)
-      stream.write (" ", stack[i].state);
-    stream.writeln ();
-  }]])[
-}
 ]b4_locations_if(b4_position_type_if([[[
 static assert(__traits(compiles,
               (new ]b4_position_type[[1])[0]=(new ]b4_position_type[[1])[0]),
@@ -314,6 +260,7 @@ b4_user_union_members
   private final int yylex () {
     return yylexer.yylex ();
   }
+
   protected final void yyerror (]b4_locations_if(ref [b4_location_type[ loc, ]])[string s) {
     yylexer.yyerror (]b4_locations_if([loc, ])[s);
   }
@@ -889,9 +836,64 @@ m4_popdef([b4_at_dollar])])dnl
   private static immutable int yyuser_token_number_max_ = ]b4_user_token_number_max[;
   private static immutable int yyundef_token_ = ]b4_undef_token_number[;
 
-]/* User implementation code.  */
-b4_percent_code_get[]dnl
+  private final struct YYStackElement {
+    int state;
+    ]b4_yystype[ value;]b4_locations_if(
+    b4_location_type[[] location;])[
+  }
 
+  private final struct YYStack {
+    private YYStackElement[] stack = [];
+
+    public final @@property ulong height()
+    {
+      return stack.length;
+    }
+
+    public final void push (int state, ]b4_yystype[ value]dnl
+  b4_locations_if([, ref ]b4_location_type[ loc])[)
+    {
+      stack ~= YYStackElement(state, value]b4_locations_if([, loc])[);
+    }
+
+    public final void pop ()
+    {
+      pop (1);
+    }
+
+    public final void pop (int num)
+    {
+      stack.length -= num;
+    }
+
+    public final int stateAt (int i)
+    {
+      return stack[$-i-1].state;
+    }
+
+]b4_locations_if([[
+    public final ref ]b4_location_type[ locationAt (int i)
+    {
+      return stack[$-i-1].location;
+    }]])[
+
+    public final ref ]b4_yystype[ valueAt (int i)
+    {
+      return stack[$-i-1].value;
+    }
+]b4_parse_trace_if([[
+    // Print the state stack on the debug stream.
+    public final void print (File stream)
+    {
+      stream.write ("Stack now");
+      for (int i = 0; i < stack.length; i++)
+        stream.write (" ", stack[i].state);
+      stream.writeln ();
+    }]])[
+  }
+
+  /* User implementation code.  */
+]b4_percent_code_get[
 }
-b4_epilogue[]dnl
+]b4_epilogue[]dnl
 b4_output_end
