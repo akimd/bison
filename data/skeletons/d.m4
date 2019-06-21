@@ -100,12 +100,6 @@ m4_define([b4_location_type_if],
 [b4_percent_define_ifdef([[location_type]], [$1], [$2])])
 
 
-# b4_locations_if(TRUE, FALSE)
-# ----------------------------
-m4_define([b4_locations_if],
-[m4_if(b4_locations_flag, 1, [$1], [$2])])
-
-
 # b4_identification
 # -----------------
 m4_define([b4_identification],

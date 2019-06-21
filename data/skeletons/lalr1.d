@@ -97,12 +97,15 @@ public struct ]b4_position_type[ {
   /** The line number within an input file.  */
   public int line = 1;
   /** The name of the input file.  */
-  public string filename = "(unspecified file)";
+  public string filename = null;
 
   /**
    * A string representation of the position. */
   public string toString() const {
-    return format("%s:%d.%d", filename, line, column);
+    if (filename)
+      return format("%s:%d.%d", filename, line, column);
+    else
+      return format("%d.%d", line, column);
   }
 }
 ]])b4_location_type_if([[
@@ -141,6 +144,9 @@ public class ]b4_location_type[
     this.begin = this.end = loc;
   }
 
+  public this () {
+  }
+
   /**
    * Create a <code>]b4_location_type[</code> from the endpoints of the range.
    * @@param begin The first position included in the range.
@@ -156,10 +162,15 @@ public class ]b4_location_type[
    * <code>]b4_position_type[</code> should override the <code>toString</code>
    * method.  */
   public override string toString () const {
-    if (begin == end)
-      return begin.toString ();
-    else
-      return begin.toString () ~ "-" ~ end.toString ();
+    auto end_col = 0 < end.column ? end.column - 1 : 0;
+    auto res = begin.toString ();
+    if (end.filename && begin.filename != end.filename)
+      res ~= "-" ~ format("%s:%d.%d", end.filename, end.line, end_col);
+    else if (begin.line < end.line)
+      res ~= "-" ~ format("%d.%d", end.line, end_col);
+    else if (begin.column < end_col)
+      res ~= "-" ~ format("%d", end_col);
+    return res;
   }
 }
 
@@ -289,7 +300,7 @@ b4_user_union_members
   private static immutable int YYERRLAB1 = 7;
   private static immutable int YYRETURN = 8;
 ]b4_locations_if([
-  private static immutable YYSemanticType yy_semantic_null = cast(YYSemanticType)null;])[
+  private static immutable YYSemanticType yy_semantic_null;])[
   private int yyerrstatus_ = 0;
 
   /**
