@@ -20,9 +20,9 @@ m4_include(b4_skeletonsdir/[d.m4])
 
 b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in D],
-             [2007-2012, 2019])
+             [2007-2012, 2019])[
 
-b4_percent_define_ifdef([package], [module b4_percent_define_get([package]);
+]b4_percent_define_ifdef([package], [module b4_percent_define_get([package]);
 ])[
 version(D_Version2) {
 } else {
@@ -80,14 +80,14 @@ public interface Lexer
    void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[string s);
 }
 
-]b4_locations_if(b4_position_type_if([[[
+]b4_locations_if([b4_position_type_if([[
 static assert(__traits(compiles,
               (new ]b4_position_type[[1])[0]=(new ]b4_position_type[[1])[0]),
               "struct/class ]b4_position_type[ must be default-constructible "
               "and assignable");
 static assert(__traits(compiles, (new string[1])[0]=(new ]b4_position_type[).toString()),
               "error: struct/class ]b4_position_type[ must have toString method");
-]]], [[
+]], [[
   /**
    * A struct denoting a point in the input.*/
 public struct ]b4_position_type[ {
@@ -105,7 +105,7 @@ public struct ]b4_position_type[ {
     return format("%s:%d.%d", filename, line, column);
   }
 }
-]])b4_location_type_if([[[
+]])b4_location_type_if([[
 static assert(__traits(compiles, (new ]b4_location_type[((new ]b4_position_type[[1])[0]))) &&
               __traits(compiles, (new ]b4_location_type[((new ]b4_position_type[[1])[0], (new ]b4_position_type[[1])[0]))),
               "error: struct/class ]b4_location_type[ must have "
@@ -119,7 +119,7 @@ static assert(__traits(compiles, (new ]b4_location_type[[1])[0].begin=(new ]b4_l
 static assert(__traits(compiles, (new string[1])[0]=(new ]b4_location_type[[1])[0].toString()),
               "error: struct/class ]b4_location_type[ must have toString method.");
 
-private immutable bool yy_location_is_class = !__traits(compiles, *(new ]b4_location_type[((new ]b4_position_type[[1])[0])));]]], [[
+private immutable bool yy_location_is_class = !__traits(compiles, *(new ]b4_location_type[((new ]b4_position_type[[1])[0])));]], [[
 /**
  * A class defining a pair of positions.  Positions, defined by the
  * <code>]b4_position_type[</code> class, denote a point in the input.
@@ -155,8 +155,8 @@ public class ]b4_location_type[
    * A representation of the location. For this to be correct,
    * <code>]b4_position_type[</code> should override the <code>toString</code>
    * method.  */
-  public const string toString () const {
-    if (begin==end)
+  public override string toString () const {
+    if (begin == end)
       return begin.toString ();
     else
       return begin.toString () ~ "-" ~ end.toString ();
@@ -165,7 +165,7 @@ public class ]b4_location_type[
 
 private immutable bool yy_location_is_class = true;
 
-]]))m4_ifdef([b4_user_union_members], [private union YYSemanticType
+]])])m4_ifdef([b4_user_union_members], [private union YYSemanticType
 {
 b4_user_union_members
 };],
@@ -375,7 +375,7 @@ b4_user_union_members
               return yyr;
             }
       }
-    else if (yystr=="$end")
+    else if (yystr == "$end")
       return "end of input";
 
     return yystr;
