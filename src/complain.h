@@ -60,6 +60,8 @@ typedef enum
 /** Whether -Werror was set. */
 extern bool warnings_are_errors;
 
+void warning_usage (FILE *out);
+
 /** Decode a single argument from -W.
  *
  *  \param arg      the subarguments to decode.
