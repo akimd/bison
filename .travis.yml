@@ -58,7 +58,9 @@ jobs:
         # conflicts).  Besides, one day we would like not to depend on the repository at all in the
         # 'test' jobs.  So also expose this tarball on a name that only depends on the Travis build
         # number.
-        - sftp bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
+        #
+        # Without -b -, exit status is always 0.
+        - sftp -b - bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
 
     ## ------- ##
     ## First.  ##
