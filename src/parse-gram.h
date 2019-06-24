@@ -39,7 +39,7 @@
 /* Debug traces.  */
 #ifndef GRAM_DEBUG
 # if defined YYDEBUG
-#if YYDEBUG
+#  if YYDEBUG
 #   define GRAM_DEBUG 1
 #  else
 #   define GRAM_DEBUG 0
@@ -49,6 +49,14 @@
 # endif /* ! defined YYDEBUG */
 #endif  /* ! defined GRAM_DEBUG */
 #if GRAM_DEBUG
+/* Values of gram_debug.  */
+enum gram_debug_type
+{
+  gram_debug_none = 0,
+  gram_debug_trace = 1 << 0,
+  gram_debug_stats = 1 << 1,
+  gram_debug_all = -1
+};
 extern int gram_debug;
 #endif
 /* "%code requires" blocks.  */
