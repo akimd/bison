@@ -459,9 +459,6 @@ m4_if(b4_prefix, [yy], [],
 [#define YYRHSLOC(Rhs, K) ((Rhs)[K].location)
 ]b4_yylloc_default_define])[
 
-// Suppress unused-variable warnings by "using" E.
-#define YYUSE(E) ((void) (E))
-
 // Enable debugging if requested.
 #if ]b4_api_PREFIX[DEBUG
 
