@@ -48,11 +48,12 @@ YY_DECL;
 #define YY_USER_ACTION  location_compute (loc, &loc->end, yytext, yyleng);
 
 static char *fetch_type_name (char *cp, char const **type_name,
-                              location dollar_loc);
+                              const location *dollar_loc);
 
 static void handle_action_dollar (symbol_list *rule, char *cp,
-                                  location dollar_loc);
-static void handle_action_at (symbol_list *rule, char *cp, location at_loc);
+                                  const location *dollar_loc);
+static void handle_action_at (symbol_list *rule, char *cp,
+                              const location *at_loc);
 
 /* A string to be pushed to obstack after dollar/at has been handled. */
 static char *ref_tail_fields;
@@ -163,13 +164,13 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 {
   "$"("<"{tag}">")?{ref}  {
     ref_tail_fields = NULL;
-    handle_action_dollar (self->rule, yytext, *loc);
+    handle_action_dollar (self->rule, yytext, loc);
     if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
   }
   "@"{ref} {
     ref_tail_fields = NULL;
-    handle_action_at (self->rule, yytext, *loc);
+    handle_action_at (self->rule, yytext, loc);
     if (ref_tail_fields)
       obstack_sgrow (&obstack_for_string, ref_tail_fields);
   }
@@ -179,7 +180,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 {
   "$"("<"{tag}">")?"$" {
     const char *type_name = NULL;
-    fetch_type_name (yytext + 1, &type_name, *loc)[-1] = 0;
+    fetch_type_name (yytext + 1, &type_name, loc)[-1] = 0;
     obstack_sgrow (&obstack_for_string, "]b4_dollar_dollar(");
     obstack_quote (&obstack_for_string, type_name);
     obstack_sgrow (&obstack_for_string, ")[");
@@ -406,7 +407,7 @@ show_sub_messages (warnings warning,
    accesses. */
 static long
 parse_ref (char *cp, symbol_list *rule, int rule_length,
-           int midrule_rhs_index, char *text, location text_loc,
+           int midrule_rhs_index, char *text, const location *text_loc,
            char dollar_or_at)
 {
   if ('$' == *cp)
@@ -419,7 +420,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         return num;
       else
         {
-          complain (&text_loc, complaint, _("integer out of range: %s"),
+          complain (text_loc, complaint, _("integer out of range: %s"),
                     quote (text));
           return INVALID_REF;
         }
@@ -493,12 +494,12 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
           cp_end - cp : ref_tail_fields - cp;
         unsigned indent = 0;
 
-        complain_indent (&text_loc, complaint, &indent,
+        complain_indent (text_loc, complaint, &indent,
                          _("invalid reference: %s"), quote (text));
         indent += SUB_INDENT;
         if (len == 0)
           {
-            location sym_loc = text_loc;
+            location sym_loc = *text_loc;
             sym_loc.start.column += 1;
             sym_loc.end = sym_loc.start;
             complain_indent (&sym_loc, complaint, &indent,
@@ -527,7 +528,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         unsigned indent = 0;
         if (variant_count > 1)
           {
-            complain_indent (&text_loc, Wother, &indent,
+            complain_indent (text_loc, Wother, &indent,
                              _("misleading reference: %s"), quote (text));
             show_sub_messages (Wother,
                                cp, explicit_bracketing, midrule_rhs_index,
@@ -543,7 +544,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     default:
       {
         unsigned indent = 0;
-        complain_indent (&text_loc, complaint, &indent,
+        complain_indent (text_loc, complaint, &indent,
                          _("ambiguous reference: %s"), quote (text));
         show_sub_messages (complaint,
                            cp, explicit_bracketing, midrule_rhs_index,
@@ -566,7 +567,7 @@ int max_left_semantic_context = 0;
 static
 char *
 fetch_type_name (char *cp, char const **type_name,
-                 location dollar_loc)
+                 const location *dollar_loc)
 {
   if (*cp == '<')
     {
@@ -579,7 +580,7 @@ fetch_type_name (char *cp, char const **type_name,
          'text' is needed for error messages. */
       ++cp;
       if (untyped_var_seen)
-        complain (&dollar_loc, complaint,
+        complain (dollar_loc, complaint,
                   _("explicit type given in untyped grammar"));
       tag_seen = true;
     }
@@ -595,7 +596,7 @@ fetch_type_name (char *cp, char const **type_name,
 `------------------------------------------------------------------*/
 
 static void
-handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
+handle_action_dollar (symbol_list *rule, char *text, const location *dollar_loc)
 {
   symbol_list *effective_rule;
   int effective_rule_length;
@@ -634,13 +635,13 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             if (union_seen || tag_seen)
               {
                 if (rule->midrule_parent_rule)
-                  complain (&dollar_loc, complaint,
+                  complain (dollar_loc, complaint,
                             _("$$ for the midrule at $%d of %s"
                               " has no declared type"),
                             rule->midrule_parent_rhs_index,
                             quote (effective_rule->content.sym->tag));
                 else
-                  complain (&dollar_loc, complaint,
+                  complain (dollar_loc, complaint,
                             _("$$ of %s has no declared type"),
                             quote (rule->content.sym->tag));
               }
@@ -666,7 +667,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
             && (!sym || !sym->content.sym->content->type_name))
           {
             if (union_seen || tag_seen)
-              complain (&dollar_loc, complaint,
+              complain (dollar_loc, complaint,
                         _("$%s of %s has no declared type"), cp,
                         quote (effective_rule->content.sym->tag));
             else
@@ -689,7 +690,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
           {
             if (muscle_percent_define_ifdef ("api.value.automove")
                 && sym->action_props.is_value_used)
-              complain (&dollar_loc, Wother,
+              complain (dollar_loc, Wother,
                         _("multiple occurrences of $%d with api.value.automove"),
                         n);
             sym->action_props.is_value_used = true;
@@ -706,7 +707,7 @@ handle_action_dollar (symbol_list *rule, char *text, location dollar_loc)
 `------------------------------------------------------*/
 
 static void
-handle_action_at (symbol_list *rule, char *text, location at_loc)
+handle_action_at (symbol_list *rule, char *text, const location *at_loc)
 {
   symbol_list *effective_rule;
   int effective_rule_length;
@@ -722,7 +723,7 @@ handle_action_at (symbol_list *rule, char *text, location at_loc)
       effective_rule_length = symbol_list_length (rule->next);
     }
 
-  muscle_percent_define_ensure("locations", at_loc, true);
+  muscle_percent_define_ensure ("locations", *at_loc, true);
 
   int n = parse_ref (text + 1, effective_rule, effective_rule_length,
                      rule->midrule_parent_rhs_index, text, at_loc, '@');
