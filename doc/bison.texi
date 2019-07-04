@@ -377,6 +377,12 @@ Invoking Bison
 * Option Cross Key::  Alphabetical list of long options.
 * Yacc Library::      Yacc-compatible @code{yylex} and @code{main}.
 
+Bison Options
+
+* Operation Modes::    Options controling the global behavior of @command{bison}
+* Tuning the Parser::  Options changing the generated parsers
+* Adjust the Output::  Options controling the output
+
 Parsers Written In Other Languages
 
 * C++ Parsers::                 The interface to generate C++ parser classes
@@ -10290,9 +10296,16 @@ Here is a list of options that can be used with Bison, alphabetized by
 short option.  It is followed by a cross key alphabetized by long
 option.
 
+@menu
+* Operation Modes::    Options controling the global behavior of @command{bison}
+* Tuning the Parser::  Options changing the generated parsers
+* Adjust the Output::  Options controling the output
+@end menu
+
+@node Operation Modes
+@subsection Operation Modes
+
 @c Please, keep this ordered as in 'bison --help'.
-@noindent
-Operations modes:
 @table @option
 @item -h
 @itemx --help
@@ -10522,9 +10535,34 @@ they are explicitly enabled by @option{-Werror=@var{category}}.
 Deactivate the error treatment for this @var{category}. However, the warning
 itself won't be disabled, or enabled, by this option.
 
+@item --color[=@var{when}]
+Control whether diagnostics are colorized, depending on @var{when}:
+@table @code
+@item always
+@itemx yes
+Enable colorized diagnostics.
+
+@item never
+@itemx no
+Disable colorized diagnostics.
+
+@item auto @rm{(default)}
+@itemx tty
+Diagnostics will be colorized if the output device is a tty, i.e. when the
+output goes directly to a text screen or terminal emulator window.
+@end table
+@option{--color} is equivalent to @option{--color=always}.
+
+@item --style=@var{file}
+Specifies the CSS style @var{file} to use when colorizing. It has an effect
+only when the @option{--color} option is effective.  The
+@file{bison-default.css} file provide a good example from which to define
+your own style file.  See the documentation of libtextstyle for more
+details.
+
 @item -f [@var{feature}]
 @itemx --feature[=@var{feature}]
-Activate miscellaneous @var{feature}. @var{feature} can be one of:
+Activate miscellaneous @var{feature}s. @var{Feature} can be one of:
 @table @code
 @item caret
 @itemx diagnostics-show-caret
@@ -10649,9 +10687,10 @@ the output files.
 @end table
 @end table
 
-@noindent
-Tuning the parser:
+@node Tuning the Parser
+@subsection Tuning the Parser
 
+@c Please, keep this ordered as in 'bison --help'.
 @table @option
 @item -t
 @itemx --debug
@@ -10734,9 +10773,10 @@ This is similar to how most shells resolve commands.
 Pretend that @code{%token-table} was specified.  @xref{Decl Summary}.
 @end table
 
-@noindent
-Adjust the output:
+@node Adjust the Output
+@subsection Adjust the Output
 
+@c Please, keep this ordered as in 'bison --help'.
 @table @option
 @item --defines[=@var{file}]
 Pretend that @code{%defines} was specified, i.e., write an extra output
