@@ -381,7 +381,7 @@ Bison Options
 
 * Operation Modes::    Options controling the global behavior of @command{bison}
 * Tuning the Parser::  Options changing the generated parsers
-* Adjust the Output::  Options controling the output
+* Output Files::       Options controling the output
 
 Parsers Written In Other Languages
 
@@ -5857,7 +5857,7 @@ states and what is done for each type of lookahead token in that state.
 
 @deffn {Directive} %yacc
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc, including
-its naming conventions.  @xref{Bison Options}, for more.
+its naming conventions.  @xref{Tuning the Parser}, for more.
 @end deffn
 
 
@@ -5882,7 +5882,7 @@ delimiters) denote finite choice (e.g., a variation of a feature).  String
 values denote remaining cases (e.g., a file name).
 
 It is an error if a @var{variable} is defined by @code{%define} multiple
-times, but see @ref{Bison Options,,@option{-D @var{name}[=@var{value}]}}.
+times, but see @ref{Tuning the Parser,,@option{-D @var{name}[=@var{value}]}}.
 @end deffn
 
 The rest of this section summarizes variables and values that @code{%define}
@@ -6779,7 +6779,7 @@ extern int cdebug;
 
 Prior to Bison 2.6, a feature similar to @code{api.prefix} was provided by
 the obsolete directive @code{%name-prefix} (@pxref{Table of Symbols, ,Bison
-Symbols}) and the option @option{--name-prefix} (@pxref{Bison Options}).
+Symbols}) and the option @option{--name-prefix} (@pxref{Output Files}).
 
 @node Interface
 @chapter Parser C-Language Interface
@@ -9970,7 +9970,7 @@ compatibility with previous versions of Bison.
 @findex %define parse.trace
 Add the @samp{%define parse.trace} directive (@pxref{%define
 Summary,,parse.trace}), or pass the @option{-Dparse.trace} option
-(@pxref{Bison Options}).  This is a Bison extension, which is especially
+(@pxref{Tuning the Parser}).  This is a Bison extension, which is especially
 useful for languages that don't use a preprocessor.  Unless POSIX and Yacc
 portability matter to you, this is the preferred solution.
 @end table
@@ -10299,7 +10299,7 @@ option.
 @menu
 * Operation Modes::    Options controling the global behavior of @command{bison}
 * Tuning the Parser::  Options changing the generated parsers
-* Adjust the Output::  Options controling the output
+* Output Files::       Options controling the output
 @end menu
 
 @node Operation Modes
@@ -10357,29 +10357,6 @@ exp:;
 @end example
 
 See the documentation of @option{--feature=fixit} below for more details.
-
-@item -y
-@itemx --yacc
-Act more like the traditional @command{yacc} command.  This can cause
-different diagnostics to be generated (it implies @option{-Wyacc}), and may
-change behavior in other minor ways.  Most importantly, imitate Yacc's
-output file name conventions, so that the parser implementation file is
-called @file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  Also, if generating a deterministic parser in C, generate
-@code{#define} statements in addition to an @code{enum} to associate token
-numbers with token names.  Thus, the following shell script can substitute
-for Yacc, and the Bison distribution contains such a script for
-compatibility with POSIX:
-
-@example
-#! /bin/sh
-bison -y "$@@"
-@end example
-
-The @option{-y}/@option{--yacc} option is intended for use with traditional
-Yacc grammars.  If your grammar uses Bison extensions like
-@samp{%glr-parser}, Bison might not be Yacc-compatible even if this option
-is specified.
 
 @item -W [@var{category}]
 @itemx --warnings[=@var{category}]
@@ -10546,7 +10523,7 @@ Enable colorized diagnostics.
 @itemx no
 Disable colorized diagnostics.
 
-@item auto @rm{(default)}
+@item auto @r{(default)}
 @itemx tty
 Diagnostics will be colorized if the output device is a tty, i.e. when the
 output goes directly to a text screen or terminal emulator window.
@@ -10771,10 +10748,33 @@ This is similar to how most shells resolve commands.
 @item -k
 @itemx --token-table
 Pretend that @code{%token-table} was specified.  @xref{Decl Summary}.
+
+@item -y
+@itemx --yacc
+Act more like the traditional @command{yacc} command.  This can cause
+different diagnostics to be generated (it implies @option{-Wyacc}), and may
+change behavior in other minor ways.  Most importantly, imitate Yacc's
+output file name conventions, so that the parser implementation file is
+called @file{y.tab.c}, and the other outputs are called @file{y.output} and
+@file{y.tab.h}.  Also, if generating a deterministic parser in C, generate
+@code{#define} statements in addition to an @code{enum} to associate token
+numbers with token names.  Thus, the following shell script can substitute
+for Yacc, and the Bison distribution contains such a script for
+compatibility with POSIX:
+
+@example
+#! /bin/sh
+bison -y "$@@"
+@end example
+
+The @option{-y}/@option{--yacc} option is intended for use with traditional
+Yacc grammars.  If your grammar uses Bison extensions like
+@samp{%glr-parser}, Bison might not be Yacc-compatible even if this option
+is specified.
 @end table
 
-@node Adjust the Output
-@subsection Adjust the Output
+@node Output Files
+@subsection Output Files
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
