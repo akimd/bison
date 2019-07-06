@@ -10694,9 +10694,14 @@ it is not already defined, so that the debugging facilities are compiled.
 @itemx --define=@var{name}[=@var{value}]
 @itemx -F @var{name}[=@var{value}]
 @itemx --force-define=@var{name}[=@var{value}]
-Each of these is equivalent to @samp{%define @var{name} "@var{value}"}
-(@pxref{%define Summary}) except that Bison processes multiple definitions
-for the same @var{name} as follows:
+Each of these is equivalent to @samp{%define @var{name} @var{value}}
+(@pxref{%define Summary}).  Note that the delimiters are part of
+@var{value}: @option{-Dapi.value.type=union},
+@option{-Dapi.value.type=@{union@}} and @option{-Dapi.value.type="union"}
+correspond to @samp{%define api.value.type union}, @samp{%define
+api.value.type @{union@}} and @samp{%define api.value.type "union"}.
+
+Bison processes multiple definitions for the same @var{name} as follows:
 
 @itemize
 @item
