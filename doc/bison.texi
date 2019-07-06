@@ -380,6 +380,7 @@ Invoking Bison
 Bison Options
 
 * Operation Modes::    Options controling the global behavior of @command{bison}
+* Diagnostics::        Options controlling the diagnostics
 * Tuning the Parser::  Options changing the generated parsers
 * Output Files::       Options controling the output
 
@@ -10292,18 +10293,20 @@ are unique.  When a long option takes an argument, like
 @samp{--file-prefix}, connect the option name and the argument with
 @samp{=}.
 
-Here is a list of options that can be used with Bison, alphabetized by
-short option.  It is followed by a cross key alphabetized by long
-option.
+Here is a list of options that can be used with Bison.  It is followed by a
+cross key alphabetized by long option.
 
 @menu
 * Operation Modes::    Options controling the global behavior of @command{bison}
+* Diagnostics::        Options controlling the diagnostics
 * Tuning the Parser::  Options changing the generated parsers
 * Output Files::       Options controling the output
 @end menu
 
 @node Operation Modes
 @subsection Operation Modes
+
+Options controling the global behavior of @command{bison}.
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
@@ -10358,6 +10361,140 @@ exp:;
 
 See the documentation of @option{--feature=fixit} below for more details.
 
+@item -f [@var{feature}]
+@itemx --feature[=@var{feature}]
+Activate miscellaneous @var{feature}s. @var{Feature} can be one of:
+@table @code
+@item caret
+@itemx diagnostics-show-caret
+Show caret errors, in a manner similar to GCC's
+@option{-fdiagnostics-show-caret}, or Clang's
+@option{-fcaret-diagnostics}. The location provided with the message is used
+to quote the corresponding line of the source file, underlining the
+important part of it with carets (@samp{^}). Here is an example, using the
+following file @file{in.y}:
+
+@example
+%type <ival> exp
+%%
+exp: exp '+' exp @{ $exp = $1 + $2; @};
+@end example
+
+When invoked with @option{-fcaret} (or nothing), Bison will report:
+
+@example
+@group
+in.y:3.20-23: @derror{error}: ambiguous reference: '$exp'
+    3 | exp: exp '+' exp @{ @derror{$exp} = $1 + $2; @};
+      |                    @derror{^~~~}
+@end group
+@group
+in.y:3.1-3:       refers to: $exp at $$
+    3 | @dnotice{exp}: exp '+' exp @{ $exp = $1 + $2; @};
+      | @dnotice{^~~}
+@end group
+@group
+in.y:3.6-8:       refers to: $exp at $1
+    3 | exp: @dnotice{exp} '+' exp @{ $exp = $1 + $2; @};
+      |      @dnotice{^~~}
+@end group
+@group
+in.y:3.14-16:     refers to: $exp at $3
+    3 | exp: exp '+' @dnotice{exp} @{ $exp = $1 + $2; @};
+      |              @dnotice{^~~}
+@end group
+@group
+in.y:3.32-33: @derror{error}: $2 of 'exp' has no declared type
+    3 | exp: exp '+' exp @{ $exp = $1 + @derror{$2}; @};
+      |                                @derror{^~}
+@end group
+@end example
+
+Whereas, when invoked with @option{-fno-caret}, Bison will only report:
+
+@example
+@group
+in.y:3.20-23: @derror{error}: ambiguous reference: '$exp'
+in.y:3.1-3:       refers to: $exp at $$
+in.y:3.6-8:       refers to: $exp at $1
+in.y:3.14-16:     refers to: $exp at $3
+in.y:3.32-33: @derror{error}: $2 of 'exp' has no declared type
+@end group
+@end example
+
+This option is activated by default.
+
+@item fixit
+@itemx diagnostics-parseable-fixits
+Show machine-readable fixes, in a manner similar to GCC's and Clang's
+@option{-fdiagnostics-parseable-fixits}.
+
+Fix-its are generated for duplicate directives:
+
+@example
+@group
+$ @kbd{cat foo.y}
+%define api.prefix @{foo@}
+%define api.prefix @{bar@}
+%%
+exp:;
+@end group
+
+@group
+$ @kbd{bison -ffixit foo.y}
+foo.y:2.1-24: @derror{error}: %define variable 'api.prefix' redefined
+    2 | @derror{%define api.prefix @{bar@}}
+      | @derror{^~~~~~~~~~~~~~~~~~~~~~~~}
+foo.y:1.1-24:     previous definition
+    1 | @dnotice{%define api.prefix @{foo@}}
+      | @dnotice{^~~~~~~~~~~~~~~~~~~~~~~~}
+fix-it:"foo.y":@{2:1-2:25@}:""
+foo.y: @dwarning{warning}: fix-its can be applied.  Rerun with option '--update'. [@dwarning{-Wother}]
+@end group
+@end example
+
+They are also generated to update deprecated directives, unless
+@option{-Wno-deprecated} was given:
+
+@example
+@group
+$ @kbd{cat /tmp/foo.yy}
+%error-verbose
+%name-prefix "foo"
+%%
+exp:;
+@end group
+@group
+$ @kbd{bison foo.y}
+foo.y:1.1-14: @dwarning{warning}: deprecated directive, use '%define parse.error verbose' [@dwarning{-Wdeprecated}]
+    1 | @dwarning{%error-verbose}
+      | @dwarning{^~~~~~~~~~~~~~}
+foo.y:2.1-18: @dwarning{warning}: deprecated directive, use '%define api.prefix @{foo@}' [@dwarning{-Wdeprecated}]
+    2 | @dwarning{%name-prefix "foo"}
+      | @dwarning{^~~~~~~~~~~~~~~~~~}
+foo.y: @dwarning{warning}: fix-its can be applied.  Rerun with option '--update'. [@dwarning{-Wother}]
+@end group
+@end example
+
+The fix-its are applied by @command{bison} itself when given the option
+@option{-u}/@option{--update}.  See its documentation above.
+
+@item syntax-only
+Do not generate the output files.  The name of this feature is somewhat
+misleading as more than just checking the syntax is done: every stage is run
+(including checking for conflicts for instance), except the generation of
+the output files.
+
+@end table
+@end table
+
+@node Diagnostics
+@subsection Diagnostics
+
+Options controlling the diagnostics.
+
+@c Please, keep this ordered as in 'bison --help'.
+@table @code
 @item -W [@var{category}]
 @itemx --warnings[=@var{category}]
 Output warnings falling in @var{category}.  @var{category} can be one
@@ -10512,7 +10649,10 @@ they are explicitly enabled by @option{-Werror=@var{category}}.
 Deactivate the error treatment for this @var{category}. However, the warning
 itself won't be disabled, or enabled, by this option.
 
-@item --color[=@var{when}]
+@item --color
+Equivalent to @option{--color=always}.
+
+@item --color=@var{when}
 Control whether diagnostics are colorized, depending on @var{when}:
 @table @code
 @item always
@@ -10528,7 +10668,6 @@ Disable colorized diagnostics.
 Diagnostics will be colorized if the output device is a tty, i.e. when the
 output goes directly to a text screen or terminal emulator window.
 @end table
-@option{--color} is equivalent to @option{--color=always}.
 
 @item --style=@var{file}
 Specifies the CSS style @var{file} to use when colorizing. It has an effect
@@ -10536,136 +10675,12 @@ only when the @option{--color} option is effective.  The
 @file{bison-default.css} file provide a good example from which to define
 your own style file.  See the documentation of libtextstyle for more
 details.
-
-@item -f [@var{feature}]
-@itemx --feature[=@var{feature}]
-Activate miscellaneous @var{feature}s. @var{Feature} can be one of:
-@table @code
-@item caret
-@itemx diagnostics-show-caret
-Show caret errors, in a manner similar to GCC's
-@option{-fdiagnostics-show-caret}, or Clang's
-@option{-fcaret-diagnostics}. The location provided with the message is used
-to quote the corresponding line of the source file, underlining the
-important part of it with carets (@samp{^}). Here is an example, using the
-following file @file{in.y}:
-
-@example
-%type <ival> exp
-%%
-exp: exp '+' exp @{ $exp = $1 + $2; @};
-@end example
-
-When invoked with @option{-fcaret} (or nothing), Bison will report:
-
-@example
-@group
-in.y:3.20-23: @derror{error}: ambiguous reference: '$exp'
-    3 | exp: exp '+' exp @{ @derror{$exp} = $1 + $2; @};
-      |                    @derror{^~~~}
-@end group
-@group
-in.y:3.1-3:       refers to: $exp at $$
-    3 | @dnotice{exp}: exp '+' exp @{ $exp = $1 + $2; @};
-      | @dnotice{^~~}
-@end group
-@group
-in.y:3.6-8:       refers to: $exp at $1
-    3 | exp: @dnotice{exp} '+' exp @{ $exp = $1 + $2; @};
-      |      @dnotice{^~~}
-@end group
-@group
-in.y:3.14-16:     refers to: $exp at $3
-    3 | exp: exp '+' @dnotice{exp} @{ $exp = $1 + $2; @};
-      |              @dnotice{^~~}
-@end group
-@group
-in.y:3.32-33: @derror{error}: $2 of 'exp' has no declared type
-    3 | exp: exp '+' exp @{ $exp = $1 + @derror{$2}; @};
-      |                                @derror{^~}
-@end group
-@end example
-
-Whereas, when invoked with @option{-fno-caret}, Bison will only report:
-
-@example
-@group
-in.y:3.20-23: @derror{error}: ambiguous reference: ‘$exp’
-in.y:3.1-3:       refers to: $exp at $$
-in.y:3.6-8:       refers to: $exp at $1
-in.y:3.14-16:     refers to: $exp at $3
-in.y:3.32-33: @derror{error}: $2 of ‘exp’ has no declared type
-@end group
-@end example
-
-This option is activated by default.
-
-@item fixit
-@itemx diagnostics-parseable-fixits
-Show machine-readable fixes, in a manner similar to GCC's and Clang's
-@option{-fdiagnostics-parseable-fixits}.
-
-Fix-its are generated for duplicate directives:
-
-@example
-@group
-$ @kbd{cat foo.y}
-%define api.prefix @{foo@}
-%define api.prefix @{bar@}
-%%
-exp:;
-@end group
-
-@group
-$ @kbd{bison -ffixit foo.y}
-foo.y:2.1-24: @derror{error}: %define variable 'api.prefix' redefined
-    2 | @derror{%define api.prefix @{bar@}}
-      | @derror{^~~~~~~~~~~~~~~~~~~~~~~~}
-foo.y:1.1-24:     previous definition
-    1 | @dnotice{%define api.prefix @{foo@}}
-      | @dnotice{^~~~~~~~~~~~~~~~~~~~~~~~}
-fix-it:"foo.y":@{2:1-2:25@}:""
-foo.y: @dwarning{warning}: fix-its can be applied.  Rerun with option '--update'. [@dwarning{-Wother}]
-@end group
-@end example
-
-They are also generated to update deprecated directives, unless
-@option{-Wno-deprecated} was given:
-
-@example
-@group
-$ @kbd{cat /tmp/foo.yy}
-%error-verbose
-%name-prefix "foo"
-%%
-exp:;
-@end group
-@group
-$ @kbd{bison foo.y}
-foo.y:1.1-14: @dwarning{warning}: deprecated directive, use '%define parse.error verbose' [@dwarning{-Wdeprecated}]
-    1 | @dwarning{%error-verbose}
-      | @dwarning{^~~~~~~~~~~~~~}
-foo.y:2.1-18: @dwarning{warning}: deprecated directive, use '%define api.prefix @{foo@}' [@dwarning{-Wdeprecated}]
-    2 | @dwarning{%name-prefix "foo"}
-      | @dwarning{^~~~~~~~~~~~~~~~~~}
-foo.y: @dwarning{warning}: fix-its can be applied.  Rerun with option '--update'. [@dwarning{-Wother}]
-@end group
-@end example
-
-The fix-its are applied by @command{bison} itself when given the option
-@option{-u}/@option{--update}.  See its documentation above.
-
-@item syntax-only
-Do not generate the output files.  The name of this feature is somewhat
-misleading as more than just checking the syntax is done: every stage is run
-(including checking for conflicts for instance), except the generation of
-the output files.
-
-@end table
 @end table
 
 @node Tuning the Parser
 @subsection Tuning the Parser
+
+Options changing the generated parsers.
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
@@ -10775,6 +10790,8 @@ is specified.
 
 @node Output Files
 @subsection Output Files
+
+Options controling the output.
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
