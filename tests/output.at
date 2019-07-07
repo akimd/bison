@@ -74,6 +74,8 @@ AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.c],
 AT_CHECK_OUTPUT([foo.y], [], [-dv -o foo.tab.c],
                 [foo.output foo.tab.c foo.tab.h])
 
+AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml --fixed-output-files],
+                [y.dot y.output y.tab.c y.tab.h y.xml])
 AT_CHECK_OUTPUT([foo.y], [], [-dv -g --xml -y],
                 [y.dot y.output y.tab.c y.tab.h y.xml])
 AT_CHECK_OUTPUT([foo.y], [%require "3.4"], [-dv -g --xml -y],
