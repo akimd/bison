@@ -104,7 +104,7 @@
   static void handle_skeleton (location const *loc, char const *skel);
 
   /* Handle a %yacc directive.  */
-  static void handle_yacc (location const *loc, char const *directive);
+  static void handle_yacc (location const *loc);
 
   static void gram_error (location const *, char const *);
 
@@ -223,7 +223,7 @@
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
   PERCENT_ERROR_VERBOSE PERCENT_FILE_PREFIX PERCENT_FLAG PERCENT_NAME_PREFIX
-  PERCENT_PURE_PARSER PERCENT_YACC
+  PERCENT_PURE_PARSER
   TAG tag tag.opt variable
 %printer { fputs ($$, yyo); } <uniqstr>
 %printer { fprintf (yyo, "[%s]", $$); } BRACKETED_ID
@@ -352,7 +352,7 @@ prologue_declaration:
 | "%skeleton" STRING            { handle_skeleton (&@2, $2); }
 | "%token-table"                { token_table_flag = true; }
 | "%verbose"                    { report_flag |= report_states; }
-| "%yacc"                       { handle_yacc (&@$, $1); }
+| "%yacc"                       { handle_yacc (&@$); }
 | error ";"                     { current_class = unknown_sym; yyerrok; }
 | /*FIXME: Err?  What is this horror doing here? */ ";"
 ;
@@ -1024,23 +1024,14 @@ handle_skeleton (location const *loc, char const *skel)
 
 
 static void
-handle_yacc (location const *loc, char const *directive)
+handle_yacc (location const *loc)
 {
+  const char *directive = "%yacc";
   bison_directive (loc, directive);
-  bool warned = false;
-
   if (location_empty (yacc_loc))
     yacc_loc = *loc;
   else
-    {
-      duplicate_directive (directive, yacc_loc, *loc);
-      warned = true;
-    }
-
-  if (!warned
-      && STRNEQ (directive, "%fixed-output-files")
-      && STRNEQ (directive, "%yacc"))
-    deprecated_directive (loc, directive, "%fixed-output-files");
+    duplicate_directive (directive, yacc_loc, *loc);
 }
 
 

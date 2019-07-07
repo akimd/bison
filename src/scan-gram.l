@@ -233,7 +233,6 @@ eqopt    ({sp}=)?
   "%expect"                         return BISON_DIRECTIVE (EXPECT);
   "%expect-rr"                      return BISON_DIRECTIVE (EXPECT_RR);
   "%file-prefix"                    RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
-  "%fixed-output-files"             RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
   "%initial-action"                 return BISON_DIRECTIVE (INITIAL_ACTION);
   "%glr-parser"                     return BISON_DIRECTIVE (GLR_PARSER);
   "%language"                       return BISON_DIRECTIVE (LANGUAGE);
@@ -262,7 +261,7 @@ eqopt    ({sp}=)?
   "%type"                           return PERCENT_TYPE;
   "%union"                          return PERCENT_UNION;
   "%verbose"                        return BISON_DIRECTIVE (VERBOSE);
-  "%yacc"                           RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
+  "%yacc"                           return PERCENT_YACC;
 
   /* Deprecated since Bison 2.3b (2008-05-27), but the warning is
      issued only since Bison 3.4. */
@@ -281,7 +280,7 @@ eqopt    ({sp}=)?
   "%error"[-_]"verbose"             RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
   "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
   "%file-prefix"{eqopt}             RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
-  "%fixed"[-_]"output"[-_]"files"   RETURN_VALUE (PERCENT_YACC, uniqstr_new (yytext));
+  "%fixed"[-_]"output"[-_]"files"   DEPRECATED ("%output \"y.tab.c\"");
   "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
   "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
   "%output"{eqopt}                  DEPRECATED ("%output");

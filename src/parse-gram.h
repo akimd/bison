@@ -207,8 +207,6 @@ union GRAM_STYPE
   uniqstr PERCENT_NAME_PREFIX;
   /* "%pure-parser"  */
   uniqstr PERCENT_PURE_PARSER;
-  /* "%yacc"  */
-  uniqstr PERCENT_YACC;
   /* "[identifier]"  */
   uniqstr BRACKETED_ID;
   /* "identifier"  */
