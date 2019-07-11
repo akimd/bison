@@ -1302,6 +1302,7 @@ AT_CLEANUP
 ## ------------------------ ##
 
 AT_SETUP([[LAC: Exploratory stack]])
+AT_KEYWORDS([lac])
 
 m4_pushdef([AT_LAC_CHECK], [
 
@@ -1310,13 +1311,13 @@ AT_BISON_OPTION_PUSHDEFS([%debug $1])
 AT_DATA_GRAMMAR([input.y],
 [[%code {
   ]AT_YYERROR_DECLARE[
-  int yylex (]AT_PURE_IF([[YYSTYPE *]], [[void]])[);
+  ]AT_YYLEX_DECLARE[
 }
 %debug
 ]$1[
 %define parse.error verbose
 %token 'c'
-
+%expect 21
 %%
 
 // default reductions in inconsistent states
@@ -1331,23 +1332,21 @@ C: %empty { printf ("consistent default reduction\n"); } ;
 
 %%
 ]AT_YYERROR_DEFINE[
-int
-yylex (]AT_PURE_IF([[YYSTYPE *v]], [[void]])[)
+]AT_YYLEX_PROTOTYPE[
 {
   static char const *input = "bbbbc";]AT_PURE_IF([[
-  *v = 0;]])[
+  *lvalp = 0;]])[
   return *input++;
 }
 
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
-                 -Dparse.lac.memory-trace=full \
-                 -o input.c input.y]], [[0]], [],
-[[input.y: warning: 21 shift/reduce conflicts [-Wconflicts-sr]
-]])
-AT_COMPILE([[input]])
+AT_FULL_COMPILE([[input]], [], [], [],
+                [[-Dparse.lac=full]AT_C_IF([ \
+                 -Dparse.lac.es-capacity-initial=1 \
+                 -Dparse.lac.memory-trace=full])])
+
 AT_PARSER_CHECK([[input --debug > stdout.txt 2> stderr.txt]], [[1]])
 
 # Make sure syntax error doesn't forget that 'a' is expected.  It would
@@ -1366,10 +1365,12 @@ AT_CHECK([[$PERL -0777 -ne 'print s/inconsistent default reduction//g;' \
 AT_CHECK([[$PERL -0777 -ne 'print s/\bconsistent default reduction//g;' \
            < stdout.txt || exit 77]], [[0]], [[2]])
 
-# Check number of reallocs to be sure reallocated memory isn't somehow
-# lost between LAC invocations.
-AT_CHECK([[$PERL -0777 -ne 'print s/\(realloc//g;' < stderr.txt \
-           || exit 77]], [[0]], [[3]])
+]AT_C_IF([[
+  # Check number of reallocs to be sure reallocated memory isn't somehow
+  # lost between LAC invocations.
+  AT_CHECK([[$PERL -0777 -ne 'print s/\(realloc//g;' < stderr.txt \
+             || exit 77]], [[0]], [[3]])
+]])[
 
 AT_BISON_OPTION_POPDEFS
 ])
@@ -1390,6 +1391,7 @@ AT_CLEANUP
 ## ------------------------ ##
 
 AT_SETUP([[LAC: Memory exhaustion]])
+AT_KEYWORDS([lac])
 
 m4_pushdef([AT_LAC_CHECK],
 [AT_BISON_OPTION_PUSHDEFS([%debug])
@@ -1401,7 +1403,7 @@ AT_DATA_GRAMMAR([input.y],
 }
 %debug
 %define parse.error verbose
-
+%expect 8
 %%
 
 S: A A A A A A A A A ;
@@ -1413,10 +1415,8 @@ A: %empty | 'a' ;
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1 \
-                 -o input.c input.y]], [[0]], [],
-[[input.y: warning: 8 shift/reduce conflicts [-Wconflicts-sr]
-]])
+AT_FULL_COMPILE([input], [], [], [],
+                [[-Dparse.lac=full -Dparse.lac.es-capacity-initial=1]])
 AT_COMPILE([[input]])
 AT_BISON_OPTION_POPDEFS
 ])
