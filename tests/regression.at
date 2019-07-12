@@ -1380,6 +1380,8 @@ AT_LAC_CHECK([[%define api.push-pull pull %define api.pure]])
 AT_LAC_CHECK([[%define api.push-pull both]])
 AT_LAC_CHECK([[%define api.push-pull both %define api.pure]])
 
+AT_LAC_CHECK([[%skeleton "lalr1.cc"]])
+
 m4_popdef([AT_LAC_CHECK])
 
 AT_CLEANUP
