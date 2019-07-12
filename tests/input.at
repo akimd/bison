@@ -2247,6 +2247,7 @@ AT_CLEANUP
 ## ------------------------- ##
 
 AT_SETUP([[LAC: Errors for %define]])
+AT_KEYWORDS([lac])
 
 AT_DATA([[input.y]],
 [[%%
@@ -2259,6 +2260,16 @@ AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
 [[<command line>:3: error: %define variable 'parse.lac.es-capacity-initial' is not used
 ]])
 AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
+               [[1]], [],
+[[<command line>:3: error: %define variable 'parse.lac.memory-trace' is not used
+]])
+
+# parse.lac.* options are useless in C++ even if LAC isn't actually activated.
+AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -L C++ -Dparse.lac input.y]],
+               [[1]], [],
+[[<command line>:3: error: %define variable 'parse.lac.es-capacity-initial' is not used
+]])
+AT_BISON_CHECK([[-Dparse.lac.memory-trace=full -L C++ -Dparse.lac  input.y]],
                [[1]], [],
 [[<command line>:3: error: %define variable 'parse.lac.memory-trace' is not used
 ]])

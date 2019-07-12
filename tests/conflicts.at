@@ -541,13 +541,27 @@ AT_CONSISTENT_ERRORS_CHECK([[%define lr.type canonical-lr]],
                            [AT_PREVIOUS_STATE_INPUT],
                            [[$end]], [[ab]])
 
-# Only LAC gets it right.
+# Only LAC gets it right.  In C.
 AT_CONSISTENT_ERRORS_CHECK([[%define lr.type canonical-lr
                              %define parse.lac full]],
                            [AT_PREVIOUS_STATE_GRAMMAR],
                            [AT_PREVIOUS_STATE_INPUT],
                            [[$end]], [[b]])
 AT_CONSISTENT_ERRORS_CHECK([[%define lr.type ielr
+                             %define parse.lac full]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[b]])
+
+# Only LAC gets it right.  In C++.
+AT_CONSISTENT_ERRORS_CHECK([[%language "c++"
+                             %define lr.type canonical-lr
+                             %define parse.lac full]],
+                           [AT_PREVIOUS_STATE_GRAMMAR],
+                           [AT_PREVIOUS_STATE_INPUT],
+                           [[$end]], [[b]])
+AT_CONSISTENT_ERRORS_CHECK([[%language "c++"
+                             %define lr.type ielr
                              %define parse.lac full]],
                            [AT_PREVIOUS_STATE_GRAMMAR],
                            [AT_PREVIOUS_STATE_INPUT],
