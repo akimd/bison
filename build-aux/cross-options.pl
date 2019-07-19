@@ -12,7 +12,7 @@ while (<STDIN>)
 {
     if (/^\s*             # Initial spaces.
         (?:(-\w),\s+)?    # $1: $short: Possible short option.
-        (--[-\w]+)        # $2: $long:  Long option.
+        (--[-\w]+)        # $2: $long:  Mandatory long option.
         (\[?)             # $3: $opt:   '[' iff the argument is optional.
         (?:=(\S+))?       # $4: $arg:   Possible argument name.
         \s                # Spaces.
@@ -32,7 +32,6 @@ while (<STDIN>)
             # if $opt, $arg contains the closing ].
             substr ($arg, -1) = ''
                 if $opt eq '[';
-            $arg =~ s/^=//;
             $arg = lc ($arg);
             my $dir_arg = $arg;
             # If the argument is complete (e.g., for --define[=NAME[=VALUE]]),
@@ -72,12 +71,15 @@ while (<STDIN>)
 my $sep = '';
 foreach my $long (sort keys %option)
 {
-    # Avoid trailing spaces.
-    print $sep;
-    $sep = "\n";
-    print '@item @option{', $long, "}\n\@tab";
-    print ' @option{', $option{$long}, '}' if $option{$long};
-    print "\n\@tab";
-    print ' @code{', $directive{$long}, '}' if $directive{$long};
-    print "\n";
+    # Couldn't find a means to escape @ in the format (for @item, @tab), so
+    # pass it as a literal to print.
+format STDOUT =
+@item @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @tab @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< @tab @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+{
+  '@', '@option{' . $long . '}',
+  '@', $option{$long} ? ('@option{' . $option{$long} . '}') : '',
+  '@', $directive{$long} ? ('@code{' . $directive{$long} . '}') : ''
+}
+.
+    write;
 }
