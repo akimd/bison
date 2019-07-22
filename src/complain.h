@@ -45,14 +45,14 @@ void flush (FILE *out);
 /** The bits assigned to each warning type.  */
 typedef enum
   {
-    warning_midrule_values, /**< Unset or unused midrule values.  */
+    warning_conflicts_rr,
+    warning_conflicts_sr,
+    warning_deprecated,
+    warning_empty_rule,
+    warning_midrule_values,
+    warning_other,
+    warning_precedence,
     warning_yacc,           /**< POSIXME.  */
-    warning_conflicts_sr,   /**< S/R conflicts.  */
-    warning_conflicts_rr,   /**< R/R conflicts.  */
-    warning_empty_rule,     /**< Implicitly empty rules.  */
-    warning_deprecated,     /**< Obsolete constructs.  */
-    warning_precedence,     /**< Useless precedence and associativity.  */
-    warning_other,          /**< All other warnings.  */
 
     warnings_size           /**< The number of warnings.  Must be last.  */
   } warning_bit;
@@ -102,16 +102,14 @@ typedef enum
   {
     Wnone             = 0,       /**< Issue no warnings.  */
 
-    Wmidrule_values   = 1 << warning_midrule_values,
-    Wyacc             = 1 << warning_yacc,
-    Wconflicts_sr     = 1 << warning_conflicts_sr,
     Wconflicts_rr     = 1 << warning_conflicts_rr,
+    Wconflicts_sr     = 1 << warning_conflicts_sr,
     Wdeprecated       = 1 << warning_deprecated,
     Wempty_rule       = 1 << warning_empty_rule,
-    Wprecedence       = 1 << warning_precedence,
+    Wmidrule_values   = 1 << warning_midrule_values,
     Wother            = 1 << warning_other,
-
-    Werror            = 1 << 10, /** This bit is no longer used. */
+    Wprecedence       = 1 << warning_precedence,
+    Wyacc             = 1 << warning_yacc,
 
     complaint         = 1 << 11, /**< All complaints.  */
     fatal             = 1 << 12, /**< All fatal errors.  */
