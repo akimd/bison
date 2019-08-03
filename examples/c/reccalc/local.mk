@@ -36,16 +36,40 @@ endif FLEX_WORKS
 # additional dependency.
 DASH = -
 %D%/reccalc$(DASH)parse.o: %D%/scan.h
+# Tell Make scan.o depends on parse.h, except that Make sees only
+# parse.c, not parse.h.  We can't use BUILT_SOURCES to this end, since
+# we use the built bison.
+%D%/reccalc$(DASH)scan.o: %D%/parse.c
 
+# Likewise, but for Automake before 1.16.
+%D%/examples_c_reccalc_reccalc$(DASH)parse.o: %D%/scan.h
+%D%/examples_c_reccalc_reccalc$(DASH)scan.o: %D%/parse.c
+
+## See "info automake 'Multiple Outputs'" for this rule.
 %D%/scan.c %D%/scan.h: %D%/scan.stamp
-	@test -f $@ || rm -f %D%/scan.stamp
-	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/scan.stamp
+## Recover from the removal of $@
+	@if test -f $@; then :; else \
+	  trap 'rm -rf %D%/scan.lock %D%/scan.stamp' 1 2 13 15; \
+## mkdir is a portable test-and-set
+	  if mkdir %D%/scan.lock 2>/dev/null; then \
+## This code is being executed by the first process.
+	    rm -f %D%/scan.stamp; \
+	    $(MAKE) $(AM_MAKEFLAGS) %D%/scan.stamp; \
+	    result=$$?; rm -rf %D%/scan.lock; exit $$result; \
+	  else \
+## This code is being executed by the follower processes.
+## Wait until the first process is done.
+	    while test -d %D%/scan.lock; do sleep 1; done; \
+## Succeed if and only if the first process succeeded.
+	    test -f %D%/scan.stamp; \
+	  fi; \
+	fi
 
 %D%/scan.stamp: %D%/scan.l
 	$(AM_V_LEX)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)$(LEX) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
+	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
 	$(AM_V_at)mv $@.tmp $@
 
 

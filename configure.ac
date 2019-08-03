@@ -36,6 +36,9 @@ AC_CONFIG_MACRO_DIR([m4])
 
 # We use Automake 1.14's %D% and %C%.
 #
+# When we move to Automake 1.16, simplify examples/c/reccalc/local.mk.
+# Our CI runs on Xenial, which has only Automake 1.15.
+#
 # We want gnits strictness only when rolling a stable release.  For
 # release candidates, we use version strings like 2.4.3_rc1, but gnits
 # doesn't like that, so we let the underscore disable gnits.  Between
