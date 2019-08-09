@@ -1,9 +1,12 @@
 /*.gmo
 /*.po
 /LINGUAS
+/Makefile
+/Makefile.in
 /Makefile.in.in
 /Makevars
 /Makevars.template
+/POTFILES
 /POTFILES.in
 /Rules-quot
 /bison-gnulib.pot
