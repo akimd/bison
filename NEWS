@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  In some cases, when warnings are disabled, bison could emit tons of white
+  spaces as diagnostics.
 
 * Noteworthy changes in release 3.4.1 (2019-05-22) [stable]
 
