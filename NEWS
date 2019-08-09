@@ -4,6 +4,9 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+  In some cases, when warnings are disabled, bison could emit tons of white
+  spaces as diagnostics.
+
   In Java, %define api.prefix was ignored.  It now behaves as expected.
 
 ** New features

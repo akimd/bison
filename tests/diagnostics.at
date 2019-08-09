@@ -242,3 +242,33 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 
 
 m4_popdef([AT_TEST])
+
+
+
+
+## -------------------------------------- ##
+## Indentation with message suppression.  ##
+## -------------------------------------- ##
+
+AT_SETUP([[Indentation with message suppression]])
+
+# https://lists.gnu.org/archive/html/bug-bison/2019-08/msg00002.html
+
+AT_DATA([[input.y]],
+[[%define api.pure
+%pure-parser
+%error-verbose
+%%
+exp : '0'
+]])
+
+AT_BISON_CHECK([[-fcaret -Wno-other input.y]], [0], [],
+[[input.y:2.1-12: warning: deprecated directive, use '%define api.pure' [-Wdeprecated]
+    2 | %pure-parser
+      | ^~~~~~~~~~~~
+input.y:3.1-14: warning: deprecated directive, use '%define parse.error verbose' [-Wdeprecated]
+    3 | %error-verbose
+      | ^~~~~~~~~~~~~~
+]])
+
+AT_CLEANUP
