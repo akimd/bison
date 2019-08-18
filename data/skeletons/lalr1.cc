@@ -1182,8 +1182,7 @@ b4_dollar_popdef])[]dnl
           size_t lac_size = yylac_stack_.size ();
           if (yylen < lac_size)
             {
-              for (size_t i = 0; i < yylen; ++i)
-                yylac_stack_.pop_back ();
+              yylac_stack_.resize (lac_size - yylen);
               yylen = 0;
             }
           else if (lac_size)
