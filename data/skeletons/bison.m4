@@ -535,7 +535,7 @@ m4_define([b4_token_format],
 [b4_token_visible_if([$2],
 [m4_quote(m4_format([$1],
                      [b4_symbol([$2], [id])],
-                     [b4_symbol([$2], [user_number])]))])])
+                     [b4_symbol([$2], b4_api_token_raw_if([[number]], [[user_number]]))]))])])
 
 
 ## ------- ##
@@ -1002,6 +1002,7 @@ m4_define([b4_percent_code_ifdef],
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
 # b4_token_ctor_if([IF-YYLEX-RETURNS-A-TOKEN], [IF-NOT])
 # ----------------------------------------------------------
+b4_percent_define_if_define([api.token.raw])
 b4_percent_define_if_define([token_ctor], [api.token.constructor])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])
