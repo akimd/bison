@@ -125,6 +125,7 @@
 %define api.header.include {"parse-gram.h"}
 %define api.prefix {gram_}
 %define api.pure full
+%define api.token.raw
 %define api.value.type union
 %define locations
 %define parse.error verbose
