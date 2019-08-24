@@ -1954,8 +1954,8 @@ AT_BISON_CHECK([[input.y]], [0], [],
 [[input.y:5.1-40: warning: %define variable 'lr.type' requires keyword values [-Wdeprecated]
 input.y:3.1-40: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
 input.y:4.1-40: warning: %define variable 'lr.keep-unreachable-state' requires keyword values [-Wdeprecated]
-input.y:2.1-40: warning: %define variable 'api.push-pull' requires keyword values [-Wdeprecated]
 input.y:1.1-38: warning: %define variable 'api.pure' requires keyword values [-Wdeprecated]
+input.y:2.1-40: warning: %define variable 'api.push-pull' requires keyword values [-Wdeprecated]
 ]])
 ])
 
