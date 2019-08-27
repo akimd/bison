@@ -1017,17 +1017,22 @@ b4_dollar_popdef[]dnl
                      b4_rhs_location(yynrhs, yyi + 1)])[);
   }]])[
 
-  /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+  /* YYTRANSLATE_(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
      as returned by yylex, with out-of-bounds checking.  */
-  ]b4_integral_parser_table_define([translate_table], [b4_translate])[
-
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
-  {
+]b4_api_token_raw_if(dnl
+[[  {
+    return t;
+  }
+]],
+[[  {
     if (0 <= t && t <= yyuser_token_number_max_)
       return yytranslate_table_[t];
     else
       return yyundef_token_;
   }
+  ]b4_integral_parser_table_define([translate_table], [b4_translate])[
+]])[
 
   private static final int yylast_ = ]b4_last[;
   private static final int yynnts_ = ]b4_nterms_number[;

@@ -18,6 +18,115 @@
 AT_BANNER([[Interface with the scanner.]])
 
 
+# -------------- #
+# AT_RAW_YYLEX.  #
+# -------------- #
+
+m4_pushdef([AT_RAW_YYLEX],   [AT_LANG_DISPATCH([$0], $@)])
+
+m4_define([AT_RAW_YYLEX(c)],
+[#include <stdlib.h> /* abort */
+AT_YYLEX_PROTOTYPE[
+{
+  static const char* input = "0-(1+2)*3/9";
+  int c = *input++;
+  switch (c)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      ]AT_VAL[.val = c - '0';
+      return ]AT_CXX_IF([yy::parser::token::])[NUM;
+    case '+': return ]AT_CXX_IF([yy::parser::token::])[PLUS;
+    case '-': return ]AT_CXX_IF([yy::parser::token::])[MINUS;
+    case '*': return ]AT_CXX_IF([yy::parser::token::])[STAR;
+    case '/': return ]AT_CXX_IF([yy::parser::token::])[SLASH;
+    case '(': return ]AT_CXX_IF([yy::parser::token::])[LPAR;
+    case ')': return ]AT_CXX_IF([yy::parser::token::])[RPAR;
+    case 0: return 0;
+    }
+  abort ();
+}
+]])
+
+m4_copy([AT_RAW_YYLEX(c)], [AT_RAW_YYLEX(c++)])
+
+m4_define([AT_RAW_YYLEX(d)],
+[[import std.range.primitives;
+import std.stdio;
+
+auto yyLexer(R)(R range)
+  if (isInputRange!R && is (ElementType!R : dchar))
+{
+  return new YYLexer!R(range);
+}
+
+auto yyLexer ()
+{
+  return yyLexer("0-(1+2)*3/9");
+}
+
+class YYLexer(R) : Lexer
+  if (isInputRange!R && is (ElementType!R : dchar))
+{
+  R input;
+
+  this(R r) {
+    input = r;
+  }
+
+  ]AT_YYERROR_DEFINE[
+
+  YYSemanticType semanticVal_;
+  public final @property YYSemanticType semanticVal ()
+  {
+    return semanticVal_;
+  }
+
+  int yylex ()
+  {
+    import std.uni : isNumber;
+    // Handle EOF.
+    if (input.empty)
+      return YYTokenType.EOF;
+
+    auto c = input.front;
+    input.popFront;
+
+    // Numbers.
+    switch (c)
+    {
+    case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+      semanticVal_.val = c - '0';
+      return YYTokenType.NUM;
+    case '+': return YYTokenType.PLUS;
+    case '-': return YYTokenType.MINUS;
+    case '*': return YYTokenType.STAR;
+    case '/': return YYTokenType.SLASH;
+    case '(': return YYTokenType.LPAR;
+    case ')': return YYTokenType.RPAR;
+    default: assert(0);
+    }
+  }
+}
+]])
+
+m4_pushdef([AT_MAIN_DEFINE(d)],
+[[int main ()
+{
+  auto l = yyLexer ();
+  auto p = new YYParser (l);
+  return !p.parse ();
+}]])
+
+
 ## ------------------- ##
 ## Raw token numbers.  ##
 ## ------------------- ##
@@ -30,12 +139,13 @@ AT_BISON_OPTION_PUSHDEFS([%debug $1])
 AT_DATA_GRAMMAR([[input.y]],
 [[$1
 %debug
+]AT_D_IF([], [[
 %code
 {
 #include <stdio.h>
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
-}
+}]])[
 
 %union {
   int val;
@@ -70,40 +180,18 @@ exp
 
 %%
 ]AT_YYERROR_DEFINE[
+]AT_RAW_YYLEX[
 ]AT_MAIN_DEFINE[
-
-int yylex (void)
-{
-  static const char* input = "0-(1+2)*3/9";
-  int c = *input++;
-  switch (c)
-    {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      yylval.val = c - '0';
-      return NUM;
-    case '+': return PLUS;
-    case '-': return MINUS;
-    case '*': return STAR;
-    case '/': return SLASH;
-    case '(': return LPAR;
-    case ')': return RPAR;
-    case 0: return 0;
-    }
-}
 ]])
 
 AT_FULL_COMPILE([input])
 
-AT_CHECK([grep -c yytranslate input.c], [ignore], [AT_TOKEN_RAW_IF([0], [2])[
+# yacc.c, glr.c and glr.cc use 'yytranslate' (and YYTRANSLATE).
+# lalr1.cc uses 'translate_table' (and yytranslate_).
+# lalr1.d uses 'byte[] translate_table =' (and yytranslate_).
+AT_CHECK([[grep -Ec 'yytranslate\[\]|translate_table\[\]|translate_table =' input.]AT_LANG_EXT],
+         [ignore],
+         [AT_TOKEN_RAW_IF([0], [1])[
 ]])
 
 AT_PARSER_CHECK([input], 0,
@@ -114,7 +202,10 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_TEST([])
-AT_TEST([%define api.token.raw])
+m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [lalr1.d]],
+[AT_TEST([%skeleton "]b4_skel["])
+ AT_TEST([%skeleton "]b4_skel[" %define api.token.raw])])
 
+
+m4_popdef([AT_MAIN_DEFINE(d)])
 m4_popdef([AT_TEST])

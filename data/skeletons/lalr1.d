@@ -822,18 +822,21 @@ m4_popdef([b4_at_dollar])])dnl
   }
 ]])[
 
-  /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-  private static immutable ]b4_int_type_for([b4_translate])[[] yytranslate_table_ =
-  @{
-  ]b4_translate[
-  @};
-
   private static ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
   {
-    if (t >= 0 && t <= yyuser_token_number_max_)
-      return yytranslate_table_[t];
+]b4_api_token_raw_if(
+[[    import std.conv : to;
+    return to!byte (t);]],
+[[    /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
+    immutable ]b4_int_type_for([b4_translate])[[] translate_table =
+    @{
+  ]b4_translate[
+    @};
+
+    if (0 <= t && t <= yyuser_token_number_max_)
+      return translate_table[t];
     else
-      return yyundef_token_;
+      return yyundef_token_;]])[
   }
 
   private static immutable int yylast_ = ]b4_last[;

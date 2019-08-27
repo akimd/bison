@@ -532,7 +532,9 @@ m4_define([b4_yytranslate_define],
   ]b4_parser_class[::yytranslate_ (]b4_token_ctor_if([token_type],
                                                           [int])[ t)
   {
-    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
+]b4_api_token_raw_if(
+[[    return static_cast<yy::parser::token_number_type> (t);]],
+[[    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
     // TOKEN-NUM as returned by yylex.
     static
     const token_number_type
@@ -548,7 +550,7 @@ m4_define([b4_yytranslate_define],
     else if (static_cast<unsigned> (t) <= user_token_number_max_)
       return translate_table[t];
     else
-      return undef_token_;
+      return undef_token_;]])[
   }
 ]])
 

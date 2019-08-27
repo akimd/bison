@@ -684,9 +684,9 @@ public void yyerror (]AT_LOCATION_IF([[YYLocation l, ]])[string m)
 m4_define([AT_MAIN_DEFINE(d)],
 [[int main ()
 {
-  Lexer l = new Lexer ();
-  Parser p = new Parser (l);
-  p.parse ();
+  auto l = new ]AT_API_prefix[Lexer ();
+  auto p = new ]AT_API_PREFIX[Parser (l);
+  return p.parse ();
 }]])
 
 
