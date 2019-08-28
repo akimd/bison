@@ -1,0 +1,120 @@
+# Interface with the scanner.                           -*- Autotest -*-
+
+# Copyright (C) 2019 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+AT_BANNER([[Interface with the scanner.]])
+
+
+## ------------------- ##
+## Raw token numbers.  ##
+## ------------------- ##
+
+m4_pushdef([AT_TEST],
+[
+AT_SETUP([Token numbers: $1])
+
+AT_BISON_OPTION_PUSHDEFS([%debug $1])
+AT_DATA_GRAMMAR([[input.y]],
+[[$1
+%debug
+%code
+{
+#include <stdio.h>
+]AT_YYERROR_DECLARE[
+]AT_YYLEX_DECLARE[
+}
+
+%union {
+  int val;
+}
+%token <val> NUM "number"
+%token
+  PLUS  "+"
+  MINUS "-"
+  STAR  "*"
+  SLASH "/"
+  LPAR  "("
+  RPAR  ")"
+%nterm <val> exp
+
+%left "+" "-"
+%left "*" "/"
+
+%%
+
+input
+: exp         { printf ("%d\n", $][1); }
+;
+
+exp
+: exp "+" exp { $][$][ = $][1 + $][3; }
+| exp "-" exp { $][$][ = $][1 - $][3; }
+| exp "*" exp { $][$][ = $][1 * $][3; }
+| exp "/" exp { $][$][ = $][1 / $][3; }
+| "(" exp ")" { $][$][ = $][2; }
+| "number"    { $][$][ = $][1; }
+;
+
+%%
+]AT_YYERROR_DEFINE[
+]AT_MAIN_DEFINE[
+
+int yylex (void)
+{
+  static const char* input = "0-(1+2)*3/9";
+  int c = *input++;
+  switch (c)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+      yylval.val = c - '0';
+      return NUM;
+    case '+': return PLUS;
+    case '-': return MINUS;
+    case '*': return STAR;
+    case '/': return SLASH;
+    case '(': return LPAR;
+    case ')': return RPAR;
+    case 0: return 0;
+    }
+}
+]])
+
+AT_FULL_COMPILE([input])
+
+AT_CHECK([grep -c yytranslate input.c], [ignore], [AT_TOKEN_RAW_IF([0], [2])[
+]])
+
+AT_PARSER_CHECK([input], 0,
+[[-1
+]])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+AT_TEST([])
+AT_TEST([%define api.token.raw])
+
+m4_popdef([AT_TEST])

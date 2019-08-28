@@ -56,6 +56,9 @@ m4_include([actions.at])
 # Semantic types support.
 m4_include([types.at])
 
+# Interface with the scanner.
+m4_include([scanner.at])
+
 # Fulling testing (compilation and execution of the parser) on calc.
 m4_include([calc.at])
 

@@ -213,6 +213,8 @@ m4_pushdef([AT_TOKEN_CTOR_IF],
 m4_pushdef([AT_TOKEN_PREFIX],
 [m4_bmatch([$3], [%define api\.token\.prefix {.*}],
            [m4_bregexp([$3], [%define api\.token\.prefix {\(.*\)}], [\1])])])
+m4_pushdef([AT_TOKEN_RAW_IF],
+[m4_bmatch([$3], [%define api\.token\.raw], [$1], [$2])])
 m4_pushdef([AT_VARIANT_IF],
 [m4_bmatch([$3], [%define api\.value\.type variant], [$1], [$2])])
 m4_pushdef([AT_API_prefix],
@@ -325,6 +327,7 @@ m4_popdef([AT_YYERROR_ARG_LOC_IF])
 m4_popdef([AT_API_PREFIX])
 m4_popdef([AT_API_prefix])
 m4_popdef([AT_VARIANT_IF])
+m4_popdef([AT_TOKEN_RAW_IF])
 m4_popdef([AT_TOKEN_PREFIX])
 m4_popdef([AT_TOKEN_CTOR_IF])
 m4_popdef([AT_NAMESPACE])

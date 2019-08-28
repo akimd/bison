@@ -63,6 +63,7 @@ TESTSUITE_AT =                                \
   %D%/reduce.at                               \
   %D%/regression.at                           \
   %D%/report.at                               \
+  %D%/scanner.at                              \
   %D%/sets.at                                 \
   %D%/skeletons.at                            \
   %D%/synclines.at                            \
