@@ -336,8 +336,6 @@ AT_DATA_GRAMMAR([calc.y],
 ]AT_CXX_IF([%define global_tokens_and_yystype])[
 ]AT_D_IF([[
 %code imports {
-  import std.ascii;
-  import std.stdio;
   alias semantic_value = int;
 }
 ]], [[

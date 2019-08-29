@@ -3,11 +3,6 @@
 %define api.parser.class {Calc}
 %define parse.error verbose
 
-%code imports {
-  import std.ascii;
-  import std.stdio;
-}
-
 %union {
   int ival;
 }
