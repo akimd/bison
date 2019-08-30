@@ -500,17 +500,9 @@ m4_popdef([b4_at_dollar])])dnl
         }
 
         /* Convert token to internal form.  */
-        if (yychar <= YYTokenType.EOF)
-        {
-          yychar = yytoken = YYTokenType.EOF;]b4_parse_trace_if([[
-          yycdebug ("Now at end of input.\n");]])[
-        }
-        else
-        {
-          yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
-          yy_symbol_print ("Next token is",
-                           yytoken, yylval]b4_locations_if([, yylloc])[);]])[
-        }
+        yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
+        yy_symbol_print ("Next token is",
+                         yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
         /* If the proper action on seeing token YYTOKEN is to reduce or to
            detect an error, take that action.  */
@@ -833,7 +825,9 @@ m4_popdef([b4_at_dollar])])dnl
   ]b4_translate[
     @};
 
-    if (0 <= t && t <= yyuser_token_number_max_)
+    if (t <= 0)
+      return YYTokenType.EOF;
+    else if (t <= yyuser_token_number_max_)
       return translate_table[t];
     else
       return yyundef_token_;]])[
