@@ -11,6 +11,15 @@ GNU Bison NEWS
 
 ** New features
 
+*** Lookahead correction in C++
+
+  Contributed by Adrian Vogelsgesang.
+
+  The C++ deterministic skeleton (lalr1.cc) now supports LAC, via the
+  %define variable parse.lac.
+
+*** Debug traces in Java
+
   The Java backend no longer emits code and data for parser tracing if the
   %define variable parse.trace is not defined.
 
@@ -3647,7 +3656,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
  LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
  LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
- LocalWords:  noexcept constexpr ispell american deprecations
+ LocalWords:  noexcept constexpr ispell american deprecations backend
 
 Local Variables:
 ispell-dictionary: "american"
