@@ -1,4 +1,4 @@
-# Java skeleton for Bison -*- autoconf -*-
+# Java skeleton for Bison                           -*- autoconf -*-
 
 # Copyright (C) 2007-2015, 2018-2019 Free Software Foundation, Inc.
 
@@ -631,17 +631,9 @@ b4_dollar_popdef[]dnl
           }
 
         /* Convert token to internal form.  */
-        if (yychar <= Lexer.EOF)
-          {
-            yychar = yytoken = Lexer.EOF;]b4_parse_trace_if([[
-            yycdebug ("Now at end of input.\n");]])[
-          }
-        else
-          {
-            yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
-            yySymbolPrint ("Next token is", yytoken,
-                           yylval]b4_locations_if([, yylloc])[);]])[
-          }
+        yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
+        yySymbolPrint ("Next token is", yytoken,
+                       yylval]b4_locations_if([, yylloc])[);]])[
 
         /* If the proper action on seeing token YYTOKEN is to reduce or to
            detect an error, take that action.  */
@@ -1026,7 +1018,9 @@ b4_dollar_popdef[]dnl
   }
 ]],
 [[  {
-    if (0 <= t && t <= yyuser_token_number_max_)
+    if (t <= 0)
+      return Lexer.EOF;
+    else if (t <= yyuser_token_number_max_)
       return yytranslate_table_[t];
     else
       return yyundef_token_;

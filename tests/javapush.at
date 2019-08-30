@@ -826,6 +826,7 @@ Next token is token '=' (13.8: 3)
 Next token is token "number" (13.9: 64)
 Next token is token '\n' (14.0: 64)
 Next token is token '\n' (14.0: 64)
+Next token is token $end (14.1: 64)
 ]])
 
 # Define the calculator input.
