@@ -6212,6 +6212,42 @@ introduced in Bison 3.0
 @c api.token.prefix
 
 
+@c ================================================== api.token.raw
+@deffn Directive {%define api.token.raw}
+
+@itemize @bullet
+@item Language(s):
+all
+
+@item Purpose:
+The output files normally define the tokens with Yacc-compatible token
+numbers: sequential numbers starting at 257 except for single character
+tokens which stand for themselves (e.g., in ASCII, @samp{'a'} is numbered
+65).  The parser however uses symbol numbers assigned sequentially starting
+at 3.  Therefore each time the scanner returns an (external) token number,
+it must be mapped to the (internal) symbol number.
+
+When @code{api.token.raw} is set, tokens are assigned their internal number,
+which saves one table lookup per token to map them from the external to the
+internal number, and also saves the generation of the mapping table.  The
+gain is typically moderate, but in extreme cases (very simple user actions),
+a 10% improvement can be observed.
+
+When @code{api.token.raw} is set, the grammar cannot use character literals
+(such as @samp{'a'}).
+
+@item Accepted Values: Boolean.
+
+@item Default Value:
+@code{false}
+@item History:
+introduced in Bison 3.5.  Was initialy introduced in Bison 1.25 as
+@samp{%raw}, but never worked and was removed in Bison 1.29.
+@end itemize
+@end deffn
+@c api.token.raw
+
+
 @c ================================================== api.value.automove
 @deffn Directive {%define api.value.automove}
 

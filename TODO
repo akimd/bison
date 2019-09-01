@@ -73,7 +73,11 @@ syntax error, unexpected $end, expecting ↦ or 🎅🐃 or '\n'
 
 
 While at it, we should stop using "$end" by default, in favor of "end of
-file", or "end of input", whatever.
+file", or "end of input", whatever.  See how lalr1.java does that.
+
+** api.token.raw
+Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
+semantic value so that yyerror could be used to report invalid lexemes.
 
 * Bison 3.6
 ** Unit rules

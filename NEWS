@@ -21,6 +21,20 @@ GNU Bison NEWS
   The C++ deterministic skeleton (lalr1.cc) now supports LAC, via the
   %define variable parse.lac.
 
+*** Variable api.token.raw: Optimized token numbers (all skeletons)
+
+  In the generated parsers, tokens have two numbers: the "external" token
+  number as returned by yylex (which starts at 257), and the "internal"
+  symbol number (which starts at 3).  Each time yylex is called, a table
+  lookup maps the external token number to the internal symbol number.
+
+  When the %define variable api.token.raw is set, tokens are assigned their
+  internal number, which saves one table lookup per token, and also saves
+  the generation of the mapping table.
+
+  The gain is typically moderate, but in extreme cases (very simple user
+  actions), a 10% improvement can be observed.
+
 *** Debug traces in Java
 
   The Java backend no longer emits code and data for parser tracing if the
