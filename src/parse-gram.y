@@ -106,6 +106,7 @@
   /* Handle a %yacc directive.  */
   static void handle_yacc (location const *loc);
 
+  /* Implementation of yyerror.  */
   static void gram_error (location const *, char const *);
 
   /* A string that describes a char (e.g., 'a' -> "'a'").  */
@@ -196,7 +197,7 @@
 %token BRACED_CODE     "{...}"
 %token BRACED_PREDICATE "%?{...}"
 %token BRACKETED_ID    "[identifier]"
-%token CHAR            "char"
+%token CHAR            "character literal"
 %token COLON           ":"
 %token EPILOGUE        "epilogue"
 %token EQUAL           "="
@@ -732,11 +733,23 @@ id:
     { $$ = symbol_from_uniqstr ($1, @1); }
 | CHAR
     {
+      const char *var = "api.token.raw";
       if (current_class == nterm_sym)
         {
-          gram_error (&@1,
-                      _("character literals cannot be nonterminals"));
+          complain (&@1, complaint,
+                    _("character literals cannot be nonterminals"));
           YYERROR;
+        }
+      if (muscle_percent_define_ifdef (var))
+        {
+          unsigned indent = 0;
+          complain_indent (&@1, complaint, &indent,
+                           _("character literals cannot be used together"
+                             " with %s"), var);
+          indent += SUB_INDENT;
+          location loc = muscle_percent_define_get_loc (var);
+          complain_indent (&loc, complaint, &indent,
+                           _("definition of %s"), var);
         }
       $$ = symbol_get (char_name ($1), @1);
       symbol_class_set ($$, token_sym, @1, false);

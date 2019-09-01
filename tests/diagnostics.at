@@ -277,7 +277,7 @@ AT_TEST([[Carriage return]],
 [[input.y:10.8-11.0: <error>error:</error> missing '"' at end of line
    10 | %token <error>"</error>
       |        <error>^</error>
-input.y:10.8-11.0: <error>error:</error> syntax error, unexpected string, expecting char or identifier or <tag>
+input.y:10.8-11.0: <error>error:</error> syntax error, unexpected string, expecting character literal or identifier or <tag>
    10 | %token <error>"</error>
       |        <error>^</error>
 ]])

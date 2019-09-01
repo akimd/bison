@@ -232,10 +232,10 @@ input.y:3.17-24: error: nonterminals cannot be given a string alias
 input.y:4.8-10: error: character literals cannot be nonterminals
     4 | %nterm '+' '*';
       |        ^~~
-input.y:5.8-15: error: syntax error, unexpected string, expecting char or identifier or <tag>
+input.y:5.8-15: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
     5 | %nterm "number";
       |        ^~~~~~~~
-input.y:6.8-13: error: syntax error, unexpected string, expecting char or identifier or <tag>
+input.y:6.8-13: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
     6 | %token "tok1" 1;
       |        ^~~~~~
 input.y:7.14: error: syntax error, unexpected integer
@@ -2756,6 +2756,40 @@ AT_BISON_CHECK([[-fcaret input.y]], [[0]], [[]],
 [[input.y:10.6-13: warning: only midrule actions can be typed: int [-Wother]
    10 | exp: <int> {}
       |      ^~~~~~~~
+]])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
+
+## -------------------------------------- ##
+## Character literals and api.token.raw.  ##
+## -------------------------------------- ##
+
+AT_SETUP([[Character literals and api.token.raw]])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA_GRAMMAR([[input.y]],
+[[%define api.token.raw
+%token 'a'
+%%
+exp: 'b' "c" {}
+]])
+
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
+[[input.y:10.8-10: error: character literals cannot be used together with api.token.raw
+   10 | %token 'a'
+      |        ^~~
+input.y:9.1-21:      definition of api.token.raw
+    9 | %define api.token.raw
+      | ^~~~~~~~~~~~~~~~~~~~~
+input.y:12.6-8: error: character literals cannot be used together with api.token.raw
+   12 | exp: 'b' "c" {}
+      |      ^~~
+input.y:9.1-21:     definition of api.token.raw
+    9 | %define api.token.raw
+      | ^~~~~~~~~~~~~~~~~~~~~
 ]])
 
 AT_BISON_OPTION_POPDEFS
