@@ -32,7 +32,7 @@ jobs:
     - stage: "compile"
       git:
         clone: true
-      dist: xenial
+      dist: bionic
       script:
         - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo
         - autoconf --version
@@ -49,15 +49,20 @@ jobs:
         - git submodule update --init --recursive
 
         - ./bootstrap
-        - ./configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
+        # gnulib-po/Makefile.in.in is about Gettext 0.20, which is not available in bionic.  So it will break here.  Override it.  Don't use autopoint, which sends some other files in the past.
+        - cp po/Makefile.in.in gnulib-po
+
+        - ./configure --enable-gcc-warnings || { cat config.log && false; }
         - make -j2
         - make -j2 dist
         - dist=$(echo bison*.xz)
+
         # Unfortunately we cannot deterministically know the name of the tarball without the full
         # git history (because git describe --abbrev=4 may use more than 4 characters if there are
-        # conflicts).  Besides, one day we would like not to depend on the repository at all in the
-        # 'test' jobs.  So also expose this tarball on a name that only depends on the Travis build
-        # number.
+        # conflicts).
+        #
+        # So for the sake of the 'test' jobs (that don't even have the repo at all), also expose this
+        # tarball on a name that only depends on the Travis build number.
         #
         # Without -b -, exit status is always 0.
         - sftp -b - bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
