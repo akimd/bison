@@ -74,46 +74,44 @@ jobs:
     # Start with three completely different environments, to get
     # errors asap.
 
-    - name: "GCC 7 -O3"
+    - name: "GCC 8 -O3"
       stage: test
       os: linux
-      dist: xenial
+      dist: bionic
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
           packages:
-            - g++-7
+            - g++-8
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
     # ASAN is time consuming, and we timeout the 50min granted by
     # Travis if we run all the tests in one go.  Run in two parts.
-    - name: "Clang 7 libc++ and ASAN part 1"
+    - name: "Clang 8 libc++ and ASAN part 1"
       stage: test
       os: linux
-      dist: xenial
-      addons: &clang7
+      dist: bionic
+      addons: &clang8
         apt:
           sources:
-            - llvm-toolchain-xenial-7
+            - llvm-toolchain-bionic-8
             - ubuntu-toolchain-r-test
           packages:
-            - clang-7
-            - libc++-7-dev
-            - libc++abi-7-dev
+            - clang-8
+            - libc++-8-dev
+            - libc++abi-8-dev
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="PART=1 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
+        - MATRIX_EVAL="PART=1 CC='clang-8 -fsanitize=address' CXX='clang++-8 -fsanitize=address -stdlib=libc++'"
 
-    - name: "Clang 7 libc++ and ASAN part 2"
+    - name: "Clang 8 libc++ and ASAN part 2"
       stage: test
       os: linux
-      dist: xenial
-      addons: *clang7
+      dist: bionic
+      addons: *clang8
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="PART=2 CC='clang-7 -fsanitize=address' CXX='clang++-7 -fsanitize=address -stdlib=libc++'"
+        - MATRIX_EVAL="PART=2 CC='clang-8 -fsanitize=address' CXX='clang++-8 -fsanitize=address -stdlib=libc++'"
 
     - name: "ICC"
       stage: test
@@ -136,23 +134,27 @@ jobs:
     ## GCC.  ##
     ## ----- ##
 
-    #- name: "GCC 8 with sanitizers"
-    #  os: linux
-    #  dist: xenial
-    #  addons:
-    #    apt:
-    #      sources:
-    #        - ubuntu-toolchain-r-test
-    #      packages:
-    #        - g++-8
-    #  env:
-    #    # Can't use UBSAN: I get:
-    #    # configure:4951: gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer conftest.c
-    #    # /usr/bin/ld: unrecognized option '--push-state' (on trusty)
-    #    # /usr/bin/ld: unrecognized option '--push-state--no-as-needed' (on xenial)
-    #    #
-    #    # https://stackoverflow.com/questions/50024731/ suggests using the gold linker.
-    #    - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
+    - name: "GCC 7 with sanitizers"
+      os: linux
+      dist: bionic
+      addons:
+        apt:
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC='gcc-7 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-7 -fsanitize=undefined,address -fno-omit-frame-pointer'"
+        - PART=1
+
+    - name: "GCC 7"
+      stage: test
+      os: linux
+      dist: bionic
+      addons:
+        apt:
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
     - name: "GCC 6"
       stage: test
@@ -235,6 +237,23 @@ jobs:
     ## ------- ##
     ## Clang.  ##
     ## ------- ##
+
+    - name: "Clang 7 -O3 and libc++"
+      stage: test
+      os: linux
+      dist: bionic
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-bionic-7
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-7
+            - libc++-7-dev
+            - libc++abi-7-dev
+      env:
+        - MATRIX_EVAL="CC=clang-7 && CXX='clang++-7 -stdlib=libc++'"
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     - name: "Clang 6 -O3 and libc++"
       stage: test
@@ -427,7 +446,7 @@ script:
   - ../configure --enable-gcc-warnings CC="$CC" CXX="$CXX" $CONFIGUREFLAGS || { cat config.log && false; }
   - make -j2 $MAKE_ARGS
   - if test ${PART-1} = 1; then make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat test-suite.log && cat tests/testsuite.log && false; }; fi
-  - if test ${PART-1} = 1; then make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
+  - if test ${PART-2} = 2; then make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
   - if test ${PART-2} = 2; then make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
 
 after_script:
