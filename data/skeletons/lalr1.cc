@@ -576,12 +576,14 @@ m4_if(b4_prefix, [yy], [],
 ]])[
 
   /// Build a parser object.
-  ]b4_parser_class::b4_parser_class[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
-    :])[
+  ]b4_parser_class::b4_parser_class[ (]b4_parse_param_decl[)
 #if ]b4_api_PREFIX[DEBUG
-    ]m4_ifset([b4_parse_param], [  ], [ :])[yydebug_ (false),
-      yycdebug_ (&std::cerr)]m4_ifset([b4_parse_param], [,])[
-#endif]b4_parse_param_cons[
+    : yydebug_ (false),
+      yycdebug_ (&std::cerr)]b4_lac_if([,], [m4_ifset([b4_parse_param], [,])])[
+#else
+]b4_lac_if([    :], [m4_ifset([b4_parse_param], [    :])])[
+#endif]b4_lac_if([[
+      yy_lac_established_ (false)]m4_ifset([b4_parse_param], [,])])[]b4_parse_param_cons[
   {}
 
   ]b4_parser_class::~b4_parser_class[ ()
