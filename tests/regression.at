@@ -397,19 +397,18 @@ AT_BISON_OPTION_POPDEFS
 # unnecessarily escaped here even though it would need to be if encoded in a
 # C-string literal.  Also notice that unnecessary escaping, such as "\?", from
 # the user specification is eliminated.
-AT_BISON_CHECK([-o input.c input.y], [[0]], [[]],
-[[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
-input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
-]])
-
 AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
    22 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+      |        ^~~~~~~
+input.y:21.8-14: previous declaration
+   21 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |        ^~~~~~~
 input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
    22 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
+
 AT_COMPILE([input])
 
 # Checking the error message here guarantees that yytname, which does contain
