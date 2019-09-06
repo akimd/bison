@@ -615,6 +615,38 @@ AT_CHECK_UNUSED_VALUES([1], [1])
 AT_CLEANUP
 
 
+## ------------------- ##
+## Symbol redeclared.  ##
+## ------------------- ##
+
+AT_SETUP([Symbol redeclared])
+
+AT_DATA([[input.y]],
+[[%token FOO FOO
+%token BAR 12 BAR 12
+
+%%
+exp: FOO BAR
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [0], [],
+[[input.y:1.12-14: warning: symbol FOO redeclared [-Wother]
+    1 | %token FOO FOO
+      |            ^~~
+input.y:1.8-10: previous declaration
+    1 | %token FOO FOO
+      |        ^~~
+input.y:2.15-17: warning: symbol BAR redeclared [-Wother]
+    2 | %token BAR 12 BAR 12
+      |               ^~~
+input.y:2.8-10: previous declaration
+    2 | %token BAR 12 BAR 12
+      |        ^~~
+]])
+
+AT_CLEANUP
+
+
 ## --------------------------- ##
 ## Symbol class redefinition.  ##
 ## --------------------------- ##

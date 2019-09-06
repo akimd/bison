@@ -67,18 +67,33 @@ exp: %empty;
 [[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO <warning>FOO</warning> FOO
       |            <warning>^~~</warning>
+input.y:9.8-10: previous declaration
+    9 | %token <note>FOO</note> FOO FOO
+      |        <note>^~~</note>
 input.y:9.16-18: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO FOO <warning>FOO</warning>
       |                <warning>^~~</warning>
+input.y:9.8-10: previous declaration
+    9 | %token <note>FOO</note> FOO FOO
+      |        <note>^~~</note>
 input.y:10.8-10: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token <warning>FOO</warning>  FOO  FOO
       |        <warning>^~~</warning>
+input.y:9.8-10: previous declaration
+    9 | %token <note>FOO</note> FOO FOO
+      |        <note>^~~</note>
 input.y:10.13-15: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token FOO  <warning>FOO</warning>  FOO
       |             <warning>^~~</warning>
+input.y:9.8-10: previous declaration
+    9 | %token <note>FOO</note> FOO FOO
+      |        <note>^~~</note>
 input.y:10.18-20: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token FOO  FOO  <warning>FOO</warning>
       |                  <warning>^~~</warning>
+input.y:9.8-10: previous declaration
+    9 | %token <note>FOO</note> FOO FOO
+      |        <note>^~~</note>
 ]])
 
 
