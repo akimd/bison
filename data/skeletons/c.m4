@@ -545,7 +545,9 @@ m4_if(b4_skeleton, ["yacc.c"],
 # endif
 ]])dnl
 b4_percent_code_get([[pre-printer]])dnl
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   b4_symbol_actions([printer])
+  YY_IGNORE_MAYBE_UNINITIALIZED_END
 b4_percent_code_get([[post-printer]])dnl
 [}
 
