@@ -7,6 +7,13 @@ GNU Bison NEWS
   In some cases, when warnings are disabled, bison could emit tons of white
   spaces as diagnostics.
 
+  When running out of memory, bison could crash (found by fuzzing).
+
+  When defining twice the EOF token, bison would crash.
+
+  New warnings from recent compilers have been addressed in the generated
+  parsers (yacc.c, glr.c, glr.cc).
+
 * Noteworthy changes in release 3.4.1 (2019-05-22) [stable]
 
 ** Bug fixes
