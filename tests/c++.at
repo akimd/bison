@@ -313,7 +313,7 @@ AT_DATA_GRAMMAR([list.y],
       }
 
 #if defined __cplusplus && 201103L <= __cplusplus
-      string (string&& s)
+      string (string&& s) noexcept
         : val_(std::move(s.val_))
       {
         s.val_.clear();
