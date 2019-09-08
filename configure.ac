@@ -297,4 +297,15 @@ AC_SUBST([GCC])
 AC_CONFIG_FILES([Makefile
                  po/Makefile.in
                  doc/yacc.1])
+
+# Fix LIBOBJS to give the Makefile the right file names.  Otherwise
+# compilation works, but with unexpected file names, so clean rules don't
+# remove the actual files and distcheck fails.
+AC_CONFIG_COMMANDS_PRE([
+  case $am__api_version in
+    1.14*|1.15*) gl_LIBOBJS=`echo "$gl_LIBOBJS" | sed -e 's, lib/, lib/lib_libbison_a-,g'`;;
+    *)           gl_LIBOBJS=`echo "$gl_LIBOBJS" | sed -e 's, lib/, lib/libbison_a-,g'`;;
+  esac
+])
+
 AC_OUTPUT
