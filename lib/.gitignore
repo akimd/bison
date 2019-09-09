@@ -16,6 +16,7 @@
 /argmatch.c
 /argmatch.h
 /asnprintf.c
+/assure.h
 /basename-lgpl.c
 /basename.c
 /binary-io.c
@@ -38,6 +39,7 @@
 /canonicalize-lgpl.c
 /careadlinkat.c
 /careadlinkat.h
+/cdefs.h
 /charset.alias
 /cloexec.c
 /cloexec.h
@@ -89,6 +91,7 @@
 /fseterr.c
 /fseterr.h
 /fstat.c
+/fsync.c
 /getdtablesize.c
 /gethrxtime.c
 /gethrxtime.h
@@ -131,6 +134,7 @@
 /isnanl.c
 /itold.c
 /ldexpl.c
+/libc-config.h
 /limits.h
 /limits.in.h
 /localcharset.c
@@ -189,6 +193,9 @@
 /relocatable.c
 /relocatable.h
 /relocwrapper.c
+/rename.c
+/rmdir.c
+/same-inode.h
 /sched.h
 /sched.in.h
 /setenv.c
@@ -264,6 +271,7 @@
 /sys_types.in.h
 /sys_wait.in.h
 /sysexits.in.h
+/textstyle.in.h
 /time.h
 /time.in.h
 /timespec.c
@@ -300,10 +308,20 @@
 /wctype.h
 /wctype.in.h
 /wcwidth.c
+/windows-initguard.h
+/windows-mutex.c
+/windows-mutex.h
+/windows-once.c
+/windows-once.h
+/windows-recmutex.c
+/windows-recmutex.h
+/windows-rwlock.c
+/windows-rwlock.h
 /xalloc-die.c
 /xalloc-oversized.h
 /xalloc.h
 /xconcat-filename.c
+/xhash.c
 /xmalloc.c
 /xmemdup0.c
 /xmemdup0.h
@@ -315,16 +333,3 @@
 /xstrndup.h
 /xtime.c
 /xtime.h
-/rename.c
-/rmdir.c
-/same-inode.h
-/assure.h
-/fsync.c
-/textstyle.in.h
-/windows-mutex.c
-/windows-mutex.h
-/windows-once.c
-/windows-once.h
-/windows-recmutex.c
-/windows-recmutex.h
-/windows-spinlock.h
