@@ -321,3 +321,4 @@
 /assure.h
 /fsync.c
 /textstyle.in.h
+/xhash.c
