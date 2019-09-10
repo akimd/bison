@@ -49,9 +49,6 @@ static boundary scanner_cursor;
 
 #define YY_USER_ACTION  location_compute (loc, &scanner_cursor, yytext, yyleng);
 
-static size_t no_cr_read (FILE *, char *, size_t);
-#define YY_INPUT(buf, result, size) ((result) = no_cr_read (yyin, buf, size))
-
 /* Report that yytext is an extension, and evaluate to its token type.  */
 #define BISON_DIRECTIVE(Directive)                              \
   (bison_directive (loc, yytext), PERCENT_ ## Directive)
@@ -139,12 +136,14 @@ id        {letter}({letter}|[-0-9])*
 int       [0-9]+
 xint      0[xX][0-9abcdefABCDEF]+
 
+eol       \n|\r\n
+
  /* UTF-8 Encoded Unicode Code Point, from Flex's documentation. */
 mbchar    [\x09\x0A\x0D\x20-\x7E]|[\xC2-\xDF][\x80-\xBF]|\xE0[\xA0-\xBF][\x80-\xBF]|[\xE1-\xEC\xEE\xEF]([\x80-\xBF]{2})|\xED[\x80-\x9F][\x80-\xBF]|\xF0[\x\90-\xBF]([\x80-\xBF]{2})|[\xF1-\xF3]([\x80-\xBF]{3})|\xF4[\x80-\x8F]([\x80-\xBF]{2})
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */
-splice   (\\[ \f\t\v]*\n)*
+splice   (\\[ \f\t\v]*{eol})*
 
 /* An equal sign, with optional leading whitespaces. This is used in some
    deprecated constructs. */
@@ -193,7 +192,7 @@ eqopt    ({sp}=)?
   "," {
      complain (loc, Wother, _("stray ',' treated as white space"));
   }
-  [ \f\n\t\v]  |
+  [ \f\t\v\r]|{eol}  |
   "//".*       continue;
   "/*" {
     token_start = loc->start;
@@ -201,9 +200,7 @@ eqopt    ({sp}=)?
     BEGIN SC_YACC_COMMENT;
   }
 
-  /* #line directives are not documented, and may be withdrawn or
-     modified in future versions of Bison.  */
-  ^"#line "{int}(" \"".*"\"")?"\n" {
+  ^"#line "{int}(" \"".*"\"")?{eol} {
     handle_syncline (yytext + sizeof "#line " - 1, *loc);
   }
 }
@@ -329,7 +326,7 @@ eqopt    ({sp}=)?
   }
 
   /* Semantic predicate. */
-  "%?"[ \f\n\t\v]*"{" {
+  "%?"([ \f\t\v]|{eol})*"{" {
     nesting = 0;
     code_start = loc->start;
     BEGIN SC_PREDICATE;
@@ -358,7 +355,7 @@ eqopt    ({sp}=)?
     BEGIN SC_BRACKETED_ID;
   }
 
-  [^\[%A-Za-z0-9_<>{}\"\'*;|=/, \f\n\t\v]+|. {
+  [^\[%A-Za-z0-9_<>{}\"\'*;|=/, \f\r\n\t\v]+|. {
     complain (loc, complaint, "%s: %s",
               ngettext ("invalid character", "invalid characters", yyleng),
               quote_mem (yytext, yyleng));
@@ -457,7 +454,7 @@ eqopt    ({sp}=)?
       complain (loc, complaint, _("an identifier expected"));
   }
 
-  [^\].A-Za-z0-9_/ \f\n\t\v]+|. {
+  [^\].A-Za-z0-9_/ \f\r\n\t\v]+|. {
     complain (loc, complaint, "%s: %s",
               ngettext ("invalid character in bracketed name",
                         "invalid characters in bracketed name", yyleng),
@@ -490,7 +487,7 @@ eqopt    ({sp}=)?
 <SC_YACC_COMMENT>
 {
   "*/"     BEGIN context_state;
-  .|\n     continue;
+  .|{eol}  continue;
   <<EOF>>  unexpected_eof (token_start, "*/"); BEGIN context_state;
 }
 
@@ -512,7 +509,7 @@ eqopt    ({sp}=)?
 
 <SC_LINE_COMMENT>
 {
-  "\n"           STRING_GROW; BEGIN context_state;
+  {eol}          STRING_GROW; BEGIN context_state;
   {splice}       STRING_GROW;
   <<EOF>>        BEGIN context_state;
 }
@@ -534,7 +531,7 @@ eqopt    ({sp}=)?
     RETURN_VALUE (STRING, last_string);
   }
   <<EOF>>   unexpected_eof (token_start, "\"");
-  "\n"      unexpected_newline (token_start, "\"");
+  {eol}     unexpected_newline (token_start, "\"");
 }
 
   /*----------------------------------------------------------.
@@ -563,7 +560,7 @@ eqopt    ({sp}=)?
     BEGIN INITIAL;
     return CHAR;
   }
-  "\n"      unexpected_newline (token_start, "'");
+  {eol}     unexpected_newline (token_start, "'");
   <<EOF>>   unexpected_eof (token_start, "'");
 }
 
@@ -640,7 +637,7 @@ eqopt    ({sp}=)?
     else
       obstack_1grow (&obstack_for_string, c);
   }
-  \\(.|\n)      {
+  \\(.|{eol})      {
     char const *p = yytext + 1;
     /* Quote only if escaping won't make the character visible.  */
     if (c_isspace ((unsigned char) *p) && c_isprint ((unsigned char) *p))
@@ -664,14 +661,14 @@ eqopt    ({sp}=)?
 <SC_CHARACTER>
 {
   "'"           STRING_GROW; BEGIN context_state;
-  \n            unexpected_newline (token_start, "'");
+  {eol}         unexpected_newline (token_start, "'");
   <<EOF>>       unexpected_eof (token_start, "'");
 }
 
 <SC_STRING>
 {
   "\""          STRING_GROW; BEGIN context_state;
-  \n            unexpected_newline (token_start, "\"");
+  {eol}         unexpected_newline (token_start, "\"");
   <<EOF>>       unexpected_eof (token_start, "\"");
 }
 
@@ -807,53 +804,6 @@ eqopt    ({sp}=)?
 }
 
 %%
-
-/* Read bytes from FP into buffer BUF of size SIZE.  Return the
-   number of bytes read.  Remove '\r' from input, treating \r\n
-   and isolated \r as \n.  */
-
-static size_t
-no_cr_read (FILE *fp, char *buf, size_t size)
-{
-  size_t bytes_read = fread (buf, 1, size, fp);
-  if (bytes_read)
-    {
-      char *w = memchr (buf, '\r', bytes_read);
-      if (w)
-        {
-          char const *r = ++w;
-          char const *lim = buf + bytes_read;
-
-          for (;;)
-            {
-              /* Found an '\r'.  Treat it like '\n', but ignore any
-                 '\n' that immediately follows.  */
-              w[-1] = '\n';
-              if (r == lim)
-                {
-                  int ch = getc (fp);
-                  if (ch != '\n' && ungetc (ch, fp) != ch)
-                    break;
-                }
-              else if (*r == '\n')
-                r++;
-
-              /* Copy until the next '\r'.  */
-              do
-                {
-                  if (r == lim)
-                    return w - buf;
-                }
-              while ((*w++ = *r++) != '\r');
-            }
-
-          return w - buf;
-        }
-    }
-
-  return bytes_read;
-}
-
 
 
 /*------------------------------------------------------.

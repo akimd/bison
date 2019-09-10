@@ -274,9 +274,41 @@ AT_TEST([[Carriage return]],
 %%
 ]],
 [1],
-[[input.y:37.8-38.0: <error>error:</error> missing '"' at end of line
-input.y:37.8-38.0: <error>error:</error> syntax error, unexpected string, expecting char or identifier or <tag>
+[[input.y:10.8-11.0: <error>error:</error> missing '"' at end of line
+   10 | %token <error>"</error>
+      |        <error>^</error>
+input.y:10.8-11.0: <error>error:</error> syntax error, unexpected string, expecting char or identifier or <tag>
+   10 | %token <error>"</error>
+      |        <error>^</error>
 ]])
+
+
+## ------- ##
+## CR NL.  ##
+## ------- ##
+
+# Check Windows EOLs.
+
+AT_TEST([[CR NL]],
+[[^M
+%token ^M FOO^M
+%token ^M FOO^M
+%%^M
+exp:^M
+]],
+[0],
+[[input.y:11.9-11: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
+   11 | %token  <warning>FOO</warning>
+      |         <warning>^~~</warning>
+input.y:10.9-11: previous declaration
+   10 | %token  <note>FOO</note>
+      |         <note>^~~</note>
+input.y:13.5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   13 | exp:
+      |     <warning>^</warning>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+]])
+
 
 
 

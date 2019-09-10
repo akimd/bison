@@ -2,6 +2,12 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Backward incompatible changes
+
+  Lone carriage-return characters (aka \r or ^M) in the grammar files are no
+  longer treated as end-of-lines.  This changes the diagnostics, and in
+  particular their locations.
+
 ** Bug fixes
 
   In Java, %define api.prefix was ignored.  It now behaves as expected.
