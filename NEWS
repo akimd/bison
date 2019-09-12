@@ -4,9 +4,6 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  In some cases, when warnings are disabled, bison could emit tons of white
-  spaces as diagnostics.
-
   In Java, %define api.prefix was ignored.  It now behaves as expected.
 
 ** New features
@@ -22,6 +19,23 @@ GNU Bison NEWS
 
   The Java backend no longer emits code and data for parser tracing if the
   %define variable parse.trace is not defined.
+
+* Noteworthy changes in release 3.4.2 (2019-09-08) [stable]
+
+** Bug fixes
+
+  In some cases, when warnings are disabled, bison could emit tons of white
+  spaces as diagnostics.
+
+  When running out of memory, bison could crash (found by fuzzing).
+
+  When defining twice the EOF token, bison would crash.
+
+  New warnings from recent compilers have been addressed in the generated
+  parsers (yacc.c, glr.c, glr.cc).
+
+  When lone carriage-return characters appeared in the input file,
+  diagnostics could hang forever.
 
 * Noteworthy changes in release 3.4.1 (2019-05-22) [stable]
 
