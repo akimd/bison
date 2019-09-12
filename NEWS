@@ -14,6 +14,9 @@ GNU Bison NEWS
   New warnings from recent compilers have been addressed in the generated
   parsers (yacc.c, glr.c, glr.cc).
 
+  When lone carriage-return characters appeared in the input file,
+  diagnostics could hang forever.
+
 * Noteworthy changes in release 3.4.1 (2019-05-22) [stable]
 
 ** Bug fixes
