@@ -450,4 +450,4 @@ script:
   - if test ${PART-2} = 2; then make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
 
 after_script:
-  - if [[ $CC == "icc" ]]; then uninstall_intel_software || true; fi
+  - uninstall_intel_software || true
