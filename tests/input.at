@@ -633,19 +633,19 @@ AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:1.12-14: warning: symbol FOO redeclared [-Wother]
     1 | %token FOO FOO
       |            ^~~
-input.y:1.8-10: previous declaration
+input.y:1.8-10:      previous declaration
     1 | %token FOO FOO
       |        ^~~
 input.y:2.15-17: warning: symbol BAR redeclared [-Wother]
     2 | %token BAR 12 BAR 12
       |               ^~~
-input.y:2.8-10: previous declaration
+input.y:2.8-10:      previous declaration
     2 | %token BAR 12 BAR 12
       |        ^~~
 input.y:3.14-16: warning: symbol EOF redeclared [-Wother]
     3 | %token EOF 0 EOF 0
       |              ^~~
-input.y:3.8-10: previous declaration
+input.y:3.8-10:      previous declaration
     3 | %token EOF 0 EOF 0
       |        ^~~
 ]])
