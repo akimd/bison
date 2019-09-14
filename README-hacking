@@ -45,8 +45,8 @@ processes tabs in its input.
 
 * Working from the repository
 
-These notes intend to help people working on the checked-out sources.
-These requirements do not apply when building from a distribution tarball.
+These notes intend to help people working on the checked-out sources.  These
+requirements do not apply when building from a distribution tarball.
 
 ** Requirements
 
@@ -201,7 +201,6 @@ added the "[-Wother]" part to all the warnings).  Part of the update can be
 done with a crude tool: tests/update-test.  Read it for more information.
 
 ** TESTSUITEFLAGS
-
 To run just the testsuite (not the tests related to the examples), run `make
 check-local`.
 
@@ -211,6 +210,10 @@ can be sped up in two ways:
 
 Using -j, in a make-like fashion, for example:
   $ make check-local TESTSUITEFLAGS='-j8'
+
+Actually, when using GNU Make, TESTSUITEFLAGS defaults to the -jN passed to
+it, so you may simply run
+  $ make check-local -j8
 
 Running only the tests of a certain category, as specified in the AT files
 with AT_KEYWORDS([[category]]). Categories include:
@@ -224,6 +227,7 @@ To run a specific set of tests, use -k (for "keyword"). For example:
   $ make check-local TESTSUITEFLAGS='-k c++'
 
 Both can be combined.
+  $ make check-local TESTSUITEFLAGS='-j8 -k c++'
 
 ** Typical errors
 If the test suite shows failures such as the following one
