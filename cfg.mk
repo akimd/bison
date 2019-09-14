@@ -26,6 +26,9 @@ regen: _version
 manual_title = The Yacc-compatible Parser Generator
 gendocs_options_ = -I $(abs_top_srcdir)/doc -I $(abs_top_builddir)/doc
 
+# By default, propagate -j from make to Bison's test suite.
+TESTSUITEFLAGS = $(filter -j%,$(MAKEFLAGS))
+
 # It's useful to run maintainer-check* targets during development, but we
 # don't want to wait on a recompile because of an update to $(VERSION).  Thus,
 # override the _is-dist-target from GNUmakefile so that maintainer-check*
