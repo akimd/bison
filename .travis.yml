@@ -113,21 +113,22 @@ jobs:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
         - MATRIX_EVAL="PART=2 CC='clang-8 -fsanitize=address' CXX='clang++-8 -fsanitize=address -stdlib=libc++'"
 
-    - name: "ICC"
-      stage: test
-      # We need the build-aux/install-icc.sh script.
-      git:
-        clone: true
-        submodules: false
-        depth: 1
-      os: linux
-      dist: xenial
-      env:
-        # ICC's warnings are often very wrong (e.g., it thinks foo ?
-        # "bar" : "baz" is char* instead of const char*), so don't try
-        # to work around the, and obviously, don't die on them.
-        - MATRIX_EVAL="CC=icc && CXX=icpc"
-        - MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='
+    # Currently no longer works (https://github.com/nemequ/icc-travis/issues/15).
+    # - name: "ICC"
+    #   stage: test
+    #   # We need the build-aux/install-icc.sh script.
+    #   git:
+    #     clone: true
+    #     submodules: false
+    #     depth: 1
+    #   os: linux
+    #   dist: xenial
+    #   env:
+    #     # ICC's warnings are often very wrong (e.g., it thinks foo ?
+    #     # "bar" : "baz" is char* instead of const char*), so don't try
+    #     # to work around the, and obviously, don't die on them.
+    #     - MATRIX_EVAL="CC=icc && CXX=icpc"
+    #     - MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='
 
 
     ## ----- ##
