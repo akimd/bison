@@ -133,6 +133,7 @@
 /isnanf.c
 /isnanl-nolibm.h
 /isnanl.c
+/iswblank.c
 /itold.c
 /ldexpl.c
 /libc-config.h
@@ -149,6 +150,10 @@
 /math.c
 /math.h
 /math.in.h
+/mbchar.c
+/mbchar.h
+/mbfile.c
+/mbfile.h
 /mbrtowc.c
 /mbsinit.c
 /mbswidth.c

@@ -68,6 +68,7 @@
 /isnand.m4
 /isnanf.m4
 /isnanl.m4
+/iswblank.m4
 /javacomp.m4
 /javaexec.m4
 /largefile.m4
@@ -92,6 +93,8 @@
 /malloc.m4
 /malloca.m4
 /math_h.m4
+/mbchar.m4
+/mbfile.m4
 /mbrtowc.m4
 /mbsinit.m4
 /mbstate_t.m4
