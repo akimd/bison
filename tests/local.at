@@ -828,7 +828,7 @@ AT_BISON_CHECK_NO_XML($@)])
 # --------------------------------------------------
 # Low-level macro to run bison once.
 m4_define([AT_BISON_CHECK_],
-[AT_CHECK(AT_QUELL_VALGRIND[[ bison --color=no -fno-caret ]]$@)])
+[AT_CHECK(AT_SET_ENV[[ bison --color=no -fno-caret ]]$@)])
 
 
 # AT_BISON_CHECK_WARNINGS(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
@@ -884,7 +884,7 @@ fi]dnl
 # when a tortured grammar's XML is known to be too large for xsltproc to
 # handle.
 m4_define([AT_BISON_CHECK_NO_XML],
-[AT_CHECK(m4_null_if([$2], [], [AT_QUELL_VALGRIND ])[[bison --color=no -fno-caret ]]$@)
+[AT_CHECK(AT_SET_ENV_IF([$2]) [[bison --color=no -fno-caret ]]$@)
 AT_BISON_CHECK_WARNINGS($@)])
 
 # AT_BISON_CHECK_XML(BISON_ARGS, [OTHER_AT_CHECK_ARGS])
@@ -911,20 +911,24 @@ m4_define([AT_BISON_CHECK_XML],
   m4_popdef([AT_BISON_ARGS])dnl
   [cp xml-tests/test.output expout]
   AT_CHECK([[$XSLTPROC \
-             `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2text.xsl \
+             `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2text.xsl \
              xml-tests/test.xml]], [[0]], [expout])
   [sort xml-tests/test.gv > expout]
   AT_CHECK([[$XSLTPROC \
-             `]]AT_QUELL_VALGRIND[[ bison --print-datadir`/xslt/xml2dot.xsl \
+             `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2dot.xsl \
              xml-tests/test.xml | sort]], [[0]], [expout])
   [rm -rf xml-tests expout]
   AT_RESTORE_SPECIAL_FILES
 [fi]])
 
-# AT_QUELL_VALGRIND
-# -----------------
-# Put this before a Bison invocation to keep Valgrind from complaining about
-# reachable memory.
+
+# AT_SET_ENV_IF(EXIT-STATUS)
+# --------------------------
+# Put this before a Bison invocation to set the environment to:
+# - define COLUMNS to make the test suite independant of the user's
+#   environment;
+# - keep Valgrind from complaining about reachable memory (when
+#   EXIT-STATUS is not 0).
 #
 # Do not quote invocations of this macro within the first argument of AT_CHECK.
 # The triple quoting below will cause test cases to fail if you do.  If you do
@@ -932,10 +936,15 @@ m4_define([AT_BISON_CHECK_XML],
 # will then fail to shell-escape its contents when attempting to print them.
 # The testsuite verbose output, at least, will be incorrect, but nothing may
 # fail to make sure you notice.
-m4_define([AT_QUELL_VALGRIND],
-[[[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS;]]])
+m4_define([AT_SET_ENV_IF],
+[[[COLUMNS=1000; export COLUMNS;]] m4_null_if($1, [], [[[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS; ]]])])
 
 
+# AT_SET_ENV
+# ----------
+# See above.
+m4_define([AT_SET_ENV],
+[AT_SET_ENV_IF([1])])
 
 ## ------------------------ ##
 ## Compiling C, C++ Files.  ##

@@ -118,7 +118,8 @@ unsigned location_print (location loc, FILE *out);
    left-over by the usage of location_caret.  */
 void caret_free (void);
 
-/* Output to OUT the line and caret corresponding to location LOC.  */
+/* Quote the line containing LOC onto OUT.  Highlight the part of LOC
+   with the color STYLE.  */
 void location_caret (location loc, const char* style, FILE *out);
 
 /* Return -1, 0, 1, depending whether a is before, equal, or
