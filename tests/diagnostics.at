@@ -18,7 +18,8 @@
 AT_BANNER([[Diagnostics.]])
 
 
-# AT_TEST($1: TITLE, $2: GRAMMAR, $3: EXIT-STATUS, $4: OUTPUT-WITH-STYLE)
+# AT_TEST($1: TITLE, $2: GRAMMAR, $3: EXIT-STATUS, $4: OUTPUT-WITH-STYLE,
+#         $5: EXTRA_ENV
 # -----------------------------------------------------------------------
 # Run Bison on GRAMMAR with debugging style enabled, and expect
 # OUTPUT-WITH-STYLE as diagnostics.
@@ -42,7 +43,7 @@ AT_CHECK([perl -pi -e 's{\^M}{\r}gx' input.y])
 
 AT_DATA([experr], [$4])
 
-AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
 AT_CHECK([perl -pi -e 's{(</?\w+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
@@ -50,7 +51,7 @@ AT_CHECK([perl -pi -e 's{(</?\w+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
 # FIXME: Enhance AT_BISON_CHECK.
-AT_CHECK([LC_ALL=en_US.UTF-8 bison -fcaret -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL=en_US.UTF-8 $5 bison -fcaret -Wall input.y], [$3], [], [experr])
 
 
 AT_BISON_OPTION_POPDEFS
@@ -311,6 +312,90 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 
 
 
+## -------------- ##
+## Screen width.  ##
+## -------------- ##
+
+AT_TEST([[Screen width: 200 columns]],
+[[%token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+%%
+exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+]],
+[0],
+[[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:      previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      |                                                                <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:      previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
+      |                                                                                            <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:       previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+]],
+[[COLUMNS=200]])
+
+AT_TEST([[Screen width: 80 columns]],
+[[%token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+%%
+exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+]],
+[0],
+[[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHI
+      |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:      previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHI
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHI</warning>
+      |                                                                <warning>^~~~~~~~~</warning>
+input.y:9.8-33:      previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHI
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
+      | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:       previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHI
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+]],
+[[COLUMNS=80]])
+
+AT_TEST([[Screen width: 60 columns]],
+[[%token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
+%%
+exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+]],
+[0],
+[[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQ</warning>
+      |                                    <warning>^~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:      previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQ
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKL
+      | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:      previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQ
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
+    9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
+      | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+input.y:9.8-33:       previous declaration
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQ
+      |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
+]],
+[[COLUMNS=60]])
 
 m4_popdef([AT_TEST])
 
