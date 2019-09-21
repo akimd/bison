@@ -363,7 +363,7 @@ input.y:9.8-33:      previous declaration
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
-      | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+      |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:       previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
@@ -384,13 +384,13 @@ input.y:9.8-33:      previous declaration
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHI...
-      | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+      |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:      previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
-      | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+      |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:       previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
