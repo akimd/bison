@@ -350,22 +350,22 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ]],
 [0],
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
-    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHI
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEF...
       |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:      previous declaration
-    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHI
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
-    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHI</warning>
-      |                                                                <warning>^~~~~~~~~</warning>
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEF</warning>...
+      |                                                                <warning>^~~~~~</warning>
 input.y:9.8-33:      previous declaration
-    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHI
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:       previous declaration
-    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHI
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 ]],
 [[COLUMNS=80]])
@@ -377,22 +377,22 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 ]],
 [0],
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
-    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQ</warning>
-      |                                    <warning>^~~~~~~~~~~~~~~~~</warning>
+    9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMN</warning>...
+      |                                    <warning>^~~~~~~~~~~~~~</warning>
 input.y:9.8-33:      previous declaration
-    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQ
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
-    9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKL
+    9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHI...
       | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:      previous declaration
-    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQ
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       | ...         <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
 input.y:9.8-33:       previous declaration
-    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQ
+    9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 ]],
 [[COLUMNS=60]])
