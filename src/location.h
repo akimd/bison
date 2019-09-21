@@ -114,6 +114,9 @@ void location_compute (location *loc,
    Warning: uses quotearg's slot 3. */
 unsigned location_print (location loc, FILE *out);
 
+/* Prepare the use of location_caret.  */
+void caret_init (void);
+
 /* Free any allocated resources and close any open file handles that are
    left-over by the usage of location_caret.  */
 void caret_free (void);

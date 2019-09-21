@@ -202,3 +202,5 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+/jm-winsz1.m4
+/jm-winsz2.m4
