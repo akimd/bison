@@ -29,7 +29,8 @@ git:
 # (https://docs.travis-ci.com/user/conditional-builds-stages-jobs/).
 jobs:
   include:
-    - stage: "compile"
+    - stage: compile
+      name: "Make dist"
       git:
         clone: true
       dist: bionic
@@ -55,6 +56,8 @@ jobs:
         - ./configure --enable-gcc-warnings || { cat config.log && false; }
         - make -j2
         - make -j2 dist
+        # Can help understanding why we get "dirty" tarballs.
+        - git status
         - dist=$(echo bison*.xz)
 
         # Unfortunately we cannot deterministically know the name of the tarball without the full
