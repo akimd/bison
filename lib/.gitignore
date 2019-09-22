@@ -95,6 +95,7 @@
 /getdtablesize.c
 /gethrxtime.c
 /gethrxtime.h
+/getopt-cdefs.h
 /getopt-cdefs.in.h
 /getopt-core.h
 /getopt-ext.h
@@ -271,6 +272,7 @@
 /sys_types.in.h
 /sys_wait.in.h
 /sysexits.in.h
+/textstyle.h
 /textstyle.in.h
 /time.h
 /time.in.h

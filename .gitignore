@@ -1,9 +1,6 @@
-/ABOUT-NLS~
-*.eps
 *.log
 *.o
 *.pdf
-*.png
 *.stamp
 *.trs
 *~
