@@ -31,3 +31,5 @@
 /version.texi
 /yacc.1
 /relocatable.texi
+/figs/*.eps
+/figs/*.svg
