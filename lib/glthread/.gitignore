@@ -1,3 +1,5 @@
 /lock.c
 /lock.h
 /threadlib.c
+/tls.c
+/tls.h

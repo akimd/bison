@@ -71,6 +71,8 @@
 /iswblank.m4
 /javacomp.m4
 /javaexec.m4
+/jm-winsz1.m4
+/jm-winsz2.m4
 /largefile.m4
 /lcmessage.m4
 /ldexp.m4
@@ -179,6 +181,7 @@
 /threadlib.m4
 /time_h.m4
 /timespec.m4
+/tls.m4
 /uintmax_t.m4
 /unistd-safer.m4
 /unistd_h.m4
@@ -202,5 +205,3 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
-/jm-winsz1.m4
-/jm-winsz2.m4

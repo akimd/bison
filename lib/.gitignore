@@ -53,6 +53,7 @@
 /config.h
 /config.in.h
 /configmake.h
+/diffseq.h
 /dirname-lgpl.c
 /dirname.c
 /dirname.h
@@ -91,6 +92,8 @@
 /fseterr.c
 /fseterr.h
 /fstat.c
+/fstrcmp.c
+/fstrcmp.h
 /fsync.c
 /getdtablesize.c
 /gethrxtime.c
@@ -324,6 +327,8 @@
 /windows-recmutex.h
 /windows-rwlock.c
 /windows-rwlock.h
+/windows-tls.c
+/windows-tls.h
 /xalloc-die.c
 /xalloc-oversized.h
 /xalloc.h

@@ -46,7 +46,7 @@ AT_DATA([experr], [$4])
 AT_CHECK([LC_ALL=en_US.UTF-8 $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
-AT_CHECK([perl -pi -e 's{(</?\w+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
+AT_CHECK([perl -pi -e 's{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
 
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
@@ -344,7 +344,7 @@ input.y:9.8-33:       previous declaration
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
    10 |                                                        <warning>%error-verbose</warning>
       |                                                        <warning>^~~~~~~~~~~~~~</warning>
-      |                                                        <insertion>%define parse.error verbose</insertion>
+      |                                                        <fixit-insert>%define parse.error verbose</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]],
 [[COLUMNS=200]])
@@ -377,7 +377,7 @@ input.y:9.8-33:       previous declaration
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
    10 |                                                        <warning>%error-verbose</warning>
       |                                                        <warning>^~~~~~~~~~~~~~</warning>
-      |                                                        <insertion>%define parse.error verbose</insertion>
+      |                                                        <fixit-insert>%define parse.error verbose</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]],
 [[COLUMNS=80]])
@@ -410,10 +410,38 @@ input.y:9.8-33:       previous declaration
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
    10 | ...         <warning>%error-verbose</warning>
       |             <warning>^~~~~~~~~~~~~~</warning>
-      |             <insertion>%define parse.error verbose</insertion>
+      |             <fixit-insert>%define parse.error verbose</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]],
 [[COLUMNS=60]])
+
+
+## ------------- ##
+## Suggestions.  ##
+## ------------- ##
+
+# Don't suggest to fix QUX with QUUX and QUUX with QUX...
+AT_TEST([[Suggestions]],
+[[%%
+res: QUX baz
+bar: QUUX
+]],
+[1],
+[[input.y:11.6-9: <error>error:</error> symbol 'QUUX' is used, but is not defined as a token and has no rules
+   11 | bar: <error>QUUX</error>
+      |      <error>^~~~</error>
+input.y:10.6-8: <error>error:</error> symbol 'QUX' is used, but is not defined as a token and has no rules
+   10 | res: <error>QUX</error> baz
+      |      <error>^~~</error>
+input.y:10.10-12: <error>error:</error> symbol 'baz' is used, but is not defined as a token and has no rules; did you mean 'bar'?
+   10 | res: QUX <error>baz</error>
+      |          <error>^~~</error>
+      |          <fixit-insert>bar</fixit-insert>
+]])
+
+
+
+
 
 m4_popdef([AT_TEST])
 
