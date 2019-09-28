@@ -233,13 +233,50 @@ AT_DATA_HORIZONTAL_GRAMMAR([input.y], [1000])
 # Ask for 200 MiB, which should be plenty even on a 64-bit host.
 AT_INCREASE_DATA_SIZE(204000)
 
-AT_BISON_CHECK_NO_XML([-v -o input.c input.y])
+AT_BISON_CHECK_NO_XML([-o input.c input.y])
 AT_COMPILE([input])
 AT_PARSER_CHECK([input])
 
 AT_CLEANUP
 
 
+
+## ------------------- ##
+## State number type.  ##
+## ------------------- ##
+
+# AT_TEST(NUM-STATES, TYPE)
+# -------------------------
+# Check that automaton with NUM-STATES uses TYPE has state number type.
+# Check that parser works.
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([State number type: $1 states])
+
+AT_BISON_OPTION_PUSHDEFS
+
+AT_CHECK([ruby $abs_top_srcdir/tests/linear $1 >input.y || { echo "ruby does not work"; exit 77; }])
+# Old versions of GCC reject large values given to #line.
+AT_FULL_COMPILE([input], [], [], [], [--no-line])
+AT_CHECK([grep 'define YYNSTATES  *$1' input.c], [], [ignore])
+AT_CHECK([grep 'typedef $2 yy_state_num' input.c], [], [ignore])
+AT_PARSER_CHECK([input])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP])
+
+AT_TEST(  [256], [yytype_uint8])
+AT_TEST(  [257], [yytype_uint16])
+AT_TEST([65536], [yytype_uint16])
+AT_TEST([65537], [int])
+
+m4_popdef([AT_TEST])
+
+
+
+## ------------------------ ##
+## Many lookahead tokens.   ##
+## ------------------------ ##
 
 # AT_DATA_LOOKAHEAD_TOKENS_GRAMMAR(FILE-NAME, SIZE)
 # --------------------------------------------------
@@ -339,11 +376,6 @@ AT_CHECK([$PERL -w ./gengram.pl $2 || exit 77], 0, [stdout])
 mv stdout $1
 AT_BISON_OPTION_POPDEFS
 ])
-
-
-## ------------------------ ##
-## Many lookahead tokens.   ##
-## ------------------------ ##
 
 AT_SETUP([Many lookahead tokens])
 
