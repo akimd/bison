@@ -40,7 +40,7 @@ GNU Bison NEWS
   The Java backend no longer emits code and data for parser tracing if the
   %define variable parse.trace is not defined.
 
-* Noteworthy changes in release 3.4.2 (2019-09-08) [stable]
+* Noteworthy changes in release 3.4.2 (2019-09-12) [stable]
 
 ** Bug fixes
 

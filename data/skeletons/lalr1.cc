@@ -354,6 +354,10 @@ m4_define([b4_shared_declarations],
       /// Assignment, needed by push_back by some old implementations.
       /// Moves the contents of that.
       stack_symbol_type& operator= (stack_symbol_type& that);
+
+      /// Assignment, needed by push_back by other implementations.
+      /// Needed by some other old implementations.
+      stack_symbol_type& operator= (const stack_symbol_type& that);
 #endif
     };
 
@@ -657,6 +661,17 @@ m4_if(b4_prefix, [yy], [],
   }
 
 #if YY_CPLUSPLUS < 201103L
+  ]b4_parser_class[::stack_symbol_type&
+  ]b4_parser_class[::stack_symbol_type::operator= (const stack_symbol_type& that)
+  {
+    state = that.state;
+    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
+                                      [value], [copy], [that.value])],
+                   [[value = that.value;]])[]b4_locations_if([
+    location = that.location;])[
+    return *this;
+  }
+
   ]b4_parser_class[::stack_symbol_type&
   ]b4_parser_class[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
