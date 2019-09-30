@@ -189,16 +189,16 @@ m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])
 
 
-# b4_table_value_equals(TABLE, VALUE, LITERAL)
-# --------------------------------------------
+# b4_table_value_equals(TABLE, VALUE, LITERAL, SYMBOL)
+# ----------------------------------------------------
 # Without inducing a comparison warning from the compiler, check if the
 # literal value LITERAL equals VALUE from table TABLE, which must have
-# TABLE_min and TABLE_max defined.
+# TABLE_min and TABLE_max defined.  SYMBOL denotes
 m4_define([b4_table_value_equals],
 [m4_if(m4_eval($3 < m4_indir([b4_]$1[_min])
                || m4_indir([b4_]$1[_max]) < $3), [1],
        [[0]],
-       [(!!(($2) == ($3)))])])
+       [(($2) == $4)])])
 
 
 ## ----------------- ##
