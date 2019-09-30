@@ -822,16 +822,16 @@ exp: bar;
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:2.16-18: error: symbol bar is used, but is not defined as a token and has no rules
+[[input.y:2.16-18: error: symbol 'bar' is used, but is not defined as a token and has no rules
     2 | %destructor {} bar
       |                ^~~
-input.y:1.17-19: warning: symbol baz is used, but is not defined as a token and has no rules [-Wother]
+input.y:1.17-19: warning: symbol 'baz' is used, but is not defined as a token and has no rules [-Wother]
     1 | %printer {} foo baz
       |                 ^~~
-input.y:1.13-15: warning: symbol foo is used, but is not defined as a token and has no rules [-Wother]
+input.y:1.13-15: warning: symbol 'foo' is used, but is not defined as a token and has no rules [-Wother]
     1 | %printer {} foo baz
       |             ^~~
-input.y:3.13-15: warning: symbol qux is used, but is not defined as a token and has no rules [-Wother]
+input.y:3.13-15: warning: symbol 'qux' is used, but is not defined as a token and has no rules [-Wother]
     3 | %type <foo> qux
       |             ^~~
 ]])
