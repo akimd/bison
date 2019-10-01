@@ -40,6 +40,12 @@ GNU Bison NEWS
   The Java backend no longer emits code and data for parser tracing if the
   %define variable parse.trace is not defined.
 
+*** Templates prefer signed integer types
+
+  Bison templates now prefer signed to unsigned integer types when
+  either will do, as the signed types are less error-prone and allow
+  for better checking with 'gcc -fsanitize=undefined'.
+
 * Noteworthy changes in release 3.4.2 (2019-09-12) [stable]
 
 ** Bug fixes

@@ -1155,11 +1155,11 @@ b4_dollar_popdef])[]dnl
 #if ]b4_api_PREFIX[DEBUG
     YYCDEBUG << "LAC: checking lookahead " << yytname_[yytoken] << ':';
 #endif
-    size_t lac_top = 0;
+    ptrdiff_t lac_top = 0;
     while (true)
       {
         state_type top_state = (yylac_stack_.empty ()
-                                ? yystack_[lac_top].state
+                                ? yystack_[(size_t) lac_top].state
                                 : yylac_stack_.back ());
         int yyrule = yypact_[top_state];
         if (yy_pact_value_is_default_ (yyrule)
@@ -1194,12 +1194,12 @@ b4_dollar_popdef])[]dnl
         YYCDEBUG << " R" << yyrule - 1;
         // Pop the corresponding number of values from the stack.
         {
-          size_t yylen = yyr2_[yyrule];
+          ptrdiff_t yylen = yyr2_[yyrule];
           // First pop from the LAC stack as many tokens as possible.
-          size_t lac_size = yylac_stack_.size ();
+          ptrdiff_t lac_size = (ptrdiff_t) yylac_stack_.size ();
           if (yylen < lac_size)
             {
-              yylac_stack_.resize (lac_size - yylen);
+              yylac_stack_.resize ((size_t) (lac_size - yylen));
               yylen = 0;
             }
           else if (lac_size)
@@ -1207,13 +1207,13 @@ b4_dollar_popdef])[]dnl
               yylac_stack_.clear ();
               yylen -= lac_size;
             }
-          // Only aftwerwards look at the main stack.
+          // Only afterwards look at the main stack.
           // We simulate popping elements by incrementing lac_top.
           lac_top += yylen;
         }
         // Keep top_state in sync with the updated stack.
         top_state = (yylac_stack_.empty ()
-                     ? yystack_[lac_top].state
+                     ? yystack_[(size_t) lac_top].state
                      : yylac_stack_.back ());
         // Push the resulting state of the reduction.
         state_type state = yy_lr_goto_state_ (top_state, yyr1_[yyrule]);
@@ -1292,7 +1292,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
   {]b4_error_verbose_if([[
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
-    size_t yycount = 0;
+    ptrdiff_t yycount = 0;
     // Its maximum.
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     // Arguments of yyformat.
@@ -1387,7 +1387,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
 
     std::string yyres;
     // Argument number.
-    size_t yyi = 0;
+    ptrdiff_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
       if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
         {
@@ -1436,7 +1436,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
   void
   ]b4_parser_class[::yy_reduce_print_ (int yyrule)
   {
-    unsigned yylno = yyrline_[yyrule];
+    int yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
     // Print the symbols being reduced, and their result.
     *yycdebug_ << "Reducing stack by rule " << yyrule - 1

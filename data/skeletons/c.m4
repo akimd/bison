@@ -167,16 +167,16 @@ b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 
 # b4_int_type(MIN, MAX)
 # ---------------------
-# Return the smallest int type able to handle numbers ranging from
-# MIN to MAX (included).
+# Return a narrow int type able to handle integers ranging from MIN
+# to MAX (included) in portable C code.  Assume MIN and MAX fall in
+# 'int' range.
 m4_define([b4_int_type],
-[m4_if(b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
-       b4_ints_in($@,   [-128],   [127]), [1], [signed char],
+[m4_if(b4_ints_in($@,      [0],   [127]), [1], [char],
+       b4_ints_in($@,   [-127],   [127]), [1], [signed char],
+       b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
 
+       b4_ints_in($@, [-32767], [32767]), [1], [short],
        b4_ints_in($@,      [0], [65535]), [1], [unsigned short],
-       b4_ints_in($@, [-32768], [32767]), [1], [short],
-
-       m4_eval([0 <= $1]),                [1], [unsigned],
 
                                                [int])])
 
