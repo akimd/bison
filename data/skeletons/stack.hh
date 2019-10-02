@@ -35,6 +35,7 @@ m4_define([b4_stack_define],
       typedef typename S::reverse_iterator iterator;
       typedef typename S::const_reverse_iterator const_iterator;
       typedef typename S::size_type size_type;
+      typedef typename std::ptrdiff_t index_type;
 
       stack (size_type n = 200)
         : seq_ (n)
@@ -43,39 +44,19 @@ m4_define([b4_stack_define],
       /// Random access.
       ///
       /// Index 0 returns the topmost element.
-      T&
-      operator[] (size_type i)
+      const T&
+      operator[] (index_type i) const
       {
-        return seq_[size () - 1 - i];
-      }
-      T&
-      operator[] (std::ptrdiff_t i)
-      {
-        return operator[] (size_type (i));
-      }
-      T&
-      operator[] (int i)
-      {
-        return operator[] (size_type (i));
+        return seq_[size_type (size () - 1 - i)];
       }
 
       /// Random access.
       ///
       /// Index 0 returns the topmost element.
-      const T&
-      operator[] (size_type i) const
+      T&
+      operator[] (index_type i)
       {
-        return seq_[size () - 1 - i];
-      }
-      const T&
-      operator[] (std::ptrdiff_t i) const
-      {
-        return operator[] (size_type (i));
-      }
-      const T&
-      operator[] (int i) const
-      {
-        return operator[] (size_type (i));
+        return seq_[size_type (size () - 1 - i)];
       }
 
       /// Steal the contents of \a t.
@@ -104,10 +85,10 @@ m4_define([b4_stack_define],
       }
 
       /// Number of elements on the stack.
-      size_type
+      index_type
       size () const YY_NOEXCEPT
       {
-        return seq_.size ();
+        return index_type (seq_.size ());
       }
       std::ptrdiff_t
       ssize () const YY_NOEXCEPT
@@ -133,20 +114,20 @@ m4_define([b4_stack_define],
       class slice
       {
       public:
-        slice (const stack& stack, std::ptrdiff_t range)
+        slice (const stack& stack, index_type range)
           : stack_ (stack)
           , range_ (range)
         {}
 
         const T&
-        operator[] (std::ptrdiff_t i) const
+        operator[] (index_type i) const
         {
           return stack_[range_ - i];
         }
 
       private:
         const stack& stack_;
-        std::ptrdiff_t range_;
+        index_type range_;
       };
 
     private:
