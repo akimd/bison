@@ -71,7 +71,12 @@ boundary_set (boundary *p, const char *f, int l, int c, int b)
 static inline int
 boundary_cmp (boundary a, boundary b)
 {
-  int res = strcmp (a.file, b.file);
+  /* Locations with no file first.  */
+  int res =
+    a.file && b.file ? strcmp (a.file, b.file)
+    : a.file ? 1
+    : b.file ? -1
+    : 0;
   if (!res)
     res = a.line - b.line;
   if (!res)

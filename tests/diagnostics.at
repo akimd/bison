@@ -427,16 +427,16 @@ res: QUX baz
 bar: QUUX
 ]],
 [1],
-[[input.y:11.6-9: <error>error:</error> symbol 'QUUX' is used, but is not defined as a token and has no rules
-   11 | bar: <error>QUUX</error>
-      |      <error>^~~~</error>
-input.y:10.6-8: <error>error:</error> symbol 'QUX' is used, but is not defined as a token and has no rules
+[[input.y:10.6-8: <error>error:</error> symbol 'QUX' is used, but is not defined as a token and has no rules
    10 | res: <error>QUX</error> baz
       |      <error>^~~</error>
 input.y:10.10-12: <error>error:</error> symbol 'baz' is used, but is not defined as a token and has no rules; did you mean 'bar'?
    10 | res: QUX <error>baz</error>
       |          <error>^~~</error>
       |          <fixit-insert>bar</fixit-insert>
+input.y:11.6-9: <error>error:</error> symbol 'QUUX' is used, but is not defined as a token and has no rules
+   11 | bar: <error>QUUX</error>
+      |      <error>^~~~</error>
 ]])
 
 

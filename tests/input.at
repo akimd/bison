@@ -822,15 +822,15 @@ exp: bar;
 ]])
 
 AT_BISON_CHECK([-fcaret input.y], [1], [],
-[[input.y:2.16-18: error: symbol 'bar' is used, but is not defined as a token and has no rules
-    2 | %destructor {} bar
-      |                ^~~
+[[input.y:1.13-15: warning: symbol 'foo' is used, but is not defined as a token and has no rules [-Wother]
+    1 | %printer {} foo baz
+      |             ^~~
 input.y:1.17-19: warning: symbol 'baz' is used, but is not defined as a token and has no rules [-Wother]
     1 | %printer {} foo baz
       |                 ^~~
-input.y:1.13-15: warning: symbol 'foo' is used, but is not defined as a token and has no rules [-Wother]
-    1 | %printer {} foo baz
-      |             ^~~
+input.y:2.16-18: error: symbol 'bar' is used, but is not defined as a token and has no rules
+    2 | %destructor {} bar
+      |                ^~~
 input.y:3.13-15: warning: symbol 'qux' is used, but is not defined as a token and has no rules [-Wother]
     3 | %type <foo> qux
       |             ^~~
@@ -1061,9 +1061,9 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 input.y:2.10-12: error: user token number 42 redeclaration for BAR
     2 |          BAR 42 "foo"
       |          ^~~
-input.y:1.8-10:      previous declaration for FOO
+input.y:1.15-19:     previous declaration for "foo"
     1 | %token FOO 42 "foo"
-      |        ^~~
+      |               ^~~~~
 ]])
 
 AT_CLEANUP
