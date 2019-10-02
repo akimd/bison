@@ -183,7 +183,7 @@ m4_define([b4_int_type],
 
 # b4_int_type_for(NAME)
 # ---------------------
-# Return the smallest int type able to handle numbers ranging from
+# Return a narrow int type able to handle numbers ranging from
 # 'NAME_min' to 'NAME_max' (included).
 m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])

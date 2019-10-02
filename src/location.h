@@ -112,7 +112,7 @@ void location_compute (location *loc,
 /* Print location to file.
    Return number of actually printed characters.
    Warning: uses quotearg's slot 3. */
-unsigned location_print (location loc, FILE *out);
+int location_print (location loc, FILE *out);
 
 /* Prepare the use of location_caret.  */
 void caret_init (void);

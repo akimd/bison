@@ -223,7 +223,7 @@ contains_dot_or_dash (const char* p)
 typedef struct
 {
   /* Index in symbol list. */
-  unsigned symbol_index;
+  int symbol_index;
 
   /* Matched symbol id and loc. */
   uniqstr id;
@@ -250,8 +250,8 @@ typedef struct
 #define VARIANT_NOT_VISIBLE_FROM_MIDRULE (1 << 2)
 
 static variant *variant_table = NULL;
-static unsigned variant_table_size = 0;
-static unsigned variant_count = 0;
+static int variant_table_size = 0;
+static int variant_count = 0;
 
 static variant *
 variant_table_grow (void)
@@ -286,7 +286,7 @@ find_prefix_end (char const *prefix, char const *cp, char const *end)
 }
 
 static variant *
-variant_add (uniqstr id, location id_loc, unsigned symbol_index,
+variant_add (uniqstr id, location id_loc, int symbol_index,
              char const *cp, char const *cp_end, bool explicit_bracketing)
 {
   char const *prefix_end = find_prefix_end (id, cp, cp_end);
@@ -307,7 +307,7 @@ variant_add (uniqstr id, location id_loc, unsigned symbol_index,
 }
 
 static const char *
-get_at_spec(unsigned symbol_index)
+get_at_spec(int symbol_index)
 {
   static char at_buf[20];
   if (symbol_index == 0)
@@ -321,7 +321,7 @@ static void
 show_sub_message (warnings warning,
                   const char* cp, bool explicit_bracketing,
                   int midrule_rhs_index, char dollar_or_at,
-                  unsigned indent, const variant *var)
+                  int indent, const variant *var)
 {
   const char *at_spec = get_at_spec (var->symbol_index);
 
@@ -385,9 +385,9 @@ static void
 show_sub_messages (warnings warning,
                    const char* cp, bool explicit_bracketing,
                    int midrule_rhs_index, char dollar_or_at,
-                   unsigned indent)
+                   int indent)
 {
-  for (unsigned i = 0; i < variant_count; ++i)
+  for (int i = 0; i < variant_count; ++i)
     show_sub_message (warning | silent,
                       cp, explicit_bracketing,
                       midrule_rhs_index, dollar_or_at,
@@ -437,7 +437,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
 
   /* Add all relevant variants. */
   {
-    unsigned symbol_index;
+    int symbol_index;
     symbol_list *l;
     variant_count = 0;
     for (symbol_index = 0, l = rule; !symbol_list_null (l);
@@ -459,12 +459,12 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   }
 
   /* Check errors. */
-  unsigned valid_variants = 0;
-  unsigned valid_variant_index = 0;
-  for (unsigned i = 0; i < variant_count; ++i)
+  int valid_variants = 0;
+  int valid_variant_index = 0;
+  for (int i = 0; i < variant_count; ++i)
     {
       variant *var = &variant_table[i];
-      unsigned symbol_index = var->symbol_index;
+      int symbol_index = var->symbol_index;
 
       /* Check visibility from midrule actions. */
       if (midrule_rhs_index != 0
@@ -490,9 +490,9 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     {
     case 0:
       {
-        unsigned len = (explicit_bracketing || !ref_tail_fields) ?
+        int len = (explicit_bracketing || !ref_tail_fields) ?
           cp_end - cp : ref_tail_fields - cp;
-        unsigned indent = 0;
+        int indent = 0;
 
         complain_indent (text_loc, complaint, &indent,
                          _("invalid reference: %s"), quote (text));
@@ -525,7 +525,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
       }
     case 1:
       {
-        unsigned indent = 0;
+        int indent = 0;
         if (variant_count > 1)
           {
             complain_indent (text_loc, Wother, &indent,
@@ -535,7 +535,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
                                dollar_or_at, indent + SUB_INDENT);
           }
         {
-          unsigned symbol_index =
+          int symbol_index =
             variant_table[valid_variant_index].symbol_index;
           return (symbol_index == midrule_rhs_index) ? LHS_REF : symbol_index;
         }
@@ -543,7 +543,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
     case 2:
     default:
       {
-        unsigned indent = 0;
+        int indent = 0;
         complain_indent (text_loc, complaint, &indent,
                          _("ambiguous reference: %s"), quote (text));
         show_sub_messages (complaint,

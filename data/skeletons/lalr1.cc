@@ -1159,7 +1159,7 @@ b4_dollar_popdef])[]dnl
     while (true)
       {
         state_type top_state = (yylac_stack_.empty ()
-                                ? yystack_[(size_t) lac_top].state
+                                ? yystack_[lac_top].state
                                 : yylac_stack_.back ());
         int yyrule = yypact_[top_state];
         if (yy_pact_value_is_default_ (yyrule)
@@ -1213,7 +1213,7 @@ b4_dollar_popdef])[]dnl
         }
         // Keep top_state in sync with the updated stack.
         top_state = (yylac_stack_.empty ()
-                     ? yystack_[(size_t) lac_top].state
+                     ? yystack_[lac_top].state
                      : yylac_stack_.back ());
         // Push the resulting state of the reduction.
         state_type state = yy_lr_goto_state_ (top_state, yyr1_[yyrule]);

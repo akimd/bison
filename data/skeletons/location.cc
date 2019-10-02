@@ -65,8 +65,8 @@ m4_define([b4_location_define],
   public:]m4_ifdef([b4_location_constructors], [[
     /// Construct a position.
     explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
-                       unsigned l = ]b4_location_initial_line[u,
-                       unsigned c = ]b4_location_initial_column[u)
+                       int l = ]b4_location_initial_line[u,
+                       int c = ]b4_location_initial_column[u)
       : filename (f)
       , line (l)
       , column (c)
@@ -75,8 +75,8 @@ m4_define([b4_location_define],
 ]])[
     /// Initialization.
     void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULLPTR,
-                     unsigned l = ]b4_location_initial_line[u,
-                     unsigned c = ]b4_location_initial_column[u)
+                     int l = ]b4_location_initial_line[u,
+                     int c = ]b4_location_initial_column[u)
     {
       filename = fn;
       line = l;
@@ -105,16 +105,15 @@ m4_define([b4_location_define],
     /// File name to which this position refers.
     ]b4_percent_define_get([[filename_type]])[* filename;
     /// Current line number.
-    unsigned line;
+    int line;
     /// Current column number.
-    unsigned column;
+    int column;
 
   private:
     /// Compute max (min, lhs+rhs).
-    static unsigned add_ (unsigned lhs, int rhs, int min)
+    static int add_ (int lhs, int rhs, int min)
     {
-      return static_cast<unsigned> (std::max (min,
-                                              static_cast<int> (lhs) + rhs));
+      return std::max (min, lhs + rhs);
     }
   };
 
@@ -197,8 +196,8 @@ m4_define([b4_location_define],
 
     /// Construct a 0-width location in \a f, \a l, \a c.
     explicit location (]b4_percent_define_get([[filename_type]])[* f,
-                       unsigned l = ]b4_location_initial_line[u,
-                       unsigned c = ]b4_location_initial_column[u)
+                       int l = ]b4_location_initial_line[u,
+                       int c = ]b4_location_initial_column[u)
       : begin (f, l, c)
       , end (f, l, c)
     {}
@@ -206,8 +205,8 @@ m4_define([b4_location_define],
 ])[
     /// Initialization.
     void initialize (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
-                     unsigned l = ]b4_location_initial_line[u,
-                     unsigned c = ]b4_location_initial_column[u)
+                     int l = ]b4_location_initial_line[u,
+                     int c = ]b4_location_initial_column[u)
     {
       begin.initialize (f, l, c);
       end = begin;
@@ -305,7 +304,7 @@ m4_define([b4_location_define],
   std::basic_ostream<YYChar>&
   operator<< (std::basic_ostream<YYChar>& ostr, const location& loc)
   {
-    unsigned end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
+    int end_col = 0 < loc.end.column ? loc.end.column - 1 : 0;
     ostr << loc.begin;
     if (loc.end.filename
         && (!loc.begin.filename

@@ -769,7 +769,7 @@ static
 
   int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
   /* As in BASIC, line numbers go from 10 to 10.  */
-  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = ]AT_CXX_IF([(unsigned)], [(int)])[(10 * c);
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = (10 * c);
   ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
   assert (c <= (int) strlen (source));
   if (source[c])

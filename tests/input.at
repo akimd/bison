@@ -1320,8 +1320,9 @@ yylex (void)
   static char const input[] = "@<:@\1\2$@{@oline@__@&t@oline__\
 #output "; /* "
   */
-  static size_t toknum;
-  assert (toknum < sizeof input);
+  enum { input_elts = sizeof input };
+  static ptrdiff_t toknum;
+  assert (0 <= toknum && toknum < input_elts);
   yylval = value_as_yystype (input[toknum]);
   return input[toknum++];
 }

@@ -209,7 +209,7 @@ at_basename (int argc, char *argv[], char **out_namep, int *out_linenop)
 static void
 at_complain (int argc, char *argv[], char **out_namep, int *out_linenop)
 {
-  static unsigned indent;
+  static int indent;
   warnings w = flag (argv[1]);
   location loc;
   location *locp = NULL;

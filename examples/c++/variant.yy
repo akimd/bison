@@ -117,7 +117,7 @@ namespace yy
     static int count = 0;
     const int stage = count;
     ++count;
-    parser::location_type loc (NULLPTR, unsigned (stage + 1), unsigned (stage + 1));
+    parser::location_type loc (NULLPTR, stage + 1, stage + 1);
     switch (stage)
       {
       case 0:

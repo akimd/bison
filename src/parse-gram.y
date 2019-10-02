@@ -743,7 +743,7 @@ id:
         }
       if (muscle_percent_define_ifdef (var))
         {
-          unsigned indent = 0;
+          int indent = 0;
           complain_indent (&@1, complaint, &indent,
                            _("character literals cannot be used together"
                              " with %s"), var);
@@ -981,7 +981,7 @@ handle_require (location const *loc, char const *version)
      is the same as "3.0". */
   errno = 0;
   char* cp = NULL;
-  unsigned long major = strtoul (version, &cp, 10);
+  long major = strtol (version, &cp, 10);
   if (errno || *cp != '.')
     {
       complain (loc, complaint, _("invalid version requirement: %s"),
@@ -989,7 +989,7 @@ handle_require (location const *loc, char const *version)
       return;
     }
   ++cp;
-  unsigned long minor = strtoul (cp, NULL, 10);
+  long minor = strtol (cp, NULL, 10);
   if (errno)
     {
       complain (loc, complaint, _("invalid version requirement: %s"),

@@ -97,7 +97,7 @@ gram_scanner_last_string_free (void)
 }
 
 static void handle_syncline (char *, location);
-static unsigned long scan_integer (char const *p, int base, location loc);
+static int scan_integer (char const *p, int base, location loc);
 static int convert_ucn_to_byte (char const *hex_text);
 static void unexpected_eof (boundary, char const *);
 static void unexpected_newline (boundary, char const *);
@@ -600,22 +600,22 @@ eqopt    ({sp}=)?
 {
   \\[0-7]{1,3} {
     verify (UCHAR_MAX < ULONG_MAX);
-    unsigned long c = strtoul (yytext + 1, NULL, 8);
-    if (!c || UCHAR_MAX < c)
+    long c = strtol (yytext + 1, NULL, 8);
+    if (0 < c && c <= UCHAR_MAX)
+      obstack_1grow (&obstack_for_string, c);
+    else
       complain (loc, complaint, _("invalid number after \\-escape: %s"),
                 yytext+1);
-    else
-      obstack_1grow (&obstack_for_string, c);
   }
 
   \\x[0-9abcdefABCDEF]+ {
     verify (UCHAR_MAX < ULONG_MAX);
-    unsigned long c = strtoul (yytext + 2, NULL, 16);
-    if (!c || UCHAR_MAX < c)
+    long c = strtol (yytext + 2, NULL, 16);
+    if (0 < c && c <= UCHAR_MAX)
+      obstack_1grow (&obstack_for_string, c);
+    else
       complain (loc, complaint, _("invalid number after \\-escape: %s"),
                 yytext+1);
-    else
-      obstack_1grow (&obstack_for_string, c);
   }
 
   \\a   obstack_1grow (&obstack_for_string, '\a');
@@ -810,7 +810,7 @@ eqopt    ({sp}=)?
 | Scan NUMBER for a base-BASE integer at location LOC.  |
 `------------------------------------------------------*/
 
-static unsigned long
+static int
 scan_integer (char const *number, int base, location loc)
 {
   verify (INT_MAX < ULONG_MAX);
@@ -818,9 +818,9 @@ scan_integer (char const *number, int base, location loc)
     complain (&loc, Wyacc,
               _("POSIX Yacc does not support hexadecimal literals"));
 
-  unsigned long num = strtoul (number, NULL, base);
+  long num = strtol (number, NULL, base);
 
-  if (INT_MAX < num)
+  if (! (0 <= num && num <= INT_MAX))
     {
       complain (&loc, complaint, _("integer out of range: %s"),
                 quote (number));
@@ -841,7 +841,7 @@ static int
 convert_ucn_to_byte (char const *ucn)
 {
   verify (UCHAR_MAX <= INT_MAX);
-  unsigned long code = strtoul (ucn + 2, NULL, 16);
+  long code = strtol (ucn + 2, NULL, 16);
 
   /* FIXME: Currently we assume Unicode-compatible unibyte characters
      on ASCII hosts (i.e., Latin-1 on hosts with 8-bit bytes).  On
@@ -849,7 +849,7 @@ convert_ucn_to_byte (char const *ucn)
      These limitations should be removed once we add support for
      multibyte characters.  */
 
-  if (UCHAR_MAX < code)
+  if (! (0 <= code && code <= UCHAR_MAX))
     return -1;
 
 #if ! ('$' == 0x24 && '@' == 0x40 && '`' == 0x60 && '~' == 0x7e)
@@ -896,8 +896,8 @@ static void
 handle_syncline (char *args, location loc)
 {
   char *file;
-  unsigned long lineno = strtoul (args, &file, 10);
-  if (INT_MAX <= lineno)
+  long lineno = strtol (args, &file, 10);
+  if (! (0 <= lineno && lineno <= INT_MAX))
     {
       complain (&loc, Wother, _("line number overflow"));
       lineno = INT_MAX;

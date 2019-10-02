@@ -555,15 +555,16 @@ static
   ]m4_bmatch([$1], [^\(".*"\)?$],
              [[static char const input[] = ]m4_default([$1], [""])],
              [[static int const input[] = ]$1])[;
-  static size_t toknum = 0;
+  static int toknum = 0;
   int res;
   ]AT_USE_LEX_ARGS[
-  assert (toknum < sizeof input / sizeof input[0]);
+  int input_elts = sizeof input / sizeof input[0];
+  assert (0 <= toknum && toknum < input_elts);
   res = input[toknum++];
   ]$2[;]AT_TOKEN_CTOR_IF([], [[
   ]AT_LOCATION_IF([[
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
-  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = ]AT_CXX_IF([(unsigned )], [(int)])[toknum;]])[
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = toknum;]])[
   return res;]])[
 }]])
 

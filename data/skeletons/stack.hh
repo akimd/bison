@@ -48,10 +48,11 @@ m4_define([b4_stack_define],
       {
         return seq_[size () - 1 - i];
       }
-
-      /// Random access.
-      ///
-      /// Index 0 returns the topmost element.
+      T&
+      operator[] (ptrdiff_t i)
+      {
+        return operator[] (size_type (i));
+      }
       T&
       operator[] (int i)
       {
@@ -66,10 +67,11 @@ m4_define([b4_stack_define],
       {
         return seq_[size () - 1 - i];
       }
-
-      /// Random access.
-      ///
-      /// Index 0 returns the topmost element.
+      const T&
+      operator[] (ptrdiff_t i) const
+      {
+        return operator[] (size_type (i));
+      }
       const T&
       operator[] (int i) const
       {
@@ -88,7 +90,7 @@ m4_define([b4_stack_define],
 
       /// Pop elements from the stack.
       void
-      pop (int n = 1) YY_NOEXCEPT
+      pop (ptrdiff_t n = 1) YY_NOEXCEPT
       {
         for (; 0 < n; --n)
           seq_.pop_back ();
@@ -106,6 +108,11 @@ m4_define([b4_stack_define],
       size () const YY_NOEXCEPT
       {
         return seq_.size ();
+      }
+      ptrdiff_t
+      ssize () const YY_NOEXCEPT
+      {
+        return (ptrdiff_t) size ();
       }
 
       /// Iterator on top of the stack (going downwards).
@@ -126,20 +133,20 @@ m4_define([b4_stack_define],
       class slice
       {
       public:
-        slice (const stack& stack, int range)
+        slice (const stack& stack, ptrdiff_t range)
           : stack_ (stack)
           , range_ (range)
         {}
 
         const T&
-        operator[] (int i) const
+        operator[] (ptrdiff_t i) const
         {
           return stack_[range_ - i];
         }
 
       private:
         const stack& stack_;
-        int range_;
+        ptrdiff_t range_;
       };
 
     private:

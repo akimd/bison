@@ -2662,7 +2662,7 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @comment file: mfcalc.y: 3
 @example
-#include <stdlib.h> /* malloc. */
+#include <stdlib.h> /* malloc, abort. */
 #include <string.h> /* strlen. */
 
 @group
@@ -2670,7 +2670,11 @@ symrec *
 putsym (char const *name, int sym_type)
 @{
   symrec *res = (symrec *) malloc (sizeof (symrec));
+  if (!res)
+    abort ();
   res->name = strdup (name);
+  if (!res->name)
+    abort ();
   res->type = sym_type;
   res->value.var = 0; /* Set value to 0 even if fun. */
   res->next = sym_table;
@@ -2712,6 +2716,8 @@ operators in @code{yylex}.
 @comment file: mfcalc.y: 3
 @example
 #include <ctype.h>
+#include <stddef.h>
+#include <stdint.h>
 
 @group
 int
@@ -2748,23 +2754,25 @@ Bison generated a definition of @code{YYSTYPE} with a member named
   /* Char starts an identifier => read the name. */
   if (isalpha (c))
     @{
-      /* Initially make the buffer long enough
-         for a 40-character symbol name. */
-      static size_t length = 40;
+      static ptrdiff_t bufsize = 0;
       static char *symbuf = 0;
 @end group
-      if (!symbuf)
-        symbuf = malloc (length + 1);
-
-      int i = 0;
+      ptrdiff_t i = 0;
       do
 @group
         @{
           /* If buffer is full, make it bigger. */
-          if (i == length)
+          if (bufsize <= i)
             @{
-              length *= 2;
-              symbuf = realloc (symbuf, length + 1);
+              ptrdiff_t maxsize
+                = (PTRDIFF_MAX < SIZE_MAX
+                   ? PTRDIFF_MAX : SIZE_MAX);
+              if ((maxsize - 40) / 2 < bufsize)
+                abort ();
+              bufsize = 2 * bufsize + 40;
+              symbuf = realloc (symbuf, bufsize);
+              if (!symbuf)
+                abort ();
             @}
           /* Add this character to the buffer. */
           symbuf[i++] = c;
@@ -11476,13 +11484,13 @@ classes will not be generated, and the user defined type will be used.
 @node C++ position
 @subsubsection C++ @code{position}
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, int @var{line} = 1, int @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, int @var{line} = 1, int @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
@@ -11493,7 +11501,7 @@ change it to @samp{@var{type}*} using @samp{%define filename_type
 "@var{type}"}.
 @end deftypeivar
 
-@deftypeivar {position} {unsigned} line
+@deftypeivar {position} {int} line
 The line, starting at 1.
 @end deftypeivar
 
@@ -11502,7 +11510,7 @@ If @var{height} is not null, advance by @var{height} lines, resetting the
 column number.  The resulting line number cannot be less than 1.
 @end deftypemethod
 
-@deftypeivar {position} {unsigned} column
+@deftypeivar {position} {int} column
 The column, starting at 1.
 @end deftypeivar
 
@@ -11537,11 +11545,11 @@ Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
 @deftypeop {Constructor} {location} {} location (const position& @var{pos} = position())
-@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, unsigned @var{line}, unsigned @var{col})
+@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, int @var{line}, int @var{col})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, unsigned @var{line} = 1, unsigned @var{col} = 1)
+@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, int @var{line} = 1, int @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
