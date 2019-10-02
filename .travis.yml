@@ -68,7 +68,9 @@ jobs:
         # tarball on a name that only depends on the Travis build number.
         #
         # Without -b -, exit status is always 0.
-        - sftp -b - bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
+        #
+        # If we rerun a job that was already uploaded, 'ln -s' will fail: remove beforehand.
+        - sftp -b - bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"-rm bison-$TRAVIS_BUILD_NUMBER.tar.xz"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
 
     ## ------- ##
     ## First.  ##
