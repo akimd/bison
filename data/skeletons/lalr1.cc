@@ -1155,7 +1155,7 @@ b4_dollar_popdef])[]dnl
 #if ]b4_api_PREFIX[DEBUG
     YYCDEBUG << "LAC: checking lookahead " << yytname_[yytoken] << ':';
 #endif
-    ptrdiff_t lac_top = 0;
+    std::ptrdiff_t lac_top = 0;
     while (true)
       {
         state_type top_state = (yylac_stack_.empty ()
@@ -1194,12 +1194,12 @@ b4_dollar_popdef])[]dnl
         YYCDEBUG << " R" << yyrule - 1;
         // Pop the corresponding number of values from the stack.
         {
-          ptrdiff_t yylen = yyr2_[yyrule];
+          std::ptrdiff_t yylen = yyr2_[yyrule];
           // First pop from the LAC stack as many tokens as possible.
-          ptrdiff_t lac_size = (ptrdiff_t) yylac_stack_.size ();
+          std::ptrdiff_t lac_size = (std::ptrdiff_t) yylac_stack_.size ();
           if (yylen < lac_size)
             {
-              yylac_stack_.resize ((size_t) (lac_size - yylen));
+              yylac_stack_.resize ((std::size_t) (lac_size - yylen));
               yylen = 0;
             }
           else if (lac_size)
@@ -1292,7 +1292,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
   {]b4_error_verbose_if([[
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
-    ptrdiff_t yycount = 0;
+    std::ptrdiff_t yycount = 0;
     // Its maximum.
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     // Arguments of yyformat.
@@ -1387,7 +1387,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
 
     std::string yyres;
     // Argument number.
-    ptrdiff_t yyi = 0;
+    std::ptrdiff_t yyi = 0;
     for (char const* yyp = yyformat; *yyp; ++yyp)
       if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
         {

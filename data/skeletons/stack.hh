@@ -49,7 +49,7 @@ m4_define([b4_stack_define],
         return seq_[size () - 1 - i];
       }
       T&
-      operator[] (ptrdiff_t i)
+      operator[] (std::ptrdiff_t i)
       {
         return operator[] (size_type (i));
       }
@@ -68,7 +68,7 @@ m4_define([b4_stack_define],
         return seq_[size () - 1 - i];
       }
       const T&
-      operator[] (ptrdiff_t i) const
+      operator[] (std::ptrdiff_t i) const
       {
         return operator[] (size_type (i));
       }
@@ -90,7 +90,7 @@ m4_define([b4_stack_define],
 
       /// Pop elements from the stack.
       void
-      pop (ptrdiff_t n = 1) YY_NOEXCEPT
+      pop (std::ptrdiff_t n = 1) YY_NOEXCEPT
       {
         for (; 0 < n; --n)
           seq_.pop_back ();
@@ -109,10 +109,10 @@ m4_define([b4_stack_define],
       {
         return seq_.size ();
       }
-      ptrdiff_t
+      std::ptrdiff_t
       ssize () const YY_NOEXCEPT
       {
-        return (ptrdiff_t) size ();
+        return (std::ptrdiff_t) size ();
       }
 
       /// Iterator on top of the stack (going downwards).
@@ -133,20 +133,20 @@ m4_define([b4_stack_define],
       class slice
       {
       public:
-        slice (const stack& stack, ptrdiff_t range)
+        slice (const stack& stack, std::ptrdiff_t range)
           : stack_ (stack)
           , range_ (range)
         {}
 
         const T&
-        operator[] (ptrdiff_t i) const
+        operator[] (std::ptrdiff_t i) const
         {
           return stack_[range_ - i];
         }
 
       private:
         const stack& stack_;
-        ptrdiff_t range_;
+        std::ptrdiff_t range_;
       };
 
     private:
