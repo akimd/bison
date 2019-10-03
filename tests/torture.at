@@ -266,7 +266,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP])
 
 AT_TEST(  [256], [yytype_uint8])
-AT_TEST(  [257], [yytype_uint16])
+AT_TEST(  [257], [yytype_int16])
 AT_TEST([65536], [yytype_uint16])
 AT_TEST([65537], [int])
 
