@@ -2662,19 +2662,21 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
 
 @comment file: mfcalc.y: 3
 @example
-#include <stdlib.h> /* malloc, abort. */
+@group
+/* The mfcalc code assumes that malloc and realloc
+   always succeed, and that integer calculations
+   never overflow.  Production-quality code should
+   not make these assumptions.  */
+#include <stdlib.h> /* malloc, realloc. */
 #include <string.h> /* strlen. */
+@end group
 
 @group
 symrec *
 putsym (char const *name, int sym_type)
 @{
   symrec *res = (symrec *) malloc (sizeof (symrec));
-  if (!res)
-    abort ();
   res->name = strdup (name);
-  if (!res->name)
-    abort ();
   res->type = sym_type;
   res->value.var = 0; /* Set value to 0 even if fun. */
   res->next = sym_table;
@@ -2717,7 +2719,6 @@ operators in @code{yylex}.
 @example
 #include <ctype.h>
 #include <stddef.h>
-#include <stdint.h>
 
 @group
 int
@@ -2764,15 +2765,8 @@ Bison generated a definition of @code{YYSTYPE} with a member named
           /* If buffer is full, make it bigger. */
           if (bufsize <= i)
             @{
-              ptrdiff_t maxsize
-                = (PTRDIFF_MAX < SIZE_MAX
-                   ? PTRDIFF_MAX : SIZE_MAX);
-              if ((maxsize - 40) / 2 < bufsize)
-                abort ();
               bufsize = 2 * bufsize + 40;
               symbuf = realloc (symbuf, bufsize);
-              if (!symbuf)
-                abort ();
             @}
           /* Add this character to the buffer. */
           symbuf[i++] = c;
