@@ -265,8 +265,11 @@ AT_PARSER_CHECK([input])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP])
 
+AT_TEST(  [128], [yytype_int8])
+AT_TEST(  [129], [yytype_uint8])
 AT_TEST(  [256], [yytype_uint8])
 AT_TEST(  [257], [yytype_int16])
+AT_TEST([32768], [yytype_int16])
 AT_TEST([65536], [yytype_uint16])
 AT_TEST([65537], [int])
 
