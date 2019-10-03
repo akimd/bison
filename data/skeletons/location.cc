@@ -326,7 +326,7 @@ m4_ifdef([b4_position_file], [[
 // used to define is now defined in "]b4_location_file[".
 //
 // To get rid of this file:
-// 1. add 'require "3.2"' (or newer) to your grammar file
+// 1. add '%require "3.2"' (or newer) to your grammar file
 // 2. remove references to this file from your build system
 // 3. if you used to include it, include "]b4_location_file[" instead.
 

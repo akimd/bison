@@ -145,7 +145,7 @@ m4_ifdef([b4_stack_file],
 // used to define is now defined with the parser itself.
 //
 // To get rid of this file:
-// 1. add 'require "3.2"' (or newer) to your grammar file
+// 1. add '%require "3.2"' (or newer) to your grammar file
 // 2. remove references to this file from your build system.
 ]b4_output_end[
 ]])
