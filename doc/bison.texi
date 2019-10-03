@@ -14210,7 +14210,8 @@ is recovering from a syntax error, and 0 otherwise.
 @deffn {Macro} YYSTACK_USE_ALLOCA
 Macro used to control the use of @code{alloca} when the
 deterministic parser in C needs to extend its stacks.  If defined to 0,
-the parser will use @code{malloc} to extend its stacks.  If defined to
+the parser will use @code{malloc} to extend its stacks and memory exhaustion
+occurs if @code{malloc} fails (@pxref{Memory Management}).  If defined to
 1, the parser will use @code{alloca}.  Values other than 0 and 1 are
 reserved for future Bison extensions.  If not defined,
 @code{YYSTACK_USE_ALLOCA} defaults to 0.
