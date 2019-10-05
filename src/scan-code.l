@@ -216,7 +216,7 @@ is_dot_or_dash (char ch)
 static inline bool
 contains_dot_or_dash (const char* p)
 {
-  return strpbrk(p, ".-");
+  return !!strpbrk (p, ".-");
 }
 
 /* Defines a variant of a symbolic name resolution. */
