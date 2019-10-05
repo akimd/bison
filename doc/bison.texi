@@ -1447,13 +1447,13 @@ anything other than their usual meanings.
 
 In some cases the Bison parser implementation file includes system
 headers, and in those cases your code should respect the identifiers
-reserved by those headers.  On some non-GNU hosts, @code{<alloca.h>},
-@code{<malloc.h>}, @code{<stddef.h>}, and @code{<stdlib.h>} are
-included as needed to declare memory allocators and related types.
+reserved by those headers.  On some non-GNU hosts, @code{<limits.h>},
+@code{<stddef.h>}, @code{<stdint.h>} (if available), and @code{<stdlib.h>}
+are included to declare memory allocators and integer types and constants.
 @code{<libintl.h>} is included if message translation is in use
 (@pxref{Internationalization}).  Other system headers may be included
-if you define @code{YYDEBUG} to a nonzero value (@pxref{Tracing,
-,Tracing Your Parser}).
+if you define @code{YYDEBUG} (@pxref{Tracing, ,Tracing Your Parser}) or
+@code{YYSTACK_USE_ALLOCA} (@pxref{Table of Symbols}) to a nonzero value.
 
 @node Stages
 @section Stages in Using Bison

@@ -112,11 +112,6 @@
   /* A string that describes a char (e.g., 'a' -> "'a'").  */
   static char const *char_name (char);
 
-  #define YYTYPE_INT16 int_fast16_t
-  #define YYTYPE_INT8 int_fast8_t
-  #define YYTYPE_UINT16 uint_fast16_t
-  #define YYTYPE_UINT8 uint_fast8_t
-
   /* Add style to semantic values in traces.  */
   static void tron (FILE *yyo);
   static void troff (FILE *yyo);

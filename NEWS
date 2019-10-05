@@ -69,7 +69,11 @@ GNU Bison NEWS
 
   Bison templates now prefer signed to unsigned integer types when
   either will do, as the signed types are less error-prone and allow
-  for better checking with 'gcc -fsanitize=undefined'.
+  for better checking with 'gcc -fsanitize=undefined'.  Also, the
+  types chosen are now portable to unusual machines where char, short and
+  int are all the same width.  On non-GNU platforms this may entail
+  including <limits.h> and (if available) <stdint.h> to define integer types
+  and constants.
 
 * Noteworthy changes in release 3.4.2 (2019-09-12) [stable]
 
