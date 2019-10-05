@@ -4,6 +4,7 @@
 %option nodefault noinput nounput noyywrap
 
 %{
+#include <errno.h> /* errno, ERANGE */
 #include <limits.h> /* INT_MIN */
 #include <stdlib.h> /* strtol */
 
