@@ -128,6 +128,25 @@ Rename these guys as "diagnostics.*" (or "diagnose.*"), since that's the
 name they have in gcc, clang, etc.  Likewise for the complain_* series of
 functions.
 
+* Modernization
+Remove some casts made for old compilers, such as Clang++ 3.3 and 3.4 when
+compiling yacc.c code:
+
+    YYPTRDIFF_T yysize = (YYPTRDIFF_T) (yyssp - yyss + 1);
+
+    YYPTRDIFF_T yysize_old =
+      *yytop == yytop_empty ? 0 : (YYPTRDIFF_T) (*yytop - *yybottom + 1);
+
+    YYPTRDIFF_T yysize = (YYPTRDIFF_T) (yyesp - *yyes + 1);
+
+Or G++ 4.8
+
+    yyes_capacity = (YYPTRDIFF_T) (sizeof yyesa / sizeof *yyes);
+
+Or GCC 4.8
+
+    int input_elts = (int) (sizeof input / sizeof input[0]);
+
 * Completion
 Several features are not available in all the backends.
 
