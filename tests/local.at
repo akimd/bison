@@ -558,7 +558,7 @@ static
   static int toknum = 0;
   int res;
   ]AT_USE_LEX_ARGS[
-  int input_elts = sizeof input / sizeof input[0];
+  int input_elts = (int) (sizeof input / sizeof input[0]);
   (void) input_elts;
   assert (0 <= toknum && toknum < input_elts);
   res = input[toknum++];
