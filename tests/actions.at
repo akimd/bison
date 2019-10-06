@@ -134,6 +134,7 @@ AT_BISON_CHECK([-fcaret -Wempty-rule 1.y], [0], [],
 [[1.y:11.17-18: warning: empty rule without %empty [-Wempty-rule]
    11 | a: /* empty. */ {};
       |                 ^~
+      |                 %empty
 1.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -149,9 +150,11 @@ AT_BISON_CHECK([-fcaret 2.y], [0], [],
 [[2.y:11.17-18: warning: empty rule without %empty [-Wempty-rule]
    11 | a: /* empty. */ {};
       |                 ^~
+      |                 %empty
 2.y:13.17-18: warning: empty rule without %empty [-Wempty-rule]
    13 | c: /* empty. */ {};
       |                 ^~
+      |                 %empty
 2.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 

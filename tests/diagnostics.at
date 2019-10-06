@@ -128,18 +128,23 @@ e:
 [[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    11 | a: <warning>{}</warning>
       |    <warning>^~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:12.3-13.1: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    12 | b:<warning>{</warning>
       |   <warning>^</warning>
+      |   <fixit-insert>%empty</fixit-insert>
 input.y:14.3: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    14 | c:
       |   <warning>^</warning>
+      |   <fixit-insert>%empty</fixit-insert>
 input.y:16.2: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    16 | :
       |  <warning>^</warning>
+      |  <fixit-insert>%empty</fixit-insert>
 input.y:17.3: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    17 | e:
       |   <warning>^</warning>
+      |   <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
@@ -167,27 +172,35 @@ h: {	🐃	}
 [[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    11 | a: <warning>{		}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:12.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    12 | b: <warning>{            }</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:13.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    13 | c: <warning>{------------}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:14.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    14 | d: <warning>{éééééééééééé}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:15.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    15 | e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:16.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    16 | f: <warning>{	42	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    17 | g: <warning>{	"฿¥$€₦"	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    18 | h: <warning>{	🐃	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
@@ -211,7 +224,9 @@ b: {}
 [[input.y:11.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    11 | a: <warning>{}</warning>
       |    <warning>^~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
 /dev/stdout:1.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+      |    <fixit-insert>%empty</fixit-insert>
 /dev/stdout: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
@@ -307,6 +322,7 @@ input.y:10.9-11:     previous declaration
 input.y:13.5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    13 | exp:
       |     <warning>^</warning>
+      |     <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 

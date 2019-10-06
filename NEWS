@@ -39,6 +39,27 @@ GNU Bison NEWS
   The gain is typically moderate, but in extreme cases (very simple user
   actions), a 10% improvement can be observed.
 
+*** Diagnostics with insertion
+
+  The diagnostics now display suggestion below the underlined source.
+  Replacement for undeclared symbols are now also suggested.
+
+    $ cat /tmp/foo.y
+    %%
+    list: lis '.' |
+
+    $ bison -Wall foo.y
+    foo.y:2.7-9: error: symbol 'lis' is used, but is not defined as a token and has no rules; did you mean 'list'?
+        2 | list: lis '.' |
+          |       ^~~
+          |       list
+    foo.y:2.16: warning: empty rule without %empty [-Wempty-rule]
+        2 | list: lis '.' |
+          |                ^
+          |                %empty
+    foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+
+
 *** Debug traces in Java
 
   The Java backend no longer emits code and data for parser tracing if the
