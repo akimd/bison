@@ -117,14 +117,6 @@ compiling yacc.c code:
 
     YYPTRDIFF_T yysize = (YYPTRDIFF_T) (yyesp - *yyes + 1);
 
-Or G++ 4.8
-
-    yyes_capacity = (YYPTRDIFF_T) (sizeof yyesa / sizeof *yyes);
-
-Or GCC 4.8
-
-    int input_elts = (int) (sizeof input / sizeof input[0]);
-
 * Completion
 Several features are not available in all the backends.
 
