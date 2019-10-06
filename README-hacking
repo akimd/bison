@@ -229,6 +229,9 @@ To run a specific set of tests, use -k (for "keyword"). For example:
 Both can be combined.
   $ make check-local TESTSUITEFLAGS='-j8 -k c++'
 
+To rerun the tests that failed:
+  $ make recheck -j5
+
 ** Typical errors
 If the test suite shows failures such as the following one
 

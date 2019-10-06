@@ -94,6 +94,13 @@ clean-local: clean-local-tests
 clean-local-tests:
 	test ! -f $(TESTSUITE) || $(TESTSUITE) -C %D% --clean
 
+.PHONY: recheck
+recheck: $(RUN_TESTSUITE_deps)
+	$(RUN_TESTSUITE)							\
+	  $$(perl -n								\
+	     -e 'if (/Summary of the failures/../Detailed failed tests/)'	\
+	     -e '{ /^ *[0-9]+:/ && s/:.*//s && print }' %D%/testsuite.log)
+
 check-local: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)
 
