@@ -107,15 +107,10 @@ name they have in gcc, clang, etc.  Likewise for the complain_* series of
 functions.
 
 * Modernization
-Remove some casts made for old compilers, such as Clang++ 3.3 and 3.4 when
-compiling yacc.c code:
-
-    YYPTRDIFF_T yysize = (YYPTRDIFF_T) (yyssp - yyss + 1);
-
-    YYPTRDIFF_T yysize_old =
-      *yytop == yytop_empty ? 0 : (YYPTRDIFF_T) (*yytop - *yybottom + 1);
-
-    YYPTRDIFF_T yysize = (YYPTRDIFF_T) (yyesp - *yyes + 1);
+Fix data/skeletons/yacc.c so that it defines YYPTRDIFF_T properly for modern
+and older C++ compilers.  Currently the code defaults to defining it to
+'long' for non-GCC compilers, but it should use the proper C++ magic to
+define it to the same type as the C ptrdiff_t type.
 
 * Completion
 Several features are not available in all the backends.
