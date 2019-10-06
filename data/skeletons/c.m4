@@ -171,14 +171,87 @@ b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 # to MAX (included) in portable C code.  Assume MIN and MAX fall in
 # 'int' range.
 m4_define([b4_int_type],
-[m4_if(b4_ints_in($@,      [0],   [127]), [1], [char],
-       b4_ints_in($@,   [-127],   [127]), [1], [signed char],
+[m4_if(b4_ints_in($@,   [-127],   [127]), [1], [signed char],
        b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
 
        b4_ints_in($@, [-32767], [32767]), [1], [short],
        b4_ints_in($@,      [0], [65535]), [1], [unsigned short],
 
                                                [int])])
+
+# b4_c99_int_type(MIN, MAX)
+# -------------------------
+# Like b4_int_type, but for C99.
+# b4_c99_int_type_define replaces b4_int_type with this.
+m4_define([b4_c99_int_type],
+[m4_if(b4_ints_in($@,   [-127],   [127]), [1], [yytype_int8],
+       b4_ints_in($@,      [0],   [255]), [1], [yytype_uint8],
+
+       b4_ints_in($@, [-32767], [32767]), [1], [yytype_int16],
+       b4_ints_in($@,      [0], [65535]), [1], [yytype_uint16],
+
+                                               [int])])
+
+# b4_c99_int_type_define
+# ----------------------
+# Define private types suitable for holding small integers in C99 or later.
+m4_define([b4_c99_int_type_define],
+[m4_copy_force([b4_c99_int_type], [b4_int_type])dnl
+[/* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
+   <limits.h> and (if available) <stdint.h> are included
+   so that the code can choose integer types of a good width.  */
+
+#ifndef __PTRDIFF_MAX__
+# ifndef INT_MAX
+#  include <limits.h> /* INFRINGES ON USER NAME SPACE */
+# endif
+# ifndef PTRDIFF_MAX
+#  if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+#   include <stdint.h> /* INFRINGES ON USER NAME SPACE */
+#  endif
+# endif
+#endif
+
+/* Narrow types that promote to a signed type and that can represent a
+   signed or unsigned integer of at least N bits.  In tables they can
+   save space and decrease cache pressure.  Promoting to a signed type
+   helps avoid bugs in integer arithmetic.  */
+
+#if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
+typedef __UINT_LEAST8_TYPE__ yytype_uint8;
+#elif defined UINT_LEAST8_MAX && UINT_LEAST8_MAX <= INT_MAX
+typedef uint_least8_t yytype_uint8;
+#elif UCHAR_MAX <= INT_MAX
+typedef unsigned char yytype_uint8;
+#else
+typedef short yytype_uint8;
+#endif
+
+#if defined __INT_LEAST8_MAX__ && __INT_LEAST8_MAX__ <= __INT_MAX__
+typedef __INT_LEAST8_TYPE__ yytype_int8;
+#elif defined INT_LEAST8_MAX && INT_LEAST8_MAX <= INT_MAX
+typedef int_least8_t yytype_int8;
+#else
+typedef signed char yytype_int8;
+#endif
+
+#if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
+typedef __UINT_LEAST16_TYPE__ yytype_uint16;
+#elif defined UINT_LEAST16_MAX && UINT_LEAST16_MAX <= INT_MAX
+typedef uint_least16_t yytype_uint16;
+#elif USHRT_MAX <= INT_MAX
+typedef unsigned short yytype_uint16;
+#else
+typedef int yytype_uint16;
+#endif
+
+#if defined __INT_LEAST16_MAX__ && __INT_LEAST16_MAX__ <= __INT_MAX__
+typedef __INT_LEAST16_TYPE__ yytype_int16;
+#elif defined INT_LEAST16_MAX && INT_LEAST16_MAX <= INT_MAX
+typedef int_least16_t yytype_int16;
+#else
+typedef short yytype_int16;
+#endif]])
 
 
 # b4_int_type_for(NAME)
