@@ -211,10 +211,10 @@ AC_CONFIG_FILES([src/yacc], [chmod +x src/yacc])
 # Checks for programs.
 AM_MISSING_PROG([DOT], [dot])
 AC_PROG_LEX
-$LEX_IS_FLEX || test "X$LEX" = X: || {
+if ! "$LEX_IS_FLEX" || test "X$LEX" = X:; then
   AC_MSG_WARN([bypassing lex because flex is required])
   LEX=:
-}
+fi
 AM_CONDITIONAL([FLEX_WORKS], [$LEX_IS_FLEX])
 AM_CONDITIONAL([FLEX_CXX_WORKS],
   [$LEX_IS_FLEX && test $bison_cv_cxx_works = yes])

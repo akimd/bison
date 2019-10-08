@@ -15,7 +15,10 @@ AC_DEFUN_ONCE([AC_PROG_LEX],
 [AC_CHECK_PROGS([LEX], [flex lex], [:])
 if test "x$LEX" != "x:"; then
   _AC_PROG_LEX_YYTEXT_DECL
-fi])
+fi
+AC_SUBST([LEX_IS_FLEX],
+         [`test "$ac_cv_prog_lex_is_flex" = yes && echo true || echo false`])dnl
+])
 
 
 # _AC_PROG_LEX_YYTEXT_DECL
@@ -37,8 +40,6 @@ else
   ac_cv_prog_lex_is_flex=no
 fi
 ])
-AC_SUBST([LEX_IS_FLEX],
-         [`test "$ac_cv_prog_lex_is_flex" = yes && echo true || echo false`])dnl
 
 cat >conftest.l <<_ACEOF[
 %%
