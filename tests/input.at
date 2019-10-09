@@ -1322,7 +1322,7 @@ yylex (void)
   */
   enum { input_elts = sizeof input };
   (void) input_elts;
-  static ptrdiff_t toknum;
+  static int toknum;
   assert (0 <= toknum && toknum < input_elts);
   yylval = value_as_yystype (input[toknum]);
   return input[toknum++];

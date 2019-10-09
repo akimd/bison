@@ -1,4 +1,3 @@
-#include <config.h>
 /* We don't need perfect functions for these tests. */
 #undef malloc
 #undef memcmp

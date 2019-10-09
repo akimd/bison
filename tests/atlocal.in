@@ -16,9 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# We need 'testsuite.h' (srcdir/test), 'config.h' (builddir/lib), and
-# the gnulib headers (srcdir/lib).
-CPPFLAGS="-I$abs_top_srcdir/tests -I$abs_top_srcdir/lib -I$abs_top_builddir/lib @CPPFLAGS@"
+# We need 'testsuite.h' (srcdir/test).
+CPPFLAGS="-I$abs_top_srcdir/tests @CPPFLAGS@"
 
 # Don't just check if $POSIXLY_CORRECT is set, as Bash, when launched
 # as /bin/sh, sets the shell variable POSIXLY_CORRECT to y, but not
@@ -73,11 +72,7 @@ fi
 if $BISON_CXX_WORKS; then
   # See AT_DATA_SOURCE_PROLOGUE.
   cat >conftest.cc <<EOF
-#include <config.h>
-/* We don't need perfect functions for these tests. */
-#undef malloc
-#undef memcmp
-#undef realloc
+#include <testsuite.h>
 #include <iostream>
 
 int main ()

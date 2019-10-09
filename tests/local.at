@@ -388,7 +388,7 @@ m4_define([AT_LANG_DISPATCH],
 # The prologue that should be included in any source code that is
 # meant to be compiled.  Keep atlocal.in sync (BISON_CXX_WORKS).
 m4_define([AT_DATA_SOURCE_PROLOGUE],
-[[/* Load config.h, and adjust to the compiler.
+[[/* Adjust to the compiler.
   We used to do it here, but each time we add a new line,
   we have to adjust all the line numbers in error messages.
   It's simpler to use a constant include to a varying file.  */
