@@ -219,9 +219,9 @@ m4_define([b4_c99_int_type_define],
 
 #if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
 typedef __UINT_LEAST8_TYPE__ yytype_uint8;
-#elif defined UINT_LEAST8_MAX && UINT_LEAST8_MAX <= INT_MAX
+#elif defined UINT_LEAST8_MAX && defined INT_MAX && UINT_LEAST8_MAX <= INT_MAX
 typedef uint_least8_t yytype_uint8;
-#elif UCHAR_MAX <= INT_MAX
+#elif defined UCHAR_MAX && defined INT_MAX && UCHAR_MAX <= INT_MAX
 typedef unsigned char yytype_uint8;
 #else
 typedef short yytype_uint8;
@@ -229,7 +229,7 @@ typedef short yytype_uint8;
 
 #if defined __INT_LEAST8_MAX__ && __INT_LEAST8_MAX__ <= __INT_MAX__
 typedef __INT_LEAST8_TYPE__ yytype_int8;
-#elif defined INT_LEAST8_MAX && INT_LEAST8_MAX <= INT_MAX
+#elif defined INT_LEAST8_MAX && defined INT_MAX && INT_LEAST8_MAX <= INT_MAX
 typedef int_least8_t yytype_int8;
 #else
 typedef signed char yytype_int8;
@@ -237,9 +237,9 @@ typedef signed char yytype_int8;
 
 #if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
 typedef __UINT_LEAST16_TYPE__ yytype_uint16;
-#elif defined UINT_LEAST16_MAX && UINT_LEAST16_MAX <= INT_MAX
+#elif defined UINT_LEAST16_MAX && defined INT_MAX && UINT_LEAST16_MAX <= INT_MAX
 typedef uint_least16_t yytype_uint16;
-#elif USHRT_MAX <= INT_MAX
+#elif defined USHRT_MAX && defined INT_MAX && USHRT_MAX <= INT_MAX
 typedef unsigned short yytype_uint16;
 #else
 typedef int yytype_uint16;
@@ -247,7 +247,7 @@ typedef int yytype_uint16;
 
 #if defined __INT_LEAST16_MAX__ && __INT_LEAST16_MAX__ <= __INT_MAX__
 typedef __INT_LEAST16_TYPE__ yytype_int16;
-#elif defined INT_LEAST16_MAX && INT_LEAST16_MAX <= INT_MAX
+#elif defined INT_LEAST16_MAX && defined INT_MAX && INT_LEAST16_MAX <= INT_MAX
 typedef int_least16_t yytype_int16;
 #else
 typedef short yytype_int16;
