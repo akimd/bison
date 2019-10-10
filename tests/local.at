@@ -576,9 +576,9 @@ m4_define([AT_MAIN_DEFINE(c)],
 int
 main (int argc, char const* argv[])
 {]AT_DEBUG_IF([[
-  yydebug = !!getenv("YYDEBUG");
+  yydebug = !!getenv ("YYDEBUG");
   for (int i = 1; i < argc; ++i)
-    if (!strcmp(argv[i], "-p")
+    if (!strcmp (argv[i], "-p")
         || !strcmp (argv[i], "-d") || !strcmp (argv[i], "--debug"))
       yydebug |= 1;
     else if (!strcmp (argv[i], "-s") || !strcmp (argv[i], "--stat"))
@@ -627,9 +627,9 @@ int
 main (int argc, char const* argv[])
 {
   ]AT_NAMESPACE[::parser p;]AT_DEBUG_IF([[
-  int debug = !!getenv("YYDEBUG");
+  int debug = !!getenv ("YYDEBUG");
   for (int i = 1; i < argc; ++i)
-    if (!strcmp(argv[i], "-p")
+    if (!strcmp (argv[i], "-p")
         || !strcmp (argv[i], "-d") || !strcmp (argv[i], "--debug"))
       debug |= 1;
     else if (!strcmp (argv[i], "-s") || !strcmp (argv[i], "--stat"))

@@ -345,9 +345,9 @@ int
 main (void)
 {]AT_CXX_IF([[
   yy::parser p;
-  p.set_debug_level (!!getenv("YYDEBUG"));
+  p.set_debug_level (!!getenv ("YYDEBUG"));
   return p.parse ();]], [[
-  yydebug = !!getenv("YYDEBUG");
+  yydebug = !!getenv ("YYDEBUG");
   return !!yyparse (]AT_PARAM_IF([0])[);]])[
 }
 ]])
