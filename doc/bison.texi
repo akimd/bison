@@ -379,10 +379,10 @@ Invoking Bison
 
 Bison Options
 
-* Operation Modes::    Options controling the global behavior of @command{bison}
+* Operation Modes::    Options controlling the global behavior of @command{bison}
 * Diagnostics::        Options controlling the diagnostics
 * Tuning the Parser::  Options changing the generated parsers
-* Output Files::       Options controling the output
+* Output Files::       Options controlling the output
 
 Parsers Written In Other Languages
 
@@ -5248,7 +5248,6 @@ Decl, , Freeing Discarded Symbols}).
 @deffn {Directive} %printer @{ @var{code} @} @var{symbols}
 @findex %printer
 @vindex yyo
-@vindex yyoutput
 @c This is the same text as for %destructor.
 Invoke the braced @var{code} whenever the parser displays one of the
 @var{symbols}.  Within @var{code}, @code{yyo} denotes the output stream (a
@@ -6243,7 +6242,7 @@ When @code{api.token.raw} is set, the grammar cannot use character literals
 @item Default Value:
 @code{false}
 @item History:
-introduced in Bison 3.5.  Was initialy introduced in Bison 1.25 as
+introduced in Bison 3.5.  Was initially introduced in Bison 1.25 as
 @samp{%raw}, but never worked and was removed in Bison 1.29.
 @end itemize
 @end deffn
@@ -10335,16 +10334,16 @@ Here is a list of options that can be used with Bison.  It is followed by a
 cross key alphabetized by long option.
 
 @menu
-* Operation Modes::    Options controling the global behavior of @command{bison}
+* Operation Modes::    Options controlling the global behavior of @command{bison}
 * Diagnostics::        Options controlling the diagnostics
 * Tuning the Parser::  Options changing the generated parsers
-* Output Files::       Options controling the output
+* Output Files::       Options controlling the output
 @end menu
 
 @node Operation Modes
 @subsection Operation Modes
 
-Options controling the global behavior of @command{bison}.
+Options controlling the global behavior of @command{bison}.
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
@@ -10834,7 +10833,7 @@ is specified.
 @node Output Files
 @subsection Output Files
 
-Options controling the output.
+Options controlling the output.
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
@@ -14544,7 +14543,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP subrange
 @c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword loc
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
-@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead yyoutput
+@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
 @c LocalWords: ypp yxx itemx tex leaderfill Troubleshouting sqrt Graphviz
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
@@ -14591,7 +14590,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN colorWarning
 @c LocalWords: setcolor rgbError colorError rgbNotice colorNotice derror
 @c LocalWords: colorOff maincolor inlineraw darkviolet darkcyan dwarning
-@c LocalWords: dnotice copyable
+@c LocalWords: dnotice copyable stdint ptrdiff bufsize
 
 @c Local Variables:
 @c ispell-dictionary: "american"
