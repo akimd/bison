@@ -59,21 +59,49 @@ GNU Bison NEWS
           |                %empty
     foo.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 
+*** Diagnostics about long lines
+
+  Quoted sources may now be truncated to fit the screen.  For instance, on a
+  30-column wide terminal:
+
+    $ cat foo.y
+    %token FOO                       FOO                         FOO
+    %%
+    exp: FOO
+    $ bison foo.y
+    foo.y:1.34-36: warning: symbol FOO redeclared [-Wother]
+        1 | …         FOO                  …
+          |           ^~~
+    foo.y:1.8-10:      previous declaration
+        1 | %token FOO                     …
+          |        ^~~
+    foo.y:1.62-64: warning: symbol FOO redeclared [-Wother]
+        1 | …         FOO
+          |           ^~~
+    foo.y:1.8-10:      previous declaration
+        1 | %token FOO                     …
+          |        ^~~
 
 *** Debug traces in Java
 
   The Java backend no longer emits code and data for parser tracing if the
   %define variable parse.trace is not defined.
 
-*** Templates prefer signed integer types
+*** Generated parsers prefer signed integer types
 
-  Bison templates now prefer signed to unsigned integer types when
-  either will do, as the signed types are less error-prone and allow
-  for better checking with 'gcc -fsanitize=undefined'.  Also, the
-  types chosen are now portable to unusual machines where char, short and
-  int are all the same width.  On non-GNU platforms this may entail
-  including <limits.h> and (if available) <stdint.h> to define integer types
-  and constants.
+  Bison skeletons now prefer signed to unsigned integer types when either
+  will do, as the signed types are less error-prone and allow for better
+  checking with 'gcc -fsanitize=undefined'.  Also, the types chosen are now
+  portable to unusual machines where char, short and int are all the same
+  width.  On non-GNU platforms this may entail including <limits.h> and (if
+  available) <stdint.h> to define integer types and constants.
+
+*** Generated parsers use better types for states
+
+  Stacks now use the best integral type for state numbers, instead of always
+  using 15 bits.  As a result "small" parsers now have a smaller memory
+  footprint (they use 8 bits), and there is support for large automata (16
+  bits), and extra large (using int, i.e., typically 31 bits).
 
 * Noteworthy changes in release 3.4.2 (2019-09-12) [stable]
 
@@ -975,10 +1003,10 @@ GNU Bison NEWS
 
   bison used to report:
 
-    /tmp/foo.yy:2.10-11: error: %printer redeclaration for FOO
+    foo.yy:2.10-11: error: %printer redeclaration for FOO
      %printer {} "foo"
               ^^
-    /tmp/foo.yy:3.10-11:     previous declaration
+    foo.yy:3.10-11:     previous declaration
      %printer {} FOO
               ^^
 
