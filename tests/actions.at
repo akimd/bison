@@ -1083,17 +1083,17 @@ AT_DATA_GRAMMAR([[input.y]],
 } <*>
 
 %printer {
-  fprintf (yyoutput, "<> printer for '%c' @ %d", $$, @$.first_column);
+  fprintf (yyo, "<> printer for '%c' @ %d", $$, @$.first_column);
 } <>
 %destructor {
-  fprintf (stdout, "<> destructor for '%c' @ %d.\n", $$, @$.first_column);
+  printf ("<> destructor for '%c' @ %d.\n", $$, @$.first_column);
 } <>
 
 %printer {
-  fprintf (yyoutput, "'b'/'c' printer for '%c' @ %d", $$, @$.first_column);
+  fprintf (yyo, "'b'/'c' printer for '%c' @ %d", $$, @$.first_column);
 } 'b' 'c'
 %destructor {
-  fprintf (stdout, "'b'/'c' destructor for '%c' @ %d.\n", $$, @$.first_column);
+  printf ("'b'/'c' destructor for '%c' @ %d.\n", $$, @$.first_column);
 } 'b' 'c'
 
 %destructor {
@@ -1179,23 +1179,23 @@ AT_DATA_GRAMMAR([[input.y]],
 %type <field1> 'e'
 %type <field2> 'f'
 %printer {
-  fprintf (yyoutput, "<*>/<field2>/e printer");
+  fprintf (yyo, "<*>/<field2>/e printer");
 } <*> 'e' <field2>
 %destructor {
-  fprintf (stdout, "<*>/<field2>/e destructor.\n");
+  printf ("<*>/<field2>/e destructor.\n");
 } <*> 'e' <field2>
 
 %type <field1> 'b'
-%printer { fprintf (yyoutput, "<field1> printer"); } <field1>
-%destructor { fprintf (stdout, "<field1> destructor.\n"); } <field1>
+%printer { fprintf (yyo, "<field1> printer"); } <field1>
+%destructor { printf ("<field1> destructor.\n"); } <field1>
 
 %type <field0> 'c'
-%printer { fprintf (yyoutput, "'c' printer"); } 'c'
-%destructor { fprintf (stdout, "'c' destructor.\n"); } 'c'
+%printer { fprintf (yyo, "'c' printer"); } 'c'
+%destructor { printf ("'c' destructor.\n"); } 'c'
 
 %type <field1> 'd'
-%printer { fprintf (yyoutput, "'d' printer"); } 'd'
-%destructor { fprintf (stdout, "'d' destructor.\n"); } 'd'
+%printer { fprintf (yyo, "'d' printer"); } 'd'
+%destructor { printf ("'d' destructor.\n"); } 'd'
 
 %destructor {
   #error "<> destructor should not be used."
@@ -1304,10 +1304,10 @@ AT_DATA_GRAMMAR([[input]]$1[[.y]],
 
 %token END 0
 %printer {
-  fprintf (yyoutput, "<]]kind[[> for '%c' @ %d", $$, @$.first_column);
+  fprintf (yyo, "<]]kind[[> for '%c' @ %d", $$, @$.first_column);
 } <]]kind[[>
 %destructor {
-  fprintf (stdout, "<]]kind[[> for '%c' @ %d.\n", $$, @$.first_column);
+  printf ("<]]kind[[> for '%c' @ %d.\n", $$, @$.first_column);
 } <]]kind[[>
 
 %printer {
@@ -1410,7 +1410,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %}
 
 %printer {
-  fprintf (yyoutput, "'%c'", $$);
+  fprintf (yyo, "'%c'", $$);
 } <> <*>
 %destructor {
   fprintf (stderr, "DESTROY '%c'\n", $$);
@@ -1509,7 +1509,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 %printer {
   char chr = $$;
-  fprintf (yyoutput, "'%c'", chr);
+  fprintf (yyo, "'%c'", chr);
 } <> <*>
 %destructor {
   char chr = $$;
@@ -1559,7 +1559,7 @@ AT_DATA_GRAMMAR([[input.y]],
 # define LOCATION_PRINT(File, Loc)
 %}
 
-%printer    { fprintf (yyoutput, "%d", @$); } <>
+%printer    { fprintf (yyo, "%d", @$); } <>
 %destructor { fprintf (stderr, "DESTROY %d\n", @$); } <>
 %printer    { #error "<*> printer should not be used" } <*>
 %destructor { #error "<*> destructor should not be used" } <*>
