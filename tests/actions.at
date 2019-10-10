@@ -425,6 +425,7 @@ AT_DATA_GRAMMAR([[input.y]],
 ]$3[
 %code
 {
+#include <stdio.h> /* putchar. */
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 }
@@ -1728,6 +1729,7 @@ AT_DATA_GRAMMAR([[input.y]],
 # define YYSTYPE sem_type
 
 ]AT_CXX_IF([[
+# include <cstdio> // EOF.
 # include <iostream>
   namespace
   {

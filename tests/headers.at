@@ -127,6 +127,7 @@ AT_DATA_GRAMMAR([input.y],
 %define parse.error verbose
 ]AT_VARIANT_IF([%token <int> 'x'], [%union {int integer;}])[
 %code {
+#include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
 #if defined __GNUC__ && 7 == __GNUC__
 # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
@@ -212,6 +213,7 @@ $2
   int integer;
 }
 %{
+#include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
 #if defined __GNUC__ && 7 == __GNUC__
 # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"

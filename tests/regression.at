@@ -1309,6 +1309,7 @@ AT_BISON_OPTION_PUSHDEFS([%debug $1])
 
 AT_DATA_GRAMMAR([input.y],
 [[%code {
+#include <stdio.h> /* printf */
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 }
@@ -1480,12 +1481,13 @@ AT_DATA_GRAMMAR([input.y],
 }
 
 %{
+#include <stdio.h> /* printf. */
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 %}
 
 %%
-exp: 'a' { fprintf (stdout, "x: %d, y: %d\n", x, y); };
+exp: 'a' { printf ("x: %d, y: %d\n", x, y); };
 %%
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[

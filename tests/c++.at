@@ -988,7 +988,8 @@ yy::parser::error (const std::string &m)
 
 # Another file to check syntax_error's linkage.
 AT_DATA_SOURCE([scan.cc],
-[[#include "input.hh"
+[[#include <cstdio>  // getchar
+#include "input.hh"
 
 // 'a': valid item, 's': syntax error, 'l': lexical error.
 int
