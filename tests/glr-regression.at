@@ -1711,10 +1711,10 @@ Reading a token: Now at end of input.
 Stack 0 Entering state 7
 Now at end of input.
 Splitting off stack 1 from 0.
-Reduced stack 1 by rule #2; action deferred.  Now in state 2.
+Reduced stack 1 by rule 2 (line 24); action deferred.  Now in state 2.
 Stack 1 Entering state 2
 Now at end of input.
-Reduced stack 0 by rule #1; action deferred.  Now in state 2.
+Reduced stack 0 by rule 1 (line 24); action deferred.  Now in state 2.
 Merging stack 0 into stack 1.
 Stack 1 Entering state 2
 Now at end of input.
