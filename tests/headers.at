@@ -314,7 +314,7 @@ AT_TEST([x9], [%locations %code requires {#include "location.hh"} %define api.lo
 #   Ignore comments, YYChar (template parameter), YYPUSH_MORE(_DEFINED)?
 #   (constant definition), YY_\w+_INCLUDED (header guards).
 #   YYDEBUG (not renamed) can be read, but not changed.
-AT_CHECK([[$PERL -n -0777 -e '
+AT_CHECK([["$PERL" -n -0777 -e '
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
   s{\b((defined|if)\ YYDEBUG
@@ -347,7 +347,7 @@ AT_CHECK([[$PERL -n -0777 -e '
       print "$ARGV: invalid exported yy: $1\n";
     }
   }
-' -- *.hh *.h]])
+' -- *.hh *.h || exit 77]])
 
 # Do this late, so that other checks have been performed.
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX

@@ -39,14 +39,14 @@ AT_DATA_GRAMMAR([[input.y]], [$2])
 # For some reason, literal ^M in the input are removed and don't end
 # in `input.y`.  So use the two-character ^M represent it, and let
 # Perl insert real CR characters.
-AT_CHECK([perl -pi -e 's{\^M}{\r}gx' input.y])
+AT_CHECK([$PERL -pi -e 's{\^M}{\r}gx' input.y || exit 77])
 
 AT_DATA([experr], [$4])
 
 AT_CHECK([LC_ALL=en_US.UTF-8 $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
-AT_CHECK([perl -pi -e 's{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
+AT_CHECK(["$PERL" -pi -e 's{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr || exit 77])
 
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.

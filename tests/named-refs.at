@@ -604,7 +604,7 @@ AT_DATA_GRAMMAR([test.y],
 start: foo[ % /* aaa */ *&-.+\000\001\002\377 ] bar
   { s = $foo; }
 ]])
-AT_CHECK([[$PERL -pi -e 's/\\(\d{3})/chr(oct($1))/ge' test.y || exit 77]])
+AT_CHECK([["$PERL" -pi -e 's/\\(\d{3})/chr(oct($1))/ge' test.y || exit 77]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:11.13: error: invalid character in bracketed name: '%'
 test.y:11.25-27: error: invalid characters in bracketed name: '*&-'

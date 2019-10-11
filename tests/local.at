@@ -55,10 +55,10 @@ m4_define([AT_SETUP_STRIP],
 # Expect COUNT matches of the PERL-REGEXP in FILE.  The file is
 # taken in "slurp" mode, i.e., one can match end-of-lines.
 m4_define([AT_MATCHES_CHECK],
-[AT_CHECK([$PERL -0777 -ne '
+[AT_CHECK(["$PERL" -0777 -ne '
 my $count = 0;
 s{$2}{ ++$count; "" }gem;
-printf "$count\n";' $1], [0], [$3
+printf "$count\n";' $1 || exit 77], [0], [$3
 ])])
 
 
@@ -857,17 +857,19 @@ if test "$POSIXLY_CORRECT_IS_EXPORTED" = false; then
   # Run with -Werror.
   ]AT_BISON_CHECK_([$1[ -Werror]], [[1]], [expout], [stderr])[
 
-  # Build expected stderr up to and including the "warnings being
-  # treated as errors" message.
-  ]AT_DATA([[experr]], [$4])[
-  $PERL -pi -e 's{(.*): warning:}{$][1: error:};' \
-            -e 's{\[-W(.*)\]$}{@<:@-Werror=$][1@:>@}' \
-                 experr
-  ]AT_CHECK([[sed 's,.*/$,,' stderr 1>&2]], [[0]], [[]], [experr])[
+  if test x"$PERL" != x; then
+    # Build expected stderr up to and including the "warnings being
+    # treated as errors" message.
+    ]AT_DATA([[experr]], [$4])[
+    "$PERL" -pi -e 's{(.*): warning:}{$][1: error:};' \
+                -e 's{\[-W(.*)\]$}{@<:@-Werror=$][1@:>@}' \
+                    experr
+    ]AT_CHECK([[sed 's,.*/$,,' stderr 1>&2]], [[0]], [[]], [experr])[
 
-  # Now check --warnings=error.
-  cp stderr experr
-  ]AT_BISON_CHECK_([$1[ --warnings=error]], [[1]], [expout], [experr])[
+    # Now check --warnings=error.
+    cp stderr experr
+    ]AT_BISON_CHECK_([$1[ --warnings=error]], [[1]], [expout], [experr])[
+  fi
 
   # Now check -Wnone and --warnings=none by making sure that
   # -Werror doesn't change the exit status when -Wnone or

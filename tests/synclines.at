@@ -97,7 +97,7 @@ m4_define([_AT_SYNCLINES_COMPILE],
 #    syncline.c:4:2: error: #error "4"
 #        4 | #error "4"
 #          |  ^~~~~
-AT_CHECK([[$PERL -p -0777 - stderr <<\EOF
+AT_CHECK([["$PERL" -p -0777 - stderr <<\EOF || exit 77
   # Remove left-hand margin.
   s/^[\d ]{6}\| //gm;
 
