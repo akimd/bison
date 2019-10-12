@@ -258,8 +258,10 @@ AT_BISON_OPTION_PUSHDEFS
 AT_REQUIRE([ruby $abs_top_srcdir/tests/linear $1 >input.y])
 # Old versions of GCC reject large values given to #line.
 AT_FULL_COMPILE([input], [], [], [], [--no-line])
-AT_CHECK([grep 'define YYNSTATES  *$1' input.c], [], [ignore])
-AT_CHECK([grep 'typedef $2 yy_state_num' input.c], [], [ignore])
+AT_CHECK([[sed -ne 's/#define YYNSTATES  *\([0-9]*\)/\1/p' input.c]],   [], [$1
+])
+AT_CHECK([[sed -ne 's/typedef \(.*\) yy_state_t;/\1/p' input.c]], [], [$2
+])
 AT_PARSER_CHECK([input])
 
 AT_BISON_OPTION_POPDEFS
