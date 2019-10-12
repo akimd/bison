@@ -760,7 +760,7 @@ EXTRACT_PRIVATE        = AT_DOXYGEN_PRIVATE
 EXTRACT_STATIC         = AT_DOXYGEN_PRIVATE
 ])
 
-AT_CHECK([doxygen --version || exit 77], 0, ignore)
+AT_REQUIRE([doxygen --version], 0, ignore)
 AT_CHECK([doxygen], 0, [], [ignore])
 
 AT_BISON_OPTION_POPDEFS

@@ -22,11 +22,11 @@ AT_BANNER([[Output file names.]])
 # -----------------------------------------------
 # Check that the current directory contains FILE... (sorted).
 m4_define([AT_CHECK_FILES],
-[AT_CHECK([[find . -type f |
+[AT_REQUIRE([[find . -type f |
            "$PERL" -ne '
       s,\./,,; chomp;
       push @file, $_ unless m{^($2|testsuite.log)$};
-      END { print join (" ", sort @file), "\n" }' || exit 77]],
+      END { print join (" ", sort @file), "\n" }']],
           [], [$1
 ])])
 
@@ -48,7 +48,7 @@ foo: '0' {};
 ]])
 
 # There is not AT_DATA_UNQUOTED.
-AT_CHECK(["$PERL" -pi -e 's{\$at_dir}'"{$at_group_dir}g" $1 || exit 77])
+AT_PERL_REQUIRE([-pi -e 's{\$at_dir}'"{$at_group_dir}g" $1])
 
 
 AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[
@@ -257,7 +257,7 @@ m4_define([AT_CHECK_OUTPUT_FILE_NAME],
 AT_BISON_OPTION_PUSHDEFS
 # Skip if platform doesn't support file name.  For example, Cygwin
 # doesn't support file names containing ":" or "\".
-AT_CHECK([[touch "]AS_ESCAPE([$1[.tmp]])[" || exit 77]])
+AT_REQUIRE([[touch "]AS_ESCAPE([$1[.tmp]])["]])
 
 AT_DATA_GRAMMAR([glr.y],
 [[%glr-parser

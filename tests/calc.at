@@ -619,7 +619,7 @@ AT_CHECK([cat stderr], 0, [expout])
 # Make sure we did not introduce bad spaces.  Checked here because all
 # the skeletons are (or should be) exercized here.
 m4_define([AT_CHECK_SPACES],
-[AT_CHECK(["$PERL" -ne '
+[AT_PERL_CHECK([-ne '
   chomp;
   print "$ARGV:$.: {$_}\n"
     if (# No starting/ending empty lines.
@@ -628,8 +628,8 @@ m4_define([AT_CHECK_SPACES],
         || /\s$/
         # No tabs.
         || /\t/
-        )' $1 || exit 77
-])dnl
+        )' $1
+])
 ])
 
 

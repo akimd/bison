@@ -162,7 +162,7 @@ void foo (void)
 ]])
 
 _AT_SYNCLINES_COMPILE([syncline.c])
-AT_CHECK([[test "`cat stdout`" = 'syncline.c:4: @%:@error "4"' || exit 77]])
+AT_REQUIRE([[test "`cat stdout`" = 'syncline.c:4: @%:@error "4"']])
 
 # Then work for real.
 _AT_SYNCLINES_COMPILE([$1])
@@ -409,8 +409,8 @@ AT_DATA([\"\\\"\".AT_LANG_EXT],
 [[int main (void) { return 0; }
 ]])
 
-AT_CHECK([AT_CXX_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".]AT_LANG_EXT[ -o \"\\\"\" ||
-          exit 77], [0], [ignore], [ignore])
+AT_REQUIRE([AT_CXX_IF([$CXX $CXXFLAGS], [$CC $CFLAGS]) $CPPFLAGS \"\\\"\".]AT_LANG_EXT[ -o \"\\\"\"],
+                 [0], [ignore], [ignore])
 
 AT_DATA_GRAMMAR([\"\\\"\".y],
 [[%skeleton "$1"
