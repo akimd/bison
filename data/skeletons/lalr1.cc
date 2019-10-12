@@ -241,8 +241,8 @@ m4_define([b4_shared_declarations],
     ///               Only used for debbuging output.
     void yy_lac_discard_ (const char* event);]])[
 
-    /// State numbers.
-    typedef int state_type;
+    /// Stored state numbers (used for stacks).
+    typedef ]b4_int_type(0, m4_eval(b4_states_number - 1))[ state_type;
 
     /// Generate an error message.
     /// \param yystate   the state where the error occurred.
@@ -803,7 +803,6 @@ m4_if(b4_prefix, [yy], [],
   int
   ]b4_parser_class[::parse ()
   {
-    // State.
     int yyn;
     /// Length of the RHS of the rule being reduced.
     int yylen = 0;
@@ -916,7 +915,7 @@ b4_dollar_popdef])[]dnl
       --yyerrstatus_;
 
     // Shift the lookahead token.
-    yypush_ ("Shifting", yyn, YY_MOVE (yyla));]b4_lac_if([[
+    yypush_ ("Shifting", static_cast<state_type> (yyn), YY_MOVE (yyla));]b4_lac_if([[
     yy_lac_discard_ ("shift");]])[
     goto yynewstate;
 
@@ -1079,7 +1078,7 @@ b4_dollar_popdef])[]dnl
 
       // Shift the error token.]b4_lac_if([[
       yy_lac_discard_ ("error recovery");]])[
-      error_token.state = yyn;
+      error_token.state = static_cast<state_type> (yyn);
       yypush_ ("Shifting", YY_MOVE (error_token));
     }
     goto yynewstate;
