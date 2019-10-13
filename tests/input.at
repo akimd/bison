@@ -2173,18 +2173,13 @@ AT_CLEANUP
 # Bison used to accept character literals that were empty or contained
 # too many characters.
 
-# FIXME: AT_DATA or some variant of AT_DATA may eventually permit
-# the final newline to be omitted.  See the threads starting at
-# <http://lists.gnu.org/archive/html/bison-patches/2009-07/msg00019.html>.
-
 AT_SETUP([[Bad character literals]])
 
-AT_DATA([empty.y],
+AT_DATA_NO_FINAL_EOL([empty.y],
 [[%%
 start: '';
 start: '
-]])
-AT_PERL_REQUIRE([[-e "print 'start: \'';" >> empty.y]])
+start: ']])
 
 AT_BISON_CHECK([-fcaret empty.y], [1], [],
 [[empty.y:2.8-9: warning: empty character literal [-Wother]
@@ -2204,12 +2199,11 @@ empty.y:4.8: warning: empty character literal [-Wother]
       |        ^
 ]])
 
-AT_DATA([two.y],
+AT_DATA_NO_FINAL_EOL([two.y],
 [[%%
 start: 'ab';
 start: 'ab
-]])
-AT_PERL_REQUIRE([[-e "print 'start: \'ab';" >> two.y]])
+start: 'ab]])
 
 AT_BISON_CHECK([two.y], [1], [],
 [[two.y:2.8-11: warning: extra characters in character literal [-Wother]
@@ -2219,12 +2213,11 @@ two.y:4.8-10: error: missing "'" at end of file
 two.y:4.8-10: warning: extra characters in character literal [-Wother]
 ]])
 
-AT_DATA([three.y],
+AT_DATA_NO_FINAL_EOL([three.y],
 [[%%
 start: 'abc';
 start: 'abc
-]])
-AT_PERL_REQUIRE([[-e "print 'start: \'abc';" >> three.y]])
+start: 'abc]])
 
 AT_BISON_CHECK([three.y], [1], [],
 [[three.y:2.8-12: warning: extra characters in character literal [-Wother]

@@ -47,6 +47,21 @@ m4_define([AT_SETUP_STRIP],
 ])
 
 
+# AT_DATA_NO_FINAL_EOL(FILE, CONTENT)
+# -----------------------------------
+# Same as AT_DATA, except that CONTENT has no the final end of line.
+#
+# FIXME: AT_DATA or some variant of AT_DATA may eventually permit
+# the final newline to be omitted.  See the threads starting at
+# <http://lists.gnu.org/archive/html/bison-patches/2009-07/msg00019.html>.
+m4_define([AT_DATA_NO_FINAL_EOL],
+[AT_DATA([$1], [$2
+])
+AT_PERL_REQUIRE([[-pi -e 'chomp if eof' $1]])
+])
+
+
+
 ## ------------- ##
 ## Basic tests.  ##
 ## ------------- ##
