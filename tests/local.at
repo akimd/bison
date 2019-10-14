@@ -57,7 +57,11 @@ m4_define([AT_SETUP_STRIP],
 m4_define([AT_DATA_NO_FINAL_EOL],
 [AT_DATA([$1], [$2
 ])
-AT_PERL_REQUIRE([[-pi -e 'chomp if eof' $1]])
+AT_REQUIRE([
+set x $(LC_ALL=C ls -l '$1') &&
+  size=$][6 &&
+  { test $size -eq 0 || dd obs=1 seek=`expr $size - 1` if=/dev/null of='$1'; }],
+  [], [ignore], [ignore])
 ])
 
 
