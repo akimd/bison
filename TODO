@@ -76,8 +76,9 @@ have it?
 
 ** clean up (Akim Demaille)
 Do not work on these items now, as I (Akim) have branches with a lot of
-changes in this area, and no desire to have to fix conflicts.  These
-cleaning up will happen after my branches have been merged.
+changes in this area (hitting several files), and no desire to have to fix
+conflicts.  Addressing these items will happen after my branches have been
+merged.
 
 *** lalr.c
 Introduce a goto struct, and use it in place of from_state/to_state.
@@ -128,6 +129,84 @@ $ ./tests/testsuite -l | grep errors | sed q
   38: input.at:1730      errors
 
 * Short term
+** Stop indentation in diagnostics
+Before Bison 2.7, we printed "flatly" the dependencies in long diagnostics:
+
+    input.y:2.7-12: %type redeclaration for exp
+    input.y:1.7-12: previous declaration
+
+In Bison 2.7, we indented them
+
+    input.y:2.7-12: error: %type redeclaration for exp
+    input.y:1.7-12:     previous declaration
+
+Later we quoted the source in the diagnostics, and today we have:
+
+    /tmp/foo.y:1.12-14: warning: symbol FOO redeclared [-Wother]
+        1 | %token FOO FOO
+          |            ^~~
+    /tmp/foo.y:1.8-10:      previous declaration
+        1 | %token FOO FOO
+          |        ^~~
+
+The indentation is no longer helping.  We should probably get rid of it, or
+maybe keep it only when -fno-caret. GCC displays this as a "note":
+
+    $ g++-mp-9 -Wall /tmp/foo.c -c
+    /tmp/foo.c:1:10: error: redefinition of 'int foo'
+        1 | int foo, foo;
+          |          ^~~
+    /tmp/foo.c:1:5: note: 'int foo' previously declared here
+        1 | int foo, foo;
+          |     ^~~
+
+Likewise for Clang, contrary to what I believed (because "note:" is written
+in black, so it doesn't show in my terminal :-)
+
+    $ clang++-mp-8.0 -Wall /tmp/foo.c -c
+    clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+    /tmp/foo.c:1:10: error: redefinition of 'foo'
+    int foo, foo;
+             ^
+    /tmp/foo.c:1:5: note: previous definition is here
+    int foo, foo;
+        ^
+    1 error generated.
+
+** Better design for diagnostics
+The current implementation of diagnostics is adhoc, it grew organically.  It
+works as a series of calls to several functions, with dependency of the
+latter calls on the former.  For instance:
+
+      complain (&sym->location,
+                sym->content->status == needed ? complaint : Wother,
+                _("symbol %s is used, but is not defined as a token"
+                  " and has no rules; did you mean %s?"),
+                quote_n (0, sym->tag),
+                quote_n (1, best->tag));
+      if (feature_flag & feature_caret)
+        location_caret_suggestion (sym->location, best->tag, stderr);
+
+We should rewrite this in a more FP way:
+
+1. build a rich structure that denotes the (complete) diagnostic.
+   "Complete" in the sense that it also contains the suggestions, the list
+   of possible matches, etc.
+
+2. send this to the pretty-printing routine.  The diagnostic structure
+   should be sufficient so that we can generate all the 'format' of
+   diagnostics, including the fixits.
+
+If properly done, this diagnostic module can be detached from Bison and be
+put in gnulib.  It could be used, for instance, for errors caught by
+xgettext.
+
+There's certainly already something alike in GCC.  At least that's the
+impression I get from reading the "-fdiagnostics-format=FORMAT" part of this
+page:
+
+https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html
+
 ** consistency
 token vs terminal
 
@@ -136,6 +215,11 @@ Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
 itself uses int (for yylen for instance), yet stack is based on size_t.
 
 Maybe locations should also move to ints.
+
+Paul Eggert already covered most of this.  But before publishing these
+changes, we need to ask our C++ users if they agree with that change, or if
+we need some migration path.  Could be a %define variable, or simply
+%require "3.5".
 
 ** Graphviz display code thoughts
 The code for the --graph option is over two files: print_graph, and
@@ -155,9 +239,6 @@ should be generic code.
 Little effort seems to have been given to factoring these files and their
 rint{,-xml} counterpart. We would very much like to re-use the pretty format
 of states from .output for the graphs, etc.
-
-Also, the underscore in print_graph.[ch] isn't very fitting considering the
-dashes in the other filenames.
 
 Since graphviz dies on medium-to-big grammars, maybe consider an other tool?
 
@@ -296,11 +377,16 @@ we do the same in yacc.c.
 as we don't lose bits to padding.  For instance the typical stack for states
 will use 8 bits, while it is likely to consume 32 bits in a struct.
 
-We need trustworth benching for Bison, for all our backends.
+We need trustworthy benchmarks for Bison, for all our backends.  Akim has a
+few things scattered around; we need to put them in the repo, and make them
+more useful.
 
 ** yysyntax_error
 The code bw glr.c and yacc.c is really alike, we can certainly factor
 some parts.
+
+This should be worked on when we also address the expected improvements for
+error generation (e.g., i18n).
 
 
 * Report
@@ -342,23 +428,25 @@ LORIA, INRIA Nancy - Grand Est, Nancy, France
 * Extensions
 ** Multiple start symbols
 Would be very useful when parsing closely related languages.  The idea is to
-declared several start symbols, for instance
+declare several start symbols, for instance
 
-    %start: stmt expr
+    %start stmt expr
     %%
     stmt: ...
     expr: ...
 
-and to generate parse, parse_stmt and parse_expr.  Technically, the above
-grammar would be transformed into
+and to generate parse(), parse_stmt() and parse_expr().  Technically, the
+above grammar would be transformed into
 
-   %start: yy_start
+   %start yy_start
+   %token YY_START_STMT YY_START_EXPR
+   %%
    yy_start: YY_START_STMT stmt | YY_START_EXPR expr
 
-so that there are no conflicts in the grammar (as would undoubtedly happen
-with yy_start: stmt | expr).  Then all that remains to do is to adjust the
-skeletons so that this initial token (YY_START_STMT, YY_START_EXPR) be
-shifted first.
+so that there are no new conflicts in the grammar (as would undoubtedly
+happen with yy_start: stmt | expr).  Then adjust the skeletons so that this
+initial token (YY_START_STMT, YY_START_EXPR) be shifted first in the
+corresponding parse function.
 
 ** Better error messages
 The users are not provided with enough tools to forge their error messages.
@@ -379,8 +467,8 @@ https://lists.gnu.org/archive/html/bison-patches/2015-09/msg00000.html
 However, there are many other things to do before having such a feature,
 because I don't want a % equivalent to #include (which we all learned to
 hate).  I want something that builds "modules" of grammars, and assembles
-them together, paying attention to keep separate bits separates, in
-pseudo name spaces.
+them together, paying attention to keep separate bits separated, in pseudo
+name spaces.
 
 ** Push parsers
 There is demand for push parsers in Java and C++.  And GLR I guess.
@@ -463,6 +551,7 @@ It is unfortunate that there is a total order for precedence.  It
 makes it impossible to have modular precedence information.  We should
 move to partial orders (sounds like series/parallel orders to me).
 
+This is a prerequisite for modules.
 
 * $undefined
 From Hans:
