@@ -7,9 +7,6 @@ breaks.
 Also, we seem to teach YYPRINT very early on, although it should be
 considered deprecated: %printer is superior.
 
-** glr.cc
-move glr.c into the yy namespace
-
 ** improve syntax errors (UTF-8, internationalization)
 Bison depends on the current locale.  For instance:
 
@@ -58,7 +55,7 @@ Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
 semantic value so that yyerror could be used to report invalid lexemes.
 
 * Bison 3.6
-** Unit rules
+** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see
 https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,
 transform
@@ -77,10 +74,11 @@ Practice' is impossible to find, but according to 'Parsing Techniques: a
 Practical Guide', it includes information about this issue.  Does anybody
 have it?
 
-** Injection rules
-See above.
+** clean up (Akim Demaille)
+Do not work on these items now, as I (Akim) have branches with a lot of
+changes in this area, and no desire to have to fix conflicts.  These
+cleaning up will happen after my branches have been merged.
 
-** clean up
 *** lalr.c
 Introduce a goto struct, and use it in place of from_state/to_state.
 Rename states1 as path, length as pathlen.
@@ -138,12 +136,6 @@ Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
 itself uses int (for yylen for instance), yet stack is based on size_t.
 
 Maybe locations should also move to ints.
-
-** C
-Introduce state_type rather than spreading yytype_int16 everywhere?
-
-** glr.c
-yyspaceLeft should probably be a pointer diff.
 
 ** Graphviz display code thoughts
 The code for the --graph option is over two files: print_graph, and
@@ -224,10 +216,12 @@ since it is no longer bound to a particular parser, it's just a
 (standalone symbol).
 
 * Various
-** Rewrite glr.cc in C++
+** Rewrite glr.cc in C++ (Valentin Tolmer)
 As a matter of fact, it would be very interesting to see how much we can
 share between lalr1.cc and glr.cc.  Most of the skeletons should be common.
 It would be a very nice source of inspiration for the other languages.
+
+Valentin Tolmer is working on this.
 
 ** YYERRCODE
 Defined to 256, but not used, not documented.  Probably the token
@@ -298,6 +292,12 @@ other improvements and also made it faster (probably because memory
 management is performed once instead of three times).  I suggest that
 we do the same in yacc.c.
 
+(Some time later): it's also very nice to have three stacks: it's more dense
+as we don't lose bits to padding.  For instance the typical stack for states
+will use 8 bits, while it is likely to consume 32 bits in a struct.
+
+We need trustworth benching for Bison, for all our backends.
+
 ** yysyntax_error
 The code bw glr.c and yacc.c is really alike, we can certainly factor
 some parts.
@@ -341,7 +341,24 @@ LORIA, INRIA Nancy - Grand Est, Nancy, France
 
 * Extensions
 ** Multiple start symbols
-Would be very useful when parsing closely related languages.
+Would be very useful when parsing closely related languages.  The idea is to
+declared several start symbols, for instance
+
+    %start: stmt expr
+    %%
+    stmt: ...
+    expr: ...
+
+and to generate parse, parse_stmt and parse_expr.  Technically, the above
+grammar would be transformed into
+
+   %start: yy_start
+   yy_start: YY_START_STMT stmt | YY_START_EXPR expr
+
+so that there are no conflicts in the grammar (as would undoubtedly happen
+with yy_start: stmt | expr).  Then all that remains to do is to adjust the
+skeletons so that this initial token (YY_START_STMT, YY_START_EXPR) be
+shifted first.
 
 ** Better error messages
 The users are not provided with enough tools to forge their error messages.
@@ -358,6 +375,12 @@ should make this reasonably easy to implement.
 
 Bruce Mardle <marblypup@yahoo.co.uk>
 https://lists.gnu.org/archive/html/bison-patches/2015-09/msg00000.html
+
+However, there are many other things to do before having such a feature,
+because I don't want a % equivalent to #include (which we all learned to
+hate).  I want something that builds "modules" of grammars, and assembles
+them together, paying attention to keep separate bits separates, in
+pseudo name spaces.
 
 ** Push parsers
 There is demand for push parsers in Java and C++.  And GLR I guess.
@@ -385,6 +408,10 @@ must be in the scanner: we must not parse what is in a switched off
 part of %if.  Akim Demaille thinks it should be in the parser, so as
 to avoid falling into another CPP mistake.
 
+(Later): I'm sure there's actually good case for this.  People who need that
+feature can use m4/cpp on top of Bison.  I don't think it is worth the
+trouble in Bison itself.
+
 ** XML Output
 There are couple of available extensions of Bison targeting some XML
 output.  Some day we should consider including them.  One issue is
@@ -403,6 +430,9 @@ XML output for GNU Bison
 ** Counterexample generation
 https://lists.gnu.org/archive/html/bug-bison/2016-06/msg00000.html
 http://www.cs.cornell.edu/andru/papers/cupex/
+
+Andrew Myers and Vincent Imbimbo are working on this item, see
+https://github.com/akimd/bison/issues/12
 
 * Coding system independence
 Paul notes:
