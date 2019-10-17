@@ -1435,10 +1435,10 @@ m4_define([AT_SETS_CHECK],
 [[#n
 ]m4_foreach([m4_Set], [$2], [[
 /^]m4_Set[/ {
-   :]m4_Set[
+   :]m4_substr(m4_Set, 0, 7)[
    p
    n
-   /^ *$/ !b ]m4_Set[
+   /^ *$/ !b ]m4_substr(m4_Set, 0, 7)[
 }
 ]])])
 
