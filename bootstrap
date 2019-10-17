@@ -166,7 +166,7 @@ bootstrap_epilogue() { :; }
 # specified directory.  Fill in the first %s with the destination
 # directory and the second with the domain name.
 po_download_command_format=\
-"wget --mirror --level=1 -nd -q -A.po -P '%s' \
+"wget --mirror --level=1 -nd -nv -A.po -P '%s' \
  https://translationproject.org/latest/%s/"
 
 # Prefer a non-empty tarname (4th argument of AC_INIT if given), else
