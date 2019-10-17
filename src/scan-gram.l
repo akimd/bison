@@ -21,6 +21,8 @@
 %option prefix="gram_" outfile="lex.yy.c"
 
 %{
+#include <errno.h>
+
 #include <c-ctype.h>
 #include <mbswidth.h>
 #include <quote.h>
@@ -818,9 +820,10 @@ scan_integer (char const *number, int base, location loc)
     complain (&loc, Wyacc,
               _("POSIX Yacc does not support hexadecimal literals"));
 
+  errno = 0;
   long num = strtol (number, NULL, base);
 
-  if (! (0 <= num && num <= INT_MAX))
+  if (! (0 <= num && num <= INT_MAX && errno == 0))
     {
       complain (&loc, complaint, _("integer out of range: %s"),
                 quote (number));
@@ -896,8 +899,9 @@ static void
 handle_syncline (char *args, location loc)
 {
   char *file;
+  errno = 0;
   long lineno = strtol (args, &file, 10);
-  if (! (0 <= lineno && lineno <= INT_MAX))
+  if (! (0 <= lineno && lineno <= INT_MAX && errno == 0))
     {
       complain (&loc, Wother, _("line number overflow"));
       lineno = INT_MAX;

@@ -1523,7 +1523,9 @@ start: TOO_LARGE_DEC TOO_LARGE_HEX
 
 AT_BISON_CHECK([too-large.y], [1], [],
 [[too-large.y:9.22-42: error: integer out of range: '999999999999999999999'
+too-large.y:9.22-42: error: user token number of TOO_LARGE_DEC too large
 too-large.y:10.24-44: error: integer out of range: '0xFFFFFFFFFFFFFFFFFFF'
+too-large.y:10.24-44: error: user token number of TOO_LARGE_HEX too large
 ]])
 
 AT_BISON_OPTION_POPDEFS
