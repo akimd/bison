@@ -113,7 +113,7 @@ m4_define([b4_location_define],
     /// Compute max (min, lhs+rhs).
     static int add_ (int lhs, int rhs, int min)
     {
-      return std::max (min, lhs + rhs);
+      return lhs + rhs < min ? min : lhs + rhs;
     }
   };
 
@@ -345,7 +345,6 @@ m4_ifdef([b4_location_file], [[
 
 ]b4_cpp_guard_open([b4_location_path])[
 
-# include <algorithm> // std::max
 # include <iostream>
 # include <string>
 
