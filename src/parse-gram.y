@@ -40,6 +40,7 @@
   #include "files.h"
   #include "getargs.h"
   #include "gram.h"
+  #include "intprops.h"
   #include "named-ref.h"
   #include "quotearg.h"
   #include "reader.h"
@@ -975,23 +976,24 @@ handle_require (location const *loc, char const *version)
   /* Changes of behavior are only on minor version changes, so "3.0.5"
      is the same as "3.0". */
   errno = 0;
-  char* cp = NULL;
+  char *cp = NULL, *cp1;
   long major = strtol (version, &cp, 10);
-  if (errno || *cp != '.')
+  if (errno || cp == version || *cp != '.' || major < 0)
     {
       complain (loc, complaint, _("invalid version requirement: %s"),
                 version);
       return;
     }
   ++cp;
-  long minor = strtol (cp, NULL, 10);
-  if (errno)
+  long minor = strtol (cp, &cp1, 10);
+  if (errno || cp1 == cp || ! (0 <= minor && minor < 100)
+      || INT_MULTIPLY_WRAPV (major, 100, &required_version)
+      || INT_ADD_WRAPV (minor, required_version, &required_version))
     {
       complain (loc, complaint, _("invalid version requirement: %s"),
                 version);
       return;
     }
-  required_version = major * 100 + minor;
   /* Pretend to be at least 3.4, to check features published in 3.4
      while developping it.  */
   const char* api_version = "3.4";
