@@ -202,13 +202,10 @@ m4_define([b4_c99_int_type_define],
    so that the code can choose integer types of a good width.  */
 
 #ifndef __PTRDIFF_MAX__
-# ifndef INT_MAX
-#  include <limits.h> /* INFRINGES ON USER NAME SPACE */
-# endif
-# ifndef PTRDIFF_MAX
-#  if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#   include <stdint.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
+# include <limits.h> /* INFRINGES ON USER NAME SPACE */
+# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
+#  define YY_STDINT_H
 # endif
 #endif
 
@@ -219,7 +216,7 @@ m4_define([b4_c99_int_type_define],
 
 #ifdef __INT_LEAST8_MAX__
 typedef __INT_LEAST8_TYPE__ yytype_int8;
-#elif defined INT_LEAST8_MAX
+#elif defined YY_STDINT_H
 typedef int_least8_t yytype_int8;
 #else
 typedef signed char yytype_int8;
@@ -227,7 +224,7 @@ typedef signed char yytype_int8;
 
 #ifdef __INT_LEAST16_MAX__
 typedef __INT_LEAST16_TYPE__ yytype_int16;
-#elif defined INT_LEAST16_MAX
+#elif defined YY_STDINT_H
 typedef int_least16_t yytype_int16;
 #else
 typedef short yytype_int16;
@@ -235,7 +232,7 @@ typedef short yytype_int16;
 
 #if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
 typedef __UINT_LEAST8_TYPE__ yytype_uint8;
-#elif (!defined __UINT_LEAST8_MAX__ && defined UINT_LEAST8_MAX \
+#elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
        && UINT_LEAST8_MAX <= INT_MAX)
 typedef uint_least8_t yytype_uint8;
 #elif !defined __UINT_LEAST8_MAX__ && UCHAR_MAX <= INT_MAX
@@ -246,7 +243,7 @@ typedef short yytype_uint8;
 
 #if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
 typedef __UINT_LEAST16_TYPE__ yytype_uint16;
-#elif (!defined __UINT_LEAST16_MAX__ && defined UINT_LEAST16_MAX \
+#elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
        && UINT_LEAST16_MAX <= INT_MAX)
 typedef uint_least16_t yytype_uint16;
 #elif !defined __UINT_LEAST16_MAX__ && USHRT_MAX <= INT_MAX
