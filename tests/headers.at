@@ -129,7 +129,7 @@ AT_DATA_GRAMMAR([input.y],
 %code {
 #include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
-#if defined __GNUC__ && 7 == __GNUC__
+#if defined __GNUC__ && (7 == __GNUC__ || 9 == __GNUC__)
 # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #endif
 ]])[
@@ -215,7 +215,7 @@ $2
 %{
 #include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
-#if defined __GNUC__ && 7 == __GNUC__
+#if defined __GNUC__ && (7 == __GNUC__ || 9 == __GNUC__)
 # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #endif
 ]])[
