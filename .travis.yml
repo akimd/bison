@@ -79,44 +79,48 @@ jobs:
     # Start with three completely different environments, to get
     # errors asap.
 
-    - name: "GCC 8 -O3"
+    - name: "GCC 9 -O3"
       stage: test
       os: linux
       dist: bionic
       addons:
         apt:
-          packages:
-            - g++-8
+          sources:
+            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: g++-9
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
+        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
 
     # ASAN is time consuming, and we timeout the 50min granted by
     # Travis if we run all the tests in one go.  Run in two parts.
-    - name: "Clang 8 libc++ and ASAN part 1"
+    - name: "Clang 9 libc++ and ASAN part 1"
       stage: test
       os: linux
       dist: bionic
-      addons: &clang8
+      addons: &clang9
         apt:
           sources:
-            - llvm-toolchain-bionic-8
-            - ubuntu-toolchain-r-test
+            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
-            - clang-8
-            - libc++-8-dev
-            - libc++abi-8-dev
+            - clang-9
+            - libc++-9-dev
+            - libc++abi-9-dev
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="PART=1 CC='clang-8 -fsanitize=address' CXX='clang++-8 -fsanitize=address -stdlib=libc++'"
+        - MATRIX_EVAL="PART=1 CC='clang-9 -fsanitize=address' CXX='clang++-9 -fsanitize=address -stdlib=libc++'"
 
-    - name: "Clang 8 libc++ and ASAN part 2"
+    - name: "Clang 9 libc++ and ASAN part 2"
       stage: test
       os: linux
       dist: bionic
-      addons: *clang8
+      addons: *clang9
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="PART=2 CC='clang-8 -fsanitize=address' CXX='clang++-8 -fsanitize=address -stdlib=libc++'"
+        - MATRIX_EVAL="PART=2 CC='clang-9 -fsanitize=address' CXX='clang++-9 -fsanitize=address -stdlib=libc++'"
 
     # Currently no longer works (https://github.com/nemequ/icc-travis/issues/15).
     # - name: "ICC"
@@ -140,16 +144,25 @@ jobs:
     ## GCC.  ##
     ## ----- ##
 
-    - name: "GCC 7 with sanitizers"
+    - name: "GCC 8 with sanitizers"
       os: linux
       dist: bionic
       addons:
         apt:
-          packages:
-            - g++-7
+          packages: g++-8
       env:
-        - MATRIX_EVAL="CC='gcc-7 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-7 -fsanitize=undefined,address -fno-omit-frame-pointer'"
+        - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
         - PART=1
+
+    - name: "GCC 8"
+      stage: test
+      os: linux
+      dist: bionic
+      addons:
+        apt:
+          packages: g++-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
 
     - name: "GCC 7"
       stage: test
@@ -244,24 +257,34 @@ jobs:
     ## Clang.  ##
     ## ------- ##
 
-    - name: "Clang 7 -O3 and libc++"
+    - name: "Clang 8 -O3"
       stage: test
       os: linux
       dist: bionic
       addons:
         apt:
-          sources:
-            - llvm-toolchain-bionic-7
-            - ubuntu-toolchain-r-test
+          packages:
+            - clang-8
+            - libc++-8-dev
+            - libc++abi-8-dev
+      env:
+        - MATRIX_EVAL="CC=clang-8 && CXX='clang++-8 -stdlib=libc++'"
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
+
+    - name: "Clang 7"
+      stage: test
+      os: linux
+      dist: bionic
+      addons:
+        apt:
           packages:
             - clang-7
             - libc++-7-dev
             - libc++abi-7-dev
       env:
         - MATRIX_EVAL="CC=clang-7 && CXX='clang++-7 -stdlib=libc++'"
-        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
-    - name: "Clang 6 -O3 and libc++"
+    - name: "Clang 6 and libc++"
       stage: test
       os: linux
       dist: xenial
@@ -275,7 +298,6 @@ jobs:
             - libc++-dev
       env:
         - MATRIX_EVAL="CC=clang-6.0 && CXX='clang++-6.0 -stdlib=libc++'"
-        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     - name: "Clang 5"
       stage: test
