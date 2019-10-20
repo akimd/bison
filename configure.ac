@@ -94,9 +94,10 @@ AC_ARG_ENABLE([gcc-warnings],
               [enable_gcc_warnings=no])
 AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
-  warn_common='-Wall -Wextra -Wno-sign-compare -Wcast-align
+  warn_common='-Wall -Wextra -Wcast-align
     -fparse-all-comments -Wdocumentation
     -Wformat -Wimplicit-fallthrough -Wnull-dereference
+    -Wno-sign-compare -Wno-type-limits
     -Wpointer-arith -Wshadow
     -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wstrict-prototypes'
@@ -111,7 +112,7 @@ if test "$enable_gcc_warnings" = yes; then
   # trick in the test suite to check some private implementation
   # details for lalr1.cc.
   warn_tests='-Wundef -pedantic -Wconversion
-    -Wdeprecated -Wsign-compare -Wsign-conversion
+    -Wdeprecated -Wsign-compare -Wsign-conversion -Wtype-limits
     -fno-color-diagnostics
     -Wno-keyword-macro'
 
