@@ -32,22 +32,23 @@
 %code
 {
   #include "system.h"
-  #include <errno.h>
 
-  #include "c-ctype.h"
+  #include <c-ctype.h>
+  #include <errno.h>
+  #include <intprops.h>
+  #include <quotearg.h>
+  #include <vasnprintf.h>
+  #include <xmemdup0.h>
+
   #include "complain.h"
   #include "conflicts.h"
   #include "files.h"
   #include "getargs.h"
   #include "gram.h"
-  #include "intprops.h"
   #include "named-ref.h"
-  #include "quotearg.h"
   #include "reader.h"
   #include "scan-code.h"
   #include "scan-gram.h"
-  #include "vasnprintf.h"
-  #include "xmemdup0.h"
 
   static int current_prec = 0;
   static location current_lhs_loc;
@@ -970,37 +971,53 @@ handle_pure_parser (location const *loc, char const *directive)
 }
 
 
+/* Convert VERSION into an int (MAJOR * 100 + MINOR).  Return -1 on
+   errors.
+
+   Changes of behavior are only on minor version changes, so "3.0.5"
+   is the same as "3.0": 300. */
+static int
+str_to_version (char const *version)
+{
+  int res = 0;
+  errno = 0;
+  char *cp = NULL;
+  long major = strtol (version, &cp, 10);
+  if (errno || cp == version || *cp != '.' || major < 0
+      || INT_MULTIPLY_WRAPV (major, 100, &res))
+    return -1;
+
+  ++cp;
+  char *cp1 = NULL;
+  long minor = strtol (cp, &cp1, 10);
+  if (errno || cp1 == cp || (*cp1 != '\0' && *cp1 != '.')
+      || ! (0 <= minor && minor < 100)
+      || INT_ADD_WRAPV (minor, res, &res))
+    return -1;
+
+  return res;
+}
+
+
 static void
 handle_require (location const *loc, char const *version)
 {
-  /* Changes of behavior are only on minor version changes, so "3.0.5"
-     is the same as "3.0". */
-  errno = 0;
-  char *cp = NULL, *cp1;
-  long major = strtol (version, &cp, 10);
-  if (errno || cp == version || *cp != '.' || major < 0)
+  required_version = str_to_version (version);
+  if (required_version == -1)
     {
       complain (loc, complaint, _("invalid version requirement: %s"),
                 version);
+      required_version = 0;
       return;
     }
-  ++cp;
-  long minor = strtol (cp, &cp1, 10);
-  if (errno || cp1 == cp || ! (0 <= minor && minor < 100)
-      || INT_MULTIPLY_WRAPV (major, 100, &required_version)
-      || INT_ADD_WRAPV (minor, required_version, &required_version))
-    {
-      complain (loc, complaint, _("invalid version requirement: %s"),
-                version);
-      return;
-    }
+
   /* Pretend to be at least 3.4, to check features published in 3.4
      while developping it.  */
   const char* api_version = "3.4";
   const char* package_version =
-    strverscmp (api_version, PACKAGE_VERSION) > 0
+    0 < strverscmp (api_version, PACKAGE_VERSION)
     ? api_version : PACKAGE_VERSION;
-  if (strverscmp (version, package_version) > 0)
+  if (0 < strverscmp (version, package_version))
     {
       complain (loc, complaint, _("require bison %s, but have %s"),
                 version, package_version);
