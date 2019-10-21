@@ -1,7 +1,7 @@
 This package contains the GNU Bison parser generator.
 
-* Installation
-** Build from git
+# Installation
+## Build from git
 Here are basic installation instructions for a repository checkout:
 
     $ git submodules update --init
@@ -9,17 +9,17 @@ Here are basic installation instructions for a repository checkout:
 
 then proceed with the usual 'configure && make' steps.
 
-README-hacking contains more information about building and modifying the
-software.
+Be sure to read README-hacking, which contains all the needed information
+about building, modifying and checking Bison.
 
-** Build for tarball
+## Build from tarball
 See the file INSTALL for generic compilation and installation instructions.
 
 Bison requires GNU m4 1.4.6 or later.  See:
 
       https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz
 
-** Relocatability
+## Relocatability
 If you pass '--enable-relocatable' to 'configure', Bison is relocatable.
 
 A relocatable program can be moved or copied to a different location on the
@@ -29,7 +29,7 @@ invoke them through the symlink.
 
 See "Enabling Relocatability" in the documentation.
 
-** Internationalization
+## Internationalization
 Bison supports two catalogs: one for Bison itself (i.e., for the
 maintainer-side parser generation), and one for the generated parsers (i.e.,
 for the user-side parser execution).  The requirements between both differ:
@@ -39,7 +39,7 @@ generated parsers could have been localized.  See
 http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00006.html for more
 details.
 
-* Questions
+# Questions
 See the section FAQ in the documentation (doc/bison.info) for frequently
 asked questions.  The documentation is also available in PDF and HTML,
 provided you have a recent version of Texinfo installed: run "make pdf" or
@@ -48,19 +48,19 @@ provided you have a recent version of Texinfo installed: run "make pdf" or
 If you have questions about using Bison and the documentation does not
 answer them, please send mail to <help-bison@gnu.org>.
 
-* Bug reports
+# Bug reports
 Please send bug reports to <bug-bison@gnu.org>.  Be sure to include the
 version number from 'bison --version', and a complete, self-contained test
 case in each bug report.
 
-* Copyright statements
+# Copyright statements
 For any copyright year range specified as YYYY-ZZZZ in this package, note
 that the range specifies every single year in that closed interval.
 
------
+<!--
 
 Local Variables:
-mode: outline
+mode: markdown
 fill-column: 76
 ispell-dictionary: "american"
 End:
@@ -83,5 +83,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# LocalWords:  parsers ngettext Texinfo pdf html YYYY ZZZZ ispell american
-# LocalWords:  MERCHANTABILITY
+LocalWords:  parsers ngettext Texinfo pdf html YYYY ZZZZ ispell american
+LocalWords:  MERCHANTABILITY
+
+-->
