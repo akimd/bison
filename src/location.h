@@ -33,25 +33,25 @@ typedef struct
   /* The name of the file that contains the boundary.  */
   uniqstr file;
 
-  /* If nonnegative, the (origin-1) line that contains the boundary.
+  /* If positive, the line (starting at 1) that contains the boundary.
      If this is INT_MAX, the line number has overflowed.
 
-     Meaningless and not displayed if negative.
+     Meaningless and not displayed if nonpositive.
   */
   int line;
 
-  /* If nonnegative, the (origin-1) column just after the boundary.
+  /* If positive, the column (starting at 1) just after the boundary.
      This is neither a byte count, nor a character count; it is a
      column count.  If this is INT_MAX, the column number has
      overflowed.
 
-     Meaningless and not displayed if negative.
+     Meaningless and not displayed if nonpositive.
   */
   int column;
 
-  /* If nonnegative, (origin-0) bytes number in the current line.
+  /* If nonnegative, the byte number (starting at 0) in the current line.
      Never displayed, used when printing error messages with colors to
-     know where colors start and ends.  */
+     know where colors start and end.  */
   int byte;
 
 } boundary;
