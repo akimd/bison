@@ -83,6 +83,9 @@ static boundary scanner_cursor;
       unput (Msg[i - 1]);                                       \
   } while (0)
 
+/* The current file name.  Might change with #line.  */
+static uniqstr current_file = NULL;
+
 /* A string representing the most recently saved token.  */
 static char *last_string = NULL;
 
@@ -971,25 +974,29 @@ unexpected_newline (boundary start, char const *token_end)
 }
 
 
-/*-------------------------.
-| Initialize the scanner.  |
-`-------------------------*/
-
 void
-gram_scanner_initialize (void)
+gram_scanner_open (const char *gram)
 {
+  gram__flex_debug = trace_flag & trace_scan;
+  gram_debug = trace_flag & trace_parse;
   obstack_init (&obstack_for_string);
+  current_file = gram;
+  gram_in = xfopen (gram, "r");
 }
 
 
-/*-----------------------------------------------.
-| Free all the memory allocated to the scanner.  |
-`-----------------------------------------------*/
+void
+gram_scanner_close ()
+{
+  xfclose (gram_in);
+  /* Reclaim Flex's buffers.  */
+  yylex_destroy ();
+}
+
+
 
 void
 gram_scanner_free (void)
 {
   obstack_free (&obstack_for_string, 0);
-  /* Reclaim Flex's buffers.  */
-  yylex_destroy ();
 }
