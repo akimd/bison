@@ -229,7 +229,7 @@ b: {}
       |    <fixit-insert>%empty</fixit-insert>
 /dev/stdout:1.4-5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
       |    <fixit-insert>%empty</fixit-insert>
-/dev/stdout: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
 
