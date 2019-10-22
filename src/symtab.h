@@ -345,7 +345,8 @@ void semantic_type_code_props_set (semantic_type *type,
 | Symbol and semantic type tables.  |
 `----------------------------------*/
 
-/** Create the symbol and semantic type tables.  */
+/** Create the symbol and semantic type tables, and the built-in
+    symbols.  */
 void symbols_new (void);
 
 /** Free all the memory allocated for symbols and semantic types.  */
