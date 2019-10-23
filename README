@@ -4,7 +4,7 @@ This package contains the GNU Bison parser generator.
 ## Build from git
 Here are basic installation instructions for a repository checkout:
 
-    $ git submodules update --init
+    $ git submodule update --init
     $ ./bootstrap
 
 then proceed with the usual 'configure && make' steps.
