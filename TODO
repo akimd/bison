@@ -105,6 +105,10 @@ Rename these guys as "diagnostics.*" (or "diagnose.*"), since that's the
 name they have in gcc, clang, etc.  Likewise for the complain_* series of
 functions.
 
+*** ritem
+states/nstates, rules/nrules, ..., ritem/nritems
+Fix the latter.
+
 * Modernization
 Fix data/skeletons/yacc.c so that it defines YYPTRDIFF_T properly for modern
 and older C++ compilers.  Currently the code defaults to defining it to
