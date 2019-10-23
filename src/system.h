@@ -74,6 +74,20 @@ typedef size_t uintptr_t;
 # include <xalloc.h>
 
 
+/* See https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html. */
+#if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ < 5
+/* Suppress an incorrect diagnostic about yylval being uninitialized.  */
+# define IGNORE_TYPE_LIMITS_BEGIN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wtype-limits\"")
+# define IGNORE_TYPE_LIMITS_END \
+    _Pragma ("GCC diagnostic pop")
+#else
+# define IGNORE_TYPE_LIMITS_BEGIN
+# define IGNORE_TYPE_LIMITS_END
+#endif
+
+
 /*-----------------.
 | GCC extensions.  |
 `-----------------*/

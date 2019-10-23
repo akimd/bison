@@ -96,14 +96,11 @@ AM_CONDITIONAL([ENABLE_GCC_WARNINGS], [test "$enable_gcc_warnings" = yes])
 if test "$enable_gcc_warnings" = yes; then
   # -Wno-tautological-constant-out-of-range-compare for Clang 3.3 and
   # 3.4 on GNU/Linux that choke on intprops.h's INT_MULTIPLY_WRAPV,
-  # etc.  It's also for these macros, but on GCC 7, 8 and 9 on macOS
-  # and GCC 4.6, 4.7 and 4.9 on GNU/Linux, that we disable
-  # -Wtype-limits globally.  See
-  # https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html.
+  # etc.
   warn_common='-Wall -Wextra -Wcast-align
     -fparse-all-comments -Wdocumentation
     -Wformat -Wimplicit-fallthrough -Wnull-dereference
-    -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare -Wno-type-limits
+    -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare
     -Wpointer-arith -Wshadow
     -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wstrict-prototypes'
@@ -119,7 +116,7 @@ if test "$enable_gcc_warnings" = yes; then
   # details for lalr1.cc.
   warn_tests='-Wundef -pedantic -Wconversion
     -Wdeprecated -Wsign-compare -Wsign-conversion
-    -Wtautological-constant-out-of-range-compare -Wtype-limits
+    -Wtautological-constant-out-of-range-compare
     -fno-color-diagnostics
     -Wno-keyword-macro'
 
