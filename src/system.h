@@ -249,14 +249,4 @@ typedef size_t uintptr_t;
       }                                         \
   } while (0)
 
-
-/*---------------------------------------------.
-| Debugging memory allocation (must be last).  |
-`---------------------------------------------*/
-
-# if WITH_DMALLOC
-#  define DMALLOC_FUNC_CHECK
-#  include <dmalloc.h>
-# endif /* WITH_DMALLOC */
-
 #endif  /* ! BISON_SYSTEM_H */
