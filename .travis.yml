@@ -143,7 +143,7 @@ jobs:
     ## GCC.  ##
     ## ----- ##
 
-    - name: "GCC 8 with sanitizers"
+    - name: "GCC 8 with sanitizers part 1"
       os: linux
       dist: bionic
       addons:
@@ -151,6 +151,7 @@ jobs:
           packages: g++-8
       env:
         - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
+        - CONFIGUREFLAGS='CFLAGS=-O1 CXXFLAGS=-O1'
         - PART=1
 
     - name: "GCC 8"
