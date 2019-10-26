@@ -136,8 +136,8 @@
 {
   /* Bison's grammar can initial empty locations, hence a default
      location is needed. */
-  boundary_set (&@$.start, current_file, 1, 1, 1);
-  boundary_set (&@$.end, current_file, 1, 1, 1);
+  boundary_set (&@$.start, grammar_file, 1, 1, 1);
+  boundary_set (&@$.end, grammar_file, 1, 1, 1);
 }
 
 /* Define the tokens together with their human representation.  */
@@ -1033,16 +1033,16 @@ handle_skeleton (location const *loc, char const *skel)
   char const *skeleton_user = skel;
   if (strchr (skeleton_user, '/'))
     {
-      size_t dir_length = strlen (current_file);
-      while (dir_length && current_file[dir_length - 1] != '/')
+      size_t dir_length = strlen (grammar_file);
+      while (dir_length && grammar_file[dir_length - 1] != '/')
         --dir_length;
-      while (dir_length && current_file[dir_length - 1] == '/')
+      while (dir_length && grammar_file[dir_length - 1] == '/')
         --dir_length;
       char *skeleton_build =
         xmalloc (dir_length + 1 + strlen (skeleton_user) + 1);
       if (dir_length > 0)
         {
-          memcpy (skeleton_build, current_file, dir_length);
+          memcpy (skeleton_build, grammar_file, dir_length);
           skeleton_build[dir_length++] = '/';
         }
       strcpy (skeleton_build + dir_length, skeleton_user);
