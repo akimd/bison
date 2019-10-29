@@ -8,9 +8,10 @@ GNU Bison NEWS
   longer treated as end-of-lines.  This changes the diagnostics, and in
   particular their locations.
 
-  Line numbers and columns are now represented as 'int' not 'unsigned',
-  so that integer overflow on positions is easily checkable via 'gcc
-  -fsanitize=undefined' and the like.  This affects the API for positions.
+  In C++, line numbers and columns are now represented as 'int' not
+  'unsigned', so that integer overflow on positions is easily checkable via
+  'gcc -fsanitize=undefined' and the like.  This affects the API for
+  positions.
 
 ** Bug fixes
 

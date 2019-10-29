@@ -65,8 +65,8 @@ m4_define([b4_location_define],
   public:]m4_ifdef([b4_location_constructors], [[
     /// Construct a position.
     explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
-                       int l = ]b4_location_initial_line[u,
-                       int c = ]b4_location_initial_column[u)
+                       int l = ]b4_location_initial_line[,
+                       int c = ]b4_location_initial_column[)
       : filename (f)
       , line (l)
       , column (c)
@@ -75,8 +75,8 @@ m4_define([b4_location_define],
 ]])[
     /// Initialization.
     void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULLPTR,
-                     int l = ]b4_location_initial_line[u,
-                     int c = ]b4_location_initial_column[u)
+                     int l = ]b4_location_initial_line[,
+                     int c = ]b4_location_initial_column[)
     {
       filename = fn;
       line = l;
@@ -90,7 +90,7 @@ m4_define([b4_location_define],
     {
       if (count)
         {
-          column = ]b4_location_initial_column[u;
+          column = ]b4_location_initial_column[;
           line = add_ (line, count, ]b4_location_initial_line[);
         }
     }
@@ -196,8 +196,8 @@ m4_define([b4_location_define],
 
     /// Construct a 0-width location in \a f, \a l, \a c.
     explicit location (]b4_percent_define_get([[filename_type]])[* f,
-                       int l = ]b4_location_initial_line[u,
-                       int c = ]b4_location_initial_column[u)
+                       int l = ]b4_location_initial_line[,
+                       int c = ]b4_location_initial_column[)
       : begin (f, l, c)
       , end (f, l, c)
     {}
@@ -205,8 +205,8 @@ m4_define([b4_location_define],
 ])[
     /// Initialization.
     void initialize (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
-                     int l = ]b4_location_initial_line[u,
-                     int c = ]b4_location_initial_column[u)
+                     int l = ]b4_location_initial_line[,
+                     int c = ]b4_location_initial_column[)
     {
       begin.initialize (f, l, c);
       end = begin;

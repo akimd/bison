@@ -53,6 +53,7 @@ file", or "end of input", whatever.  See how lalr1.java does that.
 ** api.token.raw
 Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
 semantic value so that yyerror could be used to report invalid lexemes.
+See also the item "$undefined" below.
 
 * Bison 3.6
 ** Unit rules / Injection rules (Akim Demaille)
@@ -177,6 +178,8 @@ in black, so it doesn't show in my terminal :-)
         ^
     1 error generated.
 
+See also the item "Complaint submessage indentation" below.
+
 ** Better design for diagnostics
 The current implementation of diagnostics is adhoc, it grew organically.  It
 works as a series of calls to several functions, with dependency of the
@@ -212,7 +215,7 @@ page:
 https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html
 
 ** consistency
-token vs terminal
+token vs terminal, variable vs non terminal.
 
 ** C++
 Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
@@ -543,7 +546,7 @@ Paul notes:
         tokens, either via escapes (e.g., "x\0y") or via a NUL byte in
         the source code.  This should get fixed.
 
-* Broken options ?
+* Broken options?
 ** %token-table
 ** Skeleton strategy
 Must we keep %token-table?
