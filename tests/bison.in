@@ -37,7 +37,7 @@ fi
 # We redirect stderr, which breaks the computation of the terminal
 # screen width.  So export COLUMNS to Bison, hoping for the shell to
 # have defined it.
-: ${COLUMNS=`tput cols || echo 132`}
+: ${COLUMNS=`(tput cols) 2>/dev/null || echo 132`}
 export COLUMNS
 $PREBISON "$abs_top_builddir/src/bison" ${1+"$@"} 2>"$stderr"
 status=$?
