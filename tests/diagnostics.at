@@ -1,4 +1,4 @@
-# Checking diagnotics.                               -*- Autotest -*-
+# Checking diagnostics.                              -*- Autotest -*-
 
 # Copyright (C) 2019 Free Software Foundation, Inc.
 
@@ -30,7 +30,8 @@ AT_KEYWORDS([diagnostics])
 
 # We need UTF-8 support for correct screen-width computation of UTF-8
 # characters.  Skip the test if not available.
-AT_SKIP_IF([! locale -a | grep '^en_US.UTF-8$'])
+locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
+AT_SKIP_IF([test x == x"$locale"])
 
 AT_BISON_OPTION_PUSHDEFS
 
@@ -45,7 +46,7 @@ fi
 
 AT_DATA([experr], [$4])
 
-AT_CHECK([LC_ALL=en_US.UTF-8 $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL="$locale" $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
 AT_PERL_REQUIRE([-pi -e 's{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
@@ -53,7 +54,7 @@ AT_PERL_REQUIRE([-pi -e 's{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' expe
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
 # FIXME: Enhance AT_BISON_CHECK.
-AT_CHECK([LC_ALL=en_US.UTF-8 $5 bison -fcaret -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL="$locale" $5 bison -fcaret -Wall input.y], [$3], [], [experr])
 
 
 AT_BISON_OPTION_POPDEFS
