@@ -772,10 +772,10 @@ static
   static int counter = 0;
 
   int c = ]AT_VAL[]m4_ifval([$6], [.ival])[ = counter++;
+  assert (c <= YY_CAST (int, strlen (source)));
   /* As in BASIC, line numbers go from 10 to 10.  */
   ]AT_LOC_FIRST_LINE[ = ]AT_LOC_FIRST_COLUMN[ = (10 * c);
   ]AT_LOC_LAST_LINE[ = ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_LINE[ + 9;
-  assert (c <= (int) strlen (source));
   if (source[c])
     fprintf (stderr, "sending: '%c'", source[c]);
   else
@@ -1780,7 +1780,8 @@ float: UNTYPED INT
                                  yy::parser::token::INT,
                                   EOF}]],
                                [[{UNTYPED, INT, EOF}]]),
-                 [AT_VAL.ival = (int) toknum * 10; AT_VAL.fval = (float) toknum / 10.0f;])[
+                 [AT_VAL.ival = YY_CAST (int, toknum) * 10;
+                  AT_VAL.fval = YY_CAST (float, toknum) / 10.0f;])[
 ]AT_MAIN_DEFINE[
 ]])
 
@@ -1805,7 +1806,6 @@ AT_CLEANUP
 ])
 
 m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
-
 m4_popdef([AT_TEST])
 
 ## -------------------------------------------------- ##
@@ -1897,7 +1897,7 @@ exp:
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(["bcd"], [*lvalp = (int) ((toknum + 1) * 10)])[
+]AT_YYLEX_DEFINE(["bcd"], [*lvalp = YY_CAST (int, (toknum + 1) * 10)])[
 ]AT_MAIN_DEFINE[
 ]])
 AT_BISON_OPTION_POPDEFS

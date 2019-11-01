@@ -174,6 +174,7 @@ m4_define([b4_shared_declarations],
 ]b4_variant_if([b4_variant_includes])[
 
 ]b4_attribute_define[
+]b4_cast_define[
 ]b4_null_define[
 
 ]b4_YYDEBUG_define[
@@ -1195,10 +1196,10 @@ b4_dollar_popdef])[]dnl
         {
           std::ptrdiff_t yylen = yyr2_[yyrule];
           // First pop from the LAC stack as many tokens as possible.
-          std::ptrdiff_t lac_size = (std::ptrdiff_t) yylac_stack_.size ();
+          std::ptrdiff_t lac_size = std::ptrdiff_t (yylac_stack_.size ());
           if (yylen < lac_size)
             {
-              yylac_stack_.resize ((std::size_t) (lac_size - yylen));
+              yylac_stack_.resize (std::size_t (lac_size - yylen));
               yylen = 0;
             }
           else if (lac_size)

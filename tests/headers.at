@@ -322,6 +322,7 @@ AT_PERL_CHECK([[-n -0777 -e '
       |YYPUSH_MORE(?:_DEFINED)?
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)
+      |YY(?:_REINTERPRET)?_CAST
       |YY_CONSTEXPR
       |YY_COPY
       |YY_CPLUSPLUS

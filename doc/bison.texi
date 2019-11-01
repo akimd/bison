@@ -12251,10 +12251,12 @@ then the parser's to get the set of defined tokens.
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 
-// Of course, when compiling C as C++, expect warnings about NULL.
+// This example uses Flex's C backend, yet compiles it as C++.
+// So expect warnings about C style casts and NULL.
 #if defined __clang__
 # pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
 #elif defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+# pragma GCC diagnostic ignored "-Wold-style-cast"
 # pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #endif
 

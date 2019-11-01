@@ -153,7 +153,7 @@ var_list:
     { $$ = $1; }
   | var ',' var_list
     {
-      char *s = (char *) realloc ($1, strlen ($1) + 1 + strlen ($3) + 1);
+      char *s = YY_CAST (char *, realloc ($1, strlen ($1) + 1 + strlen ($3) + 1));
       strcat (s, ",");
       strcat (s, $3);
       free ($3);
@@ -172,7 +172,6 @@ int
 yylex (void)
 {
   char buf[50];
-  char *s;
   assert (!feof (stdin));
   switch (fscanf (input, " %1[a-z,]", buf))
   {
@@ -181,15 +180,19 @@ yylex (void)
   case EOF:
     return 0;
   default:
+    if (fscanf (input, "%49s", buf) != 1)
+      return 0;
+    else
+      {
+        char *s;
+        assert (strlen (buf) < sizeof buf - 1);
+        s = YY_CAST (char *, malloc (strlen (buf) + 1));
+        strcpy (s, buf);
+        yylval = s;
+        return 'V';
+      }
     break;
   }
-  if (fscanf (input, "%49s", buf) != 1)
-    return 0;
-  assert (strlen (buf) < sizeof buf - 1);
-  s = (char *) malloc (strlen (buf) + 1);
-  strcpy (s, buf);
-  yylval = s;
-  return 'V';
 }
 
 int
@@ -419,7 +422,7 @@ make_value (char const *parent, char const *child)
 {
   char const format[] = "%s <- %s";
   char *value = *ptrs_next++ =
-    (char *) malloc (strlen (parent) + strlen (child) + sizeof format);
+    YY_CAST (char *, malloc (strlen (parent) + strlen (child) + sizeof format));
   sprintf (value, format, parent, child);
   return value;
 }
@@ -429,7 +432,7 @@ merge (YYSTYPE s1, YYSTYPE s2)
 {
   char const format[] = "merge{ %s and %s }";
   char *value = *ptrs_next++ =
-    (char *) malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format);
+    YY_CAST (char *, malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format));
   sprintf (value, format, s1.ptr, s2.ptr);
   return value;
 }
@@ -601,7 +604,7 @@ stack2: 'a' ;
 static int
 yylex (void)
 {
-  yylval.node = (count_node*) malloc (sizeof *yylval.node);
+  yylval.node = YY_CAST (count_node*, malloc (sizeof *yylval.node));
   if (!yylval.node)
     {
       fprintf (stderr, "Test inconclusive.\n");
@@ -1118,7 +1121,7 @@ change_lookahead:
 
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["ab"],
-                 [yylval.value = (char) (res + 'A' - 'a')])[
+                 [yylval.value = YY_CAST (char, res + 'A' - 'a')])[
 
 static void
 print_lookahead (char const *reduction)
@@ -1319,10 +1322,10 @@ yylex (void)
 {
   static char const input[] = "abcdddd";
   static int toknum = 0;
-  assert (toknum < (int) sizeof input);
+  assert (toknum < YY_CAST (int, sizeof input));
   yylloc.first_line = yylloc.last_line = 1;
   yylloc.first_column = yylloc.last_column = toknum + 1;
-  yylval.value = (char) (input[toknum] + 'A' - 'a');
+  yylval.value = YY_CAST (char, input[toknum] + 'A' - 'a');
   return input[toknum++];
 }
 
@@ -1349,7 +1352,7 @@ print_lookahead (char const *reduction)
 static char
 merge (union YYSTYPE s1, union YYSTYPE s2)
 {
-  return (char) (s1.value + s2.value);
+  return YY_CAST (char, s1.value + s2.value);
 }
 
 int
@@ -1577,7 +1580,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
   static char const input[] = "ab";
   static int toknum = 0;
-  assert (toknum < (int) sizeof input);
+  assert (toknum < YY_CAST (int, sizeof input));
   lvalp->dummy = 0;
   llocp->first_line = llocp->last_line = 2;
   llocp->first_column = toknum + 1;

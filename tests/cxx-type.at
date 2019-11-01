@@ -178,7 +178,7 @@ main (int argc, char **argv)
 
                 do
                   {
-                    buffer[i++] = (char) c;
+                    buffer[i++] = YY_CAST (char, c);
                     colNum += 1;
                     assert (i != sizeof buffer - 1);
                     c = getchar ();
@@ -187,8 +187,8 @@ main (int argc, char **argv)
 
                 ungetc (c, stdin);
                 buffer[i++] = 0;
-                tok = isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
-                yylval = new_term (strcpy ((char *) malloc (i), buffer));
+                tok = isupper (YY_CAST (unsigned char, buffer[0])) ? TYPENAME : ID;
+                yylval = new_term (strcpy (YY_CAST (char *, malloc (i)), buffer));
               }
             else
               {
@@ -206,7 +206,7 @@ main (int argc, char **argv)
 static Node *
 new_nterm (char const *form, Node *child0, Node *child1, Node *child2)
 {
-  Node *node = (Node *) malloc (sizeof (Node));
+  Node *node = YY_CAST (Node *, malloc (sizeof (Node)));
   node->nterm.isNterm = 1;
   node->nterm.parents = 0;
   node->nterm.form = form;
@@ -225,7 +225,7 @@ new_nterm (char const *form, Node *child0, Node *child1, Node *child2)
 static Node *
 new_term (char *text)
 {
-  Node *node = (Node *) malloc (sizeof (Node));
+  Node *node = YY_CAST (Node *, malloc (sizeof (Node)));
   node->term.isNterm = 0;
   node->term.parents = 0;
   node->term.text = text;
@@ -255,30 +255,27 @@ free_node (Node *node)
 static char *
 node_to_string (Node *node)
 {
-  char *child0;
-  char *child1;
-  char *child2;
-  char *buffer;
+  char *res;
   if (!node)
     {
-      buffer = (char *) malloc (1);
-      buffer[0] = 0;
+      res = YY_CAST (char *, malloc (1));
+      res[0] = 0;
     }
   else if (node->nodeInfo.isNterm == 1)
     {
-      child0 = node_to_string (node->nterm.children[0]);
-      child1 = node_to_string (node->nterm.children[1]);
-      child2 = node_to_string (node->nterm.children[2]);
-      buffer = (char *) malloc (strlen (node->nterm.form) + strlen (child0)
-                                + strlen (child1) + strlen (child2) + 1);
-      sprintf (buffer, node->nterm.form, child0, child1, child2);
-      free (child0);
-      free (child1);
+      char *child0 = node_to_string (node->nterm.children[0]);
+      char *child1 = node_to_string (node->nterm.children[1]);
+      char *child2 = node_to_string (node->nterm.children[2]);
+      res = YY_CAST (char *, malloc (strlen (node->nterm.form) + strlen (child0)
+                                     + strlen (child1) + strlen (child2) + 1));
+      sprintf (res, node->nterm.form, child0, child1, child2);
       free (child2);
+      free (child1);
+      free (child0);
     }
   else
-    buffer = strdup (node->term.text);
-  return buffer;
+    res = strdup (node->term.text);
+  return res;
 }
 
 ]]

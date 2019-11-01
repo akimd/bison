@@ -107,7 +107,8 @@ if test "$enable_gcc_warnings" = yes; then
     -Wpointer-arith -Wshadow
     -Wwrite-strings'
   warn_c='-Wbad-function-cast -Wstrict-prototypes'
-  warn_cxx='-Wextra-semi -Wnoexcept -Wundefined-func-template -Wweak-vtables'
+  warn_cxx='-Wextra-semi -Wnoexcept -Wold-style-cast -Wundefined-func-template
+    -Wweak-vtables'
   # Warnings for the test suite only.
   #
   # -fno-color-diagnostics: Clang's use of colors in the error

@@ -346,6 +346,21 @@ m4_define([b4_attribute_define],
 ]])
 
 
+# b4_cast_define
+# --------------
+m4_define([b4_cast_define],
+[# ifndef YY_CAST
+#  ifdef __cplusplus
+#   define YY_CAST(Type, Val) static_cast<Type> (Val)
+#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
+#  else
+#   define YY_CAST(Type, Val) ((Type) (Val))
+#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
+#  endif
+# endif[]dnl
+])
+
+
 # b4_null_define
 # --------------
 # Portability issues: define a YY_NULLPTR appropriate for the current

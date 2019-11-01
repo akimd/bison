@@ -446,7 +446,7 @@ get_args (int argc, const char **argv)
   assert (0 <= res);
   assert (res <= INT_MAX);
   assert (errno != ERANGE);
-  return (int) res;
+  return YY_CAST (int, res);
 }
 
 int

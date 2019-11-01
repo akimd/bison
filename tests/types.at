@@ -166,7 +166,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           [if (res)
              {
                AT_VAL.ival = (res - '0') * 10;
-               AT_VAL.fval = (float) (res - '0') / 10.f;
+               AT_VAL.fval = YY_CAST (float, res - '0') / 10.f;
              }],
           [30 0.3])
 
@@ -197,7 +197,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
           ["12"],
           [if (res)
              {
-               AT_VAL.up = (struct u *) malloc (sizeof *AT_VAL.up);
+               AT_VAL.up = YY_CAST (struct u *, malloc (sizeof *AT_VAL.up));
                assert (AT_VAL.up);
                AT_VAL.up->ival = res - '0';
              }

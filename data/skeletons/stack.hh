@@ -90,10 +90,11 @@ m4_define([b4_stack_define],
       {
         return index_type (seq_.size ());
       }
+
       std::ptrdiff_t
       ssize () const YY_NOEXCEPT
       {
-        return (std::ptrdiff_t) size ();
+        return std::ptrdiff_t (size ());
       }
 
       /// Iterator on top of the stack (going downwards).
