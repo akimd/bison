@@ -233,49 +233,26 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ]])
 
 
-## ------------------- ##
-## Locations from M4.  ##
-## ------------------- ##
+## -------------------- ##
+## Complaints from M4.  ##
+## -------------------- ##
 
-# Locations coming from m4 need the byte-column for diagnostics.
+# Complaints issued m4 need complete locations (byte and column) for
+# diagnostics.
 
-AT_TEST([[Locations from M4]],
-[[%define api.prefix {foo}
-%define api.prefix {bar}
+AT_TEST([[Complaints from M4]],
+[[%define error1		{e}
+%define error2		{é}
 %%
-exp:;
+exp: %empty;
 ]],
 [1],
-[[input.y:10.1-24: <error>error:</error> %define variable 'api.prefix' redefined
-   10 | <error>%define api.prefix {bar}</error>
-      | <error>^~~~~~~~~~~~~~~~~~~~~~~~</error>
-input.y:9.1-24:      previous definition
-    9 | <note>%define api.prefix {foo}</note>
-      | <note>^~~~~~~~~~~~~~~~~~~~~~~~</note>
-input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
-]])
-
-
-## ---------------------------------------------- ##
-## Tabulations and multibyte characters from M4.  ##
-## ---------------------------------------------- ##
-
-# Locations coming from m4 need the byte-column for diagnostics.
-
-AT_TEST([[Tabulations and multibyte characters from M4]],
-[[%define api.prefix		{sun}
-%define api.prefix		{🌞}
-%%
-exp:;
-]],
-[1],
-[[input.y:10.1-35: <error>error:</error> %define variable 'api.prefix' redefined
-   10 | <error>%define api.prefix		{🌞}</error>
-      | <error>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</error>
-input.y:9.1-37:      previous definition
-    9 | <note>%define api.prefix		{sun}</note>
-      | <note>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</note>
-input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+[[input.y:9.1-27: <error>error:</error> %define variable 'error1' is not used
+    9 | <error>%define error1		{e}</error>
+      | <error>^~~~~~~~~~~~~~~~~~~~~~~~~~~</error>
+input.y:10.1-27: <error>error:</error> %define variable 'error2' is not used
+   10 | <error>%define error2		{é}</error>
+      | <error>^~~~~~~~~~~~~~~~~~~~~~~~~~~</error>
 ]])
 
 
