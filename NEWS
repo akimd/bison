@@ -14,7 +14,8 @@ GNU Bison NEWS
   In C++, line numbers and columns are now represented as 'int' not
   'unsigned', so that integer overflow on positions is easily checkable via
   'gcc -fsanitize=undefined' and the like.  This affects the API for
-  positions.
+  positions.  The default position and location classes now expose
+  'counter_type' (int), used to define line and column numbers.
 
 ** Bug fixes
 

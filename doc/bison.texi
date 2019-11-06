@@ -11453,8 +11453,8 @@ is some time and/or some talented C++ hacker willing to contribute to Bison.
 @node C++ Location Values
 @subsection C++ Location Values
 @c - %locations
-@c - class Position
-@c - class Location
+@c - class position
+@c - class location
 @c - %define filename_type "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
@@ -11462,9 +11462,9 @@ location tracking, see @ref{Tracking Locations}.
 
 By default, two auxiliary classes define a @code{position}, a single point
 in a file, and a @code{location}, a range composed of a pair of
-@code{position}s (possibly spanning several files).  But if the
-@code{%define} variable @code{api.location.type} is defined, then these
-classes will not be generated, and the user defined type will be used.
+@code{position}s (possibly spanning several files).  If the @code{%define}
+variable @code{api.location.type} is defined, then these classes will not be
+generated, and the user defined type will be used.
 
 @menu
 * C++ position::         One point in the source file
@@ -11477,13 +11477,17 @@ classes will not be generated, and the user defined type will be used.
 @node C++ position
 @subsubsection C++ @code{position}
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, int @var{line} = 1, int @var{col} = 1)
+@defcv {Type} {position} {counter_type}
+The type used to store line and column numbers.  Defined as @code{int}.
+@end defcv
+
+@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, counter_type @var{line} = 1, counter_type @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, int @var{line} = 1, int @var{col} = 1)
+@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, counter_type @var{line} = 1, counter_type @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
@@ -11494,28 +11498,28 @@ change it to @samp{@var{type}*} using @samp{%define filename_type
 "@var{type}"}.
 @end deftypeivar
 
-@deftypeivar {position} {int} line
+@deftypeivar {position} {counter_type} line
 The line, starting at 1.
 @end deftypeivar
 
-@deftypemethod {position} {void} lines (int @var{height} = 1)
+@deftypemethod {position} {void} lines (counter_type @var{height} = 1)
 If @var{height} is not null, advance by @var{height} lines, resetting the
 column number.  The resulting line number cannot be less than 1.
 @end deftypemethod
 
-@deftypeivar {position} {int} column
+@deftypeivar {position} {counter_type} column
 The column, starting at 1.
 @end deftypeivar
 
-@deftypemethod {position} {void} columns (int @var{width} = 1)
+@deftypemethod {position} {void} columns (counter_type @var{width} = 1)
 Advance by @var{width} columns, without changing the line number. The
 resulting column number cannot be less than 1.
 @end deftypemethod
 
-@deftypemethod {position} {position&} operator+= (int @var{width})
-@deftypemethodx {position} {position} operator+ (int @var{width})
-@deftypemethodx {position} {position&} operator-= (int @var{width})
-@deftypemethodx {position} {position} operator- (int @var{width})
+@deftypemethod {position} {position&} operator+= (counter_type @var{width})
+@deftypemethodx {position} {position} operator+ (counter_type @var{width})
+@deftypemethodx {position} {position&} operator-= (counter_type @var{width})
+@deftypemethodx {position} {position} operator- (counter_type @var{width})
 Various forms of syntactic sugar for @code{columns}.
 @end deftypemethod
 
@@ -11538,11 +11542,11 @@ Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
 @deftypeop {Constructor} {location} {} location (const position& @var{pos} = position())
-@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, int @var{line}, int @var{col})
+@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, counter_type @var{line}, counter_type @var{col})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, int @var{line} = 1, int @var{col} = 1)
+@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, counter_type @var{line} = 1, counter_type @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
@@ -11551,15 +11555,15 @@ Reset the location to an empty range at the given values.
 The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
-@deftypemethod {location} {void} columns (int @var{width} = 1)
-@deftypemethodx {location} {void} lines (int @var{height} = 1)
+@deftypemethod {location} {void} columns (counter_type @var{width} = 1)
+@deftypemethodx {location} {void} lines (counter_type @var{height} = 1)
 Forwarded to the @code{end} position.
 @end deftypemethod
 
-@deftypemethod  {location} {location} operator+  (int @var{width})
-@deftypemethodx {location} {location} operator+= (int @var{width})
-@deftypemethodx {location} {location} operator-  (int @var{width})
-@deftypemethodx {location} {location} operator-= (int @var{width})
+@deftypemethod  {location} {location} operator+  (counter_type @var{width})
+@deftypemethodx {location} {location} operator+= (counter_type @var{width})
+@deftypemethodx {location} {location} operator-  (counter_type @var{width})
+@deftypemethodx {location} {location} operator-= (counter_type @var{width})
 Various forms of syntactic sugar for @code{columns}.
 @end deftypemethod
 
