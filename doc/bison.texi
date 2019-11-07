@@ -4910,7 +4910,7 @@ the literal string at the end of a @code{%token} declaration which declares
 the name.  For example:
 
 @example
-%token arrow "=>"
+%token ARROW "=>"
 @end example
 
 @noindent
