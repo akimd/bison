@@ -6858,7 +6858,7 @@ write an action which directs @code{yyparse} to return immediately
 without reading further.
 
 
-@deftypefun int yyparse (void)
+@deftypefun int yyparse (@code{void})
 The value returned by @code{yyparse} is 0 if parsing was successful (return
 is due to end-of-input).
 
@@ -6950,7 +6950,7 @@ function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun int yypush_parse (yypstate *@var{yyps})
+@deftypefun int yypush_parse (@code{yypstate *}@var{yyps})
 The value returned by @code{yypush_parse} is the same as for @code{yyparse}
 with the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
@@ -6973,7 +6973,7 @@ stream.  This function is available if the @samp{%define api.push-pull both}
 declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun int yypull_parse (yypstate *@var{yyps})
+@deftypefun int yypull_parse (@code{yypstate *}@var{yyps})
 The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 
 The parser instance @code{yyps} may be reused for new parses.
@@ -6988,7 +6988,7 @@ This function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun {yypstate*} yypstate_new (void)
+@deftypefun {yypstate*} yypstate_new (@code{void})
 The function will return a valid parser instance if there was memory available
 or 0 if no memory was available.
 In impure mode, it will also return 0 if a parser instance is currently
@@ -7004,7 +7004,7 @@ function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl, ,A Push Parser}.
 
-@deftypefun void yypstate_delete (yypstate *@var{yyps})
+@deftypefun void yypstate_delete (@code{yypstate *}@var{yyps})
 This function will reclaim the memory associated with a parser instance.
 After this call, you should no longer attempt to use the parser instance.
 @end deftypefun
@@ -11279,8 +11279,8 @@ Build a new parser object.  There are no arguments, unless
 @samp{%parse-param @{@var{type1} @var{arg1}@}} was used.
 @end deftypeop
 
-@deftypeop {Constructor} {syntax_error} {} syntax_error (const location_type& @var{l}, const std::string& @var{m})
-@deftypeopx {Constructor}  {syntax_error} {} syntax_error (const std::string& @var{m})
+@deftypeop {Constructor} {syntax_error} {} syntax_error (@code{const location_type&} @var{l}, @code{const std::string&} @var{m})
+@deftypeopx {Constructor}  {syntax_error} {} syntax_error (@code{const std::string&} @var{m})
 Instantiate a syntax-error exception.
 @end deftypeop
 
@@ -11300,7 +11300,7 @@ Exception related code in the generated parser is protected by CPP guards
 @end deftypemethod
 
 @deftypemethod {parser} {std::ostream&} debug_stream ()
-@deftypemethodx {parser} {void} set_debug_stream (std::ostream& @var{o})
+@deftypemethodx {parser} {void} set_debug_stream (@code{std::ostream&} @var{o})
 Get or set the stream used for tracing the parsing.  It defaults to
 @code{std::cerr}.
 @end deftypemethod
@@ -11311,8 +11311,8 @@ Get or set the tracing level (an integral).  Currently its value is either
 0, no trace, or nonzero, full tracing.
 @end deftypemethod
 
-@deftypemethod {parser} {void} error (const location_type& @var{l}, const std::string& @var{m})
-@deftypemethodx {parser} {void} error (const std::string& @var{m})
+@deftypemethod {parser} {void} error (@code{const location_type&} @var{l}, @code{const std::string&} @var{m})
+@deftypemethodx {parser} {void} error (@code{const std::string&} @var{m})
 The definition for this member function must be supplied by the user: the
 parser uses it to report a parser error occurring at @var{l}, described by
 @var{m}.  If location tracking is not enabled, the second signature is used.
@@ -11407,14 +11407,14 @@ of alternative types such as @samp{$<int>2} or @samp{$<std::string>$}, even
 in midrule actions.  It is mandatory to use typed midrule actions
 (@pxref{Typed Midrule Actions}).
 
-@deftypemethod {semantic_type} {T&} emplace<T> ()
-@deftypemethodx {semantic_type} {T&} emplace<T> (const T& @var{t})
+@deftypemethod {semantic_type} {T&} {emplace<T>} ()
+@deftypemethodx {semantic_type} {T&} {emplace<T>} (@code{const T&} @var{t})
 Available in C++98/C++03 only.  Default construct/copy-construct from
 @var{t}.  Return a reference to where the actual value may be stored.
 Requires that the variant was not initialized yet.
 @end deftypemethod
 
-@deftypemethod {semantic_type} {T&} emplace<T, U> (U&&... @var{u})
+@deftypemethod {semantic_type} {T&} {emplace<T, U>} (@code{U&&...} @var{u})
 Available in C++11 and later only.  Build a variant of type @code{T} from
 the variadic forwarding references @var{u...}.
 @end deftypemethod
@@ -11481,13 +11481,13 @@ generated, and the user defined type will be used.
 The type used to store line and column numbers.  Defined as @code{int}.
 @end defcv
 
-@deftypeop {Constructor} {position} {} position (std::string* @var{file} = nullptr, counter_type @var{line} = 1, counter_type @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (@code{std::string*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (std::string* @var{file} = nullptr, counter_type @var{line} = 1, counter_type @var{col} = 1)
+@deftypemethod {position} {void} initialize (@code{std::string*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
@@ -11502,7 +11502,7 @@ change it to @samp{@var{type}*} using @samp{%define filename_type
 The line, starting at 1.
 @end deftypeivar
 
-@deftypemethod {position} {void} lines (counter_type @var{height} = 1)
+@deftypemethod {position} {void} lines (@code{counter_type} @var{height} = 1)
 If @var{height} is not null, advance by @var{height} lines, resetting the
 column number.  The resulting line number cannot be less than 1.
 @end deftypemethod
@@ -11511,24 +11511,24 @@ column number.  The resulting line number cannot be less than 1.
 The column, starting at 1.
 @end deftypeivar
 
-@deftypemethod {position} {void} columns (counter_type @var{width} = 1)
+@deftypemethod {position} {void} columns (@code{counter_type} @var{width} = 1)
 Advance by @var{width} columns, without changing the line number. The
 resulting column number cannot be less than 1.
 @end deftypemethod
 
-@deftypemethod {position} {position&} operator+= (counter_type @var{width})
-@deftypemethodx {position} {position} operator+ (counter_type @var{width})
-@deftypemethodx {position} {position&} operator-= (counter_type @var{width})
-@deftypemethodx {position} {position} operator- (counter_type @var{width})
+@deftypemethod {position} {position&} operator+= (@code{counter_type} @var{width})
+@deftypemethodx {position} {position} operator+ (@code{counter_type} @var{width})
+@deftypemethodx {position} {position&} operator-= (@code{counter_type} @var{width})
+@deftypemethodx {position} {position} operator- (@code{counter_type} @var{width})
 Various forms of syntactic sugar for @code{columns}.
 @end deftypemethod
 
-@deftypemethod {position} {bool} operator== (const position& @var{that})
-@deftypemethodx {position} {bool} operator!= (const position& @var{that})
+@deftypemethod {position} {bool} operator== (@code{const position&} @var{that})
+@deftypemethodx {position} {bool} operator!= (@code{const position&} @var{that})
 Whether @code{*this} and @code{that} denote equal/different positions.
 @end deftypemethod
 
-@deftypefun {std::ostream&} operator<< (std::ostream& @var{o}, const position& @var{p})
+@deftypefun {std::ostream&} operator<< (@code{std::ostream&} @var{o}, @code{const position&} @var{p})
 Report @var{p} on @var{o} like this:
 @samp{@var{file}:@var{line}.@var{column}}, or
 @samp{@var{line}.@var{column}} if @var{file} is null.
@@ -11537,16 +11537,16 @@ Report @var{p} on @var{o} like this:
 @node C++ location
 @subsubsection C++ @code{location}
 
-@deftypeop {Constructor} {location} {} location (const position& @var{begin}, const position& @var{end})
+@deftypeop {Constructor} {location} {} location (@code{const position&} @var{begin}, @code{const position&} @var{end})
 Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
-@deftypeop {Constructor} {location} {} location (const position& @var{pos} = position())
-@deftypeopx {Constructor} {location} {} location (std::string* @var{file}, counter_type @var{line}, counter_type @var{col})
+@deftypeop {Constructor} {location} {} location (@code{const position&} @var{pos} = position())
+@deftypeopx {Constructor} {location} {} location (@code{std::string*} @var{file}, @code{counter_type} @var{line}, @code{counter_type} @var{col})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (std::string* @var{file} = nullptr, counter_type @var{line} = 1, counter_type @var{col} = 1)
+@deftypemethod {location} {void} initialize (@code{std::string*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 
@@ -11555,20 +11555,20 @@ Reset the location to an empty range at the given values.
 The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
-@deftypemethod {location} {void} columns (counter_type @var{width} = 1)
-@deftypemethodx {location} {void} lines (counter_type @var{height} = 1)
+@deftypemethod {location} {void} columns (@code{counter_type} @var{width} = 1)
+@deftypemethodx {location} {void} lines (@code{counter_type} @var{height} = 1)
 Forwarded to the @code{end} position.
 @end deftypemethod
 
-@deftypemethod  {location} {location} operator+  (counter_type @var{width})
-@deftypemethodx {location} {location} operator+= (counter_type @var{width})
-@deftypemethodx {location} {location} operator-  (counter_type @var{width})
-@deftypemethodx {location} {location} operator-= (counter_type @var{width})
+@deftypemethod  {location} {location} operator+  (@code{counter_type} @var{width})
+@deftypemethodx {location} {location} operator+= (@code{counter_type} @var{width})
+@deftypemethodx {location} {location} operator-  (@code{counter_type} @var{width})
+@deftypemethodx {location} {location} operator-= (@code{counter_type} @var{width})
 Various forms of syntactic sugar for @code{columns}.
 @end deftypemethod
 
-@deftypemethod {location} {location} operator+ (const location& @var{end})
-@deftypemethodx {location} {location} operator+= (const location& @var{end})
+@deftypemethod {location} {location} operator+ (@code{const location&} @var{end})
+@deftypemethodx {location} {location} operator+= (@code{const location&} @var{end})
 Join two locations: starts at the position of the first one, and ends at the
 position of the second.
 @end deftypemethod
@@ -11577,13 +11577,13 @@ position of the second.
 Move @code{begin} onto @code{end}.
 @end deftypemethod
 
-@deftypemethod {location} {bool} operator== (const location& @var{that})
-@deftypemethodx {location} {bool} operator!= (const location& @var{that})
+@deftypemethod {location} {bool} operator== (@code{const location&} @var{that})
+@deftypemethodx {location} {bool} operator!= (@code{const location&} @var{that})
 Whether @code{*this} and @code{that} denote equal/different ranges of
 positions.
 @end deftypemethod
 
-@deftypefun {std::ostream&} operator<< (std::ostream& @var{o}, const location& @var{p})
+@deftypefun {std::ostream&} operator<< (@code{std::ostream&} @var{o}, @code{const location&} @var{p})
 Report @var{p} on @var{o}, taking care of special cases such as: no
 @code{filename} defined, or equal filename/line or column.
 @end deftypefun
@@ -11716,8 +11716,8 @@ depends whether you use unions, or variants.
 
 The generated parser expects @code{yylex} to have the following prototype.
 
-@deftypefun {int} yylex (semantic_type* @var{yylval}, location_type* @var{yylloc}, @var{type1} @var{arg1}, ...)
-@deftypefunx {int} yylex (semantic_type* @var{yylval}, @var{type1} @var{arg1}, ...)
+@deftypefun {int} yylex (@code{semantic_type*} @var{yylval}, @code{location_type*} @var{yylloc}, @var{type1} @var{arg1}, @dots{})
+@deftypefunx {int} yylex (@code{semantic_type*} @var{yylval}, @var{type1} @var{arg1}, @dots{})
 Return the next token.  Its type is the return value, its semantic value and
 location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 @samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.
@@ -11776,7 +11776,7 @@ api.token.constructor}, the parser defines the type @code{symbol_type}, and
 expects @code{yylex} to have the following prototype.
 
 @deftypefun {parser::symbol_type} yylex ()
-@deftypefunx {parser::symbol_type} yylex (@var{type1} @var{arg1}, ...)
+@deftypefunx {parser::symbol_type} yylex (@var{type1} @var{arg1}, @dots{})
 Return a @emph{complete} symbol, aggregating its type (i.e., the traditional
 value returned by @code{yylex}), its semantic value, and possibly its
 location.  Invocations of @samp{%lex-param @{@var{type1} @var{arg1}@}} yield
@@ -11785,10 +11785,10 @@ additional arguments.
 
 For each token type, Bison generates named constructors as follows.
 
-@deftypeop  {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token}, const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token}, const location_type& @var{location})
-@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token}, const @var{value_type}& @var{value})
-@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (int @var{token})
+@deftypeop  {Constructor} {parser::symbol_type} {} {symbol_type} (@code{int} @var{token}, @code{const @var{value_type}&} @var{value}, @code{const location_type&} @var{location})
+@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (@code{int} @var{token}, @code{const location_type&} @var{location})
+@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (@code{int} @var{token}, @code{const @var{value_type}&} @var{value})
+@deftypeopx {Constructor} {parser::symbol_type} {} {symbol_type} (@code{int} @var{token})
 Build a complete terminal symbol for the token type @var{token} (including
 the @code{api.token.prefix}), whose semantic value, if it has one, is
 @var{value} of adequate @var{value_type}.  Pass the @var{location} iff
@@ -11842,9 +11842,9 @@ to the compiler).  Bison supports an alternative that guarantees that type
 incorrect code will not even compile.  Indeed, it generates @emph{named
 constructors} as follows.
 
-@deftypemethod {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value}, const location_type& @var{location})
-@deftypemethodx {parser} {symbol_type} {make_@var{token}} (const location_type& @var{location})
-@deftypemethodx {parser} {symbol_type} {make_@var{token}} (const @var{value_type}& @var{value})
+@deftypemethod {parser} {symbol_type} {make_@var{token}} (@code{const @var{value_type}&} @var{value}, @code{const location_type&} @var{location})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} (@code{const location_type&} @var{location})
+@deftypemethodx {parser} {symbol_type} {make_@var{token}} (@code{const @var{value_type}&} @var{value})
 @deftypemethodx {parser} {symbol_type} {make_@var{token}} ()
 Build a complete terminal symbol for the token type @var{token} (not
 including the @code{api.token.prefix}), whose semantic value, if it has one,
@@ -12607,11 +12607,11 @@ be supplied by the user.
 The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
-@deftypeop {Constructor} {Location} {} Location (Position @var{loc})
+@deftypeop {Constructor} {Location} {} Location (@code{Position} @var{loc})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypeop {Constructor} {Location} {} Location (Position @var{begin}, Position @var{end})
+@deftypeop {Constructor} {Location} {} Location (@code{Position} @var{begin}, @code{Position} @var{end})
 Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
@@ -12667,7 +12667,7 @@ body. This is especially useful to initialize superclasses. Use
 @samp{%define init_throws} to specify any uncaught exceptions.
 @end deftypeop
 
-@deftypeop {Constructor} {YYParser} {} YYParser (Lexer @var{lexer}, @var{parse_param}, @dots{})
+@deftypeop {Constructor} {YYParser} {} YYParser (@code{Lexer} @var{lexer}, @var{parse_param}, @dots{})
 Build a new parser object using the specified scanner.  There are no
 additional parameters unless @code{%param}s and/or @code{%parse-param}s are
 used.
@@ -12693,9 +12693,9 @@ available with @samp{%define parse.error verbose}, which also turns on
 verbose error messages.
 @end deftypemethod
 
-@deftypemethod {YYParser} {void} yyerror (String @var{msg})
-@deftypemethodx {YYParser} {void} yyerror (Position @var{pos}, String @var{msg})
-@deftypemethodx {YYParser} {void} yyerror (Location @var{loc}, String @var{msg})
+@deftypemethod {YYParser} {void} yyerror (@code{String} @var{msg})
+@deftypemethodx {YYParser} {void} yyerror (@code{Position} @var{pos}, @code{String} @var{msg})
+@deftypemethodx {YYParser} {void} yyerror (@code{Location} @var{loc}, @code{String} @var{msg})
 Print an error message using the @code{yyerror} method of the scanner
 instance in use. The @code{Location} and @code{Position} parameters are
 available only if location tracking is active.
@@ -12708,13 +12708,13 @@ from a syntax error.
 @end deftypemethod
 
 @deftypemethod {YYParser} {java.io.PrintStream} getDebugStream ()
-@deftypemethodx {YYParser} {void} setDebugStream (java.io.printStream @var{o})
+@deftypemethodx {YYParser} {void} setDebugStream (@code{java.io.printStream} @var{o})
 Get or set the stream used for tracing the parsing.  It defaults to
 @code{System.err}.
 @end deftypemethod
 
 @deftypemethod {YYParser} {int} getDebugLevel ()
-@deftypemethodx {YYParser} {void} setDebugLevel (int @var{l})
+@deftypemethodx {YYParser} {void} setDebugLevel (@code{int} @var{l})
 Get or set the tracing level.  Currently its value is either 0, no trace,
 or nonzero, full tracing.
 @end deftypemethod
@@ -12752,7 +12752,7 @@ case.
 
 In both cases, the scanner has to implement the following methods.
 
-@deftypemethod {Lexer} {void} yyerror (Location @var{loc}, String @var{msg})
+@deftypemethod {Lexer} {void} yyerror (@code{Location} @var{loc}, @code{String} @var{msg})
 This method is defined by the user to emit an error message.  The first
 parameter is omitted if location tracking is not active.  Its type can be
 changed using @code{%define api.location.type @{@var{class-name}@}}.
@@ -12854,9 +12854,9 @@ operation.
 @xref{Error Recovery}.
 @end deftypefn
 
-@deftypefn  {Function} {void} yyerror (String @var{msg})
-@deftypefnx {Function} {void} yyerror (Position @var{loc}, String @var{msg})
-@deftypefnx {Function} {void} yyerror (Location @var{loc}, String @var{msg})
+@deftypefn  {Function} {void} yyerror (@code{String} @var{msg})
+@deftypefnx {Function} {void} yyerror (@code{Position} @var{loc}, @code{String} @var{msg})
+@deftypefnx {Function} {void} yyerror (@code{Location} @var{loc}, @code{String} @var{msg})
 Print an error message using the @code{yyerror} method of the scanner
 instance in use. The @code{Location} and @code{Position} parameters are
 available only if location tracking is active.
@@ -12881,9 +12881,9 @@ Parser Interface}) applies to the push parser interface as well.
 When generating a push parser, the method @code{push_parse} is created with
 the following signature (depending on if locations are enabled).
 
-@deftypemethod {YYParser} {void} push_parse ({int} @var{token}, {Object} @var{yylval})
-@deftypemethodx {YYParser} {void} push_parse ({int} @var{token}, {Object} @var{yylval}, {Location} @var{yyloc})
-@deftypemethodx {YYParser} {void} push_parse ({int} @var{token}, {Object} @var{yylval}, {Position} @var{yypos})
+@deftypemethod {YYParser} {void} push_parse (@code{int} @var{token}, @code{Object} @var{yylval})
+@deftypemethodx {YYParser} {void} push_parse (@code{int} @var{token}, @code{Object} @var{yylval}, @code{Location} @var{yyloc})
+@deftypemethodx {YYParser} {void} push_parse (@code{int} @var{token}, @code{Object} @var{yylval}, @code{Position} @var{yypos})
 @end deftypemethod
 
 The primary difference with respect to a pull parser is that the parser
