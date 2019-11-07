@@ -7042,21 +7042,20 @@ Bison}.
 @node Calling Convention
 @subsection Calling Convention for @code{yylex}
 
-The value that @code{yylex} returns must be the positive numeric code
-for the type of token it has just found; a zero or negative value
-signifies end-of-input.
+The value that @code{yylex} returns must be the positive numeric code for
+the type of token it has just found; a zero or negative value signifies
+end-of-input.
 
-When a token is referred to in the grammar rules by a name, that name
-in the parser implementation file becomes a C macro whose definition
-is the proper numeric code for that token type.  So @code{yylex} can
-use the name to indicate that type.  @xref{Symbols}.
+When a token is referred to in the grammar rules by a name, that name in the
+parser implementation file becomes a C macro whose definition is the proper
+numeric code for that token type.  So @code{yylex} can use the name to
+indicate that type.  @xref{Symbols}.
 
-When a token is referred to in the grammar rules by a character literal,
-the numeric code for that character is also the code for the token type.
-So @code{yylex} can simply return that character code, possibly converted
-to @code{unsigned char} to avoid sign-extension.  The null character
-must not be used this way, because its code is zero and that
-signifies end-of-input.
+When a token is referred to in the grammar rules by a character literal, the
+numeric code for that character is also the code for the token type.  So
+@code{yylex} can simply return that character code, possibly converted to
+@code{unsigned char} to avoid sign-extension.  The null character must not
+be used this way, because its code is zero and that signifies end-of-input.
 
 Here is an example showing these things:
 
@@ -7091,17 +7090,16 @@ all others.  In this case, the use of the literal string tokens in
 the grammar file has no effect on @code{yylex}.
 
 @item
-@code{yylex} can find the multicharacter token in the @code{yytname}
-table.  The index of the token in the table is the token type's code.
-The name of a multicharacter token is recorded in @code{yytname} with a
-double-quote, the token's characters, and another double-quote.  The
-token's characters are escaped as necessary to be suitable as input
-to Bison.
+@code{yylex} can find the multicharacter token in the @code{yytname} table.
+The index of the token in the table is the token type's code.  The name of a
+multicharacter token is recorded in @code{yytname} with a double-quote, the
+token's characters, and another double-quote.  The token's characters are
+escaped as necessary to be suitable as input to Bison.
 
 Here's code for looking up a multicharacter token in @code{yytname},
-assuming that the characters of the token are stored in
-@code{token_buffer}, and assuming that the token does not contain any
-characters like @samp{"} that require escaping.
+assuming that the characters of the token are stored in @code{token_buffer},
+and assuming that the token does not contain any characters like @samp{"}
+that require escaping.
 
 @example
 for (int i = 0; i < YYNTOKENS; i++)
