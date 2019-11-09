@@ -54,6 +54,23 @@ $(CROSS_OPTIONS_TEXI): doc/bison.help $(CROSS_OPTIONS_PL)
 	$(AM_V_at)mv $@.tmp $@
 MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
 
+
+# Fix Info's @code in @deftype
+# https://lists.gnu.org/archive/html/help-texinfo/2019-11/msg00004.html
+all: $(srcdir)/$(doc_bison).info.bak
+$(srcdir)/$(doc_bison).info.bak: $(srcdir)/$(doc_bison).info
+	$(AM_V_GEN) $(PERL) -pi.bak -0777	\
+	  -e 's{(^ --.*\n(?: {10}.*\n)*)}'	\
+	  -e '{'				\
+	  -e '  $$def = $$1;'			\
+	  -e '  $$def =~ s/‘|’//g;'		\
+	  -e '  $$def;'				\
+	  -e '}gem;' $(srcdir)/$(doc_bison).info
+	@ touch $@
+EXTRA_DIST += $(srcdir)/$(doc_bison).info.bak
+MAINTAINERCLEANFILES += $(srcdir)/$(doc_bison).info.bak
+
+
 ## ---------- ##
 ## Ref card.  ##
 ## ---------- ##
