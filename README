@@ -7,20 +7,42 @@ Here are basic installation instructions for a repository checkout:
     $ git submodule update --init
     $ ./bootstrap
 
-then proceed with the usual 'configure && make' steps.
+then proceed with the usual `configure && make` steps.
 
-Be sure to read README-hacking, which contains all the needed information
-about building, modifying and checking Bison.
+The file README-hacking.md contains all the needed information about
+building, modifying and checking Bison.
 
 ## Build from tarball
 See the file INSTALL for generic compilation and installation instructions.
 
-Bison requires GNU m4 1.4.6 or later.  See:
+Bison requires GNU m4 1.4.6 or later.  See
+https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz.
 
-      https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz
+## Colored diagnostics
+As an experimental feature, diagnostics are now colored, controlled by the
+`--color` and `--style` options.
+
+To use them, install the libtextstyle library before configuring Bison.  It
+is available from https://alpha.gnu.org/gnu/gettext/, for instance
+https://alpha.gnu.org/gnu/gettext/libtextstyle-0.8.tar.gz.
+
+The option --color supports the following arguments:
+- always, yes: Enable colors.
+- never, no: Disable colors.
+- auto, tty (default): Enable colors if the output device is a tty.
+
+To customize the styles, create a CSS file, say `bison-bw.css`, similar to
+
+    /* bison-bw.css */
+    .warning   { }
+    .error     { font-weight: 800; text-decoration: underline; }
+    .note      { }
+
+then invoke bison with `--style=bison-bw.css`, or set the `BISON_STYLE`
+environment variable to `bison-bw.css`.
 
 ## Relocatability
-If you pass '--enable-relocatable' to 'configure', Bison is relocatable.
+If you pass `--enable-relocatable` to `configure`, Bison is relocatable.
 
 A relocatable program can be moved or copied to a different location on the
 file system.  It can also be used through mount points for network sharing.
@@ -42,15 +64,15 @@ details.
 # Questions
 See the section FAQ in the documentation (doc/bison.info) for frequently
 asked questions.  The documentation is also available in PDF and HTML,
-provided you have a recent version of Texinfo installed: run "make pdf" or
-"make html".
+provided you have a recent version of Texinfo installed: run `make pdf` or
+`make html`.
 
 If you have questions about using Bison and the documentation does not
 answer them, please send mail to <help-bison@gnu.org>.
 
 # Bug reports
 Please send bug reports to <bug-bison@gnu.org>.  Be sure to include the
-version number from 'bison --version', and a complete, self-contained test
+version number from `bison --version`, and a complete, self-contained test
 case in each bug report.
 
 # Copyright statements
@@ -58,12 +80,6 @@ For any copyright year range specified as YYYY-ZZZZ in this package, note
 that the range specifies every single year in that closed interval.
 
 <!--
-
-Local Variables:
-mode: markdown
-fill-column: 76
-ispell-dictionary: "american"
-End:
 
 Copyright (C) 1992, 1998-1999, 2003-2005, 2008-2015, 2018-2019 Free
 Software Foundation, Inc.
@@ -82,6 +98,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Local Variables:
+mode: markdown
+fill-column: 76
+ispell-dictionary: "american"
+End:
 
 LocalWords:  parsers ngettext Texinfo pdf html YYYY ZZZZ ispell american
 LocalWords:  MERCHANTABILITY

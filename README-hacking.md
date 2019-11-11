@@ -2,20 +2,19 @@ This file attempts to describe the rules to use when hacking Bison.
 Don't put this file into the distribution.
 
 Everything related to the development of Bison is on Savannah:
+http://savannah.gnu.org/projects/bison/.
 
-        http://savannah.gnu.org/projects/bison/
 
+# Administrivia
 
-* Administrivia
-
-** If you incorporate a change from somebody on the net:
+## If you incorporate a change from somebody on the net:
 First, if it is a large change, you must make sure they have signed the
 appropriate paperwork.  Second, be sure to add their name and email address
 to THANKS.
 
-** If a change fixes a test, mention the test in the commit message.
+## If a change fixes a test, mention the test in the commit message.
 
-** Bug reports
+## Bug reports
 If somebody reports a new bug, mention his name in the commit message and in
 the test case you write.  Put him into THANKS.
 
@@ -24,18 +23,18 @@ demonstrates the bug.  Then fix the bug, re-run the test suite, and check
 everything in.
 
 
-* Hacking
+# Hacking
 
-** Visible changes
+## Visible changes
 Which include serious bug fixes, must be mentioned in NEWS.
 
-** Translations
+## Translations
 Only user visible strings are to be translated: error messages, bits of the
 .output file etc.  This excludes impossible error messages (comparable to
 assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
-** Horizontal tabs
+## Horizontal tabs
 Do not add horizontal tab characters to any file in Bison's repository
 except where required.  For example, do not use tabs to format C code.
 However, make files, ChangeLog, and some regular expressions require tabs.
@@ -43,12 +42,12 @@ Also, test cases might need to contain tabs to check that Bison properly
 processes tabs in its input.
 
 
-* Working from the repository
+# Working from the repository
 
 These notes intend to help people working on the checked-out sources.  These
 requirements do not apply when building from a distribution tarball.
 
-** Requirements
+## Requirements
 
 We've opted to keep only the highest-level sources in the repository.  This
 eases our maintenance burden, (fewer merges etc.), but imposes more
@@ -75,8 +74,8 @@ If you're using a GNU/Linux distribution, the easiest way to install the
 above packages depends on your system.  The following shell command should
 work for Debian-based systems such as Ubuntu:
 
-  sudo apt-get install \
-    autoconf automake autopoint flex graphviz help2man texinfo valgrind
+    sudo apt-get install \
+      autoconf automake autopoint flex graphviz help2man texinfo valgrind
 
 Bison is written using Bison grammars, so there are bootstrapping issues.
 The bootstrap script attempts to discover when the C code generated from the
@@ -89,53 +88,51 @@ after synchronizing from the repository a plain 'make' should be sufficient.
 Note, however, that when gnulib is updated, running './bootstrap' again
 might be needed.
 
-** First checkout
+## First checkout
 
 Obviously, if you are reading these notes, you did manage to check out this
 package from the repository.  For the record, you will find all the relevant
-information on:
-
-        http://savannah.gnu.org/git/?group=bison
+information on http://savannah.gnu.org/git/?group=bison.
 
 Bison uses Git submodules: subscriptions to other Git repositories.  In
 particular it uses gnulib, the GNU portability library.  To ask Git to
 perform the first checkout of the submodules, run
 
-        $ git submodule update --init
+    $ git submodule update --init
 
 The next step is to get other files needed to build, which are extracted
 from other source packages:
 
-        $ ./bootstrap
+    $ ./bootstrap
 
 Bootstrapping updates the submodules to the versions registered in the
 top-level directory.  To change gnulib, first check out the version you want
 in `gnulib`, then commit this change in Bison's repository, and finally run
 bootstrap.
 
-If it fails with missing symbols (e.g., "error: possibly undefined macro:
-AC_PROG_GNU_M4"), you are likely to have forgotten the submodule
+If it fails with missing symbols (e.g., `error: possibly undefined macro:
+AC_PROG_GNU_M4`), you are likely to have forgotten the submodule
 initialization part.  To recover from it, run `git reset --hard HEAD`, and
 restart with the submodule initialization.  Otherwise, there you are!  Just
 
-        $ ./configure
-        $ make
-        $ make check
+    $ ./configure
+    $ make
+    $ make check
 
 At this point, there should be no difference between your local copy, and
 the master copy:
 
-        $ git diff
+    $ git diff
 
 should output no difference.
 
 Enjoy!
 
-** Updating
+## Updating
 
 If you have git at version 1.8.2 or later, the command
 
-        $ git submodule update --recursive --remote
+    $ git submodule update --recursive --remote
 
 will be useful for updating to the latest version of all submodules.
 
@@ -143,65 +140,73 @@ Under earlier versions, use of submodules make things somewhat different
 because git does not yet support recursive operations: submodules must be
 taken care of explicitly.
 
-*** Updating Bison
+### Updating Bison
 
-If you pull a newer version of a branch, say via "git pull", you might
-import requests for updated submodules.  A simple "git diff" will reveal if
+If you pull a newer version of a branch, say via `git pull`, you might
+import requests for updated submodules.  A simple `git diff` will reveal if
 the current version of the submodule (i.e., the actual contents of the
 gnulib directory) and the current request from the subscriber (i.e., the
 reference of the version of gnulib that the Bison repository requests)
 differ.  To upgrade the submodules (i.e., to check out the version that is
-actually requested by the subscriber, run "git submodule update".
+actually requested by the subscriber, run `git submodule update`.
 
-        $ git pull
-        $ git submodule update
+    $ git pull
+    $ git submodule update
 
-*** Updating a submodule
+### Updating a submodule
 To update a submodule, say gnulib, do as follows:
 
 Get the most recent version of the master branch from git.
 
-        $ cd gnulib
-        $ git fetch
-        $ git checkout -b master --track origin/master
+    $ cd gnulib
+    $ git fetch
+    $ git checkout -b master --track origin/master
 
 Make sure Bison can live with that version of gnulib.
 
-        $ cd ..
-        $ ./bootstrap
-        $ make distcheck
+    $ cd ..
+    $ ./bootstrap
+    $ make distcheck
 
 Register your changes.
 
-        $ git checkin ...
+    $ git commit ...
 
 For a suggestion of what gnulib commit might be stable enough for a formal
-release, see the ChangeLog in the latest gnulib snapshot at:
-
-        http://erislabs.net/ianb/projects/gnulib/
+release, see the ChangeLog in the latest gnulib snapshot at
+http://erislabs.net/ianb/projects/gnulib/.
 
 The Autoconf files we use are currently:
-
-        m4/m4.m4
-        lib/m4sugar/m4sugar.m4
-        lib/m4sugar/foreach.m4
+- m4/m4.m4
+- lib/m4sugar/m4sugar.m4
+- lib/m4sugar/foreach.m4
 
 These files don't change very often in Autoconf, so it should be relatively
 straight-forward to examine the differences in order to decide whether to
 update.
 
-* Test suite
+# Test suite
 
-** make check
+## make check
 Use liberally.
 
-** Updating the expectations
+## Updating the expectations
 Sometimes some changes have a large impact on the test suite (e.g., when we
-added the "[-Wother]" part to all the warnings).  Part of the update can be
-done with a crude tool: tests/update-test.  Read it for more information.
+added the `[-Wother]` part to all the warnings).  Part of the update can be
+done with a crude tool: `build-aux/update-test`.
 
-** TESTSUITEFLAGS
-To run just the testsuite (not the tests related to the examples), run `make
+Once you ran the test suite, and therefore have many testsuite.log files,
+run, from the source tree:
+
+    $ ./build-aux/update-test _build/tests/testsuite.dir/*/testsuite.log
+
+where `_build` would be your build tree.  This will hopefully update most
+tests.  Re-run the test suite.  It might be interesting to run `update-test`
+again, since some early failures may stop latter tests from being run.  Yet
+at some point, you'll have to fix remaining issues by hand...
+
+## TESTSUITEFLAGS
+To run just the test suite (not the tests related to the examples), run `make
 check-local`.
 
 The default is for make check-local to run all tests sequentially.  This can
@@ -209,43 +214,48 @@ be very time consuming when checking repeatedly or on slower setups.  This
 can be sped up in two ways:
 
 Using -j, in a make-like fashion, for example:
-  $ make check-local TESTSUITEFLAGS='-j8'
+
+    $ make check-local TESTSUITEFLAGS='-j8'
 
 Actually, when using GNU Make, TESTSUITEFLAGS defaults to the -jN passed to
 it, so you may simply run
-  $ make check-local -j8
+
+    $ make check-local -j8
 
 Running only the tests of a certain category, as specified in the AT files
 with AT_KEYWORDS([[category]]). Categories include:
-  - c++, for c++ parsers
-  - deprec, for tests concerning deprecated constructs.
-  - glr, for glr parsers
-  - java, for java parsers
-  - report, for automaton dumps
+- c++, for c++ parsers
+- deprec, for tests concerning deprecated constructs.
+- glr, for glr parsers
+- java, for java parsers
+- report, for automaton dumps
 
 To run a specific set of tests, use -k (for "keyword"). For example:
-  $ make check-local TESTSUITEFLAGS='-k c++'
+
+    $ make check-local TESTSUITEFLAGS='-k c++'
 
 Both can be combined.
-  $ make check-local TESTSUITEFLAGS='-j8 -k c++'
+
+    $ make check-local TESTSUITEFLAGS='-j8 -k c++'
 
 To rerun the tests that failed:
-  $ make recheck -j5
 
-** Typical errors
+    $ make recheck -j5
+
+## Typical errors
 If the test suite shows failures such as the following one
 
-  .../bison/lib/getopt.h:196:8: error: redefinition of 'struct option'
-  /usr/include/getopt.h:54:8: error: previous definition of 'struct option'
+    .../bison/lib/getopt.h:196:8: error: redefinition of 'struct option'
+    /usr/include/getopt.h:54:8: error: previous definition of 'struct option'
 
 it probably means that some file was compiled without
-AT_DATA_SOURCE_PROLOGUE.  This error is due to the fact that our -I options
-pick up gnulib's replacement headers, such as getopt.h, and this will go
-wrong if config.h was not included first.
+`AT_DATA_SOURCE_PROLOGUE`.  This error is due to the fact that our -I
+options pick up gnulib's replacement headers, such as getopt.h, and this
+will go wrong if config.h was not included first.
 
 See tests/local.at for details.
 
-** make maintainer-check-valgrind
+## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
 
 This is not mature on Mac OS X.  First, Valgrind does support the way bison
@@ -256,13 +266,13 @@ bison.  build-aux/darwin11.4.0.valgrind addresses some of them.
 
 Third, valgrind issues warnings such as:
 
-  --99312:0:syswrap- WARNING: Ignoring sigreturn( ..., UC_RESET_ALT_STACK );
+    --99312:0:syswrap- WARNING: Ignoring sigreturn( ..., UC_RESET_ALT_STACK );
 
 which cause the test to fail uselessly.  It is hard to ignore these errors
 with a major overhaul of the way instrumentation is performed in the test
 suite.  So currently, do not try to run valgrind on Mac OS X.
 
-** Release checks
+## Release checks
 Try to run the test suite with more severe conditions before a
 release:
 
@@ -274,25 +284,25 @@ release:
   its warnings; there's no need to obey blindly to it
   (<http://lists.gnu.org/archive/html/bison-patches/2012-05/msg00057.html>).
 
-- Check with "make syntax-check" if there are issues diagnosed by gnulib.
+- Check with `make syntax-check` if there are issues diagnosed by gnulib.
 
-- run "make maintainer-check" which:
-  - runs "valgrind -q bison" to run Bison under Valgrind.
+- run `make maintainer-check` which:
+  - runs `valgrind -q bison` to run Bison under Valgrind.
   - runs the parsers under Valgrind.
   - runs the test suite with G++ as C compiler...
 
-- run "make maintainer-check-push", which runs "make maintainer-check" while
+- run `make maintainer-check-push`, which runs `make maintainer-check` while
   activating the push implementation and its pull interface wrappers in many
   test cases that were originally written to exercise only the pull
   implementation.  This makes certain the push implementation can perform
   every task the pull implementation can.
 
-- run "make maintainer-check-xml", which runs "make maintainer-check" while
+- run `make maintainer-check-xml`, which runs `make maintainer-check` while
   checking Bison's XML automaton report for every working grammar passed to
   Bison in the test suite.  The check just diffs the output of Bison's
   included XSLT style sheets with the output of --report=all and --graph.
 
-- running "make maintainer-check-release" takes care of running
+- running `make maintainer-check-release` takes care of running
   maintainer-check, maintainer-check-push and maintainer-check-xml.
 
 - Change tests/atlocal/CFLAGS to add your preferred options.
@@ -300,7 +310,7 @@ release:
 - Test with a very recent version of GCC for both C and C++.  Testing with
   older versions that are still in use is nice too.
 
-** gnulib
+## gnulib
 To run tests on gnulib components (e.g., on bitset):
 
     cd gnulib
@@ -319,58 +329,58 @@ re-run the tests, run:
     ./configure -C CC='gcc-mp-8 -fsanitize=undefined' CFLAGS='-ggdb'
     make check
 
-* Release Procedure
+# Release Procedure
 This section needs to be updated to take into account features from gnulib.
 In particular, be sure to read README-release.
 
-** Update the submodules.  See above.
+## Update the submodules.  See above.
 
-** Update maintainer tools, such as Autoconf.  See above.
+## Update maintainer tools, such as Autoconf.  See above.
 
-** Try to get the *.pot files to the Translation Project at least one
+## Try to get the *.pot files to the Translation Project at least one
 week before a stable release, to give them time to translate them.  Before
 generating the *.pot files, make sure that po/POTFILES.in and
 runtime-po/POTFILES.in list all files with translatable strings.  This
-helps: grep -l '\<_(' *.
+helps: `grep -l '\<_(' *`.
 
-** Tests
+## Tests
 See above.
 
-** Update the foreign files
-Running "./bootstrap" in the top level should update them all for you.  This
+## Update the foreign files
+Running `./bootstrap` in the top level should update them all for you.  This
 covers PO files too.  Sometimes a PO file contains problems that causes it
 to be rejected by recent Gettext releases; please report these to the
 Translation Project.
 
-** Update README
+## Update README
 Make sure the information in README is current.  Most notably, make sure it
 recommends a version of GNU M4 that is compatible with the latest Bison
 sources.
 
-** Check copyright years.
+## Check copyright years.
 We update years in copyright statements throughout Bison once at the start
-of every year by running "make update-copyright".  However, before a
+of every year by running `make update-copyright`.  However, before a
 release, it's good to verify that it's actually been run.  Besides the
 copyright statement for each Bison file, check the copyright statements that
 the skeletons insert into generated parsers, and check all occurrences of
 PACKAGE_COPYRIGHT_YEAR in configure.ac.
 
-** Update NEWS, commit and tag.
+## Update NEWS, commit and tag.
 See do-release-commit-and-tag in README-release.  For a while, we used beta
-names such as "2.6_rc1".  Now that we use gnulib in the release procedure,
-we must use "2.5.90", which has the additional benefit of being properly
-sorted in "git tag -l".
+names such as `2.6_rc1`.  Now that we use gnulib in the release procedure,
+we must use `2.5.90`, which has the additional benefit of being properly
+sorted in `git tag -l`.
 
-** make alpha, beta, or stable
+## make alpha, beta, or stable
 See README-release.
 
-** Upload
+## Upload
 There are two ways to upload the tarballs to the GNU servers: using gnupload
 (from gnulib), or by hand.  Obviously prefer the former.  But in either
 case, be sure to read the following paragraph.
 
-*** Setup
-You need "gnupg".
+### Setup
+You need `gnupg`.
 
 Make sure your public key has been uploaded at least to keys.gnupg.net.  You
 can upload it with:
@@ -379,106 +389,105 @@ can upload it with:
 
 where F125BDF3 should be replaced with your key ID.
 
-*** Using gnupload
-You need "ncftp".
+### Using gnupload
+You need `ncftp`.
 
-At the end "make stable" (or alpha/beta) will display the procedure to run.
+At the end `make stable` (or alpha/beta) will display the procedure to run.
 Just copy and paste it in your shell.
 
-*** By hand
+### By hand
 
-The generic GNU upload procedure is at:
-
-  http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads
+The generic GNU upload procedure is at
+http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads.
 
 Follow the instructions there to register your information so you're permitted
 to upload.
 
 Here's a brief reminder of how to roll the tarballs and upload them:
 
-*** make distcheck
-*** gpg -b bison-2.3b.tar.gz
-*** In a file named "bison-2.3b.tar.gz.directive", type:
+### make distcheck
+### gpg -b bison-2.3b.tar.gz
+### In a file named `bison-2.3b.tar.gz.directive`, type:
 
-      version: 1.1
-      directory: bison
-      filename: bison-2.3b.tar.gz
+    version: 1.1
+    directory: bison
+    filename: bison-2.3b.tar.gz
 
-*** gpg --clearsign bison-2.3b.tar.gz.directive
-*** ftp ftp-upload.gnu.org # Log in as anonymous.
-*** cd /incoming/alpha # cd /incoming/ftp for full release.
-*** put bison-2.3b.tar.gz # This can take a while.
-*** put bison-2.3b.tar.gz.sig
-*** put bison-2.3b.tar.gz.directive.asc
-*** Repeat all these steps for bison-2.3b.tar.xz.
+### gpg --clearsign bison-2.3b.tar.gz.directive
+### ftp ftp-upload.gnu.org # Log in as anonymous.
+### cd /incoming/alpha # cd /incoming/ftp for full release.
+### put bison-2.3b.tar.gz # This can take a while.
+### put bison-2.3b.tar.gz.sig
+### put bison-2.3b.tar.gz.directive.asc
+### Repeat all these steps for bison-2.3b.tar.xz.
 
-** Update Bison manual on www.gnu.org.
+## Update Bison manual on www.gnu.org.
 
 The instructions below are obsolete, and left in case one would like to run
 the commands by hand.  Today, one just needs to run
 
-  $ make web-manual-update
+    $ make web-manual-update
 
 See README-release.
 
-*** You need a non-anonymous checkout of the web pages directory.
+### You need a non-anonymous checkout of the web pages directory.
 
-  $ cvs -d YOUR_USERID@cvs.savannah.gnu.org:/web/bison checkout bison
+    $ cvs -d YOUR_USERID@cvs.savannah.gnu.org:/web/bison checkout bison
 
-*** Get familiar with the instructions for web page maintainers.
+### Get familiar with the instructions for web page maintainers.
 http://www.gnu.org/server/standards/readme_index.html
 http://www.gnu.org/server/standards/README.software.html
 especially the note about symlinks.
 
-*** Build the web pages.
+### Build the web pages.
 Assuming BISON_CHECKOUT refers to a checkout of the Bison dir, and
 BISON_WWW_CHECKOUT refers to the web directory created above, do:
 
-  $ cd $BISON_CHECKOUT/doc
-  $ make stamp-vti
-  $ ../build-aux/gendocs.sh -o "$BISON_WWW_CHECKOUT/manual" \
-    bison "Bison - GNU parser generator"
-  $ cd $BISON_WWW_CHECKOUT
+    $ cd $BISON_CHECKOUT/doc
+    $ make stamp-vti
+    $ ../build-aux/gendocs.sh -o "$BISON_WWW_CHECKOUT/manual" \
+      bison "Bison - GNU parser generator"
+    $ cd $BISON_WWW_CHECKOUT
 
 Verify that the result looks sane.
 
-*** Commit the modified and the new files.
+### Commit the modified and the new files.
 
-*** Remove old files.
+### Remove old files.
 Find the files which have not been overwritten (because they belonged to
 sections that have been removed or renamed):
 
-   $ cd manual/html_node
-   $ ls -lt
+     $ cd manual/html_node
+     $ ls -lt
 
 Remove these files and commit their removal to CVS.  For each of these
 files, add a line to the file .symlinks.  This will ensure that hyperlinks
 to the removed files will redirect to the entire manual; this is better than
 a 404 error.
 
-** Announce
+## Announce
 The "make release" command just created a template,
-$HOME/announce-bison-X.Y.  Otherwise, to generate it, run:
+`$HOME/announce-bison-X.Y`.  Otherwise, to generate it, run:
 
-  make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
+    make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
 
-where alpha can be replaced by beta or stable and F125BDF3 should be
+where alpha can be replaced by `beta` or `table` and F125BDF3 should be
 replaced with your key ID.
 
 Complete/fix the announcement file.  The generated list of recipients
-(info-gnu@gnu.org, bug-bison@gnu.org, help-bison@gnu.org,
-bison-patches@gnu.org, and coordinator@translationproject.org) is
-appropriate for a stable release or a "serious beta".  For any other
-release, drop at least info-gnu@gnu.org.  For an example of how to fill out
-the rest of the template, search the mailing list archives for the most
-recent release announcement.
+(info-gnu@gnu.org, bison-announce@gnu.org, bug-bison@gnu.org,
+help-bison@gnu.org, bison-patches@gnu.org, and
+coordinator@translationproject.org) is appropriate for a stable release or a
+"serious beta".  For any other release, drop at least info-gnu@gnu.org.  For
+an example of how to fill out the rest of the template, search the mailing
+list archives for the most recent release announcement.
 
 For a stable release, send the same announcement on the comp.compilers
 newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as the
 moderator will throw away anything cross-posted or Cc'ed.  It really needs
 to be a separate message.
 
-** Prepare NEWS
+## Prepare NEWS
 So that developers don't accidentally add new items to the old NEWS entry,
 create a new empty entry in line 3 (without the two leading spaces):
 
@@ -486,7 +495,7 @@ create a new empty entry in line 3 (without the two leading spaces):
 
 Push these changes.
 
------
+<!--
 
 Copyright (C) 2002-2005, 2007-2015, 2018-2019 Free Software Foundation,
 Inc.
@@ -506,13 +515,20 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
- LocalWords:  Automake Autoconf Gettext Gzip Rsync Valgrind gnulib submodules
- LocalWords:  submodule init cd distcheck checkin ChangeLog valgrind sigreturn
- LocalWords:  UC gcc DGNULIB POSIXCHECK xml XSLT glr lalr README po runtime rc
- LocalWords:  gnupload gnupg gpg keyserver BDF ncftp filename clearsign cvs dir
- LocalWords:  symlinks vti html lt POSIX Cc'ed
-
 Local Variables:
-mode: outline
+mode: markdown
 fill-column: 76
+ispell-dictionary: "american"
 End:
+
+LocalWords:  Automake Autoconf Gettext Gzip Rsync Valgrind gnulib submodules
+LocalWords:  submodule init cd distcheck ChangeLog valgrind sigreturn sudo
+LocalWords:  UC gcc DGNULIB POSIXCHECK xml XSLT glr lalr README po runtime rc
+LocalWords:  gnupload gnupg gpg keyserver BDF ncftp filename clearsign cvs dir
+LocalWords:  symlinks vti html lt POSIX Cc'ed Graphviz Texinfo autoconf jN
+LocalWords:  automake autopoint graphviz texinfo PROG Wother parsers
+LocalWords:  TESTSUITEFLAGS deprec struct gnulib's getopt config ggdb
+LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell
+LocalWords:  american
+
+-->

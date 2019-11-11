@@ -279,7 +279,7 @@ uname=`uname`
 case $VALGRIND:$uname in
   '':*) ;;
   *:Darwin)
-    # See README-hacking.
+    # See README-hacking.md.
     VALGRIND=;;
   *:*)
     suppfile=build-aux/$uname.valgrind
