@@ -16,6 +16,7 @@
 /argmatch.c
 /argmatch.h
 /asnprintf.c
+/asprintf.c
 /assure.h
 /basename-lgpl.c
 /basename.c
@@ -303,6 +304,7 @@
 /unsetenv.c
 /vasnprintf.c
 /vasnprintf.h
+/vasprintf.c
 /verify.h
 /vfprintf.c
 /vsnprintf.c

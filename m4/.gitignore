@@ -189,6 +189,8 @@
 /unlink.m4
 /unlocked-io.m4
 /vasnprintf.m4
+/vasprintf-posix.m4
+/vasprintf.m4
 /vfprintf-posix.m4
 /visibility.m4
 /vsnprintf-posix.m4
