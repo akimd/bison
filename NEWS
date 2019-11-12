@@ -4,6 +4,44 @@ GNU Bison NEWS
 
 ** New Features
 
+*** New diagnostic: -Wdangling-alias
+
+  String literals, which allow for better error messages, are (too)
+  liberally accepted by Bison, which might result in silent errors.  For
+  instance
+
+    %type <exVal> cond "condition"
+
+  does not define "condition" as a string alias to 'cond' (nonterminal
+  symbols do not have string aliases).  It is rather equivalent to
+
+    %nterm <exVal> cond
+    %token <exVal> "condition"
+
+  i.e., it gives the type 'exVal' to the "condition" token, which was
+  clearly not the intention.
+
+  Also, because string aliases need not be defined, typos such as "baz"
+  instead of "bar" will be not reported.
+
+  The option -Wdangling-alias catches these situations.  On
+
+    %token BAR "bar"
+    %type <ival> foo "foo"
+    %%
+    foo: "baz" {}
+
+  bison -Wdangling-alias reports
+
+    warning: string literal not attached to a symbol
+          | %type <ival> foo "foo"
+          |                  ^~~~~
+    warning: string literal not attached to a symbol
+          | foo: "baz" {}
+          |      ^~~~~
+
+   The -Wall option does not (yet?) include -Wdangling-alias.
+
 *** Better POSIX Yacc compatibility diagnostics
 
   POSIX Yacc restricts %type to nonterminals.  This is now diagnosed by

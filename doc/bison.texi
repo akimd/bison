@@ -3551,8 +3551,9 @@ They are still considered distinct rules even when joined in this way.
 @findex %empty
 
 A rule is said to be @dfn{empty} if its right-hand side (@var{components})
-is empty.  It means that @var{result} can match the empty string.  For
-example, here is how to define an optional semicolon:
+is empty.  It means that @var{result} in the previous example can match the
+empty string.  As another example, here is how to define an optional
+semicolon:
 
 @example
 semicolon.opt: | ";";
@@ -10531,6 +10532,52 @@ unexpected number of conflicts is an error, and an expected number of
 conflicts is not reported, so @option{-W} and @option{--warning} then have
 no effect on the conflict report.
 
+@item dangling-alias
+Report string literals that are not bound to a token symbol.
+
+String literals, which allow for better error messages, are (too) liberally
+accepted by Bison, which might result in silent errors.  For instance
+
+@example
+%type <exVal> cond "condition"
+@end example
+
+@noindent
+does not define ``condition'' as a string alias to @code{cond}---nonterminal
+symbols do not have string aliases.  It is rather equivalent to
+
+@example
+%nterm <exVal> cond
+%token <exVal> "condition"
+@end example
+
+@noindent
+i.e., it gives the @samp{"condition"} token the type @code{exVal}.
+
+Also, because string aliases do not need to be defined, typos such as
+@samp{"baz"} instead of @samp{"bar"} will be not reported.
+
+The option @option{-Wdangling-alias} catches these situations.  On
+
+@example
+%token BAR "bar"
+%type <ival> foo "foo"
+%%
+foo: "baz" @{@}
+@end example
+
+@noindent
+@command{bison -Wdangling-alias} reports
+
+@example
+@dwarning{warning}: string literal not attached to a symbol
+      | %type <ival> foo @dwarning{"foo"}
+      |                  @dwarning{^~~~~}
+@dwarning{warning}: string literal not attached to a symbol
+      | foo: @dwarning{"baz"} @{@}
+      |      @dwarning{^~~~~}
+@end example
+
 @item deprecated
 Deprecated constructs whose support will be removed in future versions of
 Bison.
@@ -10632,7 +10679,7 @@ releases of Bison may move warnings from this category to new, more specific
 categories.
 
 @item all
-All the warnings except @code{yacc}.
+All the warnings except @code{dangling-alias} and @code{yacc}.
 
 @item none
 Turn off all the warnings.

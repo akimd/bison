@@ -298,6 +298,31 @@ input.y:8.14: error: syntax error, unexpected integer
 AT_CLEANUP
 
 
+## ------------------ ##
+## Dangling aliases.  ##
+## ------------------ ##
+
+AT_SETUP([Dangling aliases])
+
+AT_DATA([input.y],
+[[%token FOO "foo"
+%type <val> "bar"
+%%
+expr: "foo" "bar" "baz"
+]])
+
+AT_BISON_CHECK([-fcaret -Wdangling input.y], [0], [],
+[[input.y:2.13-17: warning: string literal "bar" not attached to a symbol [-Wdangling-alias]
+    2 | %type <val> "bar"
+      |             ^~~~~
+input.y:4.19-23: warning: string literal "baz" not attached to a symbol [-Wdangling-alias]
+    4 | expr: "foo" "bar" "baz"
+      |                   ^~~~~
+]])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## Symbol declarations.  ##
 ## --------------------- ##

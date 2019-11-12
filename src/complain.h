@@ -47,6 +47,7 @@ typedef enum
   {
     warning_conflicts_rr,
     warning_conflicts_sr,
+    warning_dangling_alias,
     warning_deprecated,
     warning_empty_rule,
     warning_midrule_values,
@@ -104,6 +105,7 @@ typedef enum
 
     Wconflicts_rr     = 1 << warning_conflicts_rr,
     Wconflicts_sr     = 1 << warning_conflicts_sr,
+    Wdangling_alias   = 1 << warning_dangling_alias,
     Wdeprecated       = 1 << warning_deprecated,
     Wempty_rule       = 1 << warning_empty_rule,
     Wmidrule_values   = 1 << warning_midrule_values,
@@ -118,7 +120,7 @@ typedef enum
 
     /**< All above warnings.  */
     Weverything       = ~complaint & ~fatal & ~silent,
-    Wall              = Weverything & ~Wyacc
+    Wall              = Weverything & ~Wdangling_alias & ~Wyacc
   } warnings;
 
 /** Whether the warnings of \a flags are all unset.
