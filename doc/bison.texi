@@ -819,35 +819,32 @@ input.  These are known respectively as @dfn{reduce/reduce} conflicts
 (@pxref{Reduce/Reduce}), and @dfn{shift/reduce} conflicts
 (@pxref{Shift/Reduce}).
 
-To use a grammar that is not easily modified to be LR(1), a
-more general parsing algorithm is sometimes necessary.  If you include
-@code{%glr-parser} among the Bison declarations in your file
-(@pxref{Grammar Outline}), the result is a Generalized LR
-(GLR) parser.  These parsers handle Bison grammars that
-contain no unresolved conflicts (i.e., after applying precedence
-declarations) identically to deterministic parsers.  However, when
-faced with unresolved shift/reduce and reduce/reduce conflicts,
-GLR parsers use the simple expedient of doing both,
-effectively cloning the parser to follow both possibilities.  Each of
-the resulting parsers can again split, so that at any given time, there
-can be any number of possible parses being explored.  The parsers
-proceed in lockstep; that is, all of them consume (shift) a given input
-symbol before any of them proceed to the next.  Each of the cloned
-parsers eventually meets one of two possible fates: either it runs into
-a parsing error, in which case it simply vanishes, or it merges with
-another parser, because the two of them have reduced the input to an
-identical set of symbols.
+To use a grammar that is not easily modified to be LR(1), a more general
+parsing algorithm is sometimes necessary.  If you include @code{%glr-parser}
+among the Bison declarations in your file (@pxref{Grammar Outline}), the
+result is a Generalized LR (GLR) parser.  These parsers handle Bison
+grammars that contain no unresolved conflicts (i.e., after applying
+precedence declarations) identically to deterministic parsers.  However,
+when faced with unresolved shift/reduce and reduce/reduce conflicts, GLR
+parsers use the simple expedient of doing both, effectively cloning the
+parser to follow both possibilities.  Each of the resulting parsers can
+again split, so that at any given time, there can be any number of possible
+parses being explored.  The parsers proceed in lockstep; that is, all of
+them consume (shift) a given input symbol before any of them proceed to the
+next.  Each of the cloned parsers eventually meets one of two possible
+fates: either it runs into a parsing error, in which case it simply
+vanishes, or it merges with another parser, because the two of them have
+reduced the input to an identical set of symbols.
 
 During the time that there are multiple parsers, semantic actions are
 recorded, but not performed.  When a parser disappears, its recorded
 semantic actions disappear as well, and are never performed.  When a
-reduction makes two parsers identical, causing them to merge, Bison
-records both sets of semantic actions.  Whenever the last two parsers
-merge, reverting to the single-parser case, Bison resolves all the
-outstanding actions either by precedences given to the grammar rules
-involved, or by performing both actions, and then calling a designated
-user-defined function on the resulting values to produce an arbitrary
-merged result.
+reduction makes two parsers identical, causing them to merge, Bison records
+both sets of semantic actions.  Whenever the last two parsers merge,
+reverting to the single-parser case, Bison resolves all the outstanding
+actions either by precedences given to the grammar rules involved, or by
+performing both actions, and then calling a designated user-defined function
+on the resulting values to produce an arbitrary merged result.
 
 @menu
 * Simple GLR Parsers::     Using GLR parsers on unambiguous grammars.
@@ -881,13 +878,11 @@ type enum = (a, b, c);
 @end example
 
 @noindent
-The original language standard allows only numeric
-literals and constant identifiers for the subrange bounds (@samp{lo}
-and @samp{hi}), but Extended Pascal (ISO/IEC
-10206) and many other
-Pascal implementations allow arbitrary expressions there.  This gives
-rise to the following situation, containing a superfluous pair of
-parentheses:
+The original language standard allows only numeric literals and constant
+identifiers for the subrange bounds (@samp{lo} and @samp{hi}), but Extended
+Pascal (ISO/IEC 10206) and many other Pascal implementations allow arbitrary
+expressions there.  This gives rise to the following situation, containing a
+superfluous pair of parentheses:
 
 @example
 type subrange = (a) .. b;
@@ -902,62 +897,55 @@ type enum = (a);
 @end example
 
 @noindent
-(These declarations are contrived, but they are syntactically
-valid, and more-complicated cases can come up in practical programs.)
+(These declarations are contrived, but they are syntactically valid, and
+more-complicated cases can come up in practical programs.)
 
-These two declarations look identical until the @samp{..} token.
-With normal LR(1) one-token lookahead it is not
-possible to decide between the two forms when the identifier
-@samp{a} is parsed.  It is, however, desirable
-for a parser to decide this, since in the latter case
-@samp{a} must become a new identifier to represent the enumeration
-value, while in the former case @samp{a} must be evaluated with its
-current meaning, which may be a constant or even a function call.
+These two declarations look identical until the @samp{..} token.  With
+normal LR(1) one-token lookahead it is not possible to decide between the
+two forms when the identifier @samp{a} is parsed.  It is, however, desirable
+for a parser to decide this, since in the latter case @samp{a} must become a
+new identifier to represent the enumeration value, while in the former case
+@samp{a} must be evaluated with its current meaning, which may be a constant
+or even a function call.
 
 You could parse @samp{(a)} as an ``unspecified identifier in parentheses'',
-to be resolved later, but this typically requires substantial
-contortions in both semantic actions and large parts of the
-grammar, where the parentheses are nested in the recursive rules for
-expressions.
+to be resolved later, but this typically requires substantial contortions in
+both semantic actions and large parts of the grammar, where the parentheses
+are nested in the recursive rules for expressions.
 
-You might think of using the lexer to distinguish between the two
-forms by returning different tokens for currently defined and
-undefined identifiers.  But if these declarations occur in a local
-scope, and @samp{a} is defined in an outer scope, then both forms
-are possible---either locally redefining @samp{a}, or using the
-value of @samp{a} from the outer scope.  So this approach cannot
-work.
+You might think of using the lexer to distinguish between the two forms by
+returning different tokens for currently defined and undefined identifiers.
+But if these declarations occur in a local scope, and @samp{a} is defined in
+an outer scope, then both forms are possible---either locally redefining
+@samp{a}, or using the value of @samp{a} from the outer scope.  So this
+approach cannot work.
 
-A simple solution to this problem is to declare the parser to
-use the GLR algorithm.
-When the GLR parser reaches the critical state, it
-merely splits into two branches and pursues both syntax rules
-simultaneously.  Sooner or later, one of them runs into a parsing
-error.  If there is a @samp{..} token before the next
-@samp{;}, the rule for enumerated types fails since it cannot
-accept @samp{..} anywhere; otherwise, the subrange type rule
-fails since it requires a @samp{..} token.  So one of the branches
-fails silently, and the other one continues normally, performing
-all the intermediate actions that were postponed during the split.
+A simple solution to this problem is to declare the parser to use the GLR
+algorithm.  When the GLR parser reaches the critical state, it merely splits
+into two branches and pursues both syntax rules simultaneously.  Sooner or
+later, one of them runs into a parsing error.  If there is a @samp{..} token
+before the next @samp{;}, the rule for enumerated types fails since it
+cannot accept @samp{..} anywhere; otherwise, the subrange type rule fails
+since it requires a @samp{..} token.  So one of the branches fails silently,
+and the other one continues normally, performing all the intermediate
+actions that were postponed during the split.
 
 If the input is syntactically incorrect, both branches fail and the parser
 reports a syntax error as usual.
 
-The effect of all this is that the parser seems to ``guess'' the
-correct branch to take, or in other words, it seems to use more
-lookahead than the underlying LR(1) algorithm actually allows
-for.  In this example, LR(2) would suffice, but also some cases
-that are not LR(@math{k}) for any @math{k} can be handled this way.
+The effect of all this is that the parser seems to ``guess'' the correct
+branch to take, or in other words, it seems to use more lookahead than the
+underlying LR(1) algorithm actually allows for.  In this example, LR(2)
+would suffice, but also some cases that are not LR(@math{k}) for any
+@math{k} can be handled this way.
 
-In general, a GLR parser can take quadratic or cubic worst-case time,
-and the current Bison parser even takes exponential time and space
-for some grammars.  In practice, this rarely happens, and for many
-grammars it is possible to prove that it cannot happen.
-The present example contains only one conflict between two
-rules, and the type-declaration context containing the conflict
-cannot be nested.  So the number of
-branches that can exist at any time is limited by the constant 2,
-and the parsing time is still linear.
+In general, a GLR parser can take quadratic or cubic worst-case time, and
+the current Bison parser even takes exponential time and space for some
+grammars.  In practice, this rarely happens, and for many grammars it is
+possible to prove that it cannot happen.  The present example contains only
+one conflict between two rules, and the type-declaration context containing
+the conflict cannot be nested.  So the number of branches that can exist at
+any time is limited by the constant 2, and the parsing time is still linear.
 
 Here is a Bison grammar corresponding to the example above.  It
 parses a vastly simplified form of Pascal type declarations.
@@ -1020,32 +1008,29 @@ these two declarations to the Bison grammar file (before the first
 @end example
 
 @noindent
-No change in the grammar itself is required.  Now the
-parser recognizes all valid declarations, according to the
-limited syntax above, transparently.  In fact, the user does not even
-notice when the parser splits.
+No change in the grammar itself is required.  Now the parser recognizes all
+valid declarations, according to the limited syntax above, transparently.
+In fact, the user does not even notice when the parser splits.
 
-So here we have a case where we can use the benefits of GLR,
-almost without disadvantages.  Even in simple cases like this, however,
-there are at least two potential problems to beware.  First, always
-analyze the conflicts reported by Bison to make sure that GLR
-splitting is only done where it is intended.  A GLR parser
-splitting inadvertently may cause problems less obvious than an
-LR parser statically choosing the wrong alternative in a
+So here we have a case where we can use the benefits of GLR, almost without
+disadvantages.  Even in simple cases like this, however, there are at least
+two potential problems to beware.  First, always analyze the conflicts
+reported by Bison to make sure that GLR splitting is only done where it is
+intended.  A GLR parser splitting inadvertently may cause problems less
+obvious than an LR parser statically choosing the wrong alternative in a
 conflict.  Second, consider interactions with the lexer (@pxref{Semantic
 Tokens}) with great care.  Since a split parser consumes tokens without
-performing any actions during the split, the lexer cannot obtain
-information via parser actions.  Some cases of lexer interactions can be
-eliminated by using GLR to shift the complications from the
-lexer to the parser.  You must check the remaining cases for
-correctness.
+performing any actions during the split, the lexer cannot obtain information
+via parser actions.  Some cases of lexer interactions can be eliminated by
+using GLR to shift the complications from the lexer to the parser.  You must
+check the remaining cases for correctness.
 
 In our example, it would be safe for the lexer to return tokens based on
 their current meanings in some symbol table, because no new symbols are
-defined in the middle of a type declaration.  Though it is possible for
-a parser to define the enumeration constants as they are parsed, before
-the type declaration is completed, it actually makes no difference since
-they cannot be used within the same enumerated type declaration.
+defined in the middle of a type declaration.  Though it is possible for a
+parser to define the enumeration constants as they are parsed, before the
+type declaration is completed, it actually makes no difference since they
+cannot be used within the same enumerated type declaration.
 
 @node Merging GLR Parses
 @subsection Using GLR to Resolve Ambiguities
@@ -7084,10 +7069,10 @@ If the grammar uses literal string tokens, there are two ways that
 
 @itemize @bullet
 @item
-If the grammar defines symbolic token names as aliases for the
-literal string tokens, @code{yylex} can use these symbolic names like
-all others.  In this case, the use of the literal string tokens in
-the grammar file has no effect on @code{yylex}.
+If the grammar defines symbolic token names as aliases for the literal
+string tokens, @code{yylex} can use these symbolic names like all others.
+In this case, the use of the literal string tokens in the grammar file has
+no effect on @code{yylex}.
 
 @item
 @code{yylex} can find the multicharacter token in the @code{yytname} table.
