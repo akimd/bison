@@ -313,6 +313,7 @@ Parser C-Language Interface
 The Lexical Analyzer Function @code{yylex}
 
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
+* Tokens from Literals:: Finding token types from string aliases.
 * Token Values::        How @code{yylex} must return the semantic value
                           of the token it has read.
 * Token Locations::     How @code{yylex} must return the text location
@@ -7019,6 +7020,7 @@ Bison}.
 
 @menu
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
+* Tokens from Literals:: Finding token types from string aliases.
 * Token Values::        How @code{yylex} must return the semantic value
                           of the token it has read.
 * Token Locations::     How @code{yylex} must return the text location
@@ -7068,6 +7070,10 @@ yylex (void)
 This interface has been designed so that the output from the @code{lex}
 utility can be used without change as the definition of @code{yylex}.
 
+
+@node Tokens from Literals
+@subsection Finding Tokens by String Literals
+
 If the grammar uses literal string tokens, there are two ways that
 @code{yylex} can determine the token type codes for them:
 
@@ -7078,8 +7084,15 @@ string tokens, @code{yylex} can use these symbolic names like all others.
 In this case, the use of the literal string tokens in the grammar file has
 no effect on @code{yylex}.
 
+This is the preferred approach.
+
 @item
-@code{yylex} can find the multicharacter token in the @code{yytname} table.
+@code{yylex} can search for the multicharacter token in the @code{yytname}
+table.  This method is discouraged: the primary purpose of string aliases is
+forging good error messages, not describing the spelling of keywords.  In
+addition, looking for the token type at runtime incurs a (small but
+noticeable) cost.
+
 The index of the token in the table is the token type's code.  The name of a
 multicharacter token is recorded in @code{yytname} with a double-quote, the
 token's characters, and another double-quote.  The token's characters are
@@ -7106,6 +7119,7 @@ for (int i = 0; i < YYNTOKENS; i++)
 The @code{yytname} table is generated only if you use the
 @code{%token-table} declaration.  @xref{Decl Summary}.
 @end itemize
+
 
 @node Token Values
 @subsection Semantic Values of Tokens
