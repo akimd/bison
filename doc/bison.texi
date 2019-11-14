@@ -418,7 +418,7 @@ A Complete C++ Example
 Java Parsers
 
 * Java Bison Interface::        Asking for Java parser generation
-* Java Semantic Values::        %type and %token vs. Java
+* Java Semantic Values::        %token and %nterm vs. Java
 * Java Location Values::        The position and location classes
 * Java Parser Interface::       Instantiating and running the parser
 * Java Scanner Interface::      Specifying the scanner for the parser
@@ -2465,7 +2465,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 %define api.value.type union /* Generate YYSTYPE from these types: */
 %token <double>  NUM     /* Double precision number. */
 %token <symrec*> VAR FUN /* Symbol table pointer: variable/function. */
-%type  <double>  exp
+%nterm <double>  exp
 
 @group
 %precedence '='
@@ -2491,9 +2491,9 @@ with each grammar symbol whose semantic value is used.  These symbols are
 augmented with their data type (placed between angle brackets).  For
 instance, values of @code{NUM} are stored in @code{double}.
 
-The Bison construct @code{%type} is used for declaring nonterminal symbols,
+The Bison construct @code{%nterm} is used for declaring nonterminal symbols,
 just as @code{%token} is used for declaring token types.  Previously we did
-not use @code{%type} before because nonterminal symbols are normally
+not use @code{%nterm} before because nonterminal symbols are normally
 declared implicitly by the rules that define them.  But @code{exp} must be
 declared explicitly so we can specify its value type.  @xref{Type Decl,
 ,Nonterminal Symbols}.
@@ -3776,9 +3776,9 @@ union type whose member names are the type tags.
 @item
 Choose one of those types for each symbol (terminal or nonterminal) for
 which semantic values are used.  This is done for tokens with the
-@code{%token} Bison declaration (@pxref{Token Decl, ,Token Type Names})
-and for groupings with the @code{%type} Bison declaration (@pxref{Type
-Decl, ,Nonterminal Symbols}).
+@code{%token} Bison declaration (@pxref{Token Decl, ,Token Type Names}) and
+for groupings with the @code{%nterm}/@code{%type} Bison declarations
+(@pxref{Type Decl, ,Nonterminal Symbols}).
 @end itemize
 
 @node Type Generation
@@ -3788,9 +3788,9 @@ Decl, ,Nonterminal Symbols}).
 @findex %define api.value.type union
 
 The special value @code{union} of the @code{%define} variable
-@code{api.value.type} instructs Bison that the tags used with the
-@code{%token} and @code{%type} directives are genuine types, not names of
-members of @code{YYSTYPE}.
+@code{api.value.type} instructs Bison that the type tags (used with the
+@code{%token}, @code{%nterm} and @code{%type} directives) are genuine types,
+not names of members of @code{YYSTYPE}.
 
 For example:
 
@@ -3798,7 +3798,7 @@ For example:
 %define api.value.type union
 %token <int> INT "integer"
 %token <int> 'n'
-%type <int> expr
+%nterm <int> expr
 %token <char const *> ID "identifier"
 @end example
 
@@ -3868,8 +3868,9 @@ For example:
 @noindent
 This says that the two alternative types are @code{double} and @code{symrec
 *}.  They are given names @code{val} and @code{tptr}; these names are used
-in the @code{%token} and @code{%type} declarations to pick one of the types
-for a terminal or nonterminal symbol (@pxref{Type Decl, ,Nonterminal Symbols}).
+in the @code{%token}, @code{%nterm} and @code{%type} declarations to pick
+one of the types for a terminal or nonterminal symbol (@pxref{Type Decl,
+,Nonterminal Symbols}).
 
 As an extension to POSIX, a tag is allowed after the @code{%union}.  For
 example:
@@ -3924,7 +3925,7 @@ and then your grammar can use the following instead of @code{%union}:
 #include "parser.h"
 %@}
 %define api.value.type @{union YYSTYPE@}
-%type <val> expr
+%nterm <val> expr
 %token <tptr> ID
 @end group
 @end example
@@ -4344,7 +4345,7 @@ that symbol:
 
 @example
 @group
-%type <context> let
+%nterm <context> let
 %destructor @{ pop_context ($$); @} let
 %printer @{ print_context (yyo, $$); @} let
 @end group
@@ -5013,11 +5014,12 @@ same value type.  Use spaces to separate the symbol names.
 
 While POSIX Yacc allows @code{%type} only for nonterminals, Bison accepts
 that this directive be also applied to terminal symbols.  To declare
-exclusively nonterminal symbols, use @code{%nterm}:
+exclusively nonterminal symbols, use the safer @code{%nterm}:
 
 @example
 %nterm <@var{type}> @var{nonterminal}@dots{}
 @end example
+
 
 @node Symbol Decls
 @subsection Syntax of Symbol Declarations
@@ -5117,8 +5119,9 @@ The parser will invoke the @var{code} associated with one of these whenever it
 discards any user-defined grammar symbol that has no per-symbol and no per-type
 @code{%destructor}.
 The parser uses the @var{code} for @code{<*>} in the case of such a grammar
-symbol for which you have formally declared a semantic type tag (@code{%type}
-counts as such a declaration, but @code{$<tag>$} does not).
+symbol for which you have formally declared a semantic type tag (@code{%token},
+@code{%nterm}, and @code{%type}
+count as such a declaration, but @code{$<tag>$} does not).
 The parser uses the @var{code} for @code{<>} in the case of such a grammar
 symbol that has no declared semantic type tag.
 @end deffn
@@ -5129,10 +5132,10 @@ For example:
 @example
 %union @{ char *string; @}
 %token <string> STRING1 STRING2
-%type  <string> string1 string2
+%nterm <string> string1 string2
 %union @{ char character; @}
 %token <character> CHR
-%type  <character> chr
+%nterm <character> chr
 %token TAGLESS
 
 %destructor @{ @} <character>
@@ -5255,10 +5258,10 @@ For example:
 @example
 %union @{ char *string; @}
 %token <string> STRING1 STRING2
-%type  <string> string1 string2
+%nterm <string> string1 string2
 %union @{ char character; @}
 %token <character> CHR
-%type  <character> chr
+%nterm <character> chr
 %token TAGLESS
 
 %printer @{ fprintf (yyo, "'%c'", $$); @} <character>
@@ -6376,7 +6379,7 @@ Use this @var{type} as semantic value.
 @code{union-directive} if @code{%union} is used, otherwise @dots{}
 @item
 @code{int} if type tags are used (i.e., @samp{%token <@var{type}>@dots{}} or
-@samp{%type <@var{type}>@dots{}} is used), otherwise @dots{}
+@samp{%nterm <@var{type}>@dots{}} is used), otherwise @dots{}
 @item
 undefined.
 @end itemize
@@ -9367,11 +9370,11 @@ The following grammar file, @file{calc.y}, will be used in the sequel:
 @end group
 @group
 %token <ival> NUM
-%type  <ival> exp
+%nterm <ival> exp
 @end group
 @group
 %token <sval> STR
-%type  <sval> useless
+%nterm <sval> useless
 @end group
 @group
 %left '+' '-'
@@ -10395,7 +10398,7 @@ important part of it with carets (@samp{^}). Here is an example, using the
 following file @file{in.y}:
 
 @example
-%type <ival> exp
+%nterm <ival> exp
 %%
 exp: exp '+' exp @{ $exp = $1 + $2; @};
 @end example
@@ -11010,7 +11013,7 @@ result:
 ;
 @end group
 
-%type <std::vector<std::string>> list;
+%nterm <std::vector<std::string>> list;
 @group
 list:
   %empty     @{ /* Generates an empty string list */ @}
@@ -11065,7 +11068,7 @@ strings:
 
 @comment file: c++/simple.yy: 2
 @example
-%type <std::string> item;
+%nterm <std::string> item;
 %token <std::string> TEXT;
 %token <int> NUMBER;
 @group
@@ -12146,14 +12149,14 @@ tokens with @code{TOK_} (@pxref{%define Summary,,api.token.prefix}).
 
 @noindent
 Since we use variant-based semantic values, @code{%union} is not used, and
-both @code{%type} and @code{%token} expect genuine types, as opposed to type
+@code{%token}, @code{%nterm} and @code{%type} expect genuine types, not type
 tags.
 
 @comment file: calc++/parser.yy
 @example
 %token <std::string> IDENTIFIER "identifier"
 %token <int> NUMBER "number"
-%type  <int> exp
+%nterm <int> exp
 @end example
 
 @noindent
@@ -12468,7 +12471,7 @@ main (int argc, char *argv[])
 
 @menu
 * Java Bison Interface::        Asking for Java parser generation
-* Java Semantic Values::        %type and %token vs. Java
+* Java Semantic Values::        %token and %nterm vs. Java
 * Java Location Values::        The position and location classes
 * Java Parser Interface::       Instantiating and running the parser
 * Java Scanner Interface::      Specifying the scanner for the parser
@@ -12532,17 +12535,17 @@ otherwise, report a bug so that the parser skeleton will be improved.
 
 @node Java Semantic Values
 @subsection Java Semantic Values
-@c - No %union, specify type in %type/%token.
+@c - No %union, specify type in %nterm/%token.
 @c - YYSTYPE
 @c - Printer and destructor
 
-There is no @code{%union} directive in Java parsers.  Instead, the
-semantic values' types (class names) should be specified in the
-@code{%type} or @code{%token} directive:
+There is no @code{%union} directive in Java parsers.  Instead, the semantic
+values' types (class names) should be specified in the @code{%nterm} or
+@code{%token} directive:
 
 @example
-%type <Expression> expr assignment_expr term factor
-%type <Integer> number
+%nterm <Expression> expr assignment_expr term factor
+%nterm <Integer> number
 @end example
 
 By default, the semantic stack is declared to have @code{Object} members,
@@ -12556,8 +12559,8 @@ directive.  For example, after the following declaration:
 @end example
 
 @noindent
-any @code{%type} or @code{%token} specifying a semantic type which
-is not a subclass of ASTNode, will cause a compile-time error.
+any @code{%token}, @code{%nterm} or @code{%type} specifying a semantic type
+which is not a subclass of @code{ASTNode}, will cause a compile-time error.
 
 @c FIXME: Documented bug.
 Types used in the directives may be qualified with a package name.
@@ -13010,7 +13013,7 @@ Declare tokens.  Note that the angle brackets enclose a Java @emph{type}.
 @xref{Java Semantic Values}.
 @end deffn
 
-@deffn {Directive} %type <@var{type}> @var{nonterminal} @dots{}
+@deffn {Directive} %nterm <@var{type}> @var{nonterminal} @dots{}
 Declare the type of nonterminals.  Note that the angle brackets enclose
 a Java @emph{type}.
 @xref{Java Semantic Values}.
