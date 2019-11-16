@@ -592,11 +592,11 @@ token_decl_for_prec:
 ;
 
 
-/*-----------------------.
-| symbol_decls (%type).  |
-`-----------------------*/
+/*-----------------------------------.
+| symbol_decls (argument of %type).  |
+`-----------------------------------*/
 
-// A non empty list of typed symbols.
+// A non empty list of typed symbols (for %type).
 symbol_decls:
   symbol_decl.1[syms]
     {
@@ -612,10 +612,18 @@ symbol_decls:
     }
 ;
 
-// One or more token declarations.
+// One or more token declarations (for %type).
 symbol_decl.1:
-  symbol                { $$ = symbol_list_sym_new ($1, @1); }
-| symbol_decl.1 symbol  { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
+  symbol
+    {
+      symbol_class_set ($symbol, pct_type_sym, @symbol, false);
+      $$ = symbol_list_sym_new ($symbol, @symbol);
+    }
+  | symbol_decl.1 symbol
+    {
+      symbol_class_set ($symbol, pct_type_sym, @symbol, false);
+      $$ = symbol_list_append ($1, symbol_list_sym_new ($symbol, @symbol));
+    }
 ;
 
         /*------------------------------------------.

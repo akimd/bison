@@ -2,6 +2,30 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New Features
+
+*** Better POSIX Yacc compatibility diagnostics
+
+  POSIX Yacc restricts %type to nonterminals.  This is now diagnosed by
+  -Wyacc.
+
+    %token TOKEN1
+    %type  <ival> TOKEN1 TOKEN2 't'
+    %token TOKEN2
+    %%
+    expr:
+
+  gives, with -Wyacc
+
+    input.y:2.15-20: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+        2 | %type  <ival> TOKEN1 TOKEN2 't'
+          |               ^~~~~~
+    input.y:2.29-31: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+        2 | %type  <ival> TOKEN1 TOKEN2 't'
+          |                             ^~~
+    input.y:2.22-27: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+        2 | %type  <ival> TOKEN1 TOKEN2 't'
+          |                      ^~~~~~
 
 * Noteworthy changes in release 3.4.90 (2019-10-29) [beta]
 

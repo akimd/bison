@@ -195,6 +195,55 @@ input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
 AT_CLEANUP
 
 
+## -------------- ##
+## Yacc's %type.  ##
+## -------------- ##
+
+AT_SETUP([Yacc's %type])
+
+AT_DATA([input.y],
+[[%token TOKEN1
+%nterm nterm1
+%type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+%token TOKEN2
+%nterm nterm2
+%%
+expr: nterm1 nterm2 nterm3
+nterm1: TOKEN1
+nterm2: TOKEN2
+nterm3: "TOKEN3"
+]])
+
+AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
+[[input.y:2.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
+    2 | %nterm nterm1
+      | ^~~~~~
+input.y:3.14-19: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |              ^~~~~~
+input.y:3.28-35: warning: POSIX Yacc does not support string literals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                            ^~~~~~~~
+input.y:3.28-35: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                            ^~~~~~~~
+input.y:3.58-60: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                                                          ^~~
+input.y:5.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
+    5 | %nterm nterm2
+      | ^~~~~~
+input.y:3.21-26: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                     ^~~~~~
+input.y:10.9-16: warning: POSIX Yacc does not support string literals [-Wyacc]
+   10 | nterm3: "TOKEN3"
+      |         ^~~~~~~~
+]])
+
+AT_CLEANUP
+
+
 ## ----------------------------- ##
 ## Invalid symbol declarations.  ##
 ## ----------------------------- ##
