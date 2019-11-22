@@ -185,29 +185,32 @@ These files don't change very often in Autoconf, so it should be relatively
 straight-forward to examine the differences in order to decide whether to
 update.
 
-# Test suite
+# Test Suite
 
 ## make check
-Use liberally.
+Use liberally.  It is composed of two kinds of tests: the examples, and the
+main test suite.
 
-## Updating the expectations
-Sometimes some changes have a large impact on the test suite (e.g., when we
-added the `[-Wother]` part to all the warnings).  Part of the update can be
-done with a crude tool: `build-aux/update-test`.
+### The Examples
+In examples/, there is a number of ready-to-use examples (see
+examples/README.md).  These examples have small test suites run by `make
+check`.  The test results are in local `*.log` files (e.g.,
+`$build/examples/c/calc/calc.log`).
 
-Once you ran the test suite, and therefore have many testsuite.log files,
-run, from the source tree:
+### The Main Test Suite
+The main test suite, in tests/, is written on top of GNU Autotest, which is
+part of Autoconf.  Run `info autoconf 'Using Autotest'` to read the
+documentation, not only about how to write tests, but also where are the
+logs, how to read them etc.
 
-    $ ./build-aux/update-test _build/tests/testsuite.dir/*/testsuite.log
+The main test suite generates a log for each test (e.g.,
+`$build/tests/testsuite.dir/004/testsuite.log` for test #4), and a main log
+file in `$build/tests/testsuite.log`.  The latter is meant for end users: it
+contains lots of details that should help diagnosing issues, including build
+issues.  The per-test logs are more convenient when working locally.
 
-where `_build` would be your build tree.  This will hopefully update most
-tests.  Re-run the test suite.  It might be interesting to run `update-test`
-again, since some early failures may stop latter tests from being run.  Yet
-at some point, you'll have to fix remaining issues by hand...
-
-## TESTSUITEFLAGS
-To run just the test suite (not the tests related to the examples), run `make
-check-local`.
+#### TESTSUITEFLAGS
+To run just the main test suite, run `make check-local`.
 
 The default is for make check-local to run all tests sequentially.  This can
 be very time consuming when checking repeatedly or on slower setups.  This
@@ -230,6 +233,10 @@ with AT_KEYWORDS([[category]]). Categories include:
 - java, for java parsers
 - report, for automaton dumps
 
+To get a list of all the tests (and their keywords for -k), run
+
+    $ ./tests/testsuite -l
+
 To run a specific set of tests, use -k (for "keyword"). For example:
 
     $ make check-local TESTSUITEFLAGS='-k c++'
@@ -242,18 +249,21 @@ To rerun the tests that failed:
 
     $ make recheck -j5
 
-## Typical errors
-If the test suite shows failures such as the following one
+#### Updating the Expectations
+Sometimes some changes have a large impact on the test suite (e.g., when we
+added the `[-Wother]` part to all the warnings).  Part of the update can be
+done with a crude tool: `build-aux/update-test`.
 
-    .../bison/lib/getopt.h:196:8: error: redefinition of 'struct option'
-    /usr/include/getopt.h:54:8: error: previous definition of 'struct option'
+Once you ran the test suite, and therefore have many `testsuite.log` files,
+run, from the source tree:
 
-it probably means that some file was compiled without
-`AT_DATA_SOURCE_PROLOGUE`.  This error is due to the fact that our -I
-options pick up gnulib's replacement headers, such as getopt.h, and this
-will go wrong if config.h was not included first.
+    $ ./build-aux/update-test $build/tests/testsuite.dir/*/testsuite.log
 
-See tests/local.at for details.
+where `$build` would be your build tree.  This will hopefully update most
+tests.  Re-run the test suite.  It might be interesting to run `update-test`
+again, since some early failures may stop latter tests from being run.  Yet
+at some point, you'll have to fix remaining issues by hand...
+
 
 ## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
@@ -363,7 +373,7 @@ of every year by running `make update-copyright`.  However, before a
 release, it's good to verify that it's actually been run.  Besides the
 copyright statement for each Bison file, check the copyright statements that
 the skeletons insert into generated parsers, and check all occurrences of
-PACKAGE_COPYRIGHT_YEAR in configure.ac.
+`PACKAGE_COPYRIGHT_YEAR` in configure.ac.
 
 ## Update NEWS, commit and tag.
 See do-release-commit-and-tag in README-release.  For a while, we used beta

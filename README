@@ -9,8 +9,7 @@ Here are basic installation instructions for a repository checkout:
 
 then proceed with the usual `configure && make` steps.
 
-The file README-hacking.md contains all the needed information about
-building, modifying and checking Bison.
+The file README-hacking.md ss about building, modifying and checking Bison.
 
 ## Build from tarball
 See the file INSTALL for generic compilation and installation instructions.
