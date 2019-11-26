@@ -1199,7 +1199,7 @@ m4_ifval([$2],
 # Check that we can expect exceptions to be handled properly.
 # GCC 4.3 and 4.4 fail https://trac.macports.org/ticket/40853.
 m4_define([AT_SKIP_IF_EXCEPTION_SUPPORT_IS_POOR],
-[AT_DATA_SOURCE([exception.cc],
+[AT_DATA_SOURCE([exceptions.cc],
 [[#include <iostream>
 #include <stdexcept>
 
@@ -1230,10 +1230,9 @@ int main ()
   return 1;
 }
 ]])
-AT_COMPILE_CXX([exception])
-# The "empty" quadrigraph is to protect from cfg.mk's
-# sc_at_parser_check.
-AT_CHECK([@&t@./exception || exit 77], [0], [], [ignore])
+AT_COMPILE_CXX([exceptions])
+# The "empty" quadrigraph is to protect from cfg.mk's sc_at_parser_check.
+AT_CHECK([@&t@./exceptions || exit 77], [0], [], [ignore])
 ])
 
 
