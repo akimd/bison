@@ -473,7 +473,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-## FIXME: test Java.
+## FIXME: test Java and D.
 m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
 
 m4_popdef([AT_TEST])

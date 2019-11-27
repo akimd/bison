@@ -1019,6 +1019,66 @@ input.y:12.3-18: warning: rule useless in parser due to conflicts [-Wother]
 AT_CLEANUP
 
 
+## ---------------------------------------- ##
+## Syntax error in consistent error state.  ##
+## ---------------------------------------- ##
+
+# AT_TEST(SKELETON-NAME)
+# ----------------------
+# Make sure yysyntax_error does nothing silly when called on yytoken
+# == YYEMPTY.
+
+m4_pushdef([AT_TEST],
+[AT_SETUP([Syntax error in consistent error state: $1])
+
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1"])
+
+AT_DATA_GRAMMAR([input.y],
+[[%define parse.error verbose
+%skeleton "$1"
+%%
+%nonassoc 'a';
+
+start: 'a' consistent-error-on-a-a 'a';
+
+consistent-error-on-a-a:
+    'a' default-reduction
+  | 'a' default-reduction 'a'
+  ;
+
+default-reduction: %empty;
+
+%code {
+  #include <stdio.h>
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+};
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE("aa")[
+]AT_MAIN_DEFINE[
+]])
+
+AT_BISON_CHECK([-o input.AT_LANG_EXT input.y], 0, [],
+[[input.y:17.5-25: warning: rule useless in parser due to conflicts [-Wother]
+input.y:18.5-29: warning: rule useless in parser due to conflicts [-Wother]
+]])
+AT_LANG_COMPILE([input])
+AT_PARSER_CHECK([[input]], 1, [],
+[[syntax error
+]])
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+])
+
+## FIXME: test Java and D.
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
+
+m4_popdef([AT_TEST])
+
+
+
 ## -------------------------------- ##
 ## Defaulted Conflicted Reduction.  ##
 ## -------------------------------- ##
