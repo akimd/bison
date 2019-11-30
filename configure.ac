@@ -151,8 +151,6 @@ if test "$enable_gcc_warnings" = yes; then
 
   # Warnings for the test suite, and maybe for bison if GCC is modern
   # enough.
-  gl_WARN_ADD([-Wmissing-declarations], [WARN_CFLAGS_TEST])
-  gl_WARN_ADD([-Wmissing-prototypes], [WARN_CFLAGS_TEST])
   test $lv_cv_gcc_pragma_push_works = yes &&
     AS_VAR_APPEND([WARN_CFLAGS], [" $WARN_CFLAGS_TEST"])
 
@@ -179,6 +177,14 @@ if test "$enable_gcc_warnings" = yes; then
               [[if (sizeof (long) < sizeof (int)) return 1;]])])
   gl_WARN_ADD([-Wzero-as-null-pointer-constant], [WARN_CXXFLAGS],
               [AC_LANG_PROGRAM([], [nullptr])])
+  # Before GCC6, the pragmas don't work well enough to neutralize
+  # this warning.
+  gl_WARN_ADD([-Wuseless-cast], [WARN_CXXFLAGS],
+              [AC_LANG_PROGRAM([], [
+              #if defined __GNUC__ && ! defined __ICC && ! defined __clang__ && __GNUC__ < 6
+              syntax error
+              #endif
+              ])])
   gl_WARN_ADD([-Werror], [WERROR_CXXFLAGS])
   # Warnings for the test suite only.
   for i in $warn_tests;
