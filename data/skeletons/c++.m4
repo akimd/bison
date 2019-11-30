@@ -529,8 +529,7 @@ m4_define([b4_token_constructor_define], [])
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
 [  b4_inline([$1])b4_parser_class[::token_number_type
-  ]b4_parser_class[::yytranslate_ (]b4_token_ctor_if([token_type],
-                                                          [int])[ t)
+  ]b4_parser_class[::yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
 [[    return static_cast<yy::parser::token_number_type> (t);]],
@@ -546,7 +545,7 @@ m4_define([b4_yytranslate_define],
 
     if (t <= 0)
       return yyeof_;
-    else if (static_cast<int> (t) <= user_token_number_max_)
+    else if (t <= user_token_number_max_)
       return translate_table[t];
     else
       return yy_undef_token_;]])[

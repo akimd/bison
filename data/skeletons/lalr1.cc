@@ -268,7 +268,9 @@ m4_define([b4_shared_declarations],
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
     /// Convert a scanner token number \a t to a symbol number.
-    static token_number_type yytranslate_ (]b4_token_ctor_if([token_type], [int])[ t);
+    /// In theory \a t should be a token_type, but character literals
+    /// are valid, yet not member of the token_type enum.
+    static token_number_type yytranslate_ (int t);
 
     // Tables.
 ]b4_parser_tables_declare[]b4_error_verbose_if([
