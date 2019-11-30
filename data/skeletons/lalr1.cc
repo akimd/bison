@@ -1330,7 +1330,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
     */
     if (!yyla.empty ())
       {
-        int yytoken = yyla.type_get ();
+        symbol_number_type yytoken = yyla.type_get ();
         yyarg[yycount++] = yytname_[yytoken];]b4_lac_if([[
 
 #if ]b4_api_PREFIX[DEBUG
