@@ -545,7 +545,7 @@ m4_define([b4_yytranslate_define],
     const int user_token_number_max_ = ]b4_user_token_number_max[;
     const token_number_type undef_token_ = ]b4_undef_token_number[;
 
-    if (static_cast<int> (t) <= yyeof_)
+    if (t <= 0)
       return yyeof_;
     else if (static_cast<int> (t) <= user_token_number_max_)
       return translate_table[t];
