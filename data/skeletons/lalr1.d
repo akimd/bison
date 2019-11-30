@@ -771,14 +771,6 @@ m4_popdef([b4_at_dollar])])dnl
 
   ]b4_parser_tables_define[
 
-  /* TOKEN_NUMBER_[YYLEX-NUM] -- Internal symbol number corresponding
-     to YYLEX-NUM.  */
-  private static immutable ]b4_int_type_for([b4_toknum])[[]
-  yytoken_number_ =
-  @{
-  ]b4_toknum[
-  @};
-
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   private static immutable string[] yytname_ =

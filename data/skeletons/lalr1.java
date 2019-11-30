@@ -976,9 +976,6 @@ b4_dollar_popdef[]dnl
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
 
   ]b4_parser_tables_define[
-  ]b4_integral_parser_table_define([token_number], [b4_toknum],
-     [[YYTOKEN_NUMBER[YYLEX-NUM] -- Internal symbol number corresponding
-   to YYLEX-NUM.]])[
 
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
