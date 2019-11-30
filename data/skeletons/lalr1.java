@@ -751,8 +751,8 @@ b4_dollar_popdef[]dnl
             yyn = yypact_[yystate];
             if (!yyPactValueIsDefault (yyn))
               {
-                yyn += yyterror_;
-                if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+                yyn += yy_error_token_;
+                if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yy_error_token_)
                   {
                     yyn = yytable_[yyn];
                     if (0 < yyn)
@@ -931,14 +931,14 @@ b4_dollar_popdef[]dnl
                 int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
                 int count = 0;
                 for (int x = yyxbegin; x < yyxend; ++x)
-                  if (yycheck_[x + yyn] == x && x != yyterror_
+                  if (yycheck_[x + yyn] == x && x != yy_error_token_
                       && !yyTableValueIsError (yytable_[x + yyn]))
                     ++count;
                 if (count < 5)
                   {
                     count = 0;
                     for (int x = yyxbegin; x < yyxend; ++x)
-                      if (yycheck_[x + yyn] == x && x != yyterror_
+                      if (yycheck_[x + yyn] == x && x != yy_error_token_
                           && !yyTableValueIsError (yytable_[x + yyn]))
                         {
                           res.append (count++ == 0 ? ", expecting " : " or ");
@@ -1015,25 +1015,26 @@ b4_dollar_popdef[]dnl
   }
 ]],
 [[  {
+    int user_token_number_max_ = ]b4_user_token_number_max[;
+    ]b4_int_type_for([b4_translate])[ undef_token_ = ]b4_undef_token_number[;
+
     if (t <= 0)
       return Lexer.EOF;
-    else if (t <= yyuser_token_number_max_)
+    else if (t <= user_token_number_max_)
       return yytranslate_table_[t];
     else
-      return yyundef_token_;
+      return undef_token_;
   }
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 ]])[
+
+  private static final ]b4_int_type_for([b4_translate])[ yy_error_token_ = 1;
 
   private static final int yylast_ = ]b4_last[;
   private static final int yynnts_ = ]b4_nterms_number[;
   private static final int yyempty_ = -2;
   private static final int yyfinal_ = ]b4_final_state_number[;
-  private static final int yyterror_ = 1;
   private static final int yyntokens_ = ]b4_tokens_number[;
-
-  private static final int yyuser_token_number_max_ = ]b4_user_token_number_max[;
-  private static final int yyundef_token_ = ]b4_undef_token_number[;
 
 /* User implementation code.  */
 ]b4_percent_code_get[]dnl

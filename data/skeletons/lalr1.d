@@ -619,8 +619,8 @@ m4_popdef([b4_at_dollar])])dnl
           yyn = yypact_[yystate];
           if (!yy_pact_value_is_default_ (yyn))
           {
-            yyn += yyterror_;
-            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+            yyn += yy_error_token_;
+            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yy_error_token_)
             {
               yyn = yytable_[yyn];
               if (0 < yyn)
@@ -720,14 +720,14 @@ m4_popdef([b4_at_dollar])])dnl
           int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
           int count = 0;
           for (int x = yyxbegin; x < yyxend; ++x)
-            if (yycheck_[x + yyn] == x && x != yyterror_
+            if (yycheck_[x + yyn] == x && x != yy_error_token_
                 && !yy_table_value_is_error_ (yytable_[x + yyn]))
                ++count;
             if (count < 5)
             {
                count = 0;
                for (int x = yyxbegin; x < yyxend; ++x)
-                 if (yycheck_[x + yyn] == x && x != yyterror_
+                 if (yycheck_[x + yyn] == x && x != yy_error_token_
                      && !yy_table_value_is_error_ (yytable_[x + yyn]))
                  {
                     res ~= count++ == 0 ? ", expecting " : " or ";
@@ -806,34 +806,37 @@ m4_popdef([b4_at_dollar])])dnl
   }
 ]])[
 
-  private static ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
+  private static token_number_type yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
 [[    import std.conv : to;
     return to!byte (t);]],
 [[    /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-    immutable ]b4_int_type_for([b4_translate])[[] translate_table =
+    immutable token_number_type[] translate_table =
     @{
   ]b4_translate[
     @};
 
+    immutable int user_token_number_max_ = ]b4_user_token_number_max[;
+    immutable token_number_type undef_token_ = ]b4_undef_token_number[;
+
     if (t <= 0)
       return YYTokenType.EOF;
-    else if (t <= yyuser_token_number_max_)
+    else if (t <= user_token_number_max_)
       return translate_table[t];
     else
-      return yyundef_token_;]])[
+      return undef_token_;]])[
   }
+
+  alias ]b4_int_type_for([b4_translate])[ token_number_type;
+
+  private static immutable token_number_type yy_error_token_ = 1;
 
   private static immutable int yylast_ = ]b4_last[;
   private static immutable int yynnts_ = ]b4_nterms_number[;
   private static immutable int yyempty_ = -2;
   private static immutable int yyfinal_ = ]b4_final_state_number[;
-  private static immutable int yyterror_ = 1;
   private static immutable int yyntokens_ = ]b4_tokens_number[;
-
-  private static immutable int yyuser_token_number_max_ = ]b4_user_token_number_max[;
-  private static immutable int yyundef_token_ = ]b4_undef_token_number[;
 
   private final struct YYStackElement {
     int state;
