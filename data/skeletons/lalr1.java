@@ -1033,7 +1033,6 @@ b4_dollar_popdef[]dnl
   private static final int yyempty_ = -2;
   private static final int yyfinal_ = ]b4_final_state_number[;
   private static final int yyterror_ = 1;
-  private static final int yyerrcode_ = 256;
   private static final int yyntokens_ = ]b4_tokens_number[;
 
   private static final int yyuser_token_number_max_ = ]b4_user_token_number_max[;

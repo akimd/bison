@@ -405,7 +405,6 @@ m4_define([b4_shared_declarations],
       yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
       yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
       yyterror_ = 1,
-      yyerrcode_ = 256,
       yyntokens_ = ]b4_tokens_number[  ///< Number of tokens.
     };
 

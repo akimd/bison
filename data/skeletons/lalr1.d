@@ -838,7 +838,6 @@ m4_popdef([b4_at_dollar])])dnl
   private static immutable int yyempty_ = -2;
   private static immutable int yyfinal_ = ]b4_final_state_number[;
   private static immutable int yyterror_ = 1;
-  private static immutable int yyerrcode_ = 256;
   private static immutable int yyntokens_ = ]b4_tokens_number[;
 
   private static immutable int yyuser_token_number_max_ = ]b4_user_token_number_max[;
