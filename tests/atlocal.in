@@ -117,9 +117,9 @@ fi
 : ${DC='@DC@'}
 : ${DCFLAGS='@DCFLAGS@'}
 if test x"$DC" = x; then
-    BISON_DC_WORKS=false
+  BISON_DC_WORKS=false
 else
-    BISON_DC_WORKS=true
+  BISON_DC_WORKS=true
 fi
 
 # Empty if no javac was found
