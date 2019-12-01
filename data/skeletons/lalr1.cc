@@ -397,6 +397,10 @@ m4_define([b4_shared_declarations],
     /// Pop \a n symbols from the stack.
     void yypop_ (int n = 1);
 
+    /// Some specific tokens.
+    static const token_number_type yy_error_token_ = 1;
+    static const token_number_type yy_undef_token_ = ]b4_undef_token_number[;
+
     /// Constants.
     enum
     {
@@ -404,7 +408,6 @@ m4_define([b4_shared_declarations],
       yylast_ = ]b4_last[,     ///< Last index in yytable_.
       yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
       yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
-      yyterror_ = 1,
       yyntokens_ = ]b4_tokens_number[  ///< Number of tokens.
     };
 
@@ -1054,8 +1057,8 @@ b4_dollar_popdef])[]dnl
           yyn = yypact_[yystack_[0].state];
           if (!yy_pact_value_is_default_ (yyn))
             {
-              yyn += yyterror_;
-              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+              yyn += yy_error_token_;
+              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yy_error_token_)
                 {
                   yyn = yytable_[yyn];
                   if (0 < yyn)
@@ -1343,7 +1346,8 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
         if (!yy_pact_value_is_default_ (yyn))
           {]b4_lac_if([[
             for (int yyx = 0; yyx < yyntokens_; ++yyx)
-              if (yyx != yyterror_ && yy_lac_check_(yyx))
+              if (yyx != yy_error_token_ && yyx != yy_undef_token_
+                  && yy_lac_check_ (yyx))
                 {]], [[
             /* Start YYX at -YYN if negative to avoid negative indexes in
                YYCHECK.  In other words, skip the first -YYN actions for
@@ -1353,7 +1357,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
             int yychecklim = yylast_ - yyn + 1;
             int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
             for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
+              if (yycheck_[yyx + yyn] == yyx && yyx != yy_error_token_
                   && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
                 {]])[
                   if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
