@@ -43,20 +43,51 @@ AT_YYLEX_PROTOTYPE[
     case '8':
     case '9':
       ]AT_VAL[.val = c - '0';
-      return ]AT_CXX_IF([yy::parser::token::])[NUM;
-    case '+': return ]AT_CXX_IF([yy::parser::token::])[PLUS;
-    case '-': return ]AT_CXX_IF([yy::parser::token::])[MINUS;
-    case '*': return ]AT_CXX_IF([yy::parser::token::])[STAR;
-    case '/': return ]AT_CXX_IF([yy::parser::token::])[SLASH;
-    case '(': return ]AT_CXX_IF([yy::parser::token::])[LPAR;
-    case ')': return ]AT_CXX_IF([yy::parser::token::])[RPAR;
-    case 0: return 0;
+      return NUM;
+    case '+': return PLUS;
+    case '-': return MINUS;
+    case '*': return STAR;
+    case '/': return SLASH;
+    case '(': return LPAR;
+    case ')': return RPAR;
+    case 0:   return 0;
     }
   abort ();
 }
 ]])
 
-m4_copy([AT_RAW_YYLEX(c)], [AT_RAW_YYLEX(c++)])
+m4_define([AT_RAW_YYLEX(c++)],
+[#include <stdlib.h> /* abort */
+AT_YYLEX_PROTOTYPE[
+{
+  static const char* input = "0-(1+2)*3/9";
+  int c = *input++;
+  switch (c)
+    {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':]AT_TOKEN_CTOR_IF([[
+      return yy::parser::make_NUM (c - '0');]], [[
+      ]AT_VAL[.val = c - '0';
+      return yy::parser::token::NUM;]])[
+    case '+': return yy::parser::]AT_TOKEN_CTOR_IF([make_PLUS ()],  [token::PLUS])[;
+    case '-': return yy::parser::]AT_TOKEN_CTOR_IF([make_MINUS ()], [token::MINUS])[;
+    case '*': return yy::parser::]AT_TOKEN_CTOR_IF([make_STAR ()],  [token::STAR])[;
+    case '/': return yy::parser::]AT_TOKEN_CTOR_IF([make_SLASH ()], [token::SLASH])[;
+    case '(': return yy::parser::]AT_TOKEN_CTOR_IF([make_LPAR ()],  [token::LPAR])[;
+    case ')': return yy::parser::]AT_TOKEN_CTOR_IF([make_RPAR ()],  [token::RPAR])[;
+    case 0:   return yy::parser::]AT_TOKEN_CTOR_IF([make_END ()],   [token::END])[;
+    }
+  abort ();
+}
+]])
 
 m4_define([AT_RAW_YYLEX(d)],
 [[import std.range.primitives;
@@ -147,10 +178,17 @@ AT_DATA_GRAMMAR([[input.y]],
 ]AT_YYLEX_DECLARE[
 }]])[
 
+]AT_VARIANT_IF([[
+%token <int> NUM "number"
+%nterm <int> exp
+]], [[
 %union {
   int val;
 }
 %token <val> NUM "number"
+%nterm <val> exp
+]])[
+
 %token
   PLUS  "+"
   MINUS "-"
@@ -158,7 +196,7 @@ AT_DATA_GRAMMAR([[input.y]],
   SLASH "/"
   LPAR  "("
   RPAR  ")"
-%nterm <val> exp
+  END   0
 
 %left "+" "-"
 %left "*" "/"
@@ -206,6 +244,7 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [lalr1.d]],
 [AT_TEST([%skeleton "]b4_skel["])
  AT_TEST([%skeleton "]b4_skel[" %define api.token.raw])])
 
+AT_TEST([%skeleton "lalr1.cc" %define api.token.raw %define api.value.type variant %define api.token.constructor])])
 
 m4_popdef([AT_MAIN_DEFINE(d)])
 m4_popdef([AT_TEST])
