@@ -367,9 +367,6 @@ m4_define([b4_symbol_type_define],
       /// \a empty when empty.
       symbol_number_type type_get () const YY_NOEXCEPT;
 
-      /// The token.
-      token_type token () const YY_NOEXCEPT;
-
       /// The symbol type.
       /// \a empty_symbol when empty.
       /// An int, not token_number_type, to be able to store empty_symbol.
@@ -498,22 +495,7 @@ m4_define([b4_public_types_define],
   {
     return type;
   }
-]b4_token_ctor_if([[
-  ]b4_inline([$1])b4_parser_class[::token_type
-  ]b4_parser_class[::by_type::token () const YY_NOEXCEPT
-  {
-    // YYTOKNUM[NUM] -- (External) token number corresponding to the
-    // (internal) symbol number NUM (which must be that of a token).  */
-    static
-    const ]b4_int_type_for([b4_toknum])[
-    yytoken_number_[] =
-    {
-  ]b4_toknum[
-    };
-    return token_type (yytoken_number_[type]);
-  }
-]])[]dnl
-])
+]])
 
 
 # b4_token_constructor_define

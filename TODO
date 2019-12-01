@@ -135,9 +135,7 @@ $ ./tests/testsuite -l | grep errors | sed q
 
 * Short term
 ** Get rid of YYPRINT and b4_toknum
-
-** C++ a closer look at parser::by_type::token
-It can certainly be simplified with we use api.token.raw.
+Besides yytoknum is wrong when api.token.raw is defined.
 
 ** Stop indentation in diagnostics
 Before Bison 2.7, we printed "flatly" the dependencies in long diagnostics:
