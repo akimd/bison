@@ -192,7 +192,7 @@ m4_define([b4_error],
 #   @warn(1@)
 #   @warn(1@,2@)
 m4_define([b4_warn],
-[b4_error([[warn]], [], [], $@)])
+[b4_warn_at([], [], $@)])
 
 # b4_warn_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ---------------------------------------------------
@@ -210,7 +210,7 @@ m4_define([b4_warn_at],
 #
 # See b4_warn example.
 m4_define([b4_complain],
-[b4_error([[complain]], [], [], $@)])
+[b4_complain_at([], [], $@)])
 
 # b4_complain_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------------------------
@@ -226,8 +226,7 @@ m4_define([b4_complain_at],
 #
 # See b4_warn example.
 m4_define([b4_fatal],
-[b4_error([[fatal]], [], [], $@)dnl
-m4_exit(1)])
+[b4_fatal_at([], [], $@)])
 
 # b4_fatal_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ----------------------------------------------------

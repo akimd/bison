@@ -61,6 +61,7 @@ typedef enum
 /** Whether -Werror was set. */
 extern bool warnings_are_errors;
 
+/** Document --warning arguments.  */
 void warning_usage (FILE *out);
 
 /** Decode a single argument from -W.
@@ -99,6 +100,7 @@ void complain_free (void);
 /** Initialize support for colored messages.  */
 void complain_init_color (void);
 
+/** Flags passed to diagnostics functions.  */
 typedef enum
   {
     Wnone             = 0,       /**< Issue no warnings.  */
