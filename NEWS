@@ -2,6 +2,21 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New Features
+
+*** A skeleton for the D programming language
+
+  Since a few releases, Bison ships with a stealth experimental skeleton:
+  lalr1.d.  It was first contributed by Oliver Mangold, based on Paolo
+  Bonzini's lalr1.java, and was cleaned and improved thanks to H. S. Teoh.
+
+  However, for lack of a genuine maintainer, committed to supporting this
+  skeleton (improving, testsing, documenting, etc.), this feature might be
+  DOA.
+
+  The lalr1.d skeleton *is functional*, and works well, as demonstrated in
+  examples/d/calc.d.  Please try it, enjoy it, and... commit to support it.
+
 ** Changes
 
 *** Debugging glr.c and glr.cc
@@ -9,6 +24,20 @@ GNU Bison NEWS
   The glr.c skeleton always had asserts to check its own behavior (not the
   user's).  These assertions are now under the control of the parse.assert
   %define variable (disabled by default).
+
+*** Clean up
+
+  Several new compiler warnings in the generated output have been avoided.
+  Some unused features are no longer emitted.  Cleaner generated code in
+  general.
+
+** Bug Fixes
+
+*** Crashes when reporting verbose error messages
+
+  When using %nonassoc, in some situations extremely difficult to reach on
+  purpose (so virtually impossible by accident---no bug report was ever made
+  about it), the generated parsers could crash.  This is fixed.
 
 * Noteworthy changes in release 3.4.91 (2019-11-20) [beta]
 
