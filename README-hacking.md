@@ -188,8 +188,8 @@ update.
 # Test Suite
 
 ## make check
-Use liberally.  It is composed of two kinds of tests: the examples, and the
-main test suite.
+Consume without moderation.  It is composed of two kinds of tests: the
+examples, and the main test suite.
 
 ### The Examples
 In examples/, there is a number of ready-to-use examples (see
