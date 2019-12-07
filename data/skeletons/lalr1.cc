@@ -335,7 +335,8 @@ m4_define([b4_shared_declarations],
       symbol_number_type type_get () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
-      enum { empty_state = -1 };
+      /// We use the initial state, as it does not have a value.
+      enum { empty_state = 0 };
 
       /// The state.
       /// \a empty when empty.
