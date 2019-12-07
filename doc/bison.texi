@@ -6494,9 +6494,12 @@ Obsoleted by @code{api.namespace}
 @deffn Directive {%define parse.assert}
 
 @itemize
-@item Languages(s): C++
+@item Languages(s): C, C++
 
 @item Purpose: Issue runtime assertions to catch invalid uses.
+In C, some important invariants in the implementation of the parser are
+checked when this option is enabled.
+
 In C++, when variants are used (@pxref{C++ Variants}), symbols must be
 constructed and destroyed properly.  This option checks these constraints.
 

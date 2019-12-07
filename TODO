@@ -2,11 +2,6 @@
 ** Deprecate YYPRINT
 The doc shows it too much.
 
-** glr.c: parse.assert
-There are many assertions in glr.c that are there to check the skeleton
-itself, not the user code.  So it should be under the control of
-parse.assert.
-
 ** java, d: error.verbose
 The code checks dynamically for error.verbose.  It should be controlled by
 M4.

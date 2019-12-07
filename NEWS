@@ -2,6 +2,13 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Changes
+
+*** Debugging glr.c and glr.cc
+
+  The glr.c skeleton always had asserts to check its own behavior (not the
+  user's).  These assertions are now under the control of the parse.assert
+  %define variable (disabled by default).
 
 * Noteworthy changes in release 3.4.91 (2019-11-20) [beta]
 
