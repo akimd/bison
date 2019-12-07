@@ -367,9 +367,9 @@ Debugging Your Parser
 
 Tracing Your Parser
 
-* Enabling Traces::             Activating run-time trace support
-* Mfcalc Traces::               Extending @code{mfcalc} to support traces
-* The YYPRINT Macro::           Obsolete interface for semantic value reports
+* Enabling Traces::    Activating run-time trace support
+* Mfcalc Traces::      Extending @code{mfcalc} to support traces
+* The YYPRINT Macro::  Obsolete interface for semantic value reports
 
 Invoking Bison
 
@@ -2897,25 +2897,25 @@ of line.
 @cindex Prologue
 @cindex declarations
 
-The @var{Prologue} section contains macro definitions and declarations
-of functions and variables that are used in the actions in the grammar
-rules.  These are copied to the beginning of the parser implementation
-file so that they precede the definition of @code{yyparse}.  You can
-use @samp{#include} to get the declarations from a header file.  If
-you don't need any C declarations, you may omit the @samp{%@{} and
-@samp{%@}} delimiters that bracket this section.
+The @var{Prologue} section contains macro definitions and declarations of
+functions and variables that are used in the actions in the grammar rules.
+These are copied to the beginning of the parser implementation file so that
+they precede the definition of @code{yyparse}.  You can use @samp{#include}
+to get the declarations from a header file.  If you don't need any C
+declarations, you may omit the @samp{%@{} and @samp{%@}} delimiters that
+bracket this section.
 
-The @var{Prologue} section is terminated by the first occurrence
-of @samp{%@}} that is outside a comment, a string literal, or a
-character constant.
+The @var{Prologue} section is terminated by the first occurrence of
+@samp{%@}} that is outside a comment, a string literal, or a character
+constant.
 
 You may have more than one @var{Prologue} section, intermixed with the
-@var{Bison declarations}.  This allows you to have C and Bison
-declarations that refer to each other.  For example, the @code{%union}
-declaration may use types defined in a header file, and you may wish to
-prototype functions that take arguments of type @code{YYSTYPE}.  This
-can be done with two @var{Prologue} blocks, one before and one after the
-@code{%union} declaration.
+@var{Bison declarations}.  This allows you to have C and Bison declarations
+that refer to each other.  For example, the @code{%union} declaration may
+use types defined in a header file, and you may wish to prototype functions
+that take arguments of type @code{YYSTYPE}.  This can be done with two
+@var{Prologue} blocks, one before and one after the @code{%union}
+declaration.
 
 @example
 @group
@@ -2943,12 +2943,11 @@ can be done with two @var{Prologue} blocks, one before and one after the
 @dots{}
 @end example
 
-When in doubt, it is usually safer to put prologue code before all
-Bison declarations, rather than after.  For example, any definitions
-of feature test macros like @code{_GNU_SOURCE} or
-@code{_POSIX_C_SOURCE} should appear before all Bison declarations, as
-feature test macros can affect the behavior of Bison-generated
-@code{#include} directives.
+When in doubt, it is usually safer to put prologue code before all Bison
+declarations, rather than after.  For example, any definitions of feature
+test macros like @code{_GNU_SOURCE} or @code{_POSIX_C_SOURCE} should appear
+before all Bison declarations, as feature test macros can affect the
+behavior of Bison-generated @code{#include} directives.
 
 @node Prologue Alternatives
 @subsection Prologue Alternatives
@@ -2960,12 +2959,11 @@ feature test macros can affect the behavior of Bison-generated
 @findex %code top
 
 The functionality of @var{Prologue} sections can often be subtle and
-inflexible.  As an alternative, Bison provides a @code{%code}
-directive with an explicit qualifier field, which identifies the
-purpose of the code and thus the location(s) where Bison should
-generate it.  For C/C++, the qualifier can be omitted for the default
-location, or it can be one of @code{requires}, @code{provides},
-@code{top}.  @xref{%code Summary}.
+inflexible.  As an alternative, Bison provides a @code{%code} directive with
+an explicit qualifier field, which identifies the purpose of the code and
+thus the location(s) where Bison should generate it.  For C/C++, the
+qualifier can be omitted for the default location, or it can be one of
+@code{requires}, @code{provides}, @code{top}.  @xref{%code Summary}.
 
 Look again at the example of the previous section:
 
@@ -3060,21 +3058,20 @@ the same time:
 @end example
 
 @noindent
-In this way, @code{%code top} and the unqualified @code{%code} achieve the same
-functionality as the two kinds of @var{Prologue} sections, but it's always
-explicit which kind you intend.
-Moreover, both kinds are always available even in the absence of @code{%union}.
+In this way, @code{%code top} and the unqualified @code{%code} achieve the
+same functionality as the two kinds of @var{Prologue} sections, but it's
+always explicit which kind you intend.  Moreover, both kinds are always
+available even in the absence of @code{%union}.
 
-The @code{%code top} block above logically contains two parts.  The
-first two lines before the warning need to appear near the top of the
-parser implementation file.  The first line after the warning is
-required by @code{YYSTYPE} and thus also needs to appear in the parser
-implementation file.  However, if you've instructed Bison to generate
-a parser header file (@pxref{Decl Summary, ,%defines}), you probably
-want that line to appear before the @code{YYSTYPE} definition in that
-header file as well.  The @code{YYLTYPE} definition should also appear
-in the parser header file to override the default @code{YYLTYPE}
-definition there.
+The @code{%code top} block above logically contains two parts.  The first
+two lines before the warning need to appear near the top of the parser
+implementation file.  The first line after the warning is required by
+@code{YYSTYPE} and thus also needs to appear in the parser implementation
+file.  However, if you've instructed Bison to generate a parser header file
+(@pxref{Decl Summary, ,%defines}), you probably want that line to appear
+before the @code{YYSTYPE} definition in that header file as well.  The
+@code{YYLTYPE} definition should also appear in the parser header file to
+override the default @code{YYLTYPE} definition there.
 
 In other words, in the @code{%code top} block above, all but the first two
 lines are dependency code required by the @code{YYSTYPE} and @code{YYLTYPE}
