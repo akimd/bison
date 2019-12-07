@@ -2,10 +2,6 @@
 ** Deprecate YYPRINT
 The doc shows it too much.
 
-** java, d: error.verbose
-The code checks dynamically for error.verbose.  It should be controlled by
-M4.
-
 ** doc
 I feel its ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page

@@ -187,9 +187,6 @@ b4_user_union_members
 {
   ]b4_identification[
 
-  /** True if verbose error messages are enabled.  */
-  public bool errorVerbose = ]b4_flag_value([error_verbose])[;
-
 ]b4_locations_if([[
   private final ]b4_location_type[ yylloc_from_stack (ref YYStack rhs, int n)
   {
@@ -400,7 +397,8 @@ b4_user_union_members
     ref ]b4_yystype[ yyvaluep]dnl
 b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
-    if (0 < yydebug) {
+    if (0 < yydebug)
+    {
       string message = s ~ (yytype < yyntokens_ ? " token " : " nterm ")
               ~ yytname_[yytype] ~ " ("]b4_locations_if([
               ~ yylocationp.toString() ~ ": "])[;
@@ -667,78 +665,74 @@ m4_popdef([b4_at_dollar])])dnl
 
   // Generate an error message.
   private final string yysyntax_error (int yystate, int tok)
-  {
-    if (errorVerbose)
+  {]b4_error_verbose_if([[
+    /* There are many possibilities here to consider:
+       - Assume YYFAIL is not used.  It's too flawed to consider.
+         See
+         <http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html>
+         for details.  YYERROR is fine as it does not invoke this
+         function.
+       - If this state is a consistent state with a default action,
+         then the only way this function was invoked is if the
+         default action is an error action.  In that case, don't
+         check for expected tokens because there are none.
+       - The only way there can be no lookahead present (in tok) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this
+         state is a consistent state with a default action.  There
+         might have been a previous inconsistent state, consistent
+         state with a non-default action, or user semantic action
+         that manipulated yychar.  (However, yychar is currently out
+         of scope during semantic actions.)
+       - Of course, the expected token list depends on states to
+         have correct lookahead information, and it depends on the
+         parser not to perform extra reductions after fetching a
+         lookahead from the scanner and before detecting a syntax
+         error.  Thus, state merging (from LALR or IELR) and default
+         reductions corrupt the expected token list.  However, the
+         list is correct for canonical LR with one exception: it
+         will still contain any token that will not be accepted due
+         to an error action in a later state.
+      */
+    if (tok != yyempty_)
     {
-      /* There are many possibilities here to consider:
-         - Assume YYFAIL is not used.  It's too flawed to consider.
-           See
-           <http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html>
-           for details.  YYERROR is fine as it does not invoke this
-           function.
-         - If this state is a consistent state with a default action,
-           then the only way this function was invoked is if the
-           default action is an error action.  In that case, don't
-           check for expected tokens because there are none.
-         - The only way there can be no lookahead present (in tok) is
-           if this state is a consistent state with a default action.
-           Thus, detecting the absence of a lookahead is sufficient to
-           determine that there is no unexpected or expected token to
-           report.  In that case, just report a simple "syntax error".
-         - Don't assume there isn't a lookahead just because this
-           state is a consistent state with a default action.  There
-           might have been a previous inconsistent state, consistent
-           state with a non-default action, or user semantic action
-           that manipulated yychar.  (However, yychar is currently out
-           of scope during semantic actions.)
-         - Of course, the expected token list depends on states to
-           have correct lookahead information, and it depends on the
-           parser not to perform extra reductions after fetching a
-           lookahead from the scanner and before detecting a syntax
-           error.  Thus, state merging (from LALR or IELR) and default
-           reductions corrupt the expected token list.  However, the
-           list is correct for canonical LR with one exception: it
-           will still contain any token that will not be accepted due
-           to an error action in a later state.
-        */
-      if (tok != yyempty_)
+      // FIXME: This method of building the message is not compatible
+      // with internationalization.
+      string res = "syntax error, unexpected ";
+      res ~= yytnamerr_ (yytname_[tok]);
+      int yyn = yypact_[yystate];
+      if (!yy_pact_value_is_default_ (yyn))
       {
-        // FIXME: This method of building the message is not compatible
-        // with internationalization.
-        string res = "syntax error, unexpected ";
-        res ~= yytnamerr_ (yytname_[tok]);
-        int yyn = yypact_[yystate];
-        if (!yy_pact_value_is_default_ (yyn))
-        {
-          /* Start YYX at -YYN if negative to avoid negative
-             indexes in YYCHECK.  In other words, skip the first
-             -YYN actions for this state because they are default
-             actions.  */
-          int yyxbegin = yyn < 0 ? -yyn : 0;
-          /* Stay within bounds of both yycheck and yytname.  */
-          int yychecklim = yylast_ - yyn + 1;
-          int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-          int count = 0;
-          for (int x = yyxbegin; x < yyxend; ++x)
-            if (yycheck_[x + yyn] == x && x != yy_error_token_
-                && !yy_table_value_is_error_ (yytable_[x + yyn]))
-               ++count;
-            if (count < 5)
-            {
-               count = 0;
-               for (int x = yyxbegin; x < yyxend; ++x)
-                 if (yycheck_[x + yyn] == x && x != yy_error_token_
-                     && !yy_table_value_is_error_ (yytable_[x + yyn]))
-                 {
-                    res ~= count++ == 0 ? ", expecting " : " or ";
-                    res ~= yytnamerr_ (yytname_[x]);
-                 }
-            }
-        }
-        return res;
+        /* Start YYX at -YYN if negative to avoid negative
+           indexes in YYCHECK.  In other words, skip the first
+           -YYN actions for this state because they are default
+           actions.  */
+        int yyxbegin = yyn < 0 ? -yyn : 0;
+        /* Stay within bounds of both yycheck and yytname.  */
+        int yychecklim = yylast_ - yyn + 1;
+        int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+        int count = 0;
+        for (int x = yyxbegin; x < yyxend; ++x)
+          if (yycheck_[x + yyn] == x && x != yy_error_token_
+              && !yy_table_value_is_error_ (yytable_[x + yyn]))
+             ++count;
+          if (count < 5)
+          {
+             count = 0;
+             for (int x = yyxbegin; x < yyxend; ++x)
+               if (yycheck_[x + yyn] == x && x != yy_error_token_
+                   && !yy_table_value_is_error_ (yytable_[x + yyn]))
+               {
+                  res ~= count++ == 0 ? ", expecting " : " or ";
+                  res ~= yytnamerr_ (yytname_[x]);
+               }
+          }
       }
-    }
-
+      return res;
+    }]])[
     return "syntax error";
   }
 
