@@ -2935,8 +2935,7 @@ declaration.
 
 @group
 %@{
-  static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void print_token (enum yytokentype token, YYSTYPE val);
 %@}
 @end group
 
@@ -2985,8 +2984,7 @@ Look again at the example of the previous section:
 
 @group
 %@{
-  static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void print_token (enum yytokentype token, YYSTYPE val);
 %@}
 @end group
 
@@ -3048,8 +3046,7 @@ the same time:
 
 @group
 %code @{
-  static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void print_token (enum yytokentype token, YYSTYPE val);
   static void trace_token (enum yytokentype token, YYLTYPE loc);
 @}
 @end group
@@ -3114,8 +3111,7 @@ Thus, they belong in one or more @code{%code requires}:
 
 @group
 %code @{
-  static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void print_token (enum yytokentype token, YYSTYPE val);
   static void trace_token (enum yytokentype token, YYLTYPE loc);
 @}
 @end group
@@ -3194,8 +3190,7 @@ unqualified @code{%code} to a @code{%code provides}:
 
 @group
 %code @{
-  static void print_token_value (FILE *, int, YYSTYPE);
-  #define YYPRINT(F, N, L) print_token_value (F, N, L)
+  static void print_token (FILE *file, int token, YYSTYPE val);
 @}
 @end group
 
@@ -10069,9 +10064,7 @@ of variables show where in the grammar it is working.
 The debugging information normally gives the token type of each token read,
 but not its semantic value.  The @code{%printer} directive allows specify
 how semantic values are reported, see @ref{Printer Decl, , Printing
-Semantic Values}.  For backward compatibility, Yacc like C parsers may also
-use the @code{YYPRINT} (@pxref{The YYPRINT Macro, , The @code{YYPRINT}
-Macro}), but its use is discouraged.
+Semantic Values}.
 
 As a demonstration of @code{%printer}, consider the multi-function
 calculator, @code{mfcalc} (@pxref{Multi-function Calc}).  To enable run-time
@@ -10234,14 +10227,16 @@ Cleanup: popping nterm input ()
 
 @node The YYPRINT Macro
 @subsection The @code{YYPRINT} Macro
-
 @findex YYPRINT
-Before @code{%printer} support, semantic values could be displayed using the
-@code{YYPRINT} macro, which works only for terminal symbols and only with
-the @file{yacc.c} skeleton.
+
+The @code{%printer} directive was introduced in Bison 1.50 (Novembre 2002).
+Before then, @code{YYPRINT} provided a similar feature, but only for
+terminal symbols and only with the @file{yacc.c} skeleton.
 
 @deffn {Macro} YYPRINT (@var{stream}, @var{token}, @var{value});
 @findex YYPRINT
+Deprecated, will be removed eventually.
+
 If you define @code{YYPRINT}, it should take three arguments.  The parser
 will pass a standard I/O stream, the numeric code for the token type, and
 the token value (from @code{yylval}).
@@ -10254,7 +10249,7 @@ calculator (@pxref{Mfcalc Declarations, ,Declarations for @code{mfcalc}}):
 
 @example
 %@{
-  static void print_token_value (FILE *, int, YYSTYPE);
+  static void print_token_value (FILE *file, int type, YYSTYPE value);
   #define YYPRINT(File, Type, Value)            \
     print_token_value (File, Type, Value)
 %@}
@@ -10270,6 +10265,9 @@ print_token_value (FILE *file, int type, YYSTYPE value)
     fprintf (file, "%d", value.val);
 @}
 @end example
+
+@xref{Mfcalc Traces, ,Enabling Debug Traces for @code{mfcalc}}, for the
+proper use of @code{%printer}.
 
 @c ================================================= Invoking Bison
 
@@ -14232,7 +14230,8 @@ parsing.  @xref{Parser Function, ,The Parser Function @code{yyparse}}.
 
 @deffn {Macro} YYPRINT
 Macro used to output token semantic values.  For @file{yacc.c} only.
-Obsoleted by @code{%printer}.
+Deprecated, use @code{%printer} instead (@pxref{Printer Decl, , Printing
+Semantic Values}).
 @xref{The YYPRINT Macro, , The @code{YYPRINT} Macro}.
 @end deffn
 

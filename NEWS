@@ -2,6 +2,12 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Deprecated features
+
+  The YYPRINT macro, which works only with yacc.c and only for tokens, was
+  obsoleted long ago by %printer, introduced in Bison 1.50 (November 2002).
+  It is deprecated and its support will be removed eventually.
+
 ** New Features
 
 *** A skeleton for the D programming language
