@@ -1,4 +1,4 @@
-* Bison 3.5
+* Bison 3.6
 ** doc
 I feel its ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page
@@ -50,12 +50,72 @@ syntax error, unexpected $end, expecting ↦ or 🎅🐃 or '\n'
 While at it, we should stop using "$end" by default, in favor of "end of
 file", or "end of input", whatever.  See how lalr1.java does that.
 
+** consistency
+token vs terminal, variable vs non terminal.
+
+** Stop indentation in diagnostics
+Before Bison 2.7, we printed "flatly" the dependencies in long diagnostics:
+
+    input.y:2.7-12: %type redeclaration for exp
+    input.y:1.7-12: previous declaration
+
+In Bison 2.7, we indented them
+
+    input.y:2.7-12: error: %type redeclaration for exp
+    input.y:1.7-12:     previous declaration
+
+Later we quoted the source in the diagnostics, and today we have:
+
+    /tmp/foo.y:1.12-14: warning: symbol FOO redeclared [-Wother]
+        1 | %token FOO FOO
+          |            ^~~
+    /tmp/foo.y:1.8-10:      previous declaration
+        1 | %token FOO FOO
+          |        ^~~
+
+The indentation is no longer helping.  We should probably get rid of it, or
+maybe keep it only when -fno-caret. GCC displays this as a "note":
+
+    $ g++-mp-9 -Wall /tmp/foo.c -c
+    /tmp/foo.c:1:10: error: redefinition of 'int foo'
+        1 | int foo, foo;
+          |          ^~~
+    /tmp/foo.c:1:5: note: 'int foo' previously declared here
+        1 | int foo, foo;
+          |     ^~~
+
+Likewise for Clang, contrary to what I believed (because "note:" is written
+in black, so it doesn't show in my terminal :-)
+
+    $ clang++-mp-8.0 -Wall /tmp/foo.c -c
+    clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated [-Wdeprecated]
+    /tmp/foo.c:1:10: error: redefinition of 'foo'
+    int foo, foo;
+             ^
+    /tmp/foo.c:1:5: note: previous definition is here
+    int foo, foo;
+        ^
+    1 error generated.
+
+See also the item "Complaint submessage indentation" below.
+
 ** api.token.raw
 Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
 semantic value so that yyerror could be used to report invalid lexemes.
 See also the item "$undefined" below.
 
-* Bison 3.6
+** C++
+Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
+itself uses int (for yylen for instance), yet stack is based on size_t.
+
+Maybe locations should also move to ints.
+
+Paul Eggert already covered most of this.  But before publishing these
+changes, we need to ask our C++ users if they agree with that change, or if
+we need some migration path.  Could be a %define variable, or simply
+%require "3.5".
+
+* Bison 3.7
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see
 https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,
@@ -137,52 +197,6 @@ $ ./tests/testsuite -l | grep errors | sed q
 ** Get rid of YYPRINT and b4_toknum
 Besides yytoknum is wrong when api.token.raw is defined.
 
-** Stop indentation in diagnostics
-Before Bison 2.7, we printed "flatly" the dependencies in long diagnostics:
-
-    input.y:2.7-12: %type redeclaration for exp
-    input.y:1.7-12: previous declaration
-
-In Bison 2.7, we indented them
-
-    input.y:2.7-12: error: %type redeclaration for exp
-    input.y:1.7-12:     previous declaration
-
-Later we quoted the source in the diagnostics, and today we have:
-
-    /tmp/foo.y:1.12-14: warning: symbol FOO redeclared [-Wother]
-        1 | %token FOO FOO
-          |            ^~~
-    /tmp/foo.y:1.8-10:      previous declaration
-        1 | %token FOO FOO
-          |        ^~~
-
-The indentation is no longer helping.  We should probably get rid of it, or
-maybe keep it only when -fno-caret. GCC displays this as a "note":
-
-    $ g++-mp-9 -Wall /tmp/foo.c -c
-    /tmp/foo.c:1:10: error: redefinition of 'int foo'
-        1 | int foo, foo;
-          |          ^~~
-    /tmp/foo.c:1:5: note: 'int foo' previously declared here
-        1 | int foo, foo;
-          |     ^~~
-
-Likewise for Clang, contrary to what I believed (because "note:" is written
-in black, so it doesn't show in my terminal :-)
-
-    $ clang++-mp-8.0 -Wall /tmp/foo.c -c
-    clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated [-Wdeprecated]
-    /tmp/foo.c:1:10: error: redefinition of 'foo'
-    int foo, foo;
-             ^
-    /tmp/foo.c:1:5: note: previous definition is here
-    int foo, foo;
-        ^
-    1 error generated.
-
-See also the item "Complaint submessage indentation" below.
-
 ** Better design for diagnostics
 The current implementation of diagnostics is adhoc, it grew organically.  It
 works as a series of calls to several functions, with dependency of the
@@ -216,20 +230,6 @@ impression I get from reading the "-fdiagnostics-format=FORMAT" part of this
 page:
 
 https://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Message-Formatting-Options.html
-
-** consistency
-token vs terminal, variable vs non terminal.
-
-** C++
-Move to int everywhere instead of unsigned?  stack_size, etc.  The parser
-itself uses int (for yylen for instance), yet stack is based on size_t.
-
-Maybe locations should also move to ints.
-
-Paul Eggert already covered most of this.  But before publishing these
-changes, we need to ask our C++ users if they agree with that change, or if
-we need some migration path.  Could be a %define variable, or simply
-%require "3.5".
 
 ** Graphviz display code thoughts
 The code for the --graph option is over two files: print_graph, and
@@ -602,23 +602,6 @@ to bison. If you're interested, I'll work on a patch.
 
 * Better graphics
 Equip the parser with a means to create the (visual) parse tree.
-
-* Complaint submessage indentation.
-We already have an implementation that works fairly well for named
-reference messages, but it would be nice to use it consistently for all
-submessages from Bison.  For example, the "previous definition"
-submessage or the list of correct values for a %define variable might
-look better with indentation.
-
-However, the current implementation makes the assumption that the
-location printed on the first line is not usually much shorter than the
-locations printed on the submessage lines that follow.  That assumption
-may not hold true as often for some kinds of submessages especially if
-we ever support multiple grammar files.
-
-Here's a proposal for how a new implementation might look:
-
-  http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00086.html
 
 
 Local Variables:
