@@ -514,7 +514,7 @@ m4_define([b4_yytranslate_define],
   ]b4_parser_class[::yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
-[[    return static_cast<yy::parser::token_number_type> (t);]],
+[[    return static_cast<token_number_type> (t);]],
 [[    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
     // TOKEN-NUM as returned by yylex.
     static
