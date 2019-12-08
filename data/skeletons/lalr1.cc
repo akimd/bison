@@ -269,7 +269,7 @@ m4_define([b4_shared_declarations],
 
     /// Convert a scanner token number \a t to a symbol number.
     /// In theory \a t should be a token_type, but character literals
-    /// are valid, yet not member of the token_type enum.
+    /// are valid, yet not members of the token_type enum.
     static token_number_type yytranslate_ (int t);
 
     // Tables.
