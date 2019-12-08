@@ -265,6 +265,12 @@ b4_percent_code_get([[requires]])[
 # pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
+// On MacOS, PTRDIFF_MAX is defined as long long, which Clang's
+// -pedantic reports as being a C++11 extension.
+#if defined __APPLE__ && YY_CPLUSPLUS < 201103L && 4 <= __clang_major__
+# pragma clang diagnostic ignored "-Wc++11-long-long"
+#endif
+
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
 # if defined __GNUC__ && !defined __EXCEPTIONS
