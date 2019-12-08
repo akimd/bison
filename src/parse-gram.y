@@ -1021,9 +1021,9 @@ handle_require (location const *loc, char const *version)
       return;
     }
 
-  /* Pretend to be at least 3.4, to check features published in 3.4
-     while developping it.  */
-  const char* api_version = "3.4";
+  /* Pretend to be at least 3.5, to check features published in that
+     version while developping it.  */
+  const char* api_version = "3.5";
   const char* package_version =
     0 < strverscmp (api_version, PACKAGE_VERSION)
     ? api_version : PACKAGE_VERSION;
