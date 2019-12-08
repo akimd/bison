@@ -12,13 +12,14 @@ GNU Bison NEWS
 
 *** A skeleton for the D programming language
 
-  Since a few releases, Bison ships with a stealth experimental skeleton:
-  lalr1.d.  It was first contributed by Oliver Mangold, based on Paolo
-  Bonzini's lalr1.java, and was cleaned and improved thanks to H. S. Teoh.
+  For the last few releases, Bison has shipped a stealth experimental
+  skeleton: lalr1.d.  It was first contributed by Oliver Mangold, based on
+  Paolo Bonzini's lalr1.java, and was cleaned and improved thanks to
+  H. S. Teoh.
 
-  However, for lack of a genuine maintainer, committed to supporting this
-  skeleton (improving, testsing, documenting, etc.), this feature might be
-  DOA.
+  However, because nobody has committed to improving, testing, and
+  documenting this skeleton, it is not clear that it will be supported in
+  the future.
 
   The lalr1.d skeleton *is functional*, and works well, as demonstrated in
   examples/d/calc.d.  Please try it, enjoy it, and... commit to support it.
@@ -41,9 +42,8 @@ GNU Bison NEWS
 
 *** Crashes when reporting verbose error messages
 
-  When using %nonassoc, in some situations extremely difficult to reach on
-  purpose (so virtually impossible by accident---no bug report was ever made
-  about it), the generated parsers could crash.  This is fixed.
+  In theory, parsers using %nonassoc could crash. This unlikely bug has been
+  fixed.
 
 * Noteworthy changes in release 3.4.91 (2019-11-20) [beta]
 
@@ -3865,7 +3865,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
  LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
  LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
- LocalWords:  noexcept constexpr ispell american deprecations backend
+ LocalWords:  noexcept constexpr ispell american deprecations backend Teoh
+ LocalWords:  YYPRINT Mangold Bonzini's Wdangling exVal baz checkable gcc
+ LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata
 
 Local Variables:
 ispell-dictionary: "american"
