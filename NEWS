@@ -2,8 +2,17 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Backward incompatible changes
 
-* Noteworthy changes in release 3.4.92 (2019-12-08) [beta]
+  Lone carriage-return characters (aka \r or ^M) in the grammar files are no
+  longer treated as end-of-lines.  This changes the diagnostics, and in
+  particular their locations.
+
+  In C++, line numbers and columns are now represented as 'int' not
+  'unsigned', so that integer overflow on positions is easily checkable via
+  'gcc -fsanitize=undefined' and the like.  This affects the API for
+  positions.  The default position and location classes now expose
+  'counter_type' (int), used to define line and column numbers.
 
 ** Deprecated features
 
@@ -11,7 +20,44 @@ GNU Bison NEWS
   obsoleted long ago by %printer, introduced in Bison 1.50 (November 2002).
   It is deprecated and its support will be removed eventually.
 
-** New Features
+** New features
+
+*** Lookahead correction in C++
+
+  Contributed by Adrian Vogelsgesang.
+
+  The C++ deterministic skeleton (lalr1.cc) now supports LAC, via the
+  %define variable parse.lac.
+
+*** Variable api.token.raw: Optimized token numbers (all skeletons)
+
+  In the generated parsers, tokens have two numbers: the "external" token
+  number as returned by yylex (which starts at 257), and the "internal"
+  symbol number (which starts at 3).  Each time yylex is called, a table
+  lookup maps the external token number to the internal symbol number.
+
+  When the %define variable api.token.raw is set, tokens are assigned their
+  internal number, which saves one table lookup per token, and also saves
+  the generation of the mapping table.
+
+  The gain is typically moderate, but in extreme cases (very simple user
+  actions), a 10% improvement can be observed.
+
+*** Generated parsers use better types for states
+
+  Stacks now use the best integral type for state numbers, instead of always
+  using 15 bits.  As a result "small" parsers now have a smaller memory
+  footprint (they use 8 bits), and there is support for large automata (16
+  bits), and extra large (using int, i.e., typically 31 bits).
+
+*** Generated parsers prefer signed integer types
+
+  Bison skeletons now prefer signed to unsigned integer types when either
+  will do, as the signed types are less error-prone and allow for better
+  checking with 'gcc -fsanitize=undefined'.  Also, the types chosen are now
+  portable to unusual machines where char, short and int are all the same
+  width.  On non-GNU platforms this may entail including <limits.h> and (if
+  available) <stdint.h> to define integer types and constants.
 
 *** A skeleton for the D programming language
 
@@ -27,30 +73,12 @@ GNU Bison NEWS
   The lalr1.d skeleton *is functional*, and works well, as demonstrated in
   examples/d/calc.d.  Please try it, enjoy it, and... commit to support it.
 
-** Changes
+*** Debug traces in Java
 
-*** Debugging glr.c and glr.cc
+  The Java backend no longer emits code and data for parser tracing if the
+  %define variable parse.trace is not defined.
 
-  The glr.c skeleton always had asserts to check its own behavior (not the
-  user's).  These assertions are now under the control of the parse.assert
-  %define variable (disabled by default).
-
-*** Clean up
-
-  Several new compiler warnings in the generated output have been avoided.
-  Some unused features are no longer emitted.  Cleaner generated code in
-  general.
-
-** Bug Fixes
-
-*** Crashes when reporting verbose error messages
-
-  In theory, parsers using %nonassoc could crash. This unlikely bug has been
-  fixed.
-
-* Noteworthy changes in release 3.4.91 (2019-11-20) [beta]
-
-** New Features
+** Diagnostics
 
 *** New diagnostic: -Wdangling-alias
 
@@ -101,7 +129,7 @@ GNU Bison NEWS
     %%
     expr:
 
-  gives, with -Wyacc
+  gives with -Wyacc
 
     input.y:2.15-20: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
         2 | %type  <ival> TOKEN1 TOKEN2 't'
@@ -113,50 +141,9 @@ GNU Bison NEWS
         2 | %type  <ival> TOKEN1 TOKEN2 't'
           |                      ^~~~~~
 
-* Noteworthy changes in release 3.4.90 (2019-10-29) [beta]
-
-** Backward incompatible changes
-
-  Lone carriage-return characters (aka \r or ^M) in the grammar files are no
-  longer treated as end-of-lines.  This changes the diagnostics, and in
-  particular their locations.
-
-  In C++, line numbers and columns are now represented as 'int' not
-  'unsigned', so that integer overflow on positions is easily checkable via
-  'gcc -fsanitize=undefined' and the like.  This affects the API for
-  positions.  The default position and location classes now expose
-  'counter_type' (int), used to define line and column numbers.
-
-** Bug fixes
-
-  In Java, %define api.prefix was ignored.  It now behaves as expected.
-
-** New features
-
-*** Lookahead correction in C++
-
-  Contributed by Adrian Vogelsgesang.
-
-  The C++ deterministic skeleton (lalr1.cc) now supports LAC, via the
-  %define variable parse.lac.
-
-*** Variable api.token.raw: Optimized token numbers (all skeletons)
-
-  In the generated parsers, tokens have two numbers: the "external" token
-  number as returned by yylex (which starts at 257), and the "internal"
-  symbol number (which starts at 3).  Each time yylex is called, a table
-  lookup maps the external token number to the internal symbol number.
-
-  When the %define variable api.token.raw is set, tokens are assigned their
-  internal number, which saves one table lookup per token, and also saves
-  the generation of the mapping table.
-
-  The gain is typically moderate, but in extreme cases (very simple user
-  actions), a 10% improvement can be observed.
-
 *** Diagnostics with insertion
 
-  The diagnostics now display suggestion below the underlined source.
+  The diagnostics now display the suggestion below the underlined source.
   Replacement for undeclared symbols are now also suggested.
 
     $ cat /tmp/foo.y
@@ -197,26 +184,28 @@ GNU Bison NEWS
         1 | %token FOO                     …
           |        ^~~
 
-*** Debug traces in Java
+** Changes
 
-  The Java backend no longer emits code and data for parser tracing if the
-  %define variable parse.trace is not defined.
+*** Debugging glr.c and glr.cc
 
-*** Generated parsers prefer signed integer types
+  The glr.c skeleton always had asserts to check its own behavior (not the
+  user's).  These assertions are now under the control of the parse.assert
+  %define variable (disabled by default).
 
-  Bison skeletons now prefer signed to unsigned integer types when either
-  will do, as the signed types are less error-prone and allow for better
-  checking with 'gcc -fsanitize=undefined'.  Also, the types chosen are now
-  portable to unusual machines where char, short and int are all the same
-  width.  On non-GNU platforms this may entail including <limits.h> and (if
-  available) <stdint.h> to define integer types and constants.
+*** Clean up
 
-*** Generated parsers use better types for states
+  Several new compiler warnings in the generated output have been avoided.
+  Some unused features are no longer emitted.  Cleaner generated code in
+  general.
 
-  Stacks now use the best integral type for state numbers, instead of always
-  using 15 bits.  As a result "small" parsers now have a smaller memory
-  footprint (they use 8 bits), and there is support for large automata (16
-  bits), and extra large (using int, i.e., typically 31 bits).
+** Bug Fixes
+
+  Portability issues in the test suite.
+
+  In theory, parsers using %nonassoc could crash when reporting verbose
+  error messages. This unlikely bug has been fixed.
+
+  In Java, %define api.prefix was ignored.  It now behaves as expected.
 
 * Noteworthy changes in release 3.4.2 (2019-09-12) [stable]
 
