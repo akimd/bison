@@ -10014,57 +10014,56 @@ always possible.
 
 @findex YYFPRINTF
 The trace facility outputs messages with macro calls of the form
-@code{YYFPRINTF (stderr, @var{format}, @var{args})} where
-@var{format} and @var{args} are the usual @code{printf} format and variadic
-arguments.  If you define @code{YYDEBUG} to a nonzero value but do not
-define @code{YYFPRINTF}, @code{<stdio.h>} is automatically included
-and @code{YYFPRINTF} is defined to @code{fprintf}.
+@code{YYFPRINTF (stderr, @var{format}, @var{args})} where @var{format} and
+@var{args} are the usual @code{printf} format and variadic arguments.  If
+you define @code{YYDEBUG} to a nonzero value but do not define
+@code{YYFPRINTF}, @code{<stdio.h>} is automatically included and
+@code{YYFPRINTF} is defined to @code{fprintf}.
 
-Once you have compiled the program with trace facilities, the way to
-request a trace is to store a nonzero value in the variable @code{yydebug}.
-You can do this by making the C code do it (in @code{main}, perhaps), or
-you can alter the value with a C debugger.
+Once you have compiled the program with trace facilities, the way to request
+a trace is to store a nonzero value in the variable @code{yydebug}.  You can
+do this by making the C code do it (in @code{main}, perhaps), or you can
+alter the value with a C debugger.
 
-Each step taken by the parser when @code{yydebug} is nonzero produces a
-line or two of trace information, written on @code{stderr}.  The trace
-messages tell you these things:
+Each step taken by the parser when @code{yydebug} is nonzero produces a line
+or two of trace information, written on @code{stderr}.  The trace messages
+tell you these things:
 
 @itemize @bullet
 @item
 Each time the parser calls @code{yylex}, what kind of token was read.
 
 @item
-Each time a token is shifted, the depth and complete contents of the
-state stack (@pxref{Parser States}).
+Each time a token is shifted, the depth and complete contents of the state
+stack (@pxref{Parser States}).
 
 @item
-Each time a rule is reduced, which rule it is, and the complete contents
-of the state stack afterward.
+Each time a rule is reduced, which rule it is, and the complete contents of
+the state stack afterward.
 @end itemize
 
 To make sense of this information, it helps to refer to the automaton
-description file (@pxref{Understanding, ,Understanding Your Parser}).
-This file shows the meaning of each state in terms of
-positions in various rules, and also what each state will do with each
-possible input token.  As you read the successive trace messages, you
-can see that the parser is functioning according to its specification in
-the listing file.  Eventually you will arrive at the place where
-something undesirable happens, and you will see which parts of the
-grammar are to blame.
+description file (@pxref{Understanding, ,Understanding Your Parser}).  This
+file shows the meaning of each state in terms of positions in various rules,
+and also what each state will do with each possible input token.  As you
+read the successive trace messages, you can see that the parser is
+functioning according to its specification in the listing file.  Eventually
+you will arrive at the place where something undesirable happens, and you
+will see which parts of the grammar are to blame.
 
 The parser implementation file is a C/C++/Java program and you can use
 debuggers on it, but it's not easy to interpret what it is doing.  The
-parser function is a finite-state machine interpreter, and aside from
-the actions it executes the same code over and over.  Only the values
-of variables show where in the grammar it is working.
+parser function is a finite-state machine interpreter, and aside from the
+actions it executes the same code over and over.  Only the values of
+variables show where in the grammar it is working.
 
 @node Mfcalc Traces
 @subsection Enabling Debug Traces for @code{mfcalc}
 
 The debugging information normally gives the token type of each token read,
 but not its semantic value.  The @code{%printer} directive allows specify
-how semantic values are reported, see @ref{Printer Decl, , Printing
-Semantic Values}.
+how semantic values are reported, see @ref{Printer Decl, , Printing Semantic
+Values}.
 
 As a demonstration of @code{%printer}, consider the multi-function
 calculator, @code{mfcalc} (@pxref{Multi-function Calc}).  To enable run-time
