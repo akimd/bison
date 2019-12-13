@@ -9971,10 +9971,30 @@ When a Bison grammar compiles properly but parses ``incorrectly'', the
 
 @node Enabling Traces
 @subsection  Enabling Traces
-There are several means to enable compilation of trace facilities:
+There are several means to enable compilation of trace facilities, in
+decresing order of preference:
 
 @table @asis
-@item the macro @code{YYDEBUG}
+@item the variable @samp{parse.trace}
+@findex %define parse.trace
+Add the @samp{%define parse.trace} directive (@pxref{%define
+Summary,,parse.trace}), or pass the @option{-Dparse.trace} option
+(@pxref{Tuning the Parser}).  This is a Bison extension.  Unless POSIX and
+Yacc portability matter to you, this is the preferred solution.
+
+@item the option @option{-t} (POSIX Yacc compliant)
+@itemx the option @option{--debug} (Bison extension)
+Use the @samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking
+Bison}).  With @samp{%define api.prefix @{c@}}, it defines @code{CDEBUG} to
+1, otherwise it defines @code{YYDEBUG} to 1.
+
+@item the directive @samp{%debug} (deprecated)
+@findex %debug
+Add the @code{%debug} directive (@pxref{Decl Summary, ,Bison Declaration
+Summary}).  This Bison extension is maintained for backward compatibility
+with previous versions of Bison; use @code{%define parse.trace} instead.
+
+@item the macro @code{YYDEBUG} (C/C++ only)
 @findex YYDEBUG
 Define the macro @code{YYDEBUG} to a nonzero value when you compile the
 parser.  This is compliant with POSIX Yacc.  You could use
@@ -9984,36 +10004,16 @@ Prologue}).
 
 If the @code{%define} variable @code{api.prefix} is used (@pxref{Multiple
 Parsers, ,Multiple Parsers in the Same Program}), for instance @samp{%define
-api.prefix x}, then if @code{CDEBUG} is defined, its value controls the
+api.prefix @{c@}}, then if @code{CDEBUG} is defined, its value controls the
 tracing feature (enabled if and only if nonzero); otherwise tracing is
 enabled if and only if @code{YYDEBUG} is nonzero.
-
-@item the option @option{-t} (POSIX Yacc compliant)
-@itemx the option @option{--debug} (Bison extension)
-Use the @samp{-t} option when you run Bison (@pxref{Invocation, ,Invoking
-Bison}).  With @samp{%define api.prefix @{c@}}, it defines @code{CDEBUG} to 1,
-otherwise it defines @code{YYDEBUG} to 1.
-
-@item the directive @samp{%debug}
-@findex %debug
-Add the @code{%debug} directive (@pxref{Decl Summary, ,Bison Declaration
-Summary}).  This Bison extension is maintained for backward
-compatibility with previous versions of Bison.
-
-@item the variable @samp{parse.trace}
-@findex %define parse.trace
-Add the @samp{%define parse.trace} directive (@pxref{%define
-Summary,,parse.trace}), or pass the @option{-Dparse.trace} option
-(@pxref{Tuning the Parser}).  This is a Bison extension, which is especially
-useful for languages that don't use a preprocessor.  Unless POSIX and Yacc
-portability matter to you, this is the preferred solution.
 @end table
 
 We suggest that you always enable the trace option so that debugging is
 always possible.
 
 @findex YYFPRINTF
-The trace facility outputs messages with macro calls of the form
+In C the trace facility outputs messages with macro calls of the form
 @code{YYFPRINTF (stderr, @var{format}, @var{args})} where @var{format} and
 @var{args} are the usual @code{printf} format and variadic arguments.  If
 you define @code{YYDEBUG} to a nonzero value but do not define
@@ -14168,7 +14168,7 @@ it.  Using @samp{%define parse.error verbose} is preferred
 @end deffn
 
 @deffn {Macro} YYFPRINTF
-Macro used to output run-time traces.
+Macro used to output run-time traces in C.
 @xref{Enabling Traces}.
 @end deffn
 
