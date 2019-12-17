@@ -100,7 +100,8 @@ if test "$enable_gcc_warnings" = yes; then
   # -Wno-tautological-constant-out-of-range-compare for Clang 3.3 and
   # 3.4 on GNU/Linux that choke on intprops.h's INT_MULTIPLY_WRAPV,
   # etc.
-  warn_common='-Wall -Wextra -Wcast-align
+  warn_common='-Wall -Wextra
+    -Wcast-align -Wchar-subscripts
     -fparse-all-comments -Wdocumentation
     -Wformat -Wimplicit-fallthrough -Wnull-dereference
     -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare
