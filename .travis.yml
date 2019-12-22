@@ -1,8 +1,8 @@
-# Travis defines and exports CC and CXX *after* we have defined our
-# environment variables via 'env'.  So, do not use 'env' to define them.
-# Instead, put their definitions in MATRIX_EVAL, which we eval after the
-# definitions from Travis.
-language: cpp
+version: ~> 1.0
+
+# If the language is set to C or C++, Travis defines and exports CC
+# and CXX *after* we have defined our environment variables via 'env'.
+language: minimal
 
 # Run in two steps:
 # 1. Build the tarball
@@ -81,7 +81,9 @@ jobs:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages: g++-9
       env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9 && CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'"
+        - CC=gcc-9
+        - CXX=g++-9
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     # ASAN is time consuming, and we timeout the 50min granted by
     # Travis if we run all the tests in one go.  Run in two parts.
@@ -102,7 +104,8 @@ jobs:
             - libc++abi-9-dev
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="CC='clang-9 -fsanitize=address' CXX='clang++-9 -fsanitize=address -stdlib=libc++'"
+        - CC='clang-9 -fsanitize=address'
+        - CXX='clang++-9 -fsanitize=address -stdlib=libc++'
         - PART=1
 
     - name: "Clang 9 libc++ and ASAN part 2"
@@ -112,7 +115,8 @@ jobs:
       addons: *clang9
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - MATRIX_EVAL="CC='clang-9 -fsanitize=address' CXX='clang++-9 -fsanitize=address -stdlib=libc++'"
+        - CC='clang-9 -fsanitize=address'
+        - CXX='clang++-9 -fsanitize=address -stdlib=libc++'
         - PART=2
 
 
@@ -127,7 +131,8 @@ jobs:
         apt:
           packages: g++-8
       env:
-        - MATRIX_EVAL="CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer' CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'"
+        - CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer'
+        - CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'
         - CONFIGUREFLAGS='CFLAGS=-O1 CXXFLAGS=-O1'
         - PART=1
 
@@ -139,7 +144,8 @@ jobs:
         apt:
           packages: g++-8
       env:
-        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8"
+        - CC=gcc-8
+        - CXX=g++-8
 
     - name: "GCC 7"
       stage: check
@@ -149,7 +155,8 @@ jobs:
         apt:
           packages: g++-7
       env:
-        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+        - CC=gcc-7
+        - CXX=g++-7
 
     - name: "GCC 6"
       stage: check
@@ -160,7 +167,8 @@ jobs:
           sources: ubuntu-toolchain-r-test
           packages: g++-6
       env:
-        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+        - CC=gcc-6
+        - CXX=g++-6
 
     - name: "GCC 5"
       stage: check
@@ -171,7 +179,8 @@ jobs:
           sources: ubuntu-toolchain-r-test
           packages: g++-5
       env:
-         - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+         - CC=gcc-5
+         - CXX=g++-5
 
     - name: "GCC 4.9"
       stage: check
@@ -182,7 +191,8 @@ jobs:
           sources: ubuntu-toolchain-r-test
           packages: g++-4.9
       env:
-         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+         - CC=gcc-4.9
+         - CXX=g++-4.9
 
     - name: "GCC 4.8"
       stage: check
@@ -193,7 +203,8 @@ jobs:
           sources: ubuntu-toolchain-r-test
           packages: g++-4.8
       env:
-         - MATRIX_EVAL="CC=gcc-4.8 && CXX=g++-4.8"
+         - CC=gcc-4.8
+         - CXX=g++-4.8
 
     - name: "GCC 4.7"
       stage: check
@@ -204,7 +215,8 @@ jobs:
           sources: ubuntu-toolchain-r-test
           packages: g++-4.7
       env:
-         - MATRIX_EVAL="CC=gcc-4.7 && CXX=g++-4.7"
+         - CC=gcc-4.7
+         - CXX=g++-4.7
 
     - name: "GCC 4.6"
       stage: check
@@ -215,7 +227,8 @@ jobs:
           sources: ubuntu-toolchain-r-test
           packages: g++-4.6
       env:
-         - MATRIX_EVAL="CC=gcc-4.6 && CXX=g++-4.6"
+         - CC=gcc-4.6
+         - CXX=g++-4.6
 
     ## ------- ##
     ## Clang.  ##
@@ -232,7 +245,8 @@ jobs:
             - libc++-8-dev
             - libc++abi-8-dev
       env:
-        - MATRIX_EVAL="CC=clang-8 && CXX='clang++-8 -stdlib=libc++'"
+        - CC=clang-8
+        - CXX='clang++-8 -stdlib=libc++'
         - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     - name: "Clang 7"
@@ -246,7 +260,8 @@ jobs:
             - libc++-7-dev
             - libc++abi-7-dev
       env:
-        - MATRIX_EVAL="CC=clang-7 && CXX='clang++-7 -stdlib=libc++'"
+        - CC=clang-7
+        - CXX='clang++-7 -stdlib=libc++'
 
     - name: "Clang 6 and libc++"
       stage: check
@@ -261,7 +276,8 @@ jobs:
             - clang-6.0
             - libc++-dev
       env:
-        - MATRIX_EVAL="CC=clang-6.0 && CXX='clang++-6.0 -stdlib=libc++'"
+        - CC=clang-6.0
+        - CXX='clang++-6.0 -stdlib=libc++'
 
     - name: "Clang 5"
       stage: check
@@ -274,7 +290,8 @@ jobs:
             - clang-5.0
             - libc++-dev
       env:
-        - MATRIX_EVAL="CC='clang-5.0' CXX='clang++-5.0'"
+        - CC='clang-5.0'
+        - CXX='clang++-5.0'
 
     - name: "Clang 4"
       stage: check
@@ -285,7 +302,8 @@ jobs:
           sources: llvm-toolchain-xenial-4.0
           packages: clang-4.0
       env:
-        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+        - CC=clang-4.0
+        - CXX=clang++-4.0
 
     - name: "Clang 3.9"
       stage: check
@@ -296,7 +314,8 @@ jobs:
           sources: llvm-toolchain-xenial-3.9
           packages: clang-3.9
       env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+        - CC=clang-3.9
+        - CXX=clang++-3.9
 
     - name: "Clang 3.8"
       stage: check
@@ -309,7 +328,8 @@ jobs:
             - llvm-toolchain-precise-3.8
           packages: clang-3.8
       env:
-        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
+        - CC=clang-3.8
+        - CXX=clang++-3.8
 
     - name: "CLang 3.7"
       stage: check
@@ -322,7 +342,8 @@ jobs:
             - llvm-toolchain-precise-3.7
           packages: clang-3.7
       env:
-        - MATRIX_EVAL="CC=clang-3.7 && CXX=clang++-3.7"
+        - CC=clang-3.7
+        - CXX=clang++-3.7
 
     - name: "Clang 3.6"
       stage: check
@@ -335,7 +356,8 @@ jobs:
             - llvm-toolchain-precise-3.6
           packages: clang-3.6
       env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+        - CC=clang-3.6
+        - CXX=clang++-3.6
 
     - name: "Clang 3.5"
       stage: check
@@ -348,7 +370,8 @@ jobs:
             - llvm-toolchain-precise-3.5
           packages: clang-3.5
       env:
-        - MATRIX_EVAL="CC=clang-3.5 && CXX=clang++-3.5"
+        - CC=clang-3.5
+        - CXX=clang++-3.5
 
     - name: "Clang 3.4"
       stage: check
@@ -361,7 +384,8 @@ jobs:
       env:
         # No versioned name installed, but beware that Travis installs
         # a more modern clang earlier in the default PATH.
-        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
+        - CC=/usr/bin/clang
+        - CXX=/usr/bin/clang++
 
     - name: "Clang 3.3"
       stage: check
@@ -373,7 +397,8 @@ jobs:
           packages: clang-3.3
       env:
         # See comment for 3.4.
-        - MATRIX_EVAL='CC=/usr/bin/clang && CXX=/usr/bin/clang++'
+        - CC=/usr/bin/clang
+        - CXX=/usr/bin/clang++
 
 ## From https://docs.gitlab.com/ce/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor.
 ## Applies to Travis too.  Applied to all the 'script's (of all the jobs).
@@ -391,7 +416,6 @@ before_script:
 
 # Applies only to the jobs that don't have a 'script', i.e., applies to all the 'check' jobs, but not the 'dist' one.
 script:
-  - eval "$MATRIX_EVAL"
   # Beware not too leak $SSH_PRIVATE_KEY.
   # - env
   - sudo apt-get install -qq doxygen flex m4
