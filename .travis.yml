@@ -4,12 +4,6 @@
 # definitions from Travis.
 language: cpp
 
-env:
-  global:
-    # ICC serial number.
-    # See https://github.com/nemequ/icc-travis.
-    secure: B3manbbi0anCAGDJTdAa9TlodzRHeiYD87FKmFzS877dPm8Cm0BDvtUhKBUpBvP8+nbHOWFGrgDmLugSZjTGU+mAxtuQpamUFHvinu0BIk3qtjlqouwvbtIqUu8iiZ3Uqu+xKeAANKRy0YVZGLlEb9F3N119tJ/Fxp1p9bXL1qph+CZ25OFbUgZ2s4F+/AyHMUxJlNXKFe3Qean65hC6edhU3zoaKzr/g/wtbhRmcyWbkOa1dJqzr2yKotcPvrnApGhDzgMKFtohg/t7xfMADDVv6sGS5XNpt25Z+MUCmLg4Z9eD7u109jvRV1eu/jgVafqsthWEhXbuMiFgFhKBKGCNZ0dACIfKZSkFZI6FdM7ovJ6aNhSlxZ2169Ybd22rN1UTHeCQWySPcVVOg5taLVpqe+E8Xhnv4hBO5NrzElWwCMLxIdPUSwVStYvtDr8ZytHWzfot50vSnFKIFpTOr9hP4+AJMVmmqJfaJo2MLBft/q2xkztrMv3lQSj3m4+ma9kPDwXIu9uCutjlnhc00jNx9qegi5VfpAjxcG1R+pX4T20az6ByHk/7LPQsANkT31RJq/jAeD9LEuMOy8miha83q4QuvbFaqPK3PY0el/O1LZaXqLsV2aQ0uqH8YX0l4r5NzHdhb+3lYgvpMBO5ytr/EWJiEyNYV518050IUDE=
-
 # Run in two steps:
 # 1. Build the tarball
 #    On a modern distro, with all the needed dependencies, including the whole git history.
@@ -120,23 +114,6 @@ jobs:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
         - MATRIX_EVAL="CC='clang-9 -fsanitize=address' CXX='clang++-9 -fsanitize=address -stdlib=libc++'"
         - PART=2
-
-    # Currently no longer works (https://github.com/nemequ/icc-travis/issues/15).
-    # - name: "ICC"
-    #   stage: check
-    #   # We need the build-aux/install-icc.sh script.
-    #   git:
-    #     clone: true
-    #     submodules: false
-    #     depth: 1
-    #   os: linux
-    #   dist: xenial
-    #   env:
-    #     # ICC's warnings are often very wrong (e.g., it thinks foo ?
-    #     # "bar" : "baz" is char* instead of const char*), so don't try
-    #     # to work around the, and obviously, don't die on them.
-    #     - MATRIX_EVAL="CC=icc && CXX=icpc"
-    #     - MAKE_ARGS='WERROR_CFLAGS= WERROR_CXXFLAGS='
 
 
     ## ----- ##
@@ -418,9 +395,6 @@ script:
   # Beware not too leak $SSH_PRIVATE_KEY.
   # - env
   - sudo apt-get install -qq doxygen flex m4
-  # Install and activate ICC.
-  - if [[ $CC == "icc" ]]; then build-aux/install-icc.sh; fi
-  - if [[ -f ~/.bashrc ]]; then source ~/.bashrc; fi
   # Install and activate dmd.
   - mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
   - source $(source ~/dlang/install.sh dmd -a)
@@ -452,6 +426,3 @@ script:
   - if test ${PART-1} = 1; then make check                  VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat test-suite.log && cat tests/testsuite.log && false; }; fi
   - if test ${PART-2} = 2; then make maintainer-check-posix VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
   - if test ${PART-2} = 2; then make maintainer-check-g++   VERBOSE=1 TESTSUITEFLAGS=-j2 || { cat tests/testsuite.log && false; }; fi
-
-after_script:
-  - uninstall_intel_software || true
