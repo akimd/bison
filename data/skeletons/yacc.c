@@ -1769,16 +1769,16 @@ yyerrlab:
             if (yymsg != yymsgbuf)
               YYSTACK_FREE (yymsg);
             yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
-            if (!yymsg)
+            if (yymsg)
+              {
+                yysyntax_error_status = YYSYNTAX_ERROR;
+                yymsgp = yymsg;
+              }
+            else
               {
                 yymsg = yymsgbuf;
                 yymsg_alloc = sizeof yymsgbuf;
                 yysyntax_error_status = 2;
-              }
-            else
-              {
-                yysyntax_error_status = YYSYNTAX_ERROR;
-                yymsgp = yymsg;
               }
           }
         yyerror (]b4_yyerror_args[yymsgp);
