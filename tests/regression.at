@@ -1219,7 +1219,7 @@ AT_DATA_GRAMMAR([input.y],
 
 %%
 
-start: syntax_error1 check syntax_error2 ;
+start: syntax_error1 check syntax_error2 check syntax_error3;
 
 // Induce a syntax error message whose total length causes yymsg in
 // yyparse to be reallocated to size YYSTACK_ALLOC_MAXIMUM, which
@@ -1251,13 +1251,26 @@ check:
 }
 ;
 
-// Now overflow.
+// We used to overflow memory here because the first four "expected"
+// tokens plus rest of the error message is greater that 255 bytes.
+// However there are *five* expected tokens here, so anyway we will
+// *not* display these tokens.  So the message fits, no overflow.
 syntax_error2:
   "123456789112345678921234567893123456789412345678951234567896123A"
 | "123456789112345678921234567893123456789412345678951234567896123B"
 | "123456789112345678921234567893123456789412345678951234567896123C"
 | "123456789112345678921234567893123456789412345678951234567896123D"
 | "123456789112345678921234567893123456789412345678951234567896123E"
+| error 'd' 'e' 'f'
+;
+
+
+// Now overflow.
+syntax_error3:
+  "123456789112345678921234567893123456789412345678951234567896123A"
+| "123456789112345678921234567893123456789412345678951234567896123B"
+| "123456789112345678921234567893123456789412345678951234567896123C"
+| "123456789112345678921234567893123456789412345678951234567896123D"
 ;
 
 %%
@@ -1265,7 +1278,7 @@ syntax_error2:
 ]AT_YYERROR_DEFINE[
   /* Induce two syntax error messages (which requires full error
      recovery by shifting 3 tokens).  */
-]AT_YYLEX_DEFINE(["abc"])[
+]AT_YYLEX_DEFINE(["abcdef"])[
 int
 main (void)
 {
@@ -1288,6 +1301,7 @@ AT_COMPILE([[input]])
 
 AT_PARSER_CHECK([[input]], [[2]], [],
 [[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B or 123456789112345678921234567893123456789412345678951234567896123C
+syntax error, unexpected 'd'
 syntax error
 memory exhausted
 ]])
