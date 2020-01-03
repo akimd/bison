@@ -309,7 +309,6 @@ AT_DATA_GRAMMAR([input.y],
 #include <string.h>
 #include <assert.h>
 
-#define YYERROR_VERBOSE 1
 ]AT_YYERROR_DEFINE[
 /* The current argument. */
 static const char *input;
@@ -323,6 +322,8 @@ yylex (void)
 }
 
 %}
+
+%define parse.error verbose
 
 %nonassoc '<' '>'
 
