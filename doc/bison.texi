@@ -14158,15 +14158,6 @@ User-supplied function to be called by @code{yyparse} on error.
 @xref{Error Reporting, ,The Error Reporting Function @code{yyerror}}.
 @end deffn
 
-@deffn {Macro} YYERROR_VERBOSE
-An obsolete macro used in the @file{yacc.c} skeleton, that you define
-with @code{#define} in the prologue to request verbose, specific error
-message strings when @code{yyerror} is called.  It doesn't matter what
-definition you use for @code{YYERROR_VERBOSE}, just whether you define
-it.  Using @samp{%define parse.error verbose} is preferred
-(@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
-@end deffn
-
 @deffn {Macro} YYFPRINTF
 Macro used to output run-time traces in C.
 @xref{Enabling Traces}.
