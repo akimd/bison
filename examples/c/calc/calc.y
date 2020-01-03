@@ -9,6 +9,7 @@
 
 %define api.header.include {"calc.h"}
 %define api.value.type union /* Generate YYSTYPE from these types:  */
+%define parse.error custom
 %token <double> NUM "number"
 %type  <double> expr term fact
 
@@ -50,6 +51,28 @@ fact:
 ;
 
 %%
+
+int
+yyreport_syntax_error (const yyparse_context_t *ctx)
+{
+  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 10 };
+  /* Arguments of yyformat: reported tokens (one for the "unexpected",
+     one per "expected"). */
+  int arg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  int n = yysyntax_error_arguments (ctx, arg, sizeof arg / sizeof *arg);
+  if (n == -2)
+    return 2;
+  fprintf (stderr, "SYNTAX ERROR on token [%s]", yysymbol_name (arg[0]));
+  if (1 < n)
+    {
+      fprintf (stderr, " (expected:");
+      for (int i = 1; i < n; ++i)
+        fprintf (stderr, " [%s]", yysymbol_name (arg[i]));
+      fprintf (stderr, ")");
+    }
+  fprintf (stderr, "\n");
+  return 0;
+}
 
 int
 yylex (void)
