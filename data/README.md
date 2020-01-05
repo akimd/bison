@@ -174,7 +174,7 @@ fill-column: 76
 ispell-dictionary: "american"
 End:
 
-Copyright (C) 2002, 2008-2015, 2018-2019 Free Software Foundation, Inc.
+Copyright (C) 2002, 2008-2015, 2018-2020 Free Software Foundation, Inc.
 
 This file is part of GNU Bison.
 
