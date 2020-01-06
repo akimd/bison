@@ -1,15 +1,35 @@
 %code top {
   #include <ctype.h>  /* isdigit. */
+  #include <stdbool.h>
   #include <stdio.h>  /* For printf, etc. */
   #include <string.h> /* strcmp. */
 
   int yylex (void);
   void yyerror (char const *);
+
+  bool show_expected = false;
+
+#define PRINT_EXPECTED_TOKENS()                                         \
+  do {                                                                  \
+    if (show_expected)                                                  \
+      {                                                                 \
+        yyparse_context_t ctx                                           \
+          = {yyssp, yytoken, yyesa, &yyes, &yyes_capacity};             \
+        int tokens[YYNTOKENS];                                          \
+        int cnt = yyexpected_tokens (&ctx, tokens, YYNTOKENS);          \
+        fprintf (stderr, "expected tokens in state %d rule %d (%d):",   \
+                 *yyssp, yyn - 1, cnt);                                 \
+        for (int i = 0; i < cnt; ++i)                                   \
+          fprintf (stderr, " %s", yysymbol_name(tokens[i]));            \
+        fprintf (stderr, "\n");                                         \
+      }                                                                 \
+  } while (0)
 }
 
 %define api.header.include {"calc.h"}
 %define api.value.type union /* Generate YYSTYPE from these types:  */
 %define parse.error custom
+%define parse.lac full
 %token <double> NUM "number"
 %type  <double> expr term fact
 
@@ -23,8 +43,8 @@
 
 %% /* The grammar follows.  */
 input:
-  %empty
-| input line
+  %empty       { PRINT_EXPECTED_TOKENS (); }
+| input line   { PRINT_EXPECTED_TOKENS (); }
 ;
 
 line:
@@ -46,8 +66,8 @@ term:
 ;
 
 fact:
-  "number"
-| '(' expr ')' { $$ = $2; }
+  "number"                                   { PRINT_EXPECTED_TOKENS (); }
+| '(' expr { PRINT_EXPECTED_TOKENS (); } ')' { $$ = $expr; }
 ;
 
 %%
@@ -110,7 +130,9 @@ main (int argc, char const* argv[])
 {
   /* Enable parse traces on option -p.  */
   for (int i = 1; i < argc; ++i)
-    if (!strcmp (argv[i], "-p"))
+    if (!strcmp (argv[i], "-e"))
+      show_expected = 1;
+    else if (!strcmp (argv[i], "-p"))
       yydebug = 1;
   return yyparse ();
 }
