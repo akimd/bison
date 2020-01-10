@@ -921,7 +921,7 @@ b4_dollar_popdef])[]dnl
       --yyerrstatus_;
 
     // Shift the lookahead token.
-    yypush_ ("Shifting", static_cast<state_type> (yyn), YY_MOVE (yyla));]b4_lac_if([[
+    yypush_ ("Shifting", state_type (yyn), YY_MOVE (yyla));]b4_lac_if([[
     yy_lac_discard_ ("shift");]])[
     goto yynewstate;
 
@@ -1084,7 +1084,7 @@ b4_dollar_popdef])[]dnl
 
       // Shift the error token.]b4_lac_if([[
       yy_lac_discard_ ("error recovery");]])[
-      error_token.state = static_cast<state_type> (yyn);
+      error_token.state = state_type (yyn);
       yypush_ ("Shifting", YY_MOVE (error_token));
     }
     goto yynewstate;
