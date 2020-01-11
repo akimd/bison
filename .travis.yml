@@ -67,14 +67,13 @@ jobs:
     ## First.  ##
     ## ------- ##
 
-    # Start with three completely different environments, to get
-    # errors asap.
+    # Start with three completely different environments, to get errors asap.
 
     - name: "GCC 9 -O3"
       stage: check
       os: linux
       dist: bionic
-      addons:
+      addons: &gcc9
         apt:
           sources:
             # See https://github.com/travis-ci/apt-source-safelist/issues/410.
@@ -119,6 +118,49 @@ jobs:
         - CXX='clang++-9 -fsanitize=address -stdlib=libc++'
         - PART=2
 
+
+    ## ------- ##
+    ## First.  ##
+    ## ------- ##
+
+    # Start with three completely different environments, to get
+    # errors asap.
+
+    - name: "ARM64: GCC 9 -O3 part 1"
+      stage: check
+      os: linux
+      arch: arm64
+      dist: bionic
+      addons: *gcc9
+      env:
+        - CC=gcc-9
+        - CXX=g++-9
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
+        - PART=1
+
+    - name: "PPC64le: GCC 9 part 1"
+      stage: check
+      os: linux
+      arch: ppc64le
+      dist: bionic
+      addons: *gcc9
+      env:
+        - CC=gcc-9
+        - CXX=g++-9
+        - CONFIGUREFLAGS='CFLAGS=-O3 CXXFLAGS=-O3'
+        - PART=1
+
+    - name: "s390x: GCC 9 part 1"
+      stage: check
+      os: linux
+      arch: s390x
+      dist: bionic
+      addons: *gcc9
+      env:
+        - CC=gcc-9
+        - CXX=g++-9
+        - CONFIGUREFLAGS='CFLAGS=-O3 CXXFLAGS=-O3'
+        - PART=1
 
     ## ----- ##
     ## GCC.  ##
@@ -421,11 +463,11 @@ script:
   - sudo apt-get install -qq doxygen flex m4
   # Install and activate dmd.
   - mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
-  - source $(source ~/dlang/install.sh dmd -a)
+  - source $(source ~/dlang/install.sh dmd -a) || true
 
   - $CC --version
   - $CXX --version
-  - dmd --version
+  - dmd --version || true
   - doxygen --version
   - flex --version
   - ld --version
