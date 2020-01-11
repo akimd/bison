@@ -203,7 +203,13 @@ m4_pushdef([AT_AUTOMOVE_IF],
 m4_pushdef([AT_DEFINES_IF],
 [m4_bmatch([$3], [%defines], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],
-[m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
+           [m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
+m4_pushdef([AT_ERROR_CUSTOM_IF],
+           [m4_bmatch([$3], [%define parse\.error custom], [$1], [$2])])
+m4_pushdef([AT_ERROR_VERBOSE_IF],
+           [m4_bmatch([$3], [%define parse\.error verbose], [$1], [$2])])
+m4_pushdef([AT_ERROR_SIMPLE_IF],
+           [AT_ERROR_CUSTOM_IF([$2], [AT_ERROR_VERBOSE_IF([$2], [$1])], [$1])])
 m4_pushdef([AT_CXX_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_D_IF],
@@ -409,8 +415,12 @@ m4_popdef([AT_LANG])
 m4_popdef([AT_JAVA_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
-m4_popdef([AT_DEFINES_IF])
+m4_popdef([AT_ERROR_SIMPLE_IF])
+m4_popdef([AT_ERROR_VERBOSE_IF])
+m4_popdef([AT_ERROR_CUSTOM_IF])
 m4_popdef([AT_DEBUG_IF])
+m4_popdef([AT_DEFINES_IF])
+m4_popdef([AT_AUTOMOVE_IF])
 AT_LOC_POPDEF])dnl
 ])# AT_BISON_OPTION_POPDEFS
 
@@ -552,7 +562,7 @@ m4_define([AT_YYERROR_DECLARE_EXTERN(c)],
 [AT_YYERROR_PROTOTYPE;])
 
 m4_define([AT_YYERROR_DECLARE(c)],
-[#include <stdio.h>
+[[#include <stdio.h>
 ]AT_LOCATION_IF([[
 #if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
 static int location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
@@ -561,12 +571,11 @@ static int location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
 # endif
 #endif
 ]])[
-static AT_YYERROR_DECLARE_EXTERN])
+static ]AT_YYERROR_DECLARE_EXTERN])
 
 
 m4_define([AT_YYERROR_DEFINE(c)],
-[[
-]AT_LOCATION_IF([[
+[AT_LOCATION_IF([[
 # if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
 /* Print *YYLOCP on YYO. */
 __attribute__((__unused__))
@@ -596,6 +605,33 @@ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 }
 #endif
 ]])[
+
+]AT_ERROR_CUSTOM_IF([[
+int
+yyreport_syntax_error (const yyparse_context_t *ctx)
+{
+  /* Arguments of yyformat: reported tokens (one for the "unexpected",
+     one per "expected"). */
+  int arg[YYNTOKENS];
+  int n = yysyntax_error_arguments (ctx, arg, sizeof arg / sizeof *arg);
+  if (n == -2)
+    return 2;
+  if (n)
+  {
+    fprintf (stderr, "syntax error on token [%s]", yysymbol_name (arg[0]));
+    if (1 < n)
+      {
+        fprintf (stderr, " (expected:");
+        for (int i = 1; i < n; ++i)
+          fprintf (stderr, " [%s]", yysymbol_name (arg[i]));
+        fprintf (stderr, ")");
+      }
+    fprintf (stderr, "\n");
+  }
+  return 0;
+}
+]])[
+
 /* A C error reporting function.  */
 static
 ]AT_YYERROR_PROTOTYPE[
@@ -606,7 +642,7 @@ AT_YYERROR_SEES_LOC_IF([[
   LOCATION_PRINT (stderr, ]AT_LOC[);
   fprintf (stderr, ": ");]])[
   fprintf (stderr, "%s\n", msg);
-}]])
+}]])])
 
 
 m4_define([AT_YYLEX_DEFINE(c)],
