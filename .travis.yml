@@ -49,7 +49,8 @@ jobs:
         - make -j2 dist
         # Can help understanding why we get "dirty" tarballs.
         - git status
-        - dist=$(echo bison*.xz)
+        - distxz=$(echo bison*.xz)
+        - distgz=$(echo bison*.gz)
 
         # Unfortunately we cannot deterministically know the name of the tarball without the full
         # git history (because git describe --abbrev=4 may use more than 4 characters if there are
@@ -61,7 +62,7 @@ jobs:
         # Without -b -, exit status is always 0.
         #
         # If we rerun a job that was already uploaded, 'ln -s' will fail: remove beforehand.
-        - sftp -b - bison@sftp.lrde.epita.fr <<< "put $dist"$'\n'"-rm bison-$TRAVIS_BUILD_NUMBER.tar.xz"$'\n'"ln -s $dist bison-$TRAVIS_BUILD_NUMBER.tar.xz"
+        - sftp -b - bison@sftp.lrde.epita.fr <<< "put $distxz"$'\n'"put $distgz"$'\n'"-rm bison-$TRAVIS_BUILD_NUMBER.tar.*"$'\n'"ln -s $distgz bison-$TRAVIS_BUILD_NUMBER.tar.gz"$'\n'"ln -s $distxz bison-$TRAVIS_BUILD_NUMBER.tar.xz"
 
     ## ------- ##
     ## First.  ##
@@ -70,6 +71,12 @@ jobs:
     # Start with three completely different environments, to get
     # errors asap.
 
+    - name: "Windows"
+      stage: check
+      os: windows
+      language: cpp
+      env:
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
 ## From https://docs.gitlab.com/ce/ci/ssh_keys/#ssh-keys-when-using-the-docker-executor.
 ## Applies to Travis too.  Applied to all the 'script's (of all the jobs).
@@ -89,14 +96,21 @@ before_script:
 script:
   # Beware not too leak $SSH_PRIVATE_KEY.
   # - env
-  - sudo apt-get install -qq doxygen flex m4
-  # Install and activate dmd.
-  - mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
-  - source $(source ~/dlang/install.sh dmd -a)
-
+  - |
+    case $TRAVIS_OS_NAME in
+      (linux)
+        sudo apt-get install -qq doxygen flex m4
+        # Install and activate dmd.
+        mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
+        source $(source ~/dlang/install.sh dmd -a)
+        ;;
+      (windows)
+        choco install doxygen.portable winflexbison3
+        ;;
+    esac
   - $CC --version
   - $CXX --version
-  - dmd --version
+  - dmd --version || true
   - doxygen --version
   - flex --version
   - ld --version
@@ -110,9 +124,14 @@ script:
 
   # Fail fast from now on.
   - set -e
-  - sftp bison@sftp.lrde.epita.fr:bison-$TRAVIS_BUILD_NUMBER.tar.xz
-  - tar xf bison-$TRAVIS_BUILD_NUMBER.tar.xz
-  - dir=$(tar tf bison-$TRAVIS_BUILD_NUMBER.tar.xz | sed 1q)
+  - |
+    case $TRAVIS_OS_NAME in
+      (windows) dist=bison-$TRAVIS_BUILD_NUMBER.tar.gz;;
+      (*)       dist=bison-$TRAVIS_BUILD_NUMBER.tar.xz;;
+    esac
+  - sftp bison@sftp.lrde.epita.fr:$dist
+  - tar -xf $dist
+  - dir=$(tar -tf $dist | sed 1q)
   - cd $dir
   - mkdir _build
   - cd _build
