@@ -88,9 +88,9 @@
 /locale-fr.m4
 /locale-ja.m4
 /locale-zh.m4
+/locale_h.m4
 /localtime-buffer.m4
 /lock.m4
-/longlong.m4
 /lstat.m4
 /malloc.m4
 /malloca.m4
@@ -141,6 +141,7 @@
 /rmdir.m4
 /sched_h.m4
 /setenv.m4
+/setlocale_null.m4
 /sh-filename.m4
 /sig_atomic_t.m4
 /sigaction.m4
