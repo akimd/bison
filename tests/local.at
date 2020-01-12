@@ -574,6 +574,8 @@ static int location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
 static ]AT_YYERROR_DECLARE_EXTERN])
 
 
+# "%define parse.error custom" uses a different format, easy to check.
+# The "verbose" one can be computed from it (see _AT_CHECK_CALC_ERROR).
 m4_define([AT_YYERROR_DEFINE(c)],
 [AT_LOCATION_IF([[
 # if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL

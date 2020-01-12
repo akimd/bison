@@ -547,8 +547,7 @@ AT_PARSER_CHECK([calc input], 0, [], [stderr])
 
 # _AT_CHECK_CALC_ERROR($1 = BISON-OPTIONS, $2 = EXIT-STATUS, $3 = INPUT,
 #                      $4 = [NUM-STDERR-LINES],
-#                      $5 = [VERBOSE-AND-LOCATED-ERROR-MESSAGE]
-#                      $6 = [CUSTOM-ERROR-MESSAGE])
+#                      $5 = [CUSTOM-ERROR-MESSAGE])
 # ----------------------------------------------------------------------
 # Run 'calc' on INPUT, and expect a 'syntax error' message.
 #
@@ -556,17 +555,12 @@ AT_PARSER_CHECK([calc input], 0, [], [stderr])
 # otherwise as contents.
 #
 # NUM-STDERR-LINES is the number of expected lines on stderr.
-# Currently this is ignored, though, since the output format is fluctuating.
-#
-# If BISON-OPTIONS contains '%location', then make sure the ERROR-LOCATION
-# is correctly output on stderr.
-#
-# If BISON-OPTIONS contains '%define parse.error verbose', then make sure the
-# IF-YYERROR-VERBOSE message is properly output after 'syntax error, '
-# on STDERR.
-#
 # If BISON-OPTIONS contains '%debug' but not '%glr', then NUM-STDERR-LINES
 # is the number of expected lines on stderr.
+#
+# CUSTOM-ERROR-MESSAGE is the expected error message when parse.error
+# is 'custom' and locations are enabled.  Other expected formats are
+# computed from it.
 m4_define([_AT_CHECK_CALC_ERROR],
 [m4_bmatch([$3], [^/],
            [AT_PARSER_CHECK([calc $3], $2, [], [stderr])],
@@ -596,14 +590,8 @@ sed '/^Starting/d
 mv at-stderr stderr
 
 # 2. Create the reference error message.
-AT_ERROR_CUSTOM_IF([
-  AT_DATA([[expout]],
-[$6
-])
-],
-  [AT_DATA([[expout]],
+AT_DATA([[expout]],
 [$5
-])
 ])
 
 # 3. If locations are not used, remove them.
@@ -611,12 +599,27 @@ AT_YYERROR_SEES_LOC_IF([],
 [[sed 's/^[-0-9.]*: //' expout >at-expout
 mv at-expout expout]])
 
-# 4. If error-verbose is not used, strip the', unexpected....' part.
+# 4. If parse.error is not custom, turn the expected message to
+# the traditional one.
+AT_ERROR_CUSTOM_IF([], [
+AT_PERL_REQUIRE([[-pi -e 'use strict;
+  s{syntax error on token \["?(.*?)"?\] \(expected: (.*)\)}
+  {
+    my $unexp = $][1;
+    my @exps = $][2 =~ /\["?(.*?)"?\]/g;
+    ($][#exps && $][#exps < 4)
+    ? "syntax error, unexpected $unexp, expecting @{[join(\" or \", @exps)]}"
+    : "syntax error, unexpected $unexp";
+  }eg
+' expout]])
+])
+
+# 5. If parse.error is simple, strip the', unexpected....' part.
 AT_ERROR_SIMPLE_IF(
 [[sed 's/syntax error, .*$/syntax error/' expout >at-expout
 mv at-expout expout]])
 
-# 5. Check
+# 6. Actually check.
 AT_CHECK([cat stderr], 0, [expout])
 ])
 
@@ -675,26 +678,20 @@ _AT_CHECK_CALC([$1],
 
 # Some syntax errors.
 _AT_CHECK_CALC_ERROR([$1], [1], [1 2], [15],
-                     [[1.3: syntax error, unexpected number]],
                      [[1.3: syntax error on token ["number"] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [1//2], [20],
-                     [[1.3: syntax error, unexpected '/', expecting number or '-' or '(' or '!']],
                      [[1.3: syntax error on token ['/'] (expected: ["number"] ['-'] ['('] ['!'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [error], [5],
-                     [[1.1: syntax error, unexpected $undefined]],
                      [[1.1: syntax error on token [$undefined] (expected: ["number"] ['-'] ['\n'] ['('] ['!'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3], [30],
-                     [[1.7: syntax error, unexpected '=']],
                      [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'])]])
 _AT_CHECK_CALC_ERROR([$1], [1],
                      [
 +1],
                      [20],
-                     [[2.1: syntax error, unexpected '+']],
                      [[2.1: syntax error on token ['+'] (expected: ["end of input"] ["number"] ['-'] ['\n'] ['('] ['!'])]])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
-                     [[1.1: syntax error, unexpected end of input]],
                      [[1.1: syntax error on token ["end of input"] (expected: ["number"] ['-'] ['\n'] ['('] ['!'])]])
 
 # Exercise the error token: without it, we die at the first error,
@@ -716,11 +713,6 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
 _AT_CHECK_CALC_ERROR([$1], [0],
                      [() + (1 + 1 + 1 +) + (* * *) + (1 * 2 * *) = 1],
                      [250],
-[[1.2: syntax error, unexpected ')', expecting number or '-' or '(' or '!'
-1.18: syntax error, unexpected ')', expecting number or '-' or '(' or '!'
-1.23: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
-1.41: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
-calc: error: 4444 != 1]],
 [[1.2: syntax error on token [')'] (expected: ["number"] ['-'] ['('] ['!'])
 1.18: syntax error on token [')'] (expected: ["number"] ['-'] ['('] ['!'])
 1.23: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
@@ -730,14 +722,9 @@ calc: error: 4444 != 1]])
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the lookahead causing the error should not be discarded.
 _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1], [102],
-[[1.10: syntax error, unexpected number
-calc: error: 2222 != 1]],
 [[1.10: syntax error on token ["number"] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
 calc: error: 2222 != 1]])
 _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1], [113],
-[[1.4: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
-1.12: syntax error, unexpected number
-calc: error: 2222 != 1]],
 [[1.4: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
 1.12: syntax error on token ["number"] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
 calc: error: 2222 != 1]])
@@ -745,9 +732,6 @@ calc: error: 2222 != 1]])
 # Check that yyerrok works properly: second error is not reported,
 # third and fourth are.  Parse status is succesful.
 _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)], [113],
-[[1.2: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
-1.10: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
-1.16: syntax error, unexpected '*', expecting number or '-' or '(' or '!']],
 [[1.2: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
 1.10: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
 1.16: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])]])
