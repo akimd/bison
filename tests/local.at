@@ -619,7 +619,9 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
   if (n == -2)
     return 2;
   if (n)
-  {
+  {]AT_LOCATION_IF([[
+    LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
+    fprintf (stderr, ": ");]])[
     fprintf (stderr, "syntax error on token [%s]", yysymbol_name (arg[0]));
     if (1 < n)
       {
