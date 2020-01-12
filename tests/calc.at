@@ -788,7 +788,8 @@ AT_CHECK_CALC_LALR([%no-lines %define api.pure %define parse.error verbose %debu
 
 
 AT_CHECK_CALC_LALR([%define parse.error custom])
-AT_CHECK_CALC_LALR([%define parse.error custom %locations])
+AT_CHECK_CALC_LALR([%define parse.error custom %locations %define api.prefix {calc}])
+AT_CHECK_CALC_LALR([%define parse.error custom %locations %define api.prefix {calc} %parse-param {semantic_value *result}{int *count}])
 
 # ----------------------- #
 # Simple GLR Calculator.  #
