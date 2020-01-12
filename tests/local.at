@@ -30,6 +30,18 @@ m4_define([m4_null_if],
          [$3])])
 
 
+# m4_rpatsubst(STRING, PATTERN, REPLACEMENT)
+# ------------------------------------------
+# As long as PATTERN matches STRING, replace occurrences of PATTERN by
+# REPLACEMENT.
+#
+# Contrary to m4_bpatsubst, matches PATTERN from previous replacements.
+m4_define([m4_rpatsubst],
+[m4_if(m4_bregexp([$1], [$2]),
+       [-1], [$1],
+       [m4_rpatsubst(m4_quote(m4_bpatsubst([$1], [$2], [$3])), [$2], [$3])])])
+
+
 # AT_SETUP_STRIP(TITLE)
 # ---------------------
 # Abbreviate the TITLE to be passed to AT_SETUP.  Remove new-lines
@@ -226,12 +238,16 @@ m4_pushdef([AT_LOCATION_TYPE_SPAN_IF],
 [m4_bmatch([$3], [%define \(api\.location\.type\|location_type\) \{Span\}], [$1], [$2])])
 m4_pushdef([AT_PARAM_IF],
 [m4_bmatch([$3], [%parse-param], [$1], [$2])])
+
 # Comma-terminated list of formals parse-parameters.
 # E.g., %parse-param { int x } %parse-param {int y} -> "int x, int y, ".
-# FIXME: Support grouped parse-param.
 m4_pushdef([AT_PARSE_PARAMS])
-m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}],
-             [m4_append([AT_PARSE_PARAMS], [\1, ])])
+m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}{ *\([^{}]*[^{} ]\) *}{ *\([^{}]*[^{} ]\) *}],
+             [m4_append([AT_PARSE_PARAMS], [\1, \2, \3, ])])
+m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}{ *\([^{}]*[^{} ]\) *}\([^{].*\)?$],
+             [m4_append([AT_PARSE_PARAMS], [\1, \2, ])])
+m4_rpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}\([^{}].*\)?$],
+             [m4_append([AT_PARSE_PARAMS], [\1, ])\2])
 
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
