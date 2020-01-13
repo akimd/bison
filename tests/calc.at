@@ -45,15 +45,17 @@ namespace
 }
 ]])[
 
+/* Value of the last computation.  */
 semantic_value global_result = 0;
+/* Total number of computations.  */
 int global_count = 0;
 
 /* A C main function.  */
 int
 main (int argc, const char **argv)
-{
+{]AT_PARAM_IF([[
   semantic_value result = 0;
-  int count = 0;
+  int count = 0;]])[
   int status;
 
   /* This used to be alarm (10), but that isn't enough time for a July
@@ -77,9 +79,10 @@ main (int argc, const char **argv)
 ]AT_CXX_IF([], [AT_DEBUG_IF([  ]AT_NAME_PREFIX[debug = 1;])])[
   status = ]AT_NAME_PREFIX[parse (]AT_PARAM_IF([[&result, &count]])[);
   if (fclose (input))
-    perror ("fclose");
+    perror ("fclose");]AT_PARAM_IF([[
   assert (global_result == result); (void) result;
-  assert (global_count == count);   (void) count;
+  assert (global_count  == count);  (void) count;
+  printf ("final: %d %d\n", global_result, global_count);]])[
   return status;
 }
 ]])
@@ -88,13 +91,14 @@ m4_copy([AT_CALC_MAIN(c)], [AT_CALC_MAIN(c++)])
 
 m4_define([AT_CALC_MAIN(d)],
 [[int main (string[] args)
-{
+{]AT_PARAM_IF([[
   semantic_value result = 0;
-  int count = 0;
+  int count = 0;]])[
 
   File input = args.length == 2 ? File (args[1], "r") : stdin;
   auto l = calcLexer (input);
-  auto p = new YYParser (l);
+  auto p = new YYParser (l);]AT_DEBUG_IF([[
+  p.setDebugLevel (1);]])[
   return !p.parse ();
 }
 ]])
@@ -527,8 +531,8 @@ m4_define([AT_DATA_CALC_Y],
 
 
 
-# _AT_CHECK_CALC(BISON-OPTIONS, INPUT, [NUM-STDERR-LINES])
-# --------------------------------------------------------
+# _AT_CHECK_CALC(BISON-OPTIONS, INPUT, [STDOUT], [NUM-STDERR-LINES])
+# ------------------------------------------------------------------
 # Run 'calc' on INPUT and expect no STDOUT nor STDERR.
 #
 # If BISON-OPTIONS contains '%debug' but not '%glr-parser', then
@@ -536,18 +540,22 @@ m4_define([AT_DATA_CALC_Y],
 # Currently this is ignored, though, since the output format is fluctuating.
 #
 # We don't count GLR's traces yet, since its traces are somewhat
-# different from LALR's.
+# different from LALR's.  Likewise for D.
 m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
 ]])
-AT_PARSER_CHECK([calc input], 0, [], [stderr])
+AT_PARSER_CHECK([calc input], 0, [AT_PARAM_IF([m4_n([$3])])], [stderr])
+AT_D_IF([],
+  [AT_GLR_IF([],
+    [AT_CHECK([cat stderr | wc -l], [0], [m4_n([AT_DEBUG_IF([$4], [0])])])])])
 ])
 
 
 # _AT_CHECK_CALC_ERROR($1 = BISON-OPTIONS, $2 = EXIT-STATUS, $3 = INPUT,
-#                      $4 = [NUM-STDERR-LINES],
-#                      $5 = [CUSTOM-ERROR-MESSAGE])
+#                      $4 = [STDOUT],
+#                      $5 = [NUM-STDERR-LINES],
+#                      $6 = [CUSTOM-ERROR-MESSAGE])
 # ----------------------------------------------------------------------
 # Run 'calc' on INPUT, and expect a 'syntax error' message.
 #
@@ -563,11 +571,11 @@ AT_PARSER_CHECK([calc input], 0, [], [stderr])
 # computed from it.
 m4_define([_AT_CHECK_CALC_ERROR],
 [m4_bmatch([$3], [^/],
-           [AT_PARSER_CHECK([calc $3], $2, [], [stderr])],
+           [AT_PARSER_CHECK([calc $3], $2, [AT_PARAM_IF([m4_n([$4])])], [stderr])],
            [AT_DATA([[input]],
 [[$3
 ]])
-AT_PARSER_CHECK([calc input], $2, [], [stderr])])
+AT_PARSER_CHECK([calc input], $2, [AT_PARAM_IF([m4_n([$4])])], [stderr])])
 
 # Normalize the observed and expected error messages, depending upon the
 # options.
@@ -591,7 +599,7 @@ mv at-stderr stderr
 
 # 2. Create the reference error message.
 AT_DATA([[expout]],
-[$5
+[$6
 ])
 
 # 3. If locations are not used, remove them.
@@ -674,24 +682,36 @@ _AT_CHECK_CALC([$1],
 
 2^2^3 = 256
 (2^2)^3 = 64],
-               [842])
+[[final: 64 12]],
+               [AT_PUSH_IF([930], [846])])
 
 # Some syntax errors.
-_AT_CHECK_CALC_ERROR([$1], [1], [1 2], [15],
+_AT_CHECK_CALC_ERROR([$1], [1], [1 2],
+                     [[final: 0 0]],
+                     [15],
                      [[1.3: syntax error on token ["number"] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]])
-_AT_CHECK_CALC_ERROR([$1], [1], [1//2], [20],
+_AT_CHECK_CALC_ERROR([$1], [1], [1//2],
+                     [[final: 0 0]],
+                     [20],
                      [[1.3: syntax error on token ['/'] (expected: ["number"] ['-'] ['('] ['!'])]])
-_AT_CHECK_CALC_ERROR([$1], [1], [error], [5],
+_AT_CHECK_CALC_ERROR([$1], [1], [error],
+                     [[final: 0 0]],
+                     [5],
                      [[1.1: syntax error on token [$undefined] (expected: ["number"] ['-'] ['\n'] ['('] ['!'])]])
-_AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3], [30],
+_AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3],
+                     [[final: 0 0]],
+                     [30],
                      [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'])]])
 _AT_CHECK_CALC_ERROR([$1], [1],
                      [
 +1],
+                     [[final: 0 0]],
                      [20],
                      [[2.1: syntax error on token ['+'] (expected: ["end of input"] ["number"] ['-'] ['\n'] ['('] ['!'])]])
 # Exercise error messages with EOF: work on an empty file.
-_AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
+_AT_CHECK_CALC_ERROR([$1], [1], [/dev/null],
+                     [[final: 0 0]],
+                     [4],
                      [[1.1: syntax error on token ["end of input"] (expected: ["number"] ['-'] ['\n'] ['('] ['!'])]])
 
 # Exercise the error token: without it, we die at the first error,
@@ -712,6 +732,7 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null], [4],
 #
 _AT_CHECK_CALC_ERROR([$1], [0],
                      [() + (1 + 1 + 1 +) + (* * *) + (1 * 2 * *) = 1],
+                     [[final: 4444 0]],
                      [250],
 [[1.2: syntax error on token [')'] (expected: ["number"] ['-'] ['('] ['!'])
 1.18: syntax error on token [')'] (expected: ["number"] ['-'] ['('] ['!'])
@@ -721,17 +742,23 @@ calc: error: 4444 != 1]])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the lookahead causing the error should not be discarded.
-_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1], [102],
+_AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1],
+                     [[final: 2222 0]],
+                     [102],
 [[1.10: syntax error on token ["number"] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
 calc: error: 2222 != 1]])
-_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1], [113],
+_AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1],
+                     [[final: 2222 0]],
+                     [113],
 [[1.4: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
 1.12: syntax error on token ["number"] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
 calc: error: 2222 != 1]])
 
 # Check that yyerrok works properly: second error is not reported,
 # third and fourth are.  Parse status is succesful.
-_AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)], [113],
+_AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)],
+                     [[final: 3333 0]],
+                     [113],
 [[1.2: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
 1.10: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])
 1.16: syntax error on token ['*'] (expected: ["number"] ['-'] ['('] ['!'])]])
