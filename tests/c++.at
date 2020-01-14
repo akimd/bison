@@ -679,6 +679,7 @@ Entering state 2
 Reading a token: Next token is token EOI ()
 Shifting token EOI ()
 Entering state 3
+Stack now 0 2 3
 Cleanup: popping token EOI ()
 Cleanup: popping nterm expr (40)
 destroy: 40
