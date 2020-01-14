@@ -1425,7 +1425,6 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
 ]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
 ]b4_integral_parser_table_define([rline], [b4_rline])[
 
-  // Print the state stack on the debug stream.
   void
   ]b4_parser_class[::yystack_print_ ()
   {
@@ -1438,7 +1437,6 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
     *yycdebug_ << '\n';
   }
 
-  // Report on the debug stream that the rule \a yyrule is going to be reduced.
   void
   ]b4_parser_class[::yy_reduce_print_ (int yyrule)
   {
