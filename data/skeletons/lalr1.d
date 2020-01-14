@@ -262,6 +262,11 @@ b4_user_union_members
 
   protected final void yycdebug (string s) {
     if (0 < yydebug)
+      yyDebugStream.write (s);
+  }
+
+  protected final void yycdebugln (string s) {
+    if (0 < yydebug)
       yyDebugStream.writeln (s);
   }
 ]])[
@@ -339,6 +344,9 @@ b4_user_union_members
 
     yystack.pop (yylen);
     yylen = 0;
+]b4_parse_trace_if([[
+    if (0 < yydebug)
+      yystack.print (yyDebugStream);]])[
 
     /* Shift the result of the reduction.  */
     yyn = yyr1_[yyn];
@@ -407,7 +415,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
       else
               message ~= format ("%s", &yyvaluep);
       message ~= ")";
-      yycdebug (message);
+      yycdebugln (message);
     }
   }
 ]])[
@@ -445,9 +453,9 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
     /// Semantic value of the lookahead.
     ]b4_yystype[ yylval;
 
-    int yyresult;]b4_parse_trace_if([[
+    bool yyresult;]b4_parse_trace_if([[
 
-    yycdebug ("Starting parse\n");]])[
+    yycdebugln ("Starting parse");]])[
     yyerrstatus_ = 0;
 
 ]m4_ifdef([b4_initial_action], [
@@ -468,9 +476,7 @@ m4_popdef([b4_at_dollar])])dnl
         /* New state.  Unlike in the C/C++ skeletons, the state is already
            pushed when we come here.  */
       case YYNEWSTATE:]b4_parse_trace_if([[
-        yycdebug (format("Entering state %d\n", yystate));
-        if (0 < yydebug)
-          yystack.print (yyDebugStream);]])[
+        yycdebugln (format("Entering state %d", yystate));]])[
 
         /* Accept?  */
         if (yystate == yyfinal_)
@@ -655,11 +661,20 @@ m4_popdef([b4_at_dollar])])dnl
 
       /* Accept.  */
       case YYACCEPT:
-        return true;
+        yyresult = true;
+        label = YYRETURN;
+        break;
 
       /* Abort.  */
       case YYABORT:
-        return false;
+        yyresult = false;
+        label = YYRETURN;
+        break;
+
+      case YYRETURN:]b4_parse_trace_if([[
+        if (0 < yydebug)
+          yystack.print (yyDebugStream);]])[
+        return yyresult;
     }
   }
 
@@ -788,8 +803,8 @@ m4_popdef([b4_at_dollar])])dnl
     int yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
-    yycdebug (format("Reducing stack by rule %d (line %d), ",
-              yyrule - 1, yylno));
+    yycdebugln (format("Reducing stack by rule %d (line %d):",
+                yyrule - 1, yylno));
 
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)

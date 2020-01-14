@@ -996,7 +996,7 @@ b4_dollar_popdef[]dnl
     int yynrhs = yyr2_[yyrule];
     /* Print the symbols being reduced, and their result.  */
     yycdebug ("Reducing stack by rule " + (yyrule - 1)
-              + " (line " + yylno + "), ");
+              + " (line " + yylno + "):");
 
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
