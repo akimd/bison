@@ -610,12 +610,16 @@ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 
 ]AT_ERROR_CUSTOM_IF([[
 int
-yyreport_syntax_error (const yyparse_context_t *ctx)
+yyreport_syntax_error (const yyparse_context_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[)
 {
   /* Arguments of yyformat: reported tokens (one for the "unexpected",
      one per "expected"). */
   int arg[YYNTOKENS];
-  int n = yysyntax_error_arguments (ctx, arg, sizeof arg / sizeof *arg);
+  int n = yysyntax_error_arguments (ctx, arg, sizeof arg / sizeof *arg);]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
+              [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
+  YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  ++global_nerrs;
+  ++*nerrs;]])[
   if (n == -2)
     return 2;
   if (n)
@@ -645,7 +649,9 @@ static
 AT_YYERROR_SEES_LOC_IF([[
   LOCATION_PRINT (stderr, ]AT_LOC[);
   fprintf (stderr, ": ");]])[
-  fprintf (stderr, "%s\n", msg);
+  fprintf (stderr, "%s\n", msg);]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  ++global_nerrs;
+  ++*nerrs;]])[
 }]])])
 
 
@@ -711,7 +717,9 @@ m4_define([AT_YYERROR_DEFINE(c++)],
 [[/* A C++ error reporting function.  */
 void
 ]AT_NAMESPACE[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
-{
+{]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  ++global_nerrs;
+  ++*nerrs;]])[
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
 }]])
 
@@ -848,15 +856,19 @@ m4_define([AT_JAVA_POSITION_DEFINE],
 
 m4_define([AT_YYERROR_DEFINE(java)],
 [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String m)
-{
-  if (l == null)
-    System.err.println (m);
-  else
-    System.err.println (l + ": " + m);
+  {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+    ++global_nerrs;
+    ++*nerrs;]])[
+    if (l == null)
+      System.err.println (m);
+    else
+      System.err.println (l + ": " + m);
   }
 ]], [[
   public void yyerror (String m)
-  {
+  {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+    ++global_nerrs;
+    ++*nerrs;]])[
     System.err.println (m);
   }
 ]])
