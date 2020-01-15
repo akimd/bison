@@ -864,4 +864,7 @@ AT_CHECK([[sed -e '/^Next token.*$/p' -e d ./stderr]],[ignore],[expout],[ignore-
 # 2. Check that the calculator output matches that of a pull parser
 AT_CHECK([[rm -f ./expout; cp -f ./output ./expout]],[ignore],[ignore-nolog],[ignore-nolog])
 AT_CHECK([[cat ./stdout]],[ignore],[expout],[ignore-nolog])
+
+
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP

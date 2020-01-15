@@ -1700,7 +1700,6 @@ d: /* nada.  */;
 ]AT_YYLEX_DEFINE(["abc"])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], 0, [],
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
@@ -1765,6 +1764,7 @@ Cleanup: popping nterm b ()
 Cleanup: popping token 'a' ()
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1777,6 +1777,7 @@ AT_CLEANUP
 
 AT_SETUP([Predicates])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
 [[%define parse.assert
 %glr-parser
@@ -1829,4 +1830,5 @@ AT_PARSER_CHECK([[input Owio]], [0], [old])
 AT_PARSER_CHECK([[input Nwio]], [1], [], [[syntax error, unexpected 'o', expecting 'n'
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP

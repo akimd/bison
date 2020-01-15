@@ -56,7 +56,6 @@ AT_CLEANUP
 m4_define([_AT_DATA_JAVA_CALC_Y],
 [m4_if([$1$2$3], $[1]$[2]$[3], [],
        [m4_fatal([$0: Invalid arguments: $@])])dnl
-AT_BISON_OPTION_PUSHDEFS([%language "Java" $4])
 AT_DATA_GRAMMAR([Calc.y],
 [[/* Infix notation calculator--calc */
 %language "Java"
@@ -183,8 +182,6 @@ class CalcLexer implements Calc.Lexer {
 }]])[
 ]AT_JAVA_POSITION_DEFINE[
 ]])
-
-AT_BISON_OPTION_POPDEFS
 ])# _AT_DATA_JAVA_CALC_Y
 
 
@@ -240,7 +237,7 @@ m4_define([_AT_CHECK_JAVA_CALC],
 [# We use integers to avoid dependencies upon the precision of doubles.
 AT_SETUP([Calculator $1])
 
-AT_BISON_OPTION_PUSHDEFS([$1])
+AT_BISON_OPTION_PUSHDEFS([%language "Java" $1])
 
 AT_DATA_JAVA_CALC_Y([$1
 %code {
@@ -318,6 +315,7 @@ _AT_CHECK_JAVA_CALC_ERROR([$1], [(- *) + (0 0) = 1],
 [1.3: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 1.8: syntax error, unexpected number
 1.1-1.11: calc: error: 2222 != 1])
+
 AT_BISON_OPTION_POPDEFS
 
 AT_CLEANUP
