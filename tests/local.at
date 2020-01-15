@@ -241,13 +241,14 @@ m4_pushdef([AT_PARAM_IF],
 
 # Comma-terminated list of formals parse-parameters.
 # E.g., %parse-param { int x } %parse-param {int y} -> "int x, int y, ".
-m4_pushdef([AT_PARSE_PARAMS])
 m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}{ *\([^{}]*[^{} ]\) *}{ *\([^{}]*[^{} ]\) *}],
-             [m4_append([AT_PARSE_PARAMS], [\1, \2, \3, ])])
+             [m4_append([AT_PARSE_PARAMS], [\1, \2, \3], [, ])])
 m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}{ *\([^{}]*[^{} ]\) *}\([^{].*\)?$],
-             [m4_append([AT_PARSE_PARAMS], [\1, \2, ])])
+             [m4_append([AT_PARSE_PARAMS], [\1, \2], [, ])])
 m4_rpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}\([^{}].*\)?$],
-             [m4_append([AT_PARSE_PARAMS], [\1, ])\2])
+             [m4_append([AT_PARSE_PARAMS], [\1], [, ])\2])
+m4_ifndef([AT_PARSE_PARAMS],
+          [m4_define([AT_PARSE_PARAMS])])
 
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
@@ -395,7 +396,7 @@ m4_popdef([AT_NAMESPACE])
 m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_LOCATION_TYPE_SPAN_IF])
 m4_popdef([AT_LOCATION_IF])
-m4_popdef([AT_PARSE_PARAMS])
+m4_undefine([AT_PARSE_PARAMS])
 m4_popdef([AT_PUSH_IF])
 m4_popdef([AT_PURE_IF])
 m4_popdef([AT_PARAM_IF])
@@ -542,7 +543,7 @@ $2])
 ])
 
 m4_define([AT_YYERROR_FORMALS(c)],
-[AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE const * const llocp, ])AT_PARSE_PARAMS[const char *msg]])
+[AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE const * const llocp, ])AT_PARAM_IF([AT_PARSE_PARAMS, ])[const char *msg]])
 
 m4_define([AT_YYERROR_PROTOTYPE(c)],
 [[void ]AT_NAME_PREFIX[error (]AT_YYERROR_FORMALS[)]])
@@ -599,8 +600,8 @@ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 static
 ]AT_YYERROR_PROTOTYPE[
 {]m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
-              [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\), *], [
-  YYUSE(\1);])dnl
+              [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
+  YYUSE (\1);])dnl
 AT_YYERROR_SEES_LOC_IF([[
   LOCATION_PRINT (stderr, ]AT_LOC[);
   fprintf (stderr, ": ");]])[
