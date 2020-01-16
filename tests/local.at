@@ -615,7 +615,7 @@ yyreport_syntax_error (const yyparse_context_t *ctx]AT_PARAM_IF([, AT_PARSE_PARA
   /* Arguments of yyformat: reported tokens (one for the "unexpected",
      one per "expected"). */
   int arg[YYNTOKENS];
-  int n = yysyntax_error_arguments (ctx, arg, sizeof arg / sizeof *arg);]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
+  int n = yysyntax_error_arguments (ctx, arg, YYNTOKENS);]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
   YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
   ++global_nerrs;
