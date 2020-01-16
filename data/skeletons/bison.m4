@@ -1018,16 +1018,17 @@ m4_define([b4_bison_locations_if],
 
 # b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
 # ------------------------------------------------------
-# Map %define parse.error "(custom|simple|verbose)" to b4_error_verbose_if and
-# b4_error_verbose_flag.
+# Map %define parse.error "(custom|detailed|simple|verbose)" to
+# b4_error_verbose_if and b4_error_verbose_flag.
 b4_percent_define_default([[parse.error]], [[simple]])
 b4_percent_define_check_values([[[[parse.error]],
-                                 [[custom]], [[simple]], [[verbose]]]])
+                                 [[custom]], [[detailed]], [[simple]], [[verbose]]]])
 m4_define([b4_error_verbose_flag],
           [m4_case(b4_percent_define_get([[parse.error]]),
-                   [custom],  [[1]],
-                   [simple],  [[0]],
-                   [verbose], [[1]])])
+                   [custom],   [[1]],
+                   [detailed], [[1]],
+                   [simple],   [[0]],
+                   [verbose],  [[1]])])
 b4_define_flag_if([error_verbose])
 
 # yytoken_table is needed to support verbose errors.
