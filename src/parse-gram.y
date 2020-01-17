@@ -125,7 +125,7 @@
 %define api.token.raw
 %define api.value.type union
 %define locations
-%define parse.error verbose
+%define parse.error detailed
 %define parse.lac full
 %define parse.trace
 %defines
