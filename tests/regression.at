@@ -366,17 +366,17 @@ AT_CLEANUP
 ## Token definitions.  ##
 ## ------------------- ##
 
+m4_pushdef([AT_TEST],
+[AT_SETUP([Token definitions: $1])
 
-AT_SETUP([Token definitions])
-
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_GRAMMAR([input.y],
 [%{
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
-[%define parse.error verbose
+[$1
 %token MYEOF 0 "end of file"
 %token 'a' "a"  // Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 %token B_TOKEN "b"
@@ -391,7 +391,6 @@ exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
 ]AT_YYLEX_DEFINE([{ SPECIAL }])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 # Checking the warning message guarantees that the trigraph "??!" isn't
 # unnecessarily escaped here even though it would need to be if encoded in a
@@ -411,6 +410,7 @@ input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used
 
 AT_COMPILE([input])
 
+AT_ERROR_VERBOSE_IF([
 # Checking the error message here guarantees that yytname, which does contain
 # C-string literals, does have the trigraph escaped correctly.  Thus, the
 # symbol name reported by the parser is exactly the same as that reported by
@@ -419,9 +419,20 @@ AT_DATA([experr],
 [[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!", expecting a
 ]])
 AT_PARSER_CHECK([input], 1, [], [experr])
+])
+
+# We don't check the error message in "detailed" parse.error, since
+# the special characters are no longer escaped, and it produces
+# invalid UTF-8.
+
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+])
 
+AT_TEST([%define parse.error detailed])
+AT_TEST([%define parse.error verbose])
 
+m4_popdef([AT_TEST])
 
 ## -------------------- ##
 ## Characters Escapes.  ##
