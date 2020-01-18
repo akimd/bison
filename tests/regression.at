@@ -385,10 +385,10 @@ AT_DATA_GRAMMAR([input.y],
 %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
 %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
 %%
-exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
+exp: ]AT_ERROR_VERBOSE_IF(["\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"], ["∃¬∩∪∀"])[;
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([{ SPECIAL }])[
+]AT_YYLEX_DEFINE(["a"])[
 ]AT_MAIN_DEFINE[
 ]])
 
@@ -410,20 +410,13 @@ input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used
 
 AT_COMPILE([input])
 
-AT_ERROR_VERBOSE_IF([
 # Checking the error message here guarantees that yytname, which does contain
 # C-string literals, does have the trigraph escaped correctly.  Thus, the
 # symbol name reported by the parser is exactly the same as that reported by
 # Bison itself.
-AT_DATA([experr],
-[[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!", expecting a
+AT_PARSER_CHECK([input], 1, [],
+[[syntax error, unexpected a, expecting ]AT_ERROR_VERBOSE_IF([["\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"]], [[∃¬∩∪∀]])[
 ]])
-AT_PARSER_CHECK([input], 1, [], [experr])
-])
-
-# We don't check the error message in "detailed" parse.error, since
-# the special characters are no longer escaped, and it produces
-# invalid UTF-8.
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
