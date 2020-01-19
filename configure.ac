@@ -26,7 +26,9 @@ m4_pattern_allow([^BISON_USE_NLS$])
 
 AC_INIT([GNU Bison],
         m4_esyscmd([build-aux/git-version-gen .tarball-version]),
-        [bug-bison@gnu.org])
+        [bug-bison@gnu.org],
+        [],
+        [https://www.gnu.org/software/bison/])
 AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2020])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
