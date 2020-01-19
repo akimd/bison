@@ -2367,6 +2367,25 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 
+# Only "full" and "none" are accepted for parse.lac
+# Unknown values (such as "unsupported") are rejected
+AT_BISON_CHECK([[-Dparse.lac=none input.y]])
+AT_BISON_CHECK([[-Dparse.lac=none -L c++ input.y]])
+AT_BISON_CHECK([[-Dparse.lac=full input.y]])
+AT_BISON_CHECK([[-Dparse.lac=full -L c++ input.y]])
+AT_BISON_CHECK([[-Dparse.lac=unsupported input.y]],
+               [[1]], [],
+[[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
+<command line>:3:     accepted value: 'full'
+<command line>:3:     accepted value: 'none'
+]])
+AT_BISON_CHECK([[-Dparse.lac=unsupported -L c++ input.y]],
+               [[1]], [],
+[[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
+<command line>:3:     accepted value: 'full'
+<command line>:3:     accepted value: 'none'
+]])
+
 # parse.lac.* options are useless if LAC isn't actually activated.
 AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
                [[1]], [],
@@ -2378,11 +2397,11 @@ AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
 ]])
 
 # parse.lac.* options are useless in C++ even if LAC isn't actually activated.
-AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -L C++ -Dparse.lac input.y]],
+AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -L C++ -Dparse.lac=full input.y]],
                [[1]], [],
 [[<command line>:3: error: %define variable 'parse.lac.es-capacity-initial' is not used
 ]])
-AT_BISON_CHECK([[-Dparse.lac.memory-trace=full -L C++ -Dparse.lac  input.y]],
+AT_BISON_CHECK([[-Dparse.lac.memory-trace=full -L C++ -Dparse.lac=full input.y]],
                [[1]], [],
 [[<command line>:3: error: %define variable 'parse.lac.memory-trace' is not used
 ]])
