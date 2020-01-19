@@ -118,6 +118,22 @@ jobs:
         - CXX='clang++-9 -fsanitize=address -stdlib=libc++'
         - PART=2
 
+    - name: "ICC"
+      stage: check
+      os: linux
+      compiler: icc
+      env:
+        - CC=icc
+        - CXX=icpc
+      install:
+        - source /opt/intel/inteloneapi/compiler/latest/env/vars.sh
+      addons:
+        apt:
+          sources:
+          - sourceline: 'deb https://apt.repos.intel.com/oneapi all main'
+            key_url: 'https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS-2023.PUB'
+          packages:
+          - intel-oneapi-icc
 
     ## ------- ##
     ## First.  ##

@@ -91,6 +91,7 @@
 /locale_h.m4
 /localtime-buffer.m4
 /lock.m4
+/longlong.m4
 /lstat.m4
 /malloc.m4
 /malloca.m4

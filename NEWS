@@ -14,6 +14,14 @@ GNU Bison NEWS
   (2013-07-25), "%error-verbose" is deprecated in favor of "%define
   parse.error verbose".
 
+* Noteworthy changes in release 3.5.1 (2020-01-19) [stable]
+
+** Bug fixes
+
+  Portability fixes.
+
+  Fix compiler warnings.
+
 * Noteworthy changes in release 3.5 (2019-12-11) [stable]
 
 ** Backward incompatible changes
