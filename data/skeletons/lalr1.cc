@@ -23,6 +23,7 @@ m4_define([b4_value_type_setup_variant])
 # Check the value of %define parse.lac, where LAC stands for lookahead
 # correction.
 b4_percent_define_default([[parse.lac]], [[none]])
+b4_percent_define_check_values([[[[parse.lac]], [[full]], [[none]]]])
 b4_define_flag_if([lac])
 m4_define([b4_lac_flag],
           [m4_if(b4_percent_define_get([[parse.lac]]),
