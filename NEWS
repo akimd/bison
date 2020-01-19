@@ -2,6 +2,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Portability fixes.
+
+  Fix compiler warnings.
 
 * Noteworthy changes in release 3.5 (2019-12-11) [stable]
 
