@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.5.49-3790-dirty.  */
+/* A Bison parser, made by GNU Bison 3.5.1.51-6ada9.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -160,7 +160,7 @@ union GRAM_STYPE
   char* PROLOGUE;
   /* code_props_type  */
   code_props_type code_props_type;
-  /* "integer"  */
+  /* "integer literal"  */
   int INT;
   /* int.opt  */
   int yytype_82;
