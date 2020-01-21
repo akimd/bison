@@ -31,18 +31,18 @@ exit=true
 cwd=$(pwd)
 
 # The exercised program.
-for p in "$cwd/examples/$medir/$me"
-do
-    if test -x "$p"; then
-        prog=$p
-        break
-    elif test -f "$p.class"; then
-        pwd
-        prog="$SHELL $cwd/javaexec.sh -cp $(dirname $p) $(basename $p)"
-        break
-    fi
-done
-if test x"$prog" = x; then
+abs_medir=$cwd/examples/$medir
+if test -x "$abs_medir/$me"; then
+    prog ()
+    {
+        "$abs_medir/$me" "$@"
+    }
+elif test -f "$abs_medir/$me.class"; then
+    prog ()
+    {
+        "$SHELL" "$cwd/javaexec.sh" -cp "$abs_medir" "$me" "$@"
+    }
+else
     echo "$me: ERROR: cannot find program to exercise in:"
     echo "$me: ERROR:   $cwd/examples/$medir/$me"
     exit 1
@@ -55,7 +55,7 @@ cleanup ()
 {
   status=$?
   if test -z "$DEBUG"; then
-     cd $cwd
+     cd "$cwd"
      rm -rf $$.dir
   fi
   exit $status
@@ -82,7 +82,7 @@ run ()
   shift
   # Effective exit status.
   sta_eff=0
-  $prog "$@" - <input >out_eff 2>err_eff || sta_eff=$?
+  prog "$@" - <input >out_eff 2>err_eff || sta_eff=$?
   # Combine effective output and error streams.
   out_eff=$(cat out_eff && $noerr || sed -e 's/^/err: /g' err_eff)
   if test $sta_eff -eq $sta_exp; then
