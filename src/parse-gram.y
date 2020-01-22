@@ -125,7 +125,7 @@
 %define api.token.raw
 %define api.value.type union
 %define locations
-%define parse.error detailed
+%define parse.error custom
 %define parse.lac full
 %define parse.trace
 %defines
@@ -800,6 +800,65 @@ epilogue.opt:
 ;
 
 %%
+
+int
+yyreport_syntax_error (const yyparse_context_t *ctx)
+{
+  if (complaint_status < status_complaint)
+    complaint_status = status_complaint;
+  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+  /* Internationalized format string. */
+  const char *format = YY_NULLPTR;
+  /* Arguments of format: reported tokens (one for the "unexpected",
+     one per "expected"). */
+  int arg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  int n = yysyntax_error_arguments (ctx, arg, YYERROR_VERBOSE_ARGS_MAXIMUM);
+  switch (n)
+    {
+    case -2:
+      return 2;
+# define YYCASE_(N, S)                      \
+      case N:                               \
+        format = S;                         \
+      break
+    default: /* Avoid compiler warnings. */
+      YYCASE_(0, YY_("syntax error"));
+      YYCASE_(1, YY_("syntax error, unexpected %s"));
+      YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
+      YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+      YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+      YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+# undef YYCASE_
+    }
+  location_print (*yyparse_context_location (ctx), stderr);
+  fputs (": ", stderr);
+  begin_use_class ("error", stderr);
+  fputs ("error:", stderr);
+  end_use_class ("error", stderr);
+  fputc (' ', stderr);
+  {
+    int i = 0;
+    while (*format)
+      if (format[0] == '%' && format[1] == 's' && i < n)
+        {
+          const char *style = i == 0 ? "unexpected" : "expected";
+          begin_use_class (style, stderr);
+          fputs (yysymbol_name (arg[i]), stderr);
+          end_use_class (style, stderr);
+          format += 2;
+          ++i;
+        }
+      else
+        {
+          fputc (*format, stderr);
+          ++format;
+        }
+  }
+  fputc ('\n', stderr);
+  location_caret (*yyparse_context_location (ctx), "error", stderr);
+  return 0;
+}
+
 
 /* Return the location of the left-hand side of a rule whose
    right-hand side is RHS[1] ... RHS[N].  Ignore empty nonterminals in

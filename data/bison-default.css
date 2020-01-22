@@ -29,3 +29,6 @@
 
 /* "Sections" in traces (--trace).  */
 .trace0    { color: green; }
+
+.expected   { color: green; }
+.unexpected { color: red; }
