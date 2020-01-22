@@ -161,6 +161,11 @@ void duplicate_directive (char const *directive,
 void duplicate_rule_directive (char const *directive,
                                location first, location second);
 
+/** Report a syntax error, where argv[0] is the unexpected
+    token, and argv[1...argc] are the expected ones.  */
+void syntax_error (location loc,
+                   int argc, const char* argv[]);
+
 /** Warnings treated as errors shouldn't stop the execution as regular
     errors should (because due to their nature, it is safe to go
     on). Thus, there are three possible execution statuses.  */

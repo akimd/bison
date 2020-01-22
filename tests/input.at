@@ -102,7 +102,7 @@ input.y:6.1-17: error: invalid directive: '%a-does-not-exist'
 input.y:7.1: error: invalid character: '%'
 input.y:7.2: error: invalid character: '-'
 input.y:8.1-9.0: error: missing '%}' at end of file
-input.y:8.1-9.0: error: syntax error, unexpected %{...%}
+input.y:8.1-9.0: error: unexpected %{...%}
 ]])
 
 AT_CLEANUP
@@ -124,7 +124,7 @@ AT_DATA([input.y],
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:3.1-15: error: syntax error, unexpected %initial-action, expecting {...}
+[[input.y:3.1-15: error: expected {...} before %initial-action
 ]])
 
 AT_CLEANUP
@@ -281,16 +281,16 @@ input.y:3.17-24: error: nonterminals cannot be given a string alias
 input.y:4.8-10: error: character literals cannot be nonterminals
     4 | %nterm '+' '*';
       |        ^~~
-input.y:5.8-15: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
+input.y:5.8-15: error: expected character literal or identifier or <tag> before string
     5 | %nterm "number";
       |        ^~~~~~~~
-input.y:6.8-13: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
+input.y:6.8-13: error: expected character literal or identifier or <tag> before string
     6 | %token "tok1" 1;
       |        ^~~~~~
-input.y:7.14: error: syntax error, unexpected integer literal
+input.y:7.14: error: unexpected integer literal
     7 | %left "tok2" 2;
       |              ^
-input.y:8.14: error: syntax error, unexpected integer literal
+input.y:8.14: error: unexpected integer literal
     8 | %type "tok3" 3;
       |              ^
 ]])
@@ -1277,7 +1277,7 @@ AT_SETUP([Torturing the Scanner])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y], [])
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:1.1: error: syntax error, unexpected end of file
+[[input.y:1.1: error: unexpected end of file
 ]])
 
 
@@ -1285,7 +1285,7 @@ AT_DATA([input.y],
 [{}
 ])
 AT_BISON_CHECK([-fcaret  input.y], [1], [],
-[[input.y:1.1-2: error: syntax error, unexpected {...}
+[[input.y:1.1-2: error: unexpected {...}
     1 | {}
       | ^~
 ]])
@@ -1655,7 +1655,7 @@ input.y:16.11-17.0: error: missing '"' at end of line
 input.y:19.13-20.0: error: missing '}' at end of file
    19 | %destructor { free ($$)
       |             ^~~~~~~~~~~
-input.y:20.1: error: syntax error, unexpected end of file
+input.y:20.1: error: unexpected end of file
 ]])
 
 AT_CLEANUP
