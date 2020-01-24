@@ -37,6 +37,17 @@ recursively.  To demonstrate this feature, expressions in parentheses are
 tokenized as strings, and then recursively parsed from the parser.  So
 `(((1)+(2))*((3)+(4)))` uses eight parsers, with a depth of four.
 
+## pushcalc - calculator implemented with a push parser
+All the previous examples are so called "pull parsers": the user invokes the
+parser once, which repeatedly calls the scanner until the input is drained.
+
+This example demonstrates the "push parsers": the user calls the scanner to
+fetch the next token, passes it to the parser, and repeats the operation
+until the input is drained.
+
+This example is a straightforward conversion of the 'calc' example to the
+push-parser model.
+
 
 <!---
 
