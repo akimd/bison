@@ -1,4 +1,4 @@
-/* Prologue (directives).   -*- C++ -*- */
+/* Prologue (directives).   -*- C -*- */
 
 /* Disable Flex features we don't need, to avoid warnings. */
 %option nodefault noinput nounput noyywrap
@@ -17,10 +17,14 @@
 
 %%
 %{
+  // Number of opened parentheses.
   int nesting = 0;
+  // A buffer storing the text inside the outer parentheses.
   char *str = NULL;
-  int size = 0;
+  // Its allocated size.
   int capacity = 0;
+  // Its used size.
+  int size = 0;
 #define STR_APPEND()                                    \
   do {                                                  \
     if (capacity < size + yyleng + 1)                   \

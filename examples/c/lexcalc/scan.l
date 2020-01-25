@@ -1,4 +1,4 @@
-/* Prologue (directives).   -*- C++ -*- */
+/* Prologue (directives).   -*- C -*- */
 
 /* Disable Flex features we don't need, to avoid warnings. */
 %option nodefault noinput nounput noyywrap

@@ -19,12 +19,24 @@
 #include <stdlib.h> // getenv.
 }
 
+// Don't share global variables between the scanner and the parser.
 %define api.pure full
+
+// To avoid name clashes (e.g., with C's EOF) prefix token definitions
+// with TOK_ (e.g., TOK_EOF).
 %define api.token.prefix {TOK_}
+
+// %token and %type use genuine types (e.g., "%token <int>").  Let
+// %bison define YYSTYPE as a union of all these types.
 %define api.value.type union
-%define parse.error verbose
+
+// Generate detailed error messages.
+%define parse.error detailed
+
+// Enable debug traces (see yydebug in main).
 %define parse.trace
- // Error count, exchanged between main, yyparse and yylex.
+
+// Error count, exchanged between main, yyparse and yylex.
 %param {int *nerrs}
 
 %token
@@ -77,6 +89,7 @@ exp:
 ;
 %%
 // Epilogue (C code).
+
 void yyerror (int *nerrs, const char *msg)
 {
   fprintf (stderr, "%s\n", msg);
