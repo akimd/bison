@@ -89,7 +89,9 @@ run ()
     if test "$out_eff" = "$out_exp"; then
       echo "$me: PASS: $number"
     else
-      echo "$me: FAIL: $number (expected output: $out_exp, effective: $out_eff)"
+      echo "$me: FAIL: $number"
+      echo "$me: expected output:  $out_exp"
+      echo "$me: effective output: $out_eff"
       cat err_eff
       exit=false
     fi

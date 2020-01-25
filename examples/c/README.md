@@ -48,6 +48,14 @@ until the input is drained.
 This example is a straightforward conversion of the 'calc' example to the
 push-parser model.
 
+## bistromathic - all the bells and whistles
+This example demonstrates the best practices when using Bison.
+- Its interface is pure.
+- It uses a custom syntax error with location tracking, lookahead correction
+  and token internationalization.
+- It enables debug trace support with formatting of semantic values.
+
+It also uses Flex to generate the scanner.
 
 <!---
 
@@ -65,6 +73,8 @@ Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the "GNU Free
 Documentation License" file as part of this distribution.
 
-# LocalWords:  mfcalc calc parsers yy rpcalc lexcalc redux reccalc ispell
-# LocalWords:  reentrant tokenized american postfix
---->
+LocalWords:  mfcalc calc parsers yy rpcalc lexcalc redux reccalc ispell
+LocalWords:  reentrant tokenized american postfix pushcalc bistromathic
+LocalWords:  lookahead
+
+-->
