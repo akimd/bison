@@ -2603,7 +2603,7 @@ struct init
 @end group
 
 @group
-struct init const arith_funs[] =
+struct init const funs[] =
 @{
   @{ "atan", atan @},
   @{ "cos",  cos  @},
@@ -2621,16 +2621,16 @@ symrec *sym_table;
 @end group
 
 @group
-/* Put arithmetic functions in table. */
+/* Put functions in table. */
 static void
 init_table (void)
 @end group
 @group
 @{
-  for (int i = 0; arith_funs[i].name; i++)
+  for (int i = 0; funs[i].name; i++)
     @{
-      symrec *ptr = putsym (arith_funs[i].name, FUN);
-      ptr->value.fun = arith_funs[i].fun;
+      symrec *ptr = putsym (funs[i].name, FUN);
+      ptr->value.fun = funs[i].fun;
     @}
 @}
 @end group
