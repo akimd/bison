@@ -306,7 +306,7 @@ Parser C-Language Interface
 * Parser Delete Function::  How to call @code{yypstate_delete} and what it returns.
 * Lexical::                 You must supply a function @code{yylex}
                               which reads tokens.
-* Error Reporting::         You must supply a function @code{yyerror}.
+* Error Reporting::         Passing error messages to the user.
 * Action Features::         Special features for use in actions.
 * Internationalization::    How to let the parser speak in the user's
                               native language.
@@ -322,6 +322,11 @@ The Lexical Analyzer Function @code{yylex}
                           actions want that.
 * Pure Calling::        How the calling convention differs in a pure parser
                           (@pxref{Pure Decl}).
+
+Error Reporting
+
+* Error Reporting Function::         You must supply a function @code{yyerror}.
+* Syntax Error Reporting Function::  You can supply a function @code{yyreport_syntax_error}.
 
 The Bison Parser Algorithm
 
@@ -5421,8 +5426,8 @@ The result is that the communication variables @code{yylval} and
 calling convention is used for the lexical analyzer function @code{yylex}.
 @xref{Pure Calling}, for the details of this.  The variable @code{yynerrs}
 becomes local in @code{yyparse} in pull mode but it becomes a member of
-@code{yypstate} in push mode.  (@pxref{Error Reporting}).  The convention
-for calling @code{yyparse} itself is unchanged.
+@code{yypstate} in push mode.  (@pxref{Error Reporting Function}).  The
+convention for calling @code{yyparse} itself is unchanged.
 
 Whether the parser is pure has nothing to do with the grammar rules.
 You can generate either a pure parser or a nonreentrant parser from any
@@ -6070,7 +6075,7 @@ used, then both parsers have the same signature:
 void yyerror (YYLTYPE *llocp, int *nastiness, char const *msg);
 @end example
 
-(@pxref{Error Reporting})
+(@pxref{Error Reporting Function})
 
 @item Default Value: @code{false}
 
@@ -6483,22 +6488,41 @@ constructed and destroyed properly.  This option checks these constraints.
 @item Languages(s):
 all
 @item Purpose:
-Control the kind of error messages passed to the error reporting
-function.  @xref{Error Reporting, ,The Error Reporting Function
-@code{yyerror}}.
+Control the generation of syntax error messages.  @xref{Error Reporting}.
 @item Accepted Values:
 @itemize
 @item @code{simple}
 Error messages passed to @code{yyerror} are simply @w{@code{"syntax
 error"}}.
+
+@item @code{detailed}
+Error messages report the unexpected token, and possibly the expected ones.
+However, this report can often be incorrect when LAC is not enabled
+(@pxref{LAC}).  Token name internationalization is supported.
+
 @item @code{verbose}
+Similar (but inferior) to @code{detailed}.
+
 Error messages report the unexpected token, and possibly the expected ones.
 However, this report can often be incorrect when LAC is not enabled
 (@pxref{LAC}).
+
+Does not support token internationalization.  Using non-ASCII characters in
+token aliases is not portable.
+
+@item @code{custom}
+The user is in charge of generating the syntax error message by defining the
+@code{yyreport_syntax_error} function.  @xref{Syntax Error Reporting
+Function, ,The Syntax Error Reporting Function
+@code{yyreport_syntax_error}}.
 @end itemize
 
 @item Default Value:
 @code{simple}
+
+@item History:
+introduced in 3.0 with support for @code{simple} and @code{verbose}.  Values
+@code{custom} and @code{detailed} were introduced in 3.6.
 @end itemize
 @end deffn
 @c parse.error
@@ -6800,7 +6824,7 @@ in the grammar file, you are likely to run into trouble.
 * Parser Delete Function::  How to call @code{yypstate_delete} and what it returns.
 * Lexical::                 You must supply a function @code{yylex}
                               which reads tokens.
-* Error Reporting::         You must supply a function @code{yyerror}.
+* Error Reporting::         Passing error messages to the user.
 * Action Features::         Special features for use in actions.
 * Internationalization::    How to let the parser speak in the user's
                               native language.
@@ -7236,8 +7260,21 @@ int yylex   (YYSTYPE *lvalp, YYLTYPE *llocp,
 int yyparse (parser_mode *mode, environment_type *env);
 @end example
 
+
 @node Error Reporting
-@section The Error Reporting Function @code{yyerror}
+@section Error Reporting
+
+During its execution the parser may have error messages to pass to the user,
+such as syntax error, or memory exhaustion.  How this message is delivered
+to the user must be specified by the developer.
+
+@menu
+* Error Reporting Function::         You must supply a function @code{yyerror}.
+* Syntax Error Reporting Function::  You can supply a function @code{yyreport_syntax_error}.
+@end menu
+
+@node Error Reporting Function
+@subsection The Error Reporting Function @code{yyerror}
 @cindex error reporting function
 @findex yyerror
 @cindex parse error
@@ -7254,7 +7291,7 @@ called by @code{yyparse} whenever a syntax error is found, and it
 receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
-@findex %define parse.error
+@findex %define parse.error verbose
 If you invoke @samp{%define parse.error verbose} in the Bison declarations
 section (@pxref{Bison Declarations}), then
 Bison provides a more verbose and specific error message string instead of
@@ -7322,13 +7359,76 @@ reported so far.  Normally this variable is global; but if you
 request a pure parser (@pxref{Pure Decl})
 then it is a local variable which only the actions can access.
 
+
+@node Syntax Error Reporting Function
+@subsection The Syntax Error Reporting Function @code{yyreport_syntax_error}
+
+@findex %define parse.error custom
+If you invoke @samp{%define parse.error custom} in the Bison declarations
+section (@pxref{Bison Declarations, ,The Bison Declarations Section}), then
+the parser no longer passes syntax error messages to @code{yyerror}, rather
+it leaves that task to the user by calling the @code{yyreport_syntax_error}
+function.
+
+@deftypefun int yyreport_syntax_error (@code{const yyparse_context_t *}@var{ctx})
+Report a syntax error to the user.  Return 0 on success, 2 on memory exhaustion.
+@end deftypefun
+
+Use the following functions to build the error message.
+
+@deftypefun {YYLTYPE *} yyparse_context_location (@code{const yyparse_context_t *}@var{ctx})
+The location of the syntax error.
+@end deftypefun
+
+
+@deftypefun int yysyntax_error_arguments (@code{const yyparse_context_t *}ctx, @code{int} @var{argv}@code{[]}, @code{int} @var{argc})
+Fill @var{argv} with first the internal number of the token that caused the
+error, then the internal numbers of the expected tokens.  Never put more
+than @var{argc} elements into @var{argv}, and on success return the
+effective number of numbers stored in @var{argv}, which can be 0.
+
+If @var{argv} is null, return the size needed to store all the possible
+values, which is always less than @code{YYNTOKENS}.  When LAC is enabled,
+may return -2 on memory exhaustion.
+@end deftypefun
+
+@deftypefun {const char *} yysymbol_name (@code{int} @var{symbol})
+The name of the symbol whose internal number is @var{symbol}, possibly
+translated.  Must be called with valid symbol numbers.
+@end deftypefun
+
+A custom syntax error function looks as follows.
+
+@example
+int
+yyreport_syntax_error (const yyparse_context_t *ctx)
+@{
+  enum @{ ARGMAX = 10 @};
+  int arg[ARGMAX];
+  int n = yysyntax_error_arguments (ctx, arg, ARGMAX);
+  if (n == -2)
+    return 2;
+  fprintf (stderr, "syntax error");
+  for (int i = 1; i < n; ++i)
+    fprintf (stderr, " %s %s",
+             i == 1 ? "expected" : "or", yysymbol_name (arg[i]));
+  if (n)
+    fprintf (stderr, " before %s", yysymbol_name (arg[0]));
+  fprintf (stderr, "\n");
+  return 0;
+@}
+@end example
+
+You still must provide a @code{yyerror} function, used for instance to
+report memory exhaustion.
+
 @node Action Features
 @section Special Features for Use in Actions
 @cindex summary, action features
 @cindex action features summary
 
-Here is a table of Bison constructs, variables and macros that
-are useful in actions.
+Here is a table of Bison constructs, variables and macros that are useful in
+actions.
 
 @deffn {Variable} $$
 Acts like a variable that contains the semantic value for the
@@ -13880,8 +13980,7 @@ token is reset to the token that originally caused the violation.
 @end deffn
 
 @deffn {Directive} %error-verbose
-An obsolete directive standing for @samp{%define parse.error verbose}
-(@pxref{Error Reporting, ,The Error Reporting Function @code{yyerror}}).
+An obsolete directive standing for @samp{%define parse.error verbose}.
 @end deffn
 
 @deffn {Directive} %file-prefix "@var{prefix}"
@@ -14099,7 +14198,7 @@ instead.
 
 @deffn {Function} yyerror
 User-supplied function to be called by @code{yyparse} on error.
-@xref{Error Reporting}.
+@xref{Error Reporting Function}.
 @end deffn
 
 @deffn {Macro} YYFPRINTF
@@ -14153,7 +14252,7 @@ Management}.
 Global variable which Bison increments each time it reports a syntax error.
 (In a pure parser, it is a local variable within @code{yyparse}. In a
 pure push parser, it is a member of @code{yypstate}.)
-@xref{Error Reporting}.
+@xref{Error Reporting Function}.
 @end deffn
 
 @deffn {Function} yyparse

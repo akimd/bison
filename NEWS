@@ -14,6 +14,67 @@ GNU Bison NEWS
   (2013-07-25), "%error-verbose" is deprecated in favor of "%define
   parse.error verbose".
 
+** New features
+
+*** Improved syntax error messages
+
+  Two new values for the %define parse.error variable offer more control to
+  the user.
+
+**** %define parse.error detailed
+
+  The behavior of "%define parse.error detailed" is closely resembling that
+  of "%define parse.error verbose" with a few exceptions.  First, it is safe
+  to use non-ASCII characters in token aliases (with 'verbose', the result
+  depends on the locale with which bison was run).  Second, a yysymbol_name
+  function is exposed to the user, instead of the yytnamerr function and the
+  yytname table.  Third, token internationalization is supported (see
+  below).
+
+**** %define parse.error custom
+
+  With this directive, the user forges and emits the syntax error message
+  herself by defining a function such as:
+
+    int
+    yyreport_syntax_error (const yyparse_context_t *ctx)
+    {
+      enum { ARGMAX = 10 };
+      int arg[ARGMAX];
+      int n = yysyntax_error_arguments (ctx, arg, ARGMAX);
+      if (n == -2)
+        return 2; // Memory exhausted.
+      YY_LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
+      fprintf (stderr, ": syntax error");
+      for (int i = 1; i < n; ++i)
+        fprintf (stderr, " %s %s",
+                 i == 1 ? "expected" : "or", yysymbol_name (arg[i]));
+      if (n)
+        fprintf (stderr, " before %s", yysymbol_name (arg[0]));
+      fprintf (stderr, "\n");
+      return 0;
+    }
+
+**** Token aliases internationalization
+
+  When the %define variable parse.error is set to `custom` or `detailed`,
+  one may use the _() annotation to specify which token aliases are to be
+  translated.  For instance
+
+    %token
+        PLUS   "+"
+        MINUS  "-"
+        EOF 0  _("end of file")
+      <double>
+        NUM _("double precision number")
+      <symrec*>
+        FUN _("function")
+        VAR _("variable")
+
+  In that case the user must define _() and N_(), and yysymbol_name returns
+  the translated symbol (i.e., it returns '_("variable")' rather that
+  '"variable"').
+
 * Noteworthy changes in release 3.5.1 (2020-01-19) [stable]
 
 ** Bug fixes
@@ -3881,7 +3942,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
  LocalWords:  noexcept constexpr ispell american deprecations backend Teoh
  LocalWords:  YYPRINT Mangold Bonzini's Wdangling exVal baz checkable gcc
- LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata
+ LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata yytname
+ LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr
+ LocalWords:  symrec
 
 Local Variables:
 ispell-dictionary: "american"
