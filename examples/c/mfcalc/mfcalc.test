@@ -25,3 +25,15 @@ cat >input <<EOF
 EOF
 run 0 9
 run -noerr 0 9 -p
+
+cat >input <<EOF
+a = 256
+sqrt (a)
+EOF
+run 0 '256
+16'
+
+cat >input <<EOF
+16 == 12
+EOF
+run 0 'err: syntax error'
