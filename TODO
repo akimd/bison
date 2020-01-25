@@ -4,12 +4,27 @@ YYUNDEFTOK is an internal symbol number, as YYTERROR.
 But YYERRCODE is an external token number.
 
 ** doc
-I feel its ugly to use the GNU style to declare functions in the doc.  It
+I feel it's ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page
 breaks.
 
-Also, we seem to teach YYPRINT very early on, although it should be
-considered deprecated: %printer is superior.
+** Bad styling
+When the quoted line is shorter than expected, the styling is closed, so it
+"leaks" till the end of the diagnostics.
+
+    $ cat parser.yy
+    #line 1
+    // foo
+    %define parser_class_name {foo}
+    %language "C++"
+    %%
+    exp:
+    $ bison --color=debug /tmp/parser.yy
+    /tmp/parser.yy:2.1-31: <warning>avertissement:</warning> directive dépréciée: « %define parser_class_name {foo} », utilisez « %define api.parser.class {foo} » [<warning>-Wdeprecated</warning>]
+        2 | <warning>// foo
+          | <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
+          | <fixit-insert>%define api.parser.class {foo}</fixit-insert>
+    /tmp/parser.yy: <warning>avertissement:</warning> des fix-its peuvent être appliqués. Exécutez à nouveau avec l'option « --update ». [<warning>-Wother</warning>]
 
 ** improve syntax errors (UTF-8, internationalization)
 Bison depends on the current locale.  For instance:
