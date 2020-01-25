@@ -726,7 +726,9 @@ _AT_CHECK_CALC_ERROR([$1], [1], [error],
 _AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3],
                      [[final: 0 0 1]],
                      [30],
-                     [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'])]])
+                     [AT_LAC_IF(
+                       [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]],
+                       [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'])]])])
 _AT_CHECK_CALC_ERROR([$1], [1],
                      [
 +1],
@@ -844,6 +846,8 @@ AT_CHECK_CALC_LALR([%no-lines %define api.pure %define parse.error verbose %debu
 AT_CHECK_CALC_LALR([%define parse.error custom])
 AT_CHECK_CALC_LALR([%define parse.error custom %locations %define api.prefix {calc}])
 AT_CHECK_CALC_LALR([%define parse.error custom %locations %define api.prefix {calc} %parse-param {semantic_value *result}{int *count}{int *nerrs}])
+AT_CHECK_CALC_LALR([%define parse.error custom %locations %define api.prefix {calc} %parse-param {semantic_value *result}{int *count}{int *nerrs} %define api.push-pull both %define api.pure full])
+AT_CHECK_CALC_LALR([%define parse.error custom %locations %define api.prefix {calc} %parse-param {semantic_value *result}{int *count}{int *nerrs} %define api.push-pull both %define api.pure full %define parse.lac full])
 
 # ----------------------- #
 # Simple GLR Calculator.  #
@@ -924,6 +928,8 @@ AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.location.file none])
 AT_CHECK_CALC_LALR1_CC([%defines %locations %define api.location.file "my-location.hh"])
 
 AT_CHECK_CALC_LALR1_CC([%no-lines %defines %locations %define api.location.file "my-location.hh"])
+
+AT_CHECK_CALC_LALR1_CC([%locations %define parse.lac full %define parse.error verbose])
 
 
 # --------------------------- #

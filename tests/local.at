@@ -235,6 +235,8 @@ m4_pushdef([AT_GLR_CC_IF],
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
+m4_pushdef([AT_LAC_IF],
+[m4_bmatch([$3], [%define parse.lac full], [$1], [$2])])
 m4_pushdef([AT_LEXPARAM_IF],
 [m4_bmatch([$3], [%lex-param], [$1], [$2])])
 m4_pushdef([AT_LOCATION_IF],
@@ -409,6 +411,7 @@ m4_popdef([AT_PUSH_IF])
 m4_popdef([AT_PURE_IF])
 m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
+m4_popdef([AT_LAC_IF])
 m4_popdef([AT_YACC_IF])
 m4_popdef([AT_GLR_IF])
 m4_popdef([AT_CXX_IF])
