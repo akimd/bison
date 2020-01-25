@@ -109,9 +109,9 @@ m4_define([b4_define_state],[[
    */
   public final void setErrorVerbose(boolean verbose)
   { yyErrorVerbose = verbose; }
-]])
+]])[
 
-b4_locations_if([[
+]b4_locations_if([[
   /**
    * A class defining a pair of positions.  Positions, defined by the
    * <code>]b4_position_type[</code> class, denote a point in the input.
