@@ -147,6 +147,7 @@
 /limits.in.h
 /localcharset.c
 /localcharset.h
+/locale.h
 /locale.in.h
 /localtime-buffer.c
 /localtime-buffer.h
