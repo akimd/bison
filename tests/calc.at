@@ -878,6 +878,7 @@ AT_CHECK_CALC_GLR([%define api.pure %locations])
 AT_CHECK_CALC_GLR([%define parse.error verbose %locations])
 
 AT_CHECK_CALC_GLR([%define parse.error verbose %locations %defines %name-prefix "calc" %verbose %yacc])
+AT_CHECK_CALC_GLR([%define parse.error detailed %locations %defines %name-prefix "calc" %verbose %yacc])
 
 AT_CHECK_CALC_GLR([%debug])
 AT_CHECK_CALC_GLR([%define parse.error verbose %debug %locations %defines %name-prefix "calc" %verbose %yacc])
