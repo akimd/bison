@@ -47,24 +47,22 @@ line:
 ;
 
 exp:
-  NUM                { $$ = $1;                                             }
+  NUM                { $$ = $1; }
 | exp '=' exp
   {
     if ($1.intValue () != $3.intValue ())
       yyerror (@$, "calc: error: " + $1 + " != " + $3);
   }
-| exp '+' exp        { $$ = new Integer ($1.intValue () + $3.intValue ());  }
-| exp '-' exp        { $$ = new Integer ($1.intValue () - $3.intValue ());  }
-| exp '*' exp        { $$ = new Integer ($1.intValue () * $3.intValue ());  }
-| exp '/' exp        { $$ = new Integer ($1.intValue () / $3.intValue ());  }
-| '-' exp  %prec NEG { $$ = new Integer (-$2.intValue ());                  }
-| exp '^' exp        { $$ = new Integer ((int)
-                                         Math.pow ($1.intValue (),
-                                                   $3.intValue ()));        }
-| '(' exp ')'        { $$ = $2;                                             }
-| '(' error ')'      { $$ = new Integer (1111);                             }
-| '!'                { $$ = new Integer (0); return YYERROR;                }
-| '-' error          { $$ = new Integer (0); return YYERROR;                }
+| exp '+' exp        { $$ = $1 + $3;  }
+| exp '-' exp        { $$ = $1 - $3;  }
+| exp '*' exp        { $$ = $1 * $3;  }
+| exp '/' exp        { $$ = $1 / $3;  }
+| '-' exp  %prec NEG { $$ = -$2; }
+| exp '^' exp        { $$ = (int) Math.pow ($1, $3); }
+| '(' exp ')'        { $$ = $2; }
+| '(' error ')'      { $$ = 1111; }
+| '!'                { $$ = 0; return YYERROR; }
+| '-' error          { $$ = 0; return YYERROR; }
 ;
 
 

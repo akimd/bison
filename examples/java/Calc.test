@@ -21,6 +21,13 @@ EOF
 run 0 7
 
 cat >input <<EOF
+1 + 2 * 3 = 7
+(1 + 2) * 3 = 9
+EOF
+run 0 '7
+9'
+
+cat >input <<EOF
 1 + 2 * * 3
 EOF
 run 0 "err: 1.5: syntax error, unexpected '*', expecting number or '-' or '(' or '!'"
