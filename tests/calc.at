@@ -25,6 +25,7 @@
 
 m4_pushdef([AT_CALC_MAIN],   [AT_LANG_DISPATCH([$0], $@)])
 
+# Whether token translation is supported.
 m4_pushdef([AT_TOKEN_TRANSLATE_IF],
 [AT_ERROR_CUSTOM_IF([$1], [AT_ERROR_DETAILED_IF([$1], [$2])])])
 

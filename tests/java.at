@@ -117,13 +117,8 @@ exp:
 | '-' error          { $$ = new Integer (0); return YYERROR;                }
 ;
 
-]AT_LEXPARAM_IF([[
-%code lexer {
-]],
-[[
-%%
-class CalcLexer implements Calc.Lexer {
-]])[
+]AT_LEXPARAM_IF([[%code lexer {]],
+                [[%code epilogue { class CalcLexer implements Calc.Lexer {]])[
   StreamTokenizer st;
 
   public ]AT_LEXPARAM_IF([[YYLexer]], [[CalcLexer]])[ (InputStream is)
@@ -176,10 +171,9 @@ class CalcLexer implements Calc.Lexer {
     else
       return st.ttype;
   }
-]AT_LEXPARAM_IF([[
+]AT_LEXPARAM_IF([], [[}]])[
 };
-%%]], [[
-}]])[
+%%
 ]AT_JAVA_POSITION_DEFINE[
 ]])
 ])# _AT_DATA_JAVA_CALC_Y
