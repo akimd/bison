@@ -147,18 +147,20 @@ b4_symbol_foreach([b4_token_enum])])])
 # b4-case(ID, CODE)
 # -----------------
 # We need to fool Java's stupid unreachable code detection.
-m4_define([b4_case], [  case $1:
+m4_define([b4_case],
+[  case $1:
   if (yyn == $1)
     $2;
   break;
-    ])
+])
 
 # b4_predicate_case(LABEL, CONDITIONS)
 # ------------------------------------
-m4_define([b4_predicate_case], [  case $1:
+m4_define([b4_predicate_case],
+[  case $1:
      if (! ($2)) YYERROR;
     break;
-    ])
+])
 
 
 ## -------- ##
@@ -361,4 +363,4 @@ m4_define([b4_var_decl],
 # -----------------------
 # Expand to either an empty string or "throws THROWS".
 m4_define([b4_maybe_throws],
-          [m4_ifval($1, [throws $1])])
+          [m4_ifval($1, [ throws $1])])
