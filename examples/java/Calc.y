@@ -4,6 +4,8 @@
 %define api.parser.public
 
 %define parse.error verbose
+%define parse.trace
+
 %locations
 
 %code imports {
@@ -19,7 +21,11 @@
   {
     CalcLexer l = new CalcLexer (System.in);
     Calc p = new Calc (l);
-    p.parse ();
+    for (String arg : args)
+      if (arg.equals ("-p"))
+        p.setDebugLevel (1);
+    if (!p.parse ())
+      System.exit (1);
   }
 }
 
