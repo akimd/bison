@@ -1,4 +1,4 @@
-## Copyright (C) 2020 Free Software Foundation, Inc.
+## Copyright (C) 2018-2020 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -13,8 +13,24 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-javadir = $(docdir)/%D%
-dist_java_DATA = %D%/README.md
+java_simpledir = $(docdir)/%D%
 
-include %D%/calc/local.mk
-include %D%/simple/local.mk
+## ------ ##
+## Calc.  ##
+## ------ ##
+
+if ENABLE_JAVA
+  check_SCRIPTS += %D%/Calc.class
+  TESTS += %D%/Calc.test
+endif
+EXTRA_DIST += %D%/Calc.test
+
+%D%/Calc.java: %D%/Calc.y $(dependencies)
+	$(AM_V_GEN)$(MKDIR_P) %D%
+	$(AM_V_at)$(BISON) $(srcdir)/%D%/Calc.y -o $@
+
+%D%/Calc.class: %D%/Calc.java
+	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh %D%/Calc.java
+
+dist_java_simple_DATA = %D%/Calc.y %D%/Makefile
+CLEANFILES += %D%/*.class %D%/Calc.java

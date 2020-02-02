@@ -75,6 +75,15 @@ GNU Bison NEWS
   the translated symbol (i.e., it returns '_("variable")' rather that
   '"variable"').
 
+** Documentation
+
+  There are now two examples in examples/java: a very simple calculator, and
+  one that tracks locations to provide acurate error messages.
+
+  A new C example, bistromathic, is a fully featured calculator using many
+  Bison features: pure interface, location tracking, internationalized
+  custom error messages, lookahead-correction, rich debug traces, etc.
+
 * Noteworthy changes in release 3.5.1 (2020-01-19) [stable]
 
 ** Bug fixes

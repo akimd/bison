@@ -5,8 +5,11 @@ This directory contains examples of Bison grammar files in Java.
 You can run `make` to compile these examples.  And `make clean` to tidy
 afterwards.
 
-## java/Calc.y
-The usual calculator.
+## simple/Calc.y
+The usual calculator, a very simple version.
+
+## calc/Calc.y
+The calculator, but with location tracking and debug traces.
 
 <!---
 
