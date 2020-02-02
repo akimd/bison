@@ -334,28 +334,31 @@ class CalcLexer(R) : Lexer
 m4_define([AT_CALC_YYLEX(java)],
 [AT_LEXPARAM_IF([[%code lexer {]],
                 [[%code epilogue { class CalcLexer implements Calc.Lexer {]])[
-  StreamTokenizer st;
+  StreamTokenizer st;]AT_LOCATION_IF([[
+  PositionReader reader;]])[
 
   public ]AT_LEXPARAM_IF([[YYLexer]], [[CalcLexer]])[ (InputStream is)
-  {
-    st = new StreamTokenizer (new InputStreamReader (is));
+  {]AT_LOCATION_IF([[
+    reader = new PositionReader (new InputStreamReader (is));
+    st = new StreamTokenizer (reader);]], [[
+    st = new StreamTokenizer (new InputStreamReader (is));]])[
     st.resetSyntax ();
     st.eolIsSignificant (true);
-    st.whitespaceChars ('\t', '\t');
-    st.whitespaceChars (' ', ' ');
     st.wordChars ('0', '9');
   }
 
 ]AT_LOCATION_IF([[
-  Position yypos = new Position (1, 0);
+  Position start = new Position (1, 0);
+  Position end = new Position (1, 0);
 
-  public Position getStartPos() {
-    return yypos;
+  public Position getStartPos () {
+    return start;
   }
 
-  public Position getEndPos() {
-    return yypos;
+  public Position getEndPos () {
+    return end;
   }
+
 ]])[
   ]AT_YYERROR_DEFINE[
 
@@ -365,26 +368,27 @@ m4_define([AT_CALC_YYLEX(java)],
     return yylval;
   }
 
-  public int yylex () throws IOException {
+  public int yylex () throws IOException {;]AT_LOCATION_IF([[
+    start.set (reader.getPosition ());]])[
     int ttype = st.nextToken ();]AT_LOCATION_IF([[
-    yypos = new Position (yypos.lineno (), yypos.token () + 1);]])[
-    if (ttype == st.TT_EOF)
-      return EOF;
-
-    else if (ttype == st.TT_EOL)
-      {]AT_LOCATION_IF([[
-        yypos = new Position (yypos.lineno () + 1, 0);]])[
-        return (int) '\n';
-      }
-
-    else if (ttype == st.TT_WORD)
+    end.set (reader.getPosition ());]])[
+    switch (ttype)
       {
-        yylval = new Integer (st.sval);
+      case StreamTokenizer.TT_EOF:
+        return EOF;
+      case StreamTokenizer.TT_EOL:;]AT_LOCATION_IF([[
+        end.line += 1;
+        end.column = 0;]])[
+        return (int) '\n';
+      case StreamTokenizer.TT_WORD:
+        yylval = new Integer (st.sval);]AT_LOCATION_IF([[
+        end.set (reader.getPreviousPosition ());]])[
         return NUM;
+      case ' ': case '\t':
+        return yylex ();
+      default:
+        return ttype;
       }
-
-    else
-      return st.ttype;
   }
 ]AT_LEXPARAM_IF([], [[}]])[
 };
@@ -635,12 +639,13 @@ m4_define([_AT_DATA_CALC_Y(java)],
 
 ]$4[
 
-%code imports {
-  import java.io.StreamTokenizer;
+%code imports {]AT_LOCATION_IF([[
+  import java.io.BufferedReader;]])[
+  import java.io.IOException;
   import java.io.InputStream;
   import java.io.InputStreamReader;
   import java.io.Reader;
-  import java.io.IOException;
+  import java.io.StreamTokenizer;
 }
 
 %code {
@@ -674,7 +679,7 @@ exp:
 | exp '=' exp
   {
     if ($1.intValue () != $3.intValue ())
-      yyerror (]AT_LOCATION_IF([[@$, ]])["calc: error: " + $1 + " != " + $3);
+      yyerror ("calc: error: " + $1 + " != " + $3);
   }
 | exp '+' exp        { $$ = $1 + $3; }
 | exp '-' exp        { $$ = $1 - $3; }
@@ -687,65 +692,10 @@ exp:
 | '!'                { $$ = 0; return YYERROR; }
 | '-' error          { $$ = 0; return YYERROR; }
 ;
-
-]AT_LEXPARAM_IF([[%code lexer {]],
-                [[%code epilogue { class CalcLexer implements Calc.Lexer {]])[
-  StreamTokenizer st;
-
-  public ]AT_LEXPARAM_IF([[YYLexer]], [[CalcLexer]])[ (InputStream is)
-  {
-    st = new StreamTokenizer (new InputStreamReader (is));
-    st.resetSyntax ();
-    st.eolIsSignificant (true);
-    st.whitespaceChars ('\t', '\t');
-    st.whitespaceChars (' ', ' ');
-    st.wordChars ('0', '9');
-  }
-
+]AT_CALC_YYLEX[
 ]AT_LOCATION_IF([[
-  Position yypos = new Position (1, 0);
-
-  public Position getStartPos() {
-    return yypos;
-  }
-
-  public Position getEndPos() {
-    return yypos;
-  }
-]])[
-  ]AT_YYERROR_DEFINE[
-
-  Integer yylval;
-
-  public Object getLVal() {
-    return yylval;
-  }
-
-  public int yylex () throws IOException {
-    int ttype = st.nextToken ();]AT_LOCATION_IF([[
-    yypos = new Position (yypos.lineno (), yypos.token () + 1);]])[
-    if (ttype == st.TT_EOF)
-      return EOF;
-
-    else if (ttype == st.TT_EOL)
-      {]AT_LOCATION_IF([[
-        yypos = new Position (yypos.lineno () + 1, 0);]])[
-        return (int) '\n';
-      }
-
-    else if (ttype == st.TT_WORD)
-      {
-        yylval = new Integer (st.sval);
-        return NUM;
-      }
-
-    else
-      return st.ttype;
-  }
-]AT_LEXPARAM_IF([], [[}]])[
-};
 %%
-]AT_JAVA_POSITION_DEFINE[
+]AT_JAVA_POSITION_DEFINE])[
 ]])
 ])# _AT_DATA_JAVA_CALC_Y
 
@@ -771,6 +721,9 @@ m4_define([AT_DATA_CALC_Y],
 #
 # We don't count GLR's traces yet, since its traces are somewhat
 # different from LALR's.  Likewise for D.
+#
+# The push traces are the same, except for "Return for a new token", don't
+# count them.
 m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
 [[$2
@@ -778,7 +731,7 @@ m4_define([_AT_CHECK_CALC],
 AT_JAVA_IF(
   [AT_JAVA_PARSER_CHECK([Calc < input], 0, [AT_PARAM_IF([m4_n([$3])])], [stderr])],
   [AT_PARSER_CHECK([calc input],        0, [AT_PARAM_IF([m4_n([$3])])], [stderr])])
-AT_LANG_MATCH([c\|c++],
+AT_LANG_MATCH([c\|c++\|java],
   [AT_GLR_IF([],
     [AT_CHECK([grep -v 'Return for a new token:' stderr | wc -l],
               [0],
@@ -907,6 +860,8 @@ AT_FULL_COMPILE(AT_JAVA_IF([[Calc]], [[calc]]), AT_DEFINES_IF([[lex], [main]], [
 AT_CHECK_SPACES([AT_JAVA_IF([Calc], [calc]).AT_LANG_EXT AT_DEFINES_IF([AT_JAVA_IF([Calc], [calc]).AT_LANG_HDR])])
 
 # Test the precedences.
+# The Java traces do not show the clean up sequence at the end,
+# since it does not support %destructor.
 _AT_CHECK_CALC([$1],
 [1 + 2 * 3 = 7
 1 + 2 * -3 = -5
@@ -922,33 +877,33 @@ _AT_CHECK_CALC([$1],
 2^2^3 = 256
 (2^2)^3 = 64],
 [[final: 64 12 0]],
-               [1017])
+               [AT_JAVA_IF([1014], [1017])])
 
 # Some syntax errors.
 _AT_CHECK_CALC_ERROR([$1], [1], [1 2],
                      [[final: 0 0 1]],
                      [15],
-                     [[1.3: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]])
+                     [AT_JAVA_IF([1.3-1.4], [1.3])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [1//2],
                      [[final: 0 0 1]],
                      [20],
-                     [[1.3: syntax error on token ['/'] (expected: [number] ['-'] ['('] ['!'])]])
+                     [AT_JAVA_IF([1.3-1.4], [1.3])[: syntax error on token ['/'] (expected: [number] ['-'] ['('] ['!'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [error],
                      [[final: 0 0 1]],
                      [5],
-                     [[1.1: syntax error on token [$undefined] (expected: [number] ['-'] ['\n'] ['('] ['!'])]])
+                     [AT_JAVA_IF([1.1-1.2], [1.1])[: syntax error on token [$undefined] (expected: [number] ['-'] ['\n'] ['('] ['!'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3],
                      [[final: 0 0 1]],
                      [30],
                      [AT_LAC_IF(
-                       [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]],
-                       [[1.7: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'])]])])
+                       [AT_JAVA_IF([1.7-1.8], [1.7])[: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'] ['\n'])]],
+                       [AT_JAVA_IF([1.7-1.8], [1.7])[: syntax error on token ['='] (expected: ['-'] ['+'] ['*'] ['/'] ['^'])]])])
 _AT_CHECK_CALC_ERROR([$1], [1],
                      [
 +1],
                      [[final: 0 0 1]],
                      [20],
-                     [[2.1: syntax error on token ['+'] (expected: ]AT_TOKEN_TRANSLATE_IF([[[end of file]]], [[[end of input]]])[ [number] ['-'] ['\n'] ['('] ['!'])]])
+                     [AT_JAVA_IF([2.1-2.2], [2.1])[: syntax error on token ['+'] (expected: ]AT_TOKEN_TRANSLATE_IF([[[end of file]]], [[[end of input]]])[ [number] ['-'] ['\n'] ['('] ['!'])]])
 # Exercise error messages with EOF: work on an empty file.
 _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null],
                      [[final: 0 0 1]],
@@ -975,10 +930,10 @@ _AT_CHECK_CALC_ERROR([$1], [0],
                      [() + (1 + 1 + 1 +) + (* * *) + (1 * 2 * *) = 1],
                      [[final: 4444 0 4]],
                      [250],
-[[1.2: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
-1.18: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
-1.23: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
-1.41: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
+[AT_JAVA_IF([1.2-1.3], [1.2])[: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
+]AT_JAVA_IF([1.18-1.19], [1.18])[: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
+]AT_JAVA_IF([1.23-1.24], [1.23])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
+]AT_JAVA_IF([1.41-1.42], [1.41])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 calc: error: 4444 != 1]])
 
 # The same, but this time exercising explicitly triggered syntax errors.
@@ -986,13 +941,13 @@ calc: error: 4444 != 1]])
 _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1],
                      [[final: 2222 0 1]],
                      [102],
-[[1.10: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
+[AT_JAVA_IF([1.10-1.11], [1.10])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
 calc: error: 2222 != 1]])
 _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1],
                      [[final: 2222 0 2]],
                      [113],
-[[1.4: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
-1.12: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
+[AT_JAVA_IF([1.4-1.5], [1.4])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
+]AT_JAVA_IF([1.12-1.13], [1.12])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
 calc: error: 2222 != 1]])
 
 # Check that yyerrok works properly: second error is not reported,
@@ -1000,9 +955,9 @@ calc: error: 2222 != 1]])
 _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)],
                      [[final: 3333 0 3]],
                      [113],
-[[1.2: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
-1.10: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
-1.16: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])]])
+[AT_JAVA_IF([1.2-1.3], [1.2])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
+]AT_JAVA_IF([1.10-1.11], [1.10])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
+]AT_JAVA_IF([1.16-1.17], [1.16])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])]])
 
 AT_BISON_OPTION_POPDEFS
 
@@ -1204,7 +1159,10 @@ m4_define([AT_CHECK_CALC_LALR1_JAVA],
 [AT_CHECK_CALC([%language "Java" $1], [$2])])
 
 AT_CHECK_CALC_LALR1_JAVA
-
+AT_CHECK_CALC_LALR1_JAVA([%define parse.error verbose])
+AT_CHECK_CALC_LALR1_JAVA([%locations %define parse.error verbose])
+AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations])
+AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations %lex-param {InputStream is}])
 
 
 m4_popdef([AT_TOKEN_TRANSLATE_IF])
