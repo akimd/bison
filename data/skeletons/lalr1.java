@@ -64,8 +64,7 @@ m4_define([b4_define_state],[[
     YYStack yystack = new YYStack ();
     int label = YYNEWSTATE;
 
-    /* Error handling.  */
-    int yynerrs_ = 0;]b4_locations_if([[
+]b4_locations_if([[
     /* The location where the error started.  */
     ]b4_location_type[ yyerrloc = null;
 
@@ -284,6 +283,13 @@ m4_define([b4_define_state],[[
    */
   public final void setDebugLevel (int level) { yydebug = level; }
 ]])[
+
+  private int yynerrs = 0;
+
+  /**
+   * The number of syntax errors so far.
+   */
+  public final int getNumberOfErrors () { return yynerrs; }
 
   /**
    * Print an error message via the lexer.
@@ -561,6 +567,7 @@ m4_define([b4_define_state],[[
 ]b4_define_state[]b4_parse_trace_if([[
     yycdebug ("Starting parse\n");]])[
     yyerrstatus_ = 0;
+    yynerrs = 0;
 
     /* Initialize the stack.  */
     yystack.push (yystate, yylval]b4_locations_if([, yylloc])[);
@@ -700,7 +707,7 @@ b4_dollar_popdef[]dnl
         /* If not already recovering from an error, report this error.  */
         if (yyerrstatus_ == 0)
           {
-            ++yynerrs_;
+            ++yynerrs;
             if (yychar == yyempty_)
               yytoken = yyempty_;
             yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
@@ -825,7 +832,7 @@ b4_dollar_popdef[]dnl
     this.label = YYNEWSTATE;
 
     /* Error handling.  */
-    this.yynerrs_ = 0;]b4_locations_if([[
+    this.yynerrs = 0;]b4_locations_if([[
     /* The location where the error started.  */
     this.yyerrloc = null;
     this.yylloc = new ]b4_location_type[ (null, null);]])[
