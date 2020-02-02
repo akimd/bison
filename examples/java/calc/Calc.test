@@ -30,4 +30,9 @@ run 0 '7
 cat >input <<EOF
 1 + 2 * * 3
 EOF
-run 0 "err: 1.8-1.9: syntax error, unexpected '*', expecting number or '-' or '(' or '!'"
+run 0 "err: 1.9-1.10: syntax error, unexpected '*', expecting number or '-' or '(' or '!'"
+
+cat >input <<EOF
+12   222
+EOF
+run 0 "err: 1.6-1.9: syntax error, unexpected number"

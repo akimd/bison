@@ -115,7 +115,7 @@ class CalcLexer implements Calc.Lexer {
   }
 
   public int yylex () throws IOException {
-    start.set (end);
+    start.set (reader.getPosition ());
     int ttype = st.nextToken ();
     end.set (reader.getPosition ());
     switch (ttype)
@@ -128,6 +128,7 @@ class CalcLexer implements Calc.Lexer {
         return (int) '\n';
       case StreamTokenizer.TT_WORD:
         yylval = new Integer (st.sval);
+        end.set (reader.getPreviousPosition ());
         return NUM;
       case ' ': case '\t':
         return yylex ();
@@ -140,12 +141,12 @@ class CalcLexer implements Calc.Lexer {
 
 class Position {
   public int line = 1;
-  public int column = 0;
+  public int column = 1;
 
   public Position ()
   {
     line = 1;
-    column = 0;
+    column = 1;
   }
 
   public Position (int l, int t)
@@ -184,12 +185,16 @@ class Position {
 class PositionReader extends BufferedReader {
 
   private Position position = new Position ();
+  // Position before the latest call to "read", i.e. position
+  // of the last character of the current token.
+  private Position previousPosition = new Position ();
 
   public PositionReader (Reader reader) {
     super (reader);
   }
 
   public int read () throws IOException {
+    previousPosition.set (position);
     int res = super.read ();
     if (res > -1) {
       char c = (char)res;
@@ -205,5 +210,9 @@ class PositionReader extends BufferedReader {
 
   public Position getPosition () {
     return position;
+  }
+
+  public Position getPreviousPosition () {
+    return previousPosition;
   }
 }
