@@ -442,6 +442,12 @@ m4_define([AT_LANG_CASE],
 [m4_case(AT_LANG, $@)])
 
 
+# AT_LANG_MATCH(LANG1, IF-LANG1, LANG2, IF-LANG2, ..., DEFAULT)
+# ------------------------------------------------------------
+m4_define([AT_LANG_MATCH],
+[m4_bmatch(AT_LANG, $@)])
+
+
 # _AT_LANG_DISPATCH(LANG, MACRO, ARGS)
 # ------------------------------------
 # Call the specialization of MACRO for LANG with ARGS.  Complain if
@@ -818,6 +824,9 @@ m4_define([AT_MAIN_DEFINE(d)],
 # ------------------------------
 m4_copy([AT_DATA], [AT_DATA_GRAMMAR(java)])
 
+# No need to declare, it's part of the class interface.
+m4_define([AT_YYERROR_DECLARE(java)],        [])
+m4_define([AT_YYERROR_DECLARE_EXTERN(java)], [])
 
 # AT_JAVA_POSITION_DEFINE
 # -----------------------

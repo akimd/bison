@@ -565,7 +565,7 @@ m4_define([b4_define_state],[[
     ]b4_location_type[ yyloc;]])[
 ]b4_push_if([],[[
 ]b4_define_state[]b4_parse_trace_if([[
-    yycdebug ("Starting parse\n");]])[
+    yycdebug ("Starting parse");]])[
     yyerrstatus_ = 0;
     yynerrs = 0;
 
@@ -599,7 +599,7 @@ b4_dollar_popdef[]dnl
         /* New state.  Unlike in the C/C++ skeletons, the state is already
            pushed when we come here.  */
       case YYNEWSTATE:]b4_parse_trace_if([[
-        yycdebug ("Entering state " + yystate + "\n");
+        yycdebug ("Entering state " + yystate);
         if (0 < yydebug)
           yystack.print (yyDebugStream);]])[
 
