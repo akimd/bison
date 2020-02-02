@@ -595,7 +595,7 @@ AT_BISON_CHECK([PUSHPULLFLAG [-o Calc.java Calc.y]])
 AT_JAVA_COMPILE([[Calc.java]])
 # Verify that this is a push parser.
 AT_CHECK_JAVA_GREP([[Calc.java]],
-                   [[.*public void push_parse_initialize().*]])
+                   [[.*public void push_parse_initialize ().*]])
 # Capture stderr output for comparison purposes.
 AT_JAVA_PARSER_CHECK([Calc input], 0, [ignore-nolog], [stderr-nolog])
 # Extract the "Stack Now" lines from the error output,
@@ -855,7 +855,7 @@ AT_BISON_CHECK([PUSHPULLFLAG [-o Calc.java Calc.y]])
 AT_JAVA_COMPILE([[Calc.java]])
 # Verify that this is a push parser
 AT_CHECK_JAVA_GREP([[Calc.java]],
-                   [[.*public void push_parse_initialize().*]])
+                   [[.*public void push_parse_initialize ().*]])
 # Capture the  stdout and stderr output for comparison purposes.
 AT_JAVA_PARSER_CHECK([Calc input], 0, [stdout-nolog], [stderr-nolog])
 # 1. Check that the token locations are correct

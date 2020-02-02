@@ -845,7 +845,7 @@ m4_define([AT_JAVA_POSITION_DEFINE],
 
   public String toString ()
   {
-    return Integer.toString (line) + "." + Integer.toString(token);
+    return Integer.toString (line) + "." + Integer.toString (token);
   }
 
   public int lineno ()

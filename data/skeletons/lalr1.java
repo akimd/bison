@@ -49,9 +49,9 @@ b4_use_push_for_pull_if([
   b4_push_if([m4_define([b4_use_push_for_pull_flag], [[0]])],
              [m4_define([b4_push_flag], [[1]])])])
 
-# Define a macro to encapsulate the parse state variables.
-# This allows them to be defined either in parse() when doing
-# pull parsing, or as class instance variable when doing push parsing.
+# Define a macro to encapsulate the parse state variables.  This
+# allows them to be defined either in parse() when doing pull parsing,
+# or as class instance variable when doing push parsing.
 m4_define([b4_define_state],[[
     /* Lookahead and lookahead in internal form.  */
     int yychar = yyempty_;
@@ -239,7 +239,7 @@ m4_define([b4_define_state],[[
   public ]b4_parser_class (b4_parse_param_decl([b4_lex_param_decl])[)]b4_maybe_throws([b4_init_throws])[
   {
 ]b4_percent_code_get([[init]])[
-    this.yylexer = new YYLexer(]b4_lex_param_call[);
+    this.yylexer = new YYLexer (]b4_lex_param_call[);
 ]b4_parse_param_cons[
   }
 ]])[
@@ -267,7 +267,7 @@ m4_define([b4_define_state],[[
    * Set the <tt>PrintStream</tt> on which the debug output is printed.
    * @@param s The stream that is used for debugging output.
    */
-  public final void setDebugStream(java.io.PrintStream s) { yyDebugStream = s; }
+  public final void setDebugStream (java.io.PrintStream s) { yyDebugStream = s; }
 
   private int yydebug = 0;
 
@@ -275,14 +275,14 @@ m4_define([b4_define_state],[[
    * Answer the verbosity of the debugging output; 0 means that all kinds of
    * output from the parser are suppressed.
    */
-  public final int getDebugLevel() { return yydebug; }
+  public final int getDebugLevel () { return yydebug; }
 
   /**
    * Set the verbosity of the debugging output; 0 means that all kinds of
    * output from the parser are suppressed.
    * @@param level The verbosity level for debugging output.
    */
-  public final void setDebugLevel(int level) { yydebug = level; }
+  public final void setDebugLevel (int level) { yydebug = level; }
 ]])[
 
   /**
@@ -775,8 +775,8 @@ b4_dollar_popdef[]dnl
           }
 
         if (label == YYABORT)
-            /* Leave the switch.  */
-            break;
+          /* Leave the switch.  */
+          break;
 
 ]b4_locations_if([[
         /* Muck with the stack to setup for yylloc.  */
@@ -811,7 +811,7 @@ b4_dollar_popdef[]dnl
     /**
      * (Re-)Initialize the state of the push parser.
      */
-  public void push_parse_initialize()
+  public void push_parse_initialize ()
   {
     /* Lookahead and lookahead in internal form.  */
     this.yychar = yyempty_;
@@ -1002,7 +1002,7 @@ b4_dollar_popdef[]dnl
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yySymbolPrint ("   $" + (yyi + 1) + " =",
-                     yystos_[yystack.stateAt(yynrhs - (yyi + 1))],
+                     yystos_[yystack.stateAt (yynrhs - (yyi + 1))],
                      ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
                      b4_rhs_location(yynrhs, yyi + 1)])[);
   }]])[
