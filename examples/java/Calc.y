@@ -9,11 +9,13 @@
 %locations
 
 %code imports {
+  import java.io.BufferedReader;
   import java.io.IOException;
   import java.io.InputStream;
   import java.io.InputStreamReader;
   import java.io.Reader;
   import java.io.StreamTokenizer;
+  import java.nio.CharBuffer;
 }
 
 %code {
@@ -76,26 +78,26 @@ exp:
 class CalcLexer implements Calc.Lexer {
 
   StreamTokenizer st;
+  PositionReader reader;
 
   public CalcLexer (InputStream is)
   {
-    st = new StreamTokenizer (new InputStreamReader (is));
+    reader = new PositionReader (new InputStreamReader (is));
+    st = new StreamTokenizer (reader);
     st.resetSyntax ();
     st.eolIsSignificant (true);
-    st.whitespaceChars ('\t', '\t');
-    st.whitespaceChars (' ', ' ');
     st.wordChars ('0', '9');
   }
 
-
-  Position yypos = new Position (1, 0);
+  Position start = new Position (1, 0);
+  Position end = new Position (1, 0);
 
   public Position getStartPos () {
-    return yypos;
+    return start;
   }
 
   public Position getEndPos () {
-    return yypos;
+    return end;
   }
 
   public void yyerror (Calc.Location l, String s)
@@ -106,7 +108,6 @@ class CalcLexer implements Calc.Lexer {
       System.err.println (l + ": " + s);
   }
 
-
   Integer yylval;
 
   public Object getLVal () {
@@ -114,13 +115,15 @@ class CalcLexer implements Calc.Lexer {
   }
 
   public int yylex () throws IOException {
+    start.set (end);
     int ttype = st.nextToken ();
-    yypos = new Position (yypos.lineno (), yypos.token () + 1);
+    end.set (reader.getPosition ());
     if (ttype == st.TT_EOF)
       return EOF;
     else if (ttype == st.TT_EOL)
       {
-        yypos = new Position (yypos.lineno () + 1, 0);
+        end.line += 1;
+        end.column = 0;
         return (int) '\n';
       }
     else if (ttype == st.TT_WORD)
@@ -128,6 +131,8 @@ class CalcLexer implements Calc.Lexer {
         yylval = new Integer (st.sval);
         return NUM;
       }
+    else if (st.ttype == ' ' || st.ttype == '\t')
+      return yylex ();
     else
       return st.ttype;
   }
@@ -135,38 +140,71 @@ class CalcLexer implements Calc.Lexer {
 
 
 class Position {
-  public int line;
-  public int token;
+  public int line = 1;
+  public int column = 0;
 
   public Position ()
   {
-    line = 0;
-    token = 0;
+    line = 1;
+    column = 0;
   }
 
   public Position (int l, int t)
   {
     line = l;
-    token = t;
+    column = t;
   }
 
+  public void set (Position p)
+  {
+    line = p.line;
+    column = p.column;
+  }
+  
   public boolean equals (Position l)
   {
-    return l.line == line && l.token == token;
+    return l.line == line && l.column == column;
   }
 
   public String toString ()
   {
-    return Integer.toString (line) + "." + Integer.toString(token);
+    return Integer.toString (line) + "." + Integer.toString(column);
   }
 
-  public int lineno ()
+  public int line ()
   {
     return line;
   }
 
-  public int token ()
+  public int column ()
   {
-    return token;
+    return column;
+  }
+}
+
+class PositionReader extends BufferedReader {
+
+  private Position position = new Position ();
+
+  public PositionReader (Reader reader) {
+    super(reader);
+  }
+
+  public int read () throws IOException {
+    int res = super.read ();
+    if (res > -1) {
+      char c = (char)res;
+      if (c == '\r' || c == '\n') {
+        position.line += 1;
+        position.column = 1;
+      } else {
+        position.column += 1;
+      }
+    }
+    return res;
+  }
+
+  public Position getPosition () {
+    return position;
   }
 }
