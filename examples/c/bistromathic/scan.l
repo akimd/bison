@@ -13,13 +13,19 @@
   // Each time a rule is matched, advance the end cursor/position.
 #define YY_USER_ACTION                          \
   yylloc->last_column += yyleng;
+
+  // Move the first position onto the last.
+#define LOCATION_STEP()                         \
+  do {                                          \
+    yylloc->first_line = yylloc->last_line;     \
+    yylloc->first_column = yylloc->last_column; \
+  } while (0)
 %}
 
 %%
 %{
   // Each time yylex is called, move the head position to the end one.
-  yylloc->first_line = yylloc->last_line;
-  yylloc->first_column = yylloc->last_column;
+  LOCATION_STEP ();
 %}
  /* Rules.  */
 
@@ -52,7 +58,7 @@
 "\n"     yylloc->last_line++; yylloc->last_column = 1; return TOK_EOL;
 
  /* Ignore white spaces. */
-[ \t]+   continue;
+[ \t]+   LOCATION_STEP (); continue;
 
 <<EOF>>  return TOK_EOF;
 
