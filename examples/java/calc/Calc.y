@@ -118,23 +118,22 @@ class CalcLexer implements Calc.Lexer {
     start.set (end);
     int ttype = st.nextToken ();
     end.set (reader.getPosition ());
-    if (ttype == st.TT_EOF)
-      return EOF;
-    else if (ttype == st.TT_EOL)
+    switch (ttype)
       {
+      case StreamTokenizer.TT_EOF:
+        return EOF;
+      case StreamTokenizer.TT_EOL:
         end.line += 1;
         end.column = 0;
         return (int) '\n';
-      }
-    else if (ttype == st.TT_WORD)
-      {
+      case StreamTokenizer.TT_WORD:
         yylval = new Integer (st.sval);
         return NUM;
+      case ' ': case '\t':
+        return yylex ();
+      default:
+        return ttype;
       }
-    else if (st.ttype == ' ' || st.ttype == '\t')
-      return yylex ();
-    else
-      return st.ttype;
   }
 }
 

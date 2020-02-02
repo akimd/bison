@@ -76,6 +76,8 @@ class CalcLexer implements Calc.Lexer {
     st = new StreamTokenizer (new InputStreamReader (is));
     st.resetSyntax ();
     st.eolIsSignificant (true);
+    st.whitespaceChars ('\t', '\t');
+    st.whitespaceChars (' ', ' ');
     st.wordChars ('0', '9');
   }
 
@@ -92,18 +94,17 @@ class CalcLexer implements Calc.Lexer {
 
   public int yylex () throws IOException {
     int ttype = st.nextToken ();
-    if (ttype == st.TT_EOF)
-      return EOF;
-    else if (ttype == st.TT_EOL)
-      return (int) '\n';
-    else if (ttype == st.TT_WORD)
+    switch (ttype)
       {
+      case StreamTokenizer.TT_EOF:
+        return EOF;
+      case StreamTokenizer.TT_EOL:
+        return (int) '\n';
+      case StreamTokenizer.TT_WORD:
         yylval = new Integer (st.sval);
         return NUM;
+      default:
+        return ttype;
       }
-    else if (st.ttype == ' ' || st.ttype == '\t')
-      return yylex ();
-    else
-      return st.ttype;
   }
 }
