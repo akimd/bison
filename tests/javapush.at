@@ -679,7 +679,7 @@ AT_DATA([Calc.y],
   }
 }
 
-%code { ]AT_JAVA_POSITION_DEFINE[ }
+%code { ]AT_JAVA_POSITION_DEFINE_OLD[ }
 
 %code {
   public static void main (String[] args)

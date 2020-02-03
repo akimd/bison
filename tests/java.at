@@ -47,6 +47,47 @@ AT_CLEANUP
 # ------------------------- #
 
 
+# AT_JAVA_POSITION_DEFINE_OLD
+# -----------------------
+m4_define([AT_JAVA_POSITION_DEFINE_OLD],
+[[class Position {
+  public int line;
+  public int token;
+
+  public Position ()
+  {
+    line = 0;
+    token = 0;
+  }
+
+  public Position (int l, int t)
+  {
+    line = l;
+    token = t;
+  }
+
+  public boolean equals (Position l)
+  {
+    return l.line == line && l.token == token;
+  }
+
+  public String toString ()
+  {
+    return Integer.toString (line) + "." + Integer.toString (token);
+  }
+
+  public int lineno ()
+  {
+    return line;
+  }
+
+  public int token ()
+  {
+    return token;
+  }
+}]])
+
+
 # _AT_DATA_JAVA_CALC_Y($1, $2, $3, [BISON-DIRECTIVES])
 # ----------------------------------------------------
 # Produce 'calc.y'.  Don't call this macro directly, because it contains
@@ -172,7 +213,7 @@ exp:
 ]AT_LEXPARAM_IF([], [[}]])[
 };
 %%
-]AT_JAVA_POSITION_DEFINE[
+]AT_JAVA_POSITION_DEFINE_OLD[
 ]])
 ])# _AT_DATA_JAVA_CALC_Y
 
