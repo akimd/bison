@@ -726,8 +726,8 @@ m4_define([AT_DATA_CALC_Y],
 # count them.
 m4_define([_AT_CHECK_CALC],
 [AT_DATA([[input]],
-[[$2
-]])
+[$2
+])
 AT_JAVA_IF(
   [AT_JAVA_PARSER_CHECK([Calc < input], 0, [AT_PARAM_IF([m4_n([$3])])], [stderr])],
   [AT_PARSER_CHECK([calc input],        0, [AT_PARAM_IF([m4_n([$3])])], [stderr])])
@@ -843,6 +843,15 @@ m4_define([AT_CHECK_SPACES],
 ])
 
 
+# AT_CHECK_JAVA_GREP(FILE, [LINE], [COUNT=1])
+# -------------------------------------------
+# Check that FILE contains exactly COUNT lines matching ^LINE$
+# with grep.  Unquoted so that COUNT can be a shell expression.
+m4_define([AT_CHECK_JAVA_GREP],
+[AT_CHECK_UNQUOTED([grep -c '^$2$' $1], [ignore], [m4_default([$3], [1])
+])])
+
+
 # AT_CHECK_CALC([BISON-OPTIONS], [COMPILER-OPTIONS])
 # --------------------------------------------------
 # Start a testing chunk which compiles 'calc' grammar with
@@ -857,13 +866,18 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_CALC_Y([$1])
 AT_FULL_COMPILE(AT_JAVA_IF([[Calc]], [[calc]]), AT_DEFINES_IF([[lex], [main]], [[], []]), [$2], [-Wno-deprecated])
+AT_PUSH_IF([AT_JAVA_IF(
+ [# Verify that this is a push parser.
+  AT_CHECK_JAVA_GREP([[Calc.java]],
+                     [[.*public void push_parse_initialize ().*]])])])
+
 AT_CHECK_SPACES([AT_JAVA_IF([Calc], [calc]).AT_LANG_EXT AT_DEFINES_IF([AT_JAVA_IF([Calc], [calc]).AT_LANG_HDR])])
 
 # Test the precedences.
 # The Java traces do not show the clean up sequence at the end,
 # since it does not support %destructor.
 _AT_CHECK_CALC([$1],
-[1 + 2 * 3 = 7
+[[1 + 2 * 3 = 7
 1 + 2 * -3 = -5
 
 -1^2 = -1
@@ -875,7 +889,7 @@ _AT_CHECK_CALC([$1],
 1 - (2 - 3) = 2
 
 2^2^3 = 256
-(2^2)^3 = 64],
+(2^2)^3 = 64]],
 [[final: 64 12 0]],
                [AT_JAVA_IF([1014], [1017])])
 
@@ -1161,9 +1175,11 @@ m4_define([AT_CHECK_CALC_LALR1_JAVA],
 AT_CHECK_CALC_LALR1_JAVA
 AT_CHECK_CALC_LALR1_JAVA([%define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%locations %define parse.error verbose])
-AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations])
+AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations %lex-param {InputStream is}])
 
+AT_CHECK_CALC_LALR1_JAVA([%define api.push-pull both])
+AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations %lex-param {InputStream is} %define api.push-pull both])
 
 m4_popdef([AT_TOKEN_TRANSLATE_IF])
 m4_popdef([AT_CALC_MAIN])

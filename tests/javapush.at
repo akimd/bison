@@ -236,6 +236,11 @@ AT_CHECK_JAVA_GREP(
         [1])
 AT_CLEANUP
 
+
+## ------------------------------ ##
+## Calculator with a push parser  ##
+## ------------------------------ ##
+
 # Define a single copy of the Calculator grammar.
 m4_define([AT_CALC_BODY],[
 %code imports {
