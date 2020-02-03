@@ -36,6 +36,7 @@ m4_define([AT_CHECK_JAVA_GREP],
 [AT_CHECK_UNQUOTED([grep -c '^$2$' $1], [ignore], [m4_default([$3], [1])
 ])])
 
+
 ##################################################
 
 AT_BANNER([[Java Push Parsing Tests]])
