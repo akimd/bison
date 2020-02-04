@@ -417,7 +417,6 @@ AT_DATA_GRAMMAR([input.y],
 %}
 ]$2[
 %define parse.error verbose
-%debug
 %token WAIT_FOR_EOF
 %%
 exp: WAIT_FOR_EOF exp | ;
@@ -457,7 +456,7 @@ main (int argc, const char **argv)
   int count;
 ]m4_bmatch([$2], [api.push-pull both],
 [[  yypstate *ps = yypstate_new ();
-]])[  yydebug = 1;
+]])[
   for (count = 0; count < 2; ++count)
     {
       int new_status;

@@ -34,6 +34,7 @@ input:
 
 line:
   '\n'
+  | 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' 'a' { printf ("a\n"); }
 | expr '\n'  { printf ("%.10g\n", $1); }
 | error '\n' { yyerrok; }
 ;

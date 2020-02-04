@@ -1123,22 +1123,27 @@ AT_PARSER_CHECK([input --debug], 1,
 ]],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reading a token
 Next token is token 'a' (1.1: <> printer for 'a' @ 1)
 Shifting token 'a' (1.1: <> printer for 'a' @ 1)
 Entering state 1
+Stack now 0 1
 Reading a token
 Next token is token 'b' (1.2: 'b'/'c' printer for 'b' @ 2)
 Shifting token 'b' (1.2: 'b'/'c' printer for 'b' @ 2)
 Entering state 3
+Stack now 0 1 3
 Reading a token
 Next token is token 'c' (1.3: 'b'/'c' printer for 'c' @ 3)
 Shifting token 'c' (1.3: 'b'/'c' printer for 'c' @ 3)
 Entering state 5
+Stack now 0 1 3 5
 Reading a token
 Next token is token 'd' (1.4: <> printer for 'd' @ 4)
 Shifting token 'd' (1.4: <> printer for 'd' @ 4)
 Entering state 6
+Stack now 0 1 3 5 6
 Reading a token
 Now at end of input.
 1.5: syntax error, unexpected $end, expecting 'e'
@@ -1237,30 +1242,37 @@ AT_PARSER_CHECK([input --debug], 1,
 ]],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reading a token
 Next token is token 'a' (<*>/<field2>/e printer)
 Shifting token 'a' (<*>/<field2>/e printer)
 Entering state 1
+Stack now 0 1
 Reading a token
 Next token is token 'b' (<field1> printer)
 Shifting token 'b' (<field1> printer)
 Entering state 3
+Stack now 0 1 3
 Reading a token
 Next token is token 'c' ('c' printer)
 Shifting token 'c' ('c' printer)
 Entering state 5
+Stack now 0 1 3 5
 Reading a token
 Next token is token 'd' ('d' printer)
 Shifting token 'd' ('d' printer)
 Entering state 6
+Stack now 0 1 3 5 6
 Reading a token
 Next token is token 'e' (<*>/<field2>/e printer)
 Shifting token 'e' (<*>/<field2>/e printer)
 Entering state 7
+Stack now 0 1 3 5 6 7
 Reading a token
 Next token is token 'f' (<*>/<field2>/e printer)
 Shifting token 'f' (<*>/<field2>/e printer)
 Entering state 8
+Stack now 0 1 3 5 6 7 8
 Reading a token
 Now at end of input.
 syntax error, unexpected $end, expecting 'g'
@@ -1370,14 +1382,17 @@ AT_PARSER_CHECK([input$1 --debug], 0,
 ]],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reducing stack by rule 1 (line 49):
 -> $$ = nterm start (1.1: <]]kind[[> for 'S' @ 1)
 Stack now 0
 Entering state 1
+Stack now 0 1
 Reading a token
 Now at end of input.
 Shifting token END (1.1: <]]kind[[> for 'E' @ 1)
 Entering state 2
+Stack now 0 1 2
 Stack now 0 1 2
 Cleanup: popping token END (1.1: <]]kind[[> for 'E' @ 1)
 Cleanup: popping nterm start (1.1: <]]kind[[> for 'S' @ 1)
@@ -1453,18 +1468,22 @@ AT_COMPILE([input])
 AT_PARSER_CHECK([input --debug], [1], [],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reading a token
 Next token is token 'a' ('a')
 Shifting token 'a' ('a')
 Entering state 1
+Stack now 0 1
 Reading a token
 Next token is token 'b' ('b')
 syntax error
 Shifting token error ()
 Entering state 3
+Stack now 0 1 3
 Next token is token 'b' ('b')
 Shifting token 'b' ('b')
 Entering state 5
+Stack now 0 1 3 5
 Reading a token
 Next token is token $undefined ()
 Error: popping token 'b' ('b')
@@ -1474,12 +1493,14 @@ Error: popping token error ()
 Stack now 0 1
 Shifting token error ()
 Entering state 3
+Stack now 0 1 3
 Next token is token $undefined ()
 Error: discarding token $undefined ()
 Error: popping token error ()
 Stack now 0 1
 Shifting token error ()
 Entering state 3
+Stack now 0 1 3
 Reading a token
 Now at end of input.
 Cleanup: discarding lookahead token $end ()
@@ -1625,22 +1646,27 @@ AT_COMPILE([input])
 AT_PARSER_CHECK([input --debug], 1,,
 [[Starting parse
 Entering state 0
+Stack now 0
 Reducing stack by rule 1 (line 30):
 -> $$ = nterm $@1 (: )
 Stack now 0
 Entering state 2
+Stack now 0 2
 Reducing stack by rule 2 (line 31):
 -> $$ = nterm @2 (: 2)
 Stack now 0 2
 Entering state 4
+Stack now 0 2 4
 Reducing stack by rule 3 (line 32):
 -> $$ = nterm @3 (: 3)
 Stack now 0 2 4
 Entering state 5
+Stack now 0 2 4 5
 Reducing stack by rule 4 (line 33):
 -> $$ = nterm @4 (: 4)
 Stack now 0 2 4 5
 Entering state 6
+Stack now 0 2 4 5 6
 Reading a token
 Now at end of input.
 syntax error

@@ -476,7 +476,9 @@ m4_popdef([b4_at_dollar])])dnl
         /* New state.  Unlike in the C/C++ skeletons, the state is already
            pushed when we come here.  */
       case YYNEWSTATE:]b4_parse_trace_if([[
-        yycdebugln (format("Entering state %d", yystate));]])[
+        yycdebugln (format("Entering state %d", yystate));
+        if (0 < yydebug)
+          yystack.print (yyDebugStream);]])[
 
         /* Accept?  */
         if (yystate == yyfinal_)

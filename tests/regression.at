@@ -960,10 +960,12 @@ AT_PARSER_CHECK([input --debug], 1,
 ]],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reducing stack by rule 1 (line 20):
 -> $$ = nterm start ()
 Stack now 0
 Entering state 1
+Stack now 0 1
 Reading a token
 Next token is token 'a' (PRINTER)
 syntax error, unexpected 'a', expecting $end
@@ -1441,6 +1443,7 @@ AT_LAC_CHECK([])
 AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reading a token
 Now at end of input.
 LAC: initial context established for $end
@@ -1456,6 +1459,7 @@ AT_LAC_CHECK([z], [[0]])
 AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reading a token
 Next token is token $undefined ()
 LAC: initial context established for $undefined

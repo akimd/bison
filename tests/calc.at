@@ -922,7 +922,7 @@ _AT_CHECK_CALC([$1],
 2^2^3 = 256
 (2^2)^3 = 64],
 [[final: 64 12 0]],
-               [931])
+               [1111])
 
 # Some syntax errors.
 _AT_CHECK_CALC_ERROR([$1], [1], [1 2],
