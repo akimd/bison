@@ -10177,7 +10177,8 @@ a valueless (@samp{()}) @code{input} nonterminal (@code{nterm}).
 
 Then the parser calls the scanner.
 @example
-Reading a token: Next token is token FUN (sin())
+Reading a token
+Next token is token FUN (sin())
 Shifting token FUN (sin())
 Entering state 6
 @end example
@@ -10189,10 +10190,12 @@ The parser stores (@code{Shifting}) that token, and others, until it can do
 something about it.
 
 @example
-Reading a token: Next token is token '(' ()
+Reading a token
+Next token is token '(' ()
 Shifting token '(' ()
 Entering state 14
-Reading a token: Next token is token NUM (1.000000)
+Reading a token
+Next token is token NUM (1.000000)
 Shifting token NUM (1.000000)
 Entering state 4
 Reducing stack by rule 6 (line 44):
@@ -10208,10 +10211,12 @@ The previous reduction demonstrates the @code{%printer} directive for
 @code{exp} have @samp{1} as value.
 
 @example
-Reading a token: Next token is token '-' ()
+Reading a token
+Next token is token '-' ()
 Shifting token '-' ()
 Entering state 17
-Reading a token: Next token is token NUM (1.000000)
+Reading a token
+Next token is token NUM (1.000000)
 Shifting token NUM (1.000000)
 Entering state 4
 Reducing stack by rule 6 (line 44):
@@ -10219,7 +10224,8 @@ Reducing stack by rule 6 (line 44):
 -> $$ = nterm exp (1.000000)
 Stack now 0 1 6 14 24 17
 Entering state 26
-Reading a token: Next token is token ')' ()
+Reading a token
+Next token is token ')' ()
 Reducing stack by rule 11 (line 49):
    $1 = nterm exp (1.000000)
    $2 = token '-' ()
@@ -10252,7 +10258,8 @@ Finally, the end-of-line allow the parser to complete the computation, and
 display its result.
 
 @example
-Reading a token: Next token is token '\n' ()
+Reading a token
+Next token is token '\n' ()
 Shifting token '\n' ()
 Entering state 22
 Reducing stack by rule 4 (line 40):
@@ -10275,7 +10282,8 @@ expression to evaluate, or for the end-of-file token, which causes the
 completion of the parsing.
 
 @example
-Reading a token: Now at end of input.
+Reading a token
+Now at end of input.
 Shifting token $end ()
 Entering state 2
 Stack now 0 1 2

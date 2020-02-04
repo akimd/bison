@@ -648,7 +648,8 @@ AT_FULL_COMPILE([[input]])
 AT_PARSER_CHECK([[input]], [[0]], [[]],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token NUMBER (1)
+Reading a token
+Next token is token NUMBER (1)
 Shifting token NUMBER (1)
 Entering state 1
 Reducing stack by rule 1 (line 34):
@@ -657,7 +658,8 @@ Reducing stack by rule 1 (line 34):
 destroy: 1
 Stack now 0
 Entering state 2
-Reading a token: Next token is token NUMBER (30)
+Reading a token
+Next token is token NUMBER (30)
 Reducing stack by rule 2 (line 35):
 -> $$ = nterm @1 (20)
 Stack now 0 2
@@ -676,7 +678,8 @@ destroy: 20
 destroy: 10
 Stack now 0
 Entering state 2
-Reading a token: Next token is token EOI ()
+Reading a token
+Next token is token EOI ()
 Shifting token EOI ()
 Entering state 3
 Stack now 0 2 3

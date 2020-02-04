@@ -964,7 +964,8 @@ Reducing stack by rule 1 (line 20):
 -> $$ = nterm start ()
 Stack now 0
 Entering state 1
-Reading a token: Next token is token 'a' (PRINTER)
+Reading a token
+Next token is token 'a' (PRINTER)
 syntax error, unexpected 'a', expecting $end
 Error: popping nterm start ()
 Stack now 0
@@ -1440,7 +1441,8 @@ AT_LAC_CHECK([])
 AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
-Reading a token: Now at end of input.
+Reading a token
+Now at end of input.
 LAC: initial context established for $end
 LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 memory exhausted
@@ -1454,7 +1456,8 @@ AT_LAC_CHECK([z], [[0]])
 AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token $undefined ()
+Reading a token
+Next token is token $undefined ()
 LAC: initial context established for $undefined
 LAC: checking lookahead $undefined: Always Err
 Constructing syntax error message

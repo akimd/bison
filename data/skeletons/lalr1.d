@@ -493,7 +493,7 @@ m4_popdef([b4_at_dollar])])dnl
         /* Read a lookahead token.  */
         if (yychar == yyempty_)
         {]b4_parse_trace_if([[
-          yycdebug ("Reading a token: ");]])[
+          yycdebugln ("Reading a token");]])[
           yychar = yylex ();]b4_locations_if([[
           static if (yy_location_is_class) {
             yylloc = new ]b4_location_type[(yylexer.startPos, yylexer.endPos);

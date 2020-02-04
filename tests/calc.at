@@ -780,7 +780,9 @@ AT_JAVA_IF(
   [AT_PARSER_CHECK([calc input],        0, [AT_PARAM_IF([m4_n([$3])])], [stderr])])
 AT_LANG_MATCH([c\|c++],
   [AT_GLR_IF([],
-    [AT_CHECK([cat stderr | wc -l], [0], [m4_n([AT_DEBUG_IF([$4], [0])])])])])
+    [AT_CHECK([grep -v 'Return for a new token:' stderr | wc -l],
+              [0],
+              [m4_n([AT_DEBUG_IF([$4], [0])])])])])
 ])
 
 
@@ -920,7 +922,7 @@ _AT_CHECK_CALC([$1],
 2^2^3 = 256
 (2^2)^3 = 64],
 [[final: 64 12 0]],
-               [AT_PUSH_IF([930], [846])])
+               [931])
 
 # Some syntax errors.
 _AT_CHECK_CALC_ERROR([$1], [1], [1 2],

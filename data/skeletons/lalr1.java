@@ -586,7 +586,7 @@ b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[]b4_parse_trace_if([[
-        yycdebug ("Starting parse\n");]])[
+        yycdebug ("Starting parse");]])[
         yyerrstatus_ = 0;
       } else
         label = YYGETTOKEN;
@@ -624,12 +624,12 @@ b4_dollar_popdef[]dnl
 ]b4_push_if([[
             if (!push_token_consumed)
               return YYPUSH_MORE;]b4_parse_trace_if([[
-            yycdebug ("Reading a token: ");]])[
+            yycdebug ("Reading a token");]])[
             yychar = yylextoken;
             yylval = yylexval;]b4_locations_if([
             yylloc = yylexloc;])[
             push_token_consumed = false;]], [b4_parse_trace_if([[
-            yycdebug ("Reading a token: ");]])[
+            yycdebug ("Reading a token");]])[
             yychar = yylexer.yylex ();
             yylval = yylexer.getLVal ();]b4_locations_if([
             yylloc = new b4_location_type (yylexer.getStartPos (),

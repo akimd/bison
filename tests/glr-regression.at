@@ -1709,23 +1709,27 @@ AT_COMPILE([input])
 AT_PARSER_CHECK([[input --debug]], 1, [],
 [Starting parse
 Entering state 0
-Reading a token: Next token is token 'a' ()
+Reading a token
+Next token is token 'a' ()
 Shifting token 'a' ()
 Entering state 1
-Reading a token: Next token is token 'b' ()
+Reading a token
+Next token is token 'b' ()
 Shifting token 'b' ()
 Entering state 3
 Reducing stack 0 by rule 3 (line 27):
    $1 = token 'b' ()
 -> $$ = nterm b ()
 Entering state 4
-Reading a token: Next token is token 'c' ()
+Reading a token
+Next token is token 'c' ()
 Shifting token 'c' ()
 Entering state 6
 Reducing stack 0 by rule 4 (line 28):
 -> $$ = nterm d ()
 Entering state 7
-Reading a token: Now at end of input.
+Reading a token
+Now at end of input.
 Stack 0 Entering state 7
 Now at end of input.
 Splitting off stack 1 from 0.
