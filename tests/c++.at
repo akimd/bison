@@ -658,14 +658,12 @@ Reducing stack by rule 1 (line 34):
    $1 = token NUMBER (1)
 -> $$ = nterm expr (10)
 destroy: 1
-Stack now 0
 Entering state 2
 Stack now 0 2
 Reading a token
 Next token is token NUMBER (30)
 Reducing stack by rule 2 (line 35):
 -> $$ = nterm @1 (20)
-Stack now 0 2
 Entering state 4
 Stack now 0 2 4
 Next token is token NUMBER (30)
@@ -681,7 +679,6 @@ expr: 10 20 30
 destroy: 30
 destroy: 20
 destroy: 10
-Stack now 0
 Entering state 2
 Stack now 0 2
 Reading a token

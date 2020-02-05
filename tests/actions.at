@@ -1385,7 +1385,6 @@ Entering state 0
 Stack now 0
 Reducing stack by rule 1 (line 49):
 -> $$ = nterm start (1.1: <]]kind[[> for 'S' @ 1)
-Stack now 0
 Entering state 1
 Stack now 0 1
 Reading a token
@@ -1649,22 +1648,18 @@ Entering state 0
 Stack now 0
 Reducing stack by rule 1 (line 30):
 -> $$ = nterm $@1 (: )
-Stack now 0
 Entering state 2
 Stack now 0 2
 Reducing stack by rule 2 (line 31):
 -> $$ = nterm @2 (: 2)
-Stack now 0 2
 Entering state 4
 Stack now 0 2 4
 Reducing stack by rule 3 (line 32):
 -> $$ = nterm @3 (: 3)
-Stack now 0 2 4
 Entering state 5
 Stack now 0 2 4 5
 Reducing stack by rule 4 (line 33):
 -> $$ = nterm @4 (: 4)
-Stack now 0 2 4 5
 Entering state 6
 Stack now 0 2 4 5 6
 Reading a token

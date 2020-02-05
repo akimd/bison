@@ -963,7 +963,6 @@ Entering state 0
 Stack now 0
 Reducing stack by rule 1 (line 20):
 -> $$ = nterm start ()
-Stack now 0
 Entering state 1
 Stack now 0 1
 Reading a token

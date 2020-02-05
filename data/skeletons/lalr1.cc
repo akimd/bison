@@ -993,7 +993,6 @@ b4_dollar_popdef])[]dnl
       YY_SYMBOL_PRINT ("-> $$ =", yylhs);
       yypop_ (yylen);
       yylen = 0;
-      YY_STACK_PRINT ();
 
       // Shift the result of the reduction.
       yypush_ (YY_NULLPTR, YY_MOVE (yylhs));

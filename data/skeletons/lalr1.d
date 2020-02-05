@@ -344,9 +344,6 @@ b4_user_union_members
 
     yystack.pop (yylen);
     yylen = 0;
-]b4_parse_trace_if([[
-    if (0 < yydebug)
-      yystack.print (yyDebugStream);]])[
 
     /* Shift the result of the reduction.  */
     yyn = yyr1_[yyn];
