@@ -109,14 +109,10 @@ m4_define([b4_null], [null])
 m4_define([b4_typed_parser_table_define],
 [m4_ifval([$4], [b4_comment([$4])
   ])dnl
-[private static final ]$1[[] yy$2_ = yy$2_init ();
-  private static final ]$1[[] yy$2_init ()
+[private static final ]$1[[] yy$2_ =
   {
-    return new ]$1[[]
-    {
   ]$3[
-    };
-  }]])
+  };]])
 
 
 # b4_integral_parser_table_define(NAME, DATA, COMMENT)
