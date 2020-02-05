@@ -14,7 +14,7 @@
 }
 
 %code {
-  public static void main (String args[]) throws IOException
+  public static void main (String[] args) throws IOException
   {
     CalcLexer l = new CalcLexer (System.in);
     Calc p = new Calc (l);

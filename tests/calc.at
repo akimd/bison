@@ -113,7 +113,7 @@ m4_define([AT_CALC_MAIN(d)],
 
 
 m4_define([AT_CALC_MAIN(java)],
-[[public static void main (String args[]) throws IOException
+[[public static void main (String[] args) throws IOException
   {]AT_LEXPARAM_IF([[
     Calc p = new Calc (System.in);]], [[
     CalcLexer l = new CalcLexer (System.in);

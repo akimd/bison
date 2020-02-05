@@ -913,7 +913,7 @@ m4_define([AT_YYLEX_DEFINE(java)],
 m4_define([AT_MAIN_DEFINE(java)],
 [[class input
 {
-  public static void main (String args[]) throws IOException
+  public static void main (String[] args) throws IOException
   {
     ]AT_API_prefix[Parser p = new ]AT_API_prefix[Parser ();
     System.exit (p.parse () ? 0 : 1);
