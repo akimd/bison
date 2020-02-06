@@ -488,42 +488,6 @@ m4_define([b4_define_state],[[
     return YYNEWSTATE;
   }
 
-]b4_error_verbose_if([[
-  /* Return YYSTR after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
-  private final String yytnamerr_ (String yystr)
-  {
-    if (yystr.charAt (0) == '"')
-      {
-        StringBuffer yyr = new StringBuffer ();
-        strip_quotes: for (int i = 1; i < yystr.length (); i++)
-          switch (yystr.charAt (i))
-            {
-            case '\'':
-            case ',':
-              break strip_quotes;
-
-            case '\\':
-              if (yystr.charAt(++i) != '\\')
-                break strip_quotes;
-              /* Fall through.  */
-            default:
-              yyr.append (yystr.charAt (i));
-              break;
-
-            case '"':
-              return yyr.toString ();
-            }
-      }
-    else if (yystr.equals ("$end"))
-      return "end of input";
-
-    return yystr;
-  }
-]])[
 ]b4_parse_trace_if([[
   /*--------------------------------.
   | Print this symbol on YYOUTPUT.  |
@@ -534,7 +498,7 @@ m4_define([b4_define_state],[[
                               b4_locations_if([, Object yylocationp])[)
   {
     yycdebug (s + (yytype < yyntokens_ ? " token " : " nterm ")
-              + yytname_[yytype] + " ("]b4_locations_if([
+              + yysymbolName (yytype) + " ("]b4_locations_if([
               + yylocationp + ": "])[
               + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
   }]])[
@@ -924,7 +888,7 @@ b4_dollar_popdef[]dnl
                with internationalization.  */
             StringBuffer res =
               new StringBuffer ("syntax error, unexpected ");
-            res.append (yytnamerr_ (yytname_[tok]));
+            res.append (yysymbolName (tok));
             int yyn = yypact_[yystate];
             if (!yyPactValueIsDefault (yyn))
               {
@@ -949,7 +913,7 @@ b4_dollar_popdef[]dnl
                           && !yyTableValueIsError (yytable_[x + yyn]))
                         {
                           res.append (count++ == 0 ? ", expecting " : " or ");
-                          res.append (yytnamerr_ (yytname_[x]));
+                          res.append (yysymbolName (x));
                         }
                   }
               }
@@ -984,9 +948,63 @@ b4_dollar_popdef[]dnl
 
 ]b4_parser_tables_define[
 
+]m4_bmatch(b4_percent_define_get([[parse.error]]),
+           [simple\|verbose],
+[[  /* Return YYSTR after stripping away unnecessary quotes and
+     backslashes, so that it's suitable for yyerror.  The heuristic is
+     that double-quoting is unnecessary unless the string contains an
+     apostrophe, a comma, or backslash (other than backslash-backslash).
+     YYSTR is taken from yytname.  */
+  private static String yytnamerr_ (String yystr)
+  {
+    if (yystr.charAt (0) == '"')
+      {
+        StringBuffer yyr = new StringBuffer ();
+        strip_quotes: for (int i = 1; i < yystr.length (); i++)
+          switch (yystr.charAt (i))
+            {
+            case '\'':
+            case ',':
+              break strip_quotes;
+
+            case '\\':
+              if (yystr.charAt(++i) != '\\')
+                break strip_quotes;
+              /* Fall through.  */
+            default:
+              yyr.append (yystr.charAt (i));
+              break;
+
+            case '"':
+              return yyr.toString ();
+            }
+      }
+    else if (yystr.equals ("$end"))
+      return "end of input";
+
+    return yystr;
+  }
+
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
+
+  static String yysymbolName (int yysymbol)
+  {
+    return yytnamerr_ (yytname_[yysymbol]);
+  }
+]],
+        [custom\|detailed],
+[[/* The user-facing name of the symbol whose (internal) number is
+   YYSYMBOL.  No bounds checking.  */
+static String yysymbolName (int yysymbol)
+{
+  String[] yy_sname =
+  {
+  ]b4_symbol_names[
+  };
+  return yy_sname[yysymbol];
+}]])[
 
 ]b4_parse_trace_if([[
   ]b4_integral_parser_table_define([rline], [b4_rline],

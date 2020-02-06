@@ -220,6 +220,13 @@ m4_define([b4_position_type], [b4_percent_define_get([[api.position.type]])])
 ## ----------------- ##
 
 
+# b4_symbol_translate(STRING)
+# ---------------------------
+m4_define([b4_symbol_translate],
+[[_($1)]])
+
+
+
 # b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
 # ----------------------------------------------
 # See README.

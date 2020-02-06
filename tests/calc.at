@@ -509,7 +509,6 @@ void location_print (FILE *o, Span s);
     const char *
     _ (const char *cp)
     {
-      /* Make sure only "end of input" is translated.  */
       if (strcmp (cp, "end of input") == 0)
         return "end of file";
       else if (strcmp (cp, "number") == 0)
@@ -649,10 +648,23 @@ m4_define([_AT_DATA_CALC_Y(java)],
 }
 
 %code {
-]AT_CALC_MAIN[
+  ]AT_CALC_MAIN[
+
+  ]AT_TOKEN_TRANSLATE_IF([[
+    static String _ (String s)
+    {
+      if (s.equals ("end of input"))
+        return "end of file";
+      else if (s.equals ("number"))
+        return "nombre";
+      else
+        return s;
+    }
+  ]])[
 }
 
 /* Bison Declarations */
+%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
 %token <Integer> NUM "number"
 %type  <Integer> exp
 
@@ -1173,6 +1185,7 @@ m4_define([AT_CHECK_CALC_LALR1_JAVA],
 [AT_CHECK_CALC([%language "Java" $1], [$2])])
 
 AT_CHECK_CALC_LALR1_JAVA
+AT_CHECK_CALC_LALR1_JAVA([%define parse.error detailed])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%locations %define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose])

@@ -3,7 +3,7 @@
 %define api.parser.class {Calc}
 %define api.parser.public
 
-%define parse.error verbose
+%define parse.error detailed
 %define parse.trace
 
 %locations

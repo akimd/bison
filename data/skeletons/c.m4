@@ -470,6 +470,13 @@ m4_define([b4_token_enums_defines],
 [b4_token_enums[]b4_yacc_if([b4_token_defines])])
 
 
+# b4_symbol_translate(STRING)
+# ---------------------------
+m4_define([b4_symbol_translate],
+[[N_($1)]])
+
+
+
 ## ----------------- ##
 ## Semantic Values.  ##
 ## ----------------- ##
