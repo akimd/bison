@@ -226,6 +226,13 @@ m4_define([b4_symbol_translate],
 [[_($1)]])
 
 
+# b4_trans(STRING)
+# ----------------
+# Translate a symbol.  Avoid collision with b4_translate.
+m4_define([b4_trans],
+[m4_if(b4_has_translations, 0, [$1], [_($1)])])
+
+
 
 # b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
 # ----------------------------------------------

@@ -945,18 +945,18 @@ b4_dollar_popdef[]dnl
         String[] yystr = new String[yycount];
         for (int yyi = 0; yyi < yycount; ++yyi)
           yystr[yyi] = yysymbolName (yyarg[yyi]);
-        MessageFormat yyformat;
+        String yyformat;
         switch (yycount)
           {
             default:
-            case 0: yyformat = new MessageFormat ("syntax error"); break;
-            case 1: yyformat = new MessageFormat ("syntax error, unexpected {0}"); break;
-            case 2: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1}"); break;
-            case 3: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1} or {2}"); break;
-            case 4: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1} or {2} or {3}"); break;
-            case 5: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1} or {2} or {3} or {4}"); break;
+            case 0: yyformat = ]b4_trans(["syntax error"])[; break;
+            case 1: yyformat = ]b4_trans(["syntax error, unexpected {0}"])[; break;
+            case 2: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1}"])[; break;
+            case 3: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2}"])[; break;
+            case 4: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3}"])[; break;
+            case 5: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3} or {4}"])[; break;
           }
-        return yyformat.format (yystr);
+        return new MessageFormat (yyformat).format (yystr);
       }
 ]])[
     return "syntax error";
