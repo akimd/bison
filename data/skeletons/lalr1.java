@@ -82,6 +82,7 @@ m4_define([b4_define_state],[[
 ]])[
 ]b4_user_pre_prologue[
 ]b4_user_post_prologue[
+import java.text.MessageFormat;
 ]b4_percent_code_get([[imports]])[
 /**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
@@ -673,7 +674,10 @@ b4_dollar_popdef[]dnl
             ++yynerrs;
             if (yychar == yyempty_)
               yytoken = yyempty_;
-            yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
+            Context yyctx = new Context ();
+            yyctx.yystack = yystack;
+            yyctx.yytoken = yytoken;
+            yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yyctx));
           }
 
 ]b4_locations_if([[
@@ -851,74 +855,108 @@ b4_dollar_popdef[]dnl
   }
 ]])[
 
+  public final class Context
+  {
+    public YYStack yystack;
+    public int yytoken;
+  };
+
+  /* Put in YYARG at most YYARGN of the expected tokens given the
+     current YYCTX, and return the number of tokens stored in YYARG.  If
+     YYARG is null, return the number of expected tokens (guaranteed to
+     be less than YYNTOKENS).  */
+  static int
+  yyexpectedTokens (Context yyctx,
+                    int yyarg[], int yyoffset, int yyargn)
+  {
+    int yycount = yyoffset;
+    int yyn = yypact_[yyctx.yystack.stateAt (0)];
+    if (!yyPactValueIsDefault (yyn))
+      {
+        /* Start YYX at -YYN if negative to avoid negative
+           indexes in YYCHECK.  In other words, skip the first
+           -YYN actions for this state because they are default
+           actions.  */
+        int yyxbegin = yyn < 0 ? -yyn : 0;
+        /* Stay within bounds of both yycheck and yytname.  */
+        int yychecklim = yylast_ - yyn + 1;
+        int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+        for (int x = yyxbegin; x < yyxend; ++x)
+          if (yycheck_[x + yyn] == x && x != yy_error_token_
+              && !yyTableValueIsError (yytable_[x + yyn]))
+            {
+              if (yyarg == null)
+                yycount += 1;
+              else if (yycount == yyargn)
+                return 0; // FIXME: this is incorrect.
+              else
+                yyarg[yycount++] = x;
+            }
+      }
+    return yycount - yyoffset;
+  }
+
+  static int
+  yysyntaxErrorArguments (Context yyctx,
+                          int[] yyarg, int yyargn)
+  {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action,
+         then the only way this function was invoked is if the
+         default action is an error action.  In that case, don't
+         check for expected tokens because there are none.
+       - The only way there can be no lookahead present (in tok) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this
+         state is a consistent state with a default action.  There
+         might have been a previous inconsistent state, consistent
+         state with a non-default action, or user semantic action
+         that manipulated yychar.  (However, yychar is currently out
+         of scope during semantic actions.)
+       - Of course, the expected token list depends on states to
+         have correct lookahead information, and it depends on the
+         parser not to perform extra reductions after fetching a
+         lookahead from the scanner and before detecting a syntax
+         error.  Thus, state merging (from LALR or IELR) and default
+         reductions corrupt the expected token list.  However, the
+         list is correct for canonical LR with one exception: it
+         will still contain any token that will not be accepted due
+         to an error action in a later state.
+    */
+    int yycount = 0;
+    if (yyctx.yytoken != yyempty_)
+      {
+        yyarg[yycount++] = yyctx.yytoken;
+        yycount += yyexpectedTokens (yyctx, yyarg, 1, yyargn);
+      }
+    return yycount;
+  }
+
   // Generate an error message.
-  private String yysyntax_error (int yystate, int tok)
+  private String yysyntax_error (Context yyctx)
   {]b4_error_verbose_if([[
     if (yyErrorVerbose)
       {
-        /* There are many possibilities here to consider:
-           - If this state is a consistent state with a default action,
-             then the only way this function was invoked is if the
-             default action is an error action.  In that case, don't
-             check for expected tokens because there are none.
-           - The only way there can be no lookahead present (in tok) is
-             if this state is a consistent state with a default action.
-             Thus, detecting the absence of a lookahead is sufficient to
-             determine that there is no unexpected or expected token to
-             report.  In that case, just report a simple "syntax error".
-           - Don't assume there isn't a lookahead just because this
-             state is a consistent state with a default action.  There
-             might have been a previous inconsistent state, consistent
-             state with a non-default action, or user semantic action
-             that manipulated yychar.  (However, yychar is currently out
-             of scope during semantic actions.)
-           - Of course, the expected token list depends on states to
-             have correct lookahead information, and it depends on the
-             parser not to perform extra reductions after fetching a
-             lookahead from the scanner and before detecting a syntax
-             error.  Thus, state merging (from LALR or IELR) and default
-             reductions corrupt the expected token list.  However, the
-             list is correct for canonical LR with one exception: it
-             will still contain any token that will not be accepted due
-             to an error action in a later state.
-        */
-        if (tok != yyempty_)
+        int[] yyarg = new int[5];
+        int yycount = yysyntaxErrorArguments (yyctx, yyarg, 5);
+        String[] yystr = new String[yycount];
+        for (int yyi = 0; yyi < yycount; ++yyi)
+          yystr[yyi] = yysymbolName (yyarg[yyi]);
+        MessageFormat yyformat;
+        switch (yycount)
           {
-            /* FIXME: This method of building the message is not compatible
-               with internationalization.  */
-            StringBuffer res =
-              new StringBuffer ("syntax error, unexpected ");
-            res.append (yysymbolName (tok));
-            int yyn = yypact_[yystate];
-            if (!yyPactValueIsDefault (yyn))
-              {
-                /* Start YYX at -YYN if negative to avoid negative
-                   indexes in YYCHECK.  In other words, skip the first
-                   -YYN actions for this state because they are default
-                   actions.  */
-                int yyxbegin = yyn < 0 ? -yyn : 0;
-                /* Stay within bounds of both yycheck and yytname.  */
-                int yychecklim = yylast_ - yyn + 1;
-                int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-                int count = 0;
-                for (int x = yyxbegin; x < yyxend; ++x)
-                  if (yycheck_[x + yyn] == x && x != yy_error_token_
-                      && !yyTableValueIsError (yytable_[x + yyn]))
-                    ++count;
-                if (count < 5)
-                  {
-                    count = 0;
-                    for (int x = yyxbegin; x < yyxend; ++x)
-                      if (yycheck_[x + yyn] == x && x != yy_error_token_
-                          && !yyTableValueIsError (yytable_[x + yyn]))
-                        {
-                          res.append (count++ == 0 ? ", expecting " : " or ");
-                          res.append (yysymbolName (x));
-                        }
-                  }
-              }
-            return res.toString ();
+            default:
+            case 0: yyformat = new MessageFormat ("syntax error"); break;
+            case 1: yyformat = new MessageFormat ("syntax error, unexpected {0}"); break;
+            case 2: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1}"); break;
+            case 3: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1} or {2}"); break;
+            case 4: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1} or {2} or {3}"); break;
+            case 5: yyformat = new MessageFormat ("syntax error, unexpected {0}, expecting {1} or {2} or {3} or {4}"); break;
           }
+        return yyformat.format (yystr);
       }
 ]])[
     return "syntax error";
