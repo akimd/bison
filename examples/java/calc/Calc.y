@@ -3,7 +3,7 @@
 %define api.parser.class {Calc}
 %define api.parser.public
 
-%define parse.error detailed
+%define parse.error custom
 %define parse.trace
 
 %locations
@@ -29,10 +29,17 @@
     if (!p.parse ())
       System.exit (1);
   }
+
+  static String _ (String s)
+  {
+    return s;
+  }
 }
 
 /* Bison Declarations */
-%token <Integer> NUM "number"
+%token
+  '\n'   _("end of line")
+  <Integer> NUM _("number")
 %type  <Integer> exp
 
 %nonassoc '='       /* comparison            */
@@ -73,7 +80,6 @@ exp:
 | '-' error          { $$ = 0; return YYERROR; }
 ;
 
-
 %%
 class CalcLexer implements Calc.Lexer {
 
@@ -98,6 +104,20 @@ class CalcLexer implements Calc.Lexer {
 
   public Position getEndPos () {
     return end;
+  }
+
+  public void yyreportSyntaxError (Calc.Context ctx)
+  {
+    final int ARGMAX = 10;
+    int[] arg = new int[ARGMAX];
+    int n = Calc.yysyntaxErrorArguments (ctx, arg, ARGMAX);
+    System.err.print (ctx.yylocation + ": syntax error");
+    for (int i = 1; i < n; ++i)
+      System.err.print ((i == 1 ? ": expected " : " or ")
+                        + Calc.yysymbolName (arg[i]));
+    if (n != 0)
+      System.err.print (" before " + Calc.yysymbolName (arg[0]));
+    System.err.println ("");
   }
 
   public void yyerror (Calc.Location l, String s)

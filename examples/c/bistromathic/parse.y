@@ -200,8 +200,8 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
   YY_LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
   fprintf (stderr, ": syntax error");
   for (int i = 1; i < n; ++i)
-    fprintf (stderr, " %s %s",
-             i == 1 ? "expected" : "or", yysymbol_name (arg[i]));
+    fprintf (stderr, "%s %s",
+             i == 1 ? ": expected" : " or", yysymbol_name (arg[i]));
   if (n)
     fprintf (stderr, " before %s", yysymbol_name (arg[0]));
   fprintf (stderr, "\n");

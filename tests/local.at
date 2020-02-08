@@ -908,6 +908,9 @@ class PositionReader extends BufferedReader {
 }]])
 
 
+# AT_YYERROR_DEFINE(java)
+# -----------------------
+# FIXME: We should not hard-code "Calc".
 m4_define([AT_YYERROR_DEFINE(java)],
 [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String m)
   {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
@@ -924,6 +927,24 @@ m4_define([AT_YYERROR_DEFINE(java)],
     ++global_nerrs;
     ++*nerrs;]])[
     System.err.println (m);
+  }
+]])[
+
+]AT_ERROR_CUSTOM_IF([[
+  public void yyreportSyntaxError (Calc.Context ctx)
+  {
+    int[] arg = new int[ctx.yyntokens];
+    int n = Calc.yysyntaxErrorArguments (ctx, arg, ctx.yyntokens);
+    System.err.print (]AT_LOCATION_IF([[ctx.yylocation + ": "]]
+                      + )["syntax error on token @<:@" + Calc.yysymbolName(arg[0]) + "@:>@");
+    if (1 < n)
+      {
+        System.err.print (" (expected:");
+        for (int i = 1; i < n; ++i)
+          System.err.print (" @<:@" + Calc.yysymbolName (arg[i]) + "@:>@");
+        System.err.print (")");
+      }
+    System.err.println ("");
   }
 ]])
 ])
@@ -961,6 +982,8 @@ m4_define([AT_MAIN_DEFINE(java)],
 
 m4_define([AT_LANG_FOR_EACH_STD(java)],
 [$1])
+
+
 
 ## --------------- ##
 ## Running Bison.  ##

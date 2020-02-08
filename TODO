@@ -12,6 +12,11 @@ The calc.at test should call yyerror with location:
       yyerror (]AT_LOCATION_IF([[@$, ]])["calc: error: " + $1 + " != " + $3);
   }
 
+** Java: EOF
+We should be able to redefine EOF like we do in C.
+
+** Java: calc.at
+Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 
 ** doc
 I feel it's ugly to use the GNU style to declare functions in the doc.  It

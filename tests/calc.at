@@ -1185,8 +1185,11 @@ m4_define([AT_CHECK_CALC_LALR1_JAVA],
 [AT_CHECK_CALC([%language "Java" $1], [$2])])
 
 AT_CHECK_CALC_LALR1_JAVA
+AT_CHECK_CALC_LALR1_JAVA([%define parse.error custom])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.error detailed])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.error verbose])
+AT_CHECK_CALC_LALR1_JAVA([%locations %define parse.error custom])
+AT_CHECK_CALC_LALR1_JAVA([%locations %define parse.error detailed])
 AT_CHECK_CALC_LALR1_JAVA([%locations %define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations %lex-param {InputStream is}])

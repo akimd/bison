@@ -45,9 +45,9 @@ run 0 '0.16
 cat >input <<EOF
 *
 EOF
-run 0 "err: 1.1: syntax error expected end of file or - or ( or end of line or double precision number or function or variable before *"
+run 0 "err: 1.1: syntax error: expected end of file or - or ( or end of line or double precision number or function or variable before *"
 
 cat >input <<EOF
 1 + 2 * * 3
 EOF
-run 0 "err: 1.9: syntax error expected - or ( or double precision number or function or variable before *"
+run 0 "err: 1.9: syntax error: expected - or ( or double precision number or function or variable before *"

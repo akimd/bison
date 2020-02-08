@@ -91,8 +91,10 @@ import java.text.MessageFormat;
  */
 ]b4_parser_class_declaration[
 {
-  ]b4_identification[
-]b4_error_verbose_if([[
+]b4_identification[
+][
+]m4_bmatch(b4_percent_define_get([[parse.error]]),
+           [detailed\|verbose], [[
   /**
    * True if verbose error messages are enabled.
    */
@@ -161,9 +163,6 @@ import java.text.MessageFormat;
     }
   }
 
-]])[
-
-]b4_locations_if([[
   private ]b4_location_type[ yylloc (YYStack rhs, int n)
   {
     if (0 < n)
@@ -181,8 +180,8 @@ import java.text.MessageFormat;
     public static final int EOF = 0;
 
 ]b4_token_enums[
-
-]b4_locations_if([[/**
+]b4_locations_if([[
+    /**
      * Method to retrieve the beginning position of the last scanned token.
      * @@return the position at which the last scanned token starts.
      */
@@ -217,7 +216,12 @@ import java.text.MessageFormat;
      * @@param msg The string for the error message.
      */
      void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);
-  }
+
+]m4_bmatch(b4_percent_define_get([[parse.error]]),
+           [custom], [[
+     void yyreportSyntaxError (][Context yyctx);
+]])[
+}
 
 ]b4_lexer_if([[
   private class YYLexer implements Lexer {
@@ -676,8 +680,9 @@ b4_dollar_popdef[]dnl
               yytoken = yyempty_;
             Context yyctx = new Context ();
             yyctx.yystack = yystack;
-            yyctx.yytoken = yytoken;
-            yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yyctx));
+            yyctx.yytoken = yytoken;]b4_locations_if([[
+            yyctx.yylocation = yylloc;]])[
+            yyreportSyntaxError (yyctx);
           }
 
 ]b4_locations_if([[
@@ -858,13 +863,15 @@ b4_dollar_popdef[]dnl
   public static final class Context
   {
     public YYStack yystack;
-    public int yytoken;
+    public int yytoken;]b4_locations_if([[
+    public ]b4_location_type[ yylocation;]])[
+    public static final int yyntokens = ]b4_parser_class[.yyntokens_;
   };
 
   /* Put in YYARG at most YYARGN of the expected tokens given the
      current YYCTX, and return the number of tokens stored in YYARG.  If
      YYARG is null, return the number of expected tokens (guaranteed to
-     be less than YYNTOKENS).  */
+     be less than YYNTOKENS_).  */
   static int
   yyexpectedTokens (Context yyctx,
                     int yyarg[], int yyoffset, int yyargn)
@@ -935,13 +942,19 @@ b4_dollar_popdef[]dnl
     return yycount;
   }
 
-  // Generate an error message.
-  private String yysyntax_error (Context yyctx)
-  {]b4_error_verbose_if([[
+ /**
+   * Report a syntax error.
+   */
+  private void yyreportSyntaxError (Context yyctx)
+  {]m4_bmatch(b4_percent_define_get([parse.error]),
+[custom], [[
+    yylexer.yyreportSyntaxError (yyctx);]],
+[detailed\|verbose], [[
     if (yyErrorVerbose)
       {
-        int[] yyarg = new int[5];
-        int yycount = yysyntaxErrorArguments (yyctx, yyarg, 5);
+        final int argmax = 5;
+        int[] yyarg = new int[argmax];
+        int yycount = yysyntaxErrorArguments (yyctx, yyarg, argmax);
         String[] yystr = new String[yycount];
         for (int yyi = 0; yyi < yycount; ++yyi)
           yystr[yyi] = yysymbolName (yyarg[yyi]);
@@ -956,10 +969,12 @@ b4_dollar_popdef[]dnl
             case 4: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3}"])[; break;
             case 5: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3} or {4}"])[; break;
           }
-        return new MessageFormat (yyformat).format (yystr);
+        yyerror (]b4_locations_if([[yyctx.yylocation, ]])[new MessageFormat (yyformat).format (yystr));
+        return;
       }
-]])[
-    return "syntax error";
+    yyerror (]b4_locations_if([[yyctx.yylocation, ]])["syntax error");]],
+[simple], [[
+    yyerror (]b4_locations_if([[yyctx.yylocation, ]])["syntax error");]])[
   }
 
   /**
