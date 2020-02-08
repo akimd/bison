@@ -110,13 +110,13 @@ class CalcLexer implements Calc.Lexer {
   {
     final int ARGMAX = 10;
     int[] arg = new int[ARGMAX];
-    int n = Calc.yysyntaxErrorArguments (ctx, arg, ARGMAX);
+    int n = ctx.yysyntaxErrorArguments (arg, ARGMAX);
     System.err.print (ctx.yylocation + ": syntax error");
     for (int i = 1; i < n; ++i)
       System.err.print ((i == 1 ? ": expected " : " or ")
-                        + Calc.yysymbolName (arg[i]));
+                        + ctx.yysymbolName (arg[i]));
     if (n != 0)
-      System.err.print (" before " + Calc.yysymbolName (arg[0]));
+      System.err.print (" before " + ctx.yysymbolName (arg[0]));
     System.err.println ("");
   }
 

@@ -18,6 +18,14 @@ We should be able to redefine EOF like we do in C.
 ** Java: calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 
+** Java: _
+We must not use _ in Java, it is becoming a keyword in Java 9.
+
+examples/java/calc/Calc.java:998: warning: '_' used as an identifier
+  "$end", "error", "$undefined", _("end of line"), _("number"), "'='",
+                                 ^
+  (use of '_' as an identifier might not be supported in releases after Java SE 8)
+
 ** doc
 I feel it's ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page

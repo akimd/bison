@@ -934,14 +934,14 @@ m4_define([AT_YYERROR_DEFINE(java)],
   public void yyreportSyntaxError (Calc.Context ctx)
   {
     int[] arg = new int[ctx.yyntokens];
-    int n = Calc.yysyntaxErrorArguments (ctx, arg, ctx.yyntokens);
+    int n = ctx.yysyntaxErrorArguments (arg, ctx.yyntokens);
     System.err.print (]AT_LOCATION_IF([[ctx.yylocation + ": "]]
-                      + )["syntax error on token @<:@" + Calc.yysymbolName(arg[0]) + "@:>@");
+                      + )["syntax error on token @<:@" + ctx.yysymbolName (arg[0]) + "@:>@");
     if (1 < n)
       {
         System.err.print (" (expected:");
         for (int i = 1; i < n; ++i)
-          System.err.print (" @<:@" + Calc.yysymbolName (arg[i]) + "@:>@");
+          System.err.print (" @<:@" + ctx.yysymbolName (arg[i]) + "@:>@");
         System.err.print (")");
       }
     System.err.println ("");

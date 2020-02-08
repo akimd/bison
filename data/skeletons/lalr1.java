@@ -866,80 +866,83 @@ b4_dollar_popdef[]dnl
     public int yytoken;]b4_locations_if([[
     public ]b4_location_type[ yylocation;]])[
     public static final int yyntokens = ]b4_parser_class[.yyntokens_;
-  };
 
-  /* Put in YYARG at most YYARGN of the expected tokens given the
-     current YYCTX, and return the number of tokens stored in YYARG.  If
-     YYARG is null, return the number of expected tokens (guaranteed to
-     be less than YYNTOKENS_).  */
-  static int
-  yyexpectedTokens (Context yyctx,
-                    int yyarg[], int yyoffset, int yyargn)
-  {
-    int yycount = yyoffset;
-    int yyn = yypact_[yyctx.yystack.stateAt (0)];
-    if (!yyPactValueIsDefault (yyn))
-      {
-        /* Start YYX at -YYN if negative to avoid negative
-           indexes in YYCHECK.  In other words, skip the first
-           -YYN actions for this state because they are default
-           actions.  */
-        int yyxbegin = yyn < 0 ? -yyn : 0;
-        /* Stay within bounds of both yycheck and yytname.  */
-        int yychecklim = yylast_ - yyn + 1;
-        int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-        for (int x = yyxbegin; x < yyxend; ++x)
-          if (yycheck_[x + yyn] == x && x != yy_error_token_
-              && !yyTableValueIsError (yytable_[x + yyn]))
-            {
-              if (yyarg == null)
-                yycount += 1;
-              else if (yycount == yyargn)
-                return 0; // FIXME: this is incorrect.
-              else
-                yyarg[yycount++] = x;
-            }
-      }
-    return yycount - yyoffset;
-  }
+    /* Put in YYARG at most YYARGN of the expected tokens given the
+       current YYCTX, and return the number of tokens stored in YYARG.  If
+       YYARG is null, return the number of expected tokens (guaranteed to
+       be less than YYNTOKENS).  */
+    int yyexpectedTokens (int yyarg[], int yyoffset, int yyargn)
+    {
+      int yycount = yyoffset;
+      int yyn = yypact_[this.yystack.stateAt (0)];
+      if (!yyPactValueIsDefault (yyn))
+        {
+          /* Start YYX at -YYN if negative to avoid negative
+             indexes in YYCHECK.  In other words, skip the first
+             -YYN actions for this state because they are default
+             actions.  */
+          int yyxbegin = yyn < 0 ? -yyn : 0;
+          /* Stay within bounds of both yycheck and yytname.  */
+          int yychecklim = yylast_ - yyn + 1;
+          int yyxend = yychecklim < yyntokens ? yychecklim : yyntokens;
+          for (int x = yyxbegin; x < yyxend; ++x)
+            if (yycheck_[x + yyn] == x && x != yy_error_token_
+                && !yyTableValueIsError (yytable_[x + yyn]))
+              {
+                if (yyarg == null)
+                  yycount += 1;
+                else if (yycount == yyargn)
+                  return 0; // FIXME: this is incorrect.
+                else
+                  yyarg[yycount++] = x;
+              }
+        }
+      return yycount - yyoffset;
+    }
 
-  static int
-  yysyntaxErrorArguments (Context yyctx,
-                          int[] yyarg, int yyargn)
-  {
-    /* There are many possibilities here to consider:
-       - If this state is a consistent state with a default action,
-         then the only way this function was invoked is if the
-         default action is an error action.  In that case, don't
-         check for expected tokens because there are none.
-       - The only way there can be no lookahead present (in tok) is
-         if this state is a consistent state with a default action.
-         Thus, detecting the absence of a lookahead is sufficient to
-         determine that there is no unexpected or expected token to
-         report.  In that case, just report a simple "syntax error".
-       - Don't assume there isn't a lookahead just because this
-         state is a consistent state with a default action.  There
-         might have been a previous inconsistent state, consistent
-         state with a non-default action, or user semantic action
-         that manipulated yychar.  (However, yychar is currently out
-         of scope during semantic actions.)
-       - Of course, the expected token list depends on states to
-         have correct lookahead information, and it depends on the
-         parser not to perform extra reductions after fetching a
-         lookahead from the scanner and before detecting a syntax
-         error.  Thus, state merging (from LALR or IELR) and default
-         reductions corrupt the expected token list.  However, the
-         list is correct for canonical LR with one exception: it
-         will still contain any token that will not be accepted due
-         to an error action in a later state.
-    */
-    int yycount = 0;
-    if (yyctx.yytoken != yyempty_)
-      {
-        yyarg[yycount++] = yyctx.yytoken;
-        yycount += yyexpectedTokens (yyctx, yyarg, 1, yyargn);
-      }
-    return yycount;
+    /* The user-facing name of the symbol whose (internal) number is
+       YYSYMBOL.  No bounds checking.  */
+    static String yysymbolName (int yysymbol)
+    {
+      return ]b4_parser_class[.yysymbolName (yysymbol);
+    }
+
+    int yysyntaxErrorArguments (int[] yyarg, int yyargn)
+    {
+      /* There are many possibilities here to consider:
+         - If this state is a consistent state with a default action,
+           then the only way this function was invoked is if the
+           default action is an error action.  In that case, don't
+           check for expected tokens because there are none.
+         - The only way there can be no lookahead present (in tok) is
+           if this state is a consistent state with a default action.
+           Thus, detecting the absence of a lookahead is sufficient to
+           determine that there is no unexpected or expected token to
+           report.  In that case, just report a simple "syntax error".
+         - Don't assume there isn't a lookahead just because this
+           state is a consistent state with a default action.  There
+           might have been a previous inconsistent state, consistent
+           state with a non-default action, or user semantic action
+           that manipulated yychar.  (However, yychar is currently out
+           of scope during semantic actions.)
+         - Of course, the expected token list depends on states to
+           have correct lookahead information, and it depends on the
+           parser not to perform extra reductions after fetching a
+           lookahead from the scanner and before detecting a syntax
+           error.  Thus, state merging (from LALR or IELR) and default
+           reductions corrupt the expected token list.  However, the
+           list is correct for canonical LR with one exception: it
+           will still contain any token that will not be accepted due
+           to an error action in a later state.
+      */
+      int yycount = 0;
+      if (this.yytoken != yyempty_)
+        {
+          yyarg[yycount++] = this.yytoken;
+          yycount += this.yyexpectedTokens (yyarg, 1, yyargn);
+        }
+      return yycount;
+    }
   }
 
  /**
@@ -954,7 +957,7 @@ b4_dollar_popdef[]dnl
       {
         final int argmax = 5;
         int[] yyarg = new int[argmax];
-        int yycount = yysyntaxErrorArguments (yyctx, yyarg, argmax);
+        int yycount = yyctx.yysyntaxErrorArguments (yyarg, argmax);
         String[] yystr = new String[yycount];
         for (int yyi = 0; yyi < yycount; ++yyi)
           yystr[yyi] = yysymbolName (yyarg[yyi]);
