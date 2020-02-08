@@ -855,7 +855,7 @@ b4_dollar_popdef[]dnl
   }
 ]])[
 
-  public final class Context
+  public static final class Context
   {
     public YYStack yystack;
     public int yytoken;
@@ -1027,22 +1027,24 @@ b4_dollar_popdef[]dnl
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
 
+  /* The user-facing name of the symbol whose (internal) number is
+     YYSYMBOL.  No bounds checking.  */
   static String yysymbolName (int yysymbol)
   {
     return yytnamerr_ (yytname_[yysymbol]);
   }
 ]],
         [custom\|detailed],
-[[/* The user-facing name of the symbol whose (internal) number is
-   YYSYMBOL.  No bounds checking.  */
-static String yysymbolName (int yysymbol)
-{
-  String[] yy_sname =
+[[  /* The user-facing name of the symbol whose (internal) number is
+     YYSYMBOL.  No bounds checking.  */
+  static String yysymbolName (int yysymbol)
   {
-  ]b4_symbol_names[
-  };
-  return yy_sname[yysymbol];
-}]])[
+    String[] yy_sname =
+    {
+    ]b4_symbol_names[
+    };
+    return yy_sname[yysymbol];
+  }]])[
 
 ]b4_parse_trace_if([[
   ]b4_integral_parser_table_define([rline], [b4_rline],
