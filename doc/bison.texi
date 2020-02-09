@@ -5821,7 +5821,10 @@ states and what is done for each type of lookahead token in that state.
 
 @deffn {Directive} %yacc
 Pretend the option @option{--yacc} was given, i.e., imitate Yacc, including
-its naming conventions.  @xref{Tuning the Parser}, for more.
+its naming conventions.  Only makes sense with the @file{yacc.c}
+skeleton. @xref{Tuning the Parser}, for more.
+
+Of course @code{%yacc} is a Bison extension@dots{}
 @end deffn
 
 
@@ -10924,11 +10927,10 @@ different diagnostics to be generated (it implies @option{-Wyacc}), and may
 change behavior in other minor ways.  Most importantly, imitate Yacc's
 output file name conventions, so that the parser implementation file is
 called @file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  Also, if generating a deterministic parser in C, generate
-@code{#define} statements in addition to an @code{enum} to associate token
-numbers with token names.  Thus, the following shell script can substitute
-for Yacc, and the Bison distribution contains such a script for
-compatibility with POSIX:
+@file{y.tab.h}.  Also, generate @code{#define} statements in addition to an
+@code{enum} to associate token numbers with token names.  Thus, the
+following shell script can substitute for Yacc, and the Bison distribution
+contains such a script for compatibility with POSIX:
 
 @example
 #! /bin/sh
@@ -10936,9 +10938,9 @@ bison -y "$@@"
 @end example
 
 The @option{-y}/@option{--yacc} option is intended for use with traditional
-Yacc grammars.  If your grammar uses Bison extensions like
-@samp{%glr-parser}, Bison might not be Yacc-compatible even if this option
-is specified.
+Yacc grammars.  This option only makes sense for the default C skeleton,
+@file{yacc.c}.  If your grammar uses Bison extensions Bison cannot be
+Yacc-compatible, even if this option is specified.
 @end table
 
 @node Output Files
