@@ -30,6 +30,15 @@ m4_define([b4_lac_flag],
                  [none], [[0]], [[1]])])
 
 
+# b4_tname_if(TNAME-NEEDED, TNAME-NOT-NEEDED)
+# -------------------------------------------
+m4_define([b4_tname_if],
+[m4_case(b4_percent_define_get([[parse.error]]),
+         [verbose],         [$1],
+         [b4_token_table_if([$1],
+                            [$2])])])
+
+
 # b4_integral_parser_table_declare(TABLE-NAME, CONTENT, COMMENT)
 # --------------------------------------------------------------
 # Declare "parser::yy<TABLE-NAME>_" whose contents is CONTENT.
@@ -274,15 +283,23 @@ m4_define([b4_shared_declarations],
     static token_number_type yytranslate_ (int t);
 
     // Tables.
-]b4_parser_tables_declare[]b4_error_verbose_if([
-
+]b4_parser_tables_declare[
+]m4_case(b4_percent_define_get([[parse.error]]),
+         [verbose], [[
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
-    static std::string yytnamerr_ (const char *n);])[
+    static std::string yytnamerr_ (const char *n);
 
-]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
-]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
+]],
+[b4_token_table_if([], [[
+#if ]b4_api_PREFIX[DEBUG
+    /// For a symbol, its name in clear.
+    static const char* const yytname_[];
+#endif
+]])])[
+
+#if ]b4_api_PREFIX[DEBUG
 ]b4_integral_parser_table_declare([rline], [b4_rline],
      [[YYRLINE[YYN] -- Source line where rule number YYN was defined.]])[
     /// Report on the debug stream that the rule \a r is going to be reduced.
@@ -1416,7 +1433,7 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
 
 ]b4_parser_tables_define[
 
-]b4_token_table_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
+]b4_tname_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
   // YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
   // First, the terminals, then, starting at \a yyntokens_, nonterminals.
   const char*
@@ -1424,8 +1441,9 @@ b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
   {
   ]b4_tname[
   };
+]b4_tname_if([], [[#endif]])[
 
-]b4_token_table_if([[#if ]b4_api_PREFIX[DEBUG]])[
+#if ]b4_api_PREFIX[DEBUG][
 ]b4_integral_parser_table_define([rline], [b4_rline])[
 
   void

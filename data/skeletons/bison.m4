@@ -1031,10 +1031,6 @@ m4_define([b4_error_verbose_flag],
                    [verbose],  [[1]])])
 b4_define_flag_if([error_verbose])
 
-# yytoken_table is needed to support verbose errors.
-b4_error_verbose_if([m4_define([b4_token_table_flag], [1])])
-
-
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
 b4_percent_define_if_define([variant])
