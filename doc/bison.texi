@@ -10037,7 +10037,7 @@ When a Bison grammar compiles properly but parses ``incorrectly'', the
 @node Enabling Traces
 @subsection  Enabling Traces
 There are several means to enable compilation of trace facilities, in
-decresing order of preference:
+decreasing order of preference:
 
 @table @asis
 @item the variable @samp{parse.trace}
@@ -10299,7 +10299,7 @@ Cleanup: popping nterm input ()
 @subsection The @code{YYPRINT} Macro
 @findex YYPRINT
 
-The @code{%printer} directive was introduced in Bison 1.50 (Novembre 2002).
+The @code{%printer} directive was introduced in Bison 1.50 (November 2002).
 Before then, @code{YYPRINT} provided a similar feature, but only for
 terminal symbols and only with the @file{yacc.c} skeleton.
 
@@ -14634,7 +14634,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: strncmp intval tindex lvalp locp llocp typealt YYBACKUP subrange
 @c LocalWords: YYEMPTY YYEOF YYRECOVERING yyclearin GE def UMINUS maybeword loc
 @c LocalWords: Johnstone Shamsa Sadaf Hussain Tomita TR uref YYMAXDEPTH inline
-@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead
+@c LocalWords: YYINITDEPTH stmts ref initdcl maybeasm notype Lookahead ctx
 @c LocalWords: hexflag STR exdent itemset asis DYYDEBUG YYFPRINTF args Autoconf
 @c LocalWords: ypp yxx itemx tex leaderfill Troubleshouting sqrt Graphviz
 @c LocalWords: hbox hss hfill tt ly yyin fopen fclose ofirst gcc ll lookahead
@@ -14678,10 +14678,12 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit svg
 @c LocalWords: DNDEBUG cstring Wzero workalike POPL workalikes byacc UCB
 @c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP
-@c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN colorWarning
+@c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN colorWarning exVal
 @c LocalWords: setcolor rgbError colorError rgbNotice colorNotice derror
 @c LocalWords: colorOff maincolor inlineraw darkviolet darkcyan dwarning
-@c LocalWords: dnotice copyable stdint ptrdiff bufsize
+@c LocalWords: dnotice copyable stdint ptrdiff bufsize yyreport invariants
+@c LocalWords: xrefautomaticsectiontitle yysyntax yysymbol ARGMAX cond
+@c LocalWords: Wdangling
 
 @c Local Variables:
 @c ispell-dictionary: "american"
