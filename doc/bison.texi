@@ -5780,26 +5780,24 @@ This is similar to how most shells resolve commands.
 @end deffn
 
 @deffn {Directive} %token-table
-Generate an array of token names in the parser implementation file.
-The name of the array is @code{yytname}; @code{yytname[@var{i}]} is
-the name of the token whose internal Bison token code number is
-@var{i}.  The first three elements of @code{yytname} correspond to the
-predefined tokens @code{"$end"}, @code{"error"}, and
-@code{"$undefined"}; after these come the symbols defined in the
-grammar file.
+Generate an array of token names in the parser implementation file.  The
+name of the array is @code{yytname}; @code{yytname[@var{i}]} is the name of
+the token whose internal Bison token code number is @var{i}.  The first
+three elements of @code{yytname} correspond to the predefined tokens
+@code{"$end"}, @code{"error"}, and @code{"$undefined"}; after these come the
+symbols defined in the grammar file.
 
-The name in the table includes all the characters needed to represent
-the token in Bison.  For single-character literals and literal
-strings, this includes the surrounding quoting characters and any
-escape sequences.  For example, the Bison single-character literal
-@code{'+'} corresponds to a three-character name, represented in C as
-@code{"'+'"}; and the Bison two-character literal string @code{"\\/"}
-corresponds to a five-character name, represented in C as
-@code{"\"\\\\/\""}.
+The name in the table includes all the characters needed to represent the
+token in Bison.  For single-character literals and literal strings, this
+includes the surrounding quoting characters and any escape sequences.  For
+example, the Bison single-character literal @code{'+'} corresponds to a
+three-character name, represented in C as @code{"'+'"}; and the Bison
+two-character literal string @code{"\\/"} corresponds to a five-character
+name, represented in C as @code{"\"\\\\/\""}.
 
-When you specify @code{%token-table}, Bison also generates macro
-definitions for macros @code{YYNTOKENS}, @code{YYNNTS}, and
-@code{YYNRULES}, and @code{YYNSTATES}:
+When you specify @code{%token-table}, Bison also generates macro definitions
+for macros @code{YYNTOKENS}, @code{YYNNTS}, and @code{YYNRULES}, and
+@code{YYNSTATES}:
 
 @table @code
 @item YYNTOKENS
@@ -12651,10 +12649,10 @@ the generated parser, so use @samp{%define parse.trace} explicitly if
 needed.  Also, in the future the @code{%token-table} directive might enable
 a public interface to access the token names and codes.
 
-Getting a ``code too large'' error from the Java compiler means the code
-hit the 64KB bytecode per method limitation of the Java class file.
-Try reducing the amount of code in actions and static initializers;
-otherwise, report a bug so that the parser skeleton will be improved.
+Getting a ``code too large'' error from the Java compiler means the code hit
+the 64KB bytecode per method limitation of the Java class file.  Try
+reducing the amount of code in actions and static initializers; otherwise,
+report a bug so that the parser skeleton will be improved.
 
 
 @node Java Semantic Values
@@ -14124,8 +14122,8 @@ Bison declaration to declare token(s) without specifying precedence.
 @end deffn
 
 @deffn {Directive} %token-table
-Bison declaration to include a token name table in the parser
-implementation file.  @xref{Decl Summary}.
+Bison declaration to include a token name table in the parser implementation
+file.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %type
@@ -14145,9 +14143,9 @@ values.  @xref{Union Decl}.
 @end deffn
 
 @deffn {Macro} YYABORT
-Macro to pretend that an unrecoverable syntax error has occurred, by
-making @code{yyparse} return 1 immediately.  The error reporting
-function @code{yyerror} is not called.  @xref{Parser Function}.
+Macro to pretend that an unrecoverable syntax error has occurred, by making
+@code{yyparse} return 1 immediately.  The error reporting function
+@code{yyerror} is not called.  @xref{Parser Function}.
 
 For Java parsers, this functionality is invoked using @code{return YYABORT;}
 instead.
