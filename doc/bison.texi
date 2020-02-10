@@ -12640,16 +12640,13 @@ No header file can be generated for Java parsers.  Do not use the
 @code{%defines} directive or the @option{-d}/@option{--defines} options.
 
 @c FIXME: Possible code change.
-Currently, support for tracing is always compiled
-in.  Thus the @samp{%define parse.trace} and @samp{%token-table}
-directives and the
-@option{-t}/@option{--debug} and @option{-k}/@option{--token-table}
-options have no effect.  This may change in the future to eliminate
-unused code in the generated parser, so use @samp{%define parse.trace}
-explicitly
-if needed.  Also, in the future the
-@code{%token-table} directive might enable a public interface to
-access the token names and codes.
+Currently, support for tracing is always compiled in.  Thus the
+@samp{%define parse.trace} and @samp{%token-table} directives and the
+@option{-t}/@option{--debug} and @option{-k}/@option{--token-table} options
+have no effect.  This may change in the future to eliminate unused code in
+the generated parser, so use @samp{%define parse.trace} explicitly if
+needed.  Also, in the future the @code{%token-table} directive might enable
+a public interface to access the token names and codes.
 
 Getting a ``code too large'' error from the Java compiler means the code
 hit the 64KB bytecode per method limitation of the Java class file.
