@@ -138,6 +138,8 @@
 /isnanl-nolibm.h
 /isnanl.c
 /iswblank.c
+/iswdigit.c
+/iswxdigit.c
 /itold.c
 /lc-charset-dispatch.c
 /lc-charset-dispatch.h

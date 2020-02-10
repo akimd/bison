@@ -69,6 +69,8 @@
 /isnanf.m4
 /isnanl.m4
 /iswblank.m4
+/iswdigit.m4
+/iswxdigit.m4
 /javacomp.m4
 /javaexec.m4
 /jm-winsz1.m4
@@ -210,3 +212,4 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+/zzgnulib.m4
