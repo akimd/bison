@@ -106,13 +106,20 @@ m4_define([b4_null], [null])
 
 # b4_typed_parser_table_define(TYPE, NAME, DATA, COMMENT)
 # -------------------------------------------------------
+# We use intermediate functions (e.g., yypact_init) to work around the
+# 64KB limit for JVM methods.  See
+# https://lists.gnu.org/r/help-bison/2008-11/msg00004.html.
 m4_define([b4_typed_parser_table_define],
 [m4_ifval([$4], [b4_comment([$4])
   ])dnl
-[private static final ]$1[[] yy$2_ =
+[private static final ]$1[[] yy$2_ = yy$2_init ();
+  private static final ]$1[[] yy$2_init ()
   {
+    return new ]$1[[]
+    {
   ]$3[
-  };]])
+    };
+  }]])
 
 
 # b4_integral_parser_table_define(NAME, DATA, COMMENT)
