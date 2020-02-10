@@ -2888,3 +2888,31 @@ input.y:9.1-21:     definition of api.token.raw
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+
+
+
+## ------------------------------ ##
+## %token-table and parse.error.  ##
+## ------------------------------ ##
+
+AT_SETUP([[%token-table and parse.error]])
+
+# AT_TEST(DIRECTIVES, ERROR-LOCATION)
+# -----------------------------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[$1
+%%
+exp: %empty;
+]])
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[$2: error: '%token-table' and '%define parse.error (custom|detailed)' cannot be used together
+])
+])
+
+AT_TEST([%define parse.error custom %token-table],  [[input.y:1.1-26]])
+AT_TEST([%define parse.error detailed %token-table],[[input.y:1.1-28]])
+
+m4_popdef([AT_TEST])
+
+AT_CLEANUP

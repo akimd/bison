@@ -1118,3 +1118,11 @@ b4_percent_define_ifdef([api.value.type],
 
 # api.value.union.name.
 b4_percent_define_check_kind([api.value.union.name], [keyword])
+
+# parse.error (custom|detailed) >< token-table.
+b4_token_table_if(
+[b4_parse_error_bmatch([custom\|detailed],
+[b4_complain_at(b4_percent_define_get_loc([parse.error]),
+                [['%s' and '%s' cannot be used together]],
+                [%token-table],
+                [%define parse.error (custom|detailed)])])])
