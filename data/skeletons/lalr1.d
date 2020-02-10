@@ -679,7 +679,7 @@ m4_popdef([b4_at_dollar])])dnl
 
   // Generate an error message.
   private final string yysyntax_error (int yystate, int tok)
-  {]b4_error_verbose_if([[
+  {]b4_parse_error_case([verbose], [[
     /* There are many possibilities here to consider:
        - Assume YYFAIL is not used.  It's too flawed to consider.
          See

@@ -1016,20 +1016,24 @@ m4_define([b4_bison_locations_if],
 [b4_locations_if([b4_percent_define_ifdef([[api.location.type]], [], [$1])])])
 
 
-# b4_error_verbose_if([IF-ERRORS-ARE-VERBOSE], [IF-NOT])
+
+# %define parse.error "(custom|detailed|simple|verbose)"
 # ------------------------------------------------------
-# Map %define parse.error "(custom|detailed|simple|verbose)" to
-# b4_error_verbose_if and b4_error_verbose_flag.
 b4_percent_define_default([[parse.error]], [[simple]])
 b4_percent_define_check_values([[[[parse.error]],
                                  [[custom]], [[detailed]], [[simple]], [[verbose]]]])
-m4_define([b4_error_verbose_flag],
-          [m4_case(b4_percent_define_get([[parse.error]]),
-                   [custom],   [[1]],
-                   [detailed], [[1]],
-                   [simple],   [[0]],
-                   [verbose],  [[1]])])
-b4_define_flag_if([error_verbose])
+
+# b4_parse_error_case(CASE1, THEN1, CASE2, THEN2, ..., ELSE)
+# ----------------------------------------------------------
+m4_define([b4_parse_error_case],
+[m4_case(b4_percent_define_get([[parse.error]]), $@)])
+
+# b4_parse_error_bmatch(PATTERN1, THEN1, PATTERN2, THEN2, ..., ELSE)
+# ------------------------------------------------------------------
+m4_define([b4_parse_error_bmatch],
+[m4_bmatch(b4_percent_define_get([[parse.error]]), $@)])
+
+
 
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------

@@ -284,8 +284,7 @@ m4_define([b4_shared_declarations],
 
     // Tables.
 ]b4_parser_tables_declare[
-]m4_case(b4_percent_define_get([[parse.error]]),
-         [verbose], [[
+]b4_parse_error_case([verbose], [[
     /// Convert the symbol name \a n to a form suitable for a diagnostic.
     static std::string yytnamerr_ (const char *n);
 
@@ -560,7 +559,7 @@ m4_if(b4_prefix, [yy], [],
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-]b4_namespace_open[]b4_error_verbose_if([[
+]b4_namespace_open[]b4_parse_error_case([verbose], [[
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -1311,10 +1310,10 @@ b4_dollar_popdef])[]dnl
 
   // Generate an error message.
   std::string
-  ]b4_parser_class[::yysyntax_error_ (]dnl
-b4_error_verbose_if([state_type yystate, const symbol_type& yyla],
-                    [state_type, const symbol_type&])[) const
-  {]b4_error_verbose_if([[
+]b4_parser_class[::yysyntax_error_ (]b4_parse_error_case([verbose],
+                                    [state_type yystate, const symbol_type& yyla],
+                                    [state_type, const symbol_type&])[) const
+  {]b4_parse_error_case([verbose], [[
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     std::ptrdiff_t yycount = 0;
