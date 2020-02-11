@@ -1194,7 +1194,10 @@ AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations %lex-param {InputStream is}])
 
 AT_CHECK_CALC_LALR1_JAVA([%define api.push-pull both])
+AT_CHECK_CALC_LALR1_JAVA([%define api.push-pull both %define parse.error detailed %locations])
+AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error custom %locations %lex-param {InputStream is} %define api.push-pull both])
 AT_CHECK_CALC_LALR1_JAVA([%define parse.trace %define parse.error verbose %locations %lex-param {InputStream is} %define api.push-pull both])
+
 
 m4_popdef([AT_TOKEN_TRANSLATE_IF])
 m4_popdef([AT_CALC_MAIN])
