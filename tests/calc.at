@@ -352,11 +352,11 @@ m4_define([AT_CALC_YYLEX(java)],
   Position end = new Position (1, 0);
 
   public Position getStartPos () {
-    return start;
+    return new Position (start);
   }
 
   public Position getEndPos () {
-    return end;
+    return new Position (end);
   }
 
 ]])[

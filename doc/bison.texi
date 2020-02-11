@@ -12889,9 +12889,12 @@ Default is @code{java.io.IOException}.
 
 @deftypemethod {Lexer} {Position} getStartPos ()
 @deftypemethodx {Lexer} {Position} getEndPos ()
-Return respectively the first position of the last token that
-@code{yylex} returned, and the first position beyond it.  These
-methods are not needed unless location tracking is active.
+Return respectively the first position of the last token that @code{yylex}
+returned, and the first position beyond it.  These methods are not needed
+unless location tracking is active.
+
+They should return new objects for each call, to avoid that all the symbol
+share the same Position boundaries.
 
 The return type can be changed using @code{%define api.position.type
 @{@var{class-name}@}}.

@@ -99,11 +99,11 @@ class CalcLexer implements Calc.Lexer {
   Position end = new Position (1, 0);
 
   public Position getStartPos () {
-    return start;
+    return new Position (start);
   }
 
   public Position getEndPos () {
-    return end;
+    return new Position (end);
   }
 
   public void yyreportSyntaxError (Calc.Context ctx)
@@ -173,6 +173,12 @@ class Position {
   {
     line = l;
     column = t;
+  }
+
+  public Position (Position p)
+  {
+    line = p.line;
+    column = p.column;
   }
 
   public void set (Position p)

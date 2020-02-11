@@ -847,6 +847,12 @@ m4_define([AT_JAVA_POSITION_DEFINE],
     column = t;
   }
 
+  public Position (Position p)
+  {
+    line = p.line;
+    column = p.column;
+  }
+
   public void set (Position p)
   {
     line = p.line;
