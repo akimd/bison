@@ -3,15 +3,6 @@
 YYUNDEFTOK is an internal symbol number, as YYTERROR.
 But YYERRCODE is an external token number.
 
-** Tests
-The calc.at test should call yyerror with location:
-
-| exp '=' exp
-  {
-    if ($1.intValue () != $3.intValue ())
-      yyerror (]AT_LOCATION_IF([[@$, ]])["calc: error: " + $1 + " != " + $3);
-  }
-
 ** Java: EOF
 We should be able to redefine EOF like we do in C.
 

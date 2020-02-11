@@ -554,10 +554,28 @@ exp:
   NUM
 | exp '=' exp
   {
-    if ($1 != $3)]AT_D_IF([
-      stderr.writefln ("calc: error: %d != %d", $1, $3);], [
-      fprintf (stderr, "calc: error: %d != %d\n", $1, $3);], [
-      ])[
+    if ($1 != $3)]AT_LANG_CASE(
+      [c], [[
+      {
+        char buf[1024];
+        snprintf (buf, sizeof buf, "calc: error: %d != %d", $1, $3);]AT_YYERROR_ARG_LOC_IF([[
+        yyerror (&@$, ]AT_PARAM_IF([result, count, nerrs, ])[buf);]], [[
+        {
+          YYLTYPE old_yylloc = yylloc;
+          yylloc = @$;
+          yyerror (]AT_PARAM_IF([result, count, nerrs, ])[buf);
+          yylloc = old_yylloc;
+        }
+        ]])[
+      }]],
+      [c++], [[
+      {
+        char buf[1024];
+        snprintf (buf, sizeof buf, "calc: error: %d != %d", $1, $3);
+        ]AT_GLR_IF([[yyparser.]])[error (]AT_LOCATION_IF([[@$, ]])[buf);
+      }]],
+      [d], [[
+      yyerror (]AT_LOCATION_IF([[@$, ]])[format ("calc: error: %d != %d", $1, $3));]])[
     $$ = $1;
   }
 | exp '+' exp        { $$ = $1 + $3; }
@@ -691,7 +709,7 @@ exp:
 | exp '=' exp
   {
     if ($1.intValue () != $3.intValue ())
-      yyerror ("calc: error: " + $1 + " != " + $3);
+      yyerror (]AT_LOCATION_IF([[@$, ]])["calc: error: " + $1 + " != " + $3);
   }
 | exp '+' exp        { $$ = $1 + $3; }
 | exp '-' exp        { $$ = $1 - $3; }
@@ -954,27 +972,28 @@ _AT_CHECK_CALC_ERROR([$1], [1], [/dev/null],
 #
 _AT_CHECK_CALC_ERROR([$1], [0],
                      [() + (1 + 1 + 1 +) + (* * *) + (1 * 2 * *) = 1],
-                     [[final: 4444 0 4]],
+                     [[final: 4444 0 5]],
                      [250],
 [AT_JAVA_IF([1.2-1.3], [1.2])[: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.18-1.19], [1.18])[: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.23-1.24], [1.23])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.41-1.42], [1.41])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
-calc: error: 4444 != 1]])
+]AT_JAVA_IF([1.1-1.47], [1.1-46])[: calc: error: 4444 != 1]])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the lookahead causing the error should not be discarded.
 _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1],
-                     [[final: 2222 0 1]],
+                     [[final: 2222 0 2]],
                      [102],
 [AT_JAVA_IF([1.10-1.11], [1.10])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
-calc: error: 2222 != 1]])
+]AT_JAVA_IF([1.1-1.16], [1.1-15])[: calc: error: 2222 != 1]])
+
 _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1],
-                     [[final: 2222 0 2]],
+                     [[final: 2222 0 3]],
                      [113],
 [AT_JAVA_IF([1.4-1.5], [1.4])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.12-1.13], [1.12])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
-calc: error: 2222 != 1]])
+]AT_JAVA_IF([1.1-1.18], [1.1-17])[: calc: error: 2222 != 1]])
 
 # Check that yyerrok works properly: second error is not reported,
 # third and fourth are.  Parse status is succesful.
@@ -1009,7 +1028,7 @@ m4_define([AT_CHECK_CALC_LALR],
 AT_CHECK_CALC_LALR([%define parse.trace])
 
 AT_CHECK_CALC_LALR([%defines])
-AT_CHECK_CALC_LALR([%locations])
+AT_CHECK_CALC_LALR([%debug %locations])
 AT_CHECK_CALC_LALR([%locations %define api.location.type {Span}])
 
 AT_CHECK_CALC_LALR([%name-prefix "calc"])
