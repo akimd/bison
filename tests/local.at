@@ -935,7 +935,7 @@ m4_define([AT_YYERROR_DEFINE(java)],
   {
     int[] arg = new int[ctx.yyntokens];
     int n = ctx.yysyntaxErrorArguments (arg, ctx.yyntokens);
-    System.err.print (]AT_LOCATION_IF([[ctx.yylocation + ": "]]
+    System.err.print (]AT_LOCATION_IF([[ctx.getLocation () + ": "]]
                       + )["syntax error on token @<:@" + ctx.yysymbolName (arg[0]) + "@:>@");
     if (1 < n)
       {

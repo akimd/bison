@@ -111,7 +111,7 @@ class CalcLexer implements Calc.Lexer {
     final int ARGMAX = 10;
     int[] arg = new int[ARGMAX];
     int n = ctx.yysyntaxErrorArguments (arg, ARGMAX);
-    System.err.print (ctx.yylocation + ": syntax error");
+    System.err.print (ctx.getLocation () + ": syntax error");
     for (int i = 1; i < n; ++i)
       System.err.print ((i == 1 ? ": expected " : " or ")
                         + ctx.yysymbolName (arg[i]));

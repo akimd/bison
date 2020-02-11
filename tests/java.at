@@ -478,8 +478,8 @@ AT_CHECK_JAVA_MINIMAL([[
 %define api.position.type {MyPos}
 %code { class MyPos {} }]], [[$$ = $<java.awt.Color>1;]], [[MyPos]])
 AT_CHECK([[grep 'java.awt.Color' YYParser.java]], [0], [ignore])
-AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Position']], [1], [ignore])
-AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Location']], [1], [ignore])
+AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep -w 'Position']], [1], [ignore])
+AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep -w 'Location']], [1], [ignore])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %define api.value.type {java.awt.Color}
@@ -490,8 +490,8 @@ AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 [[$$ = $<java.awt.Color>1;]],
 [[java.awt.Color]], [[MyPos]], [[MyLoc]])
 AT_CHECK([[grep 'java.awt.Color' YYParser.java]], [0], [ignore])
-AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Position']], [1], [ignore])
-AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep 'Location']], [1], [ignore])
+AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep -w 'Position']], [1], [ignore])
+AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep -w 'Location']], [1], [ignore])
 
 AT_CLEANUP
 

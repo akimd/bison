@@ -339,8 +339,7 @@ import java.text.MessageFormat;
     public int size = 16;
     public int height = -1;
 
-    public final void push (int state, ]b4_yystype[ value]dnl
-                            b4_locations_if([, ]b4_location_type[ loc])[) {
+    public final void push (int state, ]b4_yystype[ value]b4_locations_if([, ]b4_location_type[ loc])[) {
       height++;
       if (size == height)
         {
@@ -860,12 +859,20 @@ b4_dollar_popdef[]dnl
   }
 ]])[
 
+  /**
+   * Information needed to get the list of expected tokens and to forge
+   * a syntax error diagnostic.
+   */
   public static final class Context
   {
-    public YYStack yystack;
-    public int yytoken;]b4_locations_if([[
-    public ]b4_location_type[ yylocation;]])[
-    public static final int yyntokens = ]b4_parser_class[.yyntokens_;
+    private YYStack yystack;
+    private int yytoken;]b4_locations_if([[
+    public ]b4_location_type[ getLocation ()
+    {
+      return yylocation;
+    }
+    private ]b4_location_type[ yylocation;]])[
+    static final int yyntokens = ]b4_parser_class[.yyntokens_;
 
     /* Put in YYARG at most YYARGN of the expected tokens given the
        current YYCTX, and return the number of tokens stored in YYARG.  If
