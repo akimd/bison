@@ -107,30 +107,30 @@ input:
 
 line:
   EOL
-| exp EOL   { printf ("%.10g\n", $1); }
-| error EOL { yyerrok;                }
+| exp EOL   { printf ("%.10g\n", $exp); }
+| error EOL { yyerrok; }
 ;
 
 exp:
   NUM
-| VAR              { $$ = $1->value.var;              }
-| VAR "=" exp      { $$ = $3; $1->value.var = $3;     }
-| FUN "(" exp ")"  { $$ = $1->value.fun ($3);         }
-| exp "+" exp      { $$ = $1 + $3; }
-| exp "-" exp      { $$ = $1 - $3; }
-| exp "*" exp      { $$ = $1 * $3; }
-| exp "/" exp
+| VAR               { $$ = $VAR->value.var; }
+| VAR "=" exp       { $$ = $3; $VAR->value.var = $3; }
+| FUN "(" exp ")"   { $$ = $FUN->value.fun ($3); }
+| exp[l] "+" exp[r] { $$ = $l + $r; }
+| exp[l] "-" exp[r] { $$ = $l - $r; }
+| exp[l] "*" exp[r] { $$ = $l * $r; }
+| exp[l] "/" exp[r]
   {
-    if ($3 == 0)
+    if ($r == 0)
       {
         yyerror (&@$, "division by zero");
         YYERROR;
       }
     else
-      $$ = $1 / $3;
+      $$ = $l / $r;
   }
 | "-" exp  %prec NEG { $$ = -$2; }
-| exp "^" exp        { $$ = pow ($1, $3); }
+| exp[l] "^" exp[r]  { $$ = pow ($l, $r); }
 | "(" exp ")"        { $$ = $2; }
 ;
 

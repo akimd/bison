@@ -4,6 +4,7 @@ This example demonstrates the best practices when using Bison.
 - It uses a custom syntax error with location tracking, lookahead correction
   and token internationalization.
 - It enables debug trace support with formatting of semantic values.
+- It uses named references instead of the traditional $1, $2, etc.
 
 It also uses Flex to generate the scanner.
 
