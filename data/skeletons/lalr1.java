@@ -677,11 +677,7 @@ b4_dollar_popdef[]dnl
             ++yynerrs;
             if (yychar == yyempty_)
               yytoken = yyempty_;
-            Context yyctx = new Context ();
-            yyctx.yystack = yystack;
-            yyctx.yytoken = yytoken;]b4_locations_if([[
-            yyctx.yylocation = yylloc;]])[
-            yyreportSyntaxError (yyctx);
+            yyreportSyntaxError (new Context (yystack, yytoken]b4_locations_if([[, yylloc]])[));
           }
 
 ]b4_locations_if([[
@@ -865,6 +861,12 @@ b4_dollar_popdef[]dnl
    */
   public static final class Context
   {
+    Context (YYStack stack, int token]b4_locations_if([[, ]b4_location_type[ loc]])[)
+    {
+      yystack = stack;
+      yytoken = token;]b4_locations_if([[
+      yylocation = loc;]])[
+    }
     private YYStack yystack;
     private int yytoken;]b4_locations_if([[
     public ]b4_location_type[ getLocation ()
