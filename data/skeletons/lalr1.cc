@@ -281,6 +281,11 @@ m4_define([b4_shared_declarations],
     /// In theory \a t should be a token_type, but character literals
     /// are valid, yet not members of the token_type enum.
     static token_number_type yytranslate_ (int t);
+]b4_parse_error_bmatch([custom\|detailed], [[
+   /// The user-facing name of the symbol whose (internal) number is
+   /// YYSYMBOL.  No bounds checking.
+   static const char *yysymbol_name (int yysymbol);
+]])[
 
     // Tables.
 ]b4_parser_tables_declare[
@@ -559,7 +564,29 @@ m4_if(b4_prefix, [yy], [],
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-]b4_namespace_open[]b4_parse_error_case([verbose], [[
+]b4_namespace_open[]b4_parse_error_bmatch([custom\|detailed], [[
+  /* The user-facing name of the symbol whose (internal) number is
+     YYSYMBOL.  No bounds checking. */
+  const char *
+  ]b4_parser_class[::yysymbol_name (int yysymbol)
+  {
+    static const char *const yy_sname[] =
+    {
+    ]b4_symbol_names[
+    };]m4_ifdef([b4_translatable], [[
+    /* YYTRANSLATABLE[SYMBOL-NUM] -- Whether YYTNAME[SYMBOL-NUM] is
+       internationalizable.  */
+    static ]b4_int_type_for([b4_translate])[ yytranslatable[] =
+    {
+    ]b4_translatable[
+    };
+    return (yysymbol < yyntokens_ && yytranslatable[yysymbol]
+            ? _(yy_sname[yysymbol])
+            : yy_sname[yysymbol]);]], [[
+    return yy_sname[yysymbol];]])[
+  }
+]])
+b4_parse_error_case([verbose], [[
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -1310,10 +1337,13 @@ b4_dollar_popdef])[]dnl
 
   // Generate an error message.
   std::string
-]b4_parser_class[::yysyntax_error_ (]b4_parse_error_case([verbose],
-                                    [state_type yystate, const symbol_type& yyla],
-                                    [state_type, const symbol_type&])[) const
-  {]b4_parse_error_case([verbose], [[
+]b4_parser_class[::yysyntax_error_ (]b4_parse_error_case([simple],
+                                    [state_type, const symbol_type&],
+                                    [state_type yystate, const symbol_type& yyla])[) const
+  {]b4_parse_error_case(
+        [simple], [[
+    return YY_("syntax error");]],
+        [[
     // Number of reported tokens (one for the "unexpected", one per
     // "expected").
     std::ptrdiff_t yycount = 0;
@@ -1355,7 +1385,9 @@ b4_dollar_popdef])[]dnl
     if (!yyla.empty ())
       {
         symbol_number_type yytoken = yyla.type_get ();
-        yyarg[yycount++] = yytname_[yytoken];]b4_lac_if([[
+        yyarg[yycount++] = ]b4_parse_error_case(
+              [verbose], [[yytname_[yytoken]]],
+              [[yysymbol_name (yytoken)]])[;]b4_lac_if([[
 
 #if ]b4_api_PREFIX[DEBUG
         // Execute LAC once. We don't care if it is successful, we
@@ -1388,7 +1420,9 @@ b4_dollar_popdef])[]dnl
                       break;
                     }
                   else
-                    yyarg[yycount++] = yytname_[yyx];
+                    yyarg[yycount++] = ]b4_parse_error_case(
+                          [verbose], [[yytname_[yyx]]],
+                          [[yysymbol_name (yyx)]])[;
                 }
           }
       }
@@ -1416,13 +1450,14 @@ b4_dollar_popdef])[]dnl
     for (char const* yyp = yyformat; *yyp; ++yyp)
       if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
         {
-          yyres += yytnamerr_ (yyarg[yyi++]);
+          yyres += ]b4_parse_error_case([verbose],
+                [[yytnamerr_ (yyarg[yyi++])]],
+                [[yyarg[yyi++]]])[;
           ++yyp;
         }
       else
         yyres += *yyp;
-    return yyres;]], [[
-    return YY_("syntax error");]])[
+    return yyres;]])[
   }
 
 
