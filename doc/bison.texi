@@ -3828,7 +3828,7 @@ TOK_INT 258}).
 
 A similar feature is provided for C++ that in addition overcomes C++
 limitations (that forbid non-trivial objects to be part of a @code{union}):
-@samp{%define api.value.type variant}, see @ref{C++ Variants,,C++ Variants}.
+@samp{%define api.value.type variant}, see @ref{C++ Variants}.
 
 @node Union Decl
 @subsection The Union Declaration
@@ -4188,7 +4188,7 @@ Because the types of the semantic values of midrule actions are unknown to
 Bison, type-based features (e.g., @samp{%printer}, @samp{%destructor}) do
 not work, which could result in memory leaks.  They also forbid the use of
 the @code{variant} implementation of the @code{api.value.type} in C++
-(@pxref{C++ Variants,,C++ Variants}).
+(@pxref{C++ Variants}).
 
 @xref{Typed Midrule Actions}, for one way to address this issue, and
 @ref{Midrule Action Translation}, for another: turning mid-action actions
@@ -5968,8 +5968,7 @@ output) or absolute.
 @item Default Value:
 Not applicable if locations are not enabled, or if a user location type is
 specified (see @code{api.location.type}).  Otherwise, Bison's
-@code{location} is generated in @file{location.hh} (@pxref{C++ location,,C++
-@code{location}}).
+@code{location} is generated in @file{location.hh} (@pxref{C++ location}).
 
 @item History:
 Introduced in Bison 3.2.
@@ -6140,9 +6139,9 @@ the @code{full} value was introduced in Bison 2.7
 C++
 
 @item Purpose:
-When variant-based semantic values are enabled (@pxref{C++ Variants,,C++
-Variants}), request that symbols be handled as a whole (type, value, and
-possibly location) in the scanner.  @xref{Complete Symbols}, for details.
+When variant-based semantic values are enabled (@pxref{C++ Variants}),
+request that symbols be handled as a whole (type, value, and possibly
+location) in the scanner.  @xref{Complete Symbols}, for details.
 
 @item Accepted Values:
 Boolean.
@@ -6185,8 +6184,7 @@ Bison also prefixes the generated member names of the semantic value union.
 @xref{Type Generation}, for more
 details.
 
-See @ref{Calc++ Parser,,Calc++ Parser} and @ref{Calc++ Scanner,,Calc++
-Scanner}, for a complete example.
+See @ref{Calc++ Parser} and @ref{Calc++ Scanner}, for a complete example.
 
 @item Accepted Values:
 Any string.  Should be a valid identifier prefix in the target language,
@@ -6348,7 +6346,7 @@ allow any kind of C++ object to be used. For instance:
 %token <int> INT "integer"
 %token <std::string> STR "string"
 @end example
-@xref{C++ Variants,,C++ Variants}.
+@xref{C++ Variants}.
 
 @item @samp{@{@var{type}@}}
 Use this @var{type} as semantic value.
@@ -6499,9 +6497,8 @@ Obsoleted by @code{api.namespace}
 In C, some important invariants in the implementation of the parser are
 checked when this option is enabled.
 
-In C++, when variants are used (@pxref{C++ Variants,,C++ Variants}), symbols
-must be constructed and destroyed properly.  This option checks these
-constraints.
+In C++, when variants are used (@pxref{C++ Variants}), symbols must be
+constructed and destroyed properly.  This option checks these constraints.
 
 @item Accepted Values: Boolean
 
@@ -9048,11 +9045,10 @@ Do not allow @code{YYINITDEPTH} to be greater than @code{YYMAXDEPTH}.
 
 You can generate a deterministic parser containing C++ user code from the
 default (C) skeleton, as well as from the C++ skeleton (@pxref{C++
-Parsers,,C++ Parsers}).  However, if you do use the default skeleton and
-want to allow the parsing stack to grow, be careful not to use semantic
-types or location types that require non-trivial copy constructors.  The C
-skeleton bypasses these constructors when copying data to new, larger
-stacks.
+Parsers}).  However, if you do use the default skeleton and want to allow
+the parsing stack to grow, be careful not to use semantic types or location
+types that require non-trivial copy constructors.  The C skeleton bypasses
+these constructors when copying data to new, larger stacks.
 
 @node Error Recovery
 @chapter Error Recovery
@@ -11115,7 +11111,7 @@ The Bison parser in C++ is an object, an instance of the class
 This tutorial about C++ parsers is based on a simple, self contained
 example.  The following sections are the reference manual for Bison with
 C++, the last one showing a fully blown example (@pxref{A Complete C++
-Example,,A Complete C++ Example}).
+Example}).
 
 To look nicer, our example will be in C++14.  It is not required: Bison
 supports the original C++98 standard.
@@ -11154,7 +11150,7 @@ list:
 We used a vector of strings as a semantic value!  To use genuine C++ objects
 as semantic values---not just PODs---we cannot rely on the union that Bison
 uses by default to store them, we need @emph{variants} (@pxref{C++
-Variants,,C++ Variants}):
+Variants}):
 
 @comment file: c++/simple.yy: 1
 @example
@@ -11339,7 +11335,7 @@ Generated when both @code{%defines} and @code{%locations} are enabled, this
 file contains the definition of the classes @code{position} and
 @code{location}, used for location tracking.  It is not generated if
 @samp{%define api.location.file none} is specified, or if user defined
-locations are used.  @xref{C++ Location Values,,C++ Location Values}.
+locations are used.  @xref{C++ Location Values}.
 
 @item position.hh
 @itemx stack.hh
@@ -11362,13 +11358,12 @@ changed since it describes an additional member of the parser class, and an
 additional argument for its constructor.
 
 @defcv {Type} {parser} {semantic_type}
-The types for semantic values. @xref{C++ Semantic Values,,C++ Semantic
-Values}.
+The types for semantic values. @xref{C++ Semantic Values}.
 @end defcv
 
 @defcv {Type} {parser} {location_type}
 The type of locations, if location tracking is enabled.  @xref{C++ Location
-Values,,C++ Location Values}.
+Values}.
 @end defcv
 
 @defcv {Type} {parser} {token}
@@ -11376,7 +11371,7 @@ A structure that contains (only) the @code{yytokentype} enumeration, which
 defines the tokens.  To refer to the token @code{FOO}, use
 @code{yy::parser::token::FOO}.  The scanner can use @samp{typedef
 yy::parser::token token;} to ``import'' the token enumeration (@pxref{Calc++
-Scanner,,Calc++ Scanner}).
+Scanner}).
 @end defcv
 
 @defcv {Type} {parser} {syntax_error}
@@ -12257,8 +12252,8 @@ file; it needs detailed knowledge about the driver.
 The token numbered as 0 corresponds to end of file; the following line
 allows for nicer error messages referring to ``end of file'' instead of
 ``$end''.  Similarly user friendly names are provided for each symbol.  To
-avoid name clashes in the generated files (@pxref{Calc++ Scanner,,Calc++
-Scanner}), prefix tokens with @code{TOK_} (@pxref{%define Summary}).
+avoid name clashes in the generated files (@pxref{Calc++ Scanner}), prefix
+tokens with @code{TOK_} (@pxref{%define Summary}).
 
 @comment file: calc++/parser.yy
 @example
