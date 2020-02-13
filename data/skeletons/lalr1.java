@@ -93,7 +93,7 @@ import java.text.MessageFormat;
 {
 ]b4_identification[
 ][
-]m4_bmatch(b4_percent_define_get([[parse.error]]),
+]b4_parse_error_bmatch(
            [detailed\|verbose], [[
   /**
    * True if verbose error messages are enabled.
@@ -217,7 +217,7 @@ import java.text.MessageFormat;
      */
      void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);
 
-]m4_bmatch(b4_percent_define_get([[parse.error]]),
+]b4_parse_error_bmatch(
            [custom], [[
      void yyreportSyntaxError (][Context yyctx);
 ]])[
@@ -958,7 +958,7 @@ b4_dollar_popdef[]dnl
    * Report a syntax error.
    */
   private void yyreportSyntaxError (Context yyctx)
-  {]m4_bmatch(b4_percent_define_get([parse.error]),
+  {]b4_parse_error_bmatch(
 [custom], [[
     yylexer.yyreportSyntaxError (yyctx);]],
 [detailed\|verbose], [[
@@ -1013,7 +1013,7 @@ b4_dollar_popdef[]dnl
 
 ]b4_parser_tables_define[
 
-]m4_bmatch(b4_percent_define_get([[parse.error]]),
+]b4_parse_error_bmatch(
            [simple\|verbose],
 [[  /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
