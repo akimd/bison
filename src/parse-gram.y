@@ -756,14 +756,11 @@ id:
         }
       if (muscle_percent_define_ifdef (var))
         {
-          int indent = 0;
-          complain_indent (&@1, complaint, &indent,
-                           _("character literals cannot be used together"
-                             " with %s"), var);
-          indent += SUB_INDENT;
+          complain (&@1, complaint,
+                    _("character literals cannot be used together"
+                    " with %s"), var);
           location loc = muscle_percent_define_get_loc (var);
-          complain_indent (&loc, complaint, &indent,
-                           _("definition of %s"), var);
+          subcomplain (&loc, complaint, _("definition of %s"), var);
         }
       $$ = symbol_get (char_name ($1), @1);
       symbol_class_set ($$, token_sym, @1, false);

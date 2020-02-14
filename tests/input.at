@@ -707,19 +707,19 @@ AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:1.12-14: warning: symbol FOO redeclared [-Wother]
     1 | %token FOO FOO
       |            ^~~
-input.y:1.8-10:      previous declaration
+input.y:1.8-10: note: previous declaration
     1 | %token FOO FOO
       |        ^~~
 input.y:2.15-17: warning: symbol BAR redeclared [-Wother]
     2 | %token BAR 12 BAR 12
       |               ^~~
-input.y:2.8-10:      previous declaration
+input.y:2.8-10: note: previous declaration
     2 | %token BAR 12 BAR 12
       |        ^~~
 input.y:3.14-16: warning: symbol EOF redeclared [-Wother]
     3 | %token EOF 0 EOF 0
       |              ^~~
-input.y:3.8-10:      previous declaration
+input.y:3.8-10: note: previous declaration
     3 | %token EOF 0 EOF 0
       |        ^~~
 ]])
@@ -747,13 +747,13 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
     2 | %nterm FOO BAR
       |        ^~~
-input.y:1.8-10:     previous definition
+input.y:1.8-10: note: previous definition
     1 | %token FOO
       |        ^~~
 input.y:3.8-10: error: symbol BAR redeclared as a token
     3 | %token BAR
       |        ^~~
-input.y:2.12-14:    previous definition
+input.y:2.12-14: note: previous definition
     2 | %nterm FOO BAR
       |            ^~~
 input.y:4.8-12: error: symbol error redeclared as a nonterminal
@@ -795,37 +795,37 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-29: error: %destructor redeclaration for <>
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
 input.y:2.10-24: error: %printer redeclaration for <>
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
 input.y:4.13-29: error: %destructor redeclaration for <>
     4 | %destructor { destroy ($$); } <>
       |             ^~~~~~~~~~~~~~~~~
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
 input.y:5.10-24: error: %printer redeclaration for <>
     5 | %printer { print ($$); } <>
       |          ^~~~~~~~~~~~~~~
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
 input.y:11.13-29: error: %destructor redeclaration for <>
    11 | %destructor { destroy ($$); } <>;
       |             ^~~~~~~~~~~~~~~~~
-input.y:1.13-29:      previous declaration
+input.y:1.13-29: note: previous declaration
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
 input.y:12.10-24: error: %printer redeclaration for <>
    12 | %printer { print ($$); } <>;
       |          ^~~~~~~~~~~~~~~
-input.y:2.10-24:      previous declaration
+input.y:2.10-24: note: previous declaration
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
 ]])
@@ -861,21 +861,21 @@ start: %empty;
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:4.13-29: error: %destructor redeclaration for <field1>
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:4.13-29: error: %destructor redeclaration for <field1>
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field2>
-input.y:1.13-29:      previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field1>
-input.y:1.13-29:      previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field2>
-input.y:2.10-24:      previous declaration
+input.y:2.10-24: note: previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field1>
-input.y:2.10-24:      previous declaration
+input.y:2.10-24: note: previous declaration
 ]])
 
 AT_CLEANUP
@@ -1135,7 +1135,7 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 input.y:2.10-12: error: user token number 42 redeclaration for BAR
     2 |          BAR 42 "foo"
       |          ^~~
-input.y:1.15-19:     previous declaration for "foo"
+input.y:1.15-19: note: previous declaration for "foo"
     1 | %token FOO 42 "foo"
       |               ^~~~~
 ]])
@@ -1166,7 +1166,7 @@ exp: foo;
 [[input.y:3.7-11: error: %type redeclaration for foo
     3 | %type <baz> foo
       |       ^~~~~
-input.y:2.7-11:     previous declaration
+input.y:2.7-11: note: previous declaration
     2 | %type <bar> "foo"
       |       ^~~~~
 ]])
@@ -1180,7 +1180,7 @@ exp: foo;
 [[input.y:3.10-14: error: %printer redeclaration for foo
     3 | %printer {baz} foo
       |          ^~~~~
-input.y:2.10-14:     previous declaration
+input.y:2.10-14: note: previous declaration
     2 | %printer {bar} "foo"
       |          ^~~~~
 ]])
@@ -1194,7 +1194,7 @@ exp: foo;
 [[input.y:3.13-17: error: %destructor redeclaration for foo
     3 | %destructor {baz} foo
       |             ^~~~~
-input.y:2.13-17:     previous declaration
+input.y:2.13-17: note: previous declaration
     2 | %destructor {bar} "foo"
       |             ^~~~~
 ]])
@@ -1208,7 +1208,7 @@ exp: foo;
 [[input.y:3.1-5: error: %left redeclaration for foo
     3 | %left foo
       | ^~~~~
-input.y:2.1-5:     previous declaration
+input.y:2.1-5: note: previous declaration
     2 | %left "foo"
       | ^~~~~
 ]])
@@ -1225,7 +1225,7 @@ exp: foo;
 [[input.y:2.1-5: error: %left redeclaration for foo
     2 | %left foo
       | ^~~~~
-input.y:1.1-5:     previous declaration
+input.y:1.1-5: note: previous declaration
     1 | %left "foo"
       | ^~~~~
 ]])
@@ -1240,7 +1240,7 @@ exp: foo;
 [[input.y:2.10-11: error: %printer redeclaration for foo
     2 | %printer {} foo
       |          ^~
-input.y:1.10-11:     previous declaration
+input.y:1.10-11: note: previous declaration
     1 | %printer {} "foo"
       |          ^~
 ]])
@@ -1255,7 +1255,7 @@ exp: foo;
 [[input.y:2.13-14: error: %destructor redeclaration for foo
     2 | %destructor {} foo
       |             ^~
-input.y:1.13-14:     previous declaration
+input.y:1.13-14: note: previous declaration
     1 | %destructor {} "foo"
       |             ^~
 ]])
@@ -1582,9 +1582,9 @@ start: DECIMAL_1 HEXADECIMAL_2;
 
 AT_BISON_CHECK([redecl.y], [1], [],
 [[redecl.y:10.10-22: error: user token number 11259375 redeclaration for HEXADECIMAL_1
-redecl.y:9.8-16:       previous declaration for DECIMAL_1
+redecl.y:9.8-16: note: previous declaration for DECIMAL_1
 redecl.y:12.10-18: error: user token number 16702650 redeclaration for DECIMAL_2
-redecl.y:11.10-22:     previous declaration for HEXADECIMAL_2
+redecl.y:11.10-22: note: previous declaration for HEXADECIMAL_2
 ]])
 
 AT_DATA_GRAMMAR([too-large.y],
@@ -1870,9 +1870,9 @@ start: %empty;
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
 [[input-redefined.y:2.1-20: warning: %define variable 'var' redefined [-Wother]
-input-redefined.y:1.1-20:     previous definition
+input-redefined.y:1.1-20: note: previous definition
 input-redefined.y:3.2-21: error: %define variable 'var' redefined
-input-redefined.y:2.1-20:     previous definition
+input-redefined.y:2.1-20: note: previous definition
 input-redefined.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -1928,7 +1928,7 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.1-18: error: %define variable 'var' redefined
-<command line>:3:      previous definition
+<command line>:3: note: previous definition
 input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -1941,7 +1941,7 @@ AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.1-18: error: %define variable 'var' redefined
     1 | %define var "gram"
       | ^~~~~~~~~~~~~~~~~~
-<command line>:4:      previous definition
+<command line>:4: note: previous definition
 input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -2064,9 +2064,9 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.1-34: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
     1 | %define lr.default-reduction bogus
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:1.1-34:     accepted value: 'most'
-input.y:1.1-34:     accepted value: 'consistent'
-input.y:1.1-34:     accepted value: 'accepting'
+input.y:1.1-34: note: accepted value: 'most'
+input.y:1.1-34: note: accepted value: 'consistent'
+input.y:1.1-34: note: accepted value: 'accepting'
 ]])
 
 # Back-end.
@@ -2079,9 +2079,9 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.1-29: error: invalid value for %define variable 'api.push-pull': 'neither'
     1 | %define api.push-pull neither
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:1.1-29:     accepted value: 'pull'
-input.y:1.1-29:     accepted value: 'push'
-input.y:1.1-29:     accepted value: 'both'
+input.y:1.1-29: note: accepted value: 'pull'
+input.y:1.1-29: note: accepted value: 'push'
+input.y:1.1-29: note: accepted value: 'both'
 ]])
 
 AT_CLEANUP
@@ -2376,14 +2376,14 @@ AT_BISON_CHECK([[-Dparse.lac=full -L c++ input.y]])
 AT_BISON_CHECK([[-Dparse.lac=unsupported input.y]],
                [[1]], [],
 [[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
-<command line>:3:     accepted value: 'full'
-<command line>:3:     accepted value: 'none'
+<command line>:3: note: accepted value: 'full'
+<command line>:3: note: accepted value: 'none'
 ]])
 AT_BISON_CHECK([[-Dparse.lac=unsupported -L c++ input.y]],
                [[1]], [],
 [[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
-<command line>:3:     accepted value: 'full'
-<command line>:3:     accepted value: 'none'
+<command line>:3: note: accepted value: 'full'
+<command line>:3: note: accepted value: 'none'
 ]])
 
 # parse.lac.* options are useless if LAC isn't actually activated.
@@ -2508,9 +2508,9 @@ AT_TEST([[%union foo {};
 %define api.value.union.name foo]],
 [0],
 [[input.y:3.8-10: warning: %define variable 'api.value.union.name' redefined [-Wother]
-input.y:1.8-10:     previous definition
+input.y:1.8-10: note: previous definition
 input.y:4.1-32: warning: %define variable 'api.value.union.name' redefined [-Wother]
-input.y:3.8-10:     previous definition
+input.y:3.8-10: note: previous definition
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -2679,7 +2679,7 @@ fix-it:"input.y":{12:1-12:11}:"%expect-rr"
 input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
 fix-it:"input.y":{13:1-13:15}:"%file-prefix"
 input.y:14.1-16.5: warning: duplicate directive: '%file-prefix\n =' [-Wother]
-input.y:13.1-20:       previous declaration
+input.y:13.1-20: note: previous declaration
 fix-it:"input.y":{14:1-16:6}:""
 input.y:17.9-27: warning: deprecated directive: '%fixed-output_files', use '%output "y.tab.c"' [-Wdeprecated]
 fix-it:"input.y":{17:2-17:21}:"%output \"y.tab.c\""
@@ -2702,10 +2702,10 @@ fix-it:"input.y":{25:1-25:13}:"%define api.pure"
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
 fix-it:"input.y":{26:1-26:13}:"%token-table"
 input.y:27.1-14: warning: %define variable 'parse.error' redefined [-Wother]
-input.y:11.1-14:     previous definition
+input.y:11.1-14: note: previous definition
 fix-it:"input.y":{27:1-27:15}:""
 input.y:29.1-18: warning: duplicate directive: '%name-prefix "bar"' [-Wother]
-input.y:13.1-20:     previous declaration
+input.y:13.1-20: note: previous declaration
 fix-it:"input.y":{29:1-29:19}:""
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2788,9 +2788,9 @@ input.y:11.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' 
 input.y:12.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:13.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
 input.y:13.16-29: warning: %define variable 'parse.error' redefined [-Wother]
-input.y:13.1-14:      previous definition
+input.y:13.1-14: note: previous definition
 input.y:14.16-29: warning: %define variable 'parse.error' redefined [-Wother]
-input.y:13.16-29:     previous definition
+input.y:13.16-29: note: previous definition
 input.y: error: reduce/reduce conflicts: 0 found, 42 expected
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2825,7 +2825,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
 [[input.y:14.1-15.5: warning: duplicate directive: '%file-prefix' [-Wother]
-input.y:13.1-18:       previous declaration
+input.y:13.1-18: note: previous declaration
 input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2875,13 +2875,13 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:10.8-10: error: character literals cannot be used together with api.token.raw
    10 | %token 'a'
       |        ^~~
-input.y:9.1-21:      definition of api.token.raw
+input.y:9.1-21: note: definition of api.token.raw
     9 | %define api.token.raw
       | ^~~~~~~~~~~~~~~~~~~~~
 input.y:12.6-8: error: character literals cannot be used together with api.token.raw
    12 | exp: 'b' "c" {}
       |      ^~~
-input.y:9.1-21:     definition of api.token.raw
+input.y:9.1-21: note: definition of api.token.raw
     9 | %define api.token.raw
       | ^~~~~~~~~~~~~~~~~~~~~
 ]])

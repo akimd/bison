@@ -75,6 +75,27 @@ GNU Bison NEWS
   the translated symbol (i.e., it returns '_("variable")' rather that
   '"variable"').
 
+*** Modernize display of explanatory statements in diagnostics
+
+  Since Bison 2.7, output was indented four spaces for explanatory
+  statements.  For example:
+
+    input.y:2.7-13: error: %type redeclaration for exp
+    input.y:1.7-11:     previous declaration
+
+  Since the introduction of caret-diagnostics, it became less clear.  This
+  indentation has been removed and submessages are displayed similarly as in
+  GCC:
+
+    input.y:2.7-13: error: %type redeclaration for exp
+        2 | %type <float> exp
+          |       ^~~~~~~
+    input.y:1.7-11: note: previous declaration
+        1 | %type <int> exp
+          |       ^~~~~
+
+  Contributed by Victor Morales Cayuela.
+
 ** Documentation
 
   There are now two examples in examples/java: a very simple calculator, and

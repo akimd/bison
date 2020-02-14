@@ -77,31 +77,31 @@ exp: %empty;
 [[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO <warning>FOO</warning> FOO
       |            <warning>^~~</warning>
-input.y:9.8-10:      previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:9.16-18: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO FOO <warning>FOO</warning>
       |                <warning>^~~</warning>
-input.y:9.8-10:      previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:10.8-10: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token <warning>FOO</warning>  FOO  FOO
       |        <warning>^~~</warning>
-input.y:9.8-10:      previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:10.13-15: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token FOO  <warning>FOO</warning>  FOO
       |             <warning>^~~</warning>
-input.y:9.8-10:       previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:10.18-20: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token FOO  FOO  <warning>FOO</warning>
       |                  <warning>^~~</warning>
-input.y:9.8-10:       previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 ]])
@@ -296,7 +296,7 @@ exp:^M
 [[input.y:11.9-11: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    11 | %token  <warning>FOO</warning>
       |         <warning>^~~</warning>
-input.y:10.9-11:     previous declaration
+input.y:10.9-11: <note>note:</note> previous declaration
    10 | %token  <note>FOO</note>
       |         <note>^~~</note>
 input.y:13.5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
@@ -322,19 +322,19 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |                                                                <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       |                                                                                            <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:       previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
@@ -355,19 +355,19 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEF...
       |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEF</warning>...
       |                                                                <warning>^~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:       previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
@@ -388,19 +388,19 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMN</warning>...
       |                                    <warning>^~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHI...
       |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:       previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]

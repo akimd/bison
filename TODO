@@ -95,52 +95,6 @@ and https://research.swtch.com/yyerror.
 ** consistency
 token vs terminal, variable vs non terminal.
 
-** Stop indentation in diagnostics
-Before Bison 2.7, we printed "flatly" the dependencies in long diagnostics:
-
-    input.y:2.7-12: %type redeclaration for exp
-    input.y:1.7-12: previous declaration
-
-In Bison 2.7, we indented them
-
-    input.y:2.7-12: error: %type redeclaration for exp
-    input.y:1.7-12:     previous declaration
-
-Later we quoted the source in the diagnostics, and today we have:
-
-    /tmp/foo.y:1.12-14: warning: symbol FOO redeclared [-Wother]
-        1 | %token FOO FOO
-          |            ^~~
-    /tmp/foo.y:1.8-10:      previous declaration
-        1 | %token FOO FOO
-          |        ^~~
-
-The indentation is no longer helping.  We should probably get rid of it, or
-maybe keep it only when -fno-caret. GCC displays this as a "note":
-
-    $ g++-mp-9 -Wall /tmp/foo.c -c
-    /tmp/foo.c:1:10: error: redefinition of 'int foo'
-        1 | int foo, foo;
-          |          ^~~
-    /tmp/foo.c:1:5: note: 'int foo' previously declared here
-        1 | int foo, foo;
-          |     ^~~
-
-Likewise for Clang, contrary to what I believed (because "note:" is written
-in black, so it doesn't show in my terminal :-)
-
-    $ clang++-mp-8.0 -Wall /tmp/foo.c -c
-    clang: warning: treating 'c' input as 'c++' when in C++ mode, this behavior is deprecated [-Wdeprecated]
-    /tmp/foo.c:1:10: error: redefinition of 'foo'
-    int foo, foo;
-             ^
-    /tmp/foo.c:1:5: note: previous definition is here
-    int foo, foo;
-        ^
-    1 error generated.
-
-See also the item "Complaint submessage indentation" below.
-
 ** api.token.raw
 Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
 semantic value so that yyerror could be used to report invalid lexemes.

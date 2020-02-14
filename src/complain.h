@@ -21,9 +21,6 @@
 
 # include "location.h"
 
-/* Sub-messages indent. */
-# define SUB_INDENT (4)
-
 /*---------------.
 | Error stream.  |
 `---------------*/
@@ -119,6 +116,7 @@ typedef enum
     fatal             = 1 << 12, /**< All fatal errors.  */
     silent            = 1 << 13, /**< Do not display the warning type.  */
     no_caret          = 1 << 14, /**< Do not display caret location.  */
+    note              = 1 << 15, /**< Display as a note.  */
 
     /**< All above warnings.  */
     Weverything       = ~complaint & ~fatal & ~silent,
@@ -137,13 +135,13 @@ void complain (location const *loc, warnings flags, char const *message, ...)
   __attribute__ ((__format__ (__printf__, 3, 4)));
 
 /** Likewise, but with an \a argc/argv interface.  */
-void complain_args (location const *loc, warnings w, int *indent,
+void complain_args (location const *loc, warnings w,
                     int argc, char *arg[]);
 
-/** Make a complaint with location and some indentation.  */
-void complain_indent (location const *loc, warnings flags, int *indent,
-                      char const *message, ...)
-  __attribute__ ((__format__ (__printf__, 4, 5)));
+/** Make a subcomplain with location and note.  */
+void subcomplain (location const *loc, warnings flags,
+                  char const *message, ...)
+  __attribute__ ((__format__ (__printf__, 3, 4)));
 
 
 /** GNU Bison extension not valid with POSIX Yacc.  */
