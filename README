@@ -23,7 +23,7 @@ As an experimental feature, diagnostics are now colored, controlled by the
 
 To use them, install the libtextstyle library before configuring Bison.  It
 is available from https://alpha.gnu.org/gnu/gettext/, for instance
-https://alpha.gnu.org/gnu/gettext/libtextstyle-0.8.tar.gz.
+https://alpha.gnu.org/pub/gnu/gettext/libtextstyle-0.20.5.tar.gz.
 
 The option --color supports the following arguments:
 - always, yes: Enable colors.
