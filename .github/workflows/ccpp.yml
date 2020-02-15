@@ -1,0 +1,19 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: bootstrap
+      run: ./bootstrap
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make -j2
+    - name: make distcheck
+      run: make -j2 distcheck
