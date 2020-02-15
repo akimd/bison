@@ -328,6 +328,11 @@ Error Reporting
 * Error Reporting Function::         You must supply a function @code{yyerror}.
 * Syntax Error Reporting Function::  You can supply a function @code{yyreport_syntax_error}.
 
+Parser Internationalization
+
+* Enabling I18n::    Preparing your project to support internationalization.
+* Token I18n::       Preparing tokens for internationalization in error messages.
+
 The Bison Parser Algorithm
 
 * Lookahead::         Parser looks one token ahead when deciding what to do.
@@ -4842,7 +4847,9 @@ that the function @code{yylex} (if it is in this file) can use the name
 
 Alternatively, you can use @code{%left}, @code{%right}, @code{%precedence},
 or @code{%nonassoc} instead of @code{%token}, if you wish to specify
-associativity and precedence.  @xref{Precedence Decl}.
+associativity and precedence.  @xref{Precedence Decl}.  However, for
+clarity, we recommend to use these directives only to declare associativity
+and precedence, and not to add string aliases, semantic types, etc.
 
 You can explicitly specify the numeric code for a token type by appending a
 nonnegative decimal or hexadecimal integer value in the field immediately
@@ -4896,16 +4903,37 @@ equivalent literal string tokens:
 Once you equate the literal string and the token name, you can use them
 interchangeably in further declarations or the grammar rules.  The
 @code{yylex} function can use the token name or the literal string to obtain
-the token type code number (@pxref{Calling Convention}).  Syntax error
-messages passed to @code{yyerror} from the parser will reference the literal
-string instead of the token name.
+the token type code number (@pxref{Calling Convention}).
 
-The token numbered as 0 corresponds to end of file; the following line
-allows for nicer error messages referring to ``end of file'' instead of
-``$end'':
+String aliases allow for better error messages using the literal strings
+instead of the token names, such as @samp{syntax error, unexpected ||,
+expecting number or (} rather than @samp{syntax error, unexpected OR,
+expecting NUM or LPAREN}.
+
+String aliases may also be marked for internationalization (@pxref{Token
+I18n}):
 
 @example
-%token END 0 "end of file"
+%token
+    OR     "||"
+    LPAREN "("
+    RPAREN ")"
+    '\n'   _("end of line")
+  <double>
+    NUM    _("number")
+@end example
+
+@noindent
+would produce in French @samp{erreur de syntaxe, || inattendu, attendait
+nombre ou (} rather than @samp{erreur de syntaxe, || inattendu, attendait
+number ou (}.
+
+The token numbered as 0 corresponds to the end of file; the following line
+allows for nicer error messages referring to ``end of file''
+(internationalized) instead of ``$end'':
+
+@example
+%token END 0 _("end of file")
 @end example
 
 @node Precedence Decl
@@ -7294,12 +7322,13 @@ called by @code{yyparse} whenever a syntax error is found, and it
 receives one argument.  For a syntax error, the string is normally
 @w{@code{"syntax error"}}.
 
+@findex %define parse.error detailed
 @findex %define parse.error verbose
-If you invoke @samp{%define parse.error verbose} in the Bison declarations
-section (@pxref{Bison Declarations}), then
-Bison provides a more verbose and specific error message string instead of
-just plain @w{@code{"syntax error"}}.  However, that message sometimes
-contains incorrect information if LAC is not enabled (@pxref{LAC}).
+If you invoke @samp{%define parse.error detailed} (or @samp{custom}) in the
+Bison declarations section (@pxref{Bison Declarations}), then Bison provides
+a more verbose and specific error message string instead of just plain
+@w{@code{"syntax error"}}.  However, that message sometimes contains
+incorrect information if LAC is not enabled (@pxref{LAC}).
 
 The parser can detect one other kind of error: memory exhaustion.  This
 can happen when the input contains constructions that are very deeply
@@ -7367,14 +7396,14 @@ then it is a local variable which only the actions can access.
 @subsection The Syntax Error Reporting Function @code{yyreport_syntax_error}
 
 @findex %define parse.error custom
-If you invoke @samp{%define parse.error custom} in the Bison declarations
-section (@pxref{Bison Declarations, ,The Bison Declarations Section}), then
-the parser no longer passes syntax error messages to @code{yyerror}, rather
-it leaves that task to the user by calling the @code{yyreport_syntax_error}
-function.
+If you invoke @samp{%define parse.error custom} (@pxref{Bison
+Declarations}), then the parser no longer passes syntax error messages to
+@code{yyerror}, rather it leaves that task to the user by calling the
+@code{yyreport_syntax_error} function.
 
 @deftypefun int yyreport_syntax_error (@code{const yyparse_context_t *}@var{ctx})
-Report a syntax error to the user.  Return 0 on success, 2 on memory exhaustion.
+Report a syntax error to the user.  Return 0 on success, 2 on memory
+exhaustion.  Whether it uses @code{yyerror} is up to the user.
 @end deftypefun
 
 Use the following functions to build the error message.
@@ -7594,6 +7623,14 @@ set the user's locale to French Canadian using the UTF-8
 encoding.  The exact set of available locales depends on the user's
 installation.
 
+@menu
+* Enabling I18n::    Preparing your project to support internationalization.
+* Token I18n::       Preparing tokens for internationalization in error messages.
+@end menu
+
+@node Enabling I18n
+@subsection Enabling Internationalization
+
 The maintainer of a package that uses a Bison-generated parser enables
 the internationalization of the parser's output through the following
 steps.  Here we assume a package that uses GNU Autoconf and
@@ -7658,6 +7695,43 @@ AM_CPPFLAGS = -DBISON_LOCALEDIR='"$(BISON_LOCALEDIR)"'
 Finally, invoke the command @command{autoreconf} to generate the build
 infrastructure.
 @end enumerate
+
+@node Token I18n
+@subsection Token Internationalization
+
+When the @code{%define} variable @code{parse.error} is set to @code{custom}
+or @code{detailed}, token aliases can be internationalized:
+
+@example
+%token
+    '\n'   _("end of line")
+    EOF 0  _("end of file")
+  <double>
+    NUM    _("double precision number")
+  <symrec*>
+    FUN    _("function")
+    VAR    _("variable")
+@end example
+
+The remainder of the grammar may freely use either the token symbol
+(@code{FUN}) or its alias (@code{"function"}), but not with the
+internationalization marker (@code{_("function")}).
+
+If at least one token alias is internationalized, then the generated parser
+will use both @code{N_} and @code{_}, that must be defined
+(@pxref{Programmers, , The Programmer’s View, gettext, GNU @code{gettext}
+utilities}).  They are used only on string aliases marked for translation.
+In other words, even if your catalog features a translation for ``end of
+line'', then with
+
+@example
+%token
+    '\n'     "end of line"
+    EOF 0  _("end of file")
+@end example
+
+@noindent
+``end of line'' will appear untranslated in debug traces and error messages.
 
 
 @node Algorithm
@@ -10710,9 +10784,9 @@ stmt:
 @group
 exp:
   exp "+" exp
-| exp "*" "num"
+| exp "*" "number"
 | "(" exp ")"
-| "num"
+| "number"
 ;
 @end group
 @end example
@@ -12804,8 +12878,8 @@ Run the syntactic analysis, and return @code{true} on success,
 @deftypemethod {YYParser} {boolean} getErrorVerbose ()
 @deftypemethodx {YYParser} {void} setErrorVerbose (boolean @var{verbose})
 Get or set the option to produce verbose error messages.  These are only
-available with @samp{%define parse.error verbose}, which also turns on
-verbose error messages.
+available with @samp{%define parse.error detailed} (or @samp{verbose}),
+which also turns on verbose error messages.
 @end deftypemethod
 
 @deftypemethod {YYParser} {void} yyerror (@code{String} @var{msg})
