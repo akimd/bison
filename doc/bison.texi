@@ -3860,8 +3860,7 @@ For example:
 This says that the two alternative types are @code{double} and @code{symrec
 *}.  They are given names @code{val} and @code{tptr}; these names are used
 in the @code{%token}, @code{%nterm} and @code{%type} declarations to pick
-one of the types for a terminal or nonterminal symbol (@pxref{Type Decl,
-,Nonterminal Symbols}).
+one of the types for a terminal or nonterminal symbol (@pxref{Type Decl}).
 
 As an extension to POSIX, a tag is allowed after the @code{%union}.  For
 example:
@@ -5615,8 +5614,7 @@ Decl}).
 @end deffn
 
 @deffn {Directive} %type
-Declare the type of semantic values for a symbol (@pxref{Type Decl,
-,Nonterminal Symbols}).
+Declare the type of semantic values for a symbol (@pxref{Type Decl}).
 @end deffn
 
 @deffn {Directive} %start
@@ -5700,10 +5698,9 @@ header also contains their code.
 @cindex Header guard
 The generated header is protected against multiple inclusions with a C
 preprocessor guard: @samp{YY_@var{PREFIX}_@var{FILE}_INCLUDED}, where
-@var{PREFIX} and @var{FILE} are the prefix (@pxref{Multiple Parsers,
-,Multiple Parsers in the Same Program}) and generated file name turned
-uppercase, with each series of non alphanumerical characters converted to a
-single underscore.
+@var{PREFIX} and @var{FILE} are the prefix (@pxref{Multiple Parsers}) and
+generated file name turned uppercase, with each series of non alphanumerical
+characters converted to a single underscore.
 
 For instance with @samp{%define api.prefix @{calc@}} and @samp{%defines
 "lib/parse.h"}, the header will be guarded as follows.
@@ -6567,8 +6564,7 @@ token aliases is not portable.
 @item @code{custom}
 The user is in charge of generating the syntax error message by defining the
 @code{yyreport_syntax_error} function.  @xref{Syntax Error Reporting
-Function, ,The Syntax Error Reporting Function
-@code{yyreport_syntax_error}}.
+Function}.
 @end itemize
 
 @item Default Value:
@@ -6607,10 +6603,9 @@ syntax error handling.  @xref{LAC}.
 @xref{Tracing}.
 
 In C/C++, define the macro @code{YYDEBUG} (or @code{@var{prefix}DEBUG} with
-@samp{%define api.prefix @{@var{prefix}@}}), see @ref{Multiple Parsers,
-,Multiple Parsers in the Same Program}) to 1 in the parser implementation
-file if it is not already defined, so that the debugging facilities are
-compiled.
+@samp{%define api.prefix @{@var{prefix}@}}), see @ref{Multiple Parsers}) to
+1 in the parser implementation file if it is not already defined, so that
+the debugging facilities are compiled.
 
 @item Accepted Values: Boolean
 
@@ -9397,10 +9392,9 @@ Here we assume that @code{yylex} looks at the value of @code{hexflag}; when
 it is nonzero, all integers are parsed in hexadecimal, and tokens starting
 with letters are parsed as integers if possible.
 
-The declaration of @code{hexflag} shown in the prologue of the grammar
-file is needed to make it accessible to the actions (@pxref{Prologue,
-,The Prologue}).  You must also write the code in @code{yylex} to obey
-the flag.
+The declaration of @code{hexflag} shown in the prologue of the grammar file
+is needed to make it accessible to the actions (@pxref{Prologue}).  You must
+also write the code in @code{yylex} to obey the flag.
 
 @node Tie-in Recovery
 @section Lexical Tie-ins and Error Recovery
@@ -14201,8 +14195,7 @@ file.  @xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %type
-Bison declaration to declare symbol value types.  @xref{Type Decl,
-,Nonterminal Symbols}.
+Bison declaration to declare symbol value types.  @xref{Type Decl}.
 @end deffn
 
 @deffn {Symbol} $undefined
@@ -14252,8 +14245,7 @@ lookahead token.  @xref{Error Recovery}.
 @end deffn
 
 @deffn {Macro} YYDEBUG
-Macro to define to equip the parser with tracing code.  @xref{Tracing,
-,Tracing Your Parser}.
+Macro to define to equip the parser with tracing code.  @xref{Tracing}.
 @end deffn
 
 @deffn {Variable} yydebug
