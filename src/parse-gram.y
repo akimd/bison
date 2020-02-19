@@ -449,7 +449,7 @@ grammar_declaration:
 ;
 
 
-%type <symbol_list*> nterm_decls symbol_decls symbol_decl.1
+%type <symbol_list*> nterm_decls symbol_decls symbols.1
       token_decls token_decls_for_prec
       token_decl.1 token_decl_for_prec.1;
 symbol_declaration:
@@ -463,8 +463,9 @@ symbol_declaration:
       current_class = unknown_sym;
       symbol_list_free ($syms);
     }
-| "%type" symbol_decls[syms]
+| "%type" { current_class = pct_type_sym; } symbol_decls[syms]
     {
+      current_class = unknown_sym;
       symbol_list_free ($syms);
     }
 | precedence_declarator token_decls_for_prec[syms]
@@ -630,30 +631,32 @@ token_decl_for_prec:
 
 // A non empty list of typed symbols (for %type).
 symbol_decls:
-  symbol_decl.1[syms]
+  symbols.1[syms]
     {
       $$ = $syms;
     }
-| TAG symbol_decl.1[syms]
+| TAG symbols.1[syms]
     {
       $$ = symbol_list_type_set ($syms, $TAG);
     }
-| symbol_decls TAG symbol_decl.1[syms]
+| symbol_decls TAG symbols.1[syms]
     {
       $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG));
     }
 ;
 
-// One or more token declarations (for %type).
-symbol_decl.1:
+// One or more symbols.
+symbols.1:
   symbol
     {
-      symbol_class_set ($symbol, pct_type_sym, @symbol, false);
+      if (current_class != unknown_sym)
+        symbol_class_set ($symbol, current_class, @symbol, false);
       $$ = symbol_list_sym_new ($symbol, @symbol);
     }
-  | symbol_decl.1 symbol
+  | symbols.1 symbol
     {
-      symbol_class_set ($symbol, pct_type_sym, @symbol, false);
+      if (current_class != unknown_sym)
+        symbol_class_set ($symbol, current_class, @symbol, false);
       $$ = symbol_list_append ($1, symbol_list_sym_new ($symbol, @symbol));
     }
 ;
