@@ -235,7 +235,28 @@ m4_define([b4_shared_declarations],
     void error (const syntax_error& err);
 
 ]b4_token_constructor_define[
+]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+    class context {
+      public:
+        context (const ]b4_parser_class[& yyparser, symbol_type yyla)
+          : yyparser (yyparser)
+          , yyla (yyla)
+          {}
+]b4_locations_if([[
+        const location_type& get_location () const { return yyla.location; }
+]])[
+        /* Put in YYARG at most YYARGN of the expected tokens, and return the
+           number of tokens stored in YYARG.  If YYARG is null, return the
+           number of expected tokens (guaranteed to be less than YYNTOKENS). */
+        int yyexpected_tokens (int yyarg[], int yyargn) const;
 
+        int yysyntax_error_arguments (int yyarg[], int yyargn) const;
+
+      private:
+        const ]b4_parser_class[& yyparser;
+        symbol_type yyla;
+    };
+]])[
   private:
     /// This class is not copyable.
     ]b4_parser_class[ (const ]b4_parser_class[&);
@@ -254,13 +275,11 @@ m4_define([b4_shared_declarations],
 
     /// Stored state numbers (used for stacks).
     typedef ]b4_int_type(0, m4_eval(b4_states_number - 1))[ state_type;
-
+]b4_parse_error_bmatch([detailed\|verbose], [[
     /// Generate an error message.
-    /// \param yystate   the state where the error occurred.
-    /// \param yyla      the lookahead token.
-    virtual std::string yysyntax_error_ (state_type yystate,
-                                         const symbol_type& yyla) const;
-
+    /// \param yyctx     the context in which the error occurred.
+    virtual std::string yysyntax_error_ (const context& yyctx) const;
+]])[
     /// Compute post-reduction state.
     /// \param yystate   the current state
     /// \param yysym     the nonterminal to push on the stack
@@ -1050,9 +1069,13 @@ b4_dollar_popdef])[]dnl
     // If not already recovering from an error, report this error.
     if (!yyerrstatus_)
       {
-        ++yynerrs_;
-        error (]b4_join(b4_locations_if([yyla.location]),
-                        [[yysyntax_error_ (yystack_[0].state, yyla)]])[);
+        ++yynerrs_;]b4_parse_error_case(
+                  [simple], [[
+        std::string msg = YY_("syntax error");]],
+                  [[
+        context yyctx (*this, yyla);
+        std::string msg = yysyntax_error_ (yyctx);]])[
+        error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);
       }
 
 ]b4_locations_if([[
@@ -1194,7 +1217,100 @@ b4_dollar_popdef])[]dnl
   {
     error (]b4_join(b4_locations_if([yyexc.location]),
                     [[yyexc.what ()]])[);
-  }]b4_lac_if([[
+  }]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+
+  int
+  ]b4_parser_class[::context::yyexpected_tokens (int yyarg[], int yyargn) const
+  {
+    // Actual number of expected tokens
+    int yycount = 0;
+]b4_lac_if([[
+#if ]b4_api_PREFIX[DEBUG
+    // Execute LAC once. We don't care if it is successful, we
+    // only do it for the sake of debugging output.
+    if (!yyparser.yy_lac_established_)
+      yyparser.yy_lac_check_ (yyla.type_get ());
+#endif
+
+    for (int yyx = 0; yyx < yyntokens_; ++yyx)
+      if (yyx != yy_error_token_ && yyx != yy_undef_token_ && yyparser.yy_lac_check_ (yyx))
+        {
+          if (!yyarg)
+            ++yycount;
+          else if (yycount == yyargn)
+            return 0;
+          else
+            yyarg[yycount++] = yyx;
+        }
+]], [[
+    int yyn = yypact_[yyparser.yystack_[0].state];
+    if (!yy_pact_value_is_default_ (yyn))
+      {
+        /* Start YYX at -YYN if negative to avoid negative indexes in
+           YYCHECK.  In other words, skip the first -YYN actions for
+           this state because they are default actions.  */
+        int yyxbegin = yyn < 0 ? -yyn : 0;
+        // Stay within bounds of both yycheck and yytname.
+        int yychecklim = yylast_ - yyn + 1;
+        int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+        for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
+          if (yycheck_[yyx + yyn] == yyx && yyx != yy_error_token_
+              && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
+            {
+              if (!yyarg)
+                ++yycount;
+              else if (yycount == yyargn)
+                return 0;
+              else
+                yyarg[yycount++] = yyx;
+            }
+      }
+]])[
+    return yycount;
+  }
+
+  int
+  ]b4_parser_class[::context::yysyntax_error_arguments (int yyarg[], int yyargn) const
+  {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action, then
+         the only way this function was invoked is if the default action
+         is an error action.  In that case, don't check for expected
+         tokens because there are none.
+       - The only way there can be no lookahead present (in yyla) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this state is
+         a consistent state with a default action.  There might have
+         been a previous inconsistent state, consistent state with a
+         non-default action, or user semantic action that manipulated
+         yyla.  (However, yyla is currently not documented for users.)]b4_lac_if([[
+         In the first two cases, it might appear that the current syntax
+         error should have been detected in the previous state when
+         yy_lac_check was invoked.  However, at that time, there might
+         have been a different syntax error that discarded a different
+         initial context during error recovery, leaving behind the
+         current lookahead.]], [[
+       - Of course, the expected token list depends on states to have
+         correct lookahead information, and it depends on the parser not
+         to perform extra reductions after fetching a lookahead from the
+         scanner and before detecting a syntax error.  Thus, state merging
+         (from LALR or IELR) and default reductions corrupt the expected
+         token list.  However, the list is correct for canonical LR with
+         one exception: it will still contain any token that will not be
+         accepted due to an error action in a later state.]])[
+    */
+
+    if (!yyla.empty ())
+      {
+        yyarg[0] = yyla.type_get ();
+        int yyn = yyexpected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
+        return yyn + 1;
+      }
+    return 0;
+  }]])b4_lac_if([[
 
   bool
   ]b4_parser_class[::yy_lac_check_ (int yytoken) const
@@ -1333,99 +1449,17 @@ b4_dollar_popdef])[]dnl
                  << evt << '\n';
         yy_lac_established_ = false;
       }
-  }]])[
+  }]])b4_parse_error_bmatch([detailed\|verbose], [[
 
   // Generate an error message.
   std::string
-]b4_parser_class[::yysyntax_error_ (]b4_parse_error_case([simple],
-                                    [state_type, const symbol_type&],
-                                    [state_type yystate, const symbol_type& yyla])[) const
-  {]b4_parse_error_case(
-        [simple], [[
-    return YY_("syntax error");]],
-        [[
-    // Number of reported tokens (one for the "unexpected", one per
-    // "expected").
-    std::ptrdiff_t yycount = 0;
+  ]b4_parser_class[::yysyntax_error_ (const context& yyctx) const
+  {
     // Its maximum.
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     // Arguments of yyformat.
-    char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-
-    /* There are many possibilities here to consider:
-       - If this state is a consistent state with a default action, then
-         the only way this function was invoked is if the default action
-         is an error action.  In that case, don't check for expected
-         tokens because there are none.
-       - The only way there can be no lookahead present (in yyla) is
-         if this state is a consistent state with a default action.
-         Thus, detecting the absence of a lookahead is sufficient to
-         determine that there is no unexpected or expected token to
-         report.  In that case, just report a simple "syntax error".
-       - Don't assume there isn't a lookahead just because this state is
-         a consistent state with a default action.  There might have
-         been a previous inconsistent state, consistent state with a
-         non-default action, or user semantic action that manipulated
-         yyla.  (However, yyla is currently not documented for users.)]b4_lac_if([[
-         In the first two cases, it might appear that the current syntax
-         error should have been detected in the previous state when
-         yy_lac_check was invoked.  However, at that time, there might
-         have been a different syntax error that discarded a different
-         initial context during error recovery, leaving behind the
-         current lookahead.]], [[
-       - Of course, the expected token list depends on states to have
-         correct lookahead information, and it depends on the parser not
-         to perform extra reductions after fetching a lookahead from the
-         scanner and before detecting a syntax error.  Thus, state merging
-         (from LALR or IELR) and default reductions corrupt the expected
-         token list.  However, the list is correct for canonical LR with
-         one exception: it will still contain any token that will not be
-         accepted due to an error action in a later state.]])[
-    */
-    if (!yyla.empty ())
-      {
-        symbol_number_type yytoken = yyla.type_get ();
-        yyarg[yycount++] = ]b4_parse_error_case(
-              [verbose], [[yytname_[yytoken]]],
-              [[yysymbol_name (yytoken)]])[;]b4_lac_if([[
-
-#if ]b4_api_PREFIX[DEBUG
-        // Execute LAC once. We don't care if it is successful, we
-        // only do it for the sake of debugging output.
-        if (!yy_lac_established_)
-          yy_lac_check_ (yytoken);
-#endif]])[
-
-        int yyn = yypact_[+yystate];
-        if (!yy_pact_value_is_default_ (yyn))
-          {]b4_lac_if([[
-            for (int yyx = 0; yyx < yyntokens_; ++yyx)
-              if (yyx != yy_error_token_ && yyx != yy_undef_token_
-                  && yy_lac_check_ (yyx))
-                {]], [[
-            /* Start YYX at -YYN if negative to avoid negative indexes in
-               YYCHECK.  In other words, skip the first -YYN actions for
-               this state because they are default actions.  */
-            int yyxbegin = yyn < 0 ? -yyn : 0;
-            // Stay within bounds of both yycheck and yytname.
-            int yychecklim = yylast_ - yyn + 1;
-            int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-            for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck_[yyx + yyn] == yyx && yyx != yy_error_token_
-                  && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
-                {]])[
-                  if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-                    {
-                      yycount = 1;
-                      break;
-                    }
-                  else
-                    yyarg[yycount++] = ]b4_parse_error_case(
-                          [verbose], [[yytname_[yyx]]],
-                          [[yysymbol_name (yyx)]])[;
-                }
-          }
-      }
+    int yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+    int yycount = yyctx.yysyntax_error_arguments (yyarg, YYERROR_VERBOSE_ARGS_MAXIMUM);
 
     char const* yyformat = YY_NULLPTR;
     switch (yycount)
@@ -1451,14 +1485,14 @@ b4_dollar_popdef])[]dnl
       if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
         {
           yyres += ]b4_parse_error_case([verbose],
-                [[yytnamerr_ (yyarg[yyi++])]],
-                [[yyarg[yyi++]]])[;
+                [[yytnamerr_ (yytname_[yyarg[yyi++]])]],
+                [[yysymbol_name (yyarg[yyi++])]])[;
           ++yyp;
         }
       else
         yyres += *yyp;
-    return yyres;]])[
-  }
+    return yyres;
+  }]])[
 
 
   const ]b4_int_type(b4_pact_ninf, b4_pact_ninf) b4_parser_class::yypact_ninf_ = b4_pact_ninf[;
