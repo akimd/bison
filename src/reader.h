@@ -35,12 +35,6 @@ typedef struct merger_list
   location type_declaration_loc;
 } merger_list;
 
-/* From the parser.  */
-extern int gram_debug;
-int gram_parse (void);
-
-
-/* From reader.c. */
 void grammar_start_symbol_set (symbol *sym, location loc);
 void grammar_current_rule_begin (symbol *lhs, location loc,
                                  named_ref *lhs_named_ref);
