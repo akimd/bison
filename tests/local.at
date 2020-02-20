@@ -733,10 +733,35 @@ void
   ++global_nerrs;
   ++*nerrs;]])[
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
-}]])
+}]AT_ERROR_CUSTOM_IF([[
+void
+]AT_NAMESPACE[::parser::yyreport_syntax_error (const context& ctx) const
+{
+  /* Arguments of yyformat: reported tokens (one for the "unexpected",
+     one per "expected"). */
+  int arg[yyntokens_];
+  int n = ctx.yysyntax_error_arguments (arg, yyntokens_);]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
+              [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
+  YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  ++global_nerrs;
+  ++*nerrs;]])[
+  if (n)
+  {]AT_LOCATION_IF([[
+    std::cerr << ctx.get_location () << ": ";]])[
+    std::cerr << "syntax error on token [" << yysymbol_name (arg[0]) << ']';
+    if (1 < n)
+      {
+        std::cerr << " (expected:";
+        for (int i = 1; i < n; ++i)
+          std::cerr << " [" << yysymbol_name (arg[i]) << ']';
+        std::cerr << ')';
+      }
+    std::cerr << '\n';
+  }
+}]])])
 
 
-# AT_YYERROR_DEFINE(c++)([INPUT], [ACTION])
+# AT_YYLEX_DEFINE(c++)([INPUT], [ACTION])
 # -----------------------------------------
 # Same as in C.
 m4_copy([AT_YYLEX_DEFINE(c)], [AT_YYLEX_DEFINE(c++)])
