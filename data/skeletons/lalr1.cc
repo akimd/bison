@@ -243,7 +243,7 @@ m4_define([b4_shared_declarations],
           , yyla (yyla)
           {}
 ]b4_locations_if([[
-        const location_type& get_location () const { return yyla.location; }
+        const location_type& location () const { return yyla.location; }
 ]])[
         /* Put in YYARG at most YYARGN of the expected tokens, and return the
            number of tokens stored in YYARG.  If YYARG is null, return the
@@ -279,6 +279,10 @@ m4_define([b4_shared_declarations],
     /// Generate an error message.
     /// \param yyctx     the context in which the error occurred.
     virtual std::string yysyntax_error_ (const context& yyctx) const;
+]])b4_parse_error_bmatch([custom], [[
+    /// Report a syntax error
+    /// \param yyctx     the context in which the error occurred.
+    void yyreport_syntax_error (const context& yyctx) const;
 ]])[
     /// Compute post-reduction state.
     /// \param yystate   the current state
@@ -1071,11 +1075,15 @@ b4_dollar_popdef])[]dnl
       {
         ++yynerrs_;]b4_parse_error_case(
                   [simple], [[
-        std::string msg = YY_("syntax error");]],
+        std::string msg = YY_("syntax error");
+        error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]],
+                  [custom], [[
+        context yyctx (*this, yyla);
+        yyreport_syntax_error (yyctx);]],
                   [[
         context yyctx (*this, yyla);
-        std::string msg = yysyntax_error_ (yyctx);]])[
-        error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);
+        std::string msg = yysyntax_error_ (yyctx);
+        error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]])[
       }
 
 ]b4_locations_if([[

@@ -1138,6 +1138,9 @@ AT_CHECK_CALC_LALR1_CC([%no-lines %defines %locations %define api.location.file 
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.lac full %define parse.error verbose])
 AT_CHECK_CALC_LALR1_CC([%locations %define parse.lac full %define parse.error detailed])
 
+AT_CHECK_CALC_LALR1_CC([%define parse.error custom])
+AT_CHECK_CALC_LALR1_CC([%define parse.error custom %locations %define api.prefix {calc} %parse-param {semantic_value *result}{int *count}{int *nerrs}])
+AT_CHECK_CALC_LALR1_CC([%define parse.error custom %locations %define api.prefix {calc} %parse-param {semantic_value *result}{int *count}{int *nerrs} %define parse.lac full])
 
 # -------------------- #
 # GLR C++ Calculator.  #
