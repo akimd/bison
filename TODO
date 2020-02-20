@@ -657,6 +657,17 @@ happen with yy_start: stmt | expr).  Then adjust the skeletons so that this
 initial token (YY_START_STMT, YY_START_EXPR) be shifted first in the
 corresponding parse function.
 
+*** Number of useless symbols
+AT_TEST(
+[[%start exp;
+exp: exp;]],
+[[input.y: warning: 2 nonterminals useless in grammar [-Wother]
+input.y: warning: 2 rules useless in grammar [-Wother]
+input.y:2.8-10: error: start symbol exp does not derive any sentence]])
+
+We should say "1 nonterminal": the other one is $accept, which should not
+participate in the count.
+
 ** %include
 This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.

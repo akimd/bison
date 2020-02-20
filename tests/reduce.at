@@ -445,23 +445,69 @@ AT_CLEANUP
 
 
 
-## ---------------- ##
-## Empty Language.  ##
-## ---------------- ##
+## ------------------- ##
+## Bad start symbols.  ##
+## ------------------- ##
 
-AT_SETUP([Empty Language])
+AT_SETUP([Bad start symbols])
 
+m4_pushdef([AT_TEST],
+[
 AT_DATA([[input.y]],
-[[%output "input.c"
-%%
-exp: exp;
-]])
+[%%
+$1
+])
 
 AT_BISON_CHECK([[input.y]], 1, [],
+[$2
+])
+])
+
+AT_TEST(
+[[exp: exp;]],
 [[input.y: warning: 2 nonterminals useless in grammar [-Wother]
 input.y: warning: 2 rules useless in grammar [-Wother]
-input.y:3.1-3: fatal error: start symbol exp does not derive any sentence
-]])
+input.y:2.1-3: error: start symbol exp does not derive any sentence]])
+
+AT_TEST(
+[[%start exp;
+exp: exp;]],
+[[input.y: warning: 2 nonterminals useless in grammar [-Wother]
+input.y: warning: 2 rules useless in grammar [-Wother]
+input.y:2.8-10: error: start symbol exp does not derive any sentence]])
+
+AT_TEST(
+[[%start exp stmt;
+exp: exp;
+stmt: "stmt"]],
+[[input.y: warning: 1 nonterminal useless in grammar [-Wother]
+input.y: warning: 2 rules useless in grammar [-Wother]
+input.y:2.8-10: error: start symbol exp does not derive any sentence]])
+
+AT_TEST(
+[[%start exp stmt;
+exp: exp;
+stmt: stmt]],
+[[input.y: warning: 3 nonterminals useless in grammar [-Wother]
+input.y: warning: 4 rules useless in grammar [-Wother]
+input.y:2.8-10: error: start symbol exp does not derive any sentence
+input.y:2.12-15: error: start symbol stmt does not derive any sentence]])
+
+AT_TEST(
+[[%start exp;
+stmt: stmt]],
+[[input.y:2.8-10: warning: symbol 'exp' is used, but is not defined as a token and has no rules [-Wother]
+input.y: warning: 3 nonterminals useless in grammar [-Wother]
+input.y: warning: 2 rules useless in grammar [-Wother]
+input.y:2.8-10: error: start symbol exp does not derive any sentence]])
+
+AT_TEST(
+[[%token FOO;
+%start FOO;
+stmt: FOO]],
+[[input.y:2.8-10: error: the start symbol FOO is a token]])
+
+m4_popdef([AT_TEST])
 
 AT_CLEANUP
 
