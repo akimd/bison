@@ -155,11 +155,11 @@ union GRAM_STYPE
   char* BRACED_PREDICATE;                  /* "%?{...}"  */
   char* EPILOGUE;                          /* "epilogue"  */
   char* PROLOGUE;                          /* "%{...%}"  */
-  char* yykind_74;                         /* string.opt  */
+  char* yykind_75;                         /* string.opt  */
   code_props_type code_props_type;         /* code_props_type  */
   int INT_LITERAL;                         /* "integer literal"  */
-  int yykind_83;                           /* int.opt  */
-  named_ref* yykind_96;                    /* named_ref.opt  */
+  int yykind_84;                           /* int.opt  */
+  named_ref* yykind_97;                    /* named_ref.opt  */
   param_type PERCENT_PARAM;                /* "%param"  */
   symbol* token_decl;                      /* token_decl  */
   symbol* alias;                           /* alias  */
@@ -172,11 +172,11 @@ union GRAM_STYPE
   symbol_list* generic_symlist_item;       /* generic_symlist_item  */
   symbol_list* nterm_decls;                /* nterm_decls  */
   symbol_list* token_decls;                /* token_decls  */
-  symbol_list* yykind_81;                  /* token_decl.1  */
+  symbol_list* yykind_82;                  /* token_decl.1  */
   symbol_list* token_decls_for_prec;       /* token_decls_for_prec  */
-  symbol_list* yykind_86;                  /* token_decl_for_prec.1  */
+  symbol_list* yykind_87;                  /* token_decl_for_prec.1  */
   symbol_list* symbol_decls;               /* symbol_decls  */
-  symbol_list* yykind_89;                  /* symbol_decl.1  */
+  symbol_list* yykind_90;                  /* symbols.1  */
   uniqstr PERCENT_ERROR_VERBOSE;           /* "%error-verbose"  */
   uniqstr PERCENT_FILE_PREFIX;             /* "%file-prefix"  */
   uniqstr PERCENT_FLAG;                    /* "%<flag>"  */
@@ -186,7 +186,7 @@ union GRAM_STYPE
   uniqstr ID;                              /* "identifier"  */
   uniqstr ID_COLON;                        /* "identifier:"  */
   uniqstr TAG;                             /* "<tag>"  */
-  uniqstr yykind_75;                       /* tag.opt  */
+  uniqstr yykind_76;                       /* tag.opt  */
   uniqstr tag;                             /* tag  */
   uniqstr variable;                        /* variable  */
   unsigned char CHAR_LITERAL;              /* "character literal"  */
