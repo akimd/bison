@@ -230,7 +230,8 @@ void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 /** Set the \c class associated with \c sym.
 
     Whether \c declaring means whether this class definition comes
-    from %nterm or %token (but not %type, prec/assoc, etc.).  */
+    from %nterm or %token (but not %type, prec/assoc, etc.).  A symbol
+    can have "declaring" set only at most once.  */
 void symbol_class_set (symbol *sym, symbol_class class, location loc,
                        bool declaring);
 
