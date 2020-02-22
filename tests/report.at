@@ -1503,6 +1503,1155 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
+## -------------------- ##
+## Multistart reports.  ##
+## -------------------- ##
+
+AT_SETUP([Multistart reports])
+
+AT_KEYWORDS([multistart report])
+
+AT_BISON_OPTION_PUSHDEFS
+AT_DATA([input.yy],
+[[%token
+  END  0  "end of file"
+  ASSIGN  ":="
+  INCR    "incr"
+;
+
+%token <std::string> IDENTIFIER "identifier"
+%type <std::string> id
+%token <int> NUMBER "number"
+%type  <int> exp
+
+%%
+%start unit assignments exp;
+unit: assignments exp  { driver.result = $2; };
+
+assignments:
+  %empty                 {}
+| assignments assignment {};
+
+assignment:
+  id ":=" exp { driver.variables[$id] = $exp; };
+
+id:
+  "identifier";
+
+exp:
+  "incr" exp <int>{ $$ = 1; } <int>{ $$ = 10; } exp   { $$ = $2 + $3 + $4 + $5; }
+| "(" exp ")"   { std::swap ($$, $2); }
+| "identifier"  { $$ = driver.variables[$1]; }
+| "number"      { std::swap ($$, $1); };
+]])
+
+AT_BISON_CHECK([-o input.cc -rall --graph=input.gv --xml input.yy])
+
+# Check the contents of the report.
+AT_CHECK([cat input.output], [],
+[[Grammar
+
+    0 $accept: YY_PARSE_unit unit "end of file"
+    1        | YY_PARSE_assignments assignments "end of file"
+    2        | YY_PARSE_exp exp "end of file"
+
+    3 unit: assignments exp
+
+    4 assignments: %empty
+    5            | assignments assignment
+
+    6 assignment: id ":=" exp
+
+    7 id: "identifier"
+
+    8 @1: %empty
+
+    9 @2: %empty
+
+   10 exp: "incr" exp @1 @2 exp
+   11    | "(" exp ")"
+   12    | "identifier"
+   13    | "number"
+
+
+Terminals, with rules where they appear
+
+    "end of file" (0) 0 1 2
+    error (256)
+    ":=" (258) 6
+    "incr" (259) 10
+    "identifier" <std::string> (260) 7 12
+    "number" <int> (261) 13
+    YY_PARSE_unit (262) 0
+    YY_PARSE_assignments (263) 1
+    YY_PARSE_exp (264) 2
+    "(" (265) 11
+    ")" (266) 11
+
+
+Nonterminals, with rules where they appear
+
+    $accept (12)
+        on left: 0 1 2
+    unit (13)
+        on left: 3
+        on right: 0
+    assignments (14)
+        on left: 4 5
+        on right: 1 3 5
+    assignment (15)
+        on left: 6
+        on right: 5
+    id <std::string> (16)
+        on left: 7
+        on right: 6
+    exp <int> (17)
+        on left: 10 11 12 13
+        on right: 2 3 6 10 11
+    @1 <int> (18)
+        on left: 8
+        on right: 10
+    @2 <int> (19)
+        on left: 9
+        on right: 10
+
+
+State 0
+
+    0 $accept: . YY_PARSE_unit unit "end of file"
+    1        | . YY_PARSE_assignments assignments "end of file"
+    2        | . YY_PARSE_exp exp "end of file"
+
+    YY_PARSE_unit         shift, and go to state 1
+    YY_PARSE_assignments  shift, and go to state 2
+    YY_PARSE_exp          shift, and go to state 3
+
+
+State 1
+
+    0 $accept: YY_PARSE_unit . unit "end of file"
+    3 unit: . assignments exp
+    4 assignments: . %empty
+    5            | . assignments assignment
+
+    $default  reduce using rule 4 (assignments)
+
+    unit         go to state 4
+    assignments  go to state 5
+
+
+State 2
+
+    1 $accept: YY_PARSE_assignments . assignments "end of file"
+    4 assignments: . %empty
+    5            | . assignments assignment
+
+    $default  reduce using rule 4 (assignments)
+
+    assignments  go to state 6
+
+
+State 3
+
+    2 $accept: YY_PARSE_exp . exp "end of file"
+   10 exp: . "incr" exp @1 @2 exp
+   11    | . "(" exp ")"
+   12    | . "identifier"
+   13    | . "number"
+
+    "incr"        shift, and go to state 7
+    "identifier"  shift, and go to state 8
+    "number"      shift, and go to state 9
+    "("           shift, and go to state 10
+
+    exp  go to state 11
+
+
+State 4
+
+    0 $accept: YY_PARSE_unit unit . "end of file"
+
+    "end of file"  shift, and go to state 12
+
+
+State 5
+
+    3 unit: assignments . exp
+    5 assignments: assignments . assignment
+    6 assignment: . id ":=" exp
+    7 id: . "identifier"
+   10 exp: . "incr" exp @1 @2 exp
+   11    | . "(" exp ")"
+   12    | . "identifier"
+   13    | . "number"
+
+    "incr"        shift, and go to state 7
+    "identifier"  shift, and go to state 13
+    "number"      shift, and go to state 9
+    "("           shift, and go to state 10
+
+    assignment  go to state 14
+    id          go to state 15
+    exp         go to state 16
+
+
+State 6
+
+    1 $accept: YY_PARSE_assignments assignments . "end of file"
+    5 assignments: assignments . assignment
+    6 assignment: . id ":=" exp
+    7 id: . "identifier"
+
+    "end of file"  shift, and go to state 17
+    "identifier"   shift, and go to state 18
+
+    assignment  go to state 14
+    id          go to state 15
+
+
+State 7
+
+   10 exp: . "incr" exp @1 @2 exp
+   10    | "incr" . exp @1 @2 exp
+   11    | . "(" exp ")"
+   12    | . "identifier"
+   13    | . "number"
+
+    "incr"        shift, and go to state 7
+    "identifier"  shift, and go to state 8
+    "number"      shift, and go to state 9
+    "("           shift, and go to state 10
+
+    exp  go to state 19
+
+
+State 8
+
+   12 exp: "identifier" .
+
+    $default  reduce using rule 12 (exp)
+
+
+State 9
+
+   13 exp: "number" .
+
+    $default  reduce using rule 13 (exp)
+
+
+State 10
+
+   10 exp: . "incr" exp @1 @2 exp
+   11    | . "(" exp ")"
+   11    | "(" . exp ")"
+   12    | . "identifier"
+   13    | . "number"
+
+    "incr"        shift, and go to state 7
+    "identifier"  shift, and go to state 8
+    "number"      shift, and go to state 9
+    "("           shift, and go to state 10
+
+    exp  go to state 20
+
+
+State 11
+
+    2 $accept: YY_PARSE_exp exp . "end of file"
+
+    "end of file"  shift, and go to state 21
+
+
+State 12
+
+    0 $accept: YY_PARSE_unit unit "end of file" .
+
+    $default  accept
+
+
+State 13
+
+    7 id: "identifier" .  [":="]
+   12 exp: "identifier" .  ["end of file"]
+
+    "end of file"  reduce using rule 12 (exp)
+    $default       reduce using rule 7 (id)
+
+
+State 14
+
+    5 assignments: assignments assignment .
+
+    $default  reduce using rule 5 (assignments)
+
+
+State 15
+
+    6 assignment: id . ":=" exp
+
+    ":="  shift, and go to state 22
+
+
+State 16
+
+    3 unit: assignments exp .
+
+    $default  reduce using rule 3 (unit)
+
+
+State 17
+
+    1 $accept: YY_PARSE_assignments assignments "end of file" .
+
+    $default  accept
+
+
+State 18
+
+    7 id: "identifier" .
+
+    $default  reduce using rule 7 (id)
+
+
+State 19
+
+    8 @1: . %empty
+   10 exp: "incr" exp . @1 @2 exp
+
+    $default  reduce using rule 8 (@1)
+
+    @1  go to state 23
+
+
+State 20
+
+   11 exp: "(" exp . ")"
+
+    ")"  shift, and go to state 24
+
+
+State 21
+
+    2 $accept: YY_PARSE_exp exp "end of file" .
+
+    $default  accept
+
+
+State 22
+
+    6 assignment: id ":=" . exp
+   10 exp: . "incr" exp @1 @2 exp
+   11    | . "(" exp ")"
+   12    | . "identifier"
+   13    | . "number"
+
+    "incr"        shift, and go to state 7
+    "identifier"  shift, and go to state 8
+    "number"      shift, and go to state 9
+    "("           shift, and go to state 10
+
+    exp  go to state 25
+
+
+State 23
+
+    9 @2: . %empty
+   10 exp: "incr" exp @1 . @2 exp
+
+    $default  reduce using rule 9 (@2)
+
+    @2  go to state 26
+
+
+State 24
+
+   11 exp: "(" exp ")" .
+
+    $default  reduce using rule 11 (exp)
+
+
+State 25
+
+    6 assignment: id ":=" exp .
+
+    $default  reduce using rule 6 (assignment)
+
+
+State 26
+
+   10 exp: . "incr" exp @1 @2 exp
+   10    | "incr" exp @1 @2 . exp
+   11    | . "(" exp ")"
+   12    | . "identifier"
+   13    | . "number"
+
+    "incr"        shift, and go to state 7
+    "identifier"  shift, and go to state 8
+    "number"      shift, and go to state 9
+    "("           shift, and go to state 10
+
+    exp  go to state 27
+
+
+State 27
+
+   10 exp: "incr" exp @1 @2 exp .
+
+    $default  reduce using rule 10 (exp)
+]])
+
+
+
+AT_CHECK([sed -e '1s/GNU Bison .*\.$/GNU Bison VERSION./' input.gv], [],
+[[// Generated by GNU Bison VERSION.
+// Report bugs to <bug-bison@gnu.org>.
+// Home page: <https://www.gnu.org/software/bison/>.
+
+digraph "input.yy"
+{
+  node [fontname = courier, shape = box, colorscheme = paired6]
+  edge [fontname = courier]
+
+  0 [label="State 0\n\l  0 $accept: • YY_PARSE_unit unit \"end of file\"\l  1        | • YY_PARSE_assignments assignments \"end of file\"\l  2        | • YY_PARSE_exp exp \"end of file\"\l"]
+  0 -> 1 [style=solid label="YY_PARSE_unit"]
+  0 -> 2 [style=solid label="YY_PARSE_assignments"]
+  0 -> 3 [style=solid label="YY_PARSE_exp"]
+  1 [label="State 1\n\l  0 $accept: YY_PARSE_unit • unit \"end of file\"\l  3 unit: • assignments exp\l  4 assignments: • %empty\l  5            | • assignments assignment\l"]
+  1 -> 4 [style=dashed label="unit"]
+  1 -> 5 [style=dashed label="assignments"]
+  1 -> "1R4" [style=solid]
+ "1R4" [label="R4", fillcolor=3, shape=diamond, style=filled]
+  2 [label="State 2\n\l  1 $accept: YY_PARSE_assignments • assignments \"end of file\"\l  4 assignments: • %empty\l  5            | • assignments assignment\l"]
+  2 -> 6 [style=dashed label="assignments"]
+  2 -> "2R4" [style=solid]
+ "2R4" [label="R4", fillcolor=3, shape=diamond, style=filled]
+  3 [label="State 3\n\l  2 $accept: YY_PARSE_exp • exp \"end of file\"\l 10 exp: • \"incr\" exp @1 @2 exp\l 11    | • \"(\" exp \")\"\l 12    | • \"identifier\"\l 13    | • \"number\"\l"]
+  3 -> 7 [style=solid label="\"incr\""]
+  3 -> 8 [style=solid label="\"identifier\""]
+  3 -> 9 [style=solid label="\"number\""]
+  3 -> 10 [style=solid label="\"(\""]
+  3 -> 11 [style=dashed label="exp"]
+  4 [label="State 4\n\l  0 $accept: YY_PARSE_unit unit • \"end of file\"\l"]
+  4 -> 12 [style=solid label="\"end of file\""]
+  5 [label="State 5\n\l  3 unit: assignments • exp\l  5 assignments: assignments • assignment\l  6 assignment: • id \":=\" exp\l  7 id: • \"identifier\"\l 10 exp: • \"incr\" exp @1 @2 exp\l 11    | • \"(\" exp \")\"\l 12    | • \"identifier\"\l 13    | • \"number\"\l"]
+  5 -> 7 [style=solid label="\"incr\""]
+  5 -> 13 [style=solid label="\"identifier\""]
+  5 -> 9 [style=solid label="\"number\""]
+  5 -> 10 [style=solid label="\"(\""]
+  5 -> 14 [style=dashed label="assignment"]
+  5 -> 15 [style=dashed label="id"]
+  5 -> 16 [style=dashed label="exp"]
+  6 [label="State 6\n\l  1 $accept: YY_PARSE_assignments assignments • \"end of file\"\l  5 assignments: assignments • assignment\l  6 assignment: • id \":=\" exp\l  7 id: • \"identifier\"\l"]
+  6 -> 17 [style=solid label="\"end of file\""]
+  6 -> 18 [style=solid label="\"identifier\""]
+  6 -> 14 [style=dashed label="assignment"]
+  6 -> 15 [style=dashed label="id"]
+  7 [label="State 7\n\l 10 exp: • \"incr\" exp @1 @2 exp\l 10    | \"incr\" • exp @1 @2 exp\l 11    | • \"(\" exp \")\"\l 12    | • \"identifier\"\l 13    | • \"number\"\l"]
+  7 -> 7 [style=solid label="\"incr\""]
+  7 -> 8 [style=solid label="\"identifier\""]
+  7 -> 9 [style=solid label="\"number\""]
+  7 -> 10 [style=solid label="\"(\""]
+  7 -> 19 [style=dashed label="exp"]
+  8 [label="State 8\n\l 12 exp: \"identifier\" •\l"]
+  8 -> "8R12" [style=solid]
+ "8R12" [label="R12", fillcolor=3, shape=diamond, style=filled]
+  9 [label="State 9\n\l 13 exp: \"number\" •\l"]
+  9 -> "9R13" [style=solid]
+ "9R13" [label="R13", fillcolor=3, shape=diamond, style=filled]
+  10 [label="State 10\n\l 10 exp: • \"incr\" exp @1 @2 exp\l 11    | • \"(\" exp \")\"\l 11    | \"(\" • exp \")\"\l 12    | • \"identifier\"\l 13    | • \"number\"\l"]
+  10 -> 7 [style=solid label="\"incr\""]
+  10 -> 8 [style=solid label="\"identifier\""]
+  10 -> 9 [style=solid label="\"number\""]
+  10 -> 10 [style=solid label="\"(\""]
+  10 -> 20 [style=dashed label="exp"]
+  11 [label="State 11\n\l  2 $accept: YY_PARSE_exp exp • \"end of file\"\l"]
+  11 -> 21 [style=solid label="\"end of file\""]
+  12 [label="State 12\n\l  0 $accept: YY_PARSE_unit unit \"end of file\" •\l"]
+  12 -> "12R0" [style=solid]
+ "12R0" [label="Acc", fillcolor=1, shape=diamond, style=filled]
+  13 [label="State 13\n\l  7 id: \"identifier\" •  [\":=\"]\l 12 exp: \"identifier\" •  [\"end of file\"]\l"]
+  13 -> "13R7" [style=solid]
+ "13R7" [label="R7", fillcolor=3, shape=diamond, style=filled]
+  13 -> "13R12" [label="[\"end of file\"]", style=solid]
+ "13R12" [label="R12", fillcolor=3, shape=diamond, style=filled]
+  14 [label="State 14\n\l  5 assignments: assignments assignment •\l"]
+  14 -> "14R5" [style=solid]
+ "14R5" [label="R5", fillcolor=3, shape=diamond, style=filled]
+  15 [label="State 15\n\l  6 assignment: id • \":=\" exp\l"]
+  15 -> 22 [style=solid label="\":=\""]
+  16 [label="State 16\n\l  3 unit: assignments exp •\l"]
+  16 -> "16R3" [style=solid]
+ "16R3" [label="R3", fillcolor=3, shape=diamond, style=filled]
+  17 [label="State 17\n\l  1 $accept: YY_PARSE_assignments assignments \"end of file\" •\l"]
+  17 -> "17R1" [style=solid]
+ "17R1" [label="Acc", fillcolor=1, shape=diamond, style=filled]
+  18 [label="State 18\n\l  7 id: \"identifier\" •\l"]
+  18 -> "18R7" [style=solid]
+ "18R7" [label="R7", fillcolor=3, shape=diamond, style=filled]
+  19 [label="State 19\n\l  8 @1: • %empty\l 10 exp: \"incr\" exp • @1 @2 exp\l"]
+  19 -> 23 [style=dashed label="@1"]
+  19 -> "19R8" [style=solid]
+ "19R8" [label="R8", fillcolor=3, shape=diamond, style=filled]
+  20 [label="State 20\n\l 11 exp: \"(\" exp • \")\"\l"]
+  20 -> 24 [style=solid label="\")\""]
+  21 [label="State 21\n\l  2 $accept: YY_PARSE_exp exp \"end of file\" •\l"]
+  21 -> "21R2" [style=solid]
+ "21R2" [label="Acc", fillcolor=1, shape=diamond, style=filled]
+  22 [label="State 22\n\l  6 assignment: id \":=\" • exp\l 10 exp: • \"incr\" exp @1 @2 exp\l 11    | • \"(\" exp \")\"\l 12    | • \"identifier\"\l 13    | • \"number\"\l"]
+  22 -> 7 [style=solid label="\"incr\""]
+  22 -> 8 [style=solid label="\"identifier\""]
+  22 -> 9 [style=solid label="\"number\""]
+  22 -> 10 [style=solid label="\"(\""]
+  22 -> 25 [style=dashed label="exp"]
+  23 [label="State 23\n\l  9 @2: • %empty\l 10 exp: \"incr\" exp @1 • @2 exp\l"]
+  23 -> 26 [style=dashed label="@2"]
+  23 -> "23R9" [style=solid]
+ "23R9" [label="R9", fillcolor=3, shape=diamond, style=filled]
+  24 [label="State 24\n\l 11 exp: \"(\" exp \")\" •\l"]
+  24 -> "24R11" [style=solid]
+ "24R11" [label="R11", fillcolor=3, shape=diamond, style=filled]
+  25 [label="State 25\n\l  6 assignment: id \":=\" exp •\l"]
+  25 -> "25R6" [style=solid]
+ "25R6" [label="R6", fillcolor=3, shape=diamond, style=filled]
+  26 [label="State 26\n\l 10 exp: • \"incr\" exp @1 @2 exp\l 10    | \"incr\" exp @1 @2 • exp\l 11    | • \"(\" exp \")\"\l 12    | • \"identifier\"\l 13    | • \"number\"\l"]
+  26 -> 7 [style=solid label="\"incr\""]
+  26 -> 8 [style=solid label="\"identifier\""]
+  26 -> 9 [style=solid label="\"number\""]
+  26 -> 10 [style=solid label="\"(\""]
+  26 -> 27 [style=dashed label="exp"]
+  27 [label="State 27\n\l 10 exp: \"incr\" exp @1 @2 exp •\l"]
+  27 -> "27R10" [style=solid]
+ "27R10" [label="R10", fillcolor=3, shape=diamond, style=filled]
+}
+]])
+
+
+AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="VERSION"/g' input.xml]], [],
+[[<?xml version="1.0"?>
+
+<bison-xml-report version="VERSION" bug-report="bug-bison@gnu.org" url="https://www.gnu.org/software/bison/">
+
+  <filename>input.yy</filename>
+
+  <grammar>
+    <rules>
+      <rule number="0" usefulness="useful">
+        <lhs>$accept</lhs>
+        <rhs>
+          <symbol>YY_PARSE_unit</symbol>
+          <symbol>unit</symbol>
+          <symbol>&quot;end of file&quot;</symbol>
+        </rhs>
+      </rule>
+      <rule number="1" usefulness="useful">
+        <lhs>$accept</lhs>
+        <rhs>
+          <symbol>YY_PARSE_assignments</symbol>
+          <symbol>assignments</symbol>
+          <symbol>&quot;end of file&quot;</symbol>
+        </rhs>
+      </rule>
+      <rule number="2" usefulness="useful">
+        <lhs>$accept</lhs>
+        <rhs>
+          <symbol>YY_PARSE_exp</symbol>
+          <symbol>exp</symbol>
+          <symbol>&quot;end of file&quot;</symbol>
+        </rhs>
+      </rule>
+      <rule number="3" usefulness="useful">
+        <lhs>unit</lhs>
+        <rhs>
+          <symbol>assignments</symbol>
+          <symbol>exp</symbol>
+        </rhs>
+      </rule>
+      <rule number="4" usefulness="useful">
+        <lhs>assignments</lhs>
+        <rhs>
+          <empty/>
+        </rhs>
+      </rule>
+      <rule number="5" usefulness="useful">
+        <lhs>assignments</lhs>
+        <rhs>
+          <symbol>assignments</symbol>
+          <symbol>assignment</symbol>
+        </rhs>
+      </rule>
+      <rule number="6" usefulness="useful">
+        <lhs>assignment</lhs>
+        <rhs>
+          <symbol>id</symbol>
+          <symbol>&quot;:=&quot;</symbol>
+          <symbol>exp</symbol>
+        </rhs>
+      </rule>
+      <rule number="7" usefulness="useful">
+        <lhs>id</lhs>
+        <rhs>
+          <symbol>&quot;identifier&quot;</symbol>
+        </rhs>
+      </rule>
+      <rule number="8" usefulness="useful">
+        <lhs>@1</lhs>
+        <rhs>
+          <empty/>
+        </rhs>
+      </rule>
+      <rule number="9" usefulness="useful">
+        <lhs>@2</lhs>
+        <rhs>
+          <empty/>
+        </rhs>
+      </rule>
+      <rule number="10" usefulness="useful">
+        <lhs>exp</lhs>
+        <rhs>
+          <symbol>&quot;incr&quot;</symbol>
+          <symbol>exp</symbol>
+          <symbol>@1</symbol>
+          <symbol>@2</symbol>
+          <symbol>exp</symbol>
+        </rhs>
+      </rule>
+      <rule number="11" usefulness="useful">
+        <lhs>exp</lhs>
+        <rhs>
+          <symbol>&quot;(&quot;</symbol>
+          <symbol>exp</symbol>
+          <symbol>&quot;)&quot;</symbol>
+        </rhs>
+      </rule>
+      <rule number="12" usefulness="useful">
+        <lhs>exp</lhs>
+        <rhs>
+          <symbol>&quot;identifier&quot;</symbol>
+        </rhs>
+      </rule>
+      <rule number="13" usefulness="useful">
+        <lhs>exp</lhs>
+        <rhs>
+          <symbol>&quot;number&quot;</symbol>
+        </rhs>
+      </rule>
+    </rules>
+    <terminals>
+      <terminal symbol-number="0" token-number="0" name="&quot;end of file&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="1" token-number="256" name="error" type="" usefulness="useful"/>
+      <terminal symbol-number="3" token-number="258" name="&quot;:=&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="4" token-number="259" name="&quot;incr&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="5" token-number="260" name="&quot;identifier&quot;" type="std::string" usefulness="useful"/>
+      <terminal symbol-number="6" token-number="261" name="&quot;number&quot;" type="int" usefulness="useful"/>
+      <terminal symbol-number="7" token-number="262" name="YY_PARSE_unit" type="" usefulness="useful"/>
+      <terminal symbol-number="8" token-number="263" name="YY_PARSE_assignments" type="" usefulness="useful"/>
+      <terminal symbol-number="9" token-number="264" name="YY_PARSE_exp" type="" usefulness="useful"/>
+      <terminal symbol-number="10" token-number="265" name="&quot;(&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="11" token-number="266" name="&quot;)&quot;" type="" usefulness="useful"/>
+    </terminals>
+    <nonterminals>
+      <nonterminal symbol-number="12" name="$accept" type="" usefulness="useful"/>
+      <nonterminal symbol-number="13" name="unit" type="" usefulness="useful"/>
+      <nonterminal symbol-number="14" name="assignments" type="" usefulness="useful"/>
+      <nonterminal symbol-number="15" name="assignment" type="" usefulness="useful"/>
+      <nonterminal symbol-number="16" name="id" type="std::string" usefulness="useful"/>
+      <nonterminal symbol-number="17" name="exp" type="int" usefulness="useful"/>
+      <nonterminal symbol-number="18" name="@1" type="int" usefulness="useful"/>
+      <nonterminal symbol-number="19" name="@2" type="int" usefulness="useful"/>
+    </nonterminals>
+  </grammar>
+
+  <automaton>
+
+    <state number="0">
+      <itemset>
+        <item rule-number="0" dot="0"/>
+        <item rule-number="1" dot="0"/>
+        <item rule-number="2" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="YY_PARSE_unit" state="1"/>
+          <transition type="shift" symbol="YY_PARSE_assignments" state="2"/>
+          <transition type="shift" symbol="YY_PARSE_exp" state="3"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="1">
+      <itemset>
+        <item rule-number="0" dot="1"/>
+        <item rule-number="3" dot="0"/>
+        <item rule-number="4" dot="0"/>
+        <item rule-number="5" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="goto" symbol="unit" state="4"/>
+          <transition type="goto" symbol="assignments" state="5"/>
+        </transitions>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="4" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="2">
+      <itemset>
+        <item rule-number="1" dot="1"/>
+        <item rule-number="4" dot="0"/>
+        <item rule-number="5" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="goto" symbol="assignments" state="6"/>
+        </transitions>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="4" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="3">
+      <itemset>
+        <item rule-number="2" dot="1"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
+        <item rule-number="12" dot="0"/>
+        <item rule-number="13" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;incr&quot;" state="7"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="8"/>
+          <transition type="shift" symbol="&quot;number&quot;" state="9"/>
+          <transition type="shift" symbol="&quot;(&quot;" state="10"/>
+          <transition type="goto" symbol="exp" state="11"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="4">
+      <itemset>
+        <item rule-number="0" dot="2"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;end of file&quot;" state="12"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="5">
+      <itemset>
+        <item rule-number="3" dot="1"/>
+        <item rule-number="5" dot="1"/>
+        <item rule-number="6" dot="0"/>
+        <item rule-number="7" dot="0"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
+        <item rule-number="12" dot="0"/>
+        <item rule-number="13" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;incr&quot;" state="7"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="13"/>
+          <transition type="shift" symbol="&quot;number&quot;" state="9"/>
+          <transition type="shift" symbol="&quot;(&quot;" state="10"/>
+          <transition type="goto" symbol="assignment" state="14"/>
+          <transition type="goto" symbol="id" state="15"/>
+          <transition type="goto" symbol="exp" state="16"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="6">
+      <itemset>
+        <item rule-number="1" dot="2"/>
+        <item rule-number="5" dot="1"/>
+        <item rule-number="6" dot="0"/>
+        <item rule-number="7" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;end of file&quot;" state="17"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="18"/>
+          <transition type="goto" symbol="assignment" state="14"/>
+          <transition type="goto" symbol="id" state="15"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="7">
+      <itemset>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="10" dot="1"/>
+        <item rule-number="11" dot="0"/>
+        <item rule-number="12" dot="0"/>
+        <item rule-number="13" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;incr&quot;" state="7"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="8"/>
+          <transition type="shift" symbol="&quot;number&quot;" state="9"/>
+          <transition type="shift" symbol="&quot;(&quot;" state="10"/>
+          <transition type="goto" symbol="exp" state="19"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="8">
+      <itemset>
+        <item rule-number="12" dot="1"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="12" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="9">
+      <itemset>
+        <item rule-number="13" dot="1"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="13" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="10">
+      <itemset>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
+        <item rule-number="11" dot="1"/>
+        <item rule-number="12" dot="0"/>
+        <item rule-number="13" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;incr&quot;" state="7"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="8"/>
+          <transition type="shift" symbol="&quot;number&quot;" state="9"/>
+          <transition type="shift" symbol="&quot;(&quot;" state="10"/>
+          <transition type="goto" symbol="exp" state="20"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="11">
+      <itemset>
+        <item rule-number="2" dot="2"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;end of file&quot;" state="21"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="12">
+      <itemset>
+        <item rule-number="0" dot="3"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="accept" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="13">
+      <itemset>
+        <item rule-number="7" dot="1">
+          <lookaheads>
+            <symbol>&quot;:=&quot;</symbol>
+          </lookaheads>
+        </item>
+        <item rule-number="12" dot="1">
+          <lookaheads>
+            <symbol>&quot;end of file&quot;</symbol>
+          </lookaheads>
+        </item>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="&quot;end of file&quot;" rule="12" enabled="true"/>
+          <reduction symbol="$default" rule="7" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="14">
+      <itemset>
+        <item rule-number="5" dot="2"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="5" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="15">
+      <itemset>
+        <item rule-number="6" dot="1"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;:=&quot;" state="22"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="16">
+      <itemset>
+        <item rule-number="3" dot="2"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="3" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="17">
+      <itemset>
+        <item rule-number="1" dot="3"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="accept" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="18">
+      <itemset>
+        <item rule-number="7" dot="1"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="7" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="19">
+      <itemset>
+        <item rule-number="8" dot="0"/>
+        <item rule-number="10" dot="2"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="goto" symbol="@1" state="23"/>
+        </transitions>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="8" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="20">
+      <itemset>
+        <item rule-number="11" dot="2"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;)&quot;" state="24"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="21">
+      <itemset>
+        <item rule-number="2" dot="3"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="accept" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="22">
+      <itemset>
+        <item rule-number="6" dot="2"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
+        <item rule-number="12" dot="0"/>
+        <item rule-number="13" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;incr&quot;" state="7"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="8"/>
+          <transition type="shift" symbol="&quot;number&quot;" state="9"/>
+          <transition type="shift" symbol="&quot;(&quot;" state="10"/>
+          <transition type="goto" symbol="exp" state="25"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="23">
+      <itemset>
+        <item rule-number="9" dot="0"/>
+        <item rule-number="10" dot="3"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="goto" symbol="@2" state="26"/>
+        </transitions>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="9" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="24">
+      <itemset>
+        <item rule-number="11" dot="3"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="11" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="25">
+      <itemset>
+        <item rule-number="6" dot="3"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="6" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="26">
+      <itemset>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="10" dot="4"/>
+        <item rule-number="11" dot="0"/>
+        <item rule-number="12" dot="0"/>
+        <item rule-number="13" dot="0"/>
+      </itemset>
+      <actions>
+        <transitions>
+          <transition type="shift" symbol="&quot;incr&quot;" state="7"/>
+          <transition type="shift" symbol="&quot;identifier&quot;" state="8"/>
+          <transition type="shift" symbol="&quot;number&quot;" state="9"/>
+          <transition type="shift" symbol="&quot;(&quot;" state="10"/>
+          <transition type="goto" symbol="exp" state="27"/>
+        </transitions>
+        <errors/>
+        <reductions/>
+      </actions>
+      <solved-conflicts/>
+    </state>
+
+    <state number="27">
+      <itemset>
+        <item rule-number="10" dot="5"/>
+      </itemset>
+      <actions>
+        <transitions/>
+        <errors/>
+        <reductions>
+          <reduction symbol="$default" rule="10" enabled="true"/>
+        </reductions>
+      </actions>
+      <solved-conflicts/>
+    </state>
+  </automaton>
+</bison-xml-report>
+]])
+
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
 ## ------------------------ ##
 ## Reports with conflicts.  ##
 ## ------------------------ ##
