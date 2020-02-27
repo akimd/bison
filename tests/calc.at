@@ -996,7 +996,7 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1],
 ]AT_JAVA_IF([1.1-1.18], [1.1-17])[: calc: error: 2222 != 1]])
 
 # Check that yyerrok works properly: second error is not reported,
-# third and fourth are.  Parse status is succesful.
+# third and fourth are.  Parse status is successful.
 _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)],
                      [[final: 3333 0 3]],
                      [113],

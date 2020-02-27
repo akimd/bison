@@ -100,7 +100,7 @@ Artificial grammar with very long rules.
 
 =item B<-h>, B<--help>
 
-Display this message and exit succesfully.  The more verbose, the more
+Display this message and exit successfully.  The more verbose, the more
 details.
 
 =item B<-i>, B<--iterations>=I<integer>
