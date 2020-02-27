@@ -239,23 +239,19 @@ m4_define([b4_shared_declarations],
     class context
     {
     public:
-      context (const ]b4_parser_class[& yyparser, symbol_type yyla)
-        : yyparser_ (yyparser)
-        , yyla_ (yyla)
-      {}
-]b4_locations_if([[
+      context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);]b4_locations_if([[
       const location_type& location () const { return yyla_.location; }
 ]])[
-      /* Put in YYARG at most YYARGN of the expected tokens, and return the
-         number of tokens stored in YYARG.  If YYARG is null, return the
-         number of expected tokens (guaranteed to be less than YYNTOKENS). */
+      /// Put in YYARG at most YYARGN of the expected tokens, and return the
+      /// number of tokens stored in YYARG.  If YYARG is null, return the
+      /// number of expected tokens (guaranteed to be less than YYNTOKENS).
       int yyexpected_tokens (int yyarg[], int yyargn) const;
 
       int yysyntax_error_arguments (int yyarg[], int yyargn) const;
 
     private:
       const ]b4_parser_class[& yyparser_;
-      symbol_type yyla_;
+      const symbol_type& yyla_;
     };
 ]])[
   private:
@@ -1227,6 +1223,12 @@ b4_dollar_popdef])[]dnl
     error (]b4_join(b4_locations_if([yyexc.location]),
                     [[yyexc.what ()]])[);
   }]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+
+  // ]b4_parser_class[::context.
+  ]b4_parser_class[::context::context (const ]b4_parser_class[& yyparser, const symbol_type& yyla)
+    : yyparser_ (yyparser)
+    , yyla_ (yyla)
+  {}
 
   int
   ]b4_parser_class[::context::yyexpected_tokens (int yyarg[], int yyargn) const
