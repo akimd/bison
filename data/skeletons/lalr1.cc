@@ -1358,7 +1358,7 @@ b4_dollar_popdef])[]dnl
         yyarg[yycount++] = yytname_[yytoken];]b4_lac_if([[
 
 #if ]b4_api_PREFIX[DEBUG
-        // Execute LAC once. We don't care if it is succesful, we
+        // Execute LAC once. We don't care if it is successful, we
         // only do it for the sake of debugging output.
         if (!yy_lac_established_)
           yy_lac_check_ (yytoken);
