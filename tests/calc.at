@@ -720,7 +720,7 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1], [113],
 calc: error: 2222 != 1])
 
 # Check that yyerrok works properly: second error is not reported,
-# third and fourth are.  Parse status is succesful.
+# third and fourth are.  Parse status is successful.
 _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)], [113],
 [1.2: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
 1.10: syntax error, unexpected '*', expecting number or '-' or '(' or '!'
