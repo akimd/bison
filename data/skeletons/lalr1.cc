@@ -236,25 +236,26 @@ m4_define([b4_shared_declarations],
 
 ]b4_token_constructor_define[
 ]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
-    class context {
-      public:
-        context (const ]b4_parser_class[& yyparser, symbol_type yyla)
-          : yyparser (yyparser)
-          , yyla (yyla)
-          {}
+    class context
+    {
+    public:
+      context (const ]b4_parser_class[& yyparser, symbol_type yyla)
+        : yyparser_ (yyparser)
+        , yyla_ (yyla)
+      {}
 ]b4_locations_if([[
-        const location_type& location () const { return yyla.location; }
+      const location_type& location () const { return yyla_.location; }
 ]])[
-        /* Put in YYARG at most YYARGN of the expected tokens, and return the
-           number of tokens stored in YYARG.  If YYARG is null, return the
-           number of expected tokens (guaranteed to be less than YYNTOKENS). */
-        int yyexpected_tokens (int yyarg[], int yyargn) const;
+      /* Put in YYARG at most YYARGN of the expected tokens, and return the
+         number of tokens stored in YYARG.  If YYARG is null, return the
+         number of expected tokens (guaranteed to be less than YYNTOKENS). */
+      int yyexpected_tokens (int yyarg[], int yyargn) const;
 
-        int yysyntax_error_arguments (int yyarg[], int yyargn) const;
+      int yysyntax_error_arguments (int yyarg[], int yyargn) const;
 
-      private:
-        const ]b4_parser_class[& yyparser;
-        symbol_type yyla;
+    private:
+      const ]b4_parser_class[& yyparser_;
+      symbol_type yyla_;
     };
 ]])[
   private:
@@ -1236,12 +1237,12 @@ b4_dollar_popdef])[]dnl
 #if ]b4_api_PREFIX[DEBUG
     // Execute LAC once. We don't care if it is successful, we
     // only do it for the sake of debugging output.
-    if (!yyparser.yy_lac_established_)
-      yyparser.yy_lac_check_ (yyla.type_get ());
+    if (!yyparser_.yy_lac_established_)
+      yyparser_.yy_lac_check_ (yyla_.type_get ());
 #endif
 
     for (int yyx = 0; yyx < yyntokens_; ++yyx)
-      if (yyx != yy_error_token_ && yyx != yy_undef_token_ && yyparser.yy_lac_check_ (yyx))
+      if (yyx != yy_error_token_ && yyx != yy_undef_token_ && yyparser_.yy_lac_check_ (yyx))
         {
           if (!yyarg)
             ++yycount;
@@ -1251,7 +1252,7 @@ b4_dollar_popdef])[]dnl
             yyarg[yycount++] = yyx;
         }
 ]], [[
-    int yyn = yypact_[yyparser.yystack_[0].state];
+    int yyn = yypact_[+yyparser_.yystack_[0].state];
     if (!yy_pact_value_is_default_ (yyn))
       {
         /* Start YYX at -YYN if negative to avoid negative indexes in
@@ -1311,9 +1312,9 @@ b4_dollar_popdef])[]dnl
          accepted due to an error action in a later state.]])[
     */
 
-    if (!yyla.empty ())
+    if (!yyla_.empty ())
       {
-        yyarg[0] = yyla.type_get ();
+        yyarg[0] = yyla_.type_get ();
         int yyn = yyexpected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
         return yyn + 1;
       }
