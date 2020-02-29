@@ -209,10 +209,10 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
 }
 
 // Called by yyparse on error.
-void yyerror (YYLTYPE *loc, char const *s)
+void yyerror (YYLTYPE *loc, char const *msg)
 {
   YY_LOCATION_PRINT (stderr, *loc);
-  fprintf (stderr, ": %s\n", s);
+  fprintf (stderr, ": %s\n", msg);
 }
 
 int main (int argc, char const* argv[])

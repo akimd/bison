@@ -3,6 +3,8 @@
 This directory contains lexcalc, the traditional example of using Flex and
 Bison to build a simple calculator.
 
+It features detailed syntax errors with locations.
+
 <!---
 Local Variables:
 fill-column: 76

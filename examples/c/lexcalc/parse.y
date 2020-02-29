@@ -6,10 +6,10 @@
 {
   // Tell Flex the expected prototype of yylex.
 #define YY_DECL                                 \
-  enum yytokentype yylex (YYSTYPE* yylval, int *nerrs)
+  enum yytokentype yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
   YY_DECL;
 
-  void yyerror (int *nerrs, const char *msg);
+  void yyerror (YYLTYPE *loc, int *nerrs, const char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -32,6 +32,9 @@
 
 // Generate detailed error messages.
 %define parse.error detailed
+
+// with locations.
+%locations
 
 // Enable debug traces (see yydebug in main).
 %define parse.trace
@@ -78,7 +81,7 @@ exp:
   {
     if ($3 == 0)
       {
-        yyerror (nerrs, "invalid division by zero");
+        yyerror (&@$, nerrs, "error: division by zero");
         YYERROR;
       }
     else
@@ -90,9 +93,10 @@ exp:
 %%
 // Epilogue (C code).
 
-void yyerror (int *nerrs, const char *msg)
+void yyerror (YYLTYPE *loc, int *nerrs, const char *msg)
 {
-  fprintf (stderr, "%s\n", msg);
+  YY_LOCATION_PRINT (stderr, *loc);
+  fprintf (stderr, ": %s\n", msg);
   ++*nerrs;
 }
 
