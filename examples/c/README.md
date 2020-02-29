@@ -50,9 +50,13 @@ This example is a straightforward conversion of the 'calc' example to the
 push-parser model.
 
 ## bistromathic - all the bells and whistles
-This example demonstrates the best practices when using Bison.
-- Its interface is pure.
+This example demonstrates best practices when using Bison.
 - Its hand-written scanner tracks locations.
+- Its interface is pure.
+- Its interface is "incremental", well suited for interaction: it uses the
+  push-parser API to feed the parser with the incoming tokens.
+- It features an interactive command line with completion based on the
+  parser state, based on `yyexpected_tokens`.
 - It uses a custom syntax error with location, lookahead correction and
   token internationalization.
 - It supports debug traces with semantic values.

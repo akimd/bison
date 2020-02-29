@@ -104,9 +104,11 @@ GNU Bison NEWS
   The lexcalc example (a simple example in C based on Flex and Bison) now
   also demonstrates location tracking.
 
-  A new C example, bistromathic, is a fully featured calculator using many
-  Bison features: pure interface, location tracking, internationalized
-  custom error messages, lookahead-correction, rich debug traces, etc.
+  A new C example, bistromathic, is a fully featured interactive calculator
+  using many Bison features: pure interface, push parser, autocompletion
+  based on the current parser state (using yyexpected_tokens), location
+  tracking, internationalized custom error messages, lookahead-correction,
+  rich debug traces, etc.
 
 * Noteworthy changes in release 3.5.2 (2020-02-13) [stable]
 

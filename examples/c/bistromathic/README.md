@@ -1,7 +1,11 @@
 # bistromathic - all the bells and whistles
-This example demonstrates the best practices when using Bison.
-- Its interface is pure.
+This example demonstrates best practices when using Bison.
 - Its hand-written scanner tracks locations.
+- Its interface is pure.
+- Its interface is "incremental", well suited for interaction: it uses the
+  push-parser API to feed the parser with the incoming tokens.
+- It features an interactive command line with completion based on the
+  parser state, based on `yyexpected_tokens`.
 - It uses a custom syntax error with location, lookahead correction and
   token internationalization.
 - It supports debug traces with semantic values.
@@ -17,16 +21,14 @@ Copyright (C) 2020 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Compiler Compiler.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the "GNU Free
+Documentation License" file as part of this distribution.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+LocalWords:  bistromathic yyexpected lookahead ispell american
+LocalWords:  MERCHANTABILITY
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --->

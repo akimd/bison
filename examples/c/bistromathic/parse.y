@@ -5,7 +5,11 @@
   #include <math.h>   // cos, sin, etc.
   #include <stddef.h> // ptrdiff_t
   #include <stdio.h>  // printf
+  #include <stdlib.h> // calloc.
   #include <string.h> // strcmp
+
+  #include <readline/readline.h>
+  #include <readline/history.h>
 }
 
 %code requires {
@@ -31,17 +35,23 @@
 }
 
 %code provides {
-  int yylex (YYSTYPE *yylval, YYLTYPE *yylloc);
-  void yyerror (YYLTYPE *yylloc, char const *);
+  int yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc);
+  void yyerror (YYLTYPE *yylloc, char const *msg);
 }
 
 %code {
 #define N_
 #define _
+
+  // Whether to quit.
+  int done = 0;
 }
 
 // Don't share global variables between the scanner and the parser.
 %define api.pure full
+
+// Generate a push parser.
+%define api.push-pull push
 
 // To avoid name clashes (e.g., with C's EOF) prefix token definitions
 // with TOK_ (e.g., TOK_EOF).
@@ -70,7 +80,7 @@
     LPAREN "("
     RPAREN ")"
     EQUAL  "="
-    EOL    _("end of line")
+    EXIT   "exit"
     EOF 0  _("end of file")
   <double>
     NUM _("double precision number")
@@ -99,13 +109,8 @@
 %% // The grammar follows.
 input:
   %empty
-| input line
-;
-
-line:
-  EOL
-| exp EOL   { printf ("%.10g\n", $exp); }
-| error EOL { yyerrok; }
+| exp     { printf ("%.10g\n", $exp); }
+| "exit"  { done = 1; }
 ;
 
 exp:
@@ -133,6 +138,11 @@ exp:
 
 // End of grammar.
 %%
+
+#undef yyssp
+#undef yyesa
+#undef yyes
+#undef yyes_capacity
 
 /*------------.
 | Functions.  |
@@ -190,13 +200,23 @@ getsym (char const *name)
   return NULL;
 }
 
+// How many symbols are registered.
+int
+symbol_count (void)
+{
+  int res = 0;
+  for (symrec *p = sym_table; p; p = p->next)
+    ++res;
+  return res;
+}
+
 
 /*----------.
 | Scanner.  |
 `----------*/
 
 int
-yylex (YYSTYPE *yylval, YYLTYPE *yylloc)
+yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 {
   int c;
 
@@ -207,7 +227,7 @@ yylex (YYSTYPE *yylval, YYLTYPE *yylloc)
     yylloc->first_column = yylloc->last_column;
 
     yylloc->last_column += 1;
-    c = getchar ();
+    c = *((*line)++);
   } while (c == ' ' || c == '\t');
 
   switch (c)
@@ -221,40 +241,42 @@ yylex (YYSTYPE *yylval, YYLTYPE *yylloc)
     case '(': return TOK_LPAREN;
     case ')': return TOK_RPAREN;
 
-    case '\n':
-      yylloc->last_column = 1;
-      yylloc->last_line += 1;
-      return TOK_EOL;
+    case 0: return TOK_EOF;
 
-    case EOF: return TOK_EOF;
-
-      // Any other character is a token by itself.
     default:
+      // Numbers.
       if (c == '.' || isdigit (c))
         {
-          ungetc (c, stdin);
           int nchars = 0;
-          scanf ("%lf%n", &yylval->TOK_NUM, &nchars);
+          sscanf (*line - 1, "%lf%n", &yylval->TOK_NUM, &nchars);
+          *line += nchars - 1;
           yylloc->last_column += nchars - 1;
           return TOK_NUM;
         }
+      // Identifiers.
       else if (islower (c))
         {
-          ungetc (c, stdin);
           int nchars = 0;
           char buf[100];
-          scanf ("%99[a-z]%n", buf, &nchars);
-          symrec *s = getsym (buf);
-          if (!s)
-            s = putsym (buf, TOK_VAR);
-          yylval->TOK_VAR = s;
+          sscanf (*line - 1, "%99[a-z]%n", buf, &nchars);
+          *line += nchars - 1;
           yylloc->last_column += nchars - 1;
-          return s->type;
+          if (strcmp (buf, "exit") == 0)
+            return TOK_EXIT;
+          else
+            {
+              symrec *s = getsym (buf);
+              if (!s)
+                s = putsym (buf, TOK_VAR);
+              yylval->TOK_VAR = s;
+              return s->type;
+            }
         }
+      // Stray characters.
       else
         {
           yyerror (yylloc, "error: invalid character");
-          return yylex (yylval, yylloc);
+          return yylex (line, yylval, yylloc);
         }
     }
 }
@@ -291,6 +313,126 @@ void yyerror (YYLTYPE *loc, char const *msg)
 }
 
 
+/*-----------.
+| Readline.  |
+`-----------*/
+
+// Parse (and execute) this line.
+int process_line (YYLTYPE *lloc, const char *line)
+{
+  yypstate *ps = yypstate_new ();
+  int status = 0;
+  do {
+    YYSTYPE lval;
+    status = yypush_parse (ps, yylex (&line, &lval, lloc), &lval, lloc);
+  } while (status == YYPUSH_MORE);
+  yypstate_delete (ps);
+  lloc->last_line++;
+  lloc->last_column = 1;
+  return status;
+}
+
+// Get the list of possible tokens after INPUT was read.
+int
+expected_tokens (const char *input,
+                 int *tokens, int ntokens)
+{
+  YYDPRINTF ((stderr, "expected_tokens(\"%s\")", input));
+
+  // Parse the current state of the line.
+  YYLTYPE lloc;
+  yypstate *ps = yypstate_new ();
+  int status = 0;
+  do {
+    if (!*input)
+      break;
+    YYSTYPE lval;
+    int token = yylex (&input, &lval, &lloc);
+    if (!token)
+      break;
+    status = yypush_parse (ps, token, &lval, &lloc);
+  } while (status == YYPUSH_MORE);
+
+  // Then query for the accepted tokens at this point.
+  yyparse_context_t yyctx
+    = {ps->yyssp, YYEMPTY, &lloc, ps->yyesa, &ps->yyes, &ps->yyes_capacity};
+  return yyexpected_tokens (&yyctx, tokens, ntokens);
+}
+
+/* Attempt to complete on the contents of TEXT.  START and END bound the
+   region of rl_line_buffer that contains the word to complete.  TEXT is
+   the word to complete.  We can use the entire contents of rl_line_buffer
+   in case we want to do some simple parsing.  Return the array of matches,
+   or NULL if there aren't any. */
+char **
+completion (const char *text, int start, int end)
+{
+  YYDPRINTF ((stderr, "completion(\"%.*s[%.*s]%s\")\n",
+              start, rl_line_buffer,
+              end - start, rl_line_buffer + start,
+              rl_line_buffer + end));
+
+  // Get list of token numbers.
+  int tokens[YYNTOKENS];
+  char *line = strndup (rl_line_buffer, start);
+  int ntokens = expected_tokens (line, tokens, YYNTOKENS);
+  free (line);
+
+  // Build MATCHES, the list of possible completions.
+  const int len = strlen (text);
+  // Need initial prefix and final NULL.
+  char **matches = calloc (ntokens + symbol_count () + 2, sizeof *matches);
+  int match = 0;
+  matches[match++] = strdup (text);
+  for (int i = 0; i < ntokens; ++i)
+    if (tokens[i] == YYTRANSLATE (TOK_VAR))
+      {
+        for (symrec *s = sym_table; s; s = s->next)
+          if (s->type == TOK_VAR && strncmp (text, s->name, len) == 0)
+            matches[match++] = strdup (s->name);
+      }
+    else if (tokens[i] == YYTRANSLATE (TOK_FUN))
+      {
+        for (symrec *s = sym_table; s; s = s->next)
+          if (s->type == TOK_FUN && strncmp (text, s->name, len) == 0)
+            matches[match++] = strdup (s->name);
+      }
+    else
+      {
+        const char* token = yysymbol_name (tokens[i]);
+        if (strncmp (token, text, strlen (text)) == 0)
+          matches[match++] = strdup (token);
+      }
+
+  if (yydebug)
+    {
+      fprintf (stderr, "completion(\"%.*s[%.*s]%s\") = ",
+               start, rl_line_buffer,
+               end - start, rl_line_buffer + start,
+               rl_line_buffer + end);
+      for (int i = 1; matches[i]; ++i)
+        fprintf (stderr, "%s%s",
+                 i == 1 ? "{" : ", ",
+                 matches[i]);
+      fprintf (stderr, "}\n");
+    }
+
+  // Don't fall back to proposing file names.
+  rl_attempted_completion_over = 1;
+  return matches;
+}
+
+void init_readline (void)
+{
+  /* Allow conditional parsing of the ~/.inputrc file. */
+  rl_readline_name = "pushcalc";
+
+  /* Tell the completer that we want a crack first. */
+  rl_attempted_completion_function = completion;
+}
+
+
+
 /*-------.
 | Main.  |
 `-------*/
@@ -301,5 +443,16 @@ int main (int argc, char const* argv[])
   if (argc == 2 && strcmp(argv[1], "-p") == 0)
     yydebug = 1;
   init_table ();
-  return yyparse ();
+  init_readline ();
+  YYLTYPE lloc = {1, 1, 1, 1};
+  while (!done)
+    {
+      char *line = readline ("> ");
+      if (!line)
+        return 0;
+      if (*line)
+        add_history (line);
+      process_line (&lloc, line);
+      free (line);
+    }
 }

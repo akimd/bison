@@ -18,47 +18,64 @@
 cat >input <<EOF
 1+2*3
 EOF
-run 0 7
+run 0 '> 1+2*3
+7
+> '
 
 cat >input <<EOF
 (1+2) * 3
 EOF
-run 0 9
-run -noerr 0 9 -p
+run 0  '> (1+2) * 3
+9
+> '
+run -noerr 0 '> (1+2) * 3
+9
+> ' -p
 
 cat >input <<EOF
 a = 256
 sqrt (a)
 EOF
-run 0 '256
-16'
+run 0 '> a = 256
+256
+> sqrt (a)
+16
+> '
 
 cat >input <<EOF
 a = .16
 b = 10 ^ 2
 sqrt (a * b)
 EOF
-run 0 '0.16
+run 0 '> a = .16
+0.16
+> b = 10 ^ 2
 100
-4'
+> sqrt (a * b)
+4
+> '
 
 cat >input <<EOF
 *
 EOF
-run 0 'err: 1.1: syntax error: expected end of file or - or ( or end of line or double precision number or function or variable before *'
+run 0 '> *
+> err: 1.1: syntax error: expected end of file or - or ( or exit or double precision number or function or variable before *'
 
 cat >input <<EOF
 1 + 2 * * 3
 EOF
-run 0 'err: 1.9: syntax error: expected - or ( or double precision number or function or variable before *'
+run 0 '> 1 + 2 * * 3
+> err: 1.9: syntax error: expected - or ( or double precision number or function or variable before *'
 
 cat >input <<EOF
 100%
 EOF
-run 0 '100
-err: 1.4: error: invalid character'
+run 0 '> 100%
+100
+> err: 1.4: error: invalid character'
 
 cat >input <<EOF
 1 / 0
 EOF
-run 0 'err: 1.1-5: error: division by zero'
+run 0 '> 1 / 0
+> err: 1.1-5: error: division by zero'
