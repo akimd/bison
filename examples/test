@@ -90,9 +90,12 @@ run ()
       echo "$me: PASS: $number"
     else
       echo "$me: FAIL: $number"
-      echo "$me: expected output:  $out_exp"
-      echo "$me: effective output: $out_eff"
-      cat err_eff
+      echo "$me: input:"
+      sed -e 's/^/  /' input
+      echo "$me: expected output:"
+      echo "$out_exp" | sed -e 's/^/  /'
+      echo "$me: effective output:"
+      echo "$out_eff" | sed -e 's/^/  /'
       exit=false
     fi
   else

@@ -123,7 +123,7 @@ exp:
   {
     if ($r == 0)
       {
-        yyerror (&@$, "division by zero");
+        yyerror (&@$, "error: division by zero");
         YYERROR;
       }
     else
