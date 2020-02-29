@@ -96,9 +96,11 @@
 /fstrcmp.c
 /fstrcmp.h
 /fsync.c
+/getdelim.c
 /getdtablesize.c
 /gethrxtime.c
 /gethrxtime.h
+/getline.c
 /getopt-cdefs.h
 /getopt-cdefs.in.h
 /getopt-core.h
@@ -206,6 +208,8 @@
 /raise.c
 /rawmemchr.c
 /rawmemchr.valgrind
+/readline.c
+/readline.h
 /readlink.c
 /realloc.c
 /ref-add.sed

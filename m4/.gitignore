@@ -38,8 +38,10 @@
 /fseterr.m4
 /fstat.m4
 /fsync.m4
+/getdelim.m4
 /getdtablesize.m4
 /gethrxtime.m4
+/getline.m4
 /getopt.m4
 /getprogname.m4
 /getrusage.m4
@@ -136,6 +138,7 @@
 /quotearg.m4
 /raise.m4
 /rawmemchr.m4
+/readline.m4
 /readlink.m4
 /realloc.m4
 /relocatable-lib.m4
