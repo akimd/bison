@@ -31,10 +31,7 @@
 }
 
 %code provides {
-  #define YY_DECL \
-  int yylex (YYSTYPE *yylval, YYLTYPE *yylloc)
-  YY_DECL;
-
+  int yylex (YYSTYPE *yylval, YYLTYPE *yylloc);
   void yyerror (YYLTYPE *yylloc, char const *);
 }
 
@@ -137,6 +134,10 @@ exp:
 // End of grammar.
 %%
 
+/*------------.
+| Functions.  |
+`------------*/
+
 struct init
 {
   char const *name;
@@ -189,6 +190,80 @@ getsym (char const *name)
   return NULL;
 }
 
+
+/*----------.
+| Scanner.  |
+`----------*/
+
+int
+yylex (YYSTYPE *yylval, YYLTYPE *yylloc)
+{
+  int c;
+
+  // Ignore white space, get first nonwhite character.
+  do {
+    // Move the first position onto the last.
+    yylloc->first_line = yylloc->last_line;
+    yylloc->first_column = yylloc->last_column;
+
+    yylloc->last_column += 1;
+    c = getchar ();
+  } while (c == ' ' || c == '\t');
+
+  switch (c)
+    {
+    case '+': return TOK_PLUS;
+    case '-': return TOK_MINUS;
+    case '*': return TOK_STAR;
+    case '/': return TOK_SLASH;
+    case '^': return TOK_CARET;
+    case '=': return TOK_EQUAL;
+    case '(': return TOK_LPAREN;
+    case ')': return TOK_RPAREN;
+
+    case '\n':
+      yylloc->last_column = 1;
+      yylloc->last_line += 1;
+      return TOK_EOL;
+
+    case EOF: return TOK_EOF;
+
+      // Any other character is a token by itself.
+    default:
+      if (c == '.' || isdigit (c))
+        {
+          ungetc (c, stdin);
+          int nchars = 0;
+          scanf ("%lf%n", &yylval->TOK_NUM, &nchars);
+          yylloc->last_column += nchars - 1;
+          return TOK_NUM;
+        }
+      else if (islower (c))
+        {
+          ungetc (c, stdin);
+          int nchars = 0;
+          char buf[100];
+          scanf ("%99[a-z]%n", buf, &nchars);
+          symrec *s = getsym (buf);
+          if (!s)
+            s = putsym (buf, TOK_VAR);
+          yylval->TOK_VAR = s;
+          yylloc->last_column += nchars - 1;
+          return s->type;
+        }
+      else
+        {
+          yyerror (yylloc, "error: invalid character");
+          return yylex (yylval, yylloc);
+        }
+    }
+}
+
+
+/*---------.
+| Parser.  |
+`---------*/
+
 int
 yyreport_syntax_error (const yyparse_context_t *ctx)
 {
@@ -214,6 +289,11 @@ void yyerror (YYLTYPE *loc, char const *msg)
   YY_LOCATION_PRINT (stderr, *loc);
   fprintf (stderr, ": %s\n", msg);
 }
+
+
+/*-------.
+| Main.  |
+`-------*/
 
 int main (int argc, char const* argv[])
 {

@@ -52,12 +52,11 @@ push-parser model.
 ## bistromathic - all the bells and whistles
 This example demonstrates the best practices when using Bison.
 - Its interface is pure.
-- It uses a custom syntax error with location tracking, lookahead correction
-  and token internationalization.
+- Its hand-written scanner tracks locations.
+- It uses a custom syntax error with location, lookahead correction and
+  token internationalization.
 - It supports debug traces with semantic values.
 - It uses named references instead of the traditional $1, $2, etc.
-
-It also uses Flex to generate the scanner.
 
 <!---
 
