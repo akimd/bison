@@ -129,6 +129,13 @@ m4_define([b4_user_args],
 [m4_ifset([b4_parse_param], [, b4_args(b4_parse_param)])])
 
 
+# b4_user_formals
+# ---------------
+# The possible parse-params formal arguments preceded by a comma.
+m4_define([b4_user_formals],
+[m4_ifset([b4_parse_param], [, b4_formals(b4_parse_param)])])
+
+
 # b4_parse_param
 # --------------
 # If defined, b4_parse_param arrives double quoted, but below we prefer
@@ -600,13 +607,10 @@ m4_define_default([b4_yydestruct_define],
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
-]b4_function_define([yydestruct],
-    [static void],
-    [[const char *yymsg],    [yymsg]],
-    [[int yytype],           [yytype]],
-    [[YYSTYPE *yyvaluep],    [yyvaluep]][]dnl
-b4_locations_if(            [, [[YYLTYPE *yylocationp], [yylocationp]]])[]dnl
-m4_ifset([b4_parse_param], [, b4_parse_param]))[
+static void
+yydestruct (const char *yymsg,
+            int yytype, YYSTYPE *yyvaluep]b4_locations_if(dnl
+[[, YYLTYPE *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use([yyvaluep], [yylocationp])dnl
 [  if (!yymsg)
@@ -629,13 +633,10 @@ m4_define_default([b4_yy_symbol_print_define],
 | Print this symbol's value on YYO.  |
 `-----------------------------------*/
 
-]b4_function_define([yy_symbol_value_print],
-    [static void],
-               [[FILE *yyo],                            [yyo]],
-               [[int yytype],                           [yytype]],
-               [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
-b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
-m4_ifset([b4_parse_param], [, b4_parse_param]))[
+static void
+yy_symbol_value_print (FILE *yyo,
+                       int yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+[[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   FILE *yyoutput = yyo;
 ]b4_parse_param_use([yyoutput], [yylocationp])dnl
@@ -660,13 +661,10 @@ b4_percent_code_get([[post-printer]])dnl
 | Print this symbol on YYO.  |
 `---------------------------*/
 
-]b4_function_define([yy_symbol_print],
-    [static void],
-               [[FILE *yyo],                            [yyo]],
-               [[int yytype],                           [yytype]],
-               [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
-b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
-m4_ifset([b4_parse_param], [, b4_parse_param]))[
+static void
+yy_symbol_print (FILE *yyo,
+                 int yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+[[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yysymbol_name (yytype));
@@ -943,10 +941,8 @@ m4_define([b4_yy_location_print_define],
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
 YY_ATTRIBUTE_UNUSED
-]b4_function_define([yy_location_print_],
-    [static int],
-               [[FILE *yyo],                    [yyo]],
-               [[YYLTYPE const * const yylocp], [yylocp]])[
+static int
+yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
 {
   int res = 0;
   int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;

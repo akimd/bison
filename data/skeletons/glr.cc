@@ -77,16 +77,10 @@ m4_define([b4_yy_symbol_print_define],
 | Print this symbol.  |
 `--------------------*/
 
-]b4_function_define([yy_symbol_print],
-    [static void],
-    [[FILE *],      []],
-    [[int yytype],  [yytype]],
-    [[const ]b4_namespace_ref::b4_parser_class[::semantic_type *yyvaluep],
-                    [yyvaluep]][]dnl
-b4_locations_if([,
-    [[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp],
-                    [yylocationp]]]),
-    b4_parse_param)[
+static void
+yy_symbol_print (FILE *, int yytype,
+                 const ]b4_namespace_ref::b4_parser_class[::semantic_type *yyvaluep]b4_locations_if([[,
+                 const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use[]dnl
 [  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_locations_if([, yylocationp])[);
@@ -134,12 +128,10 @@ m4_append([b4_epilogue],
 | Report an error.  |
 `------------------*/
 
-]b4_function_define([yyerror],
-    [static void],b4_locations_if([
-    [[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp],
-                        [yylocationp]],])
-    b4_parse_param,
-    [[const char* msg], [msg]])[
+static void
+yyerror (]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp,
+         ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
+         ])[const char* msg)
 {
 ]b4_parse_param_use[]dnl
 [  yyparser.error (]b4_locations_if([[*yylocationp, ]])[msg);
