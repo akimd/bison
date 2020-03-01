@@ -55,5 +55,5 @@ Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the "GNU Free
 Documentation License" file as part of this distribution.
 
-# LocalWords:  mfcalc calc parsers yy ispell american
+LocalWords:  mfcalc calc parsers yy ispell american
 --->

@@ -47,6 +47,8 @@ End:
 
 Copyright (C) 2018-2020 Free Software Foundation, Inc.
 
+This file is part of GNU bison, the GNU Compiler Compiler.
+
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
 any later version published by the Free Software Foundation; with no
