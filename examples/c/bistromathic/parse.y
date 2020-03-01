@@ -356,7 +356,9 @@ expected_tokens (const char *input,
   // Then query for the accepted tokens at this point.
   yyparse_context_t yyctx
     = {ps->yyssp, YYEMPTY, &lloc, ps->yyesa, &ps->yyes, &ps->yyes_capacity};
-  return yyexpected_tokens (&yyctx, tokens, ntokens);
+  int res = yyexpected_tokens (&yyctx, tokens, ntokens);
+  yypstate_delete (ps);
+  return res;
 }
 
 /* Attempt to complete on the contents of TEXT.  START and END bound the

@@ -79,3 +79,18 @@ cat >input <<EOF
 EOF
 run 0 '> 1 / 0
 > err: 1.1-5: error: division by zero'
+
+
+## ------------ ##
+## Completion.  ##
+## ------------ ##
+
+sed -e 's/\\t/	/g' >input <<EOF
+( 1 + \t\t
+EOF
+run 0 '> ( 1 + 
+(                        cos                      ln
+-                        double precision number  sin
+atan                     exp                      sqrt
+> ( 1 + 
+> err: 1.7: syntax error: expected - or ( or double precision number or function or variable before end of file'
