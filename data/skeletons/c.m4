@@ -507,15 +507,6 @@ m4_define([b4_symbol_value],
 ## ---------------------- ##
 
 
-# b4_function_define(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# -----------------------------------------------------------
-# Declare the function NAME in C.
-m4_define([b4_function_define],
-[$2
-$1 (b4_formals(m4_shift2($@)))[]dnl
-])
-
-
 # b4_formals([DECL1, NAME1], ...)
 # -------------------------------
 # The formal arguments of a C function definition.
@@ -526,21 +517,6 @@ m4_define([b4_formals],
 
 m4_define([b4_formal],
 [$1])
-
-
-
-## ----------------------- ##
-## Declaring C functions.  ##
-## ----------------------- ##
-
-
-# b4_function_declare(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
-# ------------------------------------------------------------
-# Declare the function NAME.
-m4_define([b4_function_declare],
-[$2 $1 (b4_formals(m4_shift2($@)));[]dnl
-])
-
 
 
 
