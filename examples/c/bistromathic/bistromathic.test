@@ -102,3 +102,13 @@ sed -e 's/\\t/	/g' >input <<EOF
 EOF
 run 0 '> (atan ( ''
 > err: 1.9: syntax error: expected - or ( or double precision number or function or variable before end of file'
+
+# Check the completion at the very beginning.
+sed -e 's/\\t/	/g' >input <<EOF
+e\t\t
+EOF
+run 0 '> e
+end of file  exit         exp          ''
+> e
+0
+> err: '

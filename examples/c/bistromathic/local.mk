@@ -23,7 +23,7 @@ check_PROGRAMS += %D%/bistromathic
 TESTS += %D%/bistromathic.test
 EXTRA_DIST += %D%/bistromathic.test
 nodist_%C%_bistromathic_SOURCES = %D%/parse.y %D%/parse.h
-%D%/calc.c: $(dependencies)
+%D%/parse.c: $(dependencies)
 
 # Don't use gnulib's system headers.
 %C%_bistromathic_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
