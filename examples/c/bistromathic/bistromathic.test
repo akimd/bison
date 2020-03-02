@@ -86,11 +86,11 @@ run 0 '> 1 / 0
 ## ------------ ##
 
 sed -e 's/\\t/	/g' >input <<EOF
-( 1 + \t\t
+(1+\t\t
 EOF
-run 0 '> ( 1 + 
+run 0 '> (1+
 (                        cos                      ln
 -                        double precision number  sin
 atan                     exp                      sqrt
-> ( 1 + 
-> err: 1.7: syntax error: expected - or ( or double precision number or function or variable before end of file'
+> (1+
+> err: 1.4: syntax error: expected - or ( or double precision number or function or variable before end of file'

@@ -426,11 +426,15 @@ completion (const char *text, int start, int end)
 
 void init_readline (void)
 {
-  /* Allow conditional parsing of the ~/.inputrc file. */
-  rl_readline_name = "pushcalc";
+  // Allow conditional parsing of the ~/.inputrc file.
+  rl_readline_name = "bistromathic";
 
-  /* Tell the completer that we want a crack first. */
+  // Tell the completer that we want a crack first.
   rl_attempted_completion_function = completion;
+
+  // The basic list of characters that signal a break between words
+  // for the completer routine.
+  rl_basic_word_break_characters = " \t\n\"\\'`@$><=;|&{(+-*/^)";
 }
 
 
