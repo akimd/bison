@@ -95,13 +95,10 @@ m4_defn([b4_initial_action])]))])[
 # Hijack the post prologue to declare yyerror.
 ]m4_append([b4_post_prologue],
 [b4_syncline([@oline@], [@ofile@])dnl
-b4_function_declare([yyerror],
-    [static void],b4_locations_if([
-    [[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp],
-                        [yylocationp]],])
-    b4_parse_param,
-    [[const char* msg], [msg]])])[
-
+[static void
+yyerror (]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp,
+         ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
+         ])[const char* msg);]])[
 
 #undef yynerrs
 #undef yychar
