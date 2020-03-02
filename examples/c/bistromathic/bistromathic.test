@@ -85,6 +85,7 @@ run 0 '> 1 / 0
 ## Completion.  ##
 ## ------------ ##
 
+# Check completion after an operator.
 sed -e 's/\\t/	/g' >input <<EOF
 (1+\t\t
 EOF
@@ -94,3 +95,10 @@ run 0 '> (1+
 atan                     exp                      sqrt
 > (1+
 > err: 1.4: syntax error: expected - or ( or double precision number or function or variable before end of file'
+
+# Check the completion of a word.
+sed -e 's/\\t/	/g' >input <<EOF
+(at\t\t
+EOF
+run 0 '> (atan ( ''
+> err: 1.9: syntax error: expected - or ( or double precision number or function or variable before end of file'

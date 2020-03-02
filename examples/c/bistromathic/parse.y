@@ -384,8 +384,7 @@ completion (const char *text, int start, int end)
   const int len = strlen (text);
   // Need initial prefix and final NULL.
   char **matches = calloc (ntokens + symbol_count () + 2, sizeof *matches);
-  int match = 0;
-  matches[match++] = strdup (text);
+  int match = 1;
   for (int i = 0; i < ntokens; ++i)
     if (tokens[i] == YYTRANSLATE (TOK_VAR))
       {
@@ -405,6 +404,20 @@ completion (const char *text, int start, int end)
         if (strncmp (token, text, strlen (text)) == 0)
           matches[match++] = strdup (token);
       }
+
+  // Find the longest common prefix, and install it in matches[0], as
+  // required by readline.
+  if (match == 1)
+    matches[0] = strdup (text);
+  else
+    {
+      int lcplen = strlen (matches[1]);
+      for (int i = 2; i < match && lcplen; ++i)
+        for (int j = 0; j < lcplen; ++j)
+          if (matches[1][j] != matches[i][j])
+            lcplen = j;
+      matches[0] = strndup (matches[1], lcplen);
+    }
 
   if (yydebug)
     {
