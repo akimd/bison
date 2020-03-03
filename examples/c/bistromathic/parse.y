@@ -139,11 +139,6 @@ exp:
 // End of grammar.
 %%
 
-#undef yyssp
-#undef yyesa
-#undef yyes
-#undef yyes_capacity
-
 /*------------.
 | Functions.  |
 `------------*/
