@@ -95,9 +95,6 @@ See also the item "$undefined" below.
 Consider deprecating impure push parsers.  They add a lot of complexity, for
 a bad feature.
 
-It's not clear to me that yyerror_range really needs to be in pstate,
-instead of just being a local variable.
-
 * Bison 3.7
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see
