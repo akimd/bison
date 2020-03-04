@@ -34,13 +34,28 @@ Only user visible strings are to be translated: error messages, bits of the
 assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
-## Horizontal tabs
+## Coding style
+Follow the GNU Coding Standards.
+
+Don't reinvent the wheel: we use gnulib, which features many components.
+Actually, Bison has legacy code that we should replace with gnulib modules
+(e.g., many adhoc implementations of lists).
+
 Do not add horizontal tab characters to any file in Bison's repository
 except where required.  For example, do not use tabs to format C code.
 However, make files, ChangeLog, and some regular expressions require tabs.
 Also, test cases might need to contain tabs to check that Bison properly
 processes tabs in its input.
 
+## Commit messages
+Please, imitate the style we use.  Use `git log` to get sources of
+inspiration.
+
+## Debugging
+Bison supports tracing of its various steps, via the `--trace` option.
+Since it is not meant for the end user, it is not displayed by `bison
+--help`, nor is it documented in the manual.  Instead, run `bison
+--trace=help`.
 
 # Working from the repository
 

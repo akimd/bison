@@ -17,6 +17,11 @@ See the file INSTALL for generic compilation and installation instructions.
 Bison requires GNU m4 1.4.6 or later.  See
 https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz.
 
+## Running a non installed bison
+Once you ran `make`, you might want to toy with this fresh bison before
+installing it.  In that case, do not use `src/bison`: it would use the
+*installed* files (skeletons, etc.), not the local ones.  Use `tests/bison`.
+
 ## Colored diagnostics
 As an experimental feature, diagnostics are now colored, controlled by the
 `--color` and `--style` options.
