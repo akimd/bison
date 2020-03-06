@@ -2548,7 +2548,9 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer        { $%; @%; } <*> exp TOK;
 %{ $ @ %} // Should not warn.
 %%
-exp: TOK        { $%; @%; $$ = $1; };
+exp: TOK        { $%; @%; $$ = $1; }
+   | 'a'        { $<->1; $$ = 1; }
+   | 'b'        { $<foo->bar>$; }
 %%
 $ @ // Should not warn.
 ]])
@@ -2562,6 +2564,7 @@ input.y:13.19: warning: stray '$' [-Wother]
 input.y:13.23: warning: stray '@' [-Wother]
 input.y:16.19: warning: stray '$' [-Wother]
 input.y:16.23: warning: stray '@' [-Wother]
+input.y:17.19: warning: stray '$' [-Wother]
 ]])
 
 AT_BISON_OPTION_POPDEFS
