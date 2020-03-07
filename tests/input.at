@@ -2069,6 +2069,25 @@ input.y:1.1-34:     accepted value: 'consistent'
 input.y:1.1-34:     accepted value: 'accepting'
 ]])
 
+# Check escapes.
+AT_DATA([[input.y]],
+[[%define lr.default-reduction {[$@]}
+%%
+start: %empty;
+]])
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
+[[input.y:1.1-35: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
+    1 | %define lr.default-reduction {[$@]}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-35: error: invalid value for %define variable 'lr.default-reduction': '[$@]'
+    1 | %define lr.default-reduction {[$@]}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-35:     accepted value: 'most'
+input.y:1.1-35:     accepted value: 'consistent'
+input.y:1.1-35:     accepted value: 'accepting'
+]])
+
+
 # Back-end.
 AT_DATA([[input.y]],
 [[%define api.push-pull neither
