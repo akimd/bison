@@ -152,6 +152,47 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ]])
 
 
+
+## ------------------------------------- ##
+## Line is too short, and then you die.  ##
+## ------------------------------------- ##
+
+# We trust the "#line", since that's what allows us to quote the
+# actual source from which the gramar file was generated.  But #line
+# can also be wrong, and point to a line which is shorter that the bad
+# one.  In which case we can easily forget to close the styling.
+#
+# Be sure to have #line point to a line long enough to open the
+# styling, but not enough to close it.
+
+AT_TEST([[Line is too short, and then you die]],
+[[// Beware that there are 9 lines inserted before (including this one).
+#line 12
+%token foo 123
+%token foo 123123
+%token foo 123
+%%
+exp:
+]],
+[1],
+[[input.y:13.8-10: <warning>warning:</warning> symbol foo redeclared [<warning>-Wother</warning>]
+   13 | %token <warning>foo</warning> 123
+      |        <warning>^~~</warning>
+input.y:12.8-10:     previous declaration
+   12 | %token <note>foo</note> 123123
+      |        <note>^~~</note>
+input.y:13.12-17: <error>error:</error> redefining user token number of foo
+   13 | %token foo <error>123</error>
+      |            <error>^~~~~~</error>
+input.y:14.8-10: <warning>warning:</warning> symbol foo redeclared [<warning>-Wother</warning>]
+   14 | %%
+      |        <warning>^~~</warning>
+input.y:12.8-10:     previous declaration
+   12 | %token <note>foo</note> 123123
+      |        <note>^~~</note>
+]])
+
+
 ## -------------------------------------- ##
 ## Tabulations and multibyte characters.  ##
 ## -------------------------------------- ##
@@ -262,7 +303,7 @@ input.y:10.1-27: <error>error:</error> %define variable 'error2' is not used
 ## ----------------- ##
 
 # Carriage-return used to count as a newline in the scanner, and not
-# in diagnostics.  Resulting in all sort of nice bugs.
+# in diagnostics.  Resulting in all kinds of nice bugs.
 
 AT_TEST([[Carriage return]],
 [[^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M
