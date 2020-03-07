@@ -42,16 +42,14 @@ typedef struct
 
   /* If positive, the column (starting at 1) just after the boundary.
      This is neither a byte count, nor a character count; it is a
-     column count.  If this is INT_MAX, the column number has
+     (visual) column count.  If this is INT_MAX, the column number has
      overflowed.
 
-     Meaningless and not displayed if nonpositive.
-  */
+     Meaningless and not displayed if nonpositive.  */
   int column;
 
-  /* If nonnegative, the byte number (starting at 0) in the current line.
-     Never displayed, used when printing error messages with colors to
-     know where colors start and end.  */
+  /* If nonnegative, the byte number (starting at 0) in the current
+     line.  Not displayed (unless --trace=location).  */
   int byte;
 
 } boundary;
