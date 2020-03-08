@@ -332,24 +332,23 @@ int
 expected_tokens (const char *input,
                  int *tokens, int ntokens)
 {
-  YYDPRINTF ((stderr, "expected_tokens(\"%s\")", input));
+  YYDPRINTF ((stderr, "expected_tokens (\"%s\")", input));
 
   // Parse the current state of the line.
-  YYLTYPE lloc;
   yypstate *ps = yypstate_new ();
   int status = 0;
   do {
+    YYLTYPE lloc;
     YYSTYPE lval;
     int token = yylex (&input, &lval, &lloc);
+    // Don't let the parse know when we reach the end of input.
     if (!token)
       break;
     status = yypush_parse (ps, token, &lval, &lloc);
   } while (status == YYPUSH_MORE);
 
   // Then query for the accepted tokens at this point.
-  yyparse_context_t yyctx
-    = {ps->yyssp, YYEMPTY, &lloc, ps->yyesa, &ps->yyes, &ps->yyes_capacity};
-  int res = yyexpected_tokens (&yyctx, tokens, ntokens);
+  int res = yypstate_expected_tokens (ps, tokens, ntokens);
   yypstate_delete (ps);
   return res;
 }
@@ -362,7 +361,7 @@ expected_tokens (const char *input,
 char **
 completion (const char *text, int start, int end)
 {
-  YYDPRINTF ((stderr, "completion(\"%.*s[%.*s]%s\")\n",
+  YYDPRINTF ((stderr, "completion (\"%.*s[%.*s]%s\")\n",
               start, rl_line_buffer,
               end - start, rl_line_buffer + start,
               rl_line_buffer + end));
@@ -414,7 +413,7 @@ completion (const char *text, int start, int end)
 
   if (yydebug)
     {
-      fprintf (stderr, "completion(\"%.*s[%.*s]%s\") = ",
+      fprintf (stderr, "completion (\"%.*s[%.*s]%s\") = ",
                start, rl_line_buffer,
                end - start, rl_line_buffer + start,
                rl_line_buffer + end);
@@ -452,7 +451,7 @@ void init_readline (void)
 int main (int argc, char const* argv[])
 {
   // Enable parse traces on option -p.
-  if (argc == 2 && strcmp(argv[1], "-p") == 0)
+  if (argc == 2 && strcmp (argv[1], "-p") == 0)
     yydebug = 1;
   init_table ();
   init_readline ();

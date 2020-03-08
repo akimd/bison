@@ -75,6 +75,16 @@ GNU Bison NEWS
   the translated symbol (i.e., it returns '_("variable")' rather that
   '"variable"').
 
+*** List of expected tokens (yacc.c)
+
+  At any point during parsing (including even before submitting the first
+  token), push parsers may now invoke yypstate_expected_tokens to get the
+  list of possible tokens.  This feature can be used to propose
+  autocompletion (see below the "bistromathic" example).
+
+  It makes little sense to use this feature without enabling LAC (lookahead
+  correction).
+
 *** Modernize display of explanatory statements in diagnostics
 
   Since Bison 2.7, output was indented four spaces for explanatory
@@ -106,9 +116,9 @@ GNU Bison NEWS
 
   A new C example, bistromathic, is a fully featured interactive calculator
   using many Bison features: pure interface, push parser, autocompletion
-  based on the current parser state (using yyexpected_tokens), location
-  tracking, internationalized custom error messages, lookahead-correction,
-  rich debug traces, etc.
+  based on the current parser state (using yypstate_expected_tokens),
+  location tracking, internationalized custom error messages, lookahead
+  correction, rich debug traces, etc.
 
 * Noteworthy changes in release 3.5.3 (2020-03-08) [stable]
 
