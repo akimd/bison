@@ -2,6 +2,13 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Error messages could quote lines containing zero-width characters (such as
+  \005) with incorrect styling.  Fixes for similar issues with unexpectedly
+  short lines (e.g., the file was changed between parsing and diagnosing).
+
+  Several unlikely crashes found by fuzzing have been fixed.
 
 * Noteworthy changes in release 3.5.2 (2020-02-13) [stable]
 
