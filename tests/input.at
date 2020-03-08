@@ -298,6 +298,37 @@ input.y:8.14: error: syntax error, unexpected integer
 AT_CLEANUP
 
 
+## ---------------------------- ##
+## Redefining the error token.  ##
+## ---------------------------- ##
+
+AT_SETUP([Redefining the error token])
+
+# We used to crash when trying to display the original definition of
+# "error", which is a builtin without any location.
+
+AT_DATA([input.y],
+[[%token error 123
+%token error 124
+%%
+exp:
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.8-12: warning: symbol error redeclared [-Wother]
+    2 | %token error 124
+      |        ^~~~~
+input.y:1.8-12:     previous declaration
+    1 | %token error 123
+      |        ^~~~~
+input.y:2.14-16: error: redefining user token number of error
+    2 | %token error 124
+      |              ^~~
+]])
+
+AT_CLEANUP
+
+
 ## ------------------ ##
 ## Dangling aliases.  ##
 ## ------------------ ##
