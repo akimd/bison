@@ -81,7 +81,7 @@ static bool untyped_var_seen;
    historically almost any character is allowed in a tag.  We disallow
    NUL and newline, as this simplifies our implementation.  We allow
    "->" as a means to dereference a pointer.  */
-tag      ([^\0\n>]|->)+
+tag      ([^\0\n>]|->)*[^-]
 
 /* Zero or more instances of backslash-newline.  Following GCC, allow
    white space between the backslash and the newline.  */

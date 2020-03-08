@@ -209,10 +209,10 @@ typedef size_t uintptr_t;
 
 /* Output Str both quoted for M4 (i.e., embed in [[...]]), and escaped
    for our postprocessing (i.e., escape M4 special characters).  If
-   Str is empty (or NULL), output "[]" instead of "[[]]" as it make M4
-   programming easier (m4_ifval can be used).
+   Str is empty (or NULL), output "[]" instead of "[[]]" as it makes
+   M4 programming easier (m4_ifval can be used).
 
-   For instance "[foo]" -> "[[@{foo@}]]", "$$" -> "[[$][$][]]". */
+   For instance "[foo]" -> "[[@{foo@}]]", "$$" -> "[[$][$][]]".  */
 
 # define obstack_quote(Obs, Str)                \
   do {                                          \

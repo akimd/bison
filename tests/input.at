@@ -298,6 +298,52 @@ input.y:8.14: error: unexpected integer literal
 AT_CLEANUP
 
 
+## ---------------------------- ##
+## Redefining the error token.  ##
+## ---------------------------- ##
+
+AT_SETUP([Redefining the error token])
+
+# We used to crash when trying to display the original definition of
+# "error", which is a builtin without any location.
+
+AT_DATA([input.y],
+[[%token error 123
+%token error 124
+%%
+exp:
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.8-12: warning: symbol error redeclared [-Wother]
+    2 | %token error 124
+      |        ^~~~~
+input.y:1.8-12: note: previous declaration
+    1 | %token error 123
+      |        ^~~~~
+input.y:2.14-16: error: redefining user token number of error
+    2 | %token error 124
+      |              ^~~
+]])
+
+# While at it, make sure we properly used the user's number for
+# "error".
+AT_DATA([input.y],
+[[%token error 123
+%%
+exp:
+]])
+
+AT_BISON_CHECK([input.y])
+
+AT_CHECK([$EGREP -E '123|256' input.tab.c], [],
+[[       0,   123,   257
+#define YYERRCODE       123
+]])
+
+AT_CLEANUP
+
+
 ## ------------------ ##
 ## Dangling aliases.  ##
 ## ------------------ ##
@@ -2069,6 +2115,25 @@ input.y:1.1-34: note: accepted value: 'consistent'
 input.y:1.1-34: note: accepted value: 'accepting'
 ]])
 
+# Check escapes.
+AT_DATA([[input.y]],
+[[%define lr.default-reduction {[$@]}
+%%
+start: %empty;
+]])
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
+[[input.y:1.1-35: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
+    1 | %define lr.default-reduction {[$@]}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-35: error: invalid value for %define variable 'lr.default-reduction': '[$@]'
+    1 | %define lr.default-reduction {[$@]}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-35: note: accepted value: 'most'
+input.y:1.1-35: note: accepted value: 'consistent'
+input.y:1.1-35: note: accepted value: 'accepting'
+]])
+
+
 # Back-end.
 AT_DATA([[input.y]],
 [[%define api.push-pull neither
@@ -2548,7 +2613,9 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer        { $%; @%; } <*> exp TOK;
 %{ $ @ %} // Should not warn.
 %%
-exp: TOK        { $%; @%; $$ = $1; };
+exp: TOK        { $%; @%; $$ = $1; }
+   | 'a'        { $<->1; $$ = 1; }
+   | 'b'        { $<foo->bar>$; }
 %%
 $ @ // Should not warn.
 ]])
@@ -2562,6 +2629,7 @@ input.y:13.19: warning: stray '$' [-Wother]
 input.y:13.23: warning: stray '@' [-Wother]
 input.y:16.19: warning: stray '$' [-Wother]
 input.y:16.23: warning: stray '@' [-Wother]
+input.y:17.19: warning: stray '$' [-Wother]
 ]])
 
 AT_BISON_OPTION_POPDEFS
