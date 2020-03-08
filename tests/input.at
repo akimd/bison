@@ -326,6 +326,21 @@ input.y:2.14-16: error: redefining user token number of error
       |              ^~~
 ]])
 
+# While at it, make sure we properly used the user's number for
+# "error".
+AT_DATA([input.y],
+[[%token error 123
+%%
+exp:
+]])
+
+AT_BISON_CHECK([input.y])
+
+AT_CHECK([$EGREP -E '123|256' input.tab.c], [],
+[[       0,   123,   257
+#define YYERRCODE       123
+]])
+
 AT_CLEANUP
 
 
