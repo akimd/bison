@@ -339,8 +339,6 @@ expected_tokens (const char *input,
   yypstate *ps = yypstate_new ();
   int status = 0;
   do {
-    if (!*input)
-      break;
     YYSTYPE lval;
     int token = yylex (&input, &lval, &lloc);
     if (!token)
