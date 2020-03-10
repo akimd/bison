@@ -1100,6 +1100,9 @@ sub getopt ()
   Getopt::Long::Configure ("bundling", "pass_through");
   GetOptions (%option)
     or exit 1;
+  my %grammars = map { $_ => 1 } qw[calc list triangular];
+  die "invalid grammar: $grammar, valid: @{[keys %grammars]}\n"
+    if !exists($grammars{$grammar});
 }
 
 ######################################################################
