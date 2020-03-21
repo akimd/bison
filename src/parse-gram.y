@@ -801,18 +801,26 @@ epilogue.opt:
 int
 yyreport_syntax_error (const yyparse_context_t *ctx)
 {
-  enum { ARGS_MAX = 5 };
+  int res = 0;
   /* Arguments of format: reported tokens (one for the "unexpected",
      one per "expected"). */
-  int arg[ARGS_MAX];
-  int n = yysyntax_error_arguments (ctx, arg, ARGS_MAX);
-  if (n < 0)
-    return n;
+  enum { ARGS_MAX = 5 };
   const char *argv[ARGS_MAX];
-  for (int i = 0; i < n; ++i)
-    argv[i] = yysymbol_name (arg[i]);
-  syntax_error (*yyparse_context_location (ctx), n, argv);
-  return 0;
+  int argc = 0;
+  int unexpected = yyparse_context_token (ctx);
+  if (unexpected != YYEMPTY)
+    {
+      argv[argc++] = yysymbol_name (unexpected);
+      int expected[ARGS_MAX - 1];
+      int nexpected = yyexpected_tokens (ctx, expected, ARGS_MAX - 1);
+      if (nexpected < 0)
+        res = nexpected;
+      else
+        for (int i = 0; i < nexpected; ++i)
+          argv[argc++] = yysymbol_name (expected[i]);
+    }
+  syntax_error (*yyparse_context_location (ctx), argc, argv);
+  return res;
 }
 
 
