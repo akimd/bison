@@ -379,9 +379,6 @@ sub generate_grammar_calc ($$@)
 #include <string.h>
 #include <ctype.h>
 #define USE(Var)
-
-static int global_result = 0;
-static int global_count = 0;
 %}
 
 %define api.value.type union
@@ -557,10 +554,6 @@ power (int base, int exponent)
 int
 main (int argc, const char **argv)
 {
-  int result = 0;
-  int count = 0;
-  int status;
-
 #if YYDEBUG
   yydebug = !!getenv ("YYDEBUG");
 #endif
@@ -572,13 +565,7 @@ main (int argc, const char **argv)
       return 3;
     }
 
-  status = yyparse ();
-  if (global_result != result)
-    abort ();
-  if (global_count != count)
-    abort ();
-
-  return status;
+  return yyparse ();
 }
 EOF
 }
