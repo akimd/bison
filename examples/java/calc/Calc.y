@@ -108,15 +108,20 @@ class CalcLexer implements Calc.Lexer {
 
   public void yyreportSyntaxError (Calc.Context ctx)
   {
-    final int ARGMAX = 10;
-    int[] arg = new int[ARGMAX];
-    int n = ctx.yysyntaxErrorArguments (arg, ARGMAX);
     System.err.print (ctx.getLocation () + ": syntax error");
-    for (int i = 1; i < n; ++i)
-      System.err.print ((i == 1 ? ": expected " : " or ")
-                        + ctx.yysymbolName (arg[i]));
-    if (n != 0)
-      System.err.print (" before " + ctx.yysymbolName (arg[0]));
+    {
+      final int TOKENMAX = 10;
+      int[] arg = new int[TOKENMAX];
+      int n = ctx.yyexpectedTokens (arg, TOKENMAX);
+      for (int i = 0; i < n; ++i)
+        System.err.print ((i == 0 ? ": expected " : " or ")
+                          + ctx.yysymbolName (arg[i]));
+    }
+    {
+      int lookahead = ctx.getToken ();
+      if (lookahead != ctx.EMPTY)
+        System.err.print (" before " + ctx.yysymbolName (lookahead));
+    }
     System.err.println ("");
   }
 

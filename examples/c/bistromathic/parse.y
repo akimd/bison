@@ -284,23 +284,26 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 int
 yyreport_syntax_error (const yyparse_context_t *ctx)
 {
-  enum { ARGMAX = 10 };
   int res = 0;
-  int arg[ARGMAX];
-  int n = yysyntax_error_arguments (ctx, arg, ARGMAX);
-  if (n < 0)
-    // Forward errors to yyparse.
-    res = n;
   YY_LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
   fprintf (stderr, ": syntax error");
-  if (n >= 0)
-    {
-      for (int i = 1; i < n; ++i)
+  {
+    enum { TOKENMAX = 10 };
+    int expected[TOKENMAX];
+    int n = yyexpected_tokens (ctx, expected, TOKENMAX);
+    if (n < 0)
+      // Forward errors to yyparse.
+      res = n;
+    else
+      for (int i = 0; i < n; ++i)
         fprintf (stderr, "%s %s",
-                 i == 1 ? ": expected" : " or", yysymbol_name (arg[i]));
-      if (n)
-        fprintf (stderr, " before %s", yysymbol_name (arg[0]));
-    }
+                 i == 0 ? ": expected" : " or", yysymbol_name (expected[i]));
+  }
+  {
+    int lookahead = yyparse_context_token (ctx);
+    if (lookahead != YYEMPTY)
+      fprintf (stderr, " before %s", yysymbol_name (lookahead));
+  }
   fprintf (stderr, "\n");
   return res;
 }

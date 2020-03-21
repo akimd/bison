@@ -867,19 +867,37 @@ b4_dollar_popdef[]dnl
       yytoken = token;]b4_locations_if([[
       yylocation = loc;]])[
     }
+
     private YYStack yystack;
+
+    public int getToken ()
+    {
+      return yytoken;
+    }
+
+    /**
+     * Value returned by getToken when there is no token.
+     */
+    public static final int EMPTY = ]b4_parser_class[.yyempty_;
+
     private int yytoken;]b4_locations_if([[
     public ]b4_location_type[ getLocation ()
     {
       return yylocation;
     }
+
     private ]b4_location_type[ yylocation;]])[
-    static final int yyntokens = ]b4_parser_class[.yyntokens_;
+    static final int NTOKENS = ]b4_parser_class[.yyntokens_;
 
     /* Put in YYARG at most YYARGN of the expected tokens given the
        current YYCTX, and return the number of tokens stored in YYARG.  If
        YYARG is null, return the number of expected tokens (guaranteed to
        be less than YYNTOKENS).  */
+    int yyexpectedTokens (int yyarg[], int yyargn)
+    {
+      return yyexpectedTokens (yyarg, 0, yyargn);
+    }
+
     int yyexpectedTokens (int yyarg[], int yyoffset, int yyargn)
     {
       int yycount = yyoffset;
@@ -893,7 +911,7 @@ b4_dollar_popdef[]dnl
           int yyxbegin = yyn < 0 ? -yyn : 0;
           /* Stay within bounds of both yycheck and yytname.  */
           int yychecklim = yylast_ - yyn + 1;
-          int yyxend = yychecklim < yyntokens ? yychecklim : yyntokens;
+          int yyxend = yychecklim < NTOKENS ? yychecklim : NTOKENS;
           for (int x = yyxbegin; x < yyxend; ++x)
             if (yycheck_[x + yyn] == x && x != yy_error_token_
                 && !yyTableValueIsError (yytable_[x + yyn]))
