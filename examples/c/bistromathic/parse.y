@@ -285,19 +285,24 @@ int
 yyreport_syntax_error (const yyparse_context_t *ctx)
 {
   enum { ARGMAX = 10 };
+  int res = 0;
   int arg[ARGMAX];
   int n = yysyntax_error_arguments (ctx, arg, ARGMAX);
-  if (n == -2)
-    return 2;
+  if (n < 0)
+    // Forward errors to yyparse.
+    res = n;
   YY_LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
   fprintf (stderr, ": syntax error");
-  for (int i = 1; i < n; ++i)
-    fprintf (stderr, "%s %s",
-             i == 1 ? ": expected" : " or", yysymbol_name (arg[i]));
-  if (n)
-    fprintf (stderr, " before %s", yysymbol_name (arg[0]));
+  if (n >= 0)
+    {
+      for (int i = 1; i < n; ++i)
+        fprintf (stderr, "%s %s",
+                 i == 1 ? ": expected" : " or", yysymbol_name (arg[i]));
+      if (n)
+        fprintf (stderr, " before %s", yysymbol_name (arg[0]));
+    }
   fprintf (stderr, "\n");
-  return 0;
+  return res;
 }
 
 // Called by yyparse on error.

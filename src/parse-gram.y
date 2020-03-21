@@ -806,8 +806,8 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
      one per "expected"). */
   int arg[ARGS_MAX];
   int n = yysyntax_error_arguments (ctx, arg, ARGS_MAX);
-  if (n == -2)
-    return 2;
+  if (n < 0)
+    return n;
   const char *argv[ARGS_MAX];
   for (int i = 0; i < n; ++i)
     argv[i] = yysymbol_name (arg[i]);

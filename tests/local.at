@@ -632,8 +632,8 @@ yyreport_syntax_error (const yyparse_context_t *ctx]AT_PARAM_IF([, AT_PARSE_PARA
   YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
   ++global_nerrs;
   ++*nerrs;]])[
-  if (n == -2)
-    return 2;
+  if (n < 0)
+    return n;
   if (n)
   {]AT_LOCATION_IF([[
     LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
