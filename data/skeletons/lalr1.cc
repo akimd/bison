@@ -239,7 +239,8 @@ m4_define([b4_shared_declarations],
     class context
     {
     public:
-      context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);]b4_locations_if([[
+      context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);
+      int token () const { return yyla_.type_get (); }]b4_locations_if([[
       const location_type& location () const { return yyla_.location; }
 ]])[
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
