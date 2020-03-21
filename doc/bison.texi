@@ -12106,12 +12106,23 @@ designed the grammar for.
 @end example
 
 @noindent
+@findex %define api.token.raw
+Because our scanner returns only genuine tokens and never simple characters
+(i.e., it returns @samp{PLUS}, not @samp{'+'}), we can avoid conversions.
+
+@comment file: calc++/parser.yy
+@example
+%define api.token.raw
+@end example
+
+@noindent
 @findex %define api.token.constructor
 @findex %define api.value.type variant
-This example will use genuine C++ objects as semantic values, therefore, we
-require the variant-based interface.  To make sure we properly use it, we
-enable assertions.  To fully benefit from type-safety and more natural
-definition of ``symbol'', we enable @code{api.token.constructor}.
+This example uses genuine C++ objects as semantic values, therefore, we
+require the variant-based storage of semantic values.  To make sure we
+properly use it, we enable assertions.  To fully benefit from type-safety
+and more natural definition of ``symbol'', we enable
+@code{api.token.constructor}.
 
 @comment file: calc++/parser.yy
 @example
