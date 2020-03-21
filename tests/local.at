@@ -624,31 +624,36 @@ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 int
 yyreport_syntax_error (const yyparse_context_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[)
 {
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
-  int arg[YYNTOKENS];
-  int n = yysyntax_error_arguments (ctx, arg, YYNTOKENS);]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
+  int res = 0;]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
   YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
   ++global_nerrs;
-  ++*nerrs;]])[
-  if (n < 0)
-    return n;
-  if (n)
-  {]AT_LOCATION_IF([[
-    LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
-    fprintf (stderr, ": ");]])[
-    fprintf (stderr, "syntax error on token [%s]", yysymbol_name (arg[0]));
-    if (1 < n)
+  ++*nerrs;]])[]AT_LOCATION_IF([[
+  LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
+  fprintf (stderr, ": ");]])[
+  fprintf (stderr, "syntax error");
+  {
+    int la = yyparse_context_token (ctx);
+    if (la != YYEMPTY)
+      fprintf (stderr, " on token [%s]", yysymbol_name (la));
+  }
+  {
+    enum { TOKENMAX = 10 };
+    int expected[TOKENMAX];
+    int n = yyexpected_tokens (ctx, expected, TOKENMAX);
+    /* Forward errors to yyparse.  */
+    if (n < 0)
+      res = n;
+    else if (0 < n)
       {
         fprintf (stderr, " (expected:");
-        for (int i = 1; i < n; ++i)
-          fprintf (stderr, " [%s]", yysymbol_name (arg[i]));
+        for (int i = 0; i < n; ++i)
+          fprintf (stderr, " [%s]", yysymbol_name (expected[i]));
         fprintf (stderr, ")");
       }
-    fprintf (stderr, "\n");
   }
-  return 0;
+  fprintf (stderr, "\n");
+  return res;
 }
 ]])[
 
