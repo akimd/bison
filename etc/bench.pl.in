@@ -470,7 +470,6 @@ get_char (void)
   return getc (input);
 }
 
-
 static void
 unget_char ( int c)
 {
@@ -952,8 +951,9 @@ my @token;
 sub eat ($)
 {
   my ($expected) = @_;
-  die "expected $expected, unexpected: $token[0] (@token)\n"
-    unless $token[0] eq $expected;
+  my $unexpected = $token[0];
+  die "expected $expected, unexpected: $unexpected (@token)\n"
+    unless $token[0] && $token[0] eq $expected;
   shift @token;
 }
 
@@ -974,7 +974,7 @@ sub parse (@)
 sub parse_expr ()
 {
   my @res = parse_term ();
-  while ($token[0] eq '|')
+  while ($token[0] && $token[0] eq '|')
     {
       eat ('|');
       # Alternation.
@@ -986,7 +986,7 @@ sub parse_expr ()
 sub parse_term ()
 {
   my @res = parse_fact ();
-  while ($token[0] eq '&')
+  while ($token[0] && $token[0] eq '&')
     {
       eat ('&');
       # Cartesian product.
@@ -1009,13 +1009,13 @@ sub parse_fact ()
   die "unexpected end of expression"
     unless defined $token[0];
 
-  if ($token[0] eq '(')
+  if ($token[0] && $token[0] eq '(')
     {
       eat ('(');
       @res = parse_expr ();
       eat (')');
     }
-  elsif ($token[0] eq '[')
+  elsif ($token[0] && $token[0] eq '[')
     {
       eat ('[');
       @res = (parse_expr (), '');
@@ -1032,39 +1032,35 @@ sub parse_dir ()
 {
   my @res;
   die "unexpected end of expression"
-    unless defined $token[0];
+    unless defined $token[0] && $token[0] ne $eod;
 
   if ($token[0] eq '#d')
     {
       eat ('#d');
       $token[0] =~ s/(.*?)=(.*)/$1 $2/;
       @res = ("%code {\n#define $token[0]\n}");
-      shift @token;
     }
   elsif ($token[0] eq '%d')
     {
       shift @token;
       $token[0] =~ s/(.*?)=(.*)/$1 $2/;
       @res = ("%define $token[0]");
-      shift @token;
     }
   elsif ($token[0] eq '%s')
     {
       shift @token;
       @res = ("%skeleton \"$token[0]\"");
-      shift @token;
     }
   elsif ($token[0] eq '%b')
     {
       shift @token;
       @res = ("/*\n%bison \"$token[0]\"\\\n*/");
-      shift @token;
     }
   else
     {
       @res = $token[0];
-      shift @token;
     }
+  shift @token;
 
   return @res;
 }
