@@ -801,14 +801,14 @@ epilogue.opt:
 int
 yyreport_syntax_error (const yyparse_context_t *ctx)
 {
-  enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+  enum { ARGS_MAX = 5 };
   /* Arguments of format: reported tokens (one for the "unexpected",
      one per "expected"). */
-  int arg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  int n = yysyntax_error_arguments (ctx, arg, YYERROR_VERBOSE_ARGS_MAXIMUM);
+  int arg[ARGS_MAX];
+  int n = yysyntax_error_arguments (ctx, arg, ARGS_MAX);
   if (n == -2)
     return 2;
-  const char *argv[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  const char *argv[ARGS_MAX];
   for (int i = 0; i < n; ++i)
     argv[i] = yysymbol_name (arg[i]);
   syntax_error (*yyparse_context_location (ctx), n, argv);

@@ -1467,10 +1467,10 @@ b4_dollar_popdef])[]dnl
   ]b4_parser_class[::yysyntax_error_ (const context& yyctx) const
   {
     // Its maximum.
-    enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+    enum { YYARGS_MAX = 5 };
     // Arguments of yyformat.
-    int yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-    int yycount = yyctx.yysyntax_error_arguments (yyarg, YYERROR_VERBOSE_ARGS_MAXIMUM);
+    int yyarg[YYARGS_MAX];
+    int yycount = yyctx.yysyntax_error_arguments (yyarg, YYARGS_MAX);
 
     char const* yyformat = YY_NULLPTR;
     switch (yycount)
