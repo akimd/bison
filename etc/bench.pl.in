@@ -1228,6 +1228,11 @@ my $count = 1;
 my $dir = "benches/$count";
 mkdir $dir
   or die "cannot create $dir";
+unlink "benches/latest"
+  or die "cannot unlink benches/latest"
+  if -l "benches/latest";
+symlink $count, "benches/latest"
+  or die "cannot create symlink";
 chdir $dir
   or die "cannot chdir $dir";
 
