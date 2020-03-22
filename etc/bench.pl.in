@@ -372,7 +372,7 @@ sub generate_grammar_calc ($$@)
 {
   my ($base, $max, @directive) = @_;
 
-  my $prefix = "y$base";
+  my $prefix = $base;
   push @directive, "%define api.prefix {$prefix}"
     if ($gbench);
   my $directives = directives ($base, @directive);
@@ -899,13 +899,11 @@ sub bench_with_timethese ($@)
 
   # Set up the benches as expected by timethese.
   my %bench;
-  # A counter of directive sets.
-  my $count = 1;
-  for my $d (@directive)
+  for my $i (0 .. $#directive)
     {
-      $bench{$count} = $d;
-      printf " %2d. %s\n", $count, join (' ', split ("\n", $d));
-      $count++;
+      my $base = "y$i";
+      $bench{$base} = $directive[$i];
+      printf " %2d. %s\n", $i, join (' ', split ("\n", $directive[$i]));
     };
 
   # For each bench, capture the size.
