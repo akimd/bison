@@ -1,4 +1,12 @@
-* Bison 3.6
+* Bison 3.7
+** Bistromathic
+- Hitting tab on a line with a syntax error is ugly
+
+- Be robust to existing ~/.inputrc
+
+- How about not evaluating incomplete lines when the text is not finished
+  (as shells do).
+
 ** Doc
 *** api.header.include
 
@@ -31,7 +39,6 @@ enough.
 *** calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 
-* Bison 3.7
 ** Counter example generation
 See https://github.com/akimd/bison/pull/15.
 
