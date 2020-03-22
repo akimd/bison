@@ -32,10 +32,10 @@ The calculator with precedence directives and location tracking.  It uses
 Flex to generate the scanner.
 
 ## reccalc - recursive calculator with Flex and Bison
-The example builds on top of the previous one to provide a reentrant parser.
-Such parsers can be called concurrently in different threads, or even
-recursively.  To demonstrate this feature, expressions in parentheses are
-tokenized as strings, and then recursively parsed from the parser.  So
+This example builds on top of the previous one to provide a reentrant
+parser.  Such parsers can be called concurrently in different threads, or
+even recursively.  To demonstrate this feature, expressions in parentheses
+are tokenized as strings, and then recursively parsed from the parser.  So
 `(((1)+(2))*((3)+(4)))` uses eight parsers, with a depth of four.
 
 ## pushcalc - calculator implemented with a push parser
