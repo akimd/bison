@@ -964,11 +964,14 @@ sub bench_with_gbenchmark ($@)
 {
   my ($grammar, @directive) = @_;
 
+  my $readme = new IO::File ">README.md";
   my @obj = ();
   for my $i (0 .. $#directive)
     {
       my $base = "y$i";
-      printf " %2d. %s\n", $i, join (' ', split ("\n", $directive[$i]));
+      my $m = sprintf " %2d. %s\n", $i, join (' ', split ("\n", $directive[$i]));
+      print $m;
+      print $readme $m;
       generate_grammar ($grammar, $base, $directive[$i]);
       compile ($base);
       push @obj, "$base.o";
@@ -983,7 +986,7 @@ EOF
 
   my $compiler = compiler ("y0");
   run "$compiler -o main $cflags main.c @obj -lbenchmark";
-  run "./main";
+  run "./main | tee -a README.md";
 }
 
 ######################################################################
