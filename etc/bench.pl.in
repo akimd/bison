@@ -775,7 +775,31 @@ sub run ($)
 
 ##################################################################
 
-=item C<compile ($base)>
+=item C<language ($base)>
+
+The language to use depending on the %language specification in
+C<$base.y>: C<c> or C<c++>.
+
+=cut
+
+sub language ($)
+{
+  my ($base) = @_;
+  if ($gbench)
+    {
+      "c++";
+    }
+  else
+    {
+      my $language = `sed -ne '/%language "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
+      chomp $language;
+      $language eq 'C++' ? "c++" : "c";
+    }
+}
+
+##################################################################
+
+=item C<compiler ($base)>
 
 The compiler to use depending on the %language specification in
 C<$base.y>.
@@ -785,16 +809,12 @@ C<$base.y>.
 sub compiler ($)
 {
   my ($base) = @_;
-  if ($gbench)
-    {
-      $cxx;
-    }
-  else
-    {
-      my $language = `sed -ne '/%language "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
-      chomp $language;
-      $language eq 'C++' ? $cxx : $cc;
-    }
+  my %compiler =
+    (
+      'c++' => $cxx,
+      'c'   => $cc,
+    );
+  $compiler{language ($base)};
 }
 
 ##################################################################
@@ -812,14 +832,20 @@ sub compile ($)
 
   my $my_bison = `sed -ne '/[/][/] %bison "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
   chop $my_bison;
-  run ((length $my_bison ? $my_bison : $bison) . " $base.y -o $base.c");
+  my %ext =
+    (
+      'c++' => 'cc',
+      'c'   => 'c',
+    );
+  my $ext = $ext{language ($base)};
+  run ((length $my_bison ? $my_bison : $bison) . " $base.y -o $base.$ext");
   if ($gbench)
     {
-      run "$compiler -c -o $base.o $cflags $base.c";
+      run "$compiler -c -o $base.o $cflags $base.$ext";
     }
   else
     {
-      run "$compiler -o $base $cflags $base.c";
+      run "$compiler -o $base $cflags $base.$ext";
     }
 }
 
@@ -920,14 +946,14 @@ EOF
       push @obj, "$base.o";
     }
 
-  my $out = new IO::File ">main.c";
+  my $out = new IO::File ">main.cc";
   print $out <<EOF;
 #include <benchmark/benchmark.h>
 
 BENCHMARK_MAIN();
 EOF
 
-  run "$compiler -o main $cflags main.c @obj -lbenchmark";
+  run "$compiler -o main $cflags main.cc @obj -lbenchmark";
   run "./main | tee -a README.md";
 }
 
