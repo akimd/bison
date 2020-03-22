@@ -148,7 +148,7 @@ The C compiler.
 
 =item C<$cxx>
 
-The C++ compiler.
+The C++-11 compiler.
 
 =item C<$cflags>
 
@@ -173,7 +173,7 @@ Verbosity level.
 my $bench;
 my $bison = $ENV{'BISON'} || '@abs_top_builddir@/tests/bison';
 my $cc = $ENV{'CC'} || 'gcc';
-my $cxx = $ENV{'CXX'} || 'g++';
+my $cxx = $ENV{'CXX'} || 'g++ -std=c++11';
 my $cflags = '-O2';
 my @directive = ();
 my $gbench = 0;
@@ -579,7 +579,7 @@ static void BM_${prefix} (benchmark::State& state)
       exit (3);
     }
 
-  while (state.KeepRunning())
+  for (auto _ : state)
     {
       rewind (input);
       ${prefix}parse ();
