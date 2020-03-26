@@ -240,6 +240,7 @@ m4_define([b4_shared_declarations],
     {
     public:
       context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);
+      const symbol_type& lookahead () const { return yyla_; }
       int token () const { return yyla_.type_get (); }]b4_locations_if([[
       const location_type& location () const { return yyla_.location; }
 ]])[
@@ -247,8 +248,6 @@ m4_define([b4_shared_declarations],
       /// number of tokens stored in YYARG.  If YYARG is null, return the
       /// number of expected tokens (guaranteed to be less than YYNTOKENS).
       int yyexpected_tokens (int yyarg[], int yyargn) const;
-
-      int yysyntax_error_arguments (int yyarg[], int yyargn) const;
 
     private:
       const ]b4_parser_class[& yyparser_;
@@ -273,15 +272,19 @@ m4_define([b4_shared_declarations],
 
     /// Stored state numbers (used for stacks).
     typedef ]b4_int_type(0, m4_eval(b4_states_number - 1))[ state_type;
-]b4_parse_error_bmatch([detailed\|verbose], [[
-    /// Generate an error message.
-    /// \param yyctx     the context in which the error occurred.
-    virtual std::string yysyntax_error_ (const context& yyctx) const;
-]])b4_parse_error_bmatch([custom], [[
+]b4_parse_error_bmatch(
+      [custom], [[
     /// Report a syntax error
     /// \param yyctx     the context in which the error occurred.
-    void yyreport_syntax_error (const context& yyctx) const;
-]])[
+    void yyreport_syntax_error (const context& yyctx) const;]],
+      [detailed\|verbose], [[
+    /// The arguments of the error message.
+    int yysyntax_error_arguments_ (const context& yyctx,
+                                   int yyarg[], int yyargn) const;
+
+    /// Generate an error message.
+    /// \param yyctx     the context in which the error occurred.
+    virtual std::string yysyntax_error_ (const context& yyctx) const;]])[
     /// Compute post-reduction state.
     /// \param yystate   the current state
     /// \param yysym     the nonterminal to push on the stack
@@ -1281,49 +1284,7 @@ b4_dollar_popdef])[]dnl
     return yycount;
   }
 
-  int
-  ]b4_parser_class[::context::yysyntax_error_arguments (int yyarg[], int yyargn) const
-  {
-    /* There are many possibilities here to consider:
-       - If this state is a consistent state with a default action, then
-         the only way this function was invoked is if the default action
-         is an error action.  In that case, don't check for expected
-         tokens because there are none.
-       - The only way there can be no lookahead present (in yyla) is
-         if this state is a consistent state with a default action.
-         Thus, detecting the absence of a lookahead is sufficient to
-         determine that there is no unexpected or expected token to
-         report.  In that case, just report a simple "syntax error".
-       - Don't assume there isn't a lookahead just because this state is
-         a consistent state with a default action.  There might have
-         been a previous inconsistent state, consistent state with a
-         non-default action, or user semantic action that manipulated
-         yyla.  (However, yyla is currently not documented for users.)]b4_lac_if([[
-         In the first two cases, it might appear that the current syntax
-         error should have been detected in the previous state when
-         yy_lac_check was invoked.  However, at that time, there might
-         have been a different syntax error that discarded a different
-         initial context during error recovery, leaving behind the
-         current lookahead.]], [[
-       - Of course, the expected token list depends on states to have
-         correct lookahead information, and it depends on the parser not
-         to perform extra reductions after fetching a lookahead from the
-         scanner and before detecting a syntax error.  Thus, state merging
-         (from LALR or IELR) and default reductions corrupt the expected
-         token list.  However, the list is correct for canonical LR with
-         one exception: it will still contain any token that will not be
-         accepted due to an error action in a later state.]])[
-    */
-
-    if (!yyla_.empty ())
-      {
-        yyarg[0] = yyla_.type_get ();
-        int yyn = yyexpected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
-        return yyn + 1;
-      }
-    return 0;
-  }]])b4_lac_if([[
-
+]])b4_lac_if([[
   bool
   ]b4_parser_class[::yy_lac_check_ (int yytoken) const
   {
@@ -1463,6 +1424,50 @@ b4_dollar_popdef])[]dnl
       }
   }]])b4_parse_error_bmatch([detailed\|verbose], [[
 
+  int
+  ]b4_parser_class[::yysyntax_error_arguments_ (const context& yyctx,
+                                                int yyarg[], int yyargn) const
+  {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action, then
+         the only way this function was invoked is if the default action
+         is an error action.  In that case, don't check for expected
+         tokens because there are none.
+       - The only way there can be no lookahead present (in yyla) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this state is
+         a consistent state with a default action.  There might have
+         been a previous inconsistent state, consistent state with a
+         non-default action, or user semantic action that manipulated
+         yyla.  (However, yyla is currently not documented for users.)]b4_lac_if([[
+         In the first two cases, it might appear that the current syntax
+         error should have been detected in the previous state when
+         yy_lac_check was invoked.  However, at that time, there might
+         have been a different syntax error that discarded a different
+         initial context during error recovery, leaving behind the
+         current lookahead.]], [[
+       - Of course, the expected token list depends on states to have
+         correct lookahead information, and it depends on the parser not
+         to perform extra reductions after fetching a lookahead from the
+         scanner and before detecting a syntax error.  Thus, state merging
+         (from LALR or IELR) and default reductions corrupt the expected
+         token list.  However, the list is correct for canonical LR with
+         one exception: it will still contain any token that will not be
+         accepted due to an error action in a later state.]])[
+    */
+
+    if (!yyctx.lookahead ().empty ())
+      {
+        yyarg[0] = yyctx.token ();
+        int yyn = yyctx.yyexpected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
+        return yyn + 1;
+      }
+    return 0;
+  }
+
   // Generate an error message.
   std::string
   ]b4_parser_class[::yysyntax_error_ (const context& yyctx) const
@@ -1471,7 +1476,7 @@ b4_dollar_popdef])[]dnl
     enum { YYARGS_MAX = 5 };
     // Arguments of yyformat.
     int yyarg[YYARGS_MAX];
-    int yycount = yyctx.yysyntax_error_arguments (yyarg, YYARGS_MAX);
+    int yycount = yysyntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
 
     char const* yyformat = YY_NULLPTR;
     switch (yycount)
