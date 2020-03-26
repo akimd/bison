@@ -933,46 +933,49 @@ b4_dollar_popdef[]dnl
     {
       return ]b4_parser_class[.yysymbolName (yysymbol);
     }
-
-    int yysyntaxErrorArguments (int[] yyarg, int yyargn)
-    {
-      /* There are many possibilities here to consider:
-         - If this state is a consistent state with a default action,
-           then the only way this function was invoked is if the
-           default action is an error action.  In that case, don't
-           check for expected tokens because there are none.
-         - The only way there can be no lookahead present (in tok) is
-           if this state is a consistent state with a default action.
-           Thus, detecting the absence of a lookahead is sufficient to
-           determine that there is no unexpected or expected token to
-           report.  In that case, just report a simple "syntax error".
-         - Don't assume there isn't a lookahead just because this
-           state is a consistent state with a default action.  There
-           might have been a previous inconsistent state, consistent
-           state with a non-default action, or user semantic action
-           that manipulated yychar.  (However, yychar is currently out
-           of scope during semantic actions.)
-         - Of course, the expected token list depends on states to
-           have correct lookahead information, and it depends on the
-           parser not to perform extra reductions after fetching a
-           lookahead from the scanner and before detecting a syntax
-           error.  Thus, state merging (from LALR or IELR) and default
-           reductions corrupt the expected token list.  However, the
-           list is correct for canonical LR with one exception: it
-           will still contain any token that will not be accepted due
-           to an error action in a later state.
-      */
-      int yycount = 0;
-      if (this.yytoken != yyempty_)
-        {
-          yyarg[yycount++] = this.yytoken;
-          yycount += this.yyexpectedTokens (yyarg, 1, yyargn);
-        }
-      return yycount;
-    }
   }
 
- /**
+]b4_parse_error_bmatch(
+[detailed\|verbose], [[
+  private int yysyntaxErrorArguments (Context yyctx, int[] yyarg, int yyargn)
+  {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action,
+         then the only way this function was invoked is if the
+         default action is an error action.  In that case, don't
+         check for expected tokens because there are none.
+       - The only way there can be no lookahead present (in tok) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this
+         state is a consistent state with a default action.  There
+         might have been a previous inconsistent state, consistent
+         state with a non-default action, or user semantic action
+         that manipulated yychar.  (However, yychar is currently out
+         of scope during semantic actions.)
+       - Of course, the expected token list depends on states to
+         have correct lookahead information, and it depends on the
+         parser not to perform extra reductions after fetching a
+         lookahead from the scanner and before detecting a syntax
+         error.  Thus, state merging (from LALR or IELR) and default
+         reductions corrupt the expected token list.  However, the
+         list is correct for canonical LR with one exception: it
+         will still contain any token that will not be accepted due
+         to an error action in a later state.
+    */
+    int yycount = 0;
+    if (yyctx.getToken () != yyempty_)
+      {
+        yyarg[yycount++] = yyctx.getToken ();
+        yycount += yyctx.yyexpectedTokens (yyarg, 1, yyargn);
+      }
+    return yycount;
+  }
+]])[
+
+/**
    * Report a syntax error.
    */
   private void yyreportSyntaxError (Context yyctx)
@@ -984,7 +987,7 @@ b4_dollar_popdef[]dnl
       {
         final int argmax = 5;
         int[] yyarg = new int[argmax];
-        int yycount = yyctx.yysyntaxErrorArguments (yyarg, argmax);
+        int yycount = yysyntaxErrorArguments (yyctx, yyarg, argmax);
         String[] yystr = new String[yycount];
         for (int yyi = 0; yyi < yycount; ++yyi)
           yystr[yyi] = yysymbolName (yyarg[yyi]);

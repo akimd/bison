@@ -972,17 +972,24 @@ m4_define([AT_YYERROR_DEFINE(java)],
 ]AT_ERROR_CUSTOM_IF([[
   public void yyreportSyntaxError (Calc.Context ctx)
   {
-    int[] arg = new int[ctx.NTOKENS];
-    int n = ctx.yysyntaxErrorArguments (arg, ctx.NTOKENS);
     System.err.print (]AT_LOCATION_IF([[ctx.getLocation () + ": "]]
-                      + )["syntax error on token @<:@" + ctx.yysymbolName (arg[0]) + "@:>@");
-    if (1 < n)
-      {
-        System.err.print (" (expected:");
-        for (int i = 1; i < n; ++i)
-          System.err.print (" @<:@" + ctx.yysymbolName (arg[i]) + "@:>@");
-        System.err.print (")");
-      }
+                      + )["syntax error");
+    {
+      int token = ctx.getToken ();
+      if (token != ctx.EMPTY)
+        System.err.print (" on token @<:@" + ctx.yysymbolName (token) + "@:>@");
+    }
+    {
+      int[] arg = new int[ctx.NTOKENS];
+      int n = ctx.yyexpectedTokens (arg, ctx.NTOKENS);
+      if (0 < n)
+        {
+          System.err.print (" (expected:");
+          for (int i = 0; i < n; ++i)
+            System.err.print (" @<:@" + ctx.yysymbolName (arg[i]) + "@:>@");
+          System.err.print (")");
+        }
+    }
     System.err.println ("");
   }
 ]])
