@@ -2,12 +2,11 @@
 ** Documentation
 - yyexpected_tokens in all the languages.
 - remove yysyntax_error_arguments.
+- YYNOMEM
 
 ** Naming conventions
 yysyntax_error_arguments should be yy_syntax_error_arguments, since it's a
 private implementation detail.
-
-Give a name to magic constants such as -2 (YYNOMEM?).
 
 There's no good reason to use the "yy" prefix in parser::context, is there?
 See also the case of Java.  We should keep the prefix for private
