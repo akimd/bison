@@ -1,4 +1,53 @@
 * Bison 3.6
+** Documentation
+- yyexpected_tokens in all the languages.
+- remove yysyntax_error_arguments.
+
+** Naming conventions
+yysyntax_error_arguments should be yy_syntax_error_arguments, since it's a
+private implementation detail.
+
+Give a name to magic constants such as -2 (YYNOMEM?).
+
+There's no good reason to use the "yy" prefix in parser::context, is there?
+See also the case of Java.  We should keep the prefix for private
+implementation details, but maybe not for public APIs.
+
+** User token number, internal synbol number, external token number, etc.
+There is some confusion over these terms, which is even a problem for
+translators.  We need something clear, especially if we provide access to
+the symbol numbers (which would be useful for custom error messages).
+
+*** The documentation
+
+You can explicitly specify the numeric code for a token type...
+
+The token numbered as 0.
+
+Therefore each time the scanner returns an (external) token number,
+it must be mapped to the (internal) symbol number.
+
+
+*** The code
+uses "user token number" in most places.
+
+  if (sym->content->class != token_sym)
+    complain (&loc, complaint,
+              _("nonterminals cannot be given an explicit number"));
+  else if (*user_token_numberp != USER_NUMBER_UNDEFINED
+           && *user_token_numberp != user_token_number)
+    complain (&loc, complaint, _("redefining user token number of %s"),
+              sym->tag);
+  else if (user_token_number == INT_MAX)
+    complain (&loc, complaint, _("user token number of %s too large"),
+              sym->tag);
+
+** Symbol numbers
+Giving names to symbol numbers would be useful in custom error messages.  It
+would actually also make the following point gracefully handled (status of
+YYERRCODE, YYUNDEFTOK, etc.).  Possibly we could also define YYEMPTY (twice:
+as a token and as a symbol).  And YYEOF.
+
 ** Consistency
 YYUNDEFTOK is an internal symbol number, as YYTERROR.
 But YYERRCODE is an external token number.
@@ -21,24 +70,6 @@ examples/java/calc/Calc.java:998: warning: '_' used as an identifier
 I feel it's ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page
 breaks.
-
-** Bad styling
-When the quoted line is shorter than expected, the styling is closed, so it
-"leaks" till the end of the diagnostics.
-
-    $ cat parser.yy
-    #line 1
-    // foo
-    %define parser_class_name {foo}
-    %language "C++"
-    %%
-    exp:
-    $ bison --color=debug /tmp/parser.yy
-    /tmp/parser.yy:2.1-31: <warning>avertissement:</warning> directive dépréciée: « %define parser_class_name {foo} », utilisez « %define api.parser.class {foo} » [<warning>-Wdeprecated</warning>]
-        2 | <warning>// foo
-          | <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-          | <fixit-insert>%define api.parser.class {foo}</fixit-insert>
-    /tmp/parser.yy: <warning>avertissement:</warning> des fix-its peuvent être appliqués. Exécutez à nouveau avec l'option « --update ». [<warning>-Wother</warning>]
 
 ** improve syntax errors (UTF-8, internationalization)
 Bison depends on the current locale.  For instance:
@@ -93,7 +124,9 @@ See also the item "$undefined" below.
 
 ** push parsers
 Consider deprecating impure push parsers.  They add a lot of complexity, for
-a bad feature.
+a bad feature.  On the other hand, that would make it much harder to sit
+push parsers on top of pull parser.  Which is currently not relevant, since
+push parsers are measurably slower.
 
 * Bison 3.7
 ** Unit rules / Injection rules (Akim Demaille)
