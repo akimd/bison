@@ -808,7 +808,7 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
   const char *argv[ARGS_MAX];
   int argc = 0;
   yysymbol_type_t unexpected = yyparse_context_token (ctx);
-  if (unexpected != YYEMPTY)
+  if (unexpected != YYSYMBOL_YYEMPTY)
     {
       argv[argc++] = yysymbol_name (unexpected);
       yysymbol_type_t expected[ARGS_MAX - 1];

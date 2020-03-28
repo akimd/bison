@@ -411,6 +411,7 @@ m4_define([_b4_symbol],
 # if that would produce an invalid symbol.
 m4_define([b4_symbol_sid],
 [m4_case([$1],
+  [-2],                           [[YYSYMBOL_YYEMPTY]],
   [0],                            [[YYSYMBOL_YYEOF]],
   [m4_bmatch(m4_quote(b4_symbol([$1], [tag])),
       [^\$accept$],               [[YYSYMBOL_YYACCEPT]],

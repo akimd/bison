@@ -504,12 +504,15 @@ m4_define([b4_symbol_enum],
 # b4_declare_symbol_enum
 # ----------------------
 # The definition of the symbol internal numbers as an enum.
+# Defining YYEMPTY here is important: it forces the compiler
+# to use a signed type, which matters for yytoken.
 m4_define([b4_declare_symbol_enum],
 [[/* Symbol type.  */
 enum yysymbol_type_t
 {
   ]m4_join([,
   ],
+           ]b4_symbol_sid([-2])[ = -2,
            b4_symbol_map([b4_symbol_enum]))[
 };
 typedef enum yysymbol_type_t yysymbol_type_t;
