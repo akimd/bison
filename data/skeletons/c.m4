@@ -486,6 +486,36 @@ m4_define([b4_symbol_translate],
 
 
 
+## --------------------------- ##
+## (Internal) symbol numbers.  ##
+## --------------------------- ##
+
+
+# b4_symbol_enum(SYMBOL-NUM)
+# --------------------------
+# Output the definition of this symbol as an enum.
+m4_define([b4_symbol_enum],
+[m4_ifval(b4_symbol([$1], [sid]),
+         [m4_format([[%s = %s]],
+                    b4_symbol([$1], [sid]),
+                    b4_symbol([$1], [number]))])])
+
+
+# b4_declare_symbol_enum
+# ----------------------
+# The definition of the symbol internal numbers as an enum.
+m4_define([b4_declare_symbol_enum],
+[[/* Symbol type.  */
+enum yysymbol_type_t
+{
+  ]m4_join([,
+  ],
+           b4_symbol_map([b4_symbol_enum]))[
+};
+typedef enum yysymbol_type_t yysymbol_type_t;
+]])])
+
+
 ## ----------------- ##
 ## Semantic Values.  ##
 ## ----------------- ##

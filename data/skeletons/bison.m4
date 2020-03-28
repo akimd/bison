@@ -405,6 +405,19 @@ m4_define([_b4_symbol],
           [__b4_symbol([$1], [$2])])])
 
 
+# b4_symbol_sid(NUM)
+# ------------------
+# Build the symbol ID based for this symbol.  Return empty
+# if that would produce an invalid symbol.
+m4_define([b4_symbol_sid],
+[m4_case([$1],
+  [0],                            [[YYSYMBOL_YYEOF]],
+  [m4_bmatch(m4_quote(b4_symbol([$1], [tag])),
+      [^\$accept$],               [[YYSYMBOL_YYACCEPT]],
+      [^\$undefined$],            [[YYSYMBOL_YYUNDEF]],
+      [m4_quote(b4_symbol_if([$1], [has_id],
+                                  [[YYSYMBOL_]]m4_quote(_b4_symbol([$1], [id]))))])])])
+
 
 # b4_symbol(NUM, FIELD)
 # ---------------------
@@ -415,6 +428,7 @@ m4_define([b4_symbol],
 [m4_case([$2],
          [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
                          [_b4_symbol([$1], [id])])],
+         [sid],   [b4_symbol_sid([$1])],
          [_b4_symbol($@)])])
 
 

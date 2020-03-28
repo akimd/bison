@@ -18,6 +18,8 @@ There is some confusion over these terms, which is even a problem for
 translators.  We need something clear, especially if we provide access to
 the symbol numbers (which would be useful for custom error messages).
 
+We could use "number" and "code".
+
 *** The documentation
 
 You can explicitly specify the numeric code for a token type...
@@ -41,6 +43,9 @@ uses "user token number" in most places.
   else if (user_token_number == INT_MAX)
     complain (&loc, complaint, _("user token number of %s too large"),
               sym->tag);
+
+*** M4
+Make it consistent with the rest (it uses "user_number" and "number").
 
 ** Symbol numbers
 Giving names to symbol numbers would be useful in custom error messages.  It
