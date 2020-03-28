@@ -53,22 +53,6 @@ would actually also make the following point gracefully handled (status of
 YYERRCODE, YYUNDEFTOK, etc.).  Possibly we could also define YYEMPTY (twice:
 as a token and as a symbol).  And YYEOF.
 
-It seems to work well.  Yet we have a weird case: the "error" token:
-
-enum yysymbol_type_t
-{
-  YYSYMBOL_YYEMPTY = -2,
-  YYSYMBOL_YYEOF = 0,
-  YYSYMBOL_error = 1,
-  YYSYMBOL_YYUNDEF = 2,
-  YYSYMBOL_YYACCEPT = 61,
-  ...
-
-YYSYMBOL_error looks weird.  We should maybe rename this as
-"YYSYMBOL_YYERROR", even though it should not be confonded with the YYERROR
-macro.
-
-
 ** Consistency
 YYUNDEFTOK is an internal symbol number, as YYTERROR.
 But YYERRCODE is an external token number.

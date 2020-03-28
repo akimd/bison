@@ -413,9 +413,10 @@ m4_define([b4_symbol_sid],
 [m4_case([$1],
   [-2],                           [[YYSYMBOL_YYEMPTY]],
   [0],                            [[YYSYMBOL_YYEOF]],
-  [m4_bmatch(m4_quote(b4_symbol([$1], [tag])),
-      [^\$accept$],               [[YYSYMBOL_YYACCEPT]],
-      [^\$undefined$],            [[YYSYMBOL_YYUNDEF]],
+  [m4_case(m4_quote(b4_symbol([$1], [tag])),
+      [$accept],                  [[YYSYMBOL_YYACCEPT]],
+      [error],                    [[YYSYMBOL_YYERROR]],
+      [$undefined],               [[YYSYMBOL_YYUNDEF]],
       [m4_quote(b4_symbol_if([$1], [has_id],
                                   [[YYSYMBOL_]]m4_quote(_b4_symbol([$1], [id]))))])])])
 
