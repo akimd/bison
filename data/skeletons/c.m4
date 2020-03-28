@@ -425,9 +425,9 @@ static const b4_int_type_for([$2]) yy$1[[]] =
 ])
 
 
-## ------------------------- ##
-## Assigning token numbers.  ##
-## ------------------------- ##
+## -------------------------- ##
+## (External) token numbers.  ##
+## -------------------------- ##
 
 # b4_token_define(TOKEN-NUM)
 # --------------------------
@@ -454,7 +454,7 @@ m4_define([b4_token_enum],
 
 # b4_token_enums
 # --------------
-# Output the definition of the tokens (if there are) as enums.
+# The definition of the tokens (if there are) as enums.
 m4_define([b4_token_enums],
 [b4_any_token_visible_if([[/* Token type.  */
 #ifndef ]b4_api_PREFIX[TOKENTYPE
@@ -471,7 +471,7 @@ m4_define([b4_token_enums],
 
 # b4_token_enums_defines
 # ----------------------
-# Output the definition of the tokens (if there are any) as enums and,
+# The definition of the tokens (if there are any) as enums and,
 # if POSIX Yacc is enabled, as #defines.
 m4_define([b4_token_enums_defines],
 [b4_token_enums[]b4_yacc_if([b4_token_defines])])

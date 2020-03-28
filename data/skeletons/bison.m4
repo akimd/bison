@@ -384,22 +384,21 @@ m4_define([b4_glr_cc_if],
 ## Symbols.  ##
 ## --------- ##
 
-# For a description of the Symbol handling, see README.
+# For a description of the Symbol handling, see README.md.
 #
 # The following macros provide access to symbol related values.
 
 # __b4_symbol(NUM, FIELD)
 # -----------------------
-# Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
-# undefined.
+# Fetch FIELD of symbol #NUM.  Fail if undefined.
 m4_define([__b4_symbol],
 [m4_indir([b4_symbol($1, $2)])])
 
 
 # _b4_symbol(NUM, FIELD)
 # ----------------------
-# Recover a FIELD about symbol #NUM (or "orig NUM").  Fails if
-# undefined.
+# Fetch FIELD of symbol #NUM (or "orig NUM", see README.md).
+# Fail if undefined.
 m4_define([_b4_symbol],
 [m4_ifdef([b4_symbol($1, number)],
           [__b4_symbol(m4_indir([b4_symbol($1, number)]), $2)],
@@ -409,8 +408,9 @@ m4_define([_b4_symbol],
 
 # b4_symbol(NUM, FIELD)
 # ---------------------
-# Recover a FIELD about symbol #NUM (or "orig NUM").  Fails if
-# undefined.  If FIELD = id, prepend the token prefix.
+# Fetch FIELD of symbol #NUM (or "orig NUM").  Fail if undefined.
+#
+# If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
 [m4_case([$2],
          [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
@@ -530,6 +530,7 @@ m4_define([b4_any_token_visible_if],
 
 # b4_token_format(FORMAT, NUM)
 # ----------------------------
+# If token NUM has a visible ID, format FORMAT with ID, USER_NUMBER.
 m4_define([b4_token_format],
 [b4_token_visible_if([$2],
 [m4_format([[$1]],
