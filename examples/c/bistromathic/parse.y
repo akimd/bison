@@ -386,23 +386,25 @@ completion (const char *text, int start, int end)
   char **matches = calloc (ntokens + symbol_count () + 2, sizeof *matches);
   int match = 1;
   for (int i = 0; i < ntokens; ++i)
-    if (tokens[i] == YYTRANSLATE (TOK_VAR))
+    switch (tokens[i])
       {
-        for (symrec *s = sym_table; s; s = s->next)
-          if (s->type == TOK_VAR && strncmp (text, s->name, len) == 0)
-            matches[match++] = strdup (s->name);
-      }
-    else if (tokens[i] == YYTRANSLATE (TOK_FUN))
-      {
+      case YYSYMBOL_FUN:
         for (symrec *s = sym_table; s; s = s->next)
           if (s->type == TOK_FUN && strncmp (text, s->name, len) == 0)
             matches[match++] = strdup (s->name);
-      }
-    else
-      {
-        const char* token = yysymbol_name (tokens[i]);
-        if (strncmp (token, text, strlen (text)) == 0)
-          matches[match++] = strdup (token);
+        break;
+      case YYSYMBOL_VAR:
+        for (symrec *s = sym_table; s; s = s->next)
+          if (s->type == TOK_VAR && strncmp (text, s->name, len) == 0)
+            matches[match++] = strdup (s->name);
+        break;
+      default:
+        {
+          const char* token = yysymbol_name (tokens[i]);
+          if (strncmp (text, token, len) == 0)
+            matches[match++] = strdup (token);
+          break;
+        }
       }
 
   // Find the longest common prefix, and install it in matches[0], as
