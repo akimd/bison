@@ -749,13 +749,13 @@ void
   std::cerr << ctx.location () << ": ";]])[
   std::cerr << "syntax error";
   {
-    int la = ctx.token ();
-    if (la != empty_symbol)
+    symbol_type_type la = ctx.token ();
+    if (la != YYSYMBOL_YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }
   {
     enum { TOKENMAX = 10 };
-    int expected[TOKENMAX];
+    symbol_type_type expected[TOKENMAX];
     int n = ctx.yyexpected_tokens (expected, TOKENMAX);
     if (0 < n)
       {

@@ -66,19 +66,24 @@ m4_defn([b4_parse_param]))],
            [[b4_namespace_ref::b4_parser_class[& yyparser], [[yyparser]]]])
 ])
 
+# b4_declare_symbol_enum
+# ----------------------
+m4_append([b4_declare_symbol_enum],
+[[typedef symbol_type_type yysymbol_type_t;
+]])
+
 
 # b4_yy_symbol_print_define
 # -------------------------
 # Bypass the default implementation to generate the "yy_symbol_print"
 # and "yy_symbol_value_print" functions.
 m4_define([b4_yy_symbol_print_define],
-[[
-/*--------------------.
+[[/*--------------------.
 | Print this symbol.  |
 `--------------------*/
 
 static void
-yy_symbol_print (FILE *, int yytype,
+yy_symbol_print (FILE *, ]b4_namespace_ref::b4_parser_class[::symbol_number_type yytype,
                  const ]b4_namespace_ref::b4_parser_class[::semantic_type *yyvaluep]b4_locations_if([[,
                  const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp]])[]b4_user_formals[)
 {
@@ -170,7 +175,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   `--------------------*/
 
   void
-  ]b4_parser_class[::yy_symbol_value_print_ (int yytype,
+  ]b4_parser_class[::yy_symbol_value_print_ (symbol_number_type yytype,
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
   {]b4_locations_if([[
@@ -184,7 +189,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
 
   void
-  ]b4_parser_class[::yy_symbol_print_ (int yytype,
+  ]b4_parser_class[::yy_symbol_print_ (symbol_number_type yytype,
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
   {
@@ -320,14 +325,14 @@ b4_percent_code_get([[requires]])[
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
-    virtual void yy_symbol_value_print_ (int yytype,
+    virtual void yy_symbol_value_print_ (symbol_number_type yytype,
                                          const semantic_type* yyvaluep]b4_locations_if([[,
                                          const location_type* yylocationp]])[);
     /// \brief Report a symbol on the debug stream.
     /// \param yytype       The token type.
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
-    virtual void yy_symbol_print_ (int yytype,
+    virtual void yy_symbol_print_ (symbol_number_type yytype,
                                    const semantic_type* yyvaluep]b4_locations_if([[,
                                    const location_type* yylocationp]])[);
   private:
@@ -350,6 +355,13 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 #endif
 
 ]b4_namespace_close[
+]m4_define([b4_declare_symbol_enum],
+[[typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_number_type yysymbol_type_t;
+#define YYSYMBOL_YYEMPTY ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYEMPTY
+#define YYSYMBOL_YYERROR ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYERROR
+#define YYSYMBOL_YYEOF   ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYEOF
+#define YYSYMBOL_YYUNDEF ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYUNDEF
+]])[
 ]b4_percent_code_get([[provides]])[
 ]m4_popdef([b4_parse_param])dnl
 ])

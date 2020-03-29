@@ -160,6 +160,10 @@ m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
              [::\([^][:]\|:[^:]\)*], [} ])[} // ]b4_namespace_ref])])
 
 
+## -------------------------- ##
+## (External) token numbers.  ##
+## -------------------------- ##
+
 # b4_token_enums
 # --------------
 # Output the definition of the tokens as enums.
@@ -172,6 +176,27 @@ m4_define([b4_token_enums],
       };]dnl
 ])
 
+
+
+## --------------------------- ##
+## (Internal) symbol numbers.  ##
+## --------------------------- ##
+
+# b4_declare_symbol_enum
+# ----------------------
+# The definition of the symbol internal numbers as an enum.
+# Defining YYEMPTY here is important: it forces the compiler
+# to use a signed type, which matters for yytoken.
+m4_define([b4_declare_symbol_enum],
+[[enum symbol_type_type
+    {
+      ]m4_join([,
+      ],
+               ]b4_symbol_sid([-2])[ = -2,
+               b4_symbol_map([b4_symbol_enum]),
+               [YYNTOKENS = ]b4_tokens_number[ ///< Number of tokens.])[
+    };
+]])])
 
 
 
@@ -231,7 +256,7 @@ m4_define([b4_public_types_declare],
       location_type location;])[
     };
 
-    /// Tokens.
+    /// Token numbers.
     struct token
     {
       ]b4_token_enums[
@@ -240,14 +265,11 @@ m4_define([b4_public_types_declare],
     /// (External) token type, as returned by yylex.
     typedef token::yytokentype token_type;
 
+    /// Symbol codes.
+    ]b4_declare_symbol_enum[
+
     /// Symbol type: an internal symbol number.
-    typedef int symbol_number_type;
-
-    /// The symbol type number to denote an empty symbol.
-    enum { empty_symbol = -2 };
-
-    /// Internal symbol number for tokens (subsumed by symbol_number_type).
-    typedef ]b4_int_type_for([b4_translate])[ token_number_type;
+    typedef symbol_type_type symbol_number_type;
 ]])
 
 
@@ -368,9 +390,8 @@ m4_define([b4_symbol_type_define],
       symbol_number_type type_get () const YY_NOEXCEPT;
 
       /// The symbol type.
-      /// \a empty_symbol when empty.
-      /// An int, not token_number_type, to be able to store empty_symbol.
-      int type;
+      /// \a YYSYMBOL_YYEMPTY when empty.
+      symbol_number_type type;
     };
 
     /// "External" symbols: returned by the scanner.
@@ -442,7 +463,7 @@ m4_define([b4_public_types_define],
   bool
   ]b4_parser_class[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
-    return Base::type_get () == empty_symbol;
+    return Base::type_get () == YYSYMBOL_YYEMPTY;
   }
 
   template <typename Base>
@@ -458,7 +479,7 @@ m4_define([b4_public_types_define],
 
   // by_type.
   ]b4_inline([$1])b4_parser_class[::by_type::by_type ()
-    : type (empty_symbol)
+    : type (YYSYMBOL_YYEMPTY)
   {}
 
 #if 201103L <= YY_CPLUSPLUS
@@ -480,7 +501,7 @@ m4_define([b4_public_types_define],
   ]b4_inline([$1])[void
   ]b4_parser_class[::by_type::clear ()
   {
-    type = empty_symbol;
+    type = YYSYMBOL_YYEMPTY;
   }
 
   ]b4_inline([$1])[void
@@ -490,7 +511,7 @@ m4_define([b4_public_types_define],
     that.clear ();
   }
 
-  ]b4_inline([$1])[int
+  ]b4_inline([$1])[]b4_parser_class[::symbol_number_type
   ]b4_parser_class[::by_type::type_get () const YY_NOEXCEPT
   {
     return type;
@@ -510,15 +531,15 @@ m4_define([b4_token_constructor_define], [])
 # Define yytranslate_.  Sometimes used in the header file ($1=hh),
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
-[  b4_inline([$1])b4_parser_class[::token_number_type
+[  b4_inline([$1])b4_parser_class[::symbol_number_type
   ]b4_parser_class[::yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
-[[    return static_cast<token_number_type> (t);]],
+[[    return static_cast<symbol_number_type> (t);]],
 [[    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
     // TOKEN-NUM as returned by yylex.
     static
-    const token_number_type
+    const ]b4_int_type_for([b4_translate])[
     translate_table[] =
     {
   ]b4_translate[
@@ -526,11 +547,11 @@ m4_define([b4_yytranslate_define],
     const int user_token_number_max_ = ]b4_user_token_number_max[;
 
     if (t <= 0)
-      return yyeof_;
+      return YYSYMBOL_YYEOF;
     else if (t <= user_token_number_max_)
-      return translate_table[t];
+      return YY_CAST (symbol_number_type, translate_table[t]);
     else
-      return yy_undef_token_;]])[
+      return YYSYMBOL_YYUNDEF;]])[
   }
 ]])
 

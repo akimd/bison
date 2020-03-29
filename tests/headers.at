@@ -319,7 +319,9 @@ AT_PERL_CHECK([[-n -0777 -e '
   s{//.*}{}g;
   s{\b((defined|if)\ YYDEBUG
       |YYChar
+      |YYNTOKENS  # This is actual scoped in a C++ class.
       |YYPUSH_MORE(?:_DEFINED)?
+      |YYSYMBOL_(\w+)  # These guys are scoped.
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)
       |YY(?:_REINTERPRET)?_CAST

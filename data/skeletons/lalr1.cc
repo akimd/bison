@@ -241,13 +241,13 @@ m4_define([b4_shared_declarations],
     public:
       context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);
       const symbol_type& lookahead () const { return yyla_; }
-      int token () const { return yyla_.type_get (); }]b4_locations_if([[
+      symbol_number_type token () const { return yyla_.type_get (); }]b4_locations_if([[
       const location_type& location () const { return yyla_.location; }
 ]])[
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
       /// number of tokens stored in YYARG.  If YYARG is null, return the
       /// number of expected tokens (guaranteed to be less than YYNTOKENS).
-      int yyexpected_tokens (int yyarg[], int yyargn) const;
+      int yyexpected_tokens (symbol_number_type yyarg[], int yyargn) const;
 
     private:
       const ]b4_parser_class[& yyparser_;
@@ -261,10 +261,10 @@ m4_define([b4_shared_declarations],
 
     /// Check the lookahead yytoken.
     /// \returns  true iff the token will be eventually shifted.
-    bool yy_lac_check_ (int yytoken) const;
+    bool yy_lac_check_ (symbol_number_type yytoken) const;
     /// Establish the initial context if no initial context currently exists.
     /// \returns  true iff the token will be eventually shifted.
-    bool yy_lac_establish_ (int yytoken);
+    bool yy_lac_establish_ (symbol_number_type yytoken);
     /// Discard any previous initial lookahead context because of event.
     /// \param event  the event which caused the lookahead to be discarded.
     ///               Only used for debbuging output.
@@ -280,7 +280,7 @@ m4_define([b4_shared_declarations],
       [detailed\|verbose], [[
     /// The arguments of the error message.
     int yysyntax_error_arguments_ (const context& yyctx,
-                                   int yyarg[], int yyargn) const;
+                                   symbol_number_type yyarg[], int yyargn) const;
 
     /// Generate an error message.
     /// \param yyctx     the context in which the error occurred.
@@ -304,11 +304,11 @@ m4_define([b4_shared_declarations],
     /// Convert a scanner token number \a t to a symbol number.
     /// In theory \a t should be a token_type, but character literals
     /// are valid, yet not members of the token_type enum.
-    static token_number_type yytranslate_ (int t);
+    static symbol_number_type yytranslate_ (int t);
 ]b4_parse_error_bmatch([custom\|detailed], [[
    /// The user-facing name of the symbol whose (internal) number is
    /// YYSYMBOL.  No bounds checking.
-   static const char *yysymbol_name (int yysymbol);
+   static const char *yysymbol_name (symbol_number_type yysymbol);
 ]])[
 
     // Tables.
@@ -377,7 +377,7 @@ m4_define([b4_shared_declarations],
       void move (by_state& that);
 
       /// The (internal) type number (corresponding to \a state).
-      /// \a empty_symbol when empty.
+      /// \a YYSYMBOL_YYEMPTY when empty.
       symbol_number_type type_get () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
@@ -446,18 +446,12 @@ m4_define([b4_shared_declarations],
     /// Pop \a n symbols from the stack.
     void yypop_ (int n = 1);
 
-    /// Some specific tokens.
-    static const token_number_type yy_error_token_ = 1;
-    static const token_number_type yy_undef_token_ = ]b4_undef_token_number[;
-
     /// Constants.
     enum
     {
-      yyeof_ = 0,
       yylast_ = ]b4_last[,     ///< Last index in yytable_.
       yynnts_ = ]b4_nterms_number[,  ///< Number of nonterminal symbols.
-      yyfinal_ = ]b4_final_state_number[, ///< Termination state number.
-      yyntokens_ = ]b4_tokens_number[  ///< Number of tokens.
+      yyfinal_ = ]b4_final_state_number[ ///< Termination state number.
     };
 
 ]b4_parse_param_vars[
@@ -592,7 +586,7 @@ m4_if(b4_prefix, [yy], [],
   /* The user-facing name of the symbol whose (internal) number is
      YYSYMBOL.  No bounds checking. */
   const char *
-  ]b4_parser_class[::yysymbol_name (int yysymbol)
+  ]b4_parser_class[::yysymbol_name (symbol_number_type yysymbol)
   {
     static const char *const yy_sname[] =
     {
@@ -604,7 +598,7 @@ m4_if(b4_prefix, [yy], [],
     {
     ]b4_translatable[
     };
-    return (yysymbol < yyntokens_ && yytranslatable[yysymbol]
+    return (yysymbol < YYNTOKENS && yytranslatable[yysymbol]
             ? _(yy_sname[yysymbol])
             : yy_sname[yysymbol]);]], [[
     return yy_sname[yysymbol];]])[
@@ -706,9 +700,9 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::by_state::type_get () const YY_NOEXCEPT
   {
     if (state == empty_state)
-      return empty_symbol;
+      return YYSYMBOL_YYEMPTY;
     else
-      return yystos_[+state];
+      return YY_CAST (symbol_number_type, yystos_[+state]);
   }
 
   ]b4_parser_class[::stack_symbol_type::stack_symbol_type ()
@@ -731,7 +725,7 @@ b4_parse_error_case([verbose], [[
     b4_symbol_variant([that.type_get ()],
                       [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
-    that.type = empty_symbol;
+    that.type = YYSYMBOL_YYEMPTY;
   }
 
 #if YY_CPLUSPLUS < 201103L
@@ -786,7 +780,7 @@ b4_parse_error_case([verbose], [[
     if (yysym.empty ())
       std::abort ();
 #endif
-    yyo << (yytype < yyntokens_ ? "token" : "nterm")
+    yyo << (yytype < YYNTOKENS ? "token" : "nterm")
         << ' ' << yytname_[yytype] << " ("]b4_locations_if([
         << yysym.location << ": "])[;
     ]b4_symbol_actions([printer])[
@@ -849,11 +843,11 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::state_type
   ]b4_parser_class[::yy_lr_goto_state_ (state_type yystate, int yysym)
   {
-    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
+    int yyr = yypgoto_[yysym - YYNTOKENS] + yystate;
     if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
       return yytable_[yyr];
     else
-      return yydefgoto_[yysym - yyntokens_];
+      return yydefgoto_[yysym - YYNTOKENS];
   }
 
   bool
@@ -1095,7 +1089,7 @@ b4_dollar_popdef])[]dnl
            error, discard it.  */
 
         // Return failure if at end of input.
-        if (yyla.type_get () == yyeof_)
+        if (yyla.type_get () == YYSYMBOL_YYEOF)
           YYABORT;
         else if (!yyla.empty ())
           {
@@ -1137,8 +1131,8 @@ b4_dollar_popdef])[]dnl
           yyn = yypact_[+yystack_[0].state];
           if (!yy_pact_value_is_default_ (yyn))
             {
-              yyn += yy_error_token_;
-              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yy_error_token_)
+              yyn += YYSYMBOL_YYERROR;
+              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == YYSYMBOL_YYERROR)
                 {
                   yyn = yytable_[yyn];
                   if (0 < yyn)
@@ -1235,7 +1229,7 @@ b4_dollar_popdef])[]dnl
   {}
 
   int
-  ]b4_parser_class[::context::yyexpected_tokens (int yyarg[], int yyargn) const
+  ]b4_parser_class[::context::yyexpected_tokens (symbol_number_type yyarg[], int yyargn) const
   {
     // Actual number of expected tokens
     int yycount = 0;
@@ -1247,17 +1241,20 @@ b4_dollar_popdef])[]dnl
       yyparser_.yy_lac_check_ (yyla_.type_get ());
 #endif
 
-    for (int yyx = 0; yyx < yyntokens_; ++yyx)
-      if (yyx != yy_error_token_ && yyx != yy_undef_token_ && yyparser_.yy_lac_check_ (yyx))
-        {
-          if (!yyarg)
-            ++yycount;
-          else if (yycount == yyargn)
-            return 0;
-          else
-            yyarg[yycount++] = yyx;
-        }
-]], [[
+    for (int yyx = 0; yyx < YYNTOKENS; ++yyx)
+      {
+        symbol_number_type yysym = YY_CAST (symbol_number_type, yyx);
+        if (yysym != YYSYMBOL_YYERROR && yysym != YYSYMBOL_YYUNDEF
+            && yyparser_.yy_lac_check_ (yysym))
+          {
+            if (!yyarg)
+              ++yycount;
+            else if (yycount == yyargn)
+              return 0;
+            else
+              yyarg[yycount++] = yysym;
+          }
+      }]], [[
     int yyn = yypact_[+yyparser_.yystack_[0].state];
     if (!yy_pact_value_is_default_ (yyn))
       {
@@ -1267,9 +1264,9 @@ b4_dollar_popdef])[]dnl
         int yyxbegin = yyn < 0 ? -yyn : 0;
         // Stay within bounds of both yycheck and yytname.
         int yychecklim = yylast_ - yyn + 1;
-        int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+        int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-          if (yycheck_[yyx + yyn] == yyx && yyx != yy_error_token_
+          if (yycheck_[yyx + yyn] == yyx && yyx != YYSYMBOL_YYERROR
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
             {
               if (!yyarg)
@@ -1277,7 +1274,7 @@ b4_dollar_popdef])[]dnl
               else if (yycount == yyargn)
                 return 0;
               else
-                yyarg[yycount++] = yyx;
+                yyarg[yycount++] = YY_CAST (symbol_number_type, yyx);
             }
       }
 ]])[
@@ -1286,7 +1283,7 @@ b4_dollar_popdef])[]dnl
 
 ]])b4_lac_if([[
   bool
-  ]b4_parser_class[::yy_lac_check_ (int yytoken) const
+  ]b4_parser_class[::yy_lac_check_ (symbol_number_type yytoken) const
   {
     // Logically, the yylac_stack's lifetime is confined to this function.
     // Clear it, to get rid of potential left-overs from previous call.
@@ -1364,7 +1361,7 @@ b4_dollar_popdef])[]dnl
 
   // Establish the initial context if no initial context currently exists.
   bool
-  ]b4_parser_class[::yy_lac_establish_ (int yytoken)
+  ]b4_parser_class[::yy_lac_establish_ (symbol_number_type yytoken)
   {
     /* Establish the initial context for the current lookahead if no initial
        context is currently established.
@@ -1426,7 +1423,7 @@ b4_dollar_popdef])[]dnl
 
   int
   ]b4_parser_class[::yysyntax_error_arguments_ (const context& yyctx,
-                                                int yyarg[], int yyargn) const
+                                                symbol_number_type yyarg[], int yyargn) const
   {
     /* There are many possibilities here to consider:
        - If this state is a consistent state with a default action, then
@@ -1475,7 +1472,7 @@ b4_dollar_popdef])[]dnl
     // Its maximum.
     enum { YYARGS_MAX = 5 };
     // Arguments of yyformat.
-    int yyarg[YYARGS_MAX];
+    symbol_number_type yyarg[YYARGS_MAX];
     int yycount = yysyntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
 
     char const* yyformat = YY_NULLPTR;
@@ -1520,7 +1517,7 @@ b4_dollar_popdef])[]dnl
 
 ]b4_tname_if([], [[#if ]b4_api_PREFIX[DEBUG]])[
   // YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-  // First, the terminals, then, starting at \a yyntokens_, nonterminals.
+  // First, the terminals, then, starting at \a YYNTOKENS, nonterminals.
   const char*
   const ]b4_parser_class[::yytname_[] =
   {
