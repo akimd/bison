@@ -665,7 +665,7 @@ AT_BISON_CHECK([-v -o input.c input.y])
 [sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' input.c >tables.c]
 
 AT_CHECK([[cat tables.c]], 0,
-[[static const yysymbol_type_t yytranslate[] =
+[[static const yytype_int8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
