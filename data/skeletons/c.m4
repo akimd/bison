@@ -620,7 +620,7 @@ m4_define_default([b4_yydestruct_define],
 
 static void
 yydestruct (const char *yymsg,
-            int yytype, YYSTYPE *yyvaluep]b4_locations_if(dnl
+            yysymbol_type_t yytype, YYSTYPE *yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use([yyvaluep], [yylocationp])dnl
@@ -646,7 +646,7 @@ m4_define_default([b4_yy_symbol_print_define],
 
 static void
 yy_symbol_value_print (FILE *yyo,
-                       int yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+                       yysymbol_type_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   FILE *yyoutput = yyo;
@@ -674,7 +674,7 @@ b4_percent_code_get([[post-printer]])dnl
 
 static void
 yy_symbol_print (FILE *yyo,
-                 int yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+                 yysymbol_type_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   YYFPRINTF (yyo, "%s %s (",

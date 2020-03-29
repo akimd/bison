@@ -633,13 +633,13 @@ yyreport_syntax_error (const yyparse_context_t *ctx]AT_PARAM_IF([, AT_PARSE_PARA
   fprintf (stderr, ": ");]])[
   fprintf (stderr, "syntax error");
   {
-    int la = yyparse_context_token (ctx);
+    yysymbol_type_t la = yyparse_context_token (ctx);
     if (la != YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }
   {
     enum { TOKENMAX = 10 };
-    int expected[TOKENMAX];
+    yysymbol_type_t expected[TOKENMAX];
     int n = yyexpected_tokens (ctx, expected, TOKENMAX);
     /* Forward errors to yyparse.  */
     if (n < 0)
