@@ -265,11 +265,8 @@ m4_define([b4_public_types_declare],
     /// (External) token type, as returned by yylex.
     typedef token::yytokentype token_type;
 
-    /// Symbol codes.
+    /// (Internal) symbol codes.
     ]b4_declare_symbol_enum[
-
-    /// Symbol type: an internal symbol number.
-    typedef symbol_type_type symbol_number_type;
 ]])
 
 
@@ -325,7 +322,7 @@ m4_define([b4_symbol_type_define],
       void clear ()
       {]b4_variant_if([[
         // User destructor.
-        symbol_number_type yytype = this->type_get ();
+        symbol_type_type yytype = this->type_get ();
         basic_symbol<Base>& yysym = *this;
         (void) yysym;
         switch (yytype)
@@ -387,11 +384,11 @@ m4_define([b4_symbol_type_define],
 
       /// The (internal) type number (corresponding to \a type).
       /// \a empty when empty.
-      symbol_number_type type_get () const YY_NOEXCEPT;
+      symbol_type_type type_get () const YY_NOEXCEPT;
 
       /// The symbol type.
       /// \a YYSYMBOL_YYEMPTY when empty.
-      symbol_number_type type;
+      symbol_type_type type;
     };
 
     /// "External" symbols: returned by the scanner.
@@ -511,7 +508,7 @@ m4_define([b4_public_types_define],
     that.clear ();
   }
 
-  ]b4_inline([$1])[]b4_parser_class[::symbol_number_type
+  ]b4_inline([$1])[]b4_parser_class[::symbol_type_type
   ]b4_parser_class[::by_type::type_get () const YY_NOEXCEPT
   {
     return type;
@@ -531,11 +528,11 @@ m4_define([b4_token_constructor_define], [])
 # Define yytranslate_.  Sometimes used in the header file ($1=hh),
 # sometimes in the cc file.
 m4_define([b4_yytranslate_define],
-[  b4_inline([$1])b4_parser_class[::symbol_number_type
+[  b4_inline([$1])b4_parser_class[::symbol_type_type
   ]b4_parser_class[::yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
-[[    return static_cast<symbol_number_type> (t);]],
+[[    return static_cast<symbol_type_type> (t);]],
 [[    // YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to
     // TOKEN-NUM as returned by yylex.
     static
@@ -549,7 +546,7 @@ m4_define([b4_yytranslate_define],
     if (t <= 0)
       return YYSYMBOL_YYEOF;
     else if (t <= user_token_number_max_)
-      return YY_CAST (symbol_number_type, translate_table[t]);
+      return YY_CAST (symbol_type_type, translate_table[t]);
     else
       return YYSYMBOL_YYUNDEF;]])[
   }
