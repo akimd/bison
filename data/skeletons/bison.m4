@@ -407,8 +407,10 @@ m4_define([_b4_symbol],
 
 # b4_symbol_sid(NUM)
 # ------------------
-# Build the symbol ID based for this symbol.  Return empty
-# if that would produce an invalid symbol.
+# Build the symbol ID based for this symbol.  It must always exist,
+# otherwise some symbols might not be represented in the enum, which
+# might be compiled into too small a type to contain all the symbol
+# numbers.
 m4_define([b4_symbol_sid],
 [m4_case([$1],
   [-2],                           [[YYSYMBOL_YYEMPTY]],
@@ -417,8 +419,9 @@ m4_define([b4_symbol_sid],
       [$accept],                  [[YYSYMBOL_YYACCEPT]],
       [error],                    [[YYSYMBOL_YYERROR]],
       [$undefined],               [[YYSYMBOL_YYUNDEF]],
-      [m4_quote(b4_symbol_if([$1], [has_id],
-                                  [[YYSYMBOL_]]m4_quote(_b4_symbol([$1], [id]))))])])])
+      [b4_symbol_if([$1], [has_id],
+                                  [[YYSYMBOL_]]m4_quote(_b4_symbol([$1], [id])),
+                                  [[YYSYMBOL_$1_][]m4_bpatsubst(m4_quote(_b4_symbol([$1], [tag])), [[^a-zA-Z_0-9]], [_])])])])])
 
 
 # b4_symbol(NUM, FIELD)
