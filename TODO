@@ -5,6 +5,9 @@
 - YYNOMEM
 - i18n in Java
 
+** Java
+Check api.token.raw
+
 ** Naming conventions
 yysyntax_error_arguments should be yy_syntax_error_arguments, since it's a
 private implementation detail.

@@ -128,9 +128,9 @@ m4_define([b4_integral_parser_table_define],
 [b4_typed_parser_table_define([b4_int_type_for([$2])], [$1], [$2], [$3])])
 
 
-## ------------------------- ##
-## Assigning token numbers.  ##
-## ------------------------- ##
+## -------------------------- ##
+## (External) token numbers.  ##
+## -------------------------- ##
 
 # b4_token_enum(TOKEN-NUM)
 # ------------------------
@@ -147,7 +147,58 @@ m4_define([b4_token_enums],
 [b4_any_token_visible_if([/* Tokens.  */
 b4_symbol_foreach([b4_token_enum])])])
 
-# b4-case(ID, CODE)
+
+
+## --------------------------- ##
+## (Internal) symbol numbers.  ##
+## --------------------------- ##
+
+# b4_symbol_enum(SYMBOL-NUM)
+# --------------------------
+# Output the definition of this symbol as an enum.
+m4_define([b4_symbol_enum],
+[m4_ifval(b4_symbol([$1], [sid]),
+         [m4_format([[%s(%s)]],
+                    b4_symbol([$1], [sid]),
+                    b4_symbol([$1], [number]))])])
+
+
+m4_define([b4_case_code_symbol],
+[[        case $1: return SymbolType.]b4_symbol([$1], [sid]);
+])
+
+# b4_declare_symbol_enum
+# ----------------------
+# The definition of the symbol internal numbers as an enum.
+m4_define([b4_declare_symbol_enum],
+[[  public enum SymbolType
+  {
+    ]m4_join([,
+    ],
+             ]b4_symbol_sid([-2])[(-2),
+             b4_symbol_map([b4_symbol_enum]),
+             [YYNTOKENS(]b4_tokens_number[); ///< Number of tokens.])[
+
+    private int code;
+
+    SymbolType (int n) {
+      this.code = n;
+    }
+    static SymbolType get (int code) {
+      switch (code) {
+        default: return YYSYMBOL_YYUNDEF;
+]b4_symbol_foreach([b4_case_code_symbol])[
+      }
+    }
+    int getCode () {
+      return this.code;
+    }
+  };
+]])])
+
+
+
+# b4_case(ID, CODE)
 # -----------------
 # We need to fool Java's stupid unreachable code detection.
 m4_define([b4_case],
@@ -156,6 +207,7 @@ m4_define([b4_case],
     $2;
   break;
 ])
+
 
 # b4_predicate_case(LABEL, CONDITIONS)
 # ------------------------------------

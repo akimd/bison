@@ -975,12 +975,12 @@ m4_define([AT_YYERROR_DEFINE(java)],
     System.err.print (]AT_LOCATION_IF([[ctx.getLocation () + ": "]]
                       + )["syntax error");
     {
-      int token = ctx.getToken ();
-      if (token != ctx.EMPTY)
+      Calc.SymbolType token = ctx.getToken ();
+      if (token != Calc.SymbolType.YYSYMBOL_YYEMPTY)
         System.err.print (" on token @<:@" + ctx.yysymbolName (token) + "@:>@");
     }
     {
-      int[] arg = new int[ctx.NTOKENS];
+      Calc.SymbolType[] arg = new Calc.SymbolType[ctx.NTOKENS];
       int n = ctx.yyexpectedTokens (arg, ctx.NTOKENS);
       if (0 < n)
         {
