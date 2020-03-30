@@ -19,7 +19,7 @@
 }
 
 %code {
-  public static void main (String[] args) throws IOException
+  public static void main(String[] args) throws IOException
   {
     CalcLexer l = new CalcLexer (System.in);
     Calc p = new Calc (l);
@@ -30,7 +30,7 @@
       System.exit (1);
   }
 
-  static String _ (String s)
+  static String i18n(String s)
   {
     return s;
   }
@@ -38,8 +38,9 @@
 
 /* Bison Declarations */
 %token
-  '\n'   _("end of line")
-  <Integer> NUM _("number")
+    '\n'   _("end of line")
+  <Integer>
+    NUM    _("number")
 %type  <Integer> exp
 
 %nonassoc '='       /* comparison            */

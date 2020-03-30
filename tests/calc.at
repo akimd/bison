@@ -669,7 +669,7 @@ m4_define([_AT_DATA_CALC_Y(java)],
   ]AT_CALC_MAIN[
 
   ]AT_TOKEN_TRANSLATE_IF([[
-    static String _ (String s)
+    static String i18n(String s)
     {
       if (s.equals ("end of input"))
         return "end of file";

@@ -479,6 +479,8 @@ m4_define([b4_token_enums_defines],
 
 # b4_symbol_translate(STRING)
 # ---------------------------
+# Used by "bison" in the array of symbol names to mark those that
+# require translation.
 m4_define([b4_symbol_translate],
 [[N_($1)]])
 
