@@ -133,6 +133,9 @@ exp:
 %%
 // Epilogue (C code).
 
+// We already defined yyscan_t, don't let scan.h define it again.
+#define YY_TYPEDEF_YY_SCANNER_T
+typedef void* yyscan_t;
 #include "scan.h"
 
 result
