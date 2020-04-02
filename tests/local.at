@@ -233,6 +233,11 @@ m4_pushdef([AT_PARSE_PARAMS])
 m4_bpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}],
              [m4_append([AT_PARSE_PARAMS], [\1, ])])
 
+m4_pushdef([AT_PARSER_CLASS],
+[m4_bmatch([$3], [%define  *api\.parser\.class {\([^\}]*\)}],
+           [m4_bregexp([$3], [%define  *api\.parser\.class {\([^\}]*\)}], [\1])],
+           [AT_API_PREFIX[]Parser])])
+
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
            [m4_bmatch([$3], [%define  *api\.pure *false], [$2], [$1])],
@@ -382,6 +387,7 @@ m4_popdef([AT_LOCATION_IF])
 m4_popdef([AT_PARSE_PARAMS])
 m4_popdef([AT_PUSH_IF])
 m4_popdef([AT_PURE_IF])
+m4_popdef([AT_PARSER_CLASS])
 m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_YACC_IF])
@@ -407,6 +413,12 @@ AT_LOC_POPDEF])dnl
 # ------------------------------------------------------------
 m4_define([AT_LANG_CASE],
 [m4_case(AT_LANG, $@)])
+
+
+# AT_LANG_MATCH(LANG1, IF-LANG1, LANG2, IF-LANG2, ..., DEFAULT)
+# ------------------------------------------------------------
+m4_define([AT_LANG_MATCH],
+[m4_bmatch(AT_LANG, $@)])
 
 
 # _AT_LANG_DISPATCH(LANG, MACRO, ARGS)
@@ -747,6 +759,9 @@ m4_define([AT_MAIN_DEFINE(d)],
 # ------------------------------
 m4_copy([AT_DATA], [AT_DATA_GRAMMAR(java)])
 
+# No need to declare, it's part of the class interface.
+m4_define([AT_YYERROR_DECLARE(java)],        [])
+m4_define([AT_YYERROR_DECLARE_EXTERN(java)], [])
 
 # AT_JAVA_POSITION_DEFINE
 # -----------------------
@@ -829,10 +844,12 @@ m4_define([AT_YYLEX_DEFINE(java)],
 m4_define([AT_MAIN_DEFINE(java)],
 [[class input
 {
-  public static void main (String args[]) throws IOException
+  public static void main (String[] args) throws IOException
   {
     ]AT_API_prefix[Parser p = new ]AT_API_prefix[Parser ();
-    System.exit (p.parse () ? 0 : 1);
+    boolean success = p.parse ();
+    if (!success)
+      System.exit (1);
   }
 }]])
 

@@ -1012,7 +1012,7 @@ b4_dollar_popdef[]dnl
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
 ]b4_api_token_raw_if(dnl
 [[  {
-    return t;
+    return (]b4_int_type_for([b4_translate])[) t;
   }
 ]],
 [[  {
