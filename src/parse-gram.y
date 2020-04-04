@@ -799,7 +799,7 @@ epilogue.opt:
 %%
 
 int
-yyreport_syntax_error (const yyparse_context_t *ctx)
+yyreport_syntax_error (const yypcontext_t *ctx)
 {
   int res = 0;
   /* Arguments of format: reported tokens (one for the "unexpected",
@@ -807,7 +807,7 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
   enum { ARGS_MAX = 5 };
   const char *argv[ARGS_MAX];
   int argc = 0;
-  yysymbol_type_t unexpected = yyparse_context_token (ctx);
+  yysymbol_type_t unexpected = yypcontext_token (ctx);
   if (unexpected != YYSYMBOL_YYEMPTY)
     {
       argv[argc++] = yysymbol_name (unexpected);
@@ -819,7 +819,7 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
         for (int i = 0; i < nexpected; ++i)
           argv[argc++] = yysymbol_name (expected[i]);
     }
-  syntax_error (*yyparse_context_location (ctx), argc, argv);
+  syntax_error (*yypcontext_location (ctx), argc, argv);
   return res;
 }
 

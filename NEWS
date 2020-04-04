@@ -37,14 +37,14 @@ GNU Bison NEWS
   herself by defining a function such as:
 
     int
-    yyreport_syntax_error (const yyparse_context_t *ctx)
+    yyreport_syntax_error (const yypcontext_t *ctx)
     {
       enum { ARGMAX = 10 };
       int arg[ARGMAX];
       int n = yysyntax_error_arguments (ctx, arg, ARGMAX);
       if (n == -2)
         return 2; // Memory exhausted.
-      YY_LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
+      YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
       fprintf (stderr, ": syntax error");
       for (int i = 1; i < n; ++i)
         fprintf (stderr, " %s %s",

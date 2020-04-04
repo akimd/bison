@@ -7396,19 +7396,19 @@ Declarations}), then the parser no longer passes syntax error messages to
 @code{yyerror}, rather it leaves that task to the user by calling the
 @code{yyreport_syntax_error} function.
 
-@deftypefun int yyreport_syntax_error (@code{const yyparse_context_t *}@var{ctx})
+@deftypefun int yyreport_syntax_error (@code{const yypcontext_t *}@var{ctx})
 Report a syntax error to the user.  Return 0 on success, 2 on memory
 exhaustion.  Whether it uses @code{yyerror} is up to the user.
 @end deftypefun
 
 Use the following functions to build the error message.
 
-@deftypefun {YYLTYPE *} yyparse_context_location (@code{const yyparse_context_t *}@var{ctx})
+@deftypefun {YYLTYPE *} yypcontext_location (@code{const yypcontext_t *}@var{ctx})
 The location of the syntax error.
 @end deftypefun
 
 
-@deftypefun int yysyntax_error_arguments (@code{const yyparse_context_t *}ctx, @code{int} @var{argv}@code{[]}, @code{int} @var{argc})
+@deftypefun int yysyntax_error_arguments (@code{const yypcontext_t *}ctx, @code{int} @var{argv}@code{[]}, @code{int} @var{argc})
 Fill @var{argv} with first the internal number of the token that caused the
 error, then the internal numbers of the expected tokens.  Never put more
 than @var{argc} elements into @var{argv}, and on success return the
@@ -7428,7 +7428,7 @@ A custom syntax error function looks as follows.
 
 @example
 int
-yyreport_syntax_error (const yyparse_context_t *ctx)
+yyreport_syntax_error (const yypcontext_t *ctx)
 @{
   enum @{ ARGMAX = 10 @};
   int arg[ARGMAX];

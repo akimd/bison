@@ -622,18 +622,18 @@ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
 
 ]AT_ERROR_CUSTOM_IF([[
 int
-yyreport_syntax_error (const yyparse_context_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[)
+yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[)
 {
   int res = 0;]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
   YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
   ++global_nerrs;
   ++*nerrs;]])[]AT_LOCATION_IF([[
-  LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
+  LOCATION_PRINT (stderr, *yypcontext_location (ctx));
   fprintf (stderr, ": ");]])[
   fprintf (stderr, "syntax error");
   {
-    yysymbol_type_t la = yyparse_context_token (ctx);
+    yysymbol_type_t la = yypcontext_token (ctx);
     if (la != YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }

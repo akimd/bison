@@ -282,10 +282,10 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 `---------*/
 
 int
-yyreport_syntax_error (const yyparse_context_t *ctx)
+yyreport_syntax_error (const yypcontext_t *ctx)
 {
   int res = 0;
-  YY_LOCATION_PRINT (stderr, *yyparse_context_location (ctx));
+  YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
   fprintf (stderr, ": syntax error");
   {
     enum { TOKENMAX = 10 };
@@ -300,7 +300,7 @@ yyreport_syntax_error (const yyparse_context_t *ctx)
                  i == 0 ? ": expected" : " or", yysymbol_name (expected[i]));
   }
   {
-    yysymbol_type_t lookahead = yyparse_context_token (ctx);
+    yysymbol_type_t lookahead = yypcontext_token (ctx);
     if (lookahead != YYEMPTY)
       fprintf (stderr, " before %s", yysymbol_name (lookahead));
   }
