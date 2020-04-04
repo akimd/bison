@@ -1,4 +1,19 @@
-This package contains the GNU Bison parser generator.
+GNU Bison is a general-purpose parser generator that converts an annotated
+context-free grammar into a deterministic LR or generalized LR (GLR) parser
+employing LALR(1) parser tables.  Bison can also generate IELR(1) or
+canonical LR(1) parser tables.  Once you are proficient with Bison, you can
+use it to develop a wide range of language parsers, from those used in
+simple desk calculators to complex programming languages.
+
+Bison is upward compatible with Yacc: all properly-written Yacc grammars
+work with Bison with no change.  Anyone familiar with Yacc should be able to
+use Bison with little trouble.  You need to be fluent in C, C++ or Java
+programming in order to use Bison.
+
+Bison and the parsers it generates are portable, they do not require any
+specific compilers.
+
+GNU Bison's home page is https://gnu.org/software/bison/.
 
 # Installation
 ## Build from git
@@ -103,7 +118,8 @@ fill-column: 76
 ispell-dictionary: "american"
 End:
 
-LocalWords:  parsers ngettext Texinfo pdf html YYYY ZZZZ ispell american
-LocalWords:  MERCHANTABILITY
+LocalWords:  parsers ngettext Texinfo pdf html YYYY ZZZZ ispell american md
+LocalWords:  MERCHANTABILITY GLR LALR IELR submodule init README src bw
+LocalWords:  Relocatability symlinks symlink
 
 -->
