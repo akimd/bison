@@ -30,9 +30,9 @@ run 0 '7
 cat >input <<EOF
 1 + 2 * * 3
 EOF
-run 0 "err: 1.9-1.10: syntax error: expected number or '-' or '(' or '!' before '*'"
+run 0 "err: 1.9-1.10: syntax error: expected ! or - or ( or number before *"
 
 cat >input <<EOF
 12   222
 EOF
-run 0 "err: 1.6-1.9: syntax error: expected end of line or '=' or '-' or '+' or '*' or '/' or '^' before number"
+run 0 "err: 1.6-1.9: syntax error: expected + or - or * or / or ^ or = or end of line before number"

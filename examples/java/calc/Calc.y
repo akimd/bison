@@ -38,16 +38,25 @@
 
 /* Bison Declarations */
 %token
-    '\n'   _("end of line")
+    BANG   "!"
+    PLUS   "+"
+    MINUS  "-"
+    STAR   "*"
+    SLASH  "/"
+    CARET  "^"
+    LPAREN "("
+    RPAREN ")"
+    EQUAL  "="
+    EOL    _("end of line")
   <Integer>
     NUM    _("number")
 %type  <Integer> exp
 
-%nonassoc '='       /* comparison            */
-%left '-' '+'
-%left '*' '/'
+%nonassoc "="       /* comparison            */
+%left "-" "+"
+%left "*" "/"
 %precedence NEG     /* negation--unary minus */
-%right '^'          /* exponentiation        */
+%right "^"          /* exponentiation        */
 
 /* Grammar follows */
 %%
@@ -57,28 +66,28 @@ input:
 ;
 
 line:
-  '\n'
-| exp '\n'           { System.out.println ($exp); }
-| error '\n'
+  EOL
+| exp EOL            { System.out.println ($exp); }
+| error EOL
 ;
 
 exp:
   NUM                { $$ = $1; }
-| exp '=' exp
+| exp "=" exp
   {
     if ($1.intValue () != $3.intValue ())
       yyerror (@$, "calc: error: " + $1 + " != " + $3);
   }
-| exp '+' exp        { $$ = $1 + $3;  }
-| exp '-' exp        { $$ = $1 - $3;  }
-| exp '*' exp        { $$ = $1 * $3;  }
-| exp '/' exp        { $$ = $1 / $3;  }
-| '-' exp  %prec NEG { $$ = -$2; }
-| exp '^' exp        { $$ = (int) Math.pow ($1, $3); }
-| '(' exp ')'        { $$ = $2; }
-| '(' error ')'      { $$ = 1111; }
-| '!'                { $$ = 0; return YYERROR; }
-| '-' error          { $$ = 0; return YYERROR; }
+| exp "+" exp        { $$ = $1 + $3;  }
+| exp "-" exp        { $$ = $1 - $3;  }
+| exp "*" exp        { $$ = $1 * $3;  }
+| exp "/" exp        { $$ = $1 / $3;  }
+| "-" exp  %prec NEG { $$ = -$2; }
+| exp "^" exp        { $$ = (int) Math.pow ($1, $3); }
+| "(" exp ")"        { $$ = $2; }
+| "(" error ")"      { $$ = 1111; }
+| "!"                { $$ = 0; return YYERROR; }
+| "-" error          { $$ = 0; return YYERROR; }
 ;
 
 %%
@@ -151,15 +160,33 @@ class CalcLexer implements Calc.Lexer {
       case StreamTokenizer.TT_EOL:
         end.line += 1;
         end.column = 0;
-        return (int) '\n';
+        return EOL;
       case StreamTokenizer.TT_WORD:
         yylval = new Integer (st.sval);
         end.set (reader.getPreviousPosition ());
         return NUM;
       case ' ': case '\t':
         return yylex ();
+      case '!':
+        return BANG;
+      case '+':
+        return PLUS;
+      case '-':
+        return MINUS;
+      case '*':
+        return STAR;
+      case '/':
+        return SLASH;
+      case '^':
+        return CARET;
+      case '(':
+        return LPAREN;
+      case ')':
+        return RPAREN;
+      case '=':
+        return EQUAL;
       default:
-        return ttype;
+        throw new AssertionError ("invalid character: " + ttype);
       }
   }
 }
