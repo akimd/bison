@@ -2,6 +2,18 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** WARNING: Future backward-incompatibilities!
+
+  TL;DR: replace "#define YYERROR_VERBOSE 1" by "%define parse.error verbose".
+
+  Bison 3.6 will no longer support the YYERROR_VERBOSE macro; the parsers
+  that still depend on it will produce Yacc-like error messages (just
+  "syntax error").  It was superseded by the "%error-verbose" directive in
+  Bison 1.875 (2003-01-01).  Bison 2.6 (2012-07-19) clearly announced that
+  support for YYERROR_VERBOSE would be removed.  Note that since Bison 3.0
+  (2013-07-25), "%error-verbose" is deprecated in favor of "%define
+  parse.error verbose".
+
 ** Bug fixes
 
   Fix portability issues of the package itself on old compilers.
