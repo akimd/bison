@@ -163,10 +163,6 @@ m4_define([b4_symbol_enum],
                     b4_symbol([$1], [number]))])])
 
 
-m4_define([b4_case_code_symbol],
-[[        case $1: return SymbolType.]b4_symbol([$1], [sid]);
-])
-
 # b4_declare_symbol_enum
 # ----------------------
 # The definition of the symbol internal numbers as an enum.
@@ -176,22 +172,25 @@ m4_define([b4_declare_symbol_enum],
     ]m4_join([,
     ],
              ]b4_symbol_sid([-2])[(-2),
-             b4_symbol_map([b4_symbol_enum]),
-             [YYNTOKENS(]b4_tokens_number[); ///< Number of tokens.])[
+             b4_symbol_map([b4_symbol_enum]))[;
 
-    private int code;
+    private final int code_;
 
     SymbolType (int n) {
-      this.code = n;
+      this.code_ = n;
     }
-    static SymbolType get (int code) {
-      switch (code) {
-        default: return YYSYMBOL_YYUNDEF;
-]b4_symbol_foreach([b4_case_code_symbol])[
-      }
+
+    private static final SymbolType[] values_ = {
+        ]m4_map_args_sep([b4_symbol_sid(], [)], [,
+        ], b4_symbol_numbers)[
+    };
+
+    static final SymbolType get (int code) {
+      return values_[code];
     }
-    int getCode () {
-      return this.code;
+
+    public final int getCode () {
+      return this.code_;
     }
   };
 ]])])
