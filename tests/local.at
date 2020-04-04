@@ -634,7 +634,7 @@ yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[
   fprintf (stderr, "syntax error");
   {
     yysymbol_type_t la = yypcontext_token (ctx);
-    if (la != YYEMPTY)
+    if (la != YYSYMBOL_YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }
   {
@@ -642,9 +642,9 @@ yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[
     yysymbol_type_t expected[TOKENMAX];
     int n = yyexpected_tokens (ctx, expected, TOKENMAX);
     /* Forward errors to yyparse.  */
-    if (n < 0)
+    if (n <= 0)
       res = n;
-    else if (0 < n)
+    else
       {
         fprintf (stderr, " (expected:");
         for (int i = 0; i < n; ++i)

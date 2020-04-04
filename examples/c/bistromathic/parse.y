@@ -287,6 +287,7 @@ yyreport_syntax_error (const yypcontext_t *ctx)
   int res = 0;
   YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
   fprintf (stderr, ": syntax error");
+  // Report the tokens expected at this point.
   {
     enum { TOKENMAX = 10 };
     yysymbol_type_t expected[TOKENMAX];
@@ -299,9 +300,10 @@ yyreport_syntax_error (const yypcontext_t *ctx)
         fprintf (stderr, "%s %s",
                  i == 0 ? ": expected" : " or", yysymbol_name (expected[i]));
   }
+  // Report the unexpected token.
   {
     yysymbol_type_t lookahead = yypcontext_token (ctx);
-    if (lookahead != YYEMPTY)
+    if (lookahead != YYSYMBOL_YYEMPTY)
       fprintf (stderr, " before %s", yysymbol_name (lookahead));
   }
   fprintf (stderr, "\n");

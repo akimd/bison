@@ -39,20 +39,30 @@ GNU Bison NEWS
     int
     yyreport_syntax_error (const yypcontext_t *ctx)
     {
-      enum { ARGMAX = 10 };
-      int arg[ARGMAX];
-      int n = yy_syntax_error_arguments (ctx, arg, ARGMAX);
-      if (n == -2)
-        return 2; // Memory exhausted.
+      int res = 0;
       YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
       fprintf (stderr, ": syntax error");
-      for (int i = 1; i < n; ++i)
-        fprintf (stderr, " %s %s",
-                 i == 1 ? "expected" : "or", yysymbol_name (arg[i]));
-      if (n)
-        fprintf (stderr, " before %s", yysymbol_name (arg[0]));
+      // Report the tokens expected at this point.
+      {
+        enum { TOKENMAX = 10 };
+        yysymbol_type_t expected[TOKENMAX];
+        int n = yyexpected_tokens (ctx, expected, TOKENMAX);
+        if (n < 0)
+          // Forward errors to yyparse.
+          res = n;
+        else
+          for (int i = 0; i < n; ++i)
+            fprintf (stderr, "%s %s",
+                     i == 0 ? ": expected" : " or", yysymbol_name (expected[i]));
+      }
+      // Report the unexpected token.
+      {
+        yysymbol_type_t lookahead = yypcontext_token (ctx);
+        if (lookahead != YYSYMBOL_YYEMPTY)
+          fprintf (stderr, " before %s", yysymbol_name (lookahead));
+      }
       fprintf (stderr, "\n");
-      return 0;
+      return res;
     }
 
 **** Token aliases internationalization
