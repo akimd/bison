@@ -279,8 +279,8 @@ m4_define([b4_shared_declarations],
     void yyreport_syntax_error (const context& yyctx) const;]],
       [detailed\|verbose], [[
     /// The arguments of the error message.
-    int yysyntax_error_arguments_ (const context& yyctx,
-                                   symbol_type_type yyarg[], int yyargn) const;
+    int yy_syntax_error_arguments_ (const context& yyctx,
+                                    symbol_type_type yyarg[], int yyargn) const;
 
     /// Generate an error message.
     /// \param yyctx     the context in which the error occurred.
@@ -1422,8 +1422,8 @@ b4_dollar_popdef])[]dnl
   }]])b4_parse_error_bmatch([detailed\|verbose], [[
 
   int
-  ]b4_parser_class[::yysyntax_error_arguments_ (const context& yyctx,
-                                                symbol_type_type yyarg[], int yyargn) const
+  ]b4_parser_class[::yy_syntax_error_arguments_ (const context& yyctx,
+                                                 symbol_type_type yyarg[], int yyargn) const
   {
     /* There are many possibilities here to consider:
        - If this state is a consistent state with a default action, then
@@ -1473,7 +1473,7 @@ b4_dollar_popdef])[]dnl
     enum { YYARGS_MAX = 5 };
     // Arguments of yyformat.
     symbol_type_type yyarg[YYARGS_MAX];
-    int yycount = yysyntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
+    int yycount = yy_syntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
 
     char const* yyformat = YY_NULLPTR;
     switch (yycount)

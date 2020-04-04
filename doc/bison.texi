@@ -7408,7 +7408,7 @@ The location of the syntax error.
 @end deftypefun
 
 
-@deftypefun int yysyntax_error_arguments (@code{const yypcontext_t *}ctx, @code{int} @var{argv}@code{[]}, @code{int} @var{argc})
+@deftypefun int yy_syntax_error_arguments (@code{const yypcontext_t *}ctx, @code{int} @var{argv}@code{[]}, @code{int} @var{argc})
 Fill @var{argv} with first the internal number of the token that caused the
 error, then the internal numbers of the expected tokens.  Never put more
 than @var{argc} elements into @var{argv}, and on success return the
@@ -7432,7 +7432,7 @@ yyreport_syntax_error (const yypcontext_t *ctx)
 @{
   enum @{ ARGMAX = 10 @};
   int arg[ARGMAX];
-  int n = yysyntax_error_arguments (ctx, arg, ARGMAX);
+  int n = yy_syntax_error_arguments (ctx, arg, ARGMAX);
   if (n == -2)
     return 2;
   fprintf (stderr, "syntax error");
