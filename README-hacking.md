@@ -5,7 +5,8 @@ Everything related to the development of Bison is on Savannah:
 http://savannah.gnu.org/projects/bison/.
 
 
-# Administrivia
+Administrivia
+=============
 
 ## If you incorporate a change from somebody on the net:
 First, if it is a large change, you must make sure they have signed the
@@ -23,9 +24,11 @@ demonstrates the bug.  Then fix the bug, re-run the test suite, and check
 everything in.
 
 
-# Hacking
 
-## Visible changes
+Hacking
+=======
+
+## Visible Changes
 Which include serious bug fixes, must be mentioned in NEWS.
 
 ## Translations
@@ -34,22 +37,52 @@ Only user visible strings are to be translated: error messages, bits of the
 assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
-## Coding style
-Follow the GNU Coding Standards.
-
-Don't reinvent the wheel: we use gnulib, which features many components.
-Actually, Bison has legacy code that we should replace with gnulib modules
-(e.g., many adhoc implementations of lists).
-
+## Coding Style
 Do not add horizontal tab characters to any file in Bison's repository
 except where required.  For example, do not use tabs to format C code.
 However, make files, ChangeLog, and some regular expressions require tabs.
 Also, test cases might need to contain tabs to check that Bison properly
 processes tabs in its input.
 
-## Commit messages
-Please, imitate the style we use.  Use `git log` to get sources of
-inspiration.
+### Bison
+Follow the GNU Coding Standards.
+
+Don't reinvent the wheel: we use gnulib, which features many components.
+Actually, Bison has legacy code that we should replace with gnulib modules
+(e.g., many adhoc implementations of lists).
+
+### Skeletons
+We try to use the "typical" coding style for each language.
+
+#### C/C++
+Follow the GNU Coding Standards.
+
+The `glr.c` skeleton was implemented with `camlCase`.  We are migrating it
+to `snake_case`.  Because we are standardizing the code, it is currently
+inconsistent.
+
+Use `YYFOO` and `yyfoo` for entities that are exposed to the user.  They are
+part of our contract with the users wrt backward compatibility.
+
+Use `YY_FOO` and `yy_foo` for private matters.  Users should not use them,
+we are free to change them without fear of backward compatibility issues.
+
+Use `*_t` for types, especially for `yy*_t` in which case we shouldn't worry
+about the C standard introducing such a name.
+
+In C++, use `*_type` for type aliases.
+
+#### Java
+We follow https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
+and https://google.github.io/styleguide/javaguide.html.  Unfortunately at
+some point some GNU Coding Style was installed in Java, but it's an error.
+So we should for instance stop putting spaces in function calls.  Because we
+are standardizing the code, it is currently inconsistent.
+
+Use a 2-space indentation (Google) rather than 4 (Oracle).
+
+## Commit Messages
+Imitate the style we use.  Use `git log` to get sources of inspiration.
 
 ## Debugging
 Bison supports tracing of its various steps, via the `--trace` option.
@@ -57,7 +90,10 @@ Since it is not meant for the end user, it is not displayed by `bison
 --help`, nor is it documented in the manual.  Instead, run `bison
 --trace=help`.
 
-# Working from the repository
+
+
+Working from the Repository
+===========================
 
 These notes intend to help people working on the checked-out sources.  These
 requirements do not apply when building from a distribution tarball.
@@ -200,7 +236,10 @@ These files don't change very often in Autoconf, so it should be relatively
 straight-forward to examine the differences in order to decide whether to
 update.
 
-# Test Suite
+
+
+Test Suite
+==========
 
 ## make check
 Consume without moderation.  It is composed of two kinds of tests: the
@@ -354,7 +393,11 @@ re-run the tests, run:
     ./configure -C CC='gcc-mp-8 -fsanitize=undefined' CFLAGS='-ggdb'
     make check
 
-# Release Procedure
+
+
+Release Procedure
+=================
+
 This section needs to be updated to take into account features from gnulib.
 In particular, be sure to read README-release.
 
