@@ -401,14 +401,14 @@ b4_user_union_members
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
 
-  private final void yy_symbol_print (string s, SymbolKind yytype,
+  private final void yy_symbol_print (string s, SymbolKind yykind,
     ref ]b4_yystype[ yyvaluep]dnl
 b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
     if (0 < yydebug)
     {
-      string message = s ~ (yytype < yyntokens_ ? " token " : " nterm ")
-              ~ yytname_[yytype] ~ " ("]b4_locations_if([
+      string message = s ~ (yykind < yyntokens_ ? " token " : " nterm ")
+              ~ yytname_[yykind] ~ " ("]b4_locations_if([
               ~ yylocationp.toString() ~ ": "])[;
       static if (__traits(compiles, message ~= yyvaluep.toString ()))
               message ~= yyvaluep.toString ();

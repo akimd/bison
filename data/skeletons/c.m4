@@ -620,13 +620,13 @@ m4_define_default([b4_yydestruct_define],
 
 static void
 yydestruct (const char *yymsg,
-            yysymbol_kind_t yytype, YYSTYPE *yyvaluep]b4_locations_if(dnl
+            yysymbol_kind_t yykind, YYSTYPE *yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use([yyvaluep], [yylocationp])dnl
 [  if (!yymsg)
     yymsg = "Deleting";
-  YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+  YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   ]b4_symbol_actions([destructor])[
@@ -646,7 +646,7 @@ m4_define_default([b4_yy_symbol_print_define],
 
 static void
 yy_symbol_value_print (FILE *yyo,
-                       yysymbol_kind_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+                       yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   FILE *yyoutput = yyo;
@@ -656,8 +656,8 @@ yy_symbol_value_print (FILE *yyo,
 dnl glr.c does not feature yytoknum.
 m4_if(b4_skeleton, ["yacc.c"],
 [[# ifdef YYPRINT
-  if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
+  if (yykind < YYNTOKENS)
+    YYPRINT (yyo, yytoknum[yykind], *yyvaluep);
 # endif
 ]])dnl
 b4_percent_code_get([[pre-printer]])dnl
@@ -674,16 +674,16 @@ b4_percent_code_get([[post-printer]])dnl
 
 static void
 yy_symbol_print (FILE *yyo,
-                 yysymbol_kind_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+                 yysymbol_kind_t yykind, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   YYFPRINTF (yyo, "%s %s (",
-             yytype < YYNTOKENS ? "token" : "nterm", yysymbol_name (yytype));
+             yykind < YYNTOKENS ? "token" : "nterm", yysymbol_name (yykind));
 
 ]b4_locations_if([  YY_LOCATION_PRINT (yyo, *yylocationp);
   YYFPRINTF (yyo, ": ");
 ])dnl
-[  yy_symbol_value_print (yyo, yytype, yyvaluep]dnl
+[  yy_symbol_value_print (yyo, yykind, yyvaluep]dnl
 b4_locations_if([, yylocationp])[]b4_user_args[);
   YYFPRINTF (yyo, ")");
 }]dnl
@@ -709,7 +709,7 @@ m4_define([b4_symbol_type_register],
 [m4_define([b4_symbol($1, type_tag)],
            [b4_symbol_if([$1], [has_id],
                          [b4_symbol([$1], [id])],
-                         [yytype_[]b4_symbol([$1], [number])])])dnl
+                         [yykind_[]b4_symbol([$1], [number])])])dnl
 m4_append([b4_union_members],
 m4_expand([
   b4_symbol_tag_comment([$1])dnl

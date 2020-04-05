@@ -83,12 +83,12 @@ m4_define([b4_yy_symbol_print_define],
 `--------------------*/
 
 static void
-yy_symbol_print (FILE *, ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytype,
+yy_symbol_print (FILE *, ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytoken,
                  const ]b4_namespace_ref::b4_parser_class[::semantic_type *yyvaluep]b4_locations_if([[,
                  const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use[]dnl
-[  yyparser.yy_symbol_print_ (yytype, yyvaluep]b4_locations_if([, yylocationp])[);
+[  yyparser.yy_symbol_print_ (yytoken, yyvaluep]b4_locations_if([, yylocationp])[);
 }
 ]])[
 
@@ -175,7 +175,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   `--------------------*/
 
   void
-  ]b4_parser_class[::yy_symbol_value_print_ (symbol_kind_type yytype,
+  ]b4_parser_class[::yy_symbol_value_print_ (symbol_kind_type yykind,
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
   {]b4_locations_if([[
@@ -189,14 +189,14 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
 
   void
-  ]b4_parser_class[::yy_symbol_print_ (symbol_kind_type yytype,
+  ]b4_parser_class[::yy_symbol_print_ (symbol_kind_type yykind,
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
   {
-    *yycdebug_ << (yytype < YYNTOKENS ? "token" : "nterm")
-               << ' ' << yytname[yytype] << " ("]b4_locations_if([[
+    *yycdebug_ << (yykind < YYNTOKENS ? "token" : "nterm")
+               << ' ' << yytname[yykind] << " ("]b4_locations_if([[
                << *yylocationp << ": "]])[;
-    yy_symbol_value_print_ (yytype, yyvaluep]b4_locations_if([[, yylocationp]])[);
+    yy_symbol_value_print_ (yykind, yyvaluep]b4_locations_if([[, yylocationp]])[);
     *yycdebug_ << ')';
   }
 
@@ -322,17 +322,17 @@ b4_percent_code_get([[requires]])[
 # if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
-    /// \param yytype       The token type.
+    /// \param yykind       The symbol kind.
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
-    virtual void yy_symbol_value_print_ (symbol_kind_type yytype,
+    virtual void yy_symbol_value_print_ (symbol_kind_type yykind,
                                          const semantic_type* yyvaluep]b4_locations_if([[,
                                          const location_type* yylocationp]])[);
     /// \brief Report a symbol on the debug stream.
-    /// \param yytype       The token type.
+    /// \param yykind       The symbol kind.
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
-    virtual void yy_symbol_print_ (symbol_kind_type yytype,
+    virtual void yy_symbol_print_ (symbol_kind_type yykind,
                                    const semantic_type* yyvaluep]b4_locations_if([[,
                                    const location_type* yylocationp]])[);
   private:

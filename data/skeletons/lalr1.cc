@@ -301,7 +301,7 @@ m4_define([b4_shared_declarations],
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
-    /// Convert a scanner token number \a t to a symbol number.
+    /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_type, but character literals
     /// are valid, yet not members of the token_type enum.
     static symbol_kind_type yytranslate_ (int t);
@@ -361,7 +361,7 @@ m4_define([b4_shared_declarations],
       /// Default constructor.
       by_state () YY_NOEXCEPT;
 
-      /// The symbol type as needed by the constructor.
+      /// The symbol kind as needed by the constructor.
       typedef state_type kind_type;
 
       /// Constructor.
@@ -376,7 +376,7 @@ m4_define([b4_shared_declarations],
       /// Steal the symbol type from \a that.
       void move (by_state& that);
 
-      /// The (internal) type number (corresponding to \a state).
+      /// The symbol kind (corresponding to \a state).
       /// \a YYSYMBOL_YYEMPTY when empty.
       symbol_kind_type type_get () const YY_NOEXCEPT;
 
@@ -773,15 +773,15 @@ b4_parse_error_case([verbose], [[
   {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
-    symbol_kind_type yytype = yysym.type_get ();
+    symbol_kind_type yykind = yysym.type_get ();
 #if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ * 100 + __GNUC_MINOR__ <= 408
     // Avoid a (spurious) G++ 4.8 warning about "array subscript is
     // below array bounds".
     if (yysym.empty ())
       std::abort ();
 #endif
-    yyo << (yytype < YYNTOKENS ? "token" : "nterm")
-        << ' ' << yytname_[yytype] << " ("]b4_locations_if([
+    yyo << (yykind < YYNTOKENS ? "token" : "nterm")
+        << ' ' << yytname_[yykind] << " ("]b4_locations_if([
         << yysym.location << ": "])[;
     ]b4_symbol_actions([printer])[
     yyo << ')';

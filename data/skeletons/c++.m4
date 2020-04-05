@@ -262,10 +262,10 @@ m4_define([b4_public_types_declare],
       ]b4_token_enums[
     };
 
-    /// (External) token type, as returned by yylex.
+    /// (External) token kind, as returned by yylex.
     typedef token::yytokentype token_type;
 
-    /// (Internal) symbol codes.
+    /// (Internal) symbol kind.
     ]b4_declare_symbol_enum[
 ]])
 
@@ -322,10 +322,10 @@ m4_define([b4_symbol_type_define],
       void clear ()
       {]b4_variant_if([[
         // User destructor.
-        symbol_kind_type yytype = this->type_get ();
+        symbol_kind_type yykind = this->type_get ();
         basic_symbol<Base>& yysym = *this;
         (void) yysym;
-        switch (yytype)
+        switch (yykind)
         {
 ]b4_symbol_foreach([b4_symbol_destructor])dnl
 [       default:
@@ -333,7 +333,7 @@ m4_define([b4_symbol_type_define],
         }
 
         // Type destructor.
-]b4_symbol_variant([[yytype]], [[value]], [[template destroy]])])[
+]b4_symbol_variant([[yykind]], [[value]], [[template destroy]])])[
         Base::clear ();
       }
 

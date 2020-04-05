@@ -499,12 +499,12 @@ import java.text.MessageFormat;
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
 
-  private void yySymbolPrint (String s, SymbolKind yytype,
+  private void yySymbolPrint (String s, SymbolKind yykind,
                              ]b4_yystype[ yyvaluep]dnl
                               b4_locations_if([, Object yylocationp])[)
   {
-    yycdebug (s + (yytype.getCode () < yyntokens_ ? " token " : " nterm ")
-              + yysymbolName (yytype) + " ("]b4_locations_if([
+    yycdebug (s + (yykind.getCode () < yyntokens_ ? " token " : " nterm ")
+              + yysymbolName (yykind) + " ("]b4_locations_if([
               + yylocationp + ": "])[
               + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
   }]])[

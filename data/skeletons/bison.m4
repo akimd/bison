@@ -456,9 +456,9 @@ m4_define([b4_symbol_tag_comment],
 ])
 
 
-# b4_symbol_action(SYMBOL-NUM, KIND)
-# ----------------------------------
-# Run the action KIND (destructor or printer) for SYMBOL-NUM.
+# b4_symbol_action(SYMBOL-NUM, ACTION)
+# ------------------------------------
+# Run the action ACTION ("destructor" or "printer") for SYMBOL-NUM.
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
 [b4_dollar_pushdef([(*yyvaluep)],
@@ -482,21 +482,21 @@ m4_define([b4_symbol_destructor], [b4_symbol_action([$1], [destructor])])
 m4_define([b4_symbol_printer],    [b4_symbol_action([$1], [printer])])
 
 
-# b4_symbol_actions(KIND, [TYPE = yytype])
-# ----------------------------------------
-# Emit the symbol actions for KIND ("printer" or "destructor").
-# Dispatch on TYPE.
+# b4_symbol_actions(ACTION, [KIND = yykind])
+# ------------------------------------------
+# Emit the symbol actions for ACTION ("destructor" or "printer").
+# Dispatch on KIND.
 m4_define([b4_symbol_actions],
 [m4_pushdef([b4_actions_], m4_expand([b4_symbol_foreach([b4_symbol_$1])]))dnl
 m4_ifval(m4_defn([b4_actions_]),
-[switch (m4_default([$2], [yytype]))
+[switch (m4_default([$2], [yykind]))
     {
 m4_defn([b4_actions_])[]dnl
       default:
         break;
     }dnl
 ],
-[YYUSE (m4_default([$2], [yytype]));])dnl
+[YYUSE (m4_default([$2], [yykind]));])dnl
 m4_popdef([b4_actions_])dnl
 ])
 

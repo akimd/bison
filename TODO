@@ -3,6 +3,7 @@
 - yyexpected_tokens in all the languages.
 - YYNOMEM
 - i18n in Java
+- symbol.type_get should be kind_get, and it's not documented.
 
 ** Naming conventions
 There's no good reason to use the "yy" prefix in parser::context, is there?
