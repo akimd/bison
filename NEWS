@@ -118,8 +118,17 @@ GNU Bison NEWS
 
 ** Documentation
 
+*** User Manual
+
+  In order to avoid ambiguities with "type" as in "typing", we now refer to
+  the "token kind" (e.g., `PLUS`, `NUMBER`, etc.) rather than the "token
+  type".  We now also refer to the "symbol type" (e.g., `PLUS`, `expr`,
+  etc.).
+
+*** Examples
+
   There are now two examples in examples/java: a very simple calculator, and
-  one that tracks locations to provide acurate error messages.
+  one that tracks locations to provide accurate error messages.
 
   The lexcalc example (a simple example in C based on Flex and Bison) now
   also demonstrates location tracking.
@@ -4038,7 +4047,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  YYPRINT Mangold Bonzini's Wdangling exVal baz checkable gcc
  LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata yytname
  LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr
- LocalWords:  symrec
+ LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate
+ LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc
 
 Local Variables:
 ispell-dictionary: "american"

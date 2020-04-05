@@ -63,7 +63,7 @@
 // with locations.
 %locations
 
-// and acurate list of expected tokens.
+// and accurate list of expected tokens.
 %define parse.lac full
 
 // Generate the parser description file (calc.output).
