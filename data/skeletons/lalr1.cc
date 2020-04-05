@@ -241,13 +241,13 @@ m4_define([b4_shared_declarations],
     public:
       context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);
       const symbol_type& lookahead () const { return yyla_; }
-      symbol_type_type token () const { return yyla_.type_get (); }]b4_locations_if([[
+      symbol_kind_type token () const { return yyla_.type_get (); }]b4_locations_if([[
       const location_type& location () const { return yyla_.location; }
 ]])[
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
       /// number of tokens stored in YYARG.  If YYARG is null, return the
       /// number of expected tokens (guaranteed to be less than YYNTOKENS).
-      int yyexpected_tokens (symbol_type_type yyarg[], int yyargn) const;
+      int yyexpected_tokens (symbol_kind_type yyarg[], int yyargn) const;
 
     private:
       const ]b4_parser_class[& yyparser_;
@@ -261,10 +261,10 @@ m4_define([b4_shared_declarations],
 
     /// Check the lookahead yytoken.
     /// \returns  true iff the token will be eventually shifted.
-    bool yy_lac_check_ (symbol_type_type yytoken) const;
+    bool yy_lac_check_ (symbol_kind_type yytoken) const;
     /// Establish the initial context if no initial context currently exists.
     /// \returns  true iff the token will be eventually shifted.
-    bool yy_lac_establish_ (symbol_type_type yytoken);
+    bool yy_lac_establish_ (symbol_kind_type yytoken);
     /// Discard any previous initial lookahead context because of event.
     /// \param event  the event which caused the lookahead to be discarded.
     ///               Only used for debbuging output.
@@ -280,7 +280,7 @@ m4_define([b4_shared_declarations],
       [detailed\|verbose], [[
     /// The arguments of the error message.
     int yy_syntax_error_arguments_ (const context& yyctx,
-                                    symbol_type_type yyarg[], int yyargn) const;
+                                    symbol_kind_type yyarg[], int yyargn) const;
 
     /// Generate an error message.
     /// \param yyctx     the context in which the error occurred.
@@ -304,11 +304,11 @@ m4_define([b4_shared_declarations],
     /// Convert a scanner token number \a t to a symbol number.
     /// In theory \a t should be a token_type, but character literals
     /// are valid, yet not members of the token_type enum.
-    static symbol_type_type yytranslate_ (int t);
+    static symbol_kind_type yytranslate_ (int t);
 ]b4_parse_error_bmatch([custom\|detailed], [[
    /// The user-facing name of the symbol whose (internal) number is
    /// YYSYMBOL.  No bounds checking.
-   static const char *yysymbol_name (symbol_type_type yysymbol);
+   static const char *yysymbol_name (symbol_kind_type yysymbol);
 ]])[
 
     // Tables.
@@ -378,7 +378,7 @@ m4_define([b4_shared_declarations],
 
       /// The (internal) type number (corresponding to \a state).
       /// \a YYSYMBOL_YYEMPTY when empty.
-      symbol_type_type type_get () const YY_NOEXCEPT;
+      symbol_kind_type type_get () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
       /// We use the initial state, as it does not have a value.
@@ -586,7 +586,7 @@ m4_if(b4_prefix, [yy], [],
   /* The user-facing name of the symbol whose (internal) number is
      YYSYMBOL.  No bounds checking. */
   const char *
-  ]b4_parser_class[::yysymbol_name (symbol_type_type yysymbol)
+  ]b4_parser_class[::yysymbol_name (symbol_kind_type yysymbol)
   {
     static const char *const yy_sname[] =
     {
@@ -696,13 +696,13 @@ b4_parse_error_case([verbose], [[
     : state (s)
   {}
 
-  ]b4_parser_class[::symbol_type_type
+  ]b4_parser_class[::symbol_kind_type
   ]b4_parser_class[::by_state::type_get () const YY_NOEXCEPT
   {
     if (state == empty_state)
       return YYSYMBOL_YYEMPTY;
     else
-      return YY_CAST (symbol_type_type, yystos_[+state]);
+      return YY_CAST (symbol_kind_type, yystos_[+state]);
   }
 
   ]b4_parser_class[::stack_symbol_type::stack_symbol_type ()
@@ -773,7 +773,7 @@ b4_parse_error_case([verbose], [[
   {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
-    symbol_type_type yytype = yysym.type_get ();
+    symbol_kind_type yytype = yysym.type_get ();
 #if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ * 100 + __GNUC_MINOR__ <= 408
     // Avoid a (spurious) G++ 4.8 warning about "array subscript is
     // below array bounds".
@@ -1229,7 +1229,7 @@ b4_dollar_popdef])[]dnl
   {}
 
   int
-  ]b4_parser_class[::context::yyexpected_tokens (symbol_type_type yyarg[], int yyargn) const
+  ]b4_parser_class[::context::yyexpected_tokens (symbol_kind_type yyarg[], int yyargn) const
   {
     // Actual number of expected tokens
     int yycount = 0;
@@ -1243,7 +1243,7 @@ b4_dollar_popdef])[]dnl
 
     for (int yyx = 0; yyx < YYNTOKENS; ++yyx)
       {
-        symbol_type_type yysym = YY_CAST (symbol_type_type, yyx);
+        symbol_kind_type yysym = YY_CAST (symbol_kind_type, yyx);
         if (yysym != YYSYMBOL_YYERROR && yysym != YYSYMBOL_YYUNDEF
             && yyparser_.yy_lac_check_ (yysym))
           {
@@ -1274,7 +1274,7 @@ b4_dollar_popdef])[]dnl
               else if (yycount == yyargn)
                 return 0;
               else
-                yyarg[yycount++] = YY_CAST (symbol_type_type, yyx);
+                yyarg[yycount++] = YY_CAST (symbol_kind_type, yyx);
             }
       }
 ]])[
@@ -1283,7 +1283,7 @@ b4_dollar_popdef])[]dnl
 
 ]])b4_lac_if([[
   bool
-  ]b4_parser_class[::yy_lac_check_ (symbol_type_type yytoken) const
+  ]b4_parser_class[::yy_lac_check_ (symbol_kind_type yytoken) const
   {
     // Logically, the yylac_stack's lifetime is confined to this function.
     // Clear it, to get rid of potential left-overs from previous call.
@@ -1361,7 +1361,7 @@ b4_dollar_popdef])[]dnl
 
   // Establish the initial context if no initial context currently exists.
   bool
-  ]b4_parser_class[::yy_lac_establish_ (symbol_type_type yytoken)
+  ]b4_parser_class[::yy_lac_establish_ (symbol_kind_type yytoken)
   {
     /* Establish the initial context for the current lookahead if no initial
        context is currently established.
@@ -1423,7 +1423,7 @@ b4_dollar_popdef])[]dnl
 
   int
   ]b4_parser_class[::yy_syntax_error_arguments_ (const context& yyctx,
-                                                 symbol_type_type yyarg[], int yyargn) const
+                                                 symbol_kind_type yyarg[], int yyargn) const
   {
     /* There are many possibilities here to consider:
        - If this state is a consistent state with a default action, then
@@ -1472,7 +1472,7 @@ b4_dollar_popdef])[]dnl
     // Its maximum.
     enum { YYARGS_MAX = 5 };
     // Arguments of yyformat.
-    symbol_type_type yyarg[YYARGS_MAX];
+    symbol_kind_type yyarg[YYARGS_MAX];
     int yycount = yy_syntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
 
     char const* yyformat = YY_NULLPTR;

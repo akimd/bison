@@ -639,13 +639,13 @@ yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[
   fprintf (stderr, ": ");]])[
   fprintf (stderr, "syntax error");
   {
-    yysymbol_type_t la = yypcontext_token (ctx);
+    yysymbol_kind_t la = yypcontext_token (ctx);
     if (la != YYSYMBOL_YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }
   {
     enum { TOKENMAX = 10 };
-    yysymbol_type_t expected[TOKENMAX];
+    yysymbol_kind_t expected[TOKENMAX];
     int n = yyexpected_tokens (ctx, expected, TOKENMAX);
     /* Forward errors to yyparse.  */
     if (n <= 0)
@@ -755,13 +755,13 @@ void
   std::cerr << ctx.location () << ": ";]])[
   std::cerr << "syntax error";
   {
-    symbol_type_type la = ctx.token ();
+    symbol_kind_type la = ctx.token ();
     if (la != YYSYMBOL_YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }
   {
     enum { TOKENMAX = 10 };
-    symbol_type_type expected[TOKENMAX];
+    symbol_kind_type expected[TOKENMAX];
     int n = ctx.yyexpected_tokens (expected, TOKENMAX);
     if (0 < n)
       {

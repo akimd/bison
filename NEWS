@@ -45,7 +45,7 @@ GNU Bison NEWS
       // Report the tokens expected at this point.
       {
         enum { TOKENMAX = 10 };
-        yysymbol_type_t expected[TOKENMAX];
+        yysymbol_kind_t expected[TOKENMAX];
         int n = yyexpected_tokens (ctx, expected, TOKENMAX);
         if (n < 0)
           // Forward errors to yyparse.
@@ -57,7 +57,7 @@ GNU Bison NEWS
       }
       // Report the unexpected token.
       {
-        yysymbol_type_t lookahead = yypcontext_token (ctx);
+        yysymbol_kind_t lookahead = yypcontext_token (ctx);
         if (lookahead != YYSYMBOL_YYEMPTY)
           fprintf (stderr, " before %s", yysymbol_name (lookahead));
       }

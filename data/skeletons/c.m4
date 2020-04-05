@@ -508,14 +508,14 @@ m4_define([b4_symbol_enum],
 # to use a signed type, which matters for yytoken.
 m4_define([b4_declare_symbol_enum],
 [[/* Symbol type.  */
-enum yysymbol_type_t
+enum yysymbol_kind_t
 {
   ]m4_join([,
   ],
            ]b4_symbol_sid([-2])[ = -2,
            b4_symbol_map([b4_symbol_enum]))[
 };
-typedef enum yysymbol_type_t yysymbol_type_t;
+typedef enum yysymbol_kind_t yysymbol_kind_t;
 ]])])
 
 
@@ -620,7 +620,7 @@ m4_define_default([b4_yydestruct_define],
 
 static void
 yydestruct (const char *yymsg,
-            yysymbol_type_t yytype, YYSTYPE *yyvaluep]b4_locations_if(dnl
+            yysymbol_kind_t yytype, YYSTYPE *yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use([yyvaluep], [yylocationp])dnl
@@ -646,7 +646,7 @@ m4_define_default([b4_yy_symbol_print_define],
 
 static void
 yy_symbol_value_print (FILE *yyo,
-                       yysymbol_type_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+                       yysymbol_kind_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   FILE *yyoutput = yyo;
@@ -674,7 +674,7 @@ b4_percent_code_get([[post-printer]])dnl
 
 static void
 yy_symbol_print (FILE *yyo,
-                 yysymbol_type_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
+                 yysymbol_kind_t yytype, YYSTYPE const * const yyvaluep]b4_locations_if(dnl
 [[, YYLTYPE const * const yylocationp]])[]b4_user_formals[)
 {
   YYFPRINTF (yyo, "%s %s (",

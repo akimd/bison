@@ -807,11 +807,11 @@ yyreport_syntax_error (const yypcontext_t *ctx)
   enum { ARGS_MAX = 5 };
   const char *argv[ARGS_MAX];
   int argc = 0;
-  yysymbol_type_t unexpected = yypcontext_token (ctx);
+  yysymbol_kind_t unexpected = yypcontext_token (ctx);
   if (unexpected != YYSYMBOL_YYEMPTY)
     {
       argv[argc++] = yysymbol_name (unexpected);
-      yysymbol_type_t expected[ARGS_MAX - 1];
+      yysymbol_kind_t expected[ARGS_MAX - 1];
       int nexpected = yyexpected_tokens (ctx, expected, ARGS_MAX - 1);
       if (nexpected < 0)
         res = nexpected;
