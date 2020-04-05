@@ -6155,6 +6155,70 @@ the @code{full} value was introduced in Bison 2.7
 
 
 
+@c ================================================== api.symbol.prefix
+@deffn Directive {%define api.symbol.prefix} @{@var{prefix}@}
+
+@itemize
+@item Languages(s): all
+
+@item Purpose:
+Add a prefix to the name of the symbol kinds.  For instance
+
+@example
+%define api.symbol.prefix @{S_@}
+%token FILE for ERROR
+%%
+start: FILE for ERROR;
+@end example
+
+@noindent
+generates this definition in C:
+
+@example
+/* Symbol kind.  */
+enum yysymbol_kind_t
+@{
+  S_YYEMPTY = -2,   /* No symbol.  */
+  S_YYEOF = 0,      /* $end  */
+  S_YYERROR = 1,    /* error  */
+  S_YYUNDEF = 2,    /* $undefined  */
+  S_FILE = 3,       /* FILE  */
+  S_for = 4,        /* for  */
+  S_ERROR = 5,      /* ERROR  */
+  S_YYACCEPT = 6,   /* $accept  */
+  S_start = 7       /* start  */
+@};
+@end example
+
+@item Accepted Values:
+Any non empty string.  Must be a valid identifier in the target language
+(typically a non empty sequence of letters, underscores, and ---not at the
+beginning--- digits).
+
+The empty prefix is invalid:
+@itemize
+@item
+in C it would create collision with the @code{YYERROR} macro, and
+potentially token kind definitions and symbol kind definitions would
+collide;
+@item
+unnamed symbols (such as @samp{'+'}) have a name which starts with a digit;
+@item
+even in languages with scoped enumerations such as Java, an empty prefix is
+dangerous: symbol names may collide with the target language keywords, or
+with other members of the @code{SymbolKind} class.
+@end itemize
+
+
+@item Default Value:
+@code{YYSYMBOL_} in C.  @code{S_} in C++, D and Java.
+@item History:
+introduced in Bison 3.6.
+@end itemize
+@end deffn
+@c api.symbol.prefix
+
+
 @c ================================================== api.token.constructor
 @deffn Directive {%define api.token.constructor}
 
@@ -6173,7 +6237,7 @@ Boolean.
 @item Default Value:
 @code{false}
 @item History:
-introduced in Bison 3.0
+introduced in Bison 3.0.
 @end itemize
 @end deffn
 @c api.token.constructor
@@ -6190,8 +6254,8 @@ Add a prefix to the token names when generating their definition in the
 target language.  For instance
 
 @example
-%token FILE for ERROR
 %define api.token.prefix @{TOK_@}
+%token FILE for ERROR
 %%
 start: FILE for ERROR;
 @end example
@@ -6211,14 +6275,14 @@ details.
 See @ref{Calc++ Parser} and @ref{Calc++ Scanner}, for a complete example.
 
 @item Accepted Values:
-Any string.  Should be a valid identifier prefix in the target language,
-in other words, it should typically be an identifier itself (sequence of
-letters, underscores, and ---not at the beginning--- digits).
+Any string.  Must be a valid identifier prefix in the target language
+(typically, a possibly empty sequence of letters, underscores, and ---not at
+the beginning--- digits).
 
 @item Default Value:
 empty
 @item History:
-introduced in Bison 3.0
+introduced in Bison 3.0.
 @end itemize
 @end deffn
 @c api.token.prefix
@@ -7392,35 +7456,71 @@ then it is a local variable which only the actions can access.
 @findex %define parse.error custom
 If you invoke @samp{%define parse.error custom} (@pxref{Bison
 Declarations}), then the parser no longer passes syntax error messages to
-@code{yyerror}, rather it leaves that task to the user by calling the
+@code{yyerror}, rather it delegates that task to the user by calling the
 @code{yyreport_syntax_error} function.
 
 @deftypefun int yyreport_syntax_error (@code{const yypcontext_t *}@var{ctx})
-Report a syntax error to the user.  Return 0 on success, 2 on memory
-exhaustion.  Whether it uses @code{yyerror} is up to the user.
+Report a syntax error to the user.  Return 0 on success, @code{YYENOMEM} on
+memory exhaustion.  Whether it uses @code{yyerror} is up to the user.
 @end deftypefun
 
-Use the following functions to build the error message.
+Use the following types and functions to build the error message.
+
+@deffn {Type} yypcontext_t
+An opaque type that captures the circumstances of the syntax error.
+@end deffn
+
+@deffn {Type} yysymbol_kind_t
+An enum that includes all the symbols, tokens and nonterminals, of the
+grammar.  Its enumerators are forged from the token and symbol names:
+
+@example
+enum yysymbol_kind_t
+@{
+  YYSYMBOL_YYEMPTY = -2,      /* No symbol.  */
+  YYSYMBOL_YYEOF = 0,         /* "end of file"  */
+  YYSYMBOL_YYERROR = 1,       /* error  */
+  YYSYMBOL_YYUNDEF = 2,       /* "invalid token"  */
+  YYSYMBOL_PLUS = 3,          /* "+"  */
+  YYSYMBOL_MINUS = 4,         /* "-"  */
+  [...]
+  YYSYMBOL_VAR = 14,          /* "variable"  */
+  YYSYMBOL_NEG = 15,          /* NEG  */
+  YYSYMBOL_YYACCEPT = 16,     /* $accept  */
+  YYSYMBOL_exp = 17,          /* exp  */
+  YYSYMBOL_input = 18         /* input  */
+@};
+typedef enum yysymbol_kind_t yysymbol_kind_t;
+@end example
+@end deffn
+
+@deftypefun {yysymbol_kind_t} yypcontext_token (@code{const yypcontext_t *}@var{ctx})
+The ``unexpected'' token: the symbol kind of the lookahead token that caused
+the syntax error.  Return @code{YYSYMBOL_YYEMPTY} if there is no lookahead.
+Can never return @code{YYSYMBOL_YYERROR}, or @code{YYSYMBOL_YYUNDEF}.
+@end deftypefun
 
 @deftypefun {YYLTYPE *} yypcontext_location (@code{const yypcontext_t *}@var{ctx})
-The location of the syntax error.
+The location of the syntax error (that of the unexpected token).
 @end deftypefun
 
+@deftypefun int yypcontext_expected_tokens (@code{const yypcontext_t *}ctx, @code{yysymbol_kind_t} @var{argv}@code{[]}, @code{int} @var{argc})
+Fill @var{argv} with the expected tokens, which never includes
+@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYERROR}, or
+@code{YYSYMBOL_YYUNDEF}.
 
-@deftypefun int yy_syntax_error_arguments (@code{const yypcontext_t *}ctx, @code{int} @var{argv}@code{[]}, @code{int} @var{argc})
-Fill @var{argv} with first the internal number of the token that caused the
-error, then the internal numbers of the expected tokens.  Never put more
-than @var{argc} elements into @var{argv}, and on success return the
-effective number of numbers stored in @var{argv}, which can be 0.
+Never put more than @var{argc} elements into @var{argv}, and on success
+return the effective number of tokens stored in @var{argv}.  Return 0 if
+there are more than @var{argc} expected tokens, yet fill @var{argv} up to
+@var{argc}.  When LAC is enabled, may return a negative number on errors,
+such as @code{YYENOMEM} on memory exhaustion.
 
 If @var{argv} is null, return the size needed to store all the possible
-values, which is always less than @code{YYNTOKENS}.  When LAC is enabled,
-may return -2 on memory exhaustion.
+values, which is always less than @code{YYNTOKENS}.
 @end deftypefun
 
-@deftypefun {const char *} yysymbol_name (@code{int} @var{symbol})
-The name of the symbol whose internal number is @var{symbol}, possibly
-translated.  Must be called with valid symbol numbers.
+@deftypefun {const char *} yysymbol_name (@code{symbol_kind_t} @var{symbol})
+The name of the symbol whose kind is @var{symbol}, possibly translated.
 @end deftypefun
 
 A custom syntax error function looks as follows.
@@ -7429,19 +7529,30 @@ A custom syntax error function looks as follows.
 int
 yyreport_syntax_error (const yypcontext_t *ctx)
 @{
-  enum @{ ARGMAX = 10 @};
-  int arg[ARGMAX];
-  int n = yy_syntax_error_arguments (ctx, arg, ARGMAX);
-  if (n == -2)
-    return 2;
-  fprintf (stderr, "syntax error");
-  for (int i = 1; i < n; ++i)
-    fprintf (stderr, " %s %s",
-             i == 1 ? "expected" : "or", yysymbol_name (arg[i]));
-  if (n)
-    fprintf (stderr, " before %s", yysymbol_name (arg[0]));
+  int res = 0;
+  YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
+  fprintf (stderr, ": syntax error");
+  // Report the tokens expected at this point.
+  @{
+    enum @{ TOKENMAX = 10 @};
+    yysymbol_kind_t expected[TOKENMAX];
+    int n = yypcontext_expected_tokens (ctx, expected, TOKENMAX);
+    if (n < 0)
+      // Forward errors to yyparse.
+      res = n;
+    else
+      for (int i = 0; i < n; ++i)
+        fprintf (stderr, "%s %s",
+                 i == 0 ? ": expected" : " or", yysymbol_name (expected[i]));
+  @}
+  // Report the unexpected token.
+  @{
+    yysymbol_kind_t lookahead = yypcontext_token (ctx);
+    if (lookahead != YYSYMBOL_YYEMPTY)
+      fprintf (stderr, " before %s", yysymbol_name (lookahead));
+  @}
   fprintf (stderr, "\n");
-  return 0;
+  return res;
 @}
 @end example
 
@@ -12943,7 +13054,7 @@ Never put more than @var{argc} elements into @var{argv}, and on success
 return the effective number of tokens stored in @var{argv}.  Return 0 if
 there are more than @var{argc} expected tokens, yet fill @var{argv} up to
 @var{argc}.  When LAC is enabled, may return a negative number on errors,
-such as @code{YYNOMEM} on memory exhaustion.
+such as @code{YYENOMEM} on memory exhaustion.
 
 If @var{argv} is null, return the size needed to store all the possible
 values, which is always less than @code{YYNTOKENS}.
