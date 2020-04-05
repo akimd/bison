@@ -163,9 +163,9 @@ union GRAM_STYPE
   /* "integer literal"  */
   int INT;
   /* int.opt  */
-  int yytype_82;
+  int yykind_82;
   /* named_ref.opt  */
-  named_ref* yytype_95;
+  named_ref* yykind_95;
   /* "%param"  */
   param_type PERCENT_PARAM;
   /* token_decl  */
@@ -191,15 +191,15 @@ union GRAM_STYPE
   /* token_decls  */
   symbol_list* token_decls;
   /* token_decl.1  */
-  symbol_list* yytype_80;
+  symbol_list* yykind_80;
   /* token_decls_for_prec  */
   symbol_list* token_decls_for_prec;
   /* token_decl_for_prec.1  */
-  symbol_list* yytype_85;
+  symbol_list* yykind_85;
   /* symbol_decls  */
   symbol_list* symbol_decls;
   /* symbol_decl.1  */
-  symbol_list* yytype_88;
+  symbol_list* yykind_88;
   /* "%error-verbose"  */
   uniqstr PERCENT_ERROR_VERBOSE;
   /* "%<flag>"  */
@@ -219,7 +219,7 @@ union GRAM_STYPE
   /* "<tag>"  */
   uniqstr TAG;
   /* tag.opt  */
-  uniqstr yytype_74;
+  uniqstr yykind_74;
   /* tag  */
   uniqstr tag;
   /* variable  */
