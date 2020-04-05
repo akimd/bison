@@ -343,7 +343,7 @@ b4_user_union_members
 
 ]b4_parse_trace_if([[
     import std.conv : to;
-    yy_symbol_print ("-> $$ =", to!SymbolType (yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
+    yy_symbol_print ("-> $$ =", to!SymbolKind (yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
 
     yystack.pop (yylen);
     yylen = 0;
@@ -401,7 +401,7 @@ b4_user_union_members
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
 
-  private final void yy_symbol_print (string s, SymbolType yytype,
+  private final void yy_symbol_print (string s, SymbolKind yytype,
     ref ]b4_yystype[ yyvaluep]dnl
 b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
@@ -430,7 +430,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
     /// Lookahead and lookahead in internal form.
     int yychar = yyempty_;
-    SymbolType yytoken = SymbolType.YYSYMBOL_YYEMPTY;
+    SymbolKind yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
 
     /* State.  */
     int yyn = 0;
@@ -574,7 +574,7 @@ m4_popdef([b4_at_dollar])])dnl
         {
           ++yynerrs_;
           if (yychar == yyempty_)
-            yytoken = SymbolType.YYSYMBOL_YYEMPTY;
+            yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
           yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
         }
 
@@ -623,8 +623,8 @@ m4_popdef([b4_at_dollar])])dnl
           yyn = yypact_[yystate];
           if (!yy_pact_value_is_default_ (yyn))
           {
-            yyn += SymbolType.YYSYMBOL_YYERROR;
-            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == SymbolType.YYSYMBOL_YYERROR)
+            yyn += SymbolKind.YYSYMBOL_YYERROR;
+            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == SymbolKind.YYSYMBOL_YYERROR)
             {
               yyn = yytable_[yyn];
               if (0 < yyn)
@@ -652,7 +652,7 @@ m4_popdef([b4_at_dollar])])dnl
 
         /* Shift the error token.  */]b4_parse_trace_if([[
         import std.conv : to;
-        yy_symbol_print ("Shifting", to!SymbolType (yystos_[yyn]), yylval]b4_locations_if([, yyloc])[);]])[
+        yy_symbol_print ("Shifting", to!SymbolKind (yystos_[yyn]), yylval]b4_locations_if([, yyloc])[);]])[
         yystate = yyn;
         yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
         label = YYNEWSTATE;
@@ -678,7 +678,7 @@ m4_popdef([b4_at_dollar])])dnl
   }
 
   // Generate an error message.
-  private final string yysyntax_error (int yystate, SymbolType tok)
+  private final string yysyntax_error (int yystate, SymbolKind tok)
   {]b4_parse_error_case([verbose], [[
     /* There are many possibilities here to consider:
        - Assume YYFAIL is not used.  It's too flawed to consider.
@@ -711,7 +711,7 @@ m4_popdef([b4_at_dollar])])dnl
          will still contain any token that will not be accepted due
          to an error action in a later state.
       */
-    if (tok != SymbolType.YYSYMBOL_YYEMPTY)
+    if (tok != SymbolKind.YYSYMBOL_YYEMPTY)
     {
       // FIXME: This method of building the message is not compatible
       // with internationalization.
@@ -730,14 +730,14 @@ m4_popdef([b4_at_dollar])])dnl
         int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
         int count = 0;
         for (int x = yyxbegin; x < yyxend; ++x)
-          if (yycheck_[x + yyn] == x && x != SymbolType.YYSYMBOL_YYERROR
+          if (yycheck_[x + yyn] == x && x != SymbolKind.YYSYMBOL_YYERROR
               && !yy_table_value_is_error_ (yytable_[x + yyn]))
              ++count;
           if (count < 5)
           {
              count = 0;
              for (int x = yyxbegin; x < yyxend; ++x)
-               if (yycheck_[x + yyn] == x && x != SymbolType.YYSYMBOL_YYERROR
+               if (yycheck_[x + yyn] == x && x != SymbolKind.YYSYMBOL_YYERROR
                    && !yy_table_value_is_error_ (yytable_[x + yyn]))
                {
                   res ~= count++ == 0 ? ", expecting " : " or ";
@@ -809,17 +809,17 @@ m4_popdef([b4_at_dollar])])dnl
     import std.conv : to;
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yy_symbol_print (format("   $%d =", yyi + 1),
-                       to!SymbolType (yystos_[yystack.stateAt(yynrhs - (yyi + 1))]),
+                       to!SymbolKind (yystos_[yystack.stateAt(yynrhs - (yyi + 1))]),
                        ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
                        b4_rhs_location(yynrhs, yyi + 1)])[);
   }
 ]])[
 
-  private static SymbolType yytranslate_ (int t)
+  private static SymbolKind yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
 [[    import std.conv : to;
-    return to!SymbolType (t);]],
+    return to!SymbolKind (t);]],
 [[    /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
     immutable ]b4_int_type_for([b4_translate])[[] translate_table =
     @{
@@ -829,14 +829,14 @@ m4_popdef([b4_at_dollar])])dnl
     immutable int user_token_number_max_ = ]b4_user_token_number_max[;
 
     if (t <= 0)
-      return SymbolType.YYSYMBOL_YYEOF;
+      return SymbolKind.YYSYMBOL_YYEOF;
     else if (t <= user_token_number_max_)
       {
         import std.conv : to;
-        return to!SymbolType (translate_table[t]);
+        return to!SymbolKind (translate_table[t]);
       }
     else
-      return SymbolType.YYSYMBOL_YYUNDEF;]])[
+      return SymbolKind.YYSYMBOL_YYUNDEF;]])[
   }
 
   private static immutable int yylast_ = ]b4_last[;

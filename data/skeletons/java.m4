@@ -167,7 +167,7 @@ m4_define([b4_symbol_enum],
 # ----------------------
 # The definition of the symbol internal numbers as an enum.
 m4_define([b4_declare_symbol_enum],
-[[  public enum SymbolType
+[[  public enum SymbolKind
   {
     ]m4_join([,
     ],
@@ -176,16 +176,16 @@ m4_define([b4_declare_symbol_enum],
 
     private final int code_;
 
-    SymbolType (int n) {
+    SymbolKind (int n) {
       this.code_ = n;
     }
 
-    private static final SymbolType[] values_ = {
+    private static final SymbolKind[] values_ = {
         ]m4_map_args_sep([b4_symbol_sid(], [)], [,
         ], b4_symbol_numbers)[
     };
 
-    static final SymbolType get (int code) {
+    static final SymbolKind get (int code) {
       return values_[code];
     }
 

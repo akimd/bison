@@ -194,7 +194,7 @@ m4_define([b4_symbol_enum],
 # to use a signed type, which matters for yytoken.
 m4_define([b4_declare_symbol_enum],
 [[  /* Symbol type.  */
-  public enum SymbolType
+  public enum SymbolKind
   {
     ]m4_join([,
     ],

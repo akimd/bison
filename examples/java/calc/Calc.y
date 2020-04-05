@@ -121,15 +121,15 @@ class CalcLexer implements Calc.Lexer {
     System.err.print (ctx.getLocation () + ": syntax error");
     {
       final int TOKENMAX = 10;
-      Calc.SymbolType[] arg = new Calc.SymbolType[TOKENMAX];
+      Calc.SymbolKind[] arg = new Calc.SymbolKind[TOKENMAX];
       int n = ctx.yyexpectedTokens (arg, TOKENMAX);
       for (int i = 0; i < n; ++i)
         System.err.print ((i == 0 ? ": expected " : " or ")
                           + ctx.yysymbolName (arg[i]));
     }
     {
-      Calc.SymbolType lookahead = ctx.getToken ();
-      if (lookahead != Calc.SymbolType.YYSYMBOL_YYEMPTY)
+      Calc.SymbolKind lookahead = ctx.getToken ();
+      if (lookahead != Calc.SymbolKind.YYSYMBOL_YYEMPTY)
         System.err.print (" before " + ctx.yysymbolName (lookahead));
     }
     System.err.println ("");
