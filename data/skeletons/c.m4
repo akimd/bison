@@ -711,9 +711,9 @@ m4_define([b4_symbol_type_register],
                          [b4_symbol([$1], [id])],
                          [yykind_[]b4_symbol([$1], [number])])])dnl
 m4_append([b4_union_members],
-m4_expand([
-  b4_symbol_tag_comment([$1])dnl
-  b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]))
+m4_expand([m4_format([  %-40s %s],
+                     m4_expand([b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]),
+                     [b4_symbol_tag_comment([$1])])]))
 ])
 
 

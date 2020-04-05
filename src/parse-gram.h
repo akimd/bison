@@ -143,91 +143,49 @@ extern int gram_debug;
 #if ! defined GRAM_STYPE && ! defined GRAM_STYPE_IS_DECLARED
 union GRAM_STYPE
 {
+  assoc precedence_declarator;             /* precedence_declarator  */
+  char* STRING;                            /* "string"  */
+  char* TSTRING;                           /* "translatable string"  */
+  char* BRACED_CODE;                       /* "{...}"  */
+  char* BRACED_PREDICATE;                  /* "%?{...}"  */
+  char* EPILOGUE;                          /* "epilogue"  */
+  char* PROLOGUE;                          /* "%{...%}"  */
+  code_props_type code_props_type;         /* code_props_type  */
+  int INT;                                 /* "integer literal"  */
+  int yykind_82;                           /* int.opt  */
+  named_ref* yykind_95;                    /* named_ref.opt  */
+  param_type PERCENT_PARAM;                /* "%param"  */
+  symbol* token_decl;                      /* token_decl  */
+  symbol* alias;                           /* alias  */
+  symbol* token_decl_for_prec;             /* token_decl_for_prec  */
+  symbol* id;                              /* id  */
+  symbol* id_colon;                        /* id_colon  */
+  symbol* symbol;                          /* symbol  */
+  symbol* string_as_id;                    /* string_as_id  */
+  symbol_list* generic_symlist;            /* generic_symlist  */
+  symbol_list* generic_symlist_item;       /* generic_symlist_item  */
+  symbol_list* nterm_decls;                /* nterm_decls  */
+  symbol_list* token_decls;                /* token_decls  */
+  symbol_list* yykind_80;                  /* token_decl.1  */
+  symbol_list* token_decls_for_prec;       /* token_decls_for_prec  */
+  symbol_list* yykind_85;                  /* token_decl_for_prec.1  */
+  symbol_list* symbol_decls;               /* symbol_decls  */
+  symbol_list* yykind_88;                  /* symbol_decl.1  */
+  uniqstr PERCENT_ERROR_VERBOSE;           /* "%error-verbose"  */
+  uniqstr PERCENT_FLAG;                    /* "%<flag>"  */
+  uniqstr PERCENT_FILE_PREFIX;             /* "%file-prefix"  */
+  uniqstr PERCENT_NAME_PREFIX;             /* "%name-prefix"  */
+  uniqstr PERCENT_PURE_PARSER;             /* "%pure-parser"  */
+  uniqstr BRACKETED_ID;                    /* "[identifier]"  */
+  uniqstr ID;                              /* "identifier"  */
+  uniqstr ID_COLON;                        /* "identifier:"  */
+  uniqstr TAG;                             /* "<tag>"  */
+  uniqstr yykind_74;                       /* tag.opt  */
+  uniqstr tag;                             /* tag  */
+  uniqstr variable;                        /* variable  */
+  unsigned char CHAR;                      /* "character literal"  */
+  value_type value;                        /* value  */
 
-  /* precedence_declarator  */
-  assoc precedence_declarator;
-  /* "string"  */
-  char* STRING;
-  /* "translatable string"  */
-  char* TSTRING;
-  /* "{...}"  */
-  char* BRACED_CODE;
-  /* "%?{...}"  */
-  char* BRACED_PREDICATE;
-  /* "epilogue"  */
-  char* EPILOGUE;
-  /* "%{...%}"  */
-  char* PROLOGUE;
-  /* code_props_type  */
-  code_props_type code_props_type;
-  /* "integer literal"  */
-  int INT;
-  /* int.opt  */
-  int yykind_82;
-  /* named_ref.opt  */
-  named_ref* yykind_95;
-  /* "%param"  */
-  param_type PERCENT_PARAM;
-  /* token_decl  */
-  symbol* token_decl;
-  /* alias  */
-  symbol* alias;
-  /* token_decl_for_prec  */
-  symbol* token_decl_for_prec;
-  /* id  */
-  symbol* id;
-  /* id_colon  */
-  symbol* id_colon;
-  /* symbol  */
-  symbol* symbol;
-  /* string_as_id  */
-  symbol* string_as_id;
-  /* generic_symlist  */
-  symbol_list* generic_symlist;
-  /* generic_symlist_item  */
-  symbol_list* generic_symlist_item;
-  /* nterm_decls  */
-  symbol_list* nterm_decls;
-  /* token_decls  */
-  symbol_list* token_decls;
-  /* token_decl.1  */
-  symbol_list* yykind_80;
-  /* token_decls_for_prec  */
-  symbol_list* token_decls_for_prec;
-  /* token_decl_for_prec.1  */
-  symbol_list* yykind_85;
-  /* symbol_decls  */
-  symbol_list* symbol_decls;
-  /* symbol_decl.1  */
-  symbol_list* yykind_88;
-  /* "%error-verbose"  */
-  uniqstr PERCENT_ERROR_VERBOSE;
-  /* "%<flag>"  */
-  uniqstr PERCENT_FLAG;
-  /* "%file-prefix"  */
-  uniqstr PERCENT_FILE_PREFIX;
-  /* "%name-prefix"  */
-  uniqstr PERCENT_NAME_PREFIX;
-  /* "%pure-parser"  */
-  uniqstr PERCENT_PURE_PARSER;
-  /* "[identifier]"  */
-  uniqstr BRACKETED_ID;
-  /* "identifier"  */
-  uniqstr ID;
-  /* "identifier:"  */
-  uniqstr ID_COLON;
-  /* "<tag>"  */
-  uniqstr TAG;
-  /* tag.opt  */
-  uniqstr yykind_74;
-  /* tag  */
-  uniqstr tag;
-  /* variable  */
-  uniqstr variable;
-  /* "character literal"  */
-  unsigned char CHAR;
-  /* value  */
-  value_type value;
 
 };
 typedef union GRAM_STYPE GRAM_STYPE;
