@@ -519,7 +519,7 @@ m4_define([AT_DATA_GRAMMAR], [AT_LANG_DISPATCH([$0], $@)])
 # AT_YYLEX_DEFINE([INPUT], [ACTION])
 # ----------------------------------
 # INPUT can be empty, or in double quotes, or a list (in braces).
-# ACTION may compute yylval for instance, using "res" as token type,
+# ACTION may compute yylval for instance, using "res" as token kind,
 # and "toknum" as the number of calls to yylex (starting at 0).
 m4_define([AT_YYLEX_PROTOTYPE],
 [AT_YYLEX_RETURN AT_NAME_PREFIX[]lex (]AT_YYLEX_FORMALS[)[]dnl

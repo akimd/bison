@@ -8,7 +8,7 @@ afterwards.
 ## simple.yy - Simple example in C++14
 A very simple example in C++, based on variants and symbol constructors.
 Variants allow to use any C++ type as semantic value type, and symbol
-constructors ensure consistency between declared token type and effective
+constructors ensure consistency between declared token kind and effective
 semantic value.
 
 Run as `./simple`.

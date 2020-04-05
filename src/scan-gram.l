@@ -51,7 +51,7 @@ static boundary scanner_cursor;
 
 #define YY_USER_ACTION  location_compute (loc, &scanner_cursor, yytext, yyleng);
 
-/* Report that yytext is an extension, and evaluate to its token type.  */
+/* Report that yytext is an extension, and evaluate to its token kind.  */
 #define BISON_DIRECTIVE(Directive)                              \
   (bison_directive (loc, yytext), PERCENT_ ## Directive)
 
