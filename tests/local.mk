@@ -99,7 +99,7 @@ recheck: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)					\
 	  $$(perl -n						\
 	     -e 'eof && /^(\d+).*: FAILED/ && print "$$1 "'	\
-	        %D%/testsuite.dir/*/testsuite.log)
+		%D%/testsuite.dir/*/testsuite.log)
 
 check-local: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)

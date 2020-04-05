@@ -158,6 +158,78 @@ m4_pushdef([AT_MAIN_DEFINE(d)],
 }]])
 
 
+m4_pushdef([AT_MAIN_DEFINE(java)],
+[[class input
+{
+  public static void main (String[] args) throws IOException
+  {]AT_LEXPARAM_IF([[
+    ]AT_PARSER_CLASS[ p = new ]AT_PARSER_CLASS[ (System.in);]], [[
+    ]AT_API_prefix[Lexer l = new ]AT_API_prefix[Lexer (System.in);
+    ]AT_PARSER_CLASS[ p = new ]AT_PARSER_CLASS[ (l);]])AT_DEBUG_IF([[
+    //p.setDebugLevel (1);]])[
+    boolean success = p.parse ();
+    if (!success)
+      System.exit (1);
+  }
+}]])
+
+m4_define([AT_RAW_YYLEX(java)],
+[[class CalcLexer implements Calc.Lexer {
+
+  StreamTokenizer st;
+
+  public CalcLexer (InputStream is)
+  {
+    st = new StreamTokenizer (new StringReader ("0-(1+2)*3/9"));
+    st.resetSyntax ();
+    st.eolIsSignificant (true);
+    st.whitespaceChars ('\t', '\t');
+    st.whitespaceChars (' ', ' ');
+    st.wordChars ('0', '9');
+  }
+
+  public void yyerror (String s)
+  {
+    System.err.println (s);
+  }
+
+  Integer yylval;
+
+  public Object getLVal () {
+    return yylval;
+  }
+
+  public int yylex () throws IOException {
+    int ttype = st.nextToken ();
+    switch (ttype)
+      {
+      case StreamTokenizer.TT_EOF:
+        return EOF;
+      case StreamTokenizer.TT_EOL:
+        return (int) '\n';
+      case StreamTokenizer.TT_WORD:
+        yylval = new Integer (st.sval);
+        return NUM;
+      case '+':
+        return PLUS;
+      case '-':
+        return MINUS;
+      case '*':
+        return STAR;
+      case '/':
+        return SLASH;
+      case '(':
+        return LPAR;
+      case ')':
+        return RPAR;
+      default:
+        throw new AssertionError ("invalid character: " + ttype);
+      }
+  }
+}
+]])
+
+
 ## ------------------- ##
 ## Raw token numbers.  ##
 ## ------------------- ##
@@ -166,19 +238,31 @@ m4_pushdef([AT_TEST],
 [
 AT_SETUP([Token numbers: $1])
 
-AT_BISON_OPTION_PUSHDEFS([%debug $1])
+AT_BISON_OPTION_PUSHDEFS([%debug ]m4_bmatch([$1], [java], [[%define api.prefix {Calc} %define api.parser.class {Calc}]])[ $1])
 AT_DATA_GRAMMAR([[input.y]],
 [[$1
 %debug
-]AT_D_IF([], [[
+]AT_LANG_MATCH([[c\|c++]], [[
 %code
 {
 #include <stdio.h>
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
-}]])[
+}]],
+  [java], [[
+%define api.prefix {Calc}
+%define api.parser.class {Calc}
+%code imports {
+  import java.io.IOException;
+  import java.io.InputStream;
+  import java.io.StringReader;
+  import java.io.Reader;
+  import java.io.StreamTokenizer;
+}
+]])[
 
-]AT_VARIANT_IF([[
+]AT_LANG_MATCH([c\|c++\|d],
+[AT_VARIANT_IF([[
 %token <int> NUM "number"
 %nterm <int> exp
 ]], [[
@@ -187,6 +271,10 @@ AT_DATA_GRAMMAR([[input.y]],
 }
 %token <val> NUM "number"
 %nterm <val> exp
+]])],
+    [java],
+[[%token <Integer> NUM "number"
+%type  <Integer> exp
 ]])[
 
 %token
@@ -204,7 +292,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %%
 
 input
-: exp         { printf ("%d\n", $][1); }
+: exp         { ]AT_JAVA_IF([[System.out.println ($][1)]], [[printf ("%d\n", $][1)]])[; }
 ;
 
 exp
@@ -217,20 +305,25 @@ exp
 ;
 
 %%
-]AT_YYERROR_DEFINE[
+]AT_LANG_MATCH([c\|c++\|d],
+               [AT_YYERROR_DEFINE])[
 ]AT_RAW_YYLEX[
 ]AT_MAIN_DEFINE[
 ]])
 
 AT_FULL_COMPILE([input])
 
+# When api.token.raw, the yytranslate table should not be included.
+#
 # yacc.c, glr.c and glr.cc use 'yytranslate' (and YYTRANSLATE).
 # lalr1.cc uses 'translate_table' (and yytranslate_).
 # lalr1.d uses 'byte[] translate_table =' (and yytranslate_).
-AT_CHECK([[$EGREP -c 'yytranslate\[\]|translate_table\[\]|translate_table =' input.]AT_LANG_EXT],
+# lalr1.java uses 'byte[] translate_table_ =' (and yytranslate_).
+AT_CHECK([[$EGREP -c 'yytranslate\[\]|translate_table\[\]|translate_table =|translate_table_ =' input.]AT_LANG_EXT],
          [ignore],
          [AT_TOKEN_RAW_IF([0], [1])[
 ]])
+
 
 AT_PARSER_CHECK([input], 0,
 [[-1
@@ -240,11 +333,12 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [lalr1.d]],
+m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [lalr1.java], [lalr1.d]],
 [AT_TEST([%skeleton "]b4_skel["])
  AT_TEST([%skeleton "]b4_skel[" %define api.token.raw])])
 
 AT_TEST([%skeleton "lalr1.cc" %define api.token.raw %define api.value.type variant %define api.token.constructor])])
 
+m4_popdef([AT_MAIN_DEFINE(java)])
 m4_popdef([AT_MAIN_DEFINE(d)])
 m4_popdef([AT_TEST])

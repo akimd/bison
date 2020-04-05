@@ -135,7 +135,7 @@ struct sym_content
   /** Its \c \%type's location.  */
   location type_loc;
 
-  /** Any \c \%destructor (resp. \%printer) declared specificially for this
+  /** Any \c \%destructor (resp. \%printer) declared specifically for this
       symbol.
 
       Access this field only through <tt>symbol</tt>'s interface functions. For

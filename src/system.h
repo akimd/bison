@@ -73,9 +73,14 @@ typedef size_t uintptr_t;
 # include <verify.h>
 # include <xalloc.h>
 
+// Clang and ICC like to pretend they are GCC.
+# if defined __GNUC__ && !defined __clang__ && !defined __ICC
+#  define GCC_VERSION (__GNUC__ * 100 + __GNUC_MINOR__)
+# endif
 
-/* See https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html. */
-# if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ < 5
+// See https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html
+// and https://trac.macports.org/ticket/59927.
+# if defined GCC_VERSION && 405 <= GCC_VERSION
 #  define IGNORE_TYPE_LIMITS_BEGIN \
      _Pragma ("GCC diagnostic push") \
      _Pragma ("GCC diagnostic ignored \"-Wtype-limits\"")

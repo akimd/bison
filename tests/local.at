@@ -260,6 +260,11 @@ m4_rpatsubst([$3], [%parse-param { *\([^{}]*[^{} ]\) *}\([^{}].*\)?$],
 m4_ifndef([AT_PARSE_PARAMS],
           [m4_define([AT_PARSE_PARAMS])])
 
+m4_pushdef([AT_PARSER_CLASS],
+[m4_bmatch([$3], [%define  *api\.parser\.class {\([^\}]*\)}],
+           [m4_bregexp([$3], [%define  *api\.parser\.class {\([^\}]*\)}], [\1])],
+           [AT_API_PREFIX[]Parser])])
+
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
            [m4_bmatch([$3], [%define  *api\.pure *false], [$2], [$1])],
@@ -409,6 +414,7 @@ m4_popdef([AT_LOCATION_IF])
 m4_undefine([AT_PARSE_PARAMS])
 m4_popdef([AT_PUSH_IF])
 m4_popdef([AT_PURE_IF])
+m4_popdef([AT_PARSER_CLASS])
 m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_LAC_IF])
@@ -1022,7 +1028,9 @@ m4_define([AT_MAIN_DEFINE(java)],
   public static void main (String[] args) throws IOException
   {
     ]AT_API_prefix[Parser p = new ]AT_API_prefix[Parser ();
-    System.exit (p.parse () ? 0 : 1);
+    boolean success = p.parse ();
+    if (!success)
+      System.exit (1);
   }
 }]])
 

@@ -612,7 +612,7 @@ handle_action_dollar (symbol_list *rule, char *text, const location *dollar_loc)
   char *cp = fetch_type_name (text + 1, &type_name, dollar_loc);
   int n = parse_ref (cp, effective_rule, effective_rule_length,
                      rule->midrule_parent_rhs_index, text, dollar_loc, '$');
-  /* End type_name.  Don't do it ealier: parse_ref depends on TEXT.  */
+  /* End type_name.  Don't do it earlier: parse_ref depends on TEXT.  */
   if (type_name)
     cp[-1] = '\0';
 
