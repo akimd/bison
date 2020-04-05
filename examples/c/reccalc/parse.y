@@ -4,7 +4,11 @@
 // Emitted in the header file, before the definition of YYSTYPE.
 %code requires
 {
+  #ifndef YY_TYPEDEF_YY_SCANNER_T
+  # define YY_TYPEDEF_YY_SCANNER_T
   typedef void* yyscan_t;
+  #endif
+
   typedef struct
   {
     // Whether to print the intermediate results.
@@ -132,10 +136,6 @@ exp:
 
 %%
 // Epilogue (C code).
-
-// We already defined yyscan_t, don't let scan.h define it again.
-#define YY_TYPEDEF_YY_SCANNER_T
-typedef void* yyscan_t;
 #include "scan.h"
 
 result
