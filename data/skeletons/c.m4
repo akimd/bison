@@ -495,9 +495,9 @@ m4_define([b4_symbol_translate],
 # --------------------------
 # Output the definition of this symbol as an enum.
 m4_define([b4_symbol_enum],
-[m4_ifval(b4_symbol([$1], [sid]),
+[m4_ifval(b4_symbol([$1], [kind]),
          [m4_format([[%s = %s]],
-                    b4_symbol([$1], [sid]),
+                    b4_symbol([$1], [kind]),
                     b4_symbol([$1], [number]))])])
 
 
@@ -512,7 +512,7 @@ enum yysymbol_kind_t
 {
   ]m4_join([,
   ],
-           ]b4_symbol_sid([-2])[ = -2,
+           ]b4_symbol_kind([-2])[ = -2,
            b4_symbol_map([b4_symbol_enum]))[
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;

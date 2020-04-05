@@ -157,9 +157,9 @@ b4_symbol_foreach([b4_token_enum])])])
 # --------------------------
 # Output the definition of this symbol as an enum.
 m4_define([b4_symbol_enum],
-[m4_ifval(b4_symbol([$1], [sid]),
+[m4_ifval(b4_symbol([$1], [kind]),
          [m4_format([[%s(%s)]],
-                    b4_symbol([$1], [sid]),
+                    b4_symbol([$1], [kind]),
                     b4_symbol([$1], [number]))])])
 
 
@@ -171,7 +171,7 @@ m4_define([b4_declare_symbol_enum],
   {
     ]m4_join([,
     ],
-             ]b4_symbol_sid([-2])[(-2),
+             ]b4_symbol_kind([-2])[(-2),
              b4_symbol_map([b4_symbol_enum]))[;
 
     private final int code_;
@@ -181,7 +181,7 @@ m4_define([b4_declare_symbol_enum],
     }
 
     private static final SymbolKind[] values_ = {
-        ]m4_map_args_sep([b4_symbol_sid(], [)], [,
+        ]m4_map_args_sep([b4_symbol_kind(], [)], [,
         ], b4_symbol_numbers)[
     };
 

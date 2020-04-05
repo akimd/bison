@@ -192,7 +192,7 @@ m4_define([b4_declare_symbol_enum],
     {
       ]m4_join([,
       ],
-               ]b4_symbol_sid([-2])[ = -2,
+               ]b4_symbol_kind([-2])[ = -2,
                b4_symbol_map([b4_symbol_enum]),
                [YYNTOKENS = ]b4_tokens_number[ ///< Number of tokens.])[
     };

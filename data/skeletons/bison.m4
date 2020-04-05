@@ -405,13 +405,13 @@ m4_define([_b4_symbol],
           [__b4_symbol([$1], [$2])])])
 
 
-# b4_symbol_sid(NUM)
-# ------------------
-# Build the symbol ID based for this symbol.  It must always exist,
+# b4_symbol_kind(NUM)
+# -------------------
+# Build the name of the kind of this symbol.  It must always exist,
 # otherwise some symbols might not be represented in the enum, which
 # might be compiled into too small a type to contain all the symbol
 # numbers.
-m4_define([b4_symbol_sid],
+m4_define([b4_symbol_kind],
 [m4_case([$1],
   [-2],                           [[YYSYMBOL_YYEMPTY]],
   [0],                            [[YYSYMBOL_YYEOF]],
@@ -433,7 +433,7 @@ m4_define([b4_symbol],
 [m4_case([$2],
          [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
                          [_b4_symbol([$1], [id])])],
-         [sid],   [b4_symbol_sid([$1])],
+         [kind],  [b4_symbol_kind([$1])],
          [_b4_symbol($@)])])
 
 
