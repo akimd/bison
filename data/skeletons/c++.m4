@@ -188,13 +188,11 @@ m4_define([b4_token_enums],
 m4_define([b4_declare_symbol_enum],
 [[enum symbol_kind_type
     {
-      ]m4_join([,
-      ],
-               ]b4_symbol_kind([-2])[ = -2,
-               b4_symbol_map([b4_symbol_enum]),
-               [YYNTOKENS = ]b4_tokens_number[ ///< Number of tokens.])[
+      YYNTOKENS = ]b4_tokens_number[, ///< Number of tokens.
+      ]b4_symbol_kind([-2])[ = -2,
+]b4_symbol_foreach([    b4_symbol_enum])[
     };
-]])])
+]])
 
 
 

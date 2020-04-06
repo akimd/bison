@@ -565,7 +565,10 @@ m4_define([_b4_last_enum_token],
    [m4_define([b4_last_enum_token], [$1])])])
 b4_symbol_foreach([_b4_last_enum_token])
 
-
+# b4_last_symbol
+# --------------
+# The code of the last symbol.
+m4_define([b4_last_symbol], m4_eval(b4_tokens_number + b4_nterms_number - 1))
 
 ## ------- ##
 ## Types.  ##

@@ -494,15 +494,16 @@ m4_define([b4_symbol_translate],
 ## (Internal) symbol numbers.  ##
 ## --------------------------- ##
 
-
 # b4_symbol_enum(SYMBOL-NUM)
 # --------------------------
 # Output the definition of this symbol as an enum.
 m4_define([b4_symbol_enum],
-[m4_ifval(b4_symbol([$1], [kind]),
-         [m4_format([[%s = %s]],
-                    b4_symbol([$1], [kind]),
-                    b4_symbol([$1], [number]))])])
+[m4_format([  %-40s %s],
+           m4_format([[%s = %s%s%s]],
+                     b4_symbol([$1], [kind]),
+                     [$1],
+                     m4_if([$1], b4_last_symbol, [], [[,]])),
+           [b4_symbol_tag_comment([$1])])])
 
 
 # b4_declare_symbol_enum
@@ -514,10 +515,8 @@ m4_define([b4_declare_symbol_enum],
 [[/* Symbol type.  */
 enum yysymbol_kind_t
 {
-  ]m4_join([,
-  ],
-           ]b4_symbol_kind([-2])[ = -2,
-           b4_symbol_map([b4_symbol_enum]))[
+  ]b4_symbol_kind([-2])[ = -2,
+]b4_symbol_foreach([b4_symbol_enum])[
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 ]])])
