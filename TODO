@@ -1,4 +1,7 @@
 * Bison 3.6
+** api.symbol.prefix
+Something similar to api.token.prefix for SymbolKind.
+
 ** Documentation
 - yyexpected_tokens in all the languages.
 - YYNOMEM
@@ -19,6 +22,9 @@ We could use "number" and "code".
 
 Update: the current best options would be "token kind" and "symbol kind",
 instead of "token type" and "symbol type".
+
+*** yytokentype
+Make an alias so that it is about "kind", not "type".
 
 *** The documentation
 
@@ -284,46 +290,6 @@ share between lalr1.cc and glr.cc.  Most of the skeletons should be common.
 It would be a very nice source of inspiration for the other languages.
 
 Valentin Tolmer is working on this.
-
-** YYERRCODE
-Why don't we output the token name of the error token in the output?  It is
-explicitly skipped:
-
-      /* Skip error token and tokens without identifier.  */
-      if (sym != errtoken && id)
-
-Of course there are issues with name spaces, but if we disable we have
-something which seems to be more simpler and more consistent instead
-of the special case YYERRCODE.
-
-   enum yytokentype {
-     error = 256,
-     // ...
-   };
-
-
-We could (should?) also treat the case of the undef_token, which is
-numbered 257 for yylex, and 2 internal.  Both appear for instance in
-toknum:
-
-  const unsigned short
-  parser::yytoken_number_[] =
-  {
-       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-
-while here
-
-   enum yytokentype {
-     TOK_EOF = 0,
-     TOK_EQ = 258,
-
-so both 256 and 257 are "mysterious".
-
-  const char*
-  const parser::yytname_[] =
-  {
-  "\"end of command\"", "error", "$undefined", "\"=\"", "\"break\"",
-
 
 ** yychar == yyempty_
 The code in yyerrlab reads:
