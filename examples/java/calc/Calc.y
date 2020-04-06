@@ -116,7 +116,7 @@ class CalcLexer implements Calc.Lexer {
     return new Position (end);
   }
 
-  public void yyreportSyntaxError (Calc.Context ctx)
+  public void reportSyntaxError (Calc.Context ctx)
   {
     System.err.print (ctx.getLocation () + ": syntax error");
     {

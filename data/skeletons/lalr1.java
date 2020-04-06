@@ -221,7 +221,10 @@ import java.text.MessageFormat;
 
 ]b4_parse_error_bmatch(
            [custom], [[
-     void yyreportSyntaxError (][Context yyctx);
+    /**
+     * Build and emit a syntax error message.
+     */
+     void reportSyntaxError (][Context yyctx);
 ]])[
   }
 
@@ -984,7 +987,7 @@ b4_dollar_popdef[]dnl
   private void yyreportSyntaxError (Context yyctx)
   {]b4_parse_error_bmatch(
 [custom], [[
-    yylexer.yyreportSyntaxError (yyctx);]],
+    yylexer.reportSyntaxError (yyctx);]],
 [detailed\|verbose], [[
     if (yyErrorVerbose)
       {

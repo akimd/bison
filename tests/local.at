@@ -976,7 +976,7 @@ m4_define([AT_YYERROR_DEFINE(java)],
 ]])[
 
 ]AT_ERROR_CUSTOM_IF([[
-  public void yyreportSyntaxError (Calc.Context ctx)
+  public void reportSyntaxError (Calc.Context ctx)
   {
     System.err.print (]AT_LOCATION_IF([[ctx.getLocation () + ": "]]
                       + )["syntax error");
