@@ -181,8 +181,8 @@ m4_define([b4_declare_symbol_enum],
     }
 
     private static final SymbolKind[] values_ = {
-        ]m4_map_args_sep([b4_symbol_kind(], [)], [,
-        ], b4_symbol_numbers)[
+      ]m4_map_args_sep([b4_symbol_kind(], [)], [,
+      ], b4_symbol_numbers)[
     };
 
     static final SymbolKind get (int code) {

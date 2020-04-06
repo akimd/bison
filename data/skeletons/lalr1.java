@@ -54,7 +54,7 @@ b4_use_push_for_pull_if([
 # or as class instance variable when doing push parsing.
 m4_define([b4_define_state],[[
     /* Lookahead and lookahead in internal form.  */
-    int yychar = yyempty_;
+    int yychar = YYEMPTY_;
     SymbolKind yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
 
     /* State.  */
@@ -223,7 +223,7 @@ import java.text.MessageFormat;
            [custom], [[
      void yyreportSyntaxError (][Context yyctx);
 ]])[
-}
+  }
 
 ]b4_lexer_if([[
   private class YYLexer implements Lexer {
@@ -385,8 +385,8 @@ import java.text.MessageFormat;
     public final ]b4_location_type[ locationAt (int i) {
       return locStack[height - i];
     }
-
-    ]])[public final ]b4_yystype[ valueAt (int i) {
+]])[
+    public final ]b4_yystype[ valueAt (int i) {
       return valueStack[height - i];
     }
 
@@ -458,11 +458,11 @@ import java.text.MessageFormat;
    */
   private int yyLRGotoState (int yystate, int yysym)
   {
-    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
-    if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
+    int yyr = yypgoto_[yysym - YYNTOKENS_] + yystate;
+    if (0 <= yyr && yyr <= YYLAST_ && yycheck_[yyr] == yystate)
       return yytable_[yyr];
     else
-      return yydefgoto_[yysym - yyntokens_];
+      return yydefgoto_[yysym - YYNTOKENS_];
   }
 
   private int yyaction (int yyn, YYStack yystack, int yylen)]b4_maybe_throws([b4_throws])[
@@ -503,7 +503,7 @@ import java.text.MessageFormat;
                              ]b4_yystype[ yyvaluep]dnl
                               b4_locations_if([, Object yylocationp])[)
   {
-    yycdebug (s + (yykind.getCode () < yyntokens_ ? " token " : " nterm ")
+    yycdebug (s + (yykind.getCode () < YYNTOKENS_ ? " token " : " nterm ")
               + yysymbolName (yykind) + " ("]b4_locations_if([
               + yylocationp + ": "])[
               + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
@@ -573,7 +573,7 @@ b4_dollar_popdef[]dnl
           yystack.print (yyDebugStream);]])[
 
         /* Accept?  */
-        if (yystate == yyfinal_)
+        if (yystate == YYFINAL_)
           ]b4_push_if([{label = YYACCEPT; break;}],
                       [return true;])[
 
@@ -588,7 +588,7 @@ b4_dollar_popdef[]dnl
 
       case YYGETTOKEN:])[
         /* Read a lookahead token.  */
-        if (yychar == yyempty_)
+        if (yychar == YYEMPTY_)
           {
 ]b4_push_if([[
             if (!push_token_consumed)
@@ -614,7 +614,7 @@ b4_dollar_popdef[]dnl
         /* If the proper action on seeing token YYTOKEN is to reduce or to
            detect an error, take that action.  */
         yyn += yytoken.getCode ();
-        if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yytoken.getCode ())
+        if (yyn < 0 || YYLAST_ < yyn || yycheck_[yyn] != yytoken.getCode ())
           label = YYDEFAULT;
 
         /* <= 0 means reduce or error.  */
@@ -636,7 +636,7 @@ b4_dollar_popdef[]dnl
                            yylval]b4_locations_if([, yylloc])[);
 ]])[
             /* Discard the token being shifted.  */
-            yychar = yyempty_;
+            yychar = YYEMPTY_;
 
             /* Count tokens shifted since error; after three, turn off error
                status.  */
@@ -677,7 +677,7 @@ b4_dollar_popdef[]dnl
         if (yyerrstatus_ == 0)
           {
             ++yynerrs;
-            if (yychar == yyempty_)
+            if (yychar == YYEMPTY_)
               yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
             yyreportSyntaxError (new Context (yystack, yytoken]b4_locations_if([[, yylloc]])[));
           }
@@ -696,7 +696,7 @@ b4_dollar_popdef[]dnl
                   ]b4_push_if([{label = YYABORT; break;}], [return false;])[
               }
             else
-              yychar = yyempty_;
+              yychar = YYEMPTY_;
           }
 
         /* Else will try to reuse lookahead token after shifting the error
@@ -729,7 +729,7 @@ b4_dollar_popdef[]dnl
             if (!yyPactValueIsDefault (yyn))
               {
                 yyn += SymbolKind.YYSYMBOL_YYERROR.getCode ();
-                if (0 <= yyn && yyn <= yylast_
+                if (0 <= yyn && yyn <= YYLAST_
                     && yycheck_[yyn] == SymbolKind.YYSYMBOL_YYERROR.getCode ())
                   {
                     yyn = yytable_[yyn];
@@ -791,7 +791,7 @@ b4_dollar_popdef[]dnl
   public void push_parse_initialize ()
   {
     /* Lookahead and lookahead in internal form.  */
-    this.yychar = yyempty_;
+    this.yychar = YYEMPTY_;
     this.yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
 
     /* State.  */
@@ -881,7 +881,7 @@ b4_dollar_popdef[]dnl
     /**
      * Value returned by getToken when there is no token.
      */
-    public static final int EMPTY = ]b4_parser_class[.yyempty_;
+    public static final int EMPTY = ]b4_parser_class[.YYEMPTY_;
 
     private SymbolKind yytoken;]b4_locations_if([[
     public ]b4_location_type[ getLocation ()
@@ -890,7 +890,7 @@ b4_dollar_popdef[]dnl
     }
 
     private ]b4_location_type[ yylocation;]])[
-    static final int NTOKENS = ]b4_parser_class[.yyntokens_;
+    static final int NTOKENS = ]b4_parser_class[.YYNTOKENS_;
 
     /* Put in YYARG at most YYARGN of the expected tokens given the
        current YYCTX, and return the number of tokens stored in YYARG.  If
@@ -913,7 +913,7 @@ b4_dollar_popdef[]dnl
              actions.  */
           int yyxbegin = yyn < 0 ? -yyn : 0;
           /* Stay within bounds of both yycheck and yytname.  */
-          int yychecklim = yylast_ - yyn + 1;
+          int yychecklim = YYLAST_ - yyn + 1;
           int yyxend = yychecklim < NTOKENS ? yychecklim : NTOKENS;
           for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
             if (yycheck_[yyx + yyn] == yyx && yyx != SymbolKind.YYSYMBOL_YYERROR.getCode ()
@@ -1075,7 +1075,7 @@ b4_dollar_popdef[]dnl
   }
 
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-     First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
+     First, the terminals, then, starting at \a YYNTOKENS_, nonterminals.  */
   ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
 
   /* The user-facing name of the symbol whose (internal) number is
@@ -1142,11 +1142,10 @@ b4_dollar_popdef[]dnl
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 ]])[
 
-  private static final int yylast_ = ]b4_last[;
-  private static final int yynnts_ = ]b4_nterms_number[;
-  private static final int yyempty_ = -2;
-  private static final int yyfinal_ = ]b4_final_state_number[;
-  private static final int yyntokens_ = ]b4_tokens_number[;
+  private static final int YYLAST_ = ]b4_last[;
+  private static final int YYEMPTY_ = -2;
+  private static final int YYFINAL_ = ]b4_final_state_number[;
+  private static final int YYNTOKENS_ = ]b4_tokens_number[;
 
 ]b4_percent_code_get[
 }
