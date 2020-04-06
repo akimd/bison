@@ -896,12 +896,12 @@ b4_dollar_popdef[]dnl
        current YYCTX, and return the number of tokens stored in YYARG.  If
        YYARG is null, return the number of expected tokens (guaranteed to
        be less than YYNTOKENS).  */
-    int yyexpectedTokens (SymbolKind yyarg[], int yyargn)
+    int getExpectedTokens (SymbolKind yyarg[], int yyargn)
     {
-      return yyexpectedTokens (yyarg, 0, yyargn);
+      return getExpectedTokens (yyarg, 0, yyargn);
     }
 
-    int yyexpectedTokens (SymbolKind yyarg[], int yyoffset, int yyargn)
+    int getExpectedTokens (SymbolKind yyarg[], int yyoffset, int yyargn)
     {
       int yycount = yyoffset;
       int yyn = yypact_[this.yystack.stateAt (0)];
@@ -972,7 +972,7 @@ b4_dollar_popdef[]dnl
     if (yyctx.getToken () != SymbolKind.YYSYMBOL_YYEMPTY)
       {
         yyarg[yycount++] = yyctx.getToken ();
-        yycount += yyctx.yyexpectedTokens (yyarg, 1, yyargn);
+        yycount += yyctx.getExpectedTokens (yyarg, 1, yyargn);
       }
     return yycount;
   }

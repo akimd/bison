@@ -987,7 +987,7 @@ m4_define([AT_YYERROR_DEFINE(java)],
     }
     {
       Calc.SymbolKind[] arg = new Calc.SymbolKind[ctx.NTOKENS];
-      int n = ctx.yyexpectedTokens (arg, ctx.NTOKENS);
+      int n = ctx.getExpectedTokens (arg, ctx.NTOKENS);
       if (0 < n)
         {
           System.err.print (" (expected:");

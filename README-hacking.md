@@ -70,7 +70,9 @@ we are free to change them without fear of backward compatibility issues.
 Use `*_t` for types, especially for `yy*_t` in which case we shouldn't worry
 about the C standard introducing such a name.
 
-In C++, use `*_type` for type aliases.
+#### C++
+Use `*_type` for type aliases.  Use `foo_get()` and `foo_set(v)` for
+accessors, or simply `foo()` and `foo(v)`.
 
 #### Java
 We follow https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
@@ -80,6 +82,9 @@ So we should for instance stop putting spaces in function calls.  Because we
 are standardizing the code, it is currently inconsistent.
 
 Use a 2-space indentation (Google) rather than 4 (Oracle).
+
+Don't use the "yy" prefix for public members: "getExpectedTokens", not
+"yyexpectedTokens" or "yygetExpectedTokens".
 
 ## Commit Messages
 Imitate the style we use.  Use `git log` to get sources of inspiration.

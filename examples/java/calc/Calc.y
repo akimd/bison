@@ -122,7 +122,7 @@ class CalcLexer implements Calc.Lexer {
     {
       final int TOKENMAX = 10;
       Calc.SymbolKind[] arg = new Calc.SymbolKind[TOKENMAX];
-      int n = ctx.yyexpectedTokens (arg, TOKENMAX);
+      int n = ctx.getExpectedTokens (arg, TOKENMAX);
       for (int i = 0; i < n; ++i)
         System.err.print ((i == 0 ? ": expected " : " or ")
                           + ctx.yysymbolName (arg[i]));
