@@ -982,7 +982,7 @@ m4_define([AT_YYERROR_DEFINE(java)],
                       + )["syntax error");
     {
       Calc.SymbolKind token = ctx.getToken ();
-      if (token != Calc.SymbolKind.YYSYMBOL_YYEMPTY)
+      if (token != null)
         System.err.print (" on token @<:@" + ctx.yysymbolName (token) + "@:>@");
     }
     {

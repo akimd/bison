@@ -129,7 +129,7 @@ class CalcLexer implements Calc.Lexer {
     }
     {
       Calc.SymbolKind lookahead = ctx.getToken ();
-      if (lookahead != Calc.SymbolKind.YYSYMBOL_YYEMPTY)
+      if (lookahead != null)
         System.err.print (" before " + ctx.yysymbolName (lookahead));
     }
     System.err.println ("");

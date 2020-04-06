@@ -55,7 +55,7 @@ b4_use_push_for_pull_if([
 m4_define([b4_define_state],[[
     /* Lookahead and lookahead in internal form.  */
     int yychar = YYEMPTY_;
-    SymbolKind yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
+    SymbolKind yytoken = null;
 
     /* State.  */
     int yyn = 0;
@@ -681,7 +681,7 @@ b4_dollar_popdef[]dnl
           {
             ++yynerrs;
             if (yychar == YYEMPTY_)
-              yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
+              yytoken = null;
             yyreportSyntaxError (new Context (yystack, yytoken]b4_locations_if([[, yylloc]])[));
           }
 
@@ -795,7 +795,7 @@ b4_dollar_popdef[]dnl
   {
     /* Lookahead and lookahead in internal form.  */
     this.yychar = YYEMPTY_;
-    this.yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
+    this.yytoken = null;
 
     /* State.  */
     this.yyn = 0;
@@ -972,7 +972,7 @@ b4_dollar_popdef[]dnl
          to an error action in a later state.
     */
     int yycount = 0;
-    if (yyctx.getToken () != SymbolKind.YYSYMBOL_YYEMPTY)
+    if (yyctx.getToken () != null)
       {
         yyarg[yycount++] = yyctx.getToken ();
         yycount += yyctx.getExpectedTokens (yyarg, 1, yyargn);

@@ -1,4 +1,7 @@
 * Bison 3.6
+** syntax_error_arguments
+Don't store the lookahead if !argv.
+
 ** Documentation
 - yyexpected_tokens in all the languages.
 - YYNOMEM
