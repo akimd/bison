@@ -876,17 +876,20 @@ b4_dollar_popdef[]dnl
 
     private YYStack yystack;
 
+
+    /**
+     * The symbol kind of the lookahead token.
+     */
     public SymbolKind getToken ()
     {
       return yytoken;
     }
 
-    /**
-     * Value returned by getToken when there is no token.
-     */
-    public static final int EMPTY = ]b4_parser_class[.YYEMPTY_;
-
     private SymbolKind yytoken;]b4_locations_if([[
+
+    /**
+     * The location of the lookahead.
+     */
     public ]b4_location_type[ getLocation ()
     {
       return yylocation;
@@ -895,10 +898,12 @@ b4_dollar_popdef[]dnl
     private ]b4_location_type[ yylocation;]])[
     static final int NTOKENS = ]b4_parser_class[.YYNTOKENS_;
 
-    /* Put in YYARG at most YYARGN of the expected tokens given the
-       current YYCTX, and return the number of tokens stored in YYARG.  If
-       YYARG is null, return the number of expected tokens (guaranteed to
-       be less than YYNTOKENS).  */
+    /**
+     * Put in YYARG at most YYARGN of the expected tokens given the
+     * current YYCTX, and return the number of tokens stored in YYARG.  If
+     * YYARG is null, return the number of expected tokens (guaranteed to
+     * be less than YYNTOKENS).
+     */
     int getExpectedTokens (SymbolKind yyarg[], int yyargn)
     {
       return getExpectedTokens (yyarg, 0, yyargn);
@@ -933,8 +938,10 @@ b4_dollar_popdef[]dnl
       return yycount - yyoffset;
     }
 
-    /* The user-facing name of the symbol whose (internal) number is
-       YYSYMBOL.  No bounds checking.  */
+    /**
+     * The user-facing name of the symbol whose (internal) number is
+     * YYSYMBOL.  No bounds checking.
+     */
     static String yysymbolName (SymbolKind yysymbol)
     {
       return ]b4_parser_class[.yysymbolName (yysymbol);

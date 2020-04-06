@@ -433,6 +433,7 @@ Java Parsers
 * Java Semantic Values::        %token and %nterm vs. Java
 * Java Location Values::        The position and location classes
 * Java Parser Interface::       Instantiating and running the parser
+* Java Parser Context Interface:: Circumstances of a syntax error
 * Java Scanner Interface::      Specifying the scanner for the parser
 * Java Action Features::        Special features for use in actions
 * Java Push Parser Interface::  Instantiating and running the a push parser
@@ -12673,6 +12674,7 @@ main (int argc, char *argv[])
 * Java Semantic Values::        %token and %nterm vs. Java
 * Java Location Values::        The position and location classes
 * Java Parser Interface::       Instantiating and running the parser
+* Java Parser Context Interface:: Circumstances of a syntax error
 * Java Scanner Interface::      Specifying the scanner for the parser
 * Java Action Features::        Special features for use in actions
 * Java Push Parser Interface::  Instantiating and running the a push parser
@@ -12917,6 +12919,37 @@ Identify the Bison version and skeleton used to generate this parser.
 @end deftypecv
 
 
+@node Java Parser Context Interface
+@subsection Java Parser Context Interface
+
+The parser context provides information to build error reports when you
+invoke @samp{%define parse.error custom}.
+
+@deftypemethod {YYParser.Context} {YYParser.SymbolKind} getToken ()
+The kind of the lookahead.  Maybe return @code{null} when there is no
+lookahead.
+@end deftypemethod
+
+@deftypemethod {YYParser.Context} {YYParser.Location} getLocation ()
+The location of the lookahead.
+@end deftypemethod
+
+@deftypemethod {YYParser.Context} {int} getExpectedTokens (@code{YYParser.SymbolKind[]} @var{argv}, @code{int} @var{argc})
+Fill @var{argv} with the expected tokens, which never includes
+@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYERROR}, or
+@code{YYSYMBOL_YYUNDEF}.
+
+Never put more than @var{argc} elements into @var{argv}, and on success
+return the effective number of tokens stored in @var{argv}.  Return 0 if
+there are more than @var{argc} expected tokens, yet fill @var{argv} up to
+@var{argc}.  When LAC is enabled, may return a negative number on errors,
+such as @code{YYNOMEM} on memory exhaustion.
+
+If @var{argv} is null, return the size needed to store all the possible
+values, which is always less than @code{YYNTOKENS}.
+@end deftypemethod
+
+
 @node Java Scanner Interface
 @subsection Java Scanner Interface
 @c - %code lexer
@@ -12977,6 +13010,40 @@ Return the semantic value of the last token that yylex returned.
 
 The return type can be changed using @samp{%define api.value.type
 @{@var{class-name}@}}.
+@end deftypemethod
+
+@deftypemethod {Lexer} {void} reportSyntaxError (@code{YYParser.Context} @var{ctx})
+If you invoke @samp{%define parse.error custom} (@pxref{Bison
+Declarations}), then the parser no longer passes syntax error messages to
+@code{yyerror}, rather it delegates that task to the user by calling the
+@code{reportSyntaxError} function.
+
+Whether it uses @code{yyerror} is up to the user.
+
+Here is a typical example of a reporting function.
+
+@example
+public void yyreportSyntaxError (YYParser.Context ctx)
+@{
+  System.err.print (ctx.getLocation () + ": syntax error");
+  // Report the expected tokens.
+  @{
+    final int TOKENMAX = 5;
+    YYParser.SymbolKind[] arg = new YYParser.SymbolKind[TOKENMAX];
+    int n = ctx.getExpectedTokens (arg, TOKENMAX);
+    for (int i = 0; i < n; ++i)
+      System.err.print ((i == 0 ? ": expected " : " or ")
+                        + ctx.yysymbolName (arg[i]));
+  @}
+  // Report the unexpected token which triggered the error.
+  @{
+    YYParser.SymbolKind lookahead = ctx.getToken ();
+    if (lookahead != null)
+      System.err.print (" before " + ctx.yysymbolName (lookahead));
+  @}
+  System.err.println ("");
+@}
+@end example
 @end deftypemethod
 
 @node Java Action Features
