@@ -1458,7 +1458,8 @@ b4_dollar_popdef])[]dnl
 
     if (!yyctx.lookahead ().empty ())
       {
-        yyarg[0] = yyctx.token ();
+        if (yyarg)
+          yyarg[0] = yyctx.token ();
         int yyn = yyctx.yyexpected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
         return yyn + 1;
       }

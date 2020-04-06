@@ -981,7 +981,9 @@ b4_dollar_popdef[]dnl
     int yycount = 0;
     if (yyctx.getToken () != null)
       {
-        yyarg[yycount++] = yyctx.getToken ();
+        if (yyarg != null)
+          yyarg[yycount] = yyctx.getToken ();
+        yycount += 1;
         yycount += yyctx.getExpectedTokens (yyarg, 1, yyargn);
       }
     return yycount;
