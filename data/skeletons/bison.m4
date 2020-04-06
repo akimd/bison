@@ -553,8 +553,18 @@ m4_define([b4_any_token_visible_if],
 m4_define([b4_token_format],
 [b4_token_visible_if([$2],
 [m4_format([[$1]],
-           m4_quote(b4_symbol([$2], [id])),
-           m4_quote(b4_symbol([$2], b4_api_token_raw_if([[number]], [[user_number]]))))])])
+           m4_expand(b4_symbol([$2], [id])),
+           m4_expand(b4_symbol([$2], b4_api_token_raw_if([[number]], [[user_number]]))))])])
+
+
+# b4_last_enum_token
+# ------------------
+# The code of the last token visible token.
+m4_define([_b4_last_enum_token],
+[b4_token_visible_if([$1],
+   [m4_define([b4_last_enum_token], [$1])])])
+b4_symbol_foreach([_b4_last_enum_token])
+
 
 
 ## ------- ##

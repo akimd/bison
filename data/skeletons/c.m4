@@ -449,7 +449,13 @@ m4_join([
 # ------------------------
 # Output the definition of this token as an enum.
 m4_define([b4_token_enum],
-[b4_token_format([%s = %s], [$1])])
+[b4_token_visible_if([$1],
+    [m4_format([    %-30s %s],
+               m4_format([[%s = %s%s%s]],
+                         [b4_symbol([$1], [id])],
+                         [b4_symbol([$1], b4_api_token_raw_if([[number]], [[user_number]]))],
+                         m4_if([$1], b4_last_enum_token, [], [[,]])),
+               [b4_symbol_tag_comment([$1])])])])
 
 
 # b4_token_enums
@@ -461,9 +467,7 @@ m4_define([b4_token_enums],
 # define ]b4_api_PREFIX[TOKENTYPE
   enum ]b4_api_prefix[tokentype
   {
-    ]m4_join([,
-    ],
-             b4_symbol_map([b4_token_enum]))[
+]b4_symbol_foreach([b4_token_enum])[
   };
 #endif
 ]])])
