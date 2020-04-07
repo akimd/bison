@@ -430,7 +430,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
     /// Lookahead and lookahead in internal form.
     int yychar = yyempty_;
-    SymbolKind yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
+    SymbolKind yytoken = SymbolKind.]b4_symbol_prefix[YYEMPTY;
 
     /* State.  */
     int yyn = 0;
@@ -574,7 +574,7 @@ m4_popdef([b4_at_dollar])])dnl
         {
           ++yynerrs_;
           if (yychar == yyempty_)
-            yytoken = SymbolKind.YYSYMBOL_YYEMPTY;
+            yytoken = SymbolKind.]b4_symbol_prefix[YYEMPTY;
           yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
         }
 
@@ -623,8 +623,8 @@ m4_popdef([b4_at_dollar])])dnl
           yyn = yypact_[yystate];
           if (!yy_pact_value_is_default_ (yyn))
           {
-            yyn += SymbolKind.YYSYMBOL_YYERROR;
-            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == SymbolKind.YYSYMBOL_YYERROR)
+            yyn += SymbolKind.]b4_symbol_prefix[YYERROR;
+            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == SymbolKind.]b4_symbol_prefix[YYERROR)
             {
               yyn = yytable_[yyn];
               if (0 < yyn)
@@ -711,7 +711,7 @@ m4_popdef([b4_at_dollar])])dnl
          will still contain any token that will not be accepted due
          to an error action in a later state.
       */
-    if (tok != SymbolKind.YYSYMBOL_YYEMPTY)
+    if (tok != SymbolKind.]b4_symbol_prefix[YYEMPTY)
     {
       // FIXME: This method of building the message is not compatible
       // with internationalization.
@@ -730,14 +730,14 @@ m4_popdef([b4_at_dollar])])dnl
         int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
         int count = 0;
         for (int x = yyxbegin; x < yyxend; ++x)
-          if (yycheck_[x + yyn] == x && x != SymbolKind.YYSYMBOL_YYERROR
+          if (yycheck_[x + yyn] == x && x != SymbolKind.]b4_symbol_prefix[YYERROR
               && !yy_table_value_is_error_ (yytable_[x + yyn]))
              ++count;
           if (count < 5)
           {
              count = 0;
              for (int x = yyxbegin; x < yyxend; ++x)
-               if (yycheck_[x + yyn] == x && x != SymbolKind.YYSYMBOL_YYERROR
+               if (yycheck_[x + yyn] == x && x != SymbolKind.]b4_symbol_prefix[YYERROR
                    && !yy_table_value_is_error_ (yytable_[x + yyn]))
                {
                   res ~= count++ == 0 ? ", expecting " : " or ";
@@ -829,14 +829,14 @@ m4_popdef([b4_at_dollar])])dnl
     immutable int user_token_number_max_ = ]b4_user_token_number_max[;
 
     if (t <= 0)
-      return SymbolKind.YYSYMBOL_YYEOF;
+      return SymbolKind.]b4_symbol_prefix[YYEOF;
     else if (t <= user_token_number_max_)
       {
         import std.conv : to;
         return to!SymbolKind (translate_table[t]);
       }
     else
-      return SymbolKind.YYSYMBOL_YYUNDEF;]])[
+      return SymbolKind.]b4_symbol_prefix[YYUNDEF;]])[
   }
 
   private static immutable int yylast_ = ]b4_last[;

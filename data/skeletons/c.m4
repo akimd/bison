@@ -101,6 +101,7 @@ m4_define_default([b4_prefix], [b4_api_prefix])
 b4_percent_define_default([[api.value.union.name]],
                           [b4_api_PREFIX[][STYPE]])
 
+b4_percent_define_default([[api.symbol.prefix]], [[YYSYMBOL_]])
 
 ## ------------------------ ##
 ## Pure/impure interfaces.  ##

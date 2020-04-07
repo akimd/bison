@@ -383,7 +383,7 @@ m4_define([b4_symbol_type_define],
       symbol_kind_type type_get () const YY_NOEXCEPT;
 
       /// The symbol type.
-      /// \a YYSYMBOL_YYEMPTY when empty.
+      /// \a ]b4_symbol_prefix[YYEMPTY when empty.
       symbol_kind_type type;
     };
 
@@ -456,7 +456,7 @@ m4_define([b4_public_types_define],
   bool
   ]b4_parser_class[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
-    return Base::type_get () == YYSYMBOL_YYEMPTY;
+    return Base::type_get () == ]b4_symbol_prefix[YYEMPTY;
   }
 
   template <typename Base>
@@ -472,7 +472,7 @@ m4_define([b4_public_types_define],
 
   // by_type.
   ]b4_inline([$1])b4_parser_class[::by_type::by_type ()
-    : type (YYSYMBOL_YYEMPTY)
+    : type (]b4_symbol_prefix[YYEMPTY)
   {}
 
 #if 201103L <= YY_CPLUSPLUS
@@ -494,7 +494,7 @@ m4_define([b4_public_types_define],
   ]b4_inline([$1])[void
   ]b4_parser_class[::by_type::clear ()
   {
-    type = YYSYMBOL_YYEMPTY;
+    type = ]b4_symbol_prefix[YYEMPTY;
   }
 
   ]b4_inline([$1])[void
@@ -540,11 +540,11 @@ m4_define([b4_yytranslate_define],
     const int user_token_number_max_ = ]b4_user_token_number_max[;
 
     if (t <= 0)
-      return YYSYMBOL_YYEOF;
+      return ]b4_symbol_prefix[YYEOF;
     else if (t <= user_token_number_max_)
       return YY_CAST (symbol_kind_type, translate_table[t]);
     else
-      return YYSYMBOL_YYUNDEF;]])[
+      return ]b4_symbol_prefix[YYUNDEF;]])[
   }
 ]])
 

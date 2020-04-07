@@ -357,10 +357,10 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 ]b4_namespace_close[
 ]m4_define([b4_declare_symbol_enum],
 [[typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
-#define YYSYMBOL_YYEMPTY ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYEMPTY
-#define YYSYMBOL_YYERROR ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYERROR
-#define YYSYMBOL_YYEOF   ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYEOF
-#define YYSYMBOL_YYUNDEF ]b4_namespace_ref[::]b4_parser_class[::YYSYMBOL_YYUNDEF
+#define ]b4_symbol_prefix[YYEMPTY ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol_prefix[YYEMPTY
+#define ]b4_symbol_prefix[YYERROR ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol_prefix[YYERROR
+#define ]b4_symbol_prefix[YYEOF   ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol_prefix[YYEOF
+#define ]b4_symbol_prefix[YYUNDEF ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol_prefix[YYUNDEF
 ]])[
 ]b4_percent_code_get([[provides]])[
 ]m4_popdef([b4_parse_param])dnl

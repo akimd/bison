@@ -731,9 +731,9 @@ b4_dollar_popdef[]dnl
             yyn = yypact_[yystate];
             if (!yyPactValueIsDefault (yyn))
               {
-                yyn += SymbolKind.YYSYMBOL_YYERROR.getCode ();
+                yyn += SymbolKind.]b4_symbol_prefix[YYERROR.getCode ();
                 if (0 <= yyn && yyn <= YYLAST_
-                    && yycheck_[yyn] == SymbolKind.YYSYMBOL_YYERROR.getCode ())
+                    && yycheck_[yyn] == SymbolKind.]b4_symbol_prefix[YYERROR.getCode ())
                   {
                     yyn = yytable_[yyn];
                     if (0 < yyn)
@@ -924,7 +924,7 @@ b4_dollar_popdef[]dnl
           int yychecklim = YYLAST_ - yyn + 1;
           int yyxend = yychecklim < NTOKENS ? yychecklim : NTOKENS;
           for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck_[yyx + yyn] == yyx && yyx != SymbolKind.YYSYMBOL_YYERROR.getCode ()
+            if (yycheck_[yyx + yyn] == yyx && yyx != SymbolKind.]b4_symbol_prefix[YYERROR.getCode ()
                 && !yyTableValueIsError (yytable_[yyx + yyn]))
               {
                 if (yyarg == null)
@@ -1145,11 +1145,11 @@ b4_dollar_popdef[]dnl
 [[  {
     int user_token_number_max_ = ]b4_user_token_number_max[;
     if (t <= 0)
-      return SymbolKind.YYSYMBOL_YYEOF;
+      return SymbolKind.]b4_symbol_prefix[YYEOF;
     else if (t <= user_token_number_max_)
       return SymbolKind.get (yytranslate_table_[t]);
     else
-      return SymbolKind.YYSYMBOL_YYUNDEF;
+      return SymbolKind.]b4_symbol_prefix[YYUNDEF;
   }
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 ]])[

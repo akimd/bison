@@ -152,6 +152,8 @@ private static immutable b4_int_type_for([$2])[[]] yy$1_ =
 ## (External) token numbers.  ##
 ## -------------------------- ##
 
+b4_percent_define_default([[api.symbol.prefix]], [[YYSYMBOL_]])
+
 # b4_token_enum(TOKEN-NAME, TOKEN-NUMBER)
 # ---------------------------------------
 # Output the definition of this token as an enum.

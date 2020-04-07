@@ -377,7 +377,7 @@ m4_define([b4_shared_declarations],
       void move (by_state& that);
 
       /// The symbol kind (corresponding to \a state).
-      /// \a YYSYMBOL_YYEMPTY when empty.
+      /// \a ]b4_symbol_prefix[YYEMPTY when empty.
       symbol_kind_type type_get () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
@@ -700,7 +700,7 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::by_state::type_get () const YY_NOEXCEPT
   {
     if (state == empty_state)
-      return YYSYMBOL_YYEMPTY;
+      return ]b4_symbol_prefix[YYEMPTY;
     else
       return YY_CAST (symbol_kind_type, yystos_[+state]);
   }
@@ -725,7 +725,7 @@ b4_parse_error_case([verbose], [[
     b4_symbol_variant([that.type_get ()],
                       [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
-    that.type = YYSYMBOL_YYEMPTY;
+    that.type = ]b4_symbol_prefix[YYEMPTY;
   }
 
 #if YY_CPLUSPLUS < 201103L
@@ -1089,7 +1089,7 @@ b4_dollar_popdef])[]dnl
            error, discard it.  */
 
         // Return failure if at end of input.
-        if (yyla.type_get () == YYSYMBOL_YYEOF)
+        if (yyla.type_get () == ]b4_symbol_prefix[YYEOF)
           YYABORT;
         else if (!yyla.empty ())
           {
@@ -1131,8 +1131,8 @@ b4_dollar_popdef])[]dnl
           yyn = yypact_[+yystack_[0].state];
           if (!yy_pact_value_is_default_ (yyn))
             {
-              yyn += YYSYMBOL_YYERROR;
-              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == YYSYMBOL_YYERROR)
+              yyn += ]b4_symbol_prefix[YYERROR;
+              if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == ]b4_symbol_prefix[YYERROR)
                 {
                   yyn = yytable_[yyn];
                   if (0 < yyn)
@@ -1244,7 +1244,7 @@ b4_dollar_popdef])[]dnl
     for (int yyx = 0; yyx < YYNTOKENS; ++yyx)
       {
         symbol_kind_type yysym = YY_CAST (symbol_kind_type, yyx);
-        if (yysym != YYSYMBOL_YYERROR && yysym != YYSYMBOL_YYUNDEF
+        if (yysym != ]b4_symbol_prefix[YYERROR && yysym != ]b4_symbol_prefix[YYUNDEF
             && yyparser_.yy_lac_check_ (yysym))
           {
             if (!yyarg)
@@ -1266,7 +1266,7 @@ b4_dollar_popdef])[]dnl
         int yychecklim = yylast_ - yyn + 1;
         int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-          if (yycheck_[yyx + yyn] == yyx && yyx != YYSYMBOL_YYERROR
+          if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol_prefix[YYERROR
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
             {
               if (!yyarg)

@@ -238,6 +238,7 @@ b4_percent_define_check_kind([[throws]],            [code], [deprecated])
 
 m4_define([b4_yystype], [b4_percent_define_get([[api.value.type]])])
 b4_percent_define_default([[api.value.type]], [[Object]])
+b4_percent_define_default([[api.symbol.prefix]], [[S_]])
 
 # b4_api_prefix, b4_api_PREFIX
 # ----------------------------
