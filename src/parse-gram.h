@@ -136,7 +136,6 @@ extern int gram_debug;
     PERCENT_PARAM = 58,            /* "%param"  */
     PERCENT_UNION = 59,            /* "%union"  */
     PERCENT_EMPTY = 60             /* "%empty"  */
-
   };
 #endif
 

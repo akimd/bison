@@ -417,12 +417,12 @@ m4_define([b4_symbol_kind],
 m4_case([$1],
   [-2],                             [[YYEMPTY]],
   [0],                              [[YYEOF]],
-  [m4_case(m4_quote(b4_symbol([$1], [tag])),
+  [1],                              [[YYERROR]],
+  [m4_case(b4_symbol([$1], [tag]),
       [$accept],                    [[YYACCEPT]],
-      [error],                      [[YYERROR]],
       [$undefined],                 [[YYUNDEF]],
-      [b4_symbol_if([$1], [has_id], m4_expand(_b4_symbol([$1], [id])),
-                                    [[$1_][]m4_bpatsubst(m4_quote(_b4_symbol([$1], [tag])), [[^a-zA-Z_0-9]], [_])])])])])
+      [b4_symbol_if([$1], [has_id], _b4_symbol([$1], [id]),
+                                    [m4_bpatsubst([$1-][]_b4_symbol([$1], [tag]), [[^a-zA-Z_0-9]+], [_])])])])])
 
 
 # b4_symbol(NUM, FIELD)

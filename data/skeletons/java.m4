@@ -144,7 +144,7 @@ m4_define([b4_token_enum],
 # --------------
 # Output the definition of the tokens (if there are) as enums.
 m4_define([b4_token_enums],
-[b4_any_token_visible_if([/* Tokens.  */
+[b4_any_token_visible_if([/* Token kinds.  */
 b4_symbol_foreach([b4_token_enum])])])
 
 

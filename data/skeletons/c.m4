@@ -453,8 +453,8 @@ m4_define([b4_token_enum],
 [b4_token_visible_if([$1],
     [m4_format([    %-30s %s],
                m4_format([[%s = %s%s%s]],
-                         [b4_symbol([$1], [id])],
-                         [b4_symbol([$1], b4_api_token_raw_if([[number]], [[user_number]]))],
+                         b4_symbol([$1], [id]),
+                         b4_symbol([$1], b4_api_token_raw_if([[number]], [[user_number]])),
                          m4_if([$1], b4_last_enum_token, [], [[,]])),
                [b4_symbol_tag_comment([$1])])])])
 
@@ -468,8 +468,8 @@ m4_define([b4_token_enums],
 # define ]b4_api_PREFIX[TOKENTYPE
   enum ]b4_api_prefix[tokentype
   {
-]b4_symbol_foreach([b4_token_enum])[
-  };
+]b4_symbol_foreach([b4_token_enum])dnl
+[  };
 #endif
 ]])])
 
@@ -513,12 +513,12 @@ m4_define([b4_symbol_enum],
 # Defining YYEMPTY here is important: it forces the compiler
 # to use a signed type, which matters for yytoken.
 m4_define([b4_declare_symbol_enum],
-[[/* Symbol type.  */
+[[/* Symbol kind.  */
 enum yysymbol_kind_t
 {
   ]b4_symbol_kind([-2])[ = -2,
-]b4_symbol_foreach([b4_symbol_enum])[
-};
+]b4_symbol_foreach([b4_symbol_enum])dnl
+[};
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 ]])])
 
