@@ -756,7 +756,7 @@ void
   std::cerr << "syntax error";
   {
     symbol_kind_type la = ctx.token ();
-    if (la != YYSYMBOL_YYEMPTY)
+    if (la != symbol_kind::S_YYEMPTY)
       fprintf (stderr, " on token [%s]", yysymbol_name (la));
   }
   {

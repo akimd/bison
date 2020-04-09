@@ -22,6 +22,8 @@ b4_percent_define_ifdef([[api.value.union.name]],
   [b4_complain_at(b4_percent_define_get_loc([[api.value.union.name]]),
                   [named %union is invalid in C++])])
 
+b4_percent_define_default([[api.symbol.prefix]], [[S_]])
+
 m4_include(b4_skeletonsdir/[c.m4])
 
 b4_percent_define_check_kind([api.namespace], [code], [deprecated])
@@ -187,12 +189,11 @@ m4_define([b4_token_enums],
 # to use a signed type, which matters for yytoken.
 m4_define([b4_declare_symbol_enum],
 [[enum symbol_kind_type
-    {
-      YYNTOKENS = ]b4_tokens_number[, ///< Number of tokens.
-      ]b4_symbol_kind([-2])[ = -2,
-]b4_symbol_foreach([    b4_symbol_enum])[
-    };
-]])
+      {
+        YYNTOKENS = ]b4_tokens_number[, ///< Number of tokens.
+        ]b4_symbol_kind([-2])[ = -2,
+]b4_symbol_foreach([      b4_symbol_enum])dnl
+[      };]])
 
 
 
@@ -252,7 +253,7 @@ m4_define([b4_public_types_declare],
       location_type location;])[
     };
 
-    /// Token numbers.
+    /// Token kinds.
     struct token
     {
       ]b4_token_enums[
@@ -261,8 +262,17 @@ m4_define([b4_public_types_declare],
     /// (External) token kind, as returned by yylex.
     typedef token::yytokentype token_type;
 
+    /// Symbol kinds.
+    struct symbol_kind
+    {
+      ]b4_declare_symbol_enum[
+    };
+
     /// (Internal) symbol kind.
-    ]b4_declare_symbol_enum[
+    typedef symbol_kind::symbol_kind_type symbol_kind_type;
+
+    /// The number of tokens.
+    static const symbol_kind_type YYNTOKENS = symbol_kind::YYNTOKENS;
 ]])
 
 
@@ -456,7 +466,7 @@ m4_define([b4_public_types_define],
   bool
   ]b4_parser_class[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
-    return Base::type_get () == ]b4_symbol_prefix[YYEMPTY;
+    return Base::type_get () == symbol_kind::]b4_symbol_prefix[YYEMPTY;
   }
 
   template <typename Base>
@@ -472,7 +482,7 @@ m4_define([b4_public_types_define],
 
   // by_type.
   ]b4_inline([$1])b4_parser_class[::by_type::by_type ()
-    : type (]b4_symbol_prefix[YYEMPTY)
+    : type (symbol_kind::]b4_symbol_prefix[YYEMPTY)
   {}
 
 #if 201103L <= YY_CPLUSPLUS
@@ -494,7 +504,7 @@ m4_define([b4_public_types_define],
   ]b4_inline([$1])[void
   ]b4_parser_class[::by_type::clear ()
   {
-    type = ]b4_symbol_prefix[YYEMPTY;
+    type = symbol_kind::]b4_symbol_prefix[YYEMPTY;
   }
 
   ]b4_inline([$1])[void
@@ -540,11 +550,11 @@ m4_define([b4_yytranslate_define],
     const int user_token_number_max_ = ]b4_user_token_number_max[;
 
     if (t <= 0)
-      return ]b4_symbol_prefix[YYEOF;
+      return symbol_kind::]b4_symbol_prefix[YYEOF;
     else if (t <= user_token_number_max_)
       return YY_CAST (symbol_kind_type, translate_table[t]);
     else
-      return ]b4_symbol_prefix[YYUNDEF;]])[
+      return symbol_kind::]b4_symbol_prefix[YYUNDEF;]])[
   }
 ]])
 
