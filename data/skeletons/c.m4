@@ -431,8 +431,11 @@ static const b4_int_type_for([$2]) yy$1[[]] =
 ## ------------- ##
 
 # Because C enums are not scoped, because tokens are exposed in the
-# header, and because these tokens are common to all the parser, we
+# header, and because these tokens are common to all the parsers, we
 # need to make sure their names don't collide: use the api.prefix.
+# YYEOF is special, since the user may give it a different name.
+m4_if(b4_symbol(0, id), [YYEOF],
+     [m4_define([b4_symbol(0, id)],  [b4_api_PREFIX[][EOF]])])
 m4_define([b4_symbol(1, id)],  [b4_api_PREFIX[][ERRCODE]])
 m4_define([b4_symbol(2, id)],  [b4_api_PREFIX[][UNDEF]])
 

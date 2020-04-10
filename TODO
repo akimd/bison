@@ -6,7 +6,7 @@ should not have to dispatch to several APIs.
 ** Documentation
 - yyexpected_tokens in all the languages.
 - YYENOMEM
-- YYERRCODE?
+- YYERRCODE, YYUNDEF, YYEOF
 - i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
 
@@ -85,6 +85,20 @@ push parsers on top of pull parser.  Which is currently not relevant, since
 push parsers are measurably slower.
 
 * Bison 3.7
+** Counter example generation
+See https://github.com/akimd/bison/pull/15.
+
+** Clean up
+Rename user_token_number for tokens as "code".  It's not a "user number",
+it's the token code, and the user can control it, but this code always
+exists.
+
+Rename endtoken as eoftoken.
+
+Don't rename in Bison 3.6 (it would be logical to do so) because that
+would probably create many conflicts in Vincent's work (see previous point).
+
+* Bison 3.8
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see
 https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,

@@ -1303,6 +1303,15 @@ AT_CLEANUP
 
 AT_SETUP([Default %printer and %destructor for user-defined end token])
 
+# Enable declaration of default %printer/%destructor.  Make the parser
+# use these for all user-declared grammar symbols for which the user
+# does not declare a specific %printer/%destructor.  Thus, the parser
+# uses it for token 0 if the user declares it but not if Bison
+# generates it as $end.  Discussed starting at
+# <http://lists.gnu.org/r/bison-patches/2006-02/msg00064.html>,
+# <http://lists.gnu.org/r/bison-patches/2006-06/msg00091.html>, and
+# <http://lists.gnu.org/r/bison-patches/2006-07/msg00019.html>.
+
 # AT_TEST(TYPED)
 # --------------
 m4_pushdef([AT_TEST],

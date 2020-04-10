@@ -105,6 +105,12 @@ yyerror (]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_
          ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
          ])[const char* msg);]])[
 
+]b4_percent_define_flag_if([[global_tokens_and_yystype]], [],
+[m4_define([b4_pre_epilogue],
+[[/* The user is using the C++ token type, not the C one. */
+#undef ]b4_symbol(0, [id])
+])])[
+
 # Hijack the epilogue to define implementations (yyerror, parser member
 # functions etc.).
 ]m4_append([b4_epilogue],
@@ -329,8 +335,14 @@ b4_percent_code_get([[requires]])[
 
 ]dnl Redirections for glr.c.
 b4_percent_define_flag_if([[global_tokens_and_yystype]],
-[b4_token_defines])
-[
+[b4_token_defines
+])[
+]b4_namespace_close[
+
+]dnl Map the name used in c.m4 to the one used in c++.m4.
+[#undef ]b4_symbol(0, [id])[
+#define ]b4_symbol(0, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(0, [id])[
+
 #ifndef ]b4_api_PREFIX[STYPE
 # define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
 #endif
@@ -338,7 +350,6 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 # define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
 #endif
 
-]b4_namespace_close[
 ]m4_define([b4_declare_symbol_enum],
 [[typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
 #define ]b4_symbol_prefix[YYEMPTY ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEMPTY
