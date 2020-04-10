@@ -1,6 +1,7 @@
 * Bison 3.6
-** api.symbol.prefix
-Something similar to api.token.prefix for SymbolKind.
+** C++
+yyreport_syntax_error should always be the name of the reporting, yyparse
+should not have to dispatch to several APIs.
 
 ** Documentation
 - yyexpected_tokens in all the languages.
