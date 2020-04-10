@@ -405,6 +405,14 @@ m4_define([_b4_symbol],
           [__b4_symbol([$1], [$2])])])
 
 
+# b4_symbol_token_kind(NUM)
+# -------------------------
+# The token kind of this symbol.
+m4_define([b4_symbol_token_kind],
+[b4_percent_define_get([api.token.prefix])dnl
+_b4_symbol([$1], [id])])
+
+
 # b4_symbol_kind(NUM)
 # -------------------
 # Build the name of the kind of this symbol.  It must always exist,
@@ -432,8 +440,7 @@ m4_case([$1],
 # If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
 [m4_case([$2],
-         [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
-                         [_b4_symbol([$1], [id])])],
+         [id],    [b4_symbol_token_kind([$1])],
          [kind],  [b4_symbol_kind([$1])],
          [_b4_symbol($@)])])
 
@@ -447,6 +454,10 @@ m4_define([b4_symbol_if],
          [1], [$3],
          [0], [$4],
          [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
+
+
+# Give the error token a better name.
+m4_define([b4_symbol(1, id)],  [b4_api_PREFIX[][ERRCODE]])
 
 
 # b4_symbol_tag_comment(SYMBOL-NUM)
@@ -533,6 +544,7 @@ m4_define([b4_token_visible_if],
 [b4_symbol_if([$1], [is_token],
               [b4_symbol_if([$1], [has_id], [$2], [$3])],
               [$3])])
+
 
 # b4_token_has_definition(NUM)
 # ----------------------------

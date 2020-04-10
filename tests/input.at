@@ -306,6 +306,7 @@ AT_SETUP([Redefining the error token])
 
 # We used to crash when trying to display the original definition of
 # "error", which is a builtin without any location.
+AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA([input.y],
 [[%token error 123
@@ -327,20 +328,31 @@ input.y:2.14-16: error: redefining user token number of error
 ]])
 
 # While at it, make sure we properly used the user's number for
-# "error".
+# "error".  I don't see what it buys us, but...
 AT_DATA([input.y],
-[[%token error 123
+[[%{
+#include <assert.h>
+#include <stdio.h>
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+%}
+
+%token error 123
 %%
 exp:
+%%
+int main (void)
+{
+  assert (YYERRCODE == 123);
+  assert (YYTRANSLATE (YYERRCODE) == YYSYMBOL_YYERROR);
+  return 0;
+}
 ]])
 
-AT_BISON_CHECK([input.y])
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([input], 0)
 
-AT_CHECK([$EGREP -E '123|256' input.tab.c], [],
-[[       0,   123,   257
-#define YYERRCODE       123
-]])
-
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -377,7 +389,9 @@ AT_CLEANUP
 AT_SETUP([Symbol declarations])
 
 AT_DATA([dump-symbols.m4],
-[[m4@&t@_define([b4_symbol_dump],
+[[m4@&t@_define([b4_api_PREFIX], [YY])
+
+m4@&t@_define([b4_symbol_dump],
 [$1, d@&t@nl
 b4_symbol_if([$1], [is_token], [Token], [Nonterminal]), d@&t@nl
 b4_symbol([$1], [tag]), d@&t@nl
@@ -416,7 +430,7 @@ AT_BISON_CHECK([-Wno-other -S./dump-symbols.m4 input.y])
 AT_CHECK([cat symbols.csv], [],
 [[number, class, tag, id, user_number, type,
 0, Token, $end, , 0, ,
-1, Nonterminal, error, error, 256, ,
+1, Token, error, YYERRCODE, 256, ,
 2, Nonterminal, $undefined, , 257, ,
 3, Token, 'a', , 97, ,
 4, Token, "A1", A1, 1, ,

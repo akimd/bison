@@ -78,6 +78,7 @@ extern int gram_debug;
   enum gram_tokentype
   {
     GRAM_EOF = 0,                  /* "end of file"  */
+    GRAM_ERRCODE = 1,              /* error  */
     STRING = 3,                    /* "string"  */
     TSTRING = 4,                   /* "translatable string"  */
     PERCENT_TOKEN = 5,             /* "%token"  */
