@@ -79,6 +79,7 @@ extern int gram_debug;
   {
     GRAM_EOF = 0,                  /* "end of file"  */
     GRAM_ERRCODE = 1,              /* error  */
+    GRAM_UNDEF = 2,                /* $undefined  */
     STRING = 3,                    /* "string"  */
     TSTRING = 4,                   /* "translatable string"  */
     PERCENT_TOKEN = 5,             /* "%token"  */

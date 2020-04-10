@@ -345,6 +345,7 @@ int main (void)
 {
   assert (YYERRCODE == 123);
   assert (YYTRANSLATE (YYERRCODE) == YYSYMBOL_YYERROR);
+  assert (YYTRANSLATE (YYUNDEF) == YYSYMBOL_YYUNDEF);
   return 0;
 }
 ]])
@@ -431,7 +432,7 @@ AT_CHECK([cat symbols.csv], [],
 [[number, class, tag, id, user_number, type,
 0, Token, $end, , 0, ,
 1, Token, error, YYERRCODE, 256, ,
-2, Nonterminal, $undefined, , 257, ,
+2, Token, $undefined, YYUNDEF, 257, ,
 3, Token, 'a', , 97, ,
 4, Token, "A1", A1, 1, ,
 5, Token, A2, A2, 258, ,

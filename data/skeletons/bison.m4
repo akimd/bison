@@ -456,10 +456,6 @@ m4_define([b4_symbol_if],
          [m4_fatal([$0: field $2 of $1 is not a Boolean:] b4_symbol([$1], [$2]))])])
 
 
-# Give the error token a better name.
-m4_define([b4_symbol(1, id)],  [b4_api_PREFIX[][ERRCODE]])
-
-
 # b4_symbol_tag_comment(SYMBOL-NUM)
 # ---------------------------------
 # Issue a comment giving the tag of symbol NUM.
@@ -541,9 +537,11 @@ m4_define([b4_symbol_map],
 # Whether NUM denotes a token that has an exported definition (i.e.,
 # shows in enum yytokentype).
 m4_define([b4_token_visible_if],
-[b4_symbol_if([$1], [is_token],
-              [b4_symbol_if([$1], [has_id], [$2], [$3])],
-              [$3])])
+[m4_case(b4_symbol([$1], [tag]),
+         [$undefined], [$2],
+         [b4_symbol_if([$1], [is_token],
+                       [b4_symbol_if([$1], [has_id], [$2], [$3])],
+                       [$3])])])
 
 
 # b4_token_has_definition(NUM)
