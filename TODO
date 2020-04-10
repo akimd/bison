@@ -5,7 +5,7 @@ should not have to dispatch to several APIs.
 
 ** Documentation
 - yyexpected_tokens in all the languages.
-- YYNOMEM
+- YYENOMEM
 - i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
 
