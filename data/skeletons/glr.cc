@@ -105,25 +105,9 @@ yyerror (]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_
          ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
          ])[const char* msg);]])[
 
-#undef yynerrs
-#undef yychar
-#undef yylval]b4_locations_if([
-#undef yylloc])
-
-m4_if(b4_prefix, [yy], [],
-[[/* Substitute the variable and function names.  */
-#define yyparse ]b4_prefix[parse
-#define yylex   ]b4_prefix[lex
-#define yyerror ]b4_prefix[error
-#define yydebug ]b4_prefix[debug]]b4_pure_if([], [[
-#define yylval  ]b4_prefix[lval
-#define yychar  ]b4_prefix[char
-#define yynerrs ]b4_prefix[nerrs]b4_locations_if([[
-#define yylloc  ]b4_prefix[lloc]])]))
-
 # Hijack the epilogue to define implementations (yyerror, parser member
 # functions etc.).
-m4_append([b4_epilogue],
+]m4_append([b4_epilogue],
 [b4_syncline([@oline@], [@ofile@])dnl
 [
 /*------------------.
