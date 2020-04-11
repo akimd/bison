@@ -125,7 +125,9 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[$1
 %define parse.error verbose
-]AT_VARIANT_IF([%token <int> 'x'], [%union {int integer;}])[
+]AT_VARIANT_IF([%token <int> X],
+[%union {int integer;}
+%token <integer> X])[
 %code {
 #include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
@@ -138,12 +140,12 @@ AT_DATA_GRAMMAR([input.y],
 }
 %%
 exp:
-  'x' { printf ("x\n"); }
+  X { printf ("x\n"); }
 ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(["x"])[
+]AT_YYLEX_DEFINE([{AT_CXX_IF([yy::parser::token::])X, 0}])[
 ]])
 
 AT_BISON_CHECK([-d -o input.AT_LANG_EXT input.y])

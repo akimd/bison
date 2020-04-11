@@ -301,7 +301,14 @@ m4_define([b4_symbol_type_define],
 
 #if 201103L <= YY_CPLUSPLUS
       /// Move constructor.
-      basic_symbol (basic_symbol&& that);
+      basic_symbol (basic_symbol&& that)
+        : Base (std::move (that))
+        , value (]b4_variant_if([], [std::move (that.value)]))b4_locations_if([
+        , location (std::move (that.location))])[
+      {]b4_variant_if([
+        b4_symbol_variant([this->type_get ()], [value], [move],
+                          [std::move (that.value)])
+      ])[}
 #endif
 
       /// Copy constructor.
@@ -417,18 +424,6 @@ m4_define([b4_symbol_type_define],
 # Provide the implementation needed by the public types.
 m4_define([b4_public_types_define],
 [[  // basic_symbol.
-#if 201103L <= YY_CPLUSPLUS
-  template <typename Base>
-  ]b4_parser_class[::basic_symbol<Base>::basic_symbol (basic_symbol&& that)
-    : Base (std::move (that))
-    , value (]b4_variant_if([], [std::move (that.value)]))b4_locations_if([
-    , location (std::move (that.location))])[
-  {]b4_variant_if([
-    b4_symbol_variant([this->type_get ()], [value], [move],
-                      [std::move (that.value)])
-  ])[}
-#endif
-
   template <typename Base>
   ]b4_parser_class[::basic_symbol<Base>::basic_symbol (const basic_symbol& that)
     : Base (that)
