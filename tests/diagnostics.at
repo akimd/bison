@@ -181,7 +181,7 @@ exp:
 input.y:12.8-10: <note>note:</note> previous declaration
    12 | %token <note>foo</note> 123123
       |        <note>^~~</note>
-input.y:13.12-17: <error>error:</error> redefining user token number of foo
+input.y:13.12-17: <error>error:</error> redefining code of token foo
    13 | %token foo <error>123</error>
       |            <error>^~~~~~</error>
 input.y:14.8-10: <warning>warning:</warning> symbol foo redeclared [<warning>-Wother</warning>]

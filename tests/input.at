@@ -269,10 +269,10 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-24: error: nonterminals cannot be given a string alias
     1 | %nterm expr "expression";
       |             ^~~~~~~~~~~~
-input.y:2.13-15: error: nonterminals cannot be given an explicit number
+input.y:2.13-15: error: nonterminals cannot be given a token code
     2 | %nterm term 123;
       |             ^~~
-input.y:3.13-15: error: nonterminals cannot be given an explicit number
+input.y:3.13-15: error: nonterminals cannot be given a token code
     3 | %nterm fact 124 "factor";
       |             ^~~
 input.y:3.17-24: error: nonterminals cannot be given a string alias
@@ -322,7 +322,7 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 input.y:1.8-12: note: previous declaration
     1 | %token error 123
       |        ^~~~~
-input.y:2.14-16: error: redefining user token number of error
+input.y:2.14-16: error: redefining code of token error
     2 | %token error 124
       |              ^~~
 ]])
@@ -1194,7 +1194,7 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.17-21: warning: symbol "foo" used more than once as a literal string [-Wother]
     2 |          BAR 42 "foo"
       |                 ^~~~~
-input.y:2.10-12: error: user token number 42 redeclaration for BAR
+input.y:2.10-12: error: code 42 reassigned to token BAR
     2 |          BAR 42 "foo"
       |          ^~~
 input.y:1.15-19: note: previous declaration for "foo"
@@ -1544,7 +1544,7 @@ AT_CHECK_REQUIRE(100.0, 63)
 AT_SETUP([String aliases for character tokens])
 
 # Bison once thought a character token and its alias were different
-# symbols with the same user token number.
+# symbols with the same code.
 
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
@@ -1643,9 +1643,9 @@ start: DECIMAL_1 HEXADECIMAL_2;
 ]])
 
 AT_BISON_CHECK([redecl.y], [1], [],
-[[redecl.y:10.10-22: error: user token number 11259375 redeclaration for HEXADECIMAL_1
+[[redecl.y:10.10-22: error: code 11259375 reassigned to token HEXADECIMAL_1
 redecl.y:9.8-16: note: previous declaration for DECIMAL_1
-redecl.y:12.10-18: error: user token number 16702650 redeclaration for DECIMAL_2
+redecl.y:12.10-18: error: code 16702650 reassigned to token DECIMAL_2
 redecl.y:11.10-22: note: previous declaration for HEXADECIMAL_2
 ]])
 
@@ -1659,9 +1659,9 @@ start: TOO_LARGE_DEC TOO_LARGE_HEX
 
 AT_BISON_CHECK([too-large.y], [1], [],
 [[too-large.y:9.22-42: error: integer out of range: '999999999999999999999'
-too-large.y:9.22-42: error: user token number of TOO_LARGE_DEC too large
+too-large.y:9.22-42: error: code of token TOO_LARGE_DEC too large
 too-large.y:10.24-44: error: integer out of range: '0xFFFFFFFFFFFFFFFFFFF'
-too-large.y:10.24-44: error: user token number of TOO_LARGE_HEX too large
+too-large.y:10.24-44: error: code of token TOO_LARGE_HEX too large
 ]])
 
 AT_BISON_OPTION_POPDEFS
