@@ -646,7 +646,7 @@ yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[
   {
     enum { TOKENMAX = 10 };
     yysymbol_kind_t expected[TOKENMAX];
-    int n = yyexpected_tokens (ctx, expected, TOKENMAX);
+    int n = yypcontext_expected_tokens (ctx, expected, TOKENMAX);
     /* Forward errors to yyparse.  */
     if (n <= 0)
       res = n;

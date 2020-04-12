@@ -290,7 +290,7 @@ yyreport_syntax_error (const yypcontext_t *ctx)
   {
     enum { TOKENMAX = 10 };
     yysymbol_kind_t expected[TOKENMAX];
-    int n = yyexpected_tokens (ctx, expected, TOKENMAX);
+    int n = yypcontext_expected_tokens (ctx, expected, TOKENMAX);
     if (n < 0)
       // Forward errors to yyparse.
       res = n;
