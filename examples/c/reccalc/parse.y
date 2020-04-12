@@ -26,7 +26,7 @@
   // Tell Flex the expected prototype of yylex.
   // The scanner argument must be named yyscanner.
 #define YY_DECL                                                         \
-  enum yytokentype yylex (YYSTYPE* yylval, yyscan_t yyscanner, result *res)
+  yytoken_kind_t yylex (YYSTYPE* yylval, yyscan_t yyscanner, result *res)
   YY_DECL;
 
   void yyerror (yyscan_t scanner, result *res, const char *msg, ...);

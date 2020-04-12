@@ -169,7 +169,7 @@ m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
 
 # b4_token_enums
 # --------------
-# Output the definition of the tokens as enums.
+# Output the definition of the token kinds.
 m4_define([b4_token_enums],
 [[enum yytokentype
       {
@@ -260,8 +260,11 @@ m4_define([b4_public_types_declare],
       ]b4_token_enums[
     };
 
-    /// (External) token kind, as returned by yylex.
-    typedef token::yytokentype token_type;
+    /// Token kind, as returned by yylex.
+    typedef token::yytokentype token_kind_type;
+
+    /// Backward compatibility alias.
+    typedef token_kind_type token_type;
 
     /// Symbol kinds.
     struct symbol_kind
@@ -385,7 +388,7 @@ m4_define([b4_symbol_type_define],
       by_type (const by_type& that);
 
       /// The symbol type as needed by the constructor.
-      typedef token_type kind_type;
+      typedef token_kind_type kind_type;
 
       /// Constructor from (external) token numbers.
       by_type (kind_type t);
@@ -493,7 +496,7 @@ m4_define([b4_public_types_define],
     : type (that.type)
   {}
 
-  ]b4_inline([$1])b4_parser_class[::by_type::by_type (token_type t)
+  ]b4_inline([$1])b4_parser_class[::by_type::by_type (token_kind_type t)
     : type (yytranslate_ (t))
   {}
 

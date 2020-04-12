@@ -1,7 +1,6 @@
 * Bison 3.6
 ** Documentation
 - yyexpected_tokens/expected_tokens/expectedTokens in all the languages.
-- YYENOMEM
 - YYERRCODE, YYUNDEF, YYEOF
 - i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
@@ -9,20 +8,9 @@
 - YYERRCODE and "end of file" and translation
 
 ** User token number, internal symbol number, external token number, etc.
-There is some confusion over these terms, which is even a problem for
-translators.  We need something clear, especially if we provide access to
-the symbol numbers (which would be useful for custom error messages).
-
 We could use "number" and "code".
 
-Update: the current best options would be "token kind" and "symbol kind",
-instead of "token type" and "symbol type".
-
-*** yytokentype
-Make an alias so that it is about "kind", not "type".
-
 *** The documentation
-
 You can explicitly specify the numeric code for a token type...
 
 The token numbered as 0.

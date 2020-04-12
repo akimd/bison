@@ -146,8 +146,9 @@ void print_my_token (void);
 void
 print_my_token (void)
 {
-  enum yytokentype my_token = MY_TOKEN;
-  printf ("%d\n", my_token);
+  enum yytokentype tok1 = MY_TOKEN;
+  yytoken_kind_t   tok2 = MY_TOKEN;
+  printf ("%d, %d\n", tok1, tok2);
 }
 %}
 %token MY_TOKEN

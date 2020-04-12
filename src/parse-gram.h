@@ -72,7 +72,7 @@ extern int gram_debug;
   } value_type;
 
 
-/* Token type.  */
+/* Token kinds.  */
 #ifndef GRAM_TOKENTYPE
 # define GRAM_TOKENTYPE
   enum gram_tokentype
@@ -139,6 +139,7 @@ extern int gram_debug;
     PERCENT_UNION = 59,            /* "%union"  */
     PERCENT_EMPTY = 60             /* "%empty"  */
   };
+  typedef enum gram_tokentype gram_token_kind_t;
 #endif
 
 /* Value type.  */

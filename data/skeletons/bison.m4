@@ -534,8 +534,8 @@ m4_define([b4_symbol_map],
 
 # b4_token_visible_if(NUM, IF-TRUE, IF-FALSE)
 # -------------------------------------------
-# Whether NUM denotes a token that has an exported definition (i.e.,
-# shows in enum yytokentype).
+# Whether NUM denotes a token kind that has an exported definition
+# (i.e., shows in enum yytokentype).
 m4_define([b4_token_visible_if],
 [b4_symbol_if([$1], [is_token],
               [b4_symbol_if([$1], [has_id], [$2], [$3])],

@@ -449,7 +449,7 @@ m4_define([b4_token_define],
 # ----------------
 # Output the definition of the tokens.
 m4_define([b4_token_defines],
-[b4_any_token_visible_if([/* Tokens.  */
+[b4_any_token_visible_if([/* Token kinds.  */
 m4_join([
 ], b4_symbol_map([b4_token_define]))
 ])])
@@ -470,15 +470,16 @@ m4_define([b4_token_enum],
 
 # b4_token_enums
 # --------------
-# The definition of the tokens (if there are) as enums.
+# The definition of the token kinds.
 m4_define([b4_token_enums],
-[b4_any_token_visible_if([[/* Token type.  */
+[b4_any_token_visible_if([[/* Token kinds.  */
 #ifndef ]b4_api_PREFIX[TOKENTYPE
 # define ]b4_api_PREFIX[TOKENTYPE
   enum ]b4_api_prefix[tokentype
   {
 ]b4_symbol_foreach([b4_token_enum])dnl
 [  };
+  typedef enum ]b4_api_prefix[tokentype ]b4_api_prefix[token_kind_t;
 #endif
 ]])])
 

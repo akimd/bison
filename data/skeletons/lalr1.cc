@@ -302,7 +302,7 @@ m4_define([b4_shared_declarations],
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
 
     /// Convert a scanner token kind \a t to a symbol kind.
-    /// In theory \a t should be a token_type, but character literals
+    /// In theory \a t should be a token_kind_type, but character literals
     /// are valid, yet not members of the token_type enum.
     static symbol_kind_type yytranslate_ (int t);
 ]b4_parse_error_bmatch([custom\|detailed], [[

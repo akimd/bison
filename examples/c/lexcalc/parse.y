@@ -6,7 +6,7 @@
 {
   // Tell Flex the expected prototype of yylex.
 #define YY_DECL                                 \
-  enum yytokentype yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
+  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
   YY_DECL;
 
   void yyerror (YYLTYPE *loc, int *nerrs, const char *msg);
