@@ -141,7 +141,6 @@
 }
 
 %token
-  GRAM_EOF 0          _("end of file")
   STRING              _("string")
   TSTRING             _("translatable string")
 

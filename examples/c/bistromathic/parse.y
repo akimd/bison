@@ -81,7 +81,6 @@
     RPAREN ")"
     EQUAL  "="
     EXIT   "exit"
-    EOF 0  _("end of file")
   <double>
     NUM _("double precision number")
   <symrec*>
@@ -236,7 +235,7 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
     case '(': return TOK_LPAREN;
     case ')': return TOK_RPAREN;
 
-    case 0: return TOK_EOF;
+    case 0: return TOK_YYEOF;
 
     default:
       // Numbers.
