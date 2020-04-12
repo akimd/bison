@@ -1856,9 +1856,9 @@ this token kind is also a C expression for the numeric code for the type.
 This works in two ways.  If the token kind is a character literal, then its
 numeric code is that of the character; you can use the same character
 literal in the lexical analyzer to express the number.  If the token kind is
-an identifier, that identifier is defined by Bison as a C macro whose
-definition is the appropriate number.  In this example, therefore,
-@code{NUM} becomes a macro for @code{yylex} to use.
+an identifier, that identifier is defined by Bison as a C enum whose
+definition is the appropriate code.  In this example, therefore, @code{NUM}
+becomes an enum for @code{yylex} to use.
 
 The semantic value of the token (if it has one) is stored into the global
 variable @code{yylval}, which is where the Bison parser will look for it.
@@ -2373,10 +2373,10 @@ it skips blanks and tabs, and reads numbers or single-character tokens.
 In addition, it updates @code{yylloc}, the global variable (of type
 @code{YYLTYPE}) containing the token's location.
 
-Now, each time this function returns a token, the parser has its number
-as well as its semantic value, and its location in the text.  The last
-needed change is to initialize @code{yylloc}, for example in the
-controlling function:
+Now, each time this function returns a token, the parser has its kind as
+well as its semantic value, and its location in the text.  The last needed
+change is to initialize @code{yylloc}, for example in the controlling
+function:
 
 @example
 @group
@@ -3381,7 +3381,7 @@ value data type (@pxref{Value Type}), associativity, or precedence
 
 You can associate the literal string token with a symbolic name as an alias,
 using the @code{%token} declaration (@pxref{Token Decl}).  If you don't do
-that, the lexical analyzer has to retrieve the token number for the literal
+that, the lexical analyzer has to retrieve the token code for the literal
 string token from the @code{yytname} table (@pxref{Calling Convention}).
 
 @strong{Warning}: literal string tokens do not work in Yacc.
@@ -4898,10 +4898,10 @@ equivalent literal string tokens:
 @end example
 
 @noindent
-Once you equate the literal string and the token name, you can use them
+Once you equate the literal string and the token kind name, you can use them
 interchangeably in further declarations or the grammar rules.  The
 @code{yylex} function can use the token name or the literal string to obtain
-the token kind code number (@pxref{Calling Convention}).
+the token kind code (@pxref{Calling Convention}).
 
 String aliases allow for better error messages using the literal strings
 instead of the token names, such as @samp{syntax error, unexpected ||,
@@ -5017,9 +5017,9 @@ used.  This is done with a @code{%type} declaration, like this:
 @noindent
 Here @var{nonterminal} is the name of a nonterminal symbol, and @var{type}
 is the name given in the @code{%union} to the alternative that you want
-(@pxref{Union Decl}).  You can give any number of
-nonterminal symbols in the same @code{%type} declaration, if they have the
-same value type.  Use spaces to separate the symbol names.
+(@pxref{Union Decl}).  You can give any number of nonterminal symbols in the
+same @code{%type} declaration, if they have the same value type.  Use spaces
+to separate the symbol names.
 
 While POSIX Yacc allows @code{%type} only for nonterminals, Bison accepts
 that this directive be also applied to terminal symbols.  To declare
@@ -5808,8 +5808,8 @@ This feature is obsolescent, avoid it in new projects.
 
 Generate an array of token names in the parser implementation file.  The
 name of the array is @code{yytname}; @code{yytname[@var{i}]} is the name of
-the token whose internal Bison token code number is @var{i}.  The first
-three elements of @code{yytname} correspond to the predefined tokens
+the token whose internal Bison token code is @var{i}.  The first three
+elements of @code{yytname} correspond to the predefined tokens
 @code{"$end"}, @code{"error"}, and @code{"$undefined"}; after these come the
 symbols defined in the grammar file.
 
@@ -5827,7 +5827,7 @@ for macros @code{YYNTOKENS}, @code{YYNNTS}, and @code{YYNRULES}, and
 
 @table @code
 @item YYNTOKENS
-The highest token number, plus one.
+The number of terminal symbols, i.e., the highest token code, plus one.
 @item YYNNTS
 The number of nonterminal symbols.
 @item YYNRULES
@@ -11105,7 +11105,7 @@ change behavior in other minor ways.  Most importantly, imitate Yacc's
 output file name conventions, so that the parser implementation file is
 called @file{y.tab.c}, and the other outputs are called @file{y.output} and
 @file{y.tab.h}.  Also, generate @code{#define} statements in addition to an
-@code{enum} to associate token numbers with token names.  Thus, the
+@code{enum} to associate token codes with token kind names.  Thus, the
 following shell script can substitute for Yacc, and the Bison distribution
 contains such a script for compatibility with POSIX:
 
@@ -12439,7 +12439,7 @@ file; it needs detailed knowledge about the driver.
 
 
 @noindent
-The token numbered as 0 corresponds to end of file; the following line
+The token code 0 corresponds to end of file; the following line
 allows for nicer error messages referring to ``end of file'' instead of
 ``$end''.  Similarly user friendly names are provided for each symbol.  To
 avoid name clashes in the generated files (@pxref{Calc++ Scanner}), prefix
@@ -12624,7 +12624,7 @@ the user.  Finally, we enable scanner tracing.
 
 @noindent
 The following function will be handy to convert a string denoting a number
-into a number token.
+into a @code{NUMBER} token.
 
 @comment file: calc++/scanner.ll
 @example

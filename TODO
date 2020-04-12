@@ -4,11 +4,7 @@
 - YYERRCODE, YYUNDEF, YYEOF
 - i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
-- token code instead of token user number etc.
 - YYERRCODE and "end of file" and translation
-
-** User token number, internal symbol number, external token number, etc.
-We could use "number" and "code".
 
 *** The documentation
 You can explicitly specify the numeric code for a token type...
@@ -17,9 +13,6 @@ The token numbered as 0.
 
 Therefore each time the scanner returns an (external) token number,
 it must be mapped to the (internal) symbol number.
-
-*** M4
-Make it consistent with the rest (it uses "user_number" and "number").
 
 ** Java: EOF
 We should be able to redefine EOF like we do in C.
@@ -56,6 +49,8 @@ it's the token code, and the user can control it, but this code always
 exists.
 
 Rename endtoken as eoftoken.
+
+Also do it in data/skeletons.
 
 Don't rename in Bison 3.6 (it would be logical to do so) because that
 would probably create many conflicts in Vincent's work (see previous point).
