@@ -701,7 +701,7 @@ static const yytype_int8 yyrline[] =
 };
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "$undefined", "\"if\"", "\"const\"",
+  "\"end of file\"", "error", "\"invalid token\"", "\"if\"", "\"const\"",
   "\"then\"", "\"else\"", "$accept", "statement", "struct_stat", "if",
   "else", YY_NULLPTR
 };
@@ -1461,14 +1461,14 @@ AT_PARSER_CHECK([[input --debug]], [[2]], [],
 Entering state 0
 Stack now 0
 Reading a token
-Next token is token $undefined ()
-LAC: initial context established for $undefined
-LAC: checking lookahead $undefined: Always Err
+Next token is token "invalid token" ()
+LAC: initial context established for "invalid token"
+LAC: checking lookahead "invalid token": Always Err
 Constructing syntax error message
 LAC: checking lookahead "end of file": R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 syntax error
 memory exhausted
-Cleanup: discarding lookahead token $undefined ()
+Cleanup: discarding lookahead token "invalid token" ()
 Stack now 0
 ]])
 

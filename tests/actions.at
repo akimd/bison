@@ -1493,7 +1493,7 @@ Shifting token 'b' ('b')
 Entering state 5
 Stack now 0 1 3 5
 Reading a token
-Next token is token $undefined ()
+Next token is token "invalid token" ()
 Error: popping token 'b' ('b')
 DESTROY 'b'
 Stack now 0 1 3
@@ -1502,8 +1502,8 @@ Stack now 0 1
 Shifting token error ()
 Entering state 3
 Stack now 0 1 3
-Next token is token $undefined ()
-Error: discarding token $undefined ()
+Next token is token "invalid token" ()
+Error: discarding token "invalid token" ()
 Error: popping token error ()
 Stack now 0 1
 Shifting token error ()

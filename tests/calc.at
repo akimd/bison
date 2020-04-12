@@ -935,7 +935,7 @@ _AT_CHECK_CALC_ERROR([$1], [1], [1//2],
 _AT_CHECK_CALC_ERROR([$1], [1], [error],
                      [[final: 0 0 1]],
                      [5],
-                     [AT_JAVA_IF([1.1-1.2], [1.1])[: syntax error on token [$undefined] (expected: [number] ['-'] ['\n'] ['('] ['!'])]])
+                     [AT_JAVA_IF([1.1-1.2], [1.1])[: syntax error on token [invalid token] (expected: [number] ['-'] ['\n'] ['('] ['!'])]])
 _AT_CHECK_CALC_ERROR([$1], [1], [1 = 2 = 3],
                      [[final: 0 0 1]],
                      [30],
