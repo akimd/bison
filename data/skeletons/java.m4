@@ -128,9 +128,10 @@ m4_define([b4_integral_parser_table_define],
 [b4_typed_parser_table_define([b4_int_type_for([$2])], [$1], [$2], [$3])])
 
 
-## -------------------------- ##
-## (External) token numbers.  ##
-## -------------------------- ##
+## ------------- ##
+## Token kinds.  ##
+## ------------- ##
+
 
 # b4_token_enum(TOKEN-NUM)
 # ------------------------
@@ -144,14 +145,14 @@ m4_define([b4_token_enum],
 # --------------
 # Output the definition of the tokens (if there are) as enums.
 m4_define([b4_token_enums],
-[b4_any_token_visible_if([/* Token kinds.  */
+[b4_any_token_visible_if([    /* Token kinds.  */
 b4_symbol_foreach([b4_token_enum])])])
 
 
 
-## --------------------------- ##
-## (Internal) symbol numbers.  ##
-## --------------------------- ##
+## -------------- ##
+## Symbol kinds.  ##
+## -------------- ##
 
 # b4_symbol_enum(SYMBOL-NUM)
 # --------------------------

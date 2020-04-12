@@ -418,9 +418,9 @@ m4_case([$1],
   [-2],                             [[YYEMPTY]],
   [0],                              [[YYEOF]],
   [1],                              [[YYERROR]],
+  [2],                              [[YYUNDEF]],
   [m4_case(b4_symbol([$1], [tag]),
       [$accept],                    [[YYACCEPT]],
-      [$undefined],                 [[YYUNDEF]],
       [b4_symbol_if([$1], [has_id], _b4_symbol([$1], [id]),
                                     [m4_bpatsubst([$1-][]_b4_symbol([$1], [tag]), [[^a-zA-Z_0-9]+], [_])])])])])
 
