@@ -746,7 +746,7 @@ void
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
 }]AT_ERROR_CUSTOM_IF([[
 void
-]AT_NAMESPACE[::parser::yyreport_syntax_error (const context& ctx) const
+]AT_NAMESPACE[::parser::report_syntax_error (const context& ctx) const
 {]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
   YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
@@ -762,7 +762,7 @@ void
   {
     enum { TOKENMAX = 10 };
     symbol_kind_type expected[TOKENMAX];
-    int n = ctx.yyexpected_tokens (expected, TOKENMAX);
+    int n = ctx.expected_tokens (expected, TOKENMAX);
     if (0 < n)
       {
         std::cerr << " (expected:";

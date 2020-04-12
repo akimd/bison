@@ -247,7 +247,7 @@ m4_define([b4_shared_declarations],
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
       /// number of tokens stored in YYARG.  If YYARG is null, return the
       /// number of expected tokens (guaranteed to be less than YYNTOKENS).
-      int yyexpected_tokens (symbol_kind_type yyarg[], int yyargn) const;
+      int expected_tokens (symbol_kind_type yyarg[], int yyargn) const;
 
     private:
       const ]b4_parser_class[& yyparser_;
@@ -276,7 +276,7 @@ m4_define([b4_shared_declarations],
       [custom], [[
     /// Report a syntax error
     /// \param yyctx     the context in which the error occurred.
-    void yyreport_syntax_error (const context& yyctx) const;]],
+    void report_syntax_error (const context& yyctx) const;]],
       [detailed\|verbose], [[
     /// The arguments of the error message.
     int yy_syntax_error_arguments_ (const context& yyctx,
@@ -1074,7 +1074,7 @@ b4_dollar_popdef])[]dnl
         error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]],
                   [custom], [[
         context yyctx (*this, yyla);
-        yyreport_syntax_error (yyctx);]],
+        report_syntax_error (yyctx);]],
                   [[
         context yyctx (*this, yyla);
         std::string msg = yysyntax_error_ (yyctx);
@@ -1230,7 +1230,7 @@ b4_dollar_popdef])[]dnl
   {}
 
   int
-  ]b4_parser_class[::context::yyexpected_tokens (symbol_kind_type yyarg[], int yyargn) const
+  ]b4_parser_class[::context::expected_tokens (symbol_kind_type yyarg[], int yyargn) const
   {
     // Actual number of expected tokens
     int yycount = 0;
@@ -1462,7 +1462,7 @@ b4_dollar_popdef])[]dnl
       {
         if (yyarg)
           yyarg[0] = yyctx.token ();
-        int yyn = yyctx.yyexpected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
+        int yyn = yyctx.expected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
         return yyn + 1;
       }
     return 0;

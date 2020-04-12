@@ -1,19 +1,10 @@
 * Bison 3.6
-** C++
-yyreport_syntax_error should always be the name of the reporting, yyparse
-should not have to dispatch to several APIs.
-
 ** Documentation
-- yyexpected_tokens in all the languages.
+- yyexpected_tokens/expected_tokens/expectedTokens in all the languages.
 - YYENOMEM
 - YYERRCODE, YYUNDEF, YYEOF
 - i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
-
-** Naming conventions
-There's no good reason to use the "yy" prefix in parser::context, is there?
-See also the case of Java.  We should keep the prefix for private
-implementation details, but maybe not for public APIs.
 
 ** User token number, internal symbol number, external token number, etc.
 There is some confusion over these terms, which is even a problem for
