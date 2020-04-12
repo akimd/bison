@@ -77,9 +77,9 @@ extern int gram_debug;
 # define GRAM_TOKENTYPE
   enum gram_tokentype
   {
-    GRAM_EOF = 0,                  /* $end  */
+    GRAM_EOF = 0,                  /* "end of file"  */
     GRAM_ERRCODE = 1,              /* error  */
-    GRAM_UNDEF = 2,                /* $undefined  */
+    GRAM_UNDEF = 2,                /* "invalid token"  */
     STRING = 3,                    /* "string"  */
     TSTRING = 4,                   /* "translatable string"  */
     PERCENT_TOKEN = 5,             /* "%token"  */
