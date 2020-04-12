@@ -6,6 +6,7 @@
 - i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
 - token code instead of token user number etc.
+- YYERRCODE and "end of file" and translation
 
 ** User token number, internal symbol number, external token number, etc.
 There is some confusion over these terms, which is even a problem for
@@ -42,10 +43,6 @@ Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 I feel it's ugly to use the GNU style to declare functions in the doc.  It
 generates tons of white space in the page, and may contribute to bad page
 breaks.
-
-** improve syntax errors (UTF-8, internationalization)
-While at it, we should stop using "$end" by default, in favor of "end of
-file", or "end of input", whatever.  See how lalr1.java does that.
 
 ** consistency
 token vs terminal, variable vs non terminal.

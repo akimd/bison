@@ -54,6 +54,6 @@
 
 .        yyerror (yylloc, nerrs, "syntax error, invalid character"); continue;
 
-<<EOF>>  return TOK_EOF;
+<<EOF>>  return TOK_YYEOF;
 %%
 /* Epilogue (C code). */

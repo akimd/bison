@@ -1742,7 +1742,7 @@ Stack 1 Entering state 2
 Now at end of input.
 Removing dead stacks.
 Rename stack 1 -> 0.
-On stack 0, shifting token $end ()
+On stack 0, shifting token "end of file" ()
 Stack 0 now in state #5
 Ambiguity detected.
 Option 1,
@@ -1760,7 +1760,7 @@ Option 2,
     d <empty>
 
 syntax is ambiguous
-Cleanup: popping token $end ()
+Cleanup: popping token "end of file" ()
 Cleanup: popping unresolved nterm start ()
 Cleanup: popping nterm d ()
 Cleanup: popping token 'c' ()

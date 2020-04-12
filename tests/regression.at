@@ -701,8 +701,9 @@ static const yytype_int8 yyrline[] =
 };
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "$accept", "statement", "struct_stat", "if", "else", YY_NULLPTR
+  "\"end of file\"", "error", "$undefined", "\"if\"", "\"const\"",
+  "\"then\"", "\"else\"", "$accept", "statement", "struct_stat", "if",
+  "else", YY_NULLPTR
 };
 static const yytype_int16 yytoknum[] =
 {
@@ -967,7 +968,7 @@ Entering state 1
 Stack now 0 1
 Reading a token
 Next token is token 'a' (PRINTER)
-syntax error, unexpected 'a', expecting $end
+syntax error, unexpected 'a', expecting end of file
 Error: popping nterm start ()
 Stack now 0
 Cleanup: discarding lookahead token 'a' (PRINTER)
@@ -1177,7 +1178,7 @@ AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[input]], [[1]], [],
 [[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
-syntax error, unexpected $end, expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
+syntax error, unexpected end of file, expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
 ]])
 
 AT_CLEANUP
@@ -1445,10 +1446,10 @@ Entering state 0
 Stack now 0
 Reading a token
 Now at end of input.
-LAC: initial context established for $end
-LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
+LAC: initial context established for "end of file"
+LAC: checking lookahead "end of file": R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 memory exhausted
-Cleanup: discarding lookahead token $end ()
+Cleanup: discarding lookahead token "end of file" ()
 Stack now 0
 ]])
 
@@ -1464,7 +1465,7 @@ Next token is token $undefined ()
 LAC: initial context established for $undefined
 LAC: checking lookahead $undefined: Always Err
 Constructing syntax error message
-LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
+LAC: checking lookahead "end of file": R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 syntax error
 memory exhausted
 Cleanup: discarding lookahead token $undefined ()

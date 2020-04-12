@@ -1330,7 +1330,7 @@ AT_PARSER_CHECK([[input aaaae]], [[2]], [[]],
 ]])
 
 AT_PARSER_CHECK([[input aaaaE]], [[2]], [[]],
-[[exception caught: syntax error, unexpected $end, expecting 'a'
+[[exception caught: syntax error, unexpected end of file, expecting 'a'
 ]])
 
 AT_PARSER_CHECK([[input aaaaT]], [[1]])

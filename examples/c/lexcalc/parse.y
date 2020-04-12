@@ -49,8 +49,7 @@
   SLASH  "/"
   LPAREN "("
   RPAREN ")"
-  EOL    "end-of-line"
-  EOF 0  "end-of-file"
+  EOL    "end of line"
 ;
 
 %token <int> NUM "number"

@@ -1080,9 +1080,6 @@ b4_dollar_popdef[]dnl
               return yyr.toString ();
             }
       }
-    else if (yystr.equals ("$end"))
-      return "end of input";
-
     return yystr;
   }
 

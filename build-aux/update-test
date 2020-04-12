@@ -102,7 +102,7 @@ def update(at_file, logfile):
 def process(logfile):
     log = contents(logfile)
     # Look for the file to update.
-    m = re.search(r'^\d+\. ([-\w]+\.at):\d+: ', log, re.MULTILINE)
+    m = re.search(r'^\d+\. ([\-\+\w]+\.at):\d+: ', log, re.MULTILINE)
     if not m:
         trace("no diff found:", logfile)
         return

@@ -120,13 +120,13 @@ AT_GRAM])
 AT_BISON_CHECK([[--skeleton=yacc.c -o input-cmd-line.c input-cmd-line.y]])
 AT_COMPILE([[input-cmd-line]])
 AT_PARSER_CHECK([[input-cmd-line]], [[1]], [],
-[[syntax error, unexpected 'a', expecting $end
+[[syntax error, unexpected 'a', expecting end of file
 ]])
 
 AT_BISON_CHECK([[-o input-gram.c input-gram.y]])
 AT_COMPILE([[input-gram]])
 AT_PARSER_CHECK([[input-gram]], [[1]], [],
-[[syntax error, unexpected 'a', expecting $end
+[[syntax error, unexpected 'a', expecting end of file
 ]])
 
 m4_popdef([AT_GRAM])
