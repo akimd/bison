@@ -173,6 +173,7 @@ m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
 m4_define([b4_token_enums],
 [[enum yytokentype
       {
+        ]b4_symbol([-2], [id])[ = -2,
 ]b4_symbol_foreach([b4_token_enum])dnl
 [      };]dnl
 ])
