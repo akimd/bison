@@ -325,8 +325,8 @@ The Lexical Analyzer Function @code{yylex}
 
 Error Reporting
 
-* Error Reporting Function::         You must supply a function @code{yyerror}.
-* Syntax Error Reporting Function::  You can supply a function @code{yyreport_syntax_error}.
+* Error Reporting Function::         You must supply a @code{yyerror} function.
+* Syntax Error Reporting Function::  You can supply a @code{yyreport_syntax_error} function.
 
 Parser Internationalization
 
@@ -408,6 +408,7 @@ C++ Parsers
 * C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
 * C++ Location Values::         The position and location classes
+* C++ Parser Context::          You can supply a @code{report_syntax_error} function.
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 
@@ -7352,8 +7353,8 @@ such as syntax error, or memory exhaustion.  How this message is delivered
 to the user must be specified by the developer.
 
 @menu
-* Error Reporting Function::         You must supply a function @code{yyerror}.
-* Syntax Error Reporting Function::  You can supply a function @code{yyreport_syntax_error}.
+* Error Reporting Function::         You must supply a @code{yyerror} function.
+* Syntax Error Reporting Function::  You can supply a @code{yyreport_syntax_error} function.
 @end menu
 
 @node Error Reporting Function
@@ -7465,8 +7466,8 @@ An opaque type that captures the circumstances of the syntax error.
 @end deffn
 
 @deffn {Type} yysymbol_kind_t
-An enum that includes all the symbols, tokens and nonterminals, of the
-grammar.  Its enumerators are forged from the token and symbol names:
+An enum that includes all the grammar symbols, tokens and nonterminals.  Its
+enumerators are forged from the symbol names:
 
 @example
 enum yysymbol_kind_t
@@ -7491,7 +7492,6 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 @deftypefun {yysymbol_kind_t} yypcontext_token (@code{const yypcontext_t *}@var{ctx})
 The ``unexpected'' token: the symbol kind of the lookahead token that caused
 the syntax error.  Return @code{YYSYMBOL_YYEMPTY} if there is no lookahead.
-Can never return @code{YYSYMBOL_YYERROR}, or @code{YYSYMBOL_YYUNDEF}.
 @end deftypefun
 
 @deftypefun {YYLTYPE *} yypcontext_location (@code{const yypcontext_t *}@var{ctx})
@@ -7528,7 +7528,7 @@ yyreport_syntax_error (const yypcontext_t *ctx)
   fprintf (stderr, ": syntax error");
   // Report the tokens expected at this point.
   @{
-    enum @{ TOKENMAX = 10 @};
+    enum @{ TOKENMAX = 5 @};
     yysymbol_kind_t expected[TOKENMAX];
     int n = yypcontext_expected_tokens (ctx, expected, TOKENMAX);
     if (n < 0)
@@ -11280,6 +11280,7 @@ The Bison parser in C++ is an object, an instance of the class
 * C++ Parser Interface::        Instantiating and running the parser
 * C++ Semantic Values::         %union vs. C++
 * C++ Location Values::         The position and location classes
+* C++ Parser Context::          You can supply a @code{report_syntax_error} function.
 * C++ Scanner Interface::       Exchanges between yylex and parse
 * A Complete C++ Example::      Demonstrating their use
 @end menu
@@ -11973,6 +11974,112 @@ files, reused by other parsers as follows:
 @end example
 
 
+@node C++ Parser Context
+@subsection C++ Parser Context
+
+When @samp{%define parse.error custom} is used (@pxref{Syntax Error
+Reporting Function}), the user must define the following function.
+
+@deftypemethod {parser} {void} report_syntax_error (@code{const context_type&}@var{ctx}) @code{const}
+Report a syntax error to the user.  Whether it uses @code{yyerror} is up to
+the user.
+@end deftypemethod
+
+Use the following types and functions to build the error message.
+
+@defcv {Type} {parser} {context}
+A type that captures the circumstances of the syntax error.
+@end defcv
+
+@defcv {Type} {parser} {symbol_kind_type}
+An enum that includes all the grammar symbols, tokens and nonterminals.  Its
+enumerators are forged from the symbol names:
+
+@example
+struct symbol_kind
+@{
+  enum symbol_kind_type
+  @{
+    S_YYEMPTY = -2,      // No symbol.
+    S_YYEOF = 0,         // "end of file"
+    S_YYERROR = 1,       // error
+    S_YYUNDEF = 2,       // "invalid token"
+    S_PLUS = 3,          // "+"
+    S_MINUS = 4,         // "-"
+    [...]
+    S_VAR = 14,          // "variable"
+    S_NEG = 15,          // NEG
+    S_YYACCEPT = 16,     // $accept
+    S_exp = 17,          // exp
+    S_input = 18         // input
+  @};
+@};
+typedef symbol_kind::symbol_kind_t symbol_kind_type;
+@end example
+@end defcv
+
+@deftypemethod {context} {const symbol_type&} lookahead () @code{const}
+The ``unexpected'' token: the lookahead that caused the syntax error.
+@end deftypemethod
+
+@deftypemethod {context} {symbol_kind_type} token () @code{const}
+The symbol kind of the lookahead token that caused the syntax error.  Return
+@code{symbol_kind::S_YYEMPTY} if there is no lookahead.
+@end deftypemethod
+
+@deftypemethod {context} {const location&} location () @code{const}
+The location of the syntax error (that of the lookahead).
+@end deftypemethod
+
+@deftypemethod {context} int expected_tokens (@code{symbol_kind_type} @var{argv}@code{[]}, @code{int} @var{argc}) @code{const}
+Fill @var{argv} with the expected tokens, which never includes
+@code{symbol_kind::S_YYEMPTY}, @code{symbol_kind::S_YYERROR}, or
+@code{symbol_kind::S_YYUNDEF}.
+
+Never put more than @var{argc} elements into @var{argv}, and on success
+return the effective number of tokens stored in @var{argv}.  Return 0 if
+there are more than @var{argc} expected tokens, yet fill @var{argv} up to
+@var{argc}.
+
+If @var{argv} is null, return the size needed to store all the possible
+values, which is always less than @code{YYNTOKENS}.
+@end deftypemethod
+
+@deftypemethod {parser} {const char *} symbol_name (@code{symbol_kind_t} @var{symbol}) @code{const}
+The name of the symbol whose kind is @var{symbol}, possibly translated.
+@end deftypemethod
+
+A custom syntax error function looks as follows.
+
+@example
+void
+yy::parser::report_syntax_error (const context& ctx)
+@{
+  int res = 0;
+  std::cerr << ctx.location () << ": syntax error";
+  // Report the tokens expected at this point.
+  @{
+    enum @{ TOKENMAX = 5 @};
+    symbol_kind_type expected[TOKENMAX];
+    int n = ctx.expected_tokens (ctx, expected, TOKENMAX);
+    for (int i = 0; i < n; ++i)
+      std::cerr << i == 0 ? ": expected " : " or "
+                << symbol_name (expected[i]);
+  @}
+  // Report the unexpected token.
+  @{
+    symbol_kind_type lookahead = ctx.token ();
+    if (lookahead != symbol_kind::S_YYEMPTY)
+      std::cerr << " before " << symbol_name (lookahead));
+  @}
+  std::cerr << '\n';
+@}
+@end example
+
+You still must provide a @code{yyerror} function, used for instance to
+report memory exhaustion.
+
+
 @node C++ Scanner Interface
 @subsection C++ Scanner Interface
 @c - prefix for yylex.
@@ -12332,7 +12439,7 @@ designed the grammar for.
 
 @comment file: calc++/parser.yy
 @example
-%skeleton "lalr1.cc" /* -*- C++ -*- */
+%skeleton "lalr1.cc" // -*- C++ -*-
 %require "@value{VERSION}"
 %defines
 @end example
@@ -12403,14 +12510,15 @@ Then we request location tracking.
 @end example
 
 @noindent
-Use the following two directives to enable parser tracing and verbose error
-messages.  However, verbose error messages can contain incorrect information
-(@pxref{LAC}).
+Use the following two directives to enable parser tracing and detailed error
+messages.  However, detailed error messages can contain incorrect
+information if lookahead correction is not enabled (@pxref{LAC}).
 
 @comment file: calc++/parser.yy
 @example
 %define parse.trace
-%define parse.error verbose
+%define parse.error detailed
+%define parse.lac full
 @end example
 
 @noindent
@@ -12720,7 +12828,7 @@ driver::scan_begin ()
     yyin = stdin;
   else if (!(yyin = fopen (file.c_str (), "r")))
     @{
-      std::cerr << "cannot open " << file << ": " << strerror(errno) << '\n';
+      std::cerr << "cannot open " << file << ": " << strerror (errno) << '\n';
       exit (EXIT_FAILURE);
     @}
 @}

@@ -308,7 +308,7 @@ m4_define([b4_shared_declarations],
 ]b4_parse_error_bmatch([custom\|detailed], [[
    /// The user-facing name of the symbol whose (internal) number is
    /// YYSYMBOL.  No bounds checking.
-   static const char *yysymbol_name (symbol_kind_type yysymbol);
+   static const char *symbol_name (symbol_kind_type yysymbol);
 ]])[
 
     // Tables.
@@ -586,7 +586,7 @@ m4_if(b4_prefix, [yy], [],
   /* The user-facing name of the symbol whose (internal) number is
      YYSYMBOL.  No bounds checking. */
   const char *
-  ]b4_parser_class[::yysymbol_name (symbol_kind_type yysymbol)
+  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
   {
     static const char *const yy_sname[] =
     {
@@ -1503,7 +1503,7 @@ b4_dollar_popdef])[]dnl
         {
           yyres += ]b4_parse_error_case([verbose],
                 [[yytnamerr_ (yytname_[yyarg[yyi++]])]],
-                [[yysymbol_name (yyarg[yyi++])]])[;
+                [[symbol_name (yyarg[yyi++])]])[;
           ++yyp;
         }
       else

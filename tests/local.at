@@ -757,7 +757,7 @@ void
   {
     symbol_kind_type la = ctx.token ();
     if (la != symbol_kind::S_YYEMPTY)
-      fprintf (stderr, " on token [%s]", yysymbol_name (la));
+      std::cerr << " on token [" << symbol_name (la) << ']';
   }
   {
     enum { TOKENMAX = 10 };
@@ -767,7 +767,7 @@ void
       {
         std::cerr << " (expected:";
         for (int i = 0; i < n; ++i)
-          std::cerr << " [" << yysymbol_name (expected[i]) << ']';
+          std::cerr << " [" << symbol_name (expected[i]) << ']';
         std::cerr << ')';
       }
   }
