@@ -14,12 +14,11 @@
 }
 
 %code {
-  public static void main (String[] args) throws IOException
-  {
-    CalcLexer l = new CalcLexer (System.in);
-    Calc p = new Calc (l);
-    if (!p.parse ())
-      System.exit (1);
+  public static void main(String[] args) throws IOException {
+    CalcLexer l = new CalcLexer(System.in);
+    Calc p = new Calc(l);
+    if (!p.parse())
+      System.exit(1);
   }
 }
 
@@ -42,7 +41,7 @@ input:
 
 line:
   '\n'
-| exp '\n'           { System.out.println ($exp); }
+| exp '\n'           { System.out.println($exp); }
 | error '\n'
 ;
 
@@ -50,15 +49,15 @@ exp:
   NUM                { $$ = $1; }
 | exp '=' exp
   {
-    if ($1.intValue () != $3.intValue ())
-      yyerror ("calc: error: " + $1 + " != " + $3);
+    if ($1.intValue() != $3.intValue())
+      yyerror("calc: error: " + $1 + " != " + $3);
   }
 | exp '+' exp        { $$ = $1 + $3;  }
 | exp '-' exp        { $$ = $1 - $3;  }
 | exp '*' exp        { $$ = $1 * $3;  }
 | exp '/' exp        { $$ = $1 / $3;  }
 | '-' exp  %prec NEG { $$ = -$2; }
-| exp '^' exp        { $$ = (int) Math.pow ($1, $3); }
+| exp '^' exp        { $$ = (int) Math.pow($1, $3); }
 | '(' exp ')'        { $$ = $2; }
 | '(' error ')'      { $$ = 1111; }
 | '!'                { $$ = 0; return YYERROR; }
@@ -71,40 +70,37 @@ class CalcLexer implements Calc.Lexer {
 
   StreamTokenizer st;
 
-  public CalcLexer (InputStream is)
-  {
-    st = new StreamTokenizer (new InputStreamReader (is));
-    st.resetSyntax ();
-    st.eolIsSignificant (true);
-    st.whitespaceChars ('\t', '\t');
-    st.whitespaceChars (' ', ' ');
-    st.wordChars ('0', '9');
+  public CalcLexer(InputStream is) {
+    st = new StreamTokenizer(new InputStreamReader(is));
+    st.resetSyntax();
+    st.eolIsSignificant(true);
+    st.whitespaceChars('\t', '\t');
+    st.whitespaceChars(' ', ' ');
+    st.wordChars('0', '9');
   }
 
-  public void yyerror (String s)
-  {
-    System.err.println (s);
+  public void yyerror(String s) {
+    System.err.println(s);
   }
 
   Integer yylval;
 
-  public Object getLVal () {
+  public Object getLVal() {
     return yylval;
   }
 
-  public int yylex () throws IOException {
-    int ttype = st.nextToken ();
-    switch (ttype)
-      {
-      case StreamTokenizer.TT_EOF:
-        return EOF;
-      case StreamTokenizer.TT_EOL:
-        return (int) '\n';
-      case StreamTokenizer.TT_WORD:
-        yylval = new Integer (st.sval);
-        return NUM;
-      default:
-        return ttype;
-      }
+  public int yylex() throws IOException {
+    int ttype = st.nextToken();
+    switch (ttype) {
+    case StreamTokenizer.TT_EOF:
+      return EOF;
+    case StreamTokenizer.TT_EOL:
+      return (int) '\n';
+    case StreamTokenizer.TT_WORD:
+      yylval = new Integer(st.sval);
+      return NUM;
+    default:
+      return ttype;
+    }
   }
 }
