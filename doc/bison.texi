@@ -1903,7 +1903,7 @@ yylex (void)
 @group
   /* Return end-of-input. */
   else if (c == EOF)
-    return 0;
+    return YYEOF;
   /* Return a single char. */
   else
     return c;
@@ -2352,7 +2352,7 @@ yylex (void)
 
   /* Return end-of-input. */
   if (c == EOF)
-    return 0;
+    return YYEOF;
 
 @group
   /* Return a single char, and update location. */
@@ -2722,7 +2722,7 @@ yylex (void)
     c = getchar ();
 
   if (c == EOF)
-    return 0;
+    return YYEOF;
 @end group
 
 @group
@@ -4925,14 +4925,6 @@ I18n}):
 would produce in French @samp{erreur de syntaxe, || inattendu, attendait
 nombre ou (} rather than @samp{erreur de syntaxe, || inattendu, attendait
 number ou (}.
-
-The token numbered as 0 corresponds to the end of file; the following line
-allows for nicer error messages referring to ``end of file''
-(internationalized) instead of ``$end'':
-
-@example
-%token END 0 _("end of file")
-@end example
 
 @node Precedence Decl
 @subsection Operator Precedence
@@ -7812,7 +7804,6 @@ or @code{detailed}, token aliases can be internationalized:
 @example
 %token
     '\n'   _("end of line")
-    EOF 0  _("end of file")
   <double>
     NUM    _("double precision number")
   <symrec*>
@@ -7828,17 +7819,26 @@ If at least one token alias is internationalized, then the generated parser
 will use both @code{N_} and @code{_}, that must be defined
 (@pxref{Programmers, , The Programmer’s View, gettext, GNU @code{gettext}
 utilities}).  They are used only on string aliases marked for translation.
-In other words, even if your catalog features a translation for ``end of
-line'', then with
+In other words, even if your catalog features a translation for
+``function'', then with
 
 @example
 %token
-    '\n'     "end of line"
-    EOF 0  _("end of file")
+  <symrec*>
+    FUN      "function"
+    VAR    _("variable")
 @end example
 
 @noindent
-``end of line'' will appear untranslated in debug traces and error messages.
+``function'' will appear untranslated in debug traces and error messages.
+
+Unless defined by the user, the end-of-file token, @code{YYEOF}, is provided
+``end of file'' as an alias.  It is also internationalized if the user
+internationalized tokens.  To map it to another string, use:
+
+@example
+%token END 0 _("end of input")
+@end example
 
 
 @node Algorithm
@@ -11401,17 +11401,7 @@ Symbols}).  This directive:
 
 @noindent
 requests that Bison generates the functions @code{make_TEXT} and
-@code{make_NUMBER}.  As a matter of fact, it is convenient to have also a
-symbol to mark the end of input, say @code{END_OF_FILE}:
-
-@comment file: c++/simple.yy: 1
-@example
-%token END_OF_FILE 0
-@end example
-
-@noindent
-The @code{0} tells Bison this token is special: when it is reached, parsing
-finishes.
+@code{make_NUMBER}, but also @code{make_YYEOF}, for the end of input.
 
 Everything is in place for our scanner:
 
@@ -11441,7 +11431,7 @@ Everything is in place for our scanner:
 @end group
 @group
         default:
-          return parser::make_END_OF_FILE ();
+          return parser::make_YYEOF ();
 @end group
         @}
     @}
@@ -12439,17 +12429,14 @@ file; it needs detailed knowledge about the driver.
 
 
 @noindent
-The token code 0 corresponds to end of file; the following line
-allows for nicer error messages referring to ``end of file'' instead of
-``$end''.  Similarly user friendly names are provided for each symbol.  To
-avoid name clashes in the generated files (@pxref{Calc++ Scanner}), prefix
-tokens with @code{TOK_} (@pxref{%define Summary}).
+User friendly names are provided for each symbol.  To avoid name clashes in
+the generated files (@pxref{Calc++ Scanner}), prefix tokens with @code{TOK_}
+(@pxref{%define Summary}).
 
 @comment file: calc++/parser.yy
 @example
 %define api.token.prefix @{TOK_@}
 %token
-  END  0  "end of file"
   ASSIGN  ":="
   MINUS   "-"
   PLUS    "+"
@@ -12695,7 +12682,7 @@ The rules are simple.  The driver is used to report errors.
                (loc, "invalid character: " + std::string(yytext));
 @}
 @end group
-<<EOF>>    return yy::parser::make_END (loc);
+<<EOF>>    return yy::parser::make_YYEOF (loc);
 %%
 @end example
 
