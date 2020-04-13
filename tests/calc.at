@@ -306,13 +306,13 @@ class CalcLexer(R) : Lexer
 
     // Handle EOF.
     if (input.empty)
-      return YYTokenType.EOF;
+      return TokenKind.CALC_EOF;
 
     // Numbers.
     if (input.front.isNumber)
       {
         semanticVal_.ival = parseInt;
-        return YYTokenType.NUM;
+        return TokenKind.NUM;
       }
 
     // Individual characters

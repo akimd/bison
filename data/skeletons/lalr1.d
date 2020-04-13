@@ -429,7 +429,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   public bool parse ()
   {
     /// Lookahead and lookahead in internal form.
-    int yychar = yyempty_;
+    int yychar = TokenKind.YYEMPTY;
     SymbolKind yytoken = SymbolKind.]b4_symbol_prefix[YYEMPTY;
 
     /* State.  */
@@ -493,7 +493,7 @@ m4_popdef([b4_at_dollar])])dnl
         }
 
         /* Read a lookahead token.  */
-        if (yychar == yyempty_)
+        if (yychar == TokenKind.YYEMPTY)
         {]b4_parse_trace_if([[
           yycdebugln ("Reading a token");]])[
           yychar = yylex ();]b4_locations_if([[
@@ -532,7 +532,7 @@ m4_popdef([b4_at_dollar])])dnl
           yy_symbol_print ("Shifting", yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
           /* Discard the token being shifted.  */
-          yychar = yyempty_;
+          yychar = TokenKind.YYEMPTY;
 
           /* Count tokens shifted since error; after three, turn off error
            * status.  */
@@ -573,7 +573,7 @@ m4_popdef([b4_at_dollar])])dnl
         if (yyerrstatus_ == 0)
         {
           ++yynerrs_;
-          if (yychar == yyempty_)
+          if (yychar == TokenKind.YYEMPTY)
             yytoken = SymbolKind.]b4_symbol_prefix[YYEMPTY;
           yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
         }
@@ -584,14 +584,14 @@ m4_popdef([b4_at_dollar])])dnl
           /* If just tried and failed to reuse lookahead token after an
            * error, discard it.  */
 
-          if (yychar <= YYTokenType.EOF)
+          if (yychar <= TokenKind.]b4_symbol(0, [id])[)
           {
             /* Return failure if at end of input.  */
-            if (yychar == YYTokenType.EOF)
+            if (yychar == TokenKind.]b4_symbol(0, [id])[)
              return false;
           }
           else
-            yychar = yyempty_;
+            yychar = TokenKind.YYEMPTY;
         }
 
         /* Else will try to reuse lookahead token after shifting the error
@@ -841,7 +841,6 @@ m4_popdef([b4_at_dollar])])dnl
 
   private static immutable int yylast_ = ]b4_last[;
   private static immutable int yynnts_ = ]b4_nterms_number[;
-  private static immutable int yyempty_ = -2;
   private static immutable int yyfinal_ = ]b4_final_state_number[;
   private static immutable int yyntokens_ = ]b4_tokens_number[;
 

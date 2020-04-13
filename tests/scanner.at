@@ -126,7 +126,7 @@ class YYLexer(R) : Lexer
     import std.uni : isNumber;
     // Handle EOF.
     if (input.empty)
-      return YYTokenType.EOF;
+      return TokenKind.END;
 
     auto c = input.front;
     input.popFront;
@@ -136,13 +136,13 @@ class YYLexer(R) : Lexer
     {
     case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
       semanticVal_.val = c - '0';
-      return YYTokenType.NUM;
-    case '+': return YYTokenType.PLUS;
-    case '-': return YYTokenType.MINUS;
-    case '*': return YYTokenType.STAR;
-    case '/': return YYTokenType.SLASH;
-    case '(': return YYTokenType.LPAR;
-    case ')': return YYTokenType.RPAR;
+      return TokenKind.NUM;
+    case '+': return TokenKind.PLUS;
+    case '-': return TokenKind.MINUS;
+    case '*': return TokenKind.STAR;
+    case '/': return TokenKind.SLASH;
+    case '(': return TokenKind.LPAR;
+    case ')': return TokenKind.RPAR;
     default: assert(0);
     }
   }

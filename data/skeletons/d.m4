@@ -164,11 +164,9 @@ m4_define([b4_token_enum],
 # Output the definition of the tokens as enums.
 m4_define([b4_token_enums],
 [/* Token kinds.  */
-public enum YYTokenType {
-
-  /** Token returned by the scanner to signal the end of its input.  */
-  EOF = 0,
-b4_symbol_foreach([b4_token_enum])
+public enum TokenKind {
+  ]b4_symbol_kind([-2])[ = -2,
+b4_symbol_foreach([b4_token_enum])dnl
 }
 ])
 

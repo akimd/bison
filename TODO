@@ -120,6 +120,11 @@ https://www.cs.tufts.edu/~nr/cs257/archive/clinton-jefferey/lr-error-messages.pd
 https://research.swtch.com/yyerror
 http://gallium.inria.fr/~fpottier/publis/fpottier-reachability-cc2016.pdf
 
+* D
+** yylex
+It would be better to have TokenKind as return value.  Can we use reflexion
+to support both output types?
+
 * Modernization
 Fix data/skeletons/yacc.c so that it defines YYPTRDIFF_T properly for modern
 and older C++ compilers.  Currently the code defaults to defining it to
@@ -264,7 +269,7 @@ It would be a very nice source of inspiration for the other languages.
 
 Valentin Tolmer is working on this.
 
-** yychar == yyempty_
+** yychar == YYEMPTY
 The code in yyerrlab reads:
 
       if (yychar <= YYEOF)
