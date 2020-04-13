@@ -12657,7 +12657,7 @@ then the parser's to get the set of defined tokens.
 # pragma GCC diagnostic ignored "-Wnull-dereference"
 #endif
 
-// This example uses Flex's C backend, yet compiles it as C++.
+// This example uses Flex's C back end, yet compiles it as C++.
 // So expect warnings about C style casts and NULL.
 #if defined CLANG_VERSION && 500 <= CLANG_VERSION
 # pragma clang diagnostic ignored "-Wold-style-cast"
@@ -14933,9 +14933,9 @@ A finite enumeration of all the possible grammar symbols, as processed by
 the parser.  @xref{Symbols}.
 
 @item Symbol table
-A data structure where symbol names and associated data are stored
-during parsing to allow for recognition and use of existing
-information in repeated uses of a symbol.  @xref{Multi-function Calc}.
+A data structure where symbol names and associated data are stored during
+parsing to allow for recognition and use of existing information in repeated
+uses of a symbol.  @xref{Multi-function Calc}.
 
 @item Syntax error
 An error encountered during parsing of an input stream due to invalid
@@ -14947,13 +14947,13 @@ grammatically indivisible.  The piece of text it represents is a token.
 @xref{Language and Grammar}.
 
 @item Token
-A basic, grammatically indivisible unit of a language.  The symbol
-that describes a token in the grammar is a terminal symbol.
-The input of the Bison parser is a stream of tokens which comes from
-the lexical analyzer.  @xref{Symbols}.
+A basic, grammatically indivisible unit of a language.  The symbol that
+describes a token in the grammar is a terminal symbol.  The input of the
+Bison parser is a stream of tokens which comes from the lexical analyzer.
+@xref{Symbols}.
 
 @item Token kind
-A finite enumeration of all the possible grammar terminals, as disciminated
+A finite enumeration of all the possible grammar terminals, as discriminated
 by the scanner.  @xref{Symbols}.
 
 @item Unreachable state
@@ -15078,7 +15078,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: YYENABLE bindtextdomain Makefile DEFS CPPFLAGS DBISON DeRemer
 @c LocalWords: autoreconf Pennello multisets nondeterminism Generalised baz ACM
 @c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
-@c LocalWords: multitable headitem hh basename Doxygen fno filename gdef
+@c LocalWords: multitable headitem hh basename Doxygen fno filename gdef de
 @c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
 @c LocalWords: Ctor defcv defcvx arg accessors arithmetics CPP ifndef CALCXX
 @c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
@@ -15102,7 +15102,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: fdiagnostics setlocale nullptr ast srcdir iff drv rgbWarning
 @c LocalWords: deftypefunx pragma Wnull dereference Wdocumentation elif ish
 @c LocalWords: Wdeprecated Wregister noinput yyloc yypos PODs sstream Wsign
-@c LocalWords: typename emplace Wconversion Wshorten yacchack reentrancy
+@c LocalWords: typename emplace Wconversion Wshorten yacchack reentrancy ou
 @c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit svg
 @c LocalWords: DNDEBUG cstring Wzero workalike POPL workalikes byacc UCB
 @c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP
@@ -15111,7 +15111,10 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: colorOff maincolor inlineraw darkviolet darkcyan dwarning
 @c LocalWords: dnotice copyable stdint ptrdiff bufsize yyreport invariants
 @c LocalWords: xrefautomaticsectiontitle yysyntax yysymbol ARGMAX cond
-@c LocalWords: Wdangling
+@c LocalWords: Wdangling yytoken erreur syntaxe inattendu attendait nombre
+@c LocalWords: YYUNDEF SymbolKind yypcontext YYENOMEM TOKENMAX getBundle
+@c LocalWords: ResourceBundle myResources getString getName getToken
+@c LocalWords: getLocation getExpectedTokens reportSyntaxError
 
 @c Local Variables:
 @c ispell-dictionary: "american"

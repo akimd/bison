@@ -158,7 +158,7 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ## ------------------------------------- ##
 
 # We trust the "#line", since that's what allows us to quote the
-# actual source from which the gramar file was generated.  But #line
+# actual source from which the grammar file was generated.  But #line
 # can also be wrong, and point to a line which is shorter that the bad
 # one.  In which case we can easily forget to close the styling.
 #

@@ -385,7 +385,7 @@ AT_DATA_GRAMMAR([list.y],
 // Starting with :: to ensure we don't output "<::" which starts by the
 // digraph for the left square bracket.
 %type <::string> item;
-// Using the template type to exercize its parsing.
+// Using the template type to exercise its parsing.
 %type <::std::vector<string>> list;
 
 %printer { yyo << $$; } <int> <::string> <::std::vector<string>>;

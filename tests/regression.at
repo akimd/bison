@@ -633,7 +633,7 @@ AT_CLEANUP
 # extremely specific situations.  web2c.y exhibits this situation.
 # Below is a stripped version of the grammar.  It looks like one can
 # simplify it further, but just don't: it is tuned to exhibit a bug,
-# which disapears when applying sane grammar transformations.
+# which disappears when applying sane grammar transformations.
 #
 # It used to be wrong on yydefact only:
 #

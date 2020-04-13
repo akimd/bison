@@ -52,7 +52,7 @@ Follow the GNU Coding Standards.
 
 Don't reinvent the wheel: we use gnulib, which features many components.
 Actually, Bison has legacy code that we should replace with gnulib modules
-(e.g., many adhoc implementations of lists).
+(e.g., many ad hoc implementations of lists).
 
 ### Skeletons
 We try to use the "typical" coding style for each language.
@@ -87,7 +87,7 @@ Use `*_type` for type aliases.  Use `foo_get()` and `foo_set(v)` for
 accessors, or simply `foo()` and `foo(v)`.
 
 Use the `yy` prefix for private stuff, but there's no need for it in the
-public api.  The `yy` prefix is already taken care of via the namespace.
+public API.  The `yy` prefix is already taken care of via the namespace.
 
 #### Java
 We follow https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
@@ -482,9 +482,11 @@ LocalWords:  submodule init cd distcheck ChangeLog valgrind sigreturn sudo
 LocalWords:  UC gcc DGNULIB POSIXCHECK xml XSLT glr lalr README po runtime rc
 LocalWords:  gnupload gnupg gpg keyserver BDF ncftp filename clearsign cvs dir
 LocalWords:  symlinks vti html lt POSIX Cc'ed Graphviz Texinfo autoconf jN
-LocalWords:  automake autopoint graphviz texinfo PROG Wother parsers
-LocalWords:  TESTSUITEFLAGS deprec struct gnulib's getopt config ggdb
-LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell
-LocalWords:  american
+LocalWords:  automake autopoint graphviz texinfo PROG Wother parsers YYFOO
+LocalWords:  TESTSUITEFLAGS deprec struct gnulib's getopt config ggdb yyfoo
+LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell wrt YY
+LocalWords:  american Administrivia camlCase yy accessors namespace src
+LocalWords:  getExpectedTokens yyexpectedTokens yygetExpectedTokens
+LocalWords:  regen dogfooding Autotest testsuite
 
 -->

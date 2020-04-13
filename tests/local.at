@@ -1172,7 +1172,7 @@ m4_define([AT_BISON_CHECK_XML],
 # AT_SET_ENV_IF(EXIT-STATUS)
 # --------------------------
 # Put this before a Bison invocation to set the environment to:
-# - define COLUMNS to make the test suite independant of the user's
+# - define COLUMNS to make the test suite independent of the user's
 #   environment;
 # - keep Valgrind from complaining about reachable memory (when
 #   EXIT-STATUS is not 0).

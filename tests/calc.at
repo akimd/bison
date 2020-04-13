@@ -857,7 +857,7 @@ AT_CHECK([cat stderr], 0, [expout])
 # AT_CHECK_SPACES([FILES])
 # ------------------------
 # Make sure we did not introduce bad spaces.  Checked here because all
-# the skeletons are (or should be) exercized here.
+# the skeletons are (or should be) exercised here.
 m4_define([AT_CHECK_SPACES],
 [AT_PERL_CHECK([-ne '
   chomp;

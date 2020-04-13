@@ -645,7 +645,7 @@ m4_define([b4_sync_end],   [ b4_comment([$2:$1])]
 # This generates dependencies on the Bison skeletons hence lots of
 # useless 'git diff'.  This location is useless for the regular
 # user (who does not care about the skeletons) and is actually not
-# useful for Bison developpers too (I, Akim, never used this to locate
+# useful for Bison developers too (I, Akim, never used this to locate
 # the code in skeletons that generated output).  So disable it
 # completely.  If someone thinks this was actually useful, a %define
 # variable should be provided to control the level of verbosity of

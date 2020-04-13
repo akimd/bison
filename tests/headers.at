@@ -115,7 +115,7 @@ AT_CLEANUP
 
 # AT_TEST([DIRECTIVES], [COMPILER-FLAGS])
 # ---------------------------------------
-# Check that headers are self-contained and protected againt multiple
+# Check that headers are self-contained and protected against multiple
 # inclusions.
 
 m4_pushdef([AT_TEST],
