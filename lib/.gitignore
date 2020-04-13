@@ -58,7 +58,6 @@
 /dirname-lgpl.c
 /dirname.c
 /dirname.h
-/dosname.h
 /dup-safer-flag.c
 /dup-safer.c
 /dup2.c
