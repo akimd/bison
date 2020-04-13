@@ -502,14 +502,14 @@ import java.text.MessageFormat;
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
 
-  private void yySymbolPrint (String s, SymbolKind yykind,
-                             ]b4_yystype[ yyvaluep]dnl
-                              b4_locations_if([, Object yylocationp])[)
+  private void yySymbolPrint(String s, SymbolKind yykind,
+                             ]b4_yystype[ yyvalue]b4_locations_if([, ]b4_location_type[ yylocation])[)
   {
-    yycdebug (s + (yykind.getCode () < YYNTOKENS_ ? " token " : " nterm ")
+    yycdebug (s
+              + (yykind.getCode() < YYNTOKENS_ ? " token " : " nterm ")
               + yykind.getName() + " ("]b4_locations_if([
-              + yylocationp + ": "])[
-              + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
+              + yylocation + ": "])[
+              + (yyvalue == null ? "(null)" : yyvalue.toString()) + ")");
   }]])[
 
 ]b4_push_if([],[[
