@@ -1,8 +1,21 @@
 * Bison 3.6
+** Questions
+*** Java
+- Should i18n be part of the Lexer?  Currently it's a static method of
+  Lexer.
+
+- is there a migration path that would allow to use TokenKinds in
+  yylex?
+
+*** D
+- is there a way to attach yysymbol_name to the enum itself?  As we did
+  in Java.
+
+- It would be better to have TokenKind as return value.  Can we use
+  reflection to support both output types?
+
 ** Documentation
-- yyexpected_tokens/expected_tokens/expectedTokens in all the languages.
 - YYERRCODE, YYUNDEF, YYEOF
-- i18n in Java
 - symbol.type_get should be kind_get, and it's not documented.
 - YYERRCODE and "end of file" and translation
 
@@ -10,9 +23,6 @@
 You can explicitly specify the numeric code for a token type...
 
 The token numbered as 0.
-
-Therefore each time the scanner returns an (external) token number,
-it must be mapped to the (internal) symbol number.
 
 ** Java: EOF
 We should be able to redefine EOF like we do in C.
@@ -119,11 +129,6 @@ See also
 https://www.cs.tufts.edu/~nr/cs257/archive/clinton-jefferey/lr-error-messages.pdf
 https://research.swtch.com/yyerror
 http://gallium.inria.fr/~fpottier/publis/fpottier-reachability-cc2016.pdf
-
-* D
-** yylex
-It would be better to have TokenKind as return value.  Can we use reflexion
-to support both output types?
 
 * Modernization
 Fix data/skeletons/yacc.c so that it defines YYPTRDIFF_T properly for modern

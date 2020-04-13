@@ -507,7 +507,7 @@ import java.text.MessageFormat;
                               b4_locations_if([, Object yylocationp])[)
   {
     yycdebug (s + (yykind.getCode () < YYNTOKENS_ ? " token " : " nterm ")
-              + yysymbolName (yykind) + " ("]b4_locations_if([
+              + yykind.getName() + " ("]b4_locations_if([
               + yylocationp + ": "])[
               + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
   }]])[
@@ -880,7 +880,7 @@ b4_dollar_popdef[]dnl
     /**
      * The symbol kind of the lookahead token.
      */
-    public SymbolKind getToken ()
+    public final SymbolKind getToken ()
     {
       return yytoken;
     }
@@ -890,7 +890,7 @@ b4_dollar_popdef[]dnl
     /**
      * The location of the lookahead.
      */
-    public ]b4_location_type[ getLocation ()
+    public final ]b4_location_type[ getLocation ()
     {
       return yylocation;
     }
@@ -936,15 +936,6 @@ b4_dollar_popdef[]dnl
               }
         }
       return yycount - yyoffset;
-    }
-
-    /**
-     * The user-facing name of the symbol whose (internal) number is
-     * YYSYMBOL.  No bounds checking.
-     */
-    static String yysymbolName (SymbolKind yysymbol)
-    {
-      return ]b4_parser_class[.yysymbolName (yysymbol);
     }
   }
 
@@ -1005,7 +996,7 @@ b4_dollar_popdef[]dnl
         int yycount = yysyntaxErrorArguments (yyctx, yyarg, argmax);
         String[] yystr = new String[yycount];
         for (int yyi = 0; yyi < yycount; ++yyi)
-          yystr[yyi] = yysymbolName (yyarg[yyi]);
+          yystr[yyi] = yyarg[yyi].getName();
         String yyformat;
         switch (yycount)
           {
@@ -1048,63 +1039,6 @@ b4_dollar_popdef[]dnl
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
 
 ]b4_parser_tables_define[
-
-]b4_parse_error_bmatch(
-           [simple\|verbose],
-[[  /* Return YYSTR after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
-  private static String yytnamerr_ (String yystr)
-  {
-    if (yystr.charAt (0) == '"')
-      {
-        StringBuffer yyr = new StringBuffer ();
-        strip_quotes: for (int i = 1; i < yystr.length (); i++)
-          switch (yystr.charAt (i))
-            {
-            case '\'':
-            case ',':
-              break strip_quotes;
-
-            case '\\':
-              if (yystr.charAt(++i) != '\\')
-                break strip_quotes;
-              /* Fall through.  */
-            default:
-              yyr.append (yystr.charAt (i));
-              break;
-
-            case '"':
-              return yyr.toString ();
-            }
-      }
-    return yystr;
-  }
-
-  /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-     First, the terminals, then, starting at \a YYNTOKENS_, nonterminals.  */
-  ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
-
-  /* The user-facing name of the symbol whose (internal) number is
-     YYSYMBOL.  No bounds checking.  */
-  static String yysymbolName (SymbolKind yysymbol)
-  {
-    return yytnamerr_ (yytname_[yysymbol.getCode ()]);
-  }
-]],
-        [custom\|detailed],
-[[  /* The user-facing name of the symbol whose (internal) number is
-     YYSYMBOL.  No bounds checking.  */
-  static String yysymbolName (SymbolKind yysymbol)
-  {
-    String[] yy_sname =
-    {
-    ]b4_symbol_names[
-    };
-    return yy_sname[yysymbol.getCode ()];
-  }]])[
 
 ]b4_parse_trace_if([[
   ]b4_integral_parser_table_define([rline], [b4_rline],

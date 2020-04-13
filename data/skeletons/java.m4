@@ -174,10 +174,10 @@ m4_define([b4_declare_symbol_enum],
   {
 ]b4_symbol_foreach([b4_symbol_enum])[
 
-    private final int code_;
+    private final int yycode_;
 
     SymbolKind (int n) {
-      this.code_ = n;
+      this.yycode_ = n;
     }
 
     private static final SymbolKind[] values_ = {
@@ -185,13 +185,66 @@ m4_define([b4_declare_symbol_enum],
       ], b4_symbol_numbers)[
     };
 
-    static final SymbolKind get (int code) {
+    static final SymbolKind get(int code) {
       return values_[code];
     }
 
-    public final int getCode () {
-      return this.code_;
+    public final int getCode() {
+      return this.yycode_;
     }
+
+]b4_parse_error_bmatch(
+[simple\|verbose],
+[[    /* Return YYSTR after stripping away unnecessary quotes and
+       backslashes, so that it's suitable for yyerror.  The heuristic is
+       that double-quoting is unnecessary unless the string contains an
+       apostrophe, a comma, or backslash (other than backslash-backslash).
+       YYSTR is taken from yytname.  */
+    private static String yytnamerr_(String yystr)
+    {
+      if (yystr.charAt (0) == '"')
+        {
+          StringBuffer yyr = new StringBuffer();
+          strip_quotes: for (int i = 1; i < yystr.length(); i++)
+            switch (yystr.charAt(i))
+              {
+              case '\'':
+              case ',':
+                break strip_quotes;
+
+              case '\\':
+                if (yystr.charAt(++i) != '\\')
+                  break strip_quotes;
+                /* Fall through.  */
+              default:
+                yyr.append(yystr.charAt(i));
+                break;
+
+              case '"':
+                return yyr.toString();
+              }
+        }
+      return yystr;
+    }
+
+    /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+       First, the terminals, then, starting at \a YYNTOKENS_, nonterminals.  */
+    ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
+
+    /* The user-facing name of this symbol.  */
+    public final String getName() {
+      return yytnamerr_(yytname_[yycode_]);
+    }
+]],
+[custom\|detailed],
+[[    /* YYNAMES_[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+       First, the terminals, then, starting at \a YYNTOKENS_, nonterminals.  */
+    ]b4_typed_parser_table_define([String], [names], [b4_symbol_names])[
+
+    /* The user-facing name of this symbol.  */
+    public final String getName() {
+      return yynames_[yycode_];
+    }]])[
   };
 ]])])
 

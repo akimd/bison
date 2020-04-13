@@ -121,12 +121,12 @@ class CalcLexer implements Calc.Lexer {
       int n = ctx.getExpectedTokens(arg, TOKENMAX);
       for (int i = 0; i < n; ++i)
         System.err.print((i == 0 ? ": expected " : " or ")
-                         + ctx.yysymbolName(arg[i]));
+                         + arg[i].getName());
     }
     {
       Calc.SymbolKind lookahead = ctx.getToken();
       if (lookahead != null)
-        System.err.print(" before " + ctx.yysymbolName(lookahead));
+        System.err.print(" before " + lookahead.getName());
     }
     System.err.println("");
   }

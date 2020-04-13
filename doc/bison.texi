@@ -13125,6 +13125,22 @@ or nonzero, full tracing.
 Identify the Bison version and skeleton used to generate this parser.
 @end deftypecv
 
+If you enabled token internationalization (@pxref{Token I18n}), you must
+provide the parser with the following function:
+
+@deftypecv {Static Method} {YYParser} {String} {i18n} (@code{string} @var{s})
+Return the translation of @var{s} in the user's language.  As an example:
+
+@example
+%code @{
+  static ResourceBundle myResources
+    = ResourceBundle.getBundle("domain-name");
+  static final String i18n(String s) @{
+    return myResources.getString(s);
+  @}
+@}
+@end example
+@end deftypecv
 
 @node Java Parser Context Interface
 @subsection Java Parser Context Interface
@@ -13132,9 +13148,35 @@ Identify the Bison version and skeleton used to generate this parser.
 The parser context provides information to build error reports when you
 invoke @samp{%define parse.error custom}.
 
+@defcv {Type} {YYParser} {SymbolKind}
+An enum that includes all the grammar symbols, tokens and nonterminals.  Its
+enumerators are forged from the symbol names:
+
+@example
+public enum SymbolKind
+@{
+  S_YYEOF(0),          /* "end of file"  */
+  S_YYERROR(1),        /* error  */
+  S_YYUNDEF(2),        /* "invalid token"  */
+  S_BANG(3),           /* "!"  */
+  S_PLUS(4),           /* "+"  */
+  S_MINUS(5),          /* "-"  */
+  [...]
+  S_NUM(13),           /* "number"  */
+  S_NEG(14),           /* NEG  */
+  S_YYACCEPT(15),      /* $accept  */
+  S_input(16),         /* input  */
+  S_line(17);          /* line  */
+@};
+@end example
+@end defcv
+
+@deftypemethod {YYParser.SymbolKind} {String} getName ()
+The name of this symbol, possibly translated.
+@end deftypemethod
+
 @deftypemethod {YYParser.Context} {YYParser.SymbolKind} getToken ()
-The kind of the lookahead.  Maybe return @code{null} when there is no
-lookahead.
+The kind of the lookahead.  Return @code{null} iff there is no lookahead.
 @end deftypemethod
 
 @deftypemethod {YYParser.Context} {YYParser.Location} getLocation ()
@@ -13143,14 +13185,12 @@ The location of the lookahead.
 
 @deftypemethod {YYParser.Context} {int} getExpectedTokens (@code{YYParser.SymbolKind[]} @var{argv}, @code{int} @var{argc})
 Fill @var{argv} with the expected tokens, which never includes
-@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYERROR}, or
-@code{YYSYMBOL_YYUNDEF}.
+@code{SymbolKind.S_YYERROR}, or @code{SymbolKind.S_YYUNDEF}.
 
 Never put more than @var{argc} elements into @var{argv}, and on success
 return the effective number of tokens stored in @var{argv}.  Return 0 if
 there are more than @var{argc} expected tokens, yet fill @var{argv} up to
-@var{argc}.  When LAC is enabled, may return a negative number on errors,
-such as @code{YYENOMEM} on memory exhaustion.
+@var{argc}.
 
 If @var{argv} is null, return the size needed to store all the possible
 values, which is always less than @code{YYNTOKENS}.
@@ -13227,28 +13267,28 @@ Declarations}), then the parser no longer passes syntax error messages to
 
 Whether it uses @code{yyerror} is up to the user.
 
-Here is a typical example of a reporting function.
+Here is an example of a reporting function (@pxref{Java Parser Context
+Interface}).
 
 @example
-public void yyreportSyntaxError (YYParser.Context ctx)
-@{
-  System.err.print (ctx.getLocation () + ": syntax error");
+public void reportSyntaxError(YYParser.Context ctx) @{
+  System.err.print(ctx.getLocation() + ": syntax error");
   // Report the expected tokens.
   @{
     final int TOKENMAX = 5;
     YYParser.SymbolKind[] arg = new YYParser.SymbolKind[TOKENMAX];
-    int n = ctx.getExpectedTokens (arg, TOKENMAX);
+    int n = ctx.getExpectedTokens(arg, TOKENMAX);
     for (int i = 0; i < n; ++i)
-      System.err.print ((i == 0 ? ": expected " : " or ")
-                        + ctx.yysymbolName (arg[i]));
+      System.err.print((i == 0 ? ": expected " : " or ")
+                       + arg[i].getName());
   @}
   // Report the unexpected token which triggered the error.
   @{
-    YYParser.SymbolKind lookahead = ctx.getToken ();
+    YYParser.SymbolKind lookahead = ctx.getToken();
     if (lookahead != null)
-      System.err.print (" before " + ctx.yysymbolName (lookahead));
+      System.err.print(" before " + lookahead.getName());
   @}
-  System.err.println ("");
+  System.err.println("");
 @}
 @end example
 @end deftypemethod

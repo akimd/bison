@@ -958,13 +958,13 @@ class PositionReader extends BufferedReader {
 # FIXME: We should not hard-code "Calc".
 m4_define([AT_YYERROR_DEFINE(java)],
 [AT_LOCATION_IF([[public void yyerror (Calc.Location l, String m)
-  {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
     ++global_nerrs;
     ++*nerrs;]])[
     if (l == null)
-      System.err.println (m);
+      System.err.println(m);
     else
-      System.err.println (l + ": " + m);
+      System.err.println(l + ": " + m);
   }
 ]], [[
   public void yyerror (String m)
@@ -976,27 +976,25 @@ m4_define([AT_YYERROR_DEFINE(java)],
 ]])[
 
 ]AT_ERROR_CUSTOM_IF([[
-  public void reportSyntaxError (Calc.Context ctx)
-  {
-    System.err.print (]AT_LOCATION_IF([[ctx.getLocation () + ": "]]
-                      + )["syntax error");
+  public void reportSyntaxError(Calc.Context ctx) {
+    System.err.print(]AT_LOCATION_IF([[ctx.getLocation() + ": "
+                     + ]])["syntax error");
     {
-      Calc.SymbolKind token = ctx.getToken ();
+      Calc.SymbolKind token = ctx.getToken();
       if (token != null)
-        System.err.print (" on token @<:@" + ctx.yysymbolName (token) + "@:>@");
+        System.err.print(" on token @<:@" + token.getName() + "@:>@");
     }
     {
       Calc.SymbolKind[] arg = new Calc.SymbolKind[ctx.NTOKENS];
-      int n = ctx.getExpectedTokens (arg, ctx.NTOKENS);
-      if (0 < n)
-        {
-          System.err.print (" (expected:");
-          for (int i = 0; i < n; ++i)
-            System.err.print (" @<:@" + ctx.yysymbolName (arg[i]) + "@:>@");
-          System.err.print (")");
-        }
+      int n = ctx.getExpectedTokens(arg, ctx.NTOKENS);
+      if (0 < n) {
+        System.err.print(" (expected:");
+        for (int i = 0; i < n; ++i)
+          System.err.print(" @<:@" + arg[i].getName() + "@:>@");
+        System.err.print(")");
+      }
     }
-    System.err.println ("");
+    System.err.println("");
   }
 ]])
 ])
