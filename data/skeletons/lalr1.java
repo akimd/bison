@@ -178,10 +178,10 @@ import java.text.MessageFormat;
    * parser <tt>]b4_parser_class[</tt>.
    */
   public interface Lexer {
-    /** Token returned by the scanner to signal the end of its input.  */
-    public static final int EOF = 0;
-
 ]b4_token_enums[
+    /** Deprecated, use b4_symbol(0, id) instead.  */
+    public static final int EOF = ]b4_symbol(0, id)[;
+
 ]b4_locations_if([[
     /**
      * Method to retrieve the beginning position of the last scanned token.
@@ -692,10 +692,10 @@ b4_dollar_popdef[]dnl
             /* If just tried and failed to reuse lookahead token after an
                error, discard it.  */
 
-            if (yychar <= Lexer.EOF)
+            if (yychar <= Lexer.]b4_symbol(0, id)[)
               {
                 /* Return failure if at end of input.  */
-                if (yychar == Lexer.EOF)
+                if (yychar == Lexer.]b4_symbol(0, id)[)
                   ]b4_push_if([{label = YYABORT; break;}], [return false;])[
               }
             else

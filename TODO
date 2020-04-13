@@ -24,9 +24,6 @@ You can explicitly specify the numeric code for a token type...
 
 The token numbered as 0.
 
-** Java: EOF
-We should be able to redefine EOF like we do in C.
-
 ** Java: calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 

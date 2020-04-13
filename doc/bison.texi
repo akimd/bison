@@ -13208,7 +13208,7 @@ with a scanner: the scanner may be defined by @code{%code lexer}, or
 defined elsewhere.  In either case, the scanner has to implement the
 @code{Lexer} inner interface of the parser class.  This interface also
 contain constants for all user-defined token names and the predefined
-@code{EOF} token.
+@code{YYEOF} token.
 
 In the first case, the body of the scanner class is placed in
 @code{%code lexer} blocks.  If you want to pass parameters from the
