@@ -1232,7 +1232,7 @@ action in a GLR parser.
 @cindex GLR parsers and @code{yylval}
 @vindex yylloc
 @cindex GLR parsers and @code{yylloc}
-In any semantic action, you can examine @code{yychar} to determine the type
+In any semantic action, you can examine @code{yychar} to determine the kind
 of the lookahead token present at the time of the associated reduction.
 After checking that @code{yychar} is not set to @code{YYEMPTY} or
 @code{YYEOF}, you can then examine @code{yylval} and @code{yylloc} to
@@ -1853,7 +1853,7 @@ for such a single-character token is the character itself.
 
 The return value of the lexical analyzer function is a numeric code which
 represents a token kind.  The same text used in Bison rules to stand for
-this token kind is also a C expression for the numeric code for the type.
+this token kind is also a C expression for the numeric code of the kind.
 This works in two ways.  If the token kind is a character literal, then its
 numeric code is that of the character; you can use the same character
 literal in the lexical analyzer to express the number.  If the token kind is
@@ -2230,14 +2230,13 @@ the same as the declarations for the infix notation calculator.
 @end example
 
 @noindent
-Note there are no declarations specific to locations.  Defining a data
-type for storing locations is not needed: we will use the type provided
-by default (@pxref{Location Type}), which is a
-four member structure with the following integer fields:
-@code{first_line}, @code{first_column}, @code{last_line} and
-@code{last_column}.  By conventions, and in accordance with the GNU
-Coding Standards and common practice, the line and column count both
-start at 1.
+Note there are no declarations specific to locations.  Defining a data type
+for storing locations is not needed: we will use the type provided by
+default (@pxref{Location Type}), which is a four member structure with the
+following integer fields: @code{first_line}, @code{first_column},
+@code{last_line} and @code{last_column}.  By conventions, and in accordance
+with the GNU Coding Standards and common practice, the line and column count
+both start at 1.
 
 @node Ltcalc Rules
 @subsection Grammar Rules for @code{ltcalc}
@@ -2646,7 +2645,7 @@ By simply editing the initialization list and adding the necessary include
 files, you can add additional functions to the calculator.
 
 Two important functions allow look-up and installation of symbols in the
-symbol table.  The function @code{putsym} is passed a name and the type
+symbol table.  The function @code{putsym} is passed a name and the kind
 (@code{VAR} or @code{FUN}) of the object to be installed.  The object is
 linked to the front of the list, and a pointer to the object is returned.
 The function @code{getsym} is passed the name of the symbol to look up.  If
@@ -3698,10 +3697,9 @@ In a simple program it may be sufficient to use the same data type for
 the semantic values of all language constructs.  This was true in the
 RPN and infix calculator examples (@pxref{RPN Calc}).
 
-Bison normally uses the type @code{int} for semantic values if your
-program uses the same data type for all language constructs.  To
-specify some other type, define the @code{%define} variable
-@code{api.value.type} like this:
+Bison normally uses the type @code{int} for semantic values if your program
+uses the same data type for all language constructs.  To specify some other
+type, define the @code{%define} variable @code{api.value.type} like this:
 
 @example
 %define api.value.type @{double@}
@@ -4492,10 +4490,9 @@ Defining a data type for locations is much simpler than for semantic values,
 since all tokens and groupings always use the same type.
 
 You can specify the type of locations by defining a macro called
-@code{YYLTYPE}, just as you can specify the semantic value type by
-defining a @code{YYSTYPE} macro (@pxref{Value Type}).
-When @code{YYLTYPE} is not defined, Bison uses a default structure type with
-four members:
+@code{YYLTYPE}, just as you can specify the semantic value type by defining
+a @code{YYSTYPE} macro (@pxref{Value Type}).  When @code{YYLTYPE} is not
+defined, Bison uses a default structure type with four members:
 
 @example
 typedef struct YYLTYPE
@@ -7161,7 +7158,7 @@ yylex (void)
     return c;      /* Assume token kind for '+' is '+'. */
   @dots{}
   else
-    return INT;    /* Return the type of the token. */
+    return INT;    /* Return the kind of the token. */
   @dots{}
 @}
 @end example
@@ -7211,7 +7208,7 @@ the type is @code{int} (the default), you might write this in @code{yylex}:
 @group
   @dots{}
   yylval = value;  /* Put value onto Bison stack. */
-  return INT;      /* Return the type of the token. */
+  return INT;      /* Return the kind of the token. */
   @dots{}
 @end group
 @end example
@@ -7238,7 +7235,7 @@ then the code in @code{yylex} might look like this:
 @group
   @dots{}
   yylval.intval = value; /* Put value onto Bison stack. */
-  return INT;            /* Return the type of the token. */
+  return INT;            /* Return the kind of the token. */
   @dots{}
 @end group
 @end example
@@ -7279,7 +7276,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 @{
   @dots{}
   *lvalp = value;  /* Put value onto Bison stack. */
-  return INT;      /* Return the type of the token. */
+  return INT;      /* Return the kind of the token. */
   @dots{}
 @}
 @end example
@@ -8383,15 +8380,14 @@ represent the entire sequence of terminal and nonterminal symbols at or
 near the top of the stack.  The current state collects all the information
 about previous input which is relevant to deciding what to do next.
 
-Each time a lookahead token is read, the current parser state together
-with the type of lookahead token are looked up in a table.  This table
-entry can say, ``Shift the lookahead token.''  In this case, it also
-specifies the new parser state, which is pushed onto the top of the
-parser stack.  Or it can say, ``Reduce using rule number @var{n}.''
-This means that a certain number of tokens or groupings are taken off
-the top of the stack, and replaced by one grouping.  In other words,
-that number of states are popped from the stack, and one new state is
-pushed.
+Each time a lookahead token is read, the current parser state together with
+the kind of lookahead token are looked up in a table.  This table entry can
+say, ``Shift the lookahead token.''  In this case, it also specifies the new
+parser state, which is pushed onto the top of the parser stack.  Or it can
+say, ``Reduce using rule number @var{n}.''  This means that a certain number
+of tokens or groupings are taken off the top of the stack, and replaced by
+one grouping.  In other words, that number of states are popped from the
+stack, and one new state is pushed.
 
 There is one other alternative: the table can say that the lookahead token
 is erroneous in the current state.  This causes error processing to begin
@@ -11624,8 +11620,8 @@ particular it produces a genuine @code{union}, which have a few specific
 features in C++.
 @itemize @minus
 @item
-The type @code{YYSTYPE} is defined but its use is discouraged: rather
-you should refer to the parser's encapsulated type
+The type @code{YYSTYPE} is defined but its use is discouraged: rather you
+should refer to the parser's encapsulated type
 @code{yy::parser::semantic_type}.
 @item
 Non POD (Plain Old Data) types cannot be used.  C++98 forbids any instance

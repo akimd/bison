@@ -19,7 +19,7 @@ GNU Bison NEWS
 *** Improved syntax error messages
 
   Two new values for the %define parse.error variable offer more control to
-  the user.
+  the user.  Available in all the skeletons (C, C++, Java).
 
 **** %define parse.error detailed
 
@@ -34,7 +34,12 @@ GNU Bison NEWS
 **** %define parse.error custom
 
   With this directive, the user forges and emits the syntax error message
-  herself by defining a function such as:
+  herself by defining the yyreport_syntax_error function.  A new type,
+  yypcontext_t, captures the circumstances of the error, and provides the
+  user with functions to get details, such as yypcontext_expected_tokens to
+  get the list of expected token kinds.
+
+  A possible implementation of yyreport_syntax_error is:
 
     int
     yyreport_syntax_error (const yypcontext_t *ctx)
@@ -86,35 +91,42 @@ GNU Bison NEWS
 
 *** List of expected tokens (yacc.c)
 
-  At any point during parsing (including even before submitting the first
-  token), push parsers may now invoke yypstate_expected_tokens to get the
-  list of possible tokens.  This feature can be used to propose
-  autocompletion (see below the "bistromathic" example).
+  Push parsers may invoke yypstate_expected_tokens at any point during
+  parsing (including even before submitting the first token) to get the list
+  of possible tokens.  This feature can be used to propose autocompletion
+  (see below the "bistromathic" example).
 
   It makes little sense to use this feature without enabling LAC (lookahead
   correction).
 
 *** Deep overhaul of the symbol and token kinds
 
-  To avoid the confusion with typing in programming languages, we now refer
-  to token and symbol "kinds" instead of token and symbol "types".
+  To avoid the confusion with types in programming languages, we now refer
+  to token and symbol "kinds" instead of token and symbol "types".  The
+  documentation and error messages have been revised.
+
+  All the skeletons have been updated to use dedicated enum types rather
+  than integral types.  Special symbols are now regular citizens, instead of
+  being declared in ad hoc ways.
 
 **** Token kinds
 
   The "token kind" is what is returned by the scanner, e.g., PLUS, NUMBER,
-  LPAREN, etc.  Users are invited to replace their uses of "enum
-  yytokentype" by "yytoken_kind_t".
+  LPAREN, etc.  While backward compatibility is of course ensured, users are
+  nonetheless invited to replace their uses of "enum yytokentype" by
+  "yytoken_kind_t".
 
   This type now also includes tokens that were previously hidden: YYEOF (end
   of input), YYUNDEF (undefined token), and YYERRCODE (error token).  They
-  now have string aliases, internationalized if internationalization is
+  now have string aliases, internationalized when internationalization is
   enabled.  Therefore, by default, error messages now refer to "end of file"
-  (internationalized) rather than the cryptic "$end".
+  (internationalized) rather than the cryptic "$end", or to "invaid token"
+  rather than "$undefined".
 
-  In most case, it is now useless to define the end-of-line token as
-  follows:
+  Therefore in most cases it is now useless to define the end-of-line token
+  as follows:
 
-    %token EOF 0  _("end of file")
+    %token T_EOF 0 "end of file"
 
   Rather simply use "YYEOF" in your scanner.
 
@@ -126,7 +138,9 @@ GNU Bison NEWS
 
   They are now exposed as a enum, "yysymbol_kind_t".
 
-  This allows users to tailor the error messages the way they want.
+  This allows users to tailor the error messages the way they want, or to
+  process some symbols in a specific way in autocompletion (see the
+  bistromathic example below).
 
 *** Modernize display of explanatory statements in diagnostics
 
@@ -166,11 +180,17 @@ GNU Bison NEWS
   The lexcalc example (a simple example in C based on Flex and Bison) now
   also demonstrates location tracking.
 
+
   A new C example, bistromathic, is a fully featured interactive calculator
   using many Bison features: pure interface, push parser, autocompletion
   based on the current parser state (using yypstate_expected_tokens),
   location tracking, internationalized custom error messages, lookahead
   correction, rich debug traces, etc.
+
+  It shows how to depend on the symbol kinds to tailor autocompletion.  For
+  instance it recognizes the symbol kind "VARIABLE" to propose
+  autocompletion on the existing variables, rather than of the word
+  "variable".
 
 * Noteworthy changes in release 3.5.4 (2020-04-05) [stable]
 

@@ -19,12 +19,11 @@
 - symbol.type_get should be kind_get, and it's not documented.
 - YYERRCODE and "end of file" and translation
 
-*** The documentation
-You can explicitly specify the numeric code for a token type...
+** Java
+*** Examples
+Have an example with a push parser.  Use autocompletion in that case.
 
-The token numbered as 0.
-
-** Java: calc.at
+*** calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 
 ** doc
