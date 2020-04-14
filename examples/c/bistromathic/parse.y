@@ -235,43 +235,49 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
     case '(': return TOK_LPAREN;
     case ')': return TOK_RPAREN;
 
-    case 0: return TOK_YYEOF;
+    case '\0': return TOK_YYEOF;
 
-    default:
       // Numbers.
-      if (c == '.' || isdigit (c))
-        {
-          int nchars = 0;
-          sscanf (*line - 1, "%lf%n", &yylval->TOK_NUM, &nchars);
+    case '.':
+    case '0': case '1': case '2': case '3': case '4':
+    case '5': case '6': case '7': case '8': case '9':
+      {
+        int nchars = 0;
+        sscanf (*line - 1, "%lf%n", &yylval->TOK_NUM, &nchars);
           *line += nchars - 1;
           yylloc->last_column += nchars - 1;
           return TOK_NUM;
-        }
+      }
+
       // Identifiers.
-      else if (islower (c))
-        {
-          int nchars = 0;
-          char buf[100];
-          sscanf (*line - 1, "%99[a-z]%n", buf, &nchars);
-          *line += nchars - 1;
-          yylloc->last_column += nchars - 1;
-          if (strcmp (buf, "exit") == 0)
-            return TOK_EXIT;
-          else
-            {
-              symrec *s = getsym (buf);
-              if (!s)
-                s = putsym (buf, TOK_VAR);
-              yylval->TOK_VAR = s;
-              return s->type;
-            }
-        }
+    case 'a': case 'b': case 'c': case 'd': case 'e':
+    case 'f': case 'g': case 'h': case 'i': case 'j':
+    case 'k': case 'l': case 'm': case 'n': case 'o':
+    case 'p': case 'q': case 'r': case 's': case 't':
+    case 'u': case 'v': case 'w': case 'x': case 'y':
+    case 'z':
+      {
+        int nchars = 0;
+        char buf[100];
+        sscanf (*line - 1, "%99[a-z]%n", buf, &nchars);
+        *line += nchars - 1;
+        yylloc->last_column += nchars - 1;
+        if (strcmp (buf, "exit") == 0)
+          return TOK_EXIT;
+        else
+          {
+            symrec *s = getsym (buf);
+            if (!s)
+              s = putsym (buf, TOK_VAR);
+            yylval->TOK_VAR = s;
+            return s->type;
+          }
+      }
+
       // Stray characters.
-      else
-        {
-          yyerror (yylloc, "error: invalid character");
-          return yylex (line, yylval, yylloc);
-        }
+    default:
+      yyerror (yylloc, "error: invalid character");
+      return yylex (line, yylval, yylloc);
     }
 }
 
