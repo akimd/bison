@@ -618,6 +618,7 @@ m4_popdef([b4_at_dollar])])dnl
       case YYERRLAB1:
         yyerrstatus_ = 3;       /* Each real token shifted decrements this.  */
 
+        // Pop stack until we find a state that shifts the error token.
         for (;;)
         {
           yyn = yypact_[yystate];
