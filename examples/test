@@ -89,11 +89,13 @@ run ()
   shift
 
   # Expected output.
-  if $strip_prompt; then
-      $echo "$1" | sed -e '/^> /d' >exp
-  else
-      $echo "$1" >exp
-  fi
+  $echo "$1" |
+    sed -e 's/Reducing stack by rule .* (line .*):/Reducing stack by rule XX (line XXX):/g' |
+    if $strip_prompt; then
+      sed -e '/^> /d'
+    else
+      cat
+    fi >exp
   shift
 
   # Effective exit status.
@@ -102,7 +104,14 @@ run ()
   prog "$@" - <input >out_eff 2>err_eff || sta_eff=$?
 
   # Combine effective output and error streams.
-  { cat out_eff && $noerr || sed -e 's/^/err: /g' err_eff; } >eff
+  {
+    cat out_eff
+    if ! $noerr; then
+       sed -e 's/^/err: /g' \
+           -e 's/Reducing stack by rule .* (line .*):/Reducing stack by rule XX (line XXX):/g' \
+           err_eff
+    fi
+  } >eff
 
   if test $sta_eff -eq $sta_exp; then
     if cmp eff exp 2>/dev/null; then

@@ -201,8 +201,8 @@ read_integer (]AT_YYLEX_FORMALS[)
   /* Skip white spaces.  */
   do
     {
-]AT_LOCATION_IF(
-[     AT_LOC_FIRST_COLUMN = AT_LOC_LAST_COLUMN;
+]AT_LOCATION_IF([
+      AT_LOC_FIRST_COLUMN = AT_LOC_LAST_COLUMN;
       AT_LOC_FIRST_LINE   = AT_LOC_LAST_LINE;
 ])[
     }
@@ -219,6 +219,15 @@ read_integer (]AT_YYLEX_FORMALS[)
   /* Return end-of-file.  */
   if (c == EOF)
     return ]AT_TOKEN_PREFIX[CALC_EOF;
+
+  /* An explicit error raised by the scanner. */
+  if (c == '#')
+    {]AT_LOCATION_IF([
+      fprintf (stderr, "%d.%d: ",
+               AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);])[
+      fputs ("syntax error: invalid character: '#'\n", stderr);
+      return ]AT_TOKEN_PREFIX[]AT_API_PREFIX[ERRCODE;
+    }
 
   /* Return single chars. */
   return c;
@@ -304,7 +313,7 @@ class CalcLexer(R) : Lexer
         location.end.column += 1;]])[
       }
 
-    // Handle EOF.
+    // EOF.
     if (input.empty)
       return TokenKind.CALC_EOF;
 
@@ -325,6 +334,14 @@ class CalcLexer(R) : Lexer
     else
       location.end.column += 1;]])[
     input.popFront;
+
+    // An explicit error raised by the scanner. */
+    if (c == '#')
+      {
+        stderr.writeln (]AT_LOCATION_IF([location, ": ", ])["syntax error: invalid character: '#'");
+        return TokenKind.YYERRCODE;
+      }
+
     return c;
   }
 }
@@ -370,9 +387,9 @@ m4_define([AT_CALC_YYLEX(java)],
 
   public int yylex () throws IOException {;]AT_LOCATION_IF([[
     start.set (reader.getPosition ());]])[
-    int ttype = st.nextToken ();]AT_LOCATION_IF([[
+    int tkind = st.nextToken ();]AT_LOCATION_IF([[
     end.set (reader.getPosition ());]])[
-    switch (ttype)
+    switch (tkind)
       {
       case StreamTokenizer.TT_EOF:
         return EOF;
@@ -386,8 +403,11 @@ m4_define([AT_CALC_YYLEX(java)],
         return NUM;
       case ' ': case '\t':
         return yylex ();
+      case '#':
+        System.err.println(]AT_LOCATION_IF([[start + ": " + ]])["syntax error: invalid character: '#'");
+        return YYERRCODE;
       default:
-        return ttype;
+        return tkind;
       }
   }
 ]AT_LEXPARAM_IF([], [[}]])[
@@ -1003,6 +1023,20 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)],
 [AT_JAVA_IF([1.2-1.3], [1.2])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.10-1.11], [1.10])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.16-1.17], [1.16])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])]])
+
+
+# YYERRCODE.
+# ---------
+# Check that returning YYERRCODE from the scanner properly enters
+# error-recovery without issuing a second error message.
+
+_AT_CHECK_CALC_ERROR([$1], [0], [(#) + (#) = 2222],
+                     [[final: 2222 0 0]],
+                     [102],
+[[1.2: syntax error: invalid character: '#'
+1.8: syntax error: invalid character: '#']])
+
+
 
 AT_BISON_OPTION_POPDEFS
 

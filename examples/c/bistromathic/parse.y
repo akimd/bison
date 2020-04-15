@@ -3,6 +3,7 @@
 %code top {
   #include <ctype.h>  // isdigit
   #include <math.h>   // cos, sin, etc.
+  #include <stdarg.h> // va_start
   #include <stdio.h>  // printf
   #include <stdlib.h> // calloc
   #include <string.h> // strcmp
@@ -45,8 +46,14 @@
 }
 
 %code provides {
+# ifndef __attribute__
+#  ifndef __GNUC__
+#   define __attribute__(Spec) /* empty */
+#  endif
+# endif
   int yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc);
-  void yyerror (YYLTYPE *yylloc, char const *msg);
+  void yyerror (YYLTYPE *loc, char const *format, ...)
+    __attribute__ ((__format__ (__printf__, 2, 3)));
 }
 
 %code {
@@ -249,6 +256,8 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
     case '(': return TOK_LPAREN;
     case ')': return TOK_RPAREN;
 
+    case '!': return TOK_YYUNDEF;
+
     case '\0': return TOK_YYEOF;
 
       // Numbers.
@@ -290,8 +299,8 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 
       // Stray characters.
     default:
-      yyerror (yylloc, "error: invalid character");
-      return yylex (line, yylval, yylloc);
+      yyerror (yylloc, "syntax error: invalid character: %c", c);
+      return TOK_YYERRCODE;
     }
 }
 
@@ -371,10 +380,15 @@ yyreport_syntax_error (const yypcontext_t *ctx)
 
 
 // Called by yyparse on error.
-void yyerror (YYLTYPE *loc, char const *msg)
+void yyerror (YYLTYPE *loc, char const *format, ...)
 {
   YY_LOCATION_PRINT (stderr, *loc);
-  fprintf (stderr, ": %s\n", msg);
+  fputs (": ", stderr);
+  va_list args;
+  va_start (args, format);
+  vfprintf (stderr, format, args);
+  va_end (args);
+  putc ('\n', stderr);
 }
 
 
@@ -535,7 +549,7 @@ int main (int argc, char const* argv[])
 #endif
 
   // Enable parse traces on option -p.
-  if (argc == 2 && strcmp (argv[1], "-p") == 0)
+  if (1 < argc && strcmp (argv[1], "-p") == 0)
     yydebug = 1;
   init_table ();
   init_readline ();

@@ -981,6 +981,16 @@ b4_dollar_popdef])[]dnl
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
+    if (yyla.kind () == ]symbol_kind::b4_symbol(1, kind)[)
+    {
+      // The scanner already issued an error message, process directly
+      // to error recovery.  But do not keep the error token as
+      // lookahead, it is too special and may lead us to an endless
+      // loop in error recovery. */
+      yyla.type = ]symbol_kind::b4_symbol(2, kind)[;
+      goto yyerrlab1;
+    }
+
     /* If the proper action on seeing token YYLA.TYPE is to reduce or
        to detect an error, take that action.  */
     yyn += yyla.kind ();
