@@ -430,7 +430,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
     /// Lookahead and lookahead in internal form.
     int yychar = TokenKind.YYEMPTY;
-    SymbolKind yytoken = SymbolKind.]b4_symbol_prefix[YYEMPTY;
+    SymbolKind yytoken = SymbolKind.]b4_symbol(-2, kind)[;
 
     /* State.  */
     int yyn = 0;
@@ -574,7 +574,7 @@ m4_popdef([b4_at_dollar])])dnl
         {
           ++yynerrs_;
           if (yychar == TokenKind.YYEMPTY)
-            yytoken = SymbolKind.]b4_symbol_prefix[YYEMPTY;
+            yytoken = SymbolKind.]b4_symbol(-2, kind)[;
           yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
         }
 
@@ -712,7 +712,7 @@ m4_popdef([b4_at_dollar])])dnl
          will still contain any token that will not be accepted due
          to an error action in a later state.
       */
-    if (tok != SymbolKind.]b4_symbol_prefix[YYEMPTY)
+    if (tok != SymbolKind.]b4_symbol(-2, kind)[)
     {
       // FIXME: This method of building the message is not compatible
       // with internationalization.
