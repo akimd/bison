@@ -17,7 +17,7 @@
 ** Documentation
 - YYERRCODE, YYUNDEF, YYEOF
 - symbol.type_get should be kind_get, and it's not documented.
-- YYERRCODE and "end of file" and translation
+- YYERRCODE and translation
 
 ** Java
 *** Examples
@@ -35,9 +35,8 @@ breaks.
 token vs terminal, variable vs non terminal.
 
 ** api.token.raw
-Maybe we should exhibit the YYUNDEFTOK token.  It could also be assigned a
-semantic value so that yyerror could be used to report invalid lexemes.
-See also the item "$undefined" below.
+The YYUNDEFTOK could be assigned a semantic value so that yyerror could be
+used to report invalid lexemes.  See also the item "$undefined" below.
 
 ** push parsers
 Consider deprecating impure push parsers.  They add a lot of complexity, for

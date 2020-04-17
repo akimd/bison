@@ -6234,8 +6234,8 @@ introduced in Bison 3.0.
 
 
 @c ================================================== api.token.prefix
+@anchor{api-token-prefix}
 @deffn Directive {%define api.token.prefix} @{@var{prefix}@}
-
 @itemize
 @item Languages(s): all
 
@@ -7463,7 +7463,7 @@ An opaque type that captures the circumstances of the syntax error.
 @end deffn
 
 @deffn {Type} yysymbol_kind_t
-An enum that includes all the grammar symbols, tokens and nonterminals.  Its
+An enum of all the grammar symbols, tokens and nonterminals.  Its
 enumerators are forged from the symbol names:
 
 @example
@@ -11523,6 +11523,43 @@ extended using the @code{%parse-param} feature: its semantics is slightly
 changed since it describes an additional member of the parser class, and an
 additional argument for its constructor.
 
+
+@defcv {Type} {parser} {token}
+A structure that contains (only) the @code{token_kind_type} enumeration,
+which defines the tokens.  To refer to the token @code{FOO}, use
+@code{yy::parser::token::FOO}.  The scanner can use @samp{typedef
+yy::parser::token token;} to ``import'' the token enumeration (@pxref{Calc++
+Scanner}).
+@end defcv
+
+@defcv {Type} {parser} {token_kind_type}
+An enumeration of the token kinds.  Its enumerators are forged from the
+token names, with a possible token prefix
+(@pxref{api-token-prefix,,@code{api.token.prefix}}):
+
+@example
+/// Token kinds.
+struct token
+@{
+  enum token_kind_type
+  @{
+    YYEMPTY = -2,              // No token.
+    YYEOF = 0,                 // "end of file"
+    YYERRCODE = 256,           // error
+    YYUNDEF = 257,             // "invalid token"
+    PLUS = 258,                // "+"
+    MINUS = 259,               // "-"
+    [...]
+    VAR = 271,                 // "variable"
+    NEG = 272                  // NEG
+  @};
+@};
+
+/// Token kind, as returned by yylex.
+typedef token::token_kind_type token_kind_type;
+@end example
+@end defcv
+
 @defcv {Type} {parser} {semantic_type}
 The types for semantic values. @xref{C++ Semantic Values}.
 @end defcv
@@ -11530,14 +11567,6 @@ The types for semantic values. @xref{C++ Semantic Values}.
 @defcv {Type} {parser} {location_type}
 The type of locations, if location tracking is enabled.  @xref{C++ Location
 Values}.
-@end defcv
-
-@defcv {Type} {parser} {token}
-A structure that contains (only) the @code{yytoken_kind_t} enumeration,
-which defines the tokens.  To refer to the token @code{FOO}, use
-@code{yy::parser::token::FOO}.  The scanner can use @samp{typedef
-yy::parser::token token;} to ``import'' the token enumeration (@pxref{Calc++
-Scanner}).
 @end defcv
 
 @defcv {Type} {parser} {syntax_error}
@@ -11988,7 +12017,7 @@ A type that captures the circumstances of the syntax error.
 @end defcv
 
 @defcv {Type} {parser} {symbol_kind_type}
-An enum that includes all the grammar symbols, tokens and nonterminals.  Its
+An enum of all the grammar symbols, tokens and nonterminals.  Its
 enumerators are forged from the symbol names:
 
 @example
@@ -13145,7 +13174,7 @@ The parser context provides information to build error reports when you
 invoke @samp{%define parse.error custom}.
 
 @defcv {Type} {YYParser} {SymbolKind}
-An enum that includes all the grammar symbols, tokens and nonterminals.  Its
+An enum of all the grammar symbols, tokens and nonterminals.  Its
 enumerators are forged from the symbol names:
 
 @example
@@ -14713,18 +14742,18 @@ Data type of semantic values; @code{int} by default.
 @end deffn
 
 @deffn {Type} yysymbol_kind_t
-An enum that includes all the symbols, tokens and nonterminals, of the
-grammar.  @xref{Syntax Error Reporting Function}.  The symbol kinds are used
+An enum of all the symbols, tokens and nonterminals, of the grammar.
+@xref{Syntax Error Reporting Function}.  The symbol kinds are used
 internally by the parser, and should not be confused with the token kinds:
 the symbol kind of a terminal symbol is not equal to its token kind! (Unless
-@samp{%define api.token.raw} was used).
+@samp{%define api.token.raw} was used.)
 @end deffn
 
 @deffn {Type} yytoken_kind_t
-An enum that includes all the declared @dfn{token kinds} declared with
-@code{%token} (@pxref{Token Decl}).  These are the return values for
-@code{yylex}.  They should not be confused with the @emph{symbol kinds},
-used internally by the parser.
+An enum of all the @dfn{token kinds} declared with @code{%token}
+(@pxref{Token Decl}).  These are the return values for @code{yylex}.  They
+should not be confused with the @emph{symbol kinds}, used internally by the
+parser.
 @end deffn
 
 
@@ -14925,8 +14954,8 @@ first nonterminal symbol in a language specification.
 @xref{Start Decl}.
 
 @item Symbol kind
-A finite enumeration of all the possible grammar symbols, as processed by
-the parser.  @xref{Symbols}.
+A (finite) enumeration of the grammar symbols, as processed by the parser.
+@xref{Symbols}.
 
 @item Symbol table
 A data structure where symbol names and associated data are stored during
@@ -14949,8 +14978,8 @@ Bison parser is a stream of tokens which comes from the lexical analyzer.
 @xref{Symbols}.
 
 @item Token kind
-A finite enumeration of all the possible grammar terminals, as discriminated
-by the scanner.  @xref{Symbols}.
+A (finite) enumeration of the grammar terminals, as discriminated by the
+scanner.  @xref{Symbols}.
 
 @item Unreachable state
 A parser state to which there does not exist a sequence of transitions from

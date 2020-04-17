@@ -171,7 +171,7 @@ m4_bpatsubst(m4_dquote(m4_bpatsubst(m4_dquote(b4_namespace_ref[ ]),
 # --------------
 # Output the definition of the token kinds.
 m4_define([b4_token_enums],
-[[enum yytokentype
+[[enum token_kind_type
       {
         ]b4_symbol([-2], [id])[ = -2,
 ]b4_symbol_foreach([b4_token_enum])dnl
@@ -259,6 +259,8 @@ m4_define([b4_public_types_declare],
     struct token
     {
       ]b4_token_enums[
+      /// Backward compatibility alias.
+      typedef token_kind_type yytokentype;
     };
 
     /// Token kind, as returned by yylex.
