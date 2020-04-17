@@ -12193,6 +12193,17 @@ location.  Invocations of @samp{%lex-param @{@var{type1} @var{arg1}@}} yield
 additional arguments.
 @end deftypefun
 
+@defcv {Type} {parser} {symbol_type}
+A ``complete symbol'', that binds together its kind, value and (when
+applicable) location.
+@end defcv
+
+@deftypemethod {symbol_type} {symbol_kind_type} kind () @code{const}
+The kind of this symbol.
+@end deftypemethod
+
+@sp 1
+
 For each token kind, Bison generates named constructors as follows.
 
 @deftypeop  {Constructor} {parser::symbol_type} {} {symbol_type} (@code{int} @var{token}, @code{const @var{value_type}&} @var{value}, @code{const location_type&} @var{location})

@@ -241,7 +241,7 @@ m4_define([b4_shared_declarations],
     public:
       context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);
       const symbol_type& lookahead () const { return yyla_; }
-      symbol_kind_type token () const { return yyla_.type_get (); }]b4_locations_if([[
+      symbol_kind_type token () const { return yyla_.kind (); }]b4_locations_if([[
       const location_type& location () const { return yyla_.location; }
 ]])[
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
@@ -340,7 +340,7 @@ m4_define([b4_shared_declarations],
     /// Debug stream.
     std::ostream* yycdebug_;
 
-    /// \brief Display a symbol type, value and location.
+    /// \brief Display a symbol kind, value and location.
     /// \param yyo    The output stream.
     /// \param yysym  The symbol.
     template <typename Base>
@@ -373,12 +373,12 @@ m4_define([b4_shared_declarations],
       /// Record that this symbol is empty.
       void clear () YY_NOEXCEPT;
 
-      /// Steal the symbol type from \a that.
+      /// Steal the symbol kind from \a that.
       void move (by_state& that);
 
       /// The symbol kind (corresponding to \a state).
       /// \a ]b4_symbol(-2, kind)[ when empty.
-      symbol_kind_type type_get () const YY_NOEXCEPT;
+      symbol_kind_type kind () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
       /// We use the initial state, as it does not have a value.
@@ -665,7 +665,7 @@ b4_parse_error_case([verbose], [[
   {}
 
   /*---------------.
-  | Symbol types.  |
+  | symbol kinds.  |
   `---------------*/
 
 ]b4_token_ctor_if([], [b4_public_types_define([cc])])[
@@ -697,7 +697,7 @@ b4_parse_error_case([verbose], [[
   {}
 
   ]b4_parser_class[::symbol_kind_type
-  ]b4_parser_class[::by_state::type_get () const YY_NOEXCEPT
+  ]b4_parser_class[::by_state::kind () const YY_NOEXCEPT
   {
     if (state == empty_state)
       return symbol_kind::]b4_symbol(-2, kind)[;
@@ -711,7 +711,7 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::stack_symbol_type::stack_symbol_type (YY_RVREF (stack_symbol_type) that)
     : super_type (YY_MOVE (that.state)]b4_variant_if([], [, YY_MOVE (that.value)])b4_locations_if([, YY_MOVE (that.location)])[)
   {]b4_variant_if([
-    b4_symbol_variant([that.type_get ()],
+    b4_symbol_variant([that.kind ()],
                       [value], [YY_MOVE_OR_COPY], [YY_MOVE (that.value)])])[
 #if 201103L <= YY_CPLUSPLUS
     // that is emptied.
@@ -722,7 +722,7 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::stack_symbol_type::stack_symbol_type (state_type s, YY_MOVE_REF (symbol_type) that)
     : super_type (s]b4_variant_if([], [, YY_MOVE (that.value)])[]b4_locations_if([, YY_MOVE (that.location)])[)
   {]b4_variant_if([
-    b4_symbol_variant([that.type_get ()],
+    b4_symbol_variant([that.kind ()],
                       [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
     that.type = symbol_kind::]b4_symbol(-2, kind)[;
@@ -733,7 +733,7 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::stack_symbol_type::operator= (const stack_symbol_type& that)
   {
     state = that.state;
-    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
+    ]b4_variant_if([b4_symbol_variant([that.kind ()],
                                       [value], [copy], [that.value])],
                    [[value = that.value;]])[]b4_locations_if([
     location = that.location;])[
@@ -744,7 +744,7 @@ b4_parse_error_case([verbose], [[
   ]b4_parser_class[::stack_symbol_type::operator= (stack_symbol_type& that)
   {
     state = that.state;
-    ]b4_variant_if([b4_symbol_variant([that.type_get ()],
+    ]b4_variant_if([b4_symbol_variant([that.kind ()],
                                       [value], [move], [that.value])],
                    [[value = that.value;]])[]b4_locations_if([
     location = that.location;])[
@@ -762,7 +762,7 @@ b4_parse_error_case([verbose], [[
       YY_SYMBOL_PRINT (yymsg, yysym);]b4_variant_if([], [
 
     // User destructor.
-    b4_symbol_actions([destructor], [yysym.type_get ()])])[
+    b4_symbol_actions([destructor], [yysym.kind ()])])[
   }
 
 #if ]b4_api_PREFIX[DEBUG
@@ -773,7 +773,7 @@ b4_parse_error_case([verbose], [[
   {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
-    symbol_kind_type yykind = yysym.type_get ();
+    symbol_kind_type yykind = yysym.kind ();
 #if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ * 100 + __GNUC_MINOR__ <= 408
     // Avoid a (spurious) G++ 4.8 warning about "array subscript is
     // below array bounds".
@@ -958,10 +958,10 @@ b4_dollar_popdef])[]dnl
 
     /* If the proper action on seeing token YYLA.TYPE is to reduce or
        to detect an error, take that action.  */
-    yyn += yyla.type_get ();
-    if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yyla.type_get ())
+    yyn += yyla.kind ();
+    if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yyla.kind ())
       {]b4_lac_if([[
-        if (!yy_lac_establish_ (yyla.type_get ()))
+        if (!yy_lac_establish_ (yyla.kind ()))
            goto yyerrlab;]])[
         goto yydefault;
       }
@@ -972,7 +972,7 @@ b4_dollar_popdef])[]dnl
       {
         if (yy_table_value_is_error_ (yyn))
           goto yyerrlab;]b4_lac_if([[
-        if (!yy_lac_establish_ (yyla.type_get ()))
+        if (!yy_lac_establish_ (yyla.kind ()))
            goto yyerrlab;
 ]])[
         yyn = -yyn;
@@ -1089,7 +1089,7 @@ b4_dollar_popdef])[]dnl
            error, discard it.  */
 
         // Return failure if at end of input.
-        if (yyla.type_get () == symbol_kind::]b4_symbol_prefix[YYEOF)
+        if (yyla.kind () == symbol_kind::]b4_symbol_prefix[YYEOF)
           YYABORT;
         else if (!yyla.empty ())
           {
@@ -1240,7 +1240,7 @@ b4_dollar_popdef])[]dnl
     // Execute LAC once. We don't care if it is successful, we
     // only do it for the sake of debugging output.
     if (!yyparser_.yy_lac_established_)
-      yyparser_.yy_lac_check_ (yyla_.type_get ());
+      yyparser_.yy_lac_check_ (yyla_.kind ());
 #endif
 
     for (int yyx = 0; yyx < YYNTOKENS; ++yyx)

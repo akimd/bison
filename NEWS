@@ -73,8 +73,8 @@ GNU Bison NEWS
 **** Token aliases internationalization
 
   When the %define variable parse.error is set to `custom` or `detailed`,
-  one may use the _() annotation to specify which token aliases are to be
-  translated.  For instance
+  one may specify which token aliases are to be translated using _().  For
+  instance
 
     %token
         PLUS   "+"
@@ -162,6 +162,18 @@ GNU Bison NEWS
           |       ^~~~~
 
   Contributed by Victor Morales Cayuela.
+
+*** C++
+
+  The token and symbol kinds are yy::parser::token_kind_type and
+  yy::parser::symbol_kind_type.
+
+  The symbol_type::kind() member function allows to get the kind of a
+  symbol.  This can be used to write unit tests for scanners, e.g.,
+
+    yy::parser::symbol_type t = make_NUMBER ("123");
+    assert (t.kind () == yy::parser::symbol_kind::S_NUMBER);
+    assert (t.value.as<int> () == 123);
 
 ** Documentation
 

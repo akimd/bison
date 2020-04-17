@@ -107,7 +107,7 @@ yyerror (]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_
 
 ]b4_percent_define_flag_if([[global_tokens_and_yystype]], [],
 [m4_define([b4_pre_epilogue],
-[[/* The user is using the C++ token type, not the C one. */
+[[/* The user is using the C++ token kind, not the C one. */
 #undef ]b4_symbol(0, [id])
 ])])[
 

@@ -290,8 +290,8 @@ m4_define([b4_public_types_declare],
 m4_define([b4_symbol_type_define],
 [[    /// A complete symbol.
     ///
-    /// Expects its Base type to provide access to the symbol type
-    /// via type_get ().
+    /// Expects its Base type to provide access to the symbol kind
+    /// via kind ().
     ///
     /// Provide access to semantic value]b4_locations_if([ and location])[.
     template <typename Base>
@@ -313,7 +313,7 @@ m4_define([b4_symbol_type_define],
         , value (]b4_variant_if([], [std::move (that.value)]))b4_locations_if([
         , location (std::move (that.location))])[
       {]b4_variant_if([
-        b4_symbol_variant([this->type_get ()], [value], [move],
+        b4_symbol_variant([this->kind ()], [value], [move],
                           [std::move (that.value)])
       ])[}
 #endif
@@ -342,7 +342,7 @@ m4_define([b4_symbol_type_define],
       void clear ()
       {]b4_variant_if([[
         // User destructor.
-        symbol_kind_type yykind = this->type_get ();
+        symbol_kind_type yykind = this->kind ();
         basic_symbol<Base>& yysym = *this;
         (void) yysym;
         switch (yykind)
@@ -356,6 +356,9 @@ m4_define([b4_symbol_type_define],
 ]b4_symbol_variant([[yykind]], [[value]], [[template destroy]])])[
         Base::clear ();
       }
+
+      /// Backward compatibility.
+      symbol_kind_type type_get () const YY_NOEXCEPT;
 
       /// Whether empty.
       bool empty () const YY_NOEXCEPT;
@@ -390,7 +393,7 @@ m4_define([b4_symbol_type_define],
       /// Copy constructor.
       by_type (const by_type& that);
 
-      /// The symbol type as needed by the constructor.
+      /// The symbol kind as needed by the constructor.
       typedef token_kind_type kind_type;
 
       /// Constructor from (external) token numbers.
@@ -399,14 +402,14 @@ m4_define([b4_symbol_type_define],
       /// Record that this symbol is empty.
       void clear ();
 
-      /// Steal the symbol type from \a that.
+      /// Steal the symbol kind from \a that.
       void move (by_type& that);
 
       /// The (internal) type number (corresponding to \a type).
       /// \a empty when empty.
-      symbol_kind_type type_get () const YY_NOEXCEPT;
+      symbol_kind_type kind () const YY_NOEXCEPT;
 
-      /// The symbol type.
+      /// The symbol kind.
       /// \a ]b4_symbol_prefix[YYEMPTY when empty.
       symbol_kind_type type;
     };
@@ -437,7 +440,7 @@ m4_define([b4_public_types_define],
     , value (]b4_variant_if([], [that.value]))b4_locations_if([
     , location (that.location)])[
   {]b4_variant_if([
-    b4_symbol_variant([this->type_get ()], [value], [copy],
+    b4_symbol_variant([this->kind ()], [value], [copy],
                       [YY_MOVE (that.value)])
   ])[}
 
@@ -462,13 +465,20 @@ m4_define([b4_public_types_define],
     , location (YY_MOVE (l))])[
   {]b4_variant_if([[
     (void) v;
-    ]b4_symbol_variant([this->type_get ()], [value], [YY_MOVE_OR_COPY], [YY_MOVE (v)])])[}]])[
+    ]b4_symbol_variant([this->kind ()], [value], [YY_MOVE_OR_COPY], [YY_MOVE (v)])])[}]])[
+
+  template <typename Base>
+  ]b4_parser_class[::symbol_kind_type
+  ]b4_parser_class[::basic_symbol<Base>::type_get () const YY_NOEXCEPT
+  {
+    return this->kind ();
+  }
 
   template <typename Base>
   bool
   ]b4_parser_class[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
-    return Base::type_get () == symbol_kind::]b4_symbol_prefix[YYEMPTY;
+    return this->kind () == symbol_kind::]b4_symbol_prefix[YYEMPTY;
   }
 
   template <typename Base>
@@ -476,7 +486,7 @@ m4_define([b4_public_types_define],
   ]b4_parser_class[::basic_symbol<Base>::move (basic_symbol& s)
   {
     super_type::move (s);
-    ]b4_variant_if([b4_symbol_variant([this->type_get ()], [value], [move],
+    ]b4_variant_if([b4_symbol_variant([this->kind ()], [value], [move],
                                       [YY_MOVE (s.value)])],
                    [value = YY_MOVE (s.value);])[]b4_locations_if([
     location = YY_MOVE (s.location);])[
@@ -517,7 +527,7 @@ m4_define([b4_public_types_define],
   }
 
   ]b4_inline([$1])[]b4_parser_class[::symbol_kind_type
-  ]b4_parser_class[::by_type::type_get () const YY_NOEXCEPT
+  ]b4_parser_class[::by_type::kind () const YY_NOEXCEPT
   {
     return type;
   }

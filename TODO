@@ -16,7 +16,6 @@
 
 ** Documentation
 - YYERRCODE, YYUNDEF, YYEOF
-- symbol.type_get should be kind_get, and it's not documented.
 - YYERRCODE and translation
 
 ** Java
