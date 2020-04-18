@@ -30,6 +30,10 @@ exit=true
 # top_builddir.
 cwd=$(pwd)
 
+# Whether to strip '> ...' lines from the expected output.
+# See bistromathic.test.
+strip_prompt=false
+
 # The exercised program.
 abs_medir=$cwd/examples/$medir
 if test -x "$abs_medir/$me"; then
@@ -77,14 +81,23 @@ run ()
   # Expected exit status.
   sta_exp=$1
   shift
+
   # Expected output.
-  out_exp=$1
+  if $strip_prompt; then
+      out_exp=$(echo "$1" | sed -e 's/^> err:/err:/;/^> /d')
+  else
+      out_exp=$1
+  fi
   shift
+
   # Effective exit status.
   sta_eff=0
+
   prog "$@" - <input >out_eff 2>err_eff || sta_eff=$?
+
   # Combine effective output and error streams.
   out_eff=$(cat out_eff && $noerr || sed -e 's/^/err: /g' err_eff)
+
   if test $sta_eff -eq $sta_exp; then
     if test "$out_eff" = "$out_exp"; then
       echo "$me: PASS: $number"

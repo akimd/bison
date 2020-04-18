@@ -15,6 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# macOS' version of readline does not repeat stdin on stdout in
+# non-interactive mode.
+if ! echo '1-1' | prog | grep '1-1'; then
+   strip_prompt=true
+fi
+
 cat >input <<EOF
 1+2*3
 EOF
@@ -84,6 +90,17 @@ run 0 '> 1 / 0
 ## ------------ ##
 ## Completion.  ##
 ## ------------ ##
+
+# From now on, the differences between versions of GNU Readline are
+# too painful to try to cope with.
+if $strip_prompt; then
+    echo "SKIP: this is not the GNU Readline we expect"
+    if $exit; then
+        exit 0
+    else
+        exit 1
+    fi
+fi
 
 # Check completion after an operator.
 sed -e 's/\\t/	/g' >input <<EOF
