@@ -763,8 +763,8 @@ AT_JAVA_IF(
   [AT_PARSER_CHECK([calc input],        0, [AT_PARAM_IF([m4_n([$3])])], [stderr])])
 AT_LANG_MATCH([c\|c++\|java],
   [AT_GLR_IF([],
-    [AT_CHECK([grep -v 'Return for a new token:' stderr | wc -l],
-              [0],
+    [AT_CHECK([grep -c -v 'Return for a new token:' stderr],
+              [ignore],
               [m4_n([AT_DEBUG_IF([$4], [0])])])])])
 ])
 

@@ -1601,7 +1601,7 @@ $9
 # (C90 and C++98) guarantee: 32767.  In that case, GCC's -pedantic
 # will issue an error.
 #
-# There is no "" around `wc` since some indent the result.
+# There is no "" around `wc` since some wc indent the result.
 m4_bmatch([$4], [%define lr.type canonical-lr],
 [if test 32767 -lt `wc -l < input.c`; then
   CFLAGS=`echo " $CFLAGS " | sed -e 's/ -pedantic / /'`
