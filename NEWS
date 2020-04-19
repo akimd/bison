@@ -123,7 +123,7 @@ GNU Bison NEWS
   of input), YYUNDEF (undefined token), and YYERRCODE (error token).  They
   now have string aliases, internationalized when internationalization is
   enabled.  Therefore, by default, error messages now refer to "end of file"
-  (internationalized) rather than the cryptic "$end", or to "invaid token"
+  (internationalized) rather than the cryptic "$end", or to "invalid token"
   rather than "$undefined".
 
   Therefore in most cases it is now useless to define the end-of-line token
@@ -4116,7 +4116,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata yytname
  LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
  LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
- LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc
+ LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
  LocalWords:  yytoken YYUNDEF YYERRCODE
 
 Local Variables:
