@@ -8,6 +8,7 @@ src/graphviz.c
 src/location.c
 src/main.c
 src/muscle-tab.c
+src/parse-gram.c
 src/parse-gram.y
 src/print-graph.c
 src/print.c
