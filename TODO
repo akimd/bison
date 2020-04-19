@@ -52,6 +52,8 @@ Rename user_token_number for tokens as "code".  It's not a "user number",
 it's the token code, and the user can control it, but this code always
 exists.
 
+See also USER_NUMBER_UNDEFINED and NUMBER_UNDEFINED.
+
 Rename endtoken as eoftoken.
 
 Also do it in data/skeletons.
