@@ -26,8 +26,11 @@ nodist_%C%_bistromathic_SOURCES = %D%/parse.y %D%/parse.h
 %D%/parse.c: $(dependencies)
 
 # Don't use gnulib's system headers.
-%C%_bistromathic_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
-%C%_bistromathic_LDADD = -lm -lreadline
+%C%_bistromathic_CPPFLAGS =			\
+  -DBISON_LOCALEDIR='"$(localdir)"'		\
+  -DLOCALEDIR='"$(localdir)"'			\
+  -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+%C%_bistromathic_LDADD = -lm -lreadline $(LIBINTL)
 
 dist_bistromathic_DATA = %D%/parse.y %D%/Makefile %D%/README.md
 CLEANFILES += %D%/parse.[ch] %D%/parse.output

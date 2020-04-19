@@ -1,3 +1,4 @@
+examples/c/bistromathic/parse.y
 src/complain.c
 src/conflicts.c
 src/files.c

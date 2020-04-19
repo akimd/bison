@@ -3,20 +3,26 @@
 
 BASE = bistromathic
 BISON = bison
-FLEX = flex
 XSLTPROC = xsltproc
+
+# We need to find the headers and libs for readline and intl.
+# You probably need to customize this for your own environment.
+CPPFLAGS = -I/opt/local/include
+LDFLAGS = -L/opt/local/lib
+
+# Find the translation catalogue for Bison's generated messagess.
+BISON_LOCALEDIR = $(shell $(BISON) $(BISON_FLAGS) --print-localedir)
+CPPFLAGS += -DENABLE_NLS -DBISON_LOCALEDIR='"$(BISON_LOCALEDIR)"'
+
+LIBS = -lreadline -lintl
 
 all: $(BASE)
 
 %.c %.h %.xml %.gv: %.y
 	$(BISON) $(BISONFLAGS) --defines --xml --graph=$*.gv -o $*.c $<
 
-%.c: %.l
-	$(FLEX) $(FLEXFLAGS) -o$*.c $<
-
-scan.o: parse.h
-$(BASE): parse.o scan.o
-	$(CC) $(CFLAGS) -o $@ $^
+$(BASE): parse.o
+	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LIBS)
 
 run: $(BASE)
 	@echo "Type bistromathic expressions.  Quit with ctrl-d."
@@ -28,8 +34,7 @@ html: $(BASE).html
 
 CLEANFILES =						\
   $(BASE) *.o						\
-  parse.[ch] parse.output parse.xml parse.html parse.gv	\
-  scan.c
+  parse.[ch] parse.output parse.xml parse.html parse.gv
 
 clean:
 	rm -f $(CLEANFILES)

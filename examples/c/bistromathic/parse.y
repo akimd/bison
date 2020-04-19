@@ -3,13 +3,23 @@
 %code top {
   #include <ctype.h>  // isdigit
   #include <math.h>   // cos, sin, etc.
-  #include <stddef.h> // ptrdiff_t
   #include <stdio.h>  // printf
-  #include <stdlib.h> // calloc.
+  #include <stdlib.h> // calloc
   #include <string.h> // strcmp
 
   #include <readline/readline.h>
   #include <readline/history.h>
+
+  #if defined ENABLE_NLS && ENABLE_NLS
+  // Unable the translation of Bison's generated messages.
+  # define YYENABLE_NLS 1
+  # include <libintl.h>
+  // Unless specified otherwise, we expect bistromathic's own
+  // catalogue to be installed in the same tree as Bison's catalogue.
+  # ifndef LOCALEDIR
+  #  define LOCALEDIR BISON_LOCALEDIR
+  # endif
+  #endif
 }
 
 %code requires {
@@ -40,8 +50,12 @@
 }
 
 %code {
-#define N_
-#define _
+  #if defined ENABLE_NLS && ENABLE_NLS
+  # define _(Msgid)  gettext (Msgid)
+  #else
+  # define _(Msgid)  (Msgid)
+  #endif
+  #define N_(Msgid) (Msgid)
 
   // Whether to quit.
   int done = 0;
@@ -286,34 +300,68 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 | Parser.  |
 `---------*/
 
+
+const char *
+error_format_string (int argc)
+{
+  switch (argc)
+    {
+    default: /* Avoid compiler warnings. */
+    case 0: return _("%@: syntax error");
+    case 1: return _("%@: syntax error: unexpected %u");
+    case 2: return _("%@: syntax error: expected %0e before %u");
+    case 3: return _("%@: syntax error: expected %0e or %1e before %u");
+    case 4: return _("%@: syntax error: expected %0e or %1e or %2e before %u");
+    case 5: return _("%@: syntax error: expected %0e or %1e or %2e or %3e before %u");
+    case 6: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e before %u");
+    case 7: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e before %u");
+    case 8: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e or %6e before %u");
+    }
+}
+
+
 int
 yyreport_syntax_error (const yypcontext_t *ctx)
 {
-  int res = 0;
-  YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
-  fprintf (stderr, ": syntax error");
-  // Report the tokens expected at this point.
-  {
-    enum { TOKENMAX = 10 };
-    yysymbol_kind_t expected[TOKENMAX];
-    int n = yypcontext_expected_tokens (ctx, expected, TOKENMAX);
-    if (n < 0)
-      // Forward errors to yyparse.
-      res = n;
+  enum { ARGS_MAX = 7 };
+  yysymbol_kind_t arg[ARGS_MAX];
+  int argsize = yypcontext_expected_tokens (ctx, arg, ARGS_MAX);
+  if (argsize < 0)
+    return argsize;
+  const char *format = error_format_string (1 + argsize);
+
+  while (*format)
+    // %@: location.
+    if (format[0] == '%' && format[1] == '@')
+      {
+        YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
+        format += 2;
+      }
+    // %t: unexpected token.
+    else if (format[0] == '%' && format[1] == 'u')
+      {
+        fputs (yysymbol_name (yypcontext_token (ctx)), stderr);
+        format += 2;
+      }
+    // %0e, %1e...: expected token.
+    else if (format[0] == '%'
+             && isdigit (format[1])
+             && format[2] == 'e'
+             && (format[1] - '0') < argsize)
+      {
+        int i = format[1] - '0';
+        fputs (yysymbol_name (arg[i]), stderr);
+        format += 3;
+      }
     else
-      for (int i = 0; i < n; ++i)
-        fprintf (stderr, "%s %s",
-                 i == 0 ? ": expected" : " or", yysymbol_name (expected[i]));
-  }
-  // Report the unexpected token.
-  {
-    yysymbol_kind_t lookahead = yypcontext_token (ctx);
-    if (lookahead != YYSYMBOL_YYEMPTY)
-      fprintf (stderr, " before %s", yysymbol_name (lookahead));
-  }
-  fprintf (stderr, "\n");
-  return res;
+      {
+        fputc (*format, stderr);
+        ++format;
+      }
+  fputc ('\n', stderr);
+  return 0;
 }
+
 
 // Called by yyparse on error.
 void yyerror (YYLTYPE *loc, char const *msg)
@@ -467,6 +515,18 @@ void init_readline (void)
 
 int main (int argc, char const* argv[])
 {
+#if defined ENABLE_NLS && ENABLE_NLS
+  // Set up internationalization.
+  setlocale (LC_ALL, "");
+  // Use Bison's standard translation catalogue for error messages
+  // (the generated messages).
+  bindtextdomain ("bison-runtime", BISON_LOCALEDIR);
+  // The translation catalogue of bistromathic is actually included in
+  // Bison's.  In your own project, use the name of your project.
+  bindtextdomain ("bison", LOCALEDIR);
+  textdomain ("bison");
+#endif
+
   // Enable parse traces on option -p.
   if (argc == 2 && strcmp (argv[1], "-p") == 0)
     yydebug = 1;

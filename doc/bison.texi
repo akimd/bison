@@ -7514,7 +7514,9 @@ values, which is always less than @code{YYNTOKENS}.
 The name of the symbol whose kind is @var{symbol}, possibly translated.
 @end deftypefun
 
-A custom syntax error function looks as follows.
+A custom syntax error function looks as follows.  This implementation is
+inappropriate for internationalization, see the @file{c/bistromathic}
+example for a better altnative.
 
 @example
 int
@@ -10601,7 +10603,7 @@ Print the version number of Bison and exit.
 Print the name of the directory containing locale-dependent data.
 
 @item --print-datadir
-Print the name of the directory containing skeletons and XSLT.
+Print the name of the directory containing skeletons, CSS and XSLT.
 
 @item -u
 @item --update
@@ -12074,7 +12076,9 @@ values, which is always less than @code{YYNTOKENS}.
 The name of the symbol whose kind is @var{symbol}, possibly translated.
 @end deftypemethod
 
-A custom syntax error function looks as follows.
+A custom syntax error function looks as follows.  This implementation is
+inappropriate for internationalization, see the @file{c/bistromathic}
+example for a better altnative.
 
 @example
 void
@@ -13327,6 +13331,10 @@ public void reportSyntaxError(YYParser.Context ctx) @{
   System.err.println("");
 @}
 @end example
+
+@noindent
+This implementation is inappropriate for internationalization, see the
+@file{c/bistromathic} example for a better altnative.
 @end deftypemethod
 
 @node Java Action Features
