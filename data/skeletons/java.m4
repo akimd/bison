@@ -344,7 +344,7 @@ m4_define([b4_symbol_translate],
 # ----------------
 # Translate a string if i18n is enabled.  Avoid collision with b4_translate.
 m4_define([b4_trans],
-[m4_if(b4_has_translations, 0, [$1], [i18n($1)])])
+[b4_has_translations_if([i18n($1)], [$1])])
 
 
 

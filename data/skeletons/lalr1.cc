@@ -523,6 +523,11 @@ m4_if(b4_prefix, [yy], [],
 #  define YY_(msgid) msgid
 # endif
 #endif
+]b4_has_translations_if([
+#ifndef N_
+# define N_(Msgid) Msgid
+#endif
+])[
 
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
