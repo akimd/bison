@@ -96,7 +96,7 @@
     EQUAL  "="
     EXIT   "exit"
   <double>
-    NUM _("double precision number")
+    NUM _("number")
   <symrec*>
     FUN _("function")
     VAR _("variable")

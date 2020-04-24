@@ -7804,7 +7804,7 @@ or @code{detailed}, token aliases can be internationalized:
 %token
     '\n'   _("end of line")
   <double>
-    NUM    _("double precision number")
+    NUM    _("number")
   <symrec*>
     FUN    _("function")
     VAR    _("variable")

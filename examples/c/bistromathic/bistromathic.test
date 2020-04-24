@@ -65,13 +65,13 @@ cat >input <<EOF
 *
 EOF
 run 0 '> *
-> err: 1.1: syntax error: expected end of file or - or ( or exit or double precision number or function or variable before *'
+> err: 1.1: syntax error: expected end of file or - or ( or exit or number or function or variable before *'
 
 cat >input <<EOF
 1 + 2 * * 3
 EOF
 run 0 '> 1 + 2 * * 3
-> err: 1.9: syntax error: expected - or ( or double precision number or function or variable before *'
+> err: 1.9: syntax error: expected - or ( or number or function or variable before *'
 
 cat >input <<EOF
 100%
@@ -107,18 +107,16 @@ sed -e 's/\\t/	/g' >input <<EOF
 (1+\t\t
 EOF
 run 0 '> (1+
-(                        cos                      ln
--                        double precision number  sin
-atan                     exp                      sqrt
+(       -       atan    cos     exp     ln      number  sin     sqrt
 > (1+
-> err: 1.4: syntax error: expected - or ( or double precision number or function or variable before end of file'
+> err: 1.4: syntax error: expected - or ( or number or function or variable before end of file'
 
 # Check the completion of a word.
 sed -e 's/\\t/	/g' >input <<EOF
 (at\t\t
 EOF
 run 0 '> (atan ( ''
-> err: 1.9: syntax error: expected - or ( or double precision number or function or variable before end of file'
+> err: 1.9: syntax error: expected - or ( or number or function or variable before end of file'
 
 # Check the completion at the very beginning.
 sed -e 's/\\t/	/g' >input <<EOF
