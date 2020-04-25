@@ -543,7 +543,11 @@ int main (int argc, char const* argv[])
     {
       char *line = readline ("> ");
       if (!line)
-        return 0;
+        {
+          // Finish the line started by the prompt.
+          putchar ('\n');
+          break;
+        }
       if (*line)
         add_history (line);
       process_line (&lloc, line);
