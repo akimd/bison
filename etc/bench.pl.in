@@ -252,7 +252,6 @@ sub generate_grammar_triangular ($$@)
   my $out = new IO::File ">$base.y"
     or die;
   print $out <<EOF;
-%define parse.error detailed
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -388,7 +387,6 @@ sub generate_grammar_calc ($$@)
 %}
 
 %define api.value.type union
-%define parse.error detailed
 $directives
 
 %{
@@ -812,7 +810,8 @@ sub compile ($)
   my ($base) = @_;
   my $compiler = compiler ($base);
 
-  my $my_bison = `sed -ne '/%bison "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
+  my $my_bison = `sed -ne '/[/][/] %bison "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
+  chop $my_bison;
   run ((length $my_bison ? $my_bison : $bison) . " $base.y -o $base.c");
   if ($gbench)
     {
@@ -902,8 +901,13 @@ directive list.
 sub bench_with_gbenchmark ($@)
 {
   my ($grammar, @directive) = @_;
+  my $compiler = compiler ("y0");
 
   my $readme = new IO::File ">README.md";
+  print $readme <<EOF;
+compiler: $compiler $cflags
+EOF
+
   my @obj = ();
   for my $i (0 .. $#directive)
     {
@@ -923,7 +927,6 @@ sub bench_with_gbenchmark ($@)
 BENCHMARK_MAIN();
 EOF
 
-  my $compiler = compiler ("y0");
   run "$compiler -o main $cflags main.c @obj -lbenchmark";
   run "./main | tee -a README.md";
 }
@@ -1121,7 +1124,7 @@ sub parse_dir ()
   elsif ($token[0] eq '%b')
     {
       shift @token;
-      @res = ("/*\n%bison \"$token[0]\"\\\n*/");
+      @res = ("// %bison \"$token[0]\"");
     }
   else
     {
