@@ -1163,19 +1163,26 @@ sub getopt ()
 
 getopt;
 
+my $basedir = 'benches';
+
 # Create the directory we work in.
-mkdir "benches" or die "cannot create benches"
-  unless -d "benches";
-my $count = 1;
-++$count
-  while -d "benches/$count";
-my $dir = "benches/$count";
+mkdir $basedir or die "cannot create directory $basedir"
+  unless -d $basedir;
+
+my $count = 0;
+my $dir;
+while (!$dir || -d $dir)
+{
+  ++$count;
+  $dir = sprintf "%s/%03d", $basedir, $count;
+}
 mkdir $dir
-  or die "cannot create $dir";
-unlink "benches/latest"
-  or die "cannot unlink benches/latest"
-  if -l "benches/latest";
-symlink $count, "benches/latest"
+  or die "cannot create directory $dir";
+
+unlink "$basedir/latest"
+  or die "cannot unlink $basedir/latest"
+  if -l "$basedir/latest";
+symlink sprintf("%03d", $count), "$basedir/latest"
   or die "cannot create symlink";
 chdir $dir
   or die "cannot chdir $dir";
