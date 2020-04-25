@@ -57,6 +57,31 @@ Actually, Bison has legacy code that we should replace with gnulib modules
 ### Skeletons
 We try to use the "typical" coding style for each language.
 
+#### CPP
+We indent the CPP directives this way:
+
+```
+#if FOO
+# if BAR
+#  define BAZ
+# endif
+#endif
+```
+
+Don't indent with leading spaces in the skeletons (it's ok in the grammar
+files though, e.g., in `%code {...}` blocks).
+
+On occasions, use `cppi -c` to see where we stand.  We don't aim at full
+correctness: depending `-d`, some bits can be in the *.c file, or the *.h
+file within the double-inclusion cpp-guards.  In that case, favor the case
+of the *.h file, but don't waste time on this.
+
+Don't hesitate to leave a comment on the `#endif` (e.g., `#endif /* FOO
+*/`), especially for long blocks.
+
+There is no conistency on `! defined` vs. `!defined`.  The day gnulib
+decides, we'll follow them.
+
 #### C/C++
 Follow the GNU Coding Standards.
 

@@ -965,8 +965,8 @@ m4_define([b4_yy_location_print_define],
    This macro was not mandated originally: define only if we know
    we won't break user code: when these are the locations we know.  */
 
-#ifndef YY_LOCATION_PRINT
-# if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
+# ifndef YY_LOCATION_PRINT
+#  if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
@@ -996,17 +996,17 @@ yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
   return res;
  }
 
-#  define YY_LOCATION_PRINT(File, Loc)          \
+#   define YY_LOCATION_PRINT(File, Loc)          \
   yy_location_print_ (File, &(Loc))
 
-# else
-#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-# endif
-#endif]],
+#  else
+#   define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+#  endif
+# endif /* !defined YY_LOCATION_PRINT */]],
 [[/* This macro is provided for backward compatibility. */
-#ifndef YY_LOCATION_PRINT
-# define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-#endif]])
+# ifndef YY_LOCATION_PRINT
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif]])
 ])
 
 # b4_yyloc_default

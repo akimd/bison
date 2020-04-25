@@ -17,6 +17,12 @@ GNU Bison NEWS
   (2013-07-25), "%error-verbose" is deprecated in favor of "%define
   parse.error verbose".
 
+** Deprecated features
+
+  The YYPRINT macro, which works only with yacc.c and only for tokens, was
+  obsoleted long ago by %printer, introduced in Bison 1.50 (November 2002).
+  It is deprecated and its support will be removed eventually.
+
 ** New features
 
 *** Improved syntax error messages
