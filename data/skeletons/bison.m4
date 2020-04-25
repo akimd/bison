@@ -72,8 +72,9 @@ version 2.2 of Bison.])
 # -------------
 # Issue a warning about private implementation details.
 m4_define([b4_disclaimer],
-[b4_comment([Undocumented macros, especially those whose name start with YY_,
-are private implementation details.  Do not rely on them.])
+[b4_comment([DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+especially those whose name start with YY_ or yy_.  They are
+private implementation details that can be changed or removed.])
 ])
 
 

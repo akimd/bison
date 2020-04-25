@@ -31,8 +31,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
 
 #ifndef YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
 # define YY_GRAM_SRC_PARSE_GRAM_H_INCLUDED
