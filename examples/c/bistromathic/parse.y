@@ -146,6 +146,7 @@ exp:
 | "-" exp  %prec NEG { $$ = -$2; }
 | exp[l] "^" exp[r]  { $$ = pow ($l, $r); }
 | "(" exp ")"        { $$ = $2; }
+| "(" error ")"      { $$ = 666; }
 ;
 
 // End of grammar.

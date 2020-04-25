@@ -2,6 +2,7 @@
 This example demonstrates best practices when using Bison.
 - Its hand-written scanner tracks locations.
 - Its interface is pure.
+- It uses the `error` token to get error recovery.
 - Its interface is "incremental", well suited for interaction: it uses the
   push-parser API to feed the parser with the incoming tokens.
 - It features an interactive command line with completion based on the

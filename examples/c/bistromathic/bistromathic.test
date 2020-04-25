@@ -82,11 +82,26 @@ run 0 '> 1 / 0
 > ''
 err: 1.1-5: error: division by zero'
 
+# Error recovery.
 cat >input <<EOF
-100%
+((1 ++ 2) ** 3)
+(1 ++ 2) + (3 ** 4)
 EOF
-run 0 '> 100%
-100
+run 0 '> ((1 ++ 2) ** 3)
+666
+> (1 ++ 2) + (3 ** 4)
+1332
+> ''
+err: 1.6: syntax error: expected - or ( or number or function or variable before +
+err: 2.5: syntax error: expected - or ( or number or function or variable before +
+err: 2.16: syntax error: expected - or ( or number or function or variable before *'
+
+# This is really stupid: we just discarded % and did not enter error recovery.
+cat >input <<EOF
+100% + 10
+EOF
+run 0 '> 100% + 10
+110
 > ''
 err: 1.4: error: invalid character'
 
