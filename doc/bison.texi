@@ -7516,7 +7516,7 @@ The name of the symbol whose kind is @var{symbol}, possibly translated.
 
 A custom syntax error function looks as follows.  This implementation is
 inappropriate for internationalization, see the @file{c/bistromathic}
-example for a better altnative.
+example for a better alternative.
 
 @example
 int
@@ -8255,7 +8255,7 @@ the lookahead token has no precedence, then the default is to shift.
 @subsection Using Precedence For Non Operators
 
 Using properly precedence and associativity directives can help fixing
-shift/reduce conflicts that do not involve arithmetics-like operators.  For
+shift/reduce conflicts that do not involve arithmetic-like operators.  For
 instance, the ``dangling @code{else}'' problem (@pxref{Shift/Reduce}) can be
 solved elegantly in two different ways.
 
@@ -12078,7 +12078,7 @@ The name of the symbol whose kind is @var{symbol}, possibly translated.
 
 A custom syntax error function looks as follows.  This implementation is
 inappropriate for internationalization, see the @file{c/bistromathic}
-example for a better altnative.
+example for a better alternative.
 
 @example
 void
@@ -12334,7 +12334,7 @@ interactions.  A hand-written scanner is actually easier to interface with.
 @node Calc++ --- C++ Calculator
 @subsubsection Calc++ --- C++ Calculator
 
-Of course the grammar is dedicated to arithmetics, a single expression,
+Of course the grammar is dedicated to arithmetic, a single expression,
 possibly preceded by variable assignments.  An environment containing
 possibly predefined variables such as @code{one} and @code{two}, is
 exchanged with the parser.  An example of valid input follows.
@@ -13334,7 +13334,7 @@ public void reportSyntaxError(YYParser.Context ctx) @{
 
 @noindent
 This implementation is inappropriate for internationalization, see the
-@file{c/bistromathic} example for a better altnative.
+@file{c/bistromathic} example for a better alternative.
 @end deftypemethod
 
 @node Java Action Features
@@ -15124,7 +15124,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
 @c LocalWords: multitable headitem hh basename Doxygen fno filename gdef de
 @c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
-@c LocalWords: Ctor defcv defcvx arg accessors arithmetics CPP ifndef CALCXX
+@c LocalWords: Ctor defcv defcvx arg accessors CPP ifndef CALCXX YYERRCODE
 @c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
 @c LocalWords: cstdlib Debian undef yywrap unput noyywrap nounput zA yyleng
 @c LocalWords: errno strtol ERANGE str strerror iostream argc argv Javadoc PSLR
@@ -15158,7 +15158,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: Wdangling yytoken erreur syntaxe inattendu attendait nombre
 @c LocalWords: YYUNDEF SymbolKind yypcontext YYENOMEM TOKENMAX getBundle
 @c LocalWords: ResourceBundle myResources getString getName getToken
-@c LocalWords: getLocation getExpectedTokens reportSyntaxError
+@c LocalWords: getLocation getExpectedTokens reportSyntaxError bistromathic
 
 @c Local Variables:
 @c ispell-dictionary: "american"

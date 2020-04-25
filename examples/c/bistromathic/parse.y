@@ -55,7 +55,6 @@
   #else
   # define _(Msgid)  (Msgid)
   #endif
-  #define N_(Msgid) (Msgid)
 
   // Whether to quit.
   int done = 0;
