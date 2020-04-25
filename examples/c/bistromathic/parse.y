@@ -308,6 +308,13 @@ error_format_string (int argc)
     default: /* Avoid compiler warnings. */
     case 0: return _("%@: syntax error");
     case 1: return _("%@: syntax error: unexpected %u");
+      // TRANSLATORS: '%@' is a location in a file, '%u' is an
+      // "unexpected token", and '%0e', '%1e'... are expected tokens
+      // at this point.
+      //
+      // For instance on the expression "1 + * 2", you'd get
+      //
+      // 1.5: syntax error: expected - or ( or number or function or variable before *
     case 2: return _("%@: syntax error: expected %0e before %u");
     case 3: return _("%@: syntax error: expected %0e or %1e before %u");
     case 4: return _("%@: syntax error: expected %0e or %1e or %2e before %u");
@@ -336,7 +343,7 @@ yyreport_syntax_error (const yypcontext_t *ctx)
         YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
         format += 2;
       }
-    // %t: unexpected token.
+    // %u: unexpected token.
     else if (format[0] == '%' && format[1] == 'u')
       {
         fputs (yysymbol_name (yypcontext_token (ctx)), stderr);
