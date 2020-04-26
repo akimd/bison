@@ -1135,9 +1135,9 @@ b4_dollar_popdef])[]dnl
         yyn = yypact_[+yystack_[0].state];
         if (!yy_pact_value_is_default_ (yyn))
           {
-            yyn += symbol_kind::]b4_symbol_prefix[YYERROR;
+            yyn += symbol_kind::]b4_symbol(1, kind)[;
             if (0 <= yyn && yyn <= yylast_
-                && yycheck_[yyn] == symbol_kind::]b4_symbol_prefix[YYERROR)
+                && yycheck_[yyn] == symbol_kind::]b4_symbol(1, kind)[)
               {
                 yyn = yytable_[yyn];
                 if (0 < yyn)
@@ -1251,7 +1251,7 @@ b4_dollar_popdef])[]dnl
     for (int yyx = 0; yyx < YYNTOKENS; ++yyx)
       {
         symbol_kind_type yysym = YY_CAST (symbol_kind_type, yyx);
-        if (yysym != symbol_kind::]b4_symbol_prefix[YYERROR
+        if (yysym != symbol_kind::]b4_symbol(1, kind)[
             && yysym != symbol_kind::]b4_symbol_prefix[YYUNDEF
             && yyparser_.yy_lac_check_ (yysym))
           {
@@ -1274,7 +1274,7 @@ b4_dollar_popdef])[]dnl
         int yychecklim = yylast_ - yyn + 1;
         int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-          if (yycheck_[yyx + yyn] == yyx && yyx != symbol_kind::]b4_symbol_prefix[YYERROR
+          if (yycheck_[yyx + yyn] == yyx && yyx != symbol_kind::]b4_symbol(1, kind)[
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
             {
               if (!yyarg)

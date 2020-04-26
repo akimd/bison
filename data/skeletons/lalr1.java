@@ -733,9 +733,9 @@ b4_dollar_popdef[]dnl
             yyn = yypact_[yystate];
             if (!yyPactValueIsDefault (yyn))
               {
-                yyn += SymbolKind.]b4_symbol_prefix[YYERROR.getCode ();
+                yyn += SymbolKind.]b4_symbol(1, kind)[.getCode ();
                 if (0 <= yyn && yyn <= YYLAST_
-                    && yycheck_[yyn] == SymbolKind.]b4_symbol_prefix[YYERROR.getCode ())
+                    && yycheck_[yyn] == SymbolKind.]b4_symbol(1, kind)[.getCode ())
                   {
                     yyn = yytable_[yyn];
                     if (0 < yyn)
@@ -926,7 +926,7 @@ b4_dollar_popdef[]dnl
           int yychecklim = YYLAST_ - yyn + 1;
           int yyxend = yychecklim < NTOKENS ? yychecklim : NTOKENS;
           for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck_[yyx + yyn] == yyx && yyx != SymbolKind.]b4_symbol_prefix[YYERROR.getCode ()
+            if (yycheck_[yyx + yyn] == yyx && yyx != SymbolKind.]b4_symbol(1, kind)[.getCode ()
                 && !yyTableValueIsError (yytable_[yyx + yyn]))
               {
                 if (yyarg == null)

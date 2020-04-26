@@ -7471,7 +7471,7 @@ enum yysymbol_kind_t
 @{
   YYSYMBOL_YYEMPTY = -2,      /* No symbol.  */
   YYSYMBOL_YYEOF = 0,         /* "end of file"  */
-  YYSYMBOL_YYERROR = 1,       /* error  */
+  YYSYMBOL_YYERRCODE = 1,     /* error  */
   YYSYMBOL_YYUNDEF = 2,       /* "invalid token"  */
   YYSYMBOL_PLUS = 3,          /* "+"  */
   YYSYMBOL_MINUS = 4,         /* "-"  */
@@ -7497,7 +7497,7 @@ The location of the syntax error (that of the unexpected token).
 
 @deftypefun int yypcontext_expected_tokens (@code{const yypcontext_t *}ctx, @code{yysymbol_kind_t} @var{argv}@code{[]}, @code{int} @var{argc})
 Fill @var{argv} with the expected tokens, which never includes
-@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYERROR}, or
+@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYERRCODE}, or
 @code{YYSYMBOL_YYUNDEF}.
 
 Never put more than @var{argc} elements into @var{argv}, and on success

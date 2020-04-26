@@ -323,7 +323,7 @@ AT_PERL_CHECK([[-n -0777 -e '
       |YYChar
       |YYNTOKENS  # This is actual scoped in a C++ class.
       |YYPUSH_MORE(?:_DEFINED)?
-      |S_(YY(ACCEPT|EMPTY|EOF|ERROR|UNDEF))  # These guys are scoped.
+      |S_(YY(ACCEPT|EMPTY|EOF|ERRCODE|UNDEF))  # These guys are scoped.
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)
       |YY(?:_REINTERPRET)?_CAST
