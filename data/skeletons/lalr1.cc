@@ -795,23 +795,21 @@ m4_if(b4_prefix, [yy], [],
 #if ]b4_api_PREFIX[DEBUG
   template <typename Base>
   void
-  ]b4_parser_class[::yy_print_ (std::ostream& yyo,
-                                     const basic_symbol<Base>& yysym) const
+  ]b4_parser_class[::yy_print_ (std::ostream& yyo, const basic_symbol<Base>& yysym) const
   {
     std::ostream& yyoutput = yyo;
     YYUSE (yyoutput);
-    symbol_kind_type yykind = yysym.kind ();
-#if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ * 100 + __GNUC_MINOR__ <= 408
-    // Avoid a (spurious) G++ 4.8 warning about "array subscript is
-    // below array bounds".
     if (yysym.empty ())
-      std::abort ();
-#endif
-    yyo << (yykind < YYNTOKENS ? "token" : "nterm")
-        << ' ' << symbol_name (yykind) << " ("]b4_locations_if([
-        << yysym.location << ": "])[;
-    ]b4_symbol_actions([printer])[
-    yyo << ')';
+      yyo << "empty symbol";
+    else
+      {
+        symbol_kind_type yykind = yysym.kind ();
+        yyo << (yykind < YYNTOKENS ? "token" : "nterm")
+            << ' ' << symbol_name (yykind) << " ("]b4_locations_if([
+            << yysym.location << ": "])[;
+        ]b4_symbol_actions([printer])[
+        yyo << ')';
+      }
   }
 #endif
 
