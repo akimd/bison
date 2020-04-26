@@ -352,7 +352,7 @@ m4_define([b4_symbol_type_define],
           break;
         }
 
-        // Type destructor.
+        // Value type destructor.
 ]b4_symbol_variant([[yykind]], [[value]], [[template destroy]])])[
         Base::clear ();
       }
