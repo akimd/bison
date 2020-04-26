@@ -37,6 +37,14 @@ Only user visible strings are to be translated: error messages, bits of the
 assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
+## Syntax highlighting
+It's quite nice to be in C++ mode when editing lalr1.cc for instance.
+However tools such as Emacs will be fooled by the fact that braces and
+parens do not nest, as in `[[}]]`.  As a consequence you might be misguided
+by its visual pairing to parens.  The m4-mode is safer.  Unfortunately the
+m4-mode is also fooled by `#` which is sees as a comment, stops pairing with
+parens/brackets that are inside...
+
 ## Coding Style
 Do not add horizontal tab characters to any file in Bison's repository
 except where required.  For example, do not use tabs to format C code.
@@ -394,6 +402,12 @@ tests.  Re-run the test suite.  It might be interesting to run `update-test`
 again, since some early failures may stop latter tests from being run.  Yet
 at some point, you'll have to fix remaining issues by hand...
 
+
+## Running Java parsers
+Use the `javaexec.sh` script.  For instance to run the parser of test case
+504:
+
+    $ sh ./_build/javaexec.sh -cp ./_build/tests/testsuite.dir/504 Calc
 
 ## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
