@@ -331,9 +331,9 @@ m4_define([b4_shared_declarations],
 ]b4_integral_parser_table_declare([rline], [b4_rline],
      [[YYRLINE[YYN] -- Source line where rule number YYN was defined.]])[
     /// Report on the debug stream that the rule \a r is going to be reduced.
-    virtual void yy_reduce_print_ (int r);
+    virtual void yy_reduce_print_ (int r) const;
     /// Print the state stack on the debug stream.
-    virtual void yystack_print_ ();
+    virtual void yy_stack_print_ () const;
 
     /// Debugging level.
     int yydebug_;
@@ -567,7 +567,7 @@ m4_if(b4_prefix, [yy], [],
 # define YY_STACK_PRINT()               \
   do {                                  \
     if (yydebug_)                       \
-      yystack_print_ ();                \
+      yy_stack_print_ ();                \
   } while (false)
 
 #else // !]b4_api_PREFIX[DEBUG
@@ -1538,7 +1538,7 @@ b4_dollar_popdef])[]dnl
 ]b4_integral_parser_table_define([rline], [b4_rline])[
 
   void
-  ]b4_parser_class[::yystack_print_ ()
+  ]b4_parser_class[::yy_stack_print_ () const
   {
     *yycdebug_ << "Stack now";
     for (stack_type::const_iterator
@@ -1550,7 +1550,7 @@ b4_dollar_popdef])[]dnl
   }
 
   void
-  ]b4_parser_class[::yy_reduce_print_ (int yyrule)
+  ]b4_parser_class[::yy_reduce_print_ (int yyrule) const
   {
     int yylno = yyrline_[yyrule];
     int yynrhs = yyr2_[yyrule];
