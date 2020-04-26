@@ -1,11 +1,19 @@
 * Bison 3.6
 ** Questions
+*** C++
+We still have occurrences of `type` that should read `kind`, in
+basic_symbol.
+
 *** Java
 - Should i18n be part of the Lexer?  Currently it's a static method of
   Lexer.
 
 - is there a migration path that would allow to use TokenKinds in
   yylex?
+
+- define the tokens as an enum too.
+
+- promote YYEOF rather than EOF.
 
 *** D
 - is there a way to attach yysymbol_name to the enum itself?  As we did
@@ -22,113 +30,28 @@
 Beware that returning 0 is unclear: does it mean there are no possible
 lookahead, or that there are too many?
 
+** bistromathic
+Beware of portability of __attribute__.
+
 ** YYERRCODE
-How about using "return YYERRCODE" to tell the parser to enter
-error-recovery, but not emit an error message?  I have frequently felt the
-need for the scanner to be able to do that.  In C++ we can, thanks to throw
-syntax_error.
+Give it another name, it's ugly and conflicts with the way some people have
+used it so far.
 
-Some people seem to be aware that return YYERRCODE is possible...
-https://github.com/search?q=%22return+YYERRCODE%22&type=Code
+Possible names:
 
-*** unixODBC
-There are tons of copies on GitHub, I don't know where the original is.
+- YYERROR_TOKEN, but it's too different from the other tokens, included the
+  special ones (YYEOF, YYUNDEF).
 
-https://github.com/faiz-akhtar/Calico/blob/01b49089a3eb535380877bbdc6c641b8b4e7ca6f/Drivers/nn/yylex.c
+- YYerror.  It looks weird, but at least it is correct: that's the name
+  under which the error token appears in the grammar: "error".  Without the
+  'YY' prefix though, granted.
 
-But they define YYERRCODE themselves!  They are stepping on "our" namespace.
+yacc.c should `#define YYERRCODE` to that new name in the *.c for sake of the
+projects that used it.  In particular
 
-```
-# define	YYERRCODE	256
-```
+https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=blob;f=gettext-runtime/intl/plural.y;h=a712255af4f2f739c93336d4ff6556d932a426a5;hb=HEAD
 
-Besides, what they do is super-weird: they use YYERRCODE is several places
-for their own error tracking.
-
-```
-int	nnsql_yylex(YYSTYPE* pyylval, yyenv_t* penv)
-{
-[...]
-                len = getname(penv->texts_bufptr, -1, penv);
-
-                if( len == YYERRCODE )
-                        return len;
-```
-
-*** avrdude-6.3
-
-Latest version: http://svn.savannah.gnu.org/viewvc/avrdude/trunk/avrdude/lexer.l?view=markup
-
-We can certainly talk to them about their use of YYERRCODE.
-
-Replicas on GitHub:
-
-https://github.com/tam1035/Phys605-March27/blob/0f856baf20877b6f333f91ed17860bd752c7d68e/AVR/avrdude-6.3/lexer.l
-
-They emit error messages from the scanner and force error recovery.  But
-then, they get two error messages.
-
-```
-c: { yyerror("possible old-style config file entry\n"
-             "  Update your config file (see " CONFIG_DIR
-               "/avrdude.conf.sample for a sample)");
-     return YYERRCODE; }
-```
-
-Unfortunately they also expect the error message at some places.  Here,
-return YYUNDEFTOK (or just return yytext[0]) would have been better.
-
-```
-. { return YYERRCODE; }
-```
-
-*** Casacore  A suite of C++ libraries for radio astronomy data processing.
-
-https://github.com/casacore/casacore/blob/110bf435c3fe292ee0c3e4bdd039853d257c9536/ms/MSSel/MSAntennaGram.ll
-
-```
- /* Any other character is invalid */
-.         { return YYERRCODE; }
-```
-
-A pattern they used several times.
-https://github.com/casacore/casacore/search?q=YYERRCODE&unscoped_q=YYERRCODE
-
-I don't understand how this works: AFAICT, we only define YYERRCODE in
-y.tab.c, not y.tab.h.  That's the case in Apple's Bison 2.3 for instance.
-Flex does not generate it either.
-
-*** Some shell
-Seems to be old versions of busybox.
-
-https://github.com/luotao717/arsdk/blob/9f9004157afcd26b915125576a815f6b3e0cd715/apps/busybox-1.01/shell/msh.c
-
-
-```
-#define	YYERRCODE 300
-```
-
-Used only in one function (collect)
-
-But today the parser is written by hand.
-
-https://github.com/mirror/busybox/blob/master/shell/ash.c#L11527
-
-*** glibc's intl
-
-https://sourceware.org/git/?p=glibc.git;a=blob;f=intl/plural.y;h=f69fba7c602e9f890f8e5c3b2cd7fe1c487714ea;hb=HEAD
-
-Their yylex returns YYERRCODE, but they don't want any error message.
-
-```
- 379 static void
- 380 yyerror (struct parse_args *arg, const char *str)
- 381 {
- 382   /* Do nothing.  We don't print error messages here.  */
- 383 }
-```
-
-This code was not updated in years.
+should be updated.
 
 ** Java
 *** Examples
