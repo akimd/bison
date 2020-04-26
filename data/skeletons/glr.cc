@@ -344,6 +344,8 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 #define ]b4_symbol(-2, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(-2, [id])[
 #undef ]b4_symbol(0, [id])[
 #define ]b4_symbol(0, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(0, [id])[
+#undef ]b4_symbol(1, [id])[
+#define ]b4_symbol(1, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(1, [id])[
 
 #ifndef ]b4_api_PREFIX[STYPE
 # define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type

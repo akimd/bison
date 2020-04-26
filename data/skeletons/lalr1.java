@@ -164,12 +164,12 @@ import java.text.MessageFormat;
     }
   }
 
-  private ]b4_location_type[ yylloc (YYStack rhs, int n)
+  private ]b4_location_type[ yylloc(YYStack rhs, int n)
   {
     if (0 < n)
-      return new ]b4_location_type[ (rhs.locationAt (n-1).begin, rhs.locationAt (0).end);
+      return new ]b4_location_type[(rhs.locationAt(n-1).begin, rhs.locationAt(0).end);
     else
-      return new ]b4_location_type[ (rhs.locationAt (0).end);
+      return new ]b4_location_type[(rhs.locationAt(0).end);
   }]])[
 
 ]b4_declare_symbol_enum[
@@ -615,41 +615,55 @@ b4_dollar_popdef[]dnl
         yySymbolPrint ("Next token is", yytoken,
                        yylval]b4_locations_if([, yylloc])[);]])[
 
-        /* If the proper action on seeing token YYTOKEN is to reduce or to
-           detect an error, take that action.  */
-        yyn += yytoken.getCode ();
-        if (yyn < 0 || YYLAST_ < yyn || yycheck_[yyn] != yytoken.getCode ())
-          label = YYDEFAULT;
-
-        /* <= 0 means reduce or error.  */
-        else if ((yyn = yytable_[yyn]) <= 0)
+        if (yytoken == SymbolKind.]b4_symbol_prefix[YYERRCODE)
           {
-            if (yyTableValueIsError (yyn))
-              label = YYERRLAB;
-            else
-              {
-                yyn = -yyn;
-                label = YYREDUCE;
-              }
+            // The scanner already issued an error message, process directly
+            // to error recovery.  But do not keep the error token as
+            // lookahead, it is too special and may lead us to an endless
+            // loop in error recovery. */
+            yychar = Lexer.]b4_percent_define_get([api.token.prefix])[YYUNDEF;
+            yytoken = SymbolKind.]b4_symbol_prefix[YYUNDEF;]b4_locations_if([[
+            yyerrloc = yylloc;]])[
+            label = YYERRLAB1;
           }
-
         else
           {
-            /* Shift the lookahead token.  */]b4_parse_trace_if([[
-            yySymbolPrint ("Shifting", yytoken,
-                           yylval]b4_locations_if([, yylloc])[);
+            /* If the proper action on seeing token YYTOKEN is to reduce or to
+               detect an error, take that action.  */
+            yyn += yytoken.getCode ();
+            if (yyn < 0 || YYLAST_ < yyn || yycheck_[yyn] != yytoken.getCode ())
+              label = YYDEFAULT;
+
+            /* <= 0 means reduce or error.  */
+            else if ((yyn = yytable_[yyn]) <= 0)
+              {
+                if (yyTableValueIsError (yyn))
+                  label = YYERRLAB;
+                else
+                  {
+                    yyn = -yyn;
+                    label = YYREDUCE;
+                  }
+              }
+
+            else
+              {
+                /* Shift the lookahead token.  */]b4_parse_trace_if([[
+                yySymbolPrint ("Shifting", yytoken,
+                               yylval]b4_locations_if([, yylloc])[);
 ]])[
-            /* Discard the token being shifted.  */
-            yychar = YYEMPTY_;
+                /* Discard the token being shifted.  */
+                yychar = YYEMPTY_;
 
-            /* Count tokens shifted since error; after three, turn off error
-               status.  */
-            if (yyerrstatus_ > 0)
-              --yyerrstatus_;
+                /* Count tokens shifted since error; after three, turn off error
+                   status.  */
+                if (yyerrstatus_ > 0)
+                  --yyerrstatus_;
 
-            yystate = yyn;
-            yystack.push (yystate, yylval]b4_locations_if([, yylloc])[);
-            label = YYNEWSTATE;
+                yystate = yyn;
+                yystack.push (yystate, yylval]b4_locations_if([, yylloc])[);
+                label = YYNEWSTATE;
+              }
           }
         break;
 
@@ -685,7 +699,6 @@ b4_dollar_popdef[]dnl
               yytoken = null;
             yyreportSyntaxError (new Context (yystack, yytoken]b4_locations_if([[, yylloc]])[));
           }
-
 ]b4_locations_if([[
         yyerrloc = yylloc;]])[
         if (yyerrstatus_ == 3)

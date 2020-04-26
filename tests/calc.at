@@ -1036,6 +1036,21 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(#) + (#) = 2222],
 [[1.2: syntax error: invalid character: '#'
 1.8: syntax error: invalid character: '#']])
 
+_AT_CHECK_CALC_ERROR([$1], [0], [(1 + #) = 1111],
+                     [[final: 1111 0 0]],
+                     [102],
+[[1.6: syntax error: invalid character: '#']])
+
+_AT_CHECK_CALC_ERROR([$1], [0], [(# + 1) = 1111],
+                     [[final: 1111 0 0]],
+                     [102],
+[[1.2: syntax error: invalid character: '#']])
+
+_AT_CHECK_CALC_ERROR([$1], [0], [(1 + # + 1) = 1111],
+                     [[final: 1111 0 0]],
+                     [102],
+[[1.6: syntax error: invalid character: '#']])
+
 
 
 AT_BISON_OPTION_POPDEFS
