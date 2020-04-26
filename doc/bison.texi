@@ -7510,8 +7510,10 @@ If @var{argv} is null, return the size needed to store all the possible
 values, which is always less than @code{YYNTOKENS}.
 @end deftypefun
 
-@deftypefun {const char *} yysymbol_name (@code{symbol_kind_t} @var{symbol})
+@deftypefun {@r{string type}} yysymbol_name (@code{symbol_kind_t} @var{symbol})
 The name of the symbol whose kind is @var{symbol}, possibly translated.
+Depending on the options, may return a @code{const char*} or a
+@code{std::string}.
 @end deftypefun
 
 A custom syntax error function looks as follows.  This implementation is
