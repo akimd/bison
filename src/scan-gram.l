@@ -307,6 +307,7 @@ eqopt    ({sp}=)?
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
+    return GRAM_ERRCODE;
   }
 
   ":"                     return COLON;
@@ -328,6 +329,7 @@ eqopt    ({sp}=)?
      accept "1FOO" as "1 FOO".  */
   {int}{id} {
     complain (loc, complaint, _("invalid identifier: %s"), quote (yytext));
+    return GRAM_ERRCODE;
   }
 
   /* Characters.  */
@@ -382,6 +384,7 @@ eqopt    ({sp}=)?
     complain (loc, complaint, "%s: %s",
               ngettext ("invalid character", "invalid characters", yyleng),
               quote_mem (yytext, yyleng));
+    return GRAM_ERRCODE;
   }
 
   <<EOF>> {
@@ -398,7 +401,11 @@ eqopt    ({sp}=)?
 
 <SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING,SC_TAG>
 {
-  \0        complain (loc, complaint, _("invalid null character"));
+  \0         {
+    complain (loc, complaint, _("invalid null character"));
+    STRING_FREE;
+    return GRAM_ERRCODE;
+  }
 }
 
 
@@ -454,6 +461,7 @@ eqopt    ({sp}=)?
         complain (loc, complaint,
                   _("unexpected identifier in bracketed name: %s"),
                   quote (yytext));
+        return GRAM_ERRCODE;
       }
     else
       {
@@ -474,7 +482,10 @@ eqopt    ({sp}=)?
           }
       }
     else
-      complain (loc, complaint, _("an identifier expected"));
+      {
+        complain (loc, complaint, _("an identifier expected"));
+        return GRAM_ERRCODE;
+      }
   }
 
   [^\].A-Za-z0-9_/ \f\r\n\t\v]+|. {
@@ -482,6 +493,7 @@ eqopt    ({sp}=)?
               ngettext ("invalid character in bracketed name",
                         "invalid characters in bracketed name", yyleng),
               quote_mem (yytext, yyleng));
+    return GRAM_ERRCODE;
   }
 
   <<EOF>> {
@@ -580,21 +592,27 @@ eqopt    ({sp}=)?
 {
   "'" {
     STRING_FINISH;
+    BEGIN INITIAL;
     loc->start = token_start;
     val->CHAR = last_string[0];
 
     if (last_string[0] == '\0')
-    {
-      complain (loc, complaint, _("empty character literal"));
-      /* '\0' seems dangerous even if we are about to complain.  */
-      val->CHAR = '\'';
-    }
+      {
+        complain (loc, complaint, _("empty character literal"));
+        STRING_FREE;
+        return GRAM_ERRCODE;
+      }
     else if (last_string[1] != '\0')
-      complain (loc, complaint,
-                _("extra characters in character literal"));
-    STRING_FREE;
-    BEGIN INITIAL;
-    return CHAR;
+      {
+        complain (loc, complaint, _("extra characters in character literal"));
+        STRING_FREE;
+        return GRAM_ERRCODE;
+      }
+    else
+      {
+        STRING_FREE;
+        return CHAR;
+      }
   }
   {eol}     unexpected_newline (token_start, "'");
   <<EOF>>   unexpected_eof (token_start, "'");

@@ -102,7 +102,6 @@ input.y:6.1-17: error: invalid directive: '%a-does-not-exist'
 input.y:7.1: error: invalid character: '%'
 input.y:7.2: error: invalid character: '-'
 input.y:8.1-9.0: error: missing '%}' at end of file
-input.y:8.1-9.0: error: unexpected %{...%}
 ]])
 
 AT_CLEANUP

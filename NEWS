@@ -2,6 +2,19 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New features
+
+*** Returning the error token
+
+  When the scanner returns an invalid token or the undefined token
+  (YYUNDEF), the parser generates an error message and enters error
+  recovery.  Because of that error message, most scanners that find lexical
+  errors generate an error message, and then ignore the invalid input
+  without entering the error-recovery.
+
+  The scanners may now return YYERRCODE, the error token, to enter the
+  error-recovery mode without triggering an additional error message.  See
+  the bistromathic for an example.
 
 * Noteworthy changes in release 3.5.90 (2020-04-18) [beta]
 
