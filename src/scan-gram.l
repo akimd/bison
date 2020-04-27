@@ -83,6 +83,23 @@ static boundary scanner_cursor;
       unput (Msg[i - 1]);                                       \
   } while (0)
 
+
+#define STRING_GROW_ESCAPE(Char)                                \
+  do {                                                          \
+    long c = Char;                                              \
+    if (0 < c && c <= UCHAR_MAX)                                \
+      obstack_1grow (&obstack_for_string, c);                   \
+    else                                                        \
+      {                                                         \
+        complain (loc, complaint,                               \
+                  _("invalid number after \\-escape: %s"),      \
+                  yytext + 1);                                  \
+        /* Avoid additional errors about empty char literal. */ \
+        obstack_1grow (&obstack_for_string, '?');               \
+      }                                                         \
+  } while (0)
+
+
 /* The current file name.  Might change with #line.  */
 static uniqstr current_file = NULL;
 
@@ -619,22 +636,12 @@ eqopt    ({sp}=)?
 {
   \\[0-7]{1,3} {
     verify (UCHAR_MAX < ULONG_MAX);
-    long c = strtol (yytext + 1, NULL, 8);
-    if (0 < c && c <= UCHAR_MAX)
-      obstack_1grow (&obstack_for_string, c);
-    else
-      complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                yytext+1);
+    STRING_GROW_ESCAPE (strtol (yytext + 1, NULL, 8));
   }
 
   \\x[0-9abcdefABCDEF]+ {
     verify (UCHAR_MAX < ULONG_MAX);
-    long c = strtol (yytext + 2, NULL, 16);
-    if (0 < c && c <= UCHAR_MAX)
-      obstack_1grow (&obstack_for_string, c);
-    else
-      complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                yytext+1);
+    STRING_GROW_ESCAPE (strtol (yytext + 2, NULL, 16));
   }
 
   \\a   obstack_1grow (&obstack_for_string, '\a');
@@ -649,13 +656,9 @@ eqopt    ({sp}=)?
   \\("\""|"'"|"?"|"\\")  obstack_1grow (&obstack_for_string, yytext[1]);
 
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
-    int c = convert_ucn_to_byte (yytext);
-    if (c <= 0)
-      complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                yytext+1);
-    else
-      obstack_1grow (&obstack_for_string, c);
+    STRING_GROW_ESCAPE (convert_ucn_to_byte (yytext));
   }
+
   \\(.|{eol})      {
     char const *p = yytext + 1;
     /* Quote only if escaping won't make the character visible.  */
@@ -665,6 +668,7 @@ eqopt    ({sp}=)?
       p = quotearg_style_mem (escape_quoting_style, p, 1);
     complain (loc, complaint, _("invalid character after \\-escape: %s"),
               p);
+    obstack_1grow (&obstack_for_string, '?');
   }
 }
 

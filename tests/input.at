@@ -2408,25 +2408,15 @@ AT_PERL_REQUIRE([[-e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y]])
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.9-12: error: invalid number after \-escape: 777
-input.y:2.8-13: error: empty character literal
 input.y:2.16-17: error: invalid number after \-escape: 0
-input.y:2.15-18: error: empty character literal
 input.y:2.21-25: error: invalid number after \-escape: xfff
-input.y:2.20-26: error: empty character literal
 input.y:2.29-31: error: invalid number after \-escape: x0
-input.y:2.28-32: error: empty character literal
 input.y:3.9-14: error: invalid number after \-escape: uffff
-input.y:3.8-15: error: empty character literal
 input.y:3.18-23: error: invalid number after \-escape: u0000
-input.y:3.17-24: error: empty character literal
 input.y:3.27-36: error: invalid number after \-escape: Uffffffff
-input.y:3.26-37: error: empty character literal
 input.y:3.40-49: error: invalid number after \-escape: U00000000
-input.y:3.39-50: error: empty character literal
 input.y:4.9-10: error: invalid character after \-escape: ' '
-input.y:4.8-11: error: empty character literal
 input.y:4.14-15: error: invalid character after \-escape: A
-input.y:4.13-16: error: empty character literal
 input.y:5.9-16: error: invalid character after \-escape: \t
 input.y:5.17: error: invalid character after \-escape: \f
 input.y:5.18: error: invalid character after \-escape: \0
