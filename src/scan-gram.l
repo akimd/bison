@@ -566,15 +566,14 @@ eqopt    ({sp}=)?
     loc->start = token_start;
     val->CHAR = last_string[0];
 
-    /* FIXME: Eventually, make these errors.  */
     if (last_string[0] == '\0')
     {
-      complain (loc, Wother, _("empty character literal"));
+      complain (loc, complaint, _("empty character literal"));
       /* '\0' seems dangerous even if we are about to complain.  */
       val->CHAR = '\'';
     }
     else if (last_string[1] != '\0')
-      complain (loc, Wother,
+      complain (loc, complaint,
                 _("extra characters in character literal"));
     STRING_FREE;
     BEGIN INITIAL;

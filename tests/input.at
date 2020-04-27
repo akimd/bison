@@ -2339,19 +2339,19 @@ start: '
 start: ']])
 
 AT_BISON_CHECK([-fcaret empty.y], [1], [],
-[[empty.y:2.8-9: warning: empty character literal [-Wother]
+[[empty.y:2.8-9: error: empty character literal
     2 | start: '';
       |        ^~
 empty.y:3.8-4.0: error: missing "'" at end of line
     3 | start: '
       |        ^
-empty.y:3.8-4.0: warning: empty character literal [-Wother]
+empty.y:3.8-4.0: error: empty character literal
     3 | start: '
       |        ^
 empty.y:4.8: error: missing "'" at end of file
     4 | start: '
       |        ^
-empty.y:4.8: warning: empty character literal [-Wother]
+empty.y:4.8: error: empty character literal
     4 | start: '
       |        ^
 ]])
@@ -2363,11 +2363,11 @@ start: 'ab
 start: 'ab]])
 
 AT_BISON_CHECK([two.y], [1], [],
-[[two.y:2.8-11: warning: extra characters in character literal [-Wother]
+[[two.y:2.8-11: error: extra characters in character literal
 two.y:3.8-4.0: error: missing "'" at end of line
-two.y:3.8-4.0: warning: extra characters in character literal [-Wother]
+two.y:3.8-4.0: error: extra characters in character literal
 two.y:4.8-10: error: missing "'" at end of file
-two.y:4.8-10: warning: extra characters in character literal [-Wother]
+two.y:4.8-10: error: extra characters in character literal
 ]])
 
 AT_DATA_NO_FINAL_EOL([three.y],
@@ -2377,11 +2377,11 @@ start: 'abc
 start: 'abc]])
 
 AT_BISON_CHECK([three.y], [1], [],
-[[three.y:2.8-12: warning: extra characters in character literal [-Wother]
+[[three.y:2.8-12: error: extra characters in character literal
 three.y:3.8-4.0: error: missing "'" at end of line
-three.y:3.8-4.0: warning: extra characters in character literal [-Wother]
+three.y:3.8-4.0: error: extra characters in character literal
 three.y:4.8-11: error: missing "'" at end of file
-three.y:4.8-11: warning: extra characters in character literal [-Wother]
+three.y:4.8-11: error: extra characters in character literal
 ]])
 
 AT_CLEANUP
@@ -2408,25 +2408,25 @@ AT_PERL_REQUIRE([[-e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y]])
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.9-12: error: invalid number after \-escape: 777
-input.y:2.8-13: warning: empty character literal [-Wother]
+input.y:2.8-13: error: empty character literal
 input.y:2.16-17: error: invalid number after \-escape: 0
-input.y:2.15-18: warning: empty character literal [-Wother]
+input.y:2.15-18: error: empty character literal
 input.y:2.21-25: error: invalid number after \-escape: xfff
-input.y:2.20-26: warning: empty character literal [-Wother]
+input.y:2.20-26: error: empty character literal
 input.y:2.29-31: error: invalid number after \-escape: x0
-input.y:2.28-32: warning: empty character literal [-Wother]
+input.y:2.28-32: error: empty character literal
 input.y:3.9-14: error: invalid number after \-escape: uffff
-input.y:3.8-15: warning: empty character literal [-Wother]
+input.y:3.8-15: error: empty character literal
 input.y:3.18-23: error: invalid number after \-escape: u0000
-input.y:3.17-24: warning: empty character literal [-Wother]
+input.y:3.17-24: error: empty character literal
 input.y:3.27-36: error: invalid number after \-escape: Uffffffff
-input.y:3.26-37: warning: empty character literal [-Wother]
+input.y:3.26-37: error: empty character literal
 input.y:3.40-49: error: invalid number after \-escape: U00000000
-input.y:3.39-50: warning: empty character literal [-Wother]
+input.y:3.39-50: error: empty character literal
 input.y:4.9-10: error: invalid character after \-escape: ' '
-input.y:4.8-11: warning: empty character literal [-Wother]
+input.y:4.8-11: error: empty character literal
 input.y:4.14-15: error: invalid character after \-escape: A
-input.y:4.13-16: warning: empty character literal [-Wother]
+input.y:4.13-16: error: empty character literal
 input.y:5.9-16: error: invalid character after \-escape: \t
 input.y:5.17: error: invalid character after \-escape: \f
 input.y:5.18: error: invalid character after \-escape: \0
