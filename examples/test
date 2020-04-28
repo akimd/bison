@@ -92,7 +92,8 @@ run ()
   $echo "$1" |
     sed -e 's/Reducing stack by rule .* (line .*):/Reducing stack by rule XX (line XXX):/g' |
     if $strip_prompt; then
-      sed -e '/^> /d'
+      # An extra EOL added in bistromathic's main.  Keep that empty line.
+      sed -e '/^> ./d;s/^> $//g'
     else
       cat
     fi >exp
