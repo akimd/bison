@@ -380,30 +380,30 @@ m4_define([b4_symbol_type_define],
     };
 
     /// Type access provider for token (enum) based symbols.
-    struct by_type
+    struct by_kind
     {
       /// Default constructor.
-      by_type ();
+      by_kind ();
 
 #if 201103L <= YY_CPLUSPLUS
       /// Move constructor.
-      by_type (by_type&& that);
+      by_kind (by_kind&& that);
 #endif
 
       /// Copy constructor.
-      by_type (const by_type& that);
+      by_kind (const by_kind& that);
 
       /// The symbol kind as needed by the constructor.
       typedef token_kind_type kind_type;
 
       /// Constructor from (external) token numbers.
-      by_type (kind_type t);
+      by_kind (kind_type t);
 
       /// Record that this symbol is empty.
       void clear ();
 
       /// Steal the symbol kind from \a that.
-      void move (by_type& that);
+      void move (by_kind& that);
 
       /// The (internal) type number (corresponding to \a type).
       /// \a empty when empty.
@@ -411,14 +411,14 @@ m4_define([b4_symbol_type_define],
 
       /// The symbol kind.
       /// \a ]b4_symbol_prefix[YYEMPTY when empty.
-      symbol_kind_type type;
+      symbol_kind_type kind_;
     };
 
     /// "External" symbols: returned by the scanner.
-    struct symbol_type : basic_symbol<by_type>
+    struct symbol_type : basic_symbol<by_kind>
     {]b4_variant_if([[
       /// Superclass.
-      typedef basic_symbol<by_type> super_type;
+      typedef basic_symbol<by_kind> super_type;
 
       /// Empty symbol.
       symbol_type () {}
@@ -492,44 +492,44 @@ m4_define([b4_public_types_define],
     location = YY_MOVE (s.location);])[
   }
 
-  // by_type.
-  ]b4_inline([$1])b4_parser_class[::by_type::by_type ()
-    : type (symbol_kind::]b4_symbol_prefix[YYEMPTY)
+  // by_kind.
+  ]b4_inline([$1])b4_parser_class[::by_kind::by_kind ()
+    : kind_ (symbol_kind::]b4_symbol_prefix[YYEMPTY)
   {}
 
 #if 201103L <= YY_CPLUSPLUS
-  ]b4_inline([$1])b4_parser_class[::by_type::by_type (by_type&& that)
-    : type (that.type)
+  ]b4_inline([$1])b4_parser_class[::by_kind::by_kind (by_kind&& that)
+    : kind_ (that.kind_)
   {
     that.clear ();
   }
 #endif
 
-  ]b4_inline([$1])b4_parser_class[::by_type::by_type (const by_type& that)
-    : type (that.type)
+  ]b4_inline([$1])b4_parser_class[::by_kind::by_kind (const by_kind& that)
+    : kind_ (that.kind_)
   {}
 
-  ]b4_inline([$1])b4_parser_class[::by_type::by_type (token_kind_type t)
-    : type (yytranslate_ (t))
+  ]b4_inline([$1])b4_parser_class[::by_kind::by_kind (token_kind_type t)
+    : kind_ (yytranslate_ (t))
   {}
 
   ]b4_inline([$1])[void
-  ]b4_parser_class[::by_type::clear ()
+  ]b4_parser_class[::by_kind::clear ()
   {
-    type = symbol_kind::]b4_symbol_prefix[YYEMPTY;
+    kind_ = symbol_kind::]b4_symbol_prefix[YYEMPTY;
   }
 
   ]b4_inline([$1])[void
-  ]b4_parser_class[::by_type::move (by_type& that)
+  ]b4_parser_class[::by_kind::move (by_kind& that)
   {
-    type = that.type;
+    kind_ = that.kind_;
     that.clear ();
   }
 
   ]b4_inline([$1])[]b4_parser_class[::symbol_kind_type
-  ]b4_parser_class[::by_type::kind () const YY_NOEXCEPT
+  ]b4_parser_class[::by_kind::kind () const YY_NOEXCEPT
   {
-    return type;
+    return kind_;
   }
 ]])
 

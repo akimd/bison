@@ -752,7 +752,7 @@ m4_if(b4_prefix, [yy], [],
     b4_symbol_variant([that.kind ()],
                       [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
-    that.type = symbol_kind::]b4_symbol(-2, kind)[;
+    that.kind_ = symbol_kind::]b4_symbol(-2, kind)[;
   }
 
 #if YY_CPLUSPLUS < 201103L
@@ -968,7 +968,7 @@ b4_dollar_popdef])[]dnl
           {]b4_token_ctor_if([[
             symbol_type yylookahead (]b4_lex[);
             yyla.move (yylookahead);]], [[
-            yyla.type = yytranslate_ (]b4_lex[);]])[
+            yyla.kind_ = yytranslate_ (]b4_lex[);]])[
           }
 #if YY_EXCEPTIONS
         catch (const syntax_error& yyexc)
@@ -987,7 +987,7 @@ b4_dollar_popdef])[]dnl
       // to error recovery.  But do not keep the error token as
       // lookahead, it is too special and may lead us to an endless
       // loop in error recovery. */
-      yyla.type = ]symbol_kind::b4_symbol(2, kind)[;
+      yyla.kind_ = ]symbol_kind::b4_symbol(2, kind)[;
       goto yyerrlab1;
     }
 

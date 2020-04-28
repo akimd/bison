@@ -1,9 +1,5 @@
 * Bison 3.6
 ** Questions
-*** C++
-We still have occurrences of `type` that should read `kind`, in
-basic_symbol.
-
 *** Java
 - Should i18n be part of the Lexer?  Currently it's a static method of
   Lexer.
@@ -30,9 +26,6 @@ basic_symbol.
 Beware that returning 0 is unclear: does it mean there are no possible
 lookahead, or that there are too many?
 
-** bistromathic
-Beware of portability of __attribute__.
-
 ** YYerror
 yacc.c should `#define YYERRCODE YYerror` in the *.c for sake of the
 projects that used it.  In particular
@@ -58,7 +51,7 @@ token vs terminal, variable vs non terminal.
 
 ** api.token.raw
 The YYUNDEFTOK could be assigned a semantic value so that yyerror could be
-used to report invalid lexemes.  See also the item "$undefined" below.
+used to report invalid lexemes.
 
 ** push parsers
 Consider deprecating impure push parsers.  They add a lot of complexity, for
@@ -488,15 +481,6 @@ makes it impossible to have modular precedence information.  We should
 move to partial orders (sounds like series/parallel orders to me).
 
 This is a prerequisite for modules.
-
-* $undefined
-From Hans:
-- If the Bison generated parser experiences an undefined number in the
-character range, that character is written out in diagnostic messages, an
-addition to the $undefined value.
-
-Suggest: Change the name $undefined to undefined; looks better in outputs.
-
 
 * Pre and post actions.
 From: Florian Krohm <florian@edamail.fishkill.ibm.com>
