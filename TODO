@@ -23,8 +23,8 @@ basic_symbol.
   reflection to support both output types?
 
 ** Documentation
-- YYERRCODE, YYUNDEF, YYEOF
-- YYERRCODE and translation
+- YYerror, YYUNDEF, YYEOF
+- YYerror and translation
 
 ** yypcontext_expected_tokens
 Beware that returning 0 is unclear: does it mean there are no possible
@@ -33,20 +33,8 @@ lookahead, or that there are too many?
 ** bistromathic
 Beware of portability of __attribute__.
 
-** YYERRCODE
-Give it another name, it's ugly and conflicts with the way some people have
-used it so far.
-
-Possible names:
-
-- YYERROR_TOKEN, but it's too different from the other tokens, included the
-  special ones (YYEOF, YYUNDEF).
-
-- YYerror.  It looks weird, but at least it is correct: that's the name
-  under which the error token appears in the grammar: "error".  Without the
-  'YY' prefix though, granted.
-
-yacc.c should `#define YYERRCODE` to that new name in the *.c for sake of the
+** YYerror
+yacc.c should `#define YYERRCODE YYerror` in the *.c for sake of the
 projects that used it.  In particular
 
 https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=blob;f=gettext-runtime/intl/plural.y;h=a712255af4f2f739c93336d4ff6556d932a426a5;hb=HEAD

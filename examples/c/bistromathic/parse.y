@@ -300,7 +300,7 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
       // Stray characters.
     default:
       yyerror (yylloc, "syntax error: invalid character: %c", c);
-      return TOK_YYERRCODE;
+      return TOK_YYerror;
     }
 }
 

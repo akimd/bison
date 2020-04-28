@@ -342,9 +342,9 @@ exp:
 %%
 int main (void)
 {
-  assert (YYERRCODE == 123);
+  assert (YYerror == 123);
   assert (YYTRANSLATE (YYEOF) == YYSYMBOL_YYEOF);
-  assert (YYTRANSLATE (YYERRCODE) == YYSYMBOL_YYERRCODE);
+  assert (YYTRANSLATE (YYerror) == YYSYMBOL_YYerror);
   assert (YYTRANSLATE (YYUNDEF) == YYSYMBOL_YYUNDEF);
   return 0;
 }
@@ -431,7 +431,7 @@ AT_BISON_CHECK([-Wno-other -S./dump-symbols.m4 input.y])
 AT_CHECK([cat symbols.csv], [],
 [[number, class, tag, id, user_number, type,
 0, Token, "end of file", YYEOF, 0, ,
-1, Token, error, YYERRCODE, 256, ,
+1, Token, error, YYerror, 256, ,
 2, Token, "invalid token", YYUNDEF, 257, ,
 3, Token, 'a', , 97, ,
 4, Token, "A1", A1, 1, ,

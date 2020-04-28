@@ -307,7 +307,7 @@ eqopt    ({sp}=)?
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
-    return GRAM_ERRCODE;
+    return GRAM_error;
   }
 
   ":"                     return COLON;
@@ -329,7 +329,7 @@ eqopt    ({sp}=)?
      accept "1FOO" as "1 FOO".  */
   {int}{id} {
     complain (loc, complaint, _("invalid identifier: %s"), quote (yytext));
-    return GRAM_ERRCODE;
+    return GRAM_error;
   }
 
   /* Characters.  */
@@ -384,7 +384,7 @@ eqopt    ({sp}=)?
     complain (loc, complaint, "%s: %s",
               ngettext ("invalid character", "invalid characters", yyleng),
               quote_mem (yytext, yyleng));
-    return GRAM_ERRCODE;
+    return GRAM_error;
   }
 
   <<EOF>> {
@@ -404,7 +404,7 @@ eqopt    ({sp}=)?
   \0         {
     complain (loc, complaint, _("invalid null character"));
     STRING_FREE;
-    return GRAM_ERRCODE;
+    return GRAM_error;
   }
 }
 
@@ -461,7 +461,7 @@ eqopt    ({sp}=)?
         complain (loc, complaint,
                   _("unexpected identifier in bracketed name: %s"),
                   quote (yytext));
-        return GRAM_ERRCODE;
+        return GRAM_error;
       }
     else
       {
@@ -484,7 +484,7 @@ eqopt    ({sp}=)?
     else
       {
         complain (loc, complaint, _("an identifier expected"));
-        return GRAM_ERRCODE;
+        return GRAM_error;
       }
   }
 
@@ -493,7 +493,7 @@ eqopt    ({sp}=)?
               ngettext ("invalid character in bracketed name",
                         "invalid characters in bracketed name", yyleng),
               quote_mem (yytext, yyleng));
-    return GRAM_ERRCODE;
+    return GRAM_error;
   }
 
   <<EOF>> {
@@ -600,13 +600,13 @@ eqopt    ({sp}=)?
       {
         complain (loc, complaint, _("empty character literal"));
         STRING_FREE;
-        return GRAM_ERRCODE;
+        return GRAM_error;
       }
     else if (last_string[1] != '\0')
       {
         complain (loc, complaint, _("extra characters in character literal"));
         STRING_FREE;
-        return GRAM_ERRCODE;
+        return GRAM_error;
       }
     else
       {

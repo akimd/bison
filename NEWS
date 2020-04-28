@@ -12,7 +12,7 @@ GNU Bison NEWS
   errors generate an error message, and then ignore the invalid input
   without entering the error-recovery.
 
-  The scanners may now return YYERRCODE, the error token, to enter the
+  The scanners may now return YYerror, the error token, to enter the
   error-recovery mode without triggering an additional error message.  See
   the bistromathic for an example.
 
@@ -139,7 +139,7 @@ GNU Bison NEWS
   "yytoken_kind_t".
 
   This type now also includes tokens that were previously hidden: YYEOF (end
-  of input), YYUNDEF (undefined token), and YYERRCODE (error token).  They
+  of input), YYUNDEF (undefined token), and YYerror (error token).  They
   now have string aliases, internationalized when internationalization is
   enabled.  Therefore, by default, error messages now refer to "end of file"
   (internationalized) rather than the cryptic "$end", or to "invalid token"
@@ -4136,7 +4136,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
  LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
  LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
- LocalWords:  yytoken YYUNDEF YYERRCODE
+ LocalWords:  yytoken YYUNDEF YYerror
 
 Local Variables:
 ispell-dictionary: "american"

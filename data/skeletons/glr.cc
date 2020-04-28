@@ -356,10 +356,10 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 
 ]m4_define([b4_declare_symbol_enum],
 [[typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
-#define ]b4_symbol_prefix[YYEMPTY   ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEMPTY
-#define ]b4_symbol_prefix[YYERRCODE ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYERRCODE
-#define ]b4_symbol_prefix[YYEOF     ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEOF
-#define ]b4_symbol_prefix[YYUNDEF   ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYUNDEF
+#define ]b4_symbol_prefix[YYEMPTY  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEMPTY
+#define ]b4_symbol_prefix[YYerror  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYerror
+#define ]b4_symbol_prefix[YYEOF    ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEOF
+#define ]b4_symbol_prefix[YYUNDEF  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYUNDEF
 ]])[
 ]b4_percent_code_get([[provides]])[
 ]m4_popdef([b4_parse_param])dnl

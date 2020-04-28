@@ -118,7 +118,7 @@ run 0 '> 100% + 10
 err: 1.4: syntax error: invalid character: %'
 
 # Traces.  This allows to check the location of the error.  If we
-# forget to map YYERRCODE to YYUNDEF, error recovery enters an endless
+# forget to map YYerror to YYUNDEF, error recovery enters an endless
 # loop with this input.
 cat >input <<EOF
 (+_)

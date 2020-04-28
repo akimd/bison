@@ -80,7 +80,7 @@ extern int gram_debug;
   {
     GRAM_EMPTY = -2,
     GRAM_EOF = 0,                  /* "end of file"  */
-    GRAM_ERRCODE = 1,              /* error  */
+    GRAM_error = 1,                /* error  */
     GRAM_UNDEF = 2,                /* "invalid token"  */
     STRING = 3,                    /* "string"  */
     TSTRING = 4,                   /* "translatable string"  */

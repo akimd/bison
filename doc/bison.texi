@@ -7471,7 +7471,7 @@ enum yysymbol_kind_t
 @{
   YYSYMBOL_YYEMPTY = -2,      /* No symbol.  */
   YYSYMBOL_YYEOF = 0,         /* "end of file"  */
-  YYSYMBOL_YYERRCODE = 1,     /* error  */
+  YYSYMBOL_YYerror = 1,       /* error  */
   YYSYMBOL_YYUNDEF = 2,       /* "invalid token"  */
   YYSYMBOL_PLUS = 3,          /* "+"  */
   YYSYMBOL_MINUS = 4,         /* "-"  */
@@ -7497,7 +7497,7 @@ The location of the syntax error (that of the unexpected token).
 
 @deftypefun int yypcontext_expected_tokens (@code{const yypcontext_t *}ctx, @code{yysymbol_kind_t} @var{argv}@code{[]}, @code{int} @var{argc})
 Fill @var{argv} with the expected tokens, which never includes
-@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYERRCODE}, or
+@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYerror}, or
 @code{YYSYMBOL_YYUNDEF}.
 
 Never put more than @var{argc} elements into @var{argv}, and on success
@@ -11549,7 +11549,7 @@ struct token
   @{
     YYEMPTY = -2,              // No token.
     YYEOF = 0,                 // "end of file"
-    YYERRCODE = 256,           // error
+    YYerror = 256,             // error
     YYUNDEF = 257,             // "invalid token"
     PLUS = 258,                // "+"
     MINUS = 259,               // "-"
@@ -15126,7 +15126,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: redeclare automata Dparse localedir datadir XSLT midrule Wno
 @c LocalWords: multitable headitem hh basename Doxygen fno filename gdef de
 @c LocalWords: doxygen ival sval deftypemethod deallocate pos deftypemethodx
-@c LocalWords: Ctor defcv defcvx arg accessors CPP ifndef CALCXX YYERRCODE
+@c LocalWords: Ctor defcv defcvx arg accessors CPP ifndef CALCXX YYerror
 @c LocalWords: lexer's calcxx bool LPAREN RPAREN deallocation cerrno climits
 @c LocalWords: cstdlib Debian undef yywrap unput noyywrap nounput zA yyleng
 @c LocalWords: errno strtol ERANGE str strerror iostream argc argv Javadoc PSLR

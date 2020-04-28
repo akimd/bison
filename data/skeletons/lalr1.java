@@ -615,7 +615,7 @@ b4_dollar_popdef[]dnl
         yySymbolPrint ("Next token is", yytoken,
                        yylval]b4_locations_if([, yylloc])[);]])[
 
-        if (yytoken == SymbolKind.]b4_symbol_prefix[YYERRCODE)
+        if (yytoken == SymbolKind.]b4_symbol_prefix[YYerror)
           {
             // The scanner already issued an error message, process directly
             // to error recovery.  But do not keep the error token as
