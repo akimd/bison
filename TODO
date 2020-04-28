@@ -27,12 +27,10 @@ Beware that returning 0 is unclear: does it mean there are no possible
 lookahead, or that there are too many?
 
 ** YYerror
-yacc.c should `#define YYERRCODE YYerror` in the *.c for sake of the
-projects that used it.  In particular
-
 https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=blob;f=gettext-runtime/intl/plural.y;h=a712255af4f2f739c93336d4ff6556d932a426a5;hb=HEAD
 
-should be updated.
+should be updated to not use YYERRCODE.  Returning an undef token is good
+enough.
 
 ** Java
 *** Examples
