@@ -180,7 +180,7 @@ import java.text.MessageFormat;
    */
   public interface Lexer {
 ]b4_token_enums[
-    /** Deprecated, use b4_symbol(0, id) instead.  */
+    /** Deprecated, use ]b4_symbol(0, id)[ instead.  */
     public static final int EOF = ]b4_symbol(0, id)[;
 
 ]b4_locations_if([[

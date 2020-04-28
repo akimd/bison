@@ -84,6 +84,10 @@ Also do it in data/skeletons.
 Don't rename in Bison 3.6 (it would be logical to do so) because that
 would probably create many conflicts in Vincent's work (see previous point).
 
+** A dev warning for b4_
+Maybe we should check for m4_ and b4_ leaking out of the m4 processing, as
+Autoconf does.  It would have caught overquotation issues.
+
 * Bison 3.8
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see

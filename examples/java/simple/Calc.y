@@ -93,7 +93,7 @@ class CalcLexer implements Calc.Lexer {
     int ttype = st.nextToken();
     switch (ttype) {
     case StreamTokenizer.TT_EOF:
-      return EOF;
+      return YYEOF;
     case StreamTokenizer.TT_EOL:
       return (int) '\n';
     case StreamTokenizer.TT_WORD:

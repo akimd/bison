@@ -150,7 +150,7 @@ class CalcLexer implements Calc.Lexer {
     end.set(reader.getPosition());
     switch (ttype) {
     case StreamTokenizer.TT_EOF:
-      return EOF;
+      return YYEOF;
     case StreamTokenizer.TT_EOL:
       end.line += 1;
       end.column = 0;
