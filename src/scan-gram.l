@@ -380,7 +380,7 @@ eqopt    ({sp}=)?
     BEGIN SC_BRACKETED_ID;
   }
 
-  [^\[%A-Za-z0-9_<>{}\"\'*;|=/, \f\r\n\t\v]+|. {
+  [^\[%A-Za-z0-9_<>{}""''*;|=/, \f\r\n\t\v]+|. {
     complain (loc, complaint, "%s: %s",
               ngettext ("invalid character", "invalid characters", yyleng),
               quote_mem (yytext, yyleng));
