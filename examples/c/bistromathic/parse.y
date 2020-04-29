@@ -333,7 +333,7 @@ error_format_string (int argc)
     case 5: return _("%@: syntax error: expected %0e or %1e or %2e or %3e before %u");
     case 6: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e before %u");
     case 7: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e before %u");
-    case 8: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e or %6e before %u");
+    case 8: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e etc., before %u");
     }
 }
 
@@ -341,12 +341,15 @@ error_format_string (int argc)
 int
 yyreport_syntax_error (const yypcontext_t *ctx)
 {
-  enum { ARGS_MAX = 7 };
+  enum { ARGS_MAX = 6 };
   yysymbol_kind_t arg[ARGS_MAX];
   int argsize = yypcontext_expected_tokens (ctx, arg, ARGS_MAX);
   if (argsize < 0)
     return argsize;
-  const char *format = error_format_string (1 + argsize);
+  const int too_many_expected_tokens = argsize == 0 && arg[0] != YYSYMBOL_YYEMPTY;
+  if (too_many_expected_tokens)
+    argsize = ARGS_MAX;
+  const char *format = error_format_string (1 + argsize + too_many_expected_tokens);
 
   while (*format)
     // %@: location.

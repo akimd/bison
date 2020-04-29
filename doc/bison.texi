@@ -7551,9 +7551,12 @@ Fill @var{argv} with the expected tokens, which never includes
 @code{YYSYMBOL_YYUNDEF}.
 
 Never put more than @var{argc} elements into @var{argv}, and on success
-return the effective number of tokens stored in @var{argv}.  Return 0 if
-there are more than @var{argc} expected tokens, yet fill @var{argv} up to
-@var{argc}.  When LAC is enabled, may return a negative number on errors,
+return the number of tokens stored in @var{argv}.  If there are more
+expected tokens than @var{argc}, fill @var{argv} up to @var{argc} and return
+0.  If there are no expected tokens, also return 0, but set @code{argv[0]}
+to @code{YYSYMBOL_YYEMPTY}.
+
+When LAC is enabled, may return a negative number on errors,
 such as @code{YYENOMEM} on memory exhaustion.
 
 If @var{argv} is null, return the size needed to store all the possible
@@ -12137,9 +12140,10 @@ Fill @var{argv} with the expected tokens, which never includes
 @code{symbol_kind::S_YYUNDEF}.
 
 Never put more than @var{argc} elements into @var{argv}, and on success
-return the effective number of tokens stored in @var{argv}.  Return 0 if
-there are more than @var{argc} expected tokens, yet fill @var{argv} up to
-@var{argc}.
+return the number of tokens stored in @var{argv}.  If there are more
+expected tokens than @var{argc}, fill @var{argv} up to @var{argc} and return
+0.  If there are no expected tokens, also return 0, but set @code{argv[0]}
+to @code{symbol_kind::S_YYEMPTY}.
 
 If @var{argv} is null, return the size needed to store all the possible
 values, which is always less than @code{YYNTOKENS}.
@@ -13298,9 +13302,10 @@ Fill @var{argv} with the expected tokens, which never includes
 @code{SymbolKind.S_YYERROR}, or @code{SymbolKind.S_YYUNDEF}.
 
 Never put more than @var{argc} elements into @var{argv}, and on success
-return the effective number of tokens stored in @var{argv}.  Return 0 if
-there are more than @var{argc} expected tokens, yet fill @var{argv} up to
-@var{argc}.
+return the number of tokens stored in @var{argv}.  If there are more
+expected tokens than @var{argc}, fill @var{argv} up to @var{argc} and return
+0.  If there are no expected tokens, also return 0, but set @code{argv[0]}
+to @code{null}.
 
 If @var{argv} is null, return the size needed to store all the possible
 values, which is always less than @code{YYNTOKENS}.

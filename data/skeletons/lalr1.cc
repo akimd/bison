@@ -1326,6 +1326,8 @@ b4_dollar_popdef])[]dnl
             }
       }
 ]])[
+    if (yyarg && yycount == 0 && 0 < yyargn)
+      yyarg[0] = symbol_kind::]b4_symbol(-2, kind)[;
     return yycount;
   }
 

@@ -944,6 +944,8 @@ b4_dollar_popdef[]dnl
                   yyarg[yycount++] = SymbolKind.get (yyx);
               }
         }
+      if (yyarg != null && yycount == yyoffset && yyoffset < yyargn)
+        yyarg[yycount] = null;
       return yycount - yyoffset;
     }
   }
