@@ -1,4 +1,5 @@
 examples/c/bistromathic/parse.y
+examples/java/calc/Calc.y
 src/complain.c
 src/conflicts.c
 src/files.c

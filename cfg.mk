@@ -156,7 +156,7 @@ exclude = \
 $(call exclude,                                                                 \
   bindtextdomain=^lib/main.c$$                                                  \
   cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
-  po_check=^(examples|tests)/|(^po/POTFILES.in|.md)$$                           \
+  po_check=^tests|(^po/POTFILES.in|.md)$$                                       \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
   program_name=^lib/main.c$$                                                    \
   prohibit_always-defined_macros=^data/skeletons/yacc.c$$                       \
