@@ -130,6 +130,7 @@ src_bison_LDADD =                               \
   lib/libbison.a
 
 
+EXTRA_DIST += %D%/i18n-strings.c
 
 
 ## ------ ##
