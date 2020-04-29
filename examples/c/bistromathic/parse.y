@@ -267,9 +267,9 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
       {
         int nchars = 0;
         sscanf (*line - 1, "%lf%n", &yylval->TOK_NUM, &nchars);
-          *line += nchars - 1;
-          yylloc->last_column += nchars - 1;
-          return TOK_NUM;
+        *line += nchars - 1;
+        yylloc->last_column += nchars - 1;
+        return TOK_NUM;
       }
 
       // Identifiers.

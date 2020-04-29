@@ -16,6 +16,11 @@ GNU Bison NEWS
   error-recovery mode without triggering an additional error message.  See
   the bistromathic for an example.
 
+*** The bistromathic features internationalization
+
+  Its way to build the error message is more general and is easy to use in
+  other projects.
+
 * Noteworthy changes in release 3.5.90 (2020-04-18) [beta]
 
 ** Backward incompatible changes

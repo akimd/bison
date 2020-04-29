@@ -18,14 +18,6 @@
 - It would be better to have TokenKind as return value.  Can we use
   reflection to support both output types?
 
-** Documentation
-- YYerror, YYUNDEF, YYEOF
-- YYerror and translation
-
-** yypcontext_expected_tokens
-Beware that returning 0 is unclear: does it mean there are no possible
-lookahead, or that there are too many?
-
 ** YYerror
 https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=blob;f=gettext-runtime/intl/plural.y;h=a712255af4f2f739c93336d4ff6556d932a426a5;hb=HEAD
 
@@ -38,24 +30,6 @@ Have an example with a push parser.  Use autocompletion in that case.
 
 *** calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
-
-** doc
-I feel it's ugly to use the GNU style to declare functions in the doc.  It
-generates tons of white space in the page, and may contribute to bad page
-breaks.
-
-** consistency
-token vs terminal, variable vs non terminal.
-
-** api.token.raw
-The YYUNDEFTOK could be assigned a semantic value so that yyerror could be
-used to report invalid lexemes.
-
-** push parsers
-Consider deprecating impure push parsers.  They add a lot of complexity, for
-a bad feature.  On the other hand, that would make it much harder to sit
-push parsers on top of pull parser.  Which is currently not relevant, since
-push parsers are measurably slower.
 
 * Bison 3.7
 ** Counter example generation
@@ -78,6 +52,25 @@ would probably create many conflicts in Vincent's work (see previous point).
 ** A dev warning for b4_
 Maybe we should check for m4_ and b4_ leaking out of the m4 processing, as
 Autoconf does.  It would have caught overquotation issues.
+
+** doc
+I feel it's ugly to use the GNU style to declare functions in the doc.  It
+generates tons of white space in the page, and may contribute to bad page
+breaks.
+
+** consistency
+token vs terminal, variable vs non terminal.
+
+** api.token.raw
+The YYUNDEFTOK could be assigned a semantic value so that yyerror could be
+used to report invalid lexemes.
+
+** push parsers
+Consider deprecating impure push parsers.  They add a lot of complexity, for
+a bad feature.  On the other hand, that would make it much harder to sit
+push parsers on top of pull parser.  Which is currently not relevant, since
+push parsers are measurably slower.
+
 
 * Bison 3.8
 ** Unit rules / Injection rules (Akim Demaille)

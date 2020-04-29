@@ -314,6 +314,7 @@ Parser C-Language Interface
 The Lexical Analyzer Function @code{yylex}
 
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
+* Special Tokens::      Signaling end-of-file and errors to the parser.
 * Tokens from Literals:: Finding token kinds from string aliases.
 * Token Values::        How @code{yylex} must return the semantic value
                           of the token it has read.
@@ -7115,6 +7116,7 @@ that need it.  @xref{Invocation}.
 
 @menu
 * Calling Convention::  How @code{yyparse} calls @code{yylex}.
+* Special Tokens::      Signaling end-of-file and errors to the parser.
 * Tokens from Literals:: Finding token kinds from string aliases.
 * Token Values::        How @code{yylex} must return the semantic value
                           of the token it has read.
@@ -7167,6 +7169,49 @@ yylex (void)
 This interface has been designed so that the output from the @code{lex}
 utility can be used without change as the definition of @code{yylex}.
 
+
+@node Special Tokens
+@subsection Special Tokens
+
+In addition to the user defined tokens, Bison generates a few special tokens
+that @code{yylex} may return.
+
+The @code{YYEOF} token denotes the end of file, and signals to the parser
+that there is nothing left afterwards.  @xref{Calling Convention}, for an
+example.
+
+Returning @code{YYUNDEF} tells the parser that some lexical error was found.
+It will emit an error message about an ``invalid token'', and enter
+error-recovery (@pxref{Error Recovery}).  Returning an unknown token kind
+results in the exact same behavior.
+
+Returning @code{YYerror} requires the parser to enter error-recovery
+@emph{without} emitting an error message.  This way the lexical analyzer can
+produce an accurate error messages about the invalid input (something the
+parser cannot do), and yet benefit from the error-recovery features of the
+parser.
+
+@example
+int
+yylex (void)
+@{
+  @dots{}
+  switch (c)
+    @{
+      @dots{}
+      case '0': case '1': case '2': case '3': case '4':
+      case '5': case '6': case '7': case '8': case '9':
+        @dots{}
+        return TOK_NUM;
+      @dots{}
+      case EOF:
+        return YYEOF;
+      default:
+        yyerror ("syntax error: invalid character: %c", c);
+        return YYerror;
+    @}
+@}
+@end example
 
 @node Tokens from Literals
 @subsection Finding Tokens by String Literals
