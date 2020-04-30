@@ -113,6 +113,9 @@ class CalcLexer implements Calc.Lexer {
     return new Position(end);
   }
 
+  /**
+   * Build and emit a syntax error message.
+   */
   public void reportSyntaxError(Calc.Context ctx) {
     System.err.print(ctx.getLocation() + ": syntax error");
     {
@@ -131,11 +134,18 @@ class CalcLexer implements Calc.Lexer {
     System.err.println("");
   }
 
-  public void yyerror(Calc.Location l, String s) {
-    if (l == null)
-      System.err.println(s);
+  /**
+   * Emit an error referring to the given location in a user-defined way.
+   *
+   * @@param loc The location of the element to which the
+   *                error message is related.
+   * @@param msg The string for the error message.
+   */
+  public void yyerror(Calc.Location loc, String msg) {
+    if (loc == null)
+      System.err.println(msg);
     else
-      System.err.println(l + ": " + s);
+      System.err.println(loc + ": " + msg);
   }
 
   Integer yylval;
@@ -185,7 +195,9 @@ class CalcLexer implements Calc.Lexer {
   }
 }
 
-
+/**
+ * A class defining a point in the input.
+ */
 class Position {
   public int line = 1;
   public int column = 1;
@@ -227,6 +239,9 @@ class Position {
   }
 }
 
+/**
+ * A Stream reader that keeps track of the current Position.
+ */
 class PositionReader extends BufferedReader {
 
   private Position position = new Position();

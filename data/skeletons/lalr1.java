@@ -211,11 +211,10 @@ import java.text.MessageFormat;
     int yylex ()]b4_maybe_throws([b4_lex_throws])[;
 
     /**
-     * Entry point for error reporting.  Emits an error
-     * ]b4_locations_if([referring to the given location ])[in a user-defined way.
+     * Emit an error]b4_locations_if([ referring to the given location])[in a user-defined way.
      *
      *]b4_locations_if([[ @@param loc The location of the element to which the
-     *                error message is related]])[
+     *                error message is related.]])[
      * @@param msg The string for the error message.
      */
      void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);
@@ -223,9 +222,11 @@ import java.text.MessageFormat;
 ]b4_parse_error_bmatch(
            [custom], [[
     /**
-     * Build and emit a syntax error message.
+     * Build and emit a "syntax error" message in a user-defined way.
+     *
+     * @@param ctx  The context of the error.
      */
-     void reportSyntaxError (][Context yyctx);
+     void reportSyntaxError (][Context ctx);
 ]])[
   }
 
@@ -996,8 +997,10 @@ b4_dollar_popdef[]dnl
   }
 ]])[
 
-/**
-   * Report a syntax error.
+  /**
+   * Build and emit a "syntax error" message in a user-defined way.
+   *
+   * @@param ctx  The context of the error.
    */
   private void yyreportSyntaxError (Context yyctx)
   {]b4_parse_error_bmatch(
