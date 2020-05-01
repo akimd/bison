@@ -2548,7 +2548,7 @@ GNU Bison NEWS
   Running "make install-pdf" (or -dvi, -html, -info, and -ps) no longer
   halts in the middle of its course.
 
-* Changes in version 2.5 (2011-05-14):
+* Noteworthy changes in release 2.5 (2011-05-14)
 
 ** Grammar symbol names can now contain non-initial dashes:
 
@@ -2903,7 +2903,7 @@ GNU Bison NEWS
 
   This bug has been fixed.
 
-* Changes in version 2.4.3 (2010-08-05):
+* Noteworthy changes in release 2.4.3 (2010-08-05)
 
 ** Bison now obeys -Werror and --warnings=error for warnings about
    grammar rules that are useless in the parser due to conflicts.
@@ -2923,7 +2923,7 @@ GNU Bison NEWS
 
 ** Minor documentation fixes.
 
-* Changes in version 2.4.2 (2010-03-20):
+* Noteworthy changes in release 2.4.2 (2010-03-20)
 
 ** Some portability problems that resulted in failures and livelocks
    in the test suite on some versions of at least Solaris, AIX, HP-UX,
@@ -3017,7 +3017,7 @@ GNU Bison NEWS
   message translations were not installed although supported by the
   host system.
 
-* Changes in version 2.4.1 (2008-12-11):
+* Noteworthy changes in release 2.4.1 (2008-12-11)
 
 ** In the GLR defines file, unexpanded M4 macros in the yylval and yylloc
    declarations have been fixed.
@@ -3042,7 +3042,7 @@ GNU Bison NEWS
 
 ** A few minor improvements to the Bison manual.
 
-* Changes in version 2.4 (2008-11-02):
+* Noteworthy changes in release 2.4 (2008-11-02)
 
 ** %language is an experimental feature.
 
@@ -3057,7 +3057,7 @@ GNU Bison NEWS
 ** Several bugs in the C++ skeleton and the experimental Java skeleton have been
   fixed.
 
-* Changes in version 2.3b (2008-05-27):
+* Noteworthy changes in release 2.3b (2008-05-27)
 
 ** The quotes around NAME that used to be required in the following directive
   are now deprecated:
@@ -3243,7 +3243,7 @@ GNU Bison NEWS
 ** The nonfunctional --no-parser, -n, and %no-parser options have been
   completely removed from Bison.
 
-* Changes in version 2.3a, 2006-09-13:
+* Noteworthy changes in release 2.3a (2006-09-13)
 
 ** Instead of %union, you can define and use your own union type
   YYSTYPE if your grammar contains at least one <type> tag.
@@ -3357,7 +3357,7 @@ GNU Bison NEWS
   The old spelling still works, but is not documented and may be removed
   in a future release.
 
-* Changes in version 2.3, 2006-06-05:
+* Noteworthy changes in release 2.3 (2006-06-05)
 
 ** GLR grammars should now use "YYRECOVERING ()" instead of "YYRECOVERING",
   for compatibility with LALR(1) grammars.
@@ -3365,7 +3365,7 @@ GNU Bison NEWS
 ** It is now documented that any definition of YYSTYPE or YYLTYPE should
   be to a type name that does not contain parentheses or brackets.
 
-* Changes in version 2.2, 2006-05-19:
+* Noteworthy changes in release 2.2 (2006-05-19)
 
 ** The distribution terms for all Bison-generated parsers now permit
   using the parsers in nonfree programs.  Previously, this permission
@@ -3447,7 +3447,7 @@ GNU Bison NEWS
 
 ** DJGPP support added.
 
-* Changes in version 2.1, 2005-09-16:
+* Noteworthy changes in release 2.1 (2005-09-16)
 
 ** The C++ lalr1.cc skeleton supports %lex-param.
 
@@ -3473,7 +3473,7 @@ GNU Bison NEWS
   print 'syntax error, unexpected number' instead of 'syntax error,
   unexpected "number"'.
 
-* Changes in version 2.0, 2004-12-25:
+* Noteworthy changes in release 2.0 (2004-12-25)
 
 ** Possibly-incompatible changes
 
@@ -3536,7 +3536,7 @@ GNU Bison NEWS
 
   - Semicolons are now allowed before "|" in grammar rules, as POSIX requires.
 
-* Changes in version 1.875, 2003-01-01:
+* Noteworthy changes in release 1.875 (2003-01-01)
 
 ** The documentation license has been upgraded to version 1.2
   of the GNU Free Documentation License.
@@ -3656,7 +3656,7 @@ GNU Bison NEWS
   ago, but nobody noticed until we recently asked someone to try
   building Bison with a K&R C compiler.
 
-* Changes in version 1.75, 2002-10-14:
+* Noteworthy changes in release 1.75 (2002-10-14)
 
 ** Bison should now work on 64-bit hosts.
 
@@ -3687,7 +3687,7 @@ GNU Bison NEWS
   was incorrectly rejected: $1 is defined in the second midrule
   action, and is equal to the $$ of the first midrule action.
 
-* Changes in version 1.50, 2002-10-04:
+* Noteworthy changes in release 1.50 (2002-10-04)
 
 ** GLR parsing
   The declaration
@@ -3831,7 +3831,7 @@ GNU Bison NEWS
 
 ** GNU M4 is now required when using Bison.
 
-* Changes in version 1.35, 2002-03-25:
+* Noteworthy changes in release 1.35 (2002-03-25)
 
 ** C Skeleton
   Some projects use Bison's C parser with C++ compilers, and define
@@ -3846,7 +3846,7 @@ GNU Bison NEWS
   This kludge also addresses some C++ problems when the stack was
   extended.
 
-* Changes in version 1.34, 2002-03-12:
+* Noteworthy changes in release 1.34 (2002-03-12)
 
 ** File name clashes are detected
   $ bison foo.y -d -o foo.x
@@ -3866,7 +3866,7 @@ GNU Bison NEWS
 
 ** Fix test suite portability problems.
 
-* Changes in version 1.33, 2002-02-07:
+* Noteworthy changes in release 1.33 (2002-02-07)
 
 ** Fix C++ issues
   Groff could not be compiled for the definition of size_t was lacking
@@ -3875,7 +3875,7 @@ GNU Bison NEWS
 ** Catch invalid @n
   As is done with $n.
 
-* Changes in version 1.32, 2002-01-23:
+* Noteworthy changes in release 1.32 (2002-01-23)
 
 ** Fix Yacc output file names
 
@@ -3883,7 +3883,7 @@ GNU Bison NEWS
 
 ** Italian, Dutch translations
 
-* Changes in version 1.31, 2002-01-14:
+* Noteworthy changes in release 1.31 (2002-01-14)
 
 ** Many Bug Fixes
 
@@ -3970,7 +3970,7 @@ GNU Bison NEWS
 ** --output
   New, aliasing "--output-file".
 
-* Changes in version 1.30, 2001-10-26:
+* Noteworthy changes in release 1.30 (2001-10-26)
 
 ** "--defines" and "--graph" have now an optional argument which is the
   output file name. "-d" and "-g" do not change; they do not take any
@@ -3981,7 +3981,7 @@ GNU Bison NEWS
 
 ** Portability fixes.
 
-* Changes in version 1.29, 2001-09-07:
+* Noteworthy changes in release 1.29 (2001-09-07)
 
 ** The output file does not define const, as this caused problems when used
   with common autoconfiguration schemes.  If you still use ancient compilers
@@ -4016,7 +4016,7 @@ GNU Bison NEWS
 ** @$
   Automatic location tracking.
 
-* Changes in version 1.28, 1999-07-06:
+* Noteworthy changes in release 1.28 (1999-07-06)
 
 ** Should compile better now with K&R compilers.
 
@@ -4026,12 +4026,12 @@ GNU Bison NEWS
 
 ** There is now a FAQ.
 
-* Changes in version 1.27:
+* Noteworthy changes in release 1.27
 
 ** The make rule which prevented bison.simple from being created on
   some systems has been fixed.
 
-* Changes in version 1.26:
+* Noteworthy changes in release 1.26
 
 ** Bison now uses Automake.
 
@@ -4048,7 +4048,7 @@ GNU Bison NEWS
 ** Generated parsers should now work even on operating systems which do
   not provide alloca().
 
-* Changes in version 1.25, 1995-10-16:
+* Noteworthy changes in release 1.25 (1995-10-16)
 
 ** Errors in the input grammar are not fatal; Bison keeps reading
 the grammar file, and reports all the errors found in it.
@@ -4073,7 +4073,7 @@ the parser engine; a project can now use its own parser engine.
 The actions go into a separate file called NAME.act, in the form of
 a switch statement body.
 
-* Changes in version 1.23:
+* Noteworthy changes in release 1.23
 
 The user can define YYPARSE_PARAM as the name of an argument to be
 passed into yyparse.  The argument should have type void *.  It should
@@ -4082,11 +4082,11 @@ by casting it to the proper pointer type.
 
 Line numbers in output file corrected.
 
-* Changes in version 1.22:
+* Noteworthy changes in release 1.22
 
 --help option added.
 
-* Changes in version 1.20:
+* Noteworthy changes in release 1.20
 
 Output file does not redefine const for C++.
 

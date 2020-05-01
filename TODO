@@ -353,7 +353,11 @@ LORIA, INRIA Nancy - Grand Est, Nancy, France
 ** More languages?
 Well, only if there is really some demand for it.
 
+*** PHP
 https://github.com/scfc/bison-php/blob/master/data/lalr1.php
+
+*** Python
+https://lists.gnu.org/r/bison-patches/2013-09/msg00000.html and following
 
 ** Multiple start symbols
 Would be very useful when parsing closely related languages.  The idea is to
