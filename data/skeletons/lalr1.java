@@ -217,7 +217,7 @@ import java.text.MessageFormat;
      *                error message is related.]])[
      * @@param msg The string for the error message.
      */
-     void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);
+     void yyerror(]b4_locations_if([b4_location_type[ loc, ]])[String msg);
 
 ]b4_parse_error_bmatch(
            [custom], [[
@@ -308,9 +308,8 @@ import java.text.MessageFormat;
    *]b4_locations_if([[ Use a <code>null</code> location.]])[
    * @@param msg The error message.
    */
-  public final void yyerror (String msg)
-  {
-    yylexer.yyerror (]b4_locations_if([[(]b4_location_type[)null, ]])[msg);
+  public final void yyerror(String msg) {
+      yylexer.yyerror(]b4_locations_if([[(]b4_location_type[)null, ]])[msg);
   }
 ]b4_locations_if([[
   /**
@@ -318,9 +317,8 @@ import java.text.MessageFormat;
    * @@param loc The location associated with the message.
    * @@param msg The error message.
    */
-  public final void yyerror (]b4_location_type[ loc, String msg)
-  {
-    yylexer.yyerror (loc, msg);
+  public final void yyerror(]b4_location_type[ loc, String msg) {
+      yylexer.yyerror(loc, msg);
   }
 
   /**
@@ -328,9 +326,8 @@ import java.text.MessageFormat;
    * @@param pos The position associated with the message.
    * @@param msg The error message.
    */
-  public final void yyerror (]b4_position_type[ pos, String msg)
-  {
-    yylexer.yyerror (new ]b4_location_type[ (pos), msg);
+  public final void yyerror(]b4_position_type[ pos, String msg) {
+      yylexer.yyerror(new ]b4_location_type[ (pos), msg);
   }]])[
 ]b4_parse_trace_if([[
   protected final void yycdebug (String s) {
@@ -1003,36 +1000,34 @@ b4_dollar_popdef[]dnl
    *
    * @@param ctx  The context of the error.
    */
-  private void yyreportSyntaxError (Context yyctx)
-  {]b4_parse_error_bmatch(
+  private void yyreportSyntaxError(Context yyctx) {]b4_parse_error_bmatch(
 [custom], [[
-    yylexer.reportSyntaxError (yyctx);]],
+      yylexer.reportSyntaxError(yyctx);]],
 [detailed\|verbose], [[
-    if (yyErrorVerbose)
-      {
-        final int argmax = 5;
-        SymbolKind[] yyarg = new SymbolKind[argmax];
-        int yycount = yysyntaxErrorArguments (yyctx, yyarg, argmax);
-        String[] yystr = new String[yycount];
-        for (int yyi = 0; yyi < yycount; ++yyi)
-          yystr[yyi] = yyarg[yyi].getName();
-        String yyformat;
-        switch (yycount)
-          {
-            default:
-            case 0: yyformat = ]b4_trans(["syntax error"])[; break;
-            case 1: yyformat = ]b4_trans(["syntax error, unexpected {0}"])[; break;
-            case 2: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1}"])[; break;
-            case 3: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2}"])[; break;
-            case 4: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3}"])[; break;
-            case 5: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3} or {4}"])[; break;
+      if (yyErrorVerbose) {
+          final int argmax = 5;
+          SymbolKind[] yyarg = new SymbolKind[argmax];
+          int yycount = yysyntaxErrorArguments(yyctx, yyarg, argmax);
+          String[] yystr = new String[yycount];
+          for (int yyi = 0; yyi < yycount; ++yyi) {
+              yystr[yyi] = yyarg[yyi].getName();
           }
-        yyerror (]b4_locations_if([[yyctx.yylocation, ]])[new MessageFormat (yyformat).format (yystr));
-        return;
-      }
-    yyerror (]b4_locations_if([[yyctx.yylocation, ]])["syntax error");]],
+          String yyformat;
+          switch (yycount) {
+              default:
+              case 0: yyformat = ]b4_trans(["syntax error"])[; break;
+              case 1: yyformat = ]b4_trans(["syntax error, unexpected {0}"])[; break;
+              case 2: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1}"])[; break;
+              case 3: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2}"])[; break;
+              case 4: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3}"])[; break;
+              case 5: yyformat = ]b4_trans(["syntax error, unexpected {0}, expecting {1} or {2} or {3} or {4}"])[; break;
+          }
+          yyerror(]b4_locations_if([[yyctx.yylocation, ]])[new MessageFormat(yyformat).format(yystr));
+      } else {
+          yyerror(]b4_locations_if([[yyctx.yylocation, ]])["syntax error");
+      }]],
 [simple], [[
-    yyerror (]b4_locations_if([[yyctx.yylocation, ]])["syntax error");]])[
+      yyerror(]b4_locations_if([[yyctx.yylocation, ]])["syntax error");]])[
   }
 
   /**
