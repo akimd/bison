@@ -41,6 +41,13 @@ m4_define([b4_stack_define],
         : seq_ (n)
       {}
 
+#if 201103L <= YY_CPLUSPLUS
+      /// Non copyable.
+      stack (const stack&) = delete;
+      /// Non copyable.
+      stack& operator= (const stack&) = delete;
+#endif
+
       /// Random access.
       ///
       /// Index 0 returns the topmost element.
@@ -126,8 +133,12 @@ m4_define([b4_stack_define],
       };
 
     private:
+#if YY_CPLUSPLUS < 201103L
+      /// Non copyable.
       stack (const stack&);
+      /// Non copyable.
       stack& operator= (const stack&);
+#endif
       /// The wrapped container.
       S seq_;
     };

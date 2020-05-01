@@ -204,6 +204,13 @@ m4_define([b4_shared_declarations],
     ]b4_parser_class[ (]b4_parse_param_decl[);
     virtual ~]b4_parser_class[ ();
 
+#if 201103L <= YY_CPLUSPLUS
+    /// Non copyable.
+    ]b4_parser_class[ (const ]b4_parser_class[&) = delete;
+    /// Non copyable.
+    ]b4_parser_class[& operator= (const ]b4_parser_class[&) = delete;
+#endif
+
     /// Parse.  An alias for parse ().
     /// \returns  0 iff parsing succeeded.
     int operator() ();
@@ -255,10 +262,13 @@ m4_define([b4_shared_declarations],
     };
 ]])[
   private:
-    /// This class is not copyable.
+#if YY_CPLUSPLUS < 201103L
+    /// Non copyable.
     ]b4_parser_class[ (const ]b4_parser_class[&);
-    ]b4_parser_class[& operator= (const ]b4_parser_class[&);]b4_lac_if([[
-
+    /// Non copyable.
+    ]b4_parser_class[& operator= (const ]b4_parser_class[&);
+#endif
+]b4_lac_if([[
     /// Check the lookahead yytoken.
     /// \returns  true iff the token will be eventually shifted.
     bool yy_lac_check_ (symbol_kind_type yytoken) const;
