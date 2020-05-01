@@ -1024,10 +1024,10 @@ b4_dollar_popdef[]dnl
           }
           yyerror(]b4_locations_if([[yyctx.yylocation, ]])[new MessageFormat(yyformat).format(yystr));
       } else {
-          yyerror(]b4_locations_if([[yyctx.yylocation, ]])["syntax error");
+          yyerror(]b4_locations_if([[yyctx.yylocation, ]])[]b4_trans(["syntax error"])[);
       }]],
 [simple], [[
-      yyerror(]b4_locations_if([[yyctx.yylocation, ]])["syntax error");]])[
+      yyerror(]b4_locations_if([[yyctx.yylocation, ]])[]b4_trans(["syntax error"])[);]])[
   }
 
   /**
