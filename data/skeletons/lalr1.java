@@ -489,7 +489,7 @@ import java.text.MessageFormat;
         default: break;
       }]b4_parse_trace_if([[
 
-    yySymbolPrint ("-> $$ =", SymbolKind.get (yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
+    yySymbolPrint("-> $$ =", SymbolKind.get (yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
 
     yystack.pop (yylen);
     yylen = 0;
@@ -505,13 +505,14 @@ import java.text.MessageFormat;
   `--------------------------------*/
 
   private void yySymbolPrint(String s, SymbolKind yykind,
-                             ]b4_yystype[ yyvalue]b4_locations_if([, ]b4_location_type[ yylocation])[)
-  {
-    yycdebug (s
-              + (yykind.getCode() < YYNTOKENS_ ? " token " : " nterm ")
-              + yykind.getName() + " ("]b4_locations_if([
-              + yylocation + ": "])[
-              + (yyvalue == null ? "(null)" : yyvalue.toString()) + ")");
+                             ]b4_yystype[ yyvalue]b4_locations_if([, ]b4_location_type[ yylocation])[) {
+      if (0 < yydebug) {
+          yycdebug(s
+                   + (yykind.getCode() < YYNTOKENS_ ? " token " : " nterm ")
+                   + yykind.getName() + " ("]b4_locations_if([
+                   + yylocation + ": "])[
+                   + (yyvalue == null ? "(null)" : yyvalue.toString()) + ")");
+      }
   }]])[
 
 ]b4_push_if([],[[
@@ -613,8 +614,8 @@ b4_dollar_popdef[]dnl
 
         /* Convert token to internal form.  */
         yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
-        yySymbolPrint ("Next token is", yytoken,
-                       yylval]b4_locations_if([, yylloc])[);]])[
+        yySymbolPrint("Next token is", yytoken,
+                      yylval]b4_locations_if([, yylloc])[);]])[
 
         if (yytoken == SymbolKind.]b4_symbol_prefix[YYerror)
           {
@@ -650,8 +651,8 @@ b4_dollar_popdef[]dnl
             else
               {
                 /* Shift the lookahead token.  */]b4_parse_trace_if([[
-                yySymbolPrint ("Shifting", yytoken,
-                               yylval]b4_locations_if([, yylloc])[);
+                yySymbolPrint("Shifting", yytoken,
+                              yylval]b4_locations_if([, yylloc])[);
 ]])[
                 /* Discard the token being shifted.  */
                 yychar = YYEMPTY_;
@@ -782,8 +783,8 @@ b4_dollar_popdef[]dnl
         yystack.pop (2);]])[
 
         /* Shift the error token.  */]b4_parse_trace_if([[
-        yySymbolPrint ("Shifting", SymbolKind.get (yystos_[yyn]),
-                       yylval]b4_locations_if([, yyloc])[);]])[
+        yySymbolPrint("Shifting", SymbolKind.get (yystos_[yyn]),
+                      yylval]b4_locations_if([, yyloc])[);]])[
 
         yystate = yyn;
         yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
@@ -1077,10 +1078,10 @@ b4_dollar_popdef[]dnl
 
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
-      yySymbolPrint ("   $" + (yyi + 1) + " =",
-                     SymbolKind.get (yystos_[yystack.stateAt (yynrhs - (yyi + 1))]),
-                     ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
-                     b4_rhs_location(yynrhs, yyi + 1)])[);
+      yySymbolPrint("   $" + (yyi + 1) + " =",
+                    SymbolKind.get (yystos_[yystack.stateAt (yynrhs - (yyi + 1))]),
+                    ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
+                    b4_rhs_location(yynrhs, yyi + 1)])[);
   }]])[
 
   /* YYTRANSLATE_(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
