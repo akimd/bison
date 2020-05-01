@@ -9645,10 +9645,10 @@ and understand the parser run-time traces (@pxref{Tracing}).
 @node Understanding
 @section Understanding Your Parser
 
-As documented elsewhere (@pxref{Algorithm})
-Bison parsers are @dfn{shift/reduce automata}.  In some cases (much more
-frequent than one would hope), looking at this automaton is required to
-tune or simply fix a parser.
+As documented elsewhere (@pxref{Algorithm}) Bison parsers are
+@dfn{shift/reduce automata}.  In some cases (much more frequent than one
+would hope), looking at this automaton is required to tune or simply fix a
+parser.
 
 The textual file is generated when the options @option{--report} or
 @option{--verbose} are specified, see @ref{Invocation}.  Its name is made by
@@ -10604,6 +10604,26 @@ For compatibility with POSIX, the standard Bison distribution also contains
 a shell script called @command{yacc} that invokes Bison with the @option{-y}
 option.
 
+@sp 1
+
+The exit status of @command{bison} is:
+@table @asis
+@item 0 (success)
+when there were no errors.  Warnings, which are diagnostics about dubious
+constructs, do not change the exit status, unless they are turned into
+errors (@pxref{-Werror,,@option{-Werror}}).
+
+@item 1 (failure)
+when there were errors.  No file was generated (except the reports generated
+by @option{--verbose}, etc.).  In particular, the output files that possibly
+existed were not changed.
+
+@item 63 (mistmatch)
+when @command{bison} does not meet the version requirements of the grammar
+file. @xref{Require Decl}.  No file was generated or changed.
+@end table
+
+
 @menu
 * Bison Options::     All the options described in detail,
                         in alphabetical order by short options.
@@ -10997,6 +11017,7 @@ instance, @option{-Wno-yacc} will hide the warnings about
 POSIX Yacc incompatibilities.
 
 @item -Werror
+@anchor{-Werror}
 Turn enabled warnings for every @var{category} into errors, unless they are
 explicitly disabled by @option{-Wno-error=@var{category}}.
 
