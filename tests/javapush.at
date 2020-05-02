@@ -180,28 +180,28 @@ AT_DATA([[input.y]],
 # Verify that the proper procedure(s) are generated for each case.
 AT_BISON_CHECK([[-Dapi.push-pull=pull -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
-                   [[.*public boolean parse ().*]],
+                   [[.*public boolean parse().*]],
                    [1])
 # If BISON_USE_PUSH_FOR_PULL is set, then we have one occurrence of
 # this function, otherwise it should not be there.
 AT_CHECK_JAVA_GREP([[Main.java]],
-        [[.*public int push_parse (int yylextoken, Object yylexval).*]],
+        [[.*public int push_parse(int yylextoken, Object yylexval).*]],
         [${BISON_USE_PUSH_FOR_PULL-0}])
 
 AT_BISON_CHECK([[-Dapi.push-pull=both -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
-                   [[.*public boolean parse ().*]],
+                   [[.*public boolean parse().*]],
                    [1])
 AT_CHECK_JAVA_GREP([[Main.java]],
-        [[.*public int push_parse (int yylextoken, Object yylexval).*]],
+        [[.*public int push_parse(int yylextoken, Object yylexval).*]],
         [1])
 
 AT_BISON_CHECK([[-Dapi.push-pull=push -o Main.java input.y]])
 AT_CHECK_JAVA_GREP([[Main.java]],
-                   [[.*public boolean parse ().*]],
+                   [[.*public boolean parse().*]],
                    [0])
 AT_CHECK_JAVA_GREP([[Main.java]],
-        [[.*public int push_parse (int yylextoken, Object yylexval).*]],
+        [[.*public int push_parse(int yylextoken, Object yylexval).*]],
         [1])
 
 AT_JAVA_COMPILE([[Main.java]])

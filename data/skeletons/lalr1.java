@@ -188,19 +188,19 @@ import java.text.MessageFormat;
      * Method to retrieve the beginning position of the last scanned token.
      * @@return the position at which the last scanned token starts.
      */
-    ]b4_position_type[ getStartPos ();
+    ]b4_position_type[ getStartPos();
 
     /**
      * Method to retrieve the ending position of the last scanned token.
      * @@return the first position beyond the last scanned token.
      */
-    ]b4_position_type[ getEndPos ();]])[
+    ]b4_position_type[ getEndPos();]])[
 
     /**
      * Method to retrieve the semantic value of the last scanned token.
      * @@return the semantic value of the last scanned token.
      */
-    ]b4_yystype[ getLVal ();
+    ]b4_yystype[ getLVal();
 
     /**
      * Entry point for the scanner.  Returns the token identifier corresponding
@@ -208,7 +208,7 @@ import java.text.MessageFormat;
      * ]b4_locations_if([and beginning/ending positions ])[of the token.
      * @@return the token identifier corresponding to the next token.
      */
-    int yylex ()]b4_maybe_throws([b4_lex_throws])[;
+    int yylex()]b4_maybe_throws([b4_lex_throws])[;
 
     /**
      * Emit an error]b4_locations_if([ referring to the given location])[in a user-defined way.
@@ -467,7 +467,7 @@ import java.text.MessageFormat;
       return yydefgoto_[yysym - YYNTOKENS_];
   }
 
-  private int yyaction (int yyn, YYStack yystack, int yylen)]b4_maybe_throws([b4_throws])[
+  private int yyaction(int yyn, YYStack yystack, int yylen)]b4_maybe_throws([b4_throws])[
   {
     /* If YYLEN is nonzero, implement the default value of the action:
        '$$ = $1'.  Otherwise, use the top of the stack.
@@ -475,10 +475,10 @@ import java.text.MessageFormat;
        Otherwise, the following line sets YYVAL to garbage.
        This behavior is undocumented and Bison
        users should not rely upon it.  */
-    ]b4_yystype[ yyval = (0 < yylen) ? yystack.valueAt (yylen - 1) : yystack.valueAt (0);]b4_locations_if([[
-    ]b4_location_type[ yyloc = yylloc (yystack, yylen);]])[]b4_parse_trace_if([[
+    ]b4_yystype[ yyval = (0 < yylen) ? yystack.valueAt(yylen - 1) : yystack.valueAt(0);]b4_locations_if([[
+    ]b4_location_type[ yyloc = yylloc(yystack, yylen);]])[]b4_parse_trace_if([[
 
-    yyReducePrint (yyn, yystack);]])[
+    yyReducePrint(yyn, yystack);]])[
 
     switch (yyn)
       {
@@ -486,13 +486,13 @@ import java.text.MessageFormat;
         default: break;
       }]b4_parse_trace_if([[
 
-    yySymbolPrint("-> $$ =", SymbolKind.get (yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
+    yySymbolPrint("-> $$ =", SymbolKind.get(yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
 
-    yystack.pop (yylen);
+    yystack.pop(yylen);
     yylen = 0;
     /* Shift the result of the reduction.  */
-    int yystate = yyLRGotoState (yystack.stateAt (0), yyr1_[yyn]);
-    yystack.push (yystate, yyval]b4_locations_if([, yyloc])[);
+    int yystate = yyLRGotoState(yystack.stateAt(0), yyr1_[yyn]);
+    yystack.push(yystate, yyval]b4_locations_if([, yyloc])[);
     return YYNEWSTATE;
   }
 
@@ -520,7 +520,7 @@ import java.text.MessageFormat;
    * @@return <tt>true</tt> if the parsing succeeds.  Note that this does not
    *          imply that there were no syntax errors.
    */
-  public boolean parse ()]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[]])[
+  public boolean parse()]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[]])[
 ]b4_push_if([
   /**
    * Push Parse input from external lexer
@@ -531,7 +531,7 @@ import java.text.MessageFormat;
    *
    * @@return <tt>YYACCEPT, YYABORT, YYPUSH_MORE</tt>
    */
-  public int push_parse (int yylextoken, b4_yystype yylexval[]b4_locations_if([, b4_location_type yylexloc]))b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])])[
+  public int push_parse(int yylextoken, b4_yystype yylexval[]b4_locations_if([, b4_location_type yylexloc]))b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])])[
   {]b4_locations_if([[
     /* @@$.  */
     ]b4_location_type[ yyloc;]])[
@@ -682,7 +682,7 @@ b4_dollar_popdef[]dnl
       `-----------------------------*/
       case YYREDUCE:
         yylen = yyr2_[yyn];
-        label = yyaction (yyn, yystack, yylen);
+        label = yyaction(yyn, yystack, yylen);
         yystate = yystack.stateAt (0);
         break;
 
@@ -842,9 +842,9 @@ b4_dollar_popdef[]dnl
    *
    * @@return <tt>YYACCEPT, YYABORT, YYPUSH_MORE</tt>
    */
-  public int push_parse (int yylextoken, b4_yystype yylexval, b4_position_type yylexpos)b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])
+  public int push_parse(int yylextoken, b4_yystype yylexval, b4_position_type yylexpos)b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])
   {
-    return push_parse (yylextoken, yylexval, new b4_location_type (yylexpos));
+    return push_parse(yylextoken, yylexval, new b4_location_type (yylexpos));
   }
 ])[]])[
 
@@ -852,12 +852,12 @@ b4_dollar_popdef[]dnl
   /**
    * Parse input from the scanner that was specified at object construction
    * time.  Return whether the end of the input was reached successfully.
-   * This version of parse () is defined only when api.push-push=both.
+   * This version of parse() is defined only when api.push-push=both.
    *
    * @@return <tt>true</tt> if the parsing succeeds.  Note that this does not
    *          imply that there were no syntax errors.
    */
-  public boolean parse ()]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[
+  public boolean parse()]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[
   {
     if (yylexer == null)
       throw new NullPointerException("Null Lexer");

@@ -146,7 +146,7 @@ m4_define([AT_CHECK_JAVA_MINIMAL_W_LEXER],
     System.err.println (loc + ": " + s);
   }
 
-  public int yylex ()$2
+  public int yylex()$2
   {
     $3
   }
@@ -430,9 +430,9 @@ AT_JT_initial_action],
 [AT_JT_yylex_action],
 [],
 [AT_JT_parse_action])])
-AT_CHECK_JAVA_GREP([[ *int yylex ()]AT_JT_yylex_throws *[;]])
-AT_CHECK_JAVA_GREP([[ *private int yyaction ([^)]*)]AT_JT_yyaction_throws[ *]])
-AT_CHECK_JAVA_GREP([[ *public boolean parse ()]AT_JT_parse_throws[ *]])
+AT_CHECK_JAVA_GREP([[ *int yylex()]AT_JT_yylex_throws *[;]])
+AT_CHECK_JAVA_GREP([[ *private int yyaction([^)]*)]AT_JT_yyaction_throws[ *]])
+AT_CHECK_JAVA_GREP([[ *public boolean parse()]AT_JT_parse_throws[ *]])
 ])])])
 
 AT_CLEANUP
