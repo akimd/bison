@@ -220,15 +220,14 @@ exp: an\005error.
 
 AT_TEST([[Tabulations and multibyte characters]],
 [[%%
-exp: a b c d e f g h
+exp: a b c d e f g
 a: {		}
 b: {            }
 c: {------------}
 d: {éééééééééééé}
-e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
-f: {	42	}
-g: {	"฿¥$€₦"	}
-h: {	🐃	}
+e: {	42	}
+f: {	"฿¥$€₦"	}
+g: {	🐃	}
 ]],
 [0],
 [[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
@@ -248,23 +247,38 @@ input.y:14.4-17: <warning>warning:</warning> empty rule without %empty [<warning
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y:15.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   15 | e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
+   15 | e: <warning>{	42	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y:16.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   16 | f: <warning>{	42	}</warning>
+   16 | f: <warning>{	"฿¥$€₦"	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   17 | g: <warning>{	"฿¥$€₦"	}</warning>
-      |    <warning>^~~~~~~~~~~~~~</warning>
-      |    <fixit-insert>%empty</fixit-insert>
-input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   18 | h: <warning>{	🐃	}</warning>
+   17 | g: <warning>{	🐃	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
+
+# Likewise, but currently not portable to Cygwin.
+# https://lists.gnu.org/r/bug-bison/2020-05/msg00003.html.
+case `uname -a` in
+  (CYGWIN*);;
+  (*)
+AT_TEST([[Tabulations and multibyte characters]],
+[[%%
+e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
+]],
+[0],
+[[input.y:10.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   10 | e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+]])
+;;
+esac
 
 
 ## --------------- ##
