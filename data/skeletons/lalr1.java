@@ -121,7 +121,7 @@ import java.text.MessageFormat;
    * Locations represent a part of the input through the beginning
    * and ending positions.
    */
-  public class ]b4_location_type[ {
+  public static class ]b4_location_type[ {
     /**
      * The first, inclusive, position in the range.
      */
@@ -182,8 +182,7 @@ import java.text.MessageFormat;
 ]b4_token_enums[
     /** Deprecated, use ]b4_symbol(0, id)[ instead.  */
     public static final int EOF = ]b4_symbol(0, id)[;
-
-]b4_locations_if([[
+]b4_pull_if([b4_locations_if([[
     /**
      * Method to retrieve the beginning position of the last scanned token.
      * @@return the position at which the last scanned token starts.
@@ -209,7 +208,7 @@ import java.text.MessageFormat;
      * @@return the token identifier corresponding to the next token.
      */
     int yylex()]b4_maybe_throws([b4_lex_throws])[;
-
+]])[
     /**
      * Emit an error]b4_locations_if([ referring to the given location])[in a user-defined way.
      *
@@ -832,7 +831,7 @@ b4_dollar_popdef[]dnl
     this.push_parse_initialized = true;
 
   }
-]b4_locations_if([
+]b4_locations_if([[
   /**
    * Push parse given input from an external lexer.
    *
@@ -842,11 +841,10 @@ b4_dollar_popdef[]dnl
    *
    * @@return <tt>YYACCEPT, YYABORT, YYPUSH_MORE</tt>
    */
-  public int push_parse(int yylextoken, b4_yystype yylexval, b4_position_type yylexpos)b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])
-  {
-    return push_parse(yylextoken, yylexval, new b4_location_type (yylexpos));
+  public int push_parse(int yylextoken, ]b4_yystype[ yylexval, ]b4_position_type[ yylexpos)]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[ {
+      return push_parse(yylextoken, yylexval, new ]b4_location_type[(yylexpos));
   }
-])[]])[
+]])])[
 
 ]b4_both_if([[
   /**
@@ -857,21 +855,18 @@ b4_dollar_popdef[]dnl
    * @@return <tt>true</tt> if the parsing succeeds.  Note that this does not
    *          imply that there were no syntax errors.
    */
-  public boolean parse()]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[
-  {
-    if (yylexer == null)
-      throw new NullPointerException("Null Lexer");
-    int status;
-    do {
-      int token = yylexer.yylex();
-      ]b4_yystype[ lval = yylexer.getLVal();
-]b4_locations_if([dnl
-      b4_location_type yyloc = new b4_location_type (yylexer.getStartPos (),
-                                            yylexer.getEndPos ());])[]b4_locations_if([[
-      status = push_parse(token,lval,yyloc);]], [[
-      status = push_parse(token,lval);]])[
-    } while (status == YYPUSH_MORE);
-    return (status == YYACCEPT);
+  public boolean parse()]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[ {
+      if (yylexer == null)
+          throw new NullPointerException("Null Lexer");
+      int status;
+      do {
+          int token = yylexer.yylex();
+          ]b4_yystype[ lval = yylexer.getLVal();]b4_locations_if([[
+          ]b4_location_type[ yyloc = new ]b4_location_type[(yylexer.getStartPos(), yylexer.getEndPos());
+          status = push_parse(token, lval, yyloc);]], [[
+          status = push_parse(token, lval);]])[
+      } while (status == YYPUSH_MORE);
+      return status == YYACCEPT;
   }
 ]])[
 

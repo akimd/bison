@@ -25,9 +25,6 @@ should be updated to not use YYERRCODE.  Returning an undef token is good
 enough.
 
 ** Java
-*** Examples
-Have an example with a push parser.  Use autocompletion in that case.
-
 *** calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
 

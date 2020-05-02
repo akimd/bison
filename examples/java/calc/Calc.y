@@ -2,6 +2,7 @@
 
 %define api.parser.class {Calc}
 %define api.parser.public
+%define api.push-pull push
 
 %define parse.error custom
 %define parse.trace
@@ -20,12 +21,19 @@
 
 %code {
   public static void main(String[] args) throws IOException {
-    CalcLexer l = new CalcLexer(System.in);
-    Calc p = new Calc(l);
+    CalcLexer scanner = new CalcLexer(System.in);
+    Calc parser = new Calc(scanner);
     for (String arg : args)
       if (arg.equals("-p"))
-        p.setDebugLevel(1);
-    if (!p.parse())
+        parser.setDebugLevel(1);
+    int status;
+    do {
+      int token = scanner.getToken();
+      Object lval = scanner.getValue();
+      Calc.Location yyloc = scanner.getLocation();
+      status = parser.push_parse(token, lval, yyloc);
+    } while (status == Calc.YYPUSH_MORE);
+    if (status != Calc.YYACCEPT)
       System.exit(1);
   }
 
@@ -105,12 +113,12 @@ class CalcLexer implements Calc.Lexer {
   Position start = new Position(1, 0);
   Position end = new Position(1, 0);
 
-  public Position getStartPos() {
-    return new Position(start);
-  }
-
-  public Position getEndPos() {
-    return new Position(end);
+  /**
+   * The location of the last token read.
+   * Implemented with getStartPos and getEndPos in pull parsers.
+   */
+  public Calc.Location getLocation() {
+    return new Calc.Location(new Position(start), new Position(end));
   }
 
   /**
@@ -150,11 +158,17 @@ class CalcLexer implements Calc.Lexer {
 
   Integer yylval;
 
-  public Object getLVal() {
+  /**
+   * The value of the last token read.  Called getLVal in pull parsers.
+   */
+  public Object getValue() {
     return yylval;
   }
 
-  public int yylex() throws IOException {
+  /**
+   * Fetch the next token.  Called yylex in pull parsers.
+   */
+  public int getToken() throws IOException {
     start.set(reader.getPosition());
     int ttype = st.nextToken();
     end.set(reader.getPosition());
@@ -170,7 +184,7 @@ class CalcLexer implements Calc.Lexer {
       end.set(reader.getPreviousPosition());
       return NUM;
     case ' ': case '\t':
-      return yylex();
+      return getToken();
     case '!':
       return BANG;
     case '+':

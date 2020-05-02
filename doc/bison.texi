@@ -13341,9 +13341,9 @@ changed using @code{%define api.location.type @{@var{class-name}@}}.
 @end deftypemethod
 
 @deftypemethod {Lexer} {int} yylex ()
-Return the next token.  Its type is the return value, its semantic
-value and location are saved and returned by the their methods in the
-interface.
+Return the next token.  Its type is the return value, its semantic value and
+location are saved and returned by the their methods in the interface.  Not
+needed for push-only parsers.
 
 Use @samp{%define lex_throws} to specify any uncaught exceptions.
 Default is @code{java.io.IOException}.
@@ -13353,7 +13353,7 @@ Default is @code{java.io.IOException}.
 @deftypemethodx {Lexer} {Position} getEndPos ()
 Return respectively the first position of the last token that @code{yylex}
 returned, and the first position beyond it.  These methods are not needed
-unless location tracking is active.
+unless location tracking and pull parsing are active.
 
 They should return new objects for each call, to avoid that all the symbol
 share the same Position boundaries.
@@ -13363,7 +13363,8 @@ The return type can be changed using @code{%define api.position.type
 @end deftypemethod
 
 @deftypemethod {Lexer} {Object} getLVal ()
-Return the semantic value of the last token that yylex returned.
+Return the semantic value of the last token that yylex returned.  Not needed
+for push-only parsers.
 
 The return type can be changed using @samp{%define api.value.type
 @{@var{class-name}@}}.

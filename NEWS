@@ -216,8 +216,8 @@ GNU Bison NEWS
 
 *** Examples
 
-  There are now two examples in examples/java: a very simple calculator, and
-  one that tracks locations to provide accurate error messages.
+  There are now examples/java: a very simple calculator, and a more complete
+  one (push-parser, location tracking, and debug traces).
 
   The lexcalc example (a simple example in C based on Flex and Bison) now
   also demonstrates location tracking.

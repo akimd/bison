@@ -9,7 +9,7 @@ afterwards.
 The usual calculator, a very simple version.
 
 ## calc/Calc.y
-The calculator, but with location tracking and debug traces.
+The calculator, but with location tracking, debug traces, and a push parser.
 
 <!---
 
