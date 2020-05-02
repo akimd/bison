@@ -2369,9 +2369,9 @@ yylex (void)
 @end group
 @end example
 
-Basically, the lexical analyzer performs the same processing as before:
-it skips blanks and tabs, and reads numbers or single-character tokens.
-In addition, it updates @code{yylloc}, the global variable (of type
+Basically, the lexical analyzer performs the same processing as before: it
+skips blanks and tabs, and reads numbers or single-character tokens.  In
+addition, it updates @code{yylloc}, the global variable (of type
 @code{YYLTYPE}) containing the token's location.
 
 Now, each time this function returns a token, the parser has its kind as
@@ -6132,7 +6132,7 @@ the @code{full} value was introduced in Bison 2.7
 @deffn Directive {%define api.push-pull} @var{kind}
 
 @itemize @bullet
-@item Language(s): C (deterministic parsers only)
+@item Language(s): C (deterministic parsers only), Java
 
 @item Purpose: Request a pull parser, a push parser, or both.
 @xref{Push Decl}.
@@ -13022,9 +13022,6 @@ of the parser is always local to an instance of the parser class.
 Therefore, all Java parsers are ``pure'', and the @code{%define api.pure}
 directive does nothing when used in Java.
 
-Push parsers are currently unsupported in Java and @code{%define
-api.push-pull} have no effect.
-
 GLR parsers are currently unsupported in Java.  Do not use the
 @code{glr-parser} directive.
 
@@ -14738,8 +14735,8 @@ In semantic actions, it stores the location of the lookahead token.
 @end deffn
 
 @deffn {Type} YYLTYPE
-Data type of @code{yylloc}; by default, a structure with four
-members.  @xref{Location Type}.
+Data type of @code{yylloc}; by default, a structure with four members.
+@xref{Location Type}.
 @end deffn
 
 @deffn {Variable} yylval
