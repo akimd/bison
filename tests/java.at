@@ -18,9 +18,9 @@
 AT_BANNER([[Java Calculator.]])
 
 
-# ------------------------- #
-# Java invalid directives.  #
-# ------------------------- #
+## ------------------------- ##
+## Java invalid directives.  ##
+## ------------------------- ##
 
 AT_SETUP([Java invalid directives])
 
@@ -42,9 +42,9 @@ YYParser.y:4.13-30: error: %destructor does not make sense in Java
 AT_CLEANUP
 
 
-# ------------------------- #
-# Helping Autotest macros.  #
-# ------------------------- #
+## ------------------------- ##
+## Helping Autotest macros.  ##
+## ------------------------- ##
 
 
 # AT_JAVA_POSITION_DEFINE_OLD
@@ -91,9 +91,9 @@ m4_define([AT_JAVA_POSITION_DEFINE_OLD],
 
 
 
-# -----------------#
-# Java Parameters. #
-# -----------------#
+## ----------------- ##
+## Java Parameters.  ##
+## ----------------- ##
 
 AT_BANNER([Java Parameters.])
 
@@ -164,9 +164,9 @@ m4_define([AT_CHECK_JAVA_GREP],
 ])])
 
 
-# ------------------------------------- #
-# Java parser class and package names.  #
-# ------------------------------------- #
+## ------------------------------------- ##
+## Java parser class and package names.  ##
+## ------------------------------------- ##
 
 AT_SETUP([Java parser class and package names])
 
@@ -191,9 +191,9 @@ AT_CHECK_JAVA_GREP([[package user_java_package;]])
 AT_CLEANUP
 
 
-# ----------------------------- #
-# Java parser class modifiers.  #
-# ----------------------------- #
+## ----------------------------- ##
+## Java parser class modifiers.  ##
+## ----------------------------- ##
 
 AT_SETUP([Java parser class modifiers])
 
@@ -255,9 +255,9 @@ AT_CHECK_JAVA_GREP([[/\*@Deprecated @SuppressWarnings("unchecked") @SuppressWarn
 AT_CLEANUP
 
 
-# ---------------------------------------- #
-# Java parser class extends and implements #
-# ---------------------------------------- #
+## ---------------------------------------- ##
+## Java parser class extends and implements ##
+## ---------------------------------------- ##
 
 AT_SETUP([Java parser class extends and implements])
 
@@ -275,9 +275,9 @@ AT_CHECK_JAVA_GREP([[class YYParser extends Thread implements Cloneable]])
 AT_CLEANUP
 
 
-# -------------------------------- #
-# Java %parse-param and %lex-param #
-# -------------------------------- #
+## -------------------------------- ##
+## Java %parse-param and %lex-param ##
+## -------------------------------- ##
 
 AT_SETUP([Java %parse-param and %lex-param])
 
@@ -349,9 +349,9 @@ AT_CHECK_JAVA_GREP([[ *this.parse_param2 = parse_param2;]], [2])
 AT_CLEANUP
 
 
-# ------------------------- #
-# Java throw specifications #
-# ------------------------- #
+## --------------------------- ##
+## Java throw specifications.  ##
+## --------------------------- ##
 
 AT_SETUP([Java throws specifications])
 
@@ -438,9 +438,9 @@ AT_CHECK_JAVA_GREP([[ *public boolean parse ()]AT_JT_parse_throws[ *]])
 AT_CLEANUP
 
 
-# ------------------------------------- #
-# Java constructor init and init_throws #
-# ------------------------------------- #
+## --------------------------------------- ##
+## Java constructor init and init_throws.  ##
+## --------------------------------------- ##
 
 AT_SETUP([Java constructor init and init_throws])
 
@@ -465,9 +465,9 @@ m4_popdef([AT_Witness])
 AT_CLEANUP
 
 
-# ------------------------------------------ #
-# Java value, position, and location types.  #
-# ------------------------------------------ #
+## ------------------------------------------ ##
+## Java value, position, and location types.  ##
+## ------------------------------------------ ##
 
 AT_SETUP([Java value, position, and location types])
 
@@ -496,9 +496,9 @@ AT_CHECK([[$EGREP -v ' */?\*' YYParser.java | grep -w 'Location']], [1], [ignore
 AT_CLEANUP
 
 
-# ----------------------------------------------- #
-# Java syntax error handling without error token. #
-# ----------------------------------------------- #
+## ------------------------------------------------ ##
+## Java syntax error handling without error token.  ##
+## ------------------------------------------------ ##
 
 AT_SETUP([Java syntax error handling without error token])
 
