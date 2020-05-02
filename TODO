@@ -71,6 +71,55 @@ a bad feature.  On the other hand, that would make it much harder to sit
 push parsers on top of pull parser.  Which is currently not relevant, since
 push parsers are measurably slower.
 
+** %define parse.error formatted
+How about pushing bistromathics' yyreport_syntax_error as another standard
+way to generate the error message, and leave to the user the task of
+providing the message formats?  Currently in bistro, it reads:
+
+    const char *
+    error_format_string (int argc)
+    {
+      switch (argc)
+        {
+        default: /* Avoid compiler warnings. */
+        case 0: return _("%@: syntax error");
+        case 1: return _("%@: syntax error: unexpected %u");
+          // TRANSLATORS: '%@' is a location in a file, '%u' is an
+          // "unexpected token", and '%0e', '%1e'... are expected tokens
+          // at this point.
+          //
+          // For instance on the expression "1 + * 2", you'd get
+          //
+          // 1.5: syntax error: expected - or ( or number or function or variable before *
+        case 2: return _("%@: syntax error: expected %0e before %u");
+        case 3: return _("%@: syntax error: expected %0e or %1e before %u");
+        case 4: return _("%@: syntax error: expected %0e or %1e or %2e before %u");
+        case 5: return _("%@: syntax error: expected %0e or %1e or %2e or %3e before %u");
+        case 6: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e before %u");
+        case 7: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e before %u");
+        case 8: return _("%@: syntax error: expected %0e or %1e or %2e or %3e or %4e or %5e or %6e before %u");
+        }
+    }
+
+The message would have to be generated in a string, and pushed to yyerror.
+Which will be a pain in the neck in yacc.c.
+
+If we want to do that, we should think very carefully about the syntax of
+the format string.
+
+** yyclearin does not invoke the lookahead token's %destructor
+https://lists.gnu.org/r/bug-bison/2018-02/msg00000.html
+Rici:
+
+> Modifying yyclearin so that it calls yydestruct seems like the simplest
+> solution to this issue, but it is conceivable that such a change would
+> break programs which already perform some kind of workaround in order to
+> destruct the lookahead symbol. So it might be necessary to use some kind of
+> compatibility %define, or to create a new replacement macro with a
+> different name such as yydiscardin.
+>
+> At a minimum, the fact that yyclearin does not invoke the %destructor
+> should be highlighted in the documentation, since it is not at all obvious.
 
 * Bison 3.8
 ** Unit rules / Injection rules (Akim Demaille)
