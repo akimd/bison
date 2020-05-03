@@ -15,11 +15,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# macOS' version of readline does not repeat stdin on stdout in
-# non-interactive mode.
-if ! echo '1-1' | prog | grep '1-1' >/dev/null; then
-   strip_prompt=true
+
+# Beware of portability issues of readline when not feeding it from a
+# terminal.
+#
+# With recent versions of GNU Readline, input "1+2*3\n" gives
+# "> 1+2*3\n7\n> \n"
+#
+# macOS' version does not display the prompt and does not repeat stdin
+# on stdout, so input "1+2*3\n" gives "7\n" as output.  Let's try to
+# cope with this.
+#
+# On OpenBSD 6.5 the prompt is displayed, but the input is not
+# repeated (!).  So input "1+2*3\n" gives "> 7\n> \n" as output.
+
+if ! echo '1-1' | prog | grep '>' >/dev/null; then
+    # macOS.
+    strip_prompt=true
+elif ! echo '1-1' | prog | grep '1-1' >/dev/null; then
+    # OpenBSD 6.5.  I don't want to spend time on this.
+    echo "SKIP: this is not the GNU Readline we expect"
+    exit 0
 fi
+
 
 cat >input <<EOF
 1+2*3
