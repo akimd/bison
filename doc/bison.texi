@@ -4505,11 +4505,16 @@ typedef struct YYLTYPE
 @} YYLTYPE;
 @end example
 
+While default locations represent a range in the source file(s), this is not
+a requirement.  It could be a single point or just a line number, or even
+more complex structures.
+
 When @code{YYLTYPE} is not defined, at the beginning of the parsing, Bison
 initializes all these fields to 1 for @code{yylloc}.  To initialize
 @code{yylloc} with a custom location type (or to chose a different
 initialization), use the @code{%initial-action} directive.  @xref{Initial
 Action Decl}.
+
 
 @node Actions and Locations
 @subsection Actions and Locations
@@ -14735,8 +14740,8 @@ In semantic actions, it stores the location of the lookahead token.
 @end deffn
 
 @deffn {Type} YYLTYPE
-Data type of @code{yylloc}; by default, a structure with four members.
-@xref{Location Type}.
+Data type of @code{yylloc}.  By default in C, a structure with four members
+(start/end line/column).  @xref{Location Type}.
 @end deffn
 
 @deffn {Variable} yylval
