@@ -69,7 +69,9 @@ DASH = -
 	$(AM_V_LEX)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
+## --header introduced in 2.5.6, renamed as --header-file in 2.6.4.
+## Backward compatibility ensured since --header is an unambiguous prefix.
+	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header=%D%/scan.h $(srcdir)/%D%/scan.l
 	$(AM_V_at)mv $@.tmp $@
 
 

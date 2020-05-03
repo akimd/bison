@@ -41,6 +41,22 @@ else
 fi
 ])
 
+
+AC_CACHE_CHECK([whether flex supports --header=FILE],
+                [ac_cv_prog_lex_supports_header_opt],
+[if _AC_DO_VAR([LEX --header=conftest.h conftest.l]); then
+  ac_cv_prog_lex_supports_header_opt=yes
+else
+  ac_cv_prog_lex_supports_header_opt=no
+fi
+])
+if test "$ac_cv_prog_lex_supports_header_opt" = yes; then
+  FLEX_SUPPORTS_HEADER_OPT=true
+else
+  FLEX_SUPPORTS_HEADER_OPT=false
+fi
+
+
 cat >conftest.l <<_ACEOF[
 %%
 a { ECHO; }
