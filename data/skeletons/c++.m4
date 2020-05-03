@@ -259,14 +259,14 @@ m4_define([b4_public_types_declare],
     struct token
     {
       ]b4_token_enums[
-      /// Backward compatibility alias.
+      /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
     };
 
     /// Token kind, as returned by yylex.
     typedef token::yytokentype token_kind_type;
 
-    /// Backward compatibility alias.
+    /// Backward compatibility alias (Bison 3.6).
     typedef token_kind_type token_type;
 
     /// Symbol kinds.
@@ -357,7 +357,7 @@ m4_define([b4_symbol_type_define],
         Base::clear ();
       }
 
-      /// Backward compatibility.
+      /// Backward compatibility (Bison 3.6).
       symbol_kind_type type_get () const YY_NOEXCEPT;
 
       /// Whether empty.
@@ -409,12 +409,15 @@ m4_define([b4_symbol_type_define],
       /// \a empty when empty.
       symbol_kind_type kind () const YY_NOEXCEPT;
 
+      /// Backward compatibility (Bison 3.6).
+      symbol_kind_type type_get () const YY_NOEXCEPT;
+
       /// The symbol kind.
       /// \a ]b4_symbol_prefix[YYEMPTY when empty.
       symbol_kind_type kind_;
     };
 
-    /// Backward compatibility for a private implementation detail.
+    /// Backward compatibility for a private implementation detail (Bison 3.6).
     typedef by_kind by_type;
 
     /// "External" symbols: returned by the scanner.
@@ -533,6 +536,12 @@ m4_define([b4_public_types_define],
   ]b4_parser_class[::by_kind::kind () const YY_NOEXCEPT
   {
     return kind_;
+  }
+
+  ]b4_inline([$1])[]b4_parser_class[::symbol_kind_type
+  ]b4_parser_class[::by_kind::type_get () const YY_NOEXCEPT
+  {
+    return this->kind ();
   }
 ]])
 
