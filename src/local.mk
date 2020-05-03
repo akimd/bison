@@ -117,6 +117,7 @@ BUILT_SOURCES +=                                \
 # definition of libbison, beware that they might expand as flags such as
 # `-lm`.  Keep them here.  Or use a Libtool convenience library.
 src_bison_LDADD =                               \
+  lib/libbison.a                                \
   $(ISNAND_LIBM)                                \
   $(ISNANF_LIBM)                                \
   $(ISNANL_LIBM)                                \
@@ -126,8 +127,7 @@ src_bison_LDADD =                               \
   $(LIBTHREAD)                                  \
   $(LIB_CLOCK_GETTIME)                          \
   $(LIB_GETHRXTIME)                             \
-  $(LIBTEXTSTYLE)                               \
-  lib/libbison.a
+  $(LIBTEXTSTYLE)
 
 
 EXTRA_DIST += %D%/i18n-strings.c
