@@ -331,6 +331,13 @@ AC_MSG_RESULT([$suppfile])
 # Whether we cannot run the compiled bison.
 AM_CONDITIONAL([CROSS_COMPILING], [test "$cross_compiling" = yes])
 
+# Build bistromathic if we have the lib and both readline/readline.h
+# and readline/history.h.
+AM_CONDITIONAL([ENABLE_BISTROMATHIC],
+[test "$gl_cv_lib_readline" != no &&
+  test "$ac_cv_header_readline_readline_h" = yes &&
+  test "$ac_cv_header_readline_history_h" = yes])
+
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 # Needed by tests/atlocal.in.
 AC_SUBST([GCC])

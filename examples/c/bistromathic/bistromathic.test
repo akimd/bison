@@ -35,7 +35,7 @@ if ! echo '1-1' | prog | grep '>' >/dev/null; then
 elif ! echo '1-1' | prog | grep '1-1' >/dev/null; then
     # OpenBSD 6.5.  I don't want to spend time on this.
     echo "SKIP: this is not the GNU Readline we expect"
-    exit 0
+    exit 77
 fi
 
 

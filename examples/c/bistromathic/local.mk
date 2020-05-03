@@ -19,19 +19,22 @@ bistromathicdir = $(docdir)/%D%
 ## Bistromathics.  ##
 ## --------------- ##
 
-check_PROGRAMS += %D%/bistromathic
-TESTS += %D%/bistromathic.test
-EXTRA_DIST += %D%/bistromathic.test
-nodist_%C%_bistromathic_SOURCES = %D%/parse.y %D%/parse.h
 %D%/parse.c: $(dependencies)
 
-# Don't use gnulib's system headers.
-%C%_bistromathic_CPPFLAGS =			\
-  -DBISON_LOCALEDIR='"$(localdir)"'		\
-  -DLOCALEDIR='"$(localdir)"'			\
-  -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
-%C%_bistromathic_LDADD = -lm -lreadline $(LIBINTL)
+if ENABLE_BISTROMATHIC
+  check_PROGRAMS += %D%/bistromathic
+  TESTS += %D%/bistromathic.test
+  nodist_%C%_bistromathic_SOURCES = %D%/parse.y
 
+  # Don't use gnulib's system headers.
+  %C%_bistromathic_CPPFLAGS =			\
+    -DBISON_LOCALEDIR='"$(localdir)"'		\
+    -DLOCALEDIR='"$(localdir)"'			\
+    -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  %C%_bistromathic_LDADD = -lm $(LIBREADLINE) $(LIBINTL)
+endif
+
+EXTRA_DIST += %D%/bistromathic.test
 dist_bistromathic_DATA = %D%/parse.y %D%/Makefile %D%/README.md
 CLEANFILES += %D%/parse.[ch] %D%/parse.output
 CLEANDIRS += %D%/*.dSYM
