@@ -2,6 +2,11 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+  Portability issues.
+
+  More documentation.
+
+  Backward compatibility issues with C++.
 
 * Noteworthy changes in release 3.5.91 (2020-04-29) [stable]
 
