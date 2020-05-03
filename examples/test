@@ -115,7 +115,7 @@ run ()
   } >eff
 
   if test $sta_eff -eq $sta_exp; then
-    if cmp eff exp 2>/dev/null; then
+    if diff eff exp >/dev/null 2>&1; then
       echo "$me: PASS: $number"
     else
       echo "$me: FAIL: $number"
