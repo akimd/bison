@@ -2,6 +2,7 @@
 
 %code top {
   #include <ctype.h>  // isdigit
+  #include <locale.h> // LC_ALL
   #include <math.h>   // cos, sin, etc.
   #include <stdarg.h> // va_start
   #include <stdio.h>  // printf

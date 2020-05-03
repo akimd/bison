@@ -5,7 +5,7 @@ BASE = bistromathic
 BISON = bison
 XSLTPROC = xsltproc
 
-# We need to find the headers and libs for readline and intl.
+# We need to find the headers and libs for readline (and possibly intl).
 # You probably need to customize this for your own environment.
 CPPFLAGS = -I/opt/local/include
 LDFLAGS = -L/opt/local/lib
@@ -14,7 +14,7 @@ LDFLAGS = -L/opt/local/lib
 BISON_LOCALEDIR = $(shell $(BISON) $(BISON_FLAGS) --print-localedir)
 CPPFLAGS += -DENABLE_NLS -DBISON_LOCALEDIR='"$(BISON_LOCALEDIR)"'
 
-LIBS = -lreadline -lintl
+LIBS = -lreadline -lm # In some environments, -lintl is needed.
 
 all: $(BASE)
 
