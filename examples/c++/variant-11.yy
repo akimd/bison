@@ -139,7 +139,7 @@ namespace yy
 int
 main (int argc, const char *argv[])
 {
-  if (2 <= argc && isdigit (*argv[1]))
+  if (2 <= argc && isdigit (static_cast<unsigned char> (*argv[1])))
     {
       auto maxl = strtol (argv[1], nullptr, 10);
       max = INT_MIN <= maxl && maxl <= INT_MAX ? int(maxl) : 4;

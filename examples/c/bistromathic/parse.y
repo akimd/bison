@@ -363,7 +363,7 @@ yyreport_syntax_error (const yypcontext_t *ctx)
       }
     // %0e, %1e...: expected token.
     else if (format[0] == '%'
-             && isdigit (format[1])
+             && isdigit ((unsigned char) format[1])
              && format[2] == 'e'
              && (format[1] - '0') < argsize)
       {
