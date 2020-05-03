@@ -28,12 +28,24 @@
 #
 # On OpenBSD 6.5 the prompt is displayed, but the input is not
 # repeated (!).  So input "1+2*3\n" gives "> 7\n> \n" as output.
+#
+# On AIX, you get some escaping sequence before the prompt:
+# "<ESC>[?1034h> 1+2*3".  It appears to pass the terminfo capability
+# "smm", to put the terminal in "meta mode": as if the user had hit
+# META.
 
-if ! echo '1-1' | prog | grep '>' >/dev/null; then
-    # macOS.
+echo >perfect '> 0
+0
+> '
+
+echo >ok '0'
+echo '0' | prog >effective
+
+if diff perfect effective >/dev/null 2>&1; then
+    # Alles ist gut.
+elif diff ok effective >/dev/null 2>&1; then
     strip_prompt=true
-elif ! echo '1-1' | prog | grep '1-1' >/dev/null; then
-    # OpenBSD 6.5.  I don't want to spend time on this.
+else
     echo "SKIP: this is not the GNU Readline we expect"
     exit 77
 fi
