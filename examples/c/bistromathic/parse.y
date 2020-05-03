@@ -1,6 +1,7 @@
 %require "3.6"
 
 %code top {
+  #include <assert.h>
   #include <ctype.h>  // isdigit
   #include <locale.h> // LC_ALL
   #include <math.h>   // cos, sin, etc.
@@ -316,7 +317,7 @@ error_format_string (int argc)
 {
   switch (argc)
     {
-    default: /* Avoid compiler warnings. */
+    default: // Avoid compiler warnings.
     case 0: return _("%@: syntax error");
     case 1: return _("%@: syntax error: unexpected %u");
       // TRANSLATORS: '%@' is a location in a file, '%u' is an
@@ -393,6 +394,20 @@ void yyerror (YYLTYPE *loc, char const *format, ...)
 }
 
 
+// Return a newly allocated copy of at most N bytes of STRING.  In
+// other words, return a copy of the initial segment of length N of
+// STRING.
+static char *
+xstrndup (const char *string, size_t n)
+{
+  size_t len = strnlen (string, n);
+  char *new = malloc (len + 1);
+  assert (new);
+  new[len] = '\0';
+  return memcpy (new, string, len);
+}
+
+
 /*-----------.
 | Readline.  |
 `-----------*/
@@ -438,11 +453,11 @@ expected_tokens (const char *input,
   return res;
 }
 
-/* Attempt to complete on the contents of TEXT.  START and END bound the
-   region of rl_line_buffer that contains the word to complete.  TEXT is
-   the word to complete.  We can use the entire contents of rl_line_buffer
-   in case we want to do some simple parsing.  Return the array of matches,
-   or NULL if there aren't any. */
+// Attempt to complete on the contents of TEXT.  START and END bound
+// the region of rl_line_buffer that contains the word to complete.
+// TEXT is the word to complete.  We can use the entire contents of
+// rl_line_buffer in case we want to do some simple parsing.  Return
+// the array of matches, or NULL if there aren't any.
 char **
 completion (const char *text, int start, int end)
 {
@@ -453,7 +468,7 @@ completion (const char *text, int start, int end)
 
   // Get list of token numbers.
   int tokens[YYNTOKENS];
-  char *line = strndup (rl_line_buffer, start);
+  char *line = xstrndup (rl_line_buffer, start);
   int ntokens = expected_tokens (line, tokens, YYNTOKENS);
   free (line);
 
@@ -495,7 +510,7 @@ completion (const char *text, int start, int end)
         for (int j = 0; j < lcplen; ++j)
           if (matches[1][j] != matches[i][j])
             lcplen = j;
-      matches[0] = strndup (matches[1], lcplen);
+      matches[0] = xstrndup (matches[1], lcplen);
     }
 
   if (yydebug)
