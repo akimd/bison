@@ -19,7 +19,7 @@ AT_BANNER([[Diagnostics.]])
 
 
 # AT_TEST($1: TITLE, $2: GRAMMAR, $3: EXIT-STATUS, $4: OUTPUT-WITH-STYLE,
-#         $5: EXTRA_ENV
+#         $5: EXTRA_ENV, $6: SKIP-IF)
 # -----------------------------------------------------------------------
 # Run Bison on GRAMMAR with debugging style enabled, and expect
 # OUTPUT-WITH-STYLE as diagnostics.
@@ -32,6 +32,9 @@ AT_KEYWORDS([diagnostics])
 # characters.  Skip the test if not available.
 locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
 AT_SKIP_IF([test x == x"$locale"])
+
+m4_ifval([$6],
+[AT_SKIP_IF([$6])])
 
 AT_BISON_OPTION_PUSHDEFS
 
@@ -261,11 +264,9 @@ input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
+
 # Likewise, but currently not portable to Cygwin.
 # https://lists.gnu.org/r/bug-bison/2020-05/msg00003.html.
-case `uname -a` in
-  (CYGWIN*);;
-  (*)
 AT_TEST([[Tabulations and multibyte characters]],
 [[%%
 e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
@@ -276,9 +277,7 @@ e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
-]])
-;;
-esac
+]], [], [uname -a | grep -i cygwin])
 
 
 ## --------------- ##
