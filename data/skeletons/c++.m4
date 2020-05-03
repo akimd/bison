@@ -414,6 +414,9 @@ m4_define([b4_symbol_type_define],
       symbol_kind_type kind_;
     };
 
+    /// Backward compatibility for a private implementation detail.
+    typedef by_kind by_type;
+
     /// "External" symbols: returned by the scanner.
     struct symbol_type : basic_symbol<by_kind>
     {]b4_variant_if([[
