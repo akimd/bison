@@ -1,4 +1,7 @@
 * Bison 3.6
+** Doc
+*** api.header.include
+
 ** Questions
 *** Java
 - Should i18n be part of the Lexer?  Currently it's a static method of
@@ -192,10 +195,10 @@ define it to the same type as the C ptrdiff_t type.
 * Completion
 Several features are not available in all the backends.
 
-- push parsers: glr.c, glr.cc, lalr1.cc
-- lac: D, Java
-- glr: D, Java
-- token constructors: Java, C, D
+- lac: D, Java (easy)
+- push parsers: glr.c, glr.cc, lalr1.cc (not very difficult)
+- token constructors: Java, C, D (a bit difficult)
+- glr: D, Java (super difficult)
 
 * Bugs
 ** Autotest has quotation issues
