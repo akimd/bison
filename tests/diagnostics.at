@@ -265,7 +265,8 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ]])
 
 
-# Likewise, but currently not portable to Cygwin.
+# Likewise, but currently not portable to AIX and Cygwin.
+# https://lists.gnu.org/r/bug-bison/2020-05/msg00050.html
 # https://lists.gnu.org/r/bug-bison/2020-05/msg00003.html.
 AT_TEST([[Tabulations and multibyte characters]],
 [[%%
@@ -277,7 +278,7 @@ e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
-]], [], [uname -a | grep -i cygwin])
+]], [], [uname -a | $EGREP -i 'aix|cygwin'])
 
 
 ## --------------- ##
