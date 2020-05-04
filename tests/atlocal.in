@@ -144,3 +144,44 @@ export LC_CTYPE
 
 # Empty if no xsltproc was found
 : ${XSLTPROC='@XSLTPROC@'}
+
+
+# Some tests expect a precise diff format.  See AT_DIFF_U_CHECK.
+# See https://lists.gnu.org/r/bug-bison/2020-05/msg00049.html.
+cat >conftest.1 <<EOF
+1
+2
+3
+4
+5
+6
+EOF
+
+cat >conftest.2 <<EOF
+1
+22
+3
+4
+55
+6
+EOF
+
+cat >conftest.expected <<EOF
+@@ -1,6 +1,6 @@
+ 1
+-2
++22
+ 3
+ 4
+-5
++55
+ 6
+EOF
+
+diff -u conftest.1 conftest.2 2>/dev/null | sed -n '/^@@/,$p' | sed 's/^ $//' >conftest.diff
+if diff conftest.expected conftest.diff >/dev/null; then
+    DIFF_U_WORKS=true
+else
+    DIFF_U_WORKS=false
+fi
+rm conftest.*

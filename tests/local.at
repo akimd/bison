@@ -83,6 +83,16 @@ set x `LC_ALL=C ls -l '$1'` &&
 ## ------------- ##
 
 
+# AT_DIFF_U_CHECK(DIFF-ARGS, EXPECTED-DIFF)
+# -----------------------------------------
+# If diff -u works as we expect, use it, with headers stripped.
+m4_define([AT_DIFF_U_CHECK],
+[if $DIFF_U_WORKS; then
+  AT_CHECK([diff -u $1 | sed -n '/^@@/,$p' | sed 's/^ $//'], [0], [$2])
+fi
+])
+
+
 # AT_PERL_CHECK(PERL-ARGS, ...)
 # -----------------------------
 # If Perl is available, run this test.
