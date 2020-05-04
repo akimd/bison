@@ -400,7 +400,9 @@ void yyerror (YYLTYPE *loc, char const *format, ...)
 static char *
 xstrndup (const char *string, size_t n)
 {
-  size_t len = strnlen (string, n);
+  // len = strnlen (string, n), portably.
+  const char *end = memchr (string, '\0', n);
+  size_t len = end ? (size_t) (end - string) : n;
   char *new = malloc (len + 1);
   assert (new);
   new[len] = '\0';
