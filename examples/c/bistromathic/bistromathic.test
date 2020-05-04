@@ -46,8 +46,7 @@ if diff perfect effective >/dev/null 2>&1; then
 elif diff ok effective >/dev/null 2>&1; then
     strip_prompt=true
 else
-    echo "SKIP: this is not the GNU Readline we expect"
-    exit 77
+    skip "this is not the GNU Readline we expect"
 fi
 
 

@@ -68,6 +68,20 @@ trap cleanup 0 1 2 13 15
 mkdir $$.dir
 cd $$.dir
 
+
+# skip [MSG]
+# ----------
+# Skip this test.
+skip ()
+{
+  if test x"$1" != x; then
+    echo "SKIP: $1"
+  fi
+  # See Autoconf's doc on 'trap'.
+  (exit 77); exit 77
+}
+
+
 # run [-noerr, -n] EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
 # ----------------------------------------------------------------------
 # -noerr: ignore stderr, otherwise merge it into effective output.
