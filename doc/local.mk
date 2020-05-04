@@ -140,17 +140,31 @@ if ! CROSS_COMPILING
 MAN_DEPS = %D%/bison.help %D%/bison.x $(top_srcdir)/configure
 endif
 
+# If we don't have help2man, just touch the target.  Maintainers must
+# have the real thing, so if there's a .git directory, fail hard.
+#
+# We shouldn't need this, but on some OS the timestamps in the tarball
+# leaves us no choice.  See
+# https://lists.gnu.org/r/bug-bison/2020-05/msg00055.html.
 $(top_srcdir)/%D%/bison.1: $(MAN_DEPS)
-	$(AM_V_GEN)$(HELP2MAN)			\
-	    --include=$(top_srcdir)/%D%/bison.x	\
-	    --output=$@.tmp tests/bison
-	$(AM_V_at)if $(remove_time_stamp) $@ >$@a.tmp 2>/dev/null &&		\
-	   $(remove_time_stamp) $@.tmp | cmp $@a.tmp - >/dev/null 2>&1; then	\
-	  touch $@;								\
-	else									\
-	  mv $@.tmp $@;								\
+	$(AM_V_GEN)if $(HELP2MAN) --version >/dev/null 2>&1; then	\
+	  $(HELP2MAN)							\
+	    --include=$(top_srcdir)/%D%/bison.x				\
+	    --output=$@.tmp tests/bison &&				\
+	  $(remove_time_stamp) $@     >$@a.tmp 2>/dev/null &&		\
+	  $(remove_time_stamp) $@.tmp >$@b.tmp 2>/dev/null &&		\
+	  if diff $@a.tmp $@b.tmp >/dev/null 2>&1; then			\
+	    touch $@;							\
+	  else								\
+	    mv $@.tmp $@;						\
+	  fi &&								\
+	  rm -f $@*.tmp;						\
+	elif test -d $(srcdir)/.git; then				\
+	  echo >&2 "ERROR: $@: help2man is needed";			\
+	  exit 1;							\
+	else								\
+	  touch $@;							\
 	fi
-	$(AM_V_at)rm -f $@*.tmp
 
 if ENABLE_YACC
 nodist_man_MANS = %D%/yacc.1
