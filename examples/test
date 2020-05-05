@@ -25,7 +25,7 @@ medir=$(dirname "$1" | sed -e 's,.*examples/,,')
 number=1
 
 # Exit status of this script.
-exit=true
+status=0
 
 # top_builddir.
 cwd=$(pwd)
@@ -141,20 +141,20 @@ run ()
       sed -e 's/^/  /' eff
       echo "$me: diff:"
       diff -u exp eff | sed -e 's/^/  /'
-      exit=false
+      status=1
     fi
   else
     echo "$me: FAIL: $number (expected status: $sta_exp, effective: $sta_eff)"
     cat err_eff
-    exit=false
+    status=1
   fi
   number=$(expr $number + 1)
 }
 
 # We have cd'd one level deeper.
 case $1 in
-  /*) . "$1";;
-  *)  . "../$1";;
+  /*) . "$1" || status=2;;
+  *)  . "../$1" || status=2;;
 esac
 
-$exit
+exit $status

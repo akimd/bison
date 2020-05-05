@@ -43,6 +43,7 @@ echo '0' | prog >effective
 
 if diff perfect effective >/dev/null 2>&1; then
     # Alles ist gut.
+    strip_prompt=false
 elif diff ok effective >/dev/null 2>&1; then
     strip_prompt=true
 else
