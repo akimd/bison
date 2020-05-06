@@ -7085,6 +7085,25 @@ The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 The parser instance @code{yyps} may be reused for new parses.
 @end deftypefun
 
+@deftypefun int yypstate_expected_tokens (@code{const yypstate *}yyps, @code{yysymbol_kind_t} @var{argv}@code{[]}, @code{int} @var{argc})
+Fill @var{argv} with the expected tokens, which never includes
+@code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYerror}, or
+@code{YYSYMBOL_YYUNDEF}.
+
+Never put more than @var{argc} elements into @var{argv}, and on success
+return the number of tokens stored in @var{argv}.  If there are more
+expected tokens than @var{argc}, fill @var{argv} up to @var{argc} and return
+0.  If there are no expected tokens, also return 0, but set @code{argv[0]}
+to @code{YYSYMBOL_YYEMPTY}.
+
+When LAC is enabled, may return a negative number on errors,
+such as @code{YYENOMEM} on memory exhaustion.
+
+If @var{argv} is null, return the size needed to store all the possible
+values, which is always less than @code{YYNTOKENS}.
+@end deftypefun
+
+
 @node Lexical
 @section The Lexical Analyzer Function @code{yylex}
 @findex yylex
