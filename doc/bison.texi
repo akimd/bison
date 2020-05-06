@@ -300,10 +300,7 @@ Bison Declarations
 Parser C-Language Interface
 
 * Parser Function::         How to call @code{yyparse} and what it returns.
-* Push Parser Function::    How to call @code{yypush_parse} and what it returns.
-* Pull Parser Function::    How to call @code{yypull_parse} and what it returns.
-* Parser Create Function::  How to call @code{yypstate_new} and what it returns.
-* Parser Delete Function::  How to call @code{yypstate_delete} and what it returns.
+* Push Parser Interface::   How to create, use, and destroy push parsers.
 * Lexical::                 You must supply a function @code{yylex}
                               which reads tokens.
 * Error Reporting::         Passing error messages to the user.
@@ -6927,10 +6924,7 @@ in the grammar file, you are likely to run into trouble.
 
 @menu
 * Parser Function::         How to call @code{yyparse} and what it returns.
-* Push Parser Function::    How to call @code{yypush_parse} and what it returns.
-* Pull Parser Function::    How to call @code{yypull_parse} and what it returns.
-* Parser Create Function::  How to call @code{yypstate_new} and what it returns.
-* Parser Delete Function::  How to call @code{yypstate_delete} and what it returns.
+* Push Parser Interface::   How to create, use, and destroy push parsers.
 * Lexical::                 You must supply a function @code{yylex}
                               which reads tokens.
 * Error Reporting::         Passing error messages to the user.
@@ -7033,16 +7027,40 @@ void yyerror (YYLTYPE *llocp, int *randomness, const char *msg);
 int  yyparse (int *randomness);
 @end example
 
-@node Push Parser Function
-@section The Push Parser Function @code{yypush_parse}
-@findex yypush_parse
+@node Push Parser Interface
+@section Push Parser Interface
 
-You call the function @code{yypush_parse} to parse a single token.  This
+@findex yypstate_new
+You call the function @code{yypstate_new} to create a new parser instance.
+This function is available if either the @samp{%define api.push-pull push}
+or @samp{%define api.push-pull both} declaration is used.  @xref{Push Decl}.
+
+@deftypefun {yypstate*} yypstate_new (@code{void})
+@anchor{yypstate_new}
+Return a valid parser instance if there is memory available, 0 otherwise.
+In impure mode, it will also return 0 if a parser instance is currently
+allocated.
+@end deftypefun
+
+@findex yypstate_delete
+You call the function @code{yypstate_delete} to delete a parser instance.
 function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl}.
 
+@deftypefun void yypstate_delete (@code{yypstate *}@var{yyps})
+@anchor{yypstate_delete}
+Reclaim the memory associated with a parser instance.  After this call, you
+should no longer attempt to use the parser instance.
+@end deftypefun
+
+@findex yypush_parse
+You call the function @code{yypush_parse} to parse a single token.  This
+function is available if either the @samp{%define api.push-pull push} or
+@samp{%define api.push-pull both} declaration is used.  @xref{Push Decl}.
+
 @deftypefun int yypush_parse (@code{yypstate *}@var{yyps})
+@anchor{yypush_parse}
 The value returned by @code{yypush_parse} is the same as for @code{yyparse}
 with the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
@@ -7056,49 +7074,15 @@ reuse.  For example, a calculator application which parses each input line
 as an expression can just keep reusing the same @code{yyps} even if an input
 was invalid.
 
-@node Pull Parser Function
-@section The Pull Parser Function @code{yypull_parse}
-@findex yypull_parse
-
 You call the function @code{yypull_parse} to parse the rest of the input
 stream.  This function is available if the @samp{%define api.push-pull both}
-declaration is used.
-@xref{Push Decl}.
+declaration is used.  @xref{Push Decl}.
 
 @deftypefun int yypull_parse (@code{yypstate *}@var{yyps})
+@anchor{yypull_parse}
 The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 
 The parser instance @code{yyps} may be reused for new parses.
-@end deftypefun
-
-@node Parser Create Function
-@section The Parser Create Function @code{yystate_new}
-@findex yypstate_new
-
-You call the function @code{yypstate_new} to create a new parser instance.
-This function is available if either the @samp{%define api.push-pull push} or
-@samp{%define api.push-pull both} declaration is used.
-@xref{Push Decl}.
-
-@deftypefun {yypstate*} yypstate_new (@code{void})
-The function will return a valid parser instance if there was memory available
-or 0 if no memory was available.
-In impure mode, it will also return 0 if a parser instance is currently
-allocated.
-@end deftypefun
-
-@node Parser Delete Function
-@section The Parser Delete Function @code{yystate_delete}
-@findex yypstate_delete
-
-You call the function @code{yypstate_delete} to delete a parser instance.
-function is available if either the @samp{%define api.push-pull push} or
-@samp{%define api.push-pull both} declaration is used.
-@xref{Push Decl}.
-
-@deftypefun void yypstate_delete (@code{yypstate *}@var{yyps})
-This function will reclaim the memory associated with a parser instance.
-After this call, you should no longer attempt to use the parser instance.
 @end deftypefun
 
 @node Lexical
@@ -14786,24 +14770,26 @@ Deprecated, use @code{%printer} instead (@pxref{Printer Decl}).
 @deffn {Function} yypstate_delete
 The function to delete a parser instance, produced by Bison in push mode;
 call this function to delete the memory associated with a parser.
-@xref{Parser Delete Function}.  Does nothing when called with a null pointer.
+@xref{yypstate_delete,,@code{yypstate_delete}}.  Does nothing when called
+with a null pointer.
 @end deffn
 
 @deffn {Function} yypstate_new
 The function to create a parser instance, produced by Bison in push mode;
 call this function to create a new parser.
-@xref{Parser Create Function}.
+@xref{yypstate_new,,@code{yypstate_new}}.
 @end deffn
 
 @deffn {Function} yypull_parse
 The parser function produced by Bison in push mode; call this function to
 parse the rest of the input stream.
-@xref{Pull Parser Function}.
+@xref{yypull_parse,,@code{yypull_parse}}.
 @end deffn
 
 @deffn {Function} yypush_parse
 The parser function produced by Bison in push mode; call this function to
-parse a single token.  @xref{Push Parser Function}.
+parse a single token.
+@xref{yypush_parse,,@code{yypush_parse}}.
 @end deffn
 
 @deffn {Macro} YYRECOVERING
