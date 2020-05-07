@@ -34,6 +34,13 @@ cwd=$(pwd)
 # See bistromathic.test.
 strip_prompt=false
 
+# If diff supports --strip-trailing-cr, use it, to avoid EOL issues
+# when testing Java programs on Windows.
+echo "checking for diff --strip-trailing-cr"
+if diff --strip-trailing-cr "$1" "$1"; then
+  diff_opts=--strip-trailing-cr
+fi
+
 # The exercised program.
 abs_medir=$cwd/examples/$medir
 if test -x "$abs_medir/$me"; then
@@ -129,7 +136,7 @@ run ()
   } >eff
 
   if test $sta_eff -eq $sta_exp; then
-    if diff eff exp >/dev/null 2>&1; then
+    if diff $diff_opts eff exp >/dev/null 2>&1; then
       echo "$me: PASS: $number"
     else
       echo "$me: FAIL: $number"
@@ -140,7 +147,7 @@ run ()
       echo "$me: effective output:"
       sed -e 's/^/  /' eff
       echo "$me: diff:"
-      diff -u exp eff | sed -e 's/^/  /'
+      diff $diff_opts -u exp eff | sed -e 's/^/  /'
       status=1
     fi
   else

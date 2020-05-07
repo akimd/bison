@@ -41,10 +41,11 @@ echo >perfect '> 0
 echo >ok '0'
 echo '0' | prog >effective
 
-if diff perfect effective >/dev/null 2>&1; then
+echo "checking for readline output"
+if diff perfect effective; then
     # Alles ist gut.
     strip_prompt=false
-elif diff ok effective >/dev/null 2>&1; then
+elif diff ok effective; then
     strip_prompt=true
 else
     skip "this is not the GNU Readline we expect"
@@ -257,13 +258,21 @@ err: Cleanup: popping nterm input (1.1-4: )' -p
 # From now on, the differences between versions of GNU Readline are
 # too painful to try to cope with.
 if $strip_prompt; then
-    echo "SKIP: this is not the GNU Readline we expect"
-    if $exit; then
-        exit 0
-    else
-        exit 1
-    fi
+  echo "SKIP: this is not the GNU Readline we expect"
+  exit $status
 fi
+
+# On Windows10/MSYS2 the ^G coming from <tab> completion is not
+# emitted the same way
+# (https://lists.gnu.org/r/bug-bison/2020-05/msg00076.html).
+echo "checking for kernel name"
+case `uname -s` in
+  (MSYS*)
+    echo "SKIP: this is Windows/MSYS"
+    exit $status
+    ;;
+esac
+
 
 # Check completion after an operator.
 sed -e 's/\\t/	/g' >input <<EOF
