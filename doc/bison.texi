@@ -14942,12 +14942,21 @@ A continuous flow of data between devices or programs.
 @item Kind
 ``Token'' and ``symbol'' are each overloaded to mean either a grammar symbol
 (kind) or all parse info (kind, value, location) associated with occurrences
-of that grammar symbol from the input.  To disambiguate, we use ``token
-kind'' and ``symbol kind'' to mean both grammar symbols and the types that
-represent them in a base programming language (C, C++, etc.). However, we
-use ``token'' and ``symbol'' without the word ``kind'' to mean parsed
+of that grammar symbol from the input.  To disambiguate,
+
+@itemize
+@item
+we use ``token kind'' and ``symbol kind'' to mean both grammar symbols and
+the values that represent them in a base programming language (C, C++,
+etc.).  The names of the types of these values are typically
+@code{token_kind_t}, or @code{token_kind_type}, or @code{TokenKind},
+depending on the programming language.
+
+@item
+we use ``token'' and ``symbol'' without the word ``kind'' to mean parsed
 occurrences, and we append the word ``type'' to refer to the types that
 represent them in a base programming language.
+@end itemize
 
 In summary: When you see ``kind'', interpret ``symbol'' or ``token'' to mean
 a @emph{grammar symbol}.  When you don't see ``kind'' (including when you
