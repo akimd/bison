@@ -131,7 +131,7 @@ dist_man_MANS = $(top_srcdir)/%D%/bison.1
 EXTRA_DIST += $(dist_man_MANS:.1=.x)
 MAINTAINERCLEANFILES += $(dist_man_MANS)
 
-# Differences to ignore when comparing the man page (the date).
+# Differences to ignore when comparing man pages (the date).
 remove_time_stamp = \
   sed 's/^\(\.TH[^"]*"[^"]*"[^"]*\)"[^"]*"/\1/'
 
@@ -144,15 +144,15 @@ endif
 # have the real thing, so if there's a .git directory, fail hard.
 #
 # We shouldn't need this, but on some OS the timestamps in the tarball
-# leaves us no choice.  See
+# leave us no choice.  See
 # https://lists.gnu.org/r/bug-bison/2020-05/msg00055.html.
 $(top_srcdir)/%D%/bison.1: $(MAN_DEPS)
 	$(AM_V_GEN)if $(HELP2MAN) --version >/dev/null 2>&1; then	\
 	  $(HELP2MAN)							\
 	    --include=$(top_srcdir)/%D%/bison.x				\
 	    --output=$@.tmp tests/bison &&				\
-	  $(remove_time_stamp) $@     >$@a.tmp 2>/dev/null &&		\
-	  $(remove_time_stamp) $@.tmp >$@b.tmp 2>/dev/null &&		\
+	  { $(remove_time_stamp) $@     >$@a.tmp || true; } &&		\
+	    $(remove_time_stamp) $@.tmp >$@b.tmp &&			\
 	  if diff $@a.tmp $@b.tmp >/dev/null 2>&1; then			\
 	    touch $@;							\
 	  else								\
