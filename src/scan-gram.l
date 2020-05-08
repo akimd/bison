@@ -74,7 +74,7 @@ static boundary scanner_cursor;
     yyless (0);                                                 \
   } while (0)
 
-#define DEPRECATED(Msg)                                         \
+#define DEPRECATED_DIRECTIVE(Msg)                               \
   do {                                                          \
     deprecated_directive (loc, yytext, Msg);                    \
     scanner_cursor.column -= mbsnwidth (Msg, strlen (Msg), 0);  \
@@ -295,15 +295,15 @@ eqopt    ({sp}=)?
   "%name"[-_]"prefix"{eqopt}{sp}    RETURN_VALUE (PERCENT_NAME_PREFIX, uniqstr_new (yytext));
 
   /* Deprecated since Bison 2.7.90, 2012. */
-  "%default"[-_]"prec"              DEPRECATED ("%default-prec");
+  "%default"[-_]"prec"              DEPRECATED_DIRECTIVE ("%default-prec");
   "%error"[-_]"verbose"             RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
-  "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
+  "%expect"[-_]"rr"                 DEPRECATED_DIRECTIVE ("%expect-rr");
   "%file-prefix"{eqopt}             RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
-  "%fixed"[-_]"output"[-_]"files"   DEPRECATED ("%output \"y.tab.c\"");
-  "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
-  "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
-  "%output"{eqopt}                  DEPRECATED ("%output");
-  "%token"[-_]"table"               DEPRECATED ("%token-table");
+  "%fixed"[-_]"output"[-_]"files"   DEPRECATED_DIRECTIVE ("%output \"y.tab.c\"");
+  "%no"[-_]"default"[-_]"prec"      DEPRECATED_DIRECTIVE ("%no-default-prec");
+  "%no"[-_]"lines"                  DEPRECATED_DIRECTIVE ("%no-lines");
+  "%output"{eqopt}                  DEPRECATED_DIRECTIVE ("%output");
+  "%token"[-_]"table"               DEPRECATED_DIRECTIVE ("%token-table");
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));

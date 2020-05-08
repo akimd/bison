@@ -18,6 +18,7 @@
 /asnprintf.c
 /asprintf.c
 /assure.h
+/attribute.h
 /basename-lgpl.c
 /basename.c
 /binary-io.c

@@ -132,7 +132,7 @@ bool warning_is_enabled (warnings flags);
 
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)
-  __attribute__ ((__format__ (__printf__, 3, 4)));
+  ATTRIBUTE_FORMAT ((__printf__, 3, 4));
 
 /** Likewise, but with an \a argc/argv interface.  */
 void complain_args (location const *loc, warnings w,
@@ -141,7 +141,7 @@ void complain_args (location const *loc, warnings w,
 /** Make a subcomplain with location and note.  */
 void subcomplain (location const *loc, warnings flags,
                   char const *message, ...)
-  __attribute__ ((__format__ (__printf__, 3, 4)));
+  ATTRIBUTE_FORMAT ((__printf__, 3, 4));
 
 
 /** GNU Bison extension not valid with POSIX Yacc.  */
