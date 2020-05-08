@@ -36,10 +36,8 @@ AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-# We use Automake 1.14's %D% and %C%.
-#
 # When we move to Automake 1.16, simplify examples/c/reccalc/local.mk.
-# Our CI runs on Xenial, which has only Automake 1.15.
+# Our CI build the packages on Bionic, which has only Automake 1.15.
 #
 # We want gnits strictness only when rolling a stable release.  For
 # release candidates, we use version strings like 2.4.3_rc1, but gnits
@@ -47,7 +45,7 @@ AC_CONFIG_MACRO_DIR([m4])
 # releases, we want to be able run make dist without being required to
 # add a bogus NEWS entry.  In that case, the version string
 # automatically contains a dash, which we also let disable gnits.
-AM_INIT_AUTOMAKE([1.14 dist-xz nostdinc
+AM_INIT_AUTOMAKE([1.15 dist-lzip dist-xz nostdinc
                  color-tests parallel-tests
                  silent-rules]
                  m4_bmatch(m4_defn([AC_PACKAGE_VERSION]), [[-_]],

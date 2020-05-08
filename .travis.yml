@@ -46,7 +46,7 @@ jobs:
         - ./bootstrap
         - ./configure --enable-gcc-warnings || { cat config.log && false; }
         - make -j2
-        - make -j2 dist
+        - make -j2 dist-xz
         # Can help understanding why we get "dirty" tarballs.
         - git status
         - dist=$(echo bison*.xz)
