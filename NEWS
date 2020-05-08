@@ -2,46 +2,6 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-
-* Noteworthy changes in release 3.5.94 (2020-05-06) [beta]
-
-  Portability issues.
-
-* Noteworthy changes in release 3.5.93 (2020-05-03) [beta]
-
-  Portability issues.
-
-* Noteworthy changes in release 3.5.92 (2020-05-03) [beta]
-
-  Portability issues.
-
-  More documentation.
-
-  Backward compatibility issues with C++.
-
-* Noteworthy changes in release 3.5.91 (2020-04-29) [stable]
-
-** New features
-
-*** Returning the error token
-
-  When the scanner returns an invalid token or the undefined token
-  (YYUNDEF), the parser generates an error message and enters error
-  recovery.  Because of that error message, most scanners that find lexical
-  errors generate an error message, and then ignore the invalid input
-  without entering the error-recovery.
-
-  The scanners may now return YYerror, the error token, to enter the
-  error-recovery mode without triggering an additional error message.  See
-  the bistromathic for an example.
-
-*** The bistromathic features internationalization
-
-  Its way to build the error message is more general and is easy to use in
-  other projects.
-
-* Noteworthy changes in release 3.5.90 (2020-04-18) [beta]
-
 ** Backward incompatible changes
 
   TL;DR: replace "#define YYERROR_VERBOSE 1" by "%define parse.error verbose".
@@ -144,6 +104,18 @@ GNU Bison NEWS
 
   It makes little sense to use this feature without enabling LAC (lookahead
   correction).
+
+*** Returning the error token
+
+  When the scanner returns an invalid token or the undefined token
+  (YYUNDEF), the parser generates an error message and enters error
+  recovery.  Because of that error message, most scanners that find lexical
+  errors generate an error message, and then ignore the invalid input
+  without entering the error-recovery.
+
+  The scanners may now return YYerror, the error token, to enter the
+  error-recovery mode without triggering an additional error message.  See
+  the bistromathic for an example.
 
 *** Deep overhaul of the symbol and token kinds
 
