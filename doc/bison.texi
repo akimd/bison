@@ -7666,11 +7666,11 @@ recovery.
 In either case, the rest of the action is not executed.
 @end deffn
 
-@deffn {Macro} YYEMPTY
+@deffn {Value} YYEMPTY
 Value stored in @code{yychar} when there is no lookahead token.
 @end deffn
 
-@deffn {Macro} YYEOF
+@deffn {Value} YYEOF
 Value stored in @code{yychar} when the lookahead is the end of the input
 stream.
 @end deffn
@@ -14700,6 +14700,14 @@ is given a nonzero value, the parser will output information on input
 symbols and parser action.  @xref{Tracing}.
 @end deffn
 
+@deffn {Value} YYEMPTY
+The pseudo token kind when there is no lookahead token.
+@end deffn
+
+@deffn {Value} YYEOF
+The token kind denoting is the end of the input stream.
+@end deffn
+
 @deffn {Macro} yyerrok
 Macro to cause parser to recover immediately to its normal mode
 after a syntax error.  @xref{Error Recovery}.
@@ -14854,6 +14862,10 @@ An enum of all the @dfn{token kinds} declared with @code{%token}
 (@pxref{Token Decl}).  These are the return values for @code{yylex}.  They
 should not be confused with the @emph{symbol kinds}, used internally by the
 parser.
+@end deffn
+
+@deffn {Value} YYUNDEF
+The token kind denoting an unknown token.
 @end deffn
 
 
