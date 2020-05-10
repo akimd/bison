@@ -256,8 +256,7 @@ m4_define([b4_shared_declarations],
 [verbose],
 [[    /// The user-facing name of the symbol whose (internal) number is
     /// YYSYMBOL.  No bounds checking.
-    static std::string symbol_name (symbol_kind_type yysymbol);
-]])[
+    static std::string symbol_name (symbol_kind_type yysymbol);]])[
 
 ]b4_token_constructor_define[
 ]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
@@ -822,7 +821,7 @@ m4_if(b4_prefix, [yy], [],
       {
         symbol_kind_type yykind = yysym.kind ();
         yyo << (yykind < YYNTOKENS ? "token" : "nterm")
-            << ' ' << symbol_name (yykind) << " ("]b4_locations_if([
+            << ' ' << yysym.name () << " ("]b4_locations_if([
             << yysym.location << ": "])[;
         ]b4_symbol_actions([printer])[
         yyo << ')';

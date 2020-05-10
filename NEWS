@@ -8,6 +8,10 @@ GNU Bison NEWS
 
   In C++, yy::parser::symbol_name is now a public member, as was intended.
 
+** New features
+
+  In C++, yy::parser::symbol_type now has a public name() member function.
+
 * Noteworthy changes in release 3.6 (2020-05-08) [stable]
 
 ** Backward incompatible changes

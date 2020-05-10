@@ -357,6 +357,29 @@ m4_define([b4_symbol_type_define],
         Base::clear ();
       }
 
+]b4_parse_error_bmatch(
+[custom\|detailed],
+[[      /// The user-facing name of this symbol.
+      const char *name () const YY_NOEXCEPT
+      {
+        return ]b4_parser_class[::symbol_name (this->kind ());
+      }]],
+[simple],
+[[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+      /// The user-facing name of this symbol.
+      const char *name () const YY_NOEXCEPT
+      {
+        return ]b4_parser_class[::symbol_name (this->kind ());
+      }
+#endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+]],
+[verbose],
+[[      /// The user-facing name of this symbol.
+      std::string name () const YY_NOEXCEPT
+      {
+        return ]b4_parser_class[::symbol_name (this->kind ());
+      }]])[
+
       /// Backward compatibility (Bison 3.6).
       symbol_kind_type type_get () const YY_NOEXCEPT;
 
