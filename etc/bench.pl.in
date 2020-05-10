@@ -949,6 +949,10 @@ EOF
 bench: main
 \t./main \$(BENCHFLAGS) | tee -a README.md
 
+.PHONY: rand
+rand:
+\t-rm main \$(OBJECTS)
+\tmake bench OBJECTS="\$\$(shuf -e \$(OBJECTS) | xargs)"
 EOF
 
   my @obj = ();
@@ -971,8 +975,9 @@ BENCHMARK_MAIN();
 EOF
 
   print $makefile <<EOF;
-main: @{obj}
-\t$compiler -o main $cflags main.cc @obj -lbenchmark
+OBJECTS = @{obj}
+main: \$(OBJECTS)
+\t$compiler -o main $cflags main.cc \$(OBJECTS) -lbenchmark
 EOF
 
   run "make";
