@@ -13,8 +13,8 @@ semantic value.
 
 Run as `./simple`.
 
-Extracted from the documentation: "A Simple C++ Example".
-https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html
+Extracted from the documentation: [A Simple C++
+Example](https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html).
 
 ## variant.yy - Self-contained example in C++98
 A variation of simple.yy, in C++98.
@@ -36,8 +36,8 @@ starting point for a clean parser in C++.  The previous examples are better
 introductory examples, and the C examples are also useful introductory
 examples.
 
-Extracted from the documentation: "A Complete C++ Example".
-https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
+Extracted from the documentation: [A Complete C++
+Example](https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html).
 
 <!---
 
