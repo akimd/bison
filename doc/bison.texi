@@ -12154,6 +12154,8 @@ values, which is always less than @code{YYNTOKENS}.
 
 @deftypemethod {parser} {const char *} symbol_name (@code{symbol_kind_t} @var{symbol}) @code{const}
 The name of the symbol whose kind is @var{symbol}, possibly translated.
+
+Returns a @code{std::string} when @code{parse.error} is @code{verbose}.
 @end deftypemethod
 
 A custom syntax error function looks as follows.  This implementation is
@@ -12284,6 +12286,12 @@ applicable) location.
 
 @deftypemethod {symbol_type} {symbol_kind_type} kind () @code{const}
 The kind of this symbol.
+@end deftypemethod
+
+@deftypemethod {symbol_type} {const char *} name () @code{const}
+The name of the kind of this symbol.
+
+Returns a @code{std::string} when @code{parse.error} is @code{verbose}.
 @end deftypemethod
 
 @sp 1

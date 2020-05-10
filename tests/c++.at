@@ -109,11 +109,6 @@ AT_DATA_GRAMMAR([list.yy],
 %define parse.assert
 %debug
 
-%code top
-{
-  // Get access to stack_symbol_type for the tests.
-# define private public
-}
 %code provides
 {
   ]AT_YYLEX_DECLARE[
@@ -136,6 +131,14 @@ AT_DATA_GRAMMAR([list.yy],
 %code requires { #include <vector> }
 %code { int yylex (yy::parser::semantic_type* lvalp); }
 
+// A hack which relies on internal hooks to check stack_symbol_type,
+// which is private.
+%code yy_bison_internal_hook {
+  public:
+    typedef stack_symbol_type yy_stack_symbol_type;
+    typedef stack_type yy_stack_type;
+}
+
 %%
 exp: "int" { $$.push_back ($1); }
 %%
@@ -157,6 +160,9 @@ int main()
   // symbol_type: construction, accessor.
   {
     parser::symbol_type s = parser::make_INT (12);
+    assert_eq (s.kind (), parser::symbol_kind::S_INT);
+    assert_eq (parser::symbol_name (s.kind ()), "\"int\"");
+    assert_eq (s.name (), "\"int\"");
     assert_eq (s.value.as<int> (), 12);
   }
 
@@ -180,12 +186,13 @@ int main()
   }
 
   // stack_symbol_type: construction, accessor.
+  typedef parser::yy_stack_symbol_type stack_symbol_type;
   {
 #if 201103L <= YY_CPLUSPLUS
-    auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
+    auto ss = stack_symbol_type (1, parser::make_INT(123));
 #else
     parser::symbol_type s = parser::make_INT (123);
-    parser::stack_symbol_type ss(1, s);
+    stack_symbol_type ss(1, s);
 #endif
     assert_eq (ss.value.as<int> (), 123);
   }
@@ -194,17 +201,17 @@ int main()
   // Sufficiently many so that it will be resized.
   // Probably 3 times (starting at 200).
   {
-    parser::stack_type st;
+    parser::yy_stack_type st;
     const int mucho = 1700;
     const int int_reduction_state = 1; // Read list.output to find it.
     for (int i = 0; i < mucho; ++i)
       {
 #if 201103L <= YY_CPLUSPLUS
-        st.push(parser::stack_symbol_type{int_reduction_state,
-                                          parser::make_INT (i)});
+        st.push(stack_symbol_type{int_reduction_state,
+                                  parser::make_INT (i)});
 #else
         parser::symbol_type s = parser::make_INT (i);
-        parser::stack_symbol_type ss (int_reduction_state, s);
+        stack_symbol_type ss (int_reduction_state, s);
         st.push (ss);
 #endif
       }

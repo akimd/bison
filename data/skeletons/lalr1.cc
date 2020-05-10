@@ -241,6 +241,23 @@ m4_define([b4_shared_declarations],
     /// Report a syntax error.
     void error (const syntax_error& err);
 
+]b4_parse_error_bmatch(
+[custom\|detailed],
+[[    /// The user-facing name of the symbol whose (internal) number is
+    /// YYSYMBOL.  No bounds checking.
+    static const char *symbol_name (symbol_kind_type yysymbol);]],
+[simple],
+[[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+    /// The user-facing name of the symbol whose (internal) number is
+    /// YYSYMBOL.  No bounds checking.
+    static const char *symbol_name (symbol_kind_type yysymbol);
+#endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+]],
+[verbose],
+[[    /// The user-facing name of the symbol whose (internal) number is
+    /// YYSYMBOL.  No bounds checking.
+    static std::string symbol_name (symbol_kind_type yysymbol);]])[
+
 ]b4_token_constructor_define[
 ]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
     class context
@@ -317,26 +334,14 @@ m4_define([b4_shared_declarations],
     static symbol_kind_type yytranslate_ (int t);
 
 ]b4_parse_error_bmatch(
-[custom\|detailed],
-[[    /// The user-facing name of the symbol whose (internal) number is
-    /// YYSYMBOL.  No bounds checking.
-    static const char *symbol_name (symbol_kind_type yysymbol);]],
 [simple],
 [[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
-    /// The user-facing name of the symbol whose (internal) number is
-    /// YYSYMBOL.  No bounds checking.
-    static const char *symbol_name (symbol_kind_type yysymbol);
-
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
 #endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
 ]],
 [verbose],
-[[    /// The user-facing name of the symbol whose (internal) number is
-    /// YYSYMBOL.  No bounds checking.
-    static std::string symbol_name (symbol_kind_type yysymbol);
-
-    /// Convert the symbol name \a n to a form suitable for a diagnostic.
+[[    /// Convert the symbol name \a n to a form suitable for a diagnostic.
     static std::string yytnamerr_ (const char *yystr);
 
     /// For a symbol, its name in clear.
@@ -474,6 +479,7 @@ m4_define([b4_shared_declarations],
     };
 
 ]b4_parse_param_vars[
+]b4_percent_code_get([[yy_bison_internal_hook]])[
   };
 
 ]b4_token_ctor_if([b4_yytranslate_define([$1])[
@@ -607,83 +613,6 @@ m4_if(b4_prefix, [yy], [],
 #define YYRECOVERING()  (!!yyerrstatus_)
 
 ]b4_namespace_open[
-]b4_parse_error_bmatch([custom\|detailed],
-[[  const char *
-  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
-  {
-    static const char *const yy_sname[] =
-    {
-    ]b4_symbol_names[
-    };]b4_has_translations_if([[
-    /* YYTRANSLATABLE[SYMBOL-NUM] -- Whether YY_SNAME[SYMBOL-NUM] is
-       internationalizable.  */
-    static ]b4_int_type_for([b4_translatable])[ yytranslatable[] =
-    {
-    ]b4_translatable[
-    };
-    return (yysymbol < YYNTOKENS && yytranslatable[yysymbol]
-            ? _(yy_sname[yysymbol])
-            : yy_sname[yysymbol]);]], [[
-    return yy_sname[yysymbol];]])[
-  }
-]],
-[simple],
-[[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
-  const char *
-  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
-  {
-    return yytname_[yysymbol];
-  }
-#endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
-]],
-[verbose],
-[[  /* Return YYSTR after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
-  std::string
-  ]b4_parser_class[::yytnamerr_ (const char *yystr)
-  {
-    if (*yystr == '"')
-      {
-        std::string yyr;
-        char const *yyp = yystr;
-
-        for (;;)
-          switch (*++yyp)
-            {
-            case '\'':
-            case ',':
-              goto do_not_strip_quotes;
-
-            case '\\':
-              if (*++yyp != '\\')
-                goto do_not_strip_quotes;
-              else
-                goto append;
-
-            append:
-            default:
-              yyr += *yyp;
-              break;
-
-            case '"':
-              return yyr;
-            }
-      do_not_strip_quotes: ;
-      }
-
-    return yystr;
-  }
-
-  std::string
-  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
-  {
-    return yytnamerr_ (yytname_[yysymbol]);
-  }
-]])[
-
   /// Build a parser object.
   ]b4_parser_class::b4_parser_class[ (]b4_parse_param_decl[)
 #if ]b4_api_PREFIX[DEBUG
@@ -815,7 +744,7 @@ m4_if(b4_prefix, [yy], [],
       {
         symbol_kind_type yykind = yysym.kind ();
         yyo << (yykind < YYNTOKENS ? "token" : "nterm")
-            << ' ' << symbol_name (yykind) << " ("]b4_locations_if([
+            << ' ' << yysym.name () << " ("]b4_locations_if([
             << yysym.location << ": "])[;
         ]b4_symbol_actions([printer])[
         yyo << ')';
@@ -1267,8 +1196,86 @@ b4_dollar_popdef])[]dnl
   {
     error (]b4_join(b4_locations_if([yyexc.location]),
                     [[yyexc.what ()]])[);
-  }]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+  }
 
+]b4_parse_error_bmatch([custom\|detailed],
+[[  const char *
+  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
+  {
+    static const char *const yy_sname[] =
+    {
+    ]b4_symbol_names[
+    };]b4_has_translations_if([[
+    /* YYTRANSLATABLE[SYMBOL-NUM] -- Whether YY_SNAME[SYMBOL-NUM] is
+       internationalizable.  */
+    static ]b4_int_type_for([b4_translatable])[ yytranslatable[] =
+    {
+    ]b4_translatable[
+    };
+    return (yysymbol < YYNTOKENS && yytranslatable[yysymbol]
+            ? _(yy_sname[yysymbol])
+            : yy_sname[yysymbol]);]], [[
+    return yy_sname[yysymbol];]])[
+  }
+]],
+[simple],
+[[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+  const char *
+  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
+  {
+    return yytname_[yysymbol];
+  }
+#endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+]],
+[verbose],
+[[  /* Return YYSTR after stripping away unnecessary quotes and
+     backslashes, so that it's suitable for yyerror.  The heuristic is
+     that double-quoting is unnecessary unless the string contains an
+     apostrophe, a comma, or backslash (other than backslash-backslash).
+     YYSTR is taken from yytname.  */
+  std::string
+  ]b4_parser_class[::yytnamerr_ (const char *yystr)
+  {
+    if (*yystr == '"')
+      {
+        std::string yyr;
+        char const *yyp = yystr;
+
+        for (;;)
+          switch (*++yyp)
+            {
+            case '\'':
+            case ',':
+              goto do_not_strip_quotes;
+
+            case '\\':
+              if (*++yyp != '\\')
+                goto do_not_strip_quotes;
+              else
+                goto append;
+
+            append:
+            default:
+              yyr += *yyp;
+              break;
+
+            case '"':
+              return yyr;
+            }
+      do_not_strip_quotes: ;
+      }
+
+    return yystr;
+  }
+
+  std::string
+  ]b4_parser_class[::symbol_name (symbol_kind_type yysymbol)
+  {
+    return yytnamerr_ (yytname_[yysymbol]);
+  }
+]])[
+
+]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
   // ]b4_parser_class[::context.
   ]b4_parser_class[::context::context (const ]b4_parser_class[& yyparser, const symbol_type& yyla)
     : yyparser_ (yyparser)

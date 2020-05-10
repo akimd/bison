@@ -500,7 +500,7 @@ m4_define([AT_DATA_SOURCE_PROLOGUE],
 # The prologue that should be included in any grammar whose parser is
 # meant to be compiled.
 m4_define([AT_DATA_GRAMMAR_PROLOGUE],
-[[%code top {
+[[%code top { /* -*- ]AT_LANG[ -*- */
 ]AT_DATA_SOURCE_PROLOGUE[]dnl
 [}
 ]])
