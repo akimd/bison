@@ -5,9 +5,9 @@ saw the traditional implementation in C, please first read
 examples/c/lexcalc, which can be seen as a C precursor of this example.
 
 Read the corresponding chapter in the documentation: "A Complete C++
-Example".  It is also available on line (maybe with a different version of
-Bison):
-https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
+Example".  It is also available [on
+line](https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html)
+(maybe with a different version of Bison).
 
 To use it, copy this directory into some work directory, and run `make` to
 compile the executable, and try it.  It is a simple calculator which accepts

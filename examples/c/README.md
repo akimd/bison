@@ -10,8 +10,8 @@ The first example is that of a simple double-precision Reverse Polish
 Notation calculator (a calculator using postfix operators). This example
 provides a good starting point, since operator precedence is not an issue.
 
-Extracted from the documentation: "Reverse Polish Notation Calculator"
-https://www.gnu.org/software/bison/manual/html_node/RPN-Calc.html
+Extracted from the documentation: [Reverse Polish Notation
+Calculator](https://www.gnu.org/software/bison/manual/html_node/RPN-Calc.html).
 
 ## calc - Simple Calculator
 This example is slightly more complex than rpcalc: it features infix
@@ -24,8 +24,8 @@ A more complete C example: a multi-function calculator.  More complex than
 the previous example.  Using precedence directives to support infix
 operators.
 
-Extracted from the documentation: "Multi-Function Calculator: mfcalc".
-https://www.gnu.org/software/bison/manual/html_node/Multi_002dfunction-Calc.html
+Extracted from the documentation: [Multi-Function Calculator:
+mfcalc](https://www.gnu.org/software/bison/manual/html_node/Multi_002dfunction-Calc.html).
 
 ## lexcalc - calculator with Flex and Bison
 The calculator with precedence directives and location tracking.  It uses
