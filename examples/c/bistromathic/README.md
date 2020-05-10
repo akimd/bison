@@ -14,6 +14,9 @@ This example demonstrates best practices when using Bison.
 - It supports debug traces with semantic values.
 - It uses named references instead of the traditional $1, $2, etc.
 
+To customize the interaction with bistromathic, see the GNU Readline user
+manual (see `info rluserman`).
+
 <!---
 Local Variables:
 fill-column: 76

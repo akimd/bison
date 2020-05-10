@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Users may customize the behavior of readline, which might break our
+# expected results.
+INPUTRC=/dev/null
+export INPUTRC
 
 # Beware of portability issues of readline when not feeding it from a
 # terminal.
