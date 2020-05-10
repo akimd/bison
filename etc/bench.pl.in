@@ -825,9 +825,9 @@ Compile C<$base.y> to an executable.
 
 =cut
 
-sub compile ($)
+sub compile ($$)
 {
-  my ($base) = @_;
+  my ($makefile, $base) = @_;
   my $compiler = compiler ($base);
 
   my $my_bison = `sed -ne '/[/][/] %bison "\\(.*\\)"/{s//\\1/;p;q;}' $base.y`;
@@ -838,14 +838,21 @@ sub compile ($)
       'c'   => 'c',
     );
   my $ext = $ext{language ($base)};
-  run ((length $my_bison ? $my_bison : $bison) . " $base.y -o $base.$ext");
   if ($gbench)
     {
-      run "$compiler -c -o $base.o $cflags $base.$ext";
+      print $makefile <<EOF;
+$base.o: $base.y
+\t@{[length $my_bison ? $my_bison : $bison]} $base.y -o $base.$ext
+\t$compiler -c -o $base.o $cflags $base.$ext
+EOF
     }
   else
     {
-      run "$compiler -o $base $cflags $base.$ext";
+      print $makefile <<EOF;
+$base: $base.y
+\t@{[length $my_bison ? $my_bison : $bison]} $base.y -o $base.$ext
+\t$compiler -o $base $cflags $base.$ext
+EOF
     }
 }
 
@@ -875,11 +882,13 @@ sub bench_with_timethese ($@)
   # For each bench, capture the size.
   my %size;
 
+  my $makefile = new IO::File ">Makefile";
   while (my ($name, $directives) = each %bench)
     {
       generate_grammar ($grammar, $name, $directives);
       # Compile the executable.
-      compile ($name);
+      compile ($makefile, $name);
+      run "make $name";
       $bench{$name} = "system ('./$name');";
       chop($size{$name} = `wc -c <$name`);
     }
@@ -934,6 +943,14 @@ sub bench_with_gbenchmark ($@)
 compiler: $compiler $cflags
 EOF
 
+  my $makefile = new IO::File ">Makefile";
+  print $makefile <<EOF;
+.PHONY: bench
+bench: main
+\t./main \$(BENCHFLAGS) | tee -a README.md
+
+EOF
+
   my @obj = ();
   for my $i (0 .. $#directive)
     {
@@ -942,7 +959,7 @@ EOF
       print $m;
       print $readme $m;
       generate_grammar ($grammar, $base, $directive[$i]);
-      compile ($base);
+      compile ($makefile, $base);
       push @obj, "$base.o";
     }
 
@@ -953,8 +970,12 @@ EOF
 BENCHMARK_MAIN();
 EOF
 
-  run "$compiler -o main $cflags main.cc @obj -lbenchmark";
-  run "./main | tee -a README.md";
+  print $makefile <<EOF;
+main: @{obj}
+\t$compiler -o main $cflags main.cc @obj -lbenchmark
+EOF
+
+  run "make";
 }
 
 ######################################################################
