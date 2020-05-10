@@ -6,6 +6,8 @@ GNU Bison NEWS
 
   GNU readline portability issues.
 
+  In C++, yy::parser::symbol_name is now a public member, as was intended.
+
 * Noteworthy changes in release 3.6 (2020-05-08) [stable]
 
 ** Backward incompatible changes

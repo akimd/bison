@@ -241,6 +241,24 @@ m4_define([b4_shared_declarations],
     /// Report a syntax error.
     void error (const syntax_error& err);
 
+]b4_parse_error_bmatch(
+[custom\|detailed],
+[[    /// The user-facing name of the symbol whose (internal) number is
+    /// YYSYMBOL.  No bounds checking.
+    static const char *symbol_name (symbol_kind_type yysymbol);]],
+[simple],
+[[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+    /// The user-facing name of the symbol whose (internal) number is
+    /// YYSYMBOL.  No bounds checking.
+    static const char *symbol_name (symbol_kind_type yysymbol);
+#endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
+]],
+[verbose],
+[[    /// The user-facing name of the symbol whose (internal) number is
+    /// YYSYMBOL.  No bounds checking.
+    static std::string symbol_name (symbol_kind_type yysymbol);
+]])[
+
 ]b4_token_constructor_define[
 ]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
     class context
@@ -317,26 +335,14 @@ m4_define([b4_shared_declarations],
     static symbol_kind_type yytranslate_ (int t);
 
 ]b4_parse_error_bmatch(
-[custom\|detailed],
-[[    /// The user-facing name of the symbol whose (internal) number is
-    /// YYSYMBOL.  No bounds checking.
-    static const char *symbol_name (symbol_kind_type yysymbol);]],
 [simple],
 [[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
-    /// The user-facing name of the symbol whose (internal) number is
-    /// YYSYMBOL.  No bounds checking.
-    static const char *symbol_name (symbol_kind_type yysymbol);
-
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
 #endif // #if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
 ]],
 [verbose],
-[[    /// The user-facing name of the symbol whose (internal) number is
-    /// YYSYMBOL.  No bounds checking.
-    static std::string symbol_name (symbol_kind_type yysymbol);
-
-    /// Convert the symbol name \a n to a form suitable for a diagnostic.
+[[    /// Convert the symbol name \a n to a form suitable for a diagnostic.
     static std::string yytnamerr_ (const char *yystr);
 
     /// For a symbol, its name in clear.
@@ -474,6 +480,7 @@ m4_define([b4_shared_declarations],
     };
 
 ]b4_parse_param_vars[
+]b4_percent_code_get([[yy_bison_internal_hook]])[
   };
 
 ]b4_token_ctor_if([b4_yytranslate_define([$1])[
