@@ -372,8 +372,19 @@ m4_pushdef([AT_TEST],
 
 AT_BISON_OPTION_PUSHDEFS([$1])
 
+
+# Clang chokes on some of our comments, because it tries to "parse"
+# some documentation directives in the comments:
+#
+# input.c:131:48: error: '\a' command does not have a valid word argument [-Werror,-Wdocumentation]
+#     SPECIAL = 261                  /* "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"  */
+#                                              ~~^
 AT_DATA_GRAMMAR([input.y],
 [%{
+#if defined __clang__ && 10 <= __clang_major__
+# pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
@@ -398,14 +409,14 @@ exp: ]AT_ERROR_VERBOSE_IF(["\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"], ["
 # C-string literal.  Also notice that unnecessary escaping, such as "\?", from
 # the user specification is eliminated.
 AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
-[[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
-   22 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+[[input.y:26.8-14: warning: symbol SPECIAL redeclared [-Wother]
+   26 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |        ^~~~~~~
-input.y:21.8-14: note: previous declaration
-   21 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+input.y:25.8-14: note: previous declaration
+   25 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |        ^~~~~~~
-input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
-   22 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
+input.y:26.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
+   26 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
 

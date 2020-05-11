@@ -127,3 +127,7 @@ gen-ChangeLog:
 	    --since=$(gen_start_date) > $$cl.tmp &&	\
 	  mv -f $$cl.tmp $$cl;				\
 	fi
+
+# Useful to debug.
+.c.i:
+	$(CC) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -o $@ -E $<
