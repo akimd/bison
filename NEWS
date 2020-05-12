@@ -2,6 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Some tests were fixed.
 
 * Noteworthy changes in release 3.6.1 (2020-05-10) [stable]
 
