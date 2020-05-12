@@ -2656,6 +2656,7 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
    always succeed, and that integer calculations
    never overflow.  Production-quality code should
    not make these assumptions.  */
+#include <assert.h>
 #include <stdlib.h> /* malloc, realloc. */
 #include <string.h> /* strlen. */
 @end group
@@ -2728,7 +2729,8 @@ yylex (void)
   if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
-      scanf ("%lf", &yylval.NUM);
+      int n = scanf ("%lf", &yylval.NUM);
+      assert (n == 1);
       return NUM;
     @}
 @end group

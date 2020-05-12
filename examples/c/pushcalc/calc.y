@@ -1,6 +1,6 @@
 %code top {
+  #include <assert.h>
   #include <ctype.h>  /* isdigit. */
-  #include <stdbool.h>
   #include <stdio.h>  /* For printf, etc. */
   #include <string.h> /* strcmp. */
 }
@@ -81,7 +81,8 @@ yylex (YYSTYPE *yylval)
   if (c == '.' || isdigit (c))
     {
       ungetc (c, stdin);
-      scanf ("%lf", &yylval->NUM);
+      int n = scanf ("%lf", &yylval->NUM);
+      assert (n == 1);
       return NUM;
     }
 

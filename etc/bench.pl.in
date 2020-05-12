@@ -498,7 +498,8 @@ yylex (void)
     case '5': case '6': case '7': case '8': case '9':
       {
         int nchars = 0;
-        sscanf (input - 1, "%d%n", &yylval.NUM, &nchars);
+        int n = sscanf (input - 1, "%d%n", &yylval.NUM, &nchars);
+        assert (n == 1);
         input += nchars - 1;
         return NUM;
       }
