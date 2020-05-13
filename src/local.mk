@@ -40,6 +40,10 @@ src_bison_SOURCES =                             \
   src/complain.h                                \
   src/conflicts.c                               \
   src/conflicts.h                               \
+  src/counterexample.c                          \
+  src/counterexample.h                          \
+  src/derivation.c                              \
+  src/derivation.h                              \
   src/derives.c                                 \
   src/derives.h                                 \
   src/files.c                                   \
@@ -61,6 +65,8 @@ src_bison_SOURCES =                             \
   src/location.h                                \
   src/lr0.c                                     \
   src/lr0.h                                     \
+  src/lssi.c                                    \
+  src/lssi.h                                    \
   src/main.c                                    \
   src/muscle-tab.c                              \
   src/muscle-tab.h                              \
@@ -71,6 +77,8 @@ src_bison_SOURCES =                             \
   src/output.c                                  \
   src/output.h                                  \
   src/parse-gram.y                              \
+  src/parse-simulation.c                        \
+  src/parse-simulation.h                        \
   src/print-graph.c                             \
   src/print-graph.h                             \
   src/print-xml.c                               \
@@ -91,6 +99,8 @@ src_bison_SOURCES =                             \
   src/scan-skel.h                               \
   src/state.c                                   \
   src/state.h                                   \
+  src/state-item.c                              \
+  src/state-item.h                              \
   src/symlist.c                                 \
   src/symlist.h                                 \
   src/symtab.c                                  \
