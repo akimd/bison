@@ -55,6 +55,7 @@
 #include "symtab.h"
 #include "tables.h"
 #include "uniqstr.h"
+#include "counterexample.h"
 
 
 int
@@ -144,6 +145,7 @@ main (int argc, char *argv[])
       conflicts_update_state_numbers (old_to_new, nstates_old);
       free (old_to_new);
     }
+  counterexample_init ();
   conflicts_print ();
   timevar_pop (tv_conflicts);
 
@@ -217,6 +219,7 @@ main (int argc, char *argv[])
   reduce_free ();
   conflicts_free ();
   grammar_free ();
+  counterexample_free ();
   output_file_names_free ();
 
   /* The scanner memory cannot be released right after parsing, as it

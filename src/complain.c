@@ -113,6 +113,7 @@ static const argmatch_warning_doc argmatch_warning_docs[] =
 {
   { "conflicts-sr",     N_("S/R conflicts (enabled by default)") },
   { "conflicts-rr",     N_("R/R conflicts (enabled by default)") },
+  { "counterexample",   N_("Conflict counter examples") },
   { "deprecated",       N_("obsolete constructs") },
   { "empty-rule",       N_("empty rules without %empty") },
   { "midrule-values",   N_("unset or unused midrule values") },
@@ -133,6 +134,7 @@ static const argmatch_warning_arg argmatch_warning_args[] =
   { "yacc",           Wyacc },
   { "conflicts-sr",   Wconflicts_sr },
   { "conflicts-rr",   Wconflicts_rr },
+  { "counterexample", Wcounterexample },
   { "deprecated",     Wdeprecated },
   { "empty-rule",     Wempty_rule },
   { "precedence",     Wprecedence },
