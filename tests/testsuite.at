@@ -46,6 +46,9 @@ m4_include([report.at])
 # Conflicts detection and resolution.
 m4_include([conflicts.at])
 
+# Counterexaple generation.
+m4_include([counterexample.at])
+
 # Support for #lines.
 m4_include([synclines.at])
 
