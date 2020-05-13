@@ -73,6 +73,11 @@ def diff_to_re(match):
             is_diff = True
             to.append(l)
     if is_diff:
+        # Do not run s//SOMETHING/g (with an emty pattern), that won't
+        # work well...
+        if frm == []:
+            trace("no from for", match.group(1))
+            return
         frm = "\n".join(frm)
         to = "\n".join(to)
         subst[frm] = to
@@ -112,4 +117,6 @@ def process(logfile):
 
 for logfile in args.logs:
     trace("FILE:", logfile)
+    if os.path.isdir(logfile):
+        logfile = os.path.join(logfile, 'testsuite.log')
     process(logfile)
