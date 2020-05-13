@@ -1,6 +1,6 @@
 /* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -125,7 +125,7 @@
 %define api.token.raw
 %define api.value.type union
 %define locations
-%define parse.error verbose
+%define parse.error custom
 %define parse.lac full
 %define parse.trace
 %defines
@@ -140,31 +140,26 @@
   boundary_set (&@$.end, grammar_file, 1, 1, 1);
 }
 
-/* Define the tokens together with their human representation.  */
-%token GRAM_EOF 0 "end of file"
-%token STRING     "string"
-
-%token PERCENT_TOKEN       "%token"
-%token PERCENT_NTERM       "%nterm"
-
-%token PERCENT_TYPE        "%type"
-%token PERCENT_DESTRUCTOR  "%destructor"
-%token PERCENT_PRINTER     "%printer"
-
-%token PERCENT_LEFT        "%left"
-%token PERCENT_RIGHT       "%right"
-%token PERCENT_NONASSOC    "%nonassoc"
-%token PERCENT_PRECEDENCE  "%precedence"
-
-%token PERCENT_PREC          "%prec"
-%token PERCENT_DPREC         "%dprec"
-%token PERCENT_MERGE         "%merge"
-
-/*----------------------.
-| Global Declarations.  |
-`----------------------*/
-
 %token
+  STRING              _("string")
+  TSTRING             _("translatable string")
+
+  PERCENT_TOKEN       "%token"
+  PERCENT_NTERM       "%nterm"
+
+  PERCENT_TYPE        "%type"
+  PERCENT_DESTRUCTOR  "%destructor"
+  PERCENT_PRINTER     "%printer"
+
+  PERCENT_LEFT        "%left"
+  PERCENT_RIGHT       "%right"
+  PERCENT_NONASSOC    "%nonassoc"
+  PERCENT_PRECEDENCE  "%precedence"
+
+  PERCENT_PREC        "%prec"
+  PERCENT_DPREC       "%dprec"
+  PERCENT_MERGE       "%merge"
+
   PERCENT_CODE            "%code"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
@@ -190,24 +185,23 @@
   PERCENT_TOKEN_TABLE     "%token-table"
   PERCENT_VERBOSE         "%verbose"
   PERCENT_YACC            "%yacc"
-;
 
-%token BRACED_CODE     "{...}"
-%token BRACED_PREDICATE "%?{...}"
-%token BRACKETED_ID    "[identifier]"
-%token CHAR            "character literal"
-%token COLON           ":"
-%token EPILOGUE        "epilogue"
-%token EQUAL           "="
-%token ID              "identifier"
-%token ID_COLON        "identifier:"
-%token PERCENT_PERCENT "%%"
-%token PIPE            "|"
-%token PROLOGUE        "%{...%}"
-%token SEMICOLON       ";"
-%token TAG             "<tag>"
-%token TAG_ANY         "<*>"
-%token TAG_NONE        "<>"
+  BRACED_CODE       "{...}"
+  BRACED_PREDICATE  "%?{...}"
+  BRACKETED_ID      _("[identifier]")
+  CHAR              _("character literal")
+  COLON             ":"
+  EPILOGUE          _("epilogue")
+  EQUAL             "="
+  ID                _("identifier")
+  ID_COLON          _("identifier:")
+  PERCENT_PERCENT   "%%"
+  PIPE              "|"
+  PROLOGUE          "%{...%}"
+  SEMICOLON         ";"
+  TAG               _("<tag>")
+  TAG_ANY           "<*>"
+  TAG_NONE          "<>"
 
  /* Experimental feature, don't rely on it.  */
 %code pre-printer  {tron (yyo);}
@@ -216,8 +210,8 @@
 %type <unsigned char> CHAR
 %printer { fputs (char_name ($$), yyo); } <unsigned char>
 
-%type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING
-%printer { fputs ($$, yyo); }  <char*>
+%type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING TSTRING
+%printer { fputs ($$, yyo); } <char*>
 
 %type <uniqstr>
   BRACKETED_ID ID ID_COLON
@@ -230,7 +224,7 @@
 %printer { fprintf (yyo, "%%%s", $$); } PERCENT_FLAG
 %printer { fprintf (yyo, "<%s>", $$); } TAG tag
 
-%token <int> INT "integer"
+%token <int> INT _("integer literal")
 %printer { fprintf (yyo, "%d", $$); } <int>
 
 %type <symbol*> id id_colon string_as_id symbol token_decl token_decl_for_prec
@@ -532,7 +526,7 @@ token_decl.1:
 
 // One symbol declaration for %token or %nterm.
 token_decl:
-  id int.opt[num] string_as_id.opt[alias]
+  id int.opt[num] alias
     {
       $$ = $id;
       symbol_class_set ($id, current_class, @id, true);
@@ -548,6 +542,19 @@ int.opt:
   %empty  { $$ = -1; }
 | INT
 ;
+
+%type <symbol*> alias;
+alias:
+  %empty         { $$ = NULL; }
+| string_as_id   { $$ = $1; }
+| TSTRING
+    {
+      $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
+      symbol_class_set ($$, token_sym, @1, false);
+      $$->translatable = true;
+    }
+;
+
 
 /*-------------------------------------.
 | token_decls_for_prec (%left, etc.).  |
@@ -592,11 +599,11 @@ token_decl_for_prec:
 ;
 
 
-/*-----------------------.
-| symbol_decls (%type).  |
-`-----------------------*/
+/*-----------------------------------.
+| symbol_decls (argument of %type).  |
+`-----------------------------------*/
 
-// A non empty list of typed symbols.
+// A non empty list of typed symbols (for %type).
 symbol_decls:
   symbol_decl.1[syms]
     {
@@ -612,10 +619,18 @@ symbol_decls:
     }
 ;
 
-// One or more token declarations.
+// One or more token declarations (for %type).
 symbol_decl.1:
-  symbol                { $$ = symbol_list_sym_new ($1, @1); }
-| symbol_decl.1 symbol  { $$ = symbol_list_append ($1, symbol_list_sym_new ($2, @2)); }
+  symbol
+    {
+      symbol_class_set ($symbol, pct_type_sym, @symbol, false);
+      $$ = symbol_list_sym_new ($symbol, @symbol);
+    }
+  | symbol_decl.1 symbol
+    {
+      symbol_class_set ($symbol, pct_type_sym, @symbol, false);
+      $$ = symbol_list_append ($1, symbol_list_sym_new ($symbol, @symbol));
+    }
 ;
 
         /*------------------------------------------.
@@ -740,14 +755,11 @@ id:
         }
       if (muscle_percent_define_ifdef (var))
         {
-          int indent = 0;
-          complain_indent (&@1, complaint, &indent,
-                           _("character literals cannot be used together"
-                             " with %s"), var);
-          indent += SUB_INDENT;
+          complain (&@1, complaint,
+                    _("character literals cannot be used together"
+                    " with %s"), var);
           location loc = muscle_percent_define_get_loc (var);
-          complain_indent (&loc, complaint, &indent,
-                           _("definition of %s"), var);
+          subcomplain (&loc, complaint, _("definition of %s"), var);
         }
       $$ = symbol_get (char_name ($1), @1);
       symbol_class_set ($$, token_sym, @1, false);
@@ -774,12 +786,6 @@ string_as_id:
     }
 ;
 
-%type <symbol*> string_as_id.opt;
-string_as_id.opt:
-  %empty             { $$ = NULL; }
-| string_as_id
-;
-
 epilogue.opt:
   %empty
 | "%%" EPILOGUE
@@ -790,6 +796,32 @@ epilogue.opt:
 ;
 
 %%
+
+int
+yyreport_syntax_error (const yypcontext_t *ctx)
+{
+  int res = 0;
+  /* Arguments of format: reported tokens (one for the "unexpected",
+     one per "expected"). */
+  enum { ARGS_MAX = 5 };
+  const char *argv[ARGS_MAX];
+  int argc = 0;
+  yysymbol_kind_t unexpected = yypcontext_token (ctx);
+  if (unexpected != YYSYMBOL_YYEMPTY)
+    {
+      argv[argc++] = yysymbol_name (unexpected);
+      yysymbol_kind_t expected[ARGS_MAX - 1];
+      int nexpected = yypcontext_expected_tokens (ctx, expected, ARGS_MAX - 1);
+      if (nexpected < 0)
+        res = nexpected;
+      else
+        for (int i = 0; i < nexpected; ++i)
+          argv[argc++] = yysymbol_name (expected[i]);
+    }
+  syntax_error (*yypcontext_location (ctx), argc, argv);
+  return res;
+}
+
 
 /* Return the location of the left-hand side of a rule whose
    right-hand side is RHS[1] ... RHS[N].  Ignore empty nonterminals in
@@ -1013,9 +1045,9 @@ handle_require (location const *loc, char const *version)
       return;
     }
 
-  /* Pretend to be at least 3.4, to check features published in 3.4
-     while developping it.  */
-  const char* api_version = "3.4";
+  /* Pretend to be at least that version, to check features published
+     in that version while developping it.  */
+  const char* api_version = "3.6";
   const char* package_version =
     0 < strverscmp (api_version, PACKAGE_VERSION)
     ? api_version : PACKAGE_VERSION;

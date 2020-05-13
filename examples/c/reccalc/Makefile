@@ -12,7 +12,7 @@ all: $(BASE)
 	$(BISON) $(BISONFLAGS) --defines --xml --graph=$*.gv -o $*.c $<
 
 %.c %.h: %.l
-	$(FLEX) $(FLEXFLAGS) -o$*.c --header-file=$*.h $<
+	$(FLEX) $(FLEXFLAGS) -o$*.c --header=$*.h $<
 
 scan.o: parse.h
 parse.o: scan.h

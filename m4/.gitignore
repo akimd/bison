@@ -1,3 +1,4 @@
+/extern-inline.m4~
 /*~
 /00gnulib.m4
 /__inline.m4
@@ -38,8 +39,10 @@
 /fseterr.m4
 /fstat.m4
 /fsync.m4
+/getdelim.m4
 /getdtablesize.m4
 /gethrxtime.m4
+/getline.m4
 /getopt.m4
 /getprogname.m4
 /getrusage.m4
@@ -69,6 +72,8 @@
 /isnanf.m4
 /isnanl.m4
 /iswblank.m4
+/iswdigit.m4
+/iswxdigit.m4
 /javacomp.m4
 /javaexec.m4
 /jm-winsz1.m4
@@ -88,6 +93,7 @@
 /locale-fr.m4
 /locale-ja.m4
 /locale-zh.m4
+/locale_h.m4
 /localtime-buffer.m4
 /lock.m4
 /longlong.m4
@@ -133,6 +139,7 @@
 /quotearg.m4
 /raise.m4
 /rawmemchr.m4
+/readline.m4
 /readlink.m4
 /realloc.m4
 /relocatable-lib.m4
@@ -141,6 +148,7 @@
 /rmdir.m4
 /sched_h.m4
 /setenv.m4
+/setlocale_null.m4
 /sh-filename.m4
 /sig_atomic_t.m4
 /sigaction.m4
@@ -208,3 +216,4 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+/zzgnulib.m4

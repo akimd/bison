@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# Copyright (C) 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2020 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,11 +16,27 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 cat >input <<EOF
-1 + 2 * 3
+1+2*3
 EOF
 run 0 7
 
 cat >input <<EOF
-1 + 2 * * 3
+1 - 2 - 3
 EOF
-run 0 "err: 1.5: syntax error, unexpected '*', expecting number or '-' or '(' or '!'"
+run 0 -4
+
+cat >input <<EOF
+8 / 2 / 2
+EOF
+run 0 2
+
+cat >input <<EOF
+(1+2) * 3
+EOF
+run 0 9
+run -noerr 0 9 -p
+
+cat >input <<EOF
+1++2
+EOF
+run 0 "err: syntax error, unexpected '+', expecting number or '('"

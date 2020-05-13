@@ -1,6 +1,6 @@
 /* Type definitions for the finite state machine for Bison.
 
-   Copyright (C) 1984, 1989, 2000-2004, 2007, 2009-2015, 2018-2019 Free
+   Copyright (C) 1984, 1989, 2000-2004, 2007, 2009-2015, 2018-2020 Free
    Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -67,7 +67,10 @@
    Conflict resolution can decide that certain tokens in certain
    states should explicitly be errors (for implementing %nonassoc).
    For each state, the tokens that are errors for this reason are
-   recorded in an errs structure, which holds the token numbers.
+   recorded in an errs structure.  The generated parser does not
+   depend on this errs structure, it is used only in the reports
+   (*.output, etc.) to describe conflicted actions that have been
+   discarded.
 
    There is at least one goto transition present in state zero.  It
    leads to a next-to-final state whose accessing_symbol is the

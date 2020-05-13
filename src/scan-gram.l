@@ -1,6 +1,6 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -51,7 +51,7 @@ static boundary scanner_cursor;
 
 #define YY_USER_ACTION  location_compute (loc, &scanner_cursor, yytext, yyleng);
 
-/* Report that yytext is an extension, and evaluate to its token type.  */
+/* Report that yytext is an extension, and evaluate to its token kind.  */
 #define BISON_DIRECTIVE(Directive)                              \
   (bison_directive (loc, yytext), PERCENT_ ## Directive)
 
@@ -74,7 +74,7 @@ static boundary scanner_cursor;
     yyless (0);                                                 \
   } while (0)
 
-#define DEPRECATED(Msg)                                         \
+#define DEPRECATED_DIRECTIVE(Msg)                               \
   do {                                                          \
     deprecated_directive (loc, yytext, Msg);                    \
     scanner_cursor.column -= mbsnwidth (Msg, strlen (Msg), 0);  \
@@ -82,6 +82,23 @@ static boundary scanner_cursor;
     for (size_t i = strlen (Msg); i != 0; --i)                  \
       unput (Msg[i - 1]);                                       \
   } while (0)
+
+
+#define STRING_GROW_ESCAPE(Char)                                \
+  do {                                                          \
+    long c = Char;                                              \
+    if (0 < c && c <= UCHAR_MAX)                                \
+      obstack_1grow (&obstack_for_string, c);                   \
+    else                                                        \
+      {                                                         \
+        complain (loc, complaint,                               \
+                  _("invalid number after \\-escape: %s"),      \
+                  yytext + 1);                                  \
+        /* Avoid additional errors about empty char literal. */ \
+        obstack_1grow (&obstack_for_string, '?');               \
+      }                                                         \
+  } while (0)
+
 
 /* The current file name.  Might change with #line.  */
 static uniqstr current_file = NULL;
@@ -110,8 +127,8 @@ static void unexpected_newline (boundary, char const *);
 %}
  /* A C-like comment in directives/rules. */
 %x SC_YACC_COMMENT
- /* Strings and characters in directives/rules. */
-%x SC_ESCAPED_STRING SC_ESCAPED_CHARACTER
+ /* Characters and strings in directives/rules. */
+%x SC_ESCAPED_CHARACTER SC_ESCAPED_STRING SC_ESCAPED_TSTRING
  /* A identifier was just read in directives/rules.  Special state
     to capture the sequence 'identifier :'. */
 %x SC_AFTER_IDENTIFIER
@@ -278,18 +295,19 @@ eqopt    ({sp}=)?
   "%name"[-_]"prefix"{eqopt}{sp}    RETURN_VALUE (PERCENT_NAME_PREFIX, uniqstr_new (yytext));
 
   /* Deprecated since Bison 2.7.90, 2012. */
-  "%default"[-_]"prec"              DEPRECATED ("%default-prec");
+  "%default"[-_]"prec"              DEPRECATED_DIRECTIVE ("%default-prec");
   "%error"[-_]"verbose"             RETURN_VALUE (PERCENT_ERROR_VERBOSE, uniqstr_new (yytext));
-  "%expect"[-_]"rr"                 DEPRECATED ("%expect-rr");
+  "%expect"[-_]"rr"                 DEPRECATED_DIRECTIVE ("%expect-rr");
   "%file-prefix"{eqopt}             RETURN_VALUE (PERCENT_FILE_PREFIX, uniqstr_new (yytext));
-  "%fixed"[-_]"output"[-_]"files"   DEPRECATED ("%output \"y.tab.c\"");
-  "%no"[-_]"default"[-_]"prec"      DEPRECATED ("%no-default-prec");
-  "%no"[-_]"lines"                  DEPRECATED ("%no-lines");
-  "%output"{eqopt}                  DEPRECATED ("%output");
-  "%token"[-_]"table"               DEPRECATED ("%token-table");
+  "%fixed"[-_]"output"[-_]"files"   DEPRECATED_DIRECTIVE ("%output \"y.tab.c\"");
+  "%no"[-_]"default"[-_]"prec"      DEPRECATED_DIRECTIVE ("%no-default-prec");
+  "%no"[-_]"lines"                  DEPRECATED_DIRECTIVE ("%no-lines");
+  "%output"{eqopt}                  DEPRECATED_DIRECTIVE ("%output");
+  "%token"[-_]"table"               DEPRECATED_DIRECTIVE ("%token-table");
 
   "%"{id} {
     complain (loc, complaint, _("invalid directive: %s"), quote (yytext));
+    return GRAM_error;
   }
 
   ":"                     return COLON;
@@ -311,6 +329,7 @@ eqopt    ({sp}=)?
      accept "1FOO" as "1 FOO".  */
   {int}{id} {
     complain (loc, complaint, _("invalid identifier: %s"), quote (yytext));
+    return GRAM_error;
   }
 
   /* Characters.  */
@@ -318,6 +337,7 @@ eqopt    ({sp}=)?
 
   /* Strings. */
   "\""        token_start = loc->start; BEGIN SC_ESCAPED_STRING;
+  "_(\""      token_start = loc->start; BEGIN SC_ESCAPED_TSTRING;
 
   /* Prologue. */
   "%{"        code_start = loc->start; BEGIN SC_PROLOGUE;
@@ -360,10 +380,11 @@ eqopt    ({sp}=)?
     BEGIN SC_BRACKETED_ID;
   }
 
-  [^\[%A-Za-z0-9_<>{}\"\'*;|=/, \f\r\n\t\v]+|. {
+  [^\[%A-Za-z0-9_<>{}""''*;|=/, \f\r\n\t\v]+|. {
     complain (loc, complaint, "%s: %s",
               ngettext ("invalid character", "invalid characters", yyleng),
               quote_mem (yytext, yyleng));
+    return GRAM_error;
   }
 
   <<EOF>> {
@@ -378,9 +399,13 @@ eqopt    ({sp}=)?
   | added value.                                                  |
   `--------------------------------------------------------------*/
 
-<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_TAG>
+<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING,SC_TAG>
 {
-  \0        complain (loc, complaint, _("invalid null character"));
+  \0         {
+    complain (loc, complaint, _("invalid null character"));
+    STRING_FREE;
+    return GRAM_error;
+  }
 }
 
 
@@ -436,6 +461,7 @@ eqopt    ({sp}=)?
         complain (loc, complaint,
                   _("unexpected identifier in bracketed name: %s"),
                   quote (yytext));
+        return GRAM_error;
       }
     else
       {
@@ -456,7 +482,10 @@ eqopt    ({sp}=)?
           }
       }
     else
-      complain (loc, complaint, _("an identifier expected"));
+      {
+        complain (loc, complaint, _("an identifier expected"));
+        return GRAM_error;
+      }
   }
 
   [^\].A-Za-z0-9_/ \f\r\n\t\v]+|. {
@@ -464,6 +493,7 @@ eqopt    ({sp}=)?
               ngettext ("invalid character in bracketed name",
                         "invalid characters in bracketed name", yyleng),
               quote_mem (yytext, yyleng));
+    return GRAM_error;
   }
 
   <<EOF>> {
@@ -539,6 +569,20 @@ eqopt    ({sp}=)?
   {eol}     unexpected_newline (token_start, "\"");
 }
 
+<SC_ESCAPED_TSTRING>
+{
+  "\")" {
+    STRING_FINISH;
+    BEGIN INITIAL;
+    loc->start = token_start;
+    complain (loc, Wyacc,
+              _("POSIX Yacc does not support string literals"));
+    RETURN_VALUE (TSTRING, last_string);
+  }
+  <<EOF>>   unexpected_eof (token_start, "\"");
+  "\n"      unexpected_newline (token_start, "\"");
+}
+
   /*----------------------------------------------------------.
   | Scanning a Bison character literal, decoding its escapes. |
   | The initial quote is already eaten.                       |
@@ -548,22 +592,27 @@ eqopt    ({sp}=)?
 {
   "'" {
     STRING_FINISH;
+    BEGIN INITIAL;
     loc->start = token_start;
     val->CHAR = last_string[0];
 
-    /* FIXME: Eventually, make these errors.  */
     if (last_string[0] == '\0')
-    {
-      complain (loc, Wother, _("empty character literal"));
-      /* '\0' seems dangerous even if we are about to complain.  */
-      val->CHAR = '\'';
-    }
+      {
+        complain (loc, complaint, _("empty character literal"));
+        STRING_FREE;
+        return GRAM_error;
+      }
     else if (last_string[1] != '\0')
-      complain (loc, Wother,
-                _("extra characters in character literal"));
-    STRING_FREE;
-    BEGIN INITIAL;
-    return CHAR;
+      {
+        complain (loc, complaint, _("extra characters in character literal"));
+        STRING_FREE;
+        return GRAM_error;
+      }
+    else
+      {
+        STRING_FREE;
+        return CHAR;
+      }
   }
   {eol}     unexpected_newline (token_start, "'");
   <<EOF>>   unexpected_eof (token_start, "'");
@@ -601,26 +650,16 @@ eqopt    ({sp}=)?
   | Decode escaped characters.  |
   `----------------------------*/
 
-<SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
+<SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING>
 {
   \\[0-7]{1,3} {
     verify (UCHAR_MAX < ULONG_MAX);
-    long c = strtol (yytext + 1, NULL, 8);
-    if (0 < c && c <= UCHAR_MAX)
-      obstack_1grow (&obstack_for_string, c);
-    else
-      complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                yytext+1);
+    STRING_GROW_ESCAPE (strtol (yytext + 1, NULL, 8));
   }
 
   \\x[0-9abcdefABCDEF]+ {
     verify (UCHAR_MAX < ULONG_MAX);
-    long c = strtol (yytext + 2, NULL, 16);
-    if (0 < c && c <= UCHAR_MAX)
-      obstack_1grow (&obstack_for_string, c);
-    else
-      complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                yytext+1);
+    STRING_GROW_ESCAPE (strtol (yytext + 2, NULL, 16));
   }
 
   \\a   obstack_1grow (&obstack_for_string, '\a');
@@ -635,13 +674,9 @@ eqopt    ({sp}=)?
   \\("\""|"'"|"?"|"\\")  obstack_1grow (&obstack_for_string, yytext[1]);
 
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
-    int c = convert_ucn_to_byte (yytext);
-    if (c <= 0)
-      complain (loc, complaint, _("invalid number after \\-escape: %s"),
-                yytext+1);
-    else
-      obstack_1grow (&obstack_for_string, c);
+    STRING_GROW_ESCAPE (convert_ucn_to_byte (yytext));
   }
+
   \\(.|{eol})      {
     char const *p = yytext + 1;
     /* Quote only if escaping won't make the character visible.  */
@@ -651,6 +686,7 @@ eqopt    ({sp}=)?
       p = quotearg_style_mem (escape_quoting_style, p, 1);
     complain (loc, complaint, _("invalid character after \\-escape: %s"),
               p);
+    obstack_1grow (&obstack_for_string, '?');
   }
 }
 
@@ -797,7 +833,7 @@ eqopt    ({sp}=)?
   | By default, grow the string obstack with the input.  |
   `-----------------------------------------------------*/
 
-<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_CHARACTER>
+<SC_COMMENT,SC_LINE_COMMENT,SC_BRACED_CODE,SC_PREDICATE,SC_PROLOGUE,SC_EPILOGUE,SC_STRING,SC_CHARACTER,SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING>
 {
   /* Accept multibyte characters in one block instead of byte after
      byte, so that add_column_width and mbsnwidth can compute correct

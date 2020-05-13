@@ -5,7 +5,8 @@ Everything related to the development of Bison is on Savannah:
 http://savannah.gnu.org/projects/bison/.
 
 
-# Administrivia
+Administrivia
+=============
 
 ## If you incorporate a change from somebody on the net:
 First, if it is a large change, you must make sure they have signed the
@@ -23,9 +24,11 @@ demonstrates the bug.  Then fix the bug, re-run the test suite, and check
 everything in.
 
 
-# Hacking
 
-## Visible changes
+Hacking
+=======
+
+## Visible Changes
 Which include serious bug fixes, must be mentioned in NEWS.
 
 ## Translations
@@ -34,15 +37,121 @@ Only user visible strings are to be translated: error messages, bits of the
 assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
-## Horizontal tabs
+## Syntax highlighting
+It's quite nice to be in C++ mode when editing lalr1.cc for instance.
+However tools such as Emacs will be fooled by the fact that braces and
+parens do not nest, as in `[[}]]`.  As a consequence you might be misguided
+by its visual pairing to parens.  The m4-mode is safer.  Unfortunately the
+m4-mode is also fooled by `#` which is sees as a comment, stops pairing with
+parens/brackets that are inside...
+
+## Coding Style
 Do not add horizontal tab characters to any file in Bison's repository
 except where required.  For example, do not use tabs to format C code.
 However, make files, ChangeLog, and some regular expressions require tabs.
 Also, test cases might need to contain tabs to check that Bison properly
 processes tabs in its input.
 
+Prefer "res" as the name of the local variable that will be "return"ed by
+the function.
 
-# Working from the repository
+### Bison
+Follow the GNU Coding Standards.
+
+Don't reinvent the wheel: we use gnulib, which features many components.
+Actually, Bison has legacy code that we should replace with gnulib modules
+(e.g., many ad hoc implementations of lists).
+
+### Skeletons
+We try to use the "typical" coding style for each language.
+
+#### CPP
+We indent the CPP directives this way:
+
+```
+#if FOO
+# if BAR
+#  define BAZ
+# endif
+#endif
+```
+
+Don't indent with leading spaces in the skeletons (it's ok in the grammar
+files though, e.g., in `%code {...}` blocks).
+
+On occasions, use `cppi -c` to see where we stand.  We don't aim at full
+correctness: depending `-d`, some bits can be in the *.c file, or the *.h
+file within the double-inclusion cpp-guards.  In that case, favor the case
+of the *.h file, but don't waste time on this.
+
+Don't hesitate to leave a comment on the `#endif` (e.g., `#endif /* FOO
+*/`), especially for long blocks.
+
+There is no conistency on `! defined` vs. `!defined`.  The day gnulib
+decides, we'll follow them.
+
+#### C/C++
+Follow the GNU Coding Standards.
+
+The `glr.c` skeleton was implemented with `camlCase`.  We are migrating it
+to `snake_case`.  Because we are standardizing the code, it is currently
+inconsistent.
+
+Use `YYFOO` and `yyfoo` for entities that are exposed to the user.  They are
+part of our contract with the users wrt backward compatibility.
+
+Use `YY_FOO` and `yy_foo` for private matters.  Users should not use them,
+we are free to change them without fear of backward compatibility issues.
+
+Use `*_t` for types, especially for `yy*_t` in which case we shouldn't worry
+about the C standard introducing such a name.
+
+#### C++
+Follow the C++ Core Guidelines
+(http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).  The Google
+ones may be interesting too
+(https://google.github.io/styleguide/cppguide.html).
+
+Our enumerators, such as the kinds (symbol and token kinds), should be lower
+case, but it was too late to follow that track for token kinds, and symbol
+kind enumerators are made to be consistent with them.
+
+Use `*_type` for type aliases.  Use `foo_get()` and `foo_set(v)` for
+accessors, or simply `foo()` and `foo(v)`.
+
+Use the `yy` prefix for private stuff, but there's no need for it in the
+public API.  The `yy` prefix is already taken care of via the namespace.
+
+#### Java
+We follow https://www.oracle.com/technetwork/java/codeconventions-150003.pdf
+and https://google.github.io/styleguide/javaguide.html.  Unfortunately at
+some point some GNU Coding Style was installed in Java, but it's an error.
+So we should for instance stop putting spaces in function calls.  Because we
+are standardizing the code, it is currently inconsistent.
+
+Use a 2-space indentation (Google) rather than 4 (Oracle).
+
+Don't use the "yy" prefix for public members: "getExpectedTokens", not
+"yyexpectedTokens" or "yygetExpectedTokens".
+
+## Commit Messages
+Imitate the style we use.  Use `git log` to get sources of inspiration.
+
+If the changes have a small impact on Bison's generated parser, embed these
+changes in the commit itself.  If the impact is large, first push all the
+changes except those about src/parse-gram.[ch], and then another commit
+named "regen" which is only about them.
+
+## Debugging
+Bison supports tracing of its various steps, via the `--trace` option.
+Since it is not meant for the end user, it is not displayed by `bison
+--help`, nor is it documented in the manual.  Instead, run `bison
+--trace=help`.
+
+
+
+Working from the Repository
+===========================
 
 These notes intend to help people working on the checked-out sources.  These
 requirements do not apply when building from a distribution tarball.
@@ -185,29 +294,61 @@ These files don't change very often in Autoconf, so it should be relatively
 straight-forward to examine the differences in order to decide whether to
 update.
 
-# Test suite
+## Troubleshooting
+
+Bison is self-hosted: its parser is generated by Bison.  We don't force
+ourselves to use the previous release of Bison, we use the current git
+master for several reasons:
+- dogfooding: let Bison be its first user
+- monitoring: seeing the diff on the generated parsers with git is very
+  helpful, as it allows to see easily the impact of the changes on a real
+  case parser.
+
+If you are unlucky the generated files, src/parse-gram.[ch], may be older
+than their source, src/parse-gram.y.  And your current version of Bison
+might not be able to grok it.  In that case, first refresh the generated
+files:
+
+    $ touch src/parse-gram.[ch]
+
+Then proceed.
+
+In case you wrecked your current copy of the parser, get back the previous
+version, compile bison, then force it to recreate the files:
+
+    $ git checkout HEAD^ src/parse-gram.[ch]
+    $ make -C _build
+    $ touch src/parse-gram.y
+    $ make -C _build
+
+
+Test Suite
+==========
 
 ## make check
-Use liberally.
+Consume without moderation.  It is composed of two kinds of tests: the
+examples, and the main test suite.
 
-## Updating the expectations
-Sometimes some changes have a large impact on the test suite (e.g., when we
-added the `[-Wother]` part to all the warnings).  Part of the update can be
-done with a crude tool: `build-aux/update-test`.
+### The Examples
+In examples/, there is a number of ready-to-use examples (see
+examples/README.md).  These examples have small test suites run by `make
+check`.  The test results are in local `*.log` files (e.g.,
+`$build/examples/c/calc/calc.log`).
 
-Once you ran the test suite, and therefore have many testsuite.log files,
-run, from the source tree:
+### The Main Test Suite
+The main test suite, in tests/, is written on top of GNU Autotest, which is
+part of Autoconf.  Run `info autoconf 'Using Autotest'` to read the
+documentation, not only about how to write tests, but also where are the
+logs, how to read them etc.
 
-    $ ./build-aux/update-test _build/tests/testsuite.dir/*/testsuite.log
+The main test suite generates a log for each test (e.g.,
+`$build/tests/testsuite.dir/004/testsuite.log` for test #4), and a main log
+file in `$build/tests/testsuite.log`.  The latter is meant for end users: it
+contains lots of details that should help diagnosing issues, including build
+issues.  The per-test logs are more convenient when working locally.
 
-where `_build` would be your build tree.  This will hopefully update most
-tests.  Re-run the test suite.  It might be interesting to run `update-test`
-again, since some early failures may stop latter tests from being run.  Yet
-at some point, you'll have to fix remaining issues by hand...
-
-## TESTSUITEFLAGS
-To run just the test suite (not the tests related to the examples), run `make
-check-local`.
+#### TESTSUITEFLAGS
+To run just the main test suite, run `make check-local`.
 
 The default is for make check-local to run all tests sequentially.  This can
 be very time consuming when checking repeatedly or on slower setups.  This
@@ -230,6 +371,10 @@ with AT_KEYWORDS([[category]]). Categories include:
 - java, for java parsers
 - report, for automaton dumps
 
+To get a list of all the tests (and their keywords for -k), run
+
+    $ ./tests/testsuite -l
+
 To run a specific set of tests, use -k (for "keyword"). For example:
 
     $ make check-local TESTSUITEFLAGS='-k c++'
@@ -242,18 +387,27 @@ To rerun the tests that failed:
 
     $ make recheck -j5
 
-## Typical errors
-If the test suite shows failures such as the following one
+#### Updating the Expectations
+Sometimes some changes have a large impact on the test suite (e.g., when we
+added the `[-Wother]` part to all the warnings).  Part of the update can be
+done with a crude tool: `build-aux/update-test`.
 
-    .../bison/lib/getopt.h:196:8: error: redefinition of 'struct option'
-    /usr/include/getopt.h:54:8: error: previous definition of 'struct option'
+Once you ran the test suite, and therefore have many `testsuite.log` files,
+run, from the source tree:
 
-it probably means that some file was compiled without
-`AT_DATA_SOURCE_PROLOGUE`.  This error is due to the fact that our -I
-options pick up gnulib's replacement headers, such as getopt.h, and this
-will go wrong if config.h was not included first.
+    $ ./build-aux/update-test $build/tests/testsuite.dir/*/testsuite.log
 
-See tests/local.at for details.
+where `$build` would be your build tree.  This will hopefully update most
+tests.  Re-run the test suite.  It might be interesting to run `update-test`
+again, since some early failures may stop latter tests from being run.  Yet
+at some point, you'll have to fix remaining issues by hand...
+
+
+## Running Java parsers
+Use the `javaexec.sh` script.  For instance to run the parser of test case
+504:
+
+    $ sh ./_build/javaexec.sh -cp ./_build/tests/testsuite.dir/504 Calc
 
 ## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
@@ -329,175 +483,16 @@ re-run the tests, run:
     ./configure -C CC='gcc-mp-8 -fsanitize=undefined' CFLAGS='-ggdb'
     make check
 
-# Release Procedure
-This section needs to be updated to take into account features from gnulib.
-In particular, be sure to read README-release.
 
-## Update the submodules.  See above.
 
-## Update maintainer tools, such as Autoconf.  See above.
-
-## Try to get the *.pot files to the Translation Project at least one
-week before a stable release, to give them time to translate them.  Before
-generating the *.pot files, make sure that po/POTFILES.in and
-runtime-po/POTFILES.in list all files with translatable strings.  This
-helps: `grep -l '\<_(' *`.
-
-## Tests
-See above.
-
-## Update the foreign files
-Running `./bootstrap` in the top level should update them all for you.  This
-covers PO files too.  Sometimes a PO file contains problems that causes it
-to be rejected by recent Gettext releases; please report these to the
-Translation Project.
-
-## Update README
-Make sure the information in README is current.  Most notably, make sure it
-recommends a version of GNU M4 that is compatible with the latest Bison
-sources.
-
-## Check copyright years.
-We update years in copyright statements throughout Bison once at the start
-of every year by running `make update-copyright`.  However, before a
-release, it's good to verify that it's actually been run.  Besides the
-copyright statement for each Bison file, check the copyright statements that
-the skeletons insert into generated parsers, and check all occurrences of
-PACKAGE_COPYRIGHT_YEAR in configure.ac.
-
-## Update NEWS, commit and tag.
-See do-release-commit-and-tag in README-release.  For a while, we used beta
-names such as `2.6_rc1`.  Now that we use gnulib in the release procedure,
-we must use `2.5.90`, which has the additional benefit of being properly
-sorted in `git tag -l`.
-
-## make alpha, beta, or stable
-See README-release.
-
-## Upload
-There are two ways to upload the tarballs to the GNU servers: using gnupload
-(from gnulib), or by hand.  Obviously prefer the former.  But in either
-case, be sure to read the following paragraph.
-
-### Setup
-You need `gnupg`.
-
-Make sure your public key has been uploaded at least to keys.gnupg.net.  You
-can upload it with:
-
-  gpg --keyserver keys.gnupg.net --send-keys F125BDF3
-
-where F125BDF3 should be replaced with your key ID.
-
-### Using gnupload
-You need `ncftp`.
-
-At the end `make stable` (or alpha/beta) will display the procedure to run.
-Just copy and paste it in your shell.
-
-### By hand
-
-The generic GNU upload procedure is at
-http://www.gnu.org/prep/maintain/maintain.html#Automated-FTP-Uploads.
-
-Follow the instructions there to register your information so you're permitted
-to upload.
-
-Here's a brief reminder of how to roll the tarballs and upload them:
-
-### make distcheck
-### gpg -b bison-2.3b.tar.gz
-### In a file named `bison-2.3b.tar.gz.directive`, type:
-
-    version: 1.1
-    directory: bison
-    filename: bison-2.3b.tar.gz
-
-### gpg --clearsign bison-2.3b.tar.gz.directive
-### ftp ftp-upload.gnu.org # Log in as anonymous.
-### cd /incoming/alpha # cd /incoming/ftp for full release.
-### put bison-2.3b.tar.gz # This can take a while.
-### put bison-2.3b.tar.gz.sig
-### put bison-2.3b.tar.gz.directive.asc
-### Repeat all these steps for bison-2.3b.tar.xz.
-
-## Update Bison manual on www.gnu.org.
-
-The instructions below are obsolete, and left in case one would like to run
-the commands by hand.  Today, one just needs to run
-
-    $ make web-manual-update
+Release Procedure
+=================
 
 See README-release.
-
-### You need a non-anonymous checkout of the web pages directory.
-
-    $ cvs -d YOUR_USERID@cvs.savannah.gnu.org:/web/bison checkout bison
-
-### Get familiar with the instructions for web page maintainers.
-http://www.gnu.org/server/standards/readme_index.html
-http://www.gnu.org/server/standards/README.software.html
-especially the note about symlinks.
-
-### Build the web pages.
-Assuming BISON_CHECKOUT refers to a checkout of the Bison dir, and
-BISON_WWW_CHECKOUT refers to the web directory created above, do:
-
-    $ cd $BISON_CHECKOUT/doc
-    $ make stamp-vti
-    $ ../build-aux/gendocs.sh -o "$BISON_WWW_CHECKOUT/manual" \
-      bison "Bison - GNU parser generator"
-    $ cd $BISON_WWW_CHECKOUT
-
-Verify that the result looks sane.
-
-### Commit the modified and the new files.
-
-### Remove old files.
-Find the files which have not been overwritten (because they belonged to
-sections that have been removed or renamed):
-
-     $ cd manual/html_node
-     $ ls -lt
-
-Remove these files and commit their removal to CVS.  For each of these
-files, add a line to the file .symlinks.  This will ensure that hyperlinks
-to the removed files will redirect to the entire manual; this is better than
-a 404 error.
-
-## Announce
-The "make release" command just created a template,
-`$HOME/announce-bison-X.Y`.  Otherwise, to generate it, run:
-
-    make RELEASE_TYPE=alpha gpg_key_ID=F125BDF3 announcement
-
-where alpha can be replaced by `beta` or `table` and F125BDF3 should be
-replaced with your key ID.
-
-Complete/fix the announcement file.  The generated list of recipients
-(info-gnu@gnu.org, bison-announce@gnu.org, bug-bison@gnu.org,
-help-bison@gnu.org, bison-patches@gnu.org, and
-coordinator@translationproject.org) is appropriate for a stable release or a
-"serious beta".  For any other release, drop at least info-gnu@gnu.org.  For
-an example of how to fill out the rest of the template, search the mailing
-list archives for the most recent release announcement.
-
-For a stable release, send the same announcement on the comp.compilers
-newsgroup by sending email to compilers@iecc.com.  Do not make any Cc as the
-moderator will throw away anything cross-posted or Cc'ed.  It really needs
-to be a separate message.
-
-## Prepare NEWS
-So that developers don't accidentally add new items to the old NEWS entry,
-create a new empty entry in line 3 (without the two leading spaces):
-
-  * Noteworthy changes in release ?.? (????-??-??) [?]
-
-Push these changes.
 
 <!--
 
-Copyright (C) 2002-2005, 2007-2015, 2018-2019 Free Software Foundation,
+Copyright (C) 2002-2005, 2007-2015, 2018-2020 Free Software Foundation,
 Inc.
 
 This file is part of GNU Bison.
@@ -526,9 +521,11 @@ LocalWords:  submodule init cd distcheck ChangeLog valgrind sigreturn sudo
 LocalWords:  UC gcc DGNULIB POSIXCHECK xml XSLT glr lalr README po runtime rc
 LocalWords:  gnupload gnupg gpg keyserver BDF ncftp filename clearsign cvs dir
 LocalWords:  symlinks vti html lt POSIX Cc'ed Graphviz Texinfo autoconf jN
-LocalWords:  automake autopoint graphviz texinfo PROG Wother parsers
-LocalWords:  TESTSUITEFLAGS deprec struct gnulib's getopt config ggdb
-LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell
-LocalWords:  american
+LocalWords:  automake autopoint graphviz texinfo PROG Wother parsers YYFOO
+LocalWords:  TESTSUITEFLAGS deprec struct gnulib's getopt config ggdb yyfoo
+LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell wrt YY
+LocalWords:  american Administrivia camlCase yy accessors namespace src
+LocalWords:  getExpectedTokens yyexpectedTokens yygetExpectedTokens
+LocalWords:  regen dogfooding Autotest testsuite
 
 -->

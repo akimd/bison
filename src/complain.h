@@ -1,6 +1,6 @@
 /* Declaration for error-reporting function for Bison.
 
-   Copyright (C) 2000-2002, 2006, 2009-2015, 2018-2019 Free Software
+   Copyright (C) 2000-2002, 2006, 2009-2015, 2018-2020 Free Software
    Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,6 @@
 # define COMPLAIN_H_ 1
 
 # include "location.h"
-
-/* Sub-messages indent. */
-# define SUB_INDENT (4)
 
 /*---------------.
 | Error stream.  |
@@ -48,6 +45,7 @@ typedef enum
     warning_conflicts_rr,
     warning_conflicts_sr,
     warning_counterexample,
+    warning_dangling_alias,
     warning_deprecated,
     warning_empty_rule,
     warning_midrule_values,
@@ -61,6 +59,7 @@ typedef enum
 /** Whether -Werror was set. */
 extern bool warnings_are_errors;
 
+/** Document --warning arguments.  */
 void warning_usage (FILE *out);
 
 /** Decode a single argument from -W.
@@ -99,6 +98,7 @@ void complain_free (void);
 /** Initialize support for colored messages.  */
 void complain_init_color (void);
 
+/** Flags passed to diagnostics functions.  */
 typedef enum
   {
     Wnone             = 0,       /**< Issue no warnings.  */
@@ -106,6 +106,7 @@ typedef enum
     Wconflicts_rr     = 1 << warning_conflicts_rr,
     Wconflicts_sr     = 1 << warning_conflicts_sr,
     Wcounterexample   = 1 << warning_counterexample,
+    Wdangling_alias   = 1 << warning_dangling_alias,
     Wdeprecated       = 1 << warning_deprecated,
     Wempty_rule       = 1 << warning_empty_rule,
     Wmidrule_values   = 1 << warning_midrule_values,
@@ -117,10 +118,11 @@ typedef enum
     fatal             = 1 << 12, /**< All fatal errors.  */
     silent            = 1 << 13, /**< Do not display the warning type.  */
     no_caret          = 1 << 14, /**< Do not display caret location.  */
+    note              = 1 << 15, /**< Display as a note.  */
 
     /**< All above warnings.  */
     Weverything       = ~complaint & ~fatal & ~silent,
-    Wall              = Weverything & ~Wyacc
+    Wall              = Weverything & ~Wdangling_alias & ~Wyacc
   } warnings;
 
 /** Whether the warnings of \a flags are all unset.
@@ -132,16 +134,16 @@ bool warning_is_enabled (warnings flags);
 
 /** Make a complaint, with maybe a location.  */
 void complain (location const *loc, warnings flags, char const *message, ...)
-  __attribute__ ((__format__ (__printf__, 3, 4)));
+  ATTRIBUTE_FORMAT ((__printf__, 3, 4));
 
 /** Likewise, but with an \a argc/argv interface.  */
-void complain_args (location const *loc, warnings w, int *indent,
+void complain_args (location const *loc, warnings w,
                     int argc, char *arg[]);
 
-/** Make a complaint with location and some indentation.  */
-void complain_indent (location const *loc, warnings flags, int *indent,
-                      char const *message, ...)
-  __attribute__ ((__format__ (__printf__, 4, 5)));
+/** Make a subcomplain with location and note.  */
+void subcomplain (location const *loc, warnings flags,
+                  char const *message, ...)
+  ATTRIBUTE_FORMAT ((__printf__, 3, 4));
 
 
 /** GNU Bison extension not valid with POSIX Yacc.  */
@@ -158,6 +160,11 @@ void duplicate_directive (char const *directive,
 /** Report a repeated directive for a rule.  */
 void duplicate_rule_directive (char const *directive,
                                location first, location second);
+
+/** Report a syntax error, where argv[0] is the unexpected
+    token, and argv[1...argc] are the expected ones.  */
+void syntax_error (location loc,
+                   int argc, const char* argv[]);
 
 /** Warnings treated as errors shouldn't stop the execution as regular
     errors should (because due to their nature, it is safe to go

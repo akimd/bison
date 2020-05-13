@@ -1,6 +1,6 @@
 /* Data definitions for internal representation of Bison's input.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2001-2007, 2009-2015, 2018-2019
+   Copyright (C) 1984, 1986, 1989, 1992, 2001-2007, 2009-2015, 2018-2020
    Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -42,9 +42,9 @@
 
    Internally, we cannot use the number 0 for a rule because for
    instance RITEM stores both symbol (the RHS) and rule numbers: the
-   symbols are shorts >= 0, and rule number are stored negative.
+   symbols are integers >= 0, and rule numbers are stored negative.
    Therefore 0 cannot be used, since it would be both the rule number
-   0, and the token $end).
+   0, and the token $end.
 
    Actions are accessed via the rule number.
 
@@ -55,8 +55,7 @@
 
    RULES[R].lhs -- the symbol of the left hand side of rule R.
 
-   RULES[R].rhs -- the index in RITEM of the beginning of the portion
-   for rule R.
+   RULES[R].rhs -- the beginning of the portion of RITEM for rule R.
 
    RULES[R].prec -- the symbol providing the precedence level of R.
 
@@ -75,16 +74,16 @@
 
    RULES[R].line -- the line where R was defined.
 
-   RULES[R].useful -- whether the rule is used (i.e., false if thrown
-   away by reduce).
+   RULES[R].useful -- whether the rule is used.  False if thrown away
+   by reduce().
 
    The right hand side is stored as symbol numbers in a portion of
    RITEM.
 
    The length of the portion is one greater than the number of symbols
    in the rule's right hand side.  The last element in the portion
-   contains minus R, which identifies it as the end of a portion and
-   says which rule it is for.
+   contains -R, which identifies it as the end of a portion and says
+   which rule it is for.
 
    The portions of RITEM come in order of increasing rule number.
    NRITEMS is the total length of RITEM.  Each element of RITEM is

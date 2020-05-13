@@ -5,9 +5,9 @@ saw the traditional implementation in C, please first read
 examples/c/lexcalc, which can be seen as a C precursor of this example.
 
 Read the corresponding chapter in the documentation: "A Complete C++
-Example".  It is also available on line (maybe with a different version of
-Bison):
-https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
+Example".  It is also available [on
+line](https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html)
+(maybe with a different version of Bison).
 
 To use it, copy this directory into some work directory, and run `make` to
 compile the executable, and try it.  It is a simple calculator which accepts
@@ -36,22 +36,14 @@ fill-column: 76
 ispell-dictionary: "american"
 End:
 
-Copyright (C) 2018-2019 Free Software Foundation, Inc.
+Copyright (C) 2018-2020 Free Software Foundation, Inc.
 
-This file is part of Bison, the GNU Compiler Compiler.
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the "GNU Free
+Documentation License" file as part of this distribution.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-# LocalWords:  calc parsers yy MERCHANTABILITY Ctrl ispell american
+LocalWords:  calc parsers yy MERCHANTABILITY Ctrl ispell american
 --->

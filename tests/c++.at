@@ -1,6 +1,6 @@
 # Checking the C++ Features.                    -*- Autotest -*-
 
-# Copyright (C) 2004-2005, 2007-2015, 2018-2019 Free Software
+# Copyright (C) 2004-2005, 2007-2015, 2018-2020 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -109,11 +109,6 @@ AT_DATA_GRAMMAR([list.yy],
 %define parse.assert
 %debug
 
-%code top
-{
-  // Get access to stack_symbol_type for the tests.
-# define private public
-}
 %code provides
 {
   ]AT_YYLEX_DECLARE[
@@ -136,6 +131,14 @@ AT_DATA_GRAMMAR([list.yy],
 %code requires { #include <vector> }
 %code { int yylex (yy::parser::semantic_type* lvalp); }
 
+// A hack which relies on internal hooks to check stack_symbol_type,
+// which is private.
+%code yy_bison_internal_hook {
+  public:
+    typedef stack_symbol_type yy_stack_symbol_type;
+    typedef stack_type yy_stack_type;
+}
+
 %%
 exp: "int" { $$.push_back ($1); }
 %%
@@ -157,6 +160,9 @@ int main()
   // symbol_type: construction, accessor.
   {
     parser::symbol_type s = parser::make_INT (12);
+    assert_eq (s.kind (), parser::symbol_kind::S_INT);
+    assert_eq (parser::symbol_name (s.kind ()), "\"int\"");
+    assert_eq (s.name (), "\"int\"");
     assert_eq (s.value.as<int> (), 12);
   }
 
@@ -180,12 +186,13 @@ int main()
   }
 
   // stack_symbol_type: construction, accessor.
+  typedef parser::yy_stack_symbol_type stack_symbol_type;
   {
 #if 201103L <= YY_CPLUSPLUS
-    auto ss = parser::stack_symbol_type(1, parser::make_INT(123));
+    auto ss = stack_symbol_type (1, parser::make_INT(123));
 #else
     parser::symbol_type s = parser::make_INT (123);
-    parser::stack_symbol_type ss(1, s);
+    stack_symbol_type ss(1, s);
 #endif
     assert_eq (ss.value.as<int> (), 123);
   }
@@ -194,17 +201,17 @@ int main()
   // Sufficiently many so that it will be resized.
   // Probably 3 times (starting at 200).
   {
-    parser::stack_type st;
+    parser::yy_stack_type st;
     const int mucho = 1700;
     const int int_reduction_state = 1; // Read list.output to find it.
     for (int i = 0; i < mucho; ++i)
       {
 #if 201103L <= YY_CPLUSPLUS
-        st.push(parser::stack_symbol_type{int_reduction_state,
-                                          parser::make_INT (i)});
+        st.push(stack_symbol_type{int_reduction_state,
+                                  parser::make_INT (i)});
 #else
         parser::symbol_type s = parser::make_INT (i);
-        parser::stack_symbol_type ss (int_reduction_state, s);
+        stack_symbol_type ss (int_reduction_state, s);
         st.push (ss);
 #endif
       }
@@ -385,7 +392,7 @@ AT_DATA_GRAMMAR([list.y],
 // Starting with :: to ensure we don't output "<::" which starts by the
 // digraph for the left square bracket.
 %type <::string> item;
-// Using the template type to exercize its parsing.
+// Using the template type to exercise its parsing.
 %type <::std::vector<string>> list;
 
 %printer { yyo << $$; } <int> <::string> <::std::vector<string>>;
@@ -648,23 +655,28 @@ AT_FULL_COMPILE([[input]])
 AT_PARSER_CHECK([[input]], [[0]], [[]],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token NUMBER (1)
+Stack now 0
+Reading a token
+Next token is token NUMBER (1)
 Shifting token NUMBER (1)
 Entering state 1
+Stack now 0 1
 Reducing stack by rule 1 (line 34):
    $1 = token NUMBER (1)
 -> $$ = nterm expr (10)
 destroy: 1
-Stack now 0
 Entering state 2
-Reading a token: Next token is token NUMBER (30)
+Stack now 0 2
+Reading a token
+Next token is token NUMBER (30)
 Reducing stack by rule 2 (line 35):
 -> $$ = nterm @1 (20)
-Stack now 2 0
 Entering state 4
+Stack now 0 2 4
 Next token is token NUMBER (30)
 Shifting token NUMBER (30)
 Entering state 5
+Stack now 0 2 4 5
 Reducing stack by rule 3 (line 35):
    $1 = nterm expr (10)
    $2 = nterm @1 (20)
@@ -674,11 +686,14 @@ expr: 10 20 30
 destroy: 30
 destroy: 20
 destroy: 10
-Stack now 0
 Entering state 2
-Reading a token: Next token is token EOI ()
+Stack now 0 2
+Reading a token
+Next token is token EOI ()
 Shifting token EOI ()
 Entering state 3
+Stack now 0 2 3
+Stack now 0 2 3
 Cleanup: popping token EOI ()
 Cleanup: popping nterm expr (40)
 destroy: 40
@@ -1322,7 +1337,7 @@ AT_PARSER_CHECK([[input aaaae]], [[2]], [[]],
 ]])
 
 AT_PARSER_CHECK([[input aaaaE]], [[2]], [[]],
-[[exception caught: syntax error, unexpected $end, expecting 'a'
+[[exception caught: syntax error, unexpected end of file, expecting 'a'
 ]])
 
 AT_PARSER_CHECK([[input aaaaT]], [[1]])

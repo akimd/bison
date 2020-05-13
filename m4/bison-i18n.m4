@@ -1,6 +1,6 @@
 # bison-i18n.m4 serial 2
 
-dnl Copyright (C) 2005-2006, 2009-2015, 2018-2019 Free Software
+dnl Copyright (C) 2005-2006, 2009-2015, 2018-2020 Free Software
 dnl Foundation, Inc.
 
 dnl This file is free software; the Free Software Foundation

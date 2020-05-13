@@ -1,6 +1,6 @@
 /* System-dependent definitions for Bison.
 
-   Copyright (C) 2000-2007, 2009-2015, 2018-2019 Free Software
+   Copyright (C) 2000-2007, 2009-2015, 2018-2020 Free Software
    Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -73,9 +73,14 @@ typedef size_t uintptr_t;
 # include <verify.h>
 # include <xalloc.h>
 
+// Clang and ICC like to pretend they are GCC.
+# if defined __GNUC__ && !defined __clang__ && !defined __ICC
+#  define GCC_VERSION (__GNUC__ * 100 + __GNUC_MINOR__)
+# endif
 
-/* See https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html. */
-# if defined __GNUC__ && ! defined __clang__ && ! defined __ICC && __GNUC__ < 5
+// See https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html
+// and https://trac.macports.org/ticket/59927.
+# if defined GCC_VERSION && 405 <= GCC_VERSION
 #  define IGNORE_TYPE_LIMITS_BEGIN \
      _Pragma ("GCC diagnostic push") \
      _Pragma ("GCC diagnostic ignored \"-Wtype-limits\"")
@@ -105,28 +110,7 @@ typedef size_t uintptr_t;
    Bison's performance anyway.  */
 # define PACIFY_CC(Code) Code
 
-# ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-#  if (! defined __GNUC__ || __GNUC__ < 2 \
-       || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#   define __attribute__(Spec) /* empty */
-#  endif
-# endif
-
-/* The __-protected variants of 'format' and 'printf' attributes
-   are accepted by gcc versions 2.6.4 (effectively 2.7) and later.  */
-# if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 7)
-#  define __format__ format
-#  define __printf__ printf
-# endif
-
-# ifndef ATTRIBUTE_NORETURN
-#  define ATTRIBUTE_NORETURN __attribute__ ((__noreturn__))
-# endif
-
-# ifndef ATTRIBUTE_UNUSED
-#  define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
-# endif
+# include <attribute.h>
 
 
 /*------.
@@ -209,10 +193,10 @@ typedef size_t uintptr_t;
 
 /* Output Str both quoted for M4 (i.e., embed in [[...]]), and escaped
    for our postprocessing (i.e., escape M4 special characters).  If
-   Str is empty (or NULL), output "[]" instead of "[[]]" as it make M4
-   programming easier (m4_ifval can be used).
+   Str is empty (or NULL), output "[]" instead of "[[]]" as it makes
+   M4 programming easier (m4_ifval can be used).
 
-   For instance "[foo]" -> "[[@{foo@}]]", "$$" -> "[[$][$][]]". */
+   For instance "[foo]" -> "[[@{foo@}]]", "$$" -> "[[$][$][]]".  */
 
 # define obstack_quote(Obs, Str)                \
   do {                                          \

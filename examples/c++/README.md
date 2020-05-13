@@ -8,13 +8,13 @@ afterwards.
 ## simple.yy - Simple example in C++14
 A very simple example in C++, based on variants and symbol constructors.
 Variants allow to use any C++ type as semantic value type, and symbol
-constructors ensure consistency between declared token type and effective
+constructors ensure consistency between declared token kind and effective
 semantic value.
 
 Run as `./simple`.
 
-Extracted from the documentation: "A Simple C++ Example".
-https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html
+Extracted from the documentation: [A Simple C++
+Example](https://www.gnu.org/software/bison/manual/html_node/A-Simple-C_002b_002b-Example.html).
 
 ## variant.yy - Self-contained example in C++98
 A variation of simple.yy, in C++98.
@@ -36,8 +36,8 @@ starting point for a clean parser in C++.  The previous examples are better
 introductory examples, and the C examples are also useful introductory
 examples.
 
-Extracted from the documentation: "A Complete C++ Example".
-https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
+Extracted from the documentation: [A Complete C++
+Example](https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html).
 
 <!---
 
@@ -46,7 +46,7 @@ fill-column: 76
 ispell-dictionary: "american"
 End:
 
-Copyright (C) 2018-2019 Free Software Foundation, Inc.
+Copyright (C) 2018-2020 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or
@@ -55,5 +55,5 @@ Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
 Texts.  A copy of the license is included in the "GNU Free
 Documentation License" file as part of this distribution.
 
-# LocalWords:  mfcalc calc parsers yy ispell american
+LocalWords:  mfcalc calc parsers yy ispell american
 --->

@@ -1,6 +1,6 @@
 # Checking the output filenames.                    -*- Autotest -*-
 
-# Copyright (C) 2000-2002, 2005-2015, 2018-2019 Free Software
+# Copyright (C) 2000-2002, 2005-2015, 2018-2020 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -47,8 +47,12 @@ done
 foo: '0' {};
 ]])
 
-# There is not AT_DATA_UNQUOTED.
-AT_PERL_REQUIRE([-pi -e 's{\$at_dir}'"{$at_group_dir}g" $1])
+# There is no AT_DATA_UNQUOTED.
+if $EGREP 'at_dir' $1 >/dev/null; then
+   AT_PERL_REQUIRE([-pi -e 's{\$at_dir}'"{$at_group_dir}g" $1])
+   # On Cygwin, up to Perl 5.28, 'perl -pi' left a foo.bak file.
+   AT_CHECK([rm -f $1.bak])
+fi
 
 
 AT_BISON_CHECK([$3 $1], [$5], [], [ignore])[

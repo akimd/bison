@@ -1,4 +1,4 @@
-## Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+## Copyright (C) 2001-2015, 2018-2020 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -127,6 +127,7 @@ BUILT_SOURCES +=                                \
 # definition of libbison, beware that they might expand as flags such as
 # `-lm`.  Keep them here.  Or use a Libtool convenience library.
 src_bison_LDADD =                               \
+  lib/libbison.a                                \
   $(ISNAND_LIBM)                                \
   $(ISNANF_LIBM)                                \
   $(ISNANL_LIBM)                                \
@@ -136,10 +137,10 @@ src_bison_LDADD =                               \
   $(LIBTHREAD)                                  \
   $(LIB_CLOCK_GETTIME)                          \
   $(LIB_GETHRXTIME)                             \
-  $(LIBTEXTSTYLE)                               \
-  lib/libbison.a
+  $(LIBTEXTSTYLE)
 
 
+EXTRA_DIST += %D%/i18n-strings.c
 
 
 ## ------ ##

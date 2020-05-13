@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2020 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ dependencies = $(BISON_IN) $(src_bison_SOURCES) $(dist_skeletons_DATA)
 BISON = $(top_builddir)/tests/bison
 BISON_IN = $(top_srcdir)/tests/bison.in
 YACC = $(BISON) -o y.tab.c
-AM_YFLAGS_WITH_LINES = --defines -Werror -Wall --report=all
+AM_YFLAGS_WITH_LINES = --defines -Werror -Wall,dangling-alias --report=all
 AM_YFLAGS = $(AM_YFLAGS_WITH_LINES) --no-lines
 
 # Initialization before completion by local.mk's.

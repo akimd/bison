@@ -1,5 +1,5 @@
 ## Customize maint.mk                           -*- makefile -*-
-## Copyright (C) 2008-2015, 2018-2019 Free Software Foundation, Inc.
+## Copyright (C) 2008-2015, 2018-2020 Free Software Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ gnulib_dir = $(srcdir)/gnulib
 bootstrap-tools = autoconf,automake,flex,gettext,gnulib
 
 announcement_Cc_ = \
-  bug-bison@gnu.org, help-bison@gnu.org, bison-patches@gnu.org, \
+  bug-bison@gnu.org, bison-announce@gnu.org, \
   coordinator@translationproject.org
 
 update-copyright: update-b4-copyright update-package-copyright-year
@@ -156,7 +156,7 @@ exclude = \
 $(call exclude,                                                                 \
   bindtextdomain=^lib/main.c$$                                                  \
   cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
-  po_check=^po/POTFILES.in$$                                                    \
+  po_check=^tests|(^po/POTFILES.in|.md)$$                                       \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
   program_name=^lib/main.c$$                                                    \
   prohibit_always-defined_macros=^data/skeletons/yacc.c$$                       \
@@ -165,7 +165,7 @@ $(call exclude,                                                                 
   prohibit_doubled_word=^tests/named-refs.at$$                                  \
   prohibit_magic_number_exit=^doc/bison.texi$$                                  \
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$              \
-  prohibit_strcmp=^doc/bison\.texi|examples|tests/local\.at$$                   \
+  prohibit_strcmp=^doc/bison\.texi|examples|tests                               \
   prohibit_tab_based_indentation=install-icc.sh|\.(am|mk)$$|^\.git|tests/input.at|Makefile$$   \
   require_config_h=^(lib/yyerror|data/skeletons/(glr|yacc))\.c$$                \
   require_config_h_first=^(lib/yyerror|data/skeletons/(glr|yacc))\.c$$          \

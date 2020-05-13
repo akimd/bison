@@ -1,6 +1,6 @@
 # Bison Parser Headers.                               -*- Autotest -*-
 
-# Copyright (C) 2001-2002, 2006-2007, 2009-2015, 2018-2019 Free Software
+# Copyright (C) 2001-2002, 2006-2007, 2009-2015, 2018-2020 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ AT_CLEANUP
 
 # AT_TEST([DIRECTIVES], [COMPILER-FLAGS])
 # ---------------------------------------
-# Check that headers are self-contained and protected againt multiple
+# Check that headers are self-contained and protected against multiple
 # inclusions.
 
 m4_pushdef([AT_TEST],
@@ -125,7 +125,9 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_GRAMMAR([input.y],
 [[$1
 %define parse.error verbose
-]AT_VARIANT_IF([%token <int> 'x'], [%union {int integer;}])[
+]AT_VARIANT_IF([%token <int> X],
+[%union {int integer;}
+%token <integer> X])[
 %code {
 #include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
@@ -138,12 +140,12 @@ AT_DATA_GRAMMAR([input.y],
 }
 %%
 exp:
-  'x' { printf ("x\n"); }
+  X { printf ("x\n"); }
 ;
 
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(["x"])[
+]AT_YYLEX_DEFINE([{AT_CXX_IF([yy::parser::token::])X, 0}])[
 ]])
 
 AT_BISON_CHECK([-d -o input.AT_LANG_EXT input.y])
@@ -319,14 +321,16 @@ AT_PERL_CHECK([[-n -0777 -e '
   s{//.*}{}g;
   s{\b((defined|if)\ YYDEBUG
       |YYChar
+      |YYNTOKENS  # This is actual scoped in a C++ class.
       |YYPUSH_MORE(?:_DEFINED)?
+      |S_(YY(ACCEPT|EMPTY|EOF|error|UNDEF))  # These guys are scoped.
       |YYUSE
       |YY_ATTRIBUTE(?:_PURE|_UNUSED)
       |YY(?:_REINTERPRET)?_CAST
       |YY_CONSTEXPR
       |YY_COPY
       |YY_CPLUSPLUS
-      |YY_IGNORE_MAYBE_UNINITIALIZED_(?:BEGIN|END)
+      |YY_IGNORE_(?:MAYBE_UNINITIALIZED|USELESS_CAST)_(?:BEGIN|END)
       |YY_INITIAL_VALUE
       |YY_MOVE
       |YY_MOVE_OR_COPY

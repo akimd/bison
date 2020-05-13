@@ -1,4 +1,4 @@
-## Copyright (C) 2019 Free Software Foundation, Inc.
+## Copyright (C) 2019-2020 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -69,7 +69,9 @@ DASH = -
 	$(AM_V_LEX)rm -f $@ $@.tmp
 	$(AM_V_at)$(MKDIR_P) %D%
 	$(AM_V_at)touch $@.tmp
-	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header-file=%D%/scan.h $(srcdir)/%D%/scan.l
+## --header introduced in 2.5.6, renamed as --header-file in 2.6.4.
+## Backward compatibility ensured since --header is an unambiguous prefix.
+	$(AM_V_at)$(LEX) $(AM_LFLAGS) $(LFLAGS) -o%D%/scan.c --header=%D%/scan.h $(srcdir)/%D%/scan.l
 	$(AM_V_at)mv $@.tmp $@
 
 

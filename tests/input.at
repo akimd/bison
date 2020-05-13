@@ -1,6 +1,6 @@
 # Checking the Bison scanner.                    -*- Autotest -*-
 
-# Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -102,7 +102,6 @@ input.y:6.1-17: error: invalid directive: '%a-does-not-exist'
 input.y:7.1: error: invalid character: '%'
 input.y:7.2: error: invalid character: '-'
 input.y:8.1-9.0: error: missing '%}' at end of file
-input.y:8.1-9.0: error: syntax error, unexpected %{...%}
 ]])
 
 AT_CLEANUP
@@ -124,7 +123,7 @@ AT_DATA([input.y],
 ]])
 
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:3.1-15: error: syntax error, unexpected %initial-action, expecting {...}
+[[input.y:3.1-15: error: expected {...} before %initial-action
 ]])
 
 AT_CLEANUP
@@ -195,6 +194,55 @@ input.y:7.4-9: warning: POSIX Yacc does not support %empty [-Wyacc]
 AT_CLEANUP
 
 
+## -------------- ##
+## Yacc's %type.  ##
+## -------------- ##
+
+AT_SETUP([Yacc's %type])
+
+AT_DATA([input.y],
+[[%token TOKEN1
+%nterm nterm1
+%type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+%token TOKEN2
+%nterm nterm2
+%%
+expr: nterm1 nterm2 nterm3
+nterm1: TOKEN1
+nterm2: TOKEN2
+nterm3: "TOKEN3"
+]])
+
+AT_BISON_CHECK([-fcaret -Wyacc input.y], [0], [],
+[[input.y:2.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
+    2 | %nterm nterm1
+      | ^~~~~~
+input.y:3.14-19: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |              ^~~~~~
+input.y:3.28-35: warning: POSIX Yacc does not support string literals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                            ^~~~~~~~
+input.y:3.28-35: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                            ^~~~~~~~
+input.y:3.58-60: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                                                          ^~~
+input.y:5.1-6: warning: POSIX Yacc does not support %nterm [-Wyacc]
+    5 | %nterm nterm2
+      | ^~~~~~
+input.y:3.21-26: warning: POSIX yacc reserves %type to nonterminals [-Wyacc]
+    3 | %type <ival> TOKEN1 TOKEN2 "TOKEN3" nterm1 nterm2 nterm3 '+'
+      |                     ^~~~~~
+input.y:10.9-16: warning: POSIX Yacc does not support string literals [-Wyacc]
+   10 | nterm3: "TOKEN3"
+      |         ^~~~~~~~
+]])
+
+AT_CLEANUP
+
+
 ## ----------------------------- ##
 ## Invalid symbol declarations.  ##
 ## ----------------------------- ##
@@ -220,10 +268,10 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-24: error: nonterminals cannot be given a string alias
     1 | %nterm expr "expression";
       |             ^~~~~~~~~~~~
-input.y:2.13-15: error: nonterminals cannot be given an explicit number
+input.y:2.13-15: error: nonterminals cannot be given a token code
     2 | %nterm term 123;
       |             ^~~
-input.y:3.13-15: error: nonterminals cannot be given an explicit number
+input.y:3.13-15: error: nonterminals cannot be given a token code
     3 | %nterm fact 124 "factor";
       |             ^~~
 input.y:3.17-24: error: nonterminals cannot be given a string alias
@@ -232,18 +280,103 @@ input.y:3.17-24: error: nonterminals cannot be given a string alias
 input.y:4.8-10: error: character literals cannot be nonterminals
     4 | %nterm '+' '*';
       |        ^~~
-input.y:5.8-15: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
+input.y:5.8-15: error: expected character literal or identifier or <tag> before string
     5 | %nterm "number";
       |        ^~~~~~~~
-input.y:6.8-13: error: syntax error, unexpected string, expecting character literal or identifier or <tag>
+input.y:6.8-13: error: expected character literal or identifier or <tag> before string
     6 | %token "tok1" 1;
       |        ^~~~~~
-input.y:7.14: error: syntax error, unexpected integer
+input.y:7.14: error: unexpected integer literal
     7 | %left "tok2" 2;
       |              ^
-input.y:8.14: error: syntax error, unexpected integer
+input.y:8.14: error: unexpected integer literal
     8 | %type "tok3" 3;
       |              ^
+]])
+
+AT_CLEANUP
+
+
+## ---------------------------- ##
+## Redefining the error token.  ##
+## ---------------------------- ##
+
+AT_SETUP([Redefining the error token])
+
+# We used to crash when trying to display the original definition of
+# "error", which is a builtin without any location.
+AT_BISON_OPTION_PUSHDEFS
+
+AT_DATA([input.y],
+[[%token error 123
+%token error 124
+%%
+exp:
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:2.8-12: warning: symbol error redeclared [-Wother]
+    2 | %token error 124
+      |        ^~~~~
+input.y:1.8-12: note: previous declaration
+    1 | %token error 123
+      |        ^~~~~
+input.y:2.14-16: error: redefining code of token error
+    2 | %token error 124
+      |              ^~~
+]])
+
+# While at it, make sure we properly used the user's number for
+# "error".  I don't see what it buys us, but...
+AT_DATA([input.y],
+[[%{
+#include <assert.h>
+#include <stdio.h>
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE[
+%}
+
+%token error 123
+%%
+exp:
+%%
+int main (void)
+{
+  assert (YYerror == 123);
+  assert (YYTRANSLATE (YYEOF) == YYSYMBOL_YYEOF);
+  assert (YYTRANSLATE (YYerror) == YYSYMBOL_YYerror);
+  assert (YYTRANSLATE (YYUNDEF) == YYSYMBOL_YYUNDEF);
+  return 0;
+}
+]])
+
+AT_FULL_COMPILE([input])
+AT_PARSER_CHECK([input], 0)
+
+AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
+## ------------------ ##
+## Dangling aliases.  ##
+## ------------------ ##
+
+AT_SETUP([Dangling aliases])
+
+AT_DATA([input.y],
+[[%token FOO "foo"
+%type <val> "bar"
+%%
+expr: "foo" "bar" "baz"
+]])
+
+AT_BISON_CHECK([-fcaret -Wdangling input.y], [0], [],
+[[input.y:2.13-17: warning: string literal "bar" not attached to a symbol [-Wdangling-alias]
+    2 | %type <val> "bar"
+      |             ^~~~~
+input.y:4.19-23: warning: string literal "baz" not attached to a symbol [-Wdangling-alias]
+    4 | expr: "foo" "bar" "baz"
+      |                   ^~~~~
 ]])
 
 AT_CLEANUP
@@ -257,7 +390,9 @@ AT_CLEANUP
 AT_SETUP([Symbol declarations])
 
 AT_DATA([dump-symbols.m4],
-[[m4@&t@_define([b4_symbol_dump],
+[[m4@&t@_define([b4_api_PREFIX], [YY])
+
+m4@&t@_define([b4_symbol_dump],
 [$1, d@&t@nl
 b4_symbol_if([$1], [is_token], [Token], [Nonterminal]), d@&t@nl
 b4_symbol([$1], [tag]), d@&t@nl
@@ -295,9 +430,9 @@ exp:;
 AT_BISON_CHECK([-Wno-other -S./dump-symbols.m4 input.y])
 AT_CHECK([cat symbols.csv], [],
 [[number, class, tag, id, user_number, type,
-0, Token, $end, , 0, ,
-1, Nonterminal, error, error, 256, ,
-2, Nonterminal, $undefined, , 257, ,
+0, Token, "end of file", YYEOF, 0, ,
+1, Token, error, YYerror, 256, ,
+2, Token, "invalid token", YYUNDEF, 257, ,
 3, Token, 'a', , 97, ,
 4, Token, "A1", A1, 1, ,
 5, Token, A2, A2, 258, ,
@@ -633,19 +768,19 @@ AT_BISON_CHECK([-fcaret input.y], [0], [],
 [[input.y:1.12-14: warning: symbol FOO redeclared [-Wother]
     1 | %token FOO FOO
       |            ^~~
-input.y:1.8-10:      previous declaration
+input.y:1.8-10: note: previous declaration
     1 | %token FOO FOO
       |        ^~~
 input.y:2.15-17: warning: symbol BAR redeclared [-Wother]
     2 | %token BAR 12 BAR 12
       |               ^~~
-input.y:2.8-10:      previous declaration
+input.y:2.8-10: note: previous declaration
     2 | %token BAR 12 BAR 12
       |        ^~~
 input.y:3.14-16: warning: symbol EOF redeclared [-Wother]
     3 | %token EOF 0 EOF 0
       |              ^~~
-input.y:3.8-10:      previous declaration
+input.y:3.8-10: note: previous declaration
     3 | %token EOF 0 EOF 0
       |        ^~~
 ]])
@@ -673,13 +808,13 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.8-10: error: symbol FOO redeclared as a nonterminal
     2 | %nterm FOO BAR
       |        ^~~
-input.y:1.8-10:     previous definition
+input.y:1.8-10: note: previous definition
     1 | %token FOO
       |        ^~~
 input.y:3.8-10: error: symbol BAR redeclared as a token
     3 | %token BAR
       |        ^~~
-input.y:2.12-14:    previous definition
+input.y:2.12-14: note: previous definition
     2 | %nterm FOO BAR
       |            ^~~
 input.y:4.8-12: error: symbol error redeclared as a nonterminal
@@ -721,37 +856,37 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:1.13-29: error: %destructor redeclaration for <>
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
 input.y:2.10-24: error: %printer redeclaration for <>
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
 input.y:4.13-29: error: %destructor redeclaration for <>
     4 | %destructor { destroy ($$); } <>
       |             ^~~~~~~~~~~~~~~~~
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
 input.y:5.10-24: error: %printer redeclaration for <>
     5 | %printer { print ($$); } <>
       |          ^~~~~~~~~~~~~~~
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
 input.y:11.13-29: error: %destructor redeclaration for <>
    11 | %destructor { destroy ($$); } <>;
       |             ^~~~~~~~~~~~~~~~~
-input.y:1.13-29:      previous declaration
+input.y:1.13-29: note: previous declaration
     1 | %destructor { destroy ($$); } <> <>
       |             ^~~~~~~~~~~~~~~~~
 input.y:12.10-24: error: %printer redeclaration for <>
    12 | %printer { print ($$); } <>;
       |          ^~~~~~~~~~~~~~~
-input.y:2.10-24:      previous declaration
+input.y:2.10-24: note: previous declaration
     2 | %printer { print ($$); } <> <>
       |          ^~~~~~~~~~~~~~~
 ]])
@@ -787,21 +922,21 @@ start: %empty;
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:4.13-29: error: %destructor redeclaration for <field1>
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:4.13-29: error: %destructor redeclaration for <field1>
-input.y:1.13-29:     previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
 input.y:5.10-24: error: %printer redeclaration for <field2>
-input.y:2.10-24:     previous declaration
+input.y:2.10-24: note: previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field2>
-input.y:1.13-29:      previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:11.13-29: error: %destructor redeclaration for <field1>
-input.y:1.13-29:      previous declaration
+input.y:1.13-29: note: previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field2>
-input.y:2.10-24:      previous declaration
+input.y:2.10-24: note: previous declaration
 input.y:12.10-24: error: %printer redeclaration for <field1>
-input.y:2.10-24:      previous declaration
+input.y:2.10-24: note: previous declaration
 ]])
 
 AT_CLEANUP
@@ -1058,10 +1193,10 @@ AT_BISON_CHECK([-fcaret input.y], [1], [],
 [[input.y:2.17-21: warning: symbol "foo" used more than once as a literal string [-Wother]
     2 |          BAR 42 "foo"
       |                 ^~~~~
-input.y:2.10-12: error: user token number 42 redeclaration for BAR
+input.y:2.10-12: error: code 42 reassigned to token BAR
     2 |          BAR 42 "foo"
       |          ^~~
-input.y:1.15-19:     previous declaration for "foo"
+input.y:1.15-19: note: previous declaration for "foo"
     1 | %token FOO 42 "foo"
       |               ^~~~~
 ]])
@@ -1092,7 +1227,7 @@ exp: foo;
 [[input.y:3.7-11: error: %type redeclaration for foo
     3 | %type <baz> foo
       |       ^~~~~
-input.y:2.7-11:     previous declaration
+input.y:2.7-11: note: previous declaration
     2 | %type <bar> "foo"
       |       ^~~~~
 ]])
@@ -1106,7 +1241,7 @@ exp: foo;
 [[input.y:3.10-14: error: %printer redeclaration for foo
     3 | %printer {baz} foo
       |          ^~~~~
-input.y:2.10-14:     previous declaration
+input.y:2.10-14: note: previous declaration
     2 | %printer {bar} "foo"
       |          ^~~~~
 ]])
@@ -1120,7 +1255,7 @@ exp: foo;
 [[input.y:3.13-17: error: %destructor redeclaration for foo
     3 | %destructor {baz} foo
       |             ^~~~~
-input.y:2.13-17:     previous declaration
+input.y:2.13-17: note: previous declaration
     2 | %destructor {bar} "foo"
       |             ^~~~~
 ]])
@@ -1134,7 +1269,7 @@ exp: foo;
 [[input.y:3.1-5: error: %left redeclaration for foo
     3 | %left foo
       | ^~~~~
-input.y:2.1-5:     previous declaration
+input.y:2.1-5: note: previous declaration
     2 | %left "foo"
       | ^~~~~
 ]])
@@ -1151,7 +1286,7 @@ exp: foo;
 [[input.y:2.1-5: error: %left redeclaration for foo
     2 | %left foo
       | ^~~~~
-input.y:1.1-5:     previous declaration
+input.y:1.1-5: note: previous declaration
     1 | %left "foo"
       | ^~~~~
 ]])
@@ -1166,7 +1301,7 @@ exp: foo;
 [[input.y:2.10-11: error: %printer redeclaration for foo
     2 | %printer {} foo
       |          ^~
-input.y:1.10-11:     previous declaration
+input.y:1.10-11: note: previous declaration
     1 | %printer {} "foo"
       |          ^~
 ]])
@@ -1181,7 +1316,7 @@ exp: foo;
 [[input.y:2.13-14: error: %destructor redeclaration for foo
     2 | %destructor {} foo
       |             ^~
-input.y:1.13-14:     previous declaration
+input.y:1.13-14: note: previous declaration
     1 | %destructor {} "foo"
       |             ^~
 ]])
@@ -1203,7 +1338,7 @@ AT_SETUP([Torturing the Scanner])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y], [])
 AT_BISON_CHECK([input.y], [1], [],
-[[input.y:1.1: error: syntax error, unexpected end of file
+[[input.y:1.1: error: unexpected end of file
 ]])
 
 
@@ -1211,7 +1346,7 @@ AT_DATA([input.y],
 [{}
 ])
 AT_BISON_CHECK([-fcaret  input.y], [1], [],
-[[input.y:1.1-2: error: syntax error, unexpected {...}
+[[input.y:1.1-2: error: unexpected {...}
     1 | {}
       | ^~
 ]])
@@ -1408,7 +1543,7 @@ AT_CHECK_REQUIRE(100.0, 63)
 AT_SETUP([String aliases for character tokens])
 
 # Bison once thought a character token and its alias were different
-# symbols with the same user token number.
+# symbols with the same code.
 
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
@@ -1507,10 +1642,10 @@ start: DECIMAL_1 HEXADECIMAL_2;
 ]])
 
 AT_BISON_CHECK([redecl.y], [1], [],
-[[redecl.y:10.10-22: error: user token number 11259375 redeclaration for HEXADECIMAL_1
-redecl.y:9.8-16:       previous declaration for DECIMAL_1
-redecl.y:12.10-18: error: user token number 16702650 redeclaration for DECIMAL_2
-redecl.y:11.10-22:     previous declaration for HEXADECIMAL_2
+[[redecl.y:10.10-22: error: code 11259375 reassigned to token HEXADECIMAL_1
+redecl.y:9.8-16: note: previous declaration for DECIMAL_1
+redecl.y:12.10-18: error: code 16702650 reassigned to token DECIMAL_2
+redecl.y:11.10-22: note: previous declaration for HEXADECIMAL_2
 ]])
 
 AT_DATA_GRAMMAR([too-large.y],
@@ -1523,9 +1658,9 @@ start: TOO_LARGE_DEC TOO_LARGE_HEX
 
 AT_BISON_CHECK([too-large.y], [1], [],
 [[too-large.y:9.22-42: error: integer out of range: '999999999999999999999'
-too-large.y:9.22-42: error: user token number of TOO_LARGE_DEC too large
+too-large.y:9.22-42: error: code of token TOO_LARGE_DEC too large
 too-large.y:10.24-44: error: integer out of range: '0xFFFFFFFFFFFFFFFFFFF'
-too-large.y:10.24-44: error: user token number of TOO_LARGE_HEX too large
+too-large.y:10.24-44: error: code of token TOO_LARGE_HEX too large
 ]])
 
 AT_BISON_OPTION_POPDEFS
@@ -1581,7 +1716,7 @@ input.y:16.11-17.0: error: missing '"' at end of line
 input.y:19.13-20.0: error: missing '}' at end of file
    19 | %destructor { free ($$)
       |             ^~~~~~~~~~~
-input.y:20.1: error: syntax error, unexpected end of file
+input.y:20.1: error: unexpected end of file
 ]])
 
 AT_CLEANUP
@@ -1796,9 +1931,9 @@ start: %empty;
 
 AT_BISON_CHECK([[input-redefined.y]], [[1]], [],
 [[input-redefined.y:2.1-20: warning: %define variable 'var' redefined [-Wother]
-input-redefined.y:1.1-20:     previous definition
+input-redefined.y:1.1-20: note: previous definition
 input-redefined.y:3.2-21: error: %define variable 'var' redefined
-input-redefined.y:2.1-20:     previous definition
+input-redefined.y:2.1-20: note: previous definition
 input-redefined.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -1854,7 +1989,7 @@ start: %empty;
 ]])
 AT_BISON_CHECK([[-Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.1-18: error: %define variable 'var' redefined
-<command line>:3:      previous definition
+<command line>:3: note: previous definition
 input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -1867,7 +2002,7 @@ AT_BISON_CHECK([[-fcaret -Dvar=cmd-d input-dg.y]], [[1]], [],
 [[input-dg.y:1.1-18: error: %define variable 'var' redefined
     1 | %define var "gram"
       | ^~~~~~~~~~~~~~~~~~
-<command line>:4:      previous definition
+<command line>:4: note: previous definition
 input-dg.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -1990,10 +2125,29 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.1-34: error: invalid value for %define variable 'lr.default-reduction': 'bogus'
     1 | %define lr.default-reduction bogus
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:1.1-34:     accepted value: 'most'
-input.y:1.1-34:     accepted value: 'consistent'
-input.y:1.1-34:     accepted value: 'accepting'
+input.y:1.1-34: note: accepted value: 'most'
+input.y:1.1-34: note: accepted value: 'consistent'
+input.y:1.1-34: note: accepted value: 'accepting'
 ]])
+
+# Check escapes.
+AT_DATA([[input.y]],
+[[%define lr.default-reduction {[$@]}
+%%
+start: %empty;
+]])
+AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
+[[input.y:1.1-35: warning: %define variable 'lr.default-reduction' requires keyword values [-Wdeprecated]
+    1 | %define lr.default-reduction {[$@]}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-35: error: invalid value for %define variable 'lr.default-reduction': '[$@]'
+    1 | %define lr.default-reduction {[$@]}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+input.y:1.1-35: note: accepted value: 'most'
+input.y:1.1-35: note: accepted value: 'consistent'
+input.y:1.1-35: note: accepted value: 'accepting'
+]])
+
 
 # Back-end.
 AT_DATA([[input.y]],
@@ -2005,9 +2159,9 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:1.1-29: error: invalid value for %define variable 'api.push-pull': 'neither'
     1 | %define api.push-pull neither
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-input.y:1.1-29:     accepted value: 'pull'
-input.y:1.1-29:     accepted value: 'push'
-input.y:1.1-29:     accepted value: 'both'
+input.y:1.1-29: note: accepted value: 'pull'
+input.y:1.1-29: note: accepted value: 'push'
+input.y:1.1-29: note: accepted value: 'both'
 ]])
 
 AT_CLEANUP
@@ -2184,19 +2338,19 @@ start: '
 start: ']])
 
 AT_BISON_CHECK([-fcaret empty.y], [1], [],
-[[empty.y:2.8-9: warning: empty character literal [-Wother]
+[[empty.y:2.8-9: error: empty character literal
     2 | start: '';
       |        ^~
 empty.y:3.8-4.0: error: missing "'" at end of line
     3 | start: '
       |        ^
-empty.y:3.8-4.0: warning: empty character literal [-Wother]
+empty.y:3.8-4.0: error: empty character literal
     3 | start: '
       |        ^
 empty.y:4.8: error: missing "'" at end of file
     4 | start: '
       |        ^
-empty.y:4.8: warning: empty character literal [-Wother]
+empty.y:4.8: error: empty character literal
     4 | start: '
       |        ^
 ]])
@@ -2208,11 +2362,11 @@ start: 'ab
 start: 'ab]])
 
 AT_BISON_CHECK([two.y], [1], [],
-[[two.y:2.8-11: warning: extra characters in character literal [-Wother]
+[[two.y:2.8-11: error: extra characters in character literal
 two.y:3.8-4.0: error: missing "'" at end of line
-two.y:3.8-4.0: warning: extra characters in character literal [-Wother]
+two.y:3.8-4.0: error: extra characters in character literal
 two.y:4.8-10: error: missing "'" at end of file
-two.y:4.8-10: warning: extra characters in character literal [-Wother]
+two.y:4.8-10: error: extra characters in character literal
 ]])
 
 AT_DATA_NO_FINAL_EOL([three.y],
@@ -2222,11 +2376,11 @@ start: 'abc
 start: 'abc]])
 
 AT_BISON_CHECK([three.y], [1], [],
-[[three.y:2.8-12: warning: extra characters in character literal [-Wother]
+[[three.y:2.8-12: error: extra characters in character literal
 three.y:3.8-4.0: error: missing "'" at end of line
-three.y:3.8-4.0: warning: extra characters in character literal [-Wother]
+three.y:3.8-4.0: error: extra characters in character literal
 three.y:4.8-11: error: missing "'" at end of file
-three.y:4.8-11: warning: extra characters in character literal [-Wother]
+three.y:4.8-11: error: extra characters in character literal
 ]])
 
 AT_CLEANUP
@@ -2253,25 +2407,15 @@ AT_PERL_REQUIRE([[-e 'print "start: \"\\\t\\\f\\\0\\\1\" ;";' >> input.y]])
 
 AT_BISON_CHECK([input.y], [1], [],
 [[input.y:2.9-12: error: invalid number after \-escape: 777
-input.y:2.8-13: warning: empty character literal [-Wother]
 input.y:2.16-17: error: invalid number after \-escape: 0
-input.y:2.15-18: warning: empty character literal [-Wother]
 input.y:2.21-25: error: invalid number after \-escape: xfff
-input.y:2.20-26: warning: empty character literal [-Wother]
 input.y:2.29-31: error: invalid number after \-escape: x0
-input.y:2.28-32: warning: empty character literal [-Wother]
 input.y:3.9-14: error: invalid number after \-escape: uffff
-input.y:3.8-15: warning: empty character literal [-Wother]
 input.y:3.18-23: error: invalid number after \-escape: u0000
-input.y:3.17-24: warning: empty character literal [-Wother]
 input.y:3.27-36: error: invalid number after \-escape: Uffffffff
-input.y:3.26-37: warning: empty character literal [-Wother]
 input.y:3.40-49: error: invalid number after \-escape: U00000000
-input.y:3.39-50: warning: empty character literal [-Wother]
 input.y:4.9-10: error: invalid character after \-escape: ' '
-input.y:4.8-11: warning: empty character literal [-Wother]
 input.y:4.14-15: error: invalid character after \-escape: A
-input.y:4.13-16: warning: empty character literal [-Wother]
 input.y:5.9-16: error: invalid character after \-escape: \t
 input.y:5.17: error: invalid character after \-escape: \f
 input.y:5.18: error: invalid character after \-escape: \0
@@ -2293,6 +2437,25 @@ AT_DATA([[input.y]],
 start: %empty;
 ]])
 
+# Only "full" and "none" are accepted for parse.lac
+# Unknown values (such as "unsupported") are rejected
+AT_BISON_CHECK([[-Dparse.lac=none input.y]])
+AT_BISON_CHECK([[-Dparse.lac=none -L c++ input.y]])
+AT_BISON_CHECK([[-Dparse.lac=full input.y]])
+AT_BISON_CHECK([[-Dparse.lac=full -L c++ input.y]])
+AT_BISON_CHECK([[-Dparse.lac=unsupported input.y]],
+               [[1]], [],
+[[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
+<command line>:3: note: accepted value: 'full'
+<command line>:3: note: accepted value: 'none'
+]])
+AT_BISON_CHECK([[-Dparse.lac=unsupported -L c++ input.y]],
+               [[1]], [],
+[[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
+<command line>:3: note: accepted value: 'full'
+<command line>:3: note: accepted value: 'none'
+]])
+
 # parse.lac.* options are useless if LAC isn't actually activated.
 AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
                [[1]], [],
@@ -2304,11 +2467,11 @@ AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
 ]])
 
 # parse.lac.* options are useless in C++ even if LAC isn't actually activated.
-AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -L C++ -Dparse.lac input.y]],
+AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -L C++ -Dparse.lac=full input.y]],
                [[1]], [],
 [[<command line>:3: error: %define variable 'parse.lac.es-capacity-initial' is not used
 ]])
-AT_BISON_CHECK([[-Dparse.lac.memory-trace=full -L C++ -Dparse.lac  input.y]],
+AT_BISON_CHECK([[-Dparse.lac.memory-trace=full -L C++ -Dparse.lac=full input.y]],
                [[1]], [],
 [[<command line>:3: error: %define variable 'parse.lac.memory-trace' is not used
 ]])
@@ -2415,9 +2578,9 @@ AT_TEST([[%union foo {};
 %define api.value.union.name foo]],
 [0],
 [[input.y:3.8-10: warning: %define variable 'api.value.union.name' redefined [-Wother]
-input.y:1.8-10:     previous definition
+input.y:1.8-10: note: previous definition
 input.y:4.1-32: warning: %define variable 'api.value.union.name' redefined [-Wother]
-input.y:3.8-10:     previous definition
+input.y:3.8-10: note: previous definition
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
@@ -2455,7 +2618,9 @@ AT_DATA_GRAMMAR([[input.y]],
 %printer        { $%; @%; } <*> exp TOK;
 %{ $ @ %} // Should not warn.
 %%
-exp: TOK        { $%; @%; $$ = $1; };
+exp: TOK        { $%; @%; $$ = $1; }
+   | 'a'        { $<->1; $$ = 1; }
+   | 'b'        { $<foo->bar>$; }
 %%
 $ @ // Should not warn.
 ]])
@@ -2469,6 +2634,7 @@ input.y:13.19: warning: stray '$' [-Wother]
 input.y:13.23: warning: stray '@' [-Wother]
 input.y:16.19: warning: stray '$' [-Wother]
 input.y:16.23: warning: stray '@' [-Wother]
+input.y:17.19: warning: stray '$' [-Wother]
 ]])
 
 AT_BISON_OPTION_POPDEFS
@@ -2586,7 +2752,7 @@ fix-it:"input.y":{12:1-12:11}:"%expect-rr"
 input.y:13.1-14: warning: deprecated directive: '%file-prefix =', use '%file-prefix' [-Wdeprecated]
 fix-it:"input.y":{13:1-13:15}:"%file-prefix"
 input.y:14.1-16.5: warning: duplicate directive: '%file-prefix\n =' [-Wother]
-input.y:13.1-20:       previous declaration
+input.y:13.1-20: note: previous declaration
 fix-it:"input.y":{14:1-16:6}:""
 input.y:17.9-27: warning: deprecated directive: '%fixed-output_files', use '%output "y.tab.c"' [-Wdeprecated]
 fix-it:"input.y":{17:2-17:21}:"%output \"y.tab.c\""
@@ -2609,10 +2775,10 @@ fix-it:"input.y":{25:1-25:13}:"%define api.pure"
 input.y:26.1-12: warning: deprecated directive: '%token_table', use '%token-table' [-Wdeprecated]
 fix-it:"input.y":{26:1-26:13}:"%token-table"
 input.y:27.1-14: warning: %define variable 'parse.error' redefined [-Wother]
-input.y:11.1-14:     previous definition
+input.y:11.1-14: note: previous definition
 fix-it:"input.y":{27:1-27:15}:""
 input.y:29.1-18: warning: duplicate directive: '%name-prefix "bar"' [-Wother]
-input.y:13.1-20:     previous declaration
+input.y:13.1-20: note: previous declaration
 fix-it:"input.y":{29:1-29:19}:""
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2695,9 +2861,9 @@ input.y:11.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' 
 input.y:12.15-24: warning: deprecated directive: '%expect_rr', use '%expect-rr' [-Wdeprecated]
 input.y:13.1-14: warning: deprecated directive: '%error_verbose', use '%define parse.error verbose' [-Wdeprecated]
 input.y:13.16-29: warning: %define variable 'parse.error' redefined [-Wother]
-input.y:13.1-14:      previous definition
+input.y:13.1-14: note: previous definition
 input.y:14.16-29: warning: %define variable 'parse.error' redefined [-Wother]
-input.y:13.16-29:     previous definition
+input.y:13.16-29: note: previous definition
 input.y: error: reduce/reduce conflicts: 0 found, 42 expected
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2732,7 +2898,7 @@ AT_DATA_GRAMMAR([[input.y]],
 
 AT_BISON_CHECK([[input.y]], [[0]], [[]],
 [[input.y:14.1-15.5: warning: duplicate directive: '%file-prefix' [-Wother]
-input.y:13.1-18:       previous declaration
+input.y:13.1-18: note: previous declaration
 input.y: warning: %expect-rr applies only to GLR parsers [-Wother]
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
@@ -2782,16 +2948,44 @@ AT_BISON_CHECK([[-fcaret input.y]], [[1]], [[]],
 [[input.y:10.8-10: error: character literals cannot be used together with api.token.raw
    10 | %token 'a'
       |        ^~~
-input.y:9.1-21:      definition of api.token.raw
+input.y:9.1-21: note: definition of api.token.raw
     9 | %define api.token.raw
       | ^~~~~~~~~~~~~~~~~~~~~
 input.y:12.6-8: error: character literals cannot be used together with api.token.raw
    12 | exp: 'b' "c" {}
       |      ^~~
-input.y:9.1-21:     definition of api.token.raw
+input.y:9.1-21: note: definition of api.token.raw
     9 | %define api.token.raw
       | ^~~~~~~~~~~~~~~~~~~~~
 ]])
 
 AT_BISON_OPTION_POPDEFS
+AT_CLEANUP
+
+
+
+## ------------------------------ ##
+## %token-table and parse.error.  ##
+## ------------------------------ ##
+
+AT_SETUP([[%token-table and parse.error]])
+
+# AT_TEST(DIRECTIVES, ERROR-LOCATION)
+# -----------------------------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[$1
+%%
+exp: %empty;
+]])
+AT_BISON_CHECK([[input.y]], [[1]], [[]],
+[$2: error: '%token-table' and '%define parse.error (custom|detailed)' cannot be used together
+])
+])
+
+AT_TEST([%define parse.error custom %token-table],  [[input.y:1.1-26]])
+AT_TEST([%define parse.error detailed %token-table],[[input.y:1.1-28]])
+
+m4_popdef([AT_TEST])
+
 AT_CLEANUP

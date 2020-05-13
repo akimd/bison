@@ -1,5 +1,5 @@
 # flex.m4 serial 2
-# Copyright (C) 2012-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2012-2015, 2018-2020 Free Software Foundation, Inc.
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -40,6 +40,22 @@ else
   ac_cv_prog_lex_is_flex=no
 fi
 ])
+
+
+AC_CACHE_CHECK([whether flex supports --header=FILE],
+                [ac_cv_prog_lex_supports_header_opt],
+[if _AC_DO_VAR([LEX --header=conftest.h conftest.l]); then
+  ac_cv_prog_lex_supports_header_opt=yes
+else
+  ac_cv_prog_lex_supports_header_opt=no
+fi
+])
+if test "$ac_cv_prog_lex_supports_header_opt" = yes; then
+  FLEX_SUPPORTS_HEADER_OPT=true
+else
+  FLEX_SUPPORTS_HEADER_OPT=false
+fi
+
 
 cat >conftest.l <<_ACEOF[
 %%

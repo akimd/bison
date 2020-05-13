@@ -1,6 +1,6 @@
 # Torturing Bison.                                    -*- Autotest -*-
 
-# Copyright (C) 2001-2002, 2004-2007, 2009-2015, 2018-2019 Free Software
+# Copyright (C) 2001-2002, 2004-2007, 2009-2015, 2018-2020 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -404,7 +404,6 @@ AT_CLEANUP
 m4_define([AT_DATA_STACK_TORTURE],
 [AT_BISON_OPTION_PUSHDEFS([$2])
 # A grammar of parens growing the stack thanks to right recursion.
-# exp:
 AT_DATA_GRAMMAR([input.y],
 [[%{
 #include <errno.h>
@@ -417,10 +416,9 @@ AT_DATA_GRAMMAR([input.y],
 %}
 ]$2[
 %define parse.error verbose
-%debug
 %token WAIT_FOR_EOF
 %%
-exp: WAIT_FOR_EOF exp | ;
+exp: WAIT_FOR_EOF exp | %empty;
 %%
 ]AT_YYERROR_DEFINE[
 #include <assert.h>
@@ -457,7 +455,7 @@ main (int argc, const char **argv)
   int count;
 ]m4_bmatch([$2], [api.push-pull both],
 [[  yypstate *ps = yypstate_new ();
-]])[  yydebug = 1;
+]])[
   for (count = 0; count < 2; ++count)
     {
       int new_status;
@@ -469,7 +467,7 @@ main (int argc, const char **argv)
         status = new_status;
       else
         assert (new_status == status);
-    }]m4_bmatch([$2], [api.push-pull both],[[
+    }]m4_bmatch([$2], [api.push-pull both], [[
   yypstate_delete (ps);]])[
   return status;
 }

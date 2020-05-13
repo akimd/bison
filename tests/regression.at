@@ -1,6 +1,6 @@
 # Bison Regressions.                               -*- Autotest -*-
 
-# Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2020 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -146,8 +146,9 @@ void print_my_token (void);
 void
 print_my_token (void)
 {
-  enum yytokentype my_token = MY_TOKEN;
-  printf ("%d\n", my_token);
+  enum yytokentype tok1 = MY_TOKEN;
+  yytoken_kind_t   tok2 = MY_TOKEN;
+  printf ("%d, %d\n", tok1, tok2);
 }
 %}
 %token MY_TOKEN
@@ -366,17 +367,17 @@ AT_CLEANUP
 ## Token definitions.  ##
 ## ------------------- ##
 
+m4_pushdef([AT_TEST],
+[AT_SETUP([Token definitions: $1])
 
-AT_SETUP([Token definitions])
-
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([$1])
 
 AT_DATA_GRAMMAR([input.y],
 [%{
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 %}
-[%define parse.error verbose
+[$1
 %token MYEOF 0 "end of file"
 %token 'a' "a"  // Bison managed, when fed with '%token 'f' "f"' to #define 'f'!
 %token B_TOKEN "b"
@@ -385,13 +386,12 @@ AT_DATA_GRAMMAR([input.y],
 %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
 %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
 %%
-exp: "a" "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!";
+exp: ]AT_ERROR_VERBOSE_IF(["\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"], ["∃¬∩∪∀"])[;
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([{ SPECIAL }])[
+]AT_YYLEX_DEFINE(["a"])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 # Checking the warning message guarantees that the trigraph "??!" isn't
 # unnecessarily escaped here even though it would need to be if encoded in a
@@ -401,7 +401,7 @@ AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 [[input.y:22.8-14: warning: symbol SPECIAL redeclared [-Wother]
    22 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |        ^~~~~~~
-input.y:21.8-14:     previous declaration
+input.y:21.8-14: note: previous declaration
    21 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |        ^~~~~~~
 input.y:22.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
@@ -415,13 +415,18 @@ AT_COMPILE([input])
 # C-string literals, does have the trigraph escaped correctly.  Thus, the
 # symbol name reported by the parser is exactly the same as that reported by
 # Bison itself.
-AT_DATA([experr],
-[[syntax error, unexpected "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!", expecting a
+AT_PARSER_CHECK([input], 1, [],
+[[syntax error, unexpected a, expecting ]AT_ERROR_VERBOSE_IF([["\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"]], [[∃¬∩∪∀]])[
 ]])
-AT_PARSER_CHECK([input], 1, [], [experr])
+
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
+])
 
+AT_TEST([%define parse.error detailed])
+AT_TEST([%define parse.error verbose])
 
+m4_popdef([AT_TEST])
 
 ## -------------------- ##
 ## Characters Escapes.  ##
@@ -628,7 +633,7 @@ AT_CLEANUP
 # extremely specific situations.  web2c.y exhibits this situation.
 # Below is a stripped version of the grammar.  It looks like one can
 # simplify it further, but just don't: it is tuned to exhibit a bug,
-# which disapears when applying sane grammar transformations.
+# which disappears when applying sane grammar transformations.
 #
 # It used to be wrong on yydefact only:
 #
@@ -697,8 +702,9 @@ static const yytype_int8 yyrline[] =
 };
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "\"if\"", "\"const\"", "\"then\"",
-  "\"else\"", "$accept", "statement", "struct_stat", "if", "else", YY_NULLPTR
+  "\"end of file\"", "error", "\"invalid token\"", "\"if\"", "\"const\"",
+  "\"then\"", "\"else\"", "$accept", "statement", "struct_stat", "if",
+  "else", YY_NULLPTR
 };
 static const yytype_int16 yytoknum[] =
 {
@@ -956,12 +962,14 @@ AT_PARSER_CHECK([input --debug], 1,
 ]],
 [[Starting parse
 Entering state 0
+Stack now 0
 Reducing stack by rule 1 (line 20):
 -> $$ = nterm start ()
-Stack now 0
 Entering state 1
-Reading a token: Next token is token 'a' (PRINTER)
-syntax error, unexpected 'a', expecting $end
+Stack now 0 1
+Reading a token
+Next token is token 'a' (PRINTER)
+syntax error, unexpected 'a', expecting end of file
 Error: popping nterm start ()
 Stack now 0
 Cleanup: discarding lookahead token 'a' (PRINTER)
@@ -1171,7 +1179,7 @@ AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([[input]])
 AT_PARSER_CHECK([[input]], [[1]], [],
 [[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
-syntax error, unexpected $end, expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
+syntax error, unexpected end of file, expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B
 ]])
 
 AT_CLEANUP
@@ -1219,7 +1227,7 @@ AT_DATA_GRAMMAR([input.y],
 
 %%
 
-start: syntax_error1 check syntax_error2 ;
+start: syntax_error1 check syntax_error2 check syntax_error3;
 
 // Induce a syntax error message whose total length causes yymsg in
 // yyparse to be reallocated to size YYSTACK_ALLOC_MAXIMUM, which
@@ -1251,13 +1259,26 @@ check:
 }
 ;
 
-// Now overflow.
+// We used to overflow memory here because the first four "expected"
+// tokens plus rest of the error message is greater that 255 bytes.
+// However there are *five* expected tokens here, so anyway we will
+// *not* display these tokens.  So the message fits, no overflow.
 syntax_error2:
   "123456789112345678921234567893123456789412345678951234567896123A"
 | "123456789112345678921234567893123456789412345678951234567896123B"
 | "123456789112345678921234567893123456789412345678951234567896123C"
 | "123456789112345678921234567893123456789412345678951234567896123D"
 | "123456789112345678921234567893123456789412345678951234567896123E"
+| error 'd' 'e' 'f'
+;
+
+
+// Now overflow.
+syntax_error3:
+  "123456789112345678921234567893123456789412345678951234567896123A"
+| "123456789112345678921234567893123456789412345678951234567896123B"
+| "123456789112345678921234567893123456789412345678951234567896123C"
+| "123456789112345678921234567893123456789412345678951234567896123D"
 ;
 
 %%
@@ -1265,7 +1286,7 @@ syntax_error2:
 ]AT_YYERROR_DEFINE[
   /* Induce two syntax error messages (which requires full error
      recovery by shifting 3 tokens).  */
-]AT_YYLEX_DEFINE(["abc"])[
+]AT_YYLEX_DEFINE(["abcdef"])[
 int
 main (void)
 {
@@ -1288,6 +1309,7 @@ AT_COMPILE([[input]])
 
 AT_PARSER_CHECK([[input]], [[2]], [],
 [[syntax error, unexpected 'a', expecting 123456789112345678921234567893123456789412345678951234567896123A or 123456789112345678921234567893123456789412345678951234567896123B or 123456789112345678921234567893123456789412345678951234567896123C
+syntax error, unexpected 'd'
 syntax error
 memory exhausted
 ]])
@@ -1422,11 +1444,13 @@ AT_LAC_CHECK([])
 AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
-Reading a token: Now at end of input.
-LAC: initial context established for $end
-LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
+Stack now 0
+Reading a token
+Now at end of input.
+LAC: initial context established for "end of file"
+LAC: checking lookahead "end of file": R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 memory exhausted
-Cleanup: discarding lookahead token $end ()
+Cleanup: discarding lookahead token "end of file" ()
 Stack now 0
 ]])
 
@@ -1436,14 +1460,16 @@ AT_LAC_CHECK([z], [[0]])
 AT_PARSER_CHECK([[input --debug]], [[2]], [],
 [[Starting parse
 Entering state 0
-Reading a token: Next token is token $undefined ()
-LAC: initial context established for $undefined
-LAC: checking lookahead $undefined: Always Err
+Stack now 0
+Reading a token
+Next token is token "invalid token" ()
+LAC: initial context established for "invalid token"
+LAC: checking lookahead "invalid token": Always Err
 Constructing syntax error message
-LAC: checking lookahead $end: R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
+LAC: checking lookahead "end of file": R2 G3 R2 G5 R2 G6 R2 G7 R2 G8 R2 G9 R2 G10 R2 G11 R2 (max size exceeded)
 syntax error
 memory exhausted
-Cleanup: discarding lookahead token $undefined ()
+Cleanup: discarding lookahead token "invalid token" ()
 Stack now 0
 ]])
 

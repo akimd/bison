@@ -1,6 +1,6 @@
 /* Compute lookahead criteria for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 2000-2015, 2018-2019 Free Software
+   Copyright (C) 1984, 1986, 1989, 2000-2015, 2018-2020 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -92,7 +92,7 @@ goto_print (goto_number i, FILE *out)
   const state_number dst = to_state[i];
   symbol_number var = states[dst]->accessing_symbol;
   fprintf (out,
-           "goto[%ld] = (%d, %s, %d)", i, src, symbols[var]->tag, dst);
+           "goto[%zu] = (%d, %s, %d)", i, src, symbols[var]->tag, dst);
 }
 
 void

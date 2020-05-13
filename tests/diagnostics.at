@@ -1,6 +1,6 @@
 # Checking diagnostics.                              -*- Autotest -*-
 
-# Copyright (C) 2019 Free Software Foundation, Inc.
+# Copyright (C) 2019-2020 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ AT_BANNER([[Diagnostics.]])
 
 
 # AT_TEST($1: TITLE, $2: GRAMMAR, $3: EXIT-STATUS, $4: OUTPUT-WITH-STYLE,
-#         $5: EXTRA_ENV
+#         $5: EXTRA_ENV, $6: SKIP-IF)
 # -----------------------------------------------------------------------
 # Run Bison on GRAMMAR with debugging style enabled, and expect
 # OUTPUT-WITH-STYLE as diagnostics.
@@ -33,18 +33,21 @@ AT_KEYWORDS([diagnostics])
 locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
 AT_SKIP_IF([test x == x"$locale"])
 
+m4_ifval([$6],
+[AT_SKIP_IF([$6])])
+
 AT_BISON_OPTION_PUSHDEFS
 
 AT_DATA_GRAMMAR([[input.y]], [$2])
 
+AT_DATA([experr], [$4])
+
 # For some reason, literal ^M in the input are removed and don't end
 # in `input.y`.  So use the two-character ^M represent it, and let
 # Perl insert real CR characters.
-if grep '\^M' input.y >/dev/null; then
-  AT_PERL_REQUIRE([-pi -e 's{\^M}{\r}gx' input.y])
+if $EGREP ['\^M|\\[0-9][0-9][0-9]'] input.y experr >/dev/null; then
+  AT_PERL_REQUIRE([-pi -e 's{\^M}{\r}g;s{\\(\d{3}|.)}{$v = $[]1; $v =~ /\A\d+\z/ ? chr($v) : $v}ge' input.y experr])
 fi
-
-AT_DATA([experr], [$4])
 
 AT_CHECK([LC_ALL="$locale" $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
 
@@ -77,31 +80,31 @@ exp: %empty;
 [[input.y:9.12-14: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO <warning>FOO</warning> FOO
       |            <warning>^~~</warning>
-input.y:9.8-10:      previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:9.16-18: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
     9 | %token FOO FOO <warning>FOO</warning>
       |                <warning>^~~</warning>
-input.y:9.8-10:      previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:10.8-10: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token <warning>FOO</warning>  FOO  FOO
       |        <warning>^~~</warning>
-input.y:9.8-10:      previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:10.13-15: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token FOO  <warning>FOO</warning>  FOO
       |             <warning>^~~</warning>
-input.y:9.8-10:       previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 input.y:10.18-20: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    10 | %token FOO  FOO  <warning>FOO</warning>
       |                  <warning>^~~</warning>
-input.y:9.8-10:       previous declaration
+input.y:9.8-10: <note>note:</note> previous declaration
     9 | %token <note>FOO</note> FOO FOO
       |        <note>^~~</note>
 ]])
@@ -152,6 +155,65 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ]])
 
 
+
+## ------------------------------------- ##
+## Line is too short, and then you die.  ##
+## ------------------------------------- ##
+
+# We trust the "#line", since that's what allows us to quote the
+# actual source from which the grammar file was generated.  But #line
+# can also be wrong, and point to a line which is shorter that the bad
+# one.  In which case we can easily forget to close the styling.
+#
+# Be sure to have #line point to a line long enough to open the
+# styling, but not enough to close it.
+
+AT_TEST([[Line is too short, and then you die]],
+[[// Beware that there are 9 lines inserted before (including this one).
+#line 12
+%token foo 123
+%token foo 123123
+%token foo 123
+%%
+exp:
+]],
+[1],
+[[input.y:13.8-10: <warning>warning:</warning> symbol foo redeclared [<warning>-Wother</warning>]
+   13 | %token <warning>foo</warning> 123
+      |        <warning>^~~</warning>
+input.y:12.8-10: <note>note:</note> previous declaration
+   12 | %token <note>foo</note> 123123
+      |        <note>^~~</note>
+input.y:13.12-17: <error>error:</error> redefining code of token foo
+   13 | %token foo <error>123</error>
+      |            <error>^~~~~~</error>
+input.y:14.8-10: <warning>warning:</warning> symbol foo redeclared [<warning>-Wother</warning>]
+   14 | %%
+      |        <warning>^~~</warning>
+input.y:12.8-10: <note>note:</note> previous declaration
+   12 | %token <note>foo</note> 123123
+      |        <note>^~~</note>
+]])
+
+
+## ----------------------- ##
+## Zero-width characters.  ##
+## ----------------------- ##
+
+# We used to open twice the styling for characters that have a
+# zero-width on display (e.g., \005).
+
+AT_TEST([[Zero-width characters]],
+[[%%
+exp: an\005error.
+]],
+[1],
+[[input.y:10.8: <error>error:</error> invalid character: '\\005'
+   10 | exp: an<error>\005</error>error.
+      |        <error>^</error>
+]])
+
+
 ## -------------------------------------- ##
 ## Tabulations and multibyte characters.  ##
 ## -------------------------------------- ##
@@ -161,15 +223,14 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 
 AT_TEST([[Tabulations and multibyte characters]],
 [[%%
-exp: a b c d e f g h
+exp: a b c d e f g
 a: {		}
 b: {            }
 c: {------------}
 d: {éééééééééééé}
-e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
-f: {	42	}
-g: {	"฿¥$€₦"	}
-h: {	🐃	}
+e: {	42	}
+f: {	"฿¥$€₦"	}
+g: {	🐃	}
 ]],
 [0],
 [[input.y:11.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
@@ -189,23 +250,35 @@ input.y:14.4-17: <warning>warning:</warning> empty rule without %empty [<warning
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y:15.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   15 | e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
+   15 | e: <warning>{	42	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y:16.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   16 | f: <warning>{	42	}</warning>
+   16 | f: <warning>{	"฿¥$€₦"	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y:17.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   17 | g: <warning>{	"฿¥$€₦"	}</warning>
-      |    <warning>^~~~~~~~~~~~~~</warning>
-      |    <fixit-insert>%empty</fixit-insert>
-input.y:18.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
-   18 | h: <warning>{	🐃	}</warning>
+   17 | g: <warning>{	🐃	}</warning>
       |    <warning>^~~~~~~~~~~~~~</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
+
+
+# Likewise, but currently not portable to AIX and Cygwin.
+# https://lists.gnu.org/r/bug-bison/2020-05/msg00050.html
+# https://lists.gnu.org/r/bug-bison/2020-05/msg00003.html.
+AT_TEST([[Tabulations and multibyte characters]],
+[[%%
+e: {∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}
+]],
+[0],
+[[input.y:10.4-17: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   10 | e: <warning>{∇⃗×𝐸⃗ = -∂𝐵⃗/∂t}</warning>
+      |    <warning>^~~~~~~~~~~~~~</warning>
+      |    <fixit-insert>%empty</fixit-insert>
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+]], [], [uname -a | $EGREP -i 'aix|cygwin'])
 
 
 ## --------------- ##
@@ -262,7 +335,7 @@ input.y:10.1-27: <error>error:</error> %define variable 'error2' is not used
 ## ----------------- ##
 
 # Carriage-return used to count as a newline in the scanner, and not
-# in diagnostics.  Resulting in all sort of nice bugs.
+# in diagnostics.  Resulting in all kinds of nice bugs.
 
 AT_TEST([[Carriage return]],
 [[^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M^M
@@ -273,7 +346,7 @@ AT_TEST([[Carriage return]],
 [[input.y:10.8-11.0: <error>error:</error> missing '"' at end of line
    10 | %token <error>"</error>
       |        <error>^</error>
-input.y:10.8-11.0: <error>error:</error> syntax error, unexpected string, expecting character literal or identifier or <tag>
+input.y:10.8-11.0: <error>error:</error> expected <expected>character literal</expected> or <expected>identifier</expected> or <expected><tag></expected> before <unexpected>string</unexpected>
    10 | %token <error>"</error>
       |        <error>^</error>
 ]])
@@ -296,7 +369,7 @@ exp:^M
 [[input.y:11.9-11: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
    11 | %token  <warning>FOO</warning>
       |         <warning>^~~</warning>
-input.y:10.9-11:     previous declaration
+input.y:10.9-11: <note>note:</note> previous declaration
    10 | %token  <note>FOO</note>
       |         <note>^~~</note>
 input.y:13.5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
@@ -322,19 +395,19 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |                                                                <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       |                                                                                            <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:       previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
@@ -355,19 +428,19 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEF...
       |                                    <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEF</warning>...
       |                                                                <warning>^~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:       previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMNOPQRSTUVWXYZ  ABCDEF...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]
@@ -388,19 +461,19 @@ exp: ABCDEFGHIJKLMNOPQRSTUVWXYZ
 [[input.y:9.36-61: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | %token ABCDEFGHIJKLMNOPQRSTUVWXYZ  <warning>ABCDEFGHIJKLMN</warning>...
       |                                    <warning>^~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.64-89: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>  ABCDEFGHI...
       |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:      previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:9.92-117: <warning>warning:</warning> symbol ABCDEFGHIJKLMNOPQRSTUVWXYZ redeclared [<warning>-Wother</warning>]
     9 | ...TUVWXYZ  <warning>ABCDEFGHIJKLMNOPQRSTUVWXYZ</warning>
       |             <warning>^~~~~~~~~~~~~~~~~~~~~~~~~~</warning>
-input.y:9.8-33:       previous declaration
+input.y:9.8-33: <note>note:</note> previous declaration
     9 | %token <note>ABCDEFGHIJKLMNOPQRSTUVWXYZ</note>  ABCDEFGHIJKLMN...
       |        <note>^~~~~~~~~~~~~~~~~~~~~~~~~~</note>
 input.y:10.56-69: <warning>warning:</warning> deprecated directive: '%error-verbose', use '%define parse.error verbose' [<warning>-Wdeprecated</warning>]

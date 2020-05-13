@@ -1,6 +1,6 @@
 /* Scan Bison Skeletons.                                       -*- C -*-
 
-   Copyright (C) 2001-2015, 2018-2019 Free Software Foundation, Inc.
+   Copyright (C) 2001-2015, 2018-2020 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -84,7 +84,7 @@ static void fail_for_invalid_at (char const *at);
 "@output("      at_init (&argc, argv, &at_ptr, &at_output);
 
   /* This pattern must not match more than the previous @ patterns. */
-@[^@{}\'(\n]*   fail_for_invalid_at (yytext);
+@[^@{}''(\n]*   fail_for_invalid_at (yytext);
 \n              out_lineno++; ECHO;
 [^@\n]+         ECHO;
 
@@ -189,7 +189,7 @@ flag (const char *arg)
   else if (STREQ (arg, "fatal"))
     return fatal;
   else if (STREQ (arg, "note"))
-    return silent | complaint | no_caret;
+    return silent | complaint | no_caret | note;
   else if (STREQ (arg, "warn"))
     return Wother;
   else
@@ -209,29 +209,23 @@ at_basename (int argc, char *argv[], char **out_namep, int *out_linenop)
 static void
 at_complain (int argc, char *argv[], char **out_namep, int *out_linenop)
 {
-  static int indent;
-  warnings w = flag (argv[1]);
-  location loc;
-  location *locp = NULL;
+  if (argc < 4)
+    fail_for_at_directive_too_few_args (argv[0]);
 
   (void) out_namep;
   (void) out_linenop;
 
-  if (argc < 4)
-    fail_for_at_directive_too_few_args (argv[0]);
+  warnings w = flag (argv[1]);
+
+  location loc;
+  location *locp = NULL;
   if (argv[2] && argv[2][0])
     {
       boundary_set_from_string (&loc.start, argv[2]);
       boundary_set_from_string (&loc.end, argv[3]);
       locp = &loc;
     }
-  if (w & silent)
-    indent += SUB_INDENT;
-  else
-    indent = 0;
-  complain_args (locp, w, &indent, argc - 4, argv + 4);
-  if (w & silent)
-    indent -= SUB_INDENT;
+  complain_args (locp, w, argc - 4, argv + 4);
 }
 
 static void

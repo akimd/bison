@@ -99,16 +99,15 @@ class CalcLexer(R) : Lexer
     while (!input.empty && input.front != '\n' && isWhite (input.front))
       input.popFront;
 
-    // Handle EOF.
     if (input.empty)
-      return YYTokenType.EOF;
+      return TokenKind.YYEOF;
 
     // Numbers.
     if (input.front.isNumber)
       {
         import std.conv : parse;
         semanticVal_.ival = input.parse!int;
-        return YYTokenType.NUM;
+        return TokenKind.NUM;
       }
 
     // Individual characters
@@ -116,16 +115,15 @@ class CalcLexer(R) : Lexer
     input.popFront;
     switch (ch)
       {
-      case EOF: return YYTokenType.EOF;
-      case '=': return YYTokenType.EQ;
-      case '+': return YYTokenType.PLUS;
-      case '-': return YYTokenType.MINUS;
-      case '*': return YYTokenType.STAR;
-      case '/': return YYTokenType.SLASH;
-      case '(': return YYTokenType.LPAR;
-      case ')': return YYTokenType.RPAR;
-      case '\n': return YYTokenType.EOL;
-      default:  assert(0);
+      case '=':  return TokenKind.EQ;
+      case '+':  return TokenKind.PLUS;
+      case '-':  return TokenKind.MINUS;
+      case '*':  return TokenKind.STAR;
+      case '/':  return TokenKind.SLASH;
+      case '(':  return TokenKind.LPAR;
+      case ')':  return TokenKind.RPAR;
+      case '\n': return TokenKind.EOL;
+      default: assert(0);
       }
   }
 }

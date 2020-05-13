@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -72,9 +72,9 @@ m4_map([      b4_symbol_tag_comment], [$@])dnl
 # The needed includes for variants support.
 m4_define([b4_variant_includes],
 [b4_parse_assert_if([[#include <typeinfo>]])[
-#ifndef YYASSERT
+#ifndef YY_ASSERT
 # include <cassert>
-# define YYASSERT assert
+# define YY_ASSERT assert
 #endif
 ]])
 
@@ -111,14 +111,21 @@ m4_define([b4_value_type_declare],
     semantic_type (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
     {
-      YYASSERT (sizeof (T) <= size);
+      YY_ASSERT (sizeof (T) <= size);
       new (yyas_<T> ()) T (YY_MOVE (t));
     }
+
+#if 201103L <= YY_CPLUSPLUS
+    /// Non copyable.
+    semantic_type (const self_type&) = delete;
+    /// Non copyable.
+    self_type& operator= (const self_type&) = delete;
+#endif
 
     /// Destruction, allowed only if empty.
     ~semantic_type () YY_NOEXCEPT
     {]b4_parse_assert_if([
-      YYASSERT (!yytypeid_);
+      YY_ASSERT (!yytypeid_);
     ])[}
 
 # if 201103L <= YY_CPLUSPLUS
@@ -127,8 +134,8 @@ m4_define([b4_value_type_declare],
     T&
     emplace (U&&... u)
     {]b4_parse_assert_if([
-      YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= size);
+      YY_ASSERT (!yytypeid_);
+      YY_ASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (std::forward <U>(u)...);
     }
@@ -138,8 +145,8 @@ m4_define([b4_value_type_declare],
     T&
     emplace ()
     {]b4_parse_assert_if([
-      YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= size);
+      YY_ASSERT (!yytypeid_);
+      YY_ASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T ();
     }
@@ -149,8 +156,8 @@ m4_define([b4_value_type_declare],
     T&
     emplace (const T& t)
     {]b4_parse_assert_if([
-      YYASSERT (!yytypeid_);
-      YYASSERT (sizeof (T) <= size);
+      YY_ASSERT (!yytypeid_);
+      YY_ASSERT (sizeof (T) <= size);
       yytypeid_ = & typeid (T);])[
       return *new (yyas_<T> ()) T (t);
     }
@@ -179,9 +186,9 @@ m4_define([b4_value_type_declare],
     T&
     as () YY_NOEXCEPT
     {]b4_parse_assert_if([
-      YYASSERT (yytypeid_);
-      YYASSERT (*yytypeid_ == typeid (T));
-      YYASSERT (sizeof (T) <= size);])[
+      YY_ASSERT (yytypeid_);
+      YY_ASSERT (*yytypeid_ == typeid (T));
+      YY_ASSERT (sizeof (T) <= size);])[
       return *yyas_<T> ();
     }
 
@@ -190,9 +197,9 @@ m4_define([b4_value_type_declare],
     const T&
     as () const YY_NOEXCEPT
     {]b4_parse_assert_if([
-      YYASSERT (yytypeid_);
-      YYASSERT (*yytypeid_ == typeid (T));
-      YYASSERT (sizeof (T) <= size);])[
+      YY_ASSERT (yytypeid_);
+      YY_ASSERT (*yytypeid_ == typeid (T));
+      YY_ASSERT (sizeof (T) <= size);])[
       return *yyas_<T> ();
     }
 
@@ -208,8 +215,8 @@ m4_define([b4_value_type_declare],
     void
     swap (self_type& that) YY_NOEXCEPT
     {]b4_parse_assert_if([
-      YYASSERT (yytypeid_);
-      YYASSERT (*yytypeid_ == *that.yytypeid_);])[
+      YY_ASSERT (yytypeid_);
+      YY_ASSERT (*yytypeid_ == *that.yytypeid_);])[
       std::swap (as<T> (), that.as<T> ());
     }
 
@@ -258,9 +265,12 @@ m4_define([b4_value_type_declare],
     }
 
   private:
-    /// Prohibit blind copies.
-    self_type& operator= (const self_type&);
+#if YY_CPLUSPLUS < 201103L
+    /// Non copyable.
     semantic_type (const self_type&);
+    /// Non copyable.
+    self_type& operator= (const self_type&);
+#endif
 
     /// Accessor to raw memory as \a T.
     template <typename T>
@@ -401,7 +411,7 @@ m4_define([_b4_token_constructor_define],
                               b4_symbol_if([$1], [has_type], [std::move (v)]),
                               b4_locations_if([std::move (l)]))[)
       {
-        YYASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+        YY_ASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
       }
 #else
       symbol_type (]b4_join(
@@ -413,7 +423,7 @@ m4_define([_b4_token_constructor_define],
                               b4_symbol_if([$1], [has_type], [v]),
                               b4_locations_if([l]))[)
       {
-        YYASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+        YY_ASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
       }
 #endif
 ]])])

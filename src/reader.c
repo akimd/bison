@@ -1,7 +1,7 @@
 /* Input parser for Bison
 
    Copyright (C) 1984, 1986, 1989, 1992, 1998, 2000-2003, 2005-2007,
-   2009-2015, 2018-2019 Free Software Foundation, Inc.
+   2009-2015, 2018-2020 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -124,16 +124,13 @@ record_merge_function_type (int merger, uniqstr type, location declaration_loc)
   aver (merge_function != NULL && merger_find == merger);
   if (merge_function->type != NULL && !UNIQSTR_EQ (merge_function->type, type))
     {
-      int indent = 0;
-      complain_indent (&declaration_loc, complaint, &indent,
-                       _("result type clash on merge function %s: "
-                         "<%s> != <%s>"),
-                       quote (merge_function->name), type,
-                       merge_function->type);
-      indent += SUB_INDENT;
-      complain_indent (&merge_function->type_declaration_loc, complaint,
-                       &indent,
-                       _("previous declaration"));
+      complain (&declaration_loc, complaint,
+                _("result type clash on merge function %s: "
+                "<%s> != <%s>"),
+                quote (merge_function->name), type,
+                merge_function->type);
+      subcomplain (&merge_function->type_declaration_loc, complaint,
+                   _("previous declaration"));
     }
   merge_function->type = uniqstr_new (type);
   merge_function->type_declaration_loc = declaration_loc;
@@ -232,12 +229,8 @@ grammar_current_rule_begin (symbol *lhs, location loc,
     assign_named_ref (current_rule, named_ref_copy (lhs_name));
 
   /* Mark the rule's lhs as a nonterminal if not already so.  */
-  if (lhs->content->class == unknown_sym)
-    {
-      lhs->content->class = nterm_sym;
-      lhs->content->number = nvars;
-      ++nvars;
-    }
+  if (lhs->content->class == unknown_sym || lhs->content->class == pct_type_sym)
+    symbol_class_set (lhs, nterm_sym, empty_loc, false);
   else if (lhs->content->class == token_sym)
     complain (&loc, complaint, _("rule given for %s, which is a token"),
               lhs->tag);
@@ -614,7 +607,7 @@ packgram (void)
 {
   int itemno = 0;
   ritem = xnmalloc (nritems + 1, sizeof *ritem);
-  /* This sentinel is used by build_relations in gram.c.  */
+  /* This sentinel is used by build_relations() in lalr.c.  */
   *ritem++ = 0;
 
   rule_number ruleno = 0;
@@ -785,11 +778,16 @@ check_and_convert_grammar (void)
   /* If the user did not define her ENDTOKEN, do it now. */
   if (!endtoken)
     {
-      endtoken = symbol_get ("$end", empty_loc);
+      endtoken = symbol_get ("YYEOF", empty_loc);
       endtoken->content->class = token_sym;
       endtoken->content->number = 0;
       /* Value specified by POSIX.  */
       endtoken->content->user_token_number = 0;
+      {
+        symbol *alias = symbol_get ("$end", empty_loc);
+        symbol_class_set (alias, token_sym, empty_loc, false);
+        symbol_make_alias (endtoken, alias, empty_loc);
+      }
     }
 
   /* Report any undefined symbols and consider them nonterminals.  */
@@ -824,9 +822,9 @@ check_and_convert_grammar (void)
   /* Assign the symbols their symbol numbers.  */
   symbols_pack ();
 
-  /* Scan rule actions after invoking symbol_check_alias_consistency (in
-     symbols_pack above) so that token types are set correctly before the rule
-     action type checking.
+  /* Scan rule actions after invoking symbol_check_alias_consistency
+     (in symbols_pack above) so that token types are set correctly
+     before the rule action type checking.
 
      Before invoking grammar_rule_check_and_complete (in packgram
      below) on any rule, make sure all actions have already been

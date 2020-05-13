@@ -6,10 +6,10 @@
 {
   // Tell Flex the expected prototype of yylex.
 #define YY_DECL                                 \
-  enum yytokentype yylex (YYSTYPE* yylval, int *nerrs)
+  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
   YY_DECL;
 
-  void yyerror (int *nerrs, const char *msg);
+  void yyerror (YYLTYPE *loc, int *nerrs, const char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -19,12 +19,27 @@
 #include <stdlib.h> // getenv.
 }
 
+// Don't share global variables between the scanner and the parser.
 %define api.pure full
+
+// To avoid name clashes (e.g., with C's EOF) prefix token definitions
+// with TOK_ (e.g., TOK_EOF).
 %define api.token.prefix {TOK_}
+
+// %token and %type use genuine types (e.g., "%token <int>").  Let
+// %bison define YYSTYPE as a union of all these types.
 %define api.value.type union
-%define parse.error verbose
+
+// Generate detailed error messages.
+%define parse.error detailed
+
+// with locations.
+%locations
+
+// Enable debug traces (see yydebug in main).
 %define parse.trace
- // Error count, exchanged between main, yyparse and yylex.
+
+// Error count, exchanged between main, yyparse and yylex.
 %param {int *nerrs}
 
 %token
@@ -34,8 +49,7 @@
   SLASH  "/"
   LPAREN "("
   RPAREN ")"
-  EOL    "end-of-line"
-  EOF 0  "end-of-file"
+  EOL    "end of line"
 ;
 
 %token <int> NUM "number"
@@ -66,7 +80,7 @@ exp:
   {
     if ($3 == 0)
       {
-        yyerror (nerrs, "invalid division by zero");
+        yyerror (&@$, nerrs, "error: division by zero");
         YYERROR;
       }
     else
@@ -77,9 +91,11 @@ exp:
 ;
 %%
 // Epilogue (C code).
-void yyerror (int *nerrs, const char *msg)
+
+void yyerror (YYLTYPE *loc, int *nerrs, const char *msg)
 {
-  fprintf (stderr, "%s\n", msg);
+  YY_LOCATION_PRINT (stderr, *loc);
+  fprintf (stderr, ": %s\n", msg);
   ++*nerrs;
 }
 

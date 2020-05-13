@@ -1,6 +1,6 @@
 # Named references test.                           -*- Autotest -*-
 
-# Copyright (C) 2009-2015, 2018-2019 Free Software Foundation, Inc.
+# Copyright (C) 2009-2015, 2018-2020 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -255,19 +255,19 @@ AT_BISON_CHECK([-fcaret -o test.c test.y], 1, [],
 [[test.y:52.51-60: error: invalid reference: '$<ival>lo9'
    52 | | exp[x] '+' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>lo9 + $r; }
       |                                                   ^~~~~~~~~~
-test.y:52.3-68:      symbol not found in production: lo9
+test.y:52.3-68: note: symbol not found in production: lo9
    52 | | exp[x] '+' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>lo9 + $r; }
       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test.y:53.51-60: warning: misleading reference: '$<ival>exp' [-Wother]
    53 | | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
       |                                                   ^~~~~~~~~~
-test.y:44.1-3:       refers to: $exp at $$
+test.y:44.1-3: note: refers to: $exp at $$
    44 | exp:
       | ^~~
-test.y:53.7:         possibly meant: $x, hiding $exp at $1
+test.y:53.7: note: possibly meant: $x, hiding $exp at $1
    53 | | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
       |       ^
-test.y:53.41:        possibly meant: $r, hiding $exp at $4
+test.y:53.41: note: possibly meant: $r, hiding $exp at $4
    53 | | exp[x] '-' { $<ival>$ = $x; } [l] exp[r] { $$ = $<ival>exp - $r; }
       |                                         ^
 test.y:54.51-52: error: $l of 'exp' has no declared type
@@ -276,13 +276,13 @@ test.y:54.51-52: error: $l of 'exp' has no declared type
 test.y:57.40-43: error: invalid reference: '$r12'
    57 | | exp[l] '^' exp[r]  { $$ = power ($l, $r12); }
       |                                        ^~~~
-test.y:57.3-47:      symbol not found in production: r12
+test.y:57.3-47: note: symbol not found in production: r12
    57 | | exp[l] '^' exp[r]  { $$ = power ($l, $r12); }
       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test.y:58.29-33: error: invalid reference: '$expo'
    58 | | '(' exp ')'        { $$ = $expo;           }
       |                             ^~~~~
-test.y:58.3-46:      symbol not found in production: expo
+test.y:58.3-46: note: symbol not found in production: expo
    58 | | '(' exp ')'        { $$ = $expo;           }
       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
@@ -305,8 +305,8 @@ foo.bar: '2'
 ]])
 AT_BISON_CHECK([-o test.c test.y], 0, [],
 [[test.y:11.22-29: warning: misleading reference: '$foo.bar' [-Wother]
-test.y:11.8-10:      refers to: $foo at $1
-test.y:11.12-18:     possibly meant: $[foo.bar] at $2
+test.y:11.8-10: note: refers to: $foo at $1
+test.y:11.12-18: note: possibly meant: $[foo.bar] at $2
 ]])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -383,162 +383,162 @@ factor:     '(' expr ')'  { $$ = $2; }
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:24.36-41: error: invalid reference: '$cond1'
-test.y:23.11-24.62:  symbol not found in production: cond1
+test.y:23.11-24.62: note: symbol not found in production: cond1
 test.y:26.43-53: error: invalid reference: '$stmt.field'
-test.y:25.11-26.60:  symbol not found in production: stmt
-test.y:25.35-38:     possibly meant: $then.field, hiding $stmt.field at $4
+test.y:25.11-26.60: note: symbol not found in production: stmt
+test.y:25.35-38: note: possibly meant: $then.field, hiding $stmt.field at $4
 test.y:28.43-52: error: invalid reference: '$stmt.list'
-test.y:27.11-28.59:  symbol not found in production: stmt
-test.y:27.30-38:     possibly meant: $[stmt.list] at $4
+test.y:27.11-28.59: note: symbol not found in production: stmt
+test.y:27.30-38: note: possibly meant: $[stmt.list] at $4
 test.y:30.43-46: error: ambiguous reference: '$xyz'
-test.y:29.35-37:     refers to: $xyz at $4
-test.y:29.50-52:     refers to: $xyz at $6
+test.y:29.35-37: note: refers to: $xyz at $4
+test.y:29.50-52: note: refers to: $xyz at $6
 test.y:32.43-52: error: invalid reference: '$stmt.list'
-test.y:31.11-32.63:  symbol not found in production: stmt
-test.y:31.40-43:     possibly meant: $then, hiding $[stmt.list] at $4
-test.y:31.61-64:     possibly meant: $else, hiding $[stmt.list] at $6
+test.y:31.11-32.63: note: symbol not found in production: stmt
+test.y:31.40-43: note: possibly meant: $then, hiding $[stmt.list] at $4
+test.y:31.61-64: note: possibly meant: $else, hiding $[stmt.list] at $6
 test.y:34.43-58: error: invalid reference: '$stmt.list.field'
-test.y:33.11-34.69:  symbol not found in production: stmt
-test.y:33.40-43:     possibly meant: $then.field, hiding $[stmt.list].field at $4
-test.y:33.61-64:     possibly meant: $else.field, hiding $[stmt.list].field at $6
+test.y:33.11-34.69: note: symbol not found in production: stmt
+test.y:33.40-43: note: possibly meant: $then.field, hiding $[stmt.list].field at $4
+test.y:33.61-64: note: possibly meant: $else.field, hiding $[stmt.list].field at $6
 test.y:36.43-54: error: invalid reference: '$[stmt.list]'
-test.y:35.11-36.71:  symbol not found in production: stmt.list
-test.y:35.40-43:     possibly meant: $then, hiding $[stmt.list] at $4
-test.y:35.61-64:     possibly meant: $else, hiding $[stmt.list] at $6
+test.y:35.11-36.71: note: symbol not found in production: stmt.list
+test.y:35.40-43: note: possibly meant: $then, hiding $[stmt.list] at $4
+test.y:35.61-64: note: possibly meant: $else, hiding $[stmt.list] at $6
 test.y:38.43-49: error: invalid reference: '$then.1'
-test.y:37.11-38.60:  symbol not found in production: then
-test.y:37.40-45:     possibly meant: $[then.1] at $4
+test.y:37.11-38.60: note: symbol not found in production: then
+test.y:37.40-45: note: possibly meant: $[then.1] at $4
 test.y:40.43-55: error: invalid reference: '$then.1.field'
-test.y:39.11-40.66:  symbol not found in production: then
-test.y:39.40-45:     possibly meant: $[then.1].field at $4
+test.y:39.11-40.66: note: symbol not found in production: then
+test.y:39.40-45: note: possibly meant: $[then.1].field at $4
 test.y:42.44-50: error: invalid reference: '$stmt.x'
-test.y:41.12-42.57:  symbol not found in production: stmt
-test.y:41.36-41:     possibly meant: $[stmt.x].x, hiding $stmt.x at $4
-test.y:41.36-41:     possibly meant: $[stmt.x] at $4
+test.y:41.12-42.57: note: symbol not found in production: stmt
+test.y:41.36-41: note: possibly meant: $[stmt.x].x, hiding $stmt.x at $4
+test.y:41.36-41: note: possibly meant: $[stmt.x] at $4
 test.y:44.13-22: error: invalid reference: '$if-stmt-a'
-test.y:43.12-44.59:  symbol not found in production: if
-test.y:43.1-9:       possibly meant: $[if-stmt-a] at $$
+test.y:43.12-44.59: note: symbol not found in production: if
+test.y:43.1-9: note: possibly meant: $[if-stmt-a] at $$
 test.y:46.46-54: error: invalid reference: '$then-a.f'
-test.y:45.12-46.65:  symbol not found in production: then
-test.y:45.41-46:     possibly meant: $[then-a].f at $4
+test.y:45.12-46.65: note: symbol not found in production: then
+test.y:45.41-46: note: possibly meant: $[then-a].f at $4
 ]])
 
 AT_BISON_CHECK([-fcaret -o test.c test.y], 1, [],
 [[test.y:24.36-41: error: invalid reference: '$cond1'
    24 |           { $if_stmt1 = new IfStmt($cond1, $then.f1, $else); };
       |                                    ^~~~~~
-test.y:23.11-24.62:  symbol not found in production: cond1
+test.y:23.11-24.62: note: symbol not found in production: cond1
    23 | if_stmt1: IF expr[cond] THEN stmt[then] ELSE stmt.list[else] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 test.y:26.43-53: error: invalid reference: '$stmt.field'
    26 |           { $if_stmt2 = new IfStmt($cond, $stmt.field, 0); };
       |                                           ^~~~~~~~~~~
-test.y:25.11-26.60:  symbol not found in production: stmt
+test.y:25.11-26.60: note: symbol not found in production: stmt
    25 | if_stmt2: IF expr[cond] THEN stmt[then] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:25.35-38:     possibly meant: $then.field, hiding $stmt.field at $4
+test.y:25.35-38: note: possibly meant: $then.field, hiding $stmt.field at $4
    25 | if_stmt2: IF expr[cond] THEN stmt[then] FI
       |                                   ^~~~
 test.y:28.43-52: error: invalid reference: '$stmt.list'
    28 |           { $if_stmt3 = new IfStmt($cond, $stmt.list, 0); };
       |                                           ^~~~~~~~~~
-test.y:27.11-28.59:  symbol not found in production: stmt
+test.y:27.11-28.59: note: symbol not found in production: stmt
    27 | if_stmt3: IF expr[cond] THEN stmt.list FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:27.30-38:     possibly meant: $[stmt.list] at $4
+test.y:27.30-38: note: possibly meant: $[stmt.list] at $4
    27 | if_stmt3: IF expr[cond] THEN stmt.list FI
       |                              ^~~~~~~~~
 test.y:30.43-46: error: ambiguous reference: '$xyz'
    30 |           { $if_stmt4 = new IfStmt($cond, $xyz, $cond); };
       |                                           ^~~~
-test.y:29.35-37:     refers to: $xyz at $4
+test.y:29.35-37: note: refers to: $xyz at $4
    29 | if_stmt4: IF expr[cond] THEN stmt[xyz] ELSE stmt[xyz] FI
       |                                   ^~~
-test.y:29.50-52:     refers to: $xyz at $6
+test.y:29.50-52: note: refers to: $xyz at $6
    29 | if_stmt4: IF expr[cond] THEN stmt[xyz] ELSE stmt[xyz] FI
       |                                                  ^~~
 test.y:32.43-52: error: invalid reference: '$stmt.list'
    32 |           { $if_stmt5 = new IfStmt($cond, $stmt.list, $else); };
       |                                           ^~~~~~~~~~
-test.y:31.11-32.63:  symbol not found in production: stmt
+test.y:31.11-32.63: note: symbol not found in production: stmt
    31 | if_stmt5: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:31.40-43:     possibly meant: $then, hiding $[stmt.list] at $4
+test.y:31.40-43: note: possibly meant: $then, hiding $[stmt.list] at $4
    31 | if_stmt5: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |                                        ^~~~
-test.y:31.61-64:     possibly meant: $else, hiding $[stmt.list] at $6
+test.y:31.61-64: note: possibly meant: $else, hiding $[stmt.list] at $6
    31 | if_stmt5: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |                                                             ^~~~
 test.y:34.43-58: error: invalid reference: '$stmt.list.field'
    34 |           { $if_stmt6 = new IfStmt($cond, $stmt.list.field, $else); };
       |                                           ^~~~~~~~~~~~~~~~
-test.y:33.11-34.69:  symbol not found in production: stmt
+test.y:33.11-34.69: note: symbol not found in production: stmt
    33 | if_stmt6: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:33.40-43:     possibly meant: $then.field, hiding $[stmt.list].field at $4
+test.y:33.40-43: note: possibly meant: $then.field, hiding $[stmt.list].field at $4
    33 | if_stmt6: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |                                        ^~~~
-test.y:33.61-64:     possibly meant: $else.field, hiding $[stmt.list].field at $6
+test.y:33.61-64: note: possibly meant: $else.field, hiding $[stmt.list].field at $6
    33 | if_stmt6: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |                                                             ^~~~
 test.y:36.43-54: error: invalid reference: '$[stmt.list]'
    36 |           { $if_stmt7 = new IfStmt($cond, $[stmt.list].field, $else); };
       |                                           ^~~~~~~~~~~~
-test.y:35.11-36.71:  symbol not found in production: stmt.list
+test.y:35.11-36.71: note: symbol not found in production: stmt.list
    35 | if_stmt7: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:35.40-43:     possibly meant: $then, hiding $[stmt.list] at $4
+test.y:35.40-43: note: possibly meant: $then, hiding $[stmt.list] at $4
    35 | if_stmt7: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |                                        ^~~~
-test.y:35.61-64:     possibly meant: $else, hiding $[stmt.list] at $6
+test.y:35.61-64: note: possibly meant: $else, hiding $[stmt.list] at $6
    35 | if_stmt7: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |                                                             ^~~~
 test.y:38.43-49: error: invalid reference: '$then.1'
    38 |           { $if_stmt8 = new IfStmt($cond, $then.1, $else); };
       |                                           ^~~~~~~
-test.y:37.11-38.60:  symbol not found in production: then
+test.y:37.11-38.60: note: symbol not found in production: then
    37 | if_stmt8: IF expr[cond] THEN stmt.list[then.1] ELSE stmt.list[else] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:37.40-45:     possibly meant: $[then.1] at $4
+test.y:37.40-45: note: possibly meant: $[then.1] at $4
    37 | if_stmt8: IF expr[cond] THEN stmt.list[then.1] ELSE stmt.list[else] FI
       |                                        ^~~~~~
 test.y:40.43-55: error: invalid reference: '$then.1.field'
    40 |           { $if_stmt9 = new IfStmt($cond, $then.1.field, $else); };
       |                                           ^~~~~~~~~~~~~
-test.y:39.11-40.66:  symbol not found in production: then
+test.y:39.11-40.66: note: symbol not found in production: then
    39 | if_stmt9: IF expr[cond] THEN stmt.list[then.1] ELSE stmt.list[else] FI
       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:39.40-45:     possibly meant: $[then.1].field at $4
+test.y:39.40-45: note: possibly meant: $[then.1].field at $4
    39 | if_stmt9: IF expr[cond] THEN stmt.list[then.1] ELSE stmt.list[else] FI
       |                                        ^~~~~~
 test.y:42.44-50: error: invalid reference: '$stmt.x'
    42 |           { $if_stmt10 = new IfStmt($cond, $stmt.x, 0); };
       |                                            ^~~~~~~
-test.y:41.12-42.57:  symbol not found in production: stmt
+test.y:41.12-42.57: note: symbol not found in production: stmt
    41 | if_stmt10: IF expr[cond] THEN stmt[stmt.x] FI
       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:41.36-41:     possibly meant: $[stmt.x].x, hiding $stmt.x at $4
+test.y:41.36-41: note: possibly meant: $[stmt.x].x, hiding $stmt.x at $4
    41 | if_stmt10: IF expr[cond] THEN stmt[stmt.x] FI
       |                                    ^~~~~~
-test.y:41.36-41:     possibly meant: $[stmt.x] at $4
+test.y:41.36-41: note: possibly meant: $[stmt.x] at $4
    41 | if_stmt10: IF expr[cond] THEN stmt[stmt.x] FI
       |                                    ^~~~~~
 test.y:44.13-22: error: invalid reference: '$if-stmt-a'
    44 |           { $if-stmt-a = new IfStmt($cond, $then, $else); };
       |             ^~~~~~~~~~
-test.y:43.12-44.59:  symbol not found in production: if
+test.y:43.12-44.59: note: symbol not found in production: if
    43 | if-stmt-a: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:43.1-9:       possibly meant: $[if-stmt-a] at $$
+test.y:43.1-9: note: possibly meant: $[if-stmt-a] at $$
    43 | if-stmt-a: IF expr[cond] THEN stmt.list[then] ELSE stmt.list[else] FI
       | ^~~~~~~~~
 test.y:46.46-54: error: invalid reference: '$then-a.f'
    46 |           { $[if-stmt-b] = new IfStmt($cond, $then-a.f, $else); };
       |                                              ^~~~~~~~~
-test.y:45.12-46.65:  symbol not found in production: then
+test.y:45.12-46.65: note: symbol not found in production: then
    45 | if-stmt-b: IF expr[cond] THEN if-stmt-a[then-a] ELSE stmt.list[else] FI
       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.y:45.41-46:     possibly meant: $[then-a].f at $4
+test.y:45.41-46: note: possibly meant: $[then-a].f at $4
    45 | if-stmt-b: IF expr[cond] THEN if-stmt-a[then-a] ELSE stmt.list[else] FI
       |                                         ^~~~~~
 ]])
@@ -675,37 +675,37 @@ sym_b: 'b';
 ]])
 AT_BISON_CHECK([-o test.c test.y], 1, [],
 [[test.y:12.22-31: error: invalid reference: '$sym.field'
-test.y:12.3-35:      symbol not found in production: sym
+test.y:12.3-35: note: symbol not found in production: sym
 test.y:13.22-35: error: invalid reference: '$<aa>sym.field'
-test.y:13.3-39:      symbol not found in production: sym
+test.y:13.3-39: note: symbol not found in production: sym
 test.y:14.22-33: error: invalid reference: '$[sym.field]'
-test.y:14.3-37:      symbol not found in production: sym.field
+test.y:14.3-37: note: symbol not found in production: sym.field
 test.y:15.22-37: error: invalid reference: '$<aa>[sym.field]'
-test.y:15.3-41:      symbol not found in production: sym.field
+test.y:15.3-41: note: symbol not found in production: sym.field
 test.y:16.22-25: error: invalid reference: '$sym'
-test.y:16.3-29:      symbol not found in production: sym
+test.y:16.3-29: note: symbol not found in production: sym
 test.y:17.22-29: error: invalid reference: '$<aa>sym'
-test.y:17.3-33:      symbol not found in production: sym
+test.y:17.3-33: note: symbol not found in production: sym
 test.y:18.22-27: error: invalid reference: '$[sym]'
-test.y:18.3-65:      symbol not found in production before $3: sym
+test.y:18.3-65: note: symbol not found in production before $3: sym
 test.y:18.52-61: error: invalid reference: '$<aa>[sym]'
-test.y:18.3-65:      symbol not found in production: sym
+test.y:18.3-65: note: symbol not found in production: sym
 test.y:22.22-31: error: invalid reference: '$sym-field'
-test.y:22.3-35:      symbol not found in production: sym
+test.y:22.3-35: note: symbol not found in production: sym
 test.y:23.22-35: error: invalid reference: '$<aa>sym-field'
-test.y:23.3-39:      symbol not found in production: sym
+test.y:23.3-39: note: symbol not found in production: sym
 test.y:24.22-33: error: invalid reference: '$[sym-field]'
-test.y:24.3-37:      symbol not found in production: sym-field
+test.y:24.3-37: note: symbol not found in production: sym-field
 test.y:25.22-37: error: invalid reference: '$<aa>[sym-field]'
-test.y:25.3-41:      symbol not found in production: sym-field
+test.y:25.3-41: note: symbol not found in production: sym-field
 test.y:26.22-25: error: invalid reference: '$sym'
-test.y:26.3-29:      symbol not found in production: sym
+test.y:26.3-29: note: symbol not found in production: sym
 test.y:27.22-29: error: invalid reference: '$<aa>sym'
-test.y:27.3-33:      symbol not found in production: sym
+test.y:27.3-33: note: symbol not found in production: sym
 test.y:28.22-27: error: invalid reference: '$[sym]'
-test.y:28.3-65:      symbol not found in production before $3: sym
+test.y:28.3-65: note: symbol not found in production before $3: sym
 test.y:28.52-61: error: invalid reference: '$<aa>[sym]'
-test.y:28.3-65:      symbol not found in production: sym
+test.y:28.3-65: note: symbol not found in production: sym
 ]])
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -724,10 +724,10 @@ start:
 ]])
 AT_BISON_CHECK([[test.y]], [[1]], [],
 [[test.y:4.12-18: error: invalid reference: '$.field'
-test.y:4.13:        syntax error after '$', expecting integer, letter, '_', '@<:@', or '$'
-test.y:4.3-8:       possibly meant: $[.field] at $1
+test.y:4.13: note: syntax error after '$', expecting integer, letter, '_', '@<:@', or '$'
+test.y:4.3-8: note: possibly meant: $[.field] at $1
 test.y:5.12-18: error: invalid reference: '@.field'
-test.y:5.13:        syntax error after '@', expecting integer, letter, '_', '@<:@', or '$'
+test.y:5.13: note: syntax error after '@', expecting integer, letter, '_', '@<:@', or '$'
 ]])
 AT_DATA([[test.y]],
 [[

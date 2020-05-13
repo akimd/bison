@@ -1,6 +1,6 @@
 # Checking GLR Parsing: Regression Tests           -*- Autotest -*-
 
-# Copyright (C) 2002-2003, 2005-2007, 2009-2015, 2018-2019 Free Software
+# Copyright (C) 2002-2003, 2005-2007, 2009-2015, 2018-2020 Free Software
 # Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
@@ -41,8 +41,8 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
 %}
 
 
+%define parse.assert
 %glr-parser
-
 
 /* -------- productions ------ */
 %%
@@ -128,6 +128,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
   ]AT_YYLEX_DECLARE[
 %}
 
+%define parse.assert
 %glr-parser
 
 %%
@@ -265,6 +266,7 @@ static int MergeRule (int x0, int x1);
 
 %}
 
+%define parse.assert
 %glr-parser
 
 %token BAD_CHAR
@@ -370,6 +372,7 @@ AT_SETUP([Duplicate representation of merged trees])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([glr-regr4.y],
 [[
+%define parse.assert
 %union { char *ptr; }
 %type <ptr> S A A1 A2 B
 %glr-parser
@@ -469,6 +472,7 @@ AT_DATA_GRAMMAR([glr-regr5.y],
   enum { MAGIC_VALUE = -1057808125 }; /* originally chosen at random */
 %}
 
+%define parse.assert
 %glr-parser
 %union { int value; }
 %type <value> start
@@ -524,6 +528,7 @@ AT_DATA_GRAMMAR([glr-regr6.y],
   ]AT_YYLEX_DECLARE[
 %}
 
+%define parse.assert
 %glr-parser
 %union { int value; }
 %type <value> 'a'
@@ -580,6 +585,7 @@ AT_DATA_GRAMMAR([glr-regr7.y],
   static count_node *tail;
 %}
 
+%define parse.assert
 %glr-parser
 %union { count_node *node; }
 %type <node> 'a'
@@ -667,6 +673,7 @@ AT_DATA_GRAMMAR([glr-regr8.y],
 %token T_PORT
 %token T_SIGNAL
 
+%define parse.assert
 %glr-parser
 
 %%
@@ -756,6 +763,7 @@ AT_DATA_GRAMMAR([glr-regr9.y],
 # define USE(Var)
 %}
 
+%define parse.assert
 %glr-parser
 %union { int dummy; }
 %type <dummy> 'a'
@@ -831,6 +839,7 @@ AT_DATA_GRAMMAR([glr-regr10.y],
   static char garbage[GARBAGE_SIZE];
 %}
 
+%define parse.assert
 %glr-parser
 %union { char *ptr; }
 %type <ptr> start
@@ -884,6 +893,7 @@ AT_DATA_GRAMMAR([glr-regr11.y],
 # define USE(val)
 %}
 
+%define parse.assert
 %glr-parser
 %union { int dummy; }
 %type <int> 'a'
@@ -934,6 +944,7 @@ AT_SETUP([Leaked semantic values if user action cuts parse])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([glr-regr12.y],
 [[
+%define parse.assert
 %glr-parser
 %union { int dummy; }
 %token PARENT_RHS_AFTER
@@ -1073,6 +1084,7 @@ AT_DATA_GRAMMAR([glr-regr13.y],
   #define USE(value)
 %}
 
+%define parse.assert
 %union { char value; }
 %type <value> 'a' 'b'
 %glr-parser
@@ -1213,6 +1225,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
   #define USE(value)
 %}
 
+%define parse.assert
 %type <value> 'a' 'b' 'c' 'd' stack_explosion
 %glr-parser
 %locations
@@ -1397,6 +1410,7 @@ AT_SETUP([Leaked semantic values when reporting ambiguity])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([glr-regr15.y],
 [[
+%define parse.assert
 %glr-parser
 %destructor { parent_rhs_before_value = 0; } parent_rhs_before
 
@@ -1479,6 +1493,7 @@ AT_SETUP([Leaked lookahead after nondeterministic parse syntax error])
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([glr-regr16.y],
 [[
+%define parse.assert
 %glr-parser
 %destructor { lookahead_value = 0; } 'b'
 
@@ -1540,6 +1555,7 @@ AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations %define api.pure])
 
 AT_DATA_GRAMMAR([glr-regr17.y],
 [[
+%define parse.assert
 %glr-parser
 %locations
 %define api.pure
@@ -1612,7 +1628,8 @@ AT_SETUP([Missed %merge type warnings when LHS type is declared later])
 
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([glr-regr18.y],
-[[%glr-parser
+[[%define parse.assert
+%glr-parser
 
 %{
   #include <stdlib.h>
@@ -1625,7 +1642,6 @@ AT_DATA_GRAMMAR([glr-regr18.y],
   int type2;
   int type3;
 }
-
 %%
 
 sym1: sym2 %merge<merge> { $$ = $1; } ;
@@ -1645,9 +1661,9 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr18.c -rall glr-regr18.y]], 1, [],
 [[glr-regr18.y:28.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
-glr-regr18.y:27.18-24:     previous declaration
+glr-regr18.y:27.18-24: note: previous declaration
 glr-regr18.y:29.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
-glr-regr18.y:28.18-24:     previous declaration
+glr-regr18.y:28.18-24: note: previous declaration
 ]])
 
 AT_CLEANUP
@@ -1661,14 +1677,14 @@ AT_SETUP([Ambiguity reports])
 
 AT_BISON_OPTION_PUSHDEFS([%debug])
 AT_DATA_GRAMMAR([input.y],
-[[
-%{
+[[%{
   #include <stdio.h>
   #include <stdlib.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 %}
 
+%define parse.assert
 %debug
 %glr-parser
 
@@ -1684,7 +1700,6 @@ d: /* nada.  */;
 ]AT_YYLEX_DEFINE(["abc"])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o input.c input.y]], 0, [],
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
@@ -1694,23 +1709,27 @@ AT_COMPILE([input])
 AT_PARSER_CHECK([[input --debug]], 1, [],
 [Starting parse
 Entering state 0
-Reading a token: Next token is token 'a' ()
+Reading a token
+Next token is token 'a' ()
 Shifting token 'a' ()
 Entering state 1
-Reading a token: Next token is token 'b' ()
+Reading a token
+Next token is token 'b' ()
 Shifting token 'b' ()
 Entering state 3
 Reducing stack 0 by rule 3 (line 27):
    $1 = token 'b' ()
 -> $$ = nterm b ()
 Entering state 4
-Reading a token: Next token is token 'c' ()
+Reading a token
+Next token is token 'c' ()
 Shifting token 'c' ()
 Entering state 6
 Reducing stack 0 by rule 4 (line 28):
 -> $$ = nterm d ()
 Entering state 7
-Reading a token: Now at end of input.
+Reading a token
+Now at end of input.
 Stack 0 Entering state 7
 Now at end of input.
 Splitting off stack 1 from 0.
@@ -1723,7 +1742,7 @@ Stack 1 Entering state 2
 Now at end of input.
 Removing dead stacks.
 Rename stack 1 -> 0.
-On stack 0, shifting token $end ()
+On stack 0, shifting token "end of file" ()
 Stack 0 now in state #5
 Ambiguity detected.
 Option 1,
@@ -1741,7 +1760,7 @@ Option 2,
     d <empty>
 
 syntax is ambiguous
-Cleanup: popping token $end ()
+Cleanup: popping token "end of file" ()
 Cleanup: popping unresolved nterm start ()
 Cleanup: popping nterm d ()
 Cleanup: popping token 'c' ()
@@ -1749,6 +1768,7 @@ Cleanup: popping nterm b ()
 Cleanup: popping token 'a' ()
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1761,8 +1781,10 @@ AT_CLEANUP
 
 AT_SETUP([Predicates])
 
+AT_BISON_OPTION_PUSHDEFS
 AT_DATA_GRAMMAR([input.y],
-[[%glr-parser
+[[%define parse.assert
+%glr-parser
 %define parse.error verbose
 %expect-rr 1
 %code requires
@@ -1812,4 +1834,5 @@ AT_PARSER_CHECK([[input Owio]], [0], [old])
 AT_PARSER_CHECK([[input Nwio]], [1], [], [[syntax error, unexpected 'o', expecting 'n'
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
