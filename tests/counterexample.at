@@ -22,6 +22,7 @@ AT_BANNER([[Counterexamples.]])
 ## --------------------- ##
 
 AT_SETUP([Unifying S/R])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C
@@ -33,8 +34,17 @@ x: B | B C;
 y: A | A B;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+1:    3 a: A .
+1:    8 y: A . B
+On Symbol: B
+Example  A  •  B  C
+First  derivation  s ::=[ a ::=[ A  • ]  x ::=[ B  C ] ]
+Second derivation  s ::=[ y ::=[ A  •  B ]  c ::=[ C ] ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y:4.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -44,6 +54,7 @@ AT_CLEANUP
 ## ------------------- ##
 
 AT_SETUP([Deep Unifying S/R])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C
@@ -55,8 +66,17 @@ a: A | A a;
 bc: B bc C | B C;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+1:    7 a: A .
+1:    5 b: . B
+On Symbol: B
+Example  A  •  B  C
+First  derivation  s ::=[ a ::=[ A  • ]  bc ::=[ B  C ] ]
+Second derivation  s ::=[ ac ::=[ A  ac ::=[ b ::=[ •  B ] ]  C ] ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -66,6 +86,7 @@ AT_CLEANUP
 ## ------------------------------------ ##
 
 AT_SETUP([S/R Conflict with Nullable Symbols])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B X Y
@@ -78,8 +99,26 @@ y: %empty | Y y;
 xby: B | X xby Y;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+1:    4 x: . %empty
+1:    9 xby: . B
+On Symbol: B
+Example  A  •  B  y
+First  derivation  s ::=[ ax ::=[ A  x ::=[ • ] ]  by ::=[ B  y ] ]
+Second derivation  s ::=[ A  xby ::=[ •  B ] ]
+
+Shift-Reduce Conflict:
+5:    4 x: . %empty
+5:    9 xby: . B
+On Symbol: B
+First  Example A  X  •  B  y  $end
+First  derivation  $accept ::=[ s ::=[ ax ::=[ A  x ::=[ X  x ::=[ • ] ] ]  by ::=[ B  y ] ]  $end ]
+Second Example A  X  •  B  Y  $end
+Second derivation  $accept ::=[ s ::=[ A  xby ::=[ X  xby ::=[ •  B ]  Y ] ]  $end ]
+
+input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+input.y:5.4-9: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -89,6 +128,7 @@ AT_CLEANUP
 ## ---------------------------- ##
 
 AT_SETUP([Non-unifying Ambiguous S/R])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C D E
@@ -101,8 +141,18 @@ cd: C D;
 bc: B C;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+2:    7 b: B .
+2:    9 bc: B . C
+On Symbol: C
+First  Example B  •  C  D  $end
+First  derivation  $accept ::=[ g ::=[ x ::=[ b ::=[ B  • ]  cd ::=[ C  D ] ] ]  $end ]
+Second Example B  •  C  $end
+Second derivation  $accept ::=[ g ::=[ x ::=[ bc ::=[ B  •  C ] ] ]  $end ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -112,6 +162,7 @@ AT_CLEANUP
 ## ------------------------------ ##
 
 AT_SETUP([Non-unifying Unambiguous S/R])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B
@@ -122,8 +173,17 @@ x: A;
 y: A A B;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+1:    5 x: A .
+1:    6 y: A . A B
+On Symbol: A
+First  Example A  •  A  $end
+First  derivation  $accept ::=[ s ::=[ s ::=[ t ::=[ x ::=[ A  • ] ] ]  t ::=[ x ::=[ A ] ] ]  $end ]
+Second Example A  •  A  B  $end
+Second derivation  $accept ::=[ s ::=[ t ::=[ y ::=[ A  •  A  B ] ] ]  $end ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
 
 AT_CLEANUP
@@ -133,6 +193,7 @@ AT_CLEANUP
 ## ----------------------- ##
 
 AT_SETUP([S/R after first token])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B X Y
@@ -148,8 +209,27 @@ xy: X Y;
 y: Y;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+4:    3 r: b .
+4:    7 s: b . A xx y
+On Symbol: A
+Example  b  •  A  X  X  Y
+First  derivation  a ::=[ r ::=[ b  • ]  t ::=[ A  x ::=[ X ]  xy ::=[ X  Y ] ] ]
+Second derivation  a ::=[ s ::=[ b  •  xx ::=[ A  X  X ]  y ::=[ Y ] ] ]
+
+Shift-Reduce Conflict:
+10:    8 x: X .
+10:    9 xx: X . X
+On Symbol: X
+First  Example X  •  X
+First  derivation  t ::=[ x ::=[ X  • ]  X ]
+Second Example A  X  •  X
+Second derivation  a ::=[ t ::=[ A  xx ::=[ X  •  X ] ] ]
+
+input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+input.y:4.4: warning: rule useless in parser due to conflicts [-Wother]
+input.y:8.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -159,6 +239,7 @@ AT_CLEANUP
 ## ----------------------------- ##
 
 AT_SETUP([Unifying R/R counterexample])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A
@@ -167,8 +248,17 @@ a : A b ;
 b : A | b;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Reduce-Reduce Conflict:
+4:    1 a: A b .
+4:    3 b: b .
+On Symbols: {$end,}
+Example  A  b  •
+First  derivation  a ::=[ A  b  • ]
+Second derivation  a ::=[ A  b ::=[ b  • ] ]
+
+input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -178,6 +268,7 @@ AT_CLEANUP
 ## ------------------------------- ##
 
 AT_SETUP([Non-unifying R/R lr1 conflict])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C D
@@ -187,8 +278,18 @@ a: D;
 b: D;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Reduce-Reduce Conflict:
+2:    5 a: D .
+2:    6 b: D .
+On Symbols: {A,C,}
+First  Example D  •  A  $end
+First  derivation  $accept ::=[ s ::=[ a ::=[ D  • ]  A ]  $end ]
+Second Example B  D  •  A  $end
+Second derivation  $accept ::=[ s ::=[ B  b ::=[ D  • ]  A ]  $end ]
+
+input.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
+input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -198,6 +299,7 @@ AT_CLEANUP
 ## ------------------------------- ##
 
 AT_SETUP([Non-unifying R/R lr2 conflict])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token H J K X
@@ -207,8 +309,19 @@ a: H i;
 i: X | i J K;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+5:    2 a: H i .
+5:    4 i: i . J K
+On Symbol: J
+time limit exceeded: 6.000000
+First  Example H  i  •  J  $end
+First  derivation  $accept ::=[ s ::=[ a ::=[ H  i  • ]  J ]  $end ]
+Second Example H  i  •  J  K  $end
+Second derivation  $accept ::=[ a ::=[ H  i ::=[ i  •  J  K ] ]  $end ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y:4.4-6: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -221,6 +334,7 @@ AT_CLEANUP
 # graph search
 
 AT_SETUP([Cex Search Prepend])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token N A B C D
@@ -231,8 +345,17 @@ a: A;
 b: A B C | A B D;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+4:    7 a: A .
+4:    8 b: A . B C
+On Symbol: B
+Example  N  A  •  B  C
+First  derivation  s ::=[ n ::=[ N  a ::=[ A  • ]  B ]  C ]
+Second derivation  s ::=[ n ::=[ N  b ::=[ A  •  B  C ] ] ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -245,6 +368,7 @@ AT_CLEANUP
 # precedence/associativity directives work.
 
 AT_SETUP([R/R cex with prec])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%left b
@@ -256,8 +380,24 @@ B : A b A;
 C : A c A;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Reduce-Reduce Conflict:
+3:    3 A: B .
+3:    5 A: . %empty
+On Symbols: {b,c,}
+Example  B  •  b  A  A  c  A
+First  derivation  S ::=[ B ::=[ A ::=[ B  • ]  b  A ]  C ::=[ A  c  A ] ]
+Second derivation  S ::=[ B  C ::=[ A ::=[ B ::=[ A ::=[ • ]  b  A ] ]  c  A ] ]
+
+Reduce-Reduce Conflict:
+4:    4 A: C .
+4:    5 A: . %empty
+On Symbols: {b,c,}
+Example  C  •  c  A  A  b  A
+First  derivation  S ::=[ C ::=[ A ::=[ C  • ]  c  A ]  B ::=[ A  b  A ] ]
+Second derivation  S ::=[ C  B ::=[ A ::=[ C ::=[ A ::=[ • ]  c  A ] ]  b  A ] ]
+
+input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
 ]])
 
 AT_CLEANUP
@@ -267,6 +407,7 @@ AT_CLEANUP
 ## ------------------- ##
 
 AT_SETUP([Null nonterminals])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A
@@ -277,9 +418,8 @@ c : ;
 d : a | c A | d;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
-]])
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[]])
 
 AT_CLEANUP
 
@@ -288,6 +428,7 @@ AT_CLEANUP
 ## --------------------------- ##
 
 AT_SETUP([Non-unifying Prefix Share])
+AT_KEYWORDS([cex])
 
 # Tests for a counterexample which should start its derivation
 # at a shared symbol rather than the start symbol.
@@ -300,8 +441,17 @@ a: H i J J
 i: %empty | i J;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+7:    5 i: i J .
+7:    3 a: H i J . J
+On Symbol: J
+Example  H  i  J  •  J  J
+First  derivation  s ::=[ a ::=[ H  i ::=[ i  J  • ]  J  J ] ]
+Second derivation  s ::=[ a ::=[ H  i  J  •  J ]  J ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y:5.13-15: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
 AT_CLEANUP
@@ -314,6 +464,7 @@ AT_CLEANUP
 # are derived correctly.
 
 AT_SETUP([Deep Null Unifying])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token a d
@@ -325,8 +476,16 @@ C: %empty
 D: d;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+3:    5 C: . %empty
+3:    6 D: . d
+On Symbol: d
+Example  a  A  •  d
+First  derivation  S ::=[ a  A  A ::=[ B ::=[ C ::=[ • ] ] ]  D ::=[ d ] ]
+Second derivation  S ::=[ a  A  D ::=[ •  d ] ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
 
 AT_CLEANUP
@@ -338,6 +497,7 @@ AT_CLEANUP
 # Tests that expand_to_conflict works with nullable sybols
 
 AT_SETUP([Deep Null Non-unifying])
+AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token a d e
@@ -349,8 +509,17 @@ C: %empty
 D: d;
 ]])
 
-AT_BISON_CHECK([-Wcounterexample input.y], 0, [],
-[[
+AT_BISON_CHECK([-Wcounterexample input.y], [], [],
+[[Shift-Reduce Conflict:
+3:    5 C: . %empty
+3:    6 D: . d
+On Symbol: d
+First  Example a  A  •  d  e  $end
+First  derivation  $accept ::=[ S ::=[ a  A  A ::=[ B ::=[ C ::=[ • ] ] ]  D ::=[ d ]  e ]  $end ]
+Second Example a  A  •  d  $end
+Second derivation  $accept ::=[ S ::=[ a  A  D ::=[ •  d ] ]  $end ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
 
 AT_CLEANUP

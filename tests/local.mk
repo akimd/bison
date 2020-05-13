@@ -47,6 +47,7 @@ TESTSUITE_AT =                                \
   %D%/c++.at                                  \
   %D%/calc.at                                 \
   %D%/conflicts.at                            \
+  %D%/counterexample.at                       \
   %D%/cxx-type.at                             \
   %D%/diagnostics.at                          \
   %D%/existing.at                             \
