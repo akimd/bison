@@ -1424,6 +1424,11 @@ char quote[] = "@:>@@:>@,";
 /* Exercise quotes in strings.  */
 %token FAKE "fake @<:@@:>@ \a\b\f\n\r\t\v\"\'\?\\\u005B\U0000005c ??!??'??(??)??-??/??<??=??> \x1\1"
 
+/* Beware of the generated comments that embed string aliases that
+   might close the comment.  */
+%token COMMENT_CLOSE "*/"
+%token COMMENT       "/* comment */"
+
 %%
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 1.  */
 exp: '@<:@' '\1' two '$' '@' '{' oline output.or.oline.opt

@@ -22,10 +22,14 @@
 # Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
 # Avoid adding indentation to the first line, as the indentation comes
 # from OPEN.  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
+# Turn "*/" in TEXT into "* /" so that we don't unexpectedly close
+# the comments before its end.
 #
 # Prefix all the output lines with PREFIX.
 m4_define([_b4_comment],
-[$2[]m4_bpatsubst(m4_expand([[$1]]), [
+[$2[]m4_bpatsubsts(m4_expand([$1]),
+                   [[*]/], [*\\/],
+                   [/[*]], [/\\*], [
 \(.\)], [
 $3\1])$4])
 

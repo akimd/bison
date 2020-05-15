@@ -6,6 +6,12 @@ GNU Bison NEWS
 
   Some tests were fixed.
 
+  When token aliases contain comment delimiters:
+
+    %token FOO "/* foo */"
+
+  bison used to emit "nested" comments, which is invalid C.
+
 * Noteworthy changes in release 3.6.1 (2020-05-10) [stable]
 
 ** Bug fixes

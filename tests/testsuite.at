@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Basic M4 macros.
+m4_include([m4.at])
 
 # Resistance to user bugs.
 m4_include([input.at])
