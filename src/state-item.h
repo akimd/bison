@@ -63,7 +63,7 @@ typedef int state_item_number;
 
 typedef struct
 {
-  state *state;
+  const state *state;
   item_number *item;
   bitset lookahead;
 } state_item;
