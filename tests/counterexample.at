@@ -419,7 +419,84 @@ d : a | c A | d;
 ]])
 
 AT_BISON_CHECK([-Wcounterexample input.y], [], [],
-[[]])
+[[Reduce-Reduce Conflict:
+0:    3 b: . %empty
+0:    4 c: . %empty
+On Symbols: {A,}
+First  Example •  c  A  A  $end
+First  derivation  $accept ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ]  $end ]
+Second Example •  c  A  A  $end
+Second derivation  $accept ::=[ a ::=[ c ::=[ • ]  d ::=[ c  A  A ] ]  $end ]
+
+Reduce-Reduce Conflict:
+2:    3 b: . %empty
+2:    4 c: . %empty
+On Symbols: {A,}
+time limit exceeded: 6.000000
+First  Example b  •  c  A  A  $end
+First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ]  $end ]
+Second Example b  •  A  $end
+Second derivation  $accept ::=[ a ::=[ b  d ::=[ c ::=[ • ]  A ] ]  $end ]
+
+Reduce-Reduce Conflict:
+3:    3 b: . %empty
+3:    4 c: . %empty
+On Symbols: {A,}
+time limit exceeded: 6.000000
+First  Example c  •  c  A  A  $end
+First  derivation  $accept ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ]  $end ]
+Second Example c  •  A  $end
+Second derivation  $accept ::=[ a ::=[ c  d ::=[ c ::=[ • ]  A ] ]  $end ]
+
+Shift-Reduce Conflict:
+6:    3 b: . %empty
+6:    6 d: c . A
+On Symbol: A
+time limit exceeded: 6.000000
+First  Example b  c  •  c  A  A  $end
+First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ] ] ]  $end ]
+Second Example b  c  •  A
+Second derivation  a ::=[ b  d ::=[ c  •  A ] ]
+
+Reduce-Reduce Conflict:
+6:    3 b: . %empty
+6:    4 c: . %empty
+On Symbols: {A,}
+First  Example b  c  •  c  A  A  $end
+First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ] ] ]  $end ]
+Second Example b  c  •  A  $end
+Second derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ c ::=[ • ]  A ] ] ] ]  $end ]
+
+Shift-Reduce Conflict:
+6:    4 c: . %empty
+6:    6 d: c . A
+On Symbol: A
+First  Example b  c  •  A  $end
+First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ c ::=[ • ]  A ] ] ] ]  $end ]
+Second Example b  c  •  A
+Second derivation  a ::=[ b  d ::=[ c  •  A ] ]
+
+Reduce-Reduce Conflict:
+7:    1 a: b d .
+7:    7 d: d .
+On Symbols: {$end,}
+Example  b  d  •
+First  derivation  a ::=[ b  d  • ]
+Second derivation  a ::=[ b  d ::=[ d  • ] ]
+
+Reduce-Reduce Conflict:
+8:    2 a: c d .
+8:    7 d: d .
+On Symbols: {$end,}
+Example  c  d  •
+First  derivation  a ::=[ c  d  • ]
+Second derivation  a ::=[ c  d ::=[ d  • ] ]
+
+input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+input.y: warning: 6 reduce/reduce conflicts [-Wconflicts-rr]
+input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
+input.y:6.15: warning: rule useless in parser due to conflicts [-Wother]
+]])
 
 AT_CLEANUP
 
