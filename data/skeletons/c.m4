@@ -355,18 +355,15 @@ m4_define([b4_attribute_define],
 #endif
 
 ]m4_bmatch([$1], [\bnoreturn\b], [[/* The _Noreturn keyword of C11.  */
-]dnl This is an exact copy of lib/_Noreturn.h.
+]dnl This is close to lib/_Noreturn.h, except that we do enable
+dnl the use of [[noreturn]], because _Noreturn is used in places
+dnl where [[noreturn]] works in C++.  We need this in particular
+dnl because of glr.cc which compiles code from glr.c in C++.
+dnl And the C++ compiler chokes on _Noreturn.
 [#ifndef _Noreturn
 # if (defined __cplusplus \
       && ((201103 <= __cplusplus && !(__GNUC__ == 4 && __GNUC_MINOR__ == 7)) \
-          || (defined _MSC_VER && 1900 <= _MSC_VER)) \
-      && 0)
-    /* [[noreturn]] is not practically usable, because with it the syntax
-         extern _Noreturn void func (...);
-       would not be valid; such a declaration would only be valid with 'extern'
-       and '_Noreturn' swapped, or without the 'extern' keyword.  However, some
-       AIX system header files and several gnulib header files use precisely
-       this syntax with 'extern'.  */
+          || (defined _MSC_VER && 1900 <= _MSC_VER)))
 #  define _Noreturn [[noreturn]]
 # elif ((!defined __cplusplus || defined __clang__)                     \
         && (201112 <= (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0)  \
