@@ -359,13 +359,14 @@ m4_define([b4_attribute_define],
 dnl the use of [[noreturn]], because _Noreturn is used in places
 dnl where [[noreturn]] works in C++.  We need this in particular
 dnl because of glr.cc which compiles code from glr.c in C++.
-dnl And the C++ compiler chokes on _Noreturn.
+dnl And the C++ compiler chokes on _Noreturn.  Also, we do not
+dnl use C' _Noreturn in C++, to avoid -Wc11-extensions warnings.
 [#ifndef _Noreturn
 # if (defined __cplusplus \
       && ((201103 <= __cplusplus && !(__GNUC__ == 4 && __GNUC_MINOR__ == 7)) \
           || (defined _MSC_VER && 1900 <= _MSC_VER)))
 #  define _Noreturn [[noreturn]]
-# elif ((!defined __cplusplus || defined __clang__)                     \
+# elif (!defined __cplusplus                     \
         && (201112 <= (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0)  \
             || 4 < __GNUC__ + (7 <= __GNUC_MINOR__) \
             || (defined __apple_build_version__ \
