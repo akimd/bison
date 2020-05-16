@@ -222,8 +222,8 @@ Shift-Reduce Conflict:
 10:    8 x: X .
 10:    9 xx: X . X
 On Symbol: X
-First  Example X  •  X
-First  derivation  t ::=[ x ::=[ X  • ]  X ]
+First  Example X  •  X  xy
+First  derivation  a ::=[ x ::=[ X  • ]  t ::=[ X  xy ] ]
 Second Example A  X  •  X
 Second derivation  a ::=[ t ::=[ A  xx ::=[ X  •  X ] ] ]
 
