@@ -69,53 +69,53 @@ jobs:
 
     # Start with three completely different environments, to get errors asap.
 
-    - name: "GCC 9 -O3"
+    - name: "GCC 10 -O3"
       stage: check
       os: linux
       dist: bionic
-      addons: &gcc9
+      addons: &gcc10
         apt:
           sources:
             # See https://github.com/travis-ci/apt-source-safelist/issues/410.
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages: g++-9
+          packages: g++-10
       env:
-        - CC=gcc-9
-        - CXX=g++-9
+        - CC=gcc-10
+        - CXX=g++-10
         - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     # ASAN is time consuming, and we timeout the 50min granted by
     # Travis if we run all the tests in one go.  Run in two parts.
-    - name: "Clang 9 libc++ and ASAN part 1"
+    - name: "Clang 10 libc++ and ASAN part 1"
       stage: check
       os: linux
       dist: bionic
-      addons: &clang9
+      addons: &clang10
         apt:
           sources:
             # See https://github.com/travis-ci/apt-source-safelist/issues/410.
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
-            - clang-9
-            - libc++-9-dev
-            - libc++abi-9-dev
+            - clang-10
+            - libc++-10-dev
+            - libc++abi-10-dev
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - CC='clang-9 -fsanitize=address'
-        - CXX='clang++-9 -fsanitize=address -stdlib=libc++'
+        - CC='clang-10 -fsanitize=address'
+        - CXX='clang++-10 -fsanitize=address -stdlib=libc++'
         - PART=1
 
-    - name: "Clang 9 libc++ and ASAN part 2"
+    - name: "Clang 10 libc++ and ASAN part 2"
       stage: check
       os: linux
       dist: bionic
-      addons: *clang9
+      addons: *clang10
       env:
         # Do not use ASAN with ubuntu's libc++: https://bugs.llvm.org/show_bug.cgi?id=17379
-        - CC='clang-9 -fsanitize=address'
-        - CXX='clang++-9 -fsanitize=address -stdlib=libc++'
+        - CC='clang-10 -fsanitize=address'
+        - CXX='clang++-10 -fsanitize=address -stdlib=libc++'
         - PART=2
 
     - name: "ICC"
@@ -135,46 +135,41 @@ jobs:
           packages:
           - intel-oneapi-icc
 
-    ## ------- ##
-    ## First.  ##
-    ## ------- ##
-
-    # Start with three completely different environments, to get
-    # errors asap.
-
-    - name: "ARM64: GCC 9 -O3 part 1"
+    - name: "ARM64: GCC 10 -O3 part 1"
       stage: check
       os: linux
       arch: arm64
       dist: bionic
-      addons: *gcc9
+      addons: *gcc10
       env:
-        - CC=gcc-9
-        - CXX=g++-9
+        - CC=gcc-10
+        - CXX=g++-10
         - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
         - PART=1
 
+    # GCC10 on PPC seems to be buggy.
+    # E.g., https://travis-ci.org/github/akimd/bison/jobs/687812428.
     - name: "PPC64le: GCC 9 part 1"
       stage: check
       os: linux
       arch: ppc64le
       dist: bionic
-      addons: *gcc9
+      addons: *gcc10
       env:
         - CC=gcc-9
         - CXX=g++-9
         - CONFIGUREFLAGS='CFLAGS=-O3 CXXFLAGS=-O3'
         - PART=1
 
-    - name: "s390x: GCC 9 part 1"
+    - name: "s390x: GCC 10 part 1"
       stage: check
       os: linux
       arch: s390x
       dist: bionic
-      addons: *gcc9
+      addons: *gcc10
       env:
-        - CC=gcc-9
-        - CXX=g++-9
+        - CC=gcc-10
+        - CXX=g++-10
         - CONFIGUREFLAGS='CFLAGS=-O3 CXXFLAGS=-O3'
         - PART=1
 
@@ -182,15 +177,19 @@ jobs:
     ## GCC.  ##
     ## ----- ##
 
-    - name: "GCC 8 with sanitizers part 1"
+    - name: "GCC 9 with sanitizers part 1"
+      stage: check
       os: linux
       dist: bionic
       addons:
         apt:
-          packages: g++-8
+          sources:
+            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: g++-9
       env:
-        - CC='gcc-8 -fsanitize=undefined,address -fno-omit-frame-pointer'
-        - CXX='g++-8 -fsanitize=undefined,address -fno-omit-frame-pointer'
+        - CC='gcc-9 -fsanitize=undefined,address -fno-omit-frame-pointer'
+        - CXX='g++-9 -fsanitize=undefined,address -fno-omit-frame-pointer'
         - CONFIGUREFLAGS='CFLAGS=-O1 CXXFLAGS=-O1'
         - PART=1
 
@@ -292,7 +291,27 @@ jobs:
     ## Clang.  ##
     ## ------- ##
 
-    - name: "Clang 8 -O3"
+    - name: "Clang 9 -O3"
+      stage: check
+      os: linux
+      dist: bionic
+      addons:
+        apt:
+          sources:
+            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - libc++-9-dev
+            - libc++abi-9-dev
+      env:
+        - CC='clang-9'
+        - CXX='clang++-9 -stdlib=libc++'
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
+
+    - name: "Clang 8"
       stage: check
       os: linux
       dist: bionic
@@ -305,7 +324,6 @@ jobs:
       env:
         - CC=clang-8
         - CXX='clang++-8 -stdlib=libc++'
-        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
 
     - name: "Clang 7"
       stage: check

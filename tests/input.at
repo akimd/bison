@@ -1352,8 +1352,20 @@ AT_BISON_CHECK([-fcaret  input.y], [1], [],
 ]])
 
 
+# Clang chokes on some of our comments, because it tries to "parse"
+# some documentation directives in the comments:
+#
+# input.c:166:50: error: '\a' command does not have a valid word argument [-Werror,-Wdocumentation]
+#     FAKE = 258                     /* "fake [] \a\b\f\n\r\t\v\"'?\\[\\ ??!??'??(??)??-??/??<??=??> \001\001"  */
+#                                                ~~^
 AT_DATA_GRAMMAR([input.y],
-[[%{
+[[%code requires {
+#if defined __clang__ && 10 <= __clang_major__
+# pragma clang diagnostic ignored "-Wdocumentation"
+#endif
+}
+
+%{
 /* This is seen in GCC: a %{ and %} in middle of a comment. */
 const char *foo = "So %{ and %} can be here too.";
 
@@ -1423,6 +1435,11 @@ char quote[] = "@:>@@:>@,";
 
 /* Exercise quotes in strings.  */
 %token FAKE "fake @<:@@:>@ \a\b\f\n\r\t\v\"\'\?\\\u005B\U0000005c ??!??'??(??)??-??/??<??=??> \x1\1"
+
+/* Beware of the generated comments that embed string aliases that
+   might close the comment.  */
+%token COMMENT_CLOSE "*/"
+%token COMMENT       "/* comment */"
 
 %%
 /* Exercise M4 quoting: '@:>@@:>@', @<:@, 1.  */

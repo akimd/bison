@@ -161,8 +161,8 @@ int main()
   {
     parser::symbol_type s = parser::make_INT (12);
     assert_eq (s.kind (), parser::symbol_kind::S_INT);
-    assert_eq (parser::symbol_name (s.kind ()), "\"int\"");
-    assert_eq (s.name (), "\"int\"");
+    assert_eq (parser::symbol_name (s.kind ()), std::string ("\"int\""));
+    assert_eq (s.name (), std::string ("\"int\""));
     assert_eq (s.value.as<int> (), 12);
   }
 

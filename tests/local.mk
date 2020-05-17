@@ -56,6 +56,7 @@ TESTSUITE_AT =                                \
   %D%/java.at                                 \
   %D%/javapush.at                             \
   %D%/local.at                                \
+  %D%/m4.at                                   \
   %D%/named-refs.at                           \
   %D%/output.at                               \
   %D%/package.m4                              \

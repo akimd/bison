@@ -3,6 +3,18 @@ GNU Bison NEWS
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
 
+* Noteworthy changes in release 3.6.2 (2020-05-17) [stable]
+
+** Bug fixes
+
+  Some tests were fixed.
+
+  When token aliases contain comment delimiters:
+
+    %token FOO "/* foo */"
+
+  bison used to emit "nested" comments, which is invalid C.
+
 * Noteworthy changes in release 3.6.1 (2020-05-10) [stable]
 
 ** Bug fixes

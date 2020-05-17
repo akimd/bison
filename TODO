@@ -130,6 +130,25 @@ Rici:
 > At a minimum, the fact that yyclearin does not invoke the %destructor
 > should be highlighted in the documentation, since it is not at all obvious.
 
+** Issues in i18n
+
+Les catégories d'avertissements incluent :
+  conflicts-sr      conflits S/R (activé par défaut)
+  conflicts-rr      conflits R/R (activé par défaut)
+  dangling-alias    l'alias chaîne n'est pas attaché à un symbole
+  deprecated        construction obsolète
+  empty-rule        règle vide sans %empty
+  midrule-values    valeurs de règle intermédiaire non définies ou inutilisées
+  precedence        priorité et associativité inutiles
+  yacc              incompatibilités avec POSIX Yacc
+  other             tous les autres avertissements (activé par défaut)
+  all               tous les avertissements sauf « dangling-alias » et « yacc »
+  no-CATEGORY       désactiver les avertissements dans CATEGORIE
+  none              désactiver tous les avertissements
+  error[=CATEGORY]  traiter les avertissements comme des erreurs
+
+Line -1 and -3 should mention CATEGORIE, not CATEGORY.
+
 * Bison 3.8
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see
