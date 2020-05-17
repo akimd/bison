@@ -1102,7 +1102,7 @@ m4_define([AT_BISON_CHECK_WARNINGS_],
 # added after the grammar file name, so skip these checks in that
 # case.
 if test "$POSIXLY_CORRECT_IS_EXPORTED" = false; then
-          ]AT_SAVE_SPECIAL_FILES[
+  ]AT_SAVE_SPECIAL_FILES[
 
   # To avoid expanding it repeatedly, store specified stdout.
   ]AT_DATA([expout], [$3])[
