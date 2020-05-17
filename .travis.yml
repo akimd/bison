@@ -154,7 +154,12 @@ jobs:
       os: linux
       arch: ppc64le
       dist: bionic
-      addons: *gcc10
+      addons:
+        apt:
+          sources:
+            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages: g++-9
       env:
         - CC=gcc-9
         - CXX=g++-9
