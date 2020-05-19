@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Changes
+
+  When installed to be relocatable (via configure --enable-relocatable),
+  bison will now also look for a relocated m4.
 
 * Noteworthy changes in release 3.6.2 (2020-05-17) [stable]
 

@@ -64,6 +64,9 @@ extern char *all_but_ext;
 /* Where our data files are installed.  */
 char const *pkgdatadir (void);
 
+/* Where the m4 program is installed.  */
+char const *m4path (void);
+
 void compute_output_file_names (void);
 void output_file_names_free (void);
 
