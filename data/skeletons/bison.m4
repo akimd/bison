@@ -19,6 +19,27 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
+
+# m4_gsub(STRING, RE1, SUBST1, RE2, SUBST2, ...)
+# ----------------------------------------------
+# m4 equivalent of
+#
+#   $_ = STRING;
+#   s/RE1/SUBST1/g;
+#   s/RE2/SUBST2/g;
+#   ...
+#
+# Really similar to m4_bpatsubsts, but behaves properly with quotes.
+# See m4.at's "Generating Comments".  Super inelegant, but so far, I
+# did not find any better solution.
+m4_define([b4_gsub],
+[m4_bpatsubst(m4_bpatsubst(m4_bpatsubst([[[[$1]]]],
+                                        [$2], [$3]),
+                           [$4], [$5]),
+              [$6], [$7])])
+
+
+
 ## ---------------- ##
 ## Identification.  ##
 ## ---------------- ##

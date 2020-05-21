@@ -29,18 +29,44 @@ AT_DATA([input.m4],
 [[m4@&t@_include(b4_skeletonsdir/[c.m4])
 
 b4_output_begin([output.txt])
+
+b4_gsub([[abcd]],
+  [a], [b])
+b4_gsub([[abcd]],
+  [a], [b],
+  [b], [c],
+  [c], [d])
+
+_b4_comment([["/* () */"]])
+_b4_comment([["/* (  */"]])
+_b4_comment([["/*  ) */"]])
+_b4_comment([["/* [] */"]])
+
 b4_comment([["/* () */"]])
 b4_comment([["/* (  */"]])
 b4_comment([["/*  ) */"]])
+b4_comment([["/* [] */"]])
+
 b4_output_end([output.txt])
 ]])
 
 AT_BISON_CHECK([-S ./input.m4 input.y])
 
 AT_CHECK([cat output.txt], [],
-[/* "/\* () *\/"  */
+[[
+[bbcd]
+[dddd]
+
+"/\* () *\/"
+"/\* (  *\/"
+"/\*  ) *\/"
+"/\* [] *\/"
+
+/* "/\* () *\/"  */
 /* "/\* (  *\/"  */
 /* "/\*  ) *\/"  */
-])
+/* "/\* [] *\/"  */
+
+]])
 
 AT_CLEANUP
