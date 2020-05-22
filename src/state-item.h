@@ -42,20 +42,18 @@
    There are two type of edges in this graph transitions and
    productions.  Transitions are the same as transitions from the
    parser except edges are only between items from the same
-   rule. These are stored as an array "si_trans" (as most items will
-   have transitions) which are indexed the same way as state_items.
+   rule.
 
    Productions are edges from items with a nonterminal after the dot to
    the production of that nonterminal in the same state. These edges are
-   stored as a hash map "si_prods" from a state_item to a set of what productions
-   it goes from/to
+   stored as a bitset in a state-item.
 
-   The inverses of these edges are stored in an array of bitsets,
-   "si_revs."  A state-item that begins with a dot will have reverse
+   The inverses of these edges are stored in a bitset in the state-item,
+   "revs."  A state-item that begins with a dot will have reverse
    production edges, and all others will have reverse transition
    edges. */
 
-# define SI_DISABLED(sin) (si_trans[sin] == -2)
+# define SI_DISABLED(sin) (state_items[sin].trans == -2)
 # define SI_PRODUCTION(si) ((si) == state_items || *((si)->item - 1) < 0)
 # define SI_TRANSITION(si) ((si) != state_items && *((si)->item - 1) >= 0)
 
@@ -65,6 +63,9 @@ typedef struct
 {
   const state *state;
   item_number *item;
+  state_item_number trans;
+  bitset prods;
+  bitset revs;
   bitset lookahead;
 } state_item;
 
@@ -77,10 +78,6 @@ extern state_item_number *state_item_map;
 /** Array mapping state_item_numbers to state_items */
 extern state_item *state_items;
 
-/** state-item graph edges */
-extern state_item_number *si_trans;
-extern bitsetv si_revs;
-
 state_item *state_item_lookup (state_number s, state_item_number off);
 
 static inline state_item_number
@@ -88,8 +85,6 @@ state_item_index_lookup (state_number s, state_item_number off)
 {
   return state_item_map[s] + off;
 }
-
-bitset si_prods_lookup (state_item_number si);
 
 void state_items_init (void);
 void print_state_item (const state_item *si, FILE *out);
