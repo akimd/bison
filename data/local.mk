@@ -34,6 +34,7 @@ dist_skeletons_DATA =                           \
   data/skeletons/lalr1.java                     \
   data/skeletons/location.cc                    \
   data/skeletons/stack.hh                       \
+  data/skeletons/traceon.m4                     \
   data/skeletons/variant.hh                     \
   data/skeletons/yacc.c
 

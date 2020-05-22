@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 # _b4_comment(TEXT, OPEN, CONTINUE, END)
 # --------------------------------------
 # Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
@@ -27,9 +28,10 @@
 #
 # Prefix all the output lines with PREFIX.
 m4_define([_b4_comment],
-[$2[]m4_bpatsubsts(m4_expand([$1]),
-                   [[*]/], [*\\/],
-                   [/[*]], [/\\*], [
+[$2[]b4_gsub(m4_expand([$1]),
+            [[*]/], [*\\/],
+            [/[*]], [/\\*],
+            [
 \(.\)], [
 $3\1])$4])
 
