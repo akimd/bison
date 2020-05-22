@@ -235,8 +235,8 @@ m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc]],
             [10 0.2])])
 
   # A Bison-defined union.
-  # The tokens names are not available directly in C++, we use their
-  # user number to keep it simple between C and C++.
+  # The token names are not available directly in C++, we use their
+  # codes to keep it simple between C and C++.
   AT_TEST([%skeleton "]b4_skel["
            %define api.value.type union],
           [%token <int> ONE 101;

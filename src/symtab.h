@@ -149,20 +149,12 @@ struct sym_content
   int prec;
   assoc assoc;
 
-  /** The user specified token number.
-
-      E.g., %token FOO 42.*/
-  int user_token_number;
+  /** Token code, possibly specified by the user (%token FOO 42).  */
+  int code;
 
   symbol_class class;
   declaration_status status;
 };
-
-/** Undefined user number.  */
-# define USER_NUMBER_UNDEFINED -1
-
-/* Undefined internal token number.  */
-# define NUMBER_UNDEFINED (-1)
 
 /** Fetch (or create) the symbol associated to KEY.  */
 symbol *symbol_from_uniqstr (const uniqstr key, location loc);
@@ -235,8 +227,8 @@ void symbol_precedence_set (symbol *sym, int prec, assoc a, location loc);
 void symbol_class_set (symbol *sym, symbol_class class, location loc,
                        bool declaring);
 
-/** Set the \c user_token_number associated with \c sym.  */
-void symbol_user_token_number_set (symbol *sym, int user_number, location loc);
+/** Set the \c code associated with \c sym.  */
+void symbol_code_set (symbol *sym, int code, location loc);
 
 
 

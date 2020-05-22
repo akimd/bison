@@ -397,12 +397,12 @@ m4@&t@_define([b4_symbol_dump],
 b4_symbol_if([$1], [is_token], [Token], [Nonterminal]), d@&t@nl
 b4_symbol([$1], [tag]), d@&t@nl
 b4_symbol([$1], [id]), d@&t@nl
-b4_symbol([$1], [user_number]), d@&t@nl
+b4_symbol([$1], [code]), d@&t@nl
 b4_symbol([$1], [type]),
 ])
 
 b4_output_begin([symbols.csv])
-number, class, tag, id, user_number, type,
+number, class, tag, id, code, type,
 b4_symbol_foreach([b4_symbol_dump])d@&t@nl
 b4_output_end
 ]])
@@ -429,7 +429,7 @@ exp:;
 
 AT_BISON_CHECK([-Wno-other -S./dump-symbols.m4 input.y])
 AT_CHECK([cat symbols.csv], [],
-[[number, class, tag, id, user_number, type,
+[[number, class, tag, id, code, type,
 0, Token, "end of file", YYEOF, 0, ,
 1, Token, error, YYerror, 256, ,
 2, Token, "invalid token", YYUNDEF, 257, ,

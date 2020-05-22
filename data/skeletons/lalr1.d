@@ -841,11 +841,11 @@ m4_popdef([b4_at_dollar])])dnl
   ]b4_translate[
     @};
 
-    immutable int user_token_number_max_ = ]b4_user_token_number_max[;
+    immutable int code_max_ = ]b4_code_max[;
 
     if (t <= 0)
       return SymbolKind.]b4_symbol_prefix[YYEOF;
-    else if (t <= user_token_number_max_)
+    else if (t <= code_max_)
       {
         import std.conv : to;
         return to!SymbolKind (translate_table[t]);

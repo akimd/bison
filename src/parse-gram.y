@@ -531,7 +531,7 @@ token_decl:
       $$ = $id;
       symbol_class_set ($id, current_class, @id, true);
       if (0 <= $num)
-        symbol_user_token_number_set ($id, $num, @num);
+        symbol_code_set ($id, $num, @num);
       if ($alias)
         symbol_make_alias ($id, $alias, @alias);
     }
@@ -593,7 +593,7 @@ token_decl_for_prec:
       $$ = $id;
       symbol_class_set ($id, token_sym, @id, false);
       if (0 <= $num)
-        symbol_user_token_number_set ($id, $num, @num);
+        symbol_code_set ($id, $num, @num);
     }
 | string_as_id
 ;
@@ -763,7 +763,7 @@ id:
         }
       $$ = symbol_get (char_name ($1), @1);
       symbol_class_set ($$, token_sym, @1, false);
-      symbol_user_token_number_set ($$, $1, @1);
+      symbol_code_set ($$, $1, @1);
     }
 ;
 

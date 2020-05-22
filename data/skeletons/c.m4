@@ -523,7 +523,7 @@ m4_define([b4_token_enum],
     [m4_format([    %-30s %s],
                m4_format([[%s = %s%s%s]],
                          b4_symbol([$1], [id]),
-                         b4_symbol([$1], b4_api_token_raw_if([[number]], [[user_number]])),
+                         b4_symbol([$1], b4_api_token_raw_if([[number]], [[code]])),
                          m4_if([$1], b4_last_enum_token, [], [[,]])),
                [b4_symbol_tag_comment([$1])])])])
 

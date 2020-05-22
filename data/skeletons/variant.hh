@@ -392,7 +392,7 @@ m4_define([_b4_type_clause],
 [b4_symbol_if([$1], [is_token],
               [b4_symbol_if([$1], [has_id],
                             [tok == token::b4_symbol([$1], [id])],
-                            [tok == b4_symbol([$1], [user_number])])])])
+                            [tok == b4_symbol([$1], [code])])])])
 
 
 # _b4_token_constructor_define(SYMBOL-NUM...)

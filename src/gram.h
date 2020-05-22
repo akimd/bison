@@ -173,7 +173,7 @@ typedef struct
 {
   /* The number of the rule in the source.  It is usually the index in
      RULES too, except if there are useless rules.  */
-  rule_number user_number;
+  rule_number code;
 
   /* The index in RULES.  Usually the rule number in the source,
      except if some rules are useless.  */
@@ -262,7 +262,7 @@ extern symbol **symbols;
    by the user's yylex routine, it yields the internal token number
    used by the parser and throughout bison.  */
 extern symbol_number *token_translations;
-extern int max_user_token_number;
+extern int max_code;
 
 
 

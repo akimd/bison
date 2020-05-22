@@ -95,11 +95,11 @@ The macro `b4_symbol(NUM, FIELD)` gives access to the following FIELDS:
 - `tag`: string
   A human representation of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
 
-- `user_number`: integer
-  The code associated to the `id`.
+- `code`: integer
+  The token code associated to the `id`.
   The external number as used by yylex.  Can be ASCII code when a character,
-  some number chosen by bison, or some user number in the case of
-  %token FOO <NUM>.  Corresponds to yychar in yacc.c.
+  some number chosen by bison, or some user number in the case of `%token
+  FOO <NUM>`.  Corresponds to `yychar` in `yacc.c`.
 
 - `is_token`: 0 or 1
   Whether this is a terminal symbol.

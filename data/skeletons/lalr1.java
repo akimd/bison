@@ -1085,10 +1085,10 @@ b4_dollar_popdef[]dnl
   }
 ]],
 [[  {
-    int user_token_number_max_ = ]b4_user_token_number_max[;
+    int code_max_ = ]b4_code_max[;
     if (t <= 0)
       return SymbolKind.]b4_symbol_prefix[YYEOF;
-    else if (t <= user_token_number_max_)
+    else if (t <= code_max_)
       return SymbolKind.get (yytranslate_table_[t]);
     else
       return SymbolKind.]b4_symbol_prefix[YYUNDEF;

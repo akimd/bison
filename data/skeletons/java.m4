@@ -143,7 +143,7 @@ m4_define([b4_token_enum],
 ]],
                b4_symbol([$1], [tag]),
                b4_symbol([$1], [id]),
-               b4_symbol([$1], b4_api_token_raw_if([[number]], [[user_number]])))])])
+               b4_symbol([$1], b4_api_token_raw_if([[number]], [[code]])))])])
 
 
 # b4_token_enums
