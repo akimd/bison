@@ -72,6 +72,7 @@
  */
 
 typedef struct parse_state parse_state;
+typedef gl_list_t parse_state_list;
 
 parse_state *new_parse_state (const state_item *conflict);
 
@@ -110,22 +111,22 @@ void parse_state_lists (parse_state *ps, gl_list_t *state_items,
 /* Look at the tail state-item of the parse state and transition on the symbol
  * after its dot. The symbol gets added to derivs, and the resulting state-item
  * is appended to state-items. */
-gl_list_t simulate_transition (parse_state *ps);
+parse_state_list simulate_transition (parse_state *ps);
 
 /* Look at all of the productions for the non-terminal following the dot in the tail
  * state-item. Appends to state-items each production state-item which may start with
  * compat_sym. */
-gl_list_t simulate_production (parse_state *ps, symbol_number compat_sym);
+parse_state_list simulate_production (parse_state *ps, symbol_number compat_sym);
 
 /* Removes the last rule_len state-items along with their derivations. A new state-item is
  * appended representing the goto after the reduction. A derivation for the non-terminal that
  * was just reduced is appended which consists of the list of derivations that were just removed. */
-gl_list_t simulate_reduction (parse_state *ps, int rule_len,
+parse_state_list simulate_reduction (parse_state *ps, int rule_len,
                               bitset symbol_set);
 
 /* Generate states with a state-item prepended for each state-item that has a
  * transition or production step to ps's head. */
-gl_list_t parser_prepend (parse_state *ps);
+parse_state_list parser_prepend (parse_state *ps);
 
 void print_parse_state (parse_state *ps);
 
