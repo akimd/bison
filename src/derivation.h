@@ -20,7 +20,7 @@
 #ifndef DERIVATION_H
 # define DERIVATION_H
 
-# include <gl_list.h>
+# include <gl_xlist.h>
 
 # include "gram.h"
 
@@ -29,18 +29,30 @@
    relevant to the counterexample. The leaves of a derivation form a
    counterexample when printed. */
 
-typedef struct derivation
-{
-  symbol_number sym;
-  gl_list_t children;
-} derivation;
+typedef gl_list_t derivation_list;
+typedef struct derivation derivation;
 
-derivation *derivation_new (symbol_number sym, gl_list_t children);
+static inline derivation_list derivation_list_new (void)
+{
+  return gl_list_create_empty (GL_LINKED_LIST, NULL, NULL, NULL, true);
+}
+
+void derivation_list_append (derivation_list dl, derivation *d);
+void derivation_list_prepend (derivation_list dl, derivation *d);
+void derivation_list_free (derivation_list dl);
+
+derivation *derivation_new (symbol_number sym, derivation_list children);
+
+static inline derivation *derivation_new_leaf (symbol_number sym)
+{
+  return derivation_new (sym, NULL);
+}
 size_t derivation_size (const derivation *deriv);
 void derivation_print (const derivation *deriv, FILE *f);
 void derivation_print_leaves (const derivation *deriv, FILE *f);
 void derivation_free (derivation *deriv);
+void derivation_retain (derivation *deriv);
 
-const derivation *derivation_dot (void);
+derivation *derivation_dot (void);
 
 #endif /* DERIVATION_H */

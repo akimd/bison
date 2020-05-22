@@ -86,7 +86,6 @@ void parse_state_retain (parse_state *ps);
  * when its reference count reaches 1. This is used to
  * free memory while the parse state is in a hash set. */
 void parse_state_free_contents_early (parse_state *ps);
-void parse_state_retain_deriv (parse_state *ps);
 void free_parse_state (parse_state *ps);
 
 /* counts the amount of shift and production steps in this parse state */
@@ -94,7 +93,7 @@ void parse_state_completed_steps (const parse_state *ps, int *shifts, int *produ
 
 /* parse state getters */
 bool parse_state_derivation_completed (const parse_state *ps);
-const derivation *parse_state_derivation (const parse_state *ps);
+derivation *parse_state_derivation (const parse_state *ps);
 const state_item *parse_state_head (const parse_state *ps);
 const state_item *parse_state_tail (const parse_state *ps);
 int parse_state_length (const parse_state *ps);
@@ -102,7 +101,7 @@ int parse_state_depth (const parse_state *ps);
 
 /* returns the linked lists that the parse state is supposed to represent */
 void parse_state_lists (parse_state *ps, gl_list_t *state_items,
-                        gl_list_t *derivs);
+                        derivation_list *derivs);
 
 /* various functions that return a list of states based off of
  * whatever operation is simulated. After whatever operation, every possible
