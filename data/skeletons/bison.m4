@@ -547,7 +547,7 @@ m4_popdef([b4_actions_])dnl
 # easier to use with m4_map, but then, use []dnl to suppress the last
 # one.
 m4_define([_b4_symbol_case],
-[case b4_symbol([$1], [number]): b4_symbol_tag_comment([$1])])
+[case b4_symbol([$1], [kind]): b4_symbol_tag_comment([$1])])
 ])
 
 
