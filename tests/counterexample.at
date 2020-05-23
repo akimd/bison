@@ -261,7 +261,7 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[Reduce-Reduce Conflict:
 4:    1 a: A b .
 4:    3 b: b .
-On Symbols: {$end,}
+On Symbols: $end
 Example  A  b  •
 First  derivation  a ::=[ A  b  • ]
 Second derivation  a ::=[ A  b ::=[ b  • ] ]
@@ -291,7 +291,7 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[Reduce-Reduce Conflict:
 2:    5 a: D .
 2:    6 b: D .
-On Symbols: {A,C,}
+On Symbols: A, C
 First  Example D  •  A  $end
 First  derivation  $accept ::=[ s ::=[ a ::=[ D  • ]  A ]  $end ]
 Second Example B  D  •  A  $end
@@ -393,7 +393,7 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[Reduce-Reduce Conflict:
 3:    3 A: B .
 3:    5 A: . %empty
-On Symbols: {b,c,}
+On Symbols: b, c
 Example  B  •  b  A  A  c  A
 First  derivation  S ::=[ B ::=[ A ::=[ B  • ]  b  A ]  C ::=[ A  c  A ] ]
 Second derivation  S ::=[ B  C ::=[ A ::=[ B ::=[ A ::=[ • ]  b  A ] ]  c  A ] ]
@@ -401,7 +401,7 @@ Second derivation  S ::=[ B  C ::=[ A ::=[ B ::=[ A ::=[ • ]  b  A ] ]  c  A ]
 Reduce-Reduce Conflict:
 4:    4 A: C .
 4:    5 A: . %empty
-On Symbols: {b,c,}
+On Symbols: b, c
 Example  C  •  c  A  A  b  A
 First  derivation  S ::=[ C ::=[ A ::=[ C  • ]  c  A ]  B ::=[ A  b  A ] ]
 Second derivation  S ::=[ C  B ::=[ A ::=[ C ::=[ A ::=[ • ]  c  A ] ]  b  A ] ]
@@ -431,7 +431,7 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[Reduce-Reduce Conflict:
 0:    3 b: . %empty
 0:    4 c: . %empty
-On Symbols: {A,}
+On Symbols: A
 First  Example •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ]  $end ]
 Second Example •  c  A  A  $end
@@ -470,7 +470,7 @@ Second derivation  a ::=[ b  d ::=[ c  •  A ] ]
 Reduce-Reduce Conflict:
 6:    3 b: . %empty
 6:    4 c: . %empty
-On Symbols: {A,}
+On Symbols: A
 First  Example b  c  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ] ] ]  $end ]
 Second Example b  c  •  A  $end
@@ -488,7 +488,7 @@ Second derivation  a ::=[ b  d ::=[ c  •  A ] ]
 Reduce-Reduce Conflict:
 7:    1 a: b d .
 7:    7 d: d .
-On Symbols: {$end,}
+On Symbols: $end
 Example  b  d  •
 First  derivation  a ::=[ b  d  • ]
 Second derivation  a ::=[ b  d ::=[ d  • ] ]
@@ -496,7 +496,7 @@ Second derivation  a ::=[ b  d ::=[ d  • ] ]
 Reduce-Reduce Conflict:
 8:    2 a: c d .
 8:    7 d: d .
-On Symbols: {$end,}
+On Symbols: $end
 Example  c  d  •
 First  derivation  a ::=[ c  d  • ]
 Second derivation  a ::=[ c  d ::=[ d  • ] ]
