@@ -1411,7 +1411,7 @@ b4_dollar_popdef])[]dnl
                      : yylac_stack_.back ());
         // Push the resulting state of the reduction.
         state_type state = yy_lr_goto_state_ (top_state, yyr1_[yyrule]);
-        YYCDEBUG << " G" << state;
+        YYCDEBUG << " G" << int (state);
         yylac_stack_.push_back (state);
       }
   }
