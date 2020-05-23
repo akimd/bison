@@ -148,6 +148,10 @@ Since it is not meant for the end user, it is not displayed by `bison
 --help`, nor is it documented in the manual.  Instead, run `bison
 --trace=help`.
 
+## Documentation
+Use `@option` for options and options with their argument if they have no
+space (e.g., `@option{-Dfoo=bar}`).  However, use `@samp` elsewhere (e.g.,
+`@samp{-I foo}`).
 
 
 Working from the Repository

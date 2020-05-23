@@ -1,4 +1,4 @@
-/* Lookahead sensative state item searches for counterexample generation
+/* Lookahead sensitive state item searches for counterexample generation
 
    Copyright (C) 2020 Free Software Foundation, Inc.
 

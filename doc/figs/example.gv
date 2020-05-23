@@ -2,7 +2,7 @@
 // Report bugs to <bug-bison@gnu.org>.
 // Home page: <http://www.gnu.org/software/bison/>.
 
-digraph "/tmp/fo.y"
+digraph "example.y"
 {
   node [fontname = courier, shape = box, colorscheme = paired6]
   edge [fontname = courier]

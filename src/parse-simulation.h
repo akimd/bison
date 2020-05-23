@@ -51,7 +51,7 @@
   derivations. The derivations become the derivation of the lhs which is then
   shifted over.
 
-  Effectively, everytime a derivation is appended, it represents a shift in
+  Effectively, every time a derivation is appended, it represents a shift in
   the parser. So a parse state that contains
    start: A . B C D
    start: A B C D .

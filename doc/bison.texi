@@ -2006,7 +2006,7 @@ rpcalc.tab.c  rpcalc.y
 
 @group
 # @r{Compile the Bison parser.}
-# @r{@samp{-lm} tells compiler to search math library for @code{pow}.}
+# @r{@option{-lm} tells compiler to search math library for @code{pow}.}
 $ @kbd{cc -lm -o rpcalc rpcalc.tab.c}
 @end group
 
@@ -3418,8 +3418,8 @@ is why periods don't make sense in terminal symbols.)  @xref{Calling
 Convention}.
 
 If @code{yylex} is defined in a separate file, you need to arrange for the
-token-kind definitions to be available there.  Use the @samp{-d} option when
-you run Bison, so that it will write these definitions into a separate
+token-kind definitions to be available there.  Use the @option{-d} option
+when you run Bison, so that it will write these definitions into a separate
 header file @file{@var{name}.tab.h} which you can include in the other
 source files that need it.  @xref{Invocation}.
 
@@ -5328,7 +5328,7 @@ specification of expected conflicts.  To this end, you can also attach
 The interpretation of these modifiers differs from their use as
 declarations.  When attached to rules, they indicate the number of states
 in which the rule is involved in a conflict.  You will need to consult the
-output resulting from @samp{-v} to determine appropriate numbers to use.
+output resulting from @option{-v} to determine appropriate numbers to use.
 For example, for the following grammar fragment, the first rule for
 @code{empty_dims} appears in two states in which the @samp{[} token is a
 lookahead.  Having determined that, you can document this fact with an
@@ -5373,7 +5373,7 @@ In general, using @code{%expect} involves these steps:
 
 @itemize @bullet
 @item
-Compile your grammar without @code{%expect}.  Use the @samp{-v} option
+Compile your grammar without @code{%expect}.  Use the @option{-v} option
 to get a verbose list of where the conflicts occur.  Bison will also
 print the number of conflicts.
 
@@ -6816,7 +6816,7 @@ The easy way to do this is to define the @code{%define} variable
 @code{api.prefix}.  With different @code{api.prefix}s it is guaranteed that
 headers do not conflict when included together, and that compiled objects
 can be linked together too.  Specifying @samp{%define api.prefix
-@{@var{prefix}@}} (or passing the option @samp{-Dapi.prefix=@{@var{prefix}@}}, see
+@{@var{prefix}@}} (or passing the option @option{-Dapi.prefix=@{@var{prefix}@}}, see
 @ref{Invocation}) renames the interface functions and
 variables of the Bison parser to start with @var{prefix} instead of
 @samp{yy}, and all the macros to start by @var{PREFIX} (i.e., @var{prefix}
@@ -7119,7 +7119,7 @@ call it.  The function is sometimes referred to as a lexical scanner.
 In simple programs, @code{yylex} is often defined at the end of the Bison
 grammar file.  If @code{yylex} is defined in a separate source file, you
 need to arrange for the token-kind definitions to be available there.  To do
-this, use the @samp{-d} option when you run Bison, so that it will write
+this, use the @option{-d} option when you run Bison, so that it will write
 these definitions into the separate parser header file,
 @file{@var{name}.tab.h}, which you can include in the other source files
 that need it.  @xref{Invocation}.
@@ -8304,7 +8304,7 @@ of the rule being considered with that of the lookahead token.  If the
 token's precedence is higher, the choice is to shift.  If the rule's
 precedence is higher, the choice is to reduce.  If they have equal
 precedence, the choice is made based on the associativity of that
-precedence level.  The verbose output file made by @samp{-v}
+precedence level.  The verbose output file made by @option{-v}
 (@pxref{Invocation}) says how each conflict was
 resolved.
 
@@ -9374,10 +9374,9 @@ Error recovery strategies are necessarily guesses.  When they guess wrong,
 one syntax error often leads to another.  In the above example, the error
 recovery rule guesses that an error is due to bad input within one
 @code{stmt}.  Suppose that instead a spurious semicolon is inserted in the
-middle of a valid @code{stmt}.  After the error recovery rule recovers
-from the first error, another syntax error will be found straightaway,
-since the text following the spurious semicolon is also an invalid
-@code{stmt}.
+middle of a valid @code{stmt}.  After the error recovery rule recovers from
+the first error, another syntax error will be found straight away, since the
+text following the spurious semicolon is also an invalid @code{stmt}.
 
 To prevent an outpouring of error messages, the parser will output no error
 message for another syntax error that happens shortly after the first; only
@@ -10285,7 +10284,7 @@ Yacc portability matter to you, this is the preferred solution.
 
 @item the option @option{-t} (POSIX Yacc compliant)
 @itemx the option @option{--debug} (Bison extension)
-Use the @samp{-t} option when you run Bison (@pxref{Invocation}).  With
+Use the @option{-t} option when you run Bison (@pxref{Invocation}).  With
 @samp{%define api.prefix @{c@}}, it defines @code{CDEBUG} to 1, otherwise it
 defines @code{YYDEBUG} to 1.
 
@@ -10299,7 +10298,7 @@ Bison; use @code{%define parse.trace} instead.
 @findex YYDEBUG
 Define the macro @code{YYDEBUG} to a nonzero value when you compile the
 parser.  This is compliant with POSIX Yacc.  You could use
-@samp{-DYYDEBUG=1} as a compiler option or you could put @samp{#define
+@option{-DYYDEBUG=1} as a compiler option or you could put @samp{#define
 YYDEBUG 1} in the prologue of the grammar file (@pxref{Prologue}).
 
 If the @code{%define} variable @code{api.prefix} is used (@pxref{Multiple
@@ -10597,7 +10596,7 @@ you are writing C++ code instead of C in your grammar file, to name it
 @file{foo.ypp} or @file{foo.y++}.  Then, the output files will take an
 extension like the given one as input (respectively @file{foo.tab.cpp} and
 @file{foo.tab.c++}).  This feature takes effect with all options that
-manipulate file names like @samp{-o} or @samp{-d}.
+manipulate file names like @option{-o} or @option{-d}.
 
 For example:
 
@@ -10648,10 +10647,10 @@ file. @xref{Require Decl}.  No file was generated or changed.
 @section Bison Options
 
 Bison supports both traditional single-letter options and mnemonic long
-option names.  Long option names are indicated with @samp{--} instead of
-@samp{-}.  Abbreviations for option names are allowed as long as they
+option names.  Long option names are indicated with @option{--} instead of
+@option{-}.  Abbreviations for option names are allowed as long as they
 are unique.  When a long option takes an argument, like
-@samp{--file-prefix}, connect the option name and the argument with
+@option{--file-prefix}, connect the option name and the argument with
 @samp{=}.
 
 Here is a list of options that can be used with Bison.  It is followed by a
@@ -11263,8 +11262,8 @@ parser.  @xref{Decl Summary}.
 @itemx --output=@var{file}
 Specify the @var{file} for the parser implementation file.
 
-The other output files' names are constructed from @var{file} as
-described under the @samp{-v} and @samp{-d} options.
+The names of the other output files are constructed from @var{file} as
+described under the @option{-v} and @option{-d} options.
 
 @item -g [@var{file}]
 @itemx --graph[=@var{file}]
