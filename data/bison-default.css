@@ -30,5 +30,28 @@
 /* "Sections" in traces (--trace).  */
 .trace0    { color: green; }
 
+/* Syntax error messages.  */
 .expected   { color: green; }
 .unexpected { color: red; }
+
+
+/* Counterexamples.  */
+
+/* Cex: point in rule.  */
+.cex-dot { color: red; }
+
+/* Cex: coloring various rules.  */
+.cex-0   { color: yellow; }
+.cex-1   { color: green; }
+.cex-2   { color: blue; }
+.cex-3   { color: cobalt; }
+.cex-4   { color: violet; }
+.cex-5   { color: orange; }
+.cex-6   { color: brown; }
+.cex-7   { color: mauve; }
+
+/* Cex: derivation rewriting steps.  */
+.cex-step { font-style: italic; }
+
+/* Cex: leaves of a derivation.  */
+.cex-leaf { font-weight: 600; }

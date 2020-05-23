@@ -20,6 +20,7 @@
 #ifndef DERIVATION_H
 # define DERIVATION_H
 
+# include <gl_linked_list.h>
 # include <gl_xlist.h>
 
 # include "gram.h"
