@@ -438,14 +438,14 @@ m4_define([b4_symbol_token_kind],
 _b4_symbol([$1], [id])])
 
 
-# b4_symbol_kind(NUM)
-# -------------------
+# b4_symbol_kind_base(NUM)
+# ------------------------
 # Build the name of the kind of this symbol.  It must always exist,
 # otherwise some symbols might not be represented in the enum, which
 # might be compiled into too small a type to contain all the symbol
 # numbers.
 m4_define([b4_symbol_prefix], [b4_percent_define_get([api.symbol.prefix])])
-m4_define([b4_symbol_kind],
+m4_define([b4_symbol_kind_base],
 [b4_percent_define_get([api.symbol.prefix])dnl
 m4_case([$1],
   [-2],                             [[YYEMPTY]],
@@ -458,6 +458,13 @@ m4_case([$1],
                                     [m4_bpatsubst([$1-][]_b4_symbol([$1], [tag]), [[^a-zA-Z_0-9]+], [_])])])])])
 
 
+# b4_symbol_kind(NUM)
+# -------------------
+# Same as b4_symbol_kind, but possibly with a prefix in some
+# languages.  E.g., EOF's kind_base and kind are YYSYMBOL_YYEOF in C,
+# but are S_YYEMPTY and symbol_kind::S_YYEMPTY in C++.
+m4_copy([b4_symbol_kind_base], [b4_symbol_kind])
+
 # b4_symbol(NUM, FIELD)
 # ---------------------
 # Fetch FIELD of symbol #NUM (or "orig NUM").  Fail if undefined.
@@ -465,8 +472,9 @@ m4_case([$1],
 # If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
 [m4_case([$2],
-         [id],    [b4_symbol_token_kind([$1])],
-         [kind],  [b4_symbol_kind([$1])],
+         [id],        [b4_symbol_token_kind([$1])],
+         [kind_base], [b4_symbol_kind_base([$1])],
+         [kind],      [b4_symbol_kind([$1])],
          [_b4_symbol($@)])])
 
 

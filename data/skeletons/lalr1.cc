@@ -59,6 +59,13 @@ m4_define([b4_integral_parser_table_define],
   };dnl
 ])
 
+
+# b4_symbol_kind(NUM)
+# -------------------
+m4_define([b4_symbol_kind],
+[symbol_kind::b4_symbol_kind_base($@)])
+
+
 # b4_symbol_value_template(VAL, SYMBOL-NUM, [TYPE])
 # -------------------------------------------------
 # Same as b4_symbol_value, but used in a template method.  It makes
@@ -666,7 +673,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class[::by_state::kind () const YY_NOEXCEPT
   {
     if (state == empty_state)
-      return symbol_kind::]b4_symbol(-2, kind)[;
+      return ]b4_symbol(-2, kind)[;
     else
       return YY_CAST (symbol_kind_type, yystos_[+state]);
   }
@@ -691,7 +698,7 @@ m4_if(b4_prefix, [yy], [],
     b4_symbol_variant([that.kind ()],
                       [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
-    that.kind_ = symbol_kind::]b4_symbol(-2, kind)[;
+    that.kind_ = ]b4_symbol(-2, kind)[;
   }
 
 #if YY_CPLUSPLUS < 201103L
@@ -920,13 +927,13 @@ b4_dollar_popdef])[]dnl
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
-    if (yyla.kind () == ]symbol_kind::b4_symbol(1, kind)[)
+    if (yyla.kind () == ]b4_symbol(1, kind)[)
     {
       // The scanner already issued an error message, process directly
       // to error recovery.  But do not keep the error token as
       // lookahead, it is too special and may lead us to an endless
       // loop in error recovery. */
-      yyla.kind_ = ]symbol_kind::b4_symbol(2, kind)[;
+      yyla.kind_ = ]b4_symbol(2, kind)[;
       goto yyerrlab1;
     }
 
@@ -1063,7 +1070,7 @@ b4_dollar_popdef])[]dnl
            error, discard it.  */
 
         // Return failure if at end of input.
-        if (yyla.kind () == symbol_kind::]b4_symbol_prefix[YYEOF)
+        if (yyla.kind () == ]b4_symbol(0, kind)[)
           YYABORT;
         else if (!yyla.empty ())
           {
@@ -1104,9 +1111,9 @@ b4_dollar_popdef])[]dnl
         yyn = yypact_[+yystack_[0].state];
         if (!yy_pact_value_is_default_ (yyn))
           {
-            yyn += symbol_kind::]b4_symbol(1, kind)[;
+            yyn += ]b4_symbol(1, kind)[;
             if (0 <= yyn && yyn <= yylast_
-                && yycheck_[yyn] == symbol_kind::]b4_symbol(1, kind)[)
+                && yycheck_[yyn] == ]b4_symbol(1, kind)[)
               {
                 yyn = yytable_[yyn];
                 if (0 < yyn)
@@ -1298,8 +1305,8 @@ b4_dollar_popdef])[]dnl
     for (int yyx = 0; yyx < YYNTOKENS; ++yyx)
       {
         symbol_kind_type yysym = YY_CAST (symbol_kind_type, yyx);
-        if (yysym != symbol_kind::]b4_symbol(1, kind)[
-            && yysym != symbol_kind::]b4_symbol_prefix[YYUNDEF
+        if (yysym != ]b4_symbol(1, kind)[
+            && yysym != ]b4_symbol(2, kind)[
             && yyparser_.yy_lac_check_ (yysym))
           {
             if (!yyarg)
@@ -1321,7 +1328,7 @@ b4_dollar_popdef])[]dnl
         int yychecklim = yylast_ - yyn + 1;
         int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-          if (yycheck_[yyx + yyn] == yyx && yyx != symbol_kind::]b4_symbol(1, kind)[
+          if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(1, kind)[
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
             {
               if (!yyarg)
@@ -1334,7 +1341,7 @@ b4_dollar_popdef])[]dnl
       }
 ]])[
     if (yyarg && yycount == 0 && 0 < yyargn)
-      yyarg[0] = symbol_kind::]b4_symbol(-2, kind)[;
+      yyarg[0] = ]b4_symbol(-2, kind)[;
     return yycount;
   }
 

@@ -602,9 +602,9 @@ b4_dollar_popdef[]dnl
             push_token_consumed = false;]], [b4_parse_trace_if([[
             yycdebug ("Reading a token");]])[
             yychar = yylexer.yylex ();
-            yylval = yylexer.getLVal ();]b4_locations_if([
-            yylloc = new b4_location_type (yylexer.getStartPos (),
-                            yylexer.getEndPos ());])[
+            yylval = yylexer.getLVal();]b4_locations_if([[
+            yylloc = new ]b4_location_type[(yylexer.getStartPos(),
+                                          yylexer.getEndPos());]])[
 ]])[
           }
 
@@ -613,14 +613,14 @@ b4_dollar_popdef[]dnl
         yySymbolPrint("Next token is", yytoken,
                       yylval]b4_locations_if([, yylloc])[);]])[
 
-        if (yytoken == SymbolKind.]b4_symbol_prefix[YYerror)
+        if (yytoken == ]b4_symbol(1, kind)[)
           {
             // The scanner already issued an error message, process directly
             // to error recovery.  But do not keep the error token as
             // lookahead, it is too special and may lead us to an endless
             // loop in error recovery. */
-            yychar = Lexer.]b4_percent_define_get([api.token.prefix])[YYUNDEF;
-            yytoken = SymbolKind.]b4_symbol_prefix[YYUNDEF;]b4_locations_if([[
+            yychar = Lexer.]b4_symbol(2, id)[;
+            yytoken = ]b4_symbol(2, kind)[;]b4_locations_if([[
             yyerrloc = yylloc;]])[
             label = YYERRLAB1;
           }
@@ -628,8 +628,8 @@ b4_dollar_popdef[]dnl
           {
             /* If the proper action on seeing token YYTOKEN is to reduce or to
                detect an error, take that action.  */
-            yyn += yytoken.getCode ();
-            if (yyn < 0 || YYLAST_ < yyn || yycheck_[yyn] != yytoken.getCode ())
+            yyn += yytoken.getCode();
+            if (yyn < 0 || YYLAST_ < yyn || yycheck_[yyn] != yytoken.getCode())
               label = YYDEFAULT;
 
             /* <= 0 means reduce or error.  */
@@ -744,9 +744,9 @@ b4_dollar_popdef[]dnl
             yyn = yypact_[yystate];
             if (!yyPactValueIsDefault (yyn))
               {
-                yyn += SymbolKind.]b4_symbol(1, kind)[.getCode ();
+                yyn += ]b4_symbol(1, kind)[.getCode();
                 if (0 <= yyn && yyn <= YYLAST_
-                    && yycheck_[yyn] == SymbolKind.]b4_symbol(1, kind)[.getCode ())
+                    && yycheck_[yyn] == ]b4_symbol(1, kind)[.getCode())
                   {
                     yyn = yytable_[yyn];
                     if (0 < yyn)
@@ -779,7 +779,7 @@ b4_dollar_popdef[]dnl
         yystack.pop (2);]])[
 
         /* Shift the error token.  */]b4_parse_trace_if([[
-        yySymbolPrint("Shifting", SymbolKind.get (yystos_[yyn]),
+        yySymbolPrint("Shifting", SymbolKind.get(yystos_[yyn]),
                       yylval]b4_locations_if([, yyloc])[);]])[
 
         yystate = yyn;
@@ -933,15 +933,15 @@ b4_dollar_popdef[]dnl
           int yychecklim = YYLAST_ - yyn + 1;
           int yyxend = yychecklim < NTOKENS ? yychecklim : NTOKENS;
           for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck_[yyx + yyn] == yyx && yyx != SymbolKind.]b4_symbol(1, kind)[.getCode ()
-                && !yyTableValueIsError (yytable_[yyx + yyn]))
+            if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(1, kind)[.getCode()
+                && !yyTableValueIsError(yytable_[yyx + yyn]))
               {
                 if (yyarg == null)
                   yycount += 1;
                 else if (yycount == yyargn)
                   return 0; // FIXME: this is incorrect.
                 else
-                  yyarg[yycount++] = SymbolKind.get (yyx);
+                  yyarg[yycount++] = SymbolKind.get(yyx);
               }
         }
       if (yyarg != null && yycount == yyoffset && yyoffset < yyargn)
@@ -981,12 +981,12 @@ b4_dollar_popdef[]dnl
          to an error action in a later state.
     */
     int yycount = 0;
-    if (yyctx.getToken () != null)
+    if (yyctx.getToken() != null)
       {
         if (yyarg != null)
-          yyarg[yycount] = yyctx.getToken ();
+          yyarg[yycount] = yyctx.getToken();
         yycount += 1;
-        yycount += yyctx.getExpectedTokens (yyarg, 1, yyargn);
+        yycount += yyctx.getExpectedTokens(yyarg, 1, yyargn);
       }
     return yycount;
   }
@@ -1071,7 +1071,7 @@ b4_dollar_popdef[]dnl
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yySymbolPrint("   $" + (yyi + 1) + " =",
-                    SymbolKind.get (yystos_[yystack.stateAt (yynrhs - (yyi + 1))]),
+                    SymbolKind.get(yystos_[yystack.stateAt (yynrhs - (yyi + 1))]),
                     ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
                     b4_rhs_location(yynrhs, yyi + 1)])[);
   }]])[
@@ -1081,17 +1081,17 @@ b4_dollar_popdef[]dnl
   private static final SymbolKind yytranslate_ (int t)
 ]b4_api_token_raw_if(dnl
 [[  {
-    return SymbolKind.get (t);
+    return SymbolKind.get(t);
   }
 ]],
 [[  {
     int code_max_ = ]b4_code_max[;
     if (t <= 0)
-      return SymbolKind.]b4_symbol_prefix[YYEOF;
+      return ]b4_symbol(0, kind)[;
     else if (t <= code_max_)
-      return SymbolKind.get (yytranslate_table_[t]);
+      return SymbolKind.get(yytranslate_table_[t]);
     else
-      return SymbolKind.]b4_symbol_prefix[YYUNDEF;
+      return ]b4_symbol(2, kind)[;
   }
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 ]])[

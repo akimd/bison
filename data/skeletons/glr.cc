@@ -66,12 +66,6 @@ m4_defn([b4_parse_param]))],
            [[b4_namespace_ref::b4_parser_class[& yyparser], [[yyparser]]]])
 ])
 
-# b4_declare_symbol_enum
-# ----------------------
-m4_append([b4_declare_symbol_enum],
-[[typedef symbol_kind_type yysymbol_kind_t;
-]])
-
 
 # b4_yy_symbol_print_define
 # -------------------------
@@ -354,13 +348,17 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 # define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
 #endif
 
+]m4_define([b4_define_symbol_kind],
+  [m4_format([#define %-15s %s],
+             b4_symbol($][1, kind_base),
+             b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol($][1, kind_base))
+])[
 ]m4_define([b4_declare_symbol_enum],
 [[typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
-#define ]b4_symbol_prefix[YYEMPTY  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEMPTY
-#define ]b4_symbol_prefix[YYerror  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYerror
-#define ]b4_symbol_prefix[YYEOF    ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEOF
-#define ]b4_symbol_prefix[YYUNDEF  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYUNDEF
-]])[
+
+// Expose C++ symbol kinds to C.
+]b4_define_symbol_kind(-2)dnl
+b4_symbol_foreach([b4_define_symbol_kind])])[
 ]b4_percent_code_get([[provides]])[
 ]m4_popdef([b4_parse_param])dnl
 ])
