@@ -38,6 +38,8 @@ m4_define([b4_gsub],
                            [$4], [$5]),
               [$6], [$7])])
 
+# m4_shift2 and m4_shift3 are provided by m4sugar.
+m4_define([m4_shift4], [m4_shift(m4_shift(m4_shift(m4_shift($@))))])
 
 
 ## ---------------- ##
@@ -183,7 +185,7 @@ m4_define([b4_error],
 [b4_cat([[@complain][(]$1[@,]$2[@,]$3[@,]$4[]]dnl
 [m4_if([$#], [4], [],
        [m4_foreach([b4_arg],
-                   m4_dquote(m4_shift(m4_shift(m4_shift(m4_shift($@))))),
+                   m4_dquote(m4_shift4($@)),
                    [[@,]b4_arg])])[@)]])])
 
 # b4_warn(FORMAT, [ARG1], [ARG2], ...)
@@ -748,7 +750,7 @@ m4_define([b4_check_user_names],
 [m4_pushdef([b4_occurrence], b4_occurrence)dnl
 m4_pushdef([b4_user_name], m4_car(b4_occurrence))dnl
 m4_pushdef([b4_start], m4_car(m4_shift(b4_occurrence)))dnl
-m4_pushdef([b4_end], m4_shift(m4_shift(b4_occurrence)))dnl
+m4_pushdef([b4_end], m4_shift2(b4_occurrence))dnl
 m4_ifndef($3[(]m4_quote(b4_user_name)[)],
           [b4_complain_at([b4_start], [b4_end],
                           [[%s '%s' is not used]],
