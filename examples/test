@@ -36,10 +36,11 @@ strip_prompt=false
 
 # If diff supports --strip-trailing-cr, use it, to avoid EOL issues
 # when testing Java programs on Windows.
-echo "checking for diff --strip-trailing-cr"
+echo "checking for diff --strip-trailing-cr..."
 if diff --strip-trailing-cr "$1" "$1"; then
   diff_opts=--strip-trailing-cr
 fi
+echo "checking for diff --strip-trailing-cr... $diff_opts"
 
 # The exercised program.
 abs_medir=$cwd/examples/$medir
