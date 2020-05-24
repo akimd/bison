@@ -50,8 +50,14 @@ extern char *spec_xml_file;
 /* File name specified with --defines.  */
 extern char *spec_header_file;
 
+/* File name specified with --defines, adjusted for mapped prefixes. */
+extern char *spec_mapped_header_file;
+
 /* Directory prefix of output file names.  */
 extern char *dir_prefix;
+
+/* Directory prefix of output file name, adjusted for mapped prefixes. */
+extern char *mapped_dir_prefix;
 
 /* The file name as given on the command line.
    Not named "input_file" because Flex uses this name for an argument,
@@ -84,5 +90,8 @@ void unlink_generated_sources (void);
 FILE *xfopen (const char *name, char const *mode);
 void xfclose (FILE *ptr);
 FILE *xfdopen (int fd, char const *mode);
+
+char *map_file_name (char const *filename);
+void add_prefix_map(char const* oldprefix, char const* newprefix);
 
 #endif /* !FILES_H_ */

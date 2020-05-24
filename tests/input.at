@@ -3006,3 +3006,31 @@ AT_TEST([%define parse.error detailed %token-table],[[input.y:1.1-28]])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
+
+## --------------------------------------- ##
+## Invalid file prefix mapping arguments.  ##
+## --------------------------------------- ##
+
+AT_SETUP([[Invalid file prefix mapping arguments]])
+
+# AT_TEST(DIRECTIVES, OPTIONS, ERROR-LOCATION)
+# --------------------------------------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[
+%%
+exp: %empty;
+]])
+AT_BISON_CHECK([[$1 input.y]], [[1]], [[]],
+[[$3: error: invalid argument for '--file-prefix-map': $2
+]])
+])
+
+AT_TEST([-M foo], [foo], [<command line>:4])
+AT_TEST([--file-prefix-map foo], [foo], [<command line>:4])
+AT_TEST([-M foo=bar -M baz], [baz], [<command line>:6])
+AT_TEST([-M foo= -M baz], [baz], [<command line>:6])
+
+m4_popdef([AT_TEST])
+
+AT_CLEANUP

@@ -48,7 +48,7 @@ m4_ifdef([b4_location_file],
                                   ["b4_location_file"])])
  m4_define([b4_location_path],
            b4_percent_define_get([[api.location.include]],
-                                 ["b4_dir_prefix[]b4_location_file"]))
+                                 ["b4_mapped_dir_prefix[]b4_location_file"]))
  m4_define([b4_location_path],
            m4_substr(m4_defn([b4_location_path]), 1, m4_eval(m4_len(m4_defn([b4_location_path])) - 2)))
  ])

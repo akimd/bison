@@ -674,3 +674,103 @@ imm: '0';
 ]])
 
 m4_popdef([AT_TEST])
+
+
+## -------------------------------- ##
+## C++ Output File Prefix Mapping.  ##
+## -------------------------------- ##
+
+AT_SETUP([C++ Output File Prefix Mapping])
+
+# AT_TEST([PREFIX], [DIRECTIVES])
+m4_pushdef([AT_TEST],
+[AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %define api.namespace {$1} $2])
+AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])
+AT_DATA_GRAMMAR([$1.yy],
+[[%skeleton "lalr1.cc"
+%define api.namespace {$1}
+$2
+%code {
+  ]AT_YYERROR_DECLARE[
+  ]AT_YYLEX_DECLARE[
+}
+%%
+exp: '0';
+%%
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["0"])[
+]])
+
+AT_BISON_CHECK([-fcaret -o out/$1.cc -M out/=bar/ $1.yy])
+AT_LANG_COMPILE([out/$1.o], [], [-Iout/include])
+
+AT_LOC_POPDEF
+AT_BISON_OPTION_POPDEFS
+])
+
+mkdir -p out/include/ast
+
+AT_TEST([x1],
+        [%defines
+         %locations
+         %define api.location.file "include/ast/loc.hh"
+         ])
+
+# Check the CPP guard and Doxyen comments.
+AT_CHECK([sed -ne 's/#line [0-9]\+ "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out/include/ast/loc.hh], [],
+[[ ** \file bar/include/ast/loc.hh
+ ** Define the x1::location class.
+#ifndef YY_YY_BAR_INCLUDE_AST_LOC_HH_INCLUDED
+# define YY_YY_BAR_INCLUDE_AST_LOC_HH_INCLUDED
+#line "x1.yy"
+#line "bar/include/ast/loc.hh"
+#line "x1.yy"
+#line "bar/include/ast/loc.hh"
+#endif // !YY_YY_BAR_INCLUDE_AST_LOC_HH_INCLUDED
+]])
+
+AT_CHECK([sed -ne 's/^#line [0-9]\+ "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out/x1.hh], [],
+[[ ** \file bar/x1.hh
+ ** Define the x1::parser class.
+#ifndef YY_YY_BAR_X1_HH_INCLUDED
+# define YY_YY_BAR_X1_HH_INCLUDED
+#line "x1.yy"
+#line "bar/x1.hh"
+#line "x1.yy"
+#line "bar/x1.hh"
+#endif // !YY_YY_BAR_X1_HH_INCLUDED
+]])
+
+AT_TEST([x2],
+        [%defines
+         %locations
+         %code requires {#include "include/ast/loc.hh"}
+         %define api.location.type {x1::location}])
+
+m4_popdef([AT_TEST])
+
+AT_DATA([main.cc],
+[AT_DATA_SOURCE_PROLOGUE
+[#include "x1.hh"
+#include "x2.hh"
+
+#define RUN(S)                                  \
+  do {                                          \
+    S::parser parser;                           \
+    int res = parser.parse();                   \
+    if (res)                                    \
+      std::cerr << #S": " << res << '\n';       \
+  } while (false)
+
+int
+main (void)
+{
+  RUN(x1);
+  RUN(x2);
+}
+]])# main.cc
+
+AT_COMPILE_CXX([parser], [[out/x[12].o main.cc]], [-Iout/])
+AT_PARSER_CHECK([parser], [0])
+
+AT_CLEANUP

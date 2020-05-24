@@ -513,16 +513,16 @@ b4_defines_if(
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 [
 /**
- ** \file ]b4_spec_header_file[
+ ** \file ]b4_spec_mapped_header_file[
  ** Define the ]b4_namespace_ref[::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
 
 ]b4_disclaimer[
-]b4_cpp_guard_open([b4_spec_header_file])[
+]b4_cpp_guard_open([b4_spec_mapped_header_file])[
 ]b4_shared_declarations(hh)[
-]b4_cpp_guard_close([b4_spec_header_file])[
+]b4_cpp_guard_close([b4_spec_mapped_header_file])[
 ]b4_output_end[
 ]])
 
