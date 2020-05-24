@@ -440,7 +440,7 @@ Second derivation  $accept ::=[ a ::=[ c ::=[ • ]  d ::=[ c  A  A ] ]  $end ]
 Reduce-Reduce Conflict:
 2:    3 b: . %empty
 2:    4 c: . %empty
-On Symbols: {A,}
+On Symbols: A
 time limit exceeded: 6.000000
 First  Example b  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ]  $end ]
@@ -450,7 +450,7 @@ Second derivation  $accept ::=[ a ::=[ b  d ::=[ c ::=[ • ]  A ] ]  $end ]
 Reduce-Reduce Conflict:
 3:    3 b: . %empty
 3:    4 c: . %empty
-On Symbols: {A,}
+On Symbols: A
 time limit exceeded: 6.000000
 First  Example c  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ]  $end ]
