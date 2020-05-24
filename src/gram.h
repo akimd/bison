@@ -111,7 +111,10 @@ extern int nsyms;
 extern int ntokens;
 extern int nvars;
 
+/* elements of ritem */
 typedef int item_number;
+/* indices into ritem */
+typedef int item_index;
 # define ITEM_NUMBER_MAX INT_MAX
 extern item_number *ritem;
 extern int nritems;

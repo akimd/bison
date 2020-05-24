@@ -225,7 +225,7 @@ struct state
   /* Its items.  Must be last, since ITEMS can be arbitrarily large.  Sorted
      ascendingly on item index in RITEM, which is sorted on rule number.  */
   size_t nitems;
-  item_number items[1];
+  item_index items[1];
 };
 
 extern state_number nstates;
@@ -233,7 +233,7 @@ extern state *final_state;
 
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
 state *state_new (symbol_number accessing_symbol,
-                  size_t core_size, item_number *core);
+                  size_t core_size, item_index *core);
 state *state_new_isocore (state const *s);
 
 /* Record that from S we can reach all the DST states (NUM of them).  */
@@ -264,7 +264,7 @@ void state_hash_free (void);
 
 /* Find the state associated to the CORE, and return it.  If it does
    not exist yet, return NULL.  */
-state *state_hash_lookup (size_t core_size, item_number *core);
+state *state_hash_lookup (size_t core_size, item_index *core);
 
 /* Insert STATE in the state hash table.  */
 void state_hash_insert (state *s);
