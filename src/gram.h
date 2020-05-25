@@ -111,13 +111,14 @@ extern int nsyms;
 extern int ntokens;
 extern int nvars;
 
-/* elements of ritem */
+/* Elements of ritem. */
 typedef int item_number;
-/* indices into ritem */
-typedef int item_index;
 # define ITEM_NUMBER_MAX INT_MAX
 extern item_number *ritem;
 extern int nritems;
+
+/* Indices into ritem. */
+typedef unsigned int item_index;
 
 /* There is weird relationship between OT1H item_number and OTOH
    symbol_number and rule_number: we store the latter in
