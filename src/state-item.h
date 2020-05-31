@@ -92,4 +92,17 @@ void state_items_free (void);
 
 bool production_allowed (const state_item *si, const state_item *next);
 
+static inline bool
+state_item_list_next (gl_list_iterator_t *it, state_item **si)
+{
+  const void *p = NULL;
+  bool res = gl_list_iterator_next (it, &p, NULL);
+  if (res)
+    *si = (state_item *) p;
+  else
+    gl_list_iterator_free (it);
+  return res;
+}
+
+
 #endif /* STATE_ITEM_H */

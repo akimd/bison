@@ -74,6 +74,18 @@
 typedef struct parse_state parse_state;
 typedef gl_list_t parse_state_list;
 
+static inline bool
+parse_state_list_next (gl_list_iterator_t *it, parse_state **ps)
+{
+  const void *p = NULL;
+  bool res = gl_list_iterator_next (it, &p, NULL);
+  if (res)
+    *ps = (parse_state *) p;
+  else
+    gl_list_iterator_free (it);
+  return res;
+}
+
 parse_state *new_parse_state (const state_item *conflict);
 
 size_t parse_state_hasher (const parse_state *ps, size_t max);
