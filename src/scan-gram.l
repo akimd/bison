@@ -28,16 +28,16 @@
 #include <quote.h>
 #include <quotearg.h>
 
-#include <src/complain.h>
-#include <src/files.h>
-#include <src/getargs.h>
-#include <src/gram.h>
-#include <src/reader.h>
-#include <src/scan-gram.h>
-#include <src/uniqstr.h>
+#include "src/complain.h"
+#include "src/files.h"
+#include "src/getargs.h"
+#include "src/gram.h"
+#include "src/reader.h"
+#include "src/scan-gram.h"
+#include "src/uniqstr.h"
 
 #define FLEX_PREFIX(Id) gram_ ## Id
-#include <src/flex-scanner.h>
+#include "src/flex-scanner.h"
 
 /* Work around a bug in flex 2.5.31.  See Debian bug 333231
    <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */

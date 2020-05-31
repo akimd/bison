@@ -62,6 +62,30 @@ Don't reinvent the wheel: we use gnulib, which features many components.
 Actually, Bison has legacy code that we should replace with gnulib modules
 (e.g., many ad hoc implementations of lists).
 
+#### Includes
+The `#include` directives follow an order:
+- first section for *.c files is `<config.h>`.  Don't include it in header
+  files
+- then, for *.c files, the corresponding *.h file
+- then possibly the `"system.h"` header
+- then the system headers.
+  Consider headers from `lib/` like system headers (i.e., `#include
+  <verify.h>`, not `#include "verify.h"`).
+- then headers from src/ with double quotes (`#include "getargs.h"`).
+
+Keep headers sorted alphabetically in each section.
+
+See also the [Header
+files](https://www.gnu.org/software/gnulib/manual/html_node/Header-files.html)
+and the [Implementation
+files](https://www.gnu.org/software/gnulib/manual/html_node/Implementation-files.html#Implementation-files)
+nodes of the gnulib documentation.
+
+Some source files are in the build tree (e.g., `src/scan-gram.c` made from
+`src/scan-gram.l`).  For them to find the headers from `src/`, we actually
+use `#include "src/getargs.h"` instead of `#include "getargs.h"`---that
+saves us from additional `-I` flags.
+
 ### Skeletons
 We try to use the "typical" coding style for each language.
 

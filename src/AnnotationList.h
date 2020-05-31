@@ -21,6 +21,7 @@
 # define ANNOTATION_LIST_H_
 
 # include <bitsetv.h>
+
 # include "Sbitset.h"
 # include "InadequacyList.h"
 # include "state.h"
