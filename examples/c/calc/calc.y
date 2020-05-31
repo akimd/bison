@@ -1,6 +1,7 @@
 %code top {
   #include <ctype.h>  /* isdigit. */
-  #include <stdio.h>  /* For printf, etc. */
+  #include <stdio.h>  /* printf. */
+  #include <stdlib.h> /* abort. */
   #include <string.h> /* strcmp. */
 
   int yylex (void);
@@ -73,7 +74,8 @@ yylex (void)
   if (c == '.' || isdigit (c))
     {
       ungetc (c, stdin);
-      scanf ("%lf", &yylval.NUM);
+      if (scanf ("%lf", &yylval.NUM) != 1)
+        abort ();
       return NUM;
     }
 

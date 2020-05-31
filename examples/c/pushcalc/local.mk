@@ -27,6 +27,7 @@ nodist_%C%_calc_SOURCES = %D%/calc.y
 
 # Don't use gnulib's system headers.
 %C%_calc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+%C%_calc_CFLAGS = $(TEST_CFLAGS)
 
 dist_pushcalc_DATA = %D%/calc.y %D%/Makefile %D%/README.md
 CLEANFILES += %D%/calc.[ch] %D%/calc.output

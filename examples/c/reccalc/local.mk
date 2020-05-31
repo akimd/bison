@@ -26,6 +26,8 @@ if FLEX_WORKS
   BUILT_SOURCES += $(nodist_%C%_reccalc_SOURCES)
   # Don't use gnulib's system headers.
   %C%_reccalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  # Fighting warnings triggered by Flex is just too painful.
+  # %C%_reccalc_CFLAGS = $(TEST_CFLAGS)
 endif FLEX_WORKS
 
 %D%/parse.c: $(dependencies)

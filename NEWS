@@ -2,6 +2,13 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Incorrect comments in the generated parsers.
+
+  Warnings in push parsers (yacc.c).
+
+  Incorrect display of gotos in LAC traces (lalr1.cc).
 
 * Noteworthy changes in release 3.6.2 (2020-05-17) [stable]
 

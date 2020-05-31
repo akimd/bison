@@ -31,6 +31,7 @@ if ENABLE_BISTROMATHIC
     -DBISON_LOCALEDIR='"$(localdir)"'		\
     -DLOCALEDIR='"$(localdir)"'			\
     -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  %C%_bistromathic_CFLAGS = $(TEST_CFLAGS)
   %C%_bistromathic_LDADD = -lm $(LIBREADLINE) $(LIBINTL)
 endif
 

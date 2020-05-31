@@ -25,6 +25,8 @@ if FLEX_WORKS
   nodist_%C%_lexcalc_SOURCES = %D%/parse.y %D%/parse.h %D%/scan.l
   # Don't use gnulib's system headers.
   %C%_lexcalc_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  # Fighting warnings triggered by Flex is just too painful.
+  # %C%_lexcalc_CFLAGS = $(TEST_CFLAGS)
 endif FLEX_WORKS
 
 %D%/parse.c: $(dependencies)
