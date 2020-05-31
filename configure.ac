@@ -132,7 +132,7 @@ if test "$enable_gcc_warnings" = yes; then
     -fparse-all-comments -Wdocumentation
     -Wformat -Wimplicit-fallthrough -Wnull-dereference
     -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare
-    -Wpointer-arith -Wshadow
+    -Wpointer-arith -Wshadow -Wstrict-aliasing
     -Wwrite-strings
     -wr188 -wr2259 -wr3179'
   warn_c='-Wbad-function-cast -Wstrict-prototypes'
