@@ -100,7 +100,7 @@ We indent the CPP directives this way:
 #endif
 ```
 
-Don't indent with leading spaces in the skeletons (it's ok in the grammar
+Don't indent with leading spaces in the skeletons (it's OK in the grammar
 files though, e.g., in `%code {...}` blocks).
 
 On occasions, use `cppi -c` to see where we stand.  We don't aim at full
@@ -111,7 +111,7 @@ of the *.h file, but don't waste time on this.
 Don't hesitate to leave a comment on the `#endif` (e.g., `#endif /* FOO
 */`), especially for long blocks.
 
-There is no conistency on `! defined` vs. `!defined`.  The day gnulib
+There is no consistency on `! defined` vs. `!defined`.  The day gnulib
 decides, we'll follow them.
 
 #### C/C++
@@ -437,6 +437,31 @@ Use the `javaexec.sh` script.  For instance to run the parser of test case
 
     $ sh ./_build/javaexec.sh -cp ./_build/tests/testsuite.dir/504 Calc
 
+## Using Sanitizers
+Address sanitizer (ASAN) and undefined-behavior sanitizer (UBSAN) are very
+useful.  Here's one way to set ASAN up with GCC 10 on Mac Ports
+
+1. Configure with
+
+    $ ./configure -C --enable-gcc-warnings \
+        CPPFLAGS='-isystem /opt/local/include' \
+        CC='gcc-mp-10 -fsanitize=address' \
+        CFLAGS='-ggdb' \
+        CXX='g++-mp-10.0 -fsanitize=address' \
+        CXXFLAGS='-ggdb' \
+        LDFLAGS='-L/opt/local/lib'
+
+2. Compile
+
+3. Generate debug symbols:
+
+    $ dsymutil src/bison
+
+4. Run the tests with leak detection enabled
+   (`ASAN_OPTIONS=detect_leaks=1`).  E.g. for counterexamples:
+
+    $ make check-local TESTSUITEFLAGS='-j5 -k cex' ASAN_OPTIONS=detect_leaks=1
+
 ## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
 
@@ -552,8 +577,10 @@ LocalWords:  symlinks vti html lt POSIX Cc'ed Graphviz Texinfo autoconf jN
 LocalWords:  automake autopoint graphviz texinfo PROG Wother parsers YYFOO
 LocalWords:  TESTSUITEFLAGS deprec struct gnulib's getopt config ggdb yyfoo
 LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell wrt YY
-LocalWords:  american Administrivia camlCase yy accessors namespace src
-LocalWords:  getExpectedTokens yyexpectedTokens yygetExpectedTokens
-LocalWords:  regen dogfooding Autotest testsuite
+LocalWords:  american Administrivia camlCase yy accessors namespace src hoc
+LocalWords:  getExpectedTokens yyexpectedTokens yygetExpectedTokens parens
+LocalWords:  regen dogfooding Autotest testsuite getargs CPP BAZ endif cppi
+LocalWords:  cpp javaexec cp Calc ASAN UBSAN CPPFLAGS isystem CXX cex
+LocalWords:  CXXFLAGS LDFLAGS dsymutil
 
 -->
