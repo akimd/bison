@@ -1,7 +1,7 @@
 %code top {
-  #include <assert.h>
   #include <ctype.h>  /* isdigit. */
-  #include <stdio.h>  /* For printf, etc. */
+  #include <stdio.h>  /* printf. */
+  #include <stdlib.h> /* abort. */
   #include <string.h> /* strcmp. */
 }
 
@@ -81,8 +81,8 @@ yylex (YYSTYPE *yylval)
   if (c == '.' || isdigit (c))
     {
       ungetc (c, stdin);
-      int n = scanf ("%lf", &yylval->NUM);
-      assert (n == 1);
+      if (scanf ("%lf", &yylval->NUM) != 1)
+        abort ();
       return NUM;
     }
 

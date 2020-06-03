@@ -4,7 +4,7 @@
 %option nodefault noinput nounput noyywrap
 
 %{
-#include <errno.h> /* errno, ERANGE */
+#include <errno.h>  /* errno, ERANGE */
 #include <limits.h> /* INT_MIN */
 #include <stdlib.h> /* strtol */
 
@@ -12,7 +12,7 @@
 
   // Each time a rule is matched, advance the end cursor/position.
 #define YY_USER_ACTION                          \
-  yylloc->last_column += yyleng;
+  yylloc->last_column += (int) yyleng;
 
   // Move the first position onto the last.
 #define LOCATION_STEP()                         \

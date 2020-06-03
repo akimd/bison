@@ -1879,6 +1879,7 @@ Here is the code for the lexical analyzer:
    and tabs, and returns 0 for end-of-input. */
 
 #include <ctype.h>
+#include <stdlib.h>
 @end group
 
 @group
@@ -1895,7 +1896,8 @@ yylex (void)
   if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
-      scanf ("%lf", &yylval);
+      if (scanf ("%lf", &yylval) != 1)
+        abort ();
       return NUM;
     @}
 @end group
@@ -2729,8 +2731,8 @@ yylex (void)
   if (c == '.' || isdigit (c))
     @{
       ungetc (c, stdin);
-      int n = scanf ("%lf", &yylval.NUM);
-      assert (n == 1);
+      if (scanf ("%lf", &yylval.NUM) != 1)
+        abort ();
       return NUM;
     @}
 @end group
@@ -2757,10 +2759,10 @@ Bison generated a definition of @code{YYSTYPE} with a member named
           if (bufsize <= i)
             @{
               bufsize = 2 * bufsize + 40;
-              symbuf = realloc (symbuf, bufsize);
+              symbuf = realloc (symbuf, (size_t) bufsize);
             @}
           /* Add this character to the buffer. */
-          symbuf[i++] = c;
+          symbuf[i++] = (char) c;
           /* Get another character. */
           c = getchar ();
         @}
@@ -10630,7 +10632,7 @@ when there were errors.  No file was generated (except the reports generated
 by @option{--verbose}, etc.).  In particular, the output files that possibly
 existed were not changed.
 
-@item 63 (mistmatch)
+@item 63 (mismatch)
 when @command{bison} does not meet the version requirements of the grammar
 file. @xref{Require Decl}.  No file was generated or changed.
 @end table
@@ -15274,6 +15276,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: YYUNDEF SymbolKind yypcontext YYENOMEM TOKENMAX getBundle
 @c LocalWords: ResourceBundle myResources getString getName getToken
 @c LocalWords: getLocation getExpectedTokens reportSyntaxError bistromathic
+@c LocalWords: TokenKind
 
 @c Local Variables:
 @c ispell-dictionary: "american"

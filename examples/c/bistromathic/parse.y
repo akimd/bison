@@ -1,7 +1,6 @@
 %require "3.6"
 
 %code top {
-  #include <assert.h>
   #include <ctype.h>  // isdigit
   #include <locale.h> // LC_ALL
   #include <math.h>   // cos, sin, etc.
@@ -218,7 +217,7 @@ getsym (char const *name)
 }
 
 // How many symbols are registered.
-int
+static int
 symbol_count (void)
 {
   int res = 0;
@@ -314,7 +313,7 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 `---------*/
 
 
-const char *
+static const char *
 error_format_string (int argc)
 {
   switch (argc)
@@ -409,7 +408,8 @@ xstrndup (const char *string, size_t n)
   const char *end = memchr (string, '\0', n);
   size_t len = end ? (size_t) (end - string) : n;
   char *new = malloc (len + 1);
-  assert (new);
+  if (!new)
+    abort ();
   new[len] = '\0';
   return memcpy (new, string, len);
 }
@@ -420,7 +420,8 @@ xstrndup (const char *string, size_t n)
 `-----------*/
 
 // Parse (and execute) this line.
-int process_line (YYLTYPE *lloc, const char *line)
+static int
+process_line (YYLTYPE *lloc, const char *line)
 {
   yypstate *ps = yypstate_new ();
   int status = 0;
@@ -435,7 +436,8 @@ int process_line (YYLTYPE *lloc, const char *line)
 }
 
 // Get the list of possible tokens after INPUT was read.
-int
+// Returns a nonnegative.
+static int
 expected_tokens (const char *input,
                  int *tokens, int ntokens)
 {
@@ -456,6 +458,8 @@ expected_tokens (const char *input,
 
   // Then query for the accepted tokens at this point.
   int res = yypstate_expected_tokens (ps, tokens, ntokens);
+  if (res < 0)
+    abort ();
   yypstate_delete (ps);
   return res;
 }
@@ -465,7 +469,7 @@ expected_tokens (const char *input,
 // TEXT is the word to complete.  We can use the entire contents of
 // rl_line_buffer in case we want to do some simple parsing.  Return
 // the array of matches, or NULL if there aren't any.
-char **
+static char **
 completion (const char *text, int start, int end)
 {
   YYDPRINTF ((stderr, "completion (\"%.*s[%.*s]%s\")\n",
@@ -475,14 +479,17 @@ completion (const char *text, int start, int end)
 
   // Get list of token numbers.
   int tokens[YYNTOKENS];
-  char *line = xstrndup (rl_line_buffer, start);
+  char *line = xstrndup (rl_line_buffer, (size_t) start);
   int ntokens = expected_tokens (line, tokens, YYNTOKENS);
   free (line);
 
   // Build MATCHES, the list of possible completions.
-  const int len = strlen (text);
+  const size_t len = strlen (text);
   // Need initial prefix and final NULL.
-  char **matches = calloc (ntokens + symbol_count () + 2, sizeof *matches);
+  char **matches
+    = calloc ((size_t) ntokens + (size_t) symbol_count () + 2, sizeof *matches);
+  if (!matches)
+    abort ();
   int match = 1;
   for (int i = 0; i < ntokens; ++i)
     switch (tokens[i])
@@ -512,9 +519,9 @@ completion (const char *text, int start, int end)
     matches[0] = strdup (text);
   else
     {
-      int lcplen = strlen (matches[1]);
+      size_t lcplen = strlen (matches[1]);
       for (int i = 2; i < match && lcplen; ++i)
-        for (int j = 0; j < lcplen; ++j)
+        for (size_t j = 0; j < lcplen; ++j)
           if (matches[1][j] != matches[i][j])
             lcplen = j;
       matches[0] = xstrndup (matches[1], lcplen);
@@ -538,7 +545,8 @@ completion (const char *text, int start, int end)
   return matches;
 }
 
-void init_readline (void)
+static void
+init_readline (void)
 {
   // Allow conditional parsing of the ~/.inputrc file.
   rl_readline_name = "bistromathic";
@@ -557,7 +565,8 @@ void init_readline (void)
 | Main.  |
 `-------*/
 
-int main (int argc, char const* argv[])
+int
+main (int argc, char const* argv[])
 {
 #if defined ENABLE_NLS && ENABLE_NLS
   // Set up internationalization.

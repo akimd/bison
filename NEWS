@@ -17,6 +17,16 @@ GNU Bison NEWS
   to the -ffile-prefix-map in GCC. This option can be used to make bison output
   reproducible.
 
+* Noteworthy changes in release 3.6.3 (2020-06-03) [stable]
+
+** Bug fixes
+
+  Incorrect comments in the generated parsers.
+
+  Warnings in push parsers (yacc.c).
+
+  Incorrect display of gotos in LAC traces (lalr1.cc).
+
 * Noteworthy changes in release 3.6.2 (2020-05-17) [stable]
 
 ** Bug fixes
