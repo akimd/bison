@@ -262,11 +262,11 @@ m4_define([b4_declare_symbol_enum],
 
 
 
-# b4_case(ID, CODE)
-# -----------------
+# b4_case(ID, CODE, [COMMENTS])
+# -----------------------------
 # We need to fool Java's stupid unreachable code detection.
 m4_define([b4_case],
-[  case $1:
+[  case $1:m4_ifval([$3], [ b4_comment([$3])])
   if (yyn == $1)
     $2;
   break;

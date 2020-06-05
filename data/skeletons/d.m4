@@ -213,9 +213,9 @@ m4_define([b4_declare_symbol_enum],
 
 
 
-# b4-case(ID, CODE)
-# -----------------
-m4_define([b4_case], [    case $1:
+# b4-case(ID, CODE, [COMMENTS])
+# -----------------------------
+m4_define([b4_case], [    case $1:m4_ifval([$3], [ b4_comment([$3])])
 $2
       break;])
 

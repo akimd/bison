@@ -666,10 +666,10 @@ m4_define([b4_sync_start], [[#]line $1 $2])
 ## User actions.  ##
 ## -------------- ##
 
-# b4_case(LABEL, STATEMENTS)
-# --------------------------
+# b4_case(LABEL, STATEMENTS, [COMMENTS])
+# --------------------------------------
 m4_define([b4_case],
-[  case $1:
+[  case $1:m4_ifval([$3], [ b4_comment([$3])])
 $2
 b4_syncline([@oline@], [@ofile@])dnl
     break;])
