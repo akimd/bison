@@ -267,8 +267,8 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
     case '5': case '6': case '7': case '8': case '9':
       {
         int nchars = 0;
-        int n = sscanf (*line - 1, "%lf%n", &yylval->TOK_NUM, &nchars);
-        assert (n == 1);
+        if (sscanf (*line - 1, "%lf%n", &yylval->TOK_NUM, &nchars) != 1)
+          abort ();
         *line += nchars - 1;
         yylloc->last_column += nchars - 1;
         return TOK_NUM;
@@ -284,8 +284,8 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
       {
         int nchars = 0;
         char buf[100];
-        int n = sscanf (*line - 1, "%99[a-z]%n", buf, &nchars);
-        assert (n == 1);
+        if (sscanf (*line - 1, "%99[a-z]%n", buf, &nchars) != 1)
+          abort ();
         *line += nchars - 1;
         yylloc->last_column += nchars - 1;
         if (strcmp (buf, "exit") == 0)
