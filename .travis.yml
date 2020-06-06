@@ -135,7 +135,7 @@ jobs:
           packages:
           - intel-oneapi-icc
 
-    - name: "ARM64: GCC 10 -O3 part 1"
+    - name: "ARM64: GCC 10 -O2 part 1"
       stage: check
       os: linux
       arch: arm64
@@ -144,12 +144,10 @@ jobs:
       env:
         - CC=gcc-10
         - CXX=g++-10
-        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
+        - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O2 CXXFLAGS=-O2'
         - PART=1
 
-    # GCC10 on PPC seems to be buggy.
-    # E.g., https://travis-ci.org/github/akimd/bison/jobs/687812428.
-    - name: "PPC64le: GCC 9 part 1"
+    - name: "PPC64le: GCC 10 -O2 part 1"
       stage: check
       os: linux
       arch: ppc64le
@@ -159,14 +157,14 @@ jobs:
           sources:
             # See https://github.com/travis-ci/apt-source-safelist/issues/410.
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages: g++-9
+          packages: g++-10
       env:
-        - CC=gcc-9
-        - CXX=g++-9
-        - CONFIGUREFLAGS='CFLAGS=-O3 CXXFLAGS=-O3'
+        - CC=gcc-10
+        - CXX=g++-10
+        - CONFIGUREFLAGS='CFLAGS=-O2 CXXFLAGS=-O2'
         - PART=1
 
-    - name: "s390x: GCC 10 part 1"
+    - name: "s390x: GCC 10 -O2 part 1"
       stage: check
       os: linux
       arch: s390x
@@ -175,7 +173,7 @@ jobs:
       env:
         - CC=gcc-10
         - CXX=g++-10
-        - CONFIGUREFLAGS='CFLAGS=-O3 CXXFLAGS=-O3'
+        - CONFIGUREFLAGS='CFLAGS=-O2 CXXFLAGS=-O2'
         - PART=1
 
     ## ----- ##
