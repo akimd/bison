@@ -92,6 +92,6 @@ void xfclose (FILE *ptr);
 FILE *xfdopen (int fd, char const *mode);
 
 char *map_file_name (char const *filename);
-void add_prefix_map(char const* oldprefix, char const* newprefix);
+void add_prefix_map (char const *oldprefix, char const *newprefix);
 
 #endif /* !FILES_H_ */
