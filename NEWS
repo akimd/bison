@@ -848,11 +848,11 @@ GNU Bison NEWS
 
       ...
 
-  Looking at the output from -v, one can see that the shift-reduce conflict
+  Looking at the output from -v, one can see that the shift/reduce conflict
   here is due to the fact that the parser does not know whether to reduce
   arguments to argument_list until it sees the token _after_ the following
   ','.  By marking the rule with %expect 1 (because there is a conflict in
-  one state), we document the source of the 1 overall shift-reduce conflict.
+  one state), we document the source of the 1 overall shift/reduce conflict.
 
   In GLR parsers, we can use %expect-rr in a rule for reduce/reduce
   conflicts.  In this case, we mark each of the conflicting rules.  For
@@ -967,7 +967,7 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-*** Incorrect number of reduce-reduce conflicts
+*** Incorrect number of reduce/reduce conflicts
 
   On a grammar such as
 

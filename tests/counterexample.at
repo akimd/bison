@@ -44,10 +44,9 @@ y: A | A B;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token B:
 1:    3 a: A .
 1:    8 y: A . B
-On Symbol: B
 Example  A  •  B  C
 First  derivation  s ::=[ a ::=[ A  • ]  x ::=[ B  C ] ]
 Second derivation  s ::=[ y ::=[ A  •  B ]  c ::=[ C ] ]
@@ -76,10 +75,9 @@ bc: B bc C | B C;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token B:
 1:    7 a: A .
 1:    5 b: . B
-On Symbol: B
 Example  A  •  B  C
 First  derivation  s ::=[ a ::=[ A  • ]  bc ::=[ B  C ] ]
 Second derivation  s ::=[ ac ::=[ A  ac ::=[ b ::=[ •  B ] ]  C ] ]
@@ -109,18 +107,16 @@ xby: B | X xby Y;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token B:
 1:    4 x: . %empty
 1:    9 xby: . B
-On Symbol: B
 Example  A  •  B  y
 First  derivation  s ::=[ ax ::=[ A  x ::=[ • ] ]  by ::=[ B  y ] ]
 Second derivation  s ::=[ A  xby ::=[ •  B ] ]
 
-Shift-Reduce Conflict:
+Shift/reduce conflict on token B:
 5:    4 x: . %empty
 5:    9 xby: . B
-On Symbol: B
 First  Example A  X  •  B  y  $end
 First  derivation  $accept ::=[ s ::=[ ax ::=[ A  x ::=[ X  x ::=[ • ] ] ]  by ::=[ B  y ] ]  $end ]
 Second Example A  X  •  B  Y  $end
@@ -151,10 +147,9 @@ bc: B C;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token C:
 2:    7 b: B .
 2:    9 bc: B . C
-On Symbol: C
 First  Example B  •  C  D  $end
 First  derivation  $accept ::=[ g ::=[ x ::=[ b ::=[ B  • ]  cd ::=[ C  D ] ] ]  $end ]
 Second Example B  •  C  $end
@@ -183,10 +178,9 @@ y: A A B;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token A:
 1:    5 x: A .
 1:    6 y: A . A B
-On Symbol: A
 First  Example A  •  A  $end
 First  derivation  $accept ::=[ s ::=[ s ::=[ t ::=[ x ::=[ A  • ] ] ]  t ::=[ x ::=[ A ] ] ]  $end ]
 Second Example A  •  A  B  $end
@@ -219,18 +213,16 @@ y: Y;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token A:
 4:    3 r: b .
 4:    7 s: b . A xx y
-On Symbol: A
 Example  b  •  A  X  X  Y
 First  derivation  a ::=[ r ::=[ b  • ]  t ::=[ A  x ::=[ X ]  xy ::=[ X  Y ] ] ]
 Second derivation  a ::=[ s ::=[ b  •  xx ::=[ A  X  X ]  y ::=[ Y ] ] ]
 
-Shift-Reduce Conflict:
+Shift/reduce conflict on token X:
 10:    8 x: X .
 10:    9 xx: X . X
-On Symbol: X
 First  Example X  •  X  xy
 First  derivation  a ::=[ x ::=[ X  • ]  t ::=[ X  xy ] ]
 Second Example A  X  •  X
@@ -258,10 +250,9 @@ b : A | b;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Reduce-Reduce Conflict:
+[[Reduce/reduce conflict on token $end:
 4:    1 a: A b .
 4:    3 b: b .
-On Symbols: $end
 Example  A  b  •
 First  derivation  a ::=[ A  b  • ]
 Second derivation  a ::=[ A  b ::=[ b  • ] ]
@@ -288,10 +279,9 @@ b: D;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Reduce-Reduce Conflict:
+[[Reduce/reduce conflict on tokens A, C:
 2:    5 a: D .
 2:    6 b: D .
-On Symbols: A, C
 First  Example D  •  A  $end
 First  derivation  $accept ::=[ s ::=[ a ::=[ D  • ]  A ]  $end ]
 Second Example B  D  •  A  $end
@@ -319,11 +309,10 @@ i: X | i J K;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token J:
 5:    2 a: H i .
 5:    4 i: i . J K
-On Symbol: J
-time limit exceeded: 6.000000
+time limit exceeded: XXX
 First  Example H  i  •  J  $end
 First  derivation  $accept ::=[ s ::=[ a ::=[ H  i  • ]  J ]  $end ]
 Second Example H  i  •  J  K  $end
@@ -355,10 +344,9 @@ b: A B C | A B D;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token B:
 4:    7 a: A .
 4:    8 b: A . B C
-On Symbol: B
 Example  N  A  •  B  C
 First  derivation  s ::=[ n ::=[ N  a ::=[ A  • ]  B ]  C ]
 Second derivation  s ::=[ n ::=[ N  b ::=[ A  •  B  C ] ] ]
@@ -390,18 +378,16 @@ C : A c A;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Reduce-Reduce Conflict:
+[[Reduce/reduce conflict on tokens b, c:
 3:    3 A: B .
 3:    5 A: . %empty
-On Symbols: b, c
 Example  B  •  b  A  A  c  A
 First  derivation  S ::=[ B ::=[ A ::=[ B  • ]  b  A ]  C ::=[ A  c  A ] ]
 Second derivation  S ::=[ B  C ::=[ A ::=[ B ::=[ A ::=[ • ]  b  A ] ]  c  A ] ]
 
-Reduce-Reduce Conflict:
+Reduce/reduce conflict on tokens b, c:
 4:    4 A: C .
 4:    5 A: . %empty
-On Symbols: b, c
 Example  C  •  c  A  A  b  A
 First  derivation  S ::=[ C ::=[ A ::=[ C  • ]  c  A ]  B ::=[ A  b  A ] ]
 Second derivation  S ::=[ C  B ::=[ A ::=[ C ::=[ A ::=[ • ]  c  A ] ]  b  A ] ]
@@ -428,75 +414,67 @@ d : a | c A | d;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Reduce-Reduce Conflict:
+[[Reduce/reduce conflict on token A:
 0:    3 b: . %empty
 0:    4 c: . %empty
-On Symbols: A
 First  Example •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ]  $end ]
 Second Example •  c  A  A  $end
 Second derivation  $accept ::=[ a ::=[ c ::=[ • ]  d ::=[ c  A  A ] ]  $end ]
 
-Reduce-Reduce Conflict:
+Reduce/reduce conflict on token A:
 2:    3 b: . %empty
 2:    4 c: . %empty
-On Symbols: A
-time limit exceeded: 6.000000
+time limit exceeded: XXX
 First  Example b  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ]  $end ]
 Second Example b  •  A  $end
 Second derivation  $accept ::=[ a ::=[ b  d ::=[ c ::=[ • ]  A ] ]  $end ]
 
-Reduce-Reduce Conflict:
+Reduce/reduce conflict on token A:
 3:    3 b: . %empty
 3:    4 c: . %empty
-On Symbols: A
-time limit exceeded: 6.000000
+time limit exceeded: XXX
 First  Example c  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ]  $end ]
 Second Example c  •  A  $end
 Second derivation  $accept ::=[ a ::=[ c  d ::=[ c ::=[ • ]  A ] ]  $end ]
 
-Shift-Reduce Conflict:
+Shift/reduce conflict on token A:
 6:    3 b: . %empty
 6:    6 d: c . A
-On Symbol: A
-time limit exceeded: 6.000000
+time limit exceeded: XXX
 First  Example b  c  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ] ] ]  $end ]
 Second Example b  c  •  A
 Second derivation  a ::=[ b  d ::=[ c  •  A ] ]
 
-Reduce-Reduce Conflict:
+Reduce/reduce conflict on token A:
 6:    3 b: . %empty
 6:    4 c: . %empty
-On Symbols: A
 First  Example b  c  •  c  A  A  $end
 First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ a ::=[ b ::=[ • ]  d ::=[ c  A  A ] ] ] ] ] ]  $end ]
 Second Example b  c  •  A  $end
 Second derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ c ::=[ • ]  A ] ] ] ]  $end ]
 
-Shift-Reduce Conflict:
+Shift/reduce conflict on token A:
 6:    4 c: . %empty
 6:    6 d: c . A
-On Symbol: A
 First  Example b  c  •  A  $end
 First  derivation  $accept ::=[ a ::=[ b  d ::=[ a ::=[ c  d ::=[ c ::=[ • ]  A ] ] ] ]  $end ]
 Second Example b  c  •  A
 Second derivation  a ::=[ b  d ::=[ c  •  A ] ]
 
-Reduce-Reduce Conflict:
+Reduce/reduce conflict on token $end:
 7:    1 a: b d .
 7:    7 d: d .
-On Symbols: $end
 Example  b  d  •
 First  derivation  a ::=[ b  d  • ]
 Second derivation  a ::=[ b  d ::=[ d  • ] ]
 
-Reduce-Reduce Conflict:
+Reduce/reduce conflict on token $end:
 8:    2 a: c d .
 8:    7 d: d .
-On Symbols: $end
 Example  c  d  •
 First  derivation  a ::=[ c  d  • ]
 Second derivation  a ::=[ c  d ::=[ d  • ] ]
@@ -528,10 +506,9 @@ i: %empty | i J;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token J:
 7:    5 i: i J .
 7:    3 a: H i J . J
-On Symbol: J
 Example  H  i  J  •  J  J
 First  derivation  s ::=[ a ::=[ H  i ::=[ i  J  • ]  J  J ] ]
 Second derivation  s ::=[ a ::=[ H  i  J  •  J ]  J ]
@@ -563,10 +540,9 @@ D: d;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token d:
 3:    5 C: . %empty
 3:    6 D: . d
-On Symbol: d
 Example  a  A  •  d
 First  derivation  S ::=[ a  A  A ::=[ B ::=[ C ::=[ • ] ] ]  D ::=[ d ] ]
 Second derivation  S ::=[ a  A  D ::=[ •  d ] ]
@@ -596,10 +572,9 @@ D: d;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift-Reduce Conflict:
+[[Shift/reduce conflict on token d:
 3:    5 C: . %empty
 3:    6 D: . d
-On Symbol: d
 First  Example a  A  •  d  e  $end
 First  derivation  $accept ::=[ S ::=[ a  A  A ::=[ B ::=[ C ::=[ • ] ] ]  D ::=[ d ]  e ]  $end ]
 Second Example a  A  •  d  $end

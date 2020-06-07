@@ -2,6 +2,7 @@ examples/c/bistromathic/parse.y
 examples/java/calc/Calc.y
 src/complain.c
 src/conflicts.c
+src/counterexample.c
 src/files.c
 src/fixits.c
 src/getargs.c

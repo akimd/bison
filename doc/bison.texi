@@ -5618,13 +5618,13 @@ Specify the grammar's start symbol (@pxref{Start Decl}).
 @end deffn
 
 @deffn {Directive} %expect
-Declare the expected number of shift-reduce conflicts, either overall or
+Declare the expected number of shift/reduce conflicts, either overall or
 for a given rule
 (@pxref{Expect Decl}).
 @end deffn
 
 @deffn {Directive} %expect-rr
-Declare the expected number of reduce-reduce conflicts, either overall or
+Declare the expected number of reduce/reduce conflicts, either overall or
 for a given rule
 (@pxref{Expect Decl}).
 @end deffn
@@ -9172,7 +9172,7 @@ Ambiguous grammars, since they have strings with more than one possible
 sequence of reductions cannot have deterministic parsers in this sense.
 The same is true of languages that require more than one symbol of
 lookahead, since the parser lacks the information necessary to make a
-decision at the point it must be made in a shift-reduce parser.
+decision at the point it must be made in a shift/reduce parser.
 Finally, as previously mentioned (@pxref{Mysterious Conflicts}),
 there are languages where Bison's default choice of how to
 summarize the input seen so far loses necessary information.
@@ -9182,9 +9182,9 @@ Bison generates a parser that uses a different algorithm, called
 Generalized LR (or GLR).  A Bison GLR
 parser uses the same basic
 algorithm for parsing as an ordinary Bison parser, but behaves
-differently in cases where there is a shift-reduce conflict that has not
+differently in cases where there is a shift/reduce conflict that has not
 been resolved by precedence rules (@pxref{Precedence}) or a
-reduce-reduce conflict.  When a GLR parser encounters such a
+reduce/reduce conflict.  When a GLR parser encounters such a
 situation, it
 effectively @emph{splits} into a several parsers, one for each possible
 shift or reduction.  These parsers then proceed as usual, consuming
@@ -13885,7 +13885,7 @@ associated with any of the symbols in the current rule).
 There was also the command @samp{%expect @var{n}} which said not to mention the
 conflicts if there are @var{n} shift/reduce conflicts and no reduce/reduce
 conflicts.  In more recent versions of Bison, @code{%expect} and its
-@code{%expect-rr} variant for reduce-reduce conflicts can be applied to
+@code{%expect-rr} variant for reduce/reduce conflicts can be applied to
 individual rules.
 
 Later versions of Bison added many more new features.
