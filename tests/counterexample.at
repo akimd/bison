@@ -530,22 +530,22 @@ AT_SETUP([Deep Null Unifying])
 AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
-[[%token a d
+[[%token A D
 %%
-S: a A D | a A A D;
-A: B;
-B: C
-C: %empty
-D: d;
+s: A a d | A a a d;
+a: b;
+b: c
+c: %empty
+d: D;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift/reduce conflict on token d:
-3:    5 C: . %empty
-3:    6 D: . d
-Example  a  A  •  d
-First  derivation  S ::=[ a  A  A ::=[ B ::=[ C ::=[ • ] ] ]  D ::=[ d ] ]
-Second derivation  S ::=[ a  A  D ::=[ •  d ] ]
+[[Shift/reduce conflict on token D:
+3:    5 c: . %empty
+3:    6 d: . D
+Example  A  a  •  D
+First  derivation  s ::=[ A  a  a ::=[ b ::=[ c ::=[ • ] ] ]  d ::=[ D ] ]
+Second derivation  s ::=[ A  a  d ::=[ •  D ] ]
 
 input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
@@ -562,23 +562,23 @@ AT_SETUP([Deep Null Non-unifying])
 AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
-[[%token a d e
+[[%token A D E
 %%
-S: a A D | a A A D e;
-A: B;
-B: C
-C: %empty
-D: d;
+s: A a d | A a a d E;
+a: b;
+b: c
+c: %empty
+d: D;
 ]])
 
 AT_BISON_CHECK_CEX([input.y], [], [],
-[[Shift/reduce conflict on token d:
-3:    5 C: . %empty
-3:    6 D: . d
-First  Example a  A  •  d  e  $end
-First  derivation  $accept ::=[ S ::=[ a  A  A ::=[ B ::=[ C ::=[ • ] ] ]  D ::=[ d ]  e ]  $end ]
-Second Example a  A  •  d  $end
-Second derivation  $accept ::=[ S ::=[ a  A  D ::=[ •  d ] ]  $end ]
+[[Shift/reduce conflict on token D:
+3:    5 c: . %empty
+3:    6 d: . D
+First  Example A  a  •  D  E  $end
+First  derivation  $accept ::=[ s ::=[ A  a  a ::=[ b ::=[ c ::=[ • ] ] ]  d ::=[ D ]  E ]  $end ]
+Second Example A  a  •  D  $end
+Second derivation  $accept ::=[ s ::=[ A  a  d ::=[ •  D ] ]  $end ]
 
 input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 ]])
