@@ -15,15 +15,10 @@ list_get_end (gl_list_t list)
 ** Bistromathic
 - Hitting tab on a line with a syntax error is ugly
 
-- Be robust to existing ~/.inputrc
-
 - How about not evaluating incomplete lines when the text is not finished
   (as shells do).
 
 - Caret diagnostics
-
-** Doc
-*** api.header.include
 
 ** Questions
 *** Java
@@ -53,9 +48,6 @@ enough.
 ** Java
 *** calc.at
 Stop hard-coding "Calc".  Adjust local.at (look for FIXME).
-
-** Counter example generation
-See https://github.com/akimd/bison/pull/15.
 
 ** Clean up
 Rename endtoken as eoftoken.

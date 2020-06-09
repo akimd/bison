@@ -7,6 +7,26 @@ GNU Bison NEWS
   When installed to be relocatable (via configure --enable-relocatable),
   bison will now also look for a relocated m4.
 
+** Bug fixes
+
+*** Include the generated header (yacc.c)
+
+  Historically, when --defines was used, bison generated a header and pasted
+  an exact copy of it into the generated parser implementation file.  Since
+  Bison 3.4 it is possible to specify that the header should be `#include`d,
+  and how.  For instance
+
+    %define api.header.include {"parse.h"}
+
+  or
+
+    %define api.header.include {<parser/parse.h>}
+
+  Now api.header.include defaults to `"header-basename"`, as was intended in
+  Bison 3.4, where `header-basename` is the basename of the generated
+  header.  This is disabled when the generated header is `y.tab.h`, to
+  comply with Automake's ylwrap.
+
 ** New features
 
 *** File prefix mapping

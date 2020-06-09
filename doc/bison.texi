@@ -5922,44 +5922,58 @@ Unaccepted @var{variable}s produce an error.  Some of the accepted
 @var{variable}s are described below.
 
 
-@c ================================================== api.namespace
-@deffn Directive {%define api.namespace} @{@var{namespace}@}
+@c ================================================== api.header.include
+@deffn Directive {%define api.header.include} @{"header.h"@}
+@deffnx Directive {%define api.header.include} @{<header.h>@}
 @itemize
-@item Languages(s): C++
+@item Languages(s): C (@file{yacc.c})
 
-@item Purpose: Specify the namespace for the parser class.
-For example, if you specify:
+@item Purpose: Specify how the generated parser should include the generated header.
 
-@example
-%define api.namespace @{foo::bar@}
-@end example
+Historically, when option @option{-D}/@option{--defines} was used,
+@command{bison} generated a header and pasted an exact copy of it into the
+generated parser implementation file.  Since Bison 3.6, it is
+@code{#include}d as @samp{"@var{basename}.h"}, instead of duplicated, unless
+@var{file} is @samp{y.tab}, see below.
 
-Bison uses @code{foo::bar} verbatim in references such as:
-
-@example
-foo::bar::parser::semantic_type
-@end example
-
-However, to open a namespace, Bison removes any leading @code{::} and then
-splits on any remaining occurrences:
+The @code{api.header.include} variable allows to control how the generated
+parser @code{#include}s the generated header.  For instance:
 
 @example
-namespace foo @{ namespace bar @{
-  class position;
-  class location;
-@} @}
+%define api.header.include @{"parse.h"@}
 @end example
+
+@noindent
+or
+
+@example
+%define api.header.include @{<parser/parse.h>@}
+@end example
+
+Using @code{api.header.include} does not change the name of the generated
+header, only how it is included.
+
+To work around limitations of Automake's @command{ylwrap} (which runs
+@command{bison} with @option{--yacc}), @code{api.header.include} is
+@emph{not} predefined when the output file is @file{y.tab.c}.  Define it to
+avoid the duplication.
 
 @item Accepted Values:
-Any absolute or relative C++ namespace reference without a trailing
-@code{"::"}.  For example, @code{"foo"} or @code{"::foo::bar"}.
+An argument for @code{#include}.
 
 @item Default Value:
-@code{yy}, unless you used the obsolete @samp{%name-prefix "@var{prefix}"}
-directive.
+@samp{"@var{header-basename}"}, unless the header file is @file{y.tab.h},
+where @var{header-basename} is the name of the generated header, without
+directory part.  For instance with @command{bison -d calc/parse.y},
+@code{api.header.include} defaults to @samp{"parse.h"}, not
+@samp{"calc/parse.h"}.
+
+@item History:
+Introduced in Bison 3.4.  Defaults to @samp{"@var{basename}.h"} since Bison
+3.7, unless the header file is @file{y.tab.h}.
 @end itemize
 @end deffn
-@c api.namespace
+@c api.header.include
 
 
 @c ================================================== api.location.file
@@ -6041,6 +6055,46 @@ Introduced in Bison 3.2.
 Introduced in Bison 2.7 for C++ and Java, in Bison 3.4 for C.
 @end itemize
 @end deffn
+
+
+@c ================================================== api.namespace
+@deffn Directive {%define api.namespace} @{@var{namespace}@}
+@itemize
+@item Languages(s): C++
+
+@item Purpose: Specify the namespace for the parser class.
+For example, if you specify:
+
+@example
+%define api.namespace @{foo::bar@}
+@end example
+
+Bison uses @code{foo::bar} verbatim in references such as:
+
+@example
+foo::bar::parser::semantic_type
+@end example
+
+However, to open a namespace, Bison removes any leading @code{::} and then
+splits on any remaining occurrences:
+
+@example
+namespace foo @{ namespace bar @{
+  class position;
+  class location;
+@} @}
+@end example
+
+@item Accepted Values:
+Any absolute or relative C++ namespace reference without a trailing
+@code{"::"}.  For example, @code{"foo"} or @code{"::foo::bar"}.
+
+@item Default Value:
+@code{yy}, unless you used the obsolete @samp{%name-prefix "@var{prefix}"}
+directive.
+@end itemize
+@end deffn
+@c api.namespace
 
 
 @c ================================================== api.parser.class
