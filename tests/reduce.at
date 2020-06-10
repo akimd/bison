@@ -1300,6 +1300,7 @@ dnl INPUT
 dnl BISON-STDERR
 [AT_COND_CASE([[LALR]],
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
 ]], [])],
 
 dnl TABLES
