@@ -21,7 +21,7 @@ m4_define([AT_BISON_CHECK_CEX],
 [AT_DATA([experr], [$4])
 sed -e ['s/time limit exceeded: [0-9][.0-9]*/time limit exceeded: XXX/g'] \
   experr >expout
-AT_BISON_CHECK([-Wcounterexample $1], [$2], [$3], [stderr])
+AT_BISON_CHECK([-Wcounterexamples $1], [$2], [$3], [stderr])
 AT_CHECK([[sed -e 's/time limit exceeded: [0-9][.0-9]*/time limit exceeded: XXX/g' stderr]],
          [], [expout])
 ])
