@@ -1,5 +1,6 @@
 * Bison 3.7
 ** Cex
+*** Improve gnulib
 Don't do this (counterexample.c):
 
 // This is the fastest way to get the tail node from the gl_list API.
@@ -11,6 +12,25 @@ list_get_end (gl_list_t list)
   gl_list_remove_node (list, sentinel);
   return res;
 }
+
+*** Ambiguous rewriting
+If the user is stupid enough to have equal rules, then the derivations are
+harder to read:
+
+    Reduce/reduce conflict on tokens $end, "+", "⊕":
+        2 exp: exp "+" exp .
+        3 exp: exp "+" exp .
+      Example                  exp "+" exp •
+      First derivation         exp ::=[ exp "+" exp • ]
+      Example                  exp "+" exp •
+      Second derivation        exp ::=[ exp "+" exp • ]
+
+Do we care about this?  In color, we use twice the same color here, but we
+could try to use the same color for the same rule.
+
+*** XML reports
+Show the counterexamples.  This is going to be really hard and/or painful.
+Unless we play it dumb (little structure).
 
 ** glr.cc
 Get rid of global_tokens_and_yystype.

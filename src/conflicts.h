@@ -41,6 +41,8 @@ int conflicts_total_count (void);
 void conflicts_output (FILE *out);
 void conflicts_free (void);
 
+bool has_conflicts (const state *s);
+
 /* Were there conflicts? */
 extern int expected_sr_conflicts;
 extern int expected_rr_conflicts;

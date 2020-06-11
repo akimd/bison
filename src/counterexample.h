@@ -25,6 +25,6 @@
 void counterexample_init (void);
 void counterexample_free (void);
 
-void counterexample_report_state (const state *s, FILE *out);
+void counterexample_report_state (const state *s, FILE *out, const char *prefix);
 
 #endif /* COUNTEREXAMPLE_H */
