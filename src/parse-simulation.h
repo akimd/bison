@@ -140,6 +140,7 @@ parse_state_list simulate_reduction (parse_state *ps, int rule_len,
  * transition or production step to ps's head. */
 parse_state_list parser_prepend (parse_state *ps);
 
+/* For debugging traces.  */
 void print_parse_state (parse_state *ps);
 
 #endif /* PARSE_SIMULATION_H */
