@@ -25,11 +25,6 @@
 void counterexample_init (void);
 void counterexample_free (void);
 
-void counterexample_report_shift_reduce (state_item_number itm1,
-                                         state_item_number itm2,
-                                         symbol_number next_sym);
+void counterexample_report_state (const state *s, FILE *out);
 
-void counterexample_report_reduce_reduce (state_item_number itm1,
-                                          state_item_number itm2,
-                                          bitset conflict_syms);
 #endif /* COUNTEREXAMPLE_H */
