@@ -105,12 +105,6 @@ yyerror (]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_
          ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
          ])[const char* msg);]])[
 
-]b4_percent_define_flag_if([[global_tokens_and_yystype]], [],
-[m4_define([b4_pre_epilogue],
-[[/* The user is using the C++ token kind, not the C one. */
-#undef ]b4_symbol(0, [id])
-])])[
-
 # Hijack the epilogue to define implementations (yyerror, parser member
 # functions etc.).
 ]m4_append([b4_epilogue],
@@ -220,6 +214,53 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 ]m4_popdef([b4_parse_param])dnl
 b4_namespace_close[]dnl
 ])
+
+
+# b4_glr_cc_setup
+# ---------------
+# Setup redirections for glr.c: Map the names used in c.m4 to the ones used
+# in c++.m4.
+m4_define([b4_glr_cc_setup],
+[[#undef ]b4_symbol(-2, [id])[
+#define ]b4_symbol(-2, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(-2, [id])[
+#undef ]b4_symbol(0, [id])[
+#define ]b4_symbol(0, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(0, [id])[
+#undef ]b4_symbol(1, [id])[
+#define ]b4_symbol(1, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(1, [id])[
+
+#ifndef ]b4_api_PREFIX[STYPE
+# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
+#endif
+#ifndef ]b4_api_PREFIX[LTYPE
+# define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
+#endif
+
+typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
+#define ]b4_symbol_prefix[YYEMPTY  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEMPTY
+#define ]b4_symbol_prefix[YYerror  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYerror
+#define ]b4_symbol_prefix[YYEOF    ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEOF
+#define ]b4_symbol_prefix[YYUNDEF  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYUNDEF
+]])
+
+
+# b4_glr_cc_cleanup
+# -----------------
+# Remove redirections for glr.c.
+m4_define([b4_glr_cc_cleanup],
+[b4_percent_define_flag_if([[global_tokens_and_yystype]], [],
+[[#undef ]b4_symbol(-2, [id])[
+#undef ]b4_symbol(0, [id])[
+#undef ]b4_symbol(1, [id])[
+]])[
+
+#undef ]b4_api_PREFIX[STYPE
+#undef ]b4_api_PREFIX[LTYPE
+
+#undef ]b4_symbol_prefix[YYEMPTY
+#undef ]b4_symbol_prefix[YYerror
+#undef ]b4_symbol_prefix[YYEOF
+#undef ]b4_symbol_prefix[YYUNDEF
+]])
 
 
 # b4_shared_declarations(hh|cc)
@@ -339,33 +380,11 @@ b4_percent_define_flag_if([[global_tokens_and_yystype]],
 ])[
 ]b4_namespace_close[
 
-]dnl Map the name used in c.m4 to the one used in c++.m4.
-[#undef ]b4_symbol(-2, [id])[
-#define ]b4_symbol(-2, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(-2, [id])[
-#undef ]b4_symbol(0, [id])[
-#define ]b4_symbol(0, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(0, [id])[
-#undef ]b4_symbol(1, [id])[
-#define ]b4_symbol(1, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(1, [id])[
-
-#ifndef ]b4_api_PREFIX[STYPE
-# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
-#endif
-#ifndef ]b4_api_PREFIX[LTYPE
-# define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
-#endif
-
-]m4_define([b4_declare_symbol_enum],
-[[typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
-#define ]b4_symbol_prefix[YYEMPTY  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEMPTY
-#define ]b4_symbol_prefix[YYerror  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYerror
-#define ]b4_symbol_prefix[YYEOF    ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYEOF
-#define ]b4_symbol_prefix[YYUNDEF  ]b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol_prefix[YYUNDEF
-]])[
 ]b4_percent_code_get([[provides]])[
 ]m4_popdef([b4_parse_param])dnl
-])
+])[
 
-b4_defines_if(
+]b4_defines_if(
 [b4_output_begin([b4_spec_header_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2015, 2018-2020])[

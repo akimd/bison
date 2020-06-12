@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  In glr.cc some internal macros leaked in the user's code, and could damage
+  access to the token kinds.
 
 * Noteworthy changes in release 3.6.3 (2020-06-03) [stable]
 
