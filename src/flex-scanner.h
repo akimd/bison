@@ -109,6 +109,9 @@ static struct obstack obstack_for_string;
 # define STRING_FINISH()                                \
   (last_string = obstack_finish0 (&obstack_for_string))
 
+# define STRING_1GROW(Char)                     \
+  obstack_1grow (&obstack_for_string, Char)
+
 # define STRING_FREE()                                  \
   obstack_free (&obstack_for_string, last_string)
 

@@ -89,14 +89,14 @@ static boundary scanner_cursor;
     verify (UCHAR_MAX < ULONG_MAX);                             \
     long c = Char;                                              \
     if (0 < c && c <= UCHAR_MAX)                                \
-      obstack_1grow (&obstack_for_string, c);                   \
+      STRING_1GROW (c);                                         \
     else                                                        \
       {                                                         \
         complain (loc, complaint,                               \
                   _("invalid number after \\-escape: %s"),      \
                   yytext + 1);                                  \
         /* Avoid additional errors about empty char literal. */ \
-        obstack_1grow (&obstack_for_string, '?');               \
+        STRING_1GROW ('?');                                     \
       }                                                         \
   } while (0)
 
@@ -661,16 +661,16 @@ eqopt    ({sp}=)?
     STRING_GROW_ESCAPE (strtol (yytext + 2, NULL, 16));
   }
 
-  \\a   obstack_1grow (&obstack_for_string, '\a');
-  \\b   obstack_1grow (&obstack_for_string, '\b');
-  \\f   obstack_1grow (&obstack_for_string, '\f');
-  \\n   obstack_1grow (&obstack_for_string, '\n');
-  \\r   obstack_1grow (&obstack_for_string, '\r');
-  \\t   obstack_1grow (&obstack_for_string, '\t');
-  \\v   obstack_1grow (&obstack_for_string, '\v');
+  \\a   STRING_1GROW ('\a');
+  \\b   STRING_1GROW ('\b');
+  \\f   STRING_1GROW ('\f');
+  \\n   STRING_1GROW ('\n');
+  \\r   STRING_1GROW ('\r');
+  \\t   STRING_1GROW ('\t');
+  \\v   STRING_1GROW ('\v');
 
   /* \\[\"\'?\\] would be shorter, but it confuses xgettext.  */
-  \\("\""|"'"|"?"|"\\")  obstack_1grow (&obstack_for_string, yytext[1]);
+  \\("\""|"'"|"?"|"\\")  STRING_1GROW (yytext[1]);
 
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
     STRING_GROW_ESCAPE (convert_ucn_to_byte (yytext));
@@ -685,7 +685,7 @@ eqopt    ({sp}=)?
       p = quotearg_style_mem (escape_quoting_style, p, 1);
     complain (loc, complaint, _("invalid character after \\-escape: %s"),
               p);
-    obstack_1grow (&obstack_for_string, '?');
+    STRING_1GROW ('?');
   }
 }
 
@@ -766,7 +766,7 @@ eqopt    ({sp}=)?
 <SC_BRACED_CODE>
 {
   "}" {
-    obstack_1grow (&obstack_for_string, '}');
+    STRING_1GROW ('}');
 
     --nesting;
     if (nesting < 0)
@@ -791,7 +791,7 @@ eqopt    ({sp}=)?
         RETURN_VALUE (BRACED_PREDICATE, last_string);
       }
     else
-      obstack_1grow (&obstack_for_string, '}');
+      STRING_1GROW ('}');
   }
 }
 

@@ -102,9 +102,9 @@ static void output_mapped_file (char const *name);
 {
   [^@]+  STRING_GROW ();
 
-  "@@"   obstack_1grow (&obstack_for_string, '@');
-  "@{"   obstack_1grow (&obstack_for_string, '[');
-  "@}"   obstack_1grow (&obstack_for_string, ']');
+  "@@"   STRING_1GROW ('@');
+  "@{"   STRING_1GROW ('[');
+  "@}"   STRING_1GROW (']');
   "@'"   continue; /* For starting an argument that begins with whitespace. */
   @\n    continue;
 
