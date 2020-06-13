@@ -86,6 +86,7 @@ static boundary scanner_cursor;
 
 #define STRING_GROW_ESCAPE(Char)                                \
   do {                                                          \
+    verify (UCHAR_MAX < ULONG_MAX);                             \
     long c = Char;                                              \
     if (0 < c && c <= UCHAR_MAX)                                \
       obstack_1grow (&obstack_for_string, c);                   \
@@ -653,12 +654,10 @@ eqopt    ({sp}=)?
 <SC_ESCAPED_CHARACTER,SC_ESCAPED_STRING,SC_ESCAPED_TSTRING>
 {
   \\[0-7]{1,3} {
-    verify (UCHAR_MAX < ULONG_MAX);
     STRING_GROW_ESCAPE (strtol (yytext + 1, NULL, 8));
   }
 
   \\x[0-9abcdefABCDEF]+ {
-    verify (UCHAR_MAX < ULONG_MAX);
     STRING_GROW_ESCAPE (strtol (yytext + 2, NULL, 16));
   }
 
