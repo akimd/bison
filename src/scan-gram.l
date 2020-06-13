@@ -88,16 +88,15 @@ static boundary scanner_cursor;
   do {                                                          \
     verify (UCHAR_MAX < ULONG_MAX);                             \
     long c = Char;                                              \
-    if (0 < c && c <= UCHAR_MAX)                                \
-      STRING_1GROW (c);                                         \
+    bool valid = 0 < c && c <= UCHAR_MAX;                       \
+    if (!valid)                                                 \
+      complain (loc, complaint,                                 \
+                _("invalid number after \\-escape: %s"),        \
+                yytext + 1);                                    \
+    if (YY_START == SC_ESCAPED_CHARACTER)                       \
+      STRING_1GROW (valid ? c : '?');                           \
     else                                                        \
-      {                                                         \
-        complain (loc, complaint,                               \
-                  _("invalid number after \\-escape: %s"),      \
-                  yytext + 1);                                  \
-        /* Avoid additional errors about empty char literal. */ \
-        STRING_1GROW ('?');                                     \
-      }                                                         \
+      STRING_GROW ();                                           \
   } while (0)
 
 
@@ -337,8 +336,8 @@ eqopt    ({sp}=)?
   "'"         token_start = loc->start; BEGIN SC_ESCAPED_CHARACTER;
 
   /* Strings. */
-  "\""        token_start = loc->start; BEGIN SC_ESCAPED_STRING;
-  "_(\""      token_start = loc->start; BEGIN SC_ESCAPED_TSTRING;
+  "\""        token_start = loc->start; STRING_1GROW ('"'); BEGIN SC_ESCAPED_STRING;
+  "_(\""      token_start = loc->start; STRING_1GROW ('"'); BEGIN SC_ESCAPED_TSTRING;
 
   /* Prologue. */
   "%{"        code_start = loc->start; BEGIN SC_PROLOGUE;
@@ -559,6 +558,7 @@ eqopt    ({sp}=)?
 <SC_ESCAPED_STRING>
 {
   "\"" {
+    STRING_1GROW ('"');
     STRING_FINISH ();
     BEGIN INITIAL;
     loc->start = token_start;
@@ -571,6 +571,7 @@ eqopt    ({sp}=)?
 <SC_ESCAPED_TSTRING>
 {
   "\")" {
+    STRING_1GROW ('"');
     STRING_FINISH ();
     BEGIN INITIAL;
     loc->start = token_start;
@@ -664,16 +665,16 @@ eqopt    ({sp}=)?
     STRING_GROW_ESCAPE (strtol (yytext + 2, NULL, 16));
   }
 
-  \\a   STRING_1GROW ('\a');
-  \\b   STRING_1GROW ('\b');
-  \\f   STRING_1GROW ('\f');
-  \\n   STRING_1GROW ('\n');
-  \\r   STRING_1GROW ('\r');
-  \\t   STRING_1GROW ('\t');
-  \\v   STRING_1GROW ('\v');
+  \\a   STRING_GROW_ESCAPE ('\a');
+  \\b   STRING_GROW_ESCAPE ('\b');
+  \\f   STRING_GROW_ESCAPE ('\f');
+  \\n   STRING_GROW_ESCAPE ('\n');
+  \\r   STRING_GROW_ESCAPE ('\r');
+  \\t   STRING_GROW_ESCAPE ('\t');
+  \\v   STRING_GROW_ESCAPE ('\v');
 
   /* \\[\"\'?\\] would be shorter, but it confuses xgettext.  */
-  \\("\""|"'"|"?"|"\\")  STRING_1GROW (yytext[1]);
+  \\("\""|"'"|"?"|"\\")  STRING_GROW_ESCAPE (yytext[1]);
 
   \\(u|U[0-9abcdefABCDEF]{4})[0-9abcdefABCDEF]{4} {
     STRING_GROW_ESCAPE (convert_ucn_to_byte (yytext));
@@ -1024,13 +1025,12 @@ gram_scanner_open (const char *gram)
 
 
 void
-gram_scanner_close ()
+gram_scanner_close (void)
 {
   xfclose (gram_in);
   /* Reclaim Flex's buffers.  */
   yylex_destroy ();
 }
-
 
 
 void

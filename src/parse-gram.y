@@ -23,6 +23,14 @@
   #include "symtab.h"
 }
 
+%code provides
+{
+  /* Initialize unquote.  */
+  void parser_init (void);
+  /* Deallocate storage for unquote.  */
+  void parser_free (void);
+}
+
 %code top
 {
   /* On column 0 to please syntax-check.  */
@@ -73,16 +81,19 @@
   static char *strip_braces (char *code);
 
   /* Convert CODE by calling code_props_plain_init if PLAIN, otherwise
-     code_props_symbol_action_init.  Call
+     code_props_symbol_action_init.  Calls
      gram_scanner_last_string_free to release the latest string from
      the scanner (should be CODE). */
   static char const *translate_code (char *code, location loc, bool plain);
 
   /* Convert CODE by calling code_props_plain_init after having
      stripped the first and last characters (expected to be '{', and
-     '}').  Call gram_scanner_last_string_free to release the latest
+     '}').  Calls gram_scanner_last_string_free to release the latest
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
+
+  /* Handle a %defines directive.  */
+  static void handle_defines (char const *value);
 
   /* Handle a %error-verbose directive.  */
   static void handle_error_verbose (location const *loc, char const *directive);
@@ -91,6 +102,9 @@
   static void handle_file_prefix (location const *loc,
                                   location const *dir_loc,
                                   char const *directive, char const *value);
+
+  /* Handle a %language directive.  */
+  static void handle_language (location const *loc, char const *lang);
 
   /* Handle a %name-prefix directive.  */
   static void handle_name_prefix (location const *loc,
@@ -117,6 +131,13 @@
   /* Add style to semantic values in traces.  */
   static void tron (FILE *yyo);
   static void troff (FILE *yyo);
+
+  /* Interpret a quoted string (such as `"Hello, \"World\"\n\""`).
+     Manages the memory of the result.  */
+  static char *unquote (const char *str);
+
+  /* Discard the latest unquoted string.  */
+  static void unquote_free (char *last_string);
 }
 
 %define api.header.include {"parse-gram.h"}
@@ -315,11 +336,7 @@ prologue_declaration:
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
 | "%defines"                       { defines_flag = true; }
-| "%defines" STRING
-    {
-      defines_flag = true;
-      spec_header_file = xstrdup ($2);
-    }
+| "%defines" STRING                { handle_defines ($2); }
 | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT                    { expected_sr_conflicts = $2; }
 | "%expect-rr" INT                 { expected_rr_conflicts = $2; }
@@ -334,11 +351,11 @@ prologue_declaration:
       muscle_code_grow ("initial_action", translate_code ($2, @2, false), @2);
       code_scanner_last_string_free ();
     }
-| "%language" STRING            { language_argmatch ($2, grammar_prio, @1); }
+| "%language" STRING            { handle_language (&@1, $2); }
 | "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
 | "%no-lines"                   { no_lines_flag = true; }
 | "%nondeterministic-parser"    { nondeterministic_parser = true; }
-| "%output" STRING              { spec_outfile = $2; }
+| "%output" STRING              { spec_outfile = unquote ($2); gram_scanner_last_string_free (); }
 | "%param" { current_param = $1; } params { current_param = param_none; }
 | "%pure-parser"                { handle_pure_parser (&@$, $1); }
 | "%require" STRING             { handle_require (&@2, $2); }
@@ -549,7 +566,7 @@ alias:
 | string_as_id   { $$ = $1; }
 | TSTRING
     {
-      $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
+      $$ = symbol_get ($1, @1);
       symbol_class_set ($$, token_sym, @1, false);
       $$->translatable = true;
     }
@@ -729,8 +746,8 @@ variable:
 value:
   %empty  { $$.kind = muscle_keyword; $$.chars = ""; }
 | ID      { $$.kind = muscle_keyword; $$.chars = $1; }
-| STRING  { $$.kind = muscle_string;  $$.chars = $1; }
-| "{...}" { $$.kind = muscle_code;    $$.chars = strip_braces ($1); }
+| STRING  { $$.kind = muscle_string;  $$.chars = unquote ($1); gram_scanner_last_string_free ();}
+| "{...}" { $$.kind = muscle_code;    $$.chars = strip_braces ($1); gram_scanner_last_string_free (); }
 ;
 
 
@@ -777,11 +794,11 @@ symbol:
 | string_as_id
 ;
 
-/* A string used as an ID: quote it.  */
+/* A string used as an ID.  */
 string_as_id:
   STRING
     {
-      $$ = symbol_get (quotearg_style (c_quoting_style, $1), @1);
+      $$ = symbol_get ($1, @1);
       symbol_class_set ($$, token_sym, @1, false);
     }
 ;
@@ -926,6 +943,17 @@ add_param (param_type type, char *decl, location loc)
 
 
 static void
+handle_defines (char const *value)
+{
+  defines_flag = true;
+  char *file = unquote (value);
+  spec_header_file = xstrdup (file);
+  gram_scanner_last_string_free ();
+  unquote_free (file);
+}
+
+
+static void
 handle_error_verbose (location const *loc, char const *directive)
 {
   bison_directive (loc, directive);
@@ -937,8 +965,9 @@ handle_error_verbose (location const *loc, char const *directive)
 static void
 handle_file_prefix (location const *loc,
                     location const *dir_loc,
-                    char const *directive, char const *value)
+                    char const *directive, char const *value_quoted)
 {
+  char *value = unquote (value_quoted);
   bison_directive (loc, directive);
   bool warned = false;
 
@@ -958,11 +987,18 @@ handle_file_prefix (location const *loc,
     deprecated_directive (dir_loc, directive, "%file-prefix");
 }
 
+static void
+handle_language (location const *loc, char const *lang)
+{
+  language_argmatch (unquote (lang), grammar_prio, *loc);
+}
+
 
 static void
 handle_name_prefix (location const *loc,
-                    char const *directive, char const *value)
+                    char const *directive, char const *value_quoted)
 {
+  char *value = unquote (value_quoted);
   bison_directive (loc, directive);
 
   char buf1[1024];
@@ -1034,34 +1070,39 @@ str_to_version (char const *version)
 
 
 static void
-handle_require (location const *loc, char const *version)
+handle_require (location const *loc, char const *version_quoted)
 {
+  char *version = unquote (version_quoted);
   required_version = str_to_version (version);
   if (required_version == -1)
     {
       complain (loc, complaint, _("invalid version requirement: %s"),
                 version);
       required_version = 0;
-      return;
     }
-
-  /* Pretend to be at least that version, to check features published
-     in that version while developping it.  */
-  const char* api_version = "3.6";
-  const char* package_version =
-    0 < strverscmp (api_version, PACKAGE_VERSION)
-    ? api_version : PACKAGE_VERSION;
-  if (0 < strverscmp (version, package_version))
+  else
     {
-      complain (loc, complaint, _("require bison %s, but have %s"),
-                version, package_version);
-      exit (EX_MISMATCH);
+      /* Pretend to be at least that version, to check features published
+         in that version while developping it.  */
+      const char* api_version = "3.6";
+      const char* package_version =
+        0 < strverscmp (api_version, PACKAGE_VERSION)
+        ? api_version : PACKAGE_VERSION;
+      if (0 < strverscmp (version, package_version))
+        {
+          complain (loc, complaint, _("require bison %s, but have %s"),
+                    version, package_version);
+          exit (EX_MISMATCH);
+        }
     }
+  unquote_free (version);
+  gram_scanner_last_string_free ();
 }
 
 static void
-handle_skeleton (location const *loc, char const *skel)
+handle_skeleton (location const *loc, char const *skel_quoted)
 {
+  char *skel = unquote (skel_quoted);
   char const *skeleton_user = skel;
   if (strchr (skeleton_user, '/'))
     {
@@ -1141,4 +1182,96 @@ static void tron (FILE *yyo)
 static void troff (FILE *yyo)
 {
   end_use_class ("value", yyo);
+}
+
+
+/*----------.
+| Unquote.  |
+`----------*/
+
+struct obstack obstack_for_unquote;
+
+void
+parser_init (void)
+{
+  obstack_init (&obstack_for_unquote);
+}
+
+void
+parser_free (void)
+{
+  obstack_free (&obstack_for_unquote, 0);
+}
+
+static void
+unquote_free (char *last_string)
+{
+  obstack_free (&obstack_for_unquote, last_string);
+}
+
+static char *
+unquote (const char *cp)
+{
+#define GROW(Char)                              \
+  obstack_1grow (&obstack_for_unquote, Char);
+  for (++cp; *cp && *cp != '"'; ++cp)
+    switch (*cp)
+      {
+      case '"':
+        break;
+      case '\\':
+        ++cp;
+        switch (*cp)
+          {
+          case '0': case '1': case '2': case '3': case '4':
+          case '5': case '6': case '7': case '8': case '9':
+            {
+              int c = cp[0] - '0';
+              if (c_isdigit (cp[1]))
+                {
+                  ++cp;
+                  c = c * 8 + cp[0] - '0';
+                }
+              if (c_isdigit (cp[1]))
+                {
+                  ++cp;
+                  c = c * 8 + cp[0] - '0';
+                }
+              GROW (c);
+            }
+            break;
+
+          case 'a': GROW ('\a'); break;
+          case 'b': GROW ('\b'); break;
+          case 'f': GROW ('\f'); break;
+          case 'n': GROW ('\n'); break;
+          case 'r': GROW ('\r'); break;
+          case 't': GROW ('\t'); break;
+          case 'v': GROW ('\v'); break;
+
+          case 'x':
+            {
+              int c = 0;
+              while (c_isxdigit (cp[1]))
+                {
+                  ++cp;
+                  c = (c * 16 + (c_isdigit (cp[0]) ? cp[0] - '0'
+                                 : c_isupper (cp[0]) ? cp[0] - 'A'
+                                 : cp[0] - '0'));
+                }
+              GROW (c);
+              break;
+            }
+          }
+        break;
+
+      default:
+        GROW (*cp);
+        break;
+      }
+  assert (*cp == '"');
+  ++cp;
+  assert (*cp == '\0');
+#undef GROW
+  return obstack_finish0 (&obstack_for_unquote);
 }

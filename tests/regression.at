@@ -415,7 +415,7 @@ AT_BISON_CHECK([-fcaret -o input.c input.y], [[0]], [[]],
 input.y:25.8-14: note: previous declaration
    25 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |        ^~~~~~~
-input.y:26.16-63: warning: symbol "\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!" used more than once as a literal string [-Wother]
+input.y:26.16-63: warning: symbol "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!" used more than once as a literal string [-Wother]
    26 | %token SPECIAL "\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"
       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ]])
@@ -427,7 +427,7 @@ AT_COMPILE([input])
 # symbol name reported by the parser is exactly the same as that reported by
 # Bison itself.
 AT_PARSER_CHECK([input], 1, [],
-[[syntax error, unexpected a, expecting ]AT_ERROR_VERBOSE_IF([["\\'?\"\a\b\f\n\r\t\v\001\201\001\201??!"]], [[∃¬∩∪∀]])[
+[[syntax error, unexpected a, expecting ]AT_ERROR_VERBOSE_IF([["\\\'\?\"\a\b\f\n\r\t\v\001\201\x001\x000081??!"]], [[∃¬∩∪∀]])[
 ]])
 
 AT_BISON_OPTION_POPDEFS
