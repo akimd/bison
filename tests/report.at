@@ -1150,6 +1150,11 @@ AT_SETUP([Reports with conflicts])
 
 AT_KEYWORDS([report])
 
+# We need UTF-8 support for correct screen-width computation of UTF-8
+# characters.  Skip the test if not available.
+locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
+AT_SKIP_IF([test x == x"$locale"])
+
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
 [[%left "+"
@@ -1162,7 +1167,7 @@ exp
 | "Ñùṃéℝô"
 ]])
 
-AT_BISON_CHECK([-o input.cc -rall --graph=input.gv --xml input.y], [], [],
+AT_CHECK([LC_ALL="$locale" $5 bison -fno-caret -o input.cc -rall --graph=input.gv --xml input.y], [], [],
 [[input.y: warning: 3 shift/reduce conflicts [-Wconflicts-sr]
 input.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
 input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
@@ -1219,7 +1224,7 @@ State 0
     4    | . "number"
     5    | . "Ñùṃéℝô"
 
-    "number"          shift, and go to state 1
+    "number"  shift, and go to state 1
     "Ñùṃéℝô"  shift, and go to state 2
 
     exp  go to state 3
@@ -1246,9 +1251,9 @@ State 3
     2    | exp . "+" exp
     3    | exp . "+" exp
 
-    $end   shift, and go to state 4
-    "+"    shift, and go to state 5
-    "⊕"  shift, and go to state 6
+    $end  shift, and go to state 4
+    "+"   shift, and go to state 5
+    "⊕"   shift, and go to state 6
 
 
 State 4
@@ -1268,7 +1273,7 @@ State 5
     4    | . "number"
     5    | . "Ñùṃéℝô"
 
-    "number"          shift, and go to state 1
+    "number"  shift, and go to state 1
     "Ñùṃéℝô"  shift, and go to state 2
 
     exp  go to state 7
@@ -1283,7 +1288,7 @@ State 6
     4    | . "number"
     5    | . "Ñùṃéℝô"
 
-    "number"          shift, and go to state 1
+    "number"  shift, and go to state 1
     "Ñùṃéℝô"  shift, and go to state 2
 
     exp  go to state 8
@@ -1303,8 +1308,8 @@ State 7
     $end      [reduce using rule 3 (exp)]
     "+"       reduce using rule 2 (exp)
     "+"       [reduce using rule 3 (exp)]
-    "⊕"     [reduce using rule 2 (exp)]
-    "⊕"     [reduce using rule 3 (exp)]
+    "⊕"       [reduce using rule 2 (exp)]
+    "⊕"       [reduce using rule 3 (exp)]
     $default  reduce using rule 2 (exp)
 
     Conflict between rule 2 and token "+" resolved as reduce (%left "+").
@@ -1317,11 +1322,11 @@ State 8
     2    | exp . "+" exp
     3    | exp . "+" exp
 
-    "+"    shift, and go to state 5
+    "+"  shift, and go to state 5
     "⊕"  shift, and go to state 6
 
     "+"       [reduce using rule 1 (exp)]
-    "⊕"     [reduce using rule 1 (exp)]
+    "⊕"       [reduce using rule 1 (exp)]
     $default  reduce using rule 1 (exp)
 ]])
 

@@ -27,6 +27,23 @@ GNU Bison NEWS
   header.  This is disabled when the generated header is `y.tab.h`, to
   comply with Automake's ylwrap.
 
+*** String aliases are faithfully propagated
+
+  Bison used to interpret user strings (i.e., decoding backslash escapes)
+  when reading them, and to escape them (i.e., issue non-printable
+  characters as backslash escapes, taking the locale into account) when
+  outputting them.  As a consequence non-ASCII strings (say in UTF-8) ended
+  up "ciphered" as sequences of backslash escapes.  This happened not only
+  in the generated sources (where the compiler will reinterpret them), but
+  also in all the generated reports (text, xml, html, dot, etc.).  Reports
+  were therefore not readable when string aliases were not pure ASCII.
+  Worse yet: the output depended on the user's locale.
+
+  Now Bison faithfully treats the string aliases exactly the way the user
+  spelled them.  This fixes all the aforementioned problems.  However, now,
+  string aliases semantically equivalent but syntactically different (e.g.,
+  "A", "\x41", "\101") are considered to be different.
+
 ** New features
 
 *** File prefix mapping
@@ -4205,7 +4222,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
  LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
  LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
- LocalWords:  yytoken YYUNDEF YYerror
+ LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
+ LocalWords:  gotos readline
 
 Local Variables:
 ispell-dictionary: "american"
