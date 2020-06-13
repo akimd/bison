@@ -247,15 +247,15 @@ void state_reductions_set (state *s, int num, rule **reds);
 
 /* The index of the reduction of state S that corresponds to rule R.
    Aborts if there is no reduction of R in S.  */
-int state_reduction_find (state *s, rule const *r);
+int state_reduction_find (state const *s, rule const *r);
 
 /* Set the errs of STATE.  */
 void state_errs_set (state *s, int num, symbol **errors);
 
 /* Print on OUT all the lookahead tokens such that this STATE wants to
    reduce R.  */
-void state_rule_lookahead_tokens_print (state *s, rule const *r, FILE *out);
-void state_rule_lookahead_tokens_print_xml (state *s, rule const *r,
+void state_rule_lookahead_tokens_print (state const *s, rule const *r, FILE *out);
+void state_rule_lookahead_tokens_print_xml (state const *s, rule const *r,
                                             FILE *out, int level);
 
 /* Create/destroy the states hash table.  */
@@ -264,7 +264,7 @@ void state_hash_free (void);
 
 /* Find the state associated to the CORE, and return it.  If it does
    not exist yet, return NULL.  */
-state *state_hash_lookup (size_t core_size, item_index *core);
+state *state_hash_lookup (size_t core_size, const item_index *core);
 
 /* Insert STATE in the state hash table.  */
 void state_hash_insert (state *s);
