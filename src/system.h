@@ -171,6 +171,23 @@ typedef size_t uintptr_t;
 # define obstack_sgrow(Obs, Str) \
   obstack_grow (Obs, Str, strlen (Str))
 
+/* Output Str escaped to be a string.
+
+   For instance "\"foo\"" -> "\\\"foo\\\"".  */
+
+# define obstack_backslash(Obs, Str)                    \
+  do {                                                  \
+    char const *p__;                                    \
+    for (p__ = Str; *p__; p__++)                        \
+      switch (*p__)                                     \
+        {                                               \
+        case '"':  obstack_sgrow (Obs, "\\\""); break;  \
+        case '\\': obstack_sgrow (Obs, "\\\\"); break;  \
+        default:   obstack_1grow (Obs, *p__);   break;  \
+        }                                               \
+  } while (0)
+
+
 /* Output Str escaped for our postprocessing (i.e., escape M4 special
    characters).
 

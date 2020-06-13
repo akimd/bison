@@ -63,10 +63,4 @@ void output_red (state const *s, reductions const *reds, FILE *fout);
  */
 void finish_graph (FILE *fout);
 
-/** Escape a lookahead token.
- *
- * \param name         the token.
- */
-char const *escape (char const *name);
-
 #endif /* ! GRAPHVIZ_H_ */
