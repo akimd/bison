@@ -1690,8 +1690,8 @@ AT_CLEANUP
 
 AT_SETUP([Unclosed constructs])
 
-# Bison's scan-gram.l once forgot to STRING_FINISH some unclosed
-# constructs, so they were prepended to whatever it STRING_GROW'ed
+# Bison's scan-gram.l once forgot to STRING_FINISH () some unclosed
+# constructs, so they were prepended to whatever it STRING_GROW ()'ed
 # next.  It also threw them away rather than returning them to the
 # parser.  The effect was confusing subsequent error messages.
 

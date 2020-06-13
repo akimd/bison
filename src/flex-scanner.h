@@ -94,22 +94,22 @@ int   FLEX_PREFIX (lex_destroy) (void);
    keep (to construct ID, STRINGS etc.).  Use the following macros to
    use it.
 
-   Use STRING_GROW to append what has just been matched, and
-   STRING_FINISH to end the string (it puts the ending 0).
-   STRING_FINISH also stores this string in LAST_STRING, which can be
-   used, and which is used by STRING_FREE to free the last string.  */
+   Use STRING_GROW () to append what has just been matched, and
+   STRING_FINISH () to end the string (it puts the ending 0).
+   STRING_FINISH () also stores this string in LAST_STRING, which can be
+   used, and which is used by STRING_FREE () to free the last string.  */
 
 #ifndef FLEX_NO_OBSTACK
 
 static struct obstack obstack_for_string;
 
-# define STRING_GROW                                    \
+# define STRING_GROW()                                  \
   obstack_grow (&obstack_for_string, yytext, yyleng)
 
-# define STRING_FINISH                                  \
+# define STRING_FINISH()                                \
   (last_string = obstack_finish0 (&obstack_for_string))
 
-# define STRING_FREE                                    \
+# define STRING_FREE()                                  \
   obstack_free (&obstack_for_string, last_string)
 
 #endif

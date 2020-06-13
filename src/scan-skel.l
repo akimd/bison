@@ -100,7 +100,7 @@ static void output_mapped_file (char const *name);
 
 <SC_AT_DIRECTIVE_ARGS>
 {
-  [^@]+  STRING_GROW;
+  [^@]+  STRING_GROW ();
 
   "@@"   obstack_1grow (&obstack_for_string, '@');
   "@{"   obstack_1grow (&obstack_for_string, '[');

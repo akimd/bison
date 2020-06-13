@@ -115,7 +115,7 @@ static int bracketed_id_context_state = 0;
 void
 gram_scanner_last_string_free (void)
 {
-  STRING_FREE;
+  STRING_FREE ();
 }
 
 static void handle_syncline (char *, location);
@@ -344,7 +344,7 @@ eqopt    ({sp}=)?
 
   /* Code in between braces.  */
   "{" {
-    STRING_GROW;
+    STRING_GROW ();
     nesting = 0;
     code_start = loc->start;
     BEGIN SC_BRACED_CODE;
@@ -403,7 +403,7 @@ eqopt    ({sp}=)?
 {
   \0         {
     complain (loc, complaint, _("invalid null character"));
-    STRING_FREE;
+    STRING_FREE ();
     return GRAM_error;
   }
 }
@@ -533,7 +533,7 @@ eqopt    ({sp}=)?
 
 <SC_COMMENT>
 {
-  "*"{splice}"/"  STRING_GROW; BEGIN context_state;
+  "*"{splice}"/"  STRING_GROW (); BEGIN context_state;
   <<EOF>>         unexpected_eof (token_start, "*/"); BEGIN context_state;
 }
 
@@ -544,8 +544,8 @@ eqopt    ({sp}=)?
 
 <SC_LINE_COMMENT>
 {
-  {eol}          STRING_GROW; BEGIN context_state;
-  {splice}       STRING_GROW;
+  {eol}          STRING_GROW (); BEGIN context_state;
+  {splice}       STRING_GROW ();
   <<EOF>>        BEGIN context_state;
 }
 
@@ -558,7 +558,7 @@ eqopt    ({sp}=)?
 <SC_ESCAPED_STRING>
 {
   "\"" {
-    STRING_FINISH;
+    STRING_FINISH ();
     BEGIN INITIAL;
     loc->start = token_start;
     complain (loc, Wyacc,
@@ -572,7 +572,7 @@ eqopt    ({sp}=)?
 <SC_ESCAPED_TSTRING>
 {
   "\")" {
-    STRING_FINISH;
+    STRING_FINISH ();
     BEGIN INITIAL;
     loc->start = token_start;
     complain (loc, Wyacc,
@@ -591,7 +591,7 @@ eqopt    ({sp}=)?
 <SC_ESCAPED_CHARACTER>
 {
   "'" {
-    STRING_FINISH;
+    STRING_FINISH ();
     BEGIN INITIAL;
     loc->start = token_start;
     val->CHAR = last_string[0];
@@ -599,18 +599,18 @@ eqopt    ({sp}=)?
     if (last_string[0] == '\0')
       {
         complain (loc, complaint, _("empty character literal"));
-        STRING_FREE;
+        STRING_FREE ();
         return GRAM_error;
       }
     else if (last_string[1] != '\0')
       {
         complain (loc, complaint, _("extra characters in character literal"));
-        STRING_FREE;
+        STRING_FREE ();
         return GRAM_error;
       }
     else
       {
-        STRING_FREE;
+        STRING_FREE ();
         return CHAR;
       }
   }
@@ -630,18 +630,18 @@ eqopt    ({sp}=)?
     --nesting;
     if (nesting < 0)
       {
-        STRING_FINISH;
+        STRING_FINISH ();
         loc->start = token_start;
         val->TAG = uniqstr_new (last_string);
-        STRING_FREE;
+        STRING_FREE ();
         BEGIN INITIAL;
         return TAG;
       }
-    STRING_GROW;
+    STRING_GROW ();
   }
 
-  ([^<>]|->)+ STRING_GROW;
-  "<"+   STRING_GROW; nesting += yyleng;
+  ([^<>]|->)+ STRING_GROW ();
+  "<"+   STRING_GROW (); nesting += yyleng;
 
   <<EOF>>   unexpected_eof (token_start, ">");
 }
@@ -696,19 +696,19 @@ eqopt    ({sp}=)?
 
 <SC_CHARACTER,SC_STRING>
 {
-  {splice}|\\{splice}[^\n\[\]]  STRING_GROW;
+  {splice}|\\{splice}[^\n\[\]]  STRING_GROW ();
 }
 
 <SC_CHARACTER>
 {
-  "'"           STRING_GROW; BEGIN context_state;
+  "'"           STRING_GROW (); BEGIN context_state;
   {eol}         unexpected_newline (token_start, "'");
   <<EOF>>       unexpected_eof (token_start, "'");
 }
 
 <SC_STRING>
 {
-  "\""          STRING_GROW; BEGIN context_state;
+  "\""          STRING_GROW (); BEGIN context_state;
   {eol}         unexpected_newline (token_start, "\"");
   <<EOF>>       unexpected_eof (token_start, "\"");
 }
@@ -721,25 +721,25 @@ eqopt    ({sp}=)?
 <SC_BRACED_CODE,SC_PROLOGUE,SC_EPILOGUE,SC_PREDICATE>
 {
   "'" {
-    STRING_GROW;
+    STRING_GROW ();
     context_state = YY_START;
     token_start = loc->start;
     BEGIN SC_CHARACTER;
   }
   "\"" {
-    STRING_GROW;
+    STRING_GROW ();
     context_state = YY_START;
     token_start = loc->start;
     BEGIN SC_STRING;
   }
   "/"{splice}"*" {
-    STRING_GROW;
+    STRING_GROW ();
     context_state = YY_START;
     token_start = loc->start;
     BEGIN SC_COMMENT;
   }
   "/"{splice}"/" {
-    STRING_GROW;
+    STRING_GROW ();
     context_state = YY_START;
     BEGIN SC_LINE_COMMENT;
   }
@@ -754,12 +754,12 @@ eqopt    ({sp}=)?
 
 <SC_BRACED_CODE,SC_PREDICATE>
 {
-  "{"|"<"{splice}"%"  STRING_GROW; nesting++;
-  "%"{splice}">"      STRING_GROW; nesting--;
+  "{"|"<"{splice}"%"  STRING_GROW (); nesting++;
+  "%"{splice}">"      STRING_GROW (); nesting--;
 
   /* Tokenize '<<%' correctly (as '<<' '%') rather than incorrectly
      (as '<' '<%').  */
-  "<"{splice}"<"  STRING_GROW;
+  "<"{splice}"<"  STRING_GROW ();
 
   <<EOF>>   unexpected_eof (code_start, "}");
 }
@@ -772,7 +772,7 @@ eqopt    ({sp}=)?
     --nesting;
     if (nesting < 0)
       {
-        STRING_FINISH;
+        STRING_FINISH ();
         loc->start = code_start;
         BEGIN INITIAL;
         RETURN_VALUE (BRACED_CODE, last_string);
@@ -786,7 +786,7 @@ eqopt    ({sp}=)?
     --nesting;
     if (nesting < 0)
       {
-        STRING_FINISH;
+        STRING_FINISH ();
         loc->start = code_start;
         BEGIN INITIAL;
         RETURN_VALUE (BRACED_PREDICATE, last_string);
@@ -803,7 +803,7 @@ eqopt    ({sp}=)?
 <SC_PROLOGUE>
 {
   "%}" {
-    STRING_FINISH;
+    STRING_FINISH ();
     loc->start = code_start;
     BEGIN INITIAL;
     RETURN_VALUE (PROLOGUE, last_string);
@@ -821,7 +821,7 @@ eqopt    ({sp}=)?
 <SC_EPILOGUE>
 {
   <<EOF>> {
-    STRING_FINISH;
+    STRING_FINISH ();
     loc->start = code_start;
     BEGIN INITIAL;
     RETURN_VALUE (EPILOGUE, last_string);
@@ -841,7 +841,7 @@ eqopt    ({sp}=)?
 
      Add a fallthrough "|." so that non UTF-8 input is still accepted
      and does not jam the scanner.  */
-  {mbchar}|.   STRING_GROW;
+  {mbchar}|.   STRING_GROW ();
 }
 
 %%

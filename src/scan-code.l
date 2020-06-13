@@ -112,7 +112,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_COMMENT>
 {
-  "*"{splice}"/"  STRING_GROW; BEGIN sc_context;
+  "*"{splice}"/"  STRING_GROW (); BEGIN sc_context;
 }
 
 
@@ -122,8 +122,8 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_LINE_COMMENT>
 {
-  "\n"           STRING_GROW; BEGIN sc_context;
-  {splice}       STRING_GROW;
+  "\n"           STRING_GROW (); BEGIN sc_context;
+  {splice}       STRING_GROW ();
 }
 
 
@@ -133,26 +133,26 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <SC_CHARACTER,SC_STRING>
 {
-  {splice}|\\{splice}.  STRING_GROW;
+  {splice}|\\{splice}.  STRING_GROW ();
 }
 
 <SC_CHARACTER>
 {
-  "'"           STRING_GROW; BEGIN sc_context;
+  "'"           STRING_GROW (); BEGIN sc_context;
 }
 
 <SC_STRING>
 {
-  "\""          STRING_GROW; BEGIN sc_context;
+  "\""          STRING_GROW (); BEGIN sc_context;
 }
 
 
 <SC_RULE_ACTION,SC_SYMBOL_ACTION>
 {
-  "'"              STRING_GROW; BEGIN SC_CHARACTER;
-  "\""             STRING_GROW; BEGIN SC_STRING;
-  "/"{splice}"*"   STRING_GROW; BEGIN SC_COMMENT;
-  "/"{splice}"/"   STRING_GROW; BEGIN SC_LINE_COMMENT;
+  "'"              STRING_GROW (); BEGIN SC_CHARACTER;
+  "\""             STRING_GROW (); BEGIN SC_STRING;
+  "/"{splice}"*"   STRING_GROW (); BEGIN SC_COMMENT;
+  "/"{splice}"/"   STRING_GROW (); BEGIN SC_LINE_COMMENT;
 
   [$@]  {
     complain (loc, Wother, _("stray '%s'"), yytext);
@@ -199,10 +199,10 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   [$@\[\]]    obstack_escape (&obstack_for_string, yytext);
 
   /* By default, grow the string obstack with the input.  */
-  .|\n        STRING_GROW;
+  .|\n        STRING_GROW ();
 
  /* End of processing. */
-  <<EOF>>     STRING_FINISH; return last_string;
+  <<EOF>>     STRING_FINISH (); return last_string;
 }
 
 %%
@@ -835,7 +835,7 @@ code_props_translate_code (code_props *self)
 void
 code_scanner_last_string_free (void)
 {
-  STRING_FREE;
+  STRING_FREE ();
 }
 
 void
