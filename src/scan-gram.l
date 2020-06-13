@@ -566,8 +566,6 @@ eqopt    ({sp}=)?
               _("POSIX Yacc does not support string literals"));
     RETURN_VALUE (STRING, last_string);
   }
-  <<EOF>>   unexpected_eof (token_start, "\"");
-  {eol}     unexpected_newline (token_start, "\"");
 }
 
 <SC_ESCAPED_TSTRING>
@@ -580,9 +578,14 @@ eqopt    ({sp}=)?
               _("POSIX Yacc does not support string literals"));
     RETURN_VALUE (TSTRING, last_string);
   }
+}
+
+<SC_ESCAPED_STRING,SC_ESCAPED_TSTRING>
+{
   <<EOF>>   unexpected_eof (token_start, "\"");
   "\n"      unexpected_newline (token_start, "\"");
 }
+
 
   /*----------------------------------------------------------.
   | Scanning a Bison character literal, decoding its escapes. |
