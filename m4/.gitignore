@@ -58,7 +58,10 @@
 /gnulib-tool.m4
 /host-cpu-c-abi.m4
 /iconv.m4
+/iconv_h.m4
+/iconv_open.m4
 /include_next.m4
+/inline.m4
 /intdiv0.m4
 /intl.m4
 /intldir.m4
@@ -193,6 +196,7 @@
 /timespec.m4
 /tls.m4
 /uintmax_t.m4
+/unicodeio.m4
 /unistd-safer.m4
 /unistd_h.m4
 /unlink.m4

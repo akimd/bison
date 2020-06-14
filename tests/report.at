@@ -1240,12 +1240,12 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: . exp $end
-    1 exp: . exp "⊕" exp
-    2    | . exp "+" exp
-    3    | . exp "+" exp
-    4    | . "number"
-    5    | . "Ñùṃéℝô"
+    0 $accept: • exp $end
+    1 exp: • exp "⊕" exp
+    2    | • exp "+" exp
+    3    | • exp "+" exp
+    4    | • "number"
+    5    | • "Ñùṃéℝô"
 
     "number"  shift, and go to state 1
     "Ñùṃéℝô"  shift, and go to state 2
@@ -1255,24 +1255,24 @@ State 0
 
 State 1
 
-    4 exp: "number" .
+    4 exp: "number" •
 
     $default  reduce using rule 4 (exp)
 
 
 State 2
 
-    5 exp: "Ñùṃéℝô" .
+    5 exp: "Ñùṃéℝô" •
 
     $default  reduce using rule 5 (exp)
 
 
 State 3
 
-    0 $accept: exp . $end
-    1 exp: exp . "⊕" exp
-    2    | exp . "+" exp
-    3    | exp . "+" exp
+    0 $accept: exp • $end
+    1 exp: exp • "⊕" exp
+    2    | exp • "+" exp
+    3    | exp • "+" exp
 
     $end  shift, and go to state 4
     "+"   shift, and go to state 5
@@ -1281,20 +1281,20 @@ State 3
 
 State 4
 
-    0 $accept: exp $end .
+    0 $accept: exp $end •
 
     $default  accept
 
 
 State 5
 
-    1 exp: . exp "⊕" exp
-    2    | . exp "+" exp
-    2    | exp "+" . exp
-    3    | . exp "+" exp
-    3    | exp "+" . exp
-    4    | . "number"
-    5    | . "Ñùṃéℝô"
+    1 exp: • exp "⊕" exp
+    2    | • exp "+" exp
+    2    | exp "+" • exp
+    3    | • exp "+" exp
+    3    | exp "+" • exp
+    4    | • "number"
+    5    | • "Ñùṃéℝô"
 
     "number"  shift, and go to state 1
     "Ñùṃéℝô"  shift, and go to state 2
@@ -1304,12 +1304,12 @@ State 5
 
 State 6
 
-    1 exp: . exp "⊕" exp
-    1    | exp "⊕" . exp
-    2    | . exp "+" exp
-    3    | . exp "+" exp
-    4    | . "number"
-    5    | . "Ñùṃéℝô"
+    1 exp: • exp "⊕" exp
+    1    | exp "⊕" • exp
+    2    | • exp "+" exp
+    3    | • exp "+" exp
+    4    | • "number"
+    5    | • "Ñùṃéℝô"
 
     "number"  shift, and go to state 1
     "Ñùṃéℝô"  shift, and go to state 2
@@ -1319,11 +1319,11 @@ State 6
 
 State 7
 
-    1 exp: exp . "⊕" exp
-    2    | exp . "+" exp
-    2    | exp "+" exp .  [$end, "+", "⊕"]
-    3    | exp . "+" exp
-    3    | exp "+" exp .  [$end, "+", "⊕"]
+    1 exp: exp • "⊕" exp
+    2    | exp • "+" exp
+    2    | exp "+" exp •  [$end, "+", "⊕"]
+    3    | exp • "+" exp
+    3    | exp "+" exp •  [$end, "+", "⊕"]
 
     "⊕"  shift, and go to state 6
 
@@ -1338,24 +1338,24 @@ State 7
     Conflict between rule 2 and token "+" resolved as reduce (%left "+").
 
     Shift/reduce conflict on token "⊕":
-        2 exp: exp "+" exp .
-        1 exp: exp . "⊕" exp
+        2 exp: exp "+" exp •
+        1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
       Example                  exp "+" exp • "⊕" exp
       Second derivation        exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
 
     Reduce/reduce conflict on tokens $end, "+", "⊕":
-        2 exp: exp "+" exp .
-        3 exp: exp "+" exp .
+        2 exp: exp "+" exp •
+        3 exp: exp "+" exp •
       Example                  exp "+" exp •
       First derivation         exp ::=[ exp "+" exp • ]
       Example                  exp "+" exp •
       Second derivation        exp ::=[ exp "+" exp • ]
 
     Shift/reduce conflict on token "⊕":
-        3 exp: exp "+" exp .
-        1 exp: exp . "⊕" exp
+        3 exp: exp "+" exp •
+        1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
       Example                  exp "+" exp • "⊕" exp
@@ -1365,10 +1365,10 @@ State 7
 
 State 8
 
-    1 exp: exp . "⊕" exp
-    1    | exp "⊕" exp .  [$end, "+", "⊕"]
-    2    | exp . "+" exp
-    3    | exp . "+" exp
+    1 exp: exp • "⊕" exp
+    1    | exp "⊕" exp •  [$end, "+", "⊕"]
+    2    | exp • "+" exp
+    3    | exp • "+" exp
 
     "+"  shift, and go to state 5
     "⊕"  shift, and go to state 6
@@ -1378,8 +1378,8 @@ State 8
     $default  reduce using rule 1 (exp)
 
     Shift/reduce conflict on token "⊕":
-        1 exp: exp "⊕" exp .
-        1 exp: exp . "⊕" exp
+        1 exp: exp "⊕" exp •
+        1 exp: exp • "⊕" exp
       Example                  exp "⊕" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
       Example                  exp "⊕" exp • "⊕" exp

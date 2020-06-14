@@ -35,6 +35,12 @@ Unless we play it dumb (little structure).
 *** Doc
 -Wcounterexamples, --report=counterexamples
 
+Use "•" instead of ".".
+
+*** Conflict coverage
+Not all the conflicts have counterexamples generated.  See the "break"s in
+counterexample_report_state.
+
 ** glr.cc
 Get rid of global_tokens_and_yystype.
 

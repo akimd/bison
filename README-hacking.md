@@ -196,6 +196,7 @@ tools we depend upon, including:
 - Automake <http://www.gnu.org/software/automake/>
 - Flex <http://www.gnu.org/software/flex/>
 - Gettext <http://www.gnu.org/software/gettext/>
+- Gperf <http://www.gnu.org/software/gperf/>
 - Graphviz <http://www.graphviz.org>
 - Gzip <http://www.gnu.org/software/gzip/>
 - Help2man <http://www.gnu.org/software/help2man/>
@@ -212,7 +213,7 @@ above packages depends on your system.  The following shell command should
 work for Debian-based systems such as Ubuntu:
 
     sudo apt-get install \
-      autoconf automake autopoint flex graphviz help2man texinfo valgrind
+      autoconf automake autopoint flex gperf graphviz help2man texinfo valgrind
 
 Bison is written using Bison grammars, so there are bootstrapping issues.
 The bootstrap script attempts to discover when the C code generated from the
@@ -580,7 +581,7 @@ LocalWords:  bitset fsanitize symlink CFLAGS MERCHANTABILITY ispell wrt YY
 LocalWords:  american Administrivia camlCase yy accessors namespace src hoc
 LocalWords:  getExpectedTokens yyexpectedTokens yygetExpectedTokens parens
 LocalWords:  regen dogfooding Autotest testsuite getargs CPP BAZ endif cppi
-LocalWords:  cpp javaexec cp Calc ASAN UBSAN CPPFLAGS isystem CXX cex
-LocalWords:  CXXFLAGS LDFLAGS dsymutil
+LocalWords:  cpp javaexec cp Calc ASAN UBSAN CPPFLAGS isystem CXX cex Gperf
+LocalWords:  CXXFLAGS LDFLAGS dsymutil gperf
 
 -->

@@ -133,10 +133,15 @@ src_bison_LDADD =                               \
   $(ISNANL_LIBM)                                \
   $(LDEXPL_LIBM)                                \
   $(LDEXP_LIBM)                                 \
-  $(LIBINTL)                                    \
   $(LIBTHREAD)                                  \
   $(LIB_CLOCK_GETTIME)                          \
   $(LIB_GETHRXTIME)                             \
+  $(LIB_HARD_LOCALE)                            \
+  $(LIB_MBRTOWC)                                \
+  $(LIB_SETLOCALE_NULL)                         \
+  $(LIBICONV)                                   \
+  $(LIBINTL)                                    \
+  $(LIBREADLINE)                                \
   $(LIBTEXTSTYLE)
 
 

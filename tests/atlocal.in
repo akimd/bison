@@ -133,6 +133,7 @@ fi
 : ${PERL='@PERL@'}
 
 # Use simple quotes (lib/quote.c).
+# We have an LC_ALL=C pushed onto us via maint.mk.
 LC_CTYPE=C
 export LC_CTYPE
 

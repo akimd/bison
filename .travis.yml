@@ -29,12 +29,13 @@ jobs:
         clone: true
       dist: bionic
       script:
-        - sudo apt-get install -qq autoconf automake autopoint flex gettext graphviz help2man m4 texinfo
+        - sudo apt-get install -qq autoconf automake autopoint flex gettext gperf graphviz help2man m4 texinfo
         - autoconf --version
         - automake --version
         - autopoint --version
         - dot -V
         - gettext --version
+        - gperf --version
         - help2man --version
         - makeinfo --version
         - m4 --version
