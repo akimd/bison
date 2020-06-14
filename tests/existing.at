@@ -36,7 +36,7 @@ dnl support is rapidly evolving, let's keep that information to be careful.
 dnl However, we don't do diffs for canonical LR(1) because the diff is huge.
 m4_pushdef([AT_LALR1_DIFF_CHECK],
 [AT_CHECK([[sed 's/^%define lr.type .*$//' input.y > input-lalr.y]])
-AT_BISON_CHECK([[--report=all input-lalr.y]], [[0]], [ignore], [ignore])
+AT_BISON_CHECK([[--report=all,no-cex input-lalr.y]], [[0]], [ignore], [ignore])
 AT_DIFF_U_CHECK([[input-lalr.output input.output]], [$1])])
 
 AT_TEST_TABLES_AND_PARSE([$2[: LALR(1)]], [[LALR]], [[last-state]],

@@ -32,6 +32,9 @@ could try to use the same color for the same rule.
 Show the counterexamples.  This is going to be really hard and/or painful.
 Unless we play it dumb (little structure).
 
+*** Doc
+-Wcounterexamples, --report=counterexamples
+
 ** glr.cc
 Get rid of global_tokens_and_yystype.
 

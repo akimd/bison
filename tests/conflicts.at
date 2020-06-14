@@ -860,6 +860,15 @@ State 5
 
     OP        [reduce using rule 1 (exp)]
     $default  reduce using rule 1 (exp)
+
+    Shift/reduce conflict on token OP:
+        1 exp: exp OP exp .
+        1 exp: exp . OP exp
+      Example                  exp OP exp • OP exp
+      First derivation         exp ::=[ exp ::=[ exp OP exp • ] OP exp ]
+      Example                  exp OP exp • OP exp
+      Second derivation        exp ::=[ exp OP exp ::=[ exp • OP exp ] ]
+
 ]])
 
 AT_CLEANUP
@@ -1194,6 +1203,15 @@ State 1
     $end      reduce using rule 3 (num)
     $end      [reduce using rule 4 (id)]
     $default  reduce using rule 3 (num)
+
+    Reduce/reduce conflict on token $end:
+        3 num: '0' .
+        4 id: '0' .
+      Example                  '0' •
+      First derivation         exp ::=[ num ::=[ '0' • ] ]
+      Example                  '0' •
+      Second derivation        exp ::=[ id ::=[ '0' • ] ]
+
 
 
 State 2
@@ -1734,6 +1752,15 @@ State 4
 
     reported_conflicts  go to state 6
 
+    Shift/reduce conflict on token 'a':
+       10 reported_conflicts: . %empty
+        8 reported_conflicts: . 'a'
+      First example            resolved_conflict • 'a'
+      First derivation         start ::=[ resolved_conflict reported_conflicts ::=[ • ] 'a' ]
+      Second example           resolved_conflict • 'a' 'a'
+      Second derivation        start ::=[ resolved_conflict reported_conflicts ::=[ • 'a' ] 'a' ]
+
+
 
 State 5
 
@@ -1743,6 +1770,15 @@ State 5
     'a'       reduce using rule 8 (reported_conflicts)
     'a'       [reduce using rule 9 (reported_conflicts)]
     $default  reduce using rule 8 (reported_conflicts)
+
+    Reduce/reduce conflict on token 'a':
+        8 reported_conflicts: 'a' .
+        9 reported_conflicts: 'a' .
+      Example                  'a' •
+      First derivation         reported_conflicts ::=[ 'a' • ]
+      Example                  'a' •
+      Second derivation        reported_conflicts ::=[ 'a' • ]
+
 
 
 State 6
@@ -1919,6 +1955,15 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     Conflict between rule 9 and token 'a' resolved as an error (%nonassoc 'a').
     Conflict between rule 10 and token 'b' resolved as an error (%nonassoc 'b').
     Conflict between rule 11 and token 'c' resolved as an error (%nonassoc 'c').
+
+    Reduce/reduce conflict on token 'c':
+       12 empty_c2: . %empty
+       13 empty_c3: . %empty
+      Example                  • 'c'
+      First derivation         start ::=[ empty_c2 ::=[ • ] 'c' ]
+      Example                  • 'c'
+      Second derivation        start ::=[ empty_c3 ::=[ • ] 'c' ]
+
 
 
 State 1

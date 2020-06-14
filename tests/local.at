@@ -1594,7 +1594,7 @@ yylex (void)
 
 m4_if(m4_index(m4_quote($3), [no-xml]), -1,
       [AT_BISON_CHECK],
-      [AT_BISON_CHECK_NO_XML])([[-Wall --report=all --defines -o input.c input.y]],
+      [AT_BISON_CHECK_NO_XML])([[-Wall --report=all,no-cex --defines -o input.c input.y]],
                                [0], [], m4_dquote($7))
 
 m4_if(m4_index(m4_quote($3), [last-state]), -1,

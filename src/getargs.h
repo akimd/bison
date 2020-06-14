@@ -79,6 +79,7 @@ enum report
     report_itemsets         = 1 << 1,
     report_lookahead_tokens = 1 << 2,
     report_solved_conflicts = 1 << 3,
+    report_cex              = 1 << 4,
     report_all              = ~0
   };
 /** What appears in the *.output file.  */
