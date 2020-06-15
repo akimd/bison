@@ -54,6 +54,13 @@ GNU Bison NEWS
   to the -ffile-prefix-map in GCC. This option can be used to make bison output
   reproducible.
 
+* Noteworthy changes in release 3.6.4 (2020-06-15) [stable]
+
+** Bug fixes
+
+  In glr.cc some internal macros leaked in the user's code, and could damage
+  access to the token kinds.
+
 * Noteworthy changes in release 3.6.3 (2020-06-03) [stable]
 
 ** Bug fixes

@@ -12,6 +12,9 @@ list_get_end (gl_list_t list)
   return res;
 }
 
+** glr.cc
+Get rid of global_tokens_and_yystype.
+
 ** Bistromathic
 - Hitting tab on a line with a syntax error is ugly
 
@@ -149,6 +152,9 @@ Les catégories d'avertissements incluent :
 Line -1 and -3 should mention CATEGORIE, not CATEGORY.
 
 * Bison 3.8
+** Rewrite glr.cc
+Get rid of scaffolding in glr.c.
+
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see
 https://homepages.cwi.nl/~daybuild/daily-books/syntax/2-sdf/sdf.html), i.e.,
