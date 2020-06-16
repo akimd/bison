@@ -79,6 +79,11 @@ Shift/reduce conflict on token B:
   First derivation     s ::=[ a ::=[ A . ] bc ::=[ B C ] ]
   Second derivation    s ::=[ ac ::=[ A ac ::=[ b ::=[ . B ] ] C ] ]
 
+Shift/reduce conflict on token B:
+  Example              A A . B B C C
+  First derivation     s ::=[ a ::=[ A a ::=[ A . ] ] bc ::=[ B bc ::=[ B C ] C ] ]
+  Second derivation    s ::=[ ac ::=[ A ac ::=[ A ac ::=[ b ::=[ . b ::=[ B B ] ] ] C ] C ] ]
+
 input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
@@ -327,6 +332,11 @@ Shift/reduce conflict on token B:
   Example              N A . B C
   First derivation     s ::=[ n ::=[ N a ::=[ A . ] B ] C ]
   Second derivation    s ::=[ n ::=[ N b ::=[ A . B C ] ] ]
+
+Shift/reduce conflict on token B:
+  Example              N N A . B D C
+  First derivation     s ::=[ n ::=[ N n ::=[ N a ::=[ A . ] B ] D ] C ]
+  Second derivation    s ::=[ n ::=[ N n ::=[ N b ::=[ A . B D ] ] C ] ]
 
 input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])

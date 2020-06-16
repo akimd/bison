@@ -1190,6 +1190,16 @@ Shift/reduce conflict on token "⊕":
   First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
   Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "⊕" exp ] ]
 
+Shift/reduce conflict on token "+":
+  Example              exp "⊕" exp • "+" exp
+  First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
+  Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+
+Shift/reduce conflict on token "+":
+  Example              exp "⊕" exp • "+" exp
+  First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
+  Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+
 input.y:6.3-13: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
@@ -1376,6 +1386,20 @@ State 8
       Example                  exp "⊕" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
       Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "⊕" exp ] ]
+
+    Shift/reduce conflict on token "+":
+        1 exp: exp "⊕" exp •
+        2 exp: exp • "+" exp
+      Example                  exp "⊕" exp • "+" exp
+      First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
+      Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+
+    Shift/reduce conflict on token "+":
+        1 exp: exp "⊕" exp •
+        3 exp: exp • "+" exp
+      Example                  exp "⊕" exp • "+" exp
+      First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
+      Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
 
 ]])
 

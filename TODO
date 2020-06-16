@@ -37,10 +37,6 @@ Unless we play it dumb (little structure).
 
 Use "•" instead of ".".
 
-*** Conflict coverage
-Not all the conflicts have counterexamples generated.  See the "break"s in
-counterexample_report_state.
-
 *** point, dot
 We have too many names.  In XML we use "point", in C "dot".  A traditional
 more accurate name of "item" is "pointed rule", so we should probably prefer

@@ -1758,6 +1758,14 @@ State 4
       Second example           resolved_conflict . 'a' 'a'
       Second derivation        start ::=[ resolved_conflict reported_conflicts ::=[ . 'a' ] 'a' ]
 
+    Shift/reduce conflict on token 'a':
+       10 reported_conflicts: . %empty
+        9 reported_conflicts: . 'a'
+      First example            resolved_conflict . 'a'
+      First derivation         start ::=[ resolved_conflict reported_conflicts ::=[ . ] 'a' ]
+      Second example           resolved_conflict . 'a' 'a'
+      Second derivation        start ::=[ resolved_conflict reported_conflicts ::=[ . 'a' ] 'a' ]
+
 
 
 State 5
