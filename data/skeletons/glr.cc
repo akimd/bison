@@ -252,14 +252,9 @@ m4_define([b4_undef_symbol_kind],
 # -----------------
 # Remove redirections for glr.c.
 m4_define([b4_glr_cc_cleanup],
-[b4_percent_define_flag_if([[global_tokens_and_yystype]], [],
 [[#undef ]b4_symbol(-2, [id])[
 #undef ]b4_symbol(0, [id])[
 #undef ]b4_symbol(1, [id])[
-]])[
-
-#undef ]b4_api_PREFIX[STYPE
-#undef ]b4_api_PREFIX[LTYPE
 
 ]b4_undef_symbol_kind(-2)dnl
 b4_symbol_foreach([b4_undef_symbol_kind])dnl
@@ -377,10 +372,6 @@ b4_percent_code_get([[requires]])[
 ]b4_parse_param_vars[
   };
 
-]dnl Redirections for glr.c.
-b4_percent_define_flag_if([[global_tokens_and_yystype]],
-[b4_token_defines
-])[
 ]b4_namespace_close[
 
 ]b4_percent_code_get([[provides]])[

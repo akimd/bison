@@ -213,12 +213,12 @@ read_integer (]AT_YYLEX_FORMALS[)
     {
       unget_char (]AT_YYLEX_PRE_ARGS[ c);
       ]AT_VAL[.ival = read_integer (]AT_YYLEX_ARGS[);
-      return ]AT_TOKEN_PREFIX[NUM;
+      return ]AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[NUM;
     }
 
   /* Return end-of-file.  */
   if (c == EOF)
-    return ]AT_TOKEN_PREFIX[CALC_EOF;
+    return ]AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[CALC_EOF;
 
   /* An explicit error raised by the scanner. */
   if (c == '#')
@@ -226,7 +226,7 @@ read_integer (]AT_YYLEX_FORMALS[)
       fprintf (stderr, "%d.%d: ",
                AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);])[
       fputs ("syntax error: invalid character: '#'\n", stderr);
-      return ]AT_TOKEN_PREFIX[]AT_API_PREFIX[error;
+      return ]AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[]AT_API_PREFIX[error;
     }
 
   /* Return single chars. */
@@ -444,7 +444,6 @@ m4_define([_AT_DATA_CALC_Y(c)],
 [AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
 ]$4[
-]AT_CXX_IF([%define global_tokens_and_yystype])[
 ]AT_LANG_MATCH(
 [d], [[
 %code imports {

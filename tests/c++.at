@@ -803,12 +803,10 @@ AT_DATA_GRAMMAR([[input.yy]],
 [[%language "C++"
 %define api.namespace {]$1[}
 %union { int i; }
-%define global_tokens_and_yystype
 %locations
 
 %code {
-  // YYSTYPE contains a namespace reference.
-  int yylex (YYSTYPE *lval, const ]$1[::parser::location_type*) {
+  int yylex (]$1[::parser::semantic_type *lval, const ]$1[::parser::location_type*) {
     lval->i = 3;
     return 0;
   }

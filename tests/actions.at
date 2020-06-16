@@ -607,7 +607,6 @@ $5
 {
   int ival;
 }])
-AT_LALR1_CC_IF([%define global_tokens_and_yystype])
 m4_ifval([$6], [[%code provides {]], [[%code {]])
 AT_LALR1_CC_IF([typedef yy::location YYLTYPE;])[
 ]AT_YYLEX_DECLARE[
