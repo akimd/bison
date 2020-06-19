@@ -1173,25 +1173,21 @@ input.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
 Shift/reduce conflict on token "⊕":
   Example              exp "+" exp • "⊕" exp
   First derivation     exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-  Example              exp "+" exp • "⊕" exp
   Second derivation    exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
 
 Reduce/reduce conflict on tokens $end, "+", "⊕":
   Example              exp "+" exp •
   First derivation     exp ::=[ exp "+" exp • ]
-  Example              exp "+" exp •
   Second derivation    exp ::=[ exp "+" exp • ]
 
 Shift/reduce conflict on token "⊕":
   Example              exp "+" exp • "⊕" exp
   First derivation     exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-  Example              exp "+" exp • "⊕" exp
   Second derivation    exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
 
 Shift/reduce conflict on token "⊕":
   Example              exp "⊕" exp • "⊕" exp
   First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
-  Example              exp "⊕" exp • "⊕" exp
   Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "⊕" exp ] ]
 
 input.y:6.3-13: warning: rule useless in parser due to conflicts [-Wother]
@@ -1342,7 +1338,6 @@ State 7
         1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-      Example                  exp "+" exp • "⊕" exp
       Second derivation        exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
 
     Reduce/reduce conflict on tokens $end, "+", "⊕":
@@ -1350,7 +1345,6 @@ State 7
         3 exp: exp "+" exp •
       Example                  exp "+" exp •
       First derivation         exp ::=[ exp "+" exp • ]
-      Example                  exp "+" exp •
       Second derivation        exp ::=[ exp "+" exp • ]
 
     Shift/reduce conflict on token "⊕":
@@ -1358,7 +1352,6 @@ State 7
         1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-      Example                  exp "+" exp • "⊕" exp
       Second derivation        exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
 
 
@@ -1382,7 +1375,6 @@ State 8
         1 exp: exp • "⊕" exp
       Example                  exp "⊕" exp • "⊕" exp
       First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
-      Example                  exp "⊕" exp • "⊕" exp
       Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "⊕" exp ] ]
 
 ]])

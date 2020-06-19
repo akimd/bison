@@ -36,6 +36,8 @@ void end_use_class (const char *style, FILE *out);
 /** Flush \a out.  */
 void flush (FILE *out);
 
+/** Whether there's styling on OUT.  */
+bool is_styled (FILE *out);
 
 /*-------------.
 | --warnings.  |

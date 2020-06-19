@@ -763,7 +763,7 @@ AT_CLEANUP
 
 AT_SETUP([Unresolved SR Conflicts])
 
-AT_KEYWORDS([report])
+AT_KEYWORDS([cex report])
 
 AT_DATA([input.y],
 [[%token NUM OP
@@ -866,7 +866,6 @@ State 5
         1 exp: exp . OP exp
       Example                  exp OP exp . OP exp
       First derivation         exp ::=[ exp ::=[ exp OP exp . ] OP exp ]
-      Example                  exp OP exp . OP exp
       Second derivation        exp ::=[ exp OP exp ::=[ exp . OP exp ] ]
 
 ]])
@@ -1209,7 +1208,6 @@ State 1
         4 id: '0' .
       Example                  '0' .
       First derivation         exp ::=[ num ::=[ '0' . ] ]
-      Example                  '0' .
       Second derivation        exp ::=[ id ::=[ '0' . ] ]
 
 
@@ -1776,7 +1774,6 @@ State 5
         9 reported_conflicts: 'a' .
       Example                  'a' .
       First derivation         reported_conflicts ::=[ 'a' . ]
-      Example                  'a' .
       Second derivation        reported_conflicts ::=[ 'a' . ]
 
 
@@ -1961,7 +1958,6 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
        13 empty_c3: . %empty
       Example                  . 'c'
       First derivation         start ::=[ empty_c2 ::=[ . ] 'c' ]
-      Example                  . 'c'
       Second derivation        start ::=[ empty_c3 ::=[ . ] 'c' ]
 
 

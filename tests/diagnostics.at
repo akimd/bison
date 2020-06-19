@@ -49,15 +49,24 @@ if $EGREP ['\^M|\\[0-9][0-9][0-9]'] input.y experr >/dev/null; then
   AT_PERL_REQUIRE([-pi -e 's{\^M}{\r}g;s{\\(\d{3}|.)}{$v = $[]1; $v =~ /\A\d+\z/ ? chr($v) : $v}ge' input.y experr])
 fi
 
-AT_CHECK([LC_ALL="$locale" $5 bison -fcaret --color=debug -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL="$locale" $5 bison -fcaret --color=debug -Wall,cex input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
-AT_PERL_REQUIRE([-pi -e 's{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge' experr])
+# Except for the second display of the counterexample,
+# which is not displayed at all.
+AT_PERL_REQUIRE([-pi -e '
+  s{(</?(-|\w)+>)}{ $[]1 eq "<tag>" ? $[]1 : "" }ge;
+  if (/Example/)
+    {
+      ++$example;
+      $_ = "" if $example % 2 == 0;
+    }
+' experr])
 
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
 # FIXME: Enhance AT_BISON_CHECK.
-AT_CHECK([LC_ALL="$locale" $5 bison -fcaret -Wall input.y], [$3], [], [experr])
+AT_CHECK([LC_ALL="$locale" $5 bison -fcaret -Wall,cex input.y], [$3], [], [experr])
 
 
 AT_BISON_OPTION_POPDEFS
@@ -508,6 +517,41 @@ input.y:11.6-9: <error>error:</error> symbol 'QUUX' is used, but is not defined 
       |      <error>^~~~</error>
 ]])
 
+
+## ----------------- ##
+## Counterexamples.  ##
+## ----------------- ##
+
+AT_TEST([[Counterexamples]],
+[[%expect 0
+%%
+exp
+: "if" exp "then" exp
+| "if" exp "then" exp "else" exp
+| exp "+" exp
+| "num"
+]],
+[1],
+[[input.y: <error>error:</error> shift/reduce conflicts: 4 found, 0 expected
+Shift/reduce conflict on token "+":
+  Example              <cex-0><cex-1><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
+  First derivation     <cex-0><cex-step>exp ::=[ </cex-step><cex-1><cex-step>exp ::=[ </cex-step><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Example              <cex-0><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
+  Second derivation    <cex-0><cex-step>exp ::=[ </cex-step><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf><cex-1> <cex-step>exp ::=[ </cex-step><cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+
+Shift/reduce conflict on token "else":
+  Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
+  First derivation     <cex-0><cex-step>exp ::=[ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-step>exp ::=[ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
+  Second derivation    <cex-0><cex-step>exp ::=[ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-step>exp ::=[ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+
+Shift/reduce conflict on token "+":
+  Example              <cex-0><cex-1><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
+  First derivation     <cex-0><cex-step>exp ::=[ </cex-step><cex-1><cex-step>exp ::=[ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
+  Second derivation    <cex-0><cex-step>exp ::=[ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf><cex-1> <cex-step>exp ::=[ </cex-step><cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+
+]])
 
 
 
