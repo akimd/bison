@@ -30,7 +30,7 @@
   Simulating states of the parser:
   Each state is an array of state-items and an array of derivations.
   Each consecutive state-item represents a transition/goto or production,
-  and the derivations are the dereivation trees associated with the symbols
+  and the derivations are the derivation trees associated with the symbols
   transitioned on each step. In more detail:
 
   Parse states are stored as a tree. Each new parse state contains two "chunks,"
