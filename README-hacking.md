@@ -211,6 +211,8 @@ assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
 ## Vocabulary
+- "lookahead", not "look-ahead".
+- "midrule", not "mid-rule".
 - "nonterminal", not "variable" or "non-terminal" or "non terminal".
   Abbreviated as "nterm".
 - "shift/reduce" and "reduce/reduce", not "shift-reduce" or "shift reduce",

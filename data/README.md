@@ -86,7 +86,7 @@ The macro `b4_symbol(NUM, FIELD)` gives access to the following FIELDS:
 - `has_id`: 0 or 1
   Whether the symbol has an `id`.
 
-- `id`: string
+- `id`: string (e.g., `exp`, `NUM`, or `TOK_NUM` with api.token.prefix)
   If `has_id`, the name of the token kind (prefixed by api.token.prefix if
   defined), otherwise empty.  Guaranteed to be usable as a C identifier.
   This is used to define the token kind (i.e., the enum used by the return
@@ -105,9 +105,9 @@ The macro `b4_symbol(NUM, FIELD)` gives access to the following FIELDS:
 - `is_token`: 0 or 1
   Whether this is a terminal symbol.
 
-- `kind_base`: string
+- `kind_base`: string (e.g., `YYSYMBOL_exp`, `YYSYMBOL_NUM`)
   The base of the symbol kind, i.e., the enumerator of this symbol (token or
-  nonterminal) which is mapping to its `number`.
+  nonterminal) which is mapped to its `number`.
 
 - `kind`: string
   Same as `kind_base`, but possibly with a prefix in some languages.  E.g.,
