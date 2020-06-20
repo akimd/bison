@@ -668,6 +668,10 @@ input.y:2.8-10: error: start symbol exp does not derive any sentence]])
 We should say "1 nonterminal": the other one is $accept, which should not
 participate in the count.
 
+*** Tokens
+Do we want to disallow terminal start symbols?  The limitation is not
+technical.  Can it be useful to someone to "parse" a token?
+
 ** %include
 This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.
