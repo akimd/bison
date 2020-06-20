@@ -36,6 +36,7 @@
 {
 #include <stdio.h>  // printf.
 #include <stdlib.h> // getenv.
+#include <string.h> // strcmp.
 }
 
 // Include the header in the implementation rather than duplicating it.
@@ -77,6 +78,8 @@
 %token <int> NUM "number"
 %type <int> exp
 %printer { fprintf (yyo, "%d", $$); } <int>
+
+%start input line
 
 // Precedence (from lowest to highest) and associativity.
 %left "+" "-"
@@ -121,12 +124,23 @@ void yyerror (YYLTYPE *loc, int *nerrs, const char *msg)
   ++*nerrs;
 }
 
-int main (void)
+int main (int argc, const char *argv[])
 {
   int nerrs = 0;
   // Possibly enable parser runtime debugging.
   yydebug = !!getenv ("YYDEBUG");
-  yyparse (&nerrs);
+  // Enable parse traces on option -p.
+  int parse_line_p = 0;
+  for (int i = 0; i < argc; ++i)
+    if (1 < argc && strcmp (argv[1], "-p") == 0)
+      yydebug = 1;
+    else if (strcmp (argv[i], "-l") == 0)
+      parse_line_p = 1;
+
+  if (parse_line_p)
+    yyparse_line (&nerrs);
+  else
+    yyparse_input (&nerrs);
   // Exit on failure if there were errors.
   return !!nerrs;
 }

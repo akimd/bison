@@ -21,6 +21,15 @@ EOF
 run 0 7
 
 cat >input <<EOF
+1
+2
+3
+EOF
+run 0 '1
+2
+3'
+
+cat >input <<EOF
 (1+2) * 3
 EOF
 run 0 9
@@ -35,3 +44,17 @@ cat >input <<EOF
 1 / (2 - 2)
 EOF
 run 1 'err: 1.1-11: error: division by zero'
+
+
+# Multistart: parse "line" instead of "input".
+cat >input <<EOF
+1+2*3
+EOF
+run 0 7 -l
+
+cat >input <<EOF
+1
+2
+EOF
+run 1 '1
+err: 2.1: syntax error, unexpected number, expecting end of file' -l
