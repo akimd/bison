@@ -107,8 +107,8 @@ xby: B | X xby Y;
 AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 Shift/reduce conflict on token B:
-  Example              A . B y
-  First derivation     s ::=[ ax ::=[ A x ::=[ . ] ] by ::=[ B y ] ]
+  Example              A . B
+  First derivation     s ::=[ ax ::=[ A x ::=[ . ] ] by ::=[ B y ::=[ ] ] ]
   Example              A . B
   Second derivation    s ::=[ A xby ::=[ . B ] ]
 
@@ -362,16 +362,16 @@ C : A c A;
 AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on tokens b, c:
-  Example              B . b A A c A
-  First derivation     S ::=[ B ::=[ A ::=[ B . ] b A ] C ::=[ A c A ] ]
-  Example              B . b A c A
-  Second derivation    S ::=[ B C ::=[ A ::=[ B ::=[ A ::=[ . ] b A ] ] c A ] ]
+  Example              B . b c
+  First derivation     S ::=[ B ::=[ A ::=[ B . ] b A ::=[ ] ] C ::=[ A ::=[ ] c A ::=[ ] ] ]
+  Example              B . b c
+  Second derivation    S ::=[ B C ::=[ A ::=[ B ::=[ A ::=[ . ] b A ::=[ ] ] ] c A ::=[ ] ] ]
 
 Reduce/reduce conflict on tokens b, c:
-  Example              C . c A A b A
-  First derivation     S ::=[ C ::=[ A ::=[ C . ] c A ] B ::=[ A b A ] ]
-  Example              C . c A b A
-  Second derivation    S ::=[ C B ::=[ A ::=[ C ::=[ A ::=[ . ] c A ] ] b A ] ]
+  Example              C . c b
+  First derivation     S ::=[ C ::=[ A ::=[ C . ] c A ::=[ ] ] B ::=[ A ::=[ ] b A ::=[ ] ] ]
+  Example              C . c b
+  Second derivation    S ::=[ C B ::=[ A ::=[ C ::=[ A ::=[ . ] c A ::=[ ] ] ] b A ::=[ ] ] ]
 
 ]])
 
