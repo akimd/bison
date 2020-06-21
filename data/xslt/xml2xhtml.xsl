@@ -531,12 +531,12 @@
   <xsl:for-each select="rhs/*">
     <xsl:if test="position() = $point + 1">
       <xsl:text> </xsl:text>
-      <span class="point">.</span>
+      <span class="point">&#x2022;</span>
     </xsl:if>
     <xsl:apply-templates select="."/>
     <xsl:if test="position() = last() and position() = $point">
       <xsl:text> </xsl:text>
-      <span class="point">.</span>
+      <span class="point">&#x2022;</span>
     </xsl:if>
   </xsl:for-each>
   <xsl:if test="$lookaheads">

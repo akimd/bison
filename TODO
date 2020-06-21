@@ -41,6 +41,11 @@ Use "•" instead of ".".
 Not all the conflicts have counterexamples generated.  See the "break"s in
 counterexample_report_state.
 
+*** point, dot
+We have too many names.  In XML we use "point", in C "dot".  A traditional
+more accurate name of "item" is "pointed rule", so we should probably prefer
+"point" to "dot".
+
 ** Bistromathic
 - Hitting tab on a line with a syntax error is ugly
 
