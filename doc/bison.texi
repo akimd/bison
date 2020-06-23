@@ -8301,7 +8301,7 @@ explicitly.  This shift/reduce conflicts occurs in the following situation,
 where the period denotes the current parsing state:
 
 @example
-if @var{e1} then if  @var{e2} then @var{s1} . else @var{s2}
+if @var{e1} then if  @var{e2} then @var{s1} • else @var{s2}
 @end example
 
 The conflict involves the reduction of the rule @samp{IF expr THEN
@@ -9833,39 +9833,40 @@ and reports the uses of the symbols:
 @group
 Terminals, with rules where they appear
 
-$end (0) 0
-'*' (42) 3
-'+' (43) 1
-'-' (45) 2
-'/' (47) 4
-error (256)
-NUM <ival> (258) 5
-STR <sval> (259)
+    $end (0) 0
+    '*' (42) 3
+    '+' (43) 1
+    '-' (45) 2
+    '/' (47) 4
+    error (256)
+    NUM <ival> (258) 5
+    STR <sval> (259)
 @end group
 
 @group
 Nonterminals, with rules where they appear
 
-$accept (9)
-    on left: 0
-exp <ival> (10)
-    on left: 1 2 3 4 5, on right: 0 1 2 3 4
+    $accept (9)
+        on left: 0
+    exp <ival> (10)
+        on left: 1 2 3 4 5
+        on right: 0 1 2 3 4
 @end group
 @end example
 
 @noindent
 @cindex item
-@cindex pointed rule
-@cindex rule, pointed
-Bison then proceeds onto the automaton itself, describing each state
-with its set of @dfn{items}, also known as @dfn{pointed rules}.  Each
-item is a production rule together with a point (@samp{.}) marking
-the location of the input cursor.
+@cindex dotted rule
+@cindex rule, dotted
+Bison then proceeds onto the automaton itself, describing each state with
+its set of @dfn{items}, also known as @dfn{dotted rules}.  Each item is a
+production rule together with a point (@samp{.}) marking the location of the
+input cursor.
 
 @example
 State 0
 
-    0 $accept: . exp $end
+    0 $accept: • exp $end
 
     NUM  shift, and go to state 1
 
@@ -9895,12 +9896,12 @@ you want to see more detail you can invoke @command{bison} with
 @example
 State 0
 
-    0 $accept: . exp $end
-    1 exp: . exp '+' exp
-    2    | . exp '-' exp
-    3    | . exp '*' exp
-    4    | . exp '/' exp
-    5    | . NUM
+    0 $accept: • exp $end
+    1 exp: • exp '+' exp
+    2    | • exp '-' exp
+    3    | • exp '*' exp
+    4    | • exp '/' exp
+    5    | • NUM
 
     NUM  shift, and go to state 1
 
@@ -9913,25 +9914,25 @@ In the state 1@dots{}
 @example
 State 1
 
-    5 exp: NUM .
+    5 exp: NUM •
 
     $default  reduce using rule 5 (exp)
 @end example
 
 @noindent
 the rule 5, @samp{exp: NUM;}, is completed.  Whatever the lookahead token
-(@samp{$default}), the parser will reduce it.  If it was coming from
-State 0, then, after this reduction it will return to state 0, and will
-jump to state 2 (@samp{exp: go to state 2}).
+(@samp{$default}), the parser will reduce it.  If it was coming from State
+0, then, after this reduction it will return to state 0, and will jump to
+state 2 (@samp{exp: go to state 2}).
 
 @example
 State 2
 
-    0 $accept: exp . $end
-    1 exp: exp . '+' exp
-    2    | exp . '-' exp
-    3    | exp . '*' exp
-    4    | exp . '/' exp
+    0 $accept: exp • $end
+    1 exp: exp • '+' exp
+    2    | exp • '-' exp
+    3    | exp • '*' exp
+    4    | exp • '/' exp
 
     $end  shift, and go to state 3
     '+'   shift, and go to state 4
@@ -9941,12 +9942,11 @@ State 2
 @end example
 
 @noindent
-In state 2, the automaton can only shift a symbol.  For instance,
-because of the item @samp{exp: exp . '+' exp}, if the lookahead is
-@samp{+} it is shifted onto the parse stack, and the automaton
-jumps to state 4, corresponding to the item @samp{exp: exp '+' . exp}.
-Since there is no default action, any lookahead not listed triggers a syntax
-error.
+In state 2, the automaton can only shift a symbol.  For instance, because of
+the item @samp{exp: exp • '+' exp}, if the lookahead is @samp{+} it is
+shifted onto the parse stack, and the automaton jumps to state 4,
+corresponding to the item @samp{exp: exp '+' • exp}.  Since there is no
+default action, any lookahead not listed triggers a syntax error.
 
 @cindex accepting state
 The state 3 is named the @dfn{final state}, or the @dfn{accepting
@@ -9955,7 +9955,7 @@ state}:
 @example
 State 3
 
-    0 $accept: exp $end .
+    0 $accept: exp $end •
 
     $default  accept
 @end example
@@ -9970,7 +9970,7 @@ the reader.
 @example
 State 4
 
-    1 exp: exp '+' . exp
+    1 exp: exp '+' • exp
 
     NUM  shift, and go to state 1
 
@@ -9979,7 +9979,7 @@ State 4
 
 State 5
 
-    2 exp: exp '-' . exp
+    2 exp: exp '-' • exp
 
     NUM  shift, and go to state 1
 
@@ -9988,7 +9988,7 @@ State 5
 
 State 6
 
-    3 exp: exp '*' . exp
+    3 exp: exp '*' • exp
 
     NUM  shift, and go to state 1
 
@@ -9997,7 +9997,7 @@ State 6
 
 State 7
 
-    4 exp: exp '/' . exp
+    4 exp: exp '/' • exp
 
     NUM  shift, and go to state 1
 
@@ -10010,11 +10010,11 @@ As was announced in beginning of the report, @samp{State 8 conflicts:
 @example
 State 8
 
-    1 exp: exp . '+' exp
-    1    | exp '+' exp .
-    2    | exp . '-' exp
-    3    | exp . '*' exp
-    4    | exp . '/' exp
+    1 exp: exp • '+' exp
+    1    | exp '+' exp •
+    2    | exp • '-' exp
+    3    | exp • '*' exp
+    4    | exp • '/' exp
 
     '*'  shift, and go to state 6
     '/'  shift, and go to state 7
@@ -10052,11 +10052,11 @@ with some set of possible lookahead tokens.  When run with
 @example
 State 8
 
-    1 exp: exp . '+' exp
-    1    | exp '+' exp .  [$end, '+', '-', '/']
-    2    | exp . '-' exp
-    3    | exp . '*' exp
-    4    | exp . '/' exp
+    1 exp: exp • '+' exp
+    1    | exp '+' exp •  [$end, '+', '-', '/']
+    2    | exp • '-' exp
+    3    | exp • '*' exp
+    4    | exp • '/' exp
 
     '*'  shift, and go to state 6
     '/'  shift, and go to state 7
@@ -10084,11 +10084,11 @@ The remaining states are similar:
 @group
 State 9
 
-    1 exp: exp . '+' exp
-    2    | exp . '-' exp
-    2    | exp '-' exp .
-    3    | exp . '*' exp
-    4    | exp . '/' exp
+    1 exp: exp • '+' exp
+    2    | exp • '-' exp
+    2    | exp '-' exp •
+    3    | exp • '*' exp
+    4    | exp • '/' exp
 
     '*'  shift, and go to state 6
     '/'  shift, and go to state 7
@@ -10100,11 +10100,11 @@ State 9
 @group
 State 10
 
-    1 exp: exp . '+' exp
-    2    | exp . '-' exp
-    3    | exp . '*' exp
-    3    | exp '*' exp .
-    4    | exp . '/' exp
+    1 exp: exp • '+' exp
+    2    | exp • '-' exp
+    3    | exp • '*' exp
+    3    | exp '*' exp •
+    4    | exp • '/' exp
 
     '/'  shift, and go to state 7
 
@@ -10115,11 +10115,11 @@ State 10
 @group
 State 11
 
-    1 exp: exp . '+' exp
-    2    | exp . '-' exp
-    3    | exp . '*' exp
-    4    | exp . '/' exp
-    4    | exp '/' exp .
+    1 exp: exp • '+' exp
+    2    | exp • '-' exp
+    3    | exp • '*' exp
+    4    | exp • '/' exp
+    4    | exp '/' exp •
 
     '+'  shift, and go to state 4
     '-'  shift, and go to state 5
@@ -10192,9 +10192,9 @@ analysis of the textual report.
 
 @subheading Graphical Representation of States
 
-The items (pointed rules) for each state are grouped together in graph nodes.
-Their numbering is the same as in the verbose file. See the following points,
-about transitions, for examples
+The items (dotted rules) for each state are grouped together in graph nodes.
+Their numbering is the same as in the verbose file. See the following
+points, about transitions, for examples
 
 When invoked with @option{--report=lookaheads}, the lookahead tokens, when
 needed, are shown next to the relevant rule between square brackets as a
@@ -10215,7 +10215,7 @@ shift. The following describes a reduction in the @file{rr.output} file:
 @group
 State 3
 
-    1 exp: a . ";"
+    1 exp: a • ";"
 
     ";"  shift, and go to state 6
 @end group
@@ -10236,8 +10236,8 @@ This is how reductions are represented in the verbose file @file{rr.output}:
 @example
 State 1
 
-    3 a: "0" .  [";"]
-    4 b: "0" .  ["."]
+    3 a: "0" •  [";"]
+    4 b: "0" •  ["."]
 
     "."       reduce using rule 4 (b)
     $default  reduce using rule 3 (a)

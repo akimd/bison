@@ -229,7 +229,7 @@ print_dot_fallback (unsigned int code _GL_UNUSED,
 }
 
 /* Print "•", the symbol used to represent a point in an item (aka, a
-   pointed rule).  */
+   dotted rule).  */
 static inline void
 print_dot (FILE *out)
 {

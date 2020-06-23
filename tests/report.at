@@ -789,10 +789,10 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="0">
       <itemset>
-        <item rule-number="0" point="0"/>
-        <item rule-number="1" point="0"/>
-        <item rule-number="2" point="0"/>
-        <item rule-number="3" point="0"/>
+        <item rule-number="0" dot="0"/>
+        <item rule-number="1" dot="0"/>
+        <item rule-number="2" dot="0"/>
+        <item rule-number="3" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -809,7 +809,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="1">
       <itemset>
-        <item rule-number="0" point="1"/>
+        <item rule-number="0" dot="1"/>
       </itemset>
       <actions>
         <transitions>
@@ -823,14 +823,14 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="2">
       <itemset>
-        <item rule-number="1" point="1"/>
-        <item rule-number="3" point="1"/>
-        <item rule-number="4" point="0"/>
-        <item rule-number="5" point="0"/>
-        <item rule-number="8" point="0"/>
-        <item rule-number="9" point="0"/>
-        <item rule-number="10" point="0"/>
-        <item rule-number="11" point="0"/>
+        <item rule-number="1" dot="1"/>
+        <item rule-number="3" dot="1"/>
+        <item rule-number="4" dot="0"/>
+        <item rule-number="5" dot="0"/>
+        <item rule-number="8" dot="0"/>
+        <item rule-number="9" dot="0"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -850,7 +850,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="3">
       <itemset>
-        <item rule-number="0" point="2"/>
+        <item rule-number="0" dot="2"/>
       </itemset>
       <actions>
         <transitions/>
@@ -864,11 +864,11 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="4">
       <itemset>
-        <item rule-number="8" point="0"/>
-        <item rule-number="8" point="1"/>
-        <item rule-number="9" point="0"/>
-        <item rule-number="10" point="0"/>
-        <item rule-number="11" point="0"/>
+        <item rule-number="8" dot="0"/>
+        <item rule-number="8" dot="1"/>
+        <item rule-number="9" dot="0"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -886,12 +886,12 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="5">
       <itemset>
-        <item rule-number="5" point="1">
+        <item rule-number="5" dot="1">
           <lookaheads>
             <symbol>&quot;:=&quot;</symbol>
           </lookaheads>
         </item>
-        <item rule-number="10" point="1">
+        <item rule-number="10" dot="1">
           <lookaheads>
             <symbol>&quot;end of file&quot;</symbol>
           </lookaheads>
@@ -910,7 +910,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="6">
       <itemset>
-        <item rule-number="11" point="1"/>
+        <item rule-number="11" dot="1"/>
       </itemset>
       <actions>
         <transitions/>
@@ -924,11 +924,11 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="7">
       <itemset>
-        <item rule-number="8" point="0"/>
-        <item rule-number="9" point="0"/>
-        <item rule-number="9" point="1"/>
-        <item rule-number="10" point="0"/>
-        <item rule-number="11" point="0"/>
+        <item rule-number="8" dot="0"/>
+        <item rule-number="9" dot="0"/>
+        <item rule-number="9" dot="1"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -946,7 +946,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="8">
       <itemset>
-        <item rule-number="3" point="2"/>
+        <item rule-number="3" dot="2"/>
       </itemset>
       <actions>
         <transitions/>
@@ -960,7 +960,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="9">
       <itemset>
-        <item rule-number="4" point="1"/>
+        <item rule-number="4" dot="1"/>
       </itemset>
       <actions>
         <transitions>
@@ -974,7 +974,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="10">
       <itemset>
-        <item rule-number="1" point="2"/>
+        <item rule-number="1" dot="2"/>
       </itemset>
       <actions>
         <transitions/>
@@ -988,7 +988,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="11">
       <itemset>
-        <item rule-number="10" point="1"/>
+        <item rule-number="10" dot="1"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1002,8 +1002,8 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="12">
       <itemset>
-        <item rule-number="6" point="0"/>
-        <item rule-number="8" point="2"/>
+        <item rule-number="6" dot="0"/>
+        <item rule-number="8" dot="2"/>
       </itemset>
       <actions>
         <transitions>
@@ -1019,7 +1019,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="13">
       <itemset>
-        <item rule-number="9" point="2"/>
+        <item rule-number="9" dot="2"/>
       </itemset>
       <actions>
         <transitions>
@@ -1033,11 +1033,11 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="14">
       <itemset>
-        <item rule-number="4" point="2"/>
-        <item rule-number="8" point="0"/>
-        <item rule-number="9" point="0"/>
-        <item rule-number="10" point="0"/>
-        <item rule-number="11" point="0"/>
+        <item rule-number="4" dot="2"/>
+        <item rule-number="8" dot="0"/>
+        <item rule-number="9" dot="0"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -1055,8 +1055,8 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="15">
       <itemset>
-        <item rule-number="7" point="0"/>
-        <item rule-number="8" point="3"/>
+        <item rule-number="7" dot="0"/>
+        <item rule-number="8" dot="3"/>
       </itemset>
       <actions>
         <transitions>
@@ -1072,7 +1072,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="16">
       <itemset>
-        <item rule-number="9" point="3"/>
+        <item rule-number="9" dot="3"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1086,7 +1086,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="17">
       <itemset>
-        <item rule-number="4" point="3"/>
+        <item rule-number="4" dot="3"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1100,11 +1100,11 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="18">
       <itemset>
-        <item rule-number="8" point="0"/>
-        <item rule-number="8" point="4"/>
-        <item rule-number="9" point="0"/>
-        <item rule-number="10" point="0"/>
-        <item rule-number="11" point="0"/>
+        <item rule-number="8" dot="0"/>
+        <item rule-number="8" dot="4"/>
+        <item rule-number="9" dot="0"/>
+        <item rule-number="10" dot="0"/>
+        <item rule-number="11" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -1122,7 +1122,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="19">
       <itemset>
-        <item rule-number="8" point="5"/>
+        <item rule-number="8" dot="5"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1531,12 +1531,12 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="0">
       <itemset>
-        <item rule-number="0" point="0"/>
-        <item rule-number="1" point="0"/>
-        <item rule-number="2" point="0"/>
-        <item rule-number="3" point="0"/>
-        <item rule-number="4" point="0"/>
-        <item rule-number="5" point="0"/>
+        <item rule-number="0" dot="0"/>
+        <item rule-number="1" dot="0"/>
+        <item rule-number="2" dot="0"/>
+        <item rule-number="3" dot="0"/>
+        <item rule-number="4" dot="0"/>
+        <item rule-number="5" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -1552,7 +1552,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="1">
       <itemset>
-        <item rule-number="4" point="1"/>
+        <item rule-number="4" dot="1"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1566,7 +1566,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="2">
       <itemset>
-        <item rule-number="5" point="1"/>
+        <item rule-number="5" dot="1"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1580,10 +1580,10 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="3">
       <itemset>
-        <item rule-number="0" point="1"/>
-        <item rule-number="1" point="1"/>
-        <item rule-number="2" point="1"/>
-        <item rule-number="3" point="1"/>
+        <item rule-number="0" dot="1"/>
+        <item rule-number="1" dot="1"/>
+        <item rule-number="2" dot="1"/>
+        <item rule-number="3" dot="1"/>
       </itemset>
       <actions>
         <transitions>
@@ -1599,7 +1599,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="4">
       <itemset>
-        <item rule-number="0" point="2"/>
+        <item rule-number="0" dot="2"/>
       </itemset>
       <actions>
         <transitions/>
@@ -1613,13 +1613,13 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="5">
       <itemset>
-        <item rule-number="1" point="0"/>
-        <item rule-number="2" point="0"/>
-        <item rule-number="2" point="2"/>
-        <item rule-number="3" point="0"/>
-        <item rule-number="3" point="2"/>
-        <item rule-number="4" point="0"/>
-        <item rule-number="5" point="0"/>
+        <item rule-number="1" dot="0"/>
+        <item rule-number="2" dot="0"/>
+        <item rule-number="2" dot="2"/>
+        <item rule-number="3" dot="0"/>
+        <item rule-number="3" dot="2"/>
+        <item rule-number="4" dot="0"/>
+        <item rule-number="5" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -1635,12 +1635,12 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="6">
       <itemset>
-        <item rule-number="1" point="0"/>
-        <item rule-number="1" point="2"/>
-        <item rule-number="2" point="0"/>
-        <item rule-number="3" point="0"/>
-        <item rule-number="4" point="0"/>
-        <item rule-number="5" point="0"/>
+        <item rule-number="1" dot="0"/>
+        <item rule-number="1" dot="2"/>
+        <item rule-number="2" dot="0"/>
+        <item rule-number="3" dot="0"/>
+        <item rule-number="4" dot="0"/>
+        <item rule-number="5" dot="0"/>
       </itemset>
       <actions>
         <transitions>
@@ -1656,17 +1656,17 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="7">
       <itemset>
-        <item rule-number="1" point="1"/>
-        <item rule-number="2" point="1"/>
-        <item rule-number="2" point="3">
+        <item rule-number="1" dot="1"/>
+        <item rule-number="2" dot="1"/>
+        <item rule-number="2" dot="3">
           <lookaheads>
             <symbol>$end</symbol>
             <symbol>&quot;+&quot;</symbol>
             <symbol>&quot;⊕&quot;</symbol>
           </lookaheads>
         </item>
-        <item rule-number="3" point="1"/>
-        <item rule-number="3" point="3">
+        <item rule-number="3" dot="1"/>
+        <item rule-number="3" dot="3">
           <lookaheads>
             <symbol>$end</symbol>
             <symbol>&quot;+&quot;</symbol>
@@ -1696,16 +1696,16 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 
     <state number="8">
       <itemset>
-        <item rule-number="1" point="1"/>
-        <item rule-number="1" point="3">
+        <item rule-number="1" dot="1"/>
+        <item rule-number="1" dot="3">
           <lookaheads>
             <symbol>$end</symbol>
             <symbol>&quot;+&quot;</symbol>
             <symbol>&quot;⊕&quot;</symbol>
           </lookaheads>
         </item>
-        <item rule-number="2" point="1"/>
-        <item rule-number="3" point="1"/>
+        <item rule-number="2" dot="1"/>
+        <item rule-number="3" dot="1"/>
       </itemset>
       <actions>
         <transitions>

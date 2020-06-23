@@ -75,7 +75,7 @@
       ol.lower-alpha {
         list-style-type: lower-alpha;
       }
-      .point {
+      .dot {
         color: #cc0000;
       }
       #footer {
@@ -457,7 +457,7 @@
     <xsl:with-param name="prev-lhs"
       select="key('bison:ruleByNumber', $prev-rule-number)/lhs[text()]"
    />
-    <xsl:with-param name="point" select="@point"/>
+    <xsl:with-param name="dot" select="@dot"/>
     <xsl:with-param name="lookaheads">
       <xsl:apply-templates select="lookaheads"/>
     </xsl:with-param>
@@ -468,7 +468,7 @@
   <xsl:param name="itemset"/>
   <xsl:param name="pad"/>
   <xsl:param name="prev-lhs"/>
-  <xsl:param name="point"/>
+  <xsl:param name="dot"/>
   <xsl:param name="lookaheads"/>
 
   <xsl:if test="$itemset != 'true' and not($prev-lhs = lhs[text()])">
@@ -529,14 +529,14 @@
 
   <!-- RHS -->
   <xsl:for-each select="rhs/*">
-    <xsl:if test="position() = $point + 1">
+    <xsl:if test="position() = $dot + 1">
       <xsl:text> </xsl:text>
-      <span class="point">&#x2022;</span>
+      <span class="dot">&#x2022;</span>
     </xsl:if>
     <xsl:apply-templates select="."/>
-    <xsl:if test="position() = last() and position() = $point">
+    <xsl:if test="position() = last() and position() = $dot">
       <xsl:text> </xsl:text>
-      <span class="point">&#x2022;</span>
+      <span class="dot">&#x2022;</span>
     </xsl:if>
   </xsl:for-each>
   <xsl:if test="$lookaheads">

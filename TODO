@@ -33,14 +33,8 @@ Show the counterexamples.  This is going to be really hard and/or painful.
 Unless we play it dumb (little structure).
 
 *** Doc
--Wcounterexamples, --report=counterexamples
-
-Use "•" instead of ".".
-
-*** point, dot
-We have too many names.  In XML we use "point", in C "dot".  A traditional
-more accurate name of "item" is "pointed rule", so we should probably prefer
-"point" to "dot".
+-Wcounterexamples, --report=counterexamples.  Don't forget to include
+examples about conflicts in the reports.
 
 ** Bistromathic
 - Hitting tab on a line with a syntax error is ugly
