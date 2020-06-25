@@ -237,7 +237,15 @@ print_dot (FILE *out)
 }
 
 /* Get the rule associated to this item.  ITEM points inside RITEM.  */
-rule const *item_rule (item_number const *item);
+static inline rule const *
+item_rule (item_number const *item)
+{
+  item_number const *sp = item;
+  while (!item_number_is_rule_number (*sp))
+    ++sp;
+  rule_number r = item_number_as_rule_number (*sp);
+  return &rules[r];
+}
 
 /* Pretty-print this ITEM (as in the report).  ITEM points inside
    RITEM.  PREVIOUS_RULE is used to see if the lhs is common, in which
