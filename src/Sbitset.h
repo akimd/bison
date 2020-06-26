@@ -81,6 +81,8 @@ void Sbitset__fprint (Sbitset self, Sbitset__Index nbits, FILE *file);
       *ptr_self = *ptr_other1 | *ptr_other2;                            \
   } while (0)
 
+/* ATTENTION: there are *two* loops here, "break" and "continue" will
+   not apply to the whole loop, just the inner one.  */
 # define SBITSET__FOR_EACH(SELF, NBITS, ITER, INDEX)                    \
   for ((ITER) = (SELF); (ITER) < (SELF) + Sbitset__nbytes (NBITS); ++(ITER)) \
     if (*(ITER) != 0)                                                   \

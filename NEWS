@@ -44,6 +44,10 @@ GNU Bison NEWS
   string aliases semantically equivalent but syntactically different (e.g.,
   "A", "\x41", "\101") are considered to be different.
 
+*** Crash when generating IELR
+
+  An old, well hidden, bug in the generation of IELR parsers was fixed.
+
 ** New features
 
 *** File prefix mapping
