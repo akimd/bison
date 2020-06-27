@@ -6658,7 +6658,10 @@ In C, some important invariants in the implementation of the parser are
 checked when this option is enabled.
 
 In C++, when variants are used (@pxref{C++ Variants}), symbols must be
-constructed and destroyed properly.  This option checks these constraints.
+constructed and destroyed properly.  This option checks these constraints
+using runtime type information (RTTI).  Therefore the generated code cannot
+be compiled with RTTI disabled (via compiler options such as
+@option{-fno-rtti}).
 
 @item Accepted Values: Boolean
 
