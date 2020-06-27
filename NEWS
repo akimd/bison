@@ -6,11 +6,11 @@ GNU Bison NEWS
 
 *** File prefix mapping
 
-  Bison learned a new argument, '--file-prefix-map OLD=NEW'. Any file path in
-  the output (specifically #line directives and #ifdef header guards) that
-  being with the prefix OLD will have it replace with the prefix NEW, similar
-  to the -ffile-prefix-map in GCC. This option can be used to make bison output
-  reproducible.
+  Bison learned a new argument, `--file-prefix-map OLD=NEW`.  Any file path
+  in the output (specifically `#line` directives and `#ifdef` header guards)
+  that begins with the prefix OLD will have it replaced with the prefix NEW,
+  similar to the `-ffile-prefix-map` in GCC.  This option can be used to
+  make bison output reproducible.
 
 ** Changes
 
