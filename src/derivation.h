@@ -25,10 +25,10 @@
 
 # include "gram.h"
 
-/* Derivations are trees of symbols such that each non terminal's
+/* Derivations are trees of symbols such that each nonterminal's
    children are symbols that produce that nonterminal if they are
-   relevant to the counterexample. The leaves of a derivation form a
-   counterexample when printed. */
+   relevant to the counterexample.  The leaves of a derivation form a
+   counterexample when printed.  */
 
 typedef gl_list_t derivation_list;
 typedef struct derivation derivation;

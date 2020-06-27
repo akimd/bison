@@ -328,7 +328,7 @@ input.y: warning: 1 rule useless in grammar [-Wother]
 input.y:4.1-7: warning: nonterminal useless in grammar: useless [-Wother]
 Reduced Grammar
 
-ntokens = 7, nvars = 4, nsyms = 11, nrules = 6, nritems = 17
+ntokens = 7, nnterms = 4, nsyms = 11, nrules = 6, nritems = 17
 
 Tokens
 ------
@@ -343,8 +343,8 @@ Value  Sprec  Sassoc  Tag
     6      0       0  "num"
 
 
-Non terminals
--------------
+Nonterminals
+------------
 
 Value  Tag
     7  $accept
@@ -411,7 +411,7 @@ exp:
 AT_BISON_CHECK([[--trace=grammar -o input.c input.y]], [], [],
 [[Reduced Grammar
 
-ntokens = 10, nvars = 2, nsyms = 12, nrules = 8, nritems = 29
+ntokens = 10, nnterms = 2, nsyms = 12, nrules = 8, nritems = 29
 
 Tokens
 ------
@@ -429,8 +429,8 @@ Value  Sprec  Sassoc  Tag
     9      0       0  "exp"
 
 
-Non terminals
--------------
+Nonterminals
+------------
 
 Value  Tag
    10  $accept

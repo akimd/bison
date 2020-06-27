@@ -23,9 +23,9 @@
 
 /* Representation of the grammar rules:
 
-   NTOKENS is the number of tokens, and NVARS is the number of
+   NTOKENS is the number of tokens, and NNTERMS is the number of
    variables (nonterminals).  NSYMS is the total number, ntokens +
-   nvars.
+   nnterms.
 
    Each symbol (either token or variable) receives a symbol number.
    Numbers 0 to NTOKENS - 1 are for tokens, and NTOKENS to NSYMS - 1
@@ -113,7 +113,7 @@
 
 extern int nsyms;
 extern int ntokens;
-extern int nvars;
+extern int nnterms;
 
 /* Elements of ritem. */
 typedef int item_number;

@@ -37,6 +37,10 @@ Only user visible strings are to be translated: error messages, bits of the
 assert/abort), and all the --trace output which is meant for the maintainers
 only.
 
+## Vocabulary
+Use "nonterminal", not "variable" or "non-terminal" or "non terminal".
+Abbreviated as "nterm".
+
 ## Syntax highlighting
 It's quite nice to be in C++ mode when editing lalr1.cc for instance.
 However tools such as Emacs will be fooled by the fact that braces and

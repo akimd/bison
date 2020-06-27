@@ -125,13 +125,13 @@ void parse_state_lists (parse_state *ps, gl_list_t *state_items,
  * is appended to state-items. */
 parse_state_list simulate_transition (parse_state *ps);
 
-/* Look at all of the productions for the non-terminal following the dot in the tail
+/* Look at all of the productions for the nonterminal following the dot in the tail
  * state-item. Appends to state-items each production state-item which may start with
  * compat_sym. */
 parse_state_list simulate_production (parse_state *ps, symbol_number compat_sym);
 
 /* Removes the last rule_len state-items along with their derivations. A new state-item is
- * appended representing the goto after the reduction. A derivation for the non-terminal that
+ * appended representing the goto after the reduction. A derivation for the nonterminal that
  * was just reduced is appended which consists of the list of derivations that were just removed. */
 parse_state_list simulate_reduction (parse_state *ps, int rule_len,
                               bitset symbol_set);

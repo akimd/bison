@@ -91,7 +91,7 @@ generates tons of white space in the page, and may contribute to bad page
 breaks.
 
 ** consistency
-token vs terminal, variable vs non terminal.
+token vs terminal.
 
 ** api.token.raw
 The YYUNDEFTOK could be assigned a semantic value so that yyerror could be
