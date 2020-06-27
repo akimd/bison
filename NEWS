@@ -2,10 +2,37 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** New features
+
+*** File prefix mapping
+
+  Bison learned a new argument, '--file-prefix-map OLD=NEW'. Any file path in
+  the output (specifically #line directives and #ifdef header guards) that
+  being with the prefix OLD will have it replace with the prefix NEW, similar
+  to the -ffile-prefix-map in GCC. This option can be used to make bison output
+  reproducible.
+
 ** Changes
 
-  When installed to be relocatable (via configure --enable-relocatable),
+*** Relocatable installation
+
+  When installed to be relocatable (via `configure --enable-relocatable`),
   bison will now also look for a relocated m4.
+
+*** C++ file names
+
+  The `filename_type` %define variable was renamed `api.filename.type`.
+  Instead of
+
+    %define filename_type "symbol"
+
+  write
+
+    %define api.filename.type {symbol}
+
+  (Or let `bison --update` do it for you).
+
+  It now defaults to `const std::string` instead of `std::string`.
 
 ** Bug fixes
 
@@ -47,16 +74,6 @@ GNU Bison NEWS
 *** Crash when generating IELR
 
   An old, well hidden, bug in the generation of IELR parsers was fixed.
-
-** New features
-
-*** File prefix mapping
-
-  Bison learned a new argument, '--file-prefix-map OLD=NEW'. Any file path in
-  the output (specifically #line directives and #ifdef header guards) that
-  being with the prefix OLD will have it replace with the prefix NEW, similar
-  to the -ffile-prefix-map in GCC. This option can be used to make bison output
-  reproducible.
 
 * Noteworthy changes in release 3.6.4 (2020-06-15) [stable]
 

@@ -2220,6 +2220,7 @@ AT_DATA([[input.y]],
 %define namespace "foo"
 %define variant
 %define parser_class_name {parser}
+%define filename_type {filename}
 %%
 start: %empty;
 ]])
@@ -2244,6 +2245,10 @@ input.y:5.1-34: warning: deprecated directive: '%define parser_class_name {parse
     5 | %define parser_class_name {parser}
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       | %define api.parser.class {parser}
+input.y:6.1-32: warning: deprecated directive: '%define filename_type {filename}', use '%define api.filename.type {filename}' [-Wdeprecated]
+    6 | %define filename_type {filename}
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      | %define api.filename.type {filename}
 input.y:2.1-40: error: invalid value for %define Boolean variable 'lr.keep-unreachable-state'
     2 | %define lr.keep_unreachable_states maybe
       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

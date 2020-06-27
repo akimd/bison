@@ -63,11 +63,13 @@ m4_define([b4_location_define],
   class position
   {
   public:
+    /// Type for file name.
+    typedef ]b4_percent_define_get([[api.filename.type]])[ filename_type;
     /// Type for line and column numbers.
     typedef int counter_type;
 ]m4_ifdef([b4_location_constructors], [[
     /// Construct a position.
-    explicit position (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
+    explicit position (filename_type* f = YY_NULLPTR,
                        counter_type l = ]b4_location_initial_line[,
                        counter_type c = ]b4_location_initial_column[)
       : filename (f)
@@ -77,7 +79,7 @@ m4_define([b4_location_define],
 
 ]])[
     /// Initialization.
-    void initialize (]b4_percent_define_get([[filename_type]])[* fn = YY_NULLPTR,
+    void initialize (filename_type* fn = YY_NULLPTR,
                      counter_type l = ]b4_location_initial_line[,
                      counter_type c = ]b4_location_initial_column[)
     {
@@ -106,7 +108,7 @@ m4_define([b4_location_define],
     /** \} */
 
     /// File name to which this position refers.
-    ]b4_percent_define_get([[filename_type]])[* filename;
+    filename_type* filename;
     /// Current line number.
     counter_type line;
     /// Current column number.
@@ -184,6 +186,8 @@ m4_define([b4_location_define],
   class location
   {
   public:
+    /// Type for file name.
+    typedef position::filename_type filename_type;
     /// Type for line and column numbers.
     typedef position::counter_type counter_type;
 ]m4_ifdef([b4_location_constructors], [
@@ -200,7 +204,7 @@ m4_define([b4_location_define],
     {}
 
     /// Construct a 0-width location in \a f, \a l, \a c.
-    explicit location (]b4_percent_define_get([[filename_type]])[* f,
+    explicit location (filename_type* f,
                        counter_type l = ]b4_location_initial_line[,
                        counter_type c = ]b4_location_initial_column[)
       : begin (f, l, c)
@@ -209,7 +213,7 @@ m4_define([b4_location_define],
 
 ])[
     /// Initialization.
-    void initialize (]b4_percent_define_get([[filename_type]])[* f = YY_NULLPTR,
+    void initialize (filename_type* f = YY_NULLPTR,
                      counter_type l = ]b4_location_initial_line[,
                      counter_type c = ]b4_location_initial_column[)
     {

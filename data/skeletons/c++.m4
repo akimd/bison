@@ -105,7 +105,7 @@ b4_percent_define_default([[api.parser.class]], [[parser]])
 #
 # b4_percent_define_default([[api.location.type]], [[location]])
 
-b4_percent_define_default([[filename_type]], [[std::string]])
+b4_percent_define_default([[api.filename.type]], [[const std::string]])
 # Make it a warning for those who used betas of Bison 3.0.
 b4_percent_define_default([[api.namespace]], m4_defn([b4_prefix]))
 

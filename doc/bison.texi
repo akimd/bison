@@ -5922,6 +5922,31 @@ Unaccepted @var{variable}s produce an error.  Some of the accepted
 @var{variable}s are described below.
 
 
+@c ================================================== api.filename.file
+@anchor{api-filename-type}
+@deffn {Directive} {%define api.filename.type} @{@var{type}@}
+
+@itemize @bullet
+@item Language(s): C++
+
+@item Purpose:
+Define the type of file names in Bison's default location and position
+types. @xref{Exposing the Location Classes}.
+
+@item Accepted Values:
+Any type that is printable (via streams) and comparable (with @code{==} and
+@code{!=}).
+
+@item Default Value: @code{const std::string}.
+
+@item History:
+Introduced in Bison 2.0 as @code{filename_type} (with @code{std::string} as
+default), renamed as @code{api.filename.type} in Bison 3.7 (with @code{const
+std::string} as default).
+@end itemize
+@end deffn
+
+
 @c ================================================== api.header.include
 @deffn Directive {%define api.header.include} @{"header.h"@}
 @deffnx Directive {%define api.header.include} @{<header.h>@}
@@ -6052,7 +6077,8 @@ Introduced in Bison 3.2.
 @item Default Value: none
 
 @item History:
-Introduced in Bison 2.7 for C++ and Java, in Bison 3.4 for C.
+Introduced in Bison 2.7 for C++ and Java, in Bison 3.4 for C.  Was
+originally named @code{location_type} in Bison 2.5 and 2.6.
 @end itemize
 @end deffn
 
@@ -6553,12 +6579,6 @@ Introduced in Bison 3.0.3.
 @end itemize
 @end deffn
 @c api.value.type
-
-
-@c ================================================== location_type
-@deffn Directive {%define location_type}
-Obsoleted by @code{api.location.type} since Bison 2.7.
-@end deffn
 
 
 @c ================================================== lr.default-reduction
@@ -11898,10 +11918,6 @@ is some time and/or some talented C++ hacker willing to contribute to Bison.
 
 @node C++ Location Values
 @subsection C++ Location Values
-@c - %locations
-@c - class position
-@c - class location
-@c - %define filename_type "const symbol::Symbol"
 
 When the directive @code{%locations} is used, the C++ parser supports
 location tracking, see @ref{Tracking Locations}.
@@ -11923,25 +11939,28 @@ generated, and the user defined type will be used.
 @node C++ position
 @subsubsection C++ @code{position}
 
+@defcv {Type} {position} {filename_type}
+The base type for file names. Defaults to @code{const std::string}.
+@xref{api-filename-type,,@code{api.filename.type}}, to change its definition.
+@end defcv
+
 @defcv {Type} {position} {counter_type}
 The type used to store line and column numbers.  Defined as @code{int}.
 @end defcv
 
-@deftypeop {Constructor} {position} {} position (@code{std::string*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
+@deftypeop {Constructor} {position} {} position (@code{filename_type*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
 Create a @code{position} denoting a given point.  Note that @code{file} is
 not reclaimed when the @code{position} is destroyed: memory managed must be
 handled elsewhere.
 @end deftypeop
 
-@deftypemethod {position} {void} initialize (@code{std::string*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
+@deftypemethod {position} {void} initialize (@code{filename_type*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
 Reset the position to the given values.
 @end deftypemethod
 
-@deftypeivar {position} {std::string*} file
+@deftypeivar {position} {filename_type*} file
 The name of the file.  It will always be handled as a pointer, the parser
-will never duplicate nor deallocate it.  As an experimental feature you may
-change it to @samp{@var{type}*} using @samp{%define filename_type
-"@var{type}"}.
+will never duplicate nor deallocate it.
 @end deftypeivar
 
 @deftypeivar {position} {counter_type} line
@@ -11988,11 +12007,11 @@ Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
 @deftypeop {Constructor} {location} {} location (@code{const position&} @var{pos} = position())
-@deftypeopx {Constructor} {location} {} location (@code{std::string*} @var{file}, @code{counter_type} @var{line}, @code{counter_type} @var{col})
+@deftypeopx {Constructor} {location} {} location (@code{filename_type*} @var{file}, @code{counter_type} @var{line}, @code{counter_type} @var{col})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypemethod {location} {void} initialize (@code{std::string*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
+@deftypemethod {location} {void} initialize (@code{filename_type*} @var{file} = nullptr, @code{counter_type} @var{line} = 1, @code{counter_type} @var{col} = 1)
 Reset the location to an empty range at the given values.
 @end deftypemethod
 

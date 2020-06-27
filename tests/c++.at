@@ -46,38 +46,45 @@ template <typename T>
 bool
 check (const T& in, const std::string& s)
 {
+  const static bool verbose = getenv ("VERBOSE");
   std::stringstream os;
   os << in;
-  if (os.str () != s)
+  if (os.str () == s)
+    {
+      if (verbose)
+        std::cerr << os.str () << '\n';
+      return true;
+    }
+  else
     {
       std::cerr << "fail: " << os.str () << ", expected: " << s << '\n';
       return false;
     }
-  return true;
 }
 
 int
 main (void)
 {
+  const std::string fn = "foo.txt";
   int fail = 0;
-  ]AT_YYLTYPE[ loc;  fail += check (loc, "1.1");
-                     fail += check (loc + 10, "1.1-10");
-  loc += 10;         fail += check (loc, "1.1-10");
-  loc += -5;         fail += check (loc, "1.1-5");
-                     fail += check (loc - 5, "1.1");
-  loc -= 5;          fail += check (loc, "1.1");
+  ]AT_YYLTYPE[ loc (&fn);  fail += check (loc, "foo.txt:1.1");
+                           fail += check (loc + 10, "foo.txt:1.1-10");
+  loc += 10;               fail += check (loc, "foo.txt:1.1-10");
+  loc += -5;               fail += check (loc, "foo.txt:1.1-5");
+                           fail += check (loc - 5, "foo.txt:1.1");
+  loc -= 5;                fail += check (loc, "foo.txt:1.1");
   // Check that we don't go below.
   // http://lists.gnu.org/archive/html/bug-bison/2013-02/msg00000.html
-  loc -= 10;         fail += check (loc, "1.1");
+  loc -= 10;         fail += check (loc, "foo.txt:1.1");
 
-  loc.columns (10); loc.lines (10); fail += check (loc, "1.1-11.0");
-  loc.lines (-2);                   fail += check (loc, "1.1-9.0");
-  loc.lines (-10);                  fail += check (loc, "1.1");
+  loc.columns (10); loc.lines (10); fail += check (loc, "foo.txt:1.1-11.0");
+  loc.lines (-2);                   fail += check (loc, "foo.txt:1.1-9.0");
+  loc.lines (-10);                  fail += check (loc, "foo.txt:1.1");
 
   ]AT_YYLTYPE[ loc2 (YY_NULLPTR, 5, 10);
                    fail += check (loc2, "5.10");
-                   fail += check (loc + loc2, "1.1-5.9");
-  loc += loc2;     fail += check (loc, "1.1-5.9");
+                   fail += check (loc + loc2, "foo.txt:1.1-5.9");
+  loc += loc2;     fail += check (loc, "foo.txt:1.1-5.9");
   return !fail;
 }
 ]])
