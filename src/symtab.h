@@ -241,7 +241,7 @@ extern symbol *errtoken;
 /** The token for unknown tokens.  */
 extern symbol *undeftoken;
 /** The end of input token.  */
-extern symbol *endtoken;
+extern symbol *eoftoken;
 /** The genuine start symbol.
 
    $accept: start-symbol $end */
