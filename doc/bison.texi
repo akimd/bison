@@ -9797,12 +9797,69 @@ calc.y:19.1-7: @dwarning{warning}: nonterminal useless in grammar: useless [@dwa
    19 | @dwarning{useless: STR;}
       | @dwarning{^~~~~~~}
 calc.y: @dwarning{warning}: 7 shift/reduce conflicts [@dwarning{-Wconflicts-sr}]
+calc.y: @dwarning{warning}: rerun with option '-Wcounterexamples' to generate conflict counterexamples [@dwarning{-Wother}]
 @end example
 
-When given @option{--report=state}, in addition to @file{calc.tab.c}, it
-creates a file @file{calc.output} with contents detailed below.  The
-order of the output and the exact presentation might vary, but the
-interpretation is the same.
+When given @option{-Wcounterexamples}, @command{bison} will run a search for
+strings in your grammar that better demonstrate you
+conflicts. Counterexample generation was initially developed by Chinawat
+Isradisaikul and Andrew Myers (@pxref{Bibliography}).  For @file{calc.y},
+the first printed example is:
+
+@example
+Shift/reduce conflict on token '/':
+  Example              exp '+' exp • '/' exp
+  First derivation     exp ::=[ exp ::=[ exp '+' exp • ] '/' exp ]
+  Example              exp '+' exp • '/' exp
+  Second derivation    exp ::=[ exp '+' exp ::=[ exp • '/' exp ] ]
+@end example
+
+This shows two separate derivations in the grammar for the same @code{exp}:
+@samp{e1 + e2 / e3}.  The derivations show how your rules would parse the
+given example. Here, the first derivation completes a reduction when seeing
+@samp{/}, causing @samp{e1 + e2} to be grouped as an @code{exp}. The second
+derivation shifts on @samp{/}, resulting in @samp{e2 / e3} being grouped as
+an @code{exp}. Therefore, it is easy to see that adding @code{%precedence}
+directives would fix this conflict.
+
+Sometimes, the search will not find an example that can be derived in two
+ways.  In these cases, counterexample generation will provide two examples
+that are the same up until the dot.  Most notably, this will happen when
+your grammar requires a stronger parser (more lookahead, LR instead of
+LALR).  The following example isn't LR(1):
+
+@example
+%token ID
+%%
+s: a ID
+a: expr
+expr: %empty | expr ID ','
+@end example
+
+@command{bison} reports:
+
+@example
+Shift/reduce conflict on token ID:
+  First example        expr • ID $end
+  First derivation     $accept ::=[ s ::=[ a ::=[ expr • ] ID ] $end ]
+  Second example       expr • ID ',' ID $end
+  Second derivation    $accept ::=[ s ::=[ a ::=[ expr ::=[ expr • ID ',' ] ] ID ] $end ]
+@end example
+
+This conflict is caused by the parser not having enough information to know
+the difference between these two examples.  The parser would need an
+additional lookahead token to know whether or not a comma follows the
+@code{ID} after @code{expr}.  These types of conflicts tend to be more
+difficult to fix, and usually need a rework of the grammar.  In this case,
+it can be fixed by changing around the recursion: @code{expr: ID | ',' expr
+ID}.
+
+Counterexamples can also be written to a file with @option{--report=cex}.
+
+Going back to the calc example, when given @option{--report=state},
+in addition to @file{calc.tab.c}, it creates a file @file{calc.output}
+with contents detailed below.  The order of the output and the exact
+presentation might vary, but the interpretation is the same.
 
 @noindent
 @cindex token, useless
@@ -15211,6 +15268,7 @@ resolution.  @xref{Unreachable States}.
 @unnumbered Bibliography
 
 @c Please follow the following canvas to add more references.
+@c And keep sorted alphabetically.
 
 @table @asis
 @item [Corbett 1984]
@@ -15251,6 +15309,14 @@ Frank DeRemer and Thomas Pennello, Efficient Computation of LALR(1)
 Look-Ahead Sets, in @cite{ACM Transactions on Programming Languages and
 Systems}, Vol.@: 4, No.@: 4 (October 1982), pp.@:
 615--649. @uref{http://dx.doi.org/10.1145/69622.357187}
+
+@item [Isradisaikul, Myers 2015]
+Chinawat Isradisaikul, Andrew Myers,
+Finding Counterexamples from Parsing Conflicts,
+in @cite{Proceedings of the 36th ACM SIGPLAN Conference on
+Programming Language Design and Implementation} (PLDI '15),
+ACM, pp.@: 555--564.
+@uref{https://www.cs.cornell.edu/andru/papers/cupex/cupex.pdf}
 
 @item [Johnson 1978]
 Steven C. Johnson,
@@ -15345,17 +15411,18 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: typename emplace Wconversion Wshorten yacchack reentrancy ou
 @c LocalWords: Relocatability exprs fixit Wyacc parseable fixits ffixit svg
 @c LocalWords: DNDEBUG cstring Wzero workalike POPL workalikes byacc UCB
-@c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP
+@c LocalWords: Penello's Penello Byson Byson's Corbett's CSD TOPLAS PDP cex
 @c LocalWords: Beazley's goyacc ocamlyacc SIGACT SIGPLAN colorWarning exVal
 @c LocalWords: setcolor rgbError colorError rgbNotice colorNotice derror
 @c LocalWords: colorOff maincolor inlineraw darkviolet darkcyan dwarning
 @c LocalWords: dnotice copyable stdint ptrdiff bufsize yyreport invariants
-@c LocalWords: xrefautomaticsectiontitle yysyntax yysymbol ARGMAX cond
+@c LocalWords: xrefautomaticsectiontitle yysyntax yysymbol ARGMAX cond RTTI
 @c LocalWords: Wdangling yytoken erreur syntaxe inattendu attendait nombre
 @c LocalWords: YYUNDEF SymbolKind yypcontext YYENOMEM TOKENMAX getBundle
-@c LocalWords: ResourceBundle myResources getString getName getToken
+@c LocalWords: ResourceBundle myResources getString getName getToken ylwrap
 @c LocalWords: getLocation getExpectedTokens reportSyntaxError bistromathic
-@c LocalWords: TokenKind
+@c LocalWords: TokenKind Automake's rtti Wcounterexamples Chinawat PLDI
+@c LocalWords: Isradisaikul
 
 @c Local Variables:
 @c ispell-dictionary: "american"
