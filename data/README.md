@@ -1,6 +1,6 @@
 This directory contains data needed by Bison.
 
-# Directory content
+# Directory Content
 ## Skeletons
 Bison skeletons: the general shapes of the different parser kinds, that are
 specialized for specific grammars by the bison program.
@@ -48,7 +48,7 @@ various formats.
 - xml2xhtml.xsl
   Conversion into XHTML.
 
-# Implementation note about the skeletons
+# Implementation Notes About the Skeletons
 
 "Skeleton" in Bison parlance means "backend": a skeleton is fed by the bison
 executable with LR tables, facts about the symbols, etc. and they generate
@@ -179,7 +179,7 @@ The data corresponding to the symbol `#POS`, where the current rule has
 Expansion of `$<TYPE>POS`, where the current rule has `RULE-LENGTH` symbols
 on RHS.
 
------
+<!--
 
 Local Variables:
 mode: markdown
@@ -203,3 +203,5 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->

@@ -17,17 +17,18 @@ GNU Bison's home page is https://gnu.org/software/bison/.
 
 # Installation
 ## Build from git
-Here are basic installation instructions for a repository checkout:
+The [README-hacking.md file](README-hacking.md) is about building, modifying
+and checking Bison.  See its "Working from the Repository" section to build
+Bison from the git repo.  Roughly, run:
 
     $ git submodule update --init
     $ ./bootstrap
 
 then proceed with the usual `configure && make` steps.
 
-The file README-hacking.md is about building, modifying and checking Bison.
-
 ## Build from tarball
-See the file INSTALL for generic compilation and installation instructions.
+See the [INSTALL file](INSTALL] for generic compilation and installation
+instructions.
 
 Bison requires GNU m4 1.4.6 or later.  See
 https://ftp.gnu.org/gnu/m4/m4-1.4.6.tar.gz.
