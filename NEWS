@@ -42,6 +42,22 @@ GNU Bison NEWS
     filename_type       -> api.filename.type
     package             -> api.package
 
+*** Push parser state
+
+** Backward incompatible changes
+
+*** Push parsers no longer clear their state when parsing is finished
+
+  Previously push-parsers cleared their state when parsing was finished (on
+  success and on failure).  This made it impossible to check if there were
+  parse errors, since `yynerrs` was also reset.  This can be especially
+  troublesome when used in autocompletion, since a parser with error
+  recovery would suggest (irrelevant) expected tokens even if there were
+  failure.
+
+  Now the parser state can be examined when parsing is finished.  The parser
+  state is reset when starting a new parse.
+
 ** Bug fixes
 
 *** Include the generated header (yacc.c)

@@ -456,10 +456,15 @@ expected_tokens (const char *input,
     status = yypush_parse (ps, token, &lval, &lloc);
   } while (status == YYPUSH_MORE);
 
-  // Then query for the accepted tokens at this point.
-  int res = yypstate_expected_tokens (ps, tokens, ntokens);
-  if (res < 0)
-    abort ();
+  int res = 0;
+  // If there were parse errors, don't propose completions.
+  if (!ps->yynerrs)
+    {
+      // Then query for the accepted tokens at this point.
+      res = yypstate_expected_tokens (ps, tokens, ntokens);
+      if (res < 0)
+        abort ();
+    }
   yypstate_delete (ps);
   return res;
 }

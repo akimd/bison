@@ -37,8 +37,6 @@ Unless we play it dumb (little structure).
 examples about conflicts in the reports.
 
 ** Bistromathic
-- Hitting tab on a line with a syntax error is ugly
-
 - How about not evaluating incomplete lines when the text is not finished
   (as shells do).
 

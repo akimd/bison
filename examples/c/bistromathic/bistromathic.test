@@ -307,16 +307,24 @@ end of file  exit         exp          ''
 > ''
 err: '
 
-# Check that completion when there is an error prints valid locations.
+# Check that completion prints valid locations even when there is an error.
+sed -e 's/\\t/	/g' >input <<EOF
+1++\t
+EOF
+run -n 0 '> 1++ ''
+> ''
+err: 1.1: syntax error: expected - or ( or number or function or variable before +
+err: 1.3: syntax error: expected - or ( or number or function or variable before +
+'
+
+# And even when the error was recovered from.
 sed -e 's/\\t/	/g' >input <<EOF
 (1++2) + 3 +\t\t
 EOF
-run -n 0 '> (1++2) + 3 +
-(       -       atan    cos     exp     ln      number  sin     sqrt
-> (1++2) + 3 +
+run -n 0 '> (1++2) + 3 +  ''
 > 
 err: 1.1: syntax error: expected - or ( or number or function or variable before +
-err: 1.1: syntax error: expected - or ( or number or function or variable before +
+err: 1.1: syntax error: expected - or ( or number or function or variable before +
 err: 1.4: syntax error: expected - or ( or number or function or variable before +
-err: 1.13: syntax error: expected - or ( or number or function or variable before end of file
+err: 1.15: syntax error: expected - or ( or number or function or variable before end of file
 '

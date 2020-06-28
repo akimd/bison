@@ -7146,6 +7146,10 @@ The value returned by @code{yypush_parse} is the same as for @code{yyparse}
 with the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
 
+After @code{yypush_parse} returned, the instance may be consulted.  For
+instance check @code{yynerrs} to see whether there were (possibly recovered)
+syntax errors.
+
 After @code{yypush_parse} returns a status other than @code{YYPUSH_MORE},
 the parser instance @code{yyps} may be reused for a new parse.
 @end deftypefun
