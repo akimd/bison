@@ -79,7 +79,7 @@ m4_define([b4_define_state],[[
 ]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
               [2007-2015, 2018-2020])[
 ]b4_disclaimer[
-]b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);[
+]b4_percent_define_ifdef([api.package], [package b4_percent_define_get([api.package]);[
 ]])[
 ]b4_user_pre_prologue[
 ]b4_user_post_prologue[

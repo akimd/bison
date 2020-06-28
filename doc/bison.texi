@@ -13688,8 +13688,8 @@ The prologue declarations have a different meaning than in C/C++ code.
 @table @asis
 @item @code{%code imports}
 blocks are placed at the beginning of the Java source code.  They may
-include copyright notices.  For a @code{package} declarations, it is
-suggested to use @samp{%define package} instead.
+include copyright notices.  For a @code{package} declarations, use
+@samp{%define api.package} instead.
 
 @item unqualified @code{%code}
 blocks are placed inside the parser class.
@@ -13843,9 +13843,10 @@ Formerly named @code{location_type}.
 @xref{Java Location Values}.
 @end deffn
 
-@deffn {Directive} {%define package} @{@var{package}@}
+@deffn {Directive} {%define api.package} @{@var{package}@}
 The package to put the parser class in.  Default is none.
 @xref{Java Bison Interface}.
+Renamed from @code{package} in Bison 3.7.
 @end deffn
 
 @deffn {Directive} {%define api.position.type} @{@var{class}@}

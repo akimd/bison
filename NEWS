@@ -34,6 +34,14 @@ GNU Bison NEWS
 
   It now defaults to `const std::string` instead of `std::string`.
 
+*** Deprecated %define variable names
+
+  The following variables have been renamed for consistency.  Backward
+  compatibility is ensured, but upgrading is recommended.
+
+    filename_type       -> api.filename.type
+    package             -> api.package
+
 ** Bug fixes
 
 *** Include the generated header (yacc.c)
@@ -1943,7 +1951,7 @@ GNU Bison NEWS
   %error-verbose directive is deprecated in favor of "%define parse.error
   verbose".
 
-** Renamed %define variables
+** Deprecated %define variable names
 
   The following variables have been renamed for consistency.  Backward
   compatibility is ensured, but upgrading is recommended.

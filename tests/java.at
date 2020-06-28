@@ -185,6 +185,10 @@ AT_CHECK_JAVA_GREP([[.*TOK_END.*]])
 AT_CHECK_JAVA_MINIMAL([[%define api.parser.class {ParserClassName}]])
 AT_CHECK_JAVA_GREP([[class ParserClassName]])
 
+AT_CHECK_JAVA_MINIMAL([[%define api.package {user_java_package}]])
+AT_CHECK_JAVA_GREP([[package user_java_package;]])
+
+# Backward compatibility.
 AT_CHECK_JAVA_MINIMAL([[%define package {user_java_package}]])
 AT_CHECK_JAVA_GREP([[package user_java_package;]])
 
@@ -244,6 +248,12 @@ AT_CHECK_JAVA_MINIMAL([[
 %define public
 %define final
 %define strictfp]])
+AT_CHECK_JAVA_GREP([[public final strictfp class YYParser]])
+
+AT_CHECK_JAVA_MINIMAL([[
+%define api.parser.public
+%define api.parser.final
+%define api.parser.strictfp]])
 AT_CHECK_JAVA_GREP([[public final strictfp class YYParser]])
 
 # FIXME: Can't do a Java compile because javacomp.sh is configured for 1.3
