@@ -447,7 +447,7 @@ expected_tokens (const char *input,
   yypstate *ps = yypstate_new ();
   int status = 0;
   do {
-    YYLTYPE lloc;
+    YYLTYPE lloc = { 1, 1, 1, 1 };
     YYSTYPE lval;
     int token = yylex (&input, &lval, &lloc);
     // Don't let the parse know when we reach the end of input.

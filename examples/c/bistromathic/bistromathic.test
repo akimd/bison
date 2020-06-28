@@ -306,3 +306,17 @@ end of file  exit         exp          ''
 0
 > ''
 err: '
+
+# Check that completion when there is an error prints valid locations.
+sed -e 's/\\t/	/g' >input <<EOF
+(1++2) + 3 +\t\t
+EOF
+run -n 0 '> (1++2) + 3 +
+(       -       atan    cos     exp     ln      number  sin     sqrt
+> (1++2) + 3 +
+> 
+err: 1.1: syntax error: expected - or ( or number or function or variable before +
+err: 1.1: syntax error: expected - or ( or number or function or variable before +
+err: 1.4: syntax error: expected - or ( or number or function or variable before +
+err: 1.13: syntax error: expected - or ( or number or function or variable before end of file
+'
