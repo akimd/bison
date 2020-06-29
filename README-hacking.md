@@ -243,6 +243,9 @@ processes tabs in its input.
 Prefer `res` as the name of the local variable that will be "return"ed by
 the function.
 
+In writing arithmetic comparisons, use "<" and "<=" rather than ">" and ">="
+(http://www.gelato.unsw.edu.au/archives/git/0505/4507.html).
+
 ### Bison
 Follow the GNU Coding Standards.
 

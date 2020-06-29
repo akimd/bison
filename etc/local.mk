@@ -14,4 +14,5 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-nodist_noinst_SCRIPTS = etc/bench.pl
+dist_noinst_DATA = %D%/README.md
+nodist_noinst_SCRIPTS = %D%/bench.pl

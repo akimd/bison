@@ -4206,63 +4206,57 @@ Output file does not redefine const for C++.
 
 -----
 
-Copyright (C) 1995-2015, 2018-2020 Free Software Foundation, Inc.
-
-This file is part of Bison, the GNU Parser Generator.
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
- LocalWords:  yacc YYBACKUP glr GCC lalr ArrayIndexOutOfBoundsException nullptr
- LocalWords:  cplusplus liby rpl fprintf mfcalc Wyacc stmt cond expr mk sym lr
- LocalWords:  IELR ielr Lookahead YYERROR nonassoc LALR's api lookaheads yychar
- LocalWords:  destructor lookahead YYRHSLOC YYLLOC Rhs ifndef YYFAIL cpp sr rr
- LocalWords:  preprocessor initializer Wno Wnone Werror FreeBSD prec livelocks
- LocalWords:  Solaris AIX UX RHEL Tru LHS gcc's Wundef YYENABLE NLS YYLTYPE VCG
- LocalWords:  yyerror cpp's Wunused yylval yylloc prepend yyparse yylex yypush
- LocalWords:  Graphviz xml nonterminals midrule destructor's YYSTYPE typedef ly
- LocalWords:  CHR chr printf stdout namespace preprocessing enum pre include's
- LocalWords:  YYRECOVERING nonfree destructors YYABORT YYACCEPT params enums de
- LocalWords:  struct yystype DJGPP lex param Haible NUM alloca YYSTACK NUL goto
- LocalWords:  YYMAXDEPTH Unescaped UCNs YYLTYPE's yyltype typedefs inline Yaccs
- LocalWords:  Heriyanto Reenable dprec Hilfinger Eggert MYEOF Folle Menezes EOF
- LocalWords:  Lackovic define's itemset Groff Gettext malloc NEWS'ed YYDEBUG YY
- LocalWords:  namespaces strerror const autoconfiguration Dconst Autoconf's FDL
- LocalWords:  Automake TMPDIR LESSEQ ylwrap endif yydebug YYTOKEN YYLSP ival hh
- LocalWords:  extern YYTOKENTYPE TOKENTYPE yytokentype tokentype STYPE lval pdf
- LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp Wother nterm arg init
- LocalWords:  TOK calc yyo fval Wconflicts parsers yystackp yyval yynerrs
- LocalWords:  Théophile Ranquet Santet fno fnone stype associativity Tolmer
- LocalWords:  Wprecedence Rassoul Wempty Paolo Bonzini parser's Michiel loc
- LocalWords:  redeclaration sval fcaret reentrant XSLT xsl Wmaybe yyvsp Tedi
- LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
- LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
- LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir bw
- LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG DECL num
- LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
- LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
- LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
- LocalWords:  noexcept constexpr ispell american deprecations backend Teoh
- LocalWords:  YYPRINT Mangold Bonzini's Wdangling exVal baz checkable gcc
- LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata yytname
- LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
- LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
- LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
- LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
- LocalWords:  gotos readline
+LocalWords:  yacc YYBACKUP glr GCC lalr ArrayIndexOutOfBoundsException nullptr
+LocalWords:  cplusplus liby rpl fprintf mfcalc Wyacc stmt cond expr mk sym lr
+LocalWords:  IELR ielr Lookahead YYERROR nonassoc LALR's api lookaheads yychar
+LocalWords:  destructor lookahead YYRHSLOC YYLLOC Rhs ifndef YYFAIL cpp sr rr
+LocalWords:  preprocessor initializer Wno Wnone Werror FreeBSD prec livelocks
+LocalWords:  Solaris AIX UX RHEL Tru LHS gcc's Wundef YYENABLE NLS YYLTYPE VCG
+LocalWords:  yyerror cpp's Wunused yylval yylloc prepend yyparse yylex yypush
+LocalWords:  Graphviz xml nonterminals midrule destructor's YYSTYPE typedef ly
+LocalWords:  CHR chr printf stdout namespace preprocessing enum pre include's
+LocalWords:  YYRECOVERING nonfree destructors YYABORT YYACCEPT params enums de
+LocalWords:  struct yystype DJGPP lex param Haible NUM alloca YYSTACK NUL goto
+LocalWords:  YYMAXDEPTH Unescaped UCNs YYLTYPE's yyltype typedefs inline Yaccs
+LocalWords:  Heriyanto Reenable dprec Hilfinger Eggert MYEOF Folle Menezes EOF
+LocalWords:  Lackovic define's itemset Groff Gettext malloc NEWS'ed YYDEBUG YY
+LocalWords:  namespaces strerror const autoconfiguration Dconst Autoconf's FDL
+LocalWords:  Automake TMPDIR LESSEQ ylwrap endif yydebug YYTOKEN YYLSP ival hh
+LocalWords:  extern YYTOKENTYPE TOKENTYPE yytokentype tokentype STYPE lval pdf
+LocalWords:  lang yyoutput dvi html ps POSIX lvalp llocp Wother nterm arg init
+LocalWords:  TOK calc yyo fval Wconflicts parsers yystackp yyval yynerrs
+LocalWords:  Théophile Ranquet Santet fno fnone stype associativity Tolmer
+LocalWords:  Wprecedence Rassoul Wempty Paolo Bonzini parser's Michiel loc
+LocalWords:  redeclaration sval fcaret reentrant XSLT xsl Wmaybe yyvsp Tedi
+LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
+LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
+LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir bw
+LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG DECL num
+LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
+LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
+LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
+LocalWords:  noexcept constexpr ispell american deprecations backend Teoh
+LocalWords:  YYPRINT Mangold Bonzini's Wdangling exVal baz checkable gcc
+LocalWords:  fsanitize Vogelsgesang lis redeclared stdint automata yytname
+LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
+LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
+LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
+LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
+LocalWords:  gotos readline
 
 Local Variables:
 ispell-dictionary: "american"
 mode: outline
 fill-column: 76
 End:
+
+Copyright (C) 1995-2015, 2018-2020 Free Software Foundation, Inc.
+
+This file is part of Bison, the GNU Parser Generator.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, with no Front-Cover Texts, and with no Back-Cover
+Texts.  A copy of the license is included in the "GNU Free
+Documentation License" file as part of this distribution.
