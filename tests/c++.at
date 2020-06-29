@@ -46,7 +46,7 @@ template <typename T>
 bool
 check (const T& in, const std::string& s)
 {
-  const static bool verbose = getenv ("VERBOSE");
+  const static bool verbose = getenv ("DEBUG");
   std::stringstream os;
   os << in;
   if (os.str () == s)
