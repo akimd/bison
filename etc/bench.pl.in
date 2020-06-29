@@ -954,9 +954,11 @@ EOF
 bench: main
 \t./main \$(BENCHFLAGS) | tee -a README.md
 
+# Link the bench cases in a different order to run the bench case in a
+# different order.
 .PHONY: rand
 rand:
-\t-rm main \$(OBJECTS)
+\t-rm main
 \tmake bench OBJECTS="\$\$(shuf -e \$(OBJECTS) | xargs)"
 EOF
 
