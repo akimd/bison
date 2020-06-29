@@ -842,16 +842,20 @@ sub compile ($$)
   if ($gbench)
     {
       print $makefile <<EOF;
-$base.o: $base.y
+$base.$ext: $base.y
 \t@{[length $my_bison ? $my_bison : $bison]} $base.y -o $base.$ext
+
+$base.o: $base.$ext
 \t$compiler -c -o $base.o $cflags $base.$ext
 EOF
     }
   else
     {
       print $makefile <<EOF;
-$base: $base.y
+$base.$ext: $base.y
 \t@{[length $my_bison ? $my_bison : $bison]} $base.y -o $base.$ext
+
+$base: $base.$ext
 \t$compiler -o $base $cflags $base.$ext
 EOF
     }
