@@ -6,6 +6,8 @@ GNU Bison NEWS
 
 *** Counterexample Generation
 
+  Contributed by Vincent Imbimbo.
+
   When given `--report=counterexamples` or `-Wcounterexamples`, bison will
   now output counterexamples for conflicts in the grammar.  These are
   strings in the grammar which can be parsed in two ways due to the
@@ -29,6 +31,8 @@ GNU Bison NEWS
   differentiate the two given examples.
 
 *** File prefix mapping
+
+  Contributed by Joshua Watt.
 
   Bison learned a new argument, `--file-prefix-map OLD=NEW`.  Any file path
   in the output (specifically `#line` directives and `#ifdef` header guards)

@@ -432,16 +432,6 @@ undocumented ''features''.  Maybe an empty action ought to be
 presented too.  Shall we try to make a single grammar with all these
 features, or should we have several very small grammars?
 
-** --report=conflict-path
-Provide better assistance for understanding the conflicts by providing
-a sample text exhibiting the (LALR) ambiguity.  See the paper from
-DeRemer and Penello: they already provide the algorithm.
-
-** Statically check for potential ambiguities in GLR grammars
-See <http://www.lsv.fr/~schmitz/pub/expamb.pdf> for an approach.
-An Experimental Ambiguity Detection Tool ∗ Sylvain Schmitz
-LORIA, INRIA Nancy - Grand Est, Nancy, France
-
 * Extensions
 ** More languages?
 Well, only if there is really some demand for it.
@@ -531,13 +521,6 @@ XML output for GNU Bison and gcc
 
 XML output for GNU Bison
    http://yaxx.sourceforge.net/
-
-** Counterexample generation
-https://lists.gnu.org/archive/html/bug-bison/2016-06/msg00000.html
-http://www.cs.cornell.edu/andru/papers/cupex/
-
-Andrew Myers and Vincent Imbimbo are working on this item, see
-https://github.com/akimd/bison/issues/12
 
 * Coding system independence
 Paul notes:
