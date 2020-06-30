@@ -37,6 +37,23 @@
 @c ## ---------------------- ##
 
 @tex
+\gdef\rgbGreen{0 .80 0}
+\gdef\colorGreen{%
+ \setcolor{\rgbGreen}%
+}
+\gdef\rgbYellow{1 .5 0}
+\gdef\colorYellow{%
+ \setcolor{\rgbYellow}%
+}
+\gdef\rgbRed{1 0 0}
+\gdef\colorRed{%
+ \setcolor{\rgbRed}%
+}
+\gdef\rgbBlue{0 0 1}
+\gdef\colorBlue{%
+ \setcolor{\rgbBlue}%
+}
+
 \gdef\rgbWarning{0.50 0 0.50}
 \gdef\colorWarning{%
  \setcolor{\rgbWarning}%
@@ -55,6 +72,19 @@
 @end tex
 
 @ifnottex
+@macro colorGreen
+@inlineraw{html, <b style="color:green">}
+@end macro
+@macro colorYellow
+@inlineraw{html, <b style="color:#ff8000">}
+@end macro
+@macro colorRed
+@inlineraw{html, <b style="color:red">}
+@end macro
+@macro colorBlue
+@inlineraw{html, <b style="color:blue">}
+@end macro
+
 @macro colorWarning
 @inlineraw{html, <b style="color:darkviolet">}
 @end macro
@@ -68,6 +98,22 @@
 @inlineraw{html, </b>}
 @end macro
 @end ifnottex
+
+@macro green{text}
+@colorGreen{}\text\@colorOff{}
+@end macro
+
+@macro yellow{text}
+@colorYellow{}\text\@colorOff{}
+@end macro
+
+@macro red{text}
+@colorRed{}\text\@colorOff{}
+@end macro
+
+@macro blue{text}
+@colorBlue{}\text\@colorOff{}
+@end macro
 
 @macro dwarning{text}
 @colorWarning{}\text\@colorOff{}
@@ -9819,7 +9865,7 @@ useless: STR;
 
 @command{bison} reports:
 
-@example
+@smallexample
 calc.y: @dwarning{warning}: 1 nonterminal useless in grammar [@dwarning{-Wother}]
 calc.y: @dwarning{warning}: 1 rule useless in grammar [@dwarning{-Wother}]
 calc.y:19.1-7: @dwarning{warning}: nonterminal useless in grammar: useless [@dwarning{-Wother}]
@@ -9827,7 +9873,7 @@ calc.y:19.1-7: @dwarning{warning}: nonterminal useless in grammar: useless [@dwa
       | @dwarning{^~~~~~~}
 calc.y: @dwarning{warning}: 7 shift/reduce conflicts [@dwarning{-Wconflicts-sr}]
 calc.y: @dwarning{warning}: rerun with option '-Wcounterexamples' to generate conflict counterexamples [@dwarning{-Wother}]
-@end example
+@end smallexample
 
 When given @option{-Wcounterexamples}, @command{bison} will run a search for
 strings in your grammar that better demonstrate you
@@ -9837,10 +9883,10 @@ Isradisaikul and Andrew Myers @pcite{Isradisaikul 2015}.  For
 
 @example
 Shift/reduce conflict on token '/':
-  Example              exp '+' exp • '/' exp
-  First derivation     exp ::=[ exp ::=[ exp '+' exp • ] '/' exp ]
-  Example              exp '+' exp • '/' exp
-  Second derivation    exp ::=[ exp '+' exp ::=[ exp • '/' exp ] ]
+  Example              @green{exp '+' exp} @red{•} @yellow{'/' exp}
+  First derivation     @yellow{exp ::=[} @green{exp ::=[ exp '+' exp} @red{•} @green{]} @yellow{'/' exp ]}
+  Example              @yellow{exp '+'} @green{exp} @red{•} @green{'/' exp}
+  Second derivation    @yellow{exp ::=[ exp '+'} @green{exp ::=[ exp} @red{•} @green{'/' exp ]} @yellow{]}
 @end example
 
 This shows two separate derivations in the grammar for the same @code{exp}:
@@ -9867,13 +9913,13 @@ expr: %empty | expr ID ','
 
 @command{bison} reports:
 
-@example
+@smallexample
 Shift/reduce conflict on token ID:
-  First example        expr • ID $end
-  First derivation     $accept ::=[ s ::=[ a ::=[ expr • ] ID ] $end ]
-  Second example       expr • ID ',' ID $end
-  Second derivation    $accept ::=[ s ::=[ a ::=[ expr ::=[ expr • ID ',' ] ] ID ] $end ]
-@end example
+  First example        @blue{expr} @red{•} @green{ID} @yellow{$end}
+  First derivation     @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[ expr} @red{•} @blue{]} @green{ID ]} @yellow{$end ]}
+  Second example       @blue{expr} @red{•} @blue{ID ','} @green{ID} @yellow{$end}
+  Second derivation    @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[ expr ::=[ expr} @red{•} @blue{ID ',' ] ]} @green{ID ]} @yellow{$end ]}
+@end smallexample
 
 This conflict is caused by the parser not having enough information to know
 the difference between these two examples.  The parser would need an
