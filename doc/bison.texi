@@ -6,6 +6,36 @@
 @settitle Bison @value{VERSION}
 @xrefautomaticsectiontitle on
 
+@c cite a reference in text.  Could not find a means to have a single
+@c definition that looks nice in all the output formats.
+@iftex
+@macro tcite{ref}
+@ref{\ref\,,\ref\}
+@end macro
+@end iftex
+@ifnottex
+@macro tcite{ref}
+@ref{\ref\}
+@end macro
+@end ifnottex
+
+@c cite a reference in parentheses.
+@iftex
+@macro pcite{ref}
+(@pxref{\ref\,,\ref\})
+@end macro
+@end iftex
+@ifnottex
+@macro pcite{ref}
+(@pxref{\ref\})
+@end macro
+@end ifnottex
+
+
+@c ## ---------------------- ##
+@c ## Diagnostics in color.  ##
+@c ## ---------------------- ##
+
 @tex
 \gdef\rgbWarning{0.50 0 0.50}
 \gdef\colorWarning{%
@@ -8839,8 +8869,8 @@ return_spec:
 @end group
 @end example
 
-For a more detailed exposition of LALR(1) parsers and parser
-generators, @pxref{Bibliography}.
+For a more detailed exposition of LALR(1) parsers and parser generators, see
+@tcite{DeRemer 1982}.
 
 @node Tuning LR
 @section Tuning LR
@@ -8920,10 +8950,9 @@ LR.  Thus, by enabling IELR at the start of grammar development, you can
 safely and completely eliminate the need to consider LALR's shortcomings.
 
 While IELR is almost always preferable, there are circumstances where LALR
-or the canonical LR parser tables described by Knuth
-(@pxref{Bibliography}) can be useful.  Here we summarize the
-relative advantages of each parser table construction algorithm within
-Bison:
+or the canonical LR parser tables described by Knuth @pcite{Knuth 1965} can
+be useful.  Here we summarize the relative advantages of each parser table
+construction algorithm within Bison:
 
 @itemize
 @item LALR
@@ -8987,8 +9016,8 @@ default reductions.  For details and a few caveats of LAC, @pxref{LAC}.
 @end itemize
 
 For a more detailed exposition of the mysterious behavior in LALR parsers
-and the benefits of IELR, @pxref{Bibliography}, and
-@ref{Bibliography}.
+and the benefits of IELR, see @tcite{Denny 2008}, and @tcite{Denny 2010
+November}.
 
 @node Default Reductions
 @subsection Default Reductions
@@ -9190,8 +9219,8 @@ has proved insignificant for practical grammars.
 @end itemize
 
 While the LAC algorithm shares techniques that have been recognized in the
-parser community for years, for the publication that introduces LAC,
-@pxref{Bibliography}.
+parser community for years, for the publication that introduces LAC, see
+@tcite{Denny 2010 May}.
 
 @node Unreachable States
 @subsection Unreachable States
@@ -9315,7 +9344,7 @@ structure should generally be adequate.  On LR(1) portions of a
 grammar, in particular, it is only slightly slower than with the
 deterministic LR(1) Bison parser.
 
-For a more detailed exposition of GLR parsers, @pxref{Bibliography}.
+For a more detailed exposition of GLR parsers, see @tcite{Scott 2000}.
 
 @node Memory Management
 @section Memory Management, and How to Avoid Memory Exhaustion
@@ -9803,8 +9832,8 @@ calc.y: @dwarning{warning}: rerun with option '-Wcounterexamples' to generate co
 When given @option{-Wcounterexamples}, @command{bison} will run a search for
 strings in your grammar that better demonstrate you
 conflicts. Counterexample generation was initially developed by Chinawat
-Isradisaikul and Andrew Myers (@pxref{Bibliography}).  For @file{calc.y},
-the first printed example is:
+Isradisaikul and Andrew Myers @pcite{Isradisaikul 2015}.  For
+@file{calc.y}, the first printed example is:
 
 @example
 Shift/reduce conflict on token '/':
@@ -13960,7 +13989,7 @@ According to the author
 @footnote{@url{https://lists.gnu.org/archive/html/bison-patches/2019-02/msg00061.html}},
 Yacc was first invented in 1971 and reached a form recognizably similar to
 the C version in 1973.  Johnson published @cite{A Portable Compiler: Theory
-and Practice} (@pxref{Bibliography}).
+and Practice} @pcite{Johnson 1978}.
 
 Yacc was not itself originally written in C but in its predecessor language,
 B.  This goes far to explain its odd interface, which exposes a large number
@@ -13991,16 +14020,15 @@ became available a few years later.
 @section Berkeley Yacc
 @cindex byacc
 
-Berkeley Yacc was originated in 1985 by Robert Corbett
-(@pxref{Bibliography}).  It was originally named ``zoo'', but
-by October 1989 it became known as Berkeley Yacc or byacc.
+Berkeley Yacc was originated in 1985 by Robert Corbett @pcite{Corbett
+1984}.  It was originally named ``zoo'', but by October 1989 it became
+known as Berkeley Yacc or byacc.
 
 Berkeley Yacc had three advantages over the ancestral Yacc: it generated
-faster parsers, it could generate reentrant parsers, and the source code
-was released to the public domain rather than being under an AT&T
-proprietary license.  The better performance came from implementing
-techniques from DeRemer and Penello's seminal paper on LALR parsing
-(@pxref{Bibliography}).
+faster parsers, it could generate reentrant parsers, and the source code was
+released to the public domain rather than being under an AT&T proprietary
+license.  The better performance came from implementing techniques from
+DeRemer and Penello's seminal paper on LALR parsing @pcite{DeRemer 1982}.
 
 Use of byacc spread rapidly due to its public domain license. However, once
 Bison became available, byacc itself passed out of general use.
@@ -14031,8 +14059,8 @@ Bison error reporting has been improved in various ways. Notably. ancestral
 Yacc and Byson did not have carets in error messages.
 
 Compared to Yacc Bison uses a faster but less space-efficient encoding for
-the parse tables (@pxref{Bibliography}), and more modern techniques for
-generating the lookahead sets (@pxref{Bibliography}).  This approach is the
+the parse tables @pcite{Corbett 1984}, and more modern techniques for
+generating the lookahead sets @pcite{DeRemer 1982}.  This approach is the
 standard one since then.
 
 (It has also been plausibly alleged the differences in the algorithms stem
@@ -15271,6 +15299,7 @@ resolution.  @xref{Unreachable States}.
 @c And keep sorted alphabetically.
 
 @table @asis
+@anchor{Corbett 1984}
 @item [Corbett 1984]
 @c author
 Robert Paul Corbett,
@@ -15286,31 +15315,36 @@ Division, University of California, Berkeley, California
 @c url
 @uref{http://xtf.lib.berkeley.edu/reports/TRWebData/accessPages/CSD-85-251.html}
 
+@anchor{Denny 2008}
 @item [Denny 2008]
 Joel E. Denny and Brian A. Malloy, IELR(1): Practical LR(1) Parser Tables
 for Non-LR(1) Grammars with Conflict Resolution, in @cite{Proceedings of the
 2008 ACM Symposium on Applied Computing} (SAC'08), ACM, New York, NY, USA,
 pp.@: 240--245.  @uref{http://dx.doi.org/10.1145/1363686.1363747}
 
+@anchor{Denny 2010 May}
 @item [Denny 2010 May]
 Joel E. Denny, PSLR(1): Pseudo-Scannerless Minimal LR(1) for the
 Deterministic Parsing of Composite Languages, Ph.D. Dissertation, Clemson
 University, Clemson, SC, USA (May 2010).
 @uref{http://proquest.umi.com/pqdlink?did=2041473591&Fmt=7&clientId=79356&RQT=309&VName=PQD}
 
+@anchor{Denny 2010 November}
 @item [Denny 2010 November]
 Joel E. Denny and Brian A. Malloy, The IELR(1) Algorithm for Generating
 Minimal LR(1) Parser Tables for Non-LR(1) Grammars with Conflict Resolution,
 in @cite{Science of Computer Programming}, Vol.@: 75, Issue 11 (November
 2010), pp.@: 943--979.  @uref{http://dx.doi.org/10.1016/j.scico.2009.08.001}
 
+@anchor{DeRemer 1982}
 @item [DeRemer 1982]
 Frank DeRemer and Thomas Pennello, Efficient Computation of LALR(1)
 Look-Ahead Sets, in @cite{ACM Transactions on Programming Languages and
 Systems}, Vol.@: 4, No.@: 4 (October 1982), pp.@:
 615--649. @uref{http://dx.doi.org/10.1145/69622.357187}
 
-@item [Isradisaikul, Myers 2015]
+@anchor{Isradisaikul 2015}
+@item [Isradisaikul 2015]
 Chinawat Isradisaikul, Andrew Myers,
 Finding Counterexamples from Parsing Conflicts,
 in @cite{Proceedings of the 36th ACM SIGPLAN Conference on
@@ -15318,6 +15352,7 @@ Programming Language Design and Implementation} (PLDI '15),
 ACM, pp.@: 555--564.
 @uref{https://www.cs.cornell.edu/andru/papers/cupex/cupex.pdf}
 
+@anchor{Johnson 1978}
 @item [Johnson 1978]
 Steven C. Johnson,
 A portable compiler: theory and practice,
@@ -15326,11 +15361,13 @@ Principles of programming languages} (POPL '78),
 pp.@: 97--104.
 @uref{https://dx.doi.org/10.1145/512760.512771}.
 
+@anchor{Knuth 1965}
 @item [Knuth 1965]
 Donald E. Knuth, On the Translation of Languages from Left to Right, in
 @cite{Information and Control}, Vol.@: 8, Issue 6 (December 1965), pp.@:
 607--639. @uref{http://dx.doi.org/10.1016/S0019-9958(65)90426-2}
 
+@anchor{Scott 2000}
 @item [Scott 2000]
 Elizabeth Scott, Adrian Johnstone, and Shamsa Sadaf Hussain,
 @cite{Tomita-Style Generalised LR Parsers}, Royal Holloway, University of
