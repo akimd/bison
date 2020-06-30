@@ -7665,7 +7665,11 @@ Declarations}), then the parser no longer passes syntax error messages to
 @code{yyerror}, rather it delegates that task to the user by calling the
 @code{yyreport_syntax_error} function.
 
-@deftypefun int yyreport_syntax_error (@code{const yypcontext_t *}@var{ctx})
+The following functions and types are ``@code{static}'': they are defined in
+the implementation file (@file{*.c}) and available only from there.  They
+are meant to be used from the grammar's epilogue.
+
+@deftypefun {static int} yyreport_syntax_error (@code{const yypcontext_t *}@var{ctx})
 Report a syntax error to the user.  Return 0 on success, @code{YYENOMEM} on
 memory exhaustion.  Whether it uses @code{yyerror} is up to the user.
 @end deftypefun
@@ -7700,16 +7704,16 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 @end example
 @end deffn
 
-@deftypefun {yysymbol_kind_t} yypcontext_token (@code{const yypcontext_t *}@var{ctx})
+@deftypefun {static yysymbol_kind_t} yypcontext_token (@code{const yypcontext_t *}@var{ctx})
 The ``unexpected'' token: the symbol kind of the lookahead token that caused
 the syntax error.  Return @code{YYSYMBOL_YYEMPTY} if there is no lookahead.
 @end deftypefun
 
-@deftypefun {YYLTYPE *} yypcontext_location (@code{const yypcontext_t *}@var{ctx})
+@deftypefun {static YYLTYPE *} yypcontext_location (@code{const yypcontext_t *}@var{ctx})
 The location of the syntax error (that of the unexpected token).
 @end deftypefun
 
-@deftypefun int yypcontext_expected_tokens (@code{const yypcontext_t *}ctx, @code{yysymbol_kind_t} @var{argv}@code{[]}, @code{int} @var{argc})
+@deftypefun {static int} yypcontext_expected_tokens (@code{const yypcontext_t *}ctx, @code{yysymbol_kind_t} @var{argv}@code{[]}, @code{int} @var{argc})
 Fill @var{argv} with the expected tokens, which never includes
 @code{YYSYMBOL_YYEMPTY}, @code{YYSYMBOL_YYerror}, or
 @code{YYSYMBOL_YYUNDEF}.
@@ -7727,10 +7731,8 @@ If @var{argv} is null, return the size needed to store all the possible
 values, which is always less than @code{YYNTOKENS}.
 @end deftypefun
 
-@deftypefun {@r{string type}} yysymbol_name (@code{symbol_kind_t} @var{symbol})
+@deftypefun {static const char *} yysymbol_name (@code{symbol_kind_t} @var{symbol})
 The name of the symbol whose kind is @var{symbol}, possibly translated.
-Depending on the options, may return a @code{const char*} or a
-@code{std::string}.
 @end deftypefun
 
 A custom syntax error function looks as follows.  This implementation is
@@ -7738,7 +7740,7 @@ inappropriate for internationalization, see the @file{c/bistromathic}
 example for a better alternative.
 
 @example
-int
+static int
 yyreport_syntax_error (const yypcontext_t *ctx)
 @{
   int res = 0;
