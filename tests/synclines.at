@@ -437,7 +437,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc])
 
 m4_popdef([AT_TEST])
 
@@ -494,7 +494,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc])
 
 m4_popdef([AT_TEST])
 

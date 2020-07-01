@@ -6,6 +6,19 @@ GNU Bison NEWS
 
   Push parsers use YYMALLOC/YYFREE instead of direct calls to malloc/free.
 
+** Changes
+
+  A new version of the generated C++ GLR parser was added as "glr2.cc". It
+  is forked from the existing glr.c/cc parser, with the objective of making
+  it a more modern, truly C++ parser (instead of a C++ wrapper around a C
+  parser).  Down the line, the goal is to support `%define api.value.type
+  variant` and maybe share code with lalr1.cc.
+
+  The current parser should be identical in terms of interface, functionality
+  and performance to "glr.cc". To try it out, simply use
+
+  %skeleton "glr2.cc"
+
 * Noteworthy changes in release 3.7.1 (2020-08-02) [stable]
 
 ** Bug fixes

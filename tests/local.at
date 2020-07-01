@@ -237,7 +237,7 @@ m4_pushdef([AT_LANG],
 m4_pushdef([AT_C_IF],
 [m4_if(AT_LANG, [c], [$1], [$2])])
 m4_pushdef([AT_GLR_IF],
-[m4_bmatch([$3], [%glr-parser\|%skeleton "glr\..*"], [$1], [$2])])
+[m4_bmatch([$3], [%glr-parser\|%skeleton "glr.*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
 [AT_CXX_IF([AT_GLR_IF([$2], [$1])], [$2])])
 m4_pushdef([AT_GLR_CC_IF],

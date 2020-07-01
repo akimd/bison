@@ -371,6 +371,7 @@ AT_TEST([glr.c])
 AT_TEST([glr.c], [%define api.pure])
 AT_TEST([lalr1.cc])
 AT_TEST([glr.cc])
+AT_TEST([glr2.cc])
 
 ## A very different test, based on PostgreSQL's implementation of the
 ## locations.  See
@@ -474,7 +475,7 @@ AT_CLEANUP
 ])
 
 ## FIXME: test Java and D.
-m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc])
 
 m4_popdef([AT_TEST])
 
@@ -1054,6 +1055,9 @@ AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "lalr1.cc"], [ with union])
 
 AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "glr.cc"])
 AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "glr.cc"], [ with union])
+
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "glr2.cc"])
+AT_CHECK_PRINTER_AND_DESTRUCTOR([%defines %skeleton "glr2.cc"], [ with union])
 
 
 
@@ -1852,7 +1856,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc])
 m4_popdef([AT_TEST])
 
 ## -------------------------------------------------- ##

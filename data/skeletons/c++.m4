@@ -109,7 +109,6 @@ b4_percent_define_default([[api.filename.type]], [[const std::string]])
 # Make it a warning for those who used betas of Bison 3.0.
 b4_percent_define_default([[api.namespace]], m4_defn([b4_prefix]))
 
-b4_percent_define_default([[global_tokens_and_yystype]], [[false]])
 b4_percent_define_default([[define_location_comparison]],
                           [m4_if(b4_percent_define_get([[filename_type]]),
                                  [std::string], [[true]], [[false]])])
