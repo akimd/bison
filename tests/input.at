@@ -2865,6 +2865,7 @@ AT_BISON_CHECK([[-d               input.y]])
 AT_BISON_CHECK([[-d -S glr.c      input.y]])
 AT_BISON_CHECK([[-d -S lalr1.cc   input.y]])
 AT_BISON_CHECK([[-d -S glr.cc     input.y]])
+AT_BISON_CHECK([[-d -S glr2.cc    input.y]])
 AT_BISON_CHECK([[   -S lalr1.java input.y]])
 ])
 

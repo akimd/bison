@@ -1557,6 +1557,7 @@ AT_TEST([yacc.c])
 AT_TEST([glr.c])
 AT_TEST([lalr1.cc])
 AT_TEST([glr.cc])
+AT_TEST([glr2.cc])
 
 m4_popdef([AT_TEST])
 

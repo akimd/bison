@@ -1093,7 +1093,7 @@ AT_CLEANUP
 ])
 
 ## FIXME: test Java and D.
-m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc])
+m4_map_args([AT_TEST], [yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc])
 
 m4_popdef([AT_TEST])
 

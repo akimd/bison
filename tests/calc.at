@@ -1198,6 +1198,7 @@ AT_BANNER([[GLR C++ Calculator.]])
 
 # Again, we try also using %skeleton.
 AT_CHECK_CALC([%skeleton "glr.cc"])
+AT_CHECK_CALC([%skeleton "glr2.cc"])
 
 m4_define([AT_CHECK_CALC_GLR_CC],
 [AT_CHECK_CALC([%language "C++" %glr-parser] $@)])

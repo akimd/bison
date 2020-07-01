@@ -1062,6 +1062,7 @@ AT_CLEANUP
 
 AT_TEST([%skeleton "lalr1.cc"])
 AT_TEST([%skeleton "glr.cc"])
+AT_TEST([%skeleton "glr2.cc"])
 
 m4_popdef([AT_TEST])
 

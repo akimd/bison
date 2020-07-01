@@ -333,7 +333,7 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [lalr1.java], [lalr1.d]],
+m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc], [lalr1.java], [lalr1.d]],
 [AT_TEST([%skeleton "]b4_skel["])
  AT_TEST([%skeleton "]b4_skel[" %define api.token.raw])])
 
