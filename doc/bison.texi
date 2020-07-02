@@ -7706,7 +7706,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 
 @deftypefun {static yysymbol_kind_t} yypcontext_token (@code{const yypcontext_t *}@var{ctx})
 The ``unexpected'' token: the symbol kind of the lookahead token that caused
-the syntax error.  Return @code{YYSYMBOL_YYEMPTY} if there is no lookahead.
+the syntax error.  Returns @code{YYSYMBOL_YYEMPTY} if there is no lookahead.
 @end deftypefun
 
 @deftypefun {static YYLTYPE *} yypcontext_location (@code{const yypcontext_t *}@var{ctx})
@@ -12349,7 +12349,7 @@ The ``unexpected'' token: the lookahead that caused the syntax error.
 @end deftypemethod
 
 @deftypemethod {context} {symbol_kind_type} token () @code{const}
-The symbol kind of the lookahead token that caused the syntax error.  Return
+The symbol kind of the lookahead token that caused the syntax error.  Returns
 @code{symbol_kind::S_YYEMPTY} if there is no lookahead.
 @end deftypemethod
 
