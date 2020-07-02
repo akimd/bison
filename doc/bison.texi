@@ -53,11 +53,11 @@
 \gdef\colorBlue{%
  \setcolor{\rgbBlue}%
 }
-
-\gdef\rgbWarning{0.50 0 0.50}
-\gdef\colorWarning{%
- \setcolor{\rgbWarning}%
+\gdef\rgbPurple{0.50 0 0.50}
+\gdef\colorPurple{%
+ \setcolor{\rgbPurple}%
 }
+
 \gdef\rgbError{0.80 0 0}
 \gdef\colorError{%
  \setcolor{\rgbError}%
@@ -84,10 +84,10 @@
 @macro colorBlue
 @inlineraw{html, <b style="color:blue">}
 @end macro
-
-@macro colorWarning
+@macro colorPurple
 @inlineraw{html, <b style="color:darkviolet">}
 @end macro
+
 @macro colorError
 @inlineraw{html, <b style="color:red">}
 @end macro
@@ -115,8 +115,12 @@
 @colorBlue{}\text\@colorOff{}
 @end macro
 
+@macro purple{text}
+@colorPurple{}\text\@colorOff{}
+@end macro
+
 @macro dwarning{text}
-@colorWarning{}\text\@colorOff{}
+@purple{\text\}
 @end macro
 
 @macro derror{text}
@@ -445,6 +449,7 @@ Handling Context Dependencies
 
 Debugging Your Parser
 
+* Counterexamples::   Understanding conflicts.
 * Understanding::     Understanding the structure of your parser.
 * Graphviz::          Getting a visual representation of the parser.
 * Xml::               Getting a markup representation of the parser.
@@ -9785,12 +9790,18 @@ clear the flag.
 @chapter Debugging Your Parser
 
 Developing a parser can be a challenge, especially if you don't understand
-the algorithm (@pxref{Algorithm}).  This
-chapter explains how to understand and debug a parser.
+the algorithm (@pxref{Algorithm}).  This chapter explains how to understand
+and debug a parser.
 
-The first sections focus on the static part of the parser: its structure.
-They explain how to generate and read the detailed description of the
-automaton.  There are several formats available:
+The most frequent issue users face is solving their conflicts.  To fix them,
+the first step is understanding how they arise in a given grammar.  This is
+made much easier by automated generation of counterexamples, cover in the
+first section (@pxref{Counterexamples}).
+
+In most cases though, looking at the structure of the automaton is still
+needed.  The following sections explain how to generate and read the
+detailed structural description of the automaton.  There are several formats
+available:
 @itemize @minus
 @item
 as text, see @ref{Understanding};
@@ -9807,19 +9818,175 @@ The last section focuses on the dynamic part of the parser: how to enable
 and understand the parser run-time traces (@pxref{Tracing}).
 
 @menu
+* Counterexamples::   Understanding conflicts.
 * Understanding::     Understanding the structure of your parser.
 * Graphviz::          Getting a visual representation of the parser.
 * Xml::               Getting a markup representation of the parser.
 * Tracing::           Tracing the execution of your parser.
 @end menu
 
+@node Counterexamples
+@section Generation of Counterexamples
+
+Solving conflicts is probably the most delicate part of the design of an LR
+parser, as demonstrated by the number of sections devoted to them in this
+very documentation.  To solve a conflict, one must understand it: when does
+it occur?  Is it because of a flaw in the grammar?  Is it rather because
+LR(1) cannot cope with this grammar?
+
+On difficulty is that conflicts occur in the @emph{automaton}, and it can be
+tricky to related them to issues in the @emph{grammar} itself.  With
+experience and patience, analysis the detailed description of the automaton
+(@pxref{Understanding}) allows to find example strings that reach these conflicts.
+
+That task is made much easier thanks to the generation of counterexamples,
+initially developed by Chinawat Isradisaikul and Andrew Myers
+@pcite{Isradisaikul 2015}.
+
+As a first example, see the example grammar of @ref{Shift/Reduce}, which
+features on shift/reduce conflict:
+
+@example
+$ @kbd{bison if-then-else.y}
+if-then-else.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+if-then-else.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+@end example
+
+@noindent
+Let's rerun @command{bison} with the option
+@option{-Wcex}/@option{-Wcounterexamples}@inlinefmt{info, (the following
+output is actually in color)}:
+
+@ifhtml
+@example
+Shift/reduce conflict on token "else":
+@group
+  Example            @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
+  First derivation   @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{]} @green{]} @yellow{"else" stmt ]}
+  Example            @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
+  Second derivation  @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{"else" stmt ]} @green{]} @yellow{]}
+@end group
+@end example
+@end ifhtml
+@ifnothtml
+@smallexample
+Shift/reduce conflict on token "else":
+@group
+  Example
+    @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
+  First derivation
+    @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{]} @green{]} @yellow{"else" stmt ]}
+  Example
+    @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
+  Second derivation
+    @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{"else" stmt ]} @green{]} @yellow{]}
+@end group
+@end smallexample
+@end ifnothtml
+
+This shows two different derivations for one single expression.  That
+demonstrates that the grammar is ambiguous.
+
+@sp 1
+
+As a more delicate example, consider the example grammar of
+@ref{Reduce/Reduce}, which features a reduce/reduce conflict:
+
+@example
+%%
+sequence:
+  %empty
+| maybeword
+| sequence "word"
+;
+maybeword:
+  %empty
+| "word"
+;
+@end example
+
+Bison generates the following counterexamples:
+
+@example
+$ @kbd{bison -Wcex sequence.y}
+sequence.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
+sequence.y: @dwarning{warning}: 2 reduce/reduce conflicts [@dwarning{-Wconflicts-rr}]
+Shift/reduce conflict on token "word":
+  Example              @red{•} @yellow{"word"}
+  First derivation     @yellow{sequence ::=[} @green{sequence ::=[} @red{•} @green{]} @yellow{"word" ]}
+  Example              @red{•} @green{"word"}
+  Second derivation    @yellow{sequence ::=[} @green{maybeword ::=[} @red{•} @green{"word" ]} @yellow{]}
+
+Reduce/reduce conflict on tokens $end, "word":
+  Example              @red{•}
+  First derivation     @yellow{sequence ::=[} @red{•} @yellow{]}
+  Example              @red{•}
+  Second derivation    @yellow{sequence ::=[} @green{maybeword ::=[} @red{•} @green{]} @yellow{]}
+
+Shift/reduce conflict on token "word":
+  Example              @red{•} @yellow{"word"}
+  First derivation     @yellow{sequence ::=[} @green{sequence ::=[} @blue{maybeword ::=[} @red{•} @blue{]} @green{]} @yellow{"word" ]}
+  Example              @red{•} @green{"word"}
+  Second derivation    @yellow{sequence ::=[} @green{maybeword ::=[} @red{•} @green{"word" ]} @yellow{]}
+
+sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [@dwarning{-Wother}]
+    8 |   @dwarning{%empty    @{ printf ("empty maybeword\n"); @}}
+      |   @dwarning{^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
+@end example
+
+Each of these three conflicts, again, prove that the grammar is ambiguous.
+For instance, the second conflict (the reduce/reduce one) shows that the
+grammar accept the empty input in two different ways.
+
+@sp 1
+
+Sometimes, the search will not find an example that can be derived in two
+ways.  In these cases, counterexample generation will provide two examples
+that are the same up until the dot.  Most notably, this will happen when
+your grammar requires a stronger parser (more lookahead, LR instead of
+LALR).  The following example isn't LR(1):
+
+@example
+%token ID
+%%
+s: a ID
+a: expr
+expr: %empty | expr ID ','
+@end example
+
+@command{bison} reports:
+
+@smallexample
+Shift/reduce conflict on token ID:
+  First example        @blue{expr} @red{•} @green{ID} @yellow{$end}
+  First derivation     @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[ expr} @red{•} @blue{]} @green{ID ]} @yellow{$end ]}
+  Second example       @purple{expr} @red{•} @purple{ID ','} @green{ID} @yellow{$end}
+  Second derivation    @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[} @purple{expr ::=[ expr} @red{•} @purple{ID ',' ]} @blue{]} @green{ID ]} @yellow{$end ]}
+@end smallexample
+
+This conflict is caused by the parser not having enough information to know
+the difference between these two examples.  The parser would need an
+additional lookahead token to know whether or not a comma follows the
+@code{ID} after @code{expr}.  These types of conflicts tend to be more
+difficult to fix, and usually need a rework of the grammar.  In this case,
+it can be fixed by changing around the recursion: @code{expr: ID | ',' expr
+ID}.
+
+Alternatively, you might also want to consider using a GLR parser
+(@pxref{GLR Parsers}).
+
+@sp 1
+
+On occasions, it is useful to look at counterexamples @emph{in situ}: with
+the automaton report (@xref{Understanding}, in particular @ref{state-8,,
+State 8}).
+
 @node Understanding
 @section Understanding Your Parser
 
-As documented elsewhere (@pxref{Algorithm}) Bison parsers are
-@dfn{shift/reduce automata}.  In some cases (much more frequent than one
-would hope), looking at this automaton is required to tune or simply fix a
-parser.
+Bison parsers are @dfn{shift/reduce automata} (@pxref{Algorithm}).  In some
+cases (much more frequent than one would hope), looking at this automaton is
+required to tune or simply fix a parser.
 
 The textual file is generated when the options @option{--report} or
 @option{--verbose} are specified, see @ref{Invocation}.  Its name is made by
@@ -9876,62 +10043,6 @@ calc.y:19.1-7: @dwarning{warning}: nonterminal useless in grammar: useless [@dwa
 calc.y: @dwarning{warning}: 7 shift/reduce conflicts [@dwarning{-Wconflicts-sr}]
 calc.y: @dwarning{warning}: rerun with option '-Wcounterexamples' to generate conflict counterexamples [@dwarning{-Wother}]
 @end smallexample
-
-When given @option{-Wcounterexamples}, @command{bison} will run a search for
-strings in your grammar that better demonstrate you
-conflicts. Counterexample generation was initially developed by Chinawat
-Isradisaikul and Andrew Myers @pcite{Isradisaikul 2015}.  For
-@file{calc.y}, the first printed example is:
-
-@example
-Shift/reduce conflict on token '/':
-  Example              @green{exp '+' exp} @red{•} @yellow{'/' exp}
-  First derivation     @yellow{exp ::=[} @green{exp ::=[ exp '+' exp} @red{•} @green{]} @yellow{'/' exp ]}
-  Example              @yellow{exp '+'} @green{exp} @red{•} @green{'/' exp}
-  Second derivation    @yellow{exp ::=[ exp '+'} @green{exp ::=[ exp} @red{•} @green{'/' exp ]} @yellow{]}
-@end example
-
-This shows two separate derivations in the grammar for the same @code{exp}:
-@samp{e1 + e2 / e3}.  The derivations show how your rules would parse the
-given example. Here, the first derivation completes a reduction when seeing
-@samp{/}, causing @samp{e1 + e2} to be grouped as an @code{exp}. The second
-derivation shifts on @samp{/}, resulting in @samp{e2 / e3} being grouped as
-an @code{exp}. Therefore, it is easy to see that adding @code{%precedence}
-directives would fix this conflict.
-
-Sometimes, the search will not find an example that can be derived in two
-ways.  In these cases, counterexample generation will provide two examples
-that are the same up until the dot.  Most notably, this will happen when
-your grammar requires a stronger parser (more lookahead, LR instead of
-LALR).  The following example isn't LR(1):
-
-@example
-%token ID
-%%
-s: a ID
-a: expr
-expr: %empty | expr ID ','
-@end example
-
-@command{bison} reports:
-
-@smallexample
-Shift/reduce conflict on token ID:
-  First example        @blue{expr} @red{•} @green{ID} @yellow{$end}
-  First derivation     @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[ expr} @red{•} @blue{]} @green{ID ]} @yellow{$end ]}
-  Second example       @blue{expr} @red{•} @blue{ID ','} @green{ID} @yellow{$end}
-  Second derivation    @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[ expr ::=[ expr} @red{•} @blue{ID ',' ] ]} @green{ID ]} @yellow{$end ]}
-@end smallexample
-
-This conflict is caused by the parser not having enough information to know
-the difference between these two examples.  The parser would need an
-additional lookahead token to know whether or not a comma follows the
-@code{ID} after @code{expr}.  These types of conflicts tend to be more
-difficult to fix, and usually need a rework of the grammar.  In this case,
-it can be fixed by changing around the recursion: @code{expr: ID | ',' expr
-ID}.
-
-Counterexamples can also be written to a file with @option{--report=cex}.
 
 Going back to the calc example, when given @option{--report=state},
 in addition to @file{calc.tab.c}, it creates a file @file{calc.output}
@@ -10164,6 +10275,7 @@ State 7
     exp  go to state 11
 @end example
 
+@anchor{state-8}
 As was announced in beginning of the report, @samp{State 8 conflicts:
 1 shift/reduce}:
 
@@ -10237,6 +10349,27 @@ Conflict between rule 1 and token '-' resolved as reduce (%left '-').
 Conflict between rule 1 and token '*' resolved as shift ('+' < '*').
 @end example
 
+When given @option{--report=counterexamples}, @command{bison} will generate
+counterexamples within the report, augmented with the corresponding items
+(@pxref{Counterexamples}).
+
+@example
+Shift/reduce conflict on token '/':
+    1 exp: exp '+' exp •
+    4 exp: exp • '/' exp
+  Example              @green{exp '+' exp} @red{•} @yellow{'/' exp}
+  First derivation     @yellow{exp ::=[} @green{exp ::=[ exp '+' exp} @red{•} @green{]} @yellow{'/' exp ]}
+  Example              @yellow{exp '+'} @green{exp} @red{•} @green{'/' exp}
+  Second derivation    @yellow{exp ::=[ exp '+'} @green{exp ::=[ exp} @red{•} @green{'/' exp ]} @yellow{]}
+@end example
+
+This shows two separate derivations in the grammar for the same @code{exp}:
+@samp{e1 + e2 / e3}.  The derivations show how your rules would parse the
+given example. Here, the first derivation completes a reduction when seeing
+@samp{/}, causing @samp{e1 + e2} to be grouped as an @code{exp}. The second
+derivation shifts on @samp{/}, resulting in @samp{e2 / e3} being grouped as
+an @code{exp}. Therefore, it is easy to see that adding @code{%precedence}
+directives would fix this conflict.
 
 The remaining states are similar:
 
@@ -11084,6 +11217,13 @@ unexpected number of conflicts is an error, and an expected number of
 conflicts is not reported, so @option{-W} and @option{--warning} then have
 no effect on the conflict report.
 
+@item counterexamples
+@itemx cex
+Provide counterexamples for conflicts.  @xref{Counterexamples}.
+Counterexamples take time to compute.  The option @option{-Wcex} should be
+used by the developer when working on the grammar; it hardly makes sense to
+use it in a CI.
+
 @item dangling-alias
 Report string literals that are not bound to a token symbol.
 
@@ -11457,6 +11597,13 @@ each rule's lookahead set.
 @item solved
 Implies @code{state}.  Explain how conflicts were solved thanks to
 precedence and associativity directives.
+
+@item counterexamples
+@itemx cex
+Look for counterexamples for the conflicts.  @xref{Counterexamples}.
+Counterexamples take time to compute.  The option @option{-rcex} should be
+used by the developer when working on the grammar; it hardly makes sense to
+use it in a CI.
 
 @item all
 Enable all the items.
@@ -15121,6 +15268,18 @@ Thus, if there is a rule which says that an integer can be used as an
 expression, integers are allowed @emph{anywhere} an expression is
 permitted.  @xref{Language and Grammar}.
 
+@item Counterexample
+A sequence of tokens and/or nonterminals, with one dot, that demonstrates a
+conflict.  The dot marks the place where the conflict occurs.
+
+A @emph{unifying} counterexample is a single string that has two different
+parses; its existence proves that the grammar is ambiguous.  When a unifying
+counterexample cannot be found in reasonable time, a @emph{nonunifying}
+counterexample is built: @emph{two} different string sharing the prefix up
+to the dot.
+
+@xref{Counterexamples}
+
 @item Default reduction
 The reduction that a parser should perform if the current parser state
 contains no other action for the lookahead token.  In permitted parser
@@ -15507,7 +15666,9 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: ResourceBundle myResources getString getName getToken ylwrap
 @c LocalWords: getLocation getExpectedTokens reportSyntaxError bistromathic
 @c LocalWords: TokenKind Automake's rtti Wcounterexamples Chinawat PLDI
-@c LocalWords: Isradisaikul
+@c LocalWords: Isradisaikul tcite pcite rgbGreen colorGreen rgbYellow Wcex
+@c LocalWords: colorYellow rgbRed colorRed rgbBlue colorBlue rgbPurple
+@c LocalWords: colorPurple ifhtml ifnothtml situ rcex
 
 @c Local Variables:
 @c ispell-dictionary: "american"

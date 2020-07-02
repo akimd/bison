@@ -32,10 +32,6 @@ could try to use the same color for the same rule.
 Show the counterexamples.  This is going to be really hard and/or painful.
 Unless we play it dumb (little structure).
 
-*** Doc
--Wcounterexamples, --report=counterexamples.  Don't forget to include
-examples about conflicts in the reports.
-
 ** Bistromathic
 - How about not evaluating incomplete lines when the text is not finished
   (as shells do).
