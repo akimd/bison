@@ -2,6 +2,16 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Deprecated features
+
+  The YYPRINT macro, which works only with yacc.c and only for tokens, was
+  obsoleted long ago by %printer, introduced in Bison 1.50 (November 2002).
+  It is deprecated and its support will be removed eventually.
+
+  In conformance with the recommendations of the Graphviz team, in the next
+  version Bison the option `--graph` will generate a *.gv file by default,
+  instead of *.dot.  A transition started in Bison 3.4.
+
 ** New features
 
 *** Counterexample Generation
