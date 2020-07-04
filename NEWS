@@ -80,10 +80,6 @@ GNU Bison NEWS
     filename_type       -> api.filename.type
     package             -> api.package
 
-*** Push parser state
-
-** Backward incompatible changes
-
 *** Push parsers no longer clear their state when parsing is finished
 
   Previously push-parsers cleared their state when parsing was finished (on
@@ -4361,7 +4357,7 @@ LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
 LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
 LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
 LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
-LocalWords:  gotos readline
+LocalWords:  gotos readline Imbimbo Wcounterexamples
 
 Local Variables:
 ispell-dictionary: "american"
