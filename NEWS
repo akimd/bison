@@ -30,8 +30,11 @@ GNU Bison NEWS
     First derivation     exp ::=[ exp ::=[ exp '+' exp • ] '/' exp ]
     Second derivation    exp ::=[ exp '+' exp ::=[ exp • '/' exp ] ]
 
+  When Bison is installed with text styling enabled, the example is actually
+  shown twice, with colors highlighting the ambiguity.
+
   This is a shift/reduce conflict caused by none of the operators having
-  precedence, so the example can be parsed in the two ways shown.   When
+  precedence, so the example can be parsed in the two ways shown.  When
   bison cannot find an example that can be derived in two ways, it instead
   generates two examples that are the same up until the dot:
 
@@ -42,6 +45,10 @@ GNU Bison NEWS
 
   In these cases, the parser usually doesn't have enough lookahead to
   differentiate the two given examples.
+
+  The counterexamples are "focused": in a large grammar they do not clutter
+  the output with all the derivations from the start symbol, rather they
+  start on the "conflicted nonterminal".
 
 *** File prefix mapping
 
