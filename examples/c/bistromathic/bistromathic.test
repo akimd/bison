@@ -322,7 +322,7 @@ sed -e 's/\\t/	/g' >input <<EOF
 (1++2) + 3 +\t\t
 EOF
 run -n 0 '> (1++2) + 3 +  ''
-> 
+> ''
 err: 1.1: syntax error: expected - or ( or number or function or variable before +
 err: 1.1: syntax error: expected - or ( or number or function or variable before +
 err: 1.4: syntax error: expected - or ( or number or function or variable before +
