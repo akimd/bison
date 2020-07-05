@@ -19,6 +19,9 @@
 #include <stdlib.h> // getenv.
 }
 
+// Include the header in the implementation rather than duplicating it.
+%define api.header.include {"parse.h"}
+
 // Don't share global variables between the scanner and the parser.
 %define api.pure full
 

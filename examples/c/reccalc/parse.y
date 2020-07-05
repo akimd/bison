@@ -46,14 +46,29 @@
   result parse (void);
 }
 
+// Include the header in the implementation rather than duplicating it.
+%define api.header.include {"parse.h"}
+
+// Don't share global variables between the scanner and the parser.
 %define api.pure full
+
+// To avoid name clashes (e.g., with C's EOF) prefix token definitions
+// with TOK_ (e.g., TOK_EOF).
 %define api.token.prefix {TOK_}
+
+// Generate YYSTYPE from the types assigned to symbols.
 %define api.value.type union
-%define parse.error verbose
+
+// Error messages with "unexpected XXX, expected XXX...".
+%define parse.error detailed
+
+// Enable run-time traces (yydebug).
 %define parse.trace
+
+// Generate the parser description file (parse.output).
 %verbose
 
- // Scanner and error count are exchanged between main, yyparse and yylex.
+// Scanner and error count are exchanged between main, yyparse and yylex.
 %param {yyscan_t scanner}{result *res}
 
 %token

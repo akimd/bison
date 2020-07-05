@@ -1,5 +1,6 @@
-%require "3.6"
+%require "3.7"
 
+// Emitted on top of the implementation file.
 %code top {
   #include <ctype.h>  // isdigit
   #include <locale.h> // LC_ALL
@@ -24,6 +25,7 @@
   #endif
 }
 
+// Emitted in the header file, before the definition of YYSTYPE.
 %code requires {
   // Function type.
   typedef double (func_t) (double);
@@ -46,6 +48,7 @@
   symrec *getsym (char const *name);
 }
 
+// Emitted in the header file, after the definition of YYSTYPE.
 %code provides {
 # ifndef __attribute__
 #  ifndef __GNUC__
@@ -57,6 +60,7 @@
     __attribute__ ((__format__ (__printf__, 2, 3)));
 }
 
+// Emitted in the implementation file.
 %code {
   #if defined ENABLE_NLS && ENABLE_NLS
   # define _(Msgid)  gettext (Msgid)
@@ -67,6 +71,9 @@
   // Whether to quit.
   int done = 0;
 }
+
+// Include the header in the implementation rather than duplicating it.
+%define api.header.include {"parse.h"}
 
 // Don't share global variables between the scanner and the parser.
 %define api.pure full
