@@ -500,7 +500,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
           cp_end - cp : ref_tail_fields - cp;
 
         complain (text_loc, complaint,
-                     _("invalid reference: %s"), quote (text));
+                  _("invalid reference: %s"), quote (text));
         if (len == 0)
           {
             location sym_loc = *text_loc;
@@ -532,7 +532,7 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
         if (variant_count > 1)
           {
             complain (text_loc, Wother,
-                         _("misleading reference: %s"), quote (text));
+                      _("misleading reference: %s"), quote (text));
             show_sub_messages (Wother,
                                cp, explicit_bracketing, midrule_rhs_index,
                                dollar_or_at);
