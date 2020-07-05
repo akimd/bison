@@ -145,6 +145,7 @@ void code_props_symbol_action_init (code_props *self, char const *code,
                                     location code_loc);
 
 /**
+ * \param  type   type for midrule actions
  * \pre
  *   - <tt>self != NULL</tt>.
  *   - <tt>code != NULL</tt>.
