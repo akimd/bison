@@ -401,6 +401,23 @@ show_sub_messages (warnings warning,
    points to LHS ($$) of the current rule or midrule. */
 #define LHS_REF (INT_MIN + 1)
 
+/* Parse a positional reference in RULE.  */
+static long
+parse_positional_ref (char *cp, int rule_length,
+                      char *text, const location *text_loc)
+{
+  long num = strtol (cp, &cp, 10);
+  if (1 - INT_MAX + rule_length <= num && num <= rule_length)
+    return num;
+  else
+    {
+      complain (text_loc, complaint, _("integer out of range: %s"),
+                quote (text));
+      return INVALID_REF;
+    }
+}
+
+
 /* Parse named or positional reference. In case of positional
    references, can return negative values for $-n "deep" stack
    accesses. */
@@ -412,18 +429,8 @@ parse_ref (char *cp, symbol_list *rule, int rule_length,
   if ('$' == *cp)
     return LHS_REF;
 
-  if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (* (cp + 1))))
-    {
-      long num = strtol (cp, &cp, 10);
-      if (1 - INT_MAX + rule_length <= num && num <= rule_length)
-        return num;
-      else
-        {
-          complain (text_loc, complaint, _("integer out of range: %s"),
-                    quote (text));
-          return INVALID_REF;
-        }
-    }
+  if (c_isdigit (*cp) || (*cp == '-' && c_isdigit (cp[1])))
+    return parse_positional_ref (cp, rule_length, text, text_loc);
 
   bool const explicit_bracketing = *cp == '[';
 
@@ -585,7 +592,7 @@ fetch_type_name (char *cp, char const **type_name,
 /*------------------------------------------------------------------.
 | TEXT is pointing to a wannabee semantic value (i.e., a '$').      |
 |                                                                   |
-| Possible inputs: $[<TYPENAME>]($|integer)                         |
+| Possible inputs: $[<TYPENAME>]($|INTEGER)                         |
 |                                                                   |
 | Output to OBSTACK_FOR_STRING a reference to this semantic value.  |
 `------------------------------------------------------------------*/
