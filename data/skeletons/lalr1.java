@@ -53,8 +53,9 @@ b4_use_push_for_pull_if([
 # allows them to be defined either in parse() when doing pull parsing,
 # or as class instance variable when doing push parsing.
 m4_define([b4_define_state],[[
-    /* Lookahead and lookahead in internal form.  */
+    /* Lookahead token kind.  */
     int yychar = YYEMPTY_;
+    /* Lookahead symbol kind.  */
     SymbolKind yytoken = null;
 
     /* State.  */
@@ -1078,17 +1079,18 @@ b4_dollar_popdef[]dnl
 
   /* YYTRANSLATE_(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
      as returned by yylex, with out-of-bounds checking.  */
-  private static final SymbolKind yytranslate_ (int t)
+  private static final SymbolKind yytranslate_(int t)
 ]b4_api_token_raw_if(dnl
 [[  {
     return SymbolKind.get(t);
   }
 ]],
 [[  {
-    int code_max_ = ]b4_code_max[;
+    // Last valid token kind.
+    int code_max = ]b4_code_max[;
     if (t <= 0)
       return ]b4_symbol(0, kind)[;
-    else if (t <= code_max_)
+    else if (t <= code_max)
       return SymbolKind.get(yytranslate_table_[t]);
     else
       return ]b4_symbol(2, kind)[;

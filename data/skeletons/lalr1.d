@@ -428,8 +428,9 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
    */
   public bool parse ()
   {
-    /// Lookahead and lookahead in internal form.
+    // Lookahead token kind.
     int yychar = TokenKind.YYEMPTY;
+    // Lookahead symbol kind.
     SymbolKind yytoken = ]b4_symbol(-2, kind)[;
 
     /* State.  */
@@ -841,11 +842,12 @@ m4_popdef([b4_at_dollar])])dnl
   ]b4_translate[
     @};
 
-    immutable int code_max_ = ]b4_code_max[;
+    // Last valid token kind.
+    immutable int code_max = ]b4_code_max[;
 
     if (t <= 0)
       return ]b4_symbol(0, kind)[;
-    else if (t <= code_max_)
+    else if (t <= code_max)
       {
         import std.conv : to;
         return to!SymbolKind (translate_table[t]);
