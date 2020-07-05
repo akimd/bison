@@ -142,10 +142,16 @@ The macro `b4_symbol(NUM, FIELD)` gives access to the following FIELDS:
   When api.value.type=union, the generated name for the union member.
   yytype_INT etc. for symbols that has_id, otherwise yytype_1 etc.
 
-- `type`
+- `type`: string
   If it has a semantic value, its type tag, or, if variant are used,
   its type.
   In the case of api.value.type=union, type is the real type (e.g. int).
+
+- `slot`: string
+  If it has a semantic value, the name of the union member (i.e., bounces to
+  either `type_tag` or `type`).  It would be better to fix our mess and
+  always use `type` for the true type of the member, and `type_tag` for the
+  name of the union member.
 
 - `has_printer`: 0, 1
 - `printer`: string

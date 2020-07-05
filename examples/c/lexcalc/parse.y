@@ -76,10 +76,10 @@
 ;
 
 %token <int> NUM "number"
-%type <int> exp
+%type <int> exp expression line
 %printer { fprintf (yyo, "%d", $$); } <int>
 
-%start input line
+%start input expression
 
 // Precedence (from lowest to highest) and associativity.
 %left "+" "-"
@@ -93,8 +93,12 @@ input:
 ;
 
 line:
-  exp EOL   { printf ("%d\n", $exp); }
-| error EOL { yyerrok; }
+  exp EOL   { $$ = $exp; printf ("%d\n", $$); }
+| error EOL { $$ = 0; yyerrok; }
+;
+
+expression:
+  exp EOL  { $$ = $exp; }
 ;
 
 exp:
@@ -129,16 +133,22 @@ int main (int argc, const char *argv[])
   int nerrs = 0;
   // Possibly enable parser runtime debugging.
   yydebug = !!getenv ("YYDEBUG");
+  int parse_expression_p = 0;
   // Enable parse traces on option -p.
-  int parse_line_p = 0;
   for (int i = 0; i < argc; ++i)
     if (1 < argc && strcmp (argv[1], "-p") == 0)
       yydebug = 1;
-    else if (strcmp (argv[i], "-l") == 0)
-      parse_line_p = 1;
+    else if (strcmp (argv[i], "-e") == 0)
+      parse_expression_p = 1;
 
-  if (parse_line_p)
-    yyparse_line (&nerrs);
+  if (parse_expression_p)
+    {
+      yyparse_expression_t res = yyparse_expression (&nerrs);
+      if (res.yystatus == 0)
+        printf ("expression: %d\n", res.yyvalue);
+      else
+        printf ("expression: failure\n");
+    }
   else
     yyparse_input (&nerrs);
   // Exit on failure if there were errors.

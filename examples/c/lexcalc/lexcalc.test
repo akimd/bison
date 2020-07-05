@@ -46,15 +46,15 @@ EOF
 run 1 'err: 1.1-11: error: division by zero'
 
 
-# Multistart: parse "line" instead of "input".
+# Multistart: parse "expression" instead of "input".
 cat >input <<EOF
 1+2*3
 EOF
-run 0 7 -l
+run 0 'expression: 7' -e
 
 cat >input <<EOF
 1
 2
 EOF
-run 1 '1
-err: 2.1: syntax error, unexpected number, expecting end of file' -l
+run 1 'expression: failure
+err: 2.1: syntax error, unexpected number, expecting end of file' -e

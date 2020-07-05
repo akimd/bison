@@ -240,6 +240,10 @@ functions.
 states/nstates, rules/nrules, ..., ritem/nritems
 Fix the latter.
 
+*** m4: slot, type, type_tag
+The meaning of type_tag varies depending on api.value.type.  We should avoid
+that and using clear definitions with stable semantics.
+
 * D programming language
 There's a number of features that are missing, here sorted in _suggested_
 order of implementation.

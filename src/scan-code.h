@@ -35,6 +35,11 @@ struct symbol_list;
 extern int max_left_semantic_context;
 
 /**
+ * The obstack used to store the translated actions.
+ */
+extern struct obstack *obstack_for_actions;
+
+/**
  * A code passage captured from the grammar file and possibly translated,
  * and/or properties associated with such a code passage.  Don't break
  * encapsulation by modifying the fields directly.  Use the provided interface
@@ -190,6 +195,8 @@ void code_props_translate_code (code_props *self);
  *     invalid.
  */
 void code_scanner_last_string_free (void);
+
+void code_scanner_init (void);
 
 /**
  * \pre

@@ -465,6 +465,19 @@ m4_case([$1],
 # but are S_YYEMPTY and symbol_kind::S_YYEMPTY in C++.
 m4_copy([b4_symbol_kind_base], [b4_symbol_kind])
 
+
+# b4_symbol_slot(NUM)
+# -------------------
+# The name of union member that contains the value of these symbols.
+# Currently, we are messy, this should actually be type_tag, but type_tag
+# has several meanings.
+m4_define([b4_symbol_slot],
+[m4_case(b4_percent_define_get([[api.value.type]]),
+         [union],   [b4_symbol([$1], [type_tag])],
+         [variant], [b4_symbol([$1], [type_tag])],
+         [b4_symbol([$1], [type])])])
+
+
 # b4_symbol(NUM, FIELD)
 # ---------------------
 # Fetch FIELD of symbol #NUM (or "orig NUM").  Fail if undefined.
@@ -475,6 +488,7 @@ m4_define([b4_symbol],
          [id],        [b4_symbol_token_kind([$1])],
          [kind_base], [b4_symbol_kind_base([$1])],
          [kind],      [b4_symbol_kind([$1])],
+         [slot],      [b4_symbol_slot([$1])],
          [_b4_symbol($@)])])
 
 

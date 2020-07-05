@@ -40,6 +40,8 @@
 #undef code_wrap
 #define code_wrap() 1
 
+struct obstack *obstack_for_actions = &obstack_for_string;
+
 /* The current calling start condition: SC_RULE_ACTION or
    SC_SYMBOL_ACTION. */
 # define YY_DECL static char *code_lex (code_props *self, int sc_context)
@@ -756,19 +758,10 @@ handle_action_at (symbol_list *rule, char *text, const location *at_loc)
 static char const *
 translate_action (code_props *self, int sc_context)
 {
-  static bool initialized = false;
-  if (!initialized)
-    {
-      obstack_init (&obstack_for_string);
-      yy_flex_debug = 0;
-      initialized = true;
-    }
-
   loc->start = loc->end = self->location.start;
   yy_switch_to_buffer (yy_scan_string (self->code));
   char *res = code_lex (self, sc_context);
   yy_delete_buffer (YY_CURRENT_BUFFER);
-
   return res;
 }
 
@@ -843,6 +836,13 @@ void
 code_scanner_last_string_free (void)
 {
   STRING_FREE ();
+}
+
+void
+code_scanner_init (void)
+{
+  obstack_init (&obstack_for_string);
+  yy_flex_debug = 0;
 }
 
 void
