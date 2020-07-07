@@ -1677,6 +1677,31 @@ Here are the C and Bison declarations for the Reverse Polish Notation
 calculator.  As in C, comments are placed between @samp{/*@dots{}*/} or
 after @samp{//}.
 
+@ignore
+@comment file: rpcalc.y
+@example
+/* Parser for rpcalc.   -*- C -*-
+
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2020 Free Software
+   Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
 @comment file: rpcalc.y
 @example
 /* Reverse Polish Notation calculator. */
@@ -2538,6 +2563,31 @@ Note that multiple assignment and nested function calls are permitted.
 
 Here are the C and Bison declarations for the multi-function calculator.
 
+@ignore
+@comment file: mfcalc.y
+@example
+/* Parser for mfcalc.   -*- C -*-
+
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2020 Free Software
+   Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
 @comment file: mfcalc.y: 1
 @example
 @group
@@ -2641,6 +2691,31 @@ requires some additional C functions for support.
 The symbol table itself consists of a linked list of records.  Its
 definition, which is kept in the header @file{calc.h}, is as follows.  It
 provides for either functions or variables to be placed in the table.
+
+@ignore
+@comment file: calc.h
+@example
+/* Functions for mfcalc.   -*- C -*-
+
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2020 Free Software
+   Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
 
 @comment file: calc.h
 @example
@@ -11745,6 +11820,30 @@ A Bison file has three parts.  In the first part, the prologue, we start by
 making sure we run a version of Bison which is recent enough, and that we
 generate C++.
 
+@ignore
+@comment file: c++/simple.yy: 1
+@example
+/* Simple variant-based parser.   -*- C++ -*-
+
+   Copyright (C) 2018-2020 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
 @comment file: c++/simple.yy: 1
 @example
 %require "3.2"
@@ -12817,6 +12916,30 @@ The declaration of this driver class, in @file{driver.hh}, is as follows.
 The first part includes the CPP guard and imports the required standard
 library components, and the declaration of the parser class.
 
+@ignore
+@comment file: calc++/driver.hh
+@example
+/* Driver for calc++.   -*- C++ -*-
+
+   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
 @comment file: calc++/driver.hh
 @example
 #ifndef DRIVER_HH
@@ -12889,6 +13012,30 @@ member functions to open and close the scanning phase.
 
 The implementation of the driver (@file{driver.cc}) is straightforward.
 
+@ignore
+@comment file: calc++/driver.cc
+@example
+/* Driver for calc++.   -*- C++ -*-
+
+   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
 @comment file: calc++/driver.cc
 @example
 #include "driver.hh"
@@ -12931,6 +13078,30 @@ The grammar file @file{parser.yy} starts by asking for the C++ deterministic
 parser skeleton, the creation of the parser header file.  Because the C++
 skeleton changed several times, it is safer to require the version you
 designed the grammar for.
+
+@ignore
+@comment file: calc++/parser.yy
+@example
+/* Parser for calc++.   -*- C++ -*-
+
+   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
 
 @comment file: calc++/parser.yy
 @example
@@ -13120,6 +13291,30 @@ yy::parser::error (const location_type& l, const std::string& m)
 In addition to standard headers, the Flex scanner includes the driver's,
 then the parser's to get the set of defined tokens.
 
+@ignore
+@comment file: calc++/scanner.ll
+@example
+/* Scanner for calc++.   -*- C++ -*-
+
+   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
 @comment file: calc++/scanner.ll
 @example
 %@{ /* -*- C++ -*- */
@@ -13293,7 +13488,7 @@ The rules are simple.  The driver is used to report errors.
 You should keep your rules simple, both in the parser and in the scanner.
 Throwing from the auxiliary functions is then very handy to report errors.
 
-@comment file: scanner.ll
+@comment file: calc++/scanner.ll
 @example
 @group
 yy::parser::symbol_type
@@ -13343,7 +13538,31 @@ driver::scan_end ()
 
 The top level file, @file{calc++.cc}, poses no problem.
 
-@comment file: calc++.cc
+@ignore
+@comment file: calc++/calc++.cc
+@example
+/* Main for calc++.   -*- C++ -*-
+
+   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+
+   This file is part of Bison, the GNU Compiler Compiler.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+@end example
+@end ignore
+
+@comment file: calc++/calc++.cc
 @example
 #include <iostream>
 #include "driver.hh"
