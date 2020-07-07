@@ -48,7 +48,7 @@ AT_CLEANUP
 
 
 # AT_JAVA_POSITION_DEFINE_OLD
-# -----------------------
+# ---------------------------
 m4_define([AT_JAVA_POSITION_DEFINE_OLD],
 [[class Position {
   public int line;

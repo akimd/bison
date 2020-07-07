@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.6.90.  */
+/* A Bison parser, made by GNU Bison 3.6.90.7-a0e3b-dirty.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
@@ -49,7 +49,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.6.90"
+#define YYBISON_VERSION "3.6.90.7-a0e3b-dirty"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -642,16 +642,16 @@ static const yytype_int16 yyrline[] =
        0,   312,   312,   321,   322,   326,   327,   333,   337,   342,
      343,   344,   345,   346,   347,   348,   353,   358,   359,   360,
      361,   362,   363,   363,   364,   365,   366,   367,   368,   369,
-     370,   371,   375,   376,   385,   386,   390,   401,   405,   409,
-     417,   427,   428,   438,   439,   445,   458,   458,   463,   463,
-     468,   472,   482,   483,   484,   485,   489,   490,   495,   496,
-     500,   501,   505,   506,   507,   520,   529,   533,   537,   545,
-     546,   550,   563,   564,   569,   570,   571,   589,   593,   597,
-     605,   607,   612,   619,   629,   633,   637,   645,   650,   662,
-     663,   669,   670,   671,   678,   678,   686,   687,   688,   693,
-     696,   698,   700,   702,   704,   706,   708,   710,   712,   717,
-     718,   727,   751,   752,   753,   754,   766,   768,   792,   797,
-     798,   803,   811,   812
+     370,   371,   375,   376,   385,   386,   390,   399,   403,   407,
+     415,   425,   426,   436,   437,   443,   456,   456,   461,   461,
+     466,   470,   480,   481,   482,   483,   487,   488,   493,   494,
+     498,   499,   503,   504,   505,   518,   527,   531,   535,   543,
+     544,   548,   561,   562,   567,   568,   569,   587,   591,   595,
+     603,   605,   610,   617,   627,   631,   635,   643,   648,   660,
+     661,   667,   668,   669,   676,   676,   684,   685,   686,   691,
+     694,   696,   698,   700,   702,   704,   706,   708,   710,   715,
+     716,   725,   749,   750,   751,   752,   764,   766,   790,   795,
+     796,   801,   809,   810
 };
 #endif
 
@@ -2187,11 +2187,9 @@ yyreduce:
       code_props code;
       code_props_symbol_action_init (&code, (yyvsp[-1].BRACED_CODE), (yylsp[-1]));
       code_props_translate_code (&code);
-      {
-        for (symbol_list *list = (yyvsp[0].generic_symlist); list; list = list->next)
-          symbol_list_code_props_set (list, (yyvsp[-2].code_props_type), &code);
-        symbol_list_free ((yyvsp[0].generic_symlist));
-      }
+      for (symbol_list *list = (yyvsp[0].generic_symlist); list; list = list->next)
+        symbol_list_code_props_set (list, (yyvsp[-2].code_props_type), &code);
+      symbol_list_free ((yyvsp[0].generic_symlist));
     }
     break;
 
@@ -2307,10 +2305,6 @@ yyreduce:
          { (yyval.yykind_74) = NULL; }
     break;
 
-  case 57: /* tag.opt: "<tag>"  */
-         { (yyval.yykind_74) = (yyvsp[0].TAG); }
-    break;
-
   case 59: /* generic_symlist: generic_symlist generic_symlist_item  */
                                          { (yyval.generic_symlist) = symbol_list_append ((yyvsp[-1].generic_symlist), (yyvsp[0].generic_symlist_item)); }
     break;
@@ -2374,10 +2368,6 @@ yyreduce:
 
   case 74: /* alias: %empty  */
                  { (yyval.alias) = NULL; }
-    break;
-
-  case 75: /* alias: string_as_id  */
-                 { (yyval.alias) = (yyvsp[0].string_as_id); }
     break;
 
   case 76: /* alias: "translatable string"  */

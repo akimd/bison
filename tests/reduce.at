@@ -246,7 +246,7 @@ start
  ;
 
 used1
- : used2 { $$ = $1; }
+ : used2 { $$ = ($1); } // Keep this useless action to exercize translation.
  ;
 
 unused

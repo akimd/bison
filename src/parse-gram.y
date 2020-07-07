@@ -387,16 +387,14 @@ grammar_declaration:
     {
       grammar_start_symbol_set ($2, @2);
     }
-| code_props_type "{...}" generic_symlist
+| code_props_type "{...}" generic_symlist[syms]
     {
       code_props code;
       code_props_symbol_action_init (&code, $2, @2);
       code_props_translate_code (&code);
-      {
-        for (symbol_list *list = $3; list; list = list->next)
-          symbol_list_code_props_set (list, $1, &code);
-        symbol_list_free ($3);
-      }
+      for (symbol_list *list = $syms; list; list = list->next)
+        symbol_list_code_props_set (list, $1, &code);
+      symbol_list_free ($syms);
     }
 | "%default-prec"
     {
@@ -487,7 +485,7 @@ precedence_declarator:
 
 tag.opt:
   %empty { $$ = NULL; }
-| TAG    { $$ = $1; }
+| TAG
 ;
 
 %type <symbol_list*> generic_symlist generic_symlist_item;
@@ -567,7 +565,7 @@ int.opt:
 %type <symbol*> alias;
 alias:
   %empty         { $$ = NULL; }
-| string_as_id   { $$ = $1; }
+| string_as_id
 | TSTRING
     {
       $$ = symbol_get ($1, @1);

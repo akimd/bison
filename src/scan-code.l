@@ -26,6 +26,7 @@
 #include <quote.h>
 
 #include "src/complain.h"
+#include "src/fixits.h"
 #include "src/getargs.h"
 #include "src/muscle-tab.h"
 #include "src/reader.h"
@@ -290,9 +291,9 @@ variant_add (uniqstr id, location id_loc, int symbol_index,
              char const *cp, char const *cp_end, bool explicit_bracketing)
 {
   char const *prefix_end = find_prefix_end (id, cp, cp_end);
-  if (prefix_end &&
-      (prefix_end == cp_end ||
-       (!explicit_bracketing && is_dot_or_dash (*prefix_end))))
+  if (prefix_end
+      && (prefix_end == cp_end
+          || (!explicit_bracketing && is_dot_or_dash (*prefix_end))))
     {
       variant *r = variant_table_grow ();
       r->symbol_index = symbol_index;
@@ -739,6 +740,70 @@ handle_action_at (symbol_list *rule, char *text, const location *at_loc)
 }
 
 
+/* Comparing two strings, ignoring spaces.  */
+static int
+strspacecmp (const char *cp1, const char* cp2)
+{
+  aver (cp1 && cp2);
+  while (*cp1 && *cp2)
+    {
+      while (c_isspace (*cp1))
+        ++cp1;
+      while (c_isspace (*cp2))
+        ++cp2;
+      if (*cp1 == *cp2)
+        {
+          ++cp1;
+          ++cp2;
+        }
+      else
+        break;
+    }
+  return *cp1 - *cp2;
+}
+
+/* Whether this rule could have been left implicit.
+
+   A more natural place for this check is
+   grammar_rule_check_and_complete, but it is called after the action
+   was translated.  Maybe we should compare translated code
+   instead?  */
+
+static bool
+useless_default_action (code_props *self)
+{
+  /* Somewhat duplicates a part of grammar_rule_check_and_complete. */
+  symbol_list const *r = self->rule;
+  char const *lhs_type = r->content.sym->content->type_name;
+  if (!lhs_type)
+    return false;
+
+  /* The default action is installed for any rule with a non-empty
+     RHS.  But it feels less natural not to write the action in this
+     case.  Besides, the real point of -Wuseless-action is to help
+     getting rid of useless chain rules by exhibiting more
+     opportunities.  And this is only for rules with a single RHS
+     symbol (so two symbols with the LHS).  */
+  if (symbol_list_length (r) != 2)
+    return false;
+
+  /* If the first rhs is a dummy, then we cannot simply remove the
+     default action that is afterwards.  Something fishy is going on,
+     but maybe a different warning for this case?
+
+     foo: bar { $$ = 42; } { $$ = $1; } */
+  symbol const *rhs = r->next->content.sym;
+  if (symbol_is_dummy (rhs))
+    return false;
+
+  char const *rhs_type = rhs->content->type_name;
+  if (!UNIQSTR_EQ (lhs_type, rhs_type ? rhs_type : ""))
+    return false;
+
+  return strspacecmp (self->code, "{ $$ = $1; }") == 0;
+}
+
+
 /*-------------------------.
 | Initialize the scanner.  |
 `-------------------------*/
@@ -755,6 +820,15 @@ translate_action (code_props *self, int sc_context)
       obstack_init (&obstack_for_string);
       yy_flex_debug = 0;
       initialized = true;
+    }
+
+  /* Warn about explicit default actions.  */
+  if (sc_context == SC_RULE_ACTION
+      && warning_is_enabled (Wuseless_action)
+      && useless_default_action (self))
+    {
+      complain (&self->location, Wuseless_action, _("useless explicit action"));
+      fixits_register (&self->location, "");
     }
 
   loc->start = loc->end = self->location.start;

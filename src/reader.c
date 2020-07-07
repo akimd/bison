@@ -300,7 +300,10 @@ grammar_rule_check_and_complete (symbol_list *r)
                                  || STREQ (skeleton, "lalr1.cc")));
               if (is_cxx)
                 {
-                  code_props_rule_action_init (&r->action_props, "{ $$ = $1; }",
+                  /* Parens around $1 to avoid triggering the warning
+                     about useless explicit actions. */
+                  code_props_rule_action_init (&r->action_props,
+                                               "{ $$ = ($1); }",
                                                r->rhs_loc, r,
                                                /* name */ NULL,
                                                /* type */ NULL,

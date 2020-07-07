@@ -55,6 +55,7 @@ typedef enum
     warning_midrule_values,
     warning_other,
     warning_precedence,
+    warning_useless_action,
     warning_yacc,           /**< POSIXME.  */
 
     warnings_size           /**< The number of warnings.  Must be last.  */
@@ -116,6 +117,7 @@ typedef enum
     Wmidrule_values   = 1 << warning_midrule_values,
     Wother            = 1 << warning_other,
     Wprecedence       = 1 << warning_precedence,
+    Wuseless_action   = 1 << warning_useless_action,
     Wyacc             = 1 << warning_yacc,
 
     complaint         = 1 << 11, /**< All complaints.  */
