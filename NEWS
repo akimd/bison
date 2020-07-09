@@ -1,5 +1,8 @@
 GNU Bison NEWS
 
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+
 * Noteworthy changes in release 3.6.91 (2020-07-09) [beta]
 
 ** Bug fixes
@@ -50,7 +53,7 @@ GNU Bison NEWS
   In these cases, the parser usually doesn't have enough lookahead to
   differentiate the two given examples.
 
-  The counterexamples are "focused": in two different ways.  First, they do
+  The counterexamples are "focused" in two different ways.  First, they do
   not clutter the output with all the derivations from the start symbol,
   rather they start on the "conflicted nonterminal". They go straight to the
   point.  Second, they don't "expand" nonterminal symbols uselessly.
