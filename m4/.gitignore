@@ -13,7 +13,6 @@
 /codeset.m4
 /config-h.m4
 /configmake.m4
-/dirname.m4
 /double-slash-root.m4
 /dup2.m4
 /eealloc.m4

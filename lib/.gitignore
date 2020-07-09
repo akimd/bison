@@ -20,6 +20,7 @@
 /assure.h
 /attribute.h
 /basename-lgpl.c
+/basename-lgpl.h
 /basename.c
 /binary-io.c
 /binary-io.h
