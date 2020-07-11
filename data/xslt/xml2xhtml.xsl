@@ -331,6 +331,9 @@
   <xsl:text>  </xsl:text>
   <li>
     <b><xsl:value-of select="@name"/></b>
+    <xsl:if test="string-length(@type) != 0">
+      <xsl:value-of select="concat(' &lt;', @type, '&gt;')"/>
+    </xsl:if>
     <xsl:value-of select="concat(' (', @token-number, ')')"/>
     <xsl:for-each select="key('bison:ruleByRhs', @name)">
       <xsl:apply-templates select="." mode="number-link"/>
@@ -343,6 +346,9 @@
   <xsl:text>  </xsl:text>
   <li>
     <b><xsl:value-of select="@name"/></b>
+    <xsl:if test="string-length(@type) != 0">
+      <xsl:value-of select="concat(' &lt;', @type, '&gt;')"/>
+    </xsl:if>
     <xsl:value-of select="concat(' (', @symbol-number, ')')"/>
     <xsl:text>&#10;    </xsl:text>
     <ul>

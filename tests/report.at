@@ -1233,8 +1233,8 @@ if test x"$XSLTPROC" != x""; then
   <li><b>error</b> (256)</li>
   <li><b>":="</b> (258) <a href="#rule_4">4</a></li>
   <li><b>"incr"</b> (259) <a href="#rule_8">8</a></li>
-  <li><b>"identifier"</b> (260) <a href="#rule_5">5</a> <a href="#rule_10">10</a></li>
-  <li><b>"number"</b> (261) <a href="#rule_11">11</a></li>
+  <li><b>"identifier"</b> &lt;std::string&gt; (260) <a href="#rule_5">5</a> <a href="#rule_10">10</a></li>
+  <li><b>"number"</b> &lt;int&gt; (261) <a href="#rule_11">11</a></li>
   <li><b>"("</b> (262) <a href="#rule_9">9</a></li>
   <li><b>")"</b> (263) <a href="#rule_9">9</a></li>
 </ul>
@@ -1265,25 +1265,25 @@ if test x"$XSLTPROC" != x""; then
       <li>on right: <a href="#rule_3">3</a></li>
     </ul>
   </li>
-  <li><b>id</b> (13)
+  <li><b>id</b> &lt;std::string&gt; (13)
     <ul>
       <li>on left: <a href="#rule_5">5</a></li>
       <li>on right: <a href="#rule_4">4</a></li>
     </ul>
   </li>
-  <li><b>exp</b> (14)
+  <li><b>exp</b> &lt;int&gt; (14)
     <ul>
       <li>on left: <a href="#rule_8">8</a> <a href="#rule_9">9</a> <a href="#rule_10">10</a> <a href="#rule_11">11</a></li>
       <li>on right: <a href="#rule_1">1</a> <a href="#rule_4">4</a> <a href="#rule_8">8</a> <a href="#rule_9">9</a></li>
     </ul>
   </li>
-  <li><b>@1</b> (15)
+  <li><b>@1</b> &lt;int&gt; (15)
     <ul>
       <li>on left: <a href="#rule_6">6</a></li>
       <li>on right: <a href="#rule_8">8</a></li>
     </ul>
   </li>
-  <li><b>@2</b> (16)
+  <li><b>@2</b> &lt;int&gt; (16)
     <ul>
       <li>on left: <a href="#rule_7">7</a></li>
       <li>on right: <a href="#rule_8">8</a></li>
