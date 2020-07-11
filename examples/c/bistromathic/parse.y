@@ -74,7 +74,7 @@
 #   define __attribute__(Spec) /* empty */
 #  endif
 # endif
-  int yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc);
+  yytoken_kind_t yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc);
   void yyerror (YYLTYPE *loc, char const *format, ...)
     __attribute__ ((__format__ (__printf__, 2, 3)));
 }
@@ -257,7 +257,7 @@ symbol_count (void)
 | Scanner.  |
 `----------*/
 
-int
+yytoken_kind_t
 yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 {
   int c;
@@ -453,7 +453,8 @@ process_line (YYLTYPE *lloc, const char *line)
   int status = 0;
   do {
     YYSTYPE lval;
-    status = yypush_parse (ps, yylex (&line, &lval, lloc), &lval, lloc);
+    yytoken_kind_t token = yylex (&line, &lval, lloc);
+    status = yypush_parse (ps, token, &lval, lloc);
   } while (status == YYPUSH_MORE);
   yypstate_delete (ps);
   lloc->last_line++;
@@ -475,9 +476,9 @@ expected_tokens (const char *input,
   do {
     YYLTYPE lloc = { 1, 1, 1, 1 };
     YYSTYPE lval;
-    int token = yylex (&input, &lval, &lloc);
-    // Don't let the parse know when we reach the end of input.
-    if (!token)
+    yytoken_kind_t token = yylex (&input, &lval, &lloc);
+    // Don't let the parser know when we reach the end of input.
+    if (token == TOK_YYEOF)
       break;
     status = yypush_parse (ps, token, &lval, &lloc);
   } while (status == YYPUSH_MORE);
