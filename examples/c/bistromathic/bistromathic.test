@@ -101,14 +101,28 @@ cat >input <<EOF
 EOF
 run 0 '> *
 > ''
-err: 1.1: syntax error: expected end of file or - or ( or exit or number or function etc., before *'
+err: 1.1: syntax error: expected end of file or - or ( or exit or number or function etc., before *
+err:     1 | *
+err:       | ^'
+
+# Underline long errors.
+cat >input <<EOF
+123 123456
+EOF
+run 0 '> 123 123456
+> ''
+err: 1.5-10: syntax error: expected end of file or + or - or * or / or ^ before number
+err:     1 | 123 123456
+err:       |     ^~~~~~'
 
 cat >input <<EOF
 1 + 2 * * 3
 EOF
 run 0 '> 1 + 2 * * 3
 > ''
-err: 1.9: syntax error: expected - or ( or number or function or variable before *'
+err: 1.9: syntax error: expected - or ( or number or function or variable before *
+err:     1 | 1 + 2 * * 3
+err:       |         ^'
 
 cat >input <<EOF
 1 / 0
@@ -132,8 +146,14 @@ run 0 '> ((1 ++ 2) ** 3)
 1332
 > ''
 err: 1.6: syntax error: expected - or ( or number or function or variable before +
+err:     1 | ((1 ++ 2) ** 3)
+err:       |      ^
 err: 2.5: syntax error: expected - or ( or number or function or variable before +
-err: 2.16: syntax error: expected - or ( or number or function or variable before *'
+err:     2 | (1 ++ 2) + (3 ** 4)
+err:       |     ^
+err: 2.16: syntax error: expected - or ( or number or function or variable before *
+err:     2 | (1 ++ 2) + (3 ** 4)
+err:       |                ^'
 
 # The rule "( error )" should work even if there are no tokens between "(" and ")".
 cat >input <<EOF
@@ -142,7 +162,9 @@ EOF
 run 0 '> ()
 666
 > ''
-err: 1.2: syntax error: expected - or ( or number or function or variable before )'
+err: 1.2: syntax error: expected - or ( or number or function or variable before )
+err:     1 | ()
+err:       |  ^'
 
 
 cat >input <<EOF
@@ -189,6 +211,8 @@ err: LAC: checking lookahead function: S5
 err: LAC: checking lookahead variable: S6
 err: LAC: checking lookahead NEG: Err
 err: 1.2: syntax error: expected - or ( or number or function or variable before +
+err:     1 | (+_)
+err:       |  ^
 err: LAC: initial context discarded due to error recovery
 err: Shifting token error (1.2: )
 err: Entering state 10
@@ -286,7 +310,9 @@ run 0 '> (1+
 (       -       atan    cos     exp     ln      number  sin     sqrt
 > (1+
 > ''
-err: 1.4: syntax error: expected - or ( or number or function or variable before end of file'
+err: 1.4: syntax error: expected - or ( or number or function or variable before end of file
+err:     1 | (1+
+err:       |    ^'
 
 # Check the completion of a word.
 sed -e 's/\\t/	/g' >input <<EOF
@@ -294,7 +320,9 @@ sed -e 's/\\t/	/g' >input <<EOF
 EOF
 run 0 '> (atan ( ''
 > ''
-err: 1.9: syntax error: expected - or ( or number or function or variable before end of file'
+err: 1.9: syntax error: expected - or ( or number or function or variable before end of file
+err:     1 | (atan ( ''
+err:       |         ^'
 
 # Check the completion at the very beginning.
 sed -e 's/\\t/	/g' >input <<EOF
@@ -314,6 +342,8 @@ EOF
 run -n 0 '> 1++ ''
 > ''
 err: 1.3: syntax error: expected - or ( or number or function or variable before +
+err:     1 | 1++ ''
+err:       |   ^
 '
 
 # And even when the error was recovered from.
@@ -323,5 +353,9 @@ EOF
 run -n 0 '> (1++2) + 3 +  ''
 > ''
 err: 1.4: syntax error: expected - or ( or number or function or variable before +
+err:     1 | (1++2) + 3 +  ''
+err:       |    ^
 err: 1.15: syntax error: expected - or ( or number or function or variable before end of file
+err:     1 | (1++2) + 3 +  ''
+err:       |               ^
 '

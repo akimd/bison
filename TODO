@@ -36,8 +36,6 @@ Unless we play it dumb (little structure).
 - How about not evaluating incomplete lines when the text is not finished
   (as shells do).
 
-- Caret diagnostics
-
 ** Questions
 *** Java
 - Should i18n be part of the Lexer?  Currently it's a static method of

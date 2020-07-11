@@ -71,6 +71,8 @@
   {
     // Whether to not emit error messages.
     int silent;
+    // The current input line.
+    const char *line;
   } user_context;
 }
 
@@ -396,11 +398,12 @@ yyreport_syntax_error (const yypcontext_t *ctx, const user_context *uctx)
     argsize = ARGS_MAX;
   const char *format = error_format_string (1 + argsize + too_many_expected_tokens);
 
+  const YYLTYPE *loc = yypcontext_location (ctx);
   while (*format)
     // %@: location.
     if (format[0] == '%' && format[1] == '@')
       {
-        YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
+        YY_LOCATION_PRINT (stderr, *loc);
         format += 2;
       }
     // %u: unexpected token.
@@ -425,6 +428,15 @@ yyreport_syntax_error (const yypcontext_t *ctx, const user_context *uctx)
         ++format;
       }
   fputc ('\n', stderr);
+
+  // Quote the source line.
+  {
+    fprintf (stderr, "%5d | %s\n", loc->first_line, uctx->line);
+    fprintf (stderr, "%5s | %*s", "", loc->first_column, "^");
+    for (int i = loc->last_column - loc->first_column - 1; 0 < i; --i)
+      putc ('~', stderr);
+    putc ('\n', stderr);
+  }
   return 0;
 }
 
@@ -470,7 +482,7 @@ xstrndup (const char *string, size_t n)
 static int
 process_line (YYLTYPE *lloc, const char *line)
 {
-  user_context uctx = {0};
+  user_context uctx = {0, line};
   yypstate *ps = yypstate_new ();
   int status = 0;
   do {
@@ -491,7 +503,7 @@ expected_tokens (const char *input,
                  int *tokens, int ntokens)
 {
   YYDPRINTF ((stderr, "expected_tokens (\"%s\")", input));
-  user_context uctx = {1};
+  user_context uctx = {1, input};
 
   // Parse the current state of the line.
   yypstate *ps = yypstate_new ();

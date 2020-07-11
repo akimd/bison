@@ -53,7 +53,9 @@ push-parser model.
 This example demonstrates best practices when using Bison.
 - Its hand-written scanner tracks locations.
 - Its interface is pure.
-- It uses the `error` token to get error recovery.
+- It uses %params to pass user information to the parser and scanner.
+- Its scanner uses the `error` token to signal lexical errors and enter
+  error recovery.
 - Its interface is "incremental", well suited for interaction: it uses the
   push-parser API to feed the parser with the incoming tokens.
 - It features an interactive command line with completion based on the
@@ -62,6 +64,13 @@ This example demonstrates best practices when using Bison.
   messages.
 - It uses a custom syntax error with location, lookahead correction and
   token internationalization.
+- Error messages quote the source with squiggles that underline the error:
+```
+> 123 456
+1.5-7: syntax error: expected end of file or + or - or * or / or ^ before number
+    1 | 123 456
+      |     ^~~
+```
 - It supports debug traces with semantic values.
 - It uses named references instead of the traditional $1, $2, etc.
 

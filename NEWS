@@ -2,6 +2,17 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Documentation
+
+*** Examples
+
+  The bistromathic demonstrates %param and how to quote sources in the error
+  messages:
+
+    > 123 456
+    1.5-7: syntax error: expected end of file or + or - or * or / or ^ before number
+        1 | 123 456
+          |     ^~~
 
 * Noteworthy changes in release 3.6.91 (2020-07-09) [beta]
 
