@@ -306,9 +306,10 @@
     <xsl:text> Terminals, with rules where they appear</xsl:text>
   </h3>
   <xsl:text>&#10;&#10;</xsl:text>
-  <p class="pre">
+  <ul>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates select="terminal"/>
-  </p>
+  </ul>
   <xsl:text>&#10;&#10;</xsl:text>
 </xsl:template>
 
@@ -318,41 +319,58 @@
     <xsl:text> Nonterminals, with rules where they appear</xsl:text>
   </h3>
   <xsl:text>&#10;&#10;</xsl:text>
-  <p class="pre">
+  <ul>
+    <xsl:text>&#10;</xsl:text>
     <xsl:apply-templates
       select="nonterminal[@usefulness!='useless-in-grammar']"
     />
-  </p>
+  </ul>
 </xsl:template>
 
 <xsl:template match="terminal">
-  <b><xsl:value-of select="@name"/></b>
-  <xsl:value-of select="concat(' (', @token-number, ')')"/>
-  <xsl:for-each select="key('bison:ruleByRhs', @name)">
-    <xsl:apply-templates select="." mode="number-link"/>
-  </xsl:for-each>
+  <xsl:text>  </xsl:text>
+  <li>
+    <b><xsl:value-of select="@name"/></b>
+    <xsl:value-of select="concat(' (', @token-number, ')')"/>
+    <xsl:for-each select="key('bison:ruleByRhs', @name)">
+      <xsl:apply-templates select="." mode="number-link"/>
+    </xsl:for-each>
+  </li>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
 
 <xsl:template match="nonterminal">
-  <b><xsl:value-of select="@name"/></b>
-  <xsl:value-of select="concat(' (', @symbol-number, ')')"/>
-  <xsl:text>&#10;    </xsl:text>
-  <xsl:if test="key('bison:ruleByLhs', @name)">
-    <xsl:text>on left:</xsl:text>
-    <xsl:for-each select="key('bison:ruleByLhs', @name)">
-      <xsl:apply-templates select="." mode="number-link"/>
-    </xsl:for-each>
-  </xsl:if>
-  <xsl:if test="key('bison:ruleByRhs', @name)">
-    <xsl:if test="key('bison:ruleByLhs', @name)">
-      <xsl:text>&#10;    </xsl:text>
-    </xsl:if>
-    <xsl:text>on right:</xsl:text>
-    <xsl:for-each select="key('bison:ruleByRhs', @name)">
-      <xsl:apply-templates select="." mode="number-link"/>
-    </xsl:for-each>
-  </xsl:if>
+  <xsl:text>  </xsl:text>
+  <li>
+    <b><xsl:value-of select="@name"/></b>
+    <xsl:value-of select="concat(' (', @symbol-number, ')')"/>
+    <xsl:text>&#10;    </xsl:text>
+    <ul>
+      <xsl:text>&#10;</xsl:text>
+      <xsl:if test="key('bison:ruleByLhs', @name)">
+        <xsl:text>      </xsl:text>
+        <li>
+          <xsl:text>on left:</xsl:text>
+          <xsl:for-each select="key('bison:ruleByLhs', @name)">
+            <xsl:apply-templates select="." mode="number-link"/>
+          </xsl:for-each>
+        </li>
+        <xsl:text>&#10;</xsl:text>
+      </xsl:if>
+      <xsl:if test="key('bison:ruleByRhs', @name)">
+        <xsl:text>      </xsl:text>
+        <li>
+          <xsl:text>on right:</xsl:text>
+          <xsl:for-each select="key('bison:ruleByRhs', @name)">
+            <xsl:apply-templates select="." mode="number-link"/>
+          </xsl:for-each>
+        </li>
+        <xsl:text>&#10;</xsl:text>
+      </xsl:if>
+    <xsl:text>    </xsl:text>
+    </ul>
+    <xsl:text>&#10;  </xsl:text>
+  </li>
   <xsl:text>&#10;</xsl:text>
 </xsl:template>
 

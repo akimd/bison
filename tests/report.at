@@ -1141,8 +1141,11 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 if test x"$XSLTPROC" != x""; then
   AT_CHECK([[$XSLTPROC \
            `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
-           input.xml >input.html]])
-  AT_CHECK([sed -e '1s/GNU Bison [0-9.]*$/GNU Bison VERSION/' input.html], [],
+           input.xml | \
+           sed -e 's/GNU Bison [0-9][0-9.]*/GNU Bison VERSION/' \
+           >input.html]])
+
+  AT_CHECK([cat input.html], [],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="http://www.gnu.org/software/bison/">
@@ -1225,42 +1228,68 @@ if test x"$XSLTPROC" != x""; then
 
 <h3><a name="terminals" id="terminals"></a> Terminals, with rules where they appear</h3>
 
-<p class="pre"><b>"end of file"</b> (0) <a href="#rule_0">0</a>
-<b>error</b> (256)
-<b>":="</b> (258) <a href="#rule_4">4</a>
-<b>"incr"</b> (259) <a href="#rule_8">8</a>
-<b>"identifier"</b> (260) <a href="#rule_5">5</a> <a href="#rule_10">10</a>
-<b>"number"</b> (261) <a href="#rule_11">11</a>
-<b>"("</b> (262) <a href="#rule_9">9</a>
-<b>")"</b> (263) <a href="#rule_9">9</a>
-</p>
+<ul>
+  <li><b>"end of file"</b> (0) <a href="#rule_0">0</a></li>
+  <li><b>error</b> (256)</li>
+  <li><b>":="</b> (258) <a href="#rule_4">4</a></li>
+  <li><b>"incr"</b> (259) <a href="#rule_8">8</a></li>
+  <li><b>"identifier"</b> (260) <a href="#rule_5">5</a> <a href="#rule_10">10</a></li>
+  <li><b>"number"</b> (261) <a href="#rule_11">11</a></li>
+  <li><b>"("</b> (262) <a href="#rule_9">9</a></li>
+  <li><b>")"</b> (263) <a href="#rule_9">9</a></li>
+</ul>
 
 <h3><a name="nonterminals" id="nonterminals"></a> Nonterminals, with rules where they appear</h3>
 
-<p class="pre"><b>$accept</b> (9)
-    on left: <a href="#rule_0">0</a>
-<b>unit</b> (10)
-    on left: <a href="#rule_1">1</a>
-    on right: <a href="#rule_0">0</a>
-<b>assignments</b> (11)
-    on left: <a href="#rule_2">2</a> <a href="#rule_3">3</a>
-    on right: <a href="#rule_1">1</a> <a href="#rule_3">3</a>
-<b>assignment</b> (12)
-    on left: <a href="#rule_4">4</a>
-    on right: <a href="#rule_3">3</a>
-<b>id</b> (13)
-    on left: <a href="#rule_5">5</a>
-    on right: <a href="#rule_4">4</a>
-<b>exp</b> (14)
-    on left: <a href="#rule_8">8</a> <a href="#rule_9">9</a> <a href="#rule_10">10</a> <a href="#rule_11">11</a>
-    on right: <a href="#rule_1">1</a> <a href="#rule_4">4</a> <a href="#rule_8">8</a> <a href="#rule_9">9</a>
-<b>@1</b> (15)
-    on left: <a href="#rule_6">6</a>
-    on right: <a href="#rule_8">8</a>
-<b>@2</b> (16)
-    on left: <a href="#rule_7">7</a>
-    on right: <a href="#rule_8">8</a>
-</p><h2><a name="automaton" id="automaton"></a> Automaton</h2>
+<ul>
+  <li><b>$accept</b> (9)
+    <ul>
+      <li>on left: <a href="#rule_0">0</a></li>
+    </ul>
+  </li>
+  <li><b>unit</b> (10)
+    <ul>
+      <li>on left: <a href="#rule_1">1</a></li>
+      <li>on right: <a href="#rule_0">0</a></li>
+    </ul>
+  </li>
+  <li><b>assignments</b> (11)
+    <ul>
+      <li>on left: <a href="#rule_2">2</a> <a href="#rule_3">3</a></li>
+      <li>on right: <a href="#rule_1">1</a> <a href="#rule_3">3</a></li>
+    </ul>
+  </li>
+  <li><b>assignment</b> (12)
+    <ul>
+      <li>on left: <a href="#rule_4">4</a></li>
+      <li>on right: <a href="#rule_3">3</a></li>
+    </ul>
+  </li>
+  <li><b>id</b> (13)
+    <ul>
+      <li>on left: <a href="#rule_5">5</a></li>
+      <li>on right: <a href="#rule_4">4</a></li>
+    </ul>
+  </li>
+  <li><b>exp</b> (14)
+    <ul>
+      <li>on left: <a href="#rule_8">8</a> <a href="#rule_9">9</a> <a href="#rule_10">10</a> <a href="#rule_11">11</a></li>
+      <li>on right: <a href="#rule_1">1</a> <a href="#rule_4">4</a> <a href="#rule_8">8</a> <a href="#rule_9">9</a></li>
+    </ul>
+  </li>
+  <li><b>@1</b> (15)
+    <ul>
+      <li>on left: <a href="#rule_6">6</a></li>
+      <li>on right: <a href="#rule_8">8</a></li>
+    </ul>
+  </li>
+  <li><b>@2</b> (16)
+    <ul>
+      <li>on left: <a href="#rule_7">7</a></li>
+      <li>on right: <a href="#rule_8">8</a></li>
+    </ul>
+  </li>
+</ul><h2><a name="automaton" id="automaton"></a> Automaton</h2>
 
 <h3><a name="state_0" id="state_0"></a>state 0</h3>
 
@@ -2067,8 +2096,11 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 if test x"$XSLTPROC" != x""; then
   AT_CHECK([[$XSLTPROC \
            `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
-           input.xml >input.html]])
-  AT_CHECK([sed -e '1s/GNU Bison [0-9.]*$/GNU Bison VERSION/' input.html], [],
+           input.xml | \
+           sed -e 's/GNU Bison [0-9][0-9.]*/GNU Bison VERSION/' \
+           >input.html]])
+
+  AT_CHECK([cat input.html], [],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="http://www.gnu.org/software/bison/">
@@ -2148,22 +2180,30 @@ if test x"$XSLTPROC" != x""; then
 
 <h3><a name="terminals" id="terminals"></a> Terminals, with rules where they appear</h3>
 
-<p class="pre"><b>$end</b> (0) <a href="#rule_0">0</a>
-<b>error</b> (256)
-<b>"+"</b> (258) <a href="#rule_2">2</a> <a href="#rule_3">3</a>
-<b>"⊕"</b> (259) <a href="#rule_1">1</a>
-<b>"number"</b> (260) <a href="#rule_4">4</a>
-<b>"Ñùṃéℝô"</b> (261) <a href="#rule_5">5</a>
-</p>
+<ul>
+  <li><b>$end</b> (0) <a href="#rule_0">0</a></li>
+  <li><b>error</b> (256)</li>
+  <li><b>"+"</b> (258) <a href="#rule_2">2</a> <a href="#rule_3">3</a></li>
+  <li><b>"⊕"</b> (259) <a href="#rule_1">1</a></li>
+  <li><b>"number"</b> (260) <a href="#rule_4">4</a></li>
+  <li><b>"Ñùṃéℝô"</b> (261) <a href="#rule_5">5</a></li>
+</ul>
 
 <h3><a name="nonterminals" id="nonterminals"></a> Nonterminals, with rules where they appear</h3>
 
-<p class="pre"><b>$accept</b> (7)
-    on left: <a href="#rule_0">0</a>
-<b>exp</b> (8)
-    on left: <a href="#rule_1">1</a> <a href="#rule_2">2</a> <a href="#rule_3">3</a> <a href="#rule_4">4</a> <a href="#rule_5">5</a>
-    on right: <a href="#rule_0">0</a> <a href="#rule_1">1</a> <a href="#rule_2">2</a> <a href="#rule_3">3</a>
-</p><h2><a name="automaton" id="automaton"></a> Automaton</h2>
+<ul>
+  <li><b>$accept</b> (7)
+    <ul>
+      <li>on left: <a href="#rule_0">0</a></li>
+    </ul>
+  </li>
+  <li><b>exp</b> (8)
+    <ul>
+      <li>on left: <a href="#rule_1">1</a> <a href="#rule_2">2</a> <a href="#rule_3">3</a> <a href="#rule_4">4</a> <a href="#rule_5">5</a></li>
+      <li>on right: <a href="#rule_0">0</a> <a href="#rule_1">1</a> <a href="#rule_2">2</a> <a href="#rule_3">3</a></li>
+    </ul>
+  </li>
+</ul><h2><a name="automaton" id="automaton"></a> Automaton</h2>
 
 <h3><a name="state_0" id="state_0"></a>state 0</h3>
 
