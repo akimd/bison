@@ -9937,9 +9937,9 @@ output is actually in color)}:
 Shift/reduce conflict on token "else":
 @group
   Example            @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
-  First derivation   @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{]} @green{]} @yellow{"else" stmt ]}
+  First derivation   @yellow{if_stmt @arrow [ "if" expr "then"} @green{stmt @arrow [} @blue{if_stmt @arrow [ "if" expr "then" stmt} @red{•} @blue{]} @green{]} @yellow{"else" stmt ]}
   Example            @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
-  Second derivation  @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{"else" stmt ]} @green{]} @yellow{]}
+  Second derivation  @yellow{if_stmt @arrow [ "if" expr "then"} @green{stmt @arrow [} @blue{if_stmt @arrow [ "if" expr "then" stmt} @red{•} @blue{"else" stmt ]} @green{]} @yellow{]}
 @end group
 @end example
 @end ifhtml
@@ -9950,11 +9950,11 @@ Shift/reduce conflict on token "else":
   Example
     @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
   First derivation
-    @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{]} @green{]} @yellow{"else" stmt ]}
+    @yellow{if_stmt @arrow [ "if" expr "then"} @green{stmt @arrow [} @blue{if_stmt @arrow [ "if" expr "then" stmt} @red{•} @blue{]} @green{]} @yellow{"else" stmt ]}
   Example
     @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Second derivation
-    @yellow{if_stmt ::=[ "if" expr "then"} @green{stmt ::=[} @blue{if_stmt ::=[ "if" expr "then" stmt} @red{•} @blue{"else" stmt ]} @green{]} @yellow{]}
+    @yellow{if_stmt @arrow [ "if" expr "then"} @green{stmt @arrow [} @blue{if_stmt @arrow [ "if" expr "then" stmt} @red{•} @blue{"else" stmt ]} @green{]} @yellow{]}
 @end group
 @end smallexample
 @end ifnothtml
@@ -9988,21 +9988,21 @@ sequence.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-s
 sequence.y: @dwarning{warning}: 2 reduce/reduce conflicts [@dwarning{-Wconflicts-rr}]
 Shift/reduce conflict on token "word":
   Example              @red{•} @yellow{"word"}
-  First derivation     @yellow{sequence ::=[} @green{sequence ::=[} @red{•} @green{]} @yellow{"word" ]}
+  First derivation     @yellow{sequence @arrow [} @green{sequence @arrow [} @red{•} @green{]} @yellow{"word" ]}
   Example              @red{•} @green{"word"}
-  Second derivation    @yellow{sequence ::=[} @green{maybeword ::=[} @red{•} @green{"word" ]} @yellow{]}
+  Second derivation    @yellow{sequence @arrow [} @green{maybeword @arrow [} @red{•} @green{"word" ]} @yellow{]}
 
 Reduce/reduce conflict on tokens $end, "word":
   Example              @red{•}
-  First derivation     @yellow{sequence ::=[} @red{•} @yellow{]}
+  First derivation     @yellow{sequence @arrow [} @red{•} @yellow{]}
   Example              @red{•}
-  Second derivation    @yellow{sequence ::=[} @green{maybeword ::=[} @red{•} @green{]} @yellow{]}
+  Second derivation    @yellow{sequence @arrow [} @green{maybeword @arrow [} @red{•} @green{]} @yellow{]}
 
 Shift/reduce conflict on token "word":
   Example              @red{•} @yellow{"word"}
-  First derivation     @yellow{sequence ::=[} @green{sequence ::=[} @blue{maybeword ::=[} @red{•} @blue{]} @green{]} @yellow{"word" ]}
+  First derivation     @yellow{sequence @arrow [} @green{sequence @arrow [} @blue{maybeword @arrow [} @red{•} @blue{]} @green{]} @yellow{"word" ]}
   Example              @red{•} @green{"word"}
-  Second derivation    @yellow{sequence ::=[} @green{maybeword ::=[} @red{•} @green{"word" ]} @yellow{]}
+  Second derivation    @yellow{sequence @arrow [} @green{maybeword @arrow [} @red{•} @green{"word" ]} @yellow{]}
 
 sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [@dwarning{-Wother}]
     8 |   @dwarning{%empty    @{ printf ("empty maybeword\n"); @}}
@@ -10034,9 +10034,9 @@ expr: %empty | expr ID ','
 @smallexample
 Shift/reduce conflict on token ID:
   First example        @blue{expr} @red{•} @green{ID} @yellow{$end}
-  First derivation     @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[ expr} @red{•} @blue{]} @green{ID ]} @yellow{$end ]}
+  First derivation     @yellow{$accept @arrow [} @green{s @arrow [} @blue{a @arrow [ expr} @red{•} @blue{]} @green{ID ]} @yellow{$end ]}
   Second example       @purple{expr} @red{•} @purple{ID ','} @green{ID} @yellow{$end}
-  Second derivation    @yellow{$accept ::=[} @green{s ::=[} @blue{a ::=[} @purple{expr ::=[ expr} @red{•} @purple{ID ',' ]} @blue{]} @green{ID ]} @yellow{$end ]}
+  Second derivation    @yellow{$accept @arrow [} @green{s @arrow [} @blue{a @arrow [} @purple{expr @arrow [ expr} @red{•} @purple{ID ',' ]} @blue{]} @green{ID ]} @yellow{$end ]}
 @end smallexample
 
 This conflict is caused by the parser not having enough information to know
@@ -10433,9 +10433,9 @@ Shift/reduce conflict on token '/':
     1 exp: exp '+' exp •
     4 exp: exp • '/' exp
   Example              @green{exp '+' exp} @red{•} @yellow{'/' exp}
-  First derivation     @yellow{exp ::=[} @green{exp ::=[ exp '+' exp} @red{•} @green{]} @yellow{'/' exp ]}
+  First derivation     @yellow{exp @arrow [} @green{exp @arrow [ exp '+' exp} @red{•} @green{]} @yellow{'/' exp ]}
   Example              @yellow{exp '+'} @green{exp} @red{•} @green{'/' exp}
-  Second derivation    @yellow{exp ::=[ exp '+'} @green{exp ::=[ exp} @red{•} @green{'/' exp ]} @yellow{]}
+  Second derivation    @yellow{exp @arrow [ exp '+'} @green{exp @arrow [ exp} @red{•} @green{'/' exp ]} @yellow{]}
 @end example
 
 This shows two separate derivations in the grammar for the same @code{exp}:

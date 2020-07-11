@@ -1539,33 +1539,33 @@ AT_CHECK([LC_ALL="$locale" bison -fno-caret -o input.cc -rall -Wcex --graph=inpu
 input.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
 Shift/reduce conflict on token "⊕":
   Example              exp "+" exp • "⊕" exp
-  First derivation     exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-  Second derivation    exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
+  First derivation     exp → [ exp → [ exp "+" exp • ] "⊕" exp ]
+  Second derivation    exp → [ exp "+" exp → [ exp • "⊕" exp ] ]
 
 Reduce/reduce conflict on tokens $end, "+", "⊕":
   Example              exp "+" exp •
-  First derivation     exp ::=[ exp "+" exp • ]
-  Second derivation    exp ::=[ exp "+" exp • ]
+  First derivation     exp → [ exp "+" exp • ]
+  Second derivation    exp → [ exp "+" exp • ]
 
 Shift/reduce conflict on token "⊕":
   Example              exp "+" exp • "⊕" exp
-  First derivation     exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-  Second derivation    exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
+  First derivation     exp → [ exp → [ exp "+" exp • ] "⊕" exp ]
+  Second derivation    exp → [ exp "+" exp → [ exp • "⊕" exp ] ]
 
 Shift/reduce conflict on token "⊕":
   Example              exp "⊕" exp • "⊕" exp
-  First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
-  Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "⊕" exp ] ]
+  First derivation     exp → [ exp → [ exp "⊕" exp • ] "⊕" exp ]
+  Second derivation    exp → [ exp "⊕" exp → [ exp • "⊕" exp ] ]
 
 Shift/reduce conflict on token "+":
   Example              exp "⊕" exp • "+" exp
-  First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
-  Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+  First derivation     exp → [ exp → [ exp "⊕" exp • ] "+" exp ]
+  Second derivation    exp → [ exp "⊕" exp → [ exp • "+" exp ] ]
 
 Shift/reduce conflict on token "+":
   Example              exp "⊕" exp • "+" exp
-  First derivation     exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
-  Second derivation    exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+  First derivation     exp → [ exp → [ exp "⊕" exp • ] "+" exp ]
+  Second derivation    exp → [ exp "⊕" exp → [ exp • "+" exp ] ]
 
 input.y:6.3-13: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -1714,22 +1714,22 @@ State 7
         2 exp: exp "+" exp •
         1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
-      First derivation         exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-      Second derivation        exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
+      First derivation         exp → [ exp → [ exp "+" exp • ] "⊕" exp ]
+      Second derivation        exp → [ exp "+" exp → [ exp • "⊕" exp ] ]
 
     Reduce/reduce conflict on tokens $end, "+", "⊕":
         2 exp: exp "+" exp •
         3 exp: exp "+" exp •
       Example                  exp "+" exp •
-      First derivation         exp ::=[ exp "+" exp • ]
-      Second derivation        exp ::=[ exp "+" exp • ]
+      First derivation         exp → [ exp "+" exp • ]
+      Second derivation        exp → [ exp "+" exp • ]
 
     Shift/reduce conflict on token "⊕":
         3 exp: exp "+" exp •
         1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
-      First derivation         exp ::=[ exp ::=[ exp "+" exp • ] "⊕" exp ]
-      Second derivation        exp ::=[ exp "+" exp ::=[ exp • "⊕" exp ] ]
+      First derivation         exp → [ exp → [ exp "+" exp • ] "⊕" exp ]
+      Second derivation        exp → [ exp "+" exp → [ exp • "⊕" exp ] ]
 
 
 
@@ -1751,22 +1751,22 @@ State 8
         1 exp: exp "⊕" exp •
         1 exp: exp • "⊕" exp
       Example                  exp "⊕" exp • "⊕" exp
-      First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "⊕" exp ]
-      Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "⊕" exp ] ]
+      First derivation         exp → [ exp → [ exp "⊕" exp • ] "⊕" exp ]
+      Second derivation        exp → [ exp "⊕" exp → [ exp • "⊕" exp ] ]
 
     Shift/reduce conflict on token "+":
         1 exp: exp "⊕" exp •
         2 exp: exp • "+" exp
       Example                  exp "⊕" exp • "+" exp
-      First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
-      Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+      First derivation         exp → [ exp → [ exp "⊕" exp • ] "+" exp ]
+      Second derivation        exp → [ exp "⊕" exp → [ exp • "+" exp ] ]
 
     Shift/reduce conflict on token "+":
         1 exp: exp "⊕" exp •
         3 exp: exp • "+" exp
       Example                  exp "⊕" exp • "+" exp
-      First derivation         exp ::=[ exp ::=[ exp "⊕" exp • ] "+" exp ]
-      Second derivation        exp ::=[ exp "⊕" exp ::=[ exp • "+" exp ] ]
+      First derivation         exp → [ exp → [ exp "⊕" exp • ] "+" exp ]
+      Second derivation        exp → [ exp "⊕" exp → [ exp • "+" exp ] ]
 
 ]])
 

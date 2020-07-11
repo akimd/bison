@@ -47,8 +47,8 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              A . B C
-  First derivation     s ::=[ a ::=[ A . ] x ::=[ B C ] ]
-  Second derivation    s ::=[ y ::=[ A . B ] c ::=[ C ] ]
+  First derivation     s -> [ a -> [ A . ] x -> [ B C ] ]
+  Second derivation    s -> [ y -> [ A . B ] c -> [ C ] ]
 
 input.y:4.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -76,13 +76,13 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              A . B C
-  First derivation     s ::=[ a ::=[ A . ] bc ::=[ B C ] ]
-  Second derivation    s ::=[ ac ::=[ A ac ::=[ b ::=[ . B ] ] C ] ]
+  First derivation     s -> [ a -> [ A . ] bc -> [ B C ] ]
+  Second derivation    s -> [ ac -> [ A ac -> [ b -> [ . B ] ] C ] ]
 
 Shift/reduce conflict on token B:
   Example              A A . B B C C
-  First derivation     s ::=[ a ::=[ A a ::=[ A . ] ] bc ::=[ B bc ::=[ B C ] C ] ]
-  Second derivation    s ::=[ ac ::=[ A ac ::=[ A ac ::=[ b ::=[ . b ::=[ B B ] ] ] C ] C ] ]
+  First derivation     s -> [ a -> [ A a -> [ A . ] ] bc -> [ B bc -> [ B C ] C ] ]
+  Second derivation    s -> [ ac -> [ A ac -> [ A ac -> [ b -> [ . b -> [ B B ] ] ] C ] C ] ]
 
 input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -111,14 +111,14 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              A . B
-  First derivation     s ::=[ ax ::=[ A x ::=[ . ] ] by ::=[ B y ::=[ ] ] ]
-  Second derivation    s ::=[ A xby ::=[ . B ] ]
+  First derivation     s -> [ ax -> [ A x -> [ . ] ] by -> [ B y -> [ ] ] ]
+  Second derivation    s -> [ A xby -> [ . B ] ]
 
 Shift/reduce conflict on token B:
   First example        A X . B y $end
-  First derivation     $accept ::=[ s ::=[ ax ::=[ A x ::=[ X x ::=[ . ] ] ] by ::=[ B y ] ] $end ]
+  First derivation     $accept -> [ s -> [ ax -> [ A x -> [ X x -> [ . ] ] ] by -> [ B y ] ] $end ]
   Second example       A X . B Y $end
-  Second derivation    $accept ::=[ s ::=[ A xby ::=[ X xby ::=[ . B ] Y ] ] $end ]
+  Second derivation    $accept -> [ s -> [ A xby -> [ X xby -> [ . B ] Y ] ] $end ]
 
 input.y:5.4-9: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -147,9 +147,9 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token C:
   First example        B . C D $end
-  First derivation     $accept ::=[ g ::=[ x ::=[ b ::=[ B . ] cd ::=[ C D ] ] ] $end ]
+  First derivation     $accept -> [ g -> [ x -> [ b -> [ B . ] cd -> [ C D ] ] ] $end ]
   Second example       B . C $end
-  Second derivation    $accept ::=[ g ::=[ x ::=[ bc ::=[ B . C ] ] ] $end ]
+  Second derivation    $accept -> [ g -> [ x -> [ bc -> [ B . C ] ] ] $end ]
 
 input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -176,9 +176,9 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token A:
   First example        A . A $end
-  First derivation     $accept ::=[ s ::=[ s ::=[ t ::=[ x ::=[ A . ] ] ] t ::=[ x ::=[ A ] ] ] $end ]
+  First derivation     $accept -> [ s -> [ s -> [ t -> [ x -> [ A . ] ] ] t -> [ x -> [ A ] ] ] $end ]
   Second example       A . A B $end
-  Second derivation    $accept ::=[ s ::=[ t ::=[ y ::=[ A . A B ] ] ] $end ]
+  Second derivation    $accept -> [ s -> [ t -> [ y -> [ A . A B ] ] ] $end ]
 
 ]])
 
@@ -209,14 +209,14 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 Shift/reduce conflict on token A:
   Example              b . A X X Y
-  First derivation     a ::=[ r ::=[ b . ] t ::=[ A x ::=[ X ] xy ::=[ X Y ] ] ]
-  Second derivation    a ::=[ s ::=[ b . xx ::=[ A X X ] y ::=[ Y ] ] ]
+  First derivation     a -> [ r -> [ b . ] t -> [ A x -> [ X ] xy -> [ X Y ] ] ]
+  Second derivation    a -> [ s -> [ b . xx -> [ A X X ] y -> [ Y ] ] ]
 
 Shift/reduce conflict on token X:
   First example        X . X xy
-  First derivation     a ::=[ x ::=[ X . ] t ::=[ X xy ] ]
+  First derivation     a -> [ x -> [ X . ] t -> [ X xy ] ]
   Second example       A X . X
-  Second derivation    a ::=[ t ::=[ A xx ::=[ X . X ] ] ]
+  Second derivation    a -> [ t -> [ A xx -> [ X . X ] ] ]
 
 input.y:4.4: warning: rule useless in parser due to conflicts [-Wother]
 input.y:8.4: warning: rule useless in parser due to conflicts [-Wother]
@@ -242,8 +242,8 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
 Reduce/reduce conflict on token $end:
   Example              A b .
-  First derivation     a ::=[ A b . ]
-  Second derivation    a ::=[ A b ::=[ b . ] ]
+  First derivation     a -> [ A b . ]
+  Second derivation    a -> [ A b -> [ b . ] ]
 
 input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -269,9 +269,9 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on tokens A, C:
   First example        D . A $end
-  First derivation     $accept ::=[ s ::=[ a ::=[ D . ] A ] $end ]
+  First derivation     $accept -> [ s -> [ a -> [ D . ] A ] $end ]
   Second example       B D . A $end
-  Second derivation    $accept ::=[ s ::=[ B b ::=[ D . ] A ] $end ]
+  Second derivation    $accept -> [ s -> [ B b -> [ D . ] A ] $end ]
 
 input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -298,9 +298,9 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 Shift/reduce conflict on token J:
 time limit exceeded: XXX
   First example        H i . J $end
-  First derivation     $accept ::=[ s ::=[ a ::=[ H i . ] J ] $end ]
+  First derivation     $accept -> [ s -> [ a -> [ H i . ] J ] $end ]
   Second example       H i . J K $end
-  Second derivation    $accept ::=[ a ::=[ H i ::=[ i . J K ] ] $end ]
+  Second derivation    $accept -> [ a -> [ H i -> [ i . J K ] ] $end ]
 
 input.y:4.4-6: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -330,13 +330,13 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              N A . B C
-  First derivation     s ::=[ n ::=[ N a ::=[ A . ] B ] C ]
-  Second derivation    s ::=[ n ::=[ N b ::=[ A . B C ] ] ]
+  First derivation     s -> [ n -> [ N a -> [ A . ] B ] C ]
+  Second derivation    s -> [ n -> [ N b -> [ A . B C ] ] ]
 
 Shift/reduce conflict on token B:
   Example              N N A . B D C
-  First derivation     s ::=[ n ::=[ N n ::=[ N a ::=[ A . ] B ] D ] C ]
-  Second derivation    s ::=[ n ::=[ N n ::=[ N b ::=[ A . B D ] ] C ] ]
+  First derivation     s -> [ n -> [ N n -> [ N a -> [ A . ] B ] D ] C ]
+  Second derivation    s -> [ n -> [ N n -> [ N b -> [ A . B D ] ] C ] ]
 
 input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -367,13 +367,13 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on tokens b, c:
   Example              B . b c
-  First derivation     S ::=[ B ::=[ A ::=[ B . ] b A ::=[ ] ] C ::=[ A ::=[ ] c A ::=[ ] ] ]
-  Second derivation    S ::=[ B C ::=[ A ::=[ B ::=[ A ::=[ . ] b A ::=[ ] ] ] c A ::=[ ] ] ]
+  First derivation     S -> [ B -> [ A -> [ B . ] b A -> [ ] ] C -> [ A -> [ ] c A -> [ ] ] ]
+  Second derivation    S -> [ B C -> [ A -> [ B -> [ A -> [ . ] b A -> [ ] ] ] c A -> [ ] ] ]
 
 Reduce/reduce conflict on tokens b, c:
   Example              C . c b
-  First derivation     S ::=[ C ::=[ A ::=[ C . ] c A ::=[ ] ] B ::=[ A ::=[ ] b A ::=[ ] ] ]
-  Second derivation    S ::=[ C B ::=[ A ::=[ C ::=[ A ::=[ . ] c A ::=[ ] ] ] b A ::=[ ] ] ]
+  First derivation     S -> [ C -> [ A -> [ C . ] c A -> [ ] ] B -> [ A -> [ ] b A -> [ ] ] ]
+  Second derivation    S -> [ C B -> [ A -> [ C -> [ A -> [ . ] c A -> [ ] ] ] b A -> [ ] ] ]
 
 ]])
 
@@ -400,52 +400,52 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 input.y: warning: 6 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on token A:
   First example        . c A A $end
-  First derivation     $accept ::=[ a ::=[ b ::=[ . ] d ::=[ c A A ] ] $end ]
+  First derivation     $accept -> [ a -> [ b -> [ . ] d -> [ c A A ] ] $end ]
   Second example       . c A A $end
-  Second derivation    $accept ::=[ a ::=[ c ::=[ . ] d ::=[ c A A ] ] $end ]
+  Second derivation    $accept -> [ a -> [ c -> [ . ] d -> [ c A A ] ] $end ]
 
 Reduce/reduce conflict on token A:
 time limit exceeded: XXX
   First example        b . c A A $end
-  First derivation     $accept ::=[ a ::=[ b d ::=[ a ::=[ b ::=[ . ] d ::=[ c A A ] ] ] ] $end ]
+  First derivation     $accept -> [ a -> [ b d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] $end ]
   Second example       b . A $end
-  Second derivation    $accept ::=[ a ::=[ b d ::=[ c ::=[ . ] A ] ] $end ]
+  Second derivation    $accept -> [ a -> [ b d -> [ c -> [ . ] A ] ] $end ]
 
 Reduce/reduce conflict on token A:
 time limit exceeded: XXX
   First example        c . c A A $end
-  First derivation     $accept ::=[ a ::=[ c d ::=[ a ::=[ b ::=[ . ] d ::=[ c A A ] ] ] ] $end ]
+  First derivation     $accept -> [ a -> [ c d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] $end ]
   Second example       c . A $end
-  Second derivation    $accept ::=[ a ::=[ c d ::=[ c ::=[ . ] A ] ] $end ]
+  Second derivation    $accept -> [ a -> [ c d -> [ c -> [ . ] A ] ] $end ]
 
 Shift/reduce conflict on token A:
 time limit exceeded: XXX
   First example        b c . c A A $end
-  First derivation     $accept ::=[ a ::=[ b d ::=[ a ::=[ c d ::=[ a ::=[ b ::=[ . ] d ::=[ c A A ] ] ] ] ] ] $end ]
+  First derivation     $accept -> [ a -> [ b d -> [ a -> [ c d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] ] ] $end ]
   Second example       b c . A
-  Second derivation    a ::=[ b d ::=[ c . A ] ]
+  Second derivation    a -> [ b d -> [ c . A ] ]
 
 Reduce/reduce conflict on token A:
   First example        b c . c A A $end
-  First derivation     $accept ::=[ a ::=[ b d ::=[ a ::=[ c d ::=[ a ::=[ b ::=[ . ] d ::=[ c A A ] ] ] ] ] ] $end ]
+  First derivation     $accept -> [ a -> [ b d -> [ a -> [ c d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] ] ] $end ]
   Second example       b c . A $end
-  Second derivation    $accept ::=[ a ::=[ b d ::=[ a ::=[ c d ::=[ c ::=[ . ] A ] ] ] ] $end ]
+  Second derivation    $accept -> [ a -> [ b d -> [ a -> [ c d -> [ c -> [ . ] A ] ] ] ] $end ]
 
 Shift/reduce conflict on token A:
   First example        b c . A $end
-  First derivation     $accept ::=[ a ::=[ b d ::=[ a ::=[ c d ::=[ c ::=[ . ] A ] ] ] ] $end ]
+  First derivation     $accept -> [ a -> [ b d -> [ a -> [ c d -> [ c -> [ . ] A ] ] ] ] $end ]
   Second example       b c . A
-  Second derivation    a ::=[ b d ::=[ c . A ] ]
+  Second derivation    a -> [ b d -> [ c . A ] ]
 
 Reduce/reduce conflict on token $end:
   Example              b d .
-  First derivation     a ::=[ b d . ]
-  Second derivation    a ::=[ b d ::=[ d . ] ]
+  First derivation     a -> [ b d . ]
+  Second derivation    a -> [ b d -> [ d . ] ]
 
 Reduce/reduce conflict on token $end:
   Example              c d .
-  First derivation     a ::=[ c d . ]
-  Second derivation    a ::=[ c d ::=[ d . ] ]
+  First derivation     a -> [ c d . ]
+  Second derivation    a -> [ c d -> [ d . ] ]
 
 input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 input.y:6.15: warning: rule useless in parser due to conflicts [-Wother]
@@ -475,8 +475,8 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token J:
   Example              H i J . J J
-  First derivation     s ::=[ a ::=[ H i ::=[ i J . ] J J ] ]
-  Second derivation    s ::=[ a ::=[ H i J . J ] J ]
+  First derivation     s -> [ a -> [ H i -> [ i J . ] J J ] ]
+  Second derivation    s -> [ a -> [ H i J . J ] J ]
 
 input.y:5.13-15: warning: rule useless in parser due to conflicts [-Wother]
 ]])
@@ -507,8 +507,8 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token D:
   Example              A a . D
-  First derivation     s ::=[ A a a ::=[ b ::=[ c ::=[ . ] ] ] d ::=[ D ] ]
-  Second derivation    s ::=[ A a d ::=[ . D ] ]
+  First derivation     s -> [ A a a -> [ b -> [ c -> [ . ] ] ] d -> [ D ] ]
+  Second derivation    s -> [ A a d -> [ . D ] ]
 
 ]])
 
@@ -537,9 +537,9 @@ AT_BISON_CHECK_CEX([input.y], [], [],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token D:
   First example        A a . D E $end
-  First derivation     $accept ::=[ s ::=[ A a a ::=[ b ::=[ c ::=[ . ] ] ] d ::=[ D ] E ] $end ]
+  First derivation     $accept -> [ s -> [ A a a -> [ b -> [ c -> [ . ] ] ] d -> [ D ] E ] $end ]
   Second example       A a . D $end
-  Second derivation    $accept ::=[ s ::=[ A a d ::=[ . D ] ] $end ]
+  Second derivation    $accept -> [ s -> [ A a d -> [ . D ] ] $end ]
 
 ]])
 

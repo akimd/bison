@@ -45,8 +45,8 @@ GNU Bison NEWS
   conflict.  For example:
 
     Example              exp '+' exp • '/' exp
-    First derivation     exp ::=[ exp ::=[ exp '+' exp • ] '/' exp ]
-    Second derivation    exp ::=[ exp '+' exp ::=[ exp • '/' exp ] ]
+    First derivation     exp → [ exp → [ exp '+' exp • ] '/' exp ]
+    Second derivation    exp → [ exp '+' exp → [ exp • '/' exp ] ]
 
   When Bison is installed with text styling enabled, the example is actually
   shown twice, with colors highlighting the ambiguity.
@@ -57,9 +57,9 @@ GNU Bison NEWS
   generates two examples that are the same up until the dot:
 
     First example        expr • ID $end
-    First derivation     $accept ::=[ s ::=[ a ::=[ expr • ] ID ] $end ]
+    First derivation     $accept → [ s → [ a → [ expr • ] ID ] $end ]
     Second example       expr • ID ',' ID $end
-    Second derivation    $accept ::=[ s ::=[ a ::=[ expr ::=[ expr • ID ',' ] ] ID ] $end ]
+    Second derivation    $accept → [ s → [ a → [ expr → [ expr • ID ',' ] ] ID ] $end ]
 
   In these cases, the parser usually doesn't have enough lookahead to
   differentiate the two given examples.
