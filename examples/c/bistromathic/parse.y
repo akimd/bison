@@ -65,6 +65,13 @@
 
   symrec *putsym (char const *name, int sym_type);
   symrec *getsym (char const *name);
+
+  // Exchanging information with the parser.
+  typedef struct
+  {
+    // Whether to not emit error messages.
+    int silent;
+  } user_context;
 }
 
 // Emitted in the header file, after the definition of YYSTYPE.
@@ -74,9 +81,13 @@
 #   define __attribute__(Spec) /* empty */
 #  endif
 # endif
-  yytoken_kind_t yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc);
-  void yyerror (YYLTYPE *loc, char const *format, ...)
-    __attribute__ ((__format__ (__printf__, 2, 3)));
+
+  yytoken_kind_t
+  yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc,
+         const user_context *uctx);
+  void yyerror (YYLTYPE *loc, const user_context *uctx,
+                char const *format, ...)
+    __attribute__ ((__format__ (__printf__, 3, 4)));
 }
 
 // Emitted in the implementation file.
@@ -115,6 +126,9 @@
 
 // Generate the parser description file (calc.output).
 %verbose
+
+// User information exchanged with the parser and scanner.
+%param {const user_context *uctx}
 
 // Generate YYSTYPE from the types assigned to symbols.
 %define api.value.type union
@@ -171,7 +185,7 @@ exp:
   {
     if ($r == 0)
       {
-        yyerror (&@$, "error: division by zero");
+        yyerror (&@$, uctx, "error: division by zero");
         YYERROR;
       }
     else
@@ -258,7 +272,8 @@ symbol_count (void)
 `----------*/
 
 yytoken_kind_t
-yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
+yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc,
+       const user_context *uctx)
 {
   int c;
 
@@ -328,7 +343,7 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc)
 
       // Stray characters.
     default:
-      yyerror (yylloc, "syntax error: invalid character: %c", c);
+      yyerror (yylloc, uctx, "syntax error: invalid character: %c", c);
       return TOK_YYerror;
     }
 }
@@ -366,8 +381,11 @@ error_format_string (int argc)
 
 
 int
-yyreport_syntax_error (const yypcontext_t *ctx)
+yyreport_syntax_error (const yypcontext_t *ctx, const user_context *uctx)
 {
+  if (uctx->silent)
+    return 0;
+
   enum { ARGS_MAX = 6 };
   yysymbol_kind_t arg[ARGS_MAX];
   int argsize = yypcontext_expected_tokens (ctx, arg, ARGS_MAX);
@@ -412,8 +430,11 @@ yyreport_syntax_error (const yypcontext_t *ctx)
 
 
 // Called by yyparse on error.
-void yyerror (YYLTYPE *loc, char const *format, ...)
+void yyerror (YYLTYPE *loc, const user_context *uctx, char const *format, ...)
 {
+  if (uctx->silent)
+    return;
+
   YY_LOCATION_PRINT (stderr, *loc);
   fputs (": ", stderr);
   va_list args;
@@ -449,12 +470,13 @@ xstrndup (const char *string, size_t n)
 static int
 process_line (YYLTYPE *lloc, const char *line)
 {
+  user_context uctx = {0};
   yypstate *ps = yypstate_new ();
   int status = 0;
   do {
     YYSTYPE lval;
-    yytoken_kind_t token = yylex (&line, &lval, lloc);
-    status = yypush_parse (ps, token, &lval, lloc);
+    yytoken_kind_t token = yylex (&line, &lval, lloc, &uctx);
+    status = yypush_parse (ps, token, &lval, lloc, &uctx);
   } while (status == YYPUSH_MORE);
   yypstate_delete (ps);
   lloc->last_line++;
@@ -469,6 +491,7 @@ expected_tokens (const char *input,
                  int *tokens, int ntokens)
 {
   YYDPRINTF ((stderr, "expected_tokens (\"%s\")", input));
+  user_context uctx = {1};
 
   // Parse the current state of the line.
   yypstate *ps = yypstate_new ();
@@ -476,11 +499,11 @@ expected_tokens (const char *input,
   YYLTYPE lloc = { 1, 1, 1, 1 };
   do {
     YYSTYPE lval;
-    yytoken_kind_t token = yylex (&input, &lval, &lloc);
-    // Don't let the parser know when we reach the end of input.
+    yytoken_kind_t token = yylex (&input, &lval, &lloc, &uctx);
+    // Don't let the parse know when we reach the end of input.
     if (token == TOK_YYEOF)
       break;
-    status = yypush_parse (ps, token, &lval, &lloc);
+    status = yypush_parse (ps, token, &lval, &lloc, &uctx);
   } while (status == YYPUSH_MORE);
 
   int res = 0;

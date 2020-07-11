@@ -314,7 +314,6 @@ EOF
 run -n 0 '> 1++ ''
 > ''
 err: 1.3: syntax error: expected - or ( or number or function or variable before +
-err: 1.3: syntax error: expected - or ( or number or function or variable before +
 '
 
 # And even when the error was recovered from.
@@ -323,8 +322,6 @@ sed -e 's/\\t/	/g' >input <<EOF
 EOF
 run -n 0 '> (1++2) + 3 +  ''
 > ''
-err: 1.4: syntax error: expected - or ( or number or function or variable before +
-err: 1.4: syntax error: expected - or ( or number or function or variable before +
 err: 1.4: syntax error: expected - or ( or number or function or variable before +
 err: 1.15: syntax error: expected - or ( or number or function or variable before end of file
 '
