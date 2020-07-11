@@ -531,13 +531,7 @@
 
   <!-- LHS -->
   <xsl:choose>
-    <xsl:when test="$itemset != 'true' and $prev-lhs = lhs[text()]">
-      <xsl:call-template name="lpad">
-        <xsl:with-param name="str" select="'|'"/>
-        <xsl:with-param name="pad" select="number(string-length(lhs[text()])) + 2"/>
-      </xsl:call-template>
-    </xsl:when>
-    <xsl:when test="$itemset = 'true' and $prev-lhs = lhs[text()]">
+    <xsl:when test="$prev-lhs = lhs[text()]">
       <xsl:call-template name="lpad">
         <xsl:with-param name="str" select="'|'"/>
         <xsl:with-param name="pad" select="number(string-length(lhs[text()])) + 2"/>
