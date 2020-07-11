@@ -28,16 +28,16 @@
 # include "state.h"
 
 /* Initializes a graph connecting (state, production item) pairs to
-   pairs they can make a transition or production step to. This graph
+   pairs they can make a transition or production step to.  This graph
    is used to search for paths that represent counterexamples of some
    conflict.
 
    state_items is an array of state state-item pairs ordered by state.
    state_item_map maps state numbers to the first item which
-   corresponds to it in the array. A state's portion in state_items
-   begins with its items in the same order as it was in the
-   state. This is then followed by productions from the closure of the
-   state in order by rule.
+   corresponds to it in the array.  A state's portion in state_items
+   begins with its items in the same order as it was in the state.
+   This is then followed by productions from the closure of the state
+   in order by rule.
 
    There are two type of edges in this graph transitions and
    productions.  Transitions are the same as transitions from the
@@ -53,9 +53,9 @@
    production edges, and all others will have reverse transition
    edges. */
 
-# define SI_DISABLED(sin) (state_items[sin].trans == -2)
-# define SI_PRODUCTION(si) ((si) == state_items || *((si)->item - 1) < 0)
-# define SI_TRANSITION(si) ((si) != state_items && *((si)->item - 1) >= 0)
+# define SI_DISABLED(Sin) (state_items[Sin].trans == -2)
+# define SI_PRODUCTION(Si) ((Si) == state_items || *((Si)->item - 1) < 0)
+# define SI_TRANSITION(Si) ((Si) != state_items && *((Si)->item - 1) >= 0)
 
 typedef int state_item_number;
 
