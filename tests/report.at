@@ -764,24 +764,24 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
       </rule>
     </rules>
     <terminals>
-      <terminal symbol-number="0" token-number="0" name="&quot;end of file&quot;" usefulness="useful"/>
-      <terminal symbol-number="1" token-number="256" name="error" usefulness="useful"/>
-      <terminal symbol-number="3" token-number="258" name="&quot;:=&quot;" usefulness="useful"/>
-      <terminal symbol-number="4" token-number="259" name="&quot;incr&quot;" usefulness="useful"/>
-      <terminal symbol-number="5" token-number="260" name="&quot;identifier&quot;" usefulness="useful"/>
-      <terminal symbol-number="6" token-number="261" name="&quot;number&quot;" usefulness="useful"/>
-      <terminal symbol-number="7" token-number="262" name="&quot;(&quot;" usefulness="useful"/>
-      <terminal symbol-number="8" token-number="263" name="&quot;)&quot;" usefulness="useful"/>
+      <terminal symbol-number="0" token-number="0" name="&quot;end of file&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="1" token-number="256" name="error" type="" usefulness="useful"/>
+      <terminal symbol-number="3" token-number="258" name="&quot;:=&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="4" token-number="259" name="&quot;incr&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="5" token-number="260" name="&quot;identifier&quot;" type="std::string" usefulness="useful"/>
+      <terminal symbol-number="6" token-number="261" name="&quot;number&quot;" type="int" usefulness="useful"/>
+      <terminal symbol-number="7" token-number="262" name="&quot;(&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="8" token-number="263" name="&quot;)&quot;" type="" usefulness="useful"/>
     </terminals>
     <nonterminals>
-      <nonterminal symbol-number="9" name="$accept" usefulness="useful"/>
-      <nonterminal symbol-number="10" name="unit" usefulness="useful"/>
-      <nonterminal symbol-number="11" name="assignments" usefulness="useful"/>
-      <nonterminal symbol-number="12" name="assignment" usefulness="useful"/>
-      <nonterminal symbol-number="13" name="id" usefulness="useful"/>
-      <nonterminal symbol-number="14" name="exp" usefulness="useful"/>
-      <nonterminal symbol-number="15" name="@1" usefulness="useful"/>
-      <nonterminal symbol-number="16" name="@2" usefulness="useful"/>
+      <nonterminal symbol-number="9" name="$accept" type="" usefulness="useful"/>
+      <nonterminal symbol-number="10" name="unit" type="" usefulness="useful"/>
+      <nonterminal symbol-number="11" name="assignments" type="" usefulness="useful"/>
+      <nonterminal symbol-number="12" name="assignment" type="" usefulness="useful"/>
+      <nonterminal symbol-number="13" name="id" type="std::string" usefulness="useful"/>
+      <nonterminal symbol-number="14" name="exp" type="int" usefulness="useful"/>
+      <nonterminal symbol-number="15" name="@1" type="int" usefulness="useful"/>
+      <nonterminal symbol-number="16" name="@2" type="int" usefulness="useful"/>
     </nonterminals>
   </grammar>
 
@@ -1881,16 +1881,16 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
       </rule>
     </rules>
     <terminals>
-      <terminal symbol-number="0" token-number="0" name="$end" usefulness="useful"/>
-      <terminal symbol-number="1" token-number="256" name="error" usefulness="useful"/>
-      <terminal symbol-number="3" token-number="258" name="&quot;+&quot;" usefulness="useful" prec="1" assoc="left"/>
-      <terminal symbol-number="4" token-number="259" name="&quot;⊕&quot;" usefulness="useful"/>
-      <terminal symbol-number="5" token-number="260" name="&quot;number&quot;" usefulness="useful"/>
-      <terminal symbol-number="6" token-number="261" name="&quot;Ñùṃéℝô&quot;" usefulness="useful"/>
+      <terminal symbol-number="0" token-number="0" name="$end" type="" usefulness="useful"/>
+      <terminal symbol-number="1" token-number="256" name="error" type="" usefulness="useful"/>
+      <terminal symbol-number="3" token-number="258" name="&quot;+&quot;" type="" usefulness="useful" prec="1" assoc="left"/>
+      <terminal symbol-number="4" token-number="259" name="&quot;⊕&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="5" token-number="260" name="&quot;number&quot;" type="" usefulness="useful"/>
+      <terminal symbol-number="6" token-number="261" name="&quot;Ñùṃéℝô&quot;" type="" usefulness="useful"/>
     </terminals>
     <nonterminals>
-      <nonterminal symbol-number="7" name="$accept" usefulness="useful"/>
-      <nonterminal symbol-number="8" name="exp" usefulness="useful"/>
+      <nonterminal symbol-number="7" name="$accept" type="" usefulness="useful"/>
+      <nonterminal symbol-number="8" name="exp" type="" usefulness="useful"/>
     </nonterminals>
   </grammar>
 

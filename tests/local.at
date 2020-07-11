@@ -1169,11 +1169,16 @@ m4_define([AT_BISON_CHECK_XML],
   [cp xml-tests/test.output expout]
   AT_CHECK([[$XSLTPROC \
              `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2text.xsl \
-             xml-tests/test.xml]], [[0]], [expout])
+             xml-tests/test.xml]], [[0]], [stdout])
+  # xml2text and xml2dot always use '•', while --report uses '•' or '.'
+  # depending on the locale, and the test suite is run with the plain
+  # C locale.
+  AT_CHECK([[sed -e 's/•/./g' stdout]], [], [expout])
   [sort xml-tests/test.gv > expout]
   AT_CHECK([[$XSLTPROC \
              `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2dot.xsl \
-             xml-tests/test.xml | sort]], [[0]], [expout])
+             xml-tests/test.xml | sort | sed -e 's/•/./g']],
+           [[0]], [stdout])
   [rm -rf xml-tests expout]
   AT_RESTORE_SPECIAL_FILES
 [fi]])
