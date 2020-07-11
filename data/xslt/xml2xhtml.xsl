@@ -412,7 +412,7 @@
         <xsl:value-of select="concat('state_', @number)"/>
       </xsl:attribute>
     </a>
-    <xsl:text>state </xsl:text>
+    <xsl:text>State </xsl:text>
     <xsl:value-of select="@number"/>
   </h3>
   <xsl:text>&#10;&#10;</xsl:text>

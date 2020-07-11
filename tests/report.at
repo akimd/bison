@@ -1291,7 +1291,7 @@ if test x"$XSLTPROC" != x""; then
   </li>
 </ul><h2><a name="automaton" id="automaton"></a> Automaton</h2>
 
-<h3><a name="state_0" id="state_0"></a>state 0</h3>
+<h3><a name="state_0" id="state_0"></a>State 0</h3>
 
 <p class="pre">  <a href="#rule_0">  0</a> <span class="i">$accept</span> → <span class="dot">•</span> <span class="i">unit</span> <b>"end of file"</b>
   <a href="#rule_1">  1</a> <span class="i">unit</span> → <span class="dot">•</span> <span class="i">assignments</span> <span class="i">exp</span>
@@ -1304,14 +1304,14 @@ if test x"$XSLTPROC" != x""; then
     assignments  <a href="#state_2">go to state 2</a>
 </p>
 
-<h3><a name="state_1" id="state_1"></a>state 1</h3>
+<h3><a name="state_1" id="state_1"></a>State 1</h3>
 
 <p class="pre">  <a href="#rule_0">  0</a> <span class="i">$accept</span> → <span class="i">unit</span> <span class="dot">•</span> <b>"end of file"</b>
 
     "end of file"  <a href="#state_3">shift, and go to state 3</a>
 </p>
 
-<h3><a name="state_2" id="state_2"></a>state 2</h3>
+<h3><a name="state_2" id="state_2"></a>State 2</h3>
 
 <p class="pre">  <a href="#rule_1">  1</a> <span class="i">unit</span> → <span class="i">assignments</span> <span class="dot">•</span> <span class="i">exp</span>
   <a href="#rule_3">  3</a> <span class="i">assignments</span> → <span class="i">assignments</span> <span class="dot">•</span> <span class="i">assignment</span>
@@ -1332,14 +1332,14 @@ if test x"$XSLTPROC" != x""; then
     exp         <a href="#state_10">go to state 10</a>
 </p>
 
-<h3><a name="state_3" id="state_3"></a>state 3</h3>
+<h3><a name="state_3" id="state_3"></a>State 3</h3>
 
 <p class="pre">  <a href="#rule_0">  0</a> <span class="i">$accept</span> → <span class="i">unit</span> <b>"end of file"</b> <span class="dot">•</span>
 
     $default  accept
 </p>
 
-<h3><a name="state_4" id="state_4"></a>state 4</h3>
+<h3><a name="state_4" id="state_4"></a>State 4</h3>
 
 <p class="pre">  <a href="#rule_8">  8</a> <span class="i">exp</span> → <span class="dot">•</span> <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
   <a href="#rule_8">  8</a>     | <b>"incr"</b> <span class="dot">•</span> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
@@ -1355,7 +1355,7 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_12">go to state 12</a>
 </p>
 
-<h3><a name="state_5" id="state_5"></a>state 5</h3>
+<h3><a name="state_5" id="state_5"></a>State 5</h3>
 
 <p class="pre">  <a href="#rule_5">  5</a> <span class="i">id</span> → <b>"identifier"</b> <span class="dot">•</span>  [":="]
   <a href="#rule_10"> 10</a> <span class="i">exp</span> → <b>"identifier"</b> <span class="dot">•</span>  ["end of file"]
@@ -1364,14 +1364,14 @@ if test x"$XSLTPROC" != x""; then
     $default       <a href="#rule_5">reduce using rule 5</a> (id)
 </p>
 
-<h3><a name="state_6" id="state_6"></a>state 6</h3>
+<h3><a name="state_6" id="state_6"></a>State 6</h3>
 
 <p class="pre">  <a href="#rule_11"> 11</a> <span class="i">exp</span> → <b>"number"</b> <span class="dot">•</span>
 
     $default  <a href="#rule_11">reduce using rule 11</a> (exp)
 </p>
 
-<h3><a name="state_7" id="state_7"></a>state 7</h3>
+<h3><a name="state_7" id="state_7"></a>State 7</h3>
 
 <p class="pre">  <a href="#rule_8">  8</a> <span class="i">exp</span> → <span class="dot">•</span> <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
   <a href="#rule_9">  9</a>     | <span class="dot">•</span> <b>"("</b> <span class="i">exp</span> <b>")"</b>
@@ -1387,35 +1387,35 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_13">go to state 13</a>
 </p>
 
-<h3><a name="state_8" id="state_8"></a>state 8</h3>
+<h3><a name="state_8" id="state_8"></a>State 8</h3>
 
 <p class="pre">  <a href="#rule_3">  3</a> <span class="i">assignments</span> → <span class="i">assignments</span> <span class="i">assignment</span> <span class="dot">•</span>
 
     $default  <a href="#rule_3">reduce using rule 3</a> (assignments)
 </p>
 
-<h3><a name="state_9" id="state_9"></a>state 9</h3>
+<h3><a name="state_9" id="state_9"></a>State 9</h3>
 
 <p class="pre">  <a href="#rule_4">  4</a> <span class="i">assignment</span> → <span class="i">id</span> <span class="dot">•</span> <b>":="</b> <span class="i">exp</span>
 
     ":="  <a href="#state_14">shift, and go to state 14</a>
 </p>
 
-<h3><a name="state_10" id="state_10"></a>state 10</h3>
+<h3><a name="state_10" id="state_10"></a>State 10</h3>
 
 <p class="pre">  <a href="#rule_1">  1</a> <span class="i">unit</span> → <span class="i">assignments</span> <span class="i">exp</span> <span class="dot">•</span>
 
     $default  <a href="#rule_1">reduce using rule 1</a> (unit)
 </p>
 
-<h3><a name="state_11" id="state_11"></a>state 11</h3>
+<h3><a name="state_11" id="state_11"></a>State 11</h3>
 
 <p class="pre">  <a href="#rule_10"> 10</a> <span class="i">exp</span> → <b>"identifier"</b> <span class="dot">•</span>
 
     $default  <a href="#rule_10">reduce using rule 10</a> (exp)
 </p>
 
-<h3><a name="state_12" id="state_12"></a>state 12</h3>
+<h3><a name="state_12" id="state_12"></a>State 12</h3>
 
 <p class="pre">  <a href="#rule_6">  6</a> <span class="i">@1</span> → <span class="dot">•</span> %empty
   <a href="#rule_8">  8</a> <span class="i">exp</span> → <b>"incr"</b> <span class="i">exp</span> <span class="dot">•</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
@@ -1425,14 +1425,14 @@ if test x"$XSLTPROC" != x""; then
     @1  <a href="#state_15">go to state 15</a>
 </p>
 
-<h3><a name="state_13" id="state_13"></a>state 13</h3>
+<h3><a name="state_13" id="state_13"></a>State 13</h3>
 
 <p class="pre">  <a href="#rule_9">  9</a> <span class="i">exp</span> → <b>"("</b> <span class="i">exp</span> <span class="dot">•</span> <b>")"</b>
 
     ")"  <a href="#state_16">shift, and go to state 16</a>
 </p>
 
-<h3><a name="state_14" id="state_14"></a>state 14</h3>
+<h3><a name="state_14" id="state_14"></a>State 14</h3>
 
 <p class="pre">  <a href="#rule_4">  4</a> <span class="i">assignment</span> → <span class="i">id</span> <b>":="</b> <span class="dot">•</span> <span class="i">exp</span>
   <a href="#rule_8">  8</a> <span class="i">exp</span> → <span class="dot">•</span> <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
@@ -1448,7 +1448,7 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_17">go to state 17</a>
 </p>
 
-<h3><a name="state_15" id="state_15"></a>state 15</h3>
+<h3><a name="state_15" id="state_15"></a>State 15</h3>
 
 <p class="pre">  <a href="#rule_7">  7</a> <span class="i">@2</span> → <span class="dot">•</span> %empty
   <a href="#rule_8">  8</a> <span class="i">exp</span> → <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="dot">•</span> <span class="i">@2</span> <span class="i">exp</span>
@@ -1458,21 +1458,21 @@ if test x"$XSLTPROC" != x""; then
     @2  <a href="#state_18">go to state 18</a>
 </p>
 
-<h3><a name="state_16" id="state_16"></a>state 16</h3>
+<h3><a name="state_16" id="state_16"></a>State 16</h3>
 
 <p class="pre">  <a href="#rule_9">  9</a> <span class="i">exp</span> → <b>"("</b> <span class="i">exp</span> <b>")"</b> <span class="dot">•</span>
 
     $default  <a href="#rule_9">reduce using rule 9</a> (exp)
 </p>
 
-<h3><a name="state_17" id="state_17"></a>state 17</h3>
+<h3><a name="state_17" id="state_17"></a>State 17</h3>
 
 <p class="pre">  <a href="#rule_4">  4</a> <span class="i">assignment</span> → <span class="i">id</span> <b>":="</b> <span class="i">exp</span> <span class="dot">•</span>
 
     $default  <a href="#rule_4">reduce using rule 4</a> (assignment)
 </p>
 
-<h3><a name="state_18" id="state_18"></a>state 18</h3>
+<h3><a name="state_18" id="state_18"></a>State 18</h3>
 
 <p class="pre">  <a href="#rule_8">  8</a> <span class="i">exp</span> → <span class="dot">•</span> <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
   <a href="#rule_8">  8</a>     | <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="dot">•</span> <span class="i">exp</span>
@@ -1488,7 +1488,7 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_19">go to state 19</a>
 </p>
 
-<h3><a name="state_19" id="state_19"></a>state 19</h3>
+<h3><a name="state_19" id="state_19"></a>State 19</h3>
 
 <p class="pre">  <a href="#rule_8">  8</a> <span class="i">exp</span> → <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span> <span class="dot">•</span>
 
@@ -2205,7 +2205,7 @@ if test x"$XSLTPROC" != x""; then
   </li>
 </ul><h2><a name="automaton" id="automaton"></a> Automaton</h2>
 
-<h3><a name="state_0" id="state_0"></a>state 0</h3>
+<h3><a name="state_0" id="state_0"></a>State 0</h3>
 
 <p class="pre">  <a href="#rule_0">  0</a> <span class="i">$accept</span> → <span class="dot">•</span> <span class="i">exp</span> <b>$end</b>
   <a href="#rule_1">  1</a> <span class="i">exp</span> → <span class="dot">•</span> <span class="i">exp</span> <b>"⊕"</b> <span class="i">exp</span>
@@ -2220,21 +2220,21 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_3">go to state 3</a>
 </p>
 
-<h3><a name="state_1" id="state_1"></a>state 1</h3>
+<h3><a name="state_1" id="state_1"></a>State 1</h3>
 
 <p class="pre">  <a href="#rule_4">  4</a> <span class="i">exp</span> → <b>"number"</b> <span class="dot">•</span>
 
     $default  <a href="#rule_4">reduce using rule 4</a> (exp)
 </p>
 
-<h3><a name="state_2" id="state_2"></a>state 2</h3>
+<h3><a name="state_2" id="state_2"></a>State 2</h3>
 
 <p class="pre">  <a href="#rule_5">  5</a> <span class="i">exp</span> → <b>"Ñùṃéℝô"</b> <span class="dot">•</span>
 
     $default  <a href="#rule_5">reduce using rule 5</a> (exp)
 </p>
 
-<h3><a name="state_3" id="state_3"></a>state 3</h3>
+<h3><a name="state_3" id="state_3"></a>State 3</h3>
 
 <p class="pre">  <a href="#rule_0">  0</a> <span class="i">$accept</span> → <span class="i">exp</span> <span class="dot">•</span> <b>$end</b>
   <a href="#rule_1">  1</a> <span class="i">exp</span> → <span class="i">exp</span> <span class="dot">•</span> <b>"⊕"</b> <span class="i">exp</span>
@@ -2246,14 +2246,14 @@ if test x"$XSLTPROC" != x""; then
     "⊕"   <a href="#state_6">shift, and go to state 6</a>
 </p>
 
-<h3><a name="state_4" id="state_4"></a>state 4</h3>
+<h3><a name="state_4" id="state_4"></a>State 4</h3>
 
 <p class="pre">  <a href="#rule_0">  0</a> <span class="i">$accept</span> → <span class="i">exp</span> <b>$end</b> <span class="dot">•</span>
 
     $default  accept
 </p>
 
-<h3><a name="state_5" id="state_5"></a>state 5</h3>
+<h3><a name="state_5" id="state_5"></a>State 5</h3>
 
 <p class="pre">  <a href="#rule_1">  1</a> <span class="i">exp</span> → <span class="dot">•</span> <span class="i">exp</span> <b>"⊕"</b> <span class="i">exp</span>
   <a href="#rule_2">  2</a>     | <span class="dot">•</span> <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
@@ -2269,7 +2269,7 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_7">go to state 7</a>
 </p>
 
-<h3><a name="state_6" id="state_6"></a>state 6</h3>
+<h3><a name="state_6" id="state_6"></a>State 6</h3>
 
 <p class="pre">  <a href="#rule_1">  1</a> <span class="i">exp</span> → <span class="dot">•</span> <span class="i">exp</span> <b>"⊕"</b> <span class="i">exp</span>
   <a href="#rule_1">  1</a>     | <span class="i">exp</span> <b>"⊕"</b> <span class="dot">•</span> <span class="i">exp</span>
@@ -2284,7 +2284,7 @@ if test x"$XSLTPROC" != x""; then
     exp  <a href="#state_8">go to state 8</a>
 </p>
 
-<h3><a name="state_7" id="state_7"></a>state 7</h3>
+<h3><a name="state_7" id="state_7"></a>State 7</h3>
 
 <p class="pre">  <a href="#rule_1">  1</a> <span class="i">exp</span> → <span class="i">exp</span> <span class="dot">•</span> <b>"⊕"</b> <span class="i">exp</span>
   <a href="#rule_2">  2</a>     | <span class="i">exp</span> <span class="dot">•</span> <b>"+"</b> <span class="i">exp</span>
@@ -2305,7 +2305,7 @@ if test x"$XSLTPROC" != x""; then
     Conflict between <a href="#rule_2">rule 2</a> and token "+" resolved as reduce (%left "+").
 </p>
 
-<h3><a name="state_8" id="state_8"></a>state 8</h3>
+<h3><a name="state_8" id="state_8"></a>State 8</h3>
 
 <p class="pre">  <a href="#rule_1">  1</a> <span class="i">exp</span> → <span class="i">exp</span> <span class="dot">•</span> <b>"⊕"</b> <span class="i">exp</span>
   <a href="#rule_1">  1</a>     | <span class="i">exp</span> <b>"⊕"</b> <span class="i">exp</span> <span class="dot">•</span>  [$end, "+", "⊕"]
