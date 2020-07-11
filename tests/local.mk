@@ -36,6 +36,14 @@ $(top_srcdir)/%D%/package.m4: $(top_srcdir)/configure
 	} >$@.tmp
 	$(AM_V_at)mv $@.tmp $@
 
+
+# Update the test cases.  Consider the latest test results to be the
+# correct expectations, and change the test cases to match them.
+.PHONY: update-tests
+update-tests:
+	$(AM_V_GEN)cd $(top_srcdir) \
+	  && build-aux/update-test $(abs_builddir)/%D%/testsuite.dir/*/testsuite.log
+
 ## ------------------------- ##
 ## Generate the test suite.  ##
 ## ------------------------- ##
