@@ -227,6 +227,7 @@
   <xsl:text>&#10;</xsl:text>
   <p class="pre">
     <xsl:call-template name="style-rule-set">
+      <xsl:with-param name="anchor" select="'true'" />
       <xsl:with-param
         name="rule-set" select="rules/rule[@usefulness!='useless-in-grammar']"
       />
@@ -238,9 +239,11 @@
 </xsl:template>
 
 <xsl:template name="style-rule-set">
+  <xsl:param name="anchor"/>
   <xsl:param name="rule-set"/>
   <xsl:for-each select="$rule-set">
     <xsl:apply-templates select=".">
+      <xsl:with-param name="anchor" select="$anchor"/>
       <xsl:with-param name="pad" select="'3'"/>
       <xsl:with-param name="prev-lhs">
         <xsl:if test="position()>1">
@@ -488,7 +491,12 @@
   </xsl:apply-templates>
 </xsl:template>
 
+<!--
+anchor = 'true': define as an <a> anchor.
+itemset = 'true': show the items.
+ -->
 <xsl:template match="rule">
+  <xsl:param name="anchor"/>
   <xsl:param name="itemset"/>
   <xsl:param name="pad"/>
   <xsl:param name="prev-lhs"/>
@@ -499,17 +507,21 @@
     <xsl:text>&#10;</xsl:text>
   </xsl:if>
 
-  <xsl:if test="$itemset != 'true'">
-    <a>
-      <xsl:attribute name="name">
-        <xsl:value-of select="concat('rule_', @number)"/>
-      </xsl:attribute>
-    </a>
-  </xsl:if>
   <xsl:text>  </xsl:text>
 
   <xsl:choose>
-    <xsl:when test="$itemset = 'true'">
+    <xsl:when test="$anchor = 'true'">
+      <a>
+        <xsl:attribute name="name">
+          <xsl:value-of select="concat('rule_', @number)"/>
+        </xsl:attribute>
+        <xsl:call-template name="lpad">
+          <xsl:with-param name="str" select="string(@number)"/>
+          <xsl:with-param name="pad" select="number($pad)"/>
+        </xsl:call-template>
+      </a>
+    </xsl:when>
+    <xsl:otherwise>
       <a>
         <xsl:attribute name="href">
           <xsl:value-of select="concat('#rule_', @number)"/>
@@ -519,12 +531,6 @@
           <xsl:with-param name="pad" select="number($pad)"/>
         </xsl:call-template>
       </a>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:call-template name="lpad">
-        <xsl:with-param name="str" select="string(@number)"/>
-        <xsl:with-param name="pad" select="number($pad)"/>
-      </xsl:call-template>
     </xsl:otherwise>
   </xsl:choose>
   <xsl:text> </xsl:text>

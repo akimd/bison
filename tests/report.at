@@ -1205,25 +1205,25 @@ if test x"$XSLTPROC" != x""; then
 
 <h2><a name="grammar" id="grammar"></a> Grammar</h2>
 <p class="pre">
-<a name="rule_0" id="rule_0"></a>    0 <span class="i">$accept</span> → <span class="i">unit</span> <b>"end of file"</b>
+  <a name="rule_0" id="rule_0">  0</a> <span class="i">$accept</span> → <span class="i">unit</span> <b>"end of file"</b>
 
-<a name="rule_1" id="rule_1"></a>    1 <span class="i">unit</span> → <span class="i">assignments</span> <span class="i">exp</span>
+  <a name="rule_1" id="rule_1">  1</a> <span class="i">unit</span> → <span class="i">assignments</span> <span class="i">exp</span>
 
-<a name="rule_2" id="rule_2"></a>    2 <span class="i">assignments</span> → %empty
-<a name="rule_3" id="rule_3"></a>    3             | <span class="i">assignments</span> <span class="i">assignment</span>
+  <a name="rule_2" id="rule_2">  2</a> <span class="i">assignments</span> → %empty
+  <a name="rule_3" id="rule_3">  3</a>             | <span class="i">assignments</span> <span class="i">assignment</span>
 
-<a name="rule_4" id="rule_4"></a>    4 <span class="i">assignment</span> → <span class="i">id</span> <b>":="</b> <span class="i">exp</span>
+  <a name="rule_4" id="rule_4">  4</a> <span class="i">assignment</span> → <span class="i">id</span> <b>":="</b> <span class="i">exp</span>
 
-<a name="rule_5" id="rule_5"></a>    5 <span class="i">id</span> → <b>"identifier"</b>
+  <a name="rule_5" id="rule_5">  5</a> <span class="i">id</span> → <b>"identifier"</b>
 
-<a name="rule_6" id="rule_6"></a>    6 <span class="i">@1</span> → %empty
+  <a name="rule_6" id="rule_6">  6</a> <span class="i">@1</span> → %empty
 
-<a name="rule_7" id="rule_7"></a>    7 <span class="i">@2</span> → %empty
+  <a name="rule_7" id="rule_7">  7</a> <span class="i">@2</span> → %empty
 
-<a name="rule_8" id="rule_8"></a>    8 <span class="i">exp</span> → <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
-<a name="rule_9" id="rule_9"></a>    9     | <b>"("</b> <span class="i">exp</span> <b>")"</b>
-<a name="rule_10" id="rule_10"></a>   10     | <b>"identifier"</b>
-<a name="rule_11" id="rule_11"></a>   11     | <b>"number"</b>
+  <a name="rule_8" id="rule_8">  8</a> <span class="i">exp</span> → <b>"incr"</b> <span class="i">exp</span> <span class="i">@1</span> <span class="i">@2</span> <span class="i">exp</span>
+  <a name="rule_9" id="rule_9">  9</a>     | <b>"("</b> <span class="i">exp</span> <b>")"</b>
+  <a name="rule_10" id="rule_10"> 10</a>     | <b>"identifier"</b>
+  <a name="rule_11" id="rule_11"> 11</a>     | <b>"number"</b>
 </p>
 
 <h3><a name="terminals" id="terminals"></a> Terminals, with rules where they appear</h3>
@@ -2158,7 +2158,7 @@ if test x"$XSLTPROC" != x""; then
 <h3><a name="rules_useless_in_grammar" id="rules_useless_in_grammar"></a> Rules useless in grammar</h3>
 <h2><a name="rules_useless_in_parser" id="rules_useless_in_parser"></a> Rules useless in parser due to conflicts</h2>
 <p class="pre">
-<a name="rule_3" id="rule_3"></a>    3 <span class="i">exp</span> → <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
+  <a href="#rule_3">  3</a> <span class="i">exp</span> → <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
 </p>
 
 <h2><a name="conflicts" id="conflicts"></a> Conflicts</h2>
@@ -2169,13 +2169,13 @@ if test x"$XSLTPROC" != x""; then
 
 </p><h2><a name="grammar" id="grammar"></a> Grammar</h2>
 <p class="pre">
-<a name="rule_0" id="rule_0"></a>    0 <span class="i">$accept</span> → <span class="i">exp</span> <b>$end</b>
+  <a name="rule_0" id="rule_0">  0</a> <span class="i">$accept</span> → <span class="i">exp</span> <b>$end</b>
 
-<a name="rule_1" id="rule_1"></a>    1 <span class="i">exp</span> → <span class="i">exp</span> <b>"⊕"</b> <span class="i">exp</span>
-<a name="rule_2" id="rule_2"></a>    2     | <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
-<a name="rule_3" id="rule_3"></a>    3     | <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
-<a name="rule_4" id="rule_4"></a>    4     | <b>"number"</b>
-<a name="rule_5" id="rule_5"></a>    5     | <b>"Ñùṃéℝô"</b>
+  <a name="rule_1" id="rule_1">  1</a> <span class="i">exp</span> → <span class="i">exp</span> <b>"⊕"</b> <span class="i">exp</span>
+  <a name="rule_2" id="rule_2">  2</a>     | <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
+  <a name="rule_3" id="rule_3">  3</a>     | <span class="i">exp</span> <b>"+"</b> <span class="i">exp</span>
+  <a name="rule_4" id="rule_4">  4</a>     | <b>"number"</b>
+  <a name="rule_5" id="rule_5">  5</a>     | <b>"Ñùṃéℝô"</b>
 </p>
 
 <h3><a name="terminals" id="terminals"></a> Terminals, with rules where they appear</h3>
