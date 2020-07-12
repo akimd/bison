@@ -283,11 +283,11 @@ m4_popdef([AT_TEST])
 ## Many lookahead tokens.   ##
 ## ------------------------ ##
 
-# AT_DATA_LOOKAHEAD_TOKENS_GRAMMAR(FILE-NAME, SIZE)
-# --------------------------------------------------
+# AT_DATA_LOOKAHEADS_GRAMMAR(FILE-NAME, SIZE)
+# -------------------------------------------
 # Create FILE-NAME, containing a self checking parser for a grammar
 # requiring SIZE lookahead tokens.
-m4_define([AT_DATA_LOOKAHEAD_TOKENS_GRAMMAR],
+m4_define([AT_DATA_LOOKAHEADS_GRAMMAR],
 [AT_BISON_OPTION_PUSHDEFS
 AT_DATA([[gengram.pl]],
 [[#! /usr/bin/perl -w
@@ -384,7 +384,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_SETUP([Many lookahead tokens])
 
-AT_DATA_LOOKAHEAD_TOKENS_GRAMMAR([input.y], [1000])
+AT_DATA_LOOKAHEADS_GRAMMAR([input.y], [1000])
 
 # GNU m4 requires about 70 MiB for this test on a 32-bit host.
 # Ask for 200 MiB, which should be plenty even on a 64-bit host.

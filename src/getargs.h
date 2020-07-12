@@ -77,7 +77,7 @@ enum report
     report_none             = 0,
     report_states           = 1 << 0,
     report_itemsets         = 1 << 1,
-    report_lookahead_tokens = 1 << 2,
+    report_lookaheads       = 1 << 2,
     report_solved_conflicts = 1 << 3,
     report_cex              = 1 << 4,
     report_all              = ~0

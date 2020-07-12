@@ -62,7 +62,7 @@
 
    Each reductions structure describes the possible reductions at the
    state whose number is in the number field.  rules is an array of
-   num rules.  lookahead_tokens is an array of bitsets, one per rule.
+   num rules.  lookaheads is an array of bitsets, one per rule.
 
    Conflict resolution can decide that certain tokens in certain
    states should explicitly be errors (for implementing %nonassoc).
@@ -187,7 +187,7 @@ errs *errs_new (int num, symbol **tokens);
 typedef struct
 {
   int num;
-  bitset *lookahead_tokens;
+  bitset *lookaheads;
   /* Sorted ascendingly on rule number.  */
   rule *rules[1];
 } reductions;
@@ -254,9 +254,9 @@ void state_errs_set (state *s, int num, symbol **errors);
 
 /* Print on OUT all the lookahead tokens such that this STATE wants to
    reduce R.  */
-void state_rule_lookahead_tokens_print (state const *s, rule const *r, FILE *out);
-void state_rule_lookahead_tokens_print_xml (state const *s, rule const *r,
-                                            FILE *out, int level);
+void state_rule_lookaheads_print (state const *s, rule const *r, FILE *out);
+void state_rule_lookaheads_print_xml (state const *s, rule const *r,
+                                      FILE *out, int level);
 
 /* Create/destroy the states hash table.  */
 void state_hash_new (void);
