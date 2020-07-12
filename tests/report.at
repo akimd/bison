@@ -1142,7 +1142,7 @@ if test x"$XSLTPROC" != x""; then
   AT_CHECK([[$XSLTPROC \
            `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
            input.xml | \
-           sed -e 's/GNU Bison [0-9][0-9.]*/GNU Bison VERSION/' \
+           sed -e 's/GNU Bison [0-9][-.0-9a-z]*/GNU Bison VERSION/' \
            >input.html]])
 
   AT_CHECK([cat input.html], [],
@@ -2097,7 +2097,7 @@ if test x"$XSLTPROC" != x""; then
   AT_CHECK([[$XSLTPROC \
            `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
            input.xml | \
-           sed -e 's/GNU Bison [0-9][0-9.]*/GNU Bison VERSION/' \
+           sed -e 's/GNU Bison [0-9][-.0-9a-z]*/GNU Bison VERSION/' \
            >input.html]])
 
   AT_CHECK([cat input.html], [],
