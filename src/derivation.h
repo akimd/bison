@@ -60,12 +60,15 @@ static inline derivation *derivation_new_leaf (symbol_number sym)
 {
   return derivation_new (sym, NULL);
 }
+
+// Number of symbols.
 size_t derivation_size (const derivation *deriv);
 void derivation_print (const derivation *deriv, FILE *out, const char *prefix);
 void derivation_print_leaves (const derivation *deriv, FILE *out, const char *prefix);
 void derivation_free (derivation *deriv);
 void derivation_retain (derivation *deriv);
 
+// A derivation denoting the position of the dot.
 derivation *derivation_dot (void);
 
 #endif /* DERIVATION_H */
