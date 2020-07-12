@@ -113,7 +113,7 @@ int parse_state_length (const parse_state *ps);
 int parse_state_depth (const parse_state *ps);
 
 /* returns the linked lists that the parse state is supposed to represent */
-void parse_state_lists (parse_state *ps, gl_list_t *state_items,
+void parse_state_lists (parse_state *ps, state_item_list *state_items,
                         derivation_list *derivs);
 
 /* various functions that return a list of states based off of

@@ -69,6 +69,9 @@ typedef struct
   bitset lookahead;
 } state_item;
 
+// A path of state-items.
+typedef gl_list_t state_item_list;
+
 extern bitsetv firsts;
 # define FIRSTS(sym) firsts[(sym) - ntokens]
 
@@ -92,6 +95,7 @@ void state_items_free (void);
 
 bool production_allowed (const state_item *si, const state_item *next);
 
+// Iterating on a state_item_list.
 static inline bool
 state_item_list_next (gl_list_iterator_t *it, state_item **si)
 {
