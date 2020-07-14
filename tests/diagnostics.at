@@ -28,6 +28,8 @@ m4_pushdef([AT_TEST],
 AT_SETUP([$1])
 AT_KEYWORDS([diagnostics])
 
+m4_if(m4_index([$1], [Counterexample]), [-1], [], [AT_KEYWORDS([cex])])
+
 # We need UTF-8 support for correct screen-width computation of UTF-8
 # characters.  Skip the test if not available.
 locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
@@ -535,32 +537,114 @@ exp
 [[input.y: <error>error:</error> shift/reduce conflicts: 4 found, 0 expected
 Shift/reduce conflict on token "+":
   Example              <cex-0><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
-  Shift derivation     <cex-0><cex-step>exp → [ </cex-step><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf><cex-1> <cex-step>exp → [ </cex-step><cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+  Shift derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-leaf>exp</cex-leaf><cex-leaf> "+"</cex-leaf><cex-1><cex-step> exp</cex-step></cex-1></cex-step></cex-0>
+    <cex-1><cex-step>          ↳ <cex-leaf>exp</cex-leaf><cex-dot> •</cex-dot><cex-leaf> "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-1>
   Example              <cex-0><cex-1><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
-  Reduce derivation    <cex-0><cex-step>exp → [ </cex-step><cex-1><cex-step>exp → [ </cex-step><cex-leaf>exp</cex-leaf> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Reduce derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-1><cex-step>exp</cex-step></cex-1><cex-leaf>             "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
+    <cex-1><cex-step>  ↳ <cex-leaf>exp</cex-leaf><cex-leaf> "+"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
 
 Shift/reduce conflict on token "else":
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
-  Shift derivation     <cex-0><cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+  Shift derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-1><cex-step> exp</cex-step></cex-1></cex-step></cex-0>
+    <cex-1><cex-step>                  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot><cex-leaf> "else"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-1>
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
-  Reduce derivation    <cex-0><cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Reduce derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-1><cex-step> exp</cex-step></cex-1><cex-leaf>                     "else"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
+    <cex-1><cex-step>                  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
 
 Shift/reduce conflict on token "+":
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
-  Shift derivation     <cex-0><cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-step>exp → [ </cex-step><cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+  Shift derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-1><cex-step> exp</cex-step></cex-1></cex-step></cex-0>
+    <cex-1><cex-step>                  ↳ <cex-leaf>exp</cex-leaf><cex-dot> •</cex-dot><cex-leaf> "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-1>
   Example              <cex-0><cex-1><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
-  Reduce derivation    <cex-0><cex-step>exp → [ </cex-step><cex-1><cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Reduce derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-1><cex-step>exp</cex-step></cex-1><cex-leaf>                     "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
+    <cex-1><cex-step>  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
 
 Shift/reduce conflict on token "+":
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
-  Shift derivation     <cex-0><cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf><cex-1> <cex-step>exp → [ </cex-step><cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-1><cex-step> ]</cex-step></cex-0>
+  Shift derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "else"</cex-leaf><cex-1><cex-step> exp</cex-step></cex-1></cex-step></cex-0>
+    <cex-1><cex-step>                             ↳ <cex-leaf>exp</cex-leaf><cex-dot> •</cex-dot><cex-leaf> "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-1>
   Example              <cex-0><cex-1><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-0>
-  Reduce derivation    <cex-0><cex-step>exp → [ </cex-step><cex-1><cex-step>exp → [ </cex-step><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot><cex-step> ]</cex-step></cex-1> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf><cex-step> ]</cex-step></cex-0>
+  Reduce derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-1><cex-step>exp</cex-step></cex-1><cex-leaf>                                "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
+    <cex-1><cex-step>  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "else"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
 
 ]])
 
 
+AT_TEST([[Deep Counterexamples]],
+[[%expect 0
+%%
+exp: x1 e1 foo1 x1 | y1 e2 bar1 y1
+foo1: foo2
+foo2: foo3
+foo3: x1 foo4
+foo4: "quuux"
 
+bar1: bar2
+bar2: bar3
+bar3: y1 bar4
+bar4: "quuux"
+
+x1: x2
+x2: x3
+x3: "X"
+
+y1: y2
+y2: y3
+y3: "X"
+
+e1:
+e2:
+]],
+[1],
+[[input.y:30.4: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   30 | e1:
+      |    <warning>^</warning>
+      |    <fixit-insert>%empty</fixit-insert>
+input.y:31.4: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
+   31 | e2:
+      |    <warning>^</warning>
+      |    <fixit-insert>%empty</fixit-insert>
+input.y: <error>error:</error> reduce/reduce conflicts: 1 found, 0 expected
+Reduce/reduce conflict on token "X":
+  Example              <cex-0><cex-1><cex-2><cex-3><cex-leaf>"X"</cex-leaf> <cex-dot>•</cex-dot></cex-3></cex-2></cex-1><cex-4></cex-4><cex-5><cex-6><cex-7><cex-8><cex-9><cex-10> <cex-leaf>"X"</cex-leaf></cex-10></cex-9></cex-8><cex-11> <cex-leaf>"quuux"</cex-leaf></cex-11></cex-7></cex-6></cex-5><cex-12><cex-13><cex-14> <cex-leaf>"X"</cex-leaf></cex-14></cex-13></cex-12></cex-0>
+  First derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-1><cex-step>x1</cex-step></cex-1><cex-4><cex-step>          e1</cex-step></cex-4><cex-5><cex-step>  foo1</cex-step></cex-5><cex-12><cex-step>                      x1</cex-step></cex-12></cex-step></cex-0>
+    <cex-1><cex-step>  ↳ <cex-2><cex-step>x2</cex-step></cex-2></cex-step></cex-1><cex-4><cex-step>        ↳ ε</cex-step></cex-4><cex-5><cex-step> ↳ <cex-6><cex-step>foo2</cex-step></cex-6></cex-step></cex-5><cex-12><cex-step>                    ↳ <cex-13><cex-step>x2</cex-step></cex-13></cex-step></cex-12>
+    <cex-2><cex-step>    ↳ <cex-3><cex-step>x3</cex-step></cex-3></cex-step></cex-2><cex-6><cex-step>            ↳ <cex-7><cex-step>foo3</cex-step></cex-7></cex-step></cex-6><cex-13><cex-step>                    ↳ <cex-14><cex-step>x3</cex-step></cex-14></cex-step></cex-13>
+    <cex-3><cex-step>      ↳ <cex-leaf>"X"</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-3><cex-7><cex-step>         ↳ <cex-8><cex-step>x1</cex-step></cex-8><cex-11><cex-step>        foo4</cex-step></cex-11></cex-step></cex-7><cex-14><cex-step>          ↳ <cex-leaf>"X"</cex-leaf></cex-step></cex-14>
+    <cex-8><cex-step>                        ↳ <cex-9><cex-step>x2</cex-step></cex-9></cex-step></cex-8><cex-11><cex-step>      ↳ <cex-leaf>"quuux"</cex-leaf></cex-step></cex-11>
+    <cex-9><cex-step>                          ↳ <cex-10><cex-step>x3</cex-step></cex-10></cex-step></cex-9>
+    <cex-10><cex-step>                            ↳ <cex-leaf>"X"</cex-leaf></cex-step></cex-10>
+  Example              <cex-0><cex-1><cex-2><cex-3><cex-leaf>"X"</cex-leaf> <cex-dot>•</cex-dot></cex-3></cex-2></cex-1><cex-4></cex-4><cex-5><cex-6><cex-7><cex-8><cex-9><cex-10> <cex-leaf>"X"</cex-leaf></cex-10></cex-9></cex-8><cex-11> <cex-leaf>"quuux"</cex-leaf></cex-11></cex-7></cex-6></cex-5><cex-12><cex-13><cex-14> <cex-leaf>"X"</cex-leaf></cex-14></cex-13></cex-12></cex-0>
+  Second derivation
+    <cex-0><cex-step>exp</cex-step></cex-0>
+    <cex-0><cex-step>↳ <cex-1><cex-step>y1</cex-step></cex-1><cex-4><cex-step>          e2</cex-step></cex-4><cex-5><cex-step>  bar1</cex-step></cex-5><cex-12><cex-step>                      y1</cex-step></cex-12></cex-step></cex-0>
+    <cex-1><cex-step>  ↳ <cex-2><cex-step>y2</cex-step></cex-2></cex-step></cex-1><cex-4><cex-step>        ↳ ε</cex-step></cex-4><cex-5><cex-step> ↳ <cex-6><cex-step>bar2</cex-step></cex-6></cex-step></cex-5><cex-12><cex-step>                    ↳ <cex-13><cex-step>y2</cex-step></cex-13></cex-step></cex-12>
+    <cex-2><cex-step>    ↳ <cex-3><cex-step>y3</cex-step></cex-3></cex-step></cex-2><cex-6><cex-step>            ↳ <cex-7><cex-step>bar3</cex-step></cex-7></cex-step></cex-6><cex-13><cex-step>                    ↳ <cex-14><cex-step>y3</cex-step></cex-14></cex-step></cex-13>
+    <cex-3><cex-step>      ↳ <cex-leaf>"X"</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-3><cex-7><cex-step>         ↳ <cex-8><cex-step>y1</cex-step></cex-8><cex-11><cex-step>        bar4</cex-step></cex-11></cex-step></cex-7><cex-14><cex-step>          ↳ <cex-leaf>"X"</cex-leaf></cex-step></cex-14>
+    <cex-8><cex-step>                        ↳ <cex-9><cex-step>y2</cex-step></cex-9></cex-step></cex-8><cex-11><cex-step>      ↳ <cex-leaf>"quuux"</cex-leaf></cex-step></cex-11>
+    <cex-9><cex-step>                          ↳ <cex-10><cex-step>y3</cex-step></cex-10></cex-step></cex-9>
+    <cex-10><cex-step>                            ↳ <cex-leaf>"X"</cex-leaf></cex-step></cex-10>
+
+input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
+]])
 
 m4_popdef([AT_TEST])
 

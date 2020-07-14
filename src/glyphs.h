@@ -31,4 +31,16 @@ extern int arrow_width;
 extern const char *dot;
 extern int dot_width;
 
+/* "↳ ", below an lhs to announce the rhs.  */
+extern const char *down_arrow;
+extern int down_arrow_width;
+
+/* "ε", an empty rhs.  */
+extern const char *empty;
+extern int empty_width;
+
+/* " ", separate symbols in the rhs of a derivation.  */
+extern const char *derivation_separator;
+extern int derivation_separator_width;
+
 #endif /* GLYPHS_H */

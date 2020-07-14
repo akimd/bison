@@ -46,9 +46,17 @@ Changes in the display of counterexamples.
   strings in the grammar which can be parsed in two ways due to the
   conflict.  For example:
 
-    Example              exp '+' exp • '/' exp
-    Shift derivation     exp → [ exp '+' exp → [ exp • '/' exp ] ]
-    Reduce derivation    exp → [ exp → [ exp '+' exp • ] '/' exp ]
+    Shift/reduce conflict on token "/":
+      Example              exp "+" exp • "/" exp
+      Shift derivation
+        exp
+        ↳ exp "+" exp
+                  ↳ exp • "/" exp
+      Example              exp "+" exp • "/" exp
+      Reduce derivation
+        exp
+        ↳ exp             "/" exp
+          ↳ exp "+" exp •
 
   When Bison is installed with text styling enabled, the example is actually
   shown twice, with colors highlighting the ambiguity.
@@ -59,9 +67,18 @@ Changes in the display of counterexamples.
   generates two examples that are the same up until the dot:
 
     First example        expr • ID ',' ID $end
-    Shift derivation     $accept → [ s → [ a → [ expr → [ expr • ID ',' ] ] ID ] $end ]
+    Shift derivation
+      $accept
+      ↳ s                      $end
+        ↳ a                 ID
+          ↳ expr
+            ↳ expr • ID ','
     Second example       expr • ID $end
-    Reduce derivation    $accept → [ s → [ a → [ expr • ] ID ] $end ]
+    Reduce derivation
+      $accept
+      ↳ s             $end
+        ↳ a        ID
+          ↳ expr •
 
   In these cases, the parser usually doesn't have enough lookahead to
   differentiate the two given examples.

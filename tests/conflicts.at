@@ -865,8 +865,14 @@ State 5
         1 exp: exp OP exp .
         1 exp: exp . OP exp
       Example                  exp OP exp . OP exp
-      Shift derivation         exp -> [ exp OP exp -> [ exp . OP exp ] ]
-      Reduce derivation        exp -> [ exp -> [ exp OP exp . ] OP exp ]
+      Shift derivation
+        exp
+        `-> exp OP exp
+                   `-> exp . OP exp
+      Reduce derivation
+        exp
+        `-> exp              OP exp
+            `-> exp OP exp .
 
 ]])
 
@@ -1119,7 +1125,7 @@ m4_popdef([AT_TEST])
 # else.
 
 AT_SETUP([Defaulted Conflicted Reduction])
-AT_KEYWORDS([report])
+AT_KEYWORDS([cex report])
 
 AT_DATA([input.y],
 [[%%
@@ -1207,8 +1213,14 @@ State 1
         3 num: '0' .
         4 id: '0' .
       Example                  '0' .
-      First derivation         exp -> [ num -> [ '0' . ] ]
-      Second derivation        exp -> [ id -> [ '0' . ] ]
+      First derivation
+        exp
+        `-> num
+            `-> '0' .
+      Second derivation
+        exp
+        `-> id
+            `-> '0' .
 
 
 
@@ -1579,6 +1591,8 @@ AT_CLEANUP
 
 AT_SETUP([[Unreachable States After Conflict Resolution]])
 
+AT_KEYWORDS([cex report])
+
 # If conflict resolution makes states unreachable, remove those states, report
 # rules that are then unused, and don't report conflicts in those states.  Test
 # what happens when a nonterminal becomes useless as a result of state removal
@@ -1754,17 +1768,29 @@ State 4
        10 reported_conflicts: . %empty
         8 reported_conflicts: . 'a'
       First example            resolved_conflict . 'a' 'a'
-      Shift derivation         start -> [ resolved_conflict reported_conflicts -> [ . 'a' ] 'a' ]
+      Shift derivation
+        start
+        `-> resolved_conflict reported_conflicts 'a'
+                              `-> . 'a'
       Second example           resolved_conflict . 'a'
-      Reduce derivation        start -> [ resolved_conflict reported_conflicts -> [ . ] 'a' ]
+      Reduce derivation
+        start
+        `-> resolved_conflict reported_conflicts 'a'
+                              `-> .
 
     Shift/reduce conflict on token 'a':
        10 reported_conflicts: . %empty
         9 reported_conflicts: . 'a'
       First example            resolved_conflict . 'a' 'a'
-      Shift derivation         start -> [ resolved_conflict reported_conflicts -> [ . 'a' ] 'a' ]
+      Shift derivation
+        start
+        `-> resolved_conflict reported_conflicts 'a'
+                              `-> . 'a'
       Second example           resolved_conflict . 'a'
-      Reduce derivation        start -> [ resolved_conflict reported_conflicts -> [ . ] 'a' ]
+      Reduce derivation
+        start
+        `-> resolved_conflict reported_conflicts 'a'
+                              `-> .
 
 
 
@@ -1781,8 +1807,12 @@ State 5
         8 reported_conflicts: 'a' .
         9 reported_conflicts: 'a' .
       Example                  'a' .
-      First derivation         reported_conflicts -> [ 'a' . ]
-      Second derivation        reported_conflicts -> [ 'a' . ]
+      First derivation
+        reported_conflicts
+        `-> 'a' .
+      Second derivation
+        reported_conflicts
+        `-> 'a' .
 
 
 
@@ -1904,6 +1934,8 @@ AT_CLEANUP
 
 AT_SETUP([[%nonassoc error actions for multiple reductions in a state]])
 
+AT_KEYWORDS([cex report])
+
 AT_DATA([[input.y]],
 [[%nonassoc 'a' 'b' 'c'
 %%
@@ -1965,8 +1997,14 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
        12 empty_c2: . %empty
        13 empty_c3: . %empty
       Example                  . 'c'
-      First derivation         start -> [ empty_c2 -> [ . ] 'c' ]
-      Second derivation        start -> [ empty_c3 -> [ . ] 'c' ]
+      First derivation
+        start
+        `-> empty_c2 'c'
+            `-> .
+      Second derivation
+        start
+        `-> empty_c3 'c'
+            `-> .
 
 
 
