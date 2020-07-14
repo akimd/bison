@@ -376,12 +376,10 @@ exp:^M
 ]],
 [0],
 [[input.y:11.9-11: <warning>warning:</warning> symbol FOO redeclared [<warning>-Wother</warning>]
-   11 | %token 
- <warning>FOO</warning>
+   11 | %token  <warning>FOO</warning>
       |         <warning>^~~</warning>
 input.y:10.9-11: <note>note:</note> previous declaration
-   10 | %token 
- <note>FOO</note>
+   10 | %token  <note>FOO</note>
       |         <note>^~~</note>
 input.y:13.5: <warning>warning:</warning> empty rule without %empty [<warning>-Wempty-rule</warning>]
    13 | exp:
