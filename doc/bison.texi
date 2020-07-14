@@ -263,7 +263,6 @@ Writing GLR Parsers
 * Merging GLR Parses::     Using GLR parsers to resolve ambiguities.
 * GLR Semantic Actions::   Considerations for semantic values and deferred actions.
 * Semantic Predicates::    Controlling a parse with arbitrary computations.
-* Compiler Requirements for GLR::  GLR parsers require a modern C compiler.
 
 Examples
 
@@ -943,7 +942,6 @@ on the resulting values to produce an arbitrary merged result.
 * Merging GLR Parses::     Using GLR parsers to resolve ambiguities.
 * GLR Semantic Actions::   Considerations for semantic values and deferred actions.
 * Semantic Predicates::    Controlling a parse with arbitrary computations.
-* Compiler Requirements for GLR::  GLR parsers require a modern C compiler.
 @end menu
 
 @node Simple GLR Parsers
@@ -1372,14 +1370,14 @@ widget:
 @noindent
 is one way to allow the same parser to handle two different syntaxes for
 widgets.  The clause preceded by @code{%?} is treated like an ordinary
-action, except that its text is treated as an expression and is always
+midrule action, except that its text is handled as an expression and is always
 evaluated immediately (even when in nondeterministic mode).  If the
 expression yields 0 (false), the clause is treated as a syntax error,
 which, in a nondeterministic parser, causes the stack in which it is reduced
-to die.  In a deterministic parser, it acts like YYERROR.
+to die.  In a deterministic parser, it acts like @code{YYERROR}.
 
 As the example shows, predicates otherwise look like semantic actions, and
-therefore you must be take them into account when determining the numbers
+therefore you must take them into account when determining the numbers
 to use for denoting the semantic values of right-hand side symbols.
 Predicate actions, however, have no defined value, and may not be given
 labels.
@@ -1393,7 +1391,7 @@ widget:
   @{ if (!new_syntax) YYERROR; @}
     "widget" id new_args  @{ $$ = f($3, $4); @}
 |  @{ if (new_syntax) YYERROR; @}
-    "widget" id old_args   @{ $$ = f($3, $4); @}
+    "widget" id old_args  @{ $$ = f($3, $4); @}
 ;
 @end example
 
@@ -1410,36 +1408,6 @@ reports an error.
 
 Finally, be careful in writing predicates: deferred actions have not been
 evaluated, so that using them in a predicate will have undefined effects.
-
-@node Compiler Requirements for GLR
-@subsection Considerations when Compiling GLR Parsers
-@cindex @code{inline}
-@cindex GLR parsers and @code{inline}
-
-The GLR parsers require a compiler for ISO C89 or
-later.  In addition, they use the @code{inline} keyword, which is not
-C89, but is C99 and is a common extension in pre-C99 compilers.  It is
-up to the user of these parsers to handle
-portability issues.  For instance, if using Autoconf and the Autoconf
-macro @code{AC_C_INLINE}, a mere
-
-@example
-%@{
-  #include <config.h>
-%@}
-@end example
-
-@noindent
-will suffice.  Otherwise, we suggest
-
-@example
-%@{
-  #if (__STDC_VERSION__ < 199901 && ! defined __GNUC__ \
-       && ! defined inline)
-  # define inline
-  #endif
-%@}
-@end example
 
 @node Locations
 @section Locations
@@ -14824,13 +14792,13 @@ Bison.  See the file @file{ABOUT-NLS} for more information.
 I can't build Bison because my C compiler is too old.
 @end quotation
 
-Except for GLR parsers (@pxref{Compiler Requirements for GLR}), the C
-code that Bison generates requires only C89 or later.  However, Bison
-itself requires common C99 features such as declarations after
-statements.  Bison's @code{configure} script attempts to enable C99 (or
-later) support on compilers that default to pre-C99.  If your compiler
-lacks these C99 features entirely, GCC may well be a better choice; or
-you can try upgrading to your compiler's latest version.
+Except for GLR parsers (which require C99), the C code that Bison generates
+requires only C89 or later.  However, Bison itself requires common C99
+features such as declarations after statements.  Bison's @code{configure}
+script attempts to enable C99 (or later) support on compilers that default
+to pre-C99.  If your compiler lacks these C99 features entirely, GCC may
+well be a better choice; or you can try upgrading to your compiler's latest
+version.
 
 @node Where can I find help?
 @section Where can I find help?
