@@ -17,11 +17,12 @@
 
 AT_BANNER([[Counterexamples.]])
 
+# AT_BISON_CHECK_CEX(EXPERR)
+# --------------------------
 m4_define([AT_BISON_CHECK_CEX],
-[AT_DATA([experr], [$4])
-sed -e ['s/time limit exceeded: [0-9][.0-9]*/time limit exceeded: XXX/g'] \
-  experr >expout
-AT_BISON_CHECK([-Wcounterexamples $1], [$2], [$3], [stderr])
+[AT_KEYWORDS([cex])
+AT_DATA([expout], [$1])
+AT_BISON_CHECK([-Wcounterexamples input.y], [0], [], [stderr])
 AT_CHECK([[sed -e 's/time limit exceeded: [0-9][.0-9]*/time limit exceeded: XXX/g' stderr]],
          [], [expout])
 ])
@@ -31,7 +32,6 @@ AT_CHECK([[sed -e 's/time limit exceeded: [0-9][.0-9]*/time limit exceeded: XXX/
 ## --------------------- ##
 
 AT_SETUP([Unifying S/R])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C
@@ -43,7 +43,7 @@ x: B | B C;
 y: A | A B;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              A . B C
@@ -60,7 +60,6 @@ AT_CLEANUP
 ## ------------------- ##
 
 AT_SETUP([Deep Unifying S/R])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C
@@ -72,7 +71,7 @@ a: A | A a;
 bc: B bc C | B C;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              A . B C
@@ -94,7 +93,6 @@ AT_CLEANUP
 ## ------------------------------------ ##
 
 AT_SETUP([S/R Conflict with Nullable Symbols])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B X Y
@@ -107,7 +105,7 @@ y: %empty | Y y;
 xby: B | X xby Y;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              A . B
@@ -130,7 +128,6 @@ AT_CLEANUP
 ## ---------------------------- ##
 
 AT_SETUP([Non-unifying Ambiguous S/R])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C D E
@@ -143,7 +140,7 @@ cd: C D;
 bc: B C;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token C:
   First example        B . C $end
@@ -161,7 +158,6 @@ AT_CLEANUP
 ## ------------------------------ ##
 
 AT_SETUP([Non-unifying Unambiguous S/R])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B
@@ -172,7 +168,7 @@ x: A;
 y: A A B;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token A:
   First example        A . A B $end
@@ -189,7 +185,6 @@ AT_CLEANUP
 ## ----------------------- ##
 
 AT_SETUP([S/R after first token])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B X Y
@@ -205,7 +200,7 @@ xy: X Y;
 y: Y;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
 Shift/reduce conflict on token A:
   Example              b . A X X Y
@@ -229,7 +224,6 @@ AT_CLEANUP
 ## ----------------------------- ##
 
 AT_SETUP([Unifying R/R counterexample])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A
@@ -238,7 +232,7 @@ a : A b ;
 b : A | b;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
 Reduce/reduce conflict on token $end:
   Example              A b .
@@ -255,7 +249,6 @@ AT_CLEANUP
 ## --------------------------------- ##
 
 AT_SETUP([Non-unifying R/R LR(1) conflict])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A B C D
@@ -265,7 +258,7 @@ a: D;
 b: D;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on tokens A, C:
   First example        D . A $end
@@ -283,7 +276,6 @@ AT_CLEANUP
 ## --------------------------------- ##
 
 AT_SETUP([Non-unifying R/R LR(2) conflict])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token H J K X
@@ -293,7 +285,7 @@ a: H i;
 i: X | i J K;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token J:
 time limit exceeded: XXX
@@ -315,7 +307,6 @@ AT_CLEANUP
 # graph search
 
 AT_SETUP([Cex Search Prepend])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token N A B C D
@@ -326,7 +317,7 @@ a: A;
 b: A B C | A B D;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token B:
   Example              N A . B C
@@ -351,7 +342,6 @@ AT_CLEANUP
 # precedence/associativity directives work.
 
 AT_SETUP([R/R cex with prec])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%left b
@@ -363,7 +353,7 @@ B : A b A;
 C : A c A;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on tokens b, c:
   Example              B . b c
@@ -384,7 +374,6 @@ AT_CLEANUP
 ## ------------------- ##
 
 AT_SETUP([Null nonterminals])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A
@@ -395,7 +384,7 @@ c : ;
 d : a | c A | d;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 input.y: warning: 6 reduce/reduce conflicts [-Wconflicts-rr]
 Reduce/reduce conflict on token A:
@@ -458,7 +447,6 @@ AT_CLEANUP
 ## --------------------------- ##
 
 AT_SETUP([Non-unifying Prefix Share])
-AT_KEYWORDS([cex])
 
 # Tests for a counterexample which should start its derivation
 # at a shared symbol rather than the start symbol.
@@ -471,7 +459,7 @@ a: H i J J
 i: %empty | i J;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token J:
   Example              H i J . J J
@@ -491,7 +479,6 @@ AT_CLEANUP
 # are derived correctly.
 
 AT_SETUP([Deep Null Unifying])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A D
@@ -503,7 +490,7 @@ c: %empty
 d: D;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token D:
   Example              A a . D
@@ -521,7 +508,6 @@ AT_CLEANUP
 # Tests that expand_to_conflict works with nullable sybols
 
 AT_SETUP([Deep Null Non-unifying])
-AT_KEYWORDS([cex])
 
 AT_DATA([[input.y]],
 [[%token A D E
@@ -533,7 +519,7 @@ c: %empty
 d: D;
 ]])
 
-AT_BISON_CHECK_CEX([input.y], [], [],
+AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 Shift/reduce conflict on token D:
   First example        A a . D $end
