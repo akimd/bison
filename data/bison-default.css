@@ -49,6 +49,10 @@
 .cex-5   { color: orange; }
 .cex-6   { color: brown; }
 .cex-7   { color: mauve; }
+.cex-8   { color: #013220; } /* Dark green. */
+.cex-9   { color: #e75480; } /* Dark pink. */
+.cex-10  { color: cyan; }
+.cex-11  { color: orange; }
 
 /* Cex: derivation rewriting steps.  */
 .cex-step { font-style: italic; }
