@@ -238,8 +238,6 @@ print_fallback (unsigned int code _GL_UNUSED,
   return -1;
 }
 
-/* Print "→", the symbol used to separate the lhs of a rule from its
-   rhs.  */
 static inline void
 print_arrow (FILE *out)
 {

@@ -53,6 +53,8 @@ src_bison_SOURCES =                             \
   src/flex-scanner.h                            \
   src/getargs.c                                 \
   src/getargs.h                                 \
+  src/glyphs.c                                  \
+  src/glyphs.h                                  \
   src/gram.c                                    \
   src/gram.h                                    \
   src/graphviz.c                                \
