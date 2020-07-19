@@ -1548,7 +1548,7 @@ Shift/reduce conflict on token "⊕":
     ↳ exp             "⊕" exp
       ↳ exp "+" exp •
 
-Reduce/reduce conflict on tokens $end, "+", "⊕":
+input.y: warning: reduce/reduce conflict on tokens $end, "+", "⊕" [-Wcounterexamples]
   Example              exp "+" exp •
   First derivation
     exp
@@ -1758,7 +1758,7 @@ State 7
         ↳ exp             "⊕" exp
           ↳ exp "+" exp •
 
-    Reduce/reduce conflict on tokens $end, "+", "⊕":
+    reduce/reduce conflict on tokens $end, "+", "⊕":
         2 exp: exp "+" exp •
         3 exp: exp "+" exp •
       Example                  exp "+" exp •

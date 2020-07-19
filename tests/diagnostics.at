@@ -621,7 +621,7 @@ input.y:31.4: <warning>warning:</warning> empty rule without %empty [<warning>-W
       |    <warning>^</warning>
       |    <fixit-insert>%empty</fixit-insert>
 input.y: <error>error:</error> reduce/reduce conflicts: 1 found, 0 expected
-Reduce/reduce conflict on token "X":
+input.y: <warning>warning:</warning> reduce/reduce conflict on token "X" [<warning>-Wcounterexamples</warning>]
   Example              <cex-0><cex-1><cex-2><cex-3><cex-leaf>"X"</cex-leaf> <cex-dot>•</cex-dot></cex-3></cex-2></cex-1><cex-4></cex-4><cex-5><cex-6><cex-7><cex-8><cex-9><cex-10> <cex-leaf>"X"</cex-leaf></cex-10></cex-9></cex-8><cex-11> <cex-leaf>"quuux"</cex-leaf></cex-11></cex-7></cex-6></cex-5><cex-12><cex-13><cex-14> <cex-leaf>"X"</cex-leaf></cex-14></cex-13></cex-12></cex-0>
   First derivation
     <cex-0><cex-step>exp</cex-step></cex-0>

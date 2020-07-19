@@ -389,7 +389,7 @@ b : A | b;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-Reduce/reduce conflict on token $end:
+input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example              A b .
   First derivation
     a
@@ -402,7 +402,7 @@ Reduce/reduce conflict on token $end:
 input.y:4.9: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-Reduce/reduce conflict on token $end:
+input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example              A b .
   First derivation     a -> [ A b . ]
   Second derivation    a -> [ A b -> [ b . ] ]
@@ -428,7 +428,7 @@ b: D;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-Reduce/reduce conflict on tokens A, C:
+input.y: warning: reduce/reduce conflict on tokens A, C [-Wcounterexamples]
   First example        D . A $end
   First derivation
     $accept
@@ -445,7 +445,7 @@ Reduce/reduce conflict on tokens A, C:
 input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-Reduce/reduce conflict on tokens A, C:
+input.y: warning: reduce/reduce conflict on tokens A, C [-Wcounterexamples]
   First example        D . A $end
   First derivation     $accept -> [ s -> [ a -> [ D . ] A ] $end ]
   Second example       B D . A $end
@@ -589,7 +589,7 @@ C : A c A;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
-Reduce/reduce conflict on tokens b, c:
+input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Example              B . b c
   First derivation
     S
@@ -604,7 +604,7 @@ Reduce/reduce conflict on tokens b, c:
                   `-> A     b A
                       `-> .   `-> %empty
 
-Reduce/reduce conflict on tokens b, c:
+input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Example              C . c b
   First derivation
     S
@@ -621,12 +621,12 @@ Reduce/reduce conflict on tokens b, c:
 
 ]],
 [[input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
-Reduce/reduce conflict on tokens b, c:
+input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Example              B . b c
   First derivation     S -> [ B -> [ A -> [ B . ] b A -> [ ] ] C -> [ A -> [ ] c A -> [ ] ] ]
   Second derivation    S -> [ B C -> [ A -> [ B -> [ A -> [ . ] b A -> [ ] ] ] c A -> [ ] ] ]
 
-Reduce/reduce conflict on tokens b, c:
+input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Example              C . c b
   First derivation     S -> [ C -> [ A -> [ C . ] c A -> [ ] ] B -> [ A -> [ ] b A -> [ ] ] ]
   Second derivation    S -> [ C B -> [ A -> [ C -> [ A -> [ . ] c A -> [ ] ] ] b A -> [ ] ] ]
@@ -653,7 +653,7 @@ d : a | c A | d;
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 input.y: warning: 6 reduce/reduce conflicts [-Wconflicts-rr]
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   First example        . c A A $end
   First derivation
     $accept
@@ -667,7 +667,7 @@ Reduce/reduce conflict on token A:
         `-> c     d
             `-> . `-> c A A
 
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example        b . c A A $end
   First derivation
@@ -685,7 +685,7 @@ time limit exceeded: XXX
               `-> c     A
                   `-> .
 
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example        c . c A A $end
   First derivation
@@ -721,7 +721,7 @@ time limit exceeded: XXX
                             `-> b     d
                                 `-> . `-> c A A
 
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   First example        b c . c A A $end
   First derivation
     $accept
@@ -758,7 +758,7 @@ Shift/reduce conflict on token A:
                         `-> c     A
                             `-> .
 
-Reduce/reduce conflict on token $end:
+input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example              b d .
   First derivation
     a
@@ -768,7 +768,7 @@ Reduce/reduce conflict on token $end:
     `-> b d
           `-> d .
 
-Reduce/reduce conflict on token $end:
+input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example              c d .
   First derivation
     a
@@ -783,20 +783,20 @@ input.y:6.15: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 input.y: warning: 6 reduce/reduce conflicts [-Wconflicts-rr]
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   First example        . c A A $end
   First derivation     $accept -> [ a -> [ b -> [ . ] d -> [ c A A ] ] $end ]
   Second example       . c A A $end
   Second derivation    $accept -> [ a -> [ c -> [ . ] d -> [ c A A ] ] $end ]
 
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example        b . c A A $end
   First derivation     $accept -> [ a -> [ b d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] $end ]
   Second example       b . A $end
   Second derivation    $accept -> [ a -> [ b d -> [ c -> [ . ] A ] ] $end ]
 
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example        c . c A A $end
   First derivation     $accept -> [ a -> [ c d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] $end ]
@@ -810,7 +810,7 @@ time limit exceeded: XXX
   Second example       b c . c A A $end
   Reduce derivation    $accept -> [ a -> [ b d -> [ a -> [ c d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] ] ] $end ]
 
-Reduce/reduce conflict on token A:
+input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   First example        b c . c A A $end
   First derivation     $accept -> [ a -> [ b d -> [ a -> [ c d -> [ a -> [ b -> [ . ] d -> [ c A A ] ] ] ] ] ] $end ]
   Second example       b c . A $end
@@ -822,12 +822,12 @@ Shift/reduce conflict on token A:
   Second example       b c . A $end
   Reduce derivation    $accept -> [ a -> [ b d -> [ a -> [ c d -> [ c -> [ . ] A ] ] ] ] $end ]
 
-Reduce/reduce conflict on token $end:
+input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example              b d .
   First derivation     a -> [ b d . ]
   Second derivation    a -> [ b d -> [ d . ] ]
 
-Reduce/reduce conflict on token $end:
+input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example              c d .
   First derivation     a -> [ c d . ]
   Second derivation    a -> [ c d -> [ d . ] ]

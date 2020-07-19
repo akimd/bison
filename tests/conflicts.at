@@ -1209,7 +1209,7 @@ State 1
     $end      [reduce using rule 4 (id)]
     $default  reduce using rule 3 (num)
 
-    Reduce/reduce conflict on token $end:
+    reduce/reduce conflict on token $end:
         3 num: '0' .
         4 id: '0' .
       Example                  '0' .
@@ -1803,7 +1803,7 @@ State 5
     'a'       [reduce using rule 9 (reported_conflicts)]
     $default  reduce using rule 8 (reported_conflicts)
 
-    Reduce/reduce conflict on token 'a':
+    reduce/reduce conflict on token 'a':
         8 reported_conflicts: 'a' .
         9 reported_conflicts: 'a' .
       Example                  'a' .
@@ -1993,7 +1993,7 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     Conflict between rule 10 and token 'b' resolved as an error (%nonassoc 'b').
     Conflict between rule 11 and token 'c' resolved as an error (%nonassoc 'c').
 
-    Reduce/reduce conflict on token 'c':
+    reduce/reduce conflict on token 'c':
        12 empty_c2: . %empty
        13 empty_c3: . %empty
       Example                  . 'c'
