@@ -11015,7 +11015,7 @@ The exit status of @command{bison} is:
 @item 0 (success)
 when there were no errors.  Warnings, which are diagnostics about dubious
 constructs, do not change the exit status, unless they are turned into
-errors (@pxref{-Werror,,@option{-Werror}}).
+errors (@pxref{Werror,,@option{-Werror}}).
 
 @item 1 (failure)
 when there were errors.  No file was generated (except the reports generated
@@ -11252,22 +11252,22 @@ Options controlling the diagnostics.
 Output warnings falling in @var{category}.  @var{category} can be one
 of:
 @table @code
-@item conflicts-sr
-@itemx conflicts-rr
+@item @anchor{Wconflicts-sr}conflicts-sr
+@itemx @anchor{Wconflicts-rr}conflicts-rr
 S/R and R/R conflicts.  These warnings are enabled by default.  However, if
 the @code{%expect} or @code{%expect-rr} directive is specified, an
 unexpected number of conflicts is an error, and an expected number of
 conflicts is not reported, so @option{-W} and @option{--warning} then have
 no effect on the conflict report.
 
-@item counterexamples
+@item @anchor{Wcounterexamples}counterexamples
 @itemx cex
 Provide counterexamples for conflicts.  @xref{Counterexamples}.
 Counterexamples take time to compute.  The option @option{-Wcex} should be
 used by the developer when working on the grammar; it hardly makes sense to
 use it in a CI.
 
-@item dangling-alias
+@item @anchor{Wdangling-alias}dangling-alias
 Report string literals that are not bound to a token symbol.
 
 String literals, which allow for better error messages, are (too) liberally
@@ -11313,16 +11313,16 @@ foo: "baz" @{@}
       |      @dwarning{^~~~~}
 @end example
 
-@item deprecated
+@item @anchor{Wdeprecated}deprecated
 Deprecated constructs whose support will be removed in future versions of
 Bison.
 
-@item empty-rule
+@item @anchor{Wempty-rule}empty-rule
 Empty rules without @code{%empty}.  @xref{Empty Rules}.  Disabled by
 default, but enabled by uses of @code{%empty}, unless
 @option{-Wno-empty-rule} was specified.
 
-@item midrule-values
+@item @anchor{Wmidrule-values}midrule-values
 Warn about midrule values that are set but not used within any of the actions
 of the parent rule.
 For example, warn about unused @code{$2} in:
@@ -11342,7 +11342,7 @@ These warnings are not enabled by default since they sometimes prove to
 be false alarms in existing grammars employing the Yacc constructs
 @code{$0} or @code{$-@var{n}} (where @var{n} is some positive integer).
 
-@item precedence
+@item @anchor{Wprecedence}precedence
 Useless precedence and associativity directives.  Disabled by default.
 
 Consider for instance the following grammar:
@@ -11403,20 +11403,20 @@ One would get the exact same parser with the following directives instead:
 @end group
 @end example
 
-@item yacc
+@item @anchor{Wyacc}yacc
 Incompatibilities with POSIX Yacc.
 
-@item other
+@item @anchor{Wother}other
 All warnings not categorized above.  These warnings are enabled by default.
 
 This category is provided merely for the sake of completeness.  Future
 releases of Bison may move warnings from this category to new, more specific
 categories.
 
-@item all
+@item @anchor{Wall}all
 All the warnings except @code{dangling-alias} and @code{yacc}.
 
-@item none
+@item @anchor{Wnone}none
 Turn off all the warnings.
 
 @item error
@@ -11427,8 +11427,7 @@ A category can be turned off by prefixing its name with @samp{no-}.  For
 instance, @option{-Wno-yacc} will hide the warnings about
 POSIX Yacc incompatibilities.
 
-@item -Werror
-@anchor{-Werror}
+@item @anchor{Werror}-Werror
 Turn enabled warnings for every @var{category} into errors, unless they are
 explicitly disabled by @option{-Wno-error=@var{category}}.
 
