@@ -1199,7 +1199,7 @@ m4_define([AT_BISON_CHECK_XML],
 # The testsuite verbose output, at least, will be incorrect, but nothing may
 # fail to make sure you notice.
 m4_define([AT_SET_ENV_IF],
-[[[COLUMNS=1000; export COLUMNS;]] m4_null_if($1, [], [[[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS; ]]])])
+[[[COLUMNS=1000; export COLUMNS; NO_TERM_HYPERLINKS=1; export NO_TERM_HYPERLINKS;]] m4_null_if($1, [], [[[VALGRIND_OPTS="$VALGRIND_OPTS --leak-check=summary --show-reachable=no"; export VALGRIND_OPTS; ]]])])
 
 
 # AT_SET_ENV

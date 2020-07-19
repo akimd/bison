@@ -51,7 +51,7 @@ if $EGREP ['\^M|\\[0-9][0-9][0-9]'] input.y experr >/dev/null; then
   AT_PERL_REQUIRE([-pi -e 's{\^M}{\r}g;s{\\(\d{3}|.)}{$v = $[]1; $v =~ /\A\d+\z/ ? chr($v) : $v}ge' input.y experr])
 fi
 
-AT_CHECK([LC_ALL="$locale" $5 bison -fcaret --color=debug -Wall,cex input.y], [$3], [], [experr])
+AT_CHECK(AT_SET_ENV [LC_ALL="$locale" $5 bison -fcaret --color=debug -Wall,cex input.y], [$3], [], [experr])
 
 # When no style, same messages, but without style.
 # Except for the second display of the counterexample,
@@ -68,7 +68,7 @@ AT_PERL_REQUIRE([-pi -e '
 # Cannot use AT_BISON_CHECK easily as we need to change the
 # environment.
 # FIXME: Enhance AT_BISON_CHECK.
-AT_CHECK([LC_ALL="$locale" $5 bison -fcaret -Wall,cex input.y], [$3], [], [experr])
+AT_CHECK(AT_SET_ENV [LC_ALL="$locale" $5 bison -fcaret -Wall,cex input.y], [$3], [], [experr])
 
 
 AT_BISON_OPTION_POPDEFS
