@@ -1547,7 +1547,6 @@ input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
     exp
     ↳ exp             "⊕" exp
       ↳ exp "+" exp •
-
 input.y: warning: reduce/reduce conflict on tokens $end, "+", "⊕" [-Wcounterexamples]
   Example              exp "+" exp •
   First derivation
@@ -1556,7 +1555,6 @@ input.y: warning: reduce/reduce conflict on tokens $end, "+", "⊕" [-Wcounterex
   Second derivation
     exp
     ↳ exp "+" exp •
-
 input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example              exp "+" exp • "⊕" exp
   Shift derivation
@@ -1567,7 +1565,6 @@ input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
     exp
     ↳ exp             "⊕" exp
       ↳ exp "+" exp •
-
 input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example              exp "⊕" exp • "⊕" exp
   Shift derivation
@@ -1578,7 +1575,6 @@ input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
     exp
     ↳ exp             "⊕" exp
       ↳ exp "⊕" exp •
-
 input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
   Example              exp "⊕" exp • "+" exp
   Shift derivation
@@ -1589,7 +1585,6 @@ input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
     exp
     ↳ exp             "+" exp
       ↳ exp "⊕" exp •
-
 input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
   Example              exp "⊕" exp • "+" exp
   Shift derivation
@@ -1600,7 +1595,6 @@ input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
     exp
     ↳ exp             "+" exp
       ↳ exp "⊕" exp •
-
 input.y:6.3-13: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 

@@ -546,7 +546,6 @@ input.y: <warning>warning:</warning> shift/reduce conflict on token "+" [<warnin
     <cex-0><cex-step>exp</cex-step></cex-0>
     <cex-0><cex-step>↳ <cex-1><cex-step>exp</cex-step></cex-1><cex-leaf>             "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
     <cex-1><cex-step>  ↳ <cex-leaf>exp</cex-leaf><cex-leaf> "+"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
-
 input.y: <warning>warning:</warning> shift/reduce conflict on token "else" [<warning>-Wcounterexamples</warning>]
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"else"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
   Shift derivation
@@ -558,7 +557,6 @@ input.y: <warning>warning:</warning> shift/reduce conflict on token "else" [<war
     <cex-0><cex-step>exp</cex-step></cex-0>
     <cex-0><cex-step>↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-1><cex-step> exp</cex-step></cex-1><cex-leaf>                     "else"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
     <cex-1><cex-step>                  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
-
 input.y: <warning>warning:</warning> shift/reduce conflict on token "+" [<warning>-Wcounterexamples</warning>]
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
   Shift derivation
@@ -570,7 +568,6 @@ input.y: <warning>warning:</warning> shift/reduce conflict on token "+" [<warnin
     <cex-0><cex-step>exp</cex-step></cex-0>
     <cex-0><cex-step>↳ <cex-1><cex-step>exp</cex-step></cex-1><cex-leaf>                     "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
     <cex-1><cex-step>  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
-
 input.y: <warning>warning:</warning> shift/reduce conflict on token "+" [<warning>-Wcounterexamples</warning>]
   Example              <cex-0><cex-leaf>"if"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"then"</cex-leaf> <cex-leaf>exp</cex-leaf> <cex-leaf>"else"</cex-leaf><cex-1> <cex-leaf>exp</cex-leaf> <cex-dot>•</cex-dot> <cex-leaf>"+"</cex-leaf> <cex-leaf>exp</cex-leaf></cex-1></cex-0>
   Shift derivation
@@ -582,7 +579,6 @@ input.y: <warning>warning:</warning> shift/reduce conflict on token "+" [<warnin
     <cex-0><cex-step>exp</cex-step></cex-0>
     <cex-0><cex-step>↳ <cex-1><cex-step>exp</cex-step></cex-1><cex-leaf>                                "+"</cex-leaf><cex-leaf> exp</cex-leaf></cex-step></cex-0>
     <cex-1><cex-step>  ↳ <cex-leaf>"if"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "then"</cex-leaf><cex-leaf> exp</cex-leaf><cex-leaf> "else"</cex-leaf><cex-leaf> exp</cex-leaf><cex-dot> •</cex-dot></cex-step></cex-1>
-
 ]])
 
 
@@ -642,7 +638,6 @@ input.y: <warning>warning:</warning> reduce/reduce conflict on token "X" [<warni
     <cex-8><cex-step>                        ↳ <cex-9><cex-step>y2</cex-step></cex-9></cex-step></cex-8><cex-11><cex-step>      ↳ <cex-leaf>"quuux"</cex-leaf></cex-step></cex-11>
     <cex-9><cex-step>                          ↳ <cex-10><cex-step>y3</cex-step></cex-10></cex-step></cex-9>
     <cex-10><cex-step>                            ↳ <cex-leaf>"X"</cex-leaf></cex-step></cex-10>
-
 input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option '--update'. [<warning>-Wother</warning>]
 ]])
 
