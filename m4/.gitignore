@@ -175,6 +175,7 @@
 /stdio_h.m4
 /stdlib_h.m4
 /stpcpy.m4
+/stpncpy.m4
 /strchrnul.m4
 /strdup.m4
 /strerror.m4

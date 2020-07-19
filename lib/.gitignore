@@ -313,6 +313,7 @@
 /stdlib.h
 /stdlib.in.h
 /stpcpy.c
+/stpncpy.c
 /strchrnul.c
 /strchrnul.valgrind
 /strdup.c
