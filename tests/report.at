@@ -1537,7 +1537,7 @@ exp
 AT_CHECK([LC_ALL="$locale" bison -fno-caret -o input.cc -rall -Wcex --graph=input.gv --xml input.y], [], [],
 [[input.y: warning: 3 shift/reduce conflicts [-Wconflicts-sr]
 input.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
-Shift/reduce conflict on token "⊕":
+input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example              exp "+" exp • "⊕" exp
   Shift derivation
     exp
@@ -1557,7 +1557,7 @@ input.y: warning: reduce/reduce conflict on tokens $end, "+", "⊕" [-Wcounterex
     exp
     ↳ exp "+" exp •
 
-Shift/reduce conflict on token "⊕":
+input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example              exp "+" exp • "⊕" exp
   Shift derivation
     exp
@@ -1568,7 +1568,7 @@ Shift/reduce conflict on token "⊕":
     ↳ exp             "⊕" exp
       ↳ exp "+" exp •
 
-Shift/reduce conflict on token "⊕":
+input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example              exp "⊕" exp • "⊕" exp
   Shift derivation
     exp
@@ -1579,7 +1579,7 @@ Shift/reduce conflict on token "⊕":
     ↳ exp             "⊕" exp
       ↳ exp "⊕" exp •
 
-Shift/reduce conflict on token "+":
+input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
   Example              exp "⊕" exp • "+" exp
   Shift derivation
     exp
@@ -1590,7 +1590,7 @@ Shift/reduce conflict on token "+":
     ↳ exp             "+" exp
       ↳ exp "⊕" exp •
 
-Shift/reduce conflict on token "+":
+input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
   Example              exp "⊕" exp • "+" exp
   Shift derivation
     exp
@@ -1745,7 +1745,7 @@ State 7
 
     Conflict between rule 2 and token "+" resolved as reduce (%left "+").
 
-    Shift/reduce conflict on token "⊕":
+    shift/reduce conflict on token "⊕":
         2 exp: exp "+" exp •
         1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
@@ -1769,7 +1769,7 @@ State 7
         exp
         ↳ exp "+" exp •
 
-    Shift/reduce conflict on token "⊕":
+    shift/reduce conflict on token "⊕":
         3 exp: exp "+" exp •
         1 exp: exp • "⊕" exp
       Example                  exp "+" exp • "⊕" exp
@@ -1798,7 +1798,7 @@ State 8
     "⊕"       [reduce using rule 1 (exp)]
     $default  reduce using rule 1 (exp)
 
-    Shift/reduce conflict on token "⊕":
+    shift/reduce conflict on token "⊕":
         1 exp: exp "⊕" exp •
         1 exp: exp • "⊕" exp
       Example                  exp "⊕" exp • "⊕" exp
@@ -1811,7 +1811,7 @@ State 8
         ↳ exp             "⊕" exp
           ↳ exp "⊕" exp •
 
-    Shift/reduce conflict on token "+":
+    shift/reduce conflict on token "+":
         1 exp: exp "⊕" exp •
         2 exp: exp • "+" exp
       Example                  exp "⊕" exp • "+" exp
@@ -1824,7 +1824,7 @@ State 8
         ↳ exp             "+" exp
           ↳ exp "⊕" exp •
 
-    Shift/reduce conflict on token "+":
+    shift/reduce conflict on token "+":
         1 exp: exp "⊕" exp •
         3 exp: exp • "+" exp
       Example                  exp "⊕" exp • "+" exp

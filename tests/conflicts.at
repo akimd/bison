@@ -861,7 +861,7 @@ State 5
     OP        [reduce using rule 1 (exp)]
     $default  reduce using rule 1 (exp)
 
-    Shift/reduce conflict on token OP:
+    shift/reduce conflict on token OP:
         1 exp: exp OP exp .
         1 exp: exp . OP exp
       Example                  exp OP exp . OP exp
@@ -1764,7 +1764,7 @@ State 4
 
     reported_conflicts  go to state 6
 
-    Shift/reduce conflict on token 'a':
+    shift/reduce conflict on token 'a':
        10 reported_conflicts: . %empty
         8 reported_conflicts: . 'a'
       First example            resolved_conflict . 'a' 'a'
@@ -1778,7 +1778,7 @@ State 4
         `-> resolved_conflict reported_conflicts 'a'
                               `-> .
 
-    Shift/reduce conflict on token 'a':
+    shift/reduce conflict on token 'a':
        10 reported_conflicts: . %empty
         9 reported_conflicts: . 'a'
       First example            resolved_conflict . 'a' 'a'

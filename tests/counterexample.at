@@ -54,7 +54,7 @@ y: A | A B;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A . B C
   Shift derivation
     s
@@ -68,7 +68,7 @@ Shift/reduce conflict on token B:
 input.y:4.4: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A . B C
   Shift derivation     s -> [ y -> [ A . B ] c -> [ C ] ]
   Reduce derivation    s -> [ a -> [ A . ] x -> [ B C ] ]
@@ -96,7 +96,7 @@ bc: B bc C | B C;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A . B C
   Shift derivation
     s
@@ -109,7 +109,7 @@ Shift/reduce conflict on token B:
     `-> a       bc
         `-> A . `-> B C
 
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A A . B B C C
   Shift derivation
     s
@@ -128,12 +128,12 @@ Shift/reduce conflict on token B:
 input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A . B C
   Shift derivation     s -> [ ac -> [ A ac -> [ b -> [ . B ] ] C ] ]
   Reduce derivation    s -> [ a -> [ A . ] bc -> [ B C ] ]
 
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A A . B B C C
   Shift derivation     s -> [ ac -> [ A ac -> [ A ac -> [ b -> [ . b -> [ B B ] ] ] C ] C ] ]
   Reduce derivation    s -> [ a -> [ A a -> [ A . ] ] bc -> [ B bc -> [ B C ] C ] ]
@@ -162,7 +162,7 @@ xby: B | X xby Y;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A . B
   Shift derivation
     s
@@ -174,7 +174,7 @@ Shift/reduce conflict on token B:
         `-> A x     `-> B y
               `-> .       `-> %empty
 
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   First example        A X . B Y $end
   Shift derivation
     $accept
@@ -194,12 +194,12 @@ Shift/reduce conflict on token B:
 input.y:5.4-9: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              A . B
   Shift derivation     s -> [ A xby -> [ . B ] ]
   Reduce derivation    s -> [ ax -> [ A x -> [ . ] ] by -> [ B y -> [ ] ] ]
 
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   First example        A X . B Y $end
   Shift derivation     $accept -> [ s -> [ A xby -> [ X xby -> [ . B ] Y ] ] $end ]
   Second example       A X . B y $end
@@ -229,7 +229,7 @@ bc: B C;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token C:
+input.y: warning: shift/reduce conflict on token C [-Wcounterexamples]
   First example        B . C $end
   Shift derivation
     $accept
@@ -248,7 +248,7 @@ Shift/reduce conflict on token C:
 input.y:6.4: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token C:
+input.y: warning: shift/reduce conflict on token C [-Wcounterexamples]
   First example        B . C $end
   Shift derivation     $accept -> [ g -> [ x -> [ bc -> [ B . C ] ] ] $end ]
   Second example       B . C D $end
@@ -276,7 +276,7 @@ y: A A B;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   First example        A . A B $end
   Shift derivation
     $accept
@@ -295,7 +295,7 @@ Shift/reduce conflict on token A:
 
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   First example        A . A B $end
   Shift derivation     $accept -> [ s -> [ t -> [ y -> [ A . A B ] ] ] $end ]
   Second example       A . A $end
@@ -327,7 +327,7 @@ y: Y;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   Example              b . A X X Y
   Shift derivation
     a
@@ -340,7 +340,7 @@ Shift/reduce conflict on token A:
         `-> b . `-> A x     xy
                       `-> X `-> X Y
 
-Shift/reduce conflict on token X:
+input.y: warning: shift/reduce conflict on token X [-Wcounterexamples]
   First example        A X . X
   Shift derivation
     a
@@ -357,12 +357,12 @@ input.y:4.4: warning: rule useless in parser due to conflicts [-Wother]
 input.y:8.4: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   Example              b . A X X Y
   Shift derivation     a -> [ s -> [ b . xx -> [ A X X ] y -> [ Y ] ] ]
   Reduce derivation    a -> [ r -> [ b . ] t -> [ A x -> [ X ] xy -> [ X Y ] ] ]
 
-Shift/reduce conflict on token X:
+input.y: warning: shift/reduce conflict on token X [-Wcounterexamples]
   First example        A X . X
   Shift derivation     a -> [ t -> [ A xx -> [ X . X ] ] ]
   Second example       X . X xy
@@ -472,7 +472,7 @@ i: X | i J K;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token J:
+input.y: warning: shift/reduce conflict on token J [-Wcounterexamples]
 time limit exceeded: XXX
   First example        H i . J K $end
   Shift derivation
@@ -490,7 +490,7 @@ time limit exceeded: XXX
 input.y:4.4-6: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token J:
+input.y: warning: shift/reduce conflict on token J [-Wcounterexamples]
 time limit exceeded: XXX
   First example        H i . J K $end
   Shift derivation     $accept -> [ a -> [ H i -> [ i . J K ] ] $end ]
@@ -522,7 +522,7 @@ b: A B C | A B D;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              N A . B C
   Shift derivation
     s
@@ -535,7 +535,7 @@ Shift/reduce conflict on token B:
         `-> N a       B
               `-> A .
 
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              N N A . B D C
   Shift derivation
     s
@@ -553,12 +553,12 @@ Shift/reduce conflict on token B:
 input.y:5.4: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              N A . B C
   Shift derivation     s -> [ n -> [ N b -> [ A . B C ] ] ]
   Reduce derivation    s -> [ n -> [ N a -> [ A . ] B ] C ]
 
-Shift/reduce conflict on token B:
+input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Example              N N A . B D C
   Shift derivation     s -> [ n -> [ N n -> [ N b -> [ A . B D ] ] C ] ]
   Reduce derivation    s -> [ n -> [ N n -> [ N a -> [ A . ] B ] D ] C ]
@@ -703,7 +703,7 @@ time limit exceeded: XXX
               `-> c     A
                   `-> .
 
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example        b c . A
   Shift derivation
@@ -742,7 +742,7 @@ input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
                         `-> c     A
                             `-> .
 
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   First example        b c . A
   Shift derivation
     a
@@ -803,7 +803,7 @@ time limit exceeded: XXX
   Second example       c . A $end
   Second derivation    $accept -> [ a -> [ c d -> [ c -> [ . ] A ] ] $end ]
 
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example        b c . A
   Shift derivation     a -> [ b d -> [ c . A ] ]
@@ -816,7 +816,7 @@ input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   Second example       b c . A $end
   Second derivation    $accept -> [ a -> [ b d -> [ a -> [ c d -> [ c -> [ . ] A ] ] ] ] $end ]
 
-Shift/reduce conflict on token A:
+input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   First example        b c . A
   Shift derivation     a -> [ b d -> [ c . A ] ]
   Second example       b c . A $end
@@ -857,7 +857,7 @@ i: %empty | i J;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token J:
+input.y: warning: shift/reduce conflict on token J [-Wcounterexamples]
   Example              H i J . J J
   Shift derivation
     s
@@ -872,7 +872,7 @@ Shift/reduce conflict on token J:
 input.y:5.13-15: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token J:
+input.y: warning: shift/reduce conflict on token J [-Wcounterexamples]
   Example              H i J . J J
   Shift derivation     s -> [ a -> [ H i J . J ] J ]
   Reduce derivation    s -> [ a -> [ H i -> [ i J . ] J J ] ]
@@ -903,7 +903,7 @@ d: D;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token D:
+input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
   Example              A a . D
   Shift derivation
     s
@@ -918,7 +918,7 @@ Shift/reduce conflict on token D:
 
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token D:
+input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
   Example              A a . D
   Shift derivation     s -> [ A a d -> [ . D ] ]
   Reduce derivation    s -> [ A a a -> [ b -> [ c -> [ . ] ] ] d -> [ D ] ]
@@ -947,7 +947,7 @@ d: D;
 
 AT_BISON_CHECK_CEX(
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token D:
+input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
   First example        A a . D $end
   Shift derivation
     $accept
@@ -965,7 +965,7 @@ Shift/reduce conflict on token D:
 
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-Shift/reduce conflict on token D:
+input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
   First example        A a . D $end
   Shift derivation     $accept -> [ s -> [ A a d -> [ . D ] ] $end ]
   Second example       A a . D E $end
