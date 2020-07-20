@@ -1549,10 +1549,10 @@ input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
       ↳ exp "+" exp •
 input.y: warning: reduce/reduce conflict on tokens $end, "+", "⊕" [-Wcounterexamples]
   Example: exp "+" exp •
-  First derivation
+  First reduce derivation
     exp
     ↳ exp "+" exp •
-  Second derivation
+  Second reduce derivation
     exp
     ↳ exp "+" exp •
 input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
@@ -1756,10 +1756,10 @@ State 7
         2 exp: exp "+" exp •
         3 exp: exp "+" exp •
       Example: exp "+" exp •
-      First derivation
+      First reduce derivation
         exp
         ↳ exp "+" exp •
-      Second derivation
+      Second reduce derivation
         exp
         ↳ exp "+" exp •
 

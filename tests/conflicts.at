@@ -1213,11 +1213,11 @@ State 1
         3 num: '0' .
         4 id: '0' .
       Example: '0' .
-      First derivation
+      First reduce derivation
         exp
         `-> num
             `-> '0' .
-      Second derivation
+      Second reduce derivation
         exp
         `-> id
             `-> '0' .
@@ -1807,10 +1807,10 @@ State 5
         8 reported_conflicts: 'a' .
         9 reported_conflicts: 'a' .
       Example: 'a' .
-      First derivation
+      First reduce derivation
         reported_conflicts
         `-> 'a' .
-      Second derivation
+      Second reduce derivation
         reported_conflicts
         `-> 'a' .
 
@@ -1997,11 +1997,11 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
        12 empty_c2: . %empty
        13 empty_c3: . %empty
       Example: . 'c'
-      First derivation
+      First reduce derivation
         start
         `-> empty_c2 'c'
             `-> .
-      Second derivation
+      Second reduce derivation
         start
         `-> empty_c3 'c'
             `-> .

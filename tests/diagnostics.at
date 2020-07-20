@@ -619,7 +619,7 @@ input.y:31.4: <warning>warning:</warning> empty rule without %empty [<warning>-W
 input.y: <error>error:</error> reduce/reduce conflicts: 1 found, 0 expected
 input.y: <warning>warning:</warning> reduce/reduce conflict on token "X" [<warning>-Wcounterexamples</warning>]
   Example: <cex-0><cex-1><cex-2><cex-3><cex-leaf>"X"</cex-leaf> <cex-dot>•</cex-dot></cex-3></cex-2></cex-1><cex-4></cex-4><cex-5><cex-6><cex-7><cex-8><cex-9><cex-10> <cex-leaf>"X"</cex-leaf></cex-10></cex-9></cex-8><cex-11> <cex-leaf>"quuux"</cex-leaf></cex-11></cex-7></cex-6></cex-5><cex-12><cex-13><cex-14> <cex-leaf>"X"</cex-leaf></cex-14></cex-13></cex-12></cex-0>
-  First derivation
+  First reduce derivation
     <cex-0><cex-step>exp</cex-step></cex-0>
     <cex-0><cex-step>↳ <cex-1><cex-step>x1</cex-step></cex-1><cex-4><cex-step>          e1</cex-step></cex-4><cex-5><cex-step>  foo1</cex-step></cex-5><cex-12><cex-step>                      x1</cex-step></cex-12></cex-step></cex-0>
     <cex-1><cex-step>  ↳ <cex-2><cex-step>x2</cex-step></cex-2></cex-step></cex-1><cex-4><cex-step>        ↳ ε</cex-step></cex-4><cex-5><cex-step> ↳ <cex-6><cex-step>foo2</cex-step></cex-6></cex-step></cex-5><cex-12><cex-step>                    ↳ <cex-13><cex-step>x2</cex-step></cex-13></cex-step></cex-12>
@@ -629,7 +629,7 @@ input.y: <warning>warning:</warning> reduce/reduce conflict on token "X" [<warni
     <cex-9><cex-step>                          ↳ <cex-10><cex-step>x3</cex-step></cex-10></cex-step></cex-9>
     <cex-10><cex-step>                            ↳ <cex-leaf>"X"</cex-leaf></cex-step></cex-10>
   Example: <cex-0><cex-1><cex-2><cex-3><cex-leaf>"X"</cex-leaf> <cex-dot>•</cex-dot></cex-3></cex-2></cex-1><cex-4></cex-4><cex-5><cex-6><cex-7><cex-8><cex-9><cex-10> <cex-leaf>"X"</cex-leaf></cex-10></cex-9></cex-8><cex-11> <cex-leaf>"quuux"</cex-leaf></cex-11></cex-7></cex-6></cex-5><cex-12><cex-13><cex-14> <cex-leaf>"X"</cex-leaf></cex-14></cex-13></cex-12></cex-0>
-  Second derivation
+  Second reduce derivation
     <cex-0><cex-step>exp</cex-step></cex-0>
     <cex-0><cex-step>↳ <cex-1><cex-step>y1</cex-step></cex-1><cex-4><cex-step>          e2</cex-step></cex-4><cex-5><cex-step>  bar1</cex-step></cex-5><cex-12><cex-step>                      y1</cex-step></cex-12></cex-step></cex-0>
     <cex-1><cex-step>  ↳ <cex-2><cex-step>y2</cex-step></cex-2></cex-step></cex-1><cex-4><cex-step>        ↳ ε</cex-step></cex-4><cex-5><cex-step> ↳ <cex-6><cex-step>bar2</cex-step></cex-6></cex-step></cex-5><cex-12><cex-step>                    ↳ <cex-13><cex-step>y2</cex-step></cex-13></cex-step></cex-12>
