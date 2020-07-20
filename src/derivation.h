@@ -64,7 +64,7 @@ static inline derivation *derivation_new_leaf (symbol_number sym)
 // Number of symbols.
 size_t derivation_size (const derivation *deriv);
 void derivation_print (const derivation *deriv, FILE *out, const char *prefix);
-void derivation_print_leaves (const derivation *deriv, FILE *out, const char *prefix);
+void derivation_print_leaves (const derivation *deriv, FILE *out);
 void derivation_free (derivation *deriv);
 void derivation_retain (derivation *deriv);
 
