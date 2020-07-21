@@ -2,39 +2,6 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-
-* Noteworthy changes in release 3.6.93 (2020-07-20) [beta]
-
-** Bug fixes
-
-  Portability issues.
-
-
-* Noteworthy changes in release 3.6.92 (2020-07-19) [beta]
-
-Changes in the display of counterexamples.
-
-** Documentation
-
-*** Examples
-
-  The bistromathic demonstrates %param and how to quote sources in the error
-  messages:
-
-    > 123 456
-    1.5-7: syntax error: expected end of file or + or - or * or / or ^ before number
-        1 | 123 456
-          |     ^~~
-
-* Noteworthy changes in release 3.6.91 (2020-07-09) [beta]
-
-** Bug fixes
-
-  Portability issues.
-
-
-* Noteworthy changes in release 3.6.90 (2020-07-04) [beta]
-
 ** Deprecated features
 
   The YYPRINT macro, which works only with yacc.c and only for tokens, was
@@ -51,52 +18,114 @@ Changes in the display of counterexamples.
 
   Contributed by Vincent Imbimbo.
 
-  When given `--report=counterexamples` or `-Wcounterexamples`, bison will
-  now output counterexamples for conflicts in the grammar.  These are
-  strings in the grammar which can be parsed in two ways due to the
-  conflict.  For example:
+  When given `-Wcounterexamples`/`-Wcex`, bison will now output
+  counterexamples for conflicts in the grammar.
 
-    Shift/reduce conflict on token "/":
-      Example              exp "+" exp • "/" exp
+**** Unifying Counterexamples
+
+  Unifying counterexamples are strings which can be parsed in two ways due
+  to the conflict.  For example on a grammar that contains the usual
+  "dangling else" ambiguity:
+
+    $ bison else.y
+    else.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+    else.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    $ bison else.y -Wcex
+    else.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+    else.y: warning: shift/reduce conflict on token "else" [-Wcounterexamples]
+      Example: "if" exp "then" "if" exp "then" exp • "else" exp
       Shift derivation
         exp
-        ↳ exp "+" exp
-                  ↳ exp • "/" exp
-      Example              exp "+" exp • "/" exp
+        ↳ "if" exp "then" exp
+                          ↳ "if" exp "then" exp • "else" exp
+      Example: "if" exp "then" "if" exp "then" exp • "else" exp
       Reduce derivation
         exp
-        ↳ exp             "/" exp
-          ↳ exp "+" exp •
+        ↳ "if" exp "then" exp                     "else" exp
+                          ↳ "if" exp "then" exp •
 
-  When Bison is installed with text styling enabled, the example is actually
-  shown twice, with colors highlighting the ambiguity.
+  When text styling is enabled, colors are used in the examples and the
+  derivations to highlight the structure of both analyses.  In this case,
 
-  This is a shift/reduce conflict caused by none of the operators having
-  precedence, so the example can be parsed in the two ways shown.  When
-  bison cannot find an example that can be derived in two ways, it instead
-  generates two examples that are the same up until the dot:
+    "if" exp "then" [ "if" exp "then" exp • ] "else" exp
 
-    First example        expr • ID ',' ID $end
-    Shift derivation
-      $accept
-      ↳ s                      $end
-        ↳ a                 ID
-          ↳ expr
-            ↳ expr • ID ','
-    Second example       expr • ID $end
-    Reduce derivation
-      $accept
-      ↳ s             $end
-        ↳ a        ID
-          ↳ expr •
+  vs.
+
+    "if" exp "then" [ "if" exp "then" exp • "else" exp ]
+
+
+  The counterexamples are "focused", in two different ways.  First, they do
+  not clutter the output with all the derivations from the start symbol,
+  rather they start on the "conflicted nonterminal". They go straight to the
+  point.  Second, they don't "expand" nonterminal symbols uselessly.
+
+**** Nonunifying Counterexamples
+
+  In the case of the dangling else, Bison found an example that can be
+  parsed in two ways (therefore proving that the grammar is ambiguous).
+  When it cannot find such an example, it instead generates two examples
+  that are the same up until the dot:
+
+    $ bison foo.y
+    foo.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+    foo.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+    foo.y:4.4-7: warning: rule useless in parser due to conflicts [-Wother]
+        4 | a: expr
+          |    ^~~~
+
+    $ bison -Wcex foo.y
+    foo.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+    foo.y: warning: shift/reduce conflict on token ID [-Wcounterexamples]
+      First example: expr • ID ',' ID $end
+      Shift derivation
+        $accept
+        ↳ s                      $end
+          ↳ a                 ID
+            ↳ expr
+              ↳ expr • ID ','
+      Second example: expr • ID $end
+      Reduce derivation
+        $accept
+        ↳ s             $end
+          ↳ a        ID
+            ↳ expr •
+    foo.y:4.4-7: warning: rule useless in parser due to conflicts [-Wother]
+        4 | a: expr
+          |    ^~~~
 
   In these cases, the parser usually doesn't have enough lookahead to
   differentiate the two given examples.
 
-  The counterexamples are "focused" in two different ways.  First, they do
-  not clutter the output with all the derivations from the start symbol,
-  rather they start on the "conflicted nonterminal". They go straight to the
-  point.  Second, they don't "expand" nonterminal symbols uselessly.
+**** Reports
+
+  Counterexamples are also included in the report when given
+  `--report=counterexamples`/`-rcex` (or `--report=all`), with more
+  technical details:
+
+    State 7
+
+      1 exp: "if" exp "then" exp •  [$end, "then", "else"]
+      2    | "if" exp "then" exp • "else" exp
+
+      "else"  shift, and go to state 8
+
+      "else"    [reduce using rule 1 (exp)]
+      $default  reduce using rule 1 (exp)
+
+      shift/reduce conflict on token "else":
+          1 exp: "if" exp "then" exp •
+          2 exp: "if" exp "then" exp • "else" exp
+        Example: "if" exp "then" "if" exp "then" exp • "else" exp
+        Shift derivation
+          exp
+          ↳ "if" exp "then" exp
+                            ↳ "if" exp "then" exp • "else" exp
+        Example: "if" exp "then" "if" exp "then" exp • "else" exp
+        Reduce derivation
+          exp
+          ↳ "if" exp "then" exp                     "else" exp
+                            ↳ "if" exp "then" exp •
 
 *** File prefix mapping
 
@@ -109,6 +138,11 @@ Changes in the display of counterexamples.
   make bison output reproducible.
 
 ** Changes
+
+*** Diagnostics
+
+  When text styling is enabled and the terminal supports it, the warnings
+  now include hyperlinks to the documentation.
 
 *** Relocatable installation
 
@@ -149,6 +183,18 @@ Changes in the display of counterexamples.
 
   Now the parser state can be examined when parsing is finished.  The parser
   state is reset when starting a new parse.
+
+** Documentation
+
+*** Examples
+
+  The bistromathic demonstrates %param and how to quote sources in the error
+  messages:
+
+    > 123 456
+    1.5-7: syntax error: expected end of file or + or - or * or / or ^ before number
+        1 | 123 456
+          |     ^~~
 
 ** Bug fixes
 
@@ -4415,7 +4461,7 @@ LocalWords:  yysymbol yytnamerr yyreport ctx ARGMAX yysyntax stderr LPAREN
 LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
 LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
 LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
-LocalWords:  gotos readline Imbimbo Wcounterexamples
+LocalWords:  gotos readline Imbimbo Wcounterexamples Wcex Nonunifying rcex
 
 Local Variables:
 ispell-dictionary: "american"
