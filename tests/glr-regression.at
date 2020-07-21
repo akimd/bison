@@ -89,7 +89,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr1.c -rall glr-regr1.y]], 0, [],
 [[glr-regr1.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-glr-regr1.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr1.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr1])
 AT_PARSER_CHECK([[glr-regr1 BPBPB]], 0,
@@ -214,7 +214,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr2a.c -rall glr-regr2a.y]], 0, [],
 [[glr-regr2a.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-glr-regr2a.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr2a.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr2a])
 
@@ -350,7 +350,7 @@ AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o glr-regr3.c -rall glr-regr3.y]], 0, [],
 [[glr-regr3.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 glr-regr3.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr3.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr3.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr3])
 
@@ -447,7 +447,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr4.c -rall glr-regr4.y]], 0, [],
 [[glr-regr4.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr4.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr4.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr4])
 
@@ -505,7 +505,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr5.c -rall glr-regr5.y]], 0, [],
 [[glr-regr5.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr5.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr5.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr5])
 
@@ -555,7 +555,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr6.c -rall glr-regr6.y]], 0, [],
 [[glr-regr6.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr6.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr6.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr6])
 
@@ -646,7 +646,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr7.c -rall glr-regr7.y]], 0, [],
 [[glr-regr7.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr7.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr7.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr7])
 
@@ -737,7 +737,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr8.c -rall glr-regr8.y]], 0, [],
 [[glr-regr8.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr8.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr8.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr8])
 
@@ -819,7 +819,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr9.c -rall glr-regr9.y]], 0, [],
 [[glr-regr9.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr9.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr9.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr9])
 
@@ -877,7 +877,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr10.c -rall glr-regr10.y]], 0, [],
 [[glr-regr10.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr10.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr10.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr10])
 
@@ -937,7 +937,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr11.c -rall glr-regr11.y]], 0, [],
 [[glr-regr11.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr11.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr11.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr11])
 
@@ -1060,7 +1060,7 @@ AT_BISON_OPTION_POPDEFS
 AT_BISON_CHECK([[-o glr-regr12.c -rall glr-regr12.y]], 0, [],
 [[glr-regr12.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 glr-regr12.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr12.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr12.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr12])
 
@@ -1392,7 +1392,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr14.c -rall glr-regr14.y]], 0, [],
 [[glr-regr14.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr14.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr14.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr14])
 
@@ -1487,7 +1487,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr15.c -rall glr-regr15.y]], 0, [],
 [[glr-regr15.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr15.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr15.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr15])
 
@@ -1549,7 +1549,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr16.c -rall glr-regr16.y]], 0, [],
 [[glr-regr16.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr16.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr16.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr16])
 
@@ -1625,7 +1625,7 @@ AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr17.c -rall glr-regr17.y]], 0, [],
 [[glr-regr17.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr17.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+glr-regr17.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([glr-regr17])
 
@@ -1719,7 +1719,7 @@ d: /* nada.  */;
 
 AT_BISON_CHECK([[-o input.c input.y]], 0, [],
 [[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+input.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 ]])
 AT_COMPILE([input])
 

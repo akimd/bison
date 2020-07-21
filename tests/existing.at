@@ -434,7 +434,7 @@ input.y:323.10: warning: empty rule without %empty [-Wempty-rule]
 ]AT_COND_CASE([[canonical LR]],
 [[input.y: warning: 265 shift/reduce conflicts [-Wconflicts-sr]]],
 [[input.y: warning: 65 shift/reduce conflicts [-Wconflicts-sr]]])[
-input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+input.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 input.y:39.1-5: warning: useless associativity for FUNC_CALL, use %precedence [-Wprecedence]
 input.y:44.1-5: warning: useless associativity for YNUMBER, use %precedence [-Wprecedence]
 input.y:44.1-5: warning: useless associativity for YSTRING, use %precedence [-Wprecedence]
@@ -1419,7 +1419,7 @@ input.y:591.18: warning: empty rule without %empty [-Wempty-rule]
 input.y: warning: 144 reduce/reduce conflicts [-Wconflicts-rr]]],
 [[input.y: warning: 78 shift/reduce conflicts [-Wconflicts-sr]
 input.y: warning: 10 reduce/reduce conflicts [-Wconflicts-rr]]])[
-input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+input.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 input.y:72.1-5: warning: useless associativity for HQUA, use %precedence [-Wprecedence]
 input.y:53.1-6: warning: useless associativity for HASSIGN, use %precedence [-Wprecedence]
 input.y:54.1-5: warning: useless associativity for HORELSE, use %precedence [-Wprecedence]

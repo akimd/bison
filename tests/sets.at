@@ -285,7 +285,7 @@ term: 'n'
 
 AT_BISON_CHECK([[-fcaret input.y]], [], [],
 [[input.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
+input.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 input.y:2.14-17: warning: rule useless in parser due to conflicts [-Wother]
     2 | expr: term | term | term | term | term | term
       |              ^~~~

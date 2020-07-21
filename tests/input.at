@@ -2887,7 +2887,6 @@ input.y:13.1-14: note: previous definition
 input.y:14.16-29: warning: %define variable 'parse.error' redefined [-Wother]
 input.y:13.16-29: note: previous definition
 input.y: error: reduce/reduce conflicts: 0 found, 42 expected
-input.y: warning: rerun with option '-Wcounterexamples' to generate conflict counterexamples [-Wother]
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])
 
