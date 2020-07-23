@@ -19,7 +19,7 @@ GNU Bison NEWS
   Contributed by Vincent Imbimbo.
 
   When given `-Wcounterexamples`/`-Wcex`, bison will now output
-  counterexamples for conflicts in the grammar.
+  counterexamples for conflicts.
 
 **** Unifying Counterexamples
 

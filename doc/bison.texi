@@ -11586,7 +11586,8 @@ releases of Bison may move warnings from this category to new, more specific
 categories.
 
 @item @anchor{Wall}all
-All the warnings except @code{dangling-alias} and @code{yacc}.
+All the warnings except @code{counterexamples}, @code{dangling-alias} and
+@code{yacc}.
 
 @item @anchor{Wnone}none
 Turn off all the warnings.
