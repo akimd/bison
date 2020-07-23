@@ -2145,7 +2145,7 @@ for gram in sr-rr sr rr; do
             issue_note=true
           elif test "$sr_exp_i" -ne "$sr_count"; then
             echo "error: shift/reduce conflicts: $sr_count found, $sr_exp_i expected"
-            if test "$sr_exp_i" -ne 0; then
+            if test "$sr_count" -ne 0; then
               issue_note=true
             fi
           fi
@@ -2154,7 +2154,7 @@ for gram in sr-rr sr rr; do
             issue_note=true
           elif test "$rr_exp_i" -ne "$rr_count"; then
             echo "error: reduce/reduce conflicts: $rr_count found, $rr_exp_i expected"
-            if test "$rr_exp_i" -ne 0; then
+            if test "$rr_count" -ne 0; then
               issue_note=true
             fi
           fi
