@@ -67,7 +67,6 @@
 /intlmacosx.m4
 /intmax.m4
 /intmax_t.m4
-/inttypes-pri.m4
 /inttypes.m4
 /inttypes_h.m4
 /isnan.m4
@@ -97,7 +96,6 @@
 /locale-ja.m4
 /locale-zh.m4
 /locale_h.m4
-/localtime-buffer.m4
 /lock.m4
 /longlong.m4
 /lstat.m4
@@ -117,6 +115,7 @@
 /msvc-inval.m4
 /msvc-nothrow.m4
 /multiarch.m4
+/musl.m4
 /nls.m4
 /nocrash.m4
 /non-recursive-gnulib-prefix-hack.m4

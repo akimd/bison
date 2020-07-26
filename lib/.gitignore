@@ -192,8 +192,6 @@
 /localcharset.h
 /locale.h
 /locale.in.h
-/localtime-buffer.c
-/localtime-buffer.h
 /lstat.c
 /malloc.c
 /malloca.c

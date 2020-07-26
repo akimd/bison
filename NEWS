@@ -4,7 +4,9 @@ GNU Bison NEWS
 
 ** Bug fixes
 
-  Fixed a crash when a token alias contains a NUL byte.
+  Crash when a token alias contains a NUL byte.
+
+  Portability issues with libtextstyle.
 
 ** Changes
 
