@@ -9887,7 +9887,7 @@ initially developed by Chinawat Isradisaikul and Andrew Myers
 @pcite{Isradisaikul 2015}.
 
 As a first example, see the example grammar of @ref{Shift/Reduce}, which
-features on shift/reduce conflict:
+features one shift/reduce conflict:
 
 @c see doc/if-then-else.y
 @example
@@ -9901,46 +9901,40 @@ Let's rerun @command{bison} with the option
 @option{-Wcex}/@option{-Wcounterexamples}@inlinefmt{info, (the following
 output is actually in color)}:
 
-@ifnottex
 @example
 if-then-else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
 if-then-else.y: @dwarning{warning}: shift/reduce conflict on token "else" [@dwarning{-Wcounterexamples}]
 @group
-  Example: @yellow{"if" expr "then"} "if" expr "then" stmt • "else" stmt
+@ifnottex
+  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Shift derivation
     @yellow{if_stmt}
     @yellow{↳ "if" expr "then"} @green{stmt}
-                       @green{↳} @blue{if_stmt}
-                         @blue{↳ "if" expr "then" stmt} @red{•} @blue{"else" stmt}
+                        @green{↳} @blue{if_stmt}
+                           @blue{↳ "if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
   Reduce derivation
     @yellow{if_stmt}
     @yellow{↳ "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
-                       @green{↳} @blue{if_stmt}
-                         @blue{↳ "if" expr "then" stmt} @red{•}
-@end group
-@end example
+                        @green{↳} @blue{if_stmt}
+                           @blue{↳ "if" expr "then" stmt} @red{•}
 @end ifnottex
 @iftex
-@example
-if-then-else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
-if-then-else.y: @dwarning{warning}: shift/reduce conflict on token "else" [@dwarning{-Wcounterexamples}]
-@group
-  Example: @yellow{"if" expr "then"} "if" expr "then" stmt • "else" stmt
+  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Shift derivation
     @yellow{if_stmt}
     @yellow{@arrow{} "if" expr "then"} @green{stmt}
                         @green{@arrow{}} @blue{if_stmt}
-                          @blue{@arrow{} "if" expr "then" stmt} @red{•} @blue{"else" stmt}
+                           @blue{@arrow{} "if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
   Reduce derivation
     @yellow{if_stmt}
     @yellow{@arrow{} "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
                         @green{@arrow{}} @blue{if_stmt}
                            @blue{@arrow{} "if" expr "then" stmt} @red{•}
+@end iftex
 @end group
 @end example
-@end iftex
 
 This shows two different derivations for one single expression.  That
 demonstrates that the grammar is ambiguous.
