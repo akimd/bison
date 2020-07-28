@@ -112,7 +112,15 @@ static struct obstack obstack_for_string;
 # define STRING_1GROW(Char)                     \
   obstack_1grow (&obstack_for_string, Char)
 
-# define STRING_FREE()                                  \
+# ifdef NDEBUG
+#  define STRING_FREE()                                 \
   obstack_free (&obstack_for_string, last_string)
+# else
+#  define STRING_FREE()                                  \
+  do {                                                   \
+    obstack_free (&obstack_for_string, last_string);     \
+    last_string = NULL;                                  \
+  } while (0)
+#endif
 
 #endif

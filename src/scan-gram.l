@@ -403,6 +403,7 @@ eqopt    ({sp}=)?
 {
   \0         {
     complain (loc, complaint, _("invalid null character"));
+    STRING_FINISH ();
     STRING_FREE ();
     return GRAM_error;
   }
@@ -599,7 +600,6 @@ eqopt    ({sp}=)?
     STRING_FINISH ();
     BEGIN INITIAL;
     loc->start = token_start;
-    val->CHAR = last_string[0];
 
     if (last_string[0] == '\0')
       {
@@ -615,6 +615,7 @@ eqopt    ({sp}=)?
       }
     else
       {
+        val->CHAR = last_string[0];
         STRING_FREE ();
         return CHAR;
       }

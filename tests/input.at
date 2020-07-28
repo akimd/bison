@@ -1,4 +1,4 @@
-# Checking the Bison scanner.                    -*- Autotest -*-
+# Checking the Bison reader.                    -*- Autotest -*-
 
 # Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
 
@@ -78,10 +78,13 @@ AT_CLEANUP
 ## Invalid inputs.  ##
 ## ---------------- ##
 
+# The truly bad guys no human would write, but easily uncovered by
+# fuzzers.
 AT_SETUP([Invalid inputs])
 
 AT_DATA([input.y],
 [[\000\001\002\377?
+"\000"
 %%
 ?
 default: 'a' }
@@ -92,16 +95,41 @@ default: 'a' }
 ]])
 AT_PERL_REQUIRE([[-pi -e 's/\\(\d{3})/chr(oct($1))/ge' input.y]])
 
-AT_BISON_CHECK([input.y], [1], [],
+AT_BISON_CHECK([-fcaret input.y], [1], [], [stderr])
+
+# Autotest's diffing, when there are NUL bytes, just reports "binary
+# files differ".  So don't leave NUL bytes.
+AT_PERL_CHECK([[-p -e 's{([\0\377])}{sprintf "\\x%02x", ord($1)}ge' stderr]], [],
 [[input.y:1.1-2: error: invalid characters: '\0\001\002\377?'
-input.y:3.1: error: invalid character: '?'
-input.y:4.14: error: invalid character: '}'
-input.y:5.1: error: invalid character: '%'
-input.y:5.2: error: invalid character: '&'
-input.y:6.1-17: error: invalid directive: '%a-does-not-exist'
-input.y:7.1: error: invalid character: '%'
-input.y:7.2: error: invalid character: '-'
-input.y:8.1-9.0: error: missing '%}' at end of file
+    1 | \x00\xff?
+      | ^~
+input.y:2.2: error: invalid null character
+    2 | "\x00"
+      |  ^
+input.y:4.1: error: invalid character: '?'
+    4 | ?
+      | ^
+input.y:5.14: error: invalid character: '}'
+    5 | default: 'a' }
+      |              ^
+input.y:6.1: error: invalid character: '%'
+    6 | %&
+      | ^
+input.y:6.2: error: invalid character: '&'
+    6 | %&
+      |  ^
+input.y:7.1-17: error: invalid directive: '%a-does-not-exist'
+    7 | %a-does-not-exist
+      | ^~~~~~~~~~~~~~~~~
+input.y:8.1: error: invalid character: '%'
+    8 | %-
+      | ^
+input.y:8.2: error: invalid character: '-'
+    8 | %-
+      |  ^
+input.y:9.1-10.0: error: missing '%}' at end of file
+    9 | %{
+      | ^~
 ]])
 
 AT_CLEANUP
