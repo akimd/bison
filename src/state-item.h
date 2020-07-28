@@ -90,8 +90,9 @@ state_item_index_lookup (state_number s, state_item_number off)
 }
 
 void state_items_init (void);
-void print_state_item (const state_item *si, FILE *out, const char *prefix);
 void state_items_free (void);
+
+void state_item_print (const state_item *si, FILE *out, const char *prefix);
 
 bool production_allowed (const state_item *si, const state_item *next);
 
