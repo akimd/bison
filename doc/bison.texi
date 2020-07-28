@@ -57,44 +57,57 @@
 \gdef\colorPurple{%
  \setcolor{\rgbPurple}%
 }
+\gdef\colorOff{%
+ \setcolor{\maincolor}%
+}
 
 \gdef\rgbError{0.80 0 0}
-\gdef\colorError{%
+\gdef\diagError{%
  \setcolor{\rgbError}%
 }
 \gdef\rgbNotice{0 0 0.80}
-\gdef\colorNotice{%
+\gdef\diagNotice{%
  \setcolor{\rgbNotice}%
 }
-\gdef\colorOff{%
+\gdef\rgbWarning{0.50 0 0.50}
+\gdef\diagWarning{%
+ \setcolor{\rgbWarning}%
+}
+\gdef\diagOff{%
  \setcolor{\maincolor}%
 }
 @end tex
 
 @ifnottex
 @macro colorGreen
-@inlineraw{html, <b style="color:green">}
+@inlineraw{html, <span style="color:green">}
 @end macro
 @macro colorYellow
-@inlineraw{html, <b style="color:#ff8000">}
+@inlineraw{html, <span style="color:#ff8000">}
 @end macro
 @macro colorRed
-@inlineraw{html, <b style="color:red">}
+@inlineraw{html, <span style="color:red">}
 @end macro
 @macro colorBlue
-@inlineraw{html, <b style="color:blue">}
+@inlineraw{html, <span style="color:blue">}
 @end macro
 @macro colorPurple
-@inlineraw{html, <b style="color:darkviolet">}
-@end macro
-
-@macro colorError
-@inlineraw{html, <b style="color:red">}
-@end macro
-@macro colorNotice
-@inlineraw{html, <b style="color:darkcyan">}
+@inlineraw{html, <span style="color:darkviolet">}
 @end macro
 @macro colorOff
+@inlineraw{html, </span>}
+@end macro
+
+@macro diagError
+@inlineraw{html, <b style="color:red">}
+@end macro
+@macro diagNotice
+@inlineraw{html, <b style="color:darkcyan">}
+@end macro
+@macro diagWarning
+@inlineraw{html, <b style="color:darkviolet">}
+@end macro
+@macro diagOff
 @inlineraw{html, </b>}
 @end macro
 @end ifnottex
@@ -120,15 +133,15 @@
 @end macro
 
 @macro dwarning{text}
-@purple{\text\}
+@diagWarning{}\text\@diagOff{}
 @end macro
 
 @macro derror{text}
-@colorError{}\text\@colorOff{}
+@diagError{}\text\@diagOff{}
 @end macro
 
 @macro dnotice{text}
-@colorNotice{}\text\@colorOff{}
+@diagNotice{}\text\@diagOff{}
 @end macro
 
 @finalout
