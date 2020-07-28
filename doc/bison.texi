@@ -9973,13 +9973,13 @@ maybeword:
 
 Bison generates the following counterexamples:
 
-@ifnottex
 @example
 @group
 $ @kbd{bison -Wcex sequence.y}
 sequence.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
 sequence.y: @dwarning{warning}: 2 reduce/reduce conflicts [@dwarning{-Wconflicts-rr}]
 @end group
+@ifnottex
 @group
 sequence.y: @dwarning{warning}: shift/reduce conflict on token "word" [@dwarning{-Wcounterexamples}]
   Example: @red{•} @green{"word"}
@@ -10024,15 +10024,8 @@ sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [
     8 |   @dwarning{%empty    @{ printf ("empty maybeword\n"); @}}
       |   @dwarning{^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
 @end group
-@end example
 @end ifnottex
 @iftex
-@example
-@group
-$ @kbd{bison -Wcex sequence.y}
-sequence.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
-sequence.y: @dwarning{warning}: 2 reduce/reduce conflicts [@dwarning{-Wconflicts-rr}]
-@end group
 @group
 sequence.y: @dwarning{warning}: shift/reduce conflict on token "word" [@dwarning{-Wcounterexamples}]
   Example: @red{•} @green{"word"}
@@ -10077,8 +10070,8 @@ sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [
     8 |   @dwarning{%empty    @{ printf ("empty maybeword\n"); @}}
       |   @dwarning{^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
 @end group
-@end example
 @end iftex
+@end example
 
 Each of these three conflicts, again, prove that the grammar is ambiguous.
 For instance, the second conflict (the reduce/reduce one) shows that the
@@ -10103,10 +10096,10 @@ expr: %empty | expr ID ','
 
 @command{bison} reports:
 
-@ifnottex
 @example
 ids.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
 ids.y: @dwarning{warning}: shift/reduce conflict on token ID [@dwarning{-Wcounterexamples}]
+@ifnottex
 @group
   First example: @purple{expr} @red{•} @purple{ID ','} @green{ID} @yellow{$end}
   Shift derivation
@@ -10127,12 +10120,8 @@ ids.y:4.4-7: @dwarning{warning}: rule useless in parser due to conflicts [@dwarn
     4 | a: expr
       |    ^~~~
 @end group
-@end example
 @end ifnottex
 @iftex
-@example
-ids.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
-ids.y: @dwarning{warning}: shift/reduce conflict on token ID [@dwarning{-Wcounterexamples}]
 @group
   First example: @purple{expr} @red{•} @purple{ID ','} @green{ID} @yellow{$end}
   Shift derivation
@@ -10153,8 +10142,8 @@ ids.y:4.4-7: @dwarning{warning}: rule useless in parser due to conflicts [@dwarn
     4 | a: expr
       |    ^~~~
 @end group
-@end example
 @end iftex
+@end example
 
 This conflict is caused by the parser not having enough information to know
 the difference between these two examples.  The parser would need an
