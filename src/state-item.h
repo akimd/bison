@@ -93,6 +93,7 @@ void state_items_init (void);
 void state_items_free (void);
 
 void state_item_print (const state_item *si, FILE *out, const char *prefix);
+const rule *state_item_rule (const state_item *si);
 
 bool production_allowed (const state_item *si, const state_item *next);
 

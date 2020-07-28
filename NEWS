@@ -2,11 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Bug fixes
-
-  Push parsers use YYMALLOC/YYFREE instead of direct calls to malloc/free.
-
 ** Changes
+
+*** A C++ native GLR parser
 
   A new version of the generated C++ GLR parser was added as "glr2.cc". It
   is forked from the existing glr.c/cc parser, with the objective of making
@@ -18,6 +16,21 @@ GNU Bison NEWS
   and performance to "glr.cc". To try it out, simply use
 
   %skeleton "glr2.cc"
+
+*** Counterexamples
+
+  Counterexamples now show the rule numbers:
+
+    exp
+    ↳ 1: "if" exp "then" exp
+                         ↳ 2: "if" exp "then" exp • "else" exp
+
+  instead of
+
+    exp
+    ↳ "if" exp "then" exp
+                      ↳ "if" exp "then" exp • "else" exp
+
 
 * Noteworthy changes in release 3.7.1 (2020-08-02) [stable]
 

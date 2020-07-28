@@ -54,11 +54,14 @@ void derivation_list_append (derivation_list dl, derivation *d);
 void derivation_list_prepend (derivation_list dl, derivation *d);
 void derivation_list_free (derivation_list dl);
 
-derivation *derivation_new (symbol_number sym, derivation_list children);
+// rule_num is the number of the rule SYM -> CHILDREN.
+derivation *
+derivation_new (symbol_number sym, derivation_list children,
+                const rule *r);
 
 static inline derivation *derivation_new_leaf (symbol_number sym)
 {
-  return derivation_new (sym, NULL);
+  return derivation_new (sym, NULL, NULL);
 }
 
 // Number of symbols.

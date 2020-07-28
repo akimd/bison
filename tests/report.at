@@ -1541,60 +1541,60 @@ input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example: exp "+" exp • "⊕" exp
   Shift derivation
     exp
-    ↳ exp "+" exp
-              ↳ exp • "⊕" exp
+    ↳ 2: exp "+" exp
+                 ↳ 1: exp • "⊕" exp
   Reduce derivation
     exp
-    ↳ exp             "⊕" exp
-      ↳ exp "+" exp •
+    ↳ 1: exp                "⊕" exp
+         ↳ 2: exp "+" exp •
 input.y: warning: reduce/reduce conflict on tokens $end, "+", "⊕" [-Wcounterexamples]
   Example: exp "+" exp •
   First reduce derivation
     exp
-    ↳ exp "+" exp •
+    ↳ 2: exp "+" exp •
   Second reduce derivation
     exp
-    ↳ exp "+" exp •
+    ↳ 3: exp "+" exp •
 input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example: exp "+" exp • "⊕" exp
   Shift derivation
     exp
-    ↳ exp "+" exp
-              ↳ exp • "⊕" exp
+    ↳ 2: exp "+" exp
+                 ↳ 1: exp • "⊕" exp
   Reduce derivation
     exp
-    ↳ exp             "⊕" exp
-      ↳ exp "+" exp •
+    ↳ 1: exp                "⊕" exp
+         ↳ 3: exp "+" exp •
 input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
   Example: exp "⊕" exp • "⊕" exp
   Shift derivation
     exp
-    ↳ exp "⊕" exp
-              ↳ exp • "⊕" exp
+    ↳ 1: exp "⊕" exp
+                 ↳ 1: exp • "⊕" exp
   Reduce derivation
     exp
-    ↳ exp             "⊕" exp
-      ↳ exp "⊕" exp •
+    ↳ 1: exp                "⊕" exp
+         ↳ 1: exp "⊕" exp •
 input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
   Example: exp "⊕" exp • "+" exp
   Shift derivation
     exp
-    ↳ exp "⊕" exp
-              ↳ exp • "+" exp
+    ↳ 1: exp "⊕" exp
+                 ↳ 2: exp • "+" exp
   Reduce derivation
     exp
-    ↳ exp             "+" exp
-      ↳ exp "⊕" exp •
+    ↳ 2: exp                "+" exp
+         ↳ 1: exp "⊕" exp •
 input.y: warning: shift/reduce conflict on token "+" [-Wcounterexamples]
   Example: exp "⊕" exp • "+" exp
   Shift derivation
     exp
-    ↳ exp "⊕" exp
-              ↳ exp • "+" exp
+    ↳ 1: exp "⊕" exp
+                 ↳ 3: exp • "+" exp
   Reduce derivation
     exp
-    ↳ exp             "+" exp
-      ↳ exp "⊕" exp •
+    ↳ 2: exp                "+" exp
+         ↳ 1: exp "⊕" exp •
 input.y:6.3-13: warning: rule useless in parser due to conflicts [-Wother]
 ]])
 
@@ -1745,12 +1745,12 @@ State 7
       Example: exp "+" exp • "⊕" exp
       Shift derivation
         exp
-        ↳ exp "+" exp
-                  ↳ exp • "⊕" exp
+        ↳ 2: exp "+" exp
+                     ↳ 1: exp • "⊕" exp
       Reduce derivation
         exp
-        ↳ exp             "⊕" exp
-          ↳ exp "+" exp •
+        ↳ 1: exp                "⊕" exp
+             ↳ 2: exp "+" exp •
 
     reduce/reduce conflict on tokens $end, "+", "⊕":
         2 exp: exp "+" exp •
@@ -1758,10 +1758,10 @@ State 7
       Example: exp "+" exp •
       First reduce derivation
         exp
-        ↳ exp "+" exp •
+        ↳ 2: exp "+" exp •
       Second reduce derivation
         exp
-        ↳ exp "+" exp •
+        ↳ 3: exp "+" exp •
 
     shift/reduce conflict on token "⊕":
         3 exp: exp "+" exp •
@@ -1769,12 +1769,12 @@ State 7
       Example: exp "+" exp • "⊕" exp
       Shift derivation
         exp
-        ↳ exp "+" exp
-                  ↳ exp • "⊕" exp
+        ↳ 2: exp "+" exp
+                     ↳ 1: exp • "⊕" exp
       Reduce derivation
         exp
-        ↳ exp             "⊕" exp
-          ↳ exp "+" exp •
+        ↳ 1: exp                "⊕" exp
+             ↳ 3: exp "+" exp •
 
 
 
@@ -1798,12 +1798,12 @@ State 8
       Example: exp "⊕" exp • "⊕" exp
       Shift derivation
         exp
-        ↳ exp "⊕" exp
-                  ↳ exp • "⊕" exp
+        ↳ 1: exp "⊕" exp
+                     ↳ 1: exp • "⊕" exp
       Reduce derivation
         exp
-        ↳ exp             "⊕" exp
-          ↳ exp "⊕" exp •
+        ↳ 1: exp                "⊕" exp
+             ↳ 1: exp "⊕" exp •
 
     shift/reduce conflict on token "+":
         1 exp: exp "⊕" exp •
@@ -1811,12 +1811,12 @@ State 8
       Example: exp "⊕" exp • "+" exp
       Shift derivation
         exp
-        ↳ exp "⊕" exp
-                  ↳ exp • "+" exp
+        ↳ 1: exp "⊕" exp
+                     ↳ 2: exp • "+" exp
       Reduce derivation
         exp
-        ↳ exp             "+" exp
-          ↳ exp "⊕" exp •
+        ↳ 2: exp                "+" exp
+             ↳ 1: exp "⊕" exp •
 
     shift/reduce conflict on token "+":
         1 exp: exp "⊕" exp •
@@ -1824,12 +1824,12 @@ State 8
       Example: exp "⊕" exp • "+" exp
       Shift derivation
         exp
-        ↳ exp "⊕" exp
-                  ↳ exp • "+" exp
+        ↳ 1: exp "⊕" exp
+                     ↳ 3: exp • "+" exp
       Reduce derivation
         exp
-        ↳ exp             "+" exp
-          ↳ exp "⊕" exp •
+        ↳ 2: exp                "+" exp
+             ↳ 1: exp "⊕" exp •
 
 ]])
 

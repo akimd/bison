@@ -8329,29 +8329,29 @@ with two different parses:
   Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Shift derivation
     @yellow{if_stmt}
-    @yellow{↳ "if" expr "then"} @green{stmt}
-                        @green{↳} @blue{if_stmt}
-                           @blue{↳ "if" expr "then" stmt} @red{•} @blue{"else" stmt}
+    @yellow{↳ 3: "if" expr "then"} @green{stmt}
+                           @green{↳ 2:} @blue{if_stmt}
+                                 @blue{↳ 4: "if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
   Reduce derivation
     @yellow{if_stmt}
-    @yellow{↳ "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
-                        @green{↳} @blue{if_stmt}
-                           @blue{↳ "if" expr "then" stmt} @red{•}
+    @yellow{↳ 4: "if" expr "then"} @green{stmt}                                @yellow{"else" stmt}
+                           @green{↳ 2:} @blue{if_stmt}
+                                 @blue{↳ 3: "if" expr "then" stmt} @red{•}
 @end ifnottex
 @iftex
   Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Shift derivation
     @yellow{if_stmt}
-    @yellow{@arrow{} "if" expr "then"} @green{stmt}
-                        @green{@arrow{}} @blue{if_stmt}
-                           @blue{@arrow{} "if" expr "then" stmt} @red{•} @blue{"else" stmt}
+    @yellow{@arrow{} 3: "if" expr "then"} @green{stmt}
+                           @green{@arrow{} 2:} @blue{if_stmt}
+                                 @blue{@arrow{} 4: "if" expr "then" stmt} @red{•} @blue{"else" stmt}
   Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
   Reduce derivation
     @yellow{if_stmt}
-    @yellow{@arrow{} "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
-                        @green{@arrow{}} @blue{if_stmt}
-                           @blue{@arrow{} "if" expr "then" stmt} @red{•}
+    @yellow{@arrow{} 4: "if" expr "then"} @green{stmt}                                @yellow{"else" stmt}
+                           @green{@arrow{} 2:} @blue{if_stmt}
+                                 @blue{@arrow{} 3: "if" expr "then" stmt} @red{•}
 @end iftex
 @end group
 @end macro
@@ -9957,11 +9957,11 @@ initially developed by Chinawat Isradisaikul and Andrew Myers
 As a first example, see the grammar of @ref{Shift/Reduce}, which features
 one shift/reduce conflict:
 
-@c see doc/if-then-else.y
+@c see doc/else.y
 @example
-$ @kbd{bison if-then-else.y}
-if-then-else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
-if-then-else.y: @dnotice{note}: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+$ @kbd{bison else.y}
+else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
+else.y: @dnotice{note}: rerun with option '-Wcounterexamples' to generate conflict counterexamples
 @end example
 
 @noindent
@@ -9970,8 +9970,8 @@ Let's rerun @command{bison} with the option
 output is actually in color)}:
 
 @example
-if-then-else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
-if-then-else.y: @dwarning{warning}: shift/reduce conflict on token "else" [@dwarning{-Wcounterexamples}]
+else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
+else.y: @dwarning{warning}: shift/reduce conflict on token "else" [@dwarning{-Wcounterexamples}]
 @danglingElseCex
 @end example
 
@@ -10011,39 +10011,39 @@ sequence.y: @dwarning{warning}: shift/reduce conflict on token "word" [@dwarning
   Example: @red{•} @green{"word"}
   Shift derivation
     @yellow{sequence}
-    @yellow{↳} @green{maybeword}
-      @green{↳} @red{•} @green{"word"}
+    @yellow{↳ 2:} @green{maybeword}
+          @green{↳ 5:} @red{•} @green{"word"}
   Example: @red{•} @yellow{"word"}
   Reduce derivation
     @yellow{sequence}
-    @yellow{↳} @green{sequence} @yellow{"word"}
-      @green{↳} @red{•}
+    @yellow{↳ 3:} @green{sequence} @yellow{"word"}
+          @green{↳ 1:} @red{•}
 @end group
 @group
 sequence.y: @dwarning{warning}: reduce/reduce conflict on tokens $end, "word" [@dwarning{-Wcounterexamples}]
   Example: @red{•}
   First reduce derivation
     @yellow{sequence}
-    @yellow{↳} @red{•}
+    @yellow{↳ 1:} @red{•}
   Example: @red{•}
   Second reduce derivation
     @yellow{sequence}
-    @yellow{↳} @green{maybeword}
-      @green{↳} @red{•}
+    @yellow{↳ 2:} @green{maybeword}
+          @green{↳ 4:} @red{•}
 @end group
 @group
 sequence.y: @dwarning{warning}: shift/reduce conflict on token "word" [@dwarning{-Wcounterexamples}]
   Example: @red{•} @green{"word"}
   Shift derivation
     @yellow{sequence}
-    @yellow{↳} @green{maybeword}
-      @green{↳} @red{•} @green{"word"}
+    @yellow{↳ 2:} @green{maybeword}
+          @green{↳ 5:} @red{•} @green{"word"}
   Example: @red{•} @yellow{"word"}
   Reduce derivation
     @yellow{sequence}
-    @yellow{↳} @green{sequence}    @yellow{"word"}
-      @green{↳} @blue{maybeword}
-        @blue{↳} @red{•}
+    @yellow{↳ 3:} @green{sequence}        @yellow{"word"}
+          @green{↳ 2:} @blue{maybeword}
+                @blue{↳ 4:} @red{•}
 @end group
 @group
 sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [@dwarning{-Wother}]
@@ -10057,39 +10057,39 @@ sequence.y: @dwarning{warning}: shift/reduce conflict on token "word" [@dwarning
   Example: @red{•} @green{"word"}
   Shift derivation
     @yellow{sequence}
-    @yellow{@arrow{}} @green{maybeword}
-       @green{@arrow{}} @red{•} @green{"word"}
+    @yellow{@arrow{} 2:} @green{maybeword}
+          @green{@arrow{} 5:} @red{•} @green{"word"}
   Example: @red{•} @yellow{"word"}
   Reduce derivation
     @yellow{sequence}
-    @yellow{@arrow{}} @green{sequence} @yellow{"word"}
-       @green{@arrow{}} @red{•}
+    @yellow{@arrow{} 3:} @green{sequence} @yellow{"word"}
+          @green{@arrow{} 1:} @red{•}
 @end group
 @group
 sequence.y: @dwarning{warning}: reduce/reduce conflict on tokens $end, "word" [@dwarning{-Wcounterexamples}]
   Example: @red{•}
   First reduce derivation
     @yellow{sequence}
-    @yellow{@arrow{}} @red{•}
+    @yellow{@arrow{} 1:} @red{•}
   Example: @red{•}
   Second reduce derivation
     @yellow{sequence}
-    @yellow{@arrow{}} @green{maybeword}
-       @green{@arrow{}} @red{•}
+    @yellow{@arrow{} 2:} @green{maybeword}
+          @green{@arrow{}: 4} @red{•}
 @end group
 @group
 sequence.y: @dwarning{warning}: shift/reduce conflict on token "word" [@dwarning{-Wcounterexamples}]
   Example: @red{•} @green{"word"}
   Shift derivation
     @yellow{sequence}
-    @yellow{@arrow{}} @green{maybeword}
-       @green{@arrow{}} @red{•} @green{"word"}
+    @yellow{@arrow{} 2:} @green{maybeword}
+          @green{@arrow{} 5:} @red{•} @green{"word"}
   Example: @red{•} @yellow{"word"}
   Reduce derivation
     @yellow{sequence}
-    @yellow{@arrow{}} @green{sequence}    @yellow{"word"}
-      @green{@arrow{}} @blue{maybeword}
-         @blue{@arrow{}} @red{•}
+    @yellow{@arrow{} 3:} @green{sequence}        @yellow{"word"}
+          @green{@arrow{} 2:} @blue{maybeword}
+                @blue{@arrow{} 4:} @red{•}
 @end group
 @group
 sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [@dwarning{-Wother}]
@@ -10130,16 +10130,16 @@ ids.y: @dwarning{warning}: shift/reduce conflict on token ID [@dwarning{-Wcounte
   First example: @purple{expr} @red{•} @purple{ID ','} @green{ID} @yellow{$end}
   Shift derivation
     @yellow{$accept}
-    @yellow{↳} @green{s}                      @yellow{$end}
-      @green{↳} @blue{a}                 @green{ID}
-        @blue{↳} @purple{expr}
-          @purple{↳ expr} @red{•} @purple{ID ','}
+    @yellow{↳ 0:} @green{s}                                 @yellow{$end}
+         @green{↳ 1:} @blue{a}                        @green{ID}
+              @blue{↳ 2:} @purple{expr}
+                    @purple{↳ 4: expr} @red{•} @purple{ID ','}
   Second example: @blue{expr} @red{•} @green{ID} @yellow{$end}
   Reduce derivation
     @yellow{$accept}
-    @yellow{↳} @green{s}             @yellow{$end}
-      @green{↳} @blue{a}        @green{ID}
-        @blue{↳ expr} @red{•}
+    @yellow{↳ 0:} @green{s}                   @yellow{$end}
+         @green{↳ 1:} @blue{a}           @green{ID}
+              @blue{↳ 2: expr} @red{•}
 @end group
 @group
 ids.y:4.4-7: @dwarning{warning}: rule useless in parser due to conflicts [@dwarning{-Wother}]
@@ -10152,16 +10152,16 @@ ids.y:4.4-7: @dwarning{warning}: rule useless in parser due to conflicts [@dwarn
   First example: @purple{expr} @red{•} @purple{ID ','} @green{ID} @yellow{$end}
   Shift derivation
     @yellow{$accept}
-    @yellow{@arrow{}} @green{s}                      @yellow{$end}
-       @green{@arrow{}} @blue{a}                 @green{ID}
-          @blue{@arrow{}} @purple{expr}
-             @purple{@arrow{} expr} @red{•} @purple{ID ','}
+    @yellow{@arrow{} 0:} @green{s}                                   @yellow{$end}
+          @green{@arrow{} 1:} @blue{a}                         @green{ID}
+                @blue{@arrow{} 2:} @purple{expr}
+                      @purple{@arrow{} 4: expr} @red{•} @purple{ID ','}
   Second example: @blue{expr} @red{•} @green{ID} @yellow{$end}
   Reduce derivation
     @yellow{$accept}
-    @yellow{@arrow{}} @green{s}             @yellow{$end}
-       @green{@arrow{}} @blue{a}        @green{ID}
-          @blue{@arrow{} expr} @red{•}
+    @yellow{@arrow{} 0:} @green{s}                     @yellow{$end}
+          @green{@arrow{} 1:} @blue{a}            @green{ID}
+                @blue{@arrow{} 2: expr} @red{•}
 @end group
 @group
 ids.y:4.4-7: @dwarning{warning}: rule useless in parser due to conflicts [@dwarning{-Wother}]
@@ -10570,13 +10570,13 @@ shift/reduce conflict on token '/':
   Example: exp '+' exp • '/' exp
   Shift derivation
     exp
-    ↳ exp '+' exp
-              ↳ exp • '/' exp
+    ↳ 1: exp '+' exp
+                 ↳ 4: exp • '/' exp
   Example: exp '+' exp • '/' exp
   Reduce derivation
     exp
-    ↳ exp             '/' exp
-      ↳ exp '+' exp •
+    ↳ 4: exp                 '/' exp
+         ↳ 1: exp '+' exp •
 @end group
 @end example
 @end ifnottex
@@ -10589,13 +10589,13 @@ shift/reduce conflict on token '/':
   Example: exp '+' exp • '/' exp
   Shift derivation
     exp
-    @arrow{} exp '+' exp
-               @arrow{} exp • '/' exp
+    @arrow{} 1: exp '+' exp
+                  @arrow{} 4: exp • '/' exp
   Example: exp '+' exp • '/' exp
   Reduce derivation
     exp
-    @arrow{} exp             '/' exp
-       @arrow{} exp '+' exp •
+    @arrow{} 4: exp                '/' exp
+          @arrow{} 1: exp '+' exp •
 @end group
 @end example
 @end iftex

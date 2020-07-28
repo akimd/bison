@@ -867,12 +867,12 @@ State 5
       Example: exp OP exp . OP exp
       Shift derivation
         exp
-        `-> exp OP exp
-                   `-> exp . OP exp
+        `-> 1: exp OP exp
+                      `-> 1: exp . OP exp
       Reduce derivation
         exp
-        `-> exp              OP exp
-            `-> exp OP exp .
+        `-> 1: exp                 OP exp
+               `-> 1: exp OP exp .
 
 ]])
 
@@ -1215,12 +1215,12 @@ State 1
       Example: '0' .
       First reduce derivation
         exp
-        `-> num
-            `-> '0' .
+        `-> 1: num
+               `-> 3: '0' .
       Second reduce derivation
         exp
-        `-> id
-            `-> '0' .
+        `-> 2: id
+               `-> 4: '0' .
 
 
 
@@ -1770,13 +1770,13 @@ State 4
       First example: resolved_conflict . 'a' 'a'
       Shift derivation
         start
-        `-> resolved_conflict reported_conflicts 'a'
-                              `-> . 'a'
+        `-> 1: resolved_conflict reported_conflicts 'a'
+                                 `-> 8: . 'a'
       Second example: resolved_conflict . 'a'
       Reduce derivation
         start
-        `-> resolved_conflict reported_conflicts 'a'
-                              `-> .
+        `-> 1: resolved_conflict reported_conflicts 'a'
+                                 `-> 10: .
 
     shift/reduce conflict on token 'a':
        10 reported_conflicts: . %empty
@@ -1784,13 +1784,13 @@ State 4
       First example: resolved_conflict . 'a' 'a'
       Shift derivation
         start
-        `-> resolved_conflict reported_conflicts 'a'
-                              `-> . 'a'
+        `-> 1: resolved_conflict reported_conflicts 'a'
+                                 `-> 9: . 'a'
       Second example: resolved_conflict . 'a'
       Reduce derivation
         start
-        `-> resolved_conflict reported_conflicts 'a'
-                              `-> .
+        `-> 1: resolved_conflict reported_conflicts 'a'
+                                 `-> 10: .
 
 
 
@@ -1809,10 +1809,10 @@ State 5
       Example: 'a' .
       First reduce derivation
         reported_conflicts
-        `-> 'a' .
+        `-> 8: 'a' .
       Second reduce derivation
         reported_conflicts
-        `-> 'a' .
+        `-> 9: 'a' .
 
 
 
@@ -1999,12 +1999,12 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
       Example: . 'c'
       First reduce derivation
         start
-        `-> empty_c2 'c'
-            `-> .
+        `-> 7: empty_c2  'c'
+               `-> 12: .
       Second reduce derivation
         start
-        `-> empty_c3 'c'
-            `-> .
+        `-> 8: empty_c3  'c'
+               `-> 13: .
 
 
 
