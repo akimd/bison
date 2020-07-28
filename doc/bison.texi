@@ -8315,7 +8315,53 @@ write an unambiguous grammar, but that is very hard to do in this case.)
 This particular ambiguity was first encountered in the specifications of
 Algol 60 and is called the ``dangling @code{else}'' ambiguity.
 
-To avoid warnings from Bison about predictable, legitimate shift/reduce
+To assist the grammar author in understanding the nature of each conflict,
+Bison can be asked to generate ``counterexamples''.  In the present case it
+actually even proves that the grammar is ambiguous by exhibiting a string
+with two different parses:
+
+@macro danglingElseCex
+@group
+@ifnottex
+  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
+  Shift derivation
+    @yellow{if_stmt}
+    @yellow{↳ "if" expr "then"} @green{stmt}
+                        @green{↳} @blue{if_stmt}
+                           @blue{↳ "if" expr "then" stmt} @red{•} @blue{"else" stmt}
+  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
+  Reduce derivation
+    @yellow{if_stmt}
+    @yellow{↳ "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
+                        @green{↳} @blue{if_stmt}
+                           @blue{↳ "if" expr "then" stmt} @red{•}
+@end ifnottex
+@iftex
+  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
+  Shift derivation
+    @yellow{if_stmt}
+    @yellow{@arrow{} "if" expr "then"} @green{stmt}
+                        @green{@arrow{}} @blue{if_stmt}
+                           @blue{@arrow{} "if" expr "then" stmt} @red{•} @blue{"else" stmt}
+  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
+  Reduce derivation
+    @yellow{if_stmt}
+    @yellow{@arrow{} "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
+                        @green{@arrow{}} @blue{if_stmt}
+                           @blue{@arrow{} "if" expr "then" stmt} @red{•}
+@end iftex
+@end group
+@end macro
+@example
+@danglingElseCex
+@end example
+
+@noindent
+@xref{Counterexamples}, for more details.
+
+@sp 1
+
+To avoid warnings from Bison about predictable, @emph{legitimate} shift/reduce
 conflicts, you can use the @code{%expect @var{n}} declaration.
 There will be no warning as long as the number of shift/reduce conflicts
 is exactly @var{n}, and Bison will report an error if there is a
@@ -8706,7 +8752,8 @@ maybeword:
 @end example
 
 @noindent
-The error is an ambiguity: there is more than one way to parse a single
+The error is an ambiguity: as counterexample generation would demonstrate
+(@pxref{Counterexamples}), there is more than one way to parse a single
 @code{word} into a @code{sequence}.  It could be reduced to a
 @code{maybeword} and then into a @code{sequence} via the second rule.
 Alternatively, nothing-at-all could be reduced into a @code{sequence}
@@ -8903,12 +8950,14 @@ name_list:
 It would seem that this grammar can be parsed with only a single token of
 lookahead: when a @code{param_spec} is being read, an @code{"id"} is a
 @code{name} if a comma or colon follows, or a @code{type} if another
-@code{"id"} follows.  In other words, this grammar is LR(1).
+@code{"id"} follows.  In other words, this grammar is LR(1).  Yet Bison
+finds one reduce/reduce conflict, for which counterexample generation
+(@pxref{Counterexamples}) would find a @emph{nonunifying} example.
 
 @cindex LR
 @cindex LALR
-However, for historical reasons, Bison cannot by default handle all
-LR(1) grammars.
+This is because Bison does not handle all LR(1) grammars @emph{by default},
+for historical reasons.
 In this grammar, two contexts, that after an @code{"id"} at the beginning
 of a @code{param_spec} and likewise at the beginning of a
 @code{return_spec}, are similar enough that Bison assumes they are the
@@ -9883,6 +9932,9 @@ and understand the parser run-time traces (@pxref{Tracing}).
 
 @node Counterexamples
 @section Generation of Counterexamples
+@cindex cex
+@cindex counterexamples
+@cindex conflict counterexamples
 
 Solving conflicts is probably the most delicate part of the design of an LR
 parser, as demonstrated by the number of sections devoted to them in this
@@ -9899,8 +9951,8 @@ That task is made much easier thanks to the generation of counterexamples,
 initially developed by Chinawat Isradisaikul and Andrew Myers
 @pcite{Isradisaikul 2015}.
 
-As a first example, see the example grammar of @ref{Shift/Reduce}, which
-features one shift/reduce conflict:
+As a first example, see the grammar of @ref{Shift/Reduce}, which features
+one shift/reduce conflict:
 
 @c see doc/if-then-else.y
 @example
@@ -9917,40 +9969,11 @@ output is actually in color)}:
 @example
 if-then-else.y: @dwarning{warning}: 1 shift/reduce conflict [@dwarning{-Wconflicts-sr}]
 if-then-else.y: @dwarning{warning}: shift/reduce conflict on token "else" [@dwarning{-Wcounterexamples}]
-@group
-@ifnottex
-  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
-  Shift derivation
-    @yellow{if_stmt}
-    @yellow{↳ "if" expr "then"} @green{stmt}
-                        @green{↳} @blue{if_stmt}
-                           @blue{↳ "if" expr "then" stmt} @red{•} @blue{"else" stmt}
-  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
-  Reduce derivation
-    @yellow{if_stmt}
-    @yellow{↳ "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
-                        @green{↳} @blue{if_stmt}
-                           @blue{↳ "if" expr "then" stmt} @red{•}
-@end ifnottex
-@iftex
-  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @blue{"else" stmt}
-  Shift derivation
-    @yellow{if_stmt}
-    @yellow{@arrow{} "if" expr "then"} @green{stmt}
-                        @green{@arrow{}} @blue{if_stmt}
-                           @blue{@arrow{} "if" expr "then" stmt} @red{•} @blue{"else" stmt}
-  Example: @yellow{"if" expr "then"} @blue{"if" expr "then" stmt} @red{•} @yellow{"else" stmt}
-  Reduce derivation
-    @yellow{if_stmt}
-    @yellow{@arrow{} "if" expr "then"} @green{stmt}                        @yellow{"else" stmt}
-                        @green{@arrow{}} @blue{if_stmt}
-                           @blue{@arrow{} "if" expr "then" stmt} @red{•}
-@end iftex
-@end group
+@danglingElseCex
 @end example
 
-This shows two different derivations for one single expression.  That
-demonstrates that the grammar is ambiguous.
+This shows two different derivations for one single expression, which proves
+that the grammar is ambiguous.
 
 @sp 1
 
@@ -15627,6 +15650,10 @@ permitted.  @xref{Language and Grammar}.
 A sequence of tokens and/or nonterminals, with one dot, that demonstrates a
 conflict.  The dot marks the place where the conflict occurs.
 
+@cindex unifying counterexample
+@cindex counterexample, unifying
+@cindex nonunifying counterexample
+@cindex counterexample, nonunifying
 A @emph{unifying} counterexample is a single string that has two different
 parses; its existence proves that the grammar is ambiguous.  When a unifying
 counterexample cannot be found in reasonable time, a @emph{nonunifying}
