@@ -245,7 +245,7 @@ extern symbol *eoftoken;
 /** The genuine start symbol.
 
    $accept: start-symbol $end */
-extern symbol *accept;
+extern symbol *acceptsymbol;
 
 /** The user start symbol. */
 extern symbol *startsymbol;
