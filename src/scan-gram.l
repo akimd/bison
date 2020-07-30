@@ -615,9 +615,9 @@ eqopt    ({sp}=)?
       }
     else
       {
-        val->CHAR = last_string[0];
+        val->CHAR_LITERAL = last_string[0];
         STRING_FREE ();
-        return CHAR;
+        return CHAR_LITERAL;
       }
   }
   {eol}     unexpected_newline (token_start, "'");

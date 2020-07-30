@@ -214,7 +214,7 @@
   BRACED_CODE       "{...}"
   BRACED_PREDICATE  "%?{...}"
   BRACKETED_ID      _("[identifier]")
-  CHAR              _("character literal")
+  CHAR_LITERAL      _("character literal")
   COLON             ":"
   EPILOGUE          _("epilogue")
   EQUAL             "="
@@ -232,7 +232,7 @@
 %code pre-printer  {tron (yyo);}
 %code post-printer {troff (yyo);}
 
-%type <unsigned char> CHAR
+%type <unsigned char> CHAR_LITERAL
 %printer { fputs (char_name ($$), yyo); } <unsigned char>
 
 %type <char*> "{...}" "%?{...}" "%{...%}" EPILOGUE STRING TSTRING
@@ -765,7 +765,7 @@ value:
 id:
   ID
     { $$ = symbol_from_uniqstr ($1, @1); }
-| CHAR
+| CHAR_LITERAL
     {
       const char *var = "api.token.raw";
       if (current_class == nterm_sym)
