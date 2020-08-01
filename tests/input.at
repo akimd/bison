@@ -1252,12 +1252,12 @@ AT_TEST([[%token foo "foo"
 %%
 exp: foo;
 ]],
-[[input.y:3.7-11: error: %type redeclaration for foo
+[[input.y:3.13-15: error: %type redeclaration for foo
     3 | %type <baz> foo
-      |       ^~~~~
-input.y:2.7-11: note: previous declaration
+      |             ^~~
+input.y:2.13-17: note: previous declaration
     2 | %type <bar> "foo"
-      |       ^~~~~
+      |             ^~~~~
 ]])
 
 AT_TEST([[%token foo "foo"

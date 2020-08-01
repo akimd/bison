@@ -2,7 +2,15 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Fixed a crash when a token alias contains a NUL byte.
+
+** Changes
+
   Improvements and fixes in the documentation.
+
+  More precise location about symbol type redefinitions.
 
 
 * Noteworthy changes in release 3.7 (2020-07-23) [stable]

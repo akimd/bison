@@ -532,11 +532,11 @@ token_decls:
     }
 | TAG token_decl.1[syms]
     {
-      $$ = symbol_list_type_set ($syms, $TAG, @TAG);
+      $$ = symbol_list_type_set ($syms, $TAG);
     }
 | token_decls TAG token_decl.1[syms]
     {
-      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG, @TAG));
+      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG));
     }
 ;
 
@@ -592,11 +592,11 @@ token_decls_for_prec:
     }
 | TAG token_decl_for_prec.1[syms]
     {
-      $$ = symbol_list_type_set ($syms, $TAG, @TAG);
+      $$ = symbol_list_type_set ($syms, $TAG);
     }
 | token_decls_for_prec TAG token_decl_for_prec.1[syms]
     {
-      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG, @TAG));
+      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG));
     }
 ;
 
@@ -632,11 +632,11 @@ symbol_decls:
     }
 | TAG symbol_decl.1[syms]
     {
-      $$ = symbol_list_type_set ($syms, $TAG, @TAG);
+      $$ = symbol_list_type_set ($syms, $TAG);
     }
 | symbol_decls TAG symbol_decl.1[syms]
     {
-      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG, @TAG));
+      $$ = symbol_list_append ($1, symbol_list_type_set ($syms, $TAG));
     }
 ;
 

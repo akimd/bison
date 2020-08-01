@@ -110,8 +110,7 @@ symbol_list *symbol_list_type_new (uniqstr type_name, location loc);
 
 /** Assign the type \c type_name to all the members of \c syms.
  ** \returns \c syms */
-symbol_list *symbol_list_type_set (symbol_list *syms,
-                                   uniqstr type_name, location loc);
+symbol_list *symbol_list_type_set (symbol_list *syms, uniqstr type_name);
 
 /** Print this list.
 
