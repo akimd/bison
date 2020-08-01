@@ -183,6 +183,7 @@
 /strndup.m4
 /strnlen.m4
 /strverscmp.m4
+/sys_ioctl_h.m4
 /sys_resource_h.m4
 /sys_socket_h.m4
 /sys_stat_h.m4
@@ -190,6 +191,7 @@
 /sys_times_h.m4
 /sys_types_h.m4
 /sys_wait_h.m4
+/termios_h.m4
 /threadlib.m4
 /time_h.m4
 /timespec.m4

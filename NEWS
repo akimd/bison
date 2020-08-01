@@ -8,6 +8,8 @@ GNU Bison NEWS
 
   Portability issues with libtextstyle.
 
+  Portability issues of Bison itself with MSVC.
+
 ** Changes
 
   Improvements and fixes in the documentation.

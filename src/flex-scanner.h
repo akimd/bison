@@ -121,6 +121,6 @@ static struct obstack obstack_for_string;
     obstack_free (&obstack_for_string, last_string);     \
     last_string = NULL;                                  \
   } while (0)
-#endif
+# endif
 
 #endif

@@ -467,6 +467,10 @@ both deterministic and generalized parsing.
 
 It would be great for D to also support this.
 
+The basic ideas of GLR are explained here:
+
+https://www.codeproject.com/Articles/5259825/GLR-Parsing-in-Csharp-How-to-Use-The-Most-Powerful
+
 * Better error messages
 The users are not provided with enough tools to forge their error messages.
 See for instance "Is there an option to change the message produced by
