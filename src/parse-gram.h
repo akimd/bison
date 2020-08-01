@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.12-658d-dirty.  */
+/* A Bison parser, made by GNU Bison 3.7.14-eb26-dirty.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -123,7 +123,7 @@ extern int gram_debug;
     BRACED_CODE = 41,              /* "{...}"  */
     BRACED_PREDICATE = 42,         /* "%?{...}"  */
     BRACKETED_ID = 43,             /* "[identifier]"  */
-    CHAR = 44,                     /* "character literal"  */
+    CHAR_LITERAL = 44,             /* "character literal"  */
     COLON = 45,                    /* ":"  */
     EPILOGUE = 46,                 /* "epilogue"  */
     EQUAL = 47,                    /* "="  */
@@ -136,7 +136,7 @@ extern int gram_debug;
     TAG = 54,                      /* "<tag>"  */
     TAG_ANY = 55,                  /* "<*>"  */
     TAG_NONE = 56,                 /* "<>"  */
-    INT = 57,                      /* "integer literal"  */
+    INT_LITERAL = 57,              /* "integer literal"  */
     PERCENT_PARAM = 58,            /* "%param"  */
     PERCENT_UNION = 59,            /* "%union"  */
     PERCENT_EMPTY = 60             /* "%empty"  */
@@ -156,7 +156,7 @@ union GRAM_STYPE
   char* EPILOGUE;                          /* "epilogue"  */
   char* PROLOGUE;                          /* "%{...%}"  */
   code_props_type code_props_type;         /* code_props_type  */
-  int INT;                                 /* "integer literal"  */
+  int INT_LITERAL;                         /* "integer literal"  */
   int yykind_82;                           /* int.opt  */
   named_ref* yykind_95;                    /* named_ref.opt  */
   param_type PERCENT_PARAM;                /* "%param"  */
@@ -188,7 +188,7 @@ union GRAM_STYPE
   uniqstr yykind_74;                       /* tag.opt  */
   uniqstr tag;                             /* tag  */
   uniqstr variable;                        /* variable  */
-  unsigned char CHAR;                      /* "character literal"  */
+  unsigned char CHAR_LITERAL;              /* "character literal"  */
   value_type value;                        /* value  */
 
 
