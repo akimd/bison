@@ -119,6 +119,8 @@ jobs:
         - CXX='clang++-10 -fsanitize=address -stdlib=libc++'
         - PART=2
 
+    # See https://github.com/simd-everywhere/simde/blob/master/.travis.yml
+    # and https://software.intel.com/content/www/us/en/develop/documentation/get-started-with-intel-oneapi-render-linux/top/configure-your-system.html.
     - name: "ICC"
       stage: check
       os: linux
