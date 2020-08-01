@@ -249,7 +249,7 @@
 %printer { fprintf (yyo, "%%%s", $$); } PERCENT_FLAG
 %printer { fprintf (yyo, "<%s>", $$); } TAG tag
 
-%token <int> INT _("integer literal")
+%token <int> INT_LITERAL _("integer literal")
 %printer { fprintf (yyo, "%d", $$); } <int>
 
 %type <symbol*> id id_colon string_as_id symbol token_decl token_decl_for_prec
@@ -342,8 +342,8 @@ prologue_declaration:
 | "%defines"                       { defines_flag = true; }
 | "%defines" STRING                { handle_defines ($2); }
 | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
-| "%expect" INT                    { expected_sr_conflicts = $2; }
-| "%expect-rr" INT                 { expected_rr_conflicts = $2; }
+| "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
+| "%expect-rr" INT_LITERAL         { expected_rr_conflicts = $2; }
 | "%file-prefix" STRING            { handle_file_prefix (&@$, &@1, $1, $2); }
 | "%glr-parser"
     {
@@ -561,7 +561,7 @@ token_decl:
 %type <int> int.opt;
 int.opt:
   %empty  { $$ = -1; }
-| INT
+| INT_LITERAL
 ;
 
 %type <symbol*> alias;
@@ -703,13 +703,13 @@ rhs:
     { grammar_current_rule_empty_set (@2); }
 | rhs "%prec" symbol
     { grammar_current_rule_prec_set ($3, @3); }
-| rhs "%dprec" INT
+| rhs "%dprec" INT_LITERAL
     { grammar_current_rule_dprec_set ($3, @3); }
 | rhs "%merge" TAG
     { grammar_current_rule_merge_set ($3, @3); }
-| rhs "%expect" INT
+| rhs "%expect" INT_LITERAL
     { grammar_current_rule_expect_sr ($3, @3); }
-| rhs "%expect-rr" INT
+| rhs "%expect-rr" INT_LITERAL
     { grammar_current_rule_expect_rr ($3, @3); }
 ;
 

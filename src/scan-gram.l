@@ -322,8 +322,8 @@ eqopt    ({sp}=)?
     BEGIN SC_AFTER_IDENTIFIER;
   }
 
-  {int}      RETURN_VALUE (INT, scan_integer (yytext, 10, *loc));
-  {xint}     RETURN_VALUE (INT, scan_integer (yytext, 16, *loc));
+  {int}      RETURN_VALUE (INT_LITERAL, scan_integer (yytext, 10, *loc));
+  {xint}     RETURN_VALUE (INT_LITERAL, scan_integer (yytext, 16, *loc));
 
   /* Identifiers may not start with a digit.  Yet, don't silently
      accept "1FOO" as "1 FOO".  */
@@ -934,9 +934,9 @@ convert_ucn_to_byte (char const *ucn)
 }
 
 
-/*---------------------------------------------------------------------.
-| Handle '#line INT( "FILE")?\n'.  ARGS has already skipped '#line '.  |
-`---------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------.
+| Handle '#line INT_LITERAL( "FILE")?\n'.  ARGS has already skipped '#line '. |
+`----------------------------------------------------------------------------*/
 
 static void
 handle_syncline (char *args, location loc)
