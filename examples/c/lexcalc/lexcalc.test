@@ -38,12 +38,14 @@ run -noerr 0 9 -p
 cat >input <<EOF
 (1+2) *
 EOF
-run 1 'err: 1.8-2.0: syntax error, unexpected end of line, expecting ( or number'
+run 1 'err: 1.8-2.0: syntax error, unexpected end of line, expecting ( or number
+err: errors: 1'
 
 cat >input <<EOF
 1 / (2 - 2)
 EOF
-run 1 'err: 1.1-11: error: division by zero'
+run 1 'err: 1.1-11: error: division by zero
+err: errors: 1'
 
 
 # Multistart: parse "expression" instead of "input".
@@ -57,4 +59,5 @@ cat >input <<EOF
 2
 EOF
 run 1 'expression: failure
-err: 2.1: syntax error, unexpected number, expecting end of file' -e
+err: 2.1: syntax error, unexpected number, expecting end of file
+err: errors: 1' -e

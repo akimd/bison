@@ -25,10 +25,10 @@
 {
   // Tell Flex the expected prototype of yylex.
 #define YY_DECL                                 \
-  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
+  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc)
   YY_DECL;
 
-  void yyerror (YYLTYPE *loc, int *nerrs, const char *msg);
+  void yyerror (YYLTYPE *loc, const char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -61,9 +61,6 @@
 
 // Enable debug traces (see yydebug in main).
 %define parse.trace
-
-// Error count, exchanged between main, yyparse and yylex.
-%param {int *nerrs}
 
 %token
   PLUS   "+"
@@ -109,7 +106,7 @@ exp:
   {
     if ($3 == 0)
       {
-        yyerror (&@$, nerrs, "error: division by zero");
+        yyerror (&@$, "error: division by zero");
         YYERROR;
       }
     else
@@ -121,19 +118,19 @@ exp:
 %%
 // Epilogue (C code).
 
-void yyerror (YYLTYPE *loc, int *nerrs, const char *msg)
+void yyerror (YYLTYPE *loc, const char *msg)
 {
   YY_LOCATION_PRINT (stderr, *loc);
   fprintf (stderr, ": %s\n", msg);
-  ++*nerrs;
 }
 
 int main (int argc, const char *argv[])
 {
-  int nerrs = 0;
   // Possibly enable parser runtime debugging.
   yydebug = !!getenv ("YYDEBUG");
   int parse_expression_p = 0;
+  int nerrs = 0;
+
   // Enable parse traces on option -p.
   for (int i = 0; i < argc; ++i)
     if (1 < argc && strcmp (argv[1], "-p") == 0)
@@ -143,14 +140,19 @@ int main (int argc, const char *argv[])
 
   if (parse_expression_p)
     {
-      yyparse_expression_t res = yyparse_expression (&nerrs);
+      yyparse_expression_t res = yyparse_expression ();
+      nerrs = res.yynerrs;
       if (res.yystatus == 0)
         printf ("expression: %d\n", res.yyvalue);
       else
         printf ("expression: failure\n");
     }
   else
-    yyparse_input (&nerrs);
+    nerrs = yyparse_input ().yynerrs;
+
+  if (nerrs)
+    fprintf (stderr, "errors: %d\n", nerrs);
+
   // Exit on failure if there were errors.
   return !!nerrs;
 }
