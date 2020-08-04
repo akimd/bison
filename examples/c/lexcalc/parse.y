@@ -79,7 +79,7 @@
 %type <int> exp expression line
 %printer { fprintf (yyo, "%d", $$); } <int>
 
-%start input expression
+%start input expression NUM
 
 // Precedence (from lowest to highest) and associativity.
 %left "+" "-"
