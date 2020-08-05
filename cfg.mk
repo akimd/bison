@@ -126,7 +126,7 @@ _sed_rm_comments_q = $(subst ','\'',$(_sed_remove_comments))
 
 _space_before_paren_exempt =? \\n\\$$
 _space_before_paren_exempt = \
-  (^ *\#|(LA)?LR\([01]\)|percent_(code|define)|b4_syncline|m4_(define|init)|symbol)
+  (^ *\#|(LA)?LR\([01]\)|percent_(code|define)|b4_syncline|m4_(define|init))
 # Ensure that there is a space before each open parenthesis in C code.
 sc_space_before_open_paren:
 	@if $(VC_LIST_EXCEPT) | grep -l '\.[ch]$$' > /dev/null; then	\
