@@ -185,13 +185,13 @@ my $verbose = 1;
 
 =over 4
 
-=item C<verbose($level, $message)>
+=item C<verbose ($level, $message)>
 
 Report the C<$message> is C<$level> E<lt>= C<$verbose>.
 
 =cut
 
-sub verbose($$)
+sub verbose ($$)
 {
   my ($level, $message) = @_;
   print STDERR $message
@@ -201,19 +201,40 @@ sub verbose($$)
 
 ######################################################################
 
-=item C<directives($bench, @directive)>
+=item C<directives ($bench, @directive)>
 
 Format the list of directives for Bison for bench named C<$bench>.
 
 =cut
 
-sub directives($@)
+sub directives ($@)
 {
   my ($bench, @directive) = @_;
   my $res = "/* Directives for bench '$bench'. */\n";
   $res .= join ("\n", @directive) . "\n";
   $res .= "/* End of directives for bench '$bench'. */\n";
   return $res;
+}
+
+######################################################################
+
+=item C<is_pure (@directive)>
+
+Whether api.pure is set.
+
+=cut
+
+sub is_pure (@)
+{
+  my (@directive) = @_;
+  for my $dir (@directive)
+    {
+      if ($dir =~ /\A%define api.pure/)
+        {
+          return 1;
+        }
+    }
+  return 0;
 }
 
 ######################################################################
@@ -389,18 +410,14 @@ sub generate_grammar_calc ($$@)
 %define api.value.type union
 $directives
 
-%{
+%code provides {
 static int power (int base, int exponent);
 /* yyerror receives the location if:
    - %location & %pure & %glr
    - %location & %pure & %yacc & %parse-param. */
 static void yyerror (const char *s);
-#if YYPURE
-static int yylex (YYSTYPE* yylvalp);
-#else
-static int yylex (void);
-#endif
-%}
+static int yylex (@{[is_pure (@directive) ? "YYSTYPE *yylvalp" : "void"]});
+}
 
 /* Bison Declarations */
 %token
@@ -467,12 +484,7 @@ yyerror (const char *s)
 }
 
 static int
-#if YYPURE
-# define yylval (*yylvalp)
-yylex (YYSTYPE* yylvalp)
-#else
-yylex (void)
-#endif
+yylex (@{[is_pure (@directive) ? "YYSTYPE *yylvalp" : "void"]})
 {
   int c;
 
@@ -498,7 +510,7 @@ yylex (void)
     case '5': case '6': case '7': case '8': case '9':
       {
         int nchars = 0;
-        int n = sscanf (input - 1, "%d%n", &yylval.NUM, &nchars);
+        int n = sscanf (input - 1, "%d%n", &@{[is_pure (@directive) ? "yylvalp->" : "yylval."]}NUM, &nchars);
         assert (n == 1);
         input += nchars - 1;
         return NUM;
@@ -506,7 +518,7 @@ yylex (void)
 
     default:
       yyerror ("error: invalid character");
-      return yylex ();
+      return yylex (@{[is_pure (@directive) ? "yylvalp" : ""]});
     }
 }
 EOF
@@ -592,10 +604,10 @@ $directives
   // Prototype of the yylex function providing subsequent tokens.
   static
 #if USE_TOKEN_CTOR
-  yy::parser::symbol_type yylex();
+  yy::parser::symbol_type yylex ();
 #else
-  yy::parser::token_type yylex(yy::parser::semantic_type* yylvalp,
-                               yy::parser::location_type* yyllocp);
+  yy::parser::token_type yylex (yy::parser::semantic_type *yylvalp,
+                                yy::parser::location_type *yyllocp);
 #endif
 
   // Conversion to string.
@@ -618,8 +630,8 @@ EOF
       print $out <<'EOF';
 %token <std::string> TEXT
 %token <int> NUMBER
-%printer { std::cerr << "Number: " << $$; } <int>
-%printer { std::cerr << "Text: " << $$; } <std::string>
+%printer { yyo << "Number: " << $$; } <int>
+%printer { yyo << "Text: " << $$; } <std::string>
 %type <std::string> text result
 
 %%
@@ -641,8 +653,8 @@ EOF
 %union {int ival; std::string* sval;}
 %token <sval> TEXT
 %token <ival> NUMBER
-%printer { std::cerr << "Number: " << $$; } <ival>
-%printer { std::cerr << "Text: " << *$$; } <sval>
+%printer { yyo << "Number: " << $$; } <ival>
+%printer { yyo << "Text: " << *$$; } <sval>
 %type <sval> text result
 
 %%
@@ -664,10 +676,10 @@ EOF
 
 static
 #if USE_TOKEN_CTOR
-yy::parser::symbol_type yylex()
+yy::parser::symbol_type yylex ()
 #else
-yy::parser::token_type yylex(yy::parser::semantic_type* yylvalp,
-                             yy::parser::location_type* yyllocp)
+yy::parser::token_type yylex (yy::parser::semantic_type *yylvalp,
+                              yy::parser::location_type *yyllocp)
 #endif
 {
   typedef yy::parser::location_type location_type;
