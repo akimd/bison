@@ -1395,11 +1395,6 @@ AT_CLEANUP
 AT_SETUP([Torturing the Scanner])
 
 AT_BISON_OPTION_PUSHDEFS
-AT_DATA([input.y], [])
-AT_BISON_CHECK([input.y], [1], [],
-[[input.y:1.1: error: unexpected end of file
-]])
-
 
 AT_DATA([input.y],
 [{}
@@ -2501,6 +2496,99 @@ input.y:5.9-16: error: invalid character after \-escape: \t
 input.y:5.17: error: invalid character after \-escape: \f
 input.y:5.18: error: invalid character after \-escape: \0
 input.y:5.19: error: invalid character after \-escape: \001
+]])
+
+AT_CLEANUP
+
+
+## ------------------------ ##
+## Unexpected end of file.  ##
+## ------------------------ ##
+
+AT_SETUP([[Unexpected end of file]])
+
+
+AT_DATA([input.y], [])
+AT_BISON_CHECK([-fcaret input.y], [1], [],
+[[input.y:1.1: error: unexpected end of file
+]])
+
+
+AT_DATA_NO_FINAL_EOL([char.y],
+[[%token FOO ']])
+
+AT_BISON_CHECK([-fcaret char.y], [1], [],
+[[char.y:1.12: error: missing "'" at end of file
+    1 | %token FOO '
+      |            ^
+char.y:1.12: error: empty character literal
+    1 | %token FOO '
+      |            ^
+]])
+
+
+AT_DATA_NO_FINAL_EOL([escape-in-char.y],
+[[%token FOO '\]])
+
+AT_BISON_CHECK([-fcaret escape-in-char.y], [1], [],
+[[escape-in-char.y:1.12-13: error: missing '?\'' at end of file
+    1 | %token FOO '\
+      |            ^~
+escape-in-char.y:1.14: error: unexpected end of file
+    1 | %token FOO '\
+      |              ^
+]])
+
+
+AT_DATA_NO_FINAL_EOL([string.y],
+[[%token FOO "]])
+
+AT_BISON_CHECK([-fcaret string.y], [1], [],
+[[string.y:1.12: error: missing '"' at end of file
+    1 | %token FOO "
+      |            ^
+string.y:1.13: error: unexpected end of file
+    1 | %token FOO "
+      |             ^
+]])
+
+
+AT_DATA_NO_FINAL_EOL([escape-in-string.y],
+[[%token FOO "\]])
+
+AT_BISON_CHECK([-fcaret escape-in-string.y], [1], [],
+[[escape-in-string.y:1.12-13: error: missing '?"' at end of file
+    1 | %token FOO "\
+      |            ^~
+escape-in-string.y:1.14: error: unexpected end of file
+    1 | %token FOO "\
+      |              ^
+]])
+
+
+AT_DATA_NO_FINAL_EOL([tstring.y],
+[[%token FOO _("]])
+
+AT_BISON_CHECK([-fcaret tstring.y], [1], [],
+[[tstring.y:1.12-14: error: missing '")' at end of file
+    1 | %token FOO _("
+      |            ^~~
+tstring.y:1.15: error: unexpected end of file
+    1 | %token FOO _("
+      |               ^
+]])
+
+
+AT_DATA_NO_FINAL_EOL([escape-in-tstring.y],
+[[%token FOO _("\]])
+
+AT_BISON_CHECK([-fcaret escape-in-tstring.y], [1], [],
+[[escape-in-tstring.y:1.12-15: error: missing '?")' at end of file
+    1 | %token FOO _("\
+      |            ^~~~
+escape-in-tstring.y:1.16: error: unexpected end of file
+    1 | %token FOO _("\
+      |                ^
 ]])
 
 AT_CLEANUP
