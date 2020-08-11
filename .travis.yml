@@ -50,6 +50,7 @@ jobs:
         - make -j2 dist-xz
         # Can help understanding why we get "dirty" tarballs.
         - git status
+        - git diff
         - dist=$(echo bison*.xz)
 
         # Unfortunately we cannot deterministically know the name of the tarball without the full
@@ -129,7 +130,7 @@ jobs:
         - CC=icc
         - CXX=icpc
       install:
-        - source /opt/intel/inteloneapi/compiler/latest/env/vars.sh
+        - source /opt/intel/oneapi/compiler/latest/env/vars.sh
       addons:
         apt:
           sources:

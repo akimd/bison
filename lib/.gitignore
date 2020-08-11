@@ -336,6 +336,7 @@
 /sys_types.in.h
 /sys_wait.in.h
 /sysexits.in.h
+/termios.h
 /termios.in.h
 /textstyle.h
 /textstyle.in.h

@@ -67,6 +67,7 @@
 /intlmacosx.m4
 /intmax.m4
 /intmax_t.m4
+/inttypes-pri.m4
 /inttypes.m4
 /inttypes_h.m4
 /isnan.m4
