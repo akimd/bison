@@ -13,6 +13,7 @@
 /codeset.m4
 /config-h.m4
 /configmake.m4
+/dirname.m4
 /double-slash-root.m4
 /dup2.m4
 /eealloc.m4
@@ -68,6 +69,7 @@
 /intmax.m4
 /intmax_t.m4
 /inttypes.m4
+/inttypes-pri.m4
 /inttypes_h.m4
 /isnan.m4
 /isnand.m4
@@ -96,6 +98,7 @@
 /locale-ja.m4
 /locale-zh.m4
 /locale_h.m4
+/localtime-buffer.m4
 /lock.m4
 /longlong.m4
 /lstat.m4
