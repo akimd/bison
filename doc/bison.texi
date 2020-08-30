@@ -6296,7 +6296,10 @@ Introduced in Bison 3.3 to replace @code{parser_class_name}.
 
 @item Default Value: @code{YY} for Java, @code{yy} otherwise.
 
-@item History: introduced in Bison 2.6
+@item History:
+introduced in Bison 2.6, with its argument in double quotes.  Uses braces
+since Bison 3.0 (double quotes are still supported for backward
+compatibility).
 @end itemize
 @end deffn
 
