@@ -1,4 +1,12 @@
-* Bison 3.7
+* Soon
+** gnulib
+Bruno notes:
+
+> I haven't looked deeply, but it strikes me that gnulib/lib/bitset/array.c
+> does not make use of the 'ffsl' function, nor or the 'integer_length_l'
+> function. Maybe because in Bison, all bitsets are so dense that it does
+> not give a performance advantage?
+
 ** Cex
 *** Improve gnulib
 Don't do this (counterexample.c):
