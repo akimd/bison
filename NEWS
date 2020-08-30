@@ -2,6 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Push parsers use YYMALLOC/YYFREE instead of direct calls to malloc/free.
 
 * Noteworthy changes in release 3.7.1 (2020-08-02) [stable]
 
