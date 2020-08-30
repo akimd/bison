@@ -27,7 +27,7 @@ EXTRA_DIST += %D%/Calc.test
 
 %D%/Calc.java: %D%/Calc.y $(dependencies)
 	$(AM_V_GEN)$(MKDIR_P) %D%
-	$(AM_V_at)$(BISON) $(srcdir)/%D%/Calc.y -o $@
+	$(AM_V_at)$(BISON) -o $@ $(srcdir)/%D%/Calc.y
 
 %D%/Calc.class: %D%/Calc.java
 	$(AM_V_GEN) $(SHELL) $(top_builddir)/javacomp.sh %D%/Calc.java

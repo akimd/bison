@@ -27,7 +27,7 @@ EXTRA_DIST += %D%/calc.test
 
 %D%/calc.d: %D%/calc.y $(dependencies)
 	$(AM_V_GEN)$(MKDIR_P) %D%
-	$(AM_V_at)$(BISON) $(srcdir)/%D%/calc.y -o $@
+	$(AM_V_at)$(BISON) -o $@ $(srcdir)/%D%/calc.y
 
 %D%/calc: %D%/calc.d
 	$(AM_V_GEN) $(DC) $(DCFLAGS) -of$@ %D%/calc.d
