@@ -130,7 +130,7 @@ m4_define([b4_user_args],
 [m4_ifset([b4_parse_param], [, b4_user_args_no_comma])])
 
 # b4_user_args_no_comma
-# ------------
+# ---------------------
 m4_define([b4_user_args_no_comma],
 [m4_ifset([b4_parse_param], [b4_args(b4_parse_param)])])
 

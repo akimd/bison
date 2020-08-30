@@ -355,7 +355,7 @@ class StrongIndexAlias
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg     Why this token is reclaimed.
     ///                  If null, print nothing.
-    /// \param yysym     The symbol.
+    /// \param yykind    The symbol kind.
     void yy_destroy_ (const char* yymsg, symbol_kind_type yykind,
                       const semantic_type* yyvaluep]b4_locations_if([[,
                       const location_type* yylocationp]])[);
@@ -850,7 +850,7 @@ typedef int yyRuleNum;
 typedef short yyItemNum;
 
 // Forward declarations.
-struct yyGLRState;
+class yyGLRState;
 struct yySemanticOption;
 struct yyGLRStackItem;
 struct yyGLRStack;
@@ -2245,7 +2245,7 @@ struct yyGLRStack {
    *  yyerr for YYERROR, yyabort for YYABORT.  */
   YYRESULTTAG
   yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
-                YYSTYPE* yyvalp]b4_locuser_formals[)
+                YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
   {
     bool yynormal YY_ATTRIBUTE_UNUSED = !yystateStack.isSplit();
     int yylow;
@@ -2332,7 +2332,7 @@ struct yyGLRStack {
    *  for userAction.  */
   inline YYRESULTTAG
   yydoAction (yyStateSetIndex yyk, yyRuleNum yyrule,
-              YYSTYPE* yyvalp]b4_locuser_formals[)
+              YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
   {
     int yynrhs = yyrhsLength (yyrule);
 
@@ -2345,7 +2345,7 @@ struct yyGLRStack {
         yystateStack.setFirstTop(&yystateStack[yystateStack.size() - 1].getState());
         YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule]b4_user_args[));
         return yyuserAction (yyrule, yynrhs, yyrhs,
-                             yyvalp]b4_locuser_args[);
+                             yyvalp]b4_locations_if([, yylocp])[);
       }
     else
       {
@@ -2364,7 +2364,7 @@ struct yyGLRStack {
         yystateStack.setTopAt(yyk, yys);
         YY_REDUCE_PRINT ((false, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyk, yyrule]b4_user_args[));
         return yyuserAction (yyrule, yynrhs, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
-                             yyvalp]b4_locuser_args[);
+                             yyvalp]b4_locations_if([, yylocp])[);
       }
   }
 
@@ -2390,7 +2390,7 @@ struct yyGLRStack {
         YYSTYPE yysval;]b4_locations_if([[
         YYLTYPE yyloc;]])[
 
-        YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &yysval]b4_locuser_args([&yyloc])[);
+        YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &yysval]b4_locations_if([, &yyloc])[);
         if (yyflag == yyerr && yystateStack.isSplit())
           {
             YYDPRINTF ((stderr, "Parse on stack %lu rejected by rule #%d.\n",
@@ -2590,7 +2590,7 @@ struct yyGLRStack {
     if (yymerge)
       {
         int yyprec = yydprec[yybest->yyrule];
-        yyflag = yyresolveAction (yybest, &yysval]b4_locuser_args[);
+        yyflag = yyresolveAction (yybest, &yysval]b4_locations_if([, yylocp])[);
         if (yyflag == yyok)
           for (yySemanticOption* yyp = yybest->next();
                yyp != YY_NULLPTR;
@@ -2600,7 +2600,7 @@ struct yyGLRStack {
                 {
                   YYSTYPE yysval_other;]b4_locations_if([
                   YYLTYPE yydummy;])[
-                  yyflag = yyresolveAction (yyp, &yysval_other]b4_locuser_args([&yydummy])[);
+                  yyflag = yyresolveAction (yyp, &yysval_other]b4_locations_if([, &yydummy])[);
                   if (yyflag != yyok)
                     {
                       yyparser.yy_destroy_ ("Cleanup: discarding incompletely merged value for",
@@ -2613,7 +2613,7 @@ struct yyGLRStack {
             }
       }
     else
-      yyflag = yyresolveAction (yybest, &yysval]b4_locuser_args([yylocp])[);
+      yyflag = yyresolveAction (yybest, &yysval]b4_locations_if([, yylocp])[);
 
     if (yyflag == yyok)
       {
@@ -2631,7 +2631,7 @@ struct yyGLRStack {
    *  have been destroyed (assuming the user action destroys all RHS
    *  semantic values if invoked).  */
   YYRESULTTAG
-  yyresolveAction (yySemanticOption* yyopt, YYSTYPE* yyvalp]b4_locuser_formals[)
+  yyresolveAction (yySemanticOption* yyopt, YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
   {
     yyGLRState* yyoptState = yyopt->state();
     yyGLRStackItem yyrhsVals[YYMAXRHS + YYMAXLEFT + 1];
@@ -2657,7 +2657,7 @@ struct yyGLRStack {
       yylval = yyopt->yyval;]b4_locations_if([
       yylloc = yyopt->yyloc;])[
       yyflag = yyuserAction (yyopt->yyrule, yynrhs,
-                             yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyvalp]b4_locuser_args[);
+                             yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyvalp]b4_locations_if([, yylocp])[);
       yychar = yychar_current;
       yylval = yylval_current;]b4_locations_if([
       yylloc = yylloc_current;])[
