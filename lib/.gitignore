@@ -340,6 +340,7 @@
 /termios.in.h
 /textstyle.h
 /textstyle.in.h
+/thread-optim.h
 /time.h
 /time.in.h
 /timespec.c
