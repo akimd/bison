@@ -759,7 +759,7 @@ AT_TEST([x1],
          ])
 
 # Check the CPP guard and Doxyen comments.
-AT_CHECK([sed -ne 's/#line [0-9]\+ "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out/include/ast/loc.hh], [],
+AT_CHECK([[sed -ne 's/#line [0-9][0-9]* "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out/include/ast/loc.hh]], [],
 [[ ** \file bar/include/ast/loc.hh
  ** Define the x1::location class.
 #ifndef YY_YY_BAR_INCLUDE_AST_LOC_HH_INCLUDED
@@ -771,7 +771,7 @@ AT_CHECK([sed -ne 's/#line [0-9]\+ "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out
 #endif // !YY_YY_BAR_INCLUDE_AST_LOC_HH_INCLUDED
 ]])
 
-AT_CHECK([sed -ne 's/^#line [0-9]\+ "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out/x1.hh], [],
+AT_CHECK([[sed -ne 's/^#line [0-9][0-9]* "/#line "/p;/INCLUDED/p;/\\file/{p;n;p;}' out/x1.hh]], [],
 [[ ** \file bar/x1.hh
  ** Define the x1::parser class.
 #ifndef YY_YY_BAR_X1_HH_INCLUDED
