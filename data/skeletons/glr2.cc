@@ -162,6 +162,21 @@ b4_percent_code_get([[requires]])[
 ]b4_cast_define[
 ]b4_null_define[
 
+// This skeleton is based on C, yet compiles it as C++.
+// So expect warnings about C style casts.
+#if defined __clang__ && 306 <= __clang_major__ * 100 + __clang_minor__
+# pragma clang diagnostic ignored "-Wold-style-cast"
+#elif defined __GNUC__ && 406 <= __GNUC__ * 100 + __GNUC_MINOR__
+# pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
+
+// On MacOS, PTRDIFF_MAX is defined as long long, which Clang's
+// -pedantic reports as being a C++11 extension.
+#if defined __APPLE__ && YY_CPLUSPLUS < 201103L \
+    && defined __clang__ && 4 <= __clang_major__
+# pragma clang diagnostic ignored "-Wc++11-long-long"
+#endif
+
 template <typename Parameter>
 class StrongIndexAlias
 {
@@ -227,22 +242,6 @@ class StrongIndexAlias
   // WARNING: 0-initialized.
   std::ptrdiff_t value_;
 };
-
-
-// This skeleton is based on C, yet compiles it as C++.
-// So expect warnings about C style casts.
-#if defined __clang__ && 306 <= __clang_major__ * 100 + __clang_minor__
-# pragma clang diagnostic ignored "-Wold-style-cast"
-#elif defined __GNUC__ && 406 <= __GNUC__ * 100 + __GNUC_MINOR__
-# pragma GCC diagnostic ignored "-Wold-style-cast"
-#endif
-
-// On MacOS, PTRDIFF_MAX is defined as long long, which Clang's
-// -pedantic reports as being a C++11 extension.
-#if defined __APPLE__ && YY_CPLUSPLUS < 201103L \
-    && defined __clang__ && 4 <= __clang_major__
-# pragma clang diagnostic ignored "-Wc++11-long-long"
-#endif
 
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
