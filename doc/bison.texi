@@ -10605,8 +10605,8 @@ This shows two separate derivations in the grammar for the same @code{exp}:
 given example. Here, the first derivation completes a reduction when seeing
 @samp{/}, causing @samp{e1 + e2} to be grouped as an @code{exp}. The second
 derivation shifts on @samp{/}, resulting in @samp{e2 / e3} being grouped as
-an @code{exp}. Therefore, it is easy to see that adding @code{%precedence}
-directives would fix this conflict.
+an @code{exp}.  Therefore, it is easy to see that adding
+precedence/associativity directives would fix this conflict.
 
 The remaining states are similar:
 

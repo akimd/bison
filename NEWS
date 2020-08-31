@@ -19,17 +19,18 @@ GNU Bison NEWS
 
 *** Counterexamples
 
-  Counterexamples now show the rule numbers:
+  Counterexamples now show the rule numbers, and always show ε for rules
+  with an empty right-hand side.  For instance
 
     exp
-    ↳ 1: "if" exp "then" exp
-                         ↳ 2: "if" exp "then" exp • "else" exp
+    ↳ 1: e1       e2     "a"
+         ↳ 3: ε • ↳ 1: ε
 
   instead of
 
     exp
-    ↳ "if" exp "then" exp
-                      ↳ "if" exp "then" exp • "else" exp
+    ↳ e1  e2  "a"
+      ↳ • ↳ ε
 
 
 * Noteworthy changes in release 3.7.1 (2020-08-02) [stable]

@@ -164,9 +164,9 @@ input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
              `-> 9: . B
   Reduce derivation
     s
-    `-> 1: ax                by
-           `-> 3: A x        `-> 6: B y
-                    `-> 4: .          `-> 6: %empty
+    `-> 1: ax                       by
+           `-> 3: A x               `-> 6: B y
+                    `-> 4: %empty .          `-> 6: %empty
 input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   First example: A X . B Y $end
   Shift derivation
@@ -178,11 +178,11 @@ input.y: warning: shift/reduce conflict on token B [-Wcounterexamples]
   Second example: A X . B y $end
   Reduce derivation
     $accept
-    `-> 0: s                                            $end
-           `-> 1: ax                         by
-                  `-> 3: A x                 `-> 6: B y
+    `-> 0: s                                                   $end
+           `-> 1: ax                                by
+                  `-> 3: A x                        `-> 6: B y
                            `-> 5: X x
-                                    `-> 4: .
+                                    `-> 4: %empty .
 input.y:5.4-9: warning: rule useless in parser due to conflicts [-Wother]
 ]],
 [[input.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
@@ -571,10 +571,10 @@ input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Second reduce derivation
     S
     `-> 1: B C
-             `-> 7: A                                      c A
-                    `-> 3: B                                 `-> 7: %empty
-                           `-> 6: A        b A
-                                  `-> 5: .   `-> 6: %empty
+             `-> 7: A                                             c A
+                    `-> 3: B                                        `-> 7: %empty
+                           `-> 6: A               b A
+                                  `-> 5: %empty .   `-> 6: %empty
 input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Example: C . c b
   First reduce derivation
@@ -585,10 +585,10 @@ input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
   Second reduce derivation
     S
     `-> 2: C B
-             `-> 6: A                                      b A
-                    `-> 4: C                                 `-> 6: %empty
-                           `-> 7: A        c A
-                                  `-> 5: .   `-> 7: %empty
+             `-> 6: A                                             b A
+                    `-> 4: C                                        `-> 6: %empty
+                           `-> 7: A               c A
+                                  `-> 5: %empty .   `-> 7: %empty
 ]],
 [[input.y: warning: 4 reduce/reduce conflicts [-Wconflicts-rr]
 input.y: warning: reduce/reduce conflict on tokens b, c [-Wcounterexamples]
@@ -625,49 +625,49 @@ input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   First example: . c A A $end
   First reduce derivation
     $accept
-    `-> 0: a                            $end
-           `-> 1: b        d
-                  `-> 3: . `-> 6: c A A
+    `-> 0: a                                   $end
+           `-> 1: b               d
+                  `-> 3: %empty . `-> 6: c A A
   Second example: . c A A $end
   Second reduce derivation
     $accept
-    `-> 0: a                            $end
-           `-> 2: c        d
-                  `-> 4: . `-> 6: c A A
+    `-> 0: a                                   $end
+           `-> 2: c               d
+                  `-> 4: %empty . `-> 6: c A A
 input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example: b . c A A $end
   First reduce derivation
     $accept
-    `-> 0: a                                            $end
+    `-> 0: a                                                   $end
            `-> 1: b d
                     `-> 5: a
-                           `-> 1: b        d
-                                  `-> 3: . `-> 6: c A A
+                           `-> 1: b               d
+                                  `-> 3: %empty . `-> 6: c A A
   Second example: b . A $end
   Second reduce derivation
     $accept
-    `-> 0: a                          $end
+    `-> 0: a                                 $end
            `-> 1: b d
-                    `-> 6: c        A
-                           `-> 4: .
+                    `-> 6: c               A
+                           `-> 4: %empty .
 input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example: c . c A A $end
   First reduce derivation
     $accept
-    `-> 0: a                                            $end
+    `-> 0: a                                                   $end
            `-> 2: c d
                     `-> 5: a
-                           `-> 1: b        d
-                                  `-> 3: . `-> 6: c A A
+                           `-> 1: b               d
+                                  `-> 3: %empty . `-> 6: c A A
   Second example: c . A $end
   Second reduce derivation
     $accept
-    `-> 0: a                          $end
+    `-> 0: a                                 $end
            `-> 2: c d
-                    `-> 6: c        A
-                           `-> 4: .
+                    `-> 6: c               A
+                           `-> 4: %empty .
 input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
 time limit exceeded: XXX
   First example: b c . A
@@ -678,33 +678,33 @@ time limit exceeded: XXX
   Second example: b c . c A A $end
   Reduce derivation
     $accept
-    `-> 0: a                                                            $end
+    `-> 0: a                                                                   $end
            `-> 1: b d
                     `-> 5: a
                            `-> 2: c d
                                     `-> 5: a
-                                           `-> 1: b        d
-                                                  `-> 3: . `-> 6: c A A
+                                           `-> 1: b               d
+                                                  `-> 3: %empty . `-> 6: c A A
 input.y: warning: reduce/reduce conflict on token A [-Wcounterexamples]
   First example: b c . c A A $end
   First reduce derivation
     $accept
-    `-> 0: a                                                            $end
+    `-> 0: a                                                                   $end
            `-> 1: b d
                     `-> 5: a
                            `-> 2: c d
                                     `-> 5: a
-                                           `-> 1: b        d
-                                                  `-> 3: . `-> 6: c A A
+                                           `-> 1: b               d
+                                                  `-> 3: %empty . `-> 6: c A A
   Second example: b c . A $end
   Second reduce derivation
     $accept
-    `-> 0: a                                          $end
+    `-> 0: a                                                 $end
            `-> 1: b d
                     `-> 5: a
                            `-> 2: c d
-                                    `-> 6: c        A
-                                           `-> 4: .
+                                    `-> 6: c               A
+                                           `-> 4: %empty .
 input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   First example: b c . A
   Shift derivation
@@ -714,12 +714,12 @@ input.y: warning: shift/reduce conflict on token A [-Wcounterexamples]
   Second example: b c . A $end
   Reduce derivation
     $accept
-    `-> 0: a                                          $end
+    `-> 0: a                                                 $end
            `-> 1: b d
                     `-> 5: a
                            `-> 2: c d
-                                    `-> 6: c        A
-                                           `-> 4: .
+                                    `-> 6: c               A
+                                           `-> 4: %empty .
 input.y: warning: reduce/reduce conflict on token $end [-Wcounterexamples]
   Example: b d .
   First reduce derivation
@@ -861,10 +861,10 @@ input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
                `-> 6: . D
   Reduce derivation
     s
-    `-> 2: A a a                      d
-               `-> 3: b               `-> 6: D
+    `-> 2: A a a                             d
+               `-> 3: b                      `-> 6: D
                       `-> 4: c
-                             `-> 5: .
+                             `-> 5: %empty .
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
@@ -905,11 +905,11 @@ input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
   Second example: A a . D E $end
   Reduce derivation
     $accept
-    `-> 0: s                                            $end
-           `-> 2: A a a                      d        E
-                      `-> 3: b               `-> 6: D
+    `-> 0: s                                                   $end
+           `-> 2: A a a                             d        E
+                      `-> 3: b                      `-> 6: D
                              `-> 4: c
-                                    `-> 5: .
+                                    `-> 5: %empty .
 ]],
 [[input.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
 input.y: warning: shift/reduce conflict on token D [-Wcounterexamples]
