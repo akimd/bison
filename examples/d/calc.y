@@ -61,7 +61,7 @@ exp:
 | exp "-" exp          { $$ = $1 - $3; }
 | exp "*" exp          { $$ = $1 * $3; }
 | exp "/" exp          { $$ = $1 / $3; }
-| "+" exp  %prec UNARY { $$ = -$2; }
+| "+" exp  %prec UNARY { $$ = $2; }
 | "-" exp  %prec UNARY { $$ = -$2; }
 | "(" exp ")"          { $$ = $2; }
 ;
