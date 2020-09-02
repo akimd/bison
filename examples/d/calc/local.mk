@@ -13,8 +13,24 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-ddir = $(docdir)/%D%
-dist_d_DATA = %D%/README.md
+calcddir = $(docdir)/%D%
 
-include %D%/calc/local.mk
-include %D%/simple/local.mk
+## ------ ##
+## Calc.  ##
+## ------ ##
+
+if ENABLE_D
+  check_SCRIPTS += %D%/calc
+  TESTS += %D%/calc.test
+endif
+EXTRA_DIST += %D%/calc.test
+
+%D%/calc.d: %D%/calc.y $(dependencies)
+	$(AM_V_GEN)$(MKDIR_P) %D%
+	$(AM_V_at)$(BISON) -o $@ $(srcdir)/%D%/calc.y
+
+%D%/calc: %D%/calc.d
+	$(AM_V_GEN) $(DC) $(DCFLAGS) -of$@ %D%/calc.d
+
+dist_calcd_DATA = %D%/calc.y %D%/Makefile
+CLEANFILES += %D%/calc %D%/calc.[do]
