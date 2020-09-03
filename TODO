@@ -178,6 +178,14 @@ We should use clean C++ code.
 StrongIndexAlias should be in the parser's namespace.  Possibly even an
 inner class.
 
+*** Coding style
+Move to our coding conventions.  In particular names such as yy_glr_stack,
+not yyGLRStack.
+
+*** yydebug
+It should be a member of the parser object, see lalr1.cc.  Let the parser
+object decide what the debug stream is, rather than open coding std::cerr.
+And use YYCDEBUG rather than YY_DEBUG_STREAM.
 
 * Chains
 ** Unit rules / Injection rules (Akim Demaille)
