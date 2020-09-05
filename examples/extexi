@@ -23,21 +23,21 @@
 
 # Look for @example environments preceded with lines such as:
 #
-#      @comment file calc.y
+#      @comment file c/mfcalc/calc.y
 # or
-#      @comment file calc.y: 3
+#      @comment file c/mfcalc/calc.y: 3
 #
-# and output their content in that file (calc.y).  When numbers are
-# provided, use them to decide the output order (block numbered 1 is
-# output before block 2, even if the latter appears before).  The same
-# number may be used several time, in which case the order of
+# and output their content in that file (c/mfcalc/calc.y).  When
+# numbers are provided, use them to decide the output order (block 1
+# is output before block 2, even if the latter appears before).  The
+# same number may be used several time, in which case the order of
 # appearance is used.
 #
 # Use @ignore for code to extract that must not be part of the
 # documentation.  For instance:
 #
 #      @ignore
-#      @comment file: calc++/scanner.ll
+#      @comment file: c++/calc++/scanner.ll
 #      @example
 #      // Work around an incompatibility in Flex.
 #      # undef yywrap
@@ -87,7 +87,9 @@ sub message($)
 # The list of files we should extract.
 my @file_wanted;
 
-# Whether we should extract that file, and then under which path.
+# Whether we should extract that file, and then under which path.  We
+# check if the prefix matches.  So for instance if "foo/bar.y" is
+# wanted (i.e., in @FILE_WANTED), "file: bar.y" matches.
 sub file_wanted ($)
 {
   my ($f) = @_;
