@@ -13,9 +13,11 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+  Fix concurrent build issues (introduced in Bison 3.5).
+
   Push parsers always use YYMALLOC/YYFREE (no direct calls to malloc/free).
 
-  Portability issues of the test suite, and of bison itself.
+  Fix portability issues of the test suite, and of bison itself.
 
   Some unlikely crashes found by fuzzing have been fixed.  This is only
   about bison itself, not the generated parsers.
