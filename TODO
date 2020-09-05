@@ -187,6 +187,13 @@ It should be a member of the parser object, see lalr1.cc.  Let the parser
 object decide what the debug stream is, rather than open coding std::cerr.
 And use YYCDEBUG rather than YY_DEBUG_STREAM.
 
+*** Avoid pointers
+There are many places where pointers should be replaced with references.
+
+*** Use proper type names
+Don't use YYSTYPE and YYLTYPE but parser::semantic_type and
+parser::location_type.  Undefine YYSTYPE and YYLTYPE.
+
 * Chains
 ** Unit rules / Injection rules (Akim Demaille)
 Maybe we could expand unit rules (or "injections", see

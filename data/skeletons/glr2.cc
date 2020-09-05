@@ -86,15 +86,6 @@ yy_symbol_print (FILE *, ]b4_namespace_ref[::]b4_parser_class[& yyparser, ]b4_na
 [yylloc.initialize ();]m4_ifdef([b4_initial_action], [
 m4_defn([b4_initial_action])]))])[
 
-# Hijack the post prologue to declare yyerror.
-]m4_append([b4_post_prologue],
-[b4_syncline([@oline@], [@ofile@])dnl
-[static void
-yyerror (]b4_namespace_ref[::]b4_parser_class[& yyparser, ]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp,
-         ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
-         ])[const std::string& msg);]])[
-
-
 ]m4_define([b4_define_symbol_kind],
 [m4_format([#define %-15s %s],
            b4_symbol($][1, kind_base),
@@ -396,32 +387,16 @@ m4_define([b4_user_formals],
 [m4_ifset([b4_parse_param], [, b4_user_formals_no_comma])])
 
 # b4_user_formals_no_comma
-# ---------------
+# ------------------------
 # The possible parse-params formal arguments.
 m4_define([b4_user_formals_no_comma],
 [m4_ifset([b4_parse_param], [b4_formals(b4_parse_param)])])
 
-# b4_yyerror_args
-# ---------------
-# Optional effective arguments passed to yyerror: user args plus yylloc, and
-# a trailing comma.
-m4_define([b4_yyerror_args],
-[yyparser, b4_pure_if([b4_locations_if([yylocp, ])])dnl
-m4_ifset([b4_parse_param], [b4_args(b4_parse_param), ])])
-
-
-
-# b4_lyyerror_args
-# ----------------
-# Same as above, but on the lookahead, hence &yylloc instead of yylocp.
-m4_define([b4_lyyerror_args],
-[yyparser, []b4_pure_if([b4_locations_if([&yylloc, ])])dnl
-m4_ifset([b4_parse_param], [b4_args(b4_parse_param), ])])
-
 
 # b4_pure_args
 # ------------
-# Same as b4_yyerror_args, but with a leading comma.
+# Optional effective arguments passed to yyerror: user args plus yylloc, and
+# a leading comma.
 m4_define([b4_pure_args],
 [b4_pure_if([b4_locations_if([, yylocp])])[]b4_user_args])
 
@@ -431,14 +406,6 @@ m4_define([b4_pure_args],
 # Same as above, but on the lookahead, hence &yylloc instead of yylocp. This is used only inside yyGLRStack, so there's no need to explicitly pass yyparser.
 m4_define([b4_lpure_args],
 [b4_pure_if([b4_locations_if([, &yylloc])])[]b4_user_args])
-
-
-
-# b4_pure_formals
-# ---------------
-# Arguments passed to yyerror: user formals plus yylocp with leading comma.
-m4_define([b4_pure_formals],
-[b4_pure_if([b4_locations_if([, YYLTYPE *yylocp])])[]b4_user_formals])
 
 
 # b4_locuser_formals(LOC = yylocp)
@@ -1733,7 +1700,7 @@ struct yyStateStack {
 
   YYRESULTTAG
   yyreportAmbiguity (yySemanticOption* yyx0,
-                     yySemanticOption* yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_pure_formals[)
+                     yySemanticOption* yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, YYLTYPE *yylocp])[)
   {
     YYUSE (yyx0);
     YYUSE (yyx1);
@@ -1747,7 +1714,7 @@ struct yyStateStack {
     std::cerr << "\n";
 #endif
 
-    yyerror (]b4_yyerror_args[YY_("syntax is ambiguous"));
+    yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax is ambiguous"));
     return yyabort;
   }
 
@@ -1895,7 +1862,7 @@ struct yyGLRStack {
   yyFail (]b4_locations_if([YYLTYPE* yylocp, ])[const char* yymsg)
   {
     if (yymsg != YY_NULLPTR)
-      yyerror (]b4_yyerror_args[yymsg);
+      yyparser.error (]b4_locations_if([*yylocp, ])[yymsg);
     YYLONGJMP (yyexception_buffer, 1);
   }
 
@@ -1937,7 +1904,7 @@ struct yyGLRStack {
       return;
 ]b4_parse_error_bmatch(
 [simple],
-[[    yyerror (]b4_lyyerror_args[YY_("syntax error"));]],
+[[    yyparser.error (]b4_locations_if([yylloc, ])[YY_("syntax error"));]],
 [[    {
     ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytoken
       = yychar == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(-2, id)[
@@ -2030,7 +1997,7 @@ struct yyGLRStack {
         }
       else
         yymsg += *yyp;
-     yyerror (]b4_lyyerror_args[yymsg);
+     yyparser.error (]b4_locations_if([[yylloc, ]])[yymsg);
     }
 ]])[
     yynerrs += 1;
@@ -2231,7 +2198,7 @@ struct yyGLRStack {
   # define yyclearin (yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(-2, id)[)
   # undef YYBACKUP
   # define YYBACKUP(Token, Value)                                              \
-    return yyerror (]b4_yyerror_args[YY_("syntax error: cannot back up")),     \
+    return yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax error: cannot back up")),     \
            yyerrok, yyerr
 
     yylow = 1;
@@ -2259,7 +2226,7 @@ struct yyGLRStack {
       {
         YY_DEBUG_STREAM  << "Caught exception: " << yyexc.what() << '\n';]b4_locations_if([
         *yylocp = yyexc.location;])[
-        yyerror (]b4_yyerror_args[yyexc.what ());
+        yyparser.error (]b4_locations_if([*yylocp, ])[yyexc.what ());
         YYERROR;
       }
   #endif // YY_EXCEPTIONS
@@ -2530,7 +2497,7 @@ struct yyGLRStack {
               {
               case 0:]b4_locations_if([[
                 yyresolveLocations (yys, 1);]])[
-                return yystateStack.yyreportAmbiguity (yybest, yyp, yyparser]b4_pure_args[);
+                return yystateStack.yyreportAmbiguity (yybest, yyp, yyparser]b4_locations_if([, yylocp])[);
                 break;
               case 1:
                 yymerge = true;
@@ -2699,7 +2666,7 @@ yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_p
         {
           YY_DEBUG_STREAM <<  "Caught exception: " << yyexc.what() << "\n";]b4_locations_if([
           yylloc = yyexc.location;])[
-          yyerror (]b4_lyyerror_args[yyexc.what ());
+          yyparser.error (]b4_locations_if([yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
           // handling is started.
           *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(1, id)[;
@@ -3014,7 +2981,7 @@ b4_dollar_popdef])[]dnl
   goto yyreturn;
 
  yyexhaustedlab:
-  yyerror (]b4_lyyerror_args[YY_("memory exhausted"));
+  yyparser.error (]b4_locations_if([yylloc, ])[YY_("memory exhausted"));
   yyresult = 2;
   goto yyreturn;
 
@@ -3056,15 +3023,6 @@ m4_if(b4_prefix, [yy], [],
 /*------------------.
 | Report an error.  |
 `------------------*/
-
-static void
-yyerror (]b4_namespace_ref[::]b4_parser_class[& yyparser, ]b4_locations_if([[const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp,
-         ]])[]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param),
-         ])[const std::string& msg)
-{
-]b4_parse_param_use[]dnl
-[  yyparser.error (]b4_locations_if([[*yylocationp, ]])[msg);
-}
 
 
 ]b4_namespace_open[
