@@ -782,7 +782,7 @@ static void yypdumpstack (struct yyGLRStack* yystackp)
 #define YYHEADROOM 2
 
 #ifndef YYSTACKEXPANDABLE
-#  define YYSTACKEXPANDABLE 1
+# define YYSTACKEXPANDABLE 1
 #endif
 
 /** State numbers, as in LALR(1) machine */
@@ -3018,11 +3018,6 @@ m4_if(b4_prefix, [yy], [],
 #define yydebug ]b4_prefix[debug
 #define yynerrs ]b4_prefix[nerrs]b4_locations_if([[
 #define yylloc  ]b4_prefix[lloc]])])[
-
-
-/*------------------.
-| Report an error.  |
-`------------------*/
 
 
 ]b4_namespace_open[
