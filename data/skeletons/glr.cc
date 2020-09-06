@@ -281,7 +281,7 @@ b4_symbol_foreach([b4_undef_symbol_kind])dnl
 
 # b4_shared_declarations(hh|cc)
 # -----------------------------
-# Declaration that might either go into the header (if --defines, $1 = hh)
+# Declaration that might either go into the header (if --header, $1 = hh)
 # or in the implementation file.
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
@@ -378,7 +378,7 @@ b4_percent_code_get([[requires]])[
 ]m4_popdef([b4_parse_param])dnl
 ])[
 
-]b4_defines_if(
+]b4_header_if(
 [b4_output_begin([b4_spec_header_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2015, 2018-2020])[

@@ -174,7 +174,7 @@ b4_variant_if([m4_include(b4_skeletonsdir/[variant.hh])])
 
 # b4_shared_declarations(hh|cc)
 # -----------------------------
-# Declaration that might either go into the header (if --defines, $1 = hh)
+# Declaration that might either go into the header (if --header, $1 = hh)
 # or in the implementation file.
 m4_define([b4_shared_declarations],
 [b4_percent_code_get([[requires]])[
@@ -500,7 +500,7 @@ m4_define([b4_shared_declarations],
 ## Output files.  ##
 ## -------------- ##
 
-b4_defines_if(
+b4_header_if(
 [b4_output_begin([b4_spec_header_file])
 b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 [
@@ -530,7 +530,7 @@ m4_if(b4_prefix, [yy], [],
 
 ]b4_user_pre_prologue[
 
-]b4_defines_if([[#include "@basename(]b4_spec_header_file[@)"]],
+]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
                [b4_shared_declarations([cc])])[
 
 ]b4_user_post_prologue[

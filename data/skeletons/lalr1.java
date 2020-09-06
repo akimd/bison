@@ -17,7 +17,7 @@
 
 m4_include(b4_skeletonsdir/[java.m4])
 
-b4_defines_if([b4_complain([%defines does not make sense in Java])])
+b4_header_if([b4_complain([%defines does not make sense in Java])])
 
 m4_define([b4_symbol_no_destructor_assert],
 [b4_symbol_if([$1], [has_destructor],

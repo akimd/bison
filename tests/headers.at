@@ -47,7 +47,6 @@ dummy: %empty;
 ])
 
 AT_BISON_CHECK([--defines=$1.h --output=$1.c $1.y])
-
 AT_COMPILE([$1.o], [-I. -c $1.c])
 
 AT_BISON_OPTION_POPDEFS
@@ -83,7 +82,7 @@ AT_DATA_GRAMMAR([input.y],
 exp: %empty;
 ]])
 
-AT_BISON_CHECK([--defines -o input.c input.y], [], [],
+AT_BISON_CHECK([--header -o input.c input.y], [], [],
 [[input.y:11.1-18: warning: deprecated directive: '%name-prefix "my_"', use '%define api.prefix {my_}' [-Wdeprecated]
 input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
 ]])

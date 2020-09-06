@@ -101,7 +101,7 @@ m4_define([b4_glr_cc_cleanup],
 
 # b4_shared_declarations(hh|cc)
 # -----------------------------
-# Declaration that might either go into the header (if --defines, $1 = hh)
+# Declaration that might either go into the header (if --header, $1 = hh)
 # or in the implementation file.
 m4_define([b4_shared_declarations],
 [m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
@@ -317,7 +317,7 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 ]m4_popdef([b4_parse_param])dnl
 ])[
 
-]b4_defines_if(
+]b4_header_if(
 [b4_output_begin([b4_spec_header_file])
 b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2015, 2018-2020])[
@@ -491,7 +491,7 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 
 ]b4_null_define[
 
-]b4_defines_if([[#include "@basename(]b4_spec_header_file[@)"]],
+]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
                [b4_shared_declarations])[
 
 ]b4_glr_cc_setup[

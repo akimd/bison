@@ -391,9 +391,9 @@ m4_define([b4_$3_if],
 # b4_FLAG_if(IF-TRUE, IF-FALSE)
 # -----------------------------
 # Expand IF-TRUE, if FLAG is true, IF-FALSE otherwise.
-b4_define_flag_if([defines])            # Whether headers are requested.
 b4_define_flag_if([glr])                # Whether a GLR parser is requested.
 b4_define_flag_if([has_translations])   # Whether some tokens are internationalized.
+b4_define_flag_if([header])             # Whether a header is requested.
 b4_define_flag_if([nondeterministic])   # Whether conflicts should be handled.
 b4_define_flag_if([token_table])        # Whether yytoken_table is demanded.
 b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.

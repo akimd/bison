@@ -34,7 +34,7 @@ extern int skeleton_prio;
 /* for -I */
 extern char const *include;
 
-extern bool defines_flag;               /* for -d */
+extern bool header_flag;                /* for -d/-H */
 extern bool graph_flag;                 /* for -g */
 extern bool xml_flag;                   /* for -x */
 extern bool no_lines_flag;              /* for -l */

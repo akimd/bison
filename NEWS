@@ -4,6 +4,13 @@ GNU Bison NEWS
 
 ** Changes
 
+** New features
+
+*** Option -H, --header
+
+  The option -H/--header replaces the option --defines (maintained for
+  backward compatibility).
+
 *** A C++ native GLR parser
 
   A new version of the generated C++ GLR parser was added as "glr2.cc". It

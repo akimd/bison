@@ -6092,7 +6092,7 @@ std::string} as default).
 
 @item Purpose: Specify how the generated parser should include the generated header.
 
-Historically, when option @option{-D}/@option{--defines} was used,
+Historically, when option @option{-d} or @option{--header} was used,
 @command{bison} generated a header and pasted an exact copy of it into the
 generated parser implementation file.  Since Bison 3.6, it is
 @code{#include}d as @samp{"@var{basename}.h"}, instead of duplicated, unless
@@ -11798,15 +11798,19 @@ Options controlling the output.
 
 @c Please, keep this ordered as in 'bison --help'.
 @table @option
-@item --defines[=@var{file}]
+@item -H [@var{file}]
+@itemx --header=[@var{file}]
 Pretend that @code{%defines} was specified, i.e., write an extra output file
 containing definitions for the token kind names defined in the grammar, as
 well as a few other declarations.  @xref{Decl Summary}.
 
+@item --defines[=@var{file}]
+Historical name for option @option{--header}.
+
 @item -d
-This is the same as @option{--defines} except @option{-d} does not accept a
-@var{file} argument since POSIX Yacc requires that @option{-d} can be bundled
-with other short options.
+This is the same as @option{--header} except @option{-d} does not accept a
+@var{file} argument since POSIX Yacc requires that @option{-d} can be
+bundled with other short options.
 
 @item -b @var{file-prefix}
 @itemx --file-prefix=@var{prefix}
@@ -13794,7 +13798,8 @@ GLR parsers are currently unsupported in Java.  Do not use the
 @code{glr-parser} directive.
 
 No header file can be generated for Java parsers.  Do not use the
-@code{%defines} directive or the @option{-d}/@option{--defines} options.
+@code{%defines} directive or the @option{-d}/@option{-H}/@option{--header}
+options.
 
 @c FIXME: Possible code change.
 Currently, support for tracing is always compiled in.  Thus the

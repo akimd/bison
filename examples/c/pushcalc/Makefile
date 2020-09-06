@@ -8,7 +8,7 @@ XSLTPROC = xsltproc
 all: $(BASE)
 
 %.c %.h %.xml %.gv: %.y
-	$(BISON) $(BISONFLAGS) --defines --xml --graph=$*.gv -o $*.c $<
+	$(BISON) $(BISONFLAGS) --header --xml --graph=$*.gv -o $*.c $<
 
 $(BASE): $(BASE).o
 	$(CC) $(CFLAGS) -o $@ $^

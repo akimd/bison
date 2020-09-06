@@ -133,6 +133,10 @@ AT_CHECK_OUTPUT([foo.yy], [%defines %verbose ], [-o foo.c],
                 [foo.c foo.h foo.output])
 
 AT_CHECK_OUTPUT([foo.yy], [],
+                [--header=foo.hpp -o foo.c++],
+                [foo.c++ foo.hpp])
+
+AT_CHECK_OUTPUT([foo.yy], [],
                 [--defines=foo.hpp -o foo.c++],
                 [foo.c++ foo.hpp])
 
@@ -147,14 +151,14 @@ AT_CHECK_OUTPUT([foo.yy], [],
 # Do not generate code when there are early errors (even warnings as
 # errors).
 AT_CHECK_OUTPUT([foo.y], [%type <foo> useless],
-                [--defines --graph --xml --report=all -Wall -Werror],
+                [--header --graph --xml --report=all -Wall -Werror],
                 [foo.dot foo.output foo.xml],
                 [1])
 
 # Do not generate code when there are late errors (even warnings as
 # errors).
 AT_CHECK_OUTPUT([foo.y], [%define useless],
-                [--defines --graph --xml --report=all -Wall -Werror],
+                [--header --graph --xml --report=all -Wall -Werror],
                 [foo.dot foo.output foo.xml],
                 [1])
 
@@ -284,7 +288,7 @@ AT_DATA_GRAMMAR([glr.y],
 %%
 start: {};
 ]])
-AT_BISON_CHECK([-o "AS_ESCAPE([$1.c])" --defines="AS_ESCAPE([$1.h])" glr.y])
+AT_BISON_CHECK([-o "AS_ESCAPE([$1.c])" --header="AS_ESCAPE([$1.h])" glr.y])
 AT_CHECK([ls "AS_ESCAPE([$1.c])" "AS_ESCAPE([$1.h])"], [], [ignore])
 AT_COMPILE([glr.o], [-c "AS_ESCAPE([$1.c])"])
 $2
@@ -295,7 +299,7 @@ AT_DATA_GRAMMAR([cxx.y],
 %%
 start: {};
 ]])
-AT_BISON_CHECK([-o "AS_ESCAPE([$1.cc])" --defines="AS_ESCAPE([$1.hh])" cxx.y])
+AT_BISON_CHECK([-o "AS_ESCAPE([$1.cc])" --header="AS_ESCAPE([$1.hh])" cxx.y])
 AT_CHECK([ls "AS_ESCAPE([$1.cc])" "AS_ESCAPE([$1.hh])"], [], [ignore])
 AT_COMPILE_CXX([cxx.o], [-c "AS_ESCAPE([$1.cc])"])
 $2

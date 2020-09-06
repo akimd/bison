@@ -339,7 +339,7 @@ prologue_declaration:
       muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
-| "%defines"                       { defines_flag = true; }
+| "%defines"                       { header_flag = true; }
 | "%defines" STRING                { handle_defines ($2); }
 | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
@@ -949,7 +949,7 @@ add_param (param_type type, char *decl, location loc)
 static void
 handle_defines (char const *value)
 {
-  defines_flag = true;
+  header_flag = true;
   char *file = unquote (value);
   spec_header_file = xstrdup (file);
   gram_scanner_last_string_free ();

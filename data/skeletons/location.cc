@@ -22,7 +22,7 @@ m4_pushdef([b4_copyright_years],
 # b4_position_file
 # ----------------
 # Name of the file containing the position class, if we want this file.
-b4_defines_if([b4_required_version_if([302], [],
+b4_header_if([b4_required_version_if([302], [],
                                       [m4_define([b4_position_file], [position.hh])])])])
 
 
@@ -32,7 +32,7 @@ b4_defines_if([b4_required_version_if([302], [],
 # if we want this file.
 b4_percent_define_check_file([b4_location_file],
                              [[api.location.file]],
-                             b4_defines_if([[location.hh]]))
+                             b4_header_if([[location.hh]]))
 
 # b4_location_include
 # -------------------

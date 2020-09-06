@@ -953,7 +953,7 @@ struct ]b4_api_PREFIX[LTYPE
 
 # b4_declare_yylstype
 # -------------------
-# Declarations that might either go into the header (if --defines) or
+# Declarations that might either go into the header (if --header) or
 # in the parser body.  Declare YYSTYPE/YYLTYPE, and yylval/yylloc.
 m4_define([b4_declare_yylstype],
 [b4_value_type_define[]b4_locations_if([

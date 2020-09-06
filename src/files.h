@@ -47,10 +47,10 @@ extern char *spec_graph_file;
 /* File name specified for the xml output.  */
 extern char *spec_xml_file;
 
-/* File name specified with --defines.  */
+/* File name specified with --header.  */
 extern char *spec_header_file;
 
-/* File name specified with --defines, adjusted for mapped prefixes. */
+/* File name specified with --header, adjusted for mapped prefixes. */
 extern char *spec_mapped_header_file;
 
 /* Directory prefix of output file names.  */

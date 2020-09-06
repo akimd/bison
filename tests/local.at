@@ -1506,7 +1506,7 @@ m4_define([AT_PARSER_CHECK],
 #
 # If TEST-SPEC contains the attribute no-xml, then invoke bison using
 # AT_BISON_CHECK_NO_XML.  Otherwise, invoke bison using AT_BISON_CHECK.
-# On the bison command-line, specify `--report=all --defines'.  Check
+# On the bison command-line, specify `--report=all --header'.  Check
 # that Bison exits with value 0, has no stdout, and has stderr
 # BISON-STDERR.
 #
@@ -1600,7 +1600,7 @@ yylex (void)
 
 m4_if(m4_index(m4_quote($3), [no-xml]), -1,
       [AT_BISON_CHECK],
-      [AT_BISON_CHECK_NO_XML])([[-Wall --report=all,no-cex --defines -o input.c input.y]],
+      [AT_BISON_CHECK_NO_XML])([[-Wall --report=all,no-cex --header -o input.c input.y]],
                                [0], [], m4_dquote($7))
 
 m4_if(m4_index(m4_quote($3), [last-state]), -1,
