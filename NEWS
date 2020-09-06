@@ -33,6 +33,29 @@ GNU Bison NEWS
       ↳ • ↳ ε
 
 
+* Noteworthy changes in release 3.7.2 (2020-09-05) [stable]
+
+  This release of Bison fixes all known bugs reported for Bison in MITRE's
+  Common Vulnerabilities and Exposures (CVE) system.  These vulnerabilities
+  are only about bison-the-program itself, not the generated code.
+
+  Although these bugs are typically irrelevant to how Bison is used, they
+  are worth fixing if only to give users peace of mind.
+
+  There is no known vulnerability in the generated parsers.
+
+** Bug fixes
+
+  Fix concurrent build issues (introduced in Bison 3.5).
+
+  Push parsers always use YYMALLOC/YYFREE (no direct calls to malloc/free).
+
+  Fix portability issues of the test suite, and of bison itself.
+
+  Some unlikely crashes found by fuzzing have been fixed.  This is only
+  about bison itself, not the generated parsers.
+
+
 * Noteworthy changes in release 3.7.1 (2020-08-02) [stable]
 
 ** Bug fixes
@@ -587,7 +610,8 @@ GNU Bison NEWS
   \005) with incorrect styling.  Fixes for similar issues with unexpectedly
   short lines (e.g., the file was changed between parsing and diagnosing).
 
-  Several unlikely crashes found by fuzzing have been fixed.
+  Some unlikely crashes found by fuzzing have been fixed.  This is only
+  about bison itself, not the generated parsers.
 
 
 * Noteworthy changes in release 3.5.2 (2020-02-13) [stable]
