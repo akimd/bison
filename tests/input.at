@@ -2361,7 +2361,7 @@ m4_define([AT_CHECK_NAMESPACE_ERROR],
 [
 AT_DATA([[input.y]],
 [[%language "C++"
-%defines
+%header
 %define api.namespace {]$1[}
 %%
 start: %empty;
@@ -2908,6 +2908,7 @@ AT_DATA_GRAMMAR([[input.y]],
 %error-verbose
 %glr-parser
 %name-prefix "bar"
+%defines "header.h"
 %%
 exp : '0'
 ]])
@@ -2991,6 +2992,7 @@ AT_CHECK([sed -e '1,8d' input.y], [],
 %define api.pure
 %token-table
 %glr-parser
+%defines "header.h"
 %%
 exp : '0'
 ]])

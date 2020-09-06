@@ -96,8 +96,8 @@
      string from the scanner (should be CODE). */
   static char const *translate_code_braceless (char *code, location loc);
 
-  /* Handle a %defines directive.  */
-  static void handle_defines (char const *value);
+  /* Handle a %header directive.  */
+  static void handle_header (char const *value);
 
   /* Handle a %error-verbose directive.  */
   static void handle_error_verbose (location const *loc, char const *directive);
@@ -153,7 +153,7 @@
 %define parse.error custom
 %define parse.lac full
 %define parse.trace
-%defines
+%header
 %expect 0
 %verbose
 
@@ -188,20 +188,19 @@
   PERCENT_CODE            "%code"
   PERCENT_DEFAULT_PREC    "%default-prec"
   PERCENT_DEFINE          "%define"
-  PERCENT_DEFINES         "%defines"
   PERCENT_ERROR_VERBOSE   "%error-verbose"
   PERCENT_EXPECT          "%expect"
   PERCENT_EXPECT_RR       "%expect-rr"
-  PERCENT_FLAG            "%<flag>"
   PERCENT_FILE_PREFIX     "%file-prefix"
+  PERCENT_FLAG            "%<flag>"
   PERCENT_GLR_PARSER      "%glr-parser"
+  PERCENT_HEADER          "%header"
   PERCENT_INITIAL_ACTION  "%initial-action"
   PERCENT_LANGUAGE        "%language"
   PERCENT_NAME_PREFIX     "%name-prefix"
   PERCENT_NO_DEFAULT_PREC "%no-default-prec"
   PERCENT_NO_LINES        "%no-lines"
-  PERCENT_NONDETERMINISTIC_PARSER
-                          "%nondeterministic-parser"
+  PERCENT_NONDETERMINISTIC_PARSER "%nondeterministic-parser"
   PERCENT_OUTPUT          "%output"
   PERCENT_PURE_PARSER     "%pure-parser"
   PERCENT_REQUIRE         "%require"
@@ -339,8 +338,7 @@ prologue_declaration:
       muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
     }
-| "%defines"                       { header_flag = true; }
-| "%defines" STRING                { handle_defines ($2); }
+| "%header" string.opt             { handle_header ($2); }
 | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
 | "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
 | "%expect-rr" INT_LITERAL         { expected_rr_conflicts = $2; }
@@ -483,6 +481,12 @@ precedence_declarator:
 | "%right"      { $$ = right_assoc; }
 | "%nonassoc"   { $$ = non_assoc; }
 | "%precedence" { $$ = precedence_assoc; }
+;
+
+%type <char*> string.opt;
+string.opt:
+  %empty  { $$ = NULL; }
+| STRING  { $$ = $1; }
 ;
 
 tag.opt:
@@ -947,13 +951,16 @@ add_param (param_type type, char *decl, location loc)
 
 
 static void
-handle_defines (char const *value)
+handle_header (char const *value)
 {
   header_flag = true;
-  char *file = unquote (value);
-  spec_header_file = xstrdup (file);
-  gram_scanner_last_string_free ();
-  unquote_free (file);
+  if (value)
+    {
+      char *file = unquote (value);
+      spec_header_file = xstrdup (file);
+      gram_scanner_last_string_free ();
+      unquote_free (file);
+    }
 }
 
 

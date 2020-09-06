@@ -123,7 +123,7 @@ AT_CLEANUP
 #         $6: RESULT,
 #         $7: REQUIREMENT)
 # --------------------------------------
-# Check with and without %defines, to avoid regressions.  It turns out
+# Check with and without %header, to avoid regressions.  It turns out
 # that in that case yacc.c calls the set-up of the %union twice,
 # because YYSTYPE is defined once in the header, and once in the
 # implementation file (eventually it'd be better to include the header
@@ -131,8 +131,8 @@ AT_CLEANUP
 # a second time doubled the side-effects and resulted in a double
 # definition of the union members.
 m4_pushdef([AT_TEST],
-[_AT_TEST([$1],          [$2], [$3], [$4], [$5], [$6], [$7])
- _AT_TEST([$1 %defines], [$2], [$3], [$4], [$5], [$6], [$7])
+[_AT_TEST([$1],         [$2], [$3], [$4], [$5], [$6], [$7])
+ _AT_TEST([$1 %header], [$2], [$3], [$4], [$5], [$6], [$7])
 ])
 
 m4_foreach([b4_skel], [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc]],

@@ -452,9 +452,9 @@ m4_popdef([AT_TEST])
 m4_pushdef([AT_TEST],
 [AT_SETUP([%no-lines: $1])
 
-AT_BISON_OPTION_PUSHDEFS([%skeleton "$1" %defines])
+AT_BISON_OPTION_PUSHDEFS([%skeleton "$1" %header])
 AT_DATA_GRAMMAR([input.y],
-[[%skeleton "$1" %defines
+[[%skeleton "$1" %header
 %{
 ]AT_YYERROR_DECLARE_EXTERN[
 ]AT_YYLEX_DECLARE_EXTERN[

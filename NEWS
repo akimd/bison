@@ -6,10 +6,11 @@ GNU Bison NEWS
 
 ** New features
 
-*** Option -H, --header
+*** Option -H, --header and directive %header
 
-  The option -H/--header replaces the option --defines (maintained for
-  backward compatibility).
+  The option -H/--header supersedes the option --defines, and the directive
+  %header supersedes %defines.  Both --defines and %defines are, of course,
+  maintained for backward compatibility.
 
 *** A C++ native GLR parser
 

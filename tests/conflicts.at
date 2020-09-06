@@ -405,7 +405,7 @@ m4_pushdef([AT_CONSISTENT_ERRORS_CHECK], [
 
 AT_SETUP([[parse.error=verbose and consistent errors: ]$1])
 
-AT_BISON_OPTION_PUSHDEFS([$1 AT_CXX_IF([[%defines]], [[%define api.pure]])])
+AT_BISON_OPTION_PUSHDEFS([$1 AT_CXX_IF([[%header]], [[%define api.pure]])])
 
 AT_DATA_GRAMMAR([input.y],
 [AT_JAVA_IF([[
@@ -421,7 +421,7 @@ AT_DATA_GRAMMAR([input.y],
   #define USE(Var)
 }
 
-]AT_CXX_IF([[%defines]], [[%define api.pure]])])[
+]AT_CXX_IF([[%header]], [[%define api.pure]])])[
 
 ]AT_YACC_IF([[
 %code {

@@ -210,8 +210,8 @@ m4_if([$1$2], $[1]$[2], [],
        [m4_fatal([$0: invalid arguments: $@])])dnl
 m4_pushdef([AT_AUTOMOVE_IF],
 [m4_bmatch([$3], [%define api\.value\.automove], [$1], [$2])])
-m4_pushdef([AT_DEFINES_IF],
-[m4_bmatch([$3], [%defines], [$1], [$2])])
+m4_pushdef([AT_HEADER_IF],
+[m4_bmatch([$3], [%defines\|%header], [$1], [$2])])
 m4_pushdef([AT_DEBUG_IF],
            [m4_bmatch([$3], [%debug\|%define parse.trace], [$1], [$2])])
 m4_pushdef([AT_ERROR_CUSTOM_IF],
@@ -442,7 +442,7 @@ m4_popdef([AT_ERROR_VERBOSE_IF])
 m4_popdef([AT_ERROR_DETAILED_IF])
 m4_popdef([AT_ERROR_CUSTOM_IF])
 m4_popdef([AT_DEBUG_IF])
-m4_popdef([AT_DEFINES_IF])
+m4_popdef([AT_HEADER_IF])
 m4_popdef([AT_AUTOMOVE_IF])
 AT_LOC_POPDEF])dnl
 ])# AT_BISON_OPTION_POPDEFS

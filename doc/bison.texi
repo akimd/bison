@@ -5794,6 +5794,22 @@ Define a variable to adjust Bison's behavior.  @xref{%define Summary}.
 @end deffn
 
 @deffn {Directive} %defines
+@deffnx {Directive} %defines @var{defines-file}
+Historical name for @code{%header}.  @xref{%header,,@code{%header}}.
+@end deffn
+
+@deffn {Directive} %destructor
+Specify how the parser should reclaim the memory associated to
+discarded symbols.  @xref{Destructor Decl}.
+@end deffn
+
+@deffn {Directive} %file-prefix "@var{prefix}"
+Specify a prefix to use for all Bison output file names.  The names
+are chosen as if the grammar file were named @file{@var{prefix}.y}.
+@end deffn
+
+@anchor{%header}
+@deffn {Directive} %header
 Write a parser header file containing definitions for the token kind names
 defined in the grammar as well as a few other declarations.  If the parser
 implementation file is named @file{@var{name}.c} then the parser header file
@@ -5835,7 +5851,7 @@ preprocessor guard: @samp{YY_@var{PREFIX}_@var{FILE}_INCLUDED}, where
 generated file name turned uppercase, with each series of non alphanumerical
 characters converted to a single underscore.
 
-For instance with @samp{%define api.prefix @{calc@}} and @samp{%defines
+For instance with @samp{%define api.prefix @{calc@}} and @samp{%header
 "lib/parse.h"}, the header will be guarded as follows.
 @example
 #ifndef YY_CALC_LIB_PARSE_H_INCLUDED
@@ -5843,20 +5859,12 @@ For instance with @samp{%define api.prefix @{calc@}} and @samp{%defines
 ...
 #endif /* ! YY_CALC_LIB_PARSE_H_INCLUDED */
 @end example
+
+Introduced in Bison 3.8.
 @end deffn
 
-@deffn {Directive} %defines @var{defines-file}
-Same as above, but save in the file @file{@var{defines-file}}.
-@end deffn
-
-@deffn {Directive} %destructor
-Specify how the parser should reclaim the memory associated to
-discarded symbols.  @xref{Destructor Decl}.
-@end deffn
-
-@deffn {Directive} %file-prefix "@var{prefix}"
-Specify a prefix to use for all Bison output file names.  The names
-are chosen as if the grammar file were named @file{@var{prefix}.y}.
+@deffn {Directive} %header @var{header-file}
+Same as above, but save in the file @file{@var{header-file}}.
 @end deffn
 
 @deffn {Directive} %language "@var{language}"
@@ -6153,7 +6161,7 @@ types are generated. @xref{Exposing the Location Classes}.
 @table @asis
 @item @code{none}
 If locations are enabled, generate the definition of the @code{position} and
-@code{location} classes in the header file if @code{%defines}, otherwise in
+@code{location} classes in the header file if @code{%header}, otherwise in
 the parser implementation.
 
 @item "@var{file}"
@@ -7256,8 +7264,8 @@ You call the function @code{yypstate_new} to create a new parser instance.
 This function is available if either the @samp{%define api.push-pull push}
 or @samp{%define api.push-pull both} declaration is used.  @xref{Push Decl}.
 
-@deftypefun {yypstate*} yypstate_new (@code{void})
 @anchor{yypstate_new}
+@deftypefun {yypstate*} yypstate_new (@code{void})
 Return a valid parser instance if there is memory available, 0 otherwise.
 In impure mode, it will also return 0 if a parser instance is currently
 allocated.
@@ -7269,8 +7277,8 @@ function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.
 @xref{Push Decl}.
 
-@deftypefun void yypstate_delete (@code{yypstate *}@var{yyps})
 @anchor{yypstate_delete}
+@deftypefun void yypstate_delete (@code{yypstate *}@var{yyps})
 Reclaim the memory associated with a parser instance.  After this call, you
 should no longer attempt to use the parser instance.
 @end deftypefun
@@ -7280,8 +7288,8 @@ You call the function @code{yypush_parse} to parse a single token.  This
 function is available if either the @samp{%define api.push-pull push} or
 @samp{%define api.push-pull both} declaration is used.  @xref{Push Decl}.
 
-@deftypefun int yypush_parse (@code{yypstate *}@var{yyps})
 @anchor{yypush_parse}
+@deftypefun int yypush_parse (@code{yypstate *}@var{yyps})
 The value returned by @code{yypush_parse} is the same as for @code{yyparse}
 with the following exception: it returns @code{YYPUSH_MORE} if more input is
 required to finish parsing the grammar.
@@ -7303,8 +7311,8 @@ You call the function @code{yypull_parse} to parse the rest of the input
 stream.  This function is available if the @samp{%define api.push-pull both}
 declaration is used.  @xref{Push Decl}.
 
-@deftypefun int yypull_parse (@code{yypstate *}@var{yyps})
 @anchor{yypull_parse}
+@deftypefun int yypull_parse (@code{yypstate *}@var{yyps})
 The value returned by @code{yypull_parse} is the same as for @code{yyparse}.
 
 The parser instance @code{yyps} may be reused for new parses.
@@ -11800,12 +11808,12 @@ Options controlling the output.
 @table @option
 @item -H [@var{file}]
 @itemx --header=[@var{file}]
-Pretend that @code{%defines} was specified, i.e., write an extra output file
+Pretend that @code{%header} was specified, i.e., write an extra output file
 containing definitions for the token kind names defined in the grammar, as
 well as a few other declarations.  @xref{Decl Summary}.
 
 @item --defines[=@var{file}]
-Historical name for option @option{--header}.
+Historical name for option @option{--header} before Bison 3.8.
 
 @item -d
 This is the same as @option{--header} except @option{-d} does not accept a
@@ -12211,7 +12219,7 @@ these two files (@file{@var{file}.hh} and @file{@var{file}.cc}) follow the
 same rules as with regular C parsers (@pxref{Invocation}).
 
 @item location.hh
-Generated when both @code{%defines} and @code{%locations} are enabled, this
+Generated when both @code{%header} and @code{%locations} are enabled, this
 file contains the definition of the classes @code{position} and
 @code{location}, used for location tracking.  It is not generated if
 @samp{%define api.location.file none} is specified, or if user defined
@@ -12608,7 +12616,7 @@ Report @var{p} on @var{o}, taking care of special cases such as: no
 @node Exposing the Location Classes
 @subsubsection Exposing the Location Classes
 
-When both @code{%defines} and @code{%locations} are enabled, Bison generates
+When both @code{%header} and @code{%locations} are enabled, Bison generates
 an additional file: @file{location.hh}.  If you don't use locations outside
 of the parser, you may avoid its creation with @samp{%define
 api.location.file none}.
@@ -12697,7 +12705,7 @@ definitions for @code{position} and @code{location}.  For instance, one
 parser @file{master/parser.yy} might use:
 
 @example
-%defines
+%header
 %locations
 %define api.namespace @{master::@}
 @end example
@@ -13273,7 +13281,7 @@ designed the grammar for.
 @example
 %skeleton "lalr1.cc" // -*- C++ -*-
 %require "@value{VERSION}"
-%defines
+%header
 @end example
 
 @noindent
@@ -13798,7 +13806,7 @@ GLR parsers are currently unsupported in Java.  Do not use the
 @code{glr-parser} directive.
 
 No header file can be generated for Java parsers.  Do not use the
-@code{%defines} directive or the @option{-d}/@option{-H}/@option{--header}
+@code{%header} directive or the @option{-d}/@option{-H}/@option{--header}
 options.
 
 @c FIXME: Possible code change.
@@ -15221,12 +15229,8 @@ Define a variable to adjust Bison's behavior.  @xref{%define Summary}.
 @end deffn
 
 @deffn {Directive} %defines
-Bison declaration to create a parser header file, which is usually
-meant for the scanner.  @xref{Decl Summary}.
-@end deffn
-
-@deffn {Directive} %defines @var{defines-file}
-Same as above, but save in the file @var{defines-file}.
+@deffnx {Directive} %defines @var{defines-file}
+Historical name for @code{%header}.
 @xref{Decl Summary}.
 @end deffn
 
@@ -15273,6 +15277,16 @@ Summary}.
 @deffn {Directive} %glr-parser
 Bison declaration to produce a GLR parser.  @xref{GLR
 Parsers}.
+@end deffn
+
+@deffn {Directive} %header
+Bison declaration to create a parser header file, which is usually
+meant for the scanner.  @xref{Decl Summary}.
+@end deffn
+
+@deffn {Directive} %header @var{header-file}
+Same as above, but save in the file @var{header-file}.
+@xref{Decl Summary}.
 @end deffn
 
 @deffn {Directive} %initial-action

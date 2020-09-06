@@ -593,7 +593,7 @@ AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc"])
 
 AT_DATA_GRAMMAR([[input.y]],
 [[%skeleton "lalr1.cc"
-%defines
+%header
 
 %debug
 %define parse.assert
@@ -727,7 +727,7 @@ AT_DATA([input.yy],
 [[%require "3.2"
 %skeleton "lalr1.cc"
 %locations
-%defines
+%header
 %debug
 %%
 exp: %empty;
@@ -964,7 +964,7 @@ AT_BISON_OPTION_PUSHDEFS([$1 %debug])
 
 AT_DATA_GRAMMAR([[input.yy]],
 [[$1
-%defines
+%header
 
 %code
 {
@@ -1453,7 +1453,7 @@ AT_BISON_OPTION_POPDEFS
 mkdir -p include/ast
 
 AT_TEST([x1],
-        [%defines
+        [%header
          %locations
          %define api.location.file "include/ast/loc.hh"
          %define api.location.include {<ast/loc.hh>}])
@@ -1468,7 +1468,7 @@ AT_CHECK([sed -ne '/INCLUDED/p;/\\file/{p;n;p;}' include/ast/loc.hh], [],
 ]])
 
 AT_TEST([x2],
-        [%defines
+        [%header
          %locations
          %code requires {#include <ast/loc.hh>}
          %define api.location.type {x1::location}])

@@ -581,7 +581,7 @@ sub generate_grammar_list ($$@)
     or die;
   print $out <<EOF;
 %language "C++"
-%defines
+%header
 %locations
 $directives
 
