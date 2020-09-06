@@ -53,6 +53,7 @@ DEFTIMEVAR (tv_conflicts             , "conflicts")
 /* Time spent outputting results.  */
 DEFTIMEVAR (tv_report                , "outputting report")
 DEFTIMEVAR (tv_graph                 , "outputting graph")
+DEFTIMEVAR (tv_html                  , "outputting html")
 DEFTIMEVAR (tv_xml                   , "outputting xml")
 DEFTIMEVAR (tv_actions               , "parser action tables")
 DEFTIMEVAR (tv_parser                , "outputting parser")

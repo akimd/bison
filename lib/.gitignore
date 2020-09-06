@@ -67,6 +67,8 @@
 /errno.in.h
 /error.c
 /error.h
+/execute.c
+/execute.h
 /exitfail.c
 /exitfail.h
 /fatal-signal.c

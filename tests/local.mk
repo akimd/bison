@@ -131,7 +131,7 @@ maintainer-check-posix: $(RUN_TESTSUITE_deps)
 VALGRIND_OPTS = --leak-check=full --show-reachable=yes --gen-suppressions=all \
   $(VALGRIND_OPTS_SUPPRESSION)
 maintainer-check-valgrind: $(RUN_TESTSUITE_deps)
-	test 'x$(VALGRIND)' == x ||					\
+	test 'x$(VALGRIND)' = x ||					\
 	  $(RUN_TESTSUITE)						\
 	    PREBISON='$(VALGRIND) -q' PREPARSER='$(VALGRIND) -q'	\
 	    VALGRIND_OPTS="$(VALGRIND_OPTS)"

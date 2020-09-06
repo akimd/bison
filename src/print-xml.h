@@ -30,4 +30,7 @@ char const *xml_escape_n (int n, char const *str);
 char const *xml_escape (char const *str);
 void print_xml (void);
 
+/* Use xsltproc to generate HTML from XML output.  */
+void print_html (void);
+
 #endif /* !PRINT_XML_H_ */

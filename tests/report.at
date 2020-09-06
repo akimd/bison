@@ -59,7 +59,8 @@ exp:
 | "number"      { std::swap ($$, $1); };
 ]])
 
-AT_BISON_CHECK([-o input.cc -v --graph=input.gv --xml input.yy])
+AT_SKIP_IF([[test x"$XSLTPROC" = x]])
+AT_BISON_CHECK([-o input.cc -v --graph=input.gv --html --xml input.yy])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
@@ -304,7 +305,8 @@ State 19
 
 
 # Now generate verbose reports.
-AT_BISON_CHECK([-o input.cc -rall --graph=input.gv --xml input.yy])
+AT_SKIP_IF([[test x"$XSLTPROC" = x]])
+AT_BISON_CHECK([-o input.cc -rall --graph=input.gv --html --xml input.yy])
 
 # Check the contents of the report.
 AT_CHECK([cat input.output], [],
@@ -1138,14 +1140,7 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 ]])
 
 # Check HTML output.
-if test x"$XSLTPROC" != x""; then
-  AT_CHECK([[$XSLTPROC \
-           `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
-           input.xml | \
-           sed -e 's/GNU Bison [0-9][-.0-9a-z]*/GNU Bison VERSION/' \
-           >input.html]])
-
-  AT_CHECK([cat input.html], [],
+AT_CHECK([[sed -e 's/GNU Bison [0-9][-.0-9a-z]*/GNU Bison VERSION/g' input.html]], [],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="http://www.gnu.org/software/bison/">
@@ -1503,7 +1498,6 @@ if test x"$XSLTPROC" != x""; then
       permitted in any medium, provided this notice is preserved.</div></body>
 </html>
 ]])
-fi
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
@@ -1520,7 +1514,9 @@ AT_KEYWORDS([cex report])
 # We need UTF-8 support for correct screen-width computation of UTF-8
 # characters.  Skip the test if not available.
 locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
-AT_SKIP_IF([test x == x"$locale"])
+AT_SKIP_IF([[test x = x"$locale"]])
+
+AT_SKIP_IF([[test x"$XSLTPROC" = x]])
 
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA([input.y],
@@ -1534,7 +1530,7 @@ exp
 | "Ñùṃéℝô"
 ]])
 
-AT_CHECK([LC_ALL="$locale" bison -fno-caret -o input.cc -rall -Wcex --graph=input.gv --xml input.y], [], [],
+AT_CHECK([LC_ALL="$locale" bison -fno-caret -o input.cc -rall -Wcex --graph=input.gv --html --xml input.y], [], [],
 [[input.y: warning: 3 shift/reduce conflicts [-Wconflicts-sr]
 input.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
 input.y: warning: shift/reduce conflict on token "⊕" [-Wcounterexamples]
@@ -2155,15 +2151,8 @@ AT_CHECK([[sed -e 's/bison-xml-report version="[^"]*"/bison-xml-report version="
 </bison-xml-report>
 ]])
 
-# Check HTML output.
-if test x"$XSLTPROC" != x""; then
-  AT_CHECK([[$XSLTPROC \
-           `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
-           input.xml | \
-           sed -e 's/GNU Bison [0-9][-.0-9a-z]*/GNU Bison VERSION/' \
-           >input.html]])
 
-  AT_CHECK([cat input.html], [],
+AT_CHECK([[sed -e 's/GNU Bison [0-9][-.0-9a-z]*/GNU Bison VERSION/g' input.html]], [],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="http://www.gnu.org/software/bison/">
@@ -2391,7 +2380,6 @@ if test x"$XSLTPROC" != x""; then
       permitted in any medium, provided this notice is preserved.</div></body>
 </html>
 ]])
-fi
 
 AT_BISON_OPTION_POPDEFS
 AT_CLEANUP

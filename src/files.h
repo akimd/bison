@@ -44,7 +44,10 @@ extern char *spec_verbose_file;
 /* File name specified for the output graph.  */
 extern char *spec_graph_file;
 
-/* File name specified for the xml output.  */
+/* File name specified for the HTML output.  */
+extern char *spec_html_file;
+
+/* File name specified for the XML output.  */
 extern char *spec_xml_file;
 
 /* File name specified with --header.  */

@@ -19,6 +19,7 @@
 /environ.m4
 /errno_h.m4
 /error.m4
+/execute.m4
 /exponentd.m4
 /exponentf.m4
 /exponentl.m4

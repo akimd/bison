@@ -33,7 +33,7 @@ m4_if(m4_index([$1], [Counterexample]), [-1], [], [AT_KEYWORDS([cex])])
 # We need UTF-8 support for correct screen-width computation of UTF-8
 # characters.  Skip the test if not available.
 locale=`locale -a | $EGREP '^en_US\.(UTF-8|utf8)$' | sed 1q`
-AT_SKIP_IF([test x == x"$locale"])
+AT_SKIP_IF([[test x = x"$locale"]])
 
 m4_ifval([$6],
 [AT_SKIP_IF([$6])])

@@ -12,6 +12,15 @@ GNU Bison NEWS
   %header supersedes %defines.  Both --defines and %defines are, of course,
   maintained for backward compatibility.
 
+*** Option --html
+
+  Since version 2.4 Bison can be used to generate HTML reports.  However it
+  was a two-step process: first bison must be invoked with option --xml, and
+  then xsltproc must be run to the convert the XML reports into HTML.
+
+  The new option --html combines these steps.  The xsltproc program must be
+  available.
+
 *** A C++ native GLR parser
 
   A new version of the generated C++ GLR parser was added as "glr2.cc". It
