@@ -3,12 +3,11 @@
 
 BASE = calc
 BISON = bison
-XSLTPROC = xsltproc
 
 all: $(BASE)
 
-%.c %.h %.xml %.gv: %.y
-	$(BISON) $(BISONFLAGS) --header --xml --graph=$*.gv -o $*.c $<
+%.c %.h %.html %.gv: %.y
+	$(BISON) $(BISONFLAGS) --header --html --graph -o $*.c $<
 
 $(BASE): $(BASE).o
 	$(CC) $(CFLAGS) -o $@ $^
@@ -16,10 +15,6 @@ $(BASE): $(BASE).o
 run: $(BASE)
 	@echo "Type arithmetic expressions.  Quit with ctrl-d."
 	./$<
-
-html: $(BASE).html
-%.html: %.xml
-	$(XSLTPROC) $(XSLTPROCFLAGS) -o $@ $$($(BISON) --print-datadir)/xslt/xml2xhtml.xsl $<
 
 CLEANFILES =									\
   $(BASE) *.o $(BASE).[ch] $(BASE).output $(BASE).xml $(BASE).html $(BASE).gv

@@ -11,8 +11,8 @@ variant-11: CXXFLAGS = -std=c++11
 
 all: $(PROGS)
 
-%.cc %.hh: %.yy
-	$(BISON) $(BISONFLAGS) -o $*.cc $<
+%.cc %.hh %.html %.gv: %.yy
+	$(BISON) $(BISONFLAGS) --html --graph -o $*.cc $<
 
 %: %.cc
 	$(CXX) $(CXXFLAGS) -o$@ $<

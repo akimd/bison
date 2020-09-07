@@ -3,12 +3,11 @@
 
 BASE = c++-types
 BISON = bison
-XSLTPROC = xsltproc
 
 all: $(BASE)
 
 %.c %.h %.xml %.gv: %.y
-	$(BISON) $(BISONFLAGS) --defines --xml --graph=$*.gv -o $*.c $<
+	$(BISON) $(BISONFLAGS) --header --graph -o $*.c $<
 
 $(BASE): $(BASE).o
 	$(CC) $(CFLAGS) -o $@ $^
@@ -16,10 +15,6 @@ $(BASE): $(BASE).o
 run: $(BASE)
 	@echo "Type C++ declarations or expressions.  Quit with ctrl-d."
 	./$<
-
-html: $(BASE).html
-%.html: %.xml
-	$(XSLTPROC) $(XSLTPROCFLAGS) -o $@ $$($(BISON) --print-datadir)/xslt/xml2xhtml.xsl $<
 
 CLEANFILES =									\
   $(BASE) *.o $(BASE).[ch] $(BASE).output $(BASE).xml $(BASE).html $(BASE).gv

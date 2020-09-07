@@ -3,12 +3,11 @@
 
 BASE = mfcalc
 BISON = bison
-XSLTPROC = xsltproc
 
 all: $(BASE)
 
-%.c %.xml %.gv: %.y
-	$(BISON) $(BISONFLAGS) --xml --graph=$*.gv -o $*.c $<
+%.c %.html %.gv: %.y
+	$(BISON) $(BISONFLAGS) --html --graph -o $*.c $<
 
 %: %.c
 	$(CC) $(CFLAGS) -o $@ $<
@@ -16,10 +15,6 @@ all: $(BASE)
 run: $(BASE)
 	@echo "Type arithmetic expressions.  Quit with ctrl-d."
 	./$<
-
-html: $(BASE).html
-%.html: %.xml
-	$(XSLTPROC) $(XSLTPROCFLAGS) -o $@ $$($(BISON) --print-datadir)/xslt/xml2xhtml.xsl $<
 
 clean:
 	rm -f $(BASE) $(BASE).c $(BASE).html $(BASE).xml $(BASE).gv $(BASE).output

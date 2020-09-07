@@ -4,12 +4,11 @@
 BASE = lexcalc
 BISON = bison
 FLEX = flex
-XSLTPROC = xsltproc
 
 all: $(BASE)
 
-%.c %.h %.xml %.gv: %.y
-	$(BISON) $(BISONFLAGS) --header --xml --graph=$*.gv -o $*.c $<
+%.c %.h %.html %.xml %.gv: %.y
+	$(BISON) $(BISONFLAGS) --header --html --graph -o $*.c $<
 
 %.c: %.l
 	$(FLEX) $(FLEXFLAGS) -o$@ $<
@@ -21,10 +20,6 @@ $(BASE): parse.o scan.o
 run: $(BASE)
 	@echo "Type arithmetic expressions.  Quit with ctrl-d."
 	./$<
-
-html: parse.html
-%.html: %.xml
-	$(XSLTPROC) $(XSLTPROCFLAGS) -o $@ $$($(BISON) --print-datadir)/xslt/xml2xhtml.xsl $<
 
 CLEANFILES =						\
   $(BASE) *.o						\
