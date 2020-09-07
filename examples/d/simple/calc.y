@@ -27,8 +27,7 @@
 }
 
 /* Bison Declarations */
-%token EQ     "="
-       PLUS   "+"
+%token PLUS   "+"
        MINUS  "-"
        STAR   "*"
        SLASH  "/"
@@ -134,7 +133,6 @@ class CalcLexer(R) : Lexer
     input.popFront;
     switch (ch)
       {
-      case '=':  return TokenKind.EQ;
       case '+':  return TokenKind.PLUS;
       case '-':  return TokenKind.MINUS;
       case '*':  return TokenKind.STAR;
