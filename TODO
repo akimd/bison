@@ -162,10 +162,6 @@ Line -1 and -3 should mention CATEGORIE, not CATEGORY.
 *** glr.c
 Get rid of scaffolding in glr.c.
 
-*** namespaces in glr2.cc
-StrongIndexAlias should be in the parser's namespace.  Possibly even an
-inner class.
-
 *** Coding style
 Move to our coding conventions.  In particular names such as yy_glr_stack,
 not yyGLRStack.

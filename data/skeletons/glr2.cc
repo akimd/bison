@@ -145,6 +145,19 @@ b4_percent_code_get([[requires]])[
 ]b4_cast_define[
 ]b4_null_define[
 
+// Whether we are compiled with exception support.
+#ifndef YY_EXCEPTIONS
+# if defined __GNUC__ && !defined __EXCEPTIONS
+#  define YY_EXCEPTIONS 0
+# else
+#  define YY_EXCEPTIONS 1
+# endif
+#endif
+
+]b4_YYDEBUG_define[
+
+]b4_namespace_open[
+
 template <typename Parameter>
 class StrongIndexAlias
 {
@@ -214,19 +227,6 @@ class StrongIndexAlias
 template<typename T>
 const std::ptrdiff_t StrongIndexAlias<T>::INVALID_INDEX =
   std::numeric_limits<std::ptrdiff_t>::max();
-
-// Whether we are compiled with exception support.
-#ifndef YY_EXCEPTIONS
-# if defined __GNUC__ && !defined __EXCEPTIONS
-#  define YY_EXCEPTIONS 0
-# else
-#  define YY_EXCEPTIONS 1
-# endif
-#endif
-
-]b4_YYDEBUG_define[
-
-]b4_namespace_open[
 
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
                                   [b4_location_define])])[
@@ -791,7 +791,7 @@ struct yySemanticOption;
 struct yyGLRStackItem;
 struct yyGLRStack;
 
-typedef StrongIndexAlias<struct yyGLRStateSetTag> yyStateSetIndex;
+typedef ]b4_namespace_ref[::StrongIndexAlias<struct yyGLRStateSetTag> yyStateSetIndex;
 
 yyStateSetIndex yycreateStateSetIndex(std::ptrdiff_t value) {
   return yyStateSetIndex::create(value);
