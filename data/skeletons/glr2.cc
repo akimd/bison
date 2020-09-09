@@ -130,6 +130,7 @@ b4_percent_code_get([[requires]])[
 #include <cstring> // memcpy
 #include <iostream>
 #include <iomanip>
+#include <limits>
 #include <stdexcept>
 #include <stdint.h>
 #include <string>
@@ -143,13 +144,6 @@ b4_percent_code_get([[requires]])[
 ]b4_attribute_define[
 ]b4_cast_define[
 ]b4_null_define[
-
-// On MacOS, PTRDIFF_MAX is defined as long long, which Clang's
-// -pedantic reports as being a C++11 extension.
-#if defined __APPLE__ && YY_CPLUSPLUS < 201103L \
-    && defined __clang__ && 4 <= __clang_major__
-# pragma clang diagnostic ignored "-Wc++11-long-long"
-#endif
 
 template <typename Parameter>
 class StrongIndexAlias
@@ -211,11 +205,15 @@ class StrongIndexAlias
   }
 
  private:
-  static const ptrdiff_t INVALID_INDEX = PTRDIFF_MAX;
+  static const std::ptrdiff_t INVALID_INDEX;
 
   // WARNING: 0-initialized.
   std::ptrdiff_t value_;
 };
+
+template<typename T>
+const std::ptrdiff_t StrongIndexAlias<T>::INVALID_INDEX =
+  std::numeric_limits<std::ptrdiff_t>::max();
 
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
