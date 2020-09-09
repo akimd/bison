@@ -127,6 +127,7 @@ m4_define([b4_shared_declarations],
 b4_percent_code_get([[requires]])[
 #include <algorithm>
 #include <cstddef> // ptrdiff_t
+#include <cstring> // memcpy
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
@@ -1237,6 +1238,18 @@ struct yyGLRStackItem {
       } else {
         new (&raw_) yySemanticOption;
       }
+  }
+
+  yyGLRStackItem(const yyGLRStackItem& other)
+    : isState_(other.isState_) {
+    std::memcpy(raw_, other.raw_, union_size);
+  }
+
+  yyGLRStackItem& operator=(yyGLRStackItem other)
+  {
+    std::swap(isState_, other.isState_);
+    std::swap(raw_, other.raw_);
+    return *this;
   }
 
   ~yyGLRStackItem() {
