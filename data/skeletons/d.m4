@@ -204,13 +204,72 @@ m4_define([b4_symbol_enum],
 # to use a signed type, which matters for yytoken.
 m4_define([b4_declare_symbol_enum],
 [[  /* Symbol kinds.  */
-  public enum SymbolKind
+  struct SymbolKind
   {
+    enum
+    {
     ]b4_symbol(-2, kind_base)[ = -2,  /* No symbol.  */
 ]b4_symbol_foreach([b4_symbol_enum])dnl
-[  };
-]])])
+[    }
 
+    private int yycode_;
+    alias yycode_ this;
+
+    this(int code)
+    {
+      yycode_ = code;
+    }
+
+    /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
+       First, the terminals, then, starting at \a YYNTOKENS_, nonterminals.  */
+    static immutable string[] yytname_ = @{
+  ]b4_tname[
+    @};
+
+    /* Return YYSTR after stripping away unnecessary quotes and
+     backslashes, so that it's suitable for yyerror.  The heuristic is
+     that double-quoting is unnecessary unless the string contains an
+     apostrophe, a comma, or backslash (other than backslash-backslash).
+     YYSTR is taken from yytname.  */
+    final void toString(W)(W sink) const
+    if (isOutputRange!(W, char))
+    {
+      string yystr = yytname_[yycode_];
+
+      if (yystr[0] == '"')
+        {
+          string yyr;
+        strip_quotes:
+          for (int i = 1; i < yystr.length; i++)
+            switch (yystr[i])
+              {
+              case '\'':
+              case ',':
+                break strip_quotes;
+
+              case '\\':
+                if (yystr[++i] != '\\')
+                  break strip_quotes;
+                goto default;
+              default:
+                yyr ~= yystr[i];
+                break;
+
+              case '"':
+                put(sink, yyr);
+                return;
+              }
+        }
+      else if (yystr == "$end")
+      {
+        put(sink, "end of input");
+        return;
+      }
+
+      put(sink, yystr);
+    }
+  }
+]])
 
 
 # b4-case(ID, CODE, [COMMENTS])

@@ -361,41 +361,6 @@ b4_user_union_members
     return YYNEWSTATE;
   }
 
-  /* Return YYSTR after stripping away unnecessary quotes and
-     backslashes, so that it's suitable for yyerror.  The heuristic is
-     that double-quoting is unnecessary unless the string contains an
-     apostrophe, a comma, or backslash (other than backslash-backslash).
-     YYSTR is taken from yytname.  */
-  private final string yytnamerr_ (string yystr)
-  {
-    if (yystr[0] == '"')
-      {
-        string yyr;
-      strip_quotes:
-        for (int i = 1; i < yystr.length; i++)
-          switch (yystr[i])
-            {
-            case '\'':
-            case ',':
-              break strip_quotes;
-
-            case '\\':
-              if (yystr[++i] != '\\')
-                break strip_quotes;
-              goto default;
-            default:
-              yyr ~= yystr[i];
-              break;
-
-            case '"':
-              return yyr;
-            }
-      }
-    else if (yystr == "$end")
-      return "end of input";
-
-    return yystr;
-  }
 ]b4_parse_trace_if([[
   /*--------------------------------.
   | Print this symbol on YYOUTPUT.  |
@@ -408,12 +373,12 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
     if (0 < yydebug)
     {
       string message = s ~ (yykind < yyntokens_ ? " token " : " nterm ")
-              ~ yytname_[yykind] ~ " ("]b4_locations_if([
+              ~ format("%s", yykind) ~ " ("]b4_locations_if([
               ~ yylocationp.toString() ~ ": "])[;
-      static if (__traits(compiles, message ~= yyvaluep.toString ()))
-              message ~= yyvaluep.toString ();
+      static if (__traits(compiles, message ~= yyvaluep.toString()))
+              message ~= yyvaluep.toString();
       else
-              message ~= format ("%s", &yyvaluep);
+              message ~= format("%s", &yyvaluep);
       message ~= ")";
       yycdebugln (message);
     }
@@ -732,7 +697,7 @@ m4_popdef([b4_at_dollar])])dnl
       // FIXME: This method of building the message is not compatible
       // with internationalization.
       string res = "syntax error, unexpected ";
-      res ~= yytnamerr_ (yytname_[tok]);
+      res ~= format!"%s"(tok);
       int yyn = yypact_[yystate];
       if (!yy_pact_value_is_default_ (yyn))
       {
@@ -757,7 +722,7 @@ m4_popdef([b4_at_dollar])])dnl
                    && !yy_table_value_is_error_ (yytable_[x + yyn]))
                {
                   res ~= count++ == 0 ? ", expecting " : " or ";
-                  res ~= yytnamerr_ (yytname_[x]);
+                  res ~= format!"%s"(SymbolKind(x));
                }
           }
       }
@@ -795,13 +760,6 @@ m4_popdef([b4_at_dollar])])dnl
 
   ]b4_parser_tables_define[
 
-  /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-     First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
-  private static immutable string[] yytname_ =
-  @{
-  ]b4_tname[
-  @};
-
 ]b4_parse_trace_if([[
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
   private static immutable ]b4_int_type_for([b4_rline])[[] yyrline_ =
@@ -831,11 +789,10 @@ m4_popdef([b4_at_dollar])])dnl
   }
 ]])[
 
-  private static SymbolKind yytranslate_ (int t)
+  private static auto yytranslate_ (int t)
   {
 ]b4_api_token_raw_if(
-[[    import std.conv : to;
-    return to!SymbolKind (t);]],
+[[    return SymbolKind(t);]],
 [[    /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
     immutable ]b4_int_type_for([b4_translate])[[] translate_table =
     @{
@@ -848,10 +805,7 @@ m4_popdef([b4_at_dollar])])dnl
     if (t <= 0)
       return ]b4_symbol(0, kind)[;
     else if (t <= code_max)
-      {
-        import std.conv : to;
-        return to!SymbolKind (translate_table[t]);
-      }
+      return SymbolKind(translate_table[t]);
     else
       return ]b4_symbol(2, kind)[;]])[
   }
