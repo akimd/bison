@@ -818,8 +818,9 @@ static inline int
 yyrhsLength (rule_num yyrule);
 
 
-class glr_state {
- public:
+class glr_state
+{
+public:
   glr_state()
     : yyresolved(false)
     , yylrState(0)
@@ -1195,58 +1196,60 @@ class semantic_option {
   YYLTYPE yyloc;]])[
 };
 
-/** Type of the items in the GLR stack.  The isState_ field
+/** Type of the items in the GLR stack.  The is_state_ field
  *  indicates which item of the union is valid.  */
-class glr_stack_item {
- public:
-  glr_stack_item(bool isState = true)
-    : isState_(isState) {
-      if (isState) {
-        new (&raw_) glr_state;
-      } else {
-        new (&raw_) semantic_option;
-      }
+class glr_stack_item
+{
+public:
+  glr_stack_item(bool is_state = true)
+    : is_state_(is_state)
+  {
+    if (is_state)
+      new (&raw_) glr_state;
+    else
+      new (&raw_) semantic_option;
   }
 
   glr_stack_item(const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
-    : isState_(other.isState_) {
+    : is_state_(other.is_state_)
+  {
     std::memcpy(raw_, other.raw_, union_size);
   }
 
   glr_stack_item& operator=(glr_stack_item other)
   {
-    std::swap(isState_, other.isState_);
+    std::swap(is_state_, other.is_state_);
     std::swap(raw_, other.raw_);
     return *this;
   }
 
-  ~glr_stack_item() {
-    if (isState()) {
+  ~glr_stack_item()
+  {
+    if (is_state())
       getState().~glr_state();
-    } else {
+    else
       getOption().~semantic_option();
-    }
   }
 
   glr_state& getState() {
-    YYDASSERT(isState());
+    YYDASSERT(is_state());
     return *reinterpret_cast<glr_state*>(&raw_);
   }
   const glr_state& getState() const {
-    YYDASSERT(isState());
+    YYDASSERT(is_state());
     return *reinterpret_cast<const glr_state*>(&raw_);
   }
 
   semantic_option& getOption() {
-    YYDASSERT(!isState());
+    YYDASSERT(!is_state());
     return *reinterpret_cast<semantic_option*>(&raw_);
   }
   const semantic_option& getOption() const {
-    YYDASSERT(!isState());
+    YYDASSERT(!is_state());
     return *reinterpret_cast<const semantic_option*>(&raw_);
   }
-  bool isState() const {
-    return isState_;
+  bool is_state() const {
+    return is_state_;
   }
  private:
   /// The possible contents of raw_. Since they have constructors, they cannot
@@ -1265,7 +1268,7 @@ class glr_stack_item {
     char raw_[union_size];
   };
   /** Type tag for the union. */
-  bool isState_;
+  bool is_state_;
 };
 
 glr_state* glr_state::pred() {
@@ -1409,15 +1412,13 @@ class state_stack {
 
   bool
   reduceToOneStack() {
-    const std::vector<glr_state*>::iterator begin =
-      yytops.begin();
-    const std::vector<glr_state*>::iterator end =
-      yytops.end();
+    const std::vector<glr_state*>::iterator yybegin = yytops.begin();
+    const std::vector<glr_state*>::iterator yyend = yytops.end();
     std::vector<glr_state*>::iterator yyit =
-      std::find_if(begin, end, yyGLRStateNotNull);
-    if (yyit == end)
+      std::find_if(yybegin, yyend, yyGLRStateNotNull);
+    if (yyit == yyend)
       return false;
-    for (state_set_index yyk = create_state_set_index(yyit + 1 - begin);
+    for (state_set_index yyk = create_state_set_index(yyit + 1 - yybegin);
          yyk.uget() != numTops(); ++yyk)
       yytops.yymarkStackDeleted (yyk);
     yytops.yyremoveDeletes ();
@@ -1642,7 +1643,7 @@ class state_stack {
       {
         glr_stack_item& item = yyitems[yyi];
         std::cerr << std::setw(3) << yyi << ". ";
-        if (item.isState())
+        if (item.is_state())
           {
             std::cerr << "Res: " << item.getState().yyresolved
                       << ", LR State: " << item.getState().yylrState
@@ -1709,14 +1710,14 @@ class state_stack {
   }
 
   /** Return a fresh GLRStackItem in this.  The item is an LR state
-   *  if YYISSTATE, and otherwise a semantic option.  Callers should call
+   *  if YYIS_STATE, and otherwise a semantic option.  Callers should call
    *  yyreserveStack afterwards to make sure there is sufficient
    *  headroom.  */
   inline size_t
-  yynewGLRStackItem (bool yyisState)
+  yynewGLRStackItem (bool yyis_state)
   {
     YYDASSERT(yyitems.size() < yyitems.capacity());
-    yyitems.push_back(glr_stack_item(yyisState));
+    yyitems.push_back(glr_stack_item(yyis_state));
     return yyitems.size() - 1;
   }
 
