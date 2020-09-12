@@ -1227,7 +1227,7 @@ class glr_stack_item {
       }
   }
 
-  glr_stack_item(const glr_stack_item& other)
+  glr_stack_item(const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
     : isState_(other.isState_) {
     std::memcpy(raw_, other.raw_, union_size);
   }
