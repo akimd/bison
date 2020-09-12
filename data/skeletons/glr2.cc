@@ -62,25 +62,6 @@ m4_define([b4_parser_class],
 # Save the parse parameters.
 m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
 
-# b4_yy_symbol_print_define
-# -------------------------
-# Bypass the default implementation to generate the "yy_symbol_print"
-# and "yy_symbol_value_print" functions.
-m4_define([b4_yy_symbol_print_define],
-[[/*--------------------.
-| Print this symbol.  |
-`--------------------*/
-
-static void
-yy_symbol_print (FILE *, ]b4_namespace_ref[::]b4_parser_class[& yyparser, ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytoken,
-                 const ]b4_namespace_ref::b4_parser_class[::semantic_type *yyvaluep]b4_locations_if([[,
-                 const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp]])[]b4_user_formals[)
-{
-]b4_parse_param_use[]dnl
-[  yyparser.yy_symbol_print_ (yytoken, yyvaluep]b4_locations_if([, yylocationp])[);
-}
-]])[
-
 # Hijack the initial action to initialize the locations.
 ]b4_bison_locations_if([m4_define([b4_initial_action],
 [yylloc.initialize ();]m4_ifdef([b4_initial_action], [
@@ -719,14 +700,12 @@ typedef enum { yyok, yyaccept, yyabort, yyerr } YYRESULTTAG;
 
 #define YY_DEBUG_STREAM if (!yydebug) {} else std::cerr
 
-]b4_yy_symbol_print_define[
-
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)                  \
   do {                                                                  \
     if (yydebug)                                                        \
       {                                                                 \
         std::cerr << Title << ' ';                                      \
-        yy_symbol_print (stderr, yyparser, Type, Value]b4_locuser_args([Location])[);\
+        yyparser.yy_symbol_print_ (Type, Value]b4_locuser_args([Location])[);\
         std::cerr << '\n';                                              \
       }                                                                 \
   } while (0)
@@ -1348,16 +1327,8 @@ void glr_state::destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class
                 &semanticVal()]b4_locations_if([, &yyloc])[);
   else
     {
-#if ]b4_api_PREFIX[DEBUG
-      if (yydebug)
-        {
-          if (firstVal() != YY_NULLPTR)
-            std::cerr << yymsg << " unresolved";
-          else
-            std::cerr << yymsg << " incomplete";
-          YY_SYMBOL_PRINT ("", static_cast<]b4_namespace_ref::b4_parser_class[::symbol_kind_type>(yystos[yylrState]), YY_NULLPTR, &yyloc);
-        }
-#endif
+      YY_SYMBOL_PRINT (yymsg << (firstVal() ? " unresolved" : " incomplete"),
+                       static_cast<]b4_namespace_ref::b4_parser_class[::symbol_kind_type>(yystos[yylrState]), YY_NULLPTR, &yyloc);
 
       if (firstVal() != YY_NULLPTR)
         {
@@ -1649,12 +1620,11 @@ class state_stack {
     for (yyi = 0; yyi < yynrhs; yyi++)
       {
         std::cerr << "   $" << yyi + 1 << " = ";
-        yy_symbol_print (stderr,
-                         yyparser,
-                         static_cast<]b4_namespace_ref::b4_parser_class[::symbol_kind_type>(yystos[yyvsp[yyi - yynrhs + 1].getState().yylrState]),
-                         &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([,
-                         &]b4_rhs_location(yynrhs, yyi + 1))[]dnl
-                         b4_user_args[);
+        yyparser.yy_symbol_print_
+          (static_cast<]b4_namespace_ref::b4_parser_class[::symbol_kind_type>(yystos[yyvsp[yyi - yynrhs + 1].getState().yylrState]),
+           &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([,
+           &]b4_rhs_location(yynrhs, yyi + 1))[]dnl
+           b4_user_args[);
         if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
           std::cerr <<  " (unresolved)";
         std::cerr <<  '\n';
