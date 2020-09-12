@@ -168,9 +168,9 @@ class strong_index_alias
     return result;
   }
 
-  std::ptrdiff_t const& get() const {return value_; }
+  std::ptrdiff_t const& get() const { return value_; }
 
-  size_t uget() const {return static_cast<size_t>(value_); }
+  size_t uget() const { return static_cast<size_t>(value_); }
 
   strong_index_alias operator+(std::ptrdiff_t other) const {
     return strong_index_alias(get() + other);
@@ -394,7 +394,8 @@ m4_define([b4_pure_args],
 
 # b4_lpure_args
 # -------------
-# Same as above, but on the lookahead, hence &yylloc instead of yylocp. This is used only inside glr_stack, so there's no need to explicitly pass yyparser.
+# Same as above, but on the lookahead, hence &yylloc instead of yylocp. This is
+# used only inside glr_stack, so there's no need to explicitly pass yyparser.
 m4_define([b4_lpure_args],
 [b4_pure_if([b4_locations_if([, &yylloc])])[]b4_user_args])
 
@@ -841,29 +842,30 @@ yyrhsLength (rule_num yyrule);
 class glr_state {
  public:
   glr_state()
-  : yyresolved(false)
-  , yylrState(0)
-  , yyposn(0)
-  , yypred(0)
+    : yyresolved(false)
+    , yylrState(0)
+    , yyposn(0)
+    , yypred(0)
   {}
 
   /// Build with a semantic value.
   glr_state(state_num lrState, size_t posn, YYSTYPE sval]b4_locations_if([[, YYLTYPE loc]])[)
-  : yyresolved(true)
-  , yylrState(lrState)
-  , yyposn(posn)
-  , yypred(0)]b4_locations_if([[
-  , yyloc(loc)]])[ {
+    : yyresolved(true)
+    , yylrState(lrState)
+    , yyposn(posn)
+    , yypred(0)]b4_locations_if([[
+    , yyloc(loc)]])[
+  {
     semanticVal() = sval;
   }
 
   /// Build with a semantic option.
   glr_state(state_num lrState, size_t posn)
-  : yyresolved(false)
-  , yylrState(lrState)
-  , yyposn(posn)
-  , yypred(0)
-  , yyfirstVal(0)
+    : yyresolved(false)
+    , yylrState(lrState)
+    , yyposn(posn)
+    , yypred(0)
+    , yyfirstVal(0)
   {}
 
   void copyFrom(const glr_state& other) {
@@ -1081,17 +1083,17 @@ class glr_state_set {
 class semantic_option {
  public:
   semantic_option()
-  : yyrule(0)
-  , yystate(0)
-  , yynext(0)
-  , yyrawchar(0)
+    : yyrule(0)
+    , yystate(0)
+    , yynext(0)
+    , yyrawchar(0)
   {}
 
   semantic_option(rule_num rule, int rawChar)
-  : yyrule(rule)
-  , yystate(0)
-  , yynext(0)
-  , yyrawchar(rawChar)
+    : yyrule(rule)
+    , yystate(0)
+    , yynext(0)
+    , yyrawchar(rawChar)
   {}
 
   /// Only call state() and setState() on objects in yyitems, not temporaries.
