@@ -1241,24 +1241,33 @@ public:
       getOption().~semantic_option();
   }
 
-  glr_state& getState() {
-    YYDASSERT(is_state());
-    return *reinterpret_cast<glr_state*>(&raw_);
+  glr_state& getState ()
+  {
+    YYDASSERT (is_state ());
+    void *yyp = raw_;
+    return *static_cast<glr_state*> (yyp);
   }
-  const glr_state& getState() const {
-    YYDASSERT(is_state());
-    return *reinterpret_cast<const glr_state*>(&raw_);
+  const glr_state& getState () const
+  {
+    YYDASSERT (is_state());
+    const void *yyp = raw_;
+    return *static_cast<const glr_state*> (yyp);
   }
 
-  semantic_option& getOption() {
-    YYDASSERT(!is_state());
-    return *reinterpret_cast<semantic_option*>(&raw_);
+  semantic_option& getOption ()
+  {
+    YYDASSERT (!is_state ());
+    void *yyp = raw_;
+    return *static_cast<semantic_option*> (yyp);
   }
-  const semantic_option& getOption() const {
-    YYDASSERT(!is_state());
-    return *reinterpret_cast<const semantic_option*>(&raw_);
+  const semantic_option& getOption () const
+  {
+    YYDASSERT (!is_state ());
+    const void *yyp = raw_;
+    return *static_cast<const semantic_option*> (yyp);
   }
-  bool is_state() const {
+  bool is_state () const
+  {
     return is_state_;
   }
  private:
