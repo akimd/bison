@@ -1505,7 +1505,8 @@ m4_pushdef([AT_TEST],
 AT_BISON_OPTION_PUSHDEFS([%locations %skeleton "$1" %parse-param { int x } %parse-param { int y }])
 
 AT_DATA_GRAMMAR([input.y],
-[[%locations
+[[%defines
+%locations
 %skeleton "$1"
 %union { int ival; }
 %parse-param { int x }

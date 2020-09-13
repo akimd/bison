@@ -122,21 +122,6 @@ b4_percent_code_get([[requires]])[
           [[# include ]b4_location_include])[
 ]b4_variant_if([b4_variant_includes])[
 
-]b4_attribute_define[
-]b4_cast_define[
-]b4_null_define[
-
-#if defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__ && __GNUC__ <= 9
-# define YY_IGNORE_NULL_DEREFERENCE_BEGIN                               \
-  _Pragma ("GCC diagnostic push")                                       \
-  _Pragma ("GCC diagnostic ignored \"-Wnull-dereference\"")
-# define YY_IGNORE_NULL_DEREFERENCE_END         \
-  _Pragma ("GCC diagnostic pop")
-#else
-# define YY_IGNORE_NULL_DEREFERENCE_BEGIN
-# define YY_IGNORE_NULL_DEREFERENCE_END
-#endif
-
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
 # if defined __GNUC__ && !defined __EXCEPTIONS
@@ -566,6 +551,20 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
 #endif
 
 ]b4_attribute_define([noreturn])[
+
+#if defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__ && __GNUC__ <= 9
+# define YY_IGNORE_NULL_DEREFERENCE_BEGIN                               \
+  _Pragma ("GCC diagnostic push")                                       \
+  _Pragma ("GCC diagnostic ignored \"-Wnull-dereference\"")
+# define YY_IGNORE_NULL_DEREFERENCE_END         \
+  _Pragma ("GCC diagnostic pop")
+#else
+# define YY_IGNORE_NULL_DEREFERENCE_BEGIN
+# define YY_IGNORE_NULL_DEREFERENCE_END
+#endif
+
+]b4_null_define[
+]b4_cast_define[
 
 #ifndef YYASSERT
 # define YYASSERT(Condition) ((void) ((Condition) || (abort (), 0)))
