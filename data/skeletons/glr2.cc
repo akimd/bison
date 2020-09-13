@@ -126,6 +126,17 @@ b4_percent_code_get([[requires]])[
 ]b4_cast_define[
 ]b4_null_define[
 
+#if defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__ && __GNUC__ <= 9
+# define YY_IGNORE_NULL_DEREFERENCE_BEGIN                               \
+  _Pragma ("GCC diagnostic push")                                       \
+  _Pragma ("GCC diagnostic ignored \"-Wnull-dereference\"")
+# define YY_IGNORE_NULL_DEREFERENCE_END         \
+  _Pragma ("GCC diagnostic pop")
+#else
+# define YY_IGNORE_NULL_DEREFERENCE_BEGIN
+# define YY_IGNORE_NULL_DEREFERENCE_END
+#endif
+
 // Whether we are compiled with exception support.
 #ifndef YY_EXCEPTIONS
 # if defined __GNUC__ && !defined __EXCEPTIONS
@@ -1271,12 +1282,18 @@ public:
   bool is_state_;
 };
 
-glr_state* glr_state::pred() {
-  return yypred ? &(asItem(this) - yypred)->getState() : YY_NULLPTR;
+glr_state* glr_state::pred ()
+{
+  YY_IGNORE_NULL_DEREFERENCE_BEGIN
+  return yypred ? &(asItem (this) - yypred)->getState () : YY_NULLPTR;
+  YY_IGNORE_NULL_DEREFERENCE_END
 }
 
-const glr_state* glr_state::pred() const {
-  return yypred ? &(asItem(this) - yypred)->getState() : YY_NULLPTR;
+const glr_state* glr_state::pred () const
+{
+  YY_IGNORE_NULL_DEREFERENCE_BEGIN
+  return yypred ? &(asItem (this) - yypred)->getState () : YY_NULLPTR;
+  YY_IGNORE_NULL_DEREFERENCE_END
 }
 
 void glr_state::setPred(const glr_state* state) {
@@ -2606,7 +2623,9 @@ class glr_stack {
                    detected.  Thus the location of the previous state (but not
                    necessarily the previous state itself) is guaranteed to be
                    resolved already.  */
+                YY_IGNORE_NULL_DEREFERENCE_BEGIN
                 yyrhsloc[0].getState().yyloc = yyoption->state()->yyloc;
+                YY_IGNORE_NULL_DEREFERENCE_END
               }
             YYLLOC_DEFAULT ((yys1->yyloc), yyrhsloc, yynrhs);
           }

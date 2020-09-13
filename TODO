@@ -158,9 +158,12 @@ Les catégories d'avertissements incluent :
 Line -1 and -3 should mention CATEGORIE, not CATEGORY.
 
 * Bison 3.8
-** Rewrite glr.cc
-*** glr.c
-Get rid of scaffolding in glr.c.
+** Rewrite glr.cc (currently glr2.cc)
+*** Remove jumps
+We can probably replace setjmp/longjmp with exceptions.  That would help
+tremendously other languages such as D and Java that probably have no
+similar feature.  If we remove jumps, we probably no longer need _Noreturn,
+so simplify `b4_attribute_define([noreturn])` into `b4_attribute_define`.
 
 *** Coding style
 Move to our coding conventions.  In particular names such as yy_glr_stack,
@@ -177,6 +180,10 @@ There are many places where pointers should be replaced with references.
 *** Use proper type names
 Don't use YYSTYPE and YYLTYPE but parser::semantic_type and
 parser::location_type.  Undefine YYSTYPE and YYLTYPE.
+
+*** glr.c
+When glr2.cc fully replaces glr.cc, get rid of the glr.cc scaffolding in
+glr.c.
 
 * Chains
 ** Unit rules / Injection rules (Akim Demaille)
