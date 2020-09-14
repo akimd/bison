@@ -1211,10 +1211,10 @@ class semantic_option {
 class glr_stack_item
 {
 public:
-  glr_stack_item(bool is_state = true)
-    : is_state_(is_state)
+  glr_stack_item (bool state = true)
+    : is_state_ (state)
   {
-    if (is_state)
+    if (is_state_)
       new (&raw_) glr_state;
     else
       new (&raw_) semantic_option;
