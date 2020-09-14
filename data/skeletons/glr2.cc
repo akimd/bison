@@ -2551,7 +2551,9 @@ public:
     if (yyflag == yyok)
       {
         yys->yyresolved = true;
+        YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
         yys->semanticVal() = yysval;
+        YY_IGNORE_MAYBE_UNINITIALIZED_END
       }
     else
       yys->setFirstVal(YY_NULLPTR);

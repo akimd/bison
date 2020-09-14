@@ -560,6 +560,26 @@ re-run the tests, run:
     make check
 
 
+## Docker
+
+Running old compilers is not very easy.  Docker can be used for some of
+them.  Have a look at .travis.yml for setups.  Move the tarball in /tmp and
+run, for instance:
+
+```
+docker run -v /tmp:/tmp -it ubuntu:xenial
+```
+
+### GCC 4.6
+On Ubuntu Xenial.
+
+```
+apt-get update
+apt-get install software-properties-common
+apt-add-repository -y "ppa:ubuntu-toolchain-r/test"
+apt-get update
+apt-get install -y gcc-4.6 g++-4.6 m4 make
+```
 
 Release Procedure
 =================
