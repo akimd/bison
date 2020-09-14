@@ -1812,8 +1812,9 @@ class state_stack {
 #define YYFILL(N) yystateStack.yyfill (yyvsp, &yylow, (N), yynormal)
 
 #define yystackp this
-class glr_stack {
- public:
+class glr_stack
+{
+public:
 
   glr_stack(size_t yysize, ]b4_namespace_ref[::]b4_parser_class[& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
     : yyerrState(0)
@@ -1911,7 +1912,8 @@ class glr_stack {
       : YYTRANSLATE (yychar);
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     /* Arguments of yyformat. */
-    ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+    ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM]
+      = { ]b4_namespace_ref::b4_parser_class::b4_symbol(-2, kind)[ };
     /* Number of reported tokens (one for the "unexpected", one per
        "expected").  */
     int yycount = 0;
