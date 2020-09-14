@@ -606,7 +606,7 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
 [[#define YYTRANSLATE(YYX)                                \
   (0 <= (YYX) && (YYX) <= ]b4_code_max[                     \
    ? static_cast<]b4_namespace_ref::b4_parser_class[::symbol_kind_type>(yytranslate[YYX])        \
-   : ]b4_namespace_ref::b4_parser_class::symbol_kind::b4_symbol(-2, kind)[)
+   : ]b4_namespace_ref::b4_parser_class::b4_symbol(-2, kind)[)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
@@ -1907,7 +1907,7 @@ class glr_stack {
 [[    {
     ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytoken
       = yychar == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(-2, id)[
-      ? ]b4_namespace_ref::b4_parser_class::symbol_kind::b4_symbol(-2, kind)[
+      ? ]b4_namespace_ref::b4_parser_class::b4_symbol(-2, kind)[
       : YYTRANSLATE (yychar);
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     /* Arguments of yyformat. */
@@ -1939,7 +1939,7 @@ class glr_stack {
          one exception: it will still contain any token that will not be
          accepted due to an error action in a later state.
     */
-    if (yytoken != ]b4_namespace_ref::b4_parser_class::symbol_kind::b4_symbol(-2, kind)[)
+    if (yytoken != ]b4_namespace_ref::b4_parser_class::b4_symbol(-2, kind)[)
       {
         int yyn = yypact[firstTopState()->yylrState];
         yyarg[yycount++] = yytoken;
@@ -1954,7 +1954,7 @@ class glr_stack {
             int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
             int yyx;
             for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref::b4_parser_class::symbol_kind::b4_symbol(1, kind)[
+              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref::b4_parser_class::b4_symbol(1, kind)[
                   && !yytable_value_is_error (yytable[yyx + yyn]))
                 {
                   if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
@@ -2677,7 +2677,7 @@ yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_p
   if (*yycharp <= ]b4_namespace_ref::b4_parser_class::token::b4_symbol(0, id)[)
     {
       *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(0, id)[;
-      yytoken = ]b4_namespace_ref::b4_parser_class::symbol_kind::b4_symbol(0, kind)[;
+      yytoken = ]b4_namespace_ref::b4_parser_class::b4_symbol(0, kind)[;
       YY_DEBUG_STREAM << "Now at end of input.\n";
     }
   else
@@ -2724,7 +2724,7 @@ static inline int
 yygetLRActions (state_num yystate, ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytoken, const short** yyconflicts)
 {
   int yyindex = yypact[yystate] + yytoken;
-  if (yytoken == ]b4_namespace_ref::b4_parser_class[::symbol_kind::]b4_symbol(1, kind)[)
+  if (yytoken == ]b4_namespace_ref::b4_parser_class[::]b4_symbol(1, kind)[)
     {
       // This is the error token.
       *yyconflicts = yyconfl;
