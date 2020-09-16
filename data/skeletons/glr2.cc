@@ -2273,12 +2273,13 @@ public:
       {
         /* Standard special case: single stack.  */
         YYASSERT (yyk.get() == 0);
-        glr_stack_item* yyrhs = yystateStack.topAt(yyk)->asItem();
+        glr_stack_item* yyrhs = yystateStack.firstTop()->asItem();
+        YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser]b4_user_args[));
+        YYRESULTTAG res =  yyuserAction (yyrule, yynrhs, yyrhs,
+                             yyvalp]b4_locations_if([, yylocp])[);
         yystateStack.pop_back(static_cast<size_t>(yynrhs));
         yystateStack.setFirstTop(&yystateStack[yystateStack.size() - 1].getState());
-        YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser]b4_user_args[));
-        return yyuserAction (yyrule, yynrhs, yyrhs,
-                             yyvalp]b4_locations_if([, yylocp])[);
+        return res;
       }
     else
       {
