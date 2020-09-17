@@ -200,7 +200,8 @@ jobs:
         - CONFIGUREFLAGS='CFLAGS=-O1 CXXFLAGS=-O1'
         - PART=1
 
-    - name: "GCC 8"
+    # With glr2.cc, we run out of time with the full test suite.
+    - name: "GCC 8 part 1"
       stage: check
       os: linux
       dist: bionic
@@ -210,6 +211,7 @@ jobs:
       env:
         - CC=gcc-8
         - CXX=g++-8
+        - PART=1
 
     - name: "GCC 7"
       stage: check

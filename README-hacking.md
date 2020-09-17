@@ -563,12 +563,14 @@ re-run the tests, run:
 ## Docker
 
 Running old compilers is not very easy.  Docker can be used for some of
-them.  Have a look at .travis.yml for setups.  Move the tarball in /tmp and
-run, for instance:
+them.  Have a look at .travis.yml for setups.  Move the tarball in `/tmp`
+and run, for instance:
 
 ```
 docker run -v /tmp:/tmp -it ubuntu:xenial
 ```
+
+This way, the host and guest machines share `/tmp`.
 
 ### GCC 4.6
 On Ubuntu Xenial.
