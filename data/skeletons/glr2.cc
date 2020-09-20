@@ -352,42 +352,7 @@ b4_define_flag_if([pure])
 # This is not shared with yacc.c in c.m4 because  GLR relies on ISO C
 # formal argument declarations.
 m4_define([b4_user_formals],
-[m4_ifset([b4_parse_param], [, b4_user_formals_no_comma])])
-
-# b4_user_formals_no_comma
-# ------------------------
-# The possible parse-params formal arguments.
-m4_define([b4_user_formals_no_comma],
-[m4_ifset([b4_parse_param], [b4_formals(b4_parse_param)])])
-
-
-# b4_pure_args
-# ------------
-# Optional effective arguments passed to yyerror: user args plus yylloc, and
-# a leading comma.
-m4_define([b4_pure_args],
-[b4_pure_if([b4_locations_if([, yylocp])])[]b4_user_args])
-
-
-# b4_lpure_args
-# -------------
-# Same as above, but on the lookahead, hence &yylloc instead of yylocp. This is
-# used only inside glr_stack, so there's no need to explicitly pass yyparser.
-m4_define([b4_lpure_args],
-[b4_pure_if([b4_locations_if([, &yylloc])])[]b4_user_args])
-
-
-# b4_locuser_formals(LOC = yylocp)
-# --------------------------------
-# User formal arguments, possibly preceded by location argument.
-m4_define([b4_locuser_formals],
-[b4_locations_if([, YYLTYPE *m4_default([$1], [yylocp])])[]b4_user_formals])
-
-
-# b4_locuser_args(LOC = yylocp)
-# -----------------------------
-m4_define([b4_locuser_args],
-[b4_locations_if([, m4_default([$1], [yylocp])])[]b4_user_args])
+[m4_ifset([b4_parse_param], [, b4_formals(b4_parse_param)])])
 
 
 # b4_symbol_kind(NUM)
@@ -552,7 +517,7 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
 
 ]b4_attribute_define([noreturn])[
 
-#if defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__ && __GNUC__ <= 9
+#if defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
 # define YY_IGNORE_NULL_DEREFERENCE_BEGIN                               \
   _Pragma ("GCC diagnostic push")                                       \
   _Pragma ("GCC diagnostic ignored \"-Wnull-dereference\"")
@@ -715,7 +680,7 @@ enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
     if (yydebug)                                                        \
       {                                                                 \
         std::cerr << Title << ' ';                                      \
-        yyparser.yy_symbol_print_ (Type, Value]b4_locuser_args([Location])[);\
+        yyparser.yy_symbol_print_ (Type, Value]b4_locations_if([, Location])[); \
         std::cerr << '\n';                                              \
       }                                                                 \
   } while (0)
@@ -1634,7 +1599,7 @@ class state_stack {
 
   inline void
   yy_reduce_print (bool yynormal, glr_stack_item* yyvsp, state_set_index yyk,
-                   rule_num yyrule, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[)
+                   rule_num yyrule, ]b4_namespace_ref[::]b4_parser_class[& yyparser)
   {
     int yynrhs = yyrhsLength (yyrule);]b4_locations_if([
     int yylow = 1;])[
@@ -1648,9 +1613,8 @@ class state_stack {
         std::cerr << "   $" << yyi + 1 << " = ";
         yyparser.yy_symbol_print_
           (static_cast<yysymbol_kind_t>(yystos[yyvsp[yyi - yynrhs + 1].getState().yylrState]),
-           &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([,
-           &]b4_rhs_location(yynrhs, yyi + 1))[]dnl
-           b4_user_args[);
+           &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([[,
+           &]b4_rhs_location(yynrhs, yyi + 1)])[);
         if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
           std::cerr <<  " (unresolved)";
         std::cerr <<  '\n';
@@ -1816,13 +1780,12 @@ class glr_stack
 {
 public:
 
-  glr_stack(size_t yysize, ]b4_namespace_ref[::]b4_parser_class[& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
-    : yyerrState(0)
-    , yystateStack(yysize)
-    , yyerrcnt(0)
-    , yyrawchar(0)
-    , yyparser(yyparser_yyarg)]m4_ifset([b4_parse_param], [
-    , b4_parse_param_cons])[
+  glr_stack (size_t yysize, ]b4_namespace_ref[::]b4_parser_class[& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
+    : yyerrState (0)
+    , yystateStack (yysize)
+    , yyerrcnt (0)
+    , yyrawchar (0)
+    , yyparser (yyparser_yyarg)]m4_ifset([b4_parse_param], [,b4_parse_param_cons])[
   {}
 
   ~glr_stack ()
@@ -2274,7 +2237,7 @@ public:
         /* Standard special case: single stack.  */
         YYASSERT (yyk.get() == 0);
         glr_stack_item* yyrhs = yystateStack.firstTop()->asItem();
-        YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser]b4_user_args[));
+        YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser));
         YYRESULTTAG res =  yyuserAction (yyrule, yynrhs, yyrhs,
                              yyvalp]b4_locations_if([, yylocp])[);
         yystateStack.pop_back(static_cast<size_t>(yynrhs));
@@ -2296,7 +2259,7 @@ public:
           }
         yystateStack.yyupdateSplit (*yys);
         yystateStack.setTopAt(yyk, yys);
-        YY_REDUCE_PRINT ((false, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyk, yyrule, yyparser]b4_user_args[));
+        YY_REDUCE_PRINT ((false, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyk, yyrule, yyparser));
         return yyuserAction (yyrule, yynrhs, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
                              yyvalp]b4_locations_if([, yylocp])[);
       }
