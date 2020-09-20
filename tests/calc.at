@@ -577,7 +577,7 @@ exp:
       [c], [[
       {
         char buf[1024];
-        snprintf (buf, sizeof buf, "calc: error: %d != %d", $1, $3);]AT_YYERROR_ARG_LOC_IF([[
+        snprintf (buf, sizeof buf, "error: %d != %d", $1, $3);]AT_YYERROR_ARG_LOC_IF([[
         yyerror (&@$, ]AT_PARAM_IF([result, count, nerrs, ])[buf);]], [[
         {
           YYLTYPE old_yylloc = yylloc;
@@ -590,17 +590,39 @@ exp:
       [c++], [[
       {
         char buf[1024];
-        snprintf (buf, sizeof buf, "calc: error: %d != %d", $1, $3);
+        snprintf (buf, sizeof buf, "error: %d != %d", $1, $3);
         ]AT_GLR_IF([[yyparser.]])[error (]AT_LOCATION_IF([[@$, ]])[buf);
       }]],
       [d], [[
-      yyerror (]AT_LOCATION_IF([[@$, ]])[format ("calc: error: %d != %d", $1, $3));]])[
+      yyerror (]AT_LOCATION_IF([[@$, ]])[format ("error: %d != %d", $1, $3));]])[
     $$ = $1;
   }
 | exp '+' exp        { $$ = $1 + $3; }
 | exp '-' exp        { $$ = $1 - $3; }
 | exp '*' exp        { $$ = $1 * $3; }
-| exp '/' exp        { $$ = $1 / $3; }
+| exp '/' exp
+  {
+    if ($3 == 0)]AT_LANG_CASE(
+      [c], [[
+      {]AT_YYERROR_ARG_LOC_IF([[
+        yyerror (&@3, ]AT_PARAM_IF([result, count, nerrs, ])["error: null divisor");]], [[
+        {
+          YYLTYPE old_yylloc = yylloc;
+          yylloc = @3;
+          yyerror (]AT_PARAM_IF([result, count, nerrs, ])["error: null divisor");
+          yylloc = old_yylloc;
+        }
+        ]])[
+      }]],
+      [c++], [[
+      {
+        ]AT_GLR_IF([[yyparser.]])[error (]AT_LOCATION_IF([[@3, ]])["error: null divisor");
+      }]],
+      [d], [[
+      yyerror (]AT_LOCATION_IF([[@3, ]])["error: null divisor");]])[
+    else
+      $$ = $1 / $3;
+  }
 | '-' exp  %prec NEG { $$ = -$2; }
 | exp '^' exp        { $$ = power ($1, $3); }
 | '(' exp ')'        { $$ = $2; }
@@ -728,12 +750,18 @@ exp:
 | exp '=' exp
   {
     if ($1.intValue () != $3.intValue ())
-      yyerror (]AT_LOCATION_IF([[@$, ]])["calc: error: " + $1 + " != " + $3);
+      yyerror (]AT_LOCATION_IF([[@$, ]])["error: " + $1 + " != " + $3);
   }
 | exp '+' exp        { $$ = $1 + $3; }
 | exp '-' exp        { $$ = $1 - $3; }
 | exp '*' exp        { $$ = $1 * $3; }
-| exp '/' exp        { $$ = $1 / $3; }
+| exp '/' exp
+  {
+    if ($3.intValue () == 0)
+      yyerror (]AT_LOCATION_IF([[@3, ]])["error: null divisor");
+    else
+      $$ = $1 / $3;
+  }
 | '-' exp  %prec NEG { $$ = -$2; }
 | exp '^' exp        { $$ = (int) Math.pow ($1, $3); }
 | '(' exp ')'        { $$ = $2; }
@@ -1003,7 +1031,7 @@ _AT_CHECK_CALC_ERROR([$1], [0],
 ]AT_JAVA_IF([1.18-1.19], [1.18])[: syntax error on token [')'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.23-1.24], [1.23])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.41-1.42], [1.41])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
-]AT_JAVA_IF([1.1-1.47], [1.1-46])[: calc: error: 4444 != 1]])
+]AT_JAVA_IF([1.1-1.47], [1.1-46])[: error: 4444 != 1]])
 
 # The same, but this time exercising explicitly triggered syntax errors.
 # POSIX says the lookahead causing the error should not be discarded.
@@ -1011,14 +1039,14 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(!) + (1 2) = 1],
                      [[final: 2222 0 2]],
                      [102],
 [AT_JAVA_IF([1.10-1.11], [1.10])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
-]AT_JAVA_IF([1.1-1.16], [1.1-15])[: calc: error: 2222 != 1]])
+]AT_JAVA_IF([1.1-1.16], [1.1-15])[: error: 2222 != 1]])
 
 _AT_CHECK_CALC_ERROR([$1], [0], [(- *) + (1 2) = 1],
                      [[final: 2222 0 3]],
                      [113],
 [AT_JAVA_IF([1.4-1.5], [1.4])[: syntax error on token ['*'] (expected: [number] ['-'] ['('] ['!'])
 ]AT_JAVA_IF([1.12-1.13], [1.12])[: syntax error on token [number] (expected: ['='] ['-'] ['+'] ['*'] ['/'] ['^'] [')'])
-]AT_JAVA_IF([1.1-1.18], [1.1-17])[: calc: error: 2222 != 1]])
+]AT_JAVA_IF([1.1-1.18], [1.1-17])[: error: 2222 != 1]])
 
 # Check that yyerrok works properly: second error is not reported,
 # third and fourth are.  Parse status is successful.
@@ -1056,7 +1084,10 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(1 + # + 1) = 1111],
                      [102],
 [[1.6: syntax error: invalid character: '#']])
 
-
+_AT_CHECK_CALC_ERROR([$1], [0], [(1 + 1) / (1 - 1)],
+                     [[final: 2 0 1]],
+                     [102],
+[AT_JAVA_IF([1.11-1.18], [1.11-17])[: error: null divisor]])
 
 AT_BISON_OPTION_POPDEFS
 

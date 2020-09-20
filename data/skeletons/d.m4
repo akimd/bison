@@ -345,7 +345,7 @@ m4_define([b4_lhs_location],
 # Expansion of @POS, where the current rule has RULE-LENGTH symbols
 # on RHS.
 m4_define([b4_rhs_location],
-[yystack.locationAt ([$1], [$2])])
+[yystack.locationAt (b4_subtract($@))])
 
 
 # b4_lex_param
