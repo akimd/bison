@@ -106,6 +106,18 @@ b4_percent_code_get([[requires]])[
 # endif
 #endif
 
+#if __has_cpp_attribute(fallthrough) && defined __cplusplus && 201703L <= __cplusplus
+# define YY_FALLTHROUGH [[fallthrough]]
+#elif __has_cpp_attribute(clang::fallthrough)
+# define YY_FALLTHROUGH [[clang::fallthrough]]
+#elif __has_cpp_attribute(gnu::fallthrough) && defined __cplusplus && 201103L <= __cplusplus
+# define YY_FALLTHROUGH [[gnu::fallthrough]]
+#elif defined __GNUCC__
+# define YY_FALLTHROUGH __builtin_fallthrough()
+#else
+# define YY_FALLTHROUGH
+#endif
+
 ]b4_YYDEBUG_define[
 
 ]b4_namespace_open[
@@ -3034,20 +3046,22 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
         std::string yyr;
         char const *yyp = yystr;
 
-        for (;;)
+        bool stop = false;
+        while (!stop)
           switch (*++yyp)
             {
             case '\'':
             case ',':
-              goto do_not_strip_quotes;
+              stop = true;
+              break;
 
             case '\\':
-              if (*++yyp != '\\')
-                goto do_not_strip_quotes;
-              else
-                goto append;
-
-            append:
+              if (*++yyp != '\\') {
+                stop = true;
+                break;
+              }
+              YY_FALLTHROUGH;
+              /* FALLTHROUGH */
             default:
               yyr += *yyp;
               break;
@@ -3055,7 +3069,6 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
             case '"':
               return yyr;
             }
-      do_not_strip_quotes: ;
       }
 
     return yystr;
