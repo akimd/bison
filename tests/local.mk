@@ -57,6 +57,7 @@ TESTSUITE_AT =                                \
   %D%/conflicts.at                            \
   %D%/counterexample.at                       \
   %D%/cxx-type.at                             \
+  %D%/d.at                                    \
   %D%/diagnostics.at                          \
   %D%/existing.at                             \
   %D%/glr-regression.at                       \

@@ -58,6 +58,23 @@ m4_define([b4_percent_define_get3],
           [m4_ifval(m4_quote(b4_percent_define_get([$1])),
                 [$2[]b4_percent_define_get([$1])[]$3], [$4])])
 
+# b4_percent_define_if_get2(ARG1, ARG2, DEF, NOT)
+# -----------------------------------------------
+# Expand to the value of DEF if ARG1 or ARG2 are %define'ed,
+# otherwise NOT.
+m4_define([b4_percent_define_if_get2],
+          [m4_ifval(m4_quote(b4_percent_define_get([$1])),
+                [$3], [m4_ifval(m4_quote(b4_percent_define_get([$2])),
+                      [$3], [$4])])])
+
+# b4_percent_define_class_before_interface(CLASS, INTERFACE)
+# ----------------------------------------------------------
+# Expand to a ', ' if both a class and an interface have been %define'ed
+m4_define([b4_percent_define_class_before_interface],
+          [m4_ifval(m4_quote(b4_percent_define_get([$1])),
+                [m4_ifval(m4_quote(b4_percent_define_get([$2])),
+                      [, ])])])
+
 
 # b4_flag_value(BOOLEAN-FLAG)
 # ---------------------------
@@ -78,8 +95,10 @@ b4_percent_define_flag_if([api.parser.public],   [public ])dnl
 b4_percent_define_flag_if([api.parser.abstract], [abstract ])dnl
 b4_percent_define_flag_if([api.parser.final],    [final ])dnl
 [class ]b4_parser_class[]dnl
-b4_percent_define_get3([api.parser.extends], [ extends ])dnl
-b4_percent_define_get3([api.parser.implements], [ implements ])])
+b4_percent_define_if_get2([api.parser.extends], [api.parser.implements], [ : ])dnl
+b4_percent_define_get([api.parser.extends])dnl
+b4_percent_define_class_before_interface([api.parser.extends], [api.parser.implements])dnl
+b4_percent_define_get([api.parser.implements])])
 
 
 # b4_lexer_if(TRUE, FALSE)

@@ -87,6 +87,9 @@ m4_include([c++.at])
 m4_include([java.at])
 m4_include([javapush.at])
 
+# Parsers in D
+m4_include([d.at])
+
 # GLR.
 # C++ types, simplified
 m4_include([cxx-type.at])
