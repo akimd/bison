@@ -249,20 +249,13 @@ are.  Keep the same variable names.  If you change the wording in one place,
 do it in the others too.  In other words: make sure to keep the
 maintenance *simple* by avoiding any gratuitous difference.
 
-** Change the return value of yylex
-Historically people were allowed to return any int from the scanner (which
-is convenient and allows `return '+'` from the scanner).  Akim tends to see
-this as an error, we should restrict the return values to TokenKind (not to
-be confused with SymbolKind).
-
-In the case of D, without the history, we have the choice to support or not
-`int`.  If we want to _keep_ `int`, is there a way, say via introspection,
-to support both signatures of yylex?  If we don't keep `int`, just move to
-TokenKind.
-
 ** Documentation
 Write documentation about D support in doc/bison.texi.  Imitate the Java
 documentation.  You should be more succinct IMHO.
+
+** yyerrok
+It appears that neither Java nor D support yyerrok currently.  It does not
+need to be named this way...
 
 ** Complete Symbols
 The current interface from the scanner to the parser is somewhat clumsy: the

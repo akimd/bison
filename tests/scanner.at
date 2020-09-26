@@ -121,7 +121,7 @@ class YYLexer(R) : Lexer
     return semanticVal_;
   }
 
-  int yylex ()
+  TokenKind yylex ()
   {
     import std.uni : isNumber;
     // Handle EOF.

@@ -68,7 +68,7 @@ public interface Lexer
    * to the next token and prepares to return the semantic value
    * ]b4_locations_if([and beginning/ending positions ])[of the token.
    * @@return the token identifier corresponding to the next token. */
-  int yylex ();
+  TokenKind yylex ();
 
   /**
    * Entry point for error reporting.  Emits an error
@@ -272,7 +272,7 @@ b4_user_union_members
       yyDebugStream.writeln (s);
   }
 ]])[
-  private final int yylex () {
+  private final TokenKind yylex () {
     return yylexer.yylex ();
   }
 

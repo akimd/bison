@@ -299,7 +299,7 @@ class CalcLexer(R) : Lexer
     return res;
   }
 
-  int yylex ()
+  TokenKind yylex ()
   {]AT_LOCATION_IF([[
     location.begin = location.end;]])[
 
@@ -342,7 +342,20 @@ class CalcLexer(R) : Lexer
         return TokenKind.YYerror;
       }
 
-    return c;
+    switch (c)
+    {
+      case '+':  return TokenKind.PLUS;
+      case '-':  return TokenKind.MINUS;
+      case '*':  return TokenKind.STAR;
+      case '/':  return TokenKind.SLASH;
+      case '(':  return TokenKind.LPAR;
+      case ')':  return TokenKind.RPAR;
+      case '\n': return TokenKind.EOL;
+      case '=':  return TokenKind.EQUAL;
+      case '^':  return TokenKind.POW;
+      case '!':  return TokenKind.NOT;
+      default:   return TokenKind.YYUNDEF;
+    }
   }
 }
 ]])
@@ -444,13 +457,6 @@ m4_define([_AT_DATA_CALC_Y(c)],
 [AT_DATA_GRAMMAR([calc.y],
 [[/* Infix notation calculator--calc */
 ]$4[
-]AT_LANG_MATCH(
-[d], [[
-%code imports {
-  alias semantic_value = int;
-}
-]],
-[c\|c++], [[
 %code requires
 {
 ]AT_LOCATION_TYPE_SPAN_IF([[
@@ -489,7 +495,6 @@ void location_print (FILE *o, Span s);
   /* Exercise pre-prologue dependency to %union.  */
   typedef int semantic_value;
 }
-]])[
 
 /* Exercise %union. */
 %union
@@ -592,9 +597,7 @@ exp:
         char buf[1024];
         snprintf (buf, sizeof buf, "error: %d != %d", $1, $3);
         ]AT_GLR_IF([[yyparser.]])[error (]AT_LOCATION_IF([[@$, ]])[buf);
-      }]],
-      [d], [[
-      yyerror (]AT_LOCATION_IF([[@$, ]])[format ("error: %d != %d", $1, $3));]])[
+      }]])[
     $$ = $1;
   }
 | exp '+' exp        { $$ = $1 + $3; }
@@ -617,18 +620,16 @@ exp:
       [c++], [[
       {
         ]AT_GLR_IF([[yyparser.]])[error (]AT_LOCATION_IF([[@3, ]])["error: null divisor");
-      }]],
-      [d], [[
-      yyerror (]AT_LOCATION_IF([[@3, ]])["error: null divisor");]])[
+      }]])[
     else
       $$ = $1 / $3;
   }
 | '-' exp  %prec NEG { $$ = -$2; }
 | exp '^' exp        { $$ = power ($1, $3); }
 | '(' exp ')'        { $$ = $2; }
-| '(' error ')'      { $$ = 1111; ]AT_D_IF([], [yyerrok;])[ }
-| '!'                { $$ = 0; ]AT_D_IF([return YYERROR], [YYERROR])[; }
-| '-' error          { $$ = 0; ]AT_D_IF([return YYERROR], [YYERROR])[; }
+| '(' error ')'      { $$ = 1111; yyerrok; }
+| '!'                { $$ = 0; YYERROR; }
+| '-' error          { $$ = 0; YYERROR; }
 ;
 %%
 
@@ -682,11 +683,100 @@ AT_DATA_SOURCE([[calc-main.]AT_LANG_EXT],
 
 ]AT_CALC_MAIN])
 ])
-])# _AT_DATA_CALC_Y
+])# _AT_DATA_CALC_Y(c)
 
 
 m4_copy([_AT_DATA_CALC_Y(c)], [_AT_DATA_CALC_Y(c++)])
-m4_copy([_AT_DATA_CALC_Y(c)], [_AT_DATA_CALC_Y(d)])
+
+m4_define([_AT_DATA_CALC_Y(d)],
+[AT_DATA_GRAMMAR([calc.y],
+[[/* Infix notation calculator--calc */
+]$4[
+%code imports {
+  alias semantic_value = int;
+}
+/* Exercise %union. */
+%union
+{
+  semantic_value ival;
+};
+%printer { fprintf (yyo, "%d", $$); } <ival>;
+
+/* Bison Declarations */
+%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
+%token <ival> NUM   "number"
+%type  <ival> exp
+
+%token PLUS   "+"
+       MINUS  "-"
+       STAR   "*"
+       SLASH  "/"
+       LPAR   "("
+       RPAR   ")"
+       EQUAL  "="
+       POW    "^"
+       NOT    "!"
+       EOL    "\n"
+
+%nonassoc "="   /* comparison          */
+%left "-" "+"
+%left "*" "/"
+%precedence NEG /* negation--unary minus */
+%right "^"      /* exponentiation        */
+
+/* Grammar follows */
+%%
+input:
+  line
+| input line         { ]AT_PARAM_IF([++*count; ++global_count;])[ }
+;
+
+line:
+  EOL
+| exp EOL            { ]AT_PARAM_IF([*result = global_result = $1;], [AT_D_IF([], [USE ($1);])])[ }
+;
+
+exp:
+  NUM
+| exp "=" exp
+  {
+    if ($1 != $3)
+      yyerror (]AT_LOCATION_IF([[@$, ]])[format ("error: %d != %d", $1, $3));
+    $$ = $1;
+  }
+| exp "+" exp        { $$ = $1 + $3; }
+| exp "-" exp        { $$ = $1 - $3; }
+| exp "*" exp        { $$ = $1 * $3; }
+| exp "/" exp
+  {
+    if ($3 == 0)
+      yyerror (]AT_LOCATION_IF([[@3, ]])["error: null divisor");
+    else
+      $$ = $1 / $3;
+  }
+| "-" exp  %prec NEG { $$ = -$2; }
+| exp "^" exp        { $$ = power ($1, $3); }
+| "(" exp ")"        { $$ = $2; }
+| "(" error ")"      { $$ = 1111; ]AT_D_IF([], [yyerrok;])[ }
+| "!"                { $$ = 0; return YYERROR; }
+| "-" error          { $$ = 0; return YYERROR; }
+;
+%%
+
+int
+power (int base, int exponent)
+{
+  int res = 1;
+  assert (0 <= exponent);
+  for (/* Niente */; exponent; --exponent)
+    res *= base;
+  return res;
+}
+
+]AT_YYERROR_DEFINE[
+]AT_CALC_YYLEX
+AT_CALC_MAIN])
+])# _AT_DATA_CALC_Y(d)
 
 m4_define([_AT_DATA_CALC_Y(java)],
 [AT_DATA_GRAMMAR([Calc.y],
@@ -883,7 +973,10 @@ AT_PERL_REQUIRE([[-pi -e 'use strict;
   s{syntax error on token \[(.*?)\] \(expected: (.*)\)}
   {
     my $unexp = $][1;
-    my @exps = $][2 =~ /\[(.*?)\]/g;
+    my @exps = $][2 =~ /\[(.*?)\]/g;]AT_D_IF([[
+    # In the case of D, there are no single quotes around the symbols.
+    $unexp =~ s/'"'(.)'"'/$][1/g;
+    s/'"'(.)'"'/$][1/g for @exps;]])[
     ($][#exps && $][#exps < 4)
     ? "syntax error, unexpected $unexp, expecting @{[join(\" or \", @exps)]}"
     : "syntax error, unexpected $unexp";

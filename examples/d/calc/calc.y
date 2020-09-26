@@ -114,7 +114,7 @@ class CalcLexer(R) : Lexer
     return semanticVal_;
   }
 
-  int yylex ()
+  TokenKind yylex ()
   {
     import std.uni : isWhite, isNumber;
 
