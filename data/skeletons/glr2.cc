@@ -2092,7 +2092,7 @@ public:
               {
                 state_set_index yynewStack = yystateStack.yysplitStack (yyk);
                 YY_DEBUG_STREAM << "Splitting off stack " << yynewStack.get()
-                                << " from " << yyk.get();
+                                << " from " << yyk.get() << '\n';
                 YYRESULTTAG yyflag =
                   yyglrReduce (yynewStack, *yyconflicts,
                                yyimmediate[*yyconflicts]);

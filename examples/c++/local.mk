@@ -15,6 +15,7 @@
 
 cxxdir = $(docdir)/%D%
 include %D%/calc++/local.mk
+include %D%/glr/local.mk
 
 ## -------- ##
 ## Simple.  ##
