@@ -25,9 +25,7 @@ AT_BANNER([[Sync Lines.]])
 # normalized output.  Ignore the exit status, since some compilers
 # (e.g. c89 on IRIX 6.5) trigger warnings on '#error', instead of
 # errors.
-m4_define([_AT_SYNCLINES_COMPILE],
-[AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1], [ignore], [], [stderr])
-
+#
 # Transform the file 'stderr' into something like this:
 #
 #   input.y:4: #error "4"
@@ -97,6 +95,8 @@ m4_define([_AT_SYNCLINES_COMPILE],
 #    syncline.c:4:2: error: #error "4"
 #        4 | #error "4"
 #          |  ^~~~~
+m4_define([_AT_SYNCLINES_COMPILE],
+[AT_CHECK([$CC $CFLAGS $CPPFLAGS -c $1], [ignore], [], [stderr])
 AT_CHECK([["$PERL" -p -0777 - stderr <<\EOF || exit 77
   # Remove left-hand margin.
   s/^[\d ]{6}\| //gm;
