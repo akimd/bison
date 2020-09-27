@@ -222,6 +222,7 @@ m4_pushdef([AT_ERROR_VERBOSE_IF],
            [m4_bmatch([$3], [%define parse\.error verbose], [$1], [$2])])
 m4_pushdef([AT_ERROR_SIMPLE_IF],
            [AT_ERROR_CUSTOM_IF([$2], [AT_ERROR_DETAILED_IF([$2], [AT_ERROR_VERBOSE_IF([$2], [$1])], [$1])], [$1])])
+
 m4_pushdef([AT_CXX_IF],
 [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_D_IF],
@@ -236,6 +237,7 @@ m4_pushdef([AT_LANG],
                                 [c])])])])
 m4_pushdef([AT_C_IF],
 [m4_if(AT_LANG, [c], [$1], [$2])])
+
 m4_pushdef([AT_GLR_IF],
 [m4_bmatch([$3], [%glr-parser\|%skeleton "glr.*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
@@ -245,6 +247,8 @@ m4_pushdef([AT_GLR_CC_IF],
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
+
+
 m4_pushdef([AT_LAC_IF],
 [m4_bmatch([$3], [%define parse.lac full], [$1], [$2])])
 m4_pushdef([AT_LEXPARAM_IF],
@@ -256,6 +260,8 @@ m4_pushdef([AT_LOCATION_IF],
 # sure we can use a user type).
 m4_pushdef([AT_LOCATION_TYPE_SPAN_IF],
 [m4_bmatch([$3], [%define \(api\.location\.type\|location_type\) \{Span\}], [$1], [$2])])
+m4_pushdef([AT_MULTISTART_IF],
+[m4_bmatch([$3], [%start [_a-zA-Z]+ [_a-zA-Z]+], [$1], [$2])])
 m4_pushdef([AT_PARAM_IF],
 [m4_bmatch([$3], [%parse-param], [$1], [$2])])
 
@@ -281,6 +287,11 @@ m4_pushdef([AT_PURE_IF],
            [$2])])
 m4_pushdef([AT_PUSH_IF],
 [m4_bmatch([$3], [%define api.push-pull \(both\|pull\)], [$1], [$2])])
+# Whether we use %define api.value.type union
+m4_pushdef([AT_VALUE_UNION_IF],
+[m4_bmatch([$3], [%define api\.value\.type union], [$1], [$2])])
+
+
 # AT_NAME_PREFIX.
 m4_pushdef([AT_NAME_PREFIX],
 [m4_bmatch([$3], [\(%define api\.prefix\|%name-prefix\) .*],
@@ -395,6 +406,7 @@ AT_LOCATION_TYPE_SPAN_IF(
 
 AT_GLR_IF([AT_KEYWORDS([glr])])
 AT_PUSH_IF([AT_KEYWORDS([push])])
+AT_MULTISTART_IF([AT_KEYWORDS([multistart])])
 ])# _AT_BISON_OPTION_PUSHDEFS
 
 
@@ -428,10 +440,12 @@ m4_popdef([AT_NAME_PREFIX])
 m4_popdef([AT_LOCATION_TYPE_SPAN_IF])
 m4_popdef([AT_LOCATION_IF])
 m4_undefine([AT_PARSE_PARAMS])
+m4_popdef([AT_VALUE_UNION_IF])
 m4_popdef([AT_PUSH_IF])
 m4_popdef([AT_PURE_IF])
 m4_popdef([AT_PARSER_CLASS])
 m4_popdef([AT_PARAM_IF])
+m4_popdef([AT_MULTISTART_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_LAC_IF])
 m4_popdef([AT_YACC_IF])
