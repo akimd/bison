@@ -340,6 +340,10 @@ m4_pushdef([AT_PURE_LEX_IF],
 [AT_PURE_IF([$1],
             [AT_CXX_IF([$1], [$2])])])
 
+# Whether token translation is supported.
+m4_pushdef([AT_TOKEN_TRANSLATE_IF],
+[AT_ERROR_CUSTOM_IF([$1], [AT_ERROR_DETAILED_IF([$1], [$2])])])
+
 m4_pushdef([AT_YYSTYPE],
 [AT_CXX_IF([AT_NAMESPACE[::parser::semantic_type]],
                [AT_API_PREFIX[STYPE]])])
@@ -409,6 +413,7 @@ m4_popdef([AT_YYLTYPE])
 m4_popdef([AT_YYSTYPE])
 m4_popdef([AT_VAL])
 m4_popdef([AT_LOC])
+m4_popdef([AT_TOKEN_TRANSLATE_IF])
 m4_popdef([AT_PURE_LEX_IF])
 m4_popdef([AT_YYERROR_SEES_LOC_IF])
 m4_popdef([AT_YYERROR_ARG_LOC_IF])
