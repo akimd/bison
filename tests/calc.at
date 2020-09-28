@@ -606,7 +606,7 @@ class CalcLexer(R) : Lexer
 
     // EOF.
     if (input.empty)
-      return TokenKind.]AT_TOKEN_PREFIX[CALC_EOF;
+      return TokenKind.]AT_TOKEN_PREFIX[EOF;
 
     // Numbers.
     if (input.front.isNumber)
@@ -666,7 +666,7 @@ m4_define([_AT_DATA_CALC_Y(d)],
 %printer { fprintf (yyo, "%d", $$); } <ival>;
 
 /* Bison Declarations */
-%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
+%token EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
 %token <ival> NUM   "number"
 %type  <ival> exp
 

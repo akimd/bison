@@ -256,6 +256,9 @@ are.  Keep the same variable names.  If you change the wording in one place,
 do it in the others too.  In other words: make sure to keep the
 maintenance *simple* by avoiding any gratuitous difference.
 
+** CI
+Check when gdc and ldc.
+
 ** Documentation
 Write documentation about D support in doc/bison.texi.  Imitate the Java
 documentation.  You should be more succinct IMHO.
