@@ -394,7 +394,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   public bool parse ()
   {
     // Lookahead token kind.
-    int yychar = TokenKind.YYEMPTY;
+    int yychar = TokenKind.]b4_symbol(-2, id)[;
     // Lookahead symbol kind.
     SymbolKind yytoken = ]b4_symbol(-2, kind)[;
 
@@ -459,7 +459,7 @@ m4_popdef([b4_at_dollar])])dnl
         }
 
         /* Read a lookahead token.  */
-        if (yychar == TokenKind.YYEMPTY)
+        if (yychar == TokenKind.]b4_symbol(-2, id)[)
         {]b4_parse_trace_if([[
           yycdebugln ("Reading a token");]])[
           yychar = yylex ();]b4_locations_if([[
@@ -511,7 +511,7 @@ m4_popdef([b4_at_dollar])])dnl
             yy_symbol_print ("Shifting", yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
             /* Discard the token being shifted.  */
-            yychar = TokenKind.YYEMPTY;
+            yychar = TokenKind.]b4_symbol(-2, id)[;
 
             /* Count tokens shifted since error; after three, turn off error
              * status.  */
@@ -571,7 +571,7 @@ m4_popdef([b4_at_dollar])])dnl
              return false;
           }
           else
-            yychar = TokenKind.YYEMPTY;
+            yychar = TokenKind.]b4_symbol(-2, id)[;
         }
 
         /* Else will try to reuse lookahead token after shifting the error

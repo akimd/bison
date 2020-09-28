@@ -606,13 +606,13 @@ class CalcLexer(R) : Lexer
 
     // EOF.
     if (input.empty)
-      return TokenKind.CALC_EOF;
+      return TokenKind.]AT_TOKEN_PREFIX[CALC_EOF;
 
     // Numbers.
     if (input.front.isNumber)
       {
         semanticVal_.ival = parseInt;
-        return TokenKind.NUM;
+        return TokenKind.]AT_TOKEN_PREFIX[NUM;
       }
 
     // Individual characters
@@ -630,22 +630,22 @@ class CalcLexer(R) : Lexer
     if (c == '#')
       {
         stderr.writeln (]AT_LOCATION_IF([location, ": ", ])["syntax error: invalid character: '#'");
-        return TokenKind.YYerror;
+        return TokenKind.]AT_TOKEN_PREFIX[YYerror;
       }
 
     switch (c)
     {
-      case '+':  return TokenKind.PLUS;
-      case '-':  return TokenKind.MINUS;
-      case '*':  return TokenKind.STAR;
-      case '/':  return TokenKind.SLASH;
-      case '(':  return TokenKind.LPAR;
-      case ')':  return TokenKind.RPAR;
-      case '\n': return TokenKind.EOL;
-      case '=':  return TokenKind.EQUAL;
-      case '^':  return TokenKind.POW;
-      case '!':  return TokenKind.NOT;
-      default:   return TokenKind.YYUNDEF;
+      case '+':  return TokenKind.]AT_TOKEN_PREFIX[PLUS;
+      case '-':  return TokenKind.]AT_TOKEN_PREFIX[MINUS;
+      case '*':  return TokenKind.]AT_TOKEN_PREFIX[STAR;
+      case '/':  return TokenKind.]AT_TOKEN_PREFIX[SLASH;
+      case '(':  return TokenKind.]AT_TOKEN_PREFIX[LPAR;
+      case ')':  return TokenKind.]AT_TOKEN_PREFIX[RPAR;
+      case '\n': return TokenKind.]AT_TOKEN_PREFIX[EOL;
+      case '=':  return TokenKind.]AT_TOKEN_PREFIX[EQUAL;
+      case '^':  return TokenKind.]AT_TOKEN_PREFIX[POW;
+      case '!':  return TokenKind.]AT_TOKEN_PREFIX[NOT;
+      default:   return TokenKind.]AT_TOKEN_PREFIX[YYUNDEF;
     }
   }
 }
@@ -1449,7 +1449,9 @@ AT_CHECK_CALC_LALR1_D([%define parse.error verbose %define api.prefix {calc} %ve
 AT_CHECK_CALC_LALR1_D([%debug])
 
 AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %verbose])
-#AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.token.prefix {TOK_} %verbose])
+AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.token.prefix {TOK_} %verbose])
+AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.symbol.prefix {SYMB_} %verbose])
+AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.symbol.prefix {SYMB_} %define api.token.prefix {TOK_} %verbose])
 
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose %debug %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose %debug %define api.prefix {calc} %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])

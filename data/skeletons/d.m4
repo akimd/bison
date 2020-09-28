@@ -186,7 +186,7 @@ m4_define([b4_token_enum],
 m4_define([b4_token_enums],
 [/* Token kinds.  */
 public enum TokenKind {
-  ]b4_symbol_kind([-2])[ = -2,
+  ]b4_symbol(-2, id)[ = -2,
 b4_symbol_foreach([b4_token_enum])dnl
 }
 ])
