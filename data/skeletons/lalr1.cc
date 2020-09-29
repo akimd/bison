@@ -408,7 +408,7 @@ m4_define([b4_shared_declarations],
       void move (by_state& that);
 
       /// The symbol kind (corresponding to \a state).
-      /// \a ]b4_symbol(-2, kind)[ when empty.
+      /// \a ]b4_symbol(empty, kind)[ when empty.
       symbol_kind_type kind () const YY_NOEXCEPT;
 
       /// The state number used to denote an empty symbol.
@@ -665,7 +665,7 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class[::by_state::kind () const YY_NOEXCEPT
   {
     if (state == empty_state)
-      return ]b4_symbol(-2, kind)[;
+      return ]b4_symbol(empty, kind)[;
     else
       return YY_CAST (symbol_kind_type, yystos_[+state]);
   }
@@ -690,7 +690,7 @@ m4_if(b4_prefix, [yy], [],
     b4_symbol_variant([that.kind ()],
                       [value], [move], [YY_MOVE (that.value)])])[
     // that is emptied.
-    that.kind_ = ]b4_symbol(-2, kind)[;
+    that.kind_ = ]b4_symbol(empty, kind)[;
   }
 
 #if YY_CPLUSPLUS < 201103L
@@ -1333,7 +1333,7 @@ b4_dollar_popdef])[]dnl
       }
 ]])[
     if (yyarg && yycount == 0 && 0 < yyargn)
-      yyarg[0] = ]b4_symbol(-2, kind)[;
+      yyarg[0] = ]b4_symbol(empty, kind)[;
     return yycount;
   }
 

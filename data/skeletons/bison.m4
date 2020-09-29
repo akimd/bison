@@ -480,16 +480,18 @@ m4_define([b4_symbol_slot],
 
 # b4_symbol(NUM, FIELD)
 # ---------------------
-# Fetch FIELD of symbol #NUM (or "orig NUM").  Fail if undefined.
+# Fetch FIELD of symbol #NUM (or "orig NUM", or "empty").  Fail if undefined.
 #
 # If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
-[m4_case([$2],
-         [id],        [b4_symbol_token_kind([$1])],
-         [kind_base], [b4_symbol_kind_base([$1])],
-         [kind],      [b4_symbol_kind([$1])],
-         [slot],      [b4_symbol_slot([$1])],
-         [_b4_symbol($@)])])
+[m4_if([$1], [empty],
+       [b4_symbol([-2], [$2])],
+       [m4_case([$2],
+                [id],        [b4_symbol_token_kind([$1])],
+                [kind_base], [b4_symbol_kind_base([$1])],
+                [kind],      [b4_symbol_kind([$1])],
+                [slot],      [b4_symbol_slot([$1])],
+                [_b4_symbol($@)])])])
 
 
 # b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)

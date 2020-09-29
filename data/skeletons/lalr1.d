@@ -394,9 +394,9 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   public bool parse ()
   {
     // Lookahead token kind.
-    int yychar = TokenKind.]b4_symbol(-2, id)[;
+    int yychar = TokenKind.]b4_symbol(empty, id)[;
     // Lookahead symbol kind.
-    SymbolKind yytoken = ]b4_symbol(-2, kind)[;
+    SymbolKind yytoken = ]b4_symbol(empty, kind)[;
 
     /* State.  */
     int yyn = 0;
@@ -459,7 +459,7 @@ m4_popdef([b4_at_dollar])])dnl
         }
 
         /* Read a lookahead token.  */
-        if (yychar == TokenKind.]b4_symbol(-2, id)[)
+        if (yychar == TokenKind.]b4_symbol(empty, id)[)
         {]b4_parse_trace_if([[
           yycdebugln ("Reading a token");]])[
           yychar = yylex ();]b4_locations_if([[
@@ -511,7 +511,7 @@ m4_popdef([b4_at_dollar])])dnl
             yy_symbol_print ("Shifting", yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
             /* Discard the token being shifted.  */
-            yychar = TokenKind.]b4_symbol(-2, id)[;
+            yychar = TokenKind.]b4_symbol(empty, id)[;
 
             /* Count tokens shifted since error; after three, turn off error
              * status.  */
@@ -553,8 +553,8 @@ m4_popdef([b4_at_dollar])])dnl
         if (yyerrstatus_ == 0)
         {
           ++yynerrs_;
-          if (yychar == TokenKind.]b4_symbol(-2, id)[)
-            yytoken = ]b4_symbol(-2, kind)[;
+          if (yychar == TokenKind.]b4_symbol(empty, id)[)
+            yytoken = ]b4_symbol(empty, kind)[;
           yyerror (]b4_locations_if([yylloc, ])[yysyntax_error (yystate, yytoken));
         }
 ]b4_locations_if([
@@ -571,7 +571,7 @@ m4_popdef([b4_at_dollar])])dnl
              return false;
           }
           else
-            yychar = TokenKind.]b4_symbol(-2, id)[;
+            yychar = TokenKind.]b4_symbol(empty, id)[;
         }
 
         /* Else will try to reuse lookahead token after shifting the error
@@ -692,7 +692,7 @@ m4_popdef([b4_at_dollar])])dnl
          will still contain any token that will not be accepted due
          to an error action in a later state.
       */
-    if (tok != ]b4_symbol(-2, kind)[)
+    if (tok != ]b4_symbol(empty, kind)[)
     {
       // FIXME: This method of building the message is not compatible
       // with internationalization.

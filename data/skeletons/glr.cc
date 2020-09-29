@@ -239,8 +239,8 @@ m4_define([b4_glr_cc_setup],
 # pragma clang diagnostic ignored "-Wc++11-long-long"
 #endif
 
-#undef ]b4_symbol(-2, [id])[
-#define ]b4_symbol(-2, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(-2, [id])[
+#undef ]b4_symbol(empty, [id])[
+#define ]b4_symbol(empty, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, [id])[
 #undef ]b4_symbol(0, [id])[
 #define ]b4_symbol(0, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(0, [id])[
 #undef ]b4_symbol(1, [id])[
@@ -270,7 +270,7 @@ m4_define([b4_undef_symbol_kind],
 # -----------------
 # Remove redirections for glr.c.
 m4_define([b4_glr_cc_cleanup],
-[[#undef ]b4_symbol(-2, [id])[
+[[#undef ]b4_symbol(empty, [id])[
 #undef ]b4_symbol(0, [id])[
 #undef ]b4_symbol(1, [id])[
 

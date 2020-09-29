@@ -192,7 +192,7 @@ m4_define([b4_declare_symbol_enum],
 [[enum symbol_kind_type
       {
         YYNTOKENS = ]b4_tokens_number[, ///< Number of tokens.
-        ]b4_symbol(-2, kind_base)[ = -2,
+        ]b4_symbol(empty, kind_base)[ = -2,
 ]b4_symbol_foreach([      b4_symbol_enum])dnl
 [      };]])
 
@@ -506,7 +506,7 @@ m4_define([b4_public_types_define],
   bool
   ]b4_parser_class[::basic_symbol<Base>::empty () const YY_NOEXCEPT
   {
-    return this->kind () == ]b4_symbol(-2, kind)[;
+    return this->kind () == ]b4_symbol(empty, kind)[;
   }
 
   template <typename Base>
@@ -522,7 +522,7 @@ m4_define([b4_public_types_define],
 
   // by_kind.
   ]b4_inline([$1])b4_parser_class[::by_kind::by_kind ()
-    : kind_ (]b4_symbol(-2, kind)[)
+    : kind_ (]b4_symbol(empty, kind)[)
   {}
 
 #if 201103L <= YY_CPLUSPLUS
@@ -544,7 +544,7 @@ m4_define([b4_public_types_define],
   ]b4_inline([$1])[void
   ]b4_parser_class[::by_kind::clear ()
   {
-    kind_ = ]b4_symbol(-2, kind)[;
+    kind_ = ]b4_symbol(empty, kind)[;
   }
 
   ]b4_inline([$1])[void
