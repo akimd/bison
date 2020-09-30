@@ -255,7 +255,6 @@ m4_define([b4_declare_symbol_enum],
 
       if (yystr[0] == '"')
         {
-          string yyr;
         strip_quotes:
           for (int i = 1; i < yystr.length; i++)
             switch (yystr[i])
@@ -269,11 +268,10 @@ m4_define([b4_declare_symbol_enum],
                   break strip_quotes;
                 goto default;
               default:
-                yyr ~= yystr[i];
+                put(sink, yystr[i]);
                 break;
 
               case '"':
-                put(sink, yyr);
                 return;
               }
         }
