@@ -197,8 +197,6 @@ b4_symbol_foreach([b4_token_enum])dnl
 ## Symbol kinds.  ##
 ## -------------- ##
 
-b4_percent_define_default([[api.symbol.prefix]], [[S_]])
-
 # b4_symbol_kind(NUM)
 # -------------------
 m4_define([b4_symbol_kind],

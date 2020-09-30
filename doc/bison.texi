@@ -6420,7 +6420,7 @@ Any non empty string.  Must be a valid identifier in the target language
 (typically a non empty sequence of letters, underscores, and ---not at the
 beginning--- digits).
 
-The empty prefix is invalid:
+The empty prefix is (generally) invalid:
 @itemize
 @item
 in C it would create collision with the @code{YYERROR} macro, and
@@ -6436,7 +6436,8 @@ with other members of the @code{SymbolKind} class.
 
 
 @item Default Value:
-@code{YYSYMBOL_} in C.  @code{S_} in C++, D and Java.
+@code{YYSYMBOL_} in C.  @code{S_} in C++ and Java.  The default prefix is
+removed from D.
 @item History:
 introduced in Bison 3.6.
 @end itemize
