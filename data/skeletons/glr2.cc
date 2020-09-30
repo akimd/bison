@@ -814,7 +814,7 @@ public:
     setFirstVal(other.firstVal());
   }
 
-  /** Type tag for   If true, yysval applies, otherwise
+  /** Type tag for the semantic value.  If true, yysval applies, otherwise
    *  yyfirstVal applies.  */
   bool yyresolved;
   /** Number of corresponding LALR(1) machine state.  */
@@ -995,7 +995,7 @@ class glr_state_set {
   state_set_index
   yysplitStack (state_set_index yyk)
   {
-    size_t k = yyk.uget();
+    const size_t k = yyk.uget();
     yystates.push_back(yystates[k]);
     yylookaheadNeeds.push_back(yylookaheadNeeds[k]);
     return create_state_set_index(static_cast<std::ptrdiff_t>(yystates.size() - 1));
@@ -1156,7 +1156,8 @@ class semantic_option {
   YYLTYPE yyloc;]])[
 };
 
-/** Type of the items in the GLR stack.  The is_state_ field
+/** Type of the items in the GLR stack.
+ *  It can be either a glr_state or a semantic_union. The is_state_ field
  *  indicates which item of the union is valid.  */
 class glr_stack_item
 {
@@ -1310,9 +1311,9 @@ void glr_state::destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class
 
       if (firstVal() != YY_NULLPTR)
         {
-          semantic_option *yyoption = firstVal();
-          glr_state *yyrh = yyoption->state();
-          for (int yyn = yyrhsLength (yyoption->yyrule); yyn > 0; yyn -= 1)
+          semantic_option& yyoption = *firstVal();
+          glr_state *yyrh = yyoption.state();
+          for (int yyn = yyrhsLength (yyoption.yyrule); yyn > 0; yyn -= 1)
             {
               yyrh->destroy (yymsg, yyparser]b4_user_args[);
               yyrh = yyrh->pred();
@@ -1381,7 +1382,7 @@ class state_stack {
   }
 #endif
 
-  static bool yyGLRStateNotNull(glr_state* s) {
+  static bool glr_state_not_null(glr_state* s) {
     return s != YY_NULLPTR;
   }
 
@@ -1389,8 +1390,8 @@ class state_stack {
   reduceToOneStack() {
     const std::vector<glr_state*>::iterator yybegin = yytops.begin();
     const std::vector<glr_state*>::iterator yyend = yytops.end();
-    std::vector<glr_state*>::iterator yyit =
-      std::find_if(yybegin, yyend, yyGLRStateNotNull);
+    const std::vector<glr_state*>::iterator yyit =
+      std::find_if(yybegin, yyend, glr_state_not_null);
     if (yyit == yyend)
       return false;
     for (state_set_index yyk = create_state_set_index(yyit + 1 - yybegin);
@@ -1401,19 +1402,25 @@ class state_stack {
     return true;
   }
 
+  /** Called when returning to deterministic operation to clean up the extra
+   * stacks. */
   void
   yycompressStack ()
   {
     if (yytops.size() != 1 || !isSplit())
       return;
 
+    // yyr is the state after the split point.
     glr_state* yyr = YY_NULLPTR;
     for (glr_state *yyp = firstTop(), *yyq = yyp->pred();
          yyp != yysplitPoint;
          yyr = yyp, yyp = yyq, yyq = yyp->pred())
       yyp->setPred(yyr);
 
-    glr_stack_item* nextFreeItem = yysplitPoint->asItem() + 1;
+    // This const_cast is okay, since anyway we have access to the mutable
+    // yyitems into which yysplitPoint points.
+    glr_stack_item* nextFreeItem =
+        const_cast<glr_state*>(yysplitPoint)->asItem() + 1;
     yysplitPoint = YY_NULLPTR;
     yytops.clearLastDeleted();
 
@@ -1458,11 +1465,11 @@ class state_stack {
     return yytops.size();
   }
 
-  glr_state* firstTop() {
+  glr_state* firstTop() const {
     return yytops[create_state_set_index(0)];
   }
 
-  glr_state* topAt(state_set_index i) {
+  glr_state* topAt(state_set_index i) const {
     return yytops[i];
   }
 
@@ -1753,7 +1760,8 @@ class state_stack {
  public:
 
   std::vector<glr_stack_item> yyitems;
-  glr_state* yysplitPoint;
+  // Where the stack splits. Anything below this address is deterministic.
+  const glr_state* yysplitPoint;
   glr_state_set yytops;
 };
 
@@ -2303,7 +2311,7 @@ public:
         for (state_set_index yyi = create_state_set_index(0); yyi.uget() < yystateStack.numTops(); ++yyi)
           if (yyi != yyk && yystateStack.topAt(yyi) != YY_NULLPTR)
             {
-              glr_state* yysplit = yystateStack.yysplitPoint;
+              const glr_state* yysplit = yystateStack.yysplitPoint;
               glr_state* yyp = yystateStack.topAt(yyi);
               while (yyp != yys && yyp != yysplit
                      && yyp->yyposn >= yyposn)
@@ -2518,7 +2526,6 @@ public:
   {
     glr_state* yyoptState = yyopt.state();
     YYASSERT(yyoptState != YY_NULLPTR);
-    glr_stack_item yyrhsVals[YYMAXRHS + YYMAXLEFT + 1];
     int yynrhs = yyrhsLength (yyopt.yyrule);
     YYRESULTTAG yyflag =
       yyresolveStates (*yyoptState, yynrhs);
@@ -2529,6 +2536,7 @@ public:
         return yyflag;
       }
 
+    glr_stack_item yyrhsVals[YYMAXRHS + YYMAXLEFT + 1];
     yyrhsVals[YYMAXRHS + YYMAXLEFT].getState().setPred(yyopt.state());]b4_locations_if([[
     if (yynrhs == 0)
       /* Set default location.  */
@@ -2845,8 +2853,6 @@ b4_dollar_popdef])[]dnl
 
       while (true)
         {
-          yysymbol_kind_t yytoken_to_shift;
-
           for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
             yystackp->yystateStack.yytops.setLookaheadNeeds(yys, yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[);
 
@@ -2889,7 +2895,7 @@ b4_dollar_popdef])[]dnl
              failure in the following loop.  Thus, yychar is set to ]b4_symbol(empty, id)[
              before the loop to make sure the user destructor for yylval isn't
              called twice.  */
-          yytoken_to_shift = YYTRANSLATE (yychar);
+          yysymbol_kind_t yytoken_to_shift = YYTRANSLATE (yychar);
           yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
           yyposn += 1;
           for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
