@@ -50,18 +50,18 @@ public interface Lexer
   /**
    * Method to retrieve the beginning position of the last scanned token.
    * @@return the position at which the last scanned token starts.  */
-  @@property ]b4_position_type[ startPos ();
+  ]b4_position_type[ startPos ();
 
   /**
    * Method to retrieve the ending position of the last scanned token.
    * @@return the first position beyond the last scanned token.  */
-  @@property ]b4_position_type[ endPos ();
+  ]b4_position_type[ endPos ();
 
 ]])[
   /**
    * Method to retrieve the semantic value of the last scanned token.
    * @@return the semantic value of the last scanned token.  */
-  @@property ]b4_yystype[ semanticVal ();
+  ]b4_yystype[ semanticVal ();
 
   /**
    * Entry point for the scanner.  Returns the token identifier corresponding
@@ -824,7 +824,7 @@ m4_popdef([b4_at_dollar])])dnl
   private final struct YYStack {
     private YYStackElement[] stack = [];
 
-    public final @@property ulong height()
+    public final ulong height()
     {
       return stack.length;
     }
