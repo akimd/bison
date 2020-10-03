@@ -172,6 +172,7 @@ private static immutable b4_int_type_for([$2])[[]] yy$1_ =
 ## ------------- ##
 
 m4_define([b4_symbol(-2, id)],  [[YYEMPTY]])
+b4_percent_define_default([[api.token.raw]], [[true]])
 
 # b4_token_enum(TOKEN-NAME, TOKEN-NUMBER)
 # ---------------------------------------

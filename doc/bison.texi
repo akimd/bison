@@ -6552,7 +6552,7 @@ When @code{api.token.raw} is set, the grammar cannot use character literals
 @item Accepted Values: Boolean.
 
 @item Default Value:
-@code{false}
+@code{true} in D, @code{false} otherwise
 @item History:
 introduced in Bison 3.5.  Was initially introduced in Bison 1.25 as
 @samp{%raw}, but never worked and was removed in Bison 1.29.
