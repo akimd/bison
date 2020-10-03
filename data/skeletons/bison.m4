@@ -969,15 +969,18 @@ m4_define([b4_percent_define_flag_if],
 # For example:
 #
 #   b4_percent_define_default([[foo]], [[default value]])
+m4_define([_b4_percent_define_define],
+[m4_define([b4_percent_define(]$1[)], [$2])dnl
+m4_define([b4_percent_define_kind(]$1[)],
+          [m4_default([$3], [keyword])])dnl
+m4_define([b4_percent_define_loc(]$1[)],
+          [[[[<skeleton default value>:-1.-1]],
+            [[<skeleton default value>:-1.-1]]]])dnl
+m4_define([b4_percent_define_syncline(]$1[)], [[]])])
+
 m4_define([b4_percent_define_default],
 [_b4_percent_define_ifdef([$1], [],
-           [m4_define([b4_percent_define(]$1[)], [$2])dnl
-            m4_define([b4_percent_define_kind(]$1[)],
-                      [m4_default([$3], [keyword])])dnl
-            m4_define([b4_percent_define_loc(]$1[)],
-                      [[[[<skeleton default value>:-1.-1]],
-                        [[<skeleton default value>:-1.-1]]]])dnl
-            m4_define([b4_percent_define_syncline(]$1[)], [[]])])])
+                          [_b4_percent_define_define($@)])])
 
 
 # b4_percent_define_if_define(NAME, [VARIABLE = NAME])
@@ -987,11 +990,12 @@ m4_define([b4_percent_define_default],
 # to '_'.
 m4_define([_b4_percent_define_if_define],
 [m4_define(m4_bpatsubst([b4_$1_if], [[-.]], [_]),
-           [b4_percent_define_flag_if(m4_default([$2], [$1]),
-                                      [$3], [$4])])])
+           [b4_percent_define_default([m4_default([$2], [$1])], [[false]])dnl
+b4_percent_define_flag_if(m4_default([$2], [$1]),
+                                     [$3], [$4])])])
+
 m4_define([b4_percent_define_if_define],
-[b4_percent_define_default([m4_default([$2], [$1])], [[false]])
-_b4_percent_define_if_define([$1], [$2], $[1], $[2])])
+[_b4_percent_define_if_define([$1], [$2], $[1], $[2])])
 
 
 # b4_percent_define_check_kind(VARIABLE, KIND, [DIAGNOSTIC = complain])
