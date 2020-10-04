@@ -376,7 +376,7 @@ State 0
 
     0 $accept: . unit "end of file"
     1 unit: . assignments exp
-    2 assignments: . %empty
+    2 assignments: %empty .
     3            | . assignments assignment
 
     $default  reduce using rule 2 (assignments)
@@ -498,7 +498,7 @@ State 11
 
 State 12
 
-    6 @1: . %empty
+    6 @1: %empty .
     8 exp: "incr" exp . @1 @2 exp
 
     $default  reduce using rule 6 (@1)
@@ -531,7 +531,7 @@ State 14
 
 State 15
 
-    7 @2: . %empty
+    7 @2: %empty .
     8 exp: "incr" exp @1 . @2 exp
 
     $default  reduce using rule 7 (@2)
@@ -1631,7 +1631,7 @@ State 1
 
     0 $accept: YY_PARSE_unit . unit "end of file"
     3 unit: . assignments exp
-    4 assignments: . %empty
+    4 assignments: %empty .
     5            | . assignments assignment
 
     $default  reduce using rule 4 (assignments)
@@ -1643,7 +1643,7 @@ State 1
 State 2
 
     1 $accept: YY_PARSE_assignments . assignments "end of file"
-    4 assignments: . %empty
+    4 assignments: %empty .
     5            | . assignments assignment
 
     $default  reduce using rule 4 (assignments)
@@ -1815,7 +1815,7 @@ State 18
 
 State 19
 
-    8 @1: . %empty
+    8 @1: %empty .
    10 exp: "incr" exp . @1 @2 exp
 
     $default  reduce using rule 8 (@1)
@@ -1855,7 +1855,7 @@ State 22
 
 State 23
 
-    9 @2: . %empty
+    9 @2: %empty .
    10 exp: "incr" exp @1 . @2 exp
 
     $default  reduce using rule 9 (@2)

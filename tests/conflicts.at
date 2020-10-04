@@ -1720,7 +1720,7 @@ State 0
     0 $accept: . start $end
     1 start: . resolved_conflict 'a' reported_conflicts 'a'
     2 resolved_conflict: . 'a' unreachable1
-    3                  | . %empty  ['a']
+    3                  | %empty .  ['a']
 
     $default  reduce using rule 3 (resolved_conflict)
 
@@ -1756,7 +1756,7 @@ State 4
     1 start: resolved_conflict 'a' . reported_conflicts 'a'
     8 reported_conflicts: . 'a'
     9                   | . 'a'
-   10                   | . %empty  ['a']
+   10                   | %empty .  ['a']
 
     'a'  shift, and go to state 5
 
@@ -1765,7 +1765,7 @@ State 4
     reported_conflicts  go to state 6
 
     shift/reduce conflict on token 'a':
-       10 reported_conflicts: . %empty
+       10 reported_conflicts: %empty .
         8 reported_conflicts: . 'a'
       First example: resolved_conflict . 'a' 'a'
       Shift derivation
@@ -1779,7 +1779,7 @@ State 4
                                  `-> 10: %empty .
 
     shift/reduce conflict on token 'a':
-       10 reported_conflicts: . %empty
+       10 reported_conflicts: %empty .
         9 reported_conflicts: . 'a'
       First example: resolved_conflict . 'a' 'a'
       Shift derivation
@@ -1891,11 +1891,11 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     6      | . empty_c1 'c'
     7      | . empty_c2 'c'
     8      | . empty_c3 'c'
-    9 empty_a: . %empty  ['a']
-   10 empty_b: . %empty  []
-   11 empty_c1: . %empty  []
-   12 empty_c2: . %empty  []
-   13 empty_c3: . %empty  ['c']
+    9 empty_a: %empty .  ['a']
+   10 empty_b: %empty .  []
+   11 empty_c1: %empty .  []
+   12 empty_c2: %empty .  []
+   13 empty_c3: %empty .  ['c']
 
     'b'  shift, and go to state 1
 
@@ -1969,11 +1969,11 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     6      | . empty_c1 'c'
     7      | . empty_c2 'c'
     8      | . empty_c3 'c'
-    9 empty_a: . %empty  []
-   10 empty_b: . %empty  []
-   11 empty_c1: . %empty  []
-   12 empty_c2: . %empty  ['c']
-   13 empty_c3: . %empty  ['c']
+    9 empty_a: %empty .  []
+   10 empty_b: %empty .  []
+   11 empty_c1: %empty .  []
+   12 empty_c2: %empty .  ['c']
+   13 empty_c3: %empty .  ['c']
 
     'a'  error (nonassociative)
     'b'  error (nonassociative)
@@ -1994,8 +1994,8 @@ AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
     Conflict between rule 11 and token 'c' resolved as an error (%nonassoc 'c').
 
     reduce/reduce conflict on token 'c':
-       12 empty_c2: . %empty
-       13 empty_c3: . %empty
+       12 empty_c2: %empty .
+       13 empty_c3: %empty .
       Example: . 'c'
       First reduce derivation
         start
