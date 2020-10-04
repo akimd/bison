@@ -24,12 +24,12 @@
 /* Representation of the grammar rules:
 
    NTOKENS is the number of tokens, and NNTERMS is the number of
-   variables (nonterminals).  NSYMS is the total number, ntokens +
-   nnterms.
+   nonterminals (aka variables).  NSYMS is the total number, NTOKENS +
+   NNTERMS.
 
-   Each symbol (either token or variable) receives a symbol number.
+   Each symbol (either token or nterm) receives a symbol number.
    Numbers 0 to NTOKENS - 1 are for tokens, and NTOKENS to NSYMS - 1
-   are for variables.  Symbol number zero is the end-of-input token.
+   are for nterms.  Symbol number zero is the end-of-input token.
    This token is counted in ntokens.  The true number of token values
    assigned is NTOKENS reduced by one for each alias declaration.
 
@@ -41,7 +41,7 @@
    are 0, 1, 2...
 
    Internally, we cannot use the number 0 for a rule because for
-   instance RITEM stores both symbol (the RHS) and rule numbers: the
+   instance RITEM stores both symbols (the RHS) and rule numbers: the
    symbols are integers >= 0, and rule numbers are stored negative.
    Therefore 0 cannot be used, since it would be both the rule number
    0, and the token $end.
@@ -77,8 +77,8 @@
    RULES[R].useful -- whether the rule is used.  False if thrown away
    by reduce().
 
-   The right hand side is stored as symbol numbers in a portion of
-   RITEM.
+   The right hand side of rules is stored as symbol numbers in a
+   portion of RITEM.
 
    The length of the portion is one greater than the number of symbols
    in the rule's right hand side.  The last element in the portion
@@ -87,7 +87,8 @@
 
    The portions of RITEM come in order of increasing rule number.
    NRITEMS is the total length of RITEM.  Each element of RITEM is
-   called an "item" and its index in RITEM is an item number.
+   called an "item" of type item_number and its index in RITEM is an
+   item_index.
 
    Item numbers are used in the finite state machine to represent
    places that parsing can get to.

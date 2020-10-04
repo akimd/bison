@@ -234,6 +234,8 @@ extern state *final_state;
 /* Create a new state with ACCESSING_SYMBOL for those items.  */
 state *state_new (symbol_number accessing_symbol,
                   size_t core_size, item_index *core);
+/* Create a new state with the same kernel as S (same accessing
+   symbol, transitions, reductions, consistency and items).  */
 state *state_new_isocore (state const *s);
 
 /* Record that from S we can reach all the DST states (NUM of them).  */

@@ -132,11 +132,11 @@ int main (int argc, const char *argv[])
   int nerrs = 0;
 
   // Enable parse traces on option -p.
-  for (int i = 0; i < argc; ++i)
-    if (1 < argc && strcmp (argv[1], "-p") == 0)
-      yydebug = 1;
-    else if (strcmp (argv[i], "-e") == 0)
+  for (int i = 1; i < argc; ++i)
+    if (strcmp (argv[i], "-e") == 0)
       parse_expression_p = 1;
+    else if (strcmp (argv[i], "-p") == 0)
+      yydebug = 1;
 
   if (parse_expression_p)
     {
