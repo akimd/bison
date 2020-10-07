@@ -242,7 +242,7 @@ Reference sections:
                           messy for Bison to handle straightforwardly.
 * Debugging::           Understanding or debugging Bison parsers.
 * Invocation::          How to run Bison (to produce the parser implementation).
-* Other Languages::     Creating C++, Java and D parsers.
+* Other Languages::     Creating C++, D and Java parsers.
 * History::             How Bison came to be
 * FAQ::                 Frequently Asked Questions
 * Table of Symbols::    All the keywords of the Bison language are explained.
@@ -490,8 +490,8 @@ Bison Options
 Parsers Written In Other Languages
 
 * C++ Parsers::                 The interface to generate C++ parser classes
-* Java Parsers::                The interface to generate Java parser classes
 * D Parsers::                   The interface to generate D parser classes
+* Java Parsers::                The interface to generate Java parser classes
 
 C++ Parsers
 
@@ -520,6 +520,15 @@ A Complete C++ Example
 * Calc++ Scanner::              A pure C++ Flex scanner
 * Calc++ Top Level::            Conducting the band
 
+D Parsers
+
+* D Bison Interface::        Asking for D parser generation
+* D Semantic Values::        %token and %nterm vs. D
+* D Location Values::        The position and location classes
+* D Parser Interface::       Instantiating and running the parser
+* D Parser Context Interface:: Circumstances of a syntax error
+* D Scanner Interface::      Specifying the scanner for the parser
+
 Java Parsers
 
 * Java Bison Interface::        Asking for Java parser generation
@@ -532,15 +541,6 @@ Java Parsers
 * Java Push Parser Interface::  Instantiating and running the a push parser
 * Java Differences::            Differences between C/C++ and Java Grammars
 * Java Declarations Summary::   List of Bison declarations used with Java
-
-D Parsers
-
-* D Bison Interface::        Asking for D parser generation
-* D Semantic Values::        %token and %nterm vs. D
-* D Location Values::        The position and location classes
-* D Parser Interface::       Instantiating and running the parser
-* D Parser Context Interface:: Circumstances of a syntax error
-* D Scanner Interface::      Specifying the scanner for the parser
 
 A Brief History of the Greater Ungulates
 
@@ -587,7 +587,7 @@ languages.
 Bison is upward compatible with Yacc: all properly-written Yacc grammars
 ought to work with Bison with no change.  Anyone familiar with Yacc should
 be able to use Bison with little trouble.  You need to be fluent in C, C++,
-Java or D programming in order to use Bison or to understand this manual.
+D or Java programming in order to use Bison or to understand this manual.
 
 We begin with tutorial chapters that explain the basic concepts of
 using Bison and show three explained examples, each building on the
@@ -5879,7 +5879,7 @@ Same as above, but save in the file @file{@var{header-file}}.
 
 @deffn {Directive} %language "@var{language}"
 Specify the programming language for the generated parser.  Currently
-supported languages include C, C++, Java and D.  @var{language} is
+supported languages include C, C++, D and Java.  @var{language} is
 case-insensitive.
 @end deffn
 
@@ -6291,7 +6291,7 @@ The name of the parser class.
 Any valid identifier.
 
 @item Default Value:
-In C++, @code{parser}.  In Java and D, @code{YYParser} or
+In C++, @code{parser}.  In D and Java, @code{YYParser} or
 @code{@var{api.prefix}Parser} (@pxref{Java Bison Interface}).
 
 @item History:
@@ -6894,7 +6894,7 @@ syntax error handling.  @xref{LAC}.
 @deffn Directive {%define parse.trace}
 
 @itemize
-@item Languages(s): C, C++, Java, D
+@item Languages(s): C, C++, D, Java
 
 @item Purpose: Require parser instrumentation for tracing.
 @xref{Tracing}.
@@ -6946,7 +6946,7 @@ For C/C++, the default location is the parser implementation file
 after the usual contents of the parser header file.  Thus, the
 unqualified form replaces @code{%@{@var{code}%@}} for most purposes.
 
-For Java and D, the default location is inside the parser class.
+For D and Java, the default location is inside the parser class.
 @end deffn
 
 @deffn {Directive} %code @var{qualifier} @{@var{code}@}
@@ -7024,7 +7024,7 @@ parser implementation file.  For example:
 @findex %code imports
 
 @itemize @bullet
-@item Language(s): Java, D
+@item Language(s): D, Java
 
 @item Purpose: This is the best place to write Java import directives. D syntax
 allows for import statements all throughout the code.
@@ -10956,7 +10956,7 @@ functioning according to its specification in the listing file.  Eventually
 you will arrive at the place where something undesirable happens, and you
 will see which parts of the grammar are to blame.
 
-The parser implementation file is a C/C++/Java program and you can use
+The parser implementation file is a C/C++/D/Java program and you can use
 debuggers on it, but it's not easy to interpret what it is doing.  The
 parser function is a finite-state machine interpreter, and aside from the
 actions it executes the same code over and over.  Only the values of
@@ -11748,7 +11748,7 @@ any conflicting @code{%define} that may be added to the grammar file.
 @itemx --language=@var{language}
 Specify the programming language for the generated parser, as if
 @code{%language} was specified (@pxref{Decl Summary}).  Currently supported
-languages include C, C++, and Java.  @var{language} is case-insensitive.
+languages include C, C++, D and Java.  @var{language} is case-insensitive.
 
 @item --locations
 Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
@@ -11965,14 +11965,14 @@ int yyparse (void);
 @node Other Languages
 @chapter Parsers Written In Other Languages
 
-In addition to C, Bison can generate parsers in C++, Java and D.  This chapter
+In addition to C, Bison can generate parsers in C++, D and Java.  This chapter
 is devoted to these languages.  The reader is expected to understand how
 Bison works; read the introductory chapters first if you don't.
 
 @menu
 * C++ Parsers::                 The interface to generate C++ parser classes
-* Java Parsers::                The interface to generate Java parser classes
 * D Parsers::                   The interface to generate D parser classes
+* Java Parsers::                The interface to generate Java parser classes
 @end menu
 
 @node C++ Parsers
@@ -13774,6 +13774,231 @@ main (int argc, char *argv[])
 @end group
 @end example
 
+@node D Parsers
+@section D Parsers
+
+@menu
+* D Bison Interface::        Asking for D parser generation
+* D Semantic Values::        %token and %nterm vs. D
+* D Location Values::        The position and location classes
+* D Parser Interface::       Instantiating and running the parser
+* D Parser Context Interface:: Circumstances of a syntax error
+* D Scanner Interface::      Specifying the scanner for the parser
+@end menu
+
+@node D Bison Interface
+@subsection D Bison Interface
+@c - %language "D"
+
+The D parser skeletons are selected using the @code{%language "D"}
+directive or the @option{-L D}/@option{--language=D} option.
+
+@c FIXME: Documented bug.
+When generating a D parser, @samp{bison @var{basename}.y} will create a
+single D source file named @file{@var{basename}.d} containing the
+parser implementation.  Using a grammar file without a @file{.y} suffix is
+currently broken.  The basename of the parser implementation file can be
+changed by the @code{%file-prefix} directive or the
+@option{-b}/@option{--file-prefix} option.  The entire parser implementation
+file name can be changed by the @code{%output} directive or the
+@option{-o}/@option{--output} option.  The parser implementation file
+contains a single class for the parser.
+
+You can create documentation for generated parsers using Ddoc.
+
+GLR parsers are currently unsupported in D.  Do not use the
+@code{glr-parser} directive.
+
+No header file can be generated for D parsers.  Do not use the
+@code{%defines} directive or the @option{-d}/@option{--defines} options.
+
+@node D Semantic Values
+@subsection D Semantic Values
+@c - %union
+@c - YYSTYPE
+@c - Printer and destructor
+
+Semantic types are handled by %union, same as for C/C++ parsers.
+
+D parsers do not support @code{%destructor}, since the language
+adopts garbage collection.  The parser will try to hold references
+to semantic values for as little time as needed.
+
+D parsers do not support @code{%printer}, as @code{toString()}
+can be used to print the semantic values.  This however may change
+(in a backwards-compatible way) in future versions of Bison.
+
+
+@node D Location Values
+@subsection D Location Values
+@c - %locations
+@c - class Position
+@c - class Location
+
+When the directive @code{%locations} is used, the D parser supports
+location tracking, see @ref{Tracking Locations}.  The position
+structure and the location class are provided.
+
+@deftypeivar {YYLocation} {YYPosition} begin
+@deftypeivarx {YYLocation} {YYPosition} end
+The first, inclusive, position of the range, and the first beyond.
+@end deftypeivar
+
+@deftypeop {Constructor} {YYLocation} {} this(@code{YYPosition} @var{loc})
+Create a @code{YYLocation} denoting an empty range located at a given point.
+@end deftypeop
+
+@deftypeop {Constructor} {YYLocation} {} this(@code{YYPosition} @var{begin}, @code{YYPosition} @var{end})
+Create a @code{YYLocation} from the endpoints of the range.
+@end deftypeop
+
+@deftypemethod {YYLocation} {string} toString()
+Prints the range represented by the location.
+@end deftypemethod
+
+
+@node D Parser Interface
+@subsection D Parser Interface
+
+The name of the generated parser class defaults to @code{YYParser}.  The
+@code{YY} prefix may be changed using the @samp{%define api.prefix}.
+Alternatively, use @samp{%define api.parser.class @{@var{name}@}} to give a
+custom name to the class.  The interface of this class is detailed below.
+
+By default, the parser class has public visibility.  You can use @code{api.parser.public}, @code{api.parser.abstract} and
+@code{api.parser.final} and the @code{%define} declaration to add
+modifiers to the parser class.
+
+The superclass and the implemented
+interfaces of the parser class can be specified with the @code{%define
+api.parser.extends} and @samp{%define api.parser.implements} directives.
+
+The parser class defines a inner
+interface, @code{Lexer} (see @ref{D Scanner Interface}).  Other than
+these inner class/interface, and the members described in the interface
+below, all the other members and fields are preceded with a @code{yy} or
+@code{YY} prefix to avoid clashes with user code.
+
+The parser class can be extended using the @code{%parse-param}
+directive. Each occurrence of the directive will add a by default public field to the parser class, and an argument to its constructor,
+which initialize them automatically.
+
+@deftypeop {Constructor} {YYParser} {} this(@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
+Build a new parser object with embedded @code{%code lexer}.  There are
+no parameters, unless @code{%param}s and/or @code{%parse-param}s and/or
+@code{%lex-param}s are used.
+@end deftypeop
+
+@deftypeop {Constructor} {YYParser} {} this(@code{Lexer} @var{lexer}, @var{parse_param}, @dots{})
+Build a new parser object using the specified scanner.  There are no
+additional parameters unless @code{%param}s and/or @code{%parse-param}s are
+used.
+@end deftypeop
+
+@deftypemethod {YYParser} {boolean} parse()
+Run the syntactic analysis, and return @code{true} on success,
+@code{false} otherwise.
+@end deftypemethod
+
+@deftypemethod {YYParser} {boolean} getErrorVerbose()
+@deftypemethodx {YYParser} {void} setErrorVerbose(boolean @var{verbose})
+Get or set the option to produce verbose error messages.  These are only
+available with @samp{%define parse.error detailed} (or @samp{verbose}),
+which also turns on verbose error messages.
+@end deftypemethod
+
+@deftypemethod {YYParser} {void} yyerror(@code{string} @var{msg})
+@deftypemethodx {YYParser} {void} yyerror(@code{YYLocation} @var{loc}, @code{string} @var{msg})
+Print an error message using the @code{yyerror} method of the scanner
+instance in use. The @code{YYLocation} and @code{YYPosition} parameters are
+available only if location tracking is active.
+@end deftypemethod
+
+@deftypemethod {YYParser} {boolean} recovering()
+During the syntactic analysis, return @code{true} if recovering
+from a syntax error.
+@xref{Error Recovery}.
+@end deftypemethod
+
+@deftypemethod {YYParser} {File} getDebugStream()
+@deftypemethodx {YYParser} {void} setDebugStream(@code{File} @var{o})
+Get or set the stream used for tracing the parsing.  It defaults to
+@code{stderr}.
+@end deftypemethod
+
+@deftypemethod {YYParser} {int} getDebugLevel()
+@deftypemethodx {YYParser} {void} setDebugLevel(@code{int} @var{l})
+Get or set the tracing level.  Currently its value is either 0, no trace,
+or nonzero, full tracing.
+@end deftypemethod
+
+@deftypecv {Constant} {YYParser} {string} {bisonVersion}
+@deftypecvx {Constant} {YYParser} {string} {bisonSkeleton}
+Identify the Bison version and skeleton used to generate this parser.
+@end deftypecv
+
+@node D Parser Context Interface
+@subsection D Parser Context Interface
+The parser context provides information to build error reports when you
+invoke @samp{%define parse.error custom}.
+
+@defcv {Type} {YYParser} {SymbolKind}
+A struct containing an enum of all the grammar symbols, tokens and nonterminals.  Its
+enumerators are forged from the symbol names.  Use void toString(W)(W sink) to get
+the symbol names.
+@end defcv
+
+@deftypemethod {YYParser.Context} {YYParser.Location} yylloc_from_stack()
+The location of the lookahead.
+@end deftypemethod
+
+@node D Scanner Interface
+@subsection D Scanner Interface
+@c - %code lexer
+@c - %lex-param
+@c - Lexer interface
+
+There are two possible ways to interface a Bison-generated D parser
+with a scanner: the scanner may be defined by @code{%code lexer}, or
+defined elsewhere.  In either case, the scanner has to implement the
+@code{Lexer} inner interface of the parser class.  This interface also
+contains constants for all user-defined token names and the predefined
+@code{YYEOF} token.
+
+In the first case, the body of the scanner class is placed in
+@code{%code lexer} blocks.  If you want to pass parameters from the
+parser constructor to the scanner constructor, specify them with
+@code{%lex-param}; they are passed before @code{%parse-param}s to the
+constructor.
+
+In the second case, the scanner has to implement the @code{Lexer} interface,
+which is defined within the parser class (e.g., @code{YYParser.Lexer}).
+The constructor of the parser object will then accept an object
+implementing the interface; @code{%lex-param} is not used in this
+case.
+
+In both cases, the scanner has to implement the following methods.
+
+@deftypemethod {Lexer} {void} yyerror(@code{YYLocation} @var{loc}, @code{string} @var{msg})
+This method is defined by the user to emit an error message.  The first
+parameter is omitted if location tracking is not active.
+@end deftypemethod
+
+@deftypemethod {Lexer} {TokenKind} yylex()
+Return the next token.  Its type is the return value, its semantic value and
+location are saved and returned by the their methods in the interface.
+@end deftypemethod
+
+@deftypemethod {Lexer} {YYPosition} getStartPos()
+@deftypemethodx {Lexer} {YYPosition} getEndPos()
+Return respectively the first position of the last token that @code{yylex}
+returned, and the first position beyond it.  These methods are not needed
+unless location tracking is active.
+
+They should return new objects for each call, to avoid that all the symbol
+share the same Position boundaries.
+@end deftypemethod
+
 @node Java Parsers
 @section Java Parsers
 
@@ -14560,231 +14785,6 @@ The exceptions thrown by user-supplied parser actions and
 @end deffn
 
 
-@node D Parsers
-@section D Parsers
-
-@menu
-* D Bison Interface::        Asking for D parser generation
-* D Semantic Values::        %token and %nterm vs. D
-* D Location Values::        The position and location classes
-* D Parser Interface::       Instantiating and running the parser
-* D Parser Context Interface:: Circumstances of a syntax error
-* D Scanner Interface::      Specifying the scanner for the parser
-@end menu
-
-@node D Bison Interface
-@subsection D Bison Interface
-@c - %language "D"
-
-The D parser skeletons are selected using the @code{%language "D"}
-directive or the @option{-L D}/@option{--language=D} option.
-
-@c FIXME: Documented bug.
-When generating a D parser, @samp{bison @var{basename}.y} will create a
-single D source file named @file{@var{basename}.d} containing the
-parser implementation.  Using a grammar file without a @file{.y} suffix is
-currently broken.  The basename of the parser implementation file can be
-changed by the @code{%file-prefix} directive or the
-@option{-b}/@option{--file-prefix} option.  The entire parser implementation
-file name can be changed by the @code{%output} directive or the
-@option{-o}/@option{--output} option.  The parser implementation file
-contains a single class for the parser.
-
-You can create documentation for generated parsers using Ddoc.
-
-GLR parsers are currently unsupported in D.  Do not use the
-@code{glr-parser} directive.
-
-No header file can be generated for D parsers.  Do not use the
-@code{%defines} directive or the @option{-d}/@option{--defines} options.
-
-@node D Semantic Values
-@subsection D Semantic Values
-@c - %union
-@c - YYSTYPE
-@c - Printer and destructor
-
-Semantic types are handled by %union, same as for C/C++ parsers.
-
-D parsers do not support @code{%destructor}, since the language
-adopts garbage collection.  The parser will try to hold references
-to semantic values for as little time as needed.
-
-D parsers do not support @code{%printer}, as @code{toString()}
-can be used to print the semantic values.  This however may change
-(in a backwards-compatible way) in future versions of Bison.
-
-
-@node D Location Values
-@subsection D Location Values
-@c - %locations
-@c - class Position
-@c - class Location
-
-When the directive @code{%locations} is used, the D parser supports
-location tracking, see @ref{Tracking Locations}.  The position
-structure and the location class are provided.
-
-@deftypeivar {YYLocation} {YYPosition} begin
-@deftypeivarx {YYLocation} {YYPosition} end
-The first, inclusive, position of the range, and the first beyond.
-@end deftypeivar
-
-@deftypeop {Constructor} {YYLocation} {} this(@code{YYPosition} @var{loc})
-Create a @code{YYLocation} denoting an empty range located at a given point.
-@end deftypeop
-
-@deftypeop {Constructor} {YYLocation} {} this(@code{YYPosition} @var{begin}, @code{YYPosition} @var{end})
-Create a @code{YYLocation} from the endpoints of the range.
-@end deftypeop
-
-@deftypemethod {YYLocation} {string} toString()
-Prints the range represented by the location.
-@end deftypemethod
-
-
-@node D Parser Interface
-@subsection D Parser Interface
-
-The name of the generated parser class defaults to @code{YYParser}.  The
-@code{YY} prefix may be changed using the @samp{%define api.prefix}.
-Alternatively, use @samp{%define api.parser.class @{@var{name}@}} to give a
-custom name to the class.  The interface of this class is detailed below.
-
-By default, the parser class has public visibility.  You can use @code{api.parser.public}, @code{api.parser.abstract} and
-@code{api.parser.final} and the @code{%define} declaration to add
-modifiers to the parser class.
-
-The superclass and the implemented
-interfaces of the parser class can be specified with the @code{%define
-api.parser.extends} and @samp{%define api.parser.implements} directives.
-
-The parser class defines a inner
-interface, @code{Lexer} (see @ref{D Scanner Interface}).  Other than
-these inner class/interface, and the members described in the interface
-below, all the other members and fields are preceded with a @code{yy} or
-@code{YY} prefix to avoid clashes with user code.
-
-The parser class can be extended using the @code{%parse-param}
-directive. Each occurrence of the directive will add a by default public field to the parser class, and an argument to its constructor,
-which initialize them automatically.
-
-@deftypeop {Constructor} {YYParser} {} this(@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
-Build a new parser object with embedded @code{%code lexer}.  There are
-no parameters, unless @code{%param}s and/or @code{%parse-param}s and/or
-@code{%lex-param}s are used.
-@end deftypeop
-
-@deftypeop {Constructor} {YYParser} {} this(@code{Lexer} @var{lexer}, @var{parse_param}, @dots{})
-Build a new parser object using the specified scanner.  There are no
-additional parameters unless @code{%param}s and/or @code{%parse-param}s are
-used.
-@end deftypeop
-
-@deftypemethod {YYParser} {boolean} parse()
-Run the syntactic analysis, and return @code{true} on success,
-@code{false} otherwise.
-@end deftypemethod
-
-@deftypemethod {YYParser} {boolean} getErrorVerbose()
-@deftypemethodx {YYParser} {void} setErrorVerbose(boolean @var{verbose})
-Get or set the option to produce verbose error messages.  These are only
-available with @samp{%define parse.error detailed} (or @samp{verbose}),
-which also turns on verbose error messages.
-@end deftypemethod
-
-@deftypemethod {YYParser} {void} yyerror(@code{string} @var{msg})
-@deftypemethodx {YYParser} {void} yyerror(@code{YYLocation} @var{loc}, @code{string} @var{msg})
-Print an error message using the @code{yyerror} method of the scanner
-instance in use. The @code{YYLocation} and @code{YYPosition} parameters are
-available only if location tracking is active.
-@end deftypemethod
-
-@deftypemethod {YYParser} {boolean} recovering()
-During the syntactic analysis, return @code{true} if recovering
-from a syntax error.
-@xref{Error Recovery}.
-@end deftypemethod
-
-@deftypemethod {YYParser} {File} getDebugStream()
-@deftypemethodx {YYParser} {void} setDebugStream(@code{File} @var{o})
-Get or set the stream used for tracing the parsing.  It defaults to
-@code{stderr}.
-@end deftypemethod
-
-@deftypemethod {YYParser} {int} getDebugLevel()
-@deftypemethodx {YYParser} {void} setDebugLevel(@code{int} @var{l})
-Get or set the tracing level.  Currently its value is either 0, no trace,
-or nonzero, full tracing.
-@end deftypemethod
-
-@deftypecv {Constant} {YYParser} {string} {bisonVersion}
-@deftypecvx {Constant} {YYParser} {string} {bisonSkeleton}
-Identify the Bison version and skeleton used to generate this parser.
-@end deftypecv
-
-@node D Parser Context Interface
-@subsection D Parser Context Interface
-The parser context provides information to build error reports when you
-invoke @samp{%define parse.error custom}.
-
-@defcv {Type} {YYParser} {SymbolKind}
-A struct containing an enum of all the grammar symbols, tokens and nonterminals.  Its
-enumerators are forged from the symbol names.  Use void toString(W)(W sink) to get
-the symbol names.
-@end defcv
-
-@deftypemethod {YYParser.Context} {YYParser.Location} yylloc_from_stack()
-The location of the lookahead.
-@end deftypemethod
-
-@node D Scanner Interface
-@subsection D Scanner Interface
-@c - %code lexer
-@c - %lex-param
-@c - Lexer interface
-
-There are two possible ways to interface a Bison-generated D parser
-with a scanner: the scanner may be defined by @code{%code lexer}, or
-defined elsewhere.  In either case, the scanner has to implement the
-@code{Lexer} inner interface of the parser class.  This interface also
-contains constants for all user-defined token names and the predefined
-@code{YYEOF} token.
-
-In the first case, the body of the scanner class is placed in
-@code{%code lexer} blocks.  If you want to pass parameters from the
-parser constructor to the scanner constructor, specify them with
-@code{%lex-param}; they are passed before @code{%parse-param}s to the
-constructor.
-
-In the second case, the scanner has to implement the @code{Lexer} interface,
-which is defined within the parser class (e.g., @code{YYParser.Lexer}).
-The constructor of the parser object will then accept an object
-implementing the interface; @code{%lex-param} is not used in this
-case.
-
-In both cases, the scanner has to implement the following methods.
-
-@deftypemethod {Lexer} {void} yyerror(@code{YYLocation} @var{loc}, @code{string} @var{msg})
-This method is defined by the user to emit an error message.  The first
-parameter is omitted if location tracking is not active.
-@end deftypemethod
-
-@deftypemethod {Lexer} {TokenKind} yylex()
-Return the next token.  Its type is the return value, its semantic value and
-location are saved and returned by the their methods in the interface.
-@end deftypemethod
-
-@deftypemethod {Lexer} {YYPosition} getStartPos()
-@deftypemethodx {Lexer} {YYPosition} getEndPos()
-Return respectively the first position of the last token that @code{yylex}
-returned, and the first position beyond it.  These methods are not needed
-unless location tracking is active.
-
-They should return new objects for each call, to avoid that all the symbol
-share the same Position boundaries.
-@end deftypemethod
-
 @c ================================================= History
 
 @node History
@@ -15302,7 +15302,7 @@ Will Bison ever have C++ and Java support?  How about @var{insert your
 favorite language here}?
 @end quotation
 
-C++, Java and D support is there now, and is documented.  We'd love to add other
+C++, D and Java support is there now, and is documented.  We'd love to add other
 languages; contributions are welcome.
 
 @node Beta Testing
