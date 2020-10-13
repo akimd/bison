@@ -2,6 +2,13 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+  Fix concurrent build issues.
+
+  The bison executable is no longer linked uselessly against libreadline.
+
+  Fix incorrect use of yytname in glr.cc.
 
 * Noteworthy changes in release 3.7.2 (2020-09-05) [stable]
 

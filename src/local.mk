@@ -143,7 +143,6 @@ src_bison_LDADD =                               \
   $(LIB_SETLOCALE_NULL)                         \
   $(LIBICONV)                                   \
   $(LIBINTL)                                    \
-  $(LIBREADLINE)                                \
   $(LIBTEXTSTYLE)
 
 
