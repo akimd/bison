@@ -244,6 +244,7 @@ Reference sections:
 * Invocation::          How to run Bison (to produce the parser implementation).
 * Other Languages::     Creating C++ and Java parsers.
 * History::             How Bison came to be
+* Versioning::          Dealing with Bison versioning
 * FAQ::                 Frequently Asked Questions
 * Table of Symbols::    All the keywords of the Bison language are explained.
 * Glossary::            Basic concepts are explained.
@@ -539,6 +540,10 @@ A Brief History of the Greater Ungulates
 * Byacc::                       Berkeley Yacc
 * Bison::                       This program
 * Other Ungulates::             Similar programs
+
+Bison Version Compatibility
+
+* Versioning::                  Dealing with Bison versioning
 
 Frequently Asked Questions
 
@@ -14674,6 +14679,67 @@ However, independent implementations persist. One of the best-known
 still in use is David Beazley's ``PLY'' (Python Lex-Yacc) for
 Python. Another is goyacc, supporting the Go language. An ``ocamlyacc''
 is shipped as part of the Ocaml compiler suite.
+
+@c ================================================= Version Compatibility
+
+@node Versioning
+
+@chapter Bison Version Compatibility: Best Practices
+@cindex version
+@cindex compatibility
+
+Bison provides a Yacc compatibility mode in which it strives to conform with
+the POSIX standard.  Grammar files which are written to the POSIX standard, and
+do not take advantage of any of the special capabilities of Bison, should
+work with many version of Bison without modification.
+
+All other features of Bison are particular to Bison, and are changing.  Bison
+is actively maintained and continuously evolving.  It should come as no
+surprise that an older version of Bison will not accept Bison source code which
+uses newer features that do no not exist at all in the older Bison.
+Regrettably, in spite of reasonable effort to maintain compatibility, the
+reverse situation may also occur: it may happen that code developed using an
+older version of Bison does not build with a newer version of Bison without
+modifications.
+
+Because Bison is a code generation tool, it is possible to retain its output
+and distribute that to the users of the program.  The users are then not
+required to have Bison installed at all, only an implementation of the
+programming language, such as C, which is required for processing the generated
+output.
+
+It is the output of Bison that is intended to be of the utmost portability.
+So, that is to say, whereas the Bison grammar source code may have a dependency
+on specific versions of Bison, the generated parser from any version of Bison
+should work with with a large number of implementations of C, or whatever
+language is applicable.
+
+The recommended best practice for using Bison (in the context of software that
+is distributed in source code form) is to ship the generated parser to the
+downstream users.  Only those downstream users who engage in active development
+of the program who need to make changes to the grammar file need to have Bison
+installed at all, and those users can install the specific version of Bison
+which is required.
+
+Following this recommended practice also makes it possible to use a more recent
+Bison than what is available to users through operating system distributions,
+thereby taking advantage of the latest techniques that Bison allows.
+
+Some features of Bison have been, or are being adopted into other Yacc-like
+programs.  Therefore it might seem that is a good idea to write grammar code
+which targets multiple implementations, similarly to the way C programs are
+often written to target multiple compilers and language versions.  Other than
+the Yacc subset described by POSIX, the Bison language is not rigorously
+standardized.  When a Bison feature is adopted by another parser generator, it
+may be initially compatible with that version of Bison on which it was based,
+but the compatibility may degrade going forward.  Developers who strive to make
+their Bison code simultaneously compatible with other parser generators are
+encouraged to nevertheless use specific versions of all generators, and still
+follow the recommended practice of shipping generated output.  For example,
+a project can internally maintain compatibility with multiple generators,
+and choose the output of a particular one to ship to the users.  Or else,
+the project could ship all of the outputs, arranging for a way for the user
+to specify which one is used to build the program.
 
 @c ================================================= FAQ
 
