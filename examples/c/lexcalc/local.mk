@@ -31,6 +31,13 @@ endif FLEX_WORKS
 
 %D%/parse.c: $(dependencies)
 
+# Tell Make scan.o depends on parse.h, except that Make sees only
+# parse.c, not parse.h.  We can't use BUILT_SOURCES to this end, since
+# we use the built bison.
+%D%/lexcalc$(DASH)scan.o: %D%/parse.c
+# Likewise, but for Automake before 1.16.
+%D%/examples_c_lexcalc_lexcalc$(DASH)scan.o: %D%/parse.c
+
 EXTRA_DIST += %D%/lexcalc.test
 dist_lexcalc_DATA = %D%/parse.y %D%/scan.l %D%/Makefile %D%/README.md
 CLEANFILES += %D%/parse.[ch] %D%/scan.c %D%/parse.output
