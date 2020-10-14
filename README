@@ -27,7 +27,7 @@ Bison from the git repo.  Roughly, run:
 then proceed with the usual `configure && make` steps.
 
 ## Build from tarball
-See the [INSTALL file](INSTALL] for generic compilation and installation
+See the [INSTALL file](INSTALL) for generic compilation and installation
 instructions.
 
 Bison requires GNU m4 1.4.6 or later.  See
