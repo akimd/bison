@@ -101,7 +101,7 @@ class CalcLexer(R) : Lexer
   // Should be a local in main, shared with %parse-param.
   int exit_status = 0;
 
-  void yyerror(YYLocation loc, string s)
+  void yyerror(const YYLocation loc, string s)
   {
     exit_status = 1;
     stderr.writeln(loc.toString(), ": ", s);
