@@ -868,10 +868,50 @@ m4_define([AT_YYERROR_DECLARE_EXTERN(d)], [])
 
 m4_define([AT_YYERROR_DEFINE(d)],
 [[/* An error reporting function.  */
-public void yyerror (]AT_LOCATION_IF([[YYLocation l, ]])[string m)
+public void yyerror (]AT_LOCATION_IF([[const YYLocation l, ]])[string m)
 {
   stderr.writeln (]AT_LOCATION_IF([[l, ": ", ]])[m);
-}]])
+}
+]AT_ERROR_CUSTOM_IF([[
+// In the case of D, there are no single quotes around the symbols
+// so they need to be added here
+public string transformToken(]AT_API_PREFIX[Parser.SymbolKind token)
+{
+  string res;
+  foreach (i; format("%s", token))
+  {
+    if (i == '\"')
+      res ~= '\'';
+    else
+      res ~= i;
+  }
+  if (res.length == 1)
+    return '\'' ~ res ~ '\'';
+  else
+    return res;
+}
+
+public void syntax_error(]AT_API_PREFIX[Parser.Context ctx)
+{
+  stderr.write(]AT_LOCATION_IF([[ctx.getLocation(), ": ",]])["syntax error");
+  {
+    ]AT_API_PREFIX[Parser.SymbolKind token = ctx.getToken();
+    stderr.write(" on token @<:@", transformToken(token), "@:>@");
+  }
+  {
+    immutable int argmax = 7;
+    ]AT_API_PREFIX[Parser.SymbolKind[] arg = new ]AT_API_PREFIX[Parser.SymbolKind[argmax];
+    int n = ctx.getExpectedTokens(arg, argmax);
+    if (0 < n)
+    {
+      stderr.write(" (expected:");
+      for (int i = 0; i < n; ++i)
+        stderr.write(" @<:@", transformToken(arg[i]), "@:>@");
+      stderr.writeln(")");
+    }
+  }
+}
+]])[]])
 
 
 m4_define([AT_MAIN_DEFINE(d)],

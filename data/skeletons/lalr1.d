@@ -77,7 +77,15 @@ public interface Lexer
    * @@param loc The location of the element to which the
    *                error message is related]])[
    * @@param s The string for the error message.  */
-   void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[string s);
+   void yyerror (]b4_locations_if([[const ]b4_location_type[ loc, ]])[string s);
+]b4_parse_error_bmatch([custom], [[
+  /**
+   * Build and emit a "syntax error" message in a user-defined way.
+   *
+   * @@param ctx  The context of the error.
+   */
+  void syntax_error(]b4_parser_class[.Context ctx);
+]])[
 }
 
 ]b4_locations_if([b4_position_type_if([[
@@ -276,7 +284,7 @@ b4_user_union_members
     return yylexer.yylex ();
   }
 
-  protected final void yyerror (]b4_locations_if(ref [b4_location_type[ loc, ]])[string s) {
+  protected final void yyerror (]b4_locations_if([[const ]b4_location_type[ loc, ]])[string s) {
     yylexer.yyerror (]b4_locations_if([loc, ])[s);
   }
 
@@ -560,7 +568,7 @@ m4_popdef([b4_at_dollar])])dnl
           ++yynerrs_;
           if (yychar == TokenKind.]b4_symbol(empty, id)[)
             yytoken = ]b4_symbol(empty, kind)[;
-          yyerror (]b4_locations_if([yylloc, ])[yysyntax_error(new Context(yystack, yytoken]b4_locations_if([[, yylloc]])[)));
+          yyreportSyntaxError(new Context(yystack, yytoken]b4_locations_if([[, yylloc]])[));
         }
 ]b4_locations_if([
         yyerrloc = yylloc;])[
@@ -664,8 +672,11 @@ m4_popdef([b4_at_dollar])])dnl
   }
 
   // Generate an error message.
-  private final string yysyntax_error(Context yyctx)
-  {]b4_parse_error_case([verbose], [[
+  private final void yyreportSyntaxError(Context yyctx)
+  {]b4_parse_error_bmatch(
+[custom], [[
+    yylexer.syntax_error(yyctx);]],
+[detailed\|verbose], [[
     /* There are many possibilities here to consider:
        - Assume YYFAIL is not used.  It's too flawed to consider.
          See
@@ -701,23 +712,66 @@ m4_popdef([b4_at_dollar])])dnl
     {
       // FIXME: This method of building the message is not compatible
       // with internationalization.
-      string res = "syntax error, unexpected ";
-      res ~= format!"%s"(yyctx.getToken);
       immutable int argmax = 5;
       SymbolKind[] yyarg = new SymbolKind[argmax];
-      int yycount = yyctx.getExpectedTokens(yyarg, argmax);
-      if (yycount < argmax)
+      int yycount = yysyntaxErrorArguments(yyctx, yyarg, argmax);
+      string res = "syntax error, unexpected ";
+      res ~= format!"%s"(yyarg[0]);
+      if (yycount < argmax + 1)
       {
-        for (int yyi = 0; yyi < yycount; yyi++)
+        for (int yyi = 1; yyi < yycount; yyi++)
         {
-          res ~= yyi == 0 ? ", expecting " : " or ";
+          res ~= yyi == 1 ? ", expecting " : " or ";
           res ~= format!"%s"(SymbolKind(yyarg[yyi]));
         }
       }
-      return res;
-    }]])[
-    return "syntax error";
+      yyerror(]b4_locations_if([yyctx.getLocation(), ])[res);
+    }]],
+[[simple]], [[
+    yyerror(]b4_locations_if([yyctx.getLocation(), ])["syntax error");]])[
   }
+
+]b4_parse_error_bmatch(
+[detailed\|verbose], [[
+  private int yysyntaxErrorArguments(Context yyctx, SymbolKind[] yyarg, int yyargn) {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action,
+         then the only way this function was invoked is if the
+         default action is an error action.  In that case, don't
+         check for expected tokens because there are none.
+       - The only way there can be no lookahead present (in tok) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this
+         state is a consistent state with a default action.  There
+         might have been a previous inconsistent state, consistent
+         state with a non-default action, or user semantic action
+         that manipulated yychar.  (However, yychar is currently out
+         of scope during semantic actions.)
+       - Of course, the expected token list depends on states to
+         have correct lookahead information, and it depends on the
+         parser not to perform extra reductions after fetching a
+         lookahead from the scanner and before detecting a syntax
+         error.  Thus, state merging (from LALR or IELR) and default
+         reductions corrupt the expected token list.  However, the
+         list is correct for canonical LR with one exception: it
+         will still contain any token that will not be accepted due
+         to an error action in a later state.
+    */
+    int yycount = 0;
+    if (yyctx.getToken() != ]b4_symbol(empty, kind)[)
+      {
+        if (yyarg !is null)
+          yyarg[yycount] = yyctx.getToken();
+        yycount += 1;
+        yycount += yyctx.getExpectedTokens(yyarg, 1, yyargn);
+      }
+    return yycount;
+  }
+]])[
+
 
   /**
    * Information needed to get the list of expected tokens and to forge

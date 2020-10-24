@@ -364,7 +364,7 @@ void location_print (FILE *o, Span s);
 }]])[
 
 /* Bison Declarations */
-%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
+%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of file")], ["end of input"])[
 %token <]AT_VALUE_UNION_IF([int], [ival])[> NUM   "number"
 %type  <]AT_VALUE_UNION_IF([int], [ival])[> exp
 
@@ -666,20 +666,20 @@ m4_define([_AT_DATA_CALC_Y(d)],
 %printer { fprintf (yyo, "%d", $$); } <ival>;
 
 /* Bison Declarations */
-%token EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
+%token EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of file")], ["end of input"])[
 %token <ival> NUM   "number"
 %type  <ival> exp
 
-%token PLUS   "+"
+%token EQUAL  "="
        MINUS  "-"
+       PLUS   "+"
        STAR   "*"
        SLASH  "/"
+       POW    "^"
+       EOL    "\n"
        LPAR   "("
        RPAR   ")"
-       EQUAL  "="
-       POW    "^"
        NOT    "!"
-       EOL    "\n"
 
 %nonassoc "="   /* comparison          */
 %left "-" "+"
@@ -736,7 +736,6 @@ power (int base, int exponent)
   return res;
 }
 
-]AT_YYERROR_DEFINE[
 ]AT_CALC_YYLEX
 AT_CALC_MAIN])
 ])# _AT_DATA_CALC_Y(d)
@@ -861,7 +860,7 @@ m4_define([_AT_DATA_CALC_Y(java)],
 }
 
 /* Bison Declarations */
-%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of input")], ["end of input"])[
+%token CALC_EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of file")], ["end of input"])[
 %token <Integer> NUM "number"
 %type  <Integer> exp
 
@@ -1452,6 +1451,11 @@ AT_CHECK_CALC_LALR1_D([%define parse.error verbose %define api.prefix {calc} %ve
 
 AT_CHECK_CALC_LALR1_D([%debug])
 
+AT_CHECK_CALC_LALR1_D([%define parse.error custom])
+AT_CHECK_CALC_LALR1_D([%locations %define parse.error custom])
+AT_CHECK_CALC_LALR1_D([%locations %define parse.error detailed])
+AT_CHECK_CALC_LALR1_D([%locations %define parse.error simple])
+AT_CHECK_CALC_LALR1_D([%locations %define parse.error verbose])
 AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %verbose])
 AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.token.prefix {TOK_} %verbose])
 AT_CHECK_CALC_LALR1_D([%define parse.error verbose %debug %define api.symbol.prefix {SYMB_} %verbose])

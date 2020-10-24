@@ -14026,6 +14026,42 @@ They should return new objects for each call, to avoid that all the symbol
 share the same Position boundaries.
 @end deftypemethod
 
+@deftypemethod {Lexer} {void} syntax_error(@code{YYParser.Context} @var{ctx})
+If you invoke @samp{%define parse.error custom} (@pxref{Bison
+Declarations}), then the parser no longer passes syntax error messages to
+@code{yyerror}, rather it delegates that task to the user by calling the
+@code{reportSyntaxError} function.
+
+Whether it uses @code{yyerror} is up to the user.
+
+Here is an example of a reporting function (@pxref{D Parser Context
+Interface}).
+
+@example
+public void syntax_error(YYParser.Context ctx)
+@{
+  stderr.write(ctx.getLocation(), ": syntax error");
+  // Report the expected tokens.
+  @{
+    immutable int TOKENMAX = 5;
+    YYParser.SymbolKind[] arg = new YYParser.SymbolKind[TOKENMAX];
+    int n = ctx.getExpectedTokens(arg, TOKENMAX);
+    if (n < TOKENMAX)
+      for (int i = 0; i < n; ++i)
+        stderr.write((i == 0 ? ": expected " : " or "), arg[i]);
+  @}
+  // Report the unexpected token which triggered the error.
+  @{
+    YYParser.SymbolKind lookahead = ctx.getToken();
+    stderr.writeln(" before ", lookahead);
+  @}
+@}
+@end example
+
+@noindent
+This implementation is inappropriate for internationalization, see
+the @file{c/bistromathic} example for a better alternative.
+@end deftypemethod
 
 @node D Action Features
 @subsection Special Features for Use in D Actions
@@ -14048,7 +14084,6 @@ Resume generating error messages immediately for subsequent syntax
 errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
 @end deffn
-
 
 @node Java Parsers
 @section Java Parsers
