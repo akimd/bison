@@ -13948,9 +13948,28 @@ enumerators are forged from the symbol names.  Use void toString(W)(W sink) to g
 the symbol names.
 @end defcv
 
-@deftypemethod {YYParser.Context} {YYParser.Location} yylloc_from_stack()
+@deftypemethod {YYParser.Context} {YYParser.SymbolKind} getToken()
+The kind of the lookahead.  Return @code{null} iff there is no lookahead.
+@end deftypemethod
+
+@deftypemethod {YYParser.Context} {YYParser.Location} getLocation()
 The location of the lookahead.
 @end deftypemethod
+
+@deftypemethod {YYParser.Context} {int} getExpectedTokens(@code{YYParser.SymbolKind[]} @var{argv}, @code{int} @var{argc})
+Fill @var{argv} with the expected tokens, which never includes
+@code{SymbolKind.YYERROR}, or @code{SymbolKind.YYUNDEF}.
+
+Never put more than @var{argc} elements into @var{argv}, and on success
+return the number of tokens stored in @var{argv}.  If there are more
+expected tokens than @var{argc}, fill @var{argv} up to @var{argc} and return
+0.  If there are no expected tokens, also return 0, but set @code{argv[0]}
+to @code{null}.
+
+If @var{argv} is null, return the size needed to store all the possible
+values, which is always less than @code{YYNTOKENS}.
+@end deftypemethod
+
 
 @node D Scanner Interface
 @subsection D Scanner Interface
