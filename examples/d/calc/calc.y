@@ -72,12 +72,12 @@ import std.range.primitives;
 import std.stdio;
 
 auto calcLexer(R)(R range)
-  if (isInputRange!R && is (ElementType!R : dchar))
+if (isInputRange!R && is(ElementType!R : dchar))
 {
   return new CalcLexer!R(range);
 }
 
-auto calcLexer (File f)
+auto calcLexer(File f)
 {
   import std.algorithm : map, joiner;
   import std.utf : byDchar;
@@ -89,7 +89,7 @@ auto calcLexer (File f)
 }
 
 class CalcLexer(R) : Lexer
-  if (isInputRange!R && is (ElementType!R : dchar))
+if (isInputRange!R && is(ElementType!R : dchar))
 {
   R input;
 
@@ -109,17 +109,17 @@ class CalcLexer(R) : Lexer
 
   YYSemanticType semanticVal_;
 
-  public final @property YYSemanticType semanticVal ()
+  public final YYSemanticType semanticVal()
   {
     return semanticVal_;
   }
 
-  TokenKind yylex ()
+  TokenKind yylex()
   {
     import std.uni : isWhite, isNumber;
 
     // Skip initial spaces
-    while (!input.empty && input.front != '\n' && isWhite (input.front))
+    while (!input.empty && input.front != '\n' && isWhite(input.front))
     {
       start = end;
       end.column++;
@@ -180,10 +180,10 @@ class CalcLexer(R) : Lexer
   }
 }
 
-int main ()
+int main()
 {
-  auto l = calcLexer (stdin);
-  auto p = new Calc (l);
-  p.parse ();
+  auto l = calcLexer(stdin);
+  auto p = new Calc(l);
+  p.parse();
   return l.exit_status;
 }
