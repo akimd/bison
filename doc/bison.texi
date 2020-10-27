@@ -9965,10 +9965,11 @@ very documentation.  To solve a conflict, one must understand it: when does
 it occur?  Is it because of a flaw in the grammar?  Is it rather because
 LR(1) cannot cope with this grammar?
 
-On difficulty is that conflicts occur in the @emph{automaton}, and it can be
-tricky to related them to issues in the @emph{grammar} itself.  With
-experience and patience, analysis the detailed description of the automaton
-(@pxref{Understanding}) allows to find example strings that reach these conflicts.
+One difficulty is that conflicts occur in the @emph{automaton}, and it can
+be tricky to relate them to issues in the @emph{grammar} itself.  With
+experience and patience, analysis of the detailed description of the
+automaton (@pxref{Understanding}) allows one to find example strings that
+reach these conflicts.
 
 That task is made much easier thanks to the generation of counterexamples,
 initially developed by Chinawat Isradisaikul and Andrew Myers
@@ -10121,7 +10122,7 @@ sequence.y:8.3-45: @dwarning{warning}: rule useless in parser due to conflicts [
 
 Each of these three conflicts, again, prove that the grammar is ambiguous.
 For instance, the second conflict (the reduce/reduce one) shows that the
-grammar accept the empty input in two different ways.
+grammar accepts the empty input in two different ways.
 
 @sp 1
 
