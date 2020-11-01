@@ -307,11 +307,11 @@ AT_CLEANUP
 AT_SETUP([Java %parse-param and %lex-param])
 
 AT_CHECK_JAVA_MINIMAL([])
-AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(Lexer yylexer) *]])
 
 AT_CHECK_JAVA_MINIMAL([[%parse-param {int parse_param1}]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer, *int parse_param1) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(Lexer yylexer, *int parse_param1) *]])
 AT_CHECK_JAVA_GREP([[ *this.parse_param1 = parse_param1;]])
 
 AT_CHECK_JAVA_MINIMAL([[
@@ -319,19 +319,19 @@ AT_CHECK_JAVA_MINIMAL([[
 %parse-param {long parse_param2}]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *protected final long parse_param2;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(Lexer yylexer, *int parse_param1, *long parse_param2) *]])
 AT_CHECK_JAVA_GREP([[ *this.parse_param1 = parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *this.parse_param2 = parse_param2;]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([], [], [[return EOF;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser () *]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser() *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser(Lexer yylexer) *]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[%parse-param {int parse_param1}]],
     [], [[return EOF;]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (int parse_param1) *]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(int parse_param1) *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser(Lexer yylexer, *int parse_param1) *]])
 AT_CHECK_JAVA_GREP([[ *this.parse_param1 = parse_param1;]], [2])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
@@ -340,21 +340,21 @@ AT_CHECK_JAVA_MINIMAL_W_LEXER([[
     [], [[return EOF;]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *protected final long parse_param2;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (int parse_param1, *long parse_param2) *]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser(Lexer yylexer, *int parse_param1, *long parse_param2) *]])
 AT_CHECK_JAVA_GREP([[ *this.parse_param1 = parse_param1;]], [2])
 AT_CHECK_JAVA_GREP([[ *this.parse_param2 = parse_param2;]], [2])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[%lex-param {char lex_param1}]],
     [], [[return EOF;]], [[YYLexer (char lex_param1) {}]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(char lex_param1) *]])
 AT_CHECK_JAVA_GREP([[.* = new YYLexer *(lex_param1);]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
 %lex-param {char lex_param1}
 %lex-param {short lex_param2}]],
     [], [[return EOF;]], [[YYLexer (char lex_param1, short lex_param2) {}]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1, *short lex_param2) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(char lex_param1, *short lex_param2) *]])
 AT_CHECK_JAVA_GREP([[.* = new YYLexer *(lex_param1, *lex_param2);]])
 
 AT_CHECK_JAVA_MINIMAL_W_LEXER([[
@@ -365,9 +365,9 @@ AT_CHECK_JAVA_MINIMAL_W_LEXER([[
     [], [[return EOF;]], [[YYLexer (char lex_param1, short lex_param2) {}]])
 AT_CHECK_JAVA_GREP([[ *protected final int parse_param1;]])
 AT_CHECK_JAVA_GREP([[ *protected final long parse_param2;]])
-AT_CHECK_JAVA_GREP([[ *public YYParser (char lex_param1, *short lex_param2, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[ *public YYParser(char lex_param1, *short lex_param2, *int parse_param1, *long parse_param2) *]])
 AT_CHECK_JAVA_GREP([[.* = new YYLexer *(lex_param1, *lex_param2);]])
-AT_CHECK_JAVA_GREP([[ *protected YYParser (Lexer yylexer, *int parse_param1, *long parse_param2) *]])
+AT_CHECK_JAVA_GREP([[ *protected YYParser(Lexer yylexer, *int parse_param1, *long parse_param2) *]])
 AT_CHECK_JAVA_GREP([[ *this.parse_param1 = parse_param1;]], [2])
 AT_CHECK_JAVA_GREP([[ *this.parse_param2 = parse_param2;]], [2])
 
@@ -539,23 +539,23 @@ AT_DATA([[YYParser.y]], [[%language "Java"
   String Input;
   int Position;
 
-  public YYLexer (String s)
+  public YYLexer(String s)
   {
     Input    = s;
     Position = 0;
   }
 
-  public void yyerror (String s)
+  public void yyerror(String s)
   {
     System.err.println (s);
   }
 
-  public Object getLVal ()
+  public Object getLVal()
   {
     return null;
   }
 
-  public int yylex () throws IOException
+  public int yylex() throws IOException
   {
     if (Position >= Input.length ())
       return EOF;
@@ -565,10 +565,10 @@ AT_DATA([[YYParser.y]], [[%language "Java"
 }
 
 %code {
-  public static void main (String args []) throws IOException
+  public static void main(String args []) throws IOException
   {
-    YYParser p = new YYParser (args [0]);
-    p.parse ();
+    YYParser p = new YYParser(args[0]);
+    p.parse();
   }
 }
 %%
