@@ -20,8 +20,7 @@ m4_include(b4_skeletonsdir/[c++.m4])
 # api.value.type=variant is valid.
 m4_define([b4_value_type_setup_variant])
 
-# Check the value of %define parse.lac, where LAC stands for lookahead
-# correction.
+# parse.lac
 b4_percent_define_default([[parse.lac]], [[none]])
 b4_percent_define_check_values([[[[parse.lac]], [[full]], [[none]]]])
 b4_define_flag_if([lac])
@@ -851,8 +850,8 @@ m4_if(b4_prefix, [yy], [],
     /// The return value of parse ().
     int yyresult;]b4_lac_if([[
 
-    /// Discard the LAC context in case there still is one left from a
-    /// previous invocation.
+    // Discard the LAC context in case there still is one left from a
+    // previous invocation.
     yy_lac_discard_ ("init");]])[
 
 #if YY_EXCEPTIONS
@@ -935,7 +934,7 @@ b4_dollar_popdef])[]dnl
     if (yyn < 0 || yylast_ < yyn || yycheck_[yyn] != yyla.kind ())
       {]b4_lac_if([[
         if (!yy_lac_establish_ (yyla.kind ()))
-           goto yyerrlab;]])[
+          goto yyerrlab;]])[
         goto yydefault;
       }
 
@@ -946,7 +945,7 @@ b4_dollar_popdef])[]dnl
         if (yy_table_value_is_error_ (yyn))
           goto yyerrlab;]b4_lac_if([[
         if (!yy_lac_establish_ (yyla.kind ()))
-           goto yyerrlab;
+          goto yyerrlab;
 ]])[
         yyn = -yyn;
         goto yyreduce;
@@ -1442,7 +1441,9 @@ b4_dollar_popdef])[]dnl
        follows.  If no initial context is currently established for the
        current lookahead, then check if that lookahead can eventually be
        shifted if syntactic actions continue from the current context.  */
-    if (!yy_lac_established_)
+    if (yy_lac_established_)
+      return true;
+    else
       {
 #if ]b4_api_PREFIX[DEBUG
         YYCDEBUG << "LAC: initial context established for "
@@ -1451,12 +1452,11 @@ b4_dollar_popdef])[]dnl
         yy_lac_established_ = true;
         return yy_lac_check_ (yytoken);
       }
-    return true;
   }
 
   // Discard any previous initial lookahead context.
   void
-  ]b4_parser_class[::yy_lac_discard_ (const char* evt)
+  ]b4_parser_class[::yy_lac_discard_ (const char* event)
   {
    /* Discard any previous initial lookahead context because of Event,
       which may be a lookahead change or an invalidation of the currently
@@ -1472,7 +1472,7 @@ b4_dollar_popdef])[]dnl
     if (yy_lac_established_)
       {
         YYCDEBUG << "LAC: initial context discarded due to "
-                 << evt << '\n';
+                 << event << '\n';
         yy_lac_established_ = false;
       }
   }]])b4_parse_error_bmatch([detailed\|verbose], [[

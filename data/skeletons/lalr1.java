@@ -25,7 +25,10 @@ m4_define([b4_symbol_no_destructor_assert],
                               [%destructor does not make sense in Java])])])
 b4_symbol_foreach([b4_symbol_no_destructor_assert])
 
-# Setup some macros for api.push-pull.
+## --------------- ##
+## api.push-pull.  ##
+## --------------- ##
+
 b4_percent_define_default([[api.push-pull]], [[pull]])
 b4_percent_define_check_values([[[[api.push-pull]],
                                  [[pull]], [[push]], [[both]]]])
@@ -52,7 +55,8 @@ b4_use_push_for_pull_if([
 # Define a macro to encapsulate the parse state variables.  This
 # allows them to be defined either in parse() when doing pull parsing,
 # or as class instance variable when doing push parsing.
-m4_define([b4_define_state],[[
+m4_define([b4_define_state],
+[[
     /* Lookahead token kind.  */
     int yychar = YYEMPTY_;
     /* Lookahead symbol kind.  */
@@ -75,6 +79,10 @@ m4_define([b4_define_state],[[
     /* Semantic value of the lookahead.  */
     ]b4_yystype[ yylval = null;
 ]])[
+
+## ------------- ##
+## Parser File.  ##
+## ------------- ##
 
 ]b4_output_begin([b4_parser_file_name])[
 ]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
@@ -343,65 +351,63 @@ import java.text.MessageFormat;
     public int size = 16;
     public int height = -1;
 
-    public final void push (int state, ]b4_yystype[ value]b4_locations_if([, ]b4_location_type[ loc])[) {
+    public final void push(int state, ]b4_yystype[ value]b4_locations_if([, ]b4_location_type[ loc])[) {
       height++;
-      if (size == height)
-        {
-          int[] newStateStack = new int[size * 2];
-          System.arraycopy (stateStack, 0, newStateStack, 0, height);
-          stateStack = newStateStack;]b4_locations_if([[
-          ]b4_location_type[[] newLocStack = new ]b4_location_type[[size * 2];
-          System.arraycopy (locStack, 0, newLocStack, 0, height);
-          locStack = newLocStack;]])
+      if (size == height) {
+        int[] newStateStack = new int[size * 2];
+        System.arraycopy(stateStack, 0, newStateStack, 0, height);
+        stateStack = newStateStack;]b4_locations_if([[
+        ]b4_location_type[[] newLocStack = new ]b4_location_type[[size * 2];
+        System.arraycopy(locStack, 0, newLocStack, 0, height);
+        locStack = newLocStack;]])
 
-          b4_yystype[[] newValueStack = new ]b4_yystype[[size * 2];
-          System.arraycopy (valueStack, 0, newValueStack, 0, height);
-          valueStack = newValueStack;
+        b4_yystype[[] newValueStack = new ]b4_yystype[[size * 2];
+        System.arraycopy(valueStack, 0, newValueStack, 0, height);
+        valueStack = newValueStack;
 
-          size *= 2;
-        }
+        size *= 2;
+      }
 
       stateStack[height] = state;]b4_locations_if([[
       locStack[height] = loc;]])[
       valueStack[height] = value;
     }
 
-    public final void pop () {
-      pop (1);
+    public final void pop() {
+      pop(1);
     }
 
-    public final void pop (int num) {
+    public final void pop(int num) {
       // Avoid memory leaks... garbage collection is a white lie!
       if (0 < num) {
-        java.util.Arrays.fill (valueStack, height - num + 1, height + 1, null);]b4_locations_if([[
-        java.util.Arrays.fill (locStack, height - num + 1, height + 1, null);]])[
+        java.util.Arrays.fill(valueStack, height - num + 1, height + 1, null);]b4_locations_if([[
+        java.util.Arrays.fill(locStack, height - num + 1, height + 1, null);]])[
       }
       height -= num;
     }
 
-    public final int stateAt (int i) {
+    public final int stateAt(int i) {
       return stateStack[height - i];
     }
 ]b4_locations_if([[
 
-    public final ]b4_location_type[ locationAt (int i) {
+    public final ]b4_location_type[ locationAt(int i) {
       return locStack[height - i];
     }
 ]])[
-    public final ]b4_yystype[ valueAt (int i) {
+    public final ]b4_yystype[ valueAt(int i) {
       return valueStack[height - i];
     }
 
     // Print the state stack on the debug stream.
-    public void print (java.io.PrintStream out) {
+    public void print(java.io.PrintStream out) {
       out.print ("Stack now");
 
-      for (int i = 0; i <= height; i++)
-        {
-          out.print (' ');
-          out.print (stateStack[i]);
-        }
-      out.println ();
+      for (int i = 0; i <= height; i++) {
+        out.print(' ');
+        out.print(stateStack[i]);
+      }
+      out.println();
     }
   }
 

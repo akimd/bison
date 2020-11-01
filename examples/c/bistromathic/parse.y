@@ -117,13 +117,13 @@
 // with TOK_ (e.g., TOK_EOF).
 %define api.token.prefix {TOK_}
 
-// Customized syntax error messages (see yyreport_syntax_error).
+// Customized syntax error messages (see yyreport_syntax_error)...
 %define parse.error custom
 
-// with locations.
+// ... with locations...
 %locations
 
-// and accurate list of expected tokens.
+// ... and accurate list of expected tokens.
 %define parse.lac full
 
 // Generate the parser description file (calc.output).

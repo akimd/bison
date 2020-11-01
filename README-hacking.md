@@ -346,12 +346,14 @@ and [Google Java Style
 Guide](https://google.github.io/styleguide/javaguide.html).  Unfortunately
 at some point some GNU Coding Style was installed in Java, but it's an
 error.  So we should for instance stop putting spaces in function calls.
-Because we are standardizing the code, it is currently inconsistent.
+Because we are standardizing the code, it is currently inconsistent.  Treat
+acronyms as words: `YYLacStack`, not `YYLACStack`.
 
 Use a 2-space indentation (Google) rather than 4 (Oracle).
 
-Don't use the "yy" prefix for public members: "getExpectedTokens", not
-"yyexpectedTokens" or "yygetExpectedTokens".
+Don't use the `yy` prefix for public members: `getExpectedTokens`, not
+`yyexpectedTokens` or `yygetExpectedTokens`.  Keep the `yy` prefix though
+for private details.
 
 ## Commit Messages
 Imitate the style we use.  Use `git log` to get sources of inspiration.
