@@ -1007,24 +1007,25 @@ m4_define([AT_YYERROR_DEFINE(java)],
 
 ]AT_ERROR_CUSTOM_IF([[
   public void reportSyntaxError(Calc.Context ctx) {
-    System.err.print(]AT_LOCATION_IF([[ctx.getLocation() + ": "
-                     + ]])["syntax error");
+    // Buffer and print the message at the end, to avoid being intertwined
+    // with debug traces from getExpectedTokens.
+    String msg = ]AT_LOCATION_IF([[ctx.getLocation() + ": " + ]])["syntax error";
     {
       Calc.SymbolKind token = ctx.getToken();
       if (token != null)
-        System.err.print(" on token @<:@" + token.getName() + "@:>@");
+        msg += " on token @<:@" + token.getName() + "@:>@";
     }
     {
       Calc.SymbolKind[] arg = new Calc.SymbolKind[ctx.NTOKENS];
       int n = ctx.getExpectedTokens(arg, ctx.NTOKENS);
       if (0 < n) {
-        System.err.print(" (expected:");
+        msg += " (expected:";
         for (int i = 0; i < n; ++i)
-          System.err.print(" @<:@" + arg[i].getName() + "@:>@");
-        System.err.print(")");
+          msg += " @<:@" + arg[i].getName() + "@:>@";
+        msg += ")";
       }
     }
-    System.err.println("");
+    System.err.println(msg);
   }
 ]])
 ])
