@@ -23,10 +23,16 @@
 %define api.parser.public
 %define api.push-pull push
 
+// Customized syntax error messages (see reportSyntaxError)...
 %define parse.error custom
-%define parse.trace
 
+// ... with locations...
 %locations
+
+// ... and accurate list of expected tokens.
+%define parse.lac full
+
+%define parse.trace
 
 %code imports {
   import java.io.BufferedReader;
