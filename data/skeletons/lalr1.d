@@ -726,9 +726,9 @@ m4_popdef([b4_at_dollar])])dnl
   public static final class Context
   {
 
-    private YYStack yystack;
+    private const(YYStack) yystack;
     private SymbolKind yytoken;]b4_locations_if([[
-    private ]b4_location_type[ yylocation;]])[
+    private const(]b4_location_type[) yylocation;]])[
 
     this(YYStack stack, SymbolKind kind]b4_locations_if([[, ]b4_location_type[ loc]])[)
     {
@@ -742,7 +742,7 @@ m4_popdef([b4_at_dollar])])dnl
       return yytoken;
     }]b4_locations_if([[
 
-    final ]b4_location_type[ getLocation()
+    final const(]b4_location_type[) getLocation() const
     {
       return yylocation;
     }]])[
@@ -752,12 +752,12 @@ m4_popdef([b4_at_dollar])])dnl
      * YYARG is null, return the number of expected tokens (guaranteed to
      * be less than YYNTOKENS).
      */
-    int getExpectedTokens(SymbolKind[] yyarg, int yyargn)
+    int getExpectedTokens(SymbolKind[] yyarg, int yyargn) const
     {
       return getExpectedTokens(yyarg, 0, yyargn);
     }
 
-    int getExpectedTokens(SymbolKind[] yyarg, int yyoffset, int yyargn)
+    int getExpectedTokens(SymbolKind[] yyarg, int yyoffset, int yyargn) const
     {
       int yycount = yyoffset;
       int yyn = yypact_[this.yystack.stateAt(0)];
@@ -774,16 +774,17 @@ m4_popdef([b4_at_dollar])])dnl
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
           if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(1, kind)[
               && !yyTableValueIsError(yytable_[yyx + yyn]))
-            yycount++;
-        if (yycount < yyargn)
-        {
-          yycount = 0;
-          for (int x = yyxbegin; x < yyxend; ++x)
-            if (yycheck_[x + yyn] == x && x != ]b4_symbol(1, kind)[
-                && !yyTableValueIsError(yytable_[x + yyn]))
-              yyarg[yycount++] = SymbolKind(x);
-        }
+          {
+            if (yyarg is null)
+              ++yycount;
+            else if (yycount == yyargn)
+              return 0;
+            else
+              yyarg[yycount++] = SymbolKind(yyx);
+          }
       }
+      if (yyarg !is null && yycount == yyoffset && yyoffset < yyargn)
+        yyarg[yyoffset] = ]b4_symbol(empty, kind)[;
       return yycount - yyoffset;
     }
   }
@@ -902,7 +903,7 @@ m4_popdef([b4_at_dollar])])dnl
       stack.length -= num;
     }
 
-    public final int stateAt (int i)
+    public final int stateAt (int i) const
     {
       return stack[$-i-1].state;
     }
