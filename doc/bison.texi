@@ -303,7 +303,7 @@ Grammar Rules for @code{rpcalc}
 
 * Rpcalc Input::            Explanation of the @code{input} nonterminal
 * Rpcalc Line::             Explanation of the @code{line} nonterminal
-* Rpcalc Expr::             Explanation of the @code{expr} nonterminal
+* Rpcalc Exp::              Explanation of the @code{exp} nonterminal
 
 Location Tracking Calculator: @code{ltcalc}
 
@@ -1798,7 +1798,7 @@ rule are referred to as @code{$1}, @code{$2}, and so on.
 @menu
 * Rpcalc Input::            Explanation of the @code{input} nonterminal
 * Rpcalc Line::             Explanation of the @code{line} nonterminal
-* Rpcalc Expr::             Explanation of the @code{expr} nonterminal
+* Rpcalc Exp::              Explanation of the @code{exp} nonterminal
 @end menu
 
 @node Rpcalc Input
@@ -1863,8 +1863,8 @@ uninitialized (its value will be unpredictable).  This would be a bug if
 that value were ever used, but we don't use it: once rpcalc has printed the
 value of the user's input line, that value is no longer needed.
 
-@node Rpcalc Expr
-@subsubsection Explanation of @code{expr}
+@node Rpcalc Exp
+@subsubsection Explanation of @code{exp}
 
 The @code{exp} grouping has several rules, one for each kind of expression.
 The first rule handles the simplest expressions: those that are just
