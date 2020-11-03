@@ -102,7 +102,7 @@ b4_output_begin([b4_parser_file_name])[
 ]b4_user_pre_prologue[
 ]b4_user_post_prologue[
 import java.text.MessageFormat;
-import java.util.Vector;
+import java.util.ArrayList;
 ]b4_percent_code_get([[imports]])[
 /**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
@@ -268,7 +268,7 @@ import java.util.Vector;
   public ]b4_parser_class[(]b4_parse_param_decl([b4_lex_param_decl])[)]b4_maybe_throws([b4_init_throws])[
   {
 ]b4_percent_code_get([[init]])[]b4_lac_if([[
-    this.yylacStack = new Vector<Integer>();
+    this.yylacStack = new ArrayList<Integer>();
     this.yylacEstablished = false;]])[
     this.yylexer = new YYLexer(]b4_lex_param_call[);
 ]b4_parse_param_cons[
@@ -282,7 +282,7 @@ import java.util.Vector;
   ]b4_lexer_if([[protected]], [[public]]) b4_parser_class[(]b4_parse_param_decl([[Lexer yylexer]])[)]b4_maybe_throws([b4_init_throws])[
   {
 ]b4_percent_code_get([[init]])[]b4_lac_if([[
-    this.yylacStack = new Vector<Integer>();
+    this.yylacStack = new ArrayList<Integer>();
     this.yylacEstablished = false;]])[
     this.yylexer = yylexer;
 ]b4_parse_param_cons[
@@ -852,7 +852,7 @@ b4_dollar_popdef[]dnl
     this.yylen = 0;
     this.yystate = 0;
     this.yystack = new YYStack();]b4_lac_if([[
-    this.yylacStack = new Vector<Integer>();
+    this.yylacStack = new ArrayList<Integer>();
     this.yylacEstablished = false;]])[
     this.label = YYNEWSTATE;
 
@@ -1021,7 +1021,7 @@ b4_dollar_popdef[]dnl
         {
           int topState = (yylacStack.isEmpty()
                           ? yystack.stateAt(lacTop)
-                          : yylacStack.lastElement());
+                          : yylacStack.get(yylacStack.size() - 1));
           int yyrule = yypact_[topState];
           if (yyPactValueIsDefault(yyrule)
               || (yyrule += yytoken.getCode()) < 0 || YYLAST_ < yyrule
@@ -1056,7 +1056,10 @@ b4_dollar_popdef[]dnl
             // First pop from the LAC stack as many tokens as possible.
             int lacSize = yylacStack.size();
             if (yylen < lacSize) {
-              yylacStack.setSize(lacSize - yylen);
+              // yylacStack.setSize(lacSize - yylen);
+              for (/* Nothing */; 0 < yylen; yylen -= 1) {
+                yylacStack.remove(yylacStack.size() - 1);
+              }
               yylen = 0;
             } else if (lacSize != 0) {
               yylacStack.clear();
@@ -1069,7 +1072,7 @@ b4_dollar_popdef[]dnl
           // Keep topState in sync with the updated stack.
           topState = (yylacStack.isEmpty()
                       ? yystack.stateAt(lacTop)
-                      : yylacStack.lastElement());
+                      : yylacStack.get(yylacStack.size() - 1));
           // Push the resulting state of the reduction.
           int state = yyLRGotoState(topState, yyr1_[yyrule]);
           yycdebugNnl(" G" + state);
@@ -1139,7 +1142,7 @@ b4_dollar_popdef[]dnl
      * yylacCheck. We just store it as a member of this class to hold
      * on to the memory and to avoid frequent reallocations.
      */
-    Vector<Integer> yylacStack;
+    ArrayList<Integer> yylacStack;
     /**  Whether an initial LAC context was established. */
     boolean yylacEstablished;
 ]])[
