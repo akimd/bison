@@ -205,7 +205,7 @@ class CalcLexer implements Calc.Lexer {
       end.column = 0;
       return EOL;
     case StreamTokenizer.TT_WORD:
-      yylval = new Integer(st.sval);
+      yylval = Integer.parseInt(st.sval);
       end.set(reader.getPreviousPosition());
       return NUM;
     case ' ': case '\t':

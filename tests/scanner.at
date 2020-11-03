@@ -199,8 +199,8 @@ m4_define([AT_RAW_YYLEX(java)],
     return yylval;
   }
 
-  public int yylex () throws IOException {
-    int ttype = st.nextToken ();
+  public int yylex() throws IOException {
+    int ttype = st.nextToken();
     switch (ttype)
       {
       case StreamTokenizer.TT_EOF:
@@ -208,7 +208,7 @@ m4_define([AT_RAW_YYLEX(java)],
       case StreamTokenizer.TT_EOL:
         return (int) '\n';
       case StreamTokenizer.TT_WORD:
-        yylval = new Integer (st.sval);
+        yylval = Integer.parseInt(st.sval);
         return NUM;
       case '+':
         return PLUS;
@@ -223,7 +223,7 @@ m4_define([AT_RAW_YYLEX(java)],
       case ')':
         return RPAR;
       default:
-        throw new AssertionError ("invalid character: " + ttype);
+        throw new AssertionError("invalid character: " + ttype);
       }
   }
 }

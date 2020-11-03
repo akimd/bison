@@ -797,10 +797,10 @@ m4_define([AT_CALC_YYLEX(java)],
     return yylval;
   }
 
-  public int yylex () throws IOException {;]AT_LOCATION_IF([[
-    start.set (reader.getPosition ());]])[
-    int tkind = st.nextToken ();]AT_LOCATION_IF([[
-    end.set (reader.getPosition ());]])[
+  public int yylex() throws IOException {;]AT_LOCATION_IF([[
+    start.set(reader.getPosition());]])[
+    int tkind = st.nextToken();]AT_LOCATION_IF([[
+    end.set(reader.getPosition());]])[
     switch (tkind)
       {
       case StreamTokenizer.TT_EOF:
@@ -810,11 +810,11 @@ m4_define([AT_CALC_YYLEX(java)],
         end.column = 0;]])[
         return (int) '\n';
       case StreamTokenizer.TT_WORD:
-        yylval = new Integer (st.sval);]AT_LOCATION_IF([[
-        end.set (reader.getPreviousPosition ());]])[
+        yylval = Integer.parseInt(st.sval);]AT_LOCATION_IF([[
+        end.set(reader.getPreviousPosition());]])[
         return NUM;
       case ' ': case '\t':
-        return yylex ();
+        return yylex();
       case '#':
         System.err.println(]AT_LOCATION_IF([[start + ": " + ]])["syntax error: invalid character: '#'");
         return YYerror;
