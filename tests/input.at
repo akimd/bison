@@ -2608,42 +2608,32 @@ start: %empty;
 
 # Only "full" and "none" are accepted for parse.lac
 # Unknown values (such as "unsupported") are rejected
-AT_BISON_CHECK([[-Dparse.lac=none input.y]])
-AT_BISON_CHECK([[-Dparse.lac=none -L c++ input.y]])
-AT_BISON_CHECK([[-Dparse.lac=full input.y]])
-AT_BISON_CHECK([[-Dparse.lac=full -L c++ input.y]])
-AT_BISON_CHECK([[-Dparse.lac=unsupported input.y]],
+m4_foreach([b4_skel], [[yacc.c], [lalr1.cc], [lalr1.java]],
+[AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=none input.y]])
+AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=full input.y]])
+AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=unsupported input.y]],
                [[1]], [],
-[[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
-<command line>:3: note: accepted value: 'full'
-<command line>:3: note: accepted value: 'none'
+[[<command line>:4: error: invalid value for %define variable 'parse.lac': 'unsupported'
+<command line>:4: note: accepted value: 'full'
+<command line>:4: note: accepted value: 'none'
 ]])
-AT_BISON_CHECK([[-Dparse.lac=unsupported -L c++ input.y]],
-               [[1]], [],
-[[<command line>:3: error: invalid value for %define variable 'parse.lac': 'unsupported'
-<command line>:3: note: accepted value: 'full'
-<command line>:3: note: accepted value: 'none'
-]])
+])
 
 # parse.lac.* options are useless if LAC isn't actually activated.
-AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 input.y]],
+AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -Dparse.lac.memory-trace=full input.y]],
                [[1]], [],
 [[<command line>:3: error: %define variable 'parse.lac.es-capacity-initial' is not used
-]])
-AT_BISON_CHECK([[-Dparse.lac.memory-trace=full input.y]],
-               [[1]], [],
-[[<command line>:3: error: %define variable 'parse.lac.memory-trace' is not used
+<command line>:4: error: %define variable 'parse.lac.memory-trace' is not used
 ]])
 
-# parse.lac.* options are useless in C++ even if LAC isn't actually activated.
-AT_BISON_CHECK([[-Dparse.lac.es-capacity-initial=1 -L C++ -Dparse.lac=full input.y]],
+# parse.lac.* options are useless in C++/Java even if LAC is actually activated.
+m4_foreach([b4_skel], [[lalr1.cc], [lalr1.java]],
+[AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=full -Dparse.lac.es-capacity-initial=1 -Dparse.lac.memory-trace=full input.y]],
                [[1]], [],
-[[<command line>:3: error: %define variable 'parse.lac.es-capacity-initial' is not used
+[[<command line>:5: error: %define variable 'parse.lac.es-capacity-initial' is not used
+<command line>:6: error: %define variable 'parse.lac.memory-trace' is not used
 ]])
-AT_BISON_CHECK([[-Dparse.lac.memory-trace=full -L C++ -Dparse.lac=full input.y]],
-               [[1]], [],
-[[<command line>:3: error: %define variable 'parse.lac.memory-trace' is not used
-]])
+])
 
 AT_CLEANUP
 

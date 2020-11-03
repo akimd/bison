@@ -6879,7 +6879,7 @@ introduced in 3.0 with support for @code{simple} and @code{verbose}.  Values
 @deffn Directive {%define parse.lac} @var{when}
 
 @itemize
-@item Languages(s): C (deterministic parsers only)
+@item Languages(s): C/C++ (deterministic parsers only), and Java.
 
 @item Purpose: Enable LAC (lookahead correction) to improve
 syntax error handling.  @xref{LAC}.

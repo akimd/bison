@@ -49,6 +49,11 @@ GNU Bison NEWS
     ↳ e1  e2  "a"
       ↳ • ↳ ε
 
+*** Lookahead correction in Java
+
+  The Java skeleton (lalr1.java) now supports LAC, via the %define variable
+  parse.lac.
+
 
 * Noteworthy changes in release 3.7.3 (2020-10-13) [stable]
 
