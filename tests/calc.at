@@ -720,7 +720,7 @@ exp:
 | "-" exp  %prec NEG { $$ = -$2; }
 | exp "^" exp        { $$ = power ($1, $3); }
 | "(" exp ")"        { $$ = $2; }
-| "(" error ")"      { $$ = 1111; }
+| "(" error ")"      { $$ = 1111; yyerrok(); }
 | "!"                { $$ = 0; return YYERROR; }
 | "-" error          { $$ = 0; return YYERROR; }
 ;

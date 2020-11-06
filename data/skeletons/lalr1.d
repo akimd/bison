@@ -307,6 +307,11 @@ b4_user_union_members
   private static immutable YYSemanticType yy_semantic_null;])[
   private int yyerrstatus_ = 0;
 
+  private void yyerrok()
+  {
+    yyerrstatus_ = 0;
+  }
+
   /**
    * Whether error recovery is being done.  In this state, the parser
    * reads token until it reaches a known state, and then restarts normal
