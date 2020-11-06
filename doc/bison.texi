@@ -529,6 +529,7 @@ D Parsers
 * D Parser Interface::       Instantiating and running the parser
 * D Parser Context Interface:: Circumstances of a syntax error
 * D Scanner Interface::      Specifying the scanner for the parser
+* D Action Features::        Special features for use in actions
 
 Java Parsers
 
@@ -13790,6 +13791,7 @@ main (int argc, char *argv[])
 * D Parser Interface::       Instantiating and running the parser
 * D Parser Context Interface:: Circumstances of a syntax error
 * D Scanner Interface::      Specifying the scanner for the parser
+* D Action Features::        Special features for use in actions
 @end menu
 
 @node D Bison Interface
@@ -14023,6 +14025,30 @@ unless location tracking is active.
 They should return new objects for each call, to avoid that all the symbol
 share the same Position boundaries.
 @end deftypemethod
+
+
+@node D Action Features
+@subsection Special Features for Use in D Actions
+
+Here is a table of Bison constructs, variables and functions that are useful in
+actions.
+
+@deffn {Variable} $$
+Acts like a variable that contains the semantic value for the
+grouping made by the current rule.  @xref{Actions}.
+@end deffn
+
+@deffn {Variable} $@var{n}
+Acts like a variable that contains the semantic value for the
+@var{n}th component of the current rule.  @xref{Actions}.
+@end deffn
+
+@deffn {Function} yyerrok
+Resume generating error messages immediately for subsequent syntax
+errors.  This is useful primarily in error rules.
+@xref{Error Recovery}.
+@end deffn
+
 
 @node Java Parsers
 @section Java Parsers
