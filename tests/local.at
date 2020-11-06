@@ -1036,30 +1036,27 @@ m4_define([AT_YYLEX_DEFINE(java)],
   | yylex.  |
   `--------*/
 
-  public String input = "]$1[";
+  public String input = ]$1[;
   public int index = 0;
-  public int yylex ()
-  {
-    if (index < input.length ())
-      return input.charAt (index++);
+  public int yylex() {
+    if (index < input.length())
+      return input.charAt(index++);
     else
       return 0;
   }
-  public Object getLVal ()
-  {
-    ]$2[;
+  public Object getLVal() {
+    ]m4_ifval([$2], [$2], [return null])[;
   }
 ]])
 
 m4_define([AT_MAIN_DEFINE(java)],
 [[class input
 {
-  public static void main (String[] args) throws IOException
-  {
-    ]AT_API_prefix[Parser p = new ]AT_API_prefix[Parser ();
-    boolean success = p.parse ();
+  public static void main(String[] args) throws IOException {
+    ]AT_API_prefix[Parser p = new ]AT_API_prefix[Parser();
+    boolean success = p.parse();
     if (!success)
-      System.exit (1);
+      System.exit(1);
   }
 }]])
 

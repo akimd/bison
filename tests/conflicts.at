@@ -440,7 +440,7 @@ AT_DATA_GRAMMAR([input.y],
 ]$2[
 
 ]AT_JAVA_IF([[%code lexer {
-  ]AT_YYLEX_DEFINE([$3], [[return new Integer(1)]])[
+  ]AT_YYLEX_DEFINE(["$3"], [[return new Integer(1)]])[
   ]AT_YYERROR_DEFINE[
 };
 %%

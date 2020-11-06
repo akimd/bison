@@ -1341,11 +1341,21 @@ m4_pushdef([AT_LAC_CHECK], [
 AT_BISON_OPTION_PUSHDEFS([%debug $1])
 
 AT_DATA_GRAMMAR([input.y],
+[AT_JAVA_IF([[%code imports {
+  import java.io.IOException;
+}
+
+%code lexer {
+]AT_YYERROR_DEFINE[
+]AT_YYLEX_DEFINE(["bbbbc"])[
+};
+]],
 [[%code {
 #include <stdio.h> /* printf */
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
 }
+]])[
 %debug
 ]$1[
 %define parse.error verbose
@@ -1359,13 +1369,15 @@ S: A B A A B A A A A B A A A A A A A B C C A A A A A A A A A A A A B ;
 //       ^                     ^                               ^
 // LAC reallocs
 
-A: 'a' | %empty { printf ("inconsistent default reduction\n"); } ;
+A: 'a' | %empty { ]AT_JAVA_IF([System.out.print], [printf])[ ("inconsistent default reduction\n"); } ;
 B: 'b' ;
-C: %empty { printf ("consistent default reduction\n"); } ;
+C: %empty { ]AT_JAVA_IF([System.out.print], [printf])[ ("consistent default reduction\n"); } ;
 
 %%
-]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(["bbbbc"])[
+]AT_JAVA_IF([], [[
+  ]AT_YYERROR_DEFINE[
+  ]AT_YYLEX_DEFINE(["bbbbc"])[
+]])[
 
 ]AT_MAIN_DEFINE[
 ]])
@@ -1402,12 +1414,17 @@ AT_PERL_CHECK([[-0777 -ne 'print s/\bconsistent default reduction//g;' stdout.tx
 AT_BISON_OPTION_POPDEFS
 ])
 
+# C.
 AT_LAC_CHECK([[%define api.push-pull pull]])
 AT_LAC_CHECK([[%define api.push-pull pull %define api.pure]])
 AT_LAC_CHECK([[%define api.push-pull both]])
 AT_LAC_CHECK([[%define api.push-pull both %define api.pure]])
 
+# C++.
 AT_LAC_CHECK([[%skeleton "lalr1.cc"]])
+
+# Java.
+AT_LAC_CHECK([[%skeleton "lalr1.java"]])
 
 m4_popdef([AT_LAC_CHECK])
 

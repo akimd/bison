@@ -1,4 +1,7 @@
 * Soon
+** yyerrok in Java
+And add tests in calc.at, to prepare work for D.
+
 ** YYERROR and yynerrs
 We are missing some cases.  Write a test case, and check all the skeletons.
 
