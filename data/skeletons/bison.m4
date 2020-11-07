@@ -484,8 +484,10 @@ m4_define([b4_symbol_slot],
 #
 # If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
-[m4_if([$1], [empty],
-       [b4_symbol([-2], [$2])],
+[m4_if([$1], [empty], [b4_symbol([-2], [$2])],
+       [$1], [eof],   [b4_symbol([0], [$2])],
+       [$1], [error], [b4_symbol([1], [$2])],
+       [$1], [undef], [b4_symbol([2], [$2])],
        [m4_case([$2],
                 [id],        [b4_symbol_token_kind([$1])],
                 [kind_base], [b4_symbol_kind_base([$1])],

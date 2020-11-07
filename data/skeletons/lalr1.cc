@@ -918,13 +918,13 @@ b4_dollar_popdef])[]dnl
       }
     YY_SYMBOL_PRINT ("Next token is", yyla);
 
-    if (yyla.kind () == ]b4_symbol(1, kind)[)
+    if (yyla.kind () == ]b4_symbol(error, kind)[)
     {
       // The scanner already issued an error message, process directly
       // to error recovery.  But do not keep the error token as
       // lookahead, it is too special and may lead us to an endless
       // loop in error recovery. */
-      yyla.kind_ = ]b4_symbol(2, kind)[;
+      yyla.kind_ = ]b4_symbol(undef, kind)[;
       goto yyerrlab1;
     }
 
@@ -1061,7 +1061,7 @@ b4_dollar_popdef])[]dnl
            error, discard it.  */
 
         // Return failure if at end of input.
-        if (yyla.kind () == ]b4_symbol(0, kind)[)
+        if (yyla.kind () == ]b4_symbol(eof, kind)[)
           YYABORT;
         else if (!yyla.empty ())
           {
@@ -1102,9 +1102,9 @@ b4_dollar_popdef])[]dnl
         yyn = yypact_[+yystack_[0].state];
         if (!yy_pact_value_is_default_ (yyn))
           {
-            yyn += ]b4_symbol(1, kind)[;
+            yyn += ]b4_symbol(error, kind)[;
             if (0 <= yyn && yyn <= yylast_
-                && yycheck_[yyn] == ]b4_symbol(1, kind)[)
+                && yycheck_[yyn] == ]b4_symbol(error, kind)[)
               {
                 yyn = yytable_[yyn];
                 if (0 < yyn)
@@ -1296,8 +1296,8 @@ b4_dollar_popdef])[]dnl
     for (int yyx = 0; yyx < YYNTOKENS; ++yyx)
       {
         symbol_kind_type yysym = YY_CAST (symbol_kind_type, yyx);
-        if (yysym != ]b4_symbol(1, kind)[
-            && yysym != ]b4_symbol(2, kind)[
+        if (yysym != ]b4_symbol(error, kind)[
+            && yysym != ]b4_symbol(undef, kind)[
             && yyparser_.yy_lac_check_ (yysym))
           {
             if (!yyarg)
@@ -1319,7 +1319,7 @@ b4_dollar_popdef])[]dnl
         int yychecklim = yylast_ - yyn + 1;
         int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-          if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(1, kind)[
+          if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
             {
               if (!yyarg)

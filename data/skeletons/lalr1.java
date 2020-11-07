@@ -199,8 +199,8 @@ import java.util.ArrayList;
    */
   public interface Lexer {
 ]b4_token_enums[
-    /** Deprecated, use ]b4_symbol(0, id)[ instead.  */
-    public static final int EOF = ]b4_symbol(0, id)[;
+    /** Deprecated, use ]b4_symbol(eof, id)[ instead.  */
+    public static final int EOF = ]b4_symbol(eof, id)[;
 ]b4_pull_if([b4_locations_if([[
     /**
      * Method to retrieve the beginning position of the last scanned token.
@@ -643,14 +643,14 @@ b4_dollar_popdef[]dnl
         yySymbolPrint("Next token is", yytoken,
                       yylval]b4_locations_if([, yylloc])[);]])[
 
-        if (yytoken == ]b4_symbol(1, kind)[)
+        if (yytoken == ]b4_symbol(error, kind)[)
           {
             // The scanner already issued an error message, process directly
             // to error recovery.  But do not keep the error token as
             // lookahead, it is too special and may lead us to an endless
             // loop in error recovery. */
-            yychar = Lexer.]b4_symbol(2, id)[;
-            yytoken = ]b4_symbol(2, kind)[;]b4_locations_if([[
+            yychar = Lexer.]b4_symbol(undef, id)[;
+            yytoken = ]b4_symbol(undef, kind)[;]b4_locations_if([[
             yyerrloc = yylloc;]])[
             label = YYERRLAB1;
           }
@@ -740,10 +740,10 @@ b4_dollar_popdef[]dnl
             /* If just tried and failed to reuse lookahead token after an
                error, discard it.  */
 
-            if (yychar <= Lexer.]b4_symbol(0, id)[)
+            if (yychar <= Lexer.]b4_symbol(eof, id)[)
               {
                 /* Return failure if at end of input.  */
-                if (yychar == Lexer.]b4_symbol(0, id)[)
+                if (yychar == Lexer.]b4_symbol(eof, id)[)
                   ]b4_push_if([{label = YYABORT; break;}], [return false;])[
               }
             else
@@ -780,9 +780,9 @@ b4_dollar_popdef[]dnl
             yyn = yypact_[yystate];
             if (!yyPactValueIsDefault (yyn))
               {
-                yyn += ]b4_symbol(1, kind)[.getCode();
+                yyn += ]b4_symbol(error, kind)[.getCode();
                 if (0 <= yyn && yyn <= YYLAST_
-                    && yycheck_[yyn] == ]b4_symbol(1, kind)[.getCode())
+                    && yycheck_[yyn] == ]b4_symbol(error, kind)[.getCode())
                   {
                     yyn = yytable_[yyn];
                     if (0 < yyn)
@@ -964,8 +964,8 @@ b4_dollar_popdef[]dnl
       for (int yyx = 0; yyx < YYNTOKENS_; ++yyx)
         {
           SymbolKind yysym = SymbolKind.get(yyx);
-          if (yysym != ]b4_symbol(1, kind)[
-              && yysym != ]b4_symbol(2, kind)[
+          if (yysym != ]b4_symbol(error, kind)[
+              && yysym != ]b4_symbol(undef, kind)[
               && yyparser.yylacCheck(yystack, yysym))
             {
               if (yyarg == null)
@@ -988,7 +988,7 @@ b4_dollar_popdef[]dnl
           int yychecklim = YYLAST_ - yyn + 1;
           int yyxend = yychecklim < NTOKENS ? yychecklim : NTOKENS;
           for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-            if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(1, kind)[.getCode()
+            if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[.getCode()
                 && !yyTableValueIsError(yytable_[yyx + yyn]))
               {
                 if (yyarg == null)
@@ -1282,11 +1282,11 @@ b4_dollar_popdef[]dnl
     // Last valid token kind.
     int code_max = ]b4_code_max[;
     if (t <= 0)
-      return ]b4_symbol(0, kind)[;
+      return ]b4_symbol(eof, kind)[;
     else if (t <= code_max)
       return SymbolKind.get(yytranslate_table_[t]);
     else
-      return ]b4_symbol(2, kind)[;
+      return ]b4_symbol(undef, kind)[;
   }
   ]b4_integral_parser_table_define([translate_table], [b4_translate])[
 ]])[

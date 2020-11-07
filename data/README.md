@@ -81,7 +81,12 @@ name, whether terminal, etc.), bison.exe defines one macro per (token,
 field), where field can `has_id`, `id`, etc.: see
 `prepare_symbols_definitions()` in `src/output.c`.
 
-The macro `b4_symbol(NUM, FIELD)` gives access to the following FIELDS:
+NUM can be:
+- `empty` to denote the "empty" pseudo-symbol when it exists,
+- `eof`, `error`, or `undef`
+- a symbol number.
+
+FIELD can be:
 
 - `has_id`: 0 or 1
   Whether the symbol has an `id`.

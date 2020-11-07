@@ -480,14 +480,14 @@ m4_popdef([b4_at_dollar])])dnl
         yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
         yy_symbol_print ("Next token is", yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
-        if (yytoken == ]b4_symbol(1, kind)[)
+        if (yytoken == ]b4_symbol(error, kind)[)
         {
           // The scanner already issued an error message, process directly
           // to error recovery.  But do not keep the error token as
           // lookahead, it is too special and may lead us to an endless
           // loop in error recovery. */
-          yychar = TokenKind.]b4_symbol(2, id)[;
-          yytoken = ]b4_symbol(2, kind)[;]b4_locations_if([[
+          yychar = TokenKind.]b4_symbol(undef, id)[;
+          yytoken = ]b4_symbol(undef, kind)[;]b4_locations_if([[
           yyerrloc = yylloc;]])[
           label = YYERRLAB1;
         }
@@ -569,10 +569,10 @@ m4_popdef([b4_at_dollar])])dnl
           /* If just tried and failed to reuse lookahead token after an
            * error, discard it.  */
 
-          if (yychar <= TokenKind.]b4_symbol(0, [id])[)
+          if (yychar <= TokenKind.]b4_symbol(eof, [id])[)
           {
             /* Return failure if at end of input.  */
-            if (yychar == TokenKind.]b4_symbol(0, [id])[)
+            if (yychar == TokenKind.]b4_symbol(eof, [id])[)
              return false;
           }
           else
@@ -609,8 +609,8 @@ m4_popdef([b4_at_dollar])])dnl
           yyn = yypact_[yystate];
           if (!yyPactValueIsDefault(yyn))
           {
-            yyn += ]b4_symbol(1, kind)[;
-            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == ]b4_symbol(1, kind)[)
+            yyn += ]b4_symbol(error, kind)[;
+            if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == ]b4_symbol(error, kind)[)
             {
               yyn = yytable_[yyn];
               if (0 < yyn)
@@ -772,7 +772,7 @@ m4_popdef([b4_at_dollar])])dnl
         int yychecklim = yylast_ - yyn + 1;
         int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-          if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(1, kind)[
+          if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[
               && !yyTableValueIsError(yytable_[yyx + yyn]))
           {
             if (yyarg is null)
@@ -861,11 +861,11 @@ m4_popdef([b4_at_dollar])])dnl
     immutable int code_max = ]b4_code_max[;
 
     if (t <= 0)
-      return ]b4_symbol(0, kind)[;
+      return ]b4_symbol(eof, kind)[;
     else if (t <= code_max)
       return SymbolKind(translate_table[t]);
     else
-      return ]b4_symbol(2, kind)[;]])[
+      return ]b4_symbol(undef, kind)[;]])[
   }
 
   private static immutable int yylast_ = ]b4_last[;

@@ -91,8 +91,8 @@ typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
 # Remove redirections for glr.c.
 m4_define([b4_glr_cc_cleanup],
 [[#undef ]b4_symbol(empty, [id])[
-#undef ]b4_symbol(0, [id])[
-#undef ]b4_symbol(1, [id])[
+#undef ]b4_symbol(eof, [id])[
+#undef ]b4_symbol(error, [id])[
 #undef ]b4_symbol_prefix[YYEMPTY
 #undef ]b4_symbol_prefix[YYerror
 #undef ]b4_symbol_prefix[YYEOF
@@ -1919,7 +1919,7 @@ public:
             int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
             int yyx;
             for (yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref::b4_parser_class::b4_symbol(1, kind)[
+              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref::b4_parser_class::b4_symbol(error, kind)[
                   && !yytable_value_is_error (yytable[yyx + yyn]))
                 {
                   if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
@@ -1981,7 +1981,7 @@ public:
         {
           yysymbol_kind_t yytoken;
           int yyj;
-          if (yychar == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(0, id)[)
+          if (yychar == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[)
             yyFail (]b4_locations_if([yylocp, ])[YY_NULLPTR);
           if (yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
             {]b4_locations_if([[
@@ -2638,14 +2638,14 @@ yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_p
           yyparser.error (]b4_locations_if([yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
           // handling is started.
-          *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(1, id)[;
+          *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(error, id)[;
         }
 #endif // YY_EXCEPTIONS
     }
-  if (*yycharp <= ]b4_namespace_ref::b4_parser_class::token::b4_symbol(0, id)[)
+  if (*yycharp <= ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[)
     {
-      *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(0, id)[;
-      yytoken = ]b4_namespace_ref::b4_parser_class::b4_symbol(0, kind)[;
+      *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[;
+      yytoken = ]b4_namespace_ref::b4_parser_class::b4_symbol(eof, kind)[;
       YY_DEBUG_STREAM << "Now at end of input.\n";
     }
   else
@@ -2692,7 +2692,7 @@ static inline int
 yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short** yyconflicts)
 {
   int yyindex = yypact[yystate] + yytoken;
-  if (yytoken == ]b4_namespace_ref::b4_parser_class[::]b4_symbol(1, kind)[)
+  if (yytoken == ]b4_namespace_ref::b4_parser_class[::]b4_symbol(error, kind)[)
     {
       // This is the error token.
       *yyconflicts = yyconfl;
@@ -2850,7 +2850,7 @@ b4_dollar_popdef])[]dnl
                   yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
                   /* Don't issue an error message again for exceptions
                      thrown from the scanner.  */
-                  if (yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(1, id)[)
+                  if (yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(error, id)[)
                     yystack.yyreportSyntaxError ();
                   goto yyuser_error;
                 }

@@ -241,10 +241,10 @@ m4_define([b4_glr_cc_setup],
 
 #undef ]b4_symbol(empty, [id])[
 #define ]b4_symbol(empty, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, [id])[
-#undef ]b4_symbol(0, [id])[
-#define ]b4_symbol(0, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(0, [id])[
-#undef ]b4_symbol(1, [id])[
-#define ]b4_symbol(1, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(1, [id])[
+#undef ]b4_symbol(eof, [id])[
+#define ]b4_symbol(eof, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, [id])[
+#undef ]b4_symbol(error, [id])[
+#define ]b4_symbol(error, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, [id])[
 
 #ifndef ]b4_api_PREFIX[STYPE
 # define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
@@ -271,8 +271,8 @@ m4_define([b4_undef_symbol_kind],
 # Remove redirections for glr.c.
 m4_define([b4_glr_cc_cleanup],
 [[#undef ]b4_symbol(empty, [id])[
-#undef ]b4_symbol(0, [id])[
-#undef ]b4_symbol(1, [id])[
+#undef ]b4_symbol(eof, [id])[
+#undef ]b4_symbol(error, [id])[
 
 ]b4_undef_symbol_kind(-2)dnl
 b4_symbol_foreach([b4_undef_symbol_kind])dnl
