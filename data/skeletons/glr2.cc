@@ -73,31 +73,6 @@ m4_defn([b4_initial_action])]))])[
            b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol($1, kind_base))
 ])
 
-# b4_glr_cc_setup
-# ---------------
-# Setup redirections for glr.c: Map the names used in c.m4 to the ones used
-# in c++.m4.
-m4_define([b4_glr_cc_setup],
-[[#ifndef ]b4_api_PREFIX[STYPE
-# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
-#endif
-#ifndef ]b4_api_PREFIX[LTYPE
-# define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
-#endif
-typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
-]])
-# b4_glr_cc_cleanup
-# -----------------
-# Remove redirections for glr.c.
-m4_define([b4_glr_cc_cleanup],
-[[#undef ]b4_symbol(empty, [id])[
-#undef ]b4_symbol(eof, [id])[
-#undef ]b4_symbol(error, [id])[
-#undef ]b4_symbol_prefix[YYEMPTY
-#undef ]b4_symbol_prefix[YYerror
-#undef ]b4_symbol_prefix[YYEOF
-#undef ]b4_symbol_prefix[YYUNDEF
-]])
 
 # b4_shared_declarations(hh|cc)
 # -----------------------------
@@ -458,8 +433,6 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 
 ]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
                [b4_shared_declarations])[
-
-]b4_glr_cc_setup[
 
 #ifndef ]b4_api_PREFIX[STYPE
 # define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
@@ -3184,7 +3157,6 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 #endif
 ]m4_popdef([b4_parse_param])dnl
 b4_namespace_close[]dnl
-b4_glr_cc_cleanup[]dnl
 b4_epilogue[]dnl
 b4_output_end
 
