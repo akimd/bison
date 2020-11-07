@@ -14683,7 +14683,6 @@ is shipped as part of the Ocaml compiler suite.
 @c ================================================= Version Compatibility
 
 @node Versioning
-
 @chapter Bison Version Compatibility: Best Practices
 @cindex version
 @cindex compatibility
@@ -14691,7 +14690,7 @@ is shipped as part of the Ocaml compiler suite.
 Bison provides a Yacc compatibility mode in which it strives to conform with
 the POSIX standard.  Grammar files which are written to the POSIX standard, and
 do not take advantage of any of the special capabilities of Bison, should
-work with many version of Bison without modification.
+work with many versions of Bison without modification.
 
 All other features of Bison are particular to Bison, and are changing.  Bison
 is actively maintained and continuously evolving.  It should come as no
@@ -16133,8 +16132,10 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: getLocation getExpectedTokens reportSyntaxError bistromathic
 @c LocalWords: TokenKind Automake's rtti Wcounterexamples Chinawat PLDI
 @c LocalWords: Isradisaikul tcite pcite rgbGreen colorGreen rgbYellow Wcex
-@c LocalWords: colorYellow rgbRed colorRed rgbBlue colorBlue rgbPurple
+@c LocalWords: colorYellow rgbRed colorRed rgbBlue colorBlue rgbPurple Ddoc
 @c LocalWords: colorPurple ifhtml ifnothtml situ rcex MERCHANTABILITY Wnone
+@c LocalWords: diagError diagNotice diagWarning diagOff danglingElseCex
+@c LocalWords: YYLocation YYPosition nonunifying
 
 @c Local Variables:
 @c ispell-dictionary: "american"
