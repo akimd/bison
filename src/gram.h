@@ -233,8 +233,23 @@ item_rule (item_number const *item)
 void item_print (item_number *item, rule const *previous_rule,
                  FILE *out);
 
+/*--------.
+| Rules.  |
+`--------*/
+
 /* A function that selects a rule.  */
 typedef bool (*rule_filter) (rule const *);
+
+/* Whether is an accepting rule (i.e., its reduction terminates
+   parsing with success). */
+static inline bool
+rule_is_initial (rule const *r)
+{
+  /* In the case of multistart, we need to check whether the LHS is
+     $accept.  In the case of "unistart", it would suffice to
+     check whether this is rule number 0.  */
+  return r->lhs == acceptsymbol->content;
+}
 
 /* Whether the rule has a 'number' smaller than NRULES.  That is, it
    is useful in the grammar.  */

@@ -685,25 +685,6 @@ participate in the count.
 Do we want to disallow terminal start symbols?  The limitation is not
 technical.  Can it be useful to someone to "parse" a token?
 
-*** Fix default_reduction_only_for_accept
-In src/lalr.c:
-
-  /* We need a lookahead either to distinguish different reductions
-     (i.e., there are two or more), or to distinguish a reduction from a
-     shift.  Otherwise, it is straightforward, and the state is
-     'consistent'.  However, do not treat a state with any reductions as
-     consistent unless it is the accepting state (because there is never
-     a lookahead token that makes sense there, and so no lookahead token
-     should be read) if the user has otherwise disabled default
-     reductions.  */
-  s->consistent =
-    !(reds->num > 1
-      || (reds->num == 1 && trans->num && TRANSITION_IS_SHIFT (trans, 0))
-      || (reds->num == 1 && reds->rules[0]->number != 0
-          && default_reduction_only_for_accept));
-
-We should have a test for "is accepting rule".
-
 ** %include
 This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.
