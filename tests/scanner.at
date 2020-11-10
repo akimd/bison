@@ -178,24 +178,22 @@ m4_define([AT_RAW_YYLEX(java)],
 
   StreamTokenizer st;
 
-  public CalcLexer (InputStream is)
-  {
-    st = new StreamTokenizer (new StringReader ("0-(1+2)*3/9"));
-    st.resetSyntax ();
-    st.eolIsSignificant (true);
-    st.whitespaceChars ('\t', '\t');
-    st.whitespaceChars (' ', ' ');
-    st.wordChars ('0', '9');
+  public CalcLexer(InputStream is) {
+    st = new StreamTokenizer(new StringReader("0-(1+2)*3/9"));
+    st.resetSyntax();
+    st.eolIsSignificant(true);
+    st.whitespaceChars('\t', '\t');
+    st.whitespaceChars(' ', ' ');
+    st.wordChars('0', '9');
   }
 
-  public void yyerror (String s)
-  {
-    System.err.println (s);
+  public void yyerror(String s) {
+    System.err.println(s);
   }
 
   Integer yylval;
 
-  public Object getLVal () {
+  public Object getLVal() {
     return yylval;
   }
 
