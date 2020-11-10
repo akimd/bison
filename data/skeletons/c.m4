@@ -509,10 +509,11 @@ m4_define([b4_token_define],
 # ----------------
 # Output the definition of the tokens.
 m4_define([b4_token_defines],
-[b4_any_token_visible_if([/* Token kinds.  */
-m4_join([
+[[/* Token kinds.  */
+#define ]b4_symbol([-2], [id])[ -2
+]m4_join([
 ], b4_symbol_map([b4_token_define]))
-])])
+])
 
 
 # b4_token_enum(TOKEN-NUM)
