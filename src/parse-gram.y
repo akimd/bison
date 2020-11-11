@@ -42,8 +42,6 @@
   #include "system.h"
 
   #include <c-ctype.h>
-  #include <errno.h>
-  #include <intprops.h>
   #include <quotearg.h>
   #include <vasnprintf.h>
   #include <xmemdup0.h>
@@ -57,6 +55,7 @@
   #include "reader.h"
   #include "scan-code.h"
   #include "scan-gram.h"
+  #include "strversion.h"
 
   /* Pretend to be at least that version, to check features published
      in that version while developping it.  */
@@ -1043,56 +1042,11 @@ handle_pure_parser (location const *loc, char const *directive)
 }
 
 
-/* Convert VERSION into an int (MAJOR * 10000 + MINOR * 100 + MICRO).
-   E.g., "3.7.4" => 30704, "3.8" => 30800.
-   Return -1 on errors. */
-static int
-str_to_version (char const *version)
-{
-  IGNORE_TYPE_LIMITS_BEGIN
-  int res = 0;
-  errno = 0;
-  char *cp = NULL;
-
-  {
-    long major = strtol (version, &cp, 10);
-    if (errno || cp == version || *cp != '.' || major < 0
-        || INT_MULTIPLY_WRAPV (major, 10000, &res))
-      return -1;
-  }
-
-  {
-    ++cp;
-    char *prev = cp;
-    long minor = strtol (cp, &cp, 10);
-    if (errno || cp == prev || (*cp != '\0' && *cp != '.')
-        || ! (0 <= minor && minor < 100)
-        || INT_MULTIPLY_WRAPV (minor, 100, &minor)
-        || INT_ADD_WRAPV (minor, res, &res))
-      return -1;
-  }
-
-  if (*cp == '.')
-    {
-      ++cp;
-      char *prev = cp;
-      long micro = strtol (cp, &cp, 10);
-      if (errno || cp == prev || (*cp != '\0' && *cp != '.')
-          || ! (0 <= micro && micro < 100)
-          || INT_ADD_WRAPV (micro, res, &res))
-        return -1;
-    }
-
-  IGNORE_TYPE_LIMITS_END
-  return res;
-}
-
-
 static void
 handle_require (location const *loc, char const *version_quoted)
 {
   char *version = unquote (version_quoted);
-  required_version = str_to_version (version);
+  required_version = strversion_to_int (version);
   if (required_version == -1)
     {
       complain (loc, complaint, _("invalid version requirement: %s"),
