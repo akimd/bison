@@ -58,11 +58,11 @@ m4_define([b4_cpp_guard_close],
 # b4_pull_flag if they use the values of the %define variables api.pure or
 # api.push-pull.
 m4_define([b4_identification],
-[[/* Identify Bison output.  */
-#define YYBISON 1
+[[/* Identify Bison output, and Bison version.  */
+#define YYBISON ]b4_version[
 
-/* Bison version.  */
-#define YYBISON_VERSION "]b4_version["
+/* Bison version string.  */
+#define YYBISON_VERSION "]b4_version_string["
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME ]b4_skeleton[]m4_ifdef([b4_pure_flag], [[
