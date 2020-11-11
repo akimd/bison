@@ -446,3 +446,38 @@ m4_define([b4_var_decls],
 ], [$@])])
 m4_define([b4_var_decl],
           [    protected $1;])
+
+
+# b4_symbol_type_define
+# ---------------------
+# Define symbol_type, the external type for symbols used for symbol
+# constructors.
+m4_define([b4_symbol_type_define],
+[[
+  /**
+    * A complete symbol
+    */
+  struct Symbol
+  {
+    private SymbolKind kind;
+    private ]b4_yystype[ value;]b4_locations_if([[
+    private YYLocation location_;]])[
+    this(TokenKind token]b4_locations_if([[, YYLocation loc]])[)
+    {
+      kind = yytranslate_(token);]b4_locations_if([
+      location_ = loc;])[
+    }
+    static foreach (member; __traits(allMembers, YYSemanticType))
+    {
+      this(TokenKind token, typeof(mixin("YYSemanticType." ~ member)) val]b4_locations_if([[, YYLocation loc]])[)
+      {
+        kind = yytranslate_(token);
+        mixin("value." ~ member ~ " = val;");]b4_locations_if([
+        location_ = loc;])[
+      }
+    }
+    SymbolKind token() { return kind; }
+    ]b4_yystype[ semanticValue() { return value; }]b4_locations_if([[
+    YYLocation location() { return location_; }]])[
+  }
+]])

@@ -75,7 +75,7 @@ public interface Lexer
    * to the next token and prepares to return the semantic value
    * ]b4_locations_if([and beginning/ending positions ])[of the token.
    * @@return the token identifier corresponding to the next token. */
-  TokenKind yylex ();
+  ]b4_parser_class[.Symbol yylex ();
 
   /**
    * Entry point for error reporting.  Emits an error
@@ -290,7 +290,7 @@ b4_user_union_members
       yyDebugStream.writeln (s);
   }
 ]])[
-  private final TokenKind yylex () {
+  private final ]b4_parser_class[.Symbol yylex () {
     return yylexer.yylex ();
   }
 
@@ -411,7 +411,9 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
       yycdebugln (message);
     }
   }
-]])[
+]])
+b4_symbol_type_define
+[
   /**
    * Parse input from the scanner that was specified at object construction
    * time.  Return whether the end of the input was reached successfully.
@@ -493,13 +495,10 @@ m4_popdef([b4_at_dollar])])dnl
         if (yychar == TokenKind.]b4_symbol(empty, id)[)
         {]b4_parse_trace_if([[
           yycdebugln ("Reading a token");]])[
-          yychar = yylex ();]b4_locations_if([[
-          static if (yy_location_is_class) {
-            yylloc = new ]b4_location_type[(yylexer.startPos, yylexer.endPos);
-          } else {
-            yylloc = ]b4_location_type[(yylexer.startPos, yylexer.endPos);
-          }]])
-          yylval = yylexer.semanticVal;[
+          Symbol yysymbol = yylex();
+          yychar = yysymbol.token();
+          yylval = yysymbol.semanticValue();]b4_locations_if([[
+          yylloc = yysymbol.location();]])[
         }
 
         /* Convert token to internal form.  */

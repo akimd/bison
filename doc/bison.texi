@@ -14011,9 +14011,9 @@ This method is defined by the user to emit an error message.  The first
 parameter is omitted if location tracking is not active.
 @end deftypemethod
 
-@deftypemethod {Lexer} {TokenKind} yylex()
-Return the next token.  Its type is the return value, its semantic value and
-location are saved and returned by the their methods in the interface.
+@deftypemethod {Lexer} {YYParser.Symbol} yylex()
+Return the next token. The return value is of type YYParser.Symbol, which
+binds together the TokenKind, the semantic value and the location.
 @end deftypemethod
 
 @deftypemethod {Lexer} {YYPosition} getStartPos()
