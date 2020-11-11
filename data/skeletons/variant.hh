@@ -133,10 +133,10 @@ m4_define([b4_value_type_declare],
     template <typename T, typename... U>
     T&
     emplace (U&&... u)
-    {]b4_parse_assert_if([
+    {]b4_parse_assert_if([[
       YY_ASSERT (!yytypeid_);
       YY_ASSERT (sizeof (T) <= size);
-      yytypeid_ = & typeid (T);])[
+      yytypeid_ = & typeid (T);]])[
       return *new (yyas_<T> ()) T (std::forward <U>(u)...);
     }
 # else
@@ -144,10 +144,10 @@ m4_define([b4_value_type_declare],
     template <typename T>
     T&
     emplace ()
-    {]b4_parse_assert_if([
+    {]b4_parse_assert_if([[
       YY_ASSERT (!yytypeid_);
       YY_ASSERT (sizeof (T) <= size);
-      yytypeid_ = & typeid (T);])[
+      yytypeid_ = & typeid (T);]])[
       return *new (yyas_<T> ()) T ();
     }
 
@@ -155,10 +155,10 @@ m4_define([b4_value_type_declare],
     template <typename T>
     T&
     emplace (const T& t)
-    {]b4_parse_assert_if([
+    {]b4_parse_assert_if([[
       YY_ASSERT (!yytypeid_);
       YY_ASSERT (sizeof (T) <= size);
-      yytypeid_ = & typeid (T);])[
+      yytypeid_ = & typeid (T);]])[
       return *new (yyas_<T> ()) T (t);
     }
 # endif
@@ -185,10 +185,10 @@ m4_define([b4_value_type_declare],
     template <typename T>
     T&
     as () YY_NOEXCEPT
-    {]b4_parse_assert_if([
+    {]b4_parse_assert_if([[
       YY_ASSERT (yytypeid_);
       YY_ASSERT (*yytypeid_ == typeid (T));
-      YY_ASSERT (sizeof (T) <= size);])[
+      YY_ASSERT (sizeof (T) <= size);]])[
       return *yyas_<T> ();
     }
 
@@ -196,10 +196,10 @@ m4_define([b4_value_type_declare],
     template <typename T>
     const T&
     as () const YY_NOEXCEPT
-    {]b4_parse_assert_if([
+    {]b4_parse_assert_if([[
       YY_ASSERT (yytypeid_);
       YY_ASSERT (*yytypeid_ == typeid (T));
-      YY_ASSERT (sizeof (T) <= size);])[
+      YY_ASSERT (sizeof (T) <= size);]])[
       return *yyas_<T> ();
     }
 
@@ -214,9 +214,9 @@ m4_define([b4_value_type_declare],
     template <typename T>
     void
     swap (self_type& that) YY_NOEXCEPT
-    {]b4_parse_assert_if([
+    {]b4_parse_assert_if([[
       YY_ASSERT (yytypeid_);
-      YY_ASSERT (*yytypeid_ == *that.yytypeid_);])[
+      YY_ASSERT (*yytypeid_ == *that.yytypeid_);]])[
       std::swap (as<T> (), that.as<T> ());
     }
 
