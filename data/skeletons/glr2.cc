@@ -799,7 +799,11 @@ public:
   void copyFrom(const glr_state& other) {
     *this = other;
     setPred(other.pred());
-    setFirstVal(other.firstVal());
+    if (other.yyresolved) {
+      semanticVal() = other.semanticVal();
+    } else {
+      setFirstVal(other.firstVal());
+    }
   }
 
   /** Type tag for   If true, yysval applies, otherwise
@@ -945,9 +949,9 @@ class glr_state_set {
   inline void
   yyremoveDeletes ()
   {
-    std::ptrdiff_t newsize = static_cast<std::ptrdiff_t>(yystates.size());
+    size_t newsize = yystates.size();
     /* j is the number of live stacks we have seen.  */
-    for (size_t i = 0, j = 0; i < yystates.size(); ++i)
+    for (size_t i = 0, j = 0; j < newsize; ++i)
       {
         if (yystates[i] == YY_NULLPTR)
           {
@@ -972,10 +976,9 @@ class glr_state_set {
               }
             j += 1;
           }
-        i += 1;
       }
-    yystates.erase(yystates.begin() + newsize, yystates.end());
-    yylookaheadNeeds.erase(yylookaheadNeeds.begin() + newsize,
+    yystates.erase(yystates.begin() + static_cast<std::ptrdiff_t>(newsize), yystates.end());
+    yylookaheadNeeds.erase(yylookaheadNeeds.begin() + static_cast<std::ptrdiff_t>(newsize),
                            yylookaheadNeeds.end());
   }
 
