@@ -81,7 +81,7 @@ class CalcLexer(R) : Lexer
   YYSemanticType semanticVal_;
   YYSemanticType semanticVal() @property { return semanticVal_; }
 
-  TokenKind yylex()
+  YYParser.Symbol yylex()
   {
     $2
   }
@@ -143,16 +143,16 @@ AT_KEYWORDS([d])
 
 AT_CHECK_D_MINIMAL_W_LEXER([
 %define api.token.raw true
-%union { int ival; }], [return TokenKind.END;])
+%union { int ival; }], [return YYParser.Symbol(TokenKind.END);])
 AT_CHECK_D_GREP([[  END = 3,]])
 
 AT_CHECK_D_MINIMAL_W_LEXER([
 %define api.token.raw false
-%union { int ival; }], [return TokenKind.END;])
+%union { int ival; }], [return YYParser.Symbol(TokenKind.END);])
 AT_CHECK_D_GREP([[  END = 258,]])
 
 AT_CHECK_D_MINIMAL_W_LEXER([
-%union { int ival; }], [return TokenKind.END;])
+%union { int ival; }], [return YYParser.Symbol(TokenKind.END);])
 AT_CHECK_D_GREP([[  END = 3,]])
 
 AT_CLEANUP

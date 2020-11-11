@@ -590,7 +590,7 @@ class CalcLexer(R) : Lexer
     return res;
   }
 
-  TokenKind yylex ()
+  YYParser.Symbol yylex ()
   {]AT_LOCATION_IF([[
     location.begin = location.end;]])[
 
@@ -606,13 +606,13 @@ class CalcLexer(R) : Lexer
 
     // EOF.
     if (input.empty)
-      return TokenKind.]AT_TOKEN_PREFIX[EOF;
+      return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[EOF]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
 
     // Numbers.
     if (input.front.isNumber)
       {
         semanticVal_.ival = parseInt;
-        return TokenKind.]AT_TOKEN_PREFIX[NUM;
+        return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[NUM, semanticVal_.ival]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
       }
 
     // Individual characters
@@ -630,22 +630,22 @@ class CalcLexer(R) : Lexer
     if (c == '#')
       {
         stderr.writeln (]AT_LOCATION_IF([location, ": ", ])["syntax error: invalid character: '#'");
-        return TokenKind.]AT_TOKEN_PREFIX[YYerror;
+        return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[YYerror]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
       }
 
     switch (c)
     {
-      case '+':  return TokenKind.]AT_TOKEN_PREFIX[PLUS;
-      case '-':  return TokenKind.]AT_TOKEN_PREFIX[MINUS;
-      case '*':  return TokenKind.]AT_TOKEN_PREFIX[STAR;
-      case '/':  return TokenKind.]AT_TOKEN_PREFIX[SLASH;
-      case '(':  return TokenKind.]AT_TOKEN_PREFIX[LPAR;
-      case ')':  return TokenKind.]AT_TOKEN_PREFIX[RPAR;
-      case '\n': return TokenKind.]AT_TOKEN_PREFIX[EOL;
-      case '=':  return TokenKind.]AT_TOKEN_PREFIX[EQUAL;
-      case '^':  return TokenKind.]AT_TOKEN_PREFIX[POW;
-      case '!':  return TokenKind.]AT_TOKEN_PREFIX[NOT;
-      default:   return TokenKind.]AT_TOKEN_PREFIX[YYUNDEF;
+      case '+':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[PLUS]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '-':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[MINUS]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '*':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[STAR]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '/':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[SLASH]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '(':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[LPAR]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case ')':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[RPAR]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '\n': return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[EOL]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '=':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[EQUAL]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '^':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[POW]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      case '!':  return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[NOT]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
+      default:   return YYParser.Symbol(TokenKind.]AT_TOKEN_PREFIX[YYUNDEF]AT_LOCATION_IF([[, new YYLocation(startPos, endPos)]])[);
     }
   }
 }

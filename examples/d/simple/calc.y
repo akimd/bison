@@ -109,7 +109,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     return semanticVal_;
   }
 
-  TokenKind yylex()
+  Calc.Symbol yylex()
   {
     import std.uni : isWhite, isNumber;
 
@@ -118,14 +118,13 @@ if (isInputRange!R && is(ElementType!R : dchar))
       input.popFront;
 
     if (input.empty)
-      return TokenKind.YYEOF;
+      return Calc.Symbol(TokenKind.YYEOF);
 
     // Numbers.
     if (input.front.isNumber)
       {
         import std.conv : parse;
-        semanticVal_.ival = input.parse!int;
-        return TokenKind.NUM;
+        return Calc.Symbol(TokenKind.NUM, input.parse!int);
       }
 
     // Individual characters
@@ -133,13 +132,13 @@ if (isInputRange!R && is(ElementType!R : dchar))
     input.popFront;
     switch (ch)
       {
-      case '+':  return TokenKind.PLUS;
-      case '-':  return TokenKind.MINUS;
-      case '*':  return TokenKind.STAR;
-      case '/':  return TokenKind.SLASH;
-      case '(':  return TokenKind.LPAR;
-      case ')':  return TokenKind.RPAR;
-      case '\n': return TokenKind.EOL;
+      case '+':  return Calc.Symbol(TokenKind.PLUS);
+      case '-':  return Calc.Symbol(TokenKind.MINUS);
+      case '*':  return Calc.Symbol(TokenKind.STAR);
+      case '/':  return Calc.Symbol(TokenKind.SLASH);
+      case '(':  return Calc.Symbol(TokenKind.LPAR);
+      case ')':  return Calc.Symbol(TokenKind.RPAR);
+      case '\n': return Calc.Symbol(TokenKind.EOL);
       default: assert(0);
       }
   }
