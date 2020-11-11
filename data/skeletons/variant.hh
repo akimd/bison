@@ -20,6 +20,13 @@
 ## variant.  ##
 ## --------- ##
 
+# b4_assert
+# ---------
+# The name of YY_ASSERT.
+m4_define([b4_assert],
+          [b4_api_PREFIX[]_ASSERT])
+
+
 # b4_symbol_variant(YYTYPE, YYVAL, ACTION, [ARGS])
 # ------------------------------------------------
 # Run some ACTION ("build", or "destroy") on YYVAL of symbol type
@@ -72,9 +79,9 @@ m4_map([      b4_symbol_tag_comment], [$@])dnl
 # The needed includes for variants support.
 m4_define([b4_variant_includes],
 [b4_parse_assert_if([[#include <typeinfo>
-#ifndef YY_ASSERT
+#ifndef ]b4_assert[
 # include <cassert>
-# define YY_ASSERT assert
+# define ]b4_assert[ assert
 #endif
 ]])])
 
@@ -111,7 +118,7 @@ m4_define([b4_value_type_declare],
     semantic_type (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
     {]b4_parse_assert_if([[
-      YY_ASSERT (sizeof (T) <= size);]])[
+      ]b4_assert[ (sizeof (T) <= size);]])[
       new (yyas_<T> ()) T (YY_MOVE (t));
     }
 
@@ -125,7 +132,7 @@ m4_define([b4_value_type_declare],
     /// Destruction, allowed only if empty.
     ~semantic_type () YY_NOEXCEPT
     {]b4_parse_assert_if([
-      YY_ASSERT (!yytypeid_);
+      ]b4_assert[ (!yytypeid_);
     ])[}
 
 # if 201103L <= YY_CPLUSPLUS
@@ -134,8 +141,8 @@ m4_define([b4_value_type_declare],
     T&
     emplace (U&&... u)
     {]b4_parse_assert_if([[
-      YY_ASSERT (!yytypeid_);
-      YY_ASSERT (sizeof (T) <= size);
+      ]b4_assert[ (!yytypeid_);
+      ]b4_assert[ (sizeof (T) <= size);
       yytypeid_ = & typeid (T);]])[
       return *new (yyas_<T> ()) T (std::forward <U>(u)...);
     }
@@ -145,8 +152,8 @@ m4_define([b4_value_type_declare],
     T&
     emplace ()
     {]b4_parse_assert_if([[
-      YY_ASSERT (!yytypeid_);
-      YY_ASSERT (sizeof (T) <= size);
+      ]b4_assert[ (!yytypeid_);
+      ]b4_assert[ (sizeof (T) <= size);
       yytypeid_ = & typeid (T);]])[
       return *new (yyas_<T> ()) T ();
     }
@@ -156,8 +163,8 @@ m4_define([b4_value_type_declare],
     T&
     emplace (const T& t)
     {]b4_parse_assert_if([[
-      YY_ASSERT (!yytypeid_);
-      YY_ASSERT (sizeof (T) <= size);
+      ]b4_assert[ (!yytypeid_);
+      ]b4_assert[ (sizeof (T) <= size);
       yytypeid_ = & typeid (T);]])[
       return *new (yyas_<T> ()) T (t);
     }
@@ -186,9 +193,9 @@ m4_define([b4_value_type_declare],
     T&
     as () YY_NOEXCEPT
     {]b4_parse_assert_if([[
-      YY_ASSERT (yytypeid_);
-      YY_ASSERT (*yytypeid_ == typeid (T));
-      YY_ASSERT (sizeof (T) <= size);]])[
+      ]b4_assert[ (yytypeid_);
+      ]b4_assert[ (*yytypeid_ == typeid (T));
+      ]b4_assert[ (sizeof (T) <= size);]])[
       return *yyas_<T> ();
     }
 
@@ -197,9 +204,9 @@ m4_define([b4_value_type_declare],
     const T&
     as () const YY_NOEXCEPT
     {]b4_parse_assert_if([[
-      YY_ASSERT (yytypeid_);
-      YY_ASSERT (*yytypeid_ == typeid (T));
-      YY_ASSERT (sizeof (T) <= size);]])[
+      ]b4_assert[ (yytypeid_);
+      ]b4_assert[ (*yytypeid_ == typeid (T));
+      ]b4_assert[ (sizeof (T) <= size);]])[
       return *yyas_<T> ();
     }
 
@@ -215,8 +222,8 @@ m4_define([b4_value_type_declare],
     void
     swap (self_type& that) YY_NOEXCEPT
     {]b4_parse_assert_if([[
-      YY_ASSERT (yytypeid_);
-      YY_ASSERT (*yytypeid_ == *that.yytypeid_);]])[
+      ]b4_assert[ (yytypeid_);
+      ]b4_assert[ (*yytypeid_ == *that.yytypeid_);]])[
       std::swap (as<T> (), that.as<T> ());
     }
 
@@ -421,7 +428,7 @@ m4_define([_b4_token_constructor_define],
                               b4_locations_if([l]))[)
 #endif
       {]b4_parse_assert_if([[
-        YY_ASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+        ]b4_assert[ (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
       ]])[}
 ]])])
 

@@ -15,6 +15,9 @@ GNU Bison NEWS
   even when the `parse.assert` %define variable is not enabled.  It no
   longer does.
 
+  The private internal macro YY_ASSERT now obeys the `api.prefix` %define
+  variable.
+
 ** Changes
 
   The YYBISON macro in generated "regular C parsers" (from the "yacc.c"
