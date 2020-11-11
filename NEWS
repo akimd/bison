@@ -4,8 +4,16 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** Bug fixes in yacc.c
+
   In Yacc mode, all the tokens are defined twice: once as an enum, and then
   as a macro.  YYEMPTY was missing its macro.
+
+*** Bug fixes in lalr1.cc
+
+  The lalr1.cc skeleton used to emit internal assertions (using YY_ASSERT)
+  even when the `parse.assert` %define variable is not enabled.  It no
+  longer does.
 
 ** Changes
 

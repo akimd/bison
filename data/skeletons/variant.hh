@@ -71,12 +71,12 @@ m4_map([      b4_symbol_tag_comment], [$@])dnl
 # -------------------
 # The needed includes for variants support.
 m4_define([b4_variant_includes],
-[b4_parse_assert_if([[#include <typeinfo>]])[
+[b4_parse_assert_if([[#include <typeinfo>
 #ifndef YY_ASSERT
 # include <cassert>
 # define YY_ASSERT assert
 #endif
-]])
+]])])
 
 
 
@@ -110,8 +110,8 @@ m4_define([b4_value_type_declare],
     template <typename T>
     semantic_type (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
-    {
-      YY_ASSERT (sizeof (T) <= size);
+    {]b4_parse_assert_if([[
+      YY_ASSERT (sizeof (T) <= size);]])[
       new (yyas_<T> ()) T (YY_MOVE (t));
     }
 
@@ -410,9 +410,6 @@ m4_define([_b4_token_constructor_define],
         : super_type(]b4_join([token_type (tok)],
                               b4_symbol_if([$1], [has_type], [std::move (v)]),
                               b4_locations_if([std::move (l)]))[)
-      {
-        YY_ASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
-      }
 #else
       symbol_type (]b4_join(
           [int tok],
@@ -422,10 +419,10 @@ m4_define([_b4_token_constructor_define],
         : super_type(]b4_join([token_type (tok)],
                               b4_symbol_if([$1], [has_type], [v]),
                               b4_locations_if([l]))[)
-      {
-        YY_ASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
-      }
 #endif
+      {]b4_parse_assert_if([[
+        YY_ASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+      ]])[}
 ]])])
 
 
