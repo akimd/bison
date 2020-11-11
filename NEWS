@@ -18,6 +18,10 @@ GNU Bison NEWS
   The private internal macro YY_ASSERT now obeys the `api.prefix` %define
   variable.
 
+  When there is a very large number of tokens, some assertions could be long
+  enough to hit arbitrary limits in Visual C++.  They have been rewritten to
+  work around this limitation.
+
 ** Changes
 
   The YYBISON macro in generated "regular C parsers" (from the "yacc.c"

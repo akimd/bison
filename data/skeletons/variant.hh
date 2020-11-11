@@ -395,11 +395,67 @@ m4_define([_b4_token_maker_define],
 ])])
 
 
-m4_define([_b4_type_clause],
-[b4_symbol_if([$1], [is_token],
-              [b4_symbol_if([$1], [has_id],
-                            [tok == token::b4_symbol([$1], [id])],
-                            [tok == b4_symbol([$1], [code])])])])
+# b4_token_kind(SYMBOL-NUM)
+# -------------------------
+# Some tokens don't have an ID.
+m4_define([b4_token_kind],
+[b4_symbol_if([$1], [has_id],
+              [token::b4_symbol([$1], [id])],
+              [b4_symbol([$1], [code])])])
+
+
+# _b4_tok_in(SYMBOL-NUM, ...)
+# ---------------------------
+# See b4_tok_in below.  The SYMBOL-NUMs... are tokens only.
+#
+# We iterate over the tokens to group them by "range" of token numbers (not
+# symbols numbers!).
+#
+# b4_fst is the start of that range.
+# b4_prev is the previous value.
+# b4_val is the current value.
+# If b4_val is the successor of b4_prev in token numbers, update the latter,
+#   otherwise emit the code for range b4_fst .. b4_prev.
+# $1 is also used as a terminator in the foreach, but it will not be printed.
+#
+m4_define([_b4_tok_in],
+[m4_pushdef([b4_prev], [$1])dnl
+m4_pushdef([b4_fst], [$1])dnl
+m4_pushdef([b4_sep], [])dnl
+m4_foreach([b4_val], m4_dquote(m4_shift($@, $1)),
+           [m4_if(b4_symbol(b4_val, [code]), m4_eval(b4_symbol(b4_prev, [code]) + 1), [],
+                  [b4_sep[]m4_if(b4_fst, b4_prev,
+                         [tok == b4_token_kind(b4_fst)],
+                         [(b4_token_kind(b4_fst) <= tok && tok <= b4_token_kind(b4_prev))])[]dnl
+m4_define([b4_fst], b4_val)dnl
+m4_define([b4_sep], [
+                   || ])])dnl
+m4_define([b4_prev], b4_val)])dnl
+m4_popdef([b4_sep])dnl
+m4_popdef([b4_fst])dnl
+m4_popdef([b4_prev])dnl
+])
+
+
+# _b4_filter_tokens(SYMBOL-NUM, ...)
+# ----------------------------------
+# Expand as the list of tokens amongst SYMBOL-NUM.
+m4_define([_b4_filter_tokens],
+[m4_pushdef([b4_sep])dnl
+m4_foreach([b4_val], [$@],
+           [b4_symbol_if(b4_val, [is_token], [b4_sep[]b4_val[]m4_define([b4_sep], [,])])])dnl
+m4_popdef([b4_sep])dnl
+])
+
+
+# b4_tok_in(SYMBOL-NUM, ...)
+# ---------------------------
+# A C++ conditional that checks that `tok` is a member of this list of symbol
+# numbers.
+m4_define([b4_tok_in],
+          [_$0(_b4_filter_tokens($@))])
+
+
 
 
 # _b4_token_constructor_define(SYMBOL-NUM...)
@@ -428,7 +484,7 @@ m4_define([_b4_token_constructor_define],
                               b4_locations_if([l]))[)
 #endif
       {]b4_parse_assert_if([[
-        ]b4_assert[ (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+        ]b4_assert[ (]b4_tok_in($@)[);
       ]])[}
 ]])])
 
