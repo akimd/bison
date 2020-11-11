@@ -633,11 +633,11 @@ m4_define([_b4_type_action],
 
 ])])
 
-# b4_type_foreach(MACRO)
-# ----------------------
+# b4_type_foreach(MACRO, [SEP])
+# -----------------------------
 # Invoke MACRO(SYMBOL-NUMS) for each set of SYMBOL-NUMS for each type set.
 m4_define([b4_type_foreach],
-          [m4_map([$1], m4_defn([b4_type_names]))])
+          [m4_map_sep([$1], [$2], m4_defn([b4_type_names]))])
 
 
 
