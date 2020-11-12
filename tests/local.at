@@ -891,7 +891,7 @@ public string transformToken(]AT_API_PREFIX[Parser.SymbolKind token)
     return res;
 }
 
-public void syntax_error(]AT_API_PREFIX[Parser.Context ctx)
+public void reportSyntaxError(]AT_API_PREFIX[Parser.Context ctx)
 {
   stderr.write(]AT_LOCATION_IF([[ctx.getLocation(), ": ",]])["syntax error");
   {

@@ -84,7 +84,7 @@ public interface Lexer
    *
    * @@param ctx  The context of the error.
    */
-  void syntax_error(]b4_parser_class[.Context ctx);
+  void reportSyntaxError(]b4_parser_class[.Context ctx);
 ]])[
 }
 
@@ -675,7 +675,7 @@ m4_popdef([b4_at_dollar])])dnl
   private final void yyreportSyntaxError(Context yyctx)
   {]b4_parse_error_bmatch(
 [custom], [[
-    yylexer.syntax_error(yyctx);]],
+    yylexer.reportSyntaxError(yyctx);]],
 [detailed\|verbose], [[
     if (yyctx.getToken() != ]b4_symbol(empty, kind)[)
     {
