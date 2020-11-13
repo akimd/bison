@@ -366,7 +366,7 @@ AT_TOKEN_CTOR_IF(
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
  m4_pushdef([AT_YYLEX_FORMALS],     [])
- m4_pushdef([AT_YYLEX_RETURN],      [yy::parser::symbol_type])
+ m4_pushdef([AT_YYLEX_RETURN],      [AT_NAMESPACE::parser::symbol_type])
  m4_pushdef([AT_YYLEX_ARGS],        [])
  m4_pushdef([AT_USE_LEX_ARGS],      [])
  m4_pushdef([AT_YYLEX_PRE_FORMALS], [])

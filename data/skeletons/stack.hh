@@ -19,8 +19,8 @@
 # b4_stack_file
 # -------------
 # Name of the file containing the stack class, if we want this file.
-b4_header_if([b4_required_version_if([302], [],
-                                      [m4_define([b4_stack_file], [stack.hh])])])
+b4_header_if([b4_required_version_if([30200], [],
+                                     [m4_define([b4_stack_file], [stack.hh])])])
 
 
 # b4_stack_define

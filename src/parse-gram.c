@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.2.67-44c6.  */
+/* A Bison parser, made by GNU Bison 3.7.3.118-d0ea7-dirty.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
@@ -45,11 +45,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Identify Bison output.  */
-#define YYBISON 1
+/* Identify Bison output, and Bison version.  */
+#define YYBISON 30703
 
-/* Bison version.  */
-#define YYBISON_VERSION "3.7.2.67-44c6"
+/* Bison version string.  */
+#define YYBISON_VERSION "3.7.3.118-d0ea7-dirty"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -220,8 +220,6 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
   #include "system.h"
 
   #include <c-ctype.h>
-  #include <errno.h>
-  #include <intprops.h>
   #include <quotearg.h>
   #include <vasnprintf.h>
   #include <xmemdup0.h>
@@ -235,6 +233,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
   #include "reader.h"
   #include "scan-code.h"
   #include "scan-gram.h"
+  #include "strversion.h"
 
   /* Pretend to be at least that version, to check features published
      in that version while developping it.  */
@@ -647,19 +646,19 @@ union yyalloc
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   311,   311,   320,   321,   325,   326,   332,   336,   341,
-     342,   343,   344,   345,   346,   351,   356,   357,   358,   359,
-     360,   361,   361,   362,   363,   364,   365,   366,   367,   368,
-     369,   373,   374,   383,   384,   388,   399,   403,   407,   415,
-     425,   426,   436,   437,   443,   456,   456,   461,   461,   466,
-     466,   471,   481,   482,   483,   484,   489,   490,   494,   495,
-     500,   501,   505,   506,   510,   511,   512,   525,   534,   538,
-     542,   550,   551,   555,   568,   569,   574,   575,   576,   594,
-     598,   602,   610,   612,   617,   624,   634,   638,   642,   650,
-     656,   669,   670,   676,   677,   678,   685,   685,   693,   694,
-     695,   700,   703,   705,   707,   709,   711,   713,   715,   717,
-     719,   724,   725,   734,   758,   759,   760,   761,   773,   775,
-     799,   804,   805,   810,   818,   819
+       0,   310,   310,   319,   320,   324,   325,   331,   335,   340,
+     341,   342,   343,   344,   345,   350,   355,   356,   357,   358,
+     359,   360,   360,   361,   362,   363,   364,   365,   366,   367,
+     368,   372,   373,   382,   383,   387,   398,   402,   406,   414,
+     424,   425,   435,   436,   442,   455,   455,   460,   460,   465,
+     465,   470,   480,   481,   482,   483,   488,   489,   493,   494,
+     499,   500,   504,   505,   509,   510,   511,   524,   533,   537,
+     541,   549,   550,   554,   567,   568,   573,   574,   575,   593,
+     597,   601,   609,   611,   616,   623,   633,   637,   641,   649,
+     655,   668,   669,   675,   676,   677,   684,   684,   692,   693,
+     694,   699,   702,   704,   706,   708,   710,   712,   714,   716,
+     718,   723,   724,   733,   757,   758,   759,   760,   772,   774,
+     798,   803,   804,   809,   817,   818
 };
 #endif
 
@@ -3063,41 +3062,11 @@ handle_pure_parser (location const *loc, char const *directive)
 }
 
 
-/* Convert VERSION into an int (MAJOR * 100 + MINOR).  Return -1 on
-   errors.
-
-   Changes of behavior are only on minor version changes, so "3.0.5"
-   is the same as "3.0": 300. */
-static int
-str_to_version (char const *version)
-{
-  IGNORE_TYPE_LIMITS_BEGIN
-  int res = 0;
-  errno = 0;
-  char *cp = NULL;
-  long major = strtol (version, &cp, 10);
-  if (errno || cp == version || *cp != '.' || major < 0
-      || INT_MULTIPLY_WRAPV (major, 100, &res))
-    return -1;
-
-  ++cp;
-  char *cp1 = NULL;
-  long minor = strtol (cp, &cp1, 10);
-  if (errno || cp1 == cp || (*cp1 != '\0' && *cp1 != '.')
-      || ! (0 <= minor && minor < 100)
-      || INT_ADD_WRAPV (minor, res, &res))
-    return -1;
-
-  IGNORE_TYPE_LIMITS_END
-  return res;
-}
-
-
 static void
 handle_require (location const *loc, char const *version_quoted)
 {
   char *version = unquote (version_quoted);
-  required_version = str_to_version (version);
+  required_version = strversion_to_int (version);
   if (required_version == -1)
     {
       complain (loc, complaint, _("invalid version requirement: %s"),

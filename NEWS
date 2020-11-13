@@ -54,6 +54,33 @@ GNU Bison NEWS
   The Java skeleton (lalr1.java) now supports LAC, via the %define variable
   parse.lac.
 
+* Noteworthy changes in release ?.? (????-??-??) [?]
+
+** Bug fixes
+
+*** Bug fixes in yacc.c
+
+  In Yacc mode, all the tokens are defined twice: once as an enum, and then
+  as a macro.  YYEMPTY was missing its macro.
+
+*** Bug fixes in lalr1.cc
+
+  The lalr1.cc skeleton used to emit internal assertions (using YY_ASSERT)
+  even when the `parse.assert` %define variable is not enabled.  It no
+  longer does.
+
+  The private internal macro YY_ASSERT now obeys the `api.prefix` %define
+  variable.
+
+  When there is a very large number of tokens, some assertions could be long
+  enough to hit arbitrary limits in Visual C++.  They have been rewritten to
+  work around this limitation.
+
+** Changes
+
+  The YYBISON macro in generated "regular C parsers" (from the "yacc.c"
+  skeleton) used to be defined to 1.  It is now defined to the version of
+  Bison as an integer (e.g., 30704 for version 3.7.4).
 
 * Noteworthy changes in release 3.7.3 (2020-10-13) [stable]
 

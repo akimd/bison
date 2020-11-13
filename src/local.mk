@@ -103,6 +103,8 @@ src_bison_SOURCES =                             \
   src/state.h                                   \
   src/state-item.c                              \
   src/state-item.h                              \
+  src/strversion.c                              \
+  src/strversion.h                              \
   src/symlist.c                                 \
   src/symlist.h                                 \
   src/symtab.c                                  \

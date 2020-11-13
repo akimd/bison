@@ -15837,6 +15837,12 @@ Macro to discard a value from the parser stack and fake a lookahead
 token.  @xref{Action Features}.
 @end deffn
 
+@deffn {Macro} YYBISON
+The version of Bison as an integer, for instance 30704 for version 3.7.4.
+Defined in @file{yacc.c} only.  Before version 3.7.4, @code{YYBISON} was
+defined to 1.
+@end deffn
+
 @deffn {Variable} yychar
 External integer variable that contains the integer value of the
 lookahead token.  (In a pure parser, it is a local variable within

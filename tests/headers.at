@@ -203,17 +203,20 @@ AT_SETUP([Several parsers])
 # Generate and compile to *.o.  Make sure there is no (allowed) YY*
 # nor yy* identifiers in the header after applying api.prefix.  Check
 # that headers can be compiled by a C++ compiler.
+#
+# They should all use parse.assert to make sure that we don't even
+# conflict of YY_ASSERT.
 m4_pushdef([AT_TEST],
-[AT_BISON_OPTION_PUSHDEFS([%define api.prefix {$1_} $2])
+[AT_BISON_OPTION_PUSHDEFS([%define api.prefix {$1_} %define parse.assert $2])
 AT_DATA_GRAMMAR([$1.y],
 [[%define api.prefix {$1_}
+%define parse.assert
 $2
 %define parse.error verbose
-%union
-{
-  int integer;
-}
-%{
+]AT_VARIANT_IF([],
+[%union {int integer;}])[
+
+%code {
 #include <stdio.h> /* printf. */
 ]AT_PUSH_IF([[
 #if defined __GNUC__ && (7 == __GNUC__ || 9 == __GNUC__)
@@ -222,8 +225,10 @@ $2
 ]])[
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-%}
+}
+
 %%
+
 exp:
   'x' '1' { printf ("x1\n"); }
 | 'x' '2' { printf ("x2\n"); }
@@ -234,9 +239,12 @@ exp:
 | 'x' '7' { printf ("x7\n"); }
 | 'x' '8' { printf ("x8\n"); }
 | 'x' '9' { printf ("x9\n"); }
+| 'x' 'a' { printf ("xa\n"); }
+| 'x' 'b' { printf ("xb\n"); }
 ;
 
 %%
+
 ]AT_YYERROR_DEFINE[
 ]AT_YYLEX_DEFINE(["$1"])[
 ]])
@@ -269,6 +277,8 @@ extern "C"
 #endif
 #include "x5.hh"
 #include "x9.hh"
+#include "xa.hh"
+#include "xb.hh"
 
 #define RUN(S)                                  \
   do {                                          \
@@ -291,6 +301,10 @@ main (void)
   RUN(x8_parse());
   x9_::parser p9;
   RUN(p9.parse());
+  xa_::parser pa;
+  RUN(pa.parse());
+  xb_::parser pb;
+  RUN(pb.parse());
   return 0;
 }
 ]])# main.cc
@@ -303,7 +317,9 @@ AT_TEST([x5], [%locations %debug %language "c++"])
 AT_TEST([x6], [%define api.pure])
 AT_TEST([x7], [%define api.push-pull both])
 AT_TEST([x8], [%define api.pure %define api.push-pull both])
-AT_TEST([x9], [%locations %code requires {#include "location.hh"} %define api.location.type {x5_::location} %debug %language "c++"])
+AT_TEST([x9], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %debug %language "c++"])
+AT_TEST([xa], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %language "c++" %define api.value.type variant])
+AT_TEST([xb], [%locations %define api.location.file none %language "c++" %define api.value.type variant])
 #AT_TEST([x5], [%locations %language "c++" %glr-parser])
 
 # Check that api.prefix works properly:
@@ -339,6 +355,8 @@ AT_PERL_CHECK([[-n -0777 -e '
       |YY_NULLPTR
       |YY_RVREF
       |YY_\w+_INCLUDED
+      |FILE\ \*yyo   # Function argument.
+      |const\ yylocp # Function argument.
       )\b}{}gx;
   while (/^(.*YY.*)$/gm)
   {
@@ -356,7 +374,7 @@ AT_PERL_CHECK([[-n -0777 -e '
 # Do this late, so that other checks have been performed.
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
 
-AT_COMPILE_CXX([parser], [[x[1-9].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
+AT_COMPILE_CXX([parser], [[x[1-9a-b].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
 AT_PARSER_CHECK([parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])
