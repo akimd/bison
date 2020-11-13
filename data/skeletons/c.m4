@@ -521,7 +521,7 @@ m4_define([b4_token_define],
 # Output the definition of the tokens.
 m4_define([b4_token_defines],
 [[/* Token kinds.  */
-#define ]b4_symbol([-2], [id])[ -2
+#define ]b4_symbol(empty, [id])[ -2
 ]m4_join([
 ], b4_symbol_map([b4_token_define]))
 ])
@@ -549,7 +549,7 @@ m4_define([b4_token_enums],
 # define ]b4_api_PREFIX[TOKENTYPE
   enum ]b4_api_prefix[tokentype
   {
-    ]b4_symbol([-2], [id])[ = -2,
+    ]b4_symbol(empty, [id])[ = -2,
 ]b4_symbol_foreach([b4_token_enum])dnl
 [  };
   typedef enum ]b4_api_prefix[tokentype ]b4_api_prefix[token_kind_t;
@@ -599,7 +599,7 @@ m4_define([b4_declare_symbol_enum],
 [[/* Symbol kind.  */
 enum yysymbol_kind_t
 {
-  ]b4_symbol([-2], kind_base)[ = -2,
+  ]b4_symbol(empty, [kind_base])[ = -2,
 ]b4_symbol_foreach([b4_symbol_enum])dnl
 [};
 typedef enum yysymbol_kind_t yysymbol_kind_t;
