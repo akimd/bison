@@ -30,6 +30,8 @@
 /fcntl-o.m4
 /fcntl.m4
 /fcntl_h.m4
+/ffs.m4
+/ffsl.m4
 /float_h.m4
 /fopen.m4
 /fpending.m4
@@ -183,6 +185,7 @@
 /strerror.m4
 /strerror_r.m4
 /string_h.m4
+/strings_h.m4
 /strndup.m4
 /strnlen.m4
 /strverscmp.m4

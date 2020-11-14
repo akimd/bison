@@ -80,6 +80,9 @@
 /fd-hook.h
 /fd-safer-flag.c
 /fd-safer.c
+/ffs.c
+/ffsl.c
+/ffsl.h
 /filename.h
 /float+.h
 /float.c
@@ -324,6 +327,7 @@
 /strerror_r.c
 /string.h
 /string.in.h
+/strings.in.h
 /stripslash.c
 /strndup.c
 /strnlen.c

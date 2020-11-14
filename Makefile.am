@@ -76,6 +76,12 @@ include tests/local.mk
 clean-local:
 	rm -rf $(CLEANDIRS)
 
+.PHONY: gitsort
+gitsort:
+	cd $(srcdir) && for i in $$(git ls-files '*.gitignore'); do	\
+	  LC_ALL=C sort $$i -o $$i;					\
+	done
+
 # See comments in build-aux/git-version-gen.  However, we make .version depend
 # on configure so that .version and VERSION/PACKAGE_VERSION stay in sync in the
 # working copy (for example, when you run autoreconf && make).  Allowing these

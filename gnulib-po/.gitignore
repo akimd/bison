@@ -1,4 +1,3 @@
-/remove-potcdate.sin~
 /*.gmo
 /*.po
 /LINGUAS
@@ -18,4 +17,5 @@
 /quot.sed
 /remove-potcdate.sed
 /remove-potcdate.sin
+/remove-potcdate.sin~
 /stamp-po
