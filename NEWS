@@ -54,7 +54,8 @@ GNU Bison NEWS
   The Java skeleton (lalr1.java) now supports LAC, via the %define variable
   parse.lac.
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+
+* Noteworthy changes in release 3.7.4 (2020-11-14) [stable]
 
 ** Bug fixes
 
@@ -82,6 +83,7 @@ GNU Bison NEWS
   skeleton) used to be defined to 1.  It is now defined to the version of
   Bison as an integer (e.g., 30704 for version 3.7.4).
 
+
 * Noteworthy changes in release 3.7.3 (2020-10-13) [stable]
 
 ** Bug fixes
@@ -91,6 +93,7 @@ GNU Bison NEWS
   The bison executable is no longer linked uselessly against libreadline.
 
   Fix incorrect use of yytname in glr.cc.
+
 
 * Noteworthy changes in release 3.7.2 (2020-09-05) [stable]
 
