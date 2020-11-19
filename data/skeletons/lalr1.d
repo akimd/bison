@@ -139,11 +139,11 @@ static assert(__traits(compiles, (new string[1])[0]=(new ]b4_location_type[[1])[
 
 private immutable bool yy_location_is_class = !__traits(compiles, *(new ]b4_location_type[((new ]b4_position_type[[1])[0])));]], [[
 /**
- * A class defining a pair of positions.  Positions, defined by the
- * <code>]b4_position_type[</code> class, denote a point in the input.
+ * A struct defining a pair of positions.  Positions, defined by the
+ * <code>]b4_position_type[</code> struct, denote a point in the input.
  * Locations represent a part of the input through the beginning
  * and ending positions.  */
-public class ]b4_location_type[
+public struct ]b4_location_type[
 {
   /** The first, inclusive, position in the range.  */
   public ]b4_position_type[ begin;
@@ -159,9 +159,6 @@ public class ]b4_location_type[
     this.begin = this.end = loc;
   }
 
-  public this () {
-  }
-
   /**
    * Create a <code>]b4_location_type[</code> from the endpoints of the range.
    * @@param begin The first position included in the range.
@@ -173,10 +170,9 @@ public class ]b4_location_type[
   }
 
   /**
-   * A representation of the location. For this to be correct,
-   * <code>]b4_position_type[</code> should override the <code>toString</code>
-   * method.  */
-  public override string toString () const {
+   * A representation of the location.
+   */
+  public string toString () const {
     auto end_col = 0 < end.column ? end.column - 1 : 0;
     auto res = begin.toString ();
     if (end.filename && begin.filename != end.filename)
@@ -189,7 +185,7 @@ public class ]b4_location_type[
   }
 }
 
-private immutable bool yy_location_is_class = true;
+private immutable bool yy_location_is_class = false;
 
 ]])])m4_ifdef([b4_user_union_members], [private union YYSemanticType
 {
@@ -438,7 +434,7 @@ b4_symbol_type_define
     /* Error handling.  */
     int yynerrs_ = 0;]b4_locations_if([[
     /// The location where the error started.
-    ]b4_location_type[ yyerrloc = null;
+    ]b4_location_type[ yyerrloc;
 
     /// ]b4_location_type[ of the lookahead.
     ]b4_location_type[ yylloc;

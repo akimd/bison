@@ -13844,8 +13844,8 @@ can be used to print the semantic values.  This however may change
 @c - class Location
 
 When the directive @code{%locations} is used, the D parser supports
-location tracking, see @ref{Tracking Locations}.  The position
-structure and the location class are provided.
+location tracking, see @ref{Tracking Locations}.  The position and
+the location structures are provided.
 
 @deftypeivar {YYLocation} {YYPosition} begin
 @deftypeivarx {YYLocation} {YYPosition} end
