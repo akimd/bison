@@ -585,6 +585,24 @@ apt-get update
 apt-get install -y gcc-4.6 g++-4.6 m4 make
 ```
 
+## Stow
+
+If you want to install several versions of Bison using GNU Stow, do
+something like this:
+
+```
+for v in 3.7 3.7.1
+do
+  cd /tmp
+  wget https://ftp.gnu.org/gnu/bison/bison-$v.tar.xz
+  tar xf bison-$v.tar.xz
+  cd bison-$v
+  ./configure --prefix /usr/local/stow/bison-$v
+  make -j4
+  sudo make install
+done
+```
+
 Release Procedure
 =================
 
