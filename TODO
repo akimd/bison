@@ -175,6 +175,9 @@ tremendously other languages such as D and Java that probably have no
 similar feature.  If we remove jumps, we probably no longer need _Noreturn,
 so simplify `b4_attribute_define([noreturn])` into `b4_attribute_define`.
 
+After discussing with Valentin, it was decided that it's better to stay with
+jumps, since in some places exceptions are ruled out from C++.
+
 *** Coding style
 Move to our coding conventions.  In particular names such as yy_glr_stack,
 not yyGLRStack.
@@ -266,52 +269,8 @@ maintenance *simple* by avoiding any gratuitous difference.
 ** CI
 Check when gdc and ldc.
 
-** Documentation
-Write documentation about D support in doc/bison.texi.  Imitate the Java
-documentation.  You should be more succinct IMHO.
-
-** yyerrok
-It appears that neither Java nor D support yyerrok currently.  It does not
-need to be named this way...
-
-** Complete Symbols
-The current interface from the scanner to the parser is somewhat clumsy: the
-token kind is returned by yylex, but the value and location are stored in
-the scanner.  This reflects the fact that the implementation of the parser
-uses three variables to deal with each parsed symbol: its kind, its value,
-its location.
-
-So today the scanner of examples/d/calc.d (no locations) looks like:
-
-    if (input.front.isNumber)
-      {
-        import std.conv : parse;
-        semanticVal_.ival = input.parse!int;
-        return TokenKind.NUM;
-      }
-
-and the generated parser:
-
-    /* Read a lookahead token.  */
-    if (yychar == TokenKind.YYEMPTY)
-    {
-      yychar = yylex ();
-      yylval = yylexer.semanticVal;
-    }
-
-The parser class should feature a `Symbol` type which binds together kind,
-value and location, and the scanner should be able to return an instance of
-that type.  Something like
-
-    if (input.front.isNumber)
-      {
-        import std.conv : parse;
-        return parser.Symbol (TokenKind.NUM, input.parse!int);
-      }
-
 ** Token Constructors
-In the previous example it is possible to mix incorrectly kinds and values,
-and for instance:
+It is possible to mix incorrectly kinds and values, and for instance:
 
         return parser.Symbol (TokenKind.NUM, "Hello, World!\n");
 
@@ -323,10 +282,6 @@ example becomes
         return parser.make_NUM ("Hello, World!\n");
 
 which would easily be caught by the type checker.
-
-** Lookahead Correction
-Add support for LAC to the D skeleton.  It should not be too hard: look how
-this is done in lalr1.cc, and mock it.
 
 ** Push Parser
 Add support for push parser.  Do not start a nice skeleton, just enhance the
@@ -449,7 +404,6 @@ define it to the same type as the C ptrdiff_t type.
 * Completion
 Several features are not available in all the back-ends.
 
-- lac: D, Java (easy)
 - push parsers: glr.c, glr.cc, lalr1.cc (not very difficult)
 - token constructors: Java, C, D (a bit difficult)
 - glr: D, Java (super difficult)
@@ -584,23 +538,6 @@ It would be a very nice source of inspiration for the other languages.
 
 Valentin Tolmer is working on this.
 
-** yychar == YYEMPTY
-The code in yyerrlab reads:
-
-      if (yychar <= YYEOF)
-        {
-          /* Return failure if at end of input.  */
-          if (yychar == YYEOF)
-            YYABORT;
-        }
-
-There are only two yychar that can be <= YYEOF: YYEMPTY and YYEOF.
-But I can't produce the situation where yychar is YYEMPTY here, is it
-really possible?  The test suite does not exercise this case.
-
-This shows that it would be interesting to manage to install skeleton
-coverage analysis to the test suite.
-
 * From lalr1.cc to yacc.c
 ** Single stack
 Merging the three stacks in lalr1.cc simplified the code, prompted for
@@ -703,7 +640,7 @@ them together, paying attention to keep separate bits separated, in pseudo
 name spaces.
 
 ** Push parsers
-There is demand for push parsers in Java and C++.  And GLR I guess.
+There is demand for push parsers in C++.
 
 ** Generate code instead of tables
 This is certainly quite a lot of work.  See
