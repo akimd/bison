@@ -49,7 +49,7 @@ extern symbol_list *start_symbols;
    foo.  */
 symbol *switching_token (const symbol *start);
 
-void grammar_start_symbols_set (symbol_list *syms);
+void grammar_start_symbols_add (symbol_list *syms);
 
 void grammar_current_rule_begin (symbol *lhs, location loc,
                                  named_ref *lhs_named_ref);

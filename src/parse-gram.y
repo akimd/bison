@@ -382,7 +382,7 @@ grammar_declaration:
   symbol_declaration
 | "%start" symbols.1
     {
-      grammar_start_symbols_set ($2);
+      grammar_start_symbols_add ($2);
     }
 | code_props_type "{...}" generic_symlist
     {
