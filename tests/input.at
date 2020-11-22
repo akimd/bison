@@ -1814,6 +1814,75 @@ AT_BISON_CHECK([-o input.c input.y])
 AT_CLEANUP
 
 
+## ------------------------- ##
+## Duplicate %start symbol.  ##
+## ------------------------- ##
+
+AT_SETUP([Duplicate %start symbol])
+
+AT_KEYWORDS([multistart])
+
+AT_DATA([input.y],
+[[%start exp exp exp
+%%
+exp: %empty;
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [0], [],
+[[input.y:1.12-14: warning: duplicate directive [-Wother]
+    1 | %start exp exp exp
+      |            ^~~
+input.y:1.8-10: note: previous declaration
+    1 | %start exp exp exp
+      |        ^~~
+input.y:1.16-18: warning: duplicate directive [-Wother]
+    1 | %start exp exp exp
+      |                ^~~
+input.y:1.8-10: note: previous declaration
+    1 | %start exp exp exp
+      |        ^~~
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
+
+AT_DATA([input.y],
+[[%start exp foo exp
+%%
+exp: foo;
+foo: %empty;
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [0], [],
+[[input.y:1.16-18: warning: duplicate directive [-Wother]
+    1 | %start exp foo exp
+      |                ^~~
+input.y:1.8-10: note: previous declaration
+    1 | %start exp foo exp
+      |        ^~~
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
+
+AT_DATA([input.y],
+[[%start exp foo
+%start exp
+%%
+exp: foo;
+foo: %empty;
+]])
+
+AT_BISON_CHECK([-fcaret input.y], [0], [],
+[[input.y:2.8-10: warning: duplicate directive [-Wother]
+    2 | %start exp
+      |        ^~~
+input.y:1.8-10: note: previous declaration
+    1 | %start exp foo
+      |        ^~~
+input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
+
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## %prec takes a token.  ##
 ## --------------------- ##

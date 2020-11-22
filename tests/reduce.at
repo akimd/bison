@@ -452,7 +452,7 @@ AT_CLEANUP
 AT_SETUP([Bad start symbols])
 
 m4_pushdef([AT_TEST],
-[
+[AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA([[input.y]],
 [%%
 $1
@@ -461,6 +461,7 @@ $1
 AT_BISON_CHECK([[input.y]], 1, [],
 [$2
 ])
+AT_BISON_OPTION_POPDEFS([$1])
 ])
 
 AT_TEST(
