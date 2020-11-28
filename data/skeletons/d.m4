@@ -192,7 +192,12 @@ b4_symbol_foreach([b4_token_enum])dnl
 }
 ])
 
-
+# b4_symbol_translate(STRING)
+# ---------------------------
+# Used by "bison" in the array of symbol names to mark those that
+# require translation.
+m4_define([b4_symbol_translate],
+[[_($1)]])
 
 ## -------------- ##
 ## Symbol kinds.  ##
@@ -252,8 +257,17 @@ m4_define([b4_declare_symbol_enum],
     final void toString(W)(W sink) const
     if (isOutputRange!(W, char))
     {
-      string yystr = yytname_[yycode_];
+      immutable string[] yy_sname = @{
+  ]b4_symbol_names[
+      @};]b4_has_translations_if([[
+      /* YYTRANSLATABLE[SYMBOL-NUM] -- Whether YY_SNAME[SYMBOL-NUM] is
+        internationalizable.  */
+      immutable ]b4_int_type_for([b4_translatable])[[] yytranslatable = @{
+  ]b4_translatable[
+      @};
 
+        put(sink, yy_sname[yycode_]);]], [[
+      string yystr = yytname_[yycode_];
       if (yystr[0] == '"')
         {
         strip_quotes:
@@ -280,9 +294,7 @@ m4_define([b4_declare_symbol_enum],
       {
         put(sink, "end of input");
         return;
-      }
-
-      put(sink, yystr);
+      }]])[
     }
   }
 ]])

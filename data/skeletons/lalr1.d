@@ -40,6 +40,29 @@ version(D_Version2) {
 ]b4_user_post_prologue[
 ]b4_percent_code_get([[imports]])[
 import std.format;
+import std.conv;
+
+/**
+ * Handle error message internationalisation.
+ */
+static if (!is(typeof(YY_))) {
+  version(YYENABLE_NLS)
+  {
+    version(ENABLE_NLS)
+    {
+      extern(C) char* dgettext(const char*, const char*);
+      string YY_(const char* s)
+      {
+        return to!string(dgettext("bison-runtime", s));
+      }
+    }
+  }
+  static if (!is(typeof(YY_)))
+  {
+    pragma(inline, true)
+    string YY_(string msg) { return msg; }
+  }
+}
 
 /**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
@@ -680,20 +703,38 @@ m4_popdef([b4_at_dollar])])dnl
       immutable int argmax = 5;
       SymbolKind[] yyarg = new SymbolKind[argmax];
       int yycount = yysyntaxErrorArguments(yyctx, yyarg, argmax);
-      string res = "syntax error, unexpected ";
-      res ~= format!"%s"(yyarg[0]);
-      if (yycount < argmax + 1)
+      string res, yyformat;
+      import std.string;
+      switch (yycount)
       {
-        for (int yyi = 1; yyi < yycount; yyi++)
-        {
-          res ~= yyi == 1 ? ", expecting " : " or ";
-          res ~= format!"%s"(SymbolKind(yyarg[yyi]));
-        }
+        case  1:
+          yyformat = YY_("syntax error, unexpected %s");
+          res = format(yyformat, yyarg[0]);
+         break;
+        case  2:
+          yyformat = YY_("syntax error, unexpected %s, expecting %s");
+          res = format(yyformat, yyarg[0], yyarg[1]);
+          break;
+        case  3:
+          yyformat = YY_("syntax error, unexpected %s, expecting %s or %s");
+          res = format(yyformat, yyarg[0], yyarg[1], yyarg[2]);
+          break;
+        case  4:
+          yyformat = YY_("syntax error, unexpected %s, expecting %s or %s or %s");
+          res = format(yyformat, yyarg[0], yyarg[1], yyarg[2], yyarg[3]);
+          break;
+        case  5:
+          yyformat = YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s");
+          res = format(yyformat, yyarg[0], yyarg[1], yyarg[2], yyarg[3], yyarg[4]);
+          break;
+        default:
+          res = YY_("syntax error");
+          break;
       }
       yyerror(]b4_locations_if([yyctx.getLocation(), ])[res);
     }]],
 [[simple]], [[
-    yyerror(]b4_locations_if([yyctx.getLocation(), ])["syntax error");]])[
+    yyerror(]b4_locations_if([yyctx.getLocation(), ])[YY_("syntax error"));]])[
   }
 
 ]b4_parse_error_bmatch(

@@ -654,6 +654,23 @@ m4_define([_AT_DATA_CALC_Y(d)],
 };
 %printer { fprintf (yyo, "%d", $$); } <ival>;
 
+%code {
+]AT_TOKEN_TRANSLATE_IF([[
+  static string _(string s)
+  {
+    switch (s)
+    {
+      case "end of input":
+        return "end of file";
+      case "number":
+        return "nombre";
+      default:
+        return s;
+    }
+  }
+]])[
+}
+
 /* Bison Declarations */
 %token EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of file")], ["end of input"])[
 %token <ival> NUM   "number"
@@ -665,7 +682,7 @@ m4_define([_AT_DATA_CALC_Y(d)],
        STAR   "*"
        SLASH  "/"
        POW    "^"
-       EOL    "\n"
+       EOL    "'\\n'"
        LPAR   "("
        RPAR   ")"
        NOT    "!"
