@@ -9,14 +9,6 @@ And add tests in calc.at, to prepare work for D.
 ** YYERROR and yynerrs
 We are missing some cases.  Write a test case, and check all the skeletons.
 
-** gnulib
-Bruno notes:
-
-> I haven't looked deeply, but it strikes me that gnulib/lib/bitset/array.c
-> does not make use of the 'ffsl' function, nor or the 'integer_length_l'
-> function. Maybe because in Bison, all bitsets are so dense that it does
-> not give a performance advantage?
-
 ** Cex
 *** Improve gnulib
 Don't do this (counterexample.c):

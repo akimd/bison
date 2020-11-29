@@ -173,6 +173,9 @@
 /iconv_open-zos.gperf
 /iconv_open-zos.h
 /iconv_open.c
+/integer_length.c
+/integer_length.h
+/integer_length_l.c
 /intprops.h
 /inttypes.h
 /inttypes.in.h
@@ -379,7 +382,6 @@
 /vfprintf.c
 /vsnprintf.c
 /vsprintf.c
-/w32spawn.h
 /wait-process.c
 /wait-process.h
 /waitpid.c
@@ -399,6 +401,8 @@
 /windows-recmutex.h
 /windows-rwlock.c
 /windows-rwlock.h
+/windows-spawn.c
+/windows-spawn.h
 /windows-tls.c
 /windows-tls.h
 /xalloc-die.c

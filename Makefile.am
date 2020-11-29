@@ -78,7 +78,8 @@ clean-local:
 
 .PHONY: gitsort
 gitsort:
-	cd $(srcdir) && for i in $$(git ls-files '*.gitignore'); do	\
+	cd $(srcdir)							\
+	&& for i in $$(git ls-files '*.gitignore' | grep -v doc); do	\
 	  LC_ALL=C sort $$i -o $$i;					\
 	done
 
