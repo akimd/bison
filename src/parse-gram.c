@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.3.7-d831b.  */
+/* A Bison parser, made by GNU Bison 3.7.4.6-89d2b-dirty.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
@@ -45,11 +45,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Identify Bison output.  */
-#define YYBISON 30703
+/* Identify Bison output, and Bison version.  */
+#define YYBISON 30704
 
-/* Bison version.  */
-#define YYBISON_VERSION "3.7.3.7-d831b"
+/* Bison version string.  */
+#define YYBISON_VERSION "3.7.4.6-89d2b-dirty"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -363,6 +363,18 @@ typedef __INT_LEAST16_TYPE__ yytype_int16;
 typedef int_least16_t yytype_int16;
 #else
 typedef short yytype_int16;
+#endif
+
+/* Work around bug in HP-UX 11.23, which defines these macros
+   incorrectly for preprocessor constants.  This workaround can likely
+   be removed in 2023, as HPE has promised support for HP-UX 11.23
+   (aka HP-UX 11i v2) only through the end of 2022; see Table 2 of
+   <https://h20195.www2.hpe.com/V2/getpdf.aspx/4AA4-7673ENW.pdf>.  */
+#ifdef __hpux
+# undef UINT_LEAST8_MAX
+# undef UINT_LEAST16_MAX
+# define UINT_LEAST8_MAX 255
+# define UINT_LEAST16_MAX 65535
 #endif
 
 #if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
@@ -791,9 +803,9 @@ static const yytype_int16 yypgoto[] =
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int16 yydefgoto[] =
+static const yytype_uint8 yydefgoto[] =
 {
-      -1,     1,     2,    43,    82,   115,    77,    45,    84,    46,
+       0,     1,     2,    43,    82,   115,    77,    45,    84,    46,
       50,    49,    47,   156,   120,   121,   122,    97,    93,    94,
       95,   128,   141,    87,    88,    89,    55,    56,    78,    79,
       80,   135,   144,   145,   113,    63,   106,    57,    81,    58,
