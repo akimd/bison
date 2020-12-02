@@ -340,7 +340,7 @@ m4_define([b4_symbol_type_define],
       }
 
       /// Destroy contents, and record that is empty.
-      void clear ()
+      void clear () YY_NOEXCEPT
       {]b4_variant_if([[
         // User destructor.
         symbol_kind_type yykind = this->kind ();
@@ -424,7 +424,7 @@ m4_define([b4_symbol_type_define],
       by_kind (kind_type t);
 
       /// Record that this symbol is empty.
-      void clear ();
+      void clear () YY_NOEXCEPT;
 
       /// Steal the symbol kind from \a that.
       void move (by_kind& that);
@@ -544,7 +544,7 @@ m4_define([b4_public_types_define],
   {}
 
   ]b4_inline([$1])[void
-  ]b4_parser_class[::by_kind::clear ()
+  ]b4_parser_class[::by_kind::clear () YY_NOEXCEPT
   {
     kind_ = ]b4_symbol(-2, kind)[;
   }

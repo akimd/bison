@@ -271,9 +271,9 @@ m4_define([b4_shared_declarations],
     {
     public:
       context (const ]b4_parser_class[& yyparser, const symbol_type& yyla);
-      const symbol_type& lookahead () const { return yyla_; }
-      symbol_kind_type token () const { return yyla_.kind (); }]b4_locations_if([[
-      const location_type& location () const { return yyla_.location; }
+      const symbol_type& lookahead () const YY_NOEXCEPT { return yyla_; }
+      symbol_kind_type token () const YY_NOEXCEPT { return yyla_.kind (); }]b4_locations_if([[
+      const location_type& location () const YY_NOEXCEPT { return yyla_.location; }
 ]])[
       /// Put in YYARG at most YYARGN of the expected tokens, and return the
       /// number of tokens stored in YYARG.  If YYARG is null, return the
