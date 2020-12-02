@@ -737,7 +737,7 @@ static const yytype_int8 yypgoto[] =
 };
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     4,     8
+       0,     2,     3,     4,     8
 };
 static const yytype_int8 yytable[] =
 {
