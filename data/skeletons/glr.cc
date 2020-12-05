@@ -144,7 +144,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   int
   ]b4_parser_class[::parse ()
   {
-    return ::yyparse (*this]b4_user_args[);
+    return ::yy_parse_impl (*this]b4_user_args[);
   }
 
 #if ]b4_api_PREFIX[DEBUG
