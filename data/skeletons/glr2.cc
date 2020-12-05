@@ -456,7 +456,6 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
 [#include <cstdio>
 #include <cstdlib>
 
-
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
@@ -504,6 +503,8 @@ static YYLTYPE yyloc_default][]b4_yyloc_default;])[
 ]b4_null_define[
 ]b4_cast_define[
 
+// FIXME: Use the same conventions as lalr1.cc.
+]b4_parse_assert_if[
 #ifndef YYASSERT
 # define YYASSERT(Condition) ((void) ((Condition) || (abort (), 0)))
 #endif

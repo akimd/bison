@@ -198,6 +198,10 @@ yycharp is no longer a Pointer.  And yystackp should probably also be a referenc
 Don't use YYSTYPE and YYLTYPE but parser::semantic_type and
 parser::location_type.  Undefine YYSTYPE and YYLTYPE.
 
+*** parse.assert
+Currently all the assertions are enabled.  Once we are confident in glr2.cc,
+let parse.assert use the same approach as in lalr1.cc.
+
 *** glr.c
 When glr2.cc fully replaces glr.cc, get rid of the glr.cc scaffolding in
 glr.c.
