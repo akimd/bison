@@ -736,8 +736,8 @@ power (int base, int exponent)
   return res;
 }
 
-]AT_CALC_YYLEX
-AT_CALC_MAIN])
+]AT_CALC_YYLEX[
+]AT_CALC_MAIN])
 ])# _AT_DATA_CALC_Y(d)
 
 

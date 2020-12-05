@@ -224,11 +224,11 @@ m4_pushdef([AT_ERROR_SIMPLE_IF],
            [AT_ERROR_CUSTOM_IF([$2], [AT_ERROR_DETAILED_IF([$2], [AT_ERROR_VERBOSE_IF([$2], [$1])], [$1])], [$1])])
 
 m4_pushdef([AT_CXX_IF],
-[m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
+           [m4_bmatch([$3], [%language "[Cc]\+\+"\|%skeleton "[a-z0-9]+\.cc"], [$1], [$2])])
 m4_pushdef([AT_D_IF],
-[m4_bmatch([$3], [%language "[Dd]"\|%skeleton "[a-z0-9]+\.d"], [$1], [$2])])
+           [m4_bmatch([$3], [%language "[Dd]"\|%skeleton "[a-z0-9]+\.d"], [$1], [$2])])
 m4_pushdef([AT_JAVA_IF],
-[m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
+           [m4_bmatch([$3], [%language "[Jj][Aa][Vv][Aa]"\|%skeleton "[a-z0-9]+\.java"], [$1], [$2])])
 # The target language: "c", "c++", or "java".
 m4_pushdef([AT_LANG],
 [AT_JAVA_IF([java],
@@ -239,11 +239,11 @@ m4_pushdef([AT_C_IF],
 [m4_if(AT_LANG, [c], [$1], [$2])])
 
 m4_pushdef([AT_GLR_IF],
-[m4_bmatch([$3], [%glr-parser\|%skeleton "glr.*"], [$1], [$2])])
+           [m4_bmatch([$3], [%glr-parser\|%skeleton "glr.*"], [$1], [$2])])
 m4_pushdef([AT_LALR1_CC_IF],
-[AT_CXX_IF([AT_GLR_IF([$2], [$1])], [$2])])
+           [AT_CXX_IF([AT_GLR_IF([$2], [$1])], [$2])])
 m4_pushdef([AT_GLR_CC_IF],
-[AT_CXX_IF([AT_GLR_IF([$1], [$2])], [$2])])
+           [AT_CXX_IF([AT_GLR_IF([$1], [$2])], [$2])])
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
@@ -1378,8 +1378,8 @@ m4_define([AT_LANG_HDR(c++)],  [hh])
 
 
 # AT_FULL_COMPILE(OUTPUT, [OTHER1], [OTHER2],
-#                 [$4: EXTRA-COMPILER-FLAGS, [$5: EXTRA-BISON-FLAGS])
-# -------------------------------------------------------------------
+#                 [$4: EXTRA-COMPILER-FLAGS], [$5: EXTRA-BISON-FLAGS])
+# --------------------------------------------------------------------
 # Compile OUTPUT.y to OUTPUT.c, OUTPUT.cc, or OUTPUT.java, and then
 # compile it to OUTPUT or OUTPUT.class.  If OTHER is specified, compile
 # OUTPUT-OTHER.c, OUTPUT-OTHER.cc, or OUTPUT-OTHER.java to OUTPUT or
