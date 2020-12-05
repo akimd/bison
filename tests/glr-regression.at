@@ -24,7 +24,7 @@ AT_BANNER([[GLR Regression Tests]])
 
 AT_SETUP([Badly Collapsed GLR States])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr1.y],
 [[/* Regression Test: Improper state compression */
 /* Reported by Scott McPeak */
@@ -43,6 +43,7 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
 
 %define parse.assert
 %glr-parser
+%expect 1
 
 /* -------- productions ------ */
 %%
@@ -87,10 +88,7 @@ yylex (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr1.c -rall glr-regr1.y]], 0, [],
-[[glr-regr1.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-glr-regr1.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr1.c -rall glr-regr1.y]])
 AT_COMPILE([glr-regr1])
 AT_PARSER_CHECK([[glr-regr1 BPBPB]], 0,
 [[E -> 'B'
@@ -112,7 +110,7 @@ AT_CLEANUP
 
 AT_SETUP([Improper handling of embedded actions and dollar(-N) in GLR parsers])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr2a.y],
 [[/* Regression Test: Improper handling of embedded actions and $-N  */
 /* Reported by S. Eken */
@@ -131,6 +129,7 @@ AT_DATA_GRAMMAR([glr-regr2a.y],
 
 %define parse.assert
 %glr-parser
+%expect 2
 
 %%
 
@@ -212,10 +211,7 @@ main (int argc, char **argv)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr2a.c -rall glr-regr2a.y]], 0, [],
-[[glr-regr2a.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
-glr-regr2a.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr2a.c -rall glr-regr2a.y]])
 AT_COMPILE([glr-regr2a])
 
 AT_DATA([input1.txt],
@@ -249,7 +245,7 @@ AT_CLEANUP
 
 AT_SETUP([Improper merging of GLR delayed action sets])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr3.y],
 [[/* Regression Test: Improper merging of GLR delayed action sets.  */
 /* Reported by M. Rosien */
@@ -270,6 +266,8 @@ static int MergeRule (int x0, int x1);
 
 %define parse.assert
 %glr-parser
+%expect 1
+%expect-rr 2
 
 %token BAD_CHAR
 %token P1 P2 T1 T2 T3 T4 O1 O2
@@ -347,11 +345,7 @@ main (int argc, char* argv[])
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr3.c -rall glr-regr3.y]], 0, [],
-[[glr-regr3.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-glr-regr3.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr3.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr3.c -rall glr-regr3.y]])
 AT_COMPILE([glr-regr3])
 
 AT_DATA([input.txt],
@@ -372,14 +366,14 @@ AT_CLEANUP
 
 AT_SETUP([Duplicate representation of merged trees])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr4.y],
 [[
 %define parse.assert
 %union { char *ptr; }
 %type <ptr> S A A1 A2 B
 %glr-parser
-
+%expect-rr 2
 %{
   #include <stdio.h>
   #include <stdlib.h>
@@ -445,10 +439,7 @@ merge (YYSTYPE s1, YYSTYPE s2)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr4.c -rall glr-regr4.y]], 0, [],
-[[glr-regr4.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr4.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr4.c -rall glr-regr4.y]])
 AT_COMPILE([glr-regr4])
 
 AT_PARSER_CHECK([[glr-regr4]], 0,
@@ -465,7 +456,7 @@ AT_CLEANUP
 
 AT_SETUP([User destructor for unresolved GLR semantic value])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr5.y],
 [[
 %{
@@ -478,6 +469,8 @@ AT_DATA_GRAMMAR([glr-regr5.y],
 
 %define parse.assert
 %glr-parser
+%expect 0
+%expect-rr 1
 %union { int value; }
 %type <value> start
 
@@ -503,10 +496,7 @@ start:
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr5.c -rall glr-regr5.y]], 0, [],
-[[glr-regr5.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr5.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr5.c -rall glr-regr5.y]])
 AT_COMPILE([glr-regr5])
 
 AT_PARSER_CHECK([[glr-regr5]], 1, [],
@@ -523,7 +513,7 @@ AT_CLEANUP
 
 AT_SETUP([User destructor after an error during a split parse])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr6.y],
 [[
 %{
@@ -535,6 +525,7 @@ AT_DATA_GRAMMAR([glr-regr6.y],
 
 %define parse.assert
 %glr-parser
+%expect-rr 1
 %union { int value; }
 %type <value> 'a'
 
@@ -553,10 +544,7 @@ start: 'a' | 'a' ;
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr6.c -rall glr-regr6.y]], 0, [],
-[[glr-regr6.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr6.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr6.c -rall glr-regr6.y]])
 AT_COMPILE([glr-regr6])
 
 AT_PARSER_CHECK([[glr-regr6]], 1,
@@ -575,7 +563,7 @@ AT_CLEANUP
 
 AT_SETUP([Duplicated user destructor for lookahead])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr7.y],
 [[
 %{
@@ -593,6 +581,7 @@ AT_DATA_GRAMMAR([glr-regr7.y],
 
 %define parse.assert
 %glr-parser
+%expect-rr 2
 %union { count_node *node; }
 %type <node> 'a'
 
@@ -644,10 +633,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr7.c -rall glr-regr7.y]], 0, [],
-[[glr-regr7.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr7.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr7.c -rall glr-regr7.y]])
 AT_COMPILE([glr-regr7])
 
 AT_PARSER_CHECK([[glr-regr7]], 2, [],
@@ -666,7 +652,7 @@ AT_CLEANUP
 
 AT_SETUP([Incorrectly initialized location for empty right-hand side in GLR])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr8.y],
 [[
 %{
@@ -682,6 +668,7 @@ AT_DATA_GRAMMAR([glr-regr8.y],
 
 %define parse.assert
 %glr-parser
+%expect-rr 1
 
 %%
 
@@ -735,10 +722,7 @@ int yylex (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr8.c -rall glr-regr8.y]], 0, [],
-[[glr-regr8.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr8.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr8.c -rall glr-regr8.y]])
 AT_COMPILE([glr-regr8])
 
 AT_PARSER_CHECK([[glr-regr8]], 0,
@@ -757,7 +741,7 @@ AT_CLEANUP
 
 AT_SETUP([No users destructors if stack 0 deleted])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr9.y],
 [[
 %{
@@ -773,6 +757,7 @@ AT_DATA_GRAMMAR([glr-regr9.y],
 
 %define parse.assert
 %glr-parser
+%expect-rr 2
 %union { int dummy; }
 %type <dummy> 'a'
 
@@ -817,10 +802,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr9.c -rall glr-regr9.y]], 0, [],
-[[glr-regr9.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr9.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr9.c -rall glr-regr9.y]])
 AT_COMPILE([glr-regr9])
 
 AT_PARSER_CHECK([[glr-regr9]], 0, [],
@@ -836,7 +818,7 @@ AT_CLEANUP
 
 AT_SETUP([Corrupted semantic options if user action cuts parse])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr10.y],
 [[
 %{
@@ -850,6 +832,7 @@ AT_DATA_GRAMMAR([glr-regr10.y],
 
 %define parse.assert
 %glr-parser
+%expect-rr 1
 %union { char *ptr; }
 %type <ptr> start
 
@@ -875,10 +858,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr10.c -rall glr-regr10.y]], 0, [],
-[[glr-regr10.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr10.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr10.c -rall glr-regr10.y]])
 AT_COMPILE([glr-regr10])
 
 AT_PARSER_CHECK([[glr-regr10]], 0, [], [])
@@ -892,7 +872,7 @@ AT_CLEANUP
 
 AT_SETUP([Undesirable destructors if user action cuts parse])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr11.y],
 [[
 %{
@@ -905,6 +885,7 @@ AT_DATA_GRAMMAR([glr-regr11.y],
 
 %define parse.assert
 %glr-parser
+%expect-rr 1
 %union { int dummy; }
 %type <int> 'a'
 %destructor { destructors += 1; } 'a'
@@ -935,10 +916,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr11.c -rall glr-regr11.y]], 0, [],
-[[glr-regr11.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr11.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr11.c -rall glr-regr11.y]])
 AT_COMPILE([glr-regr11])
 
 AT_PARSER_CHECK([[glr-regr11]], 0, [], [])
@@ -952,11 +930,13 @@ AT_CLEANUP
 
 AT_SETUP([Leaked semantic values if user action cuts parse])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr12.y],
 [[
 %define parse.assert
 %glr-parser
+%expect 1
+%expect-rr 1
 %union { int dummy; }
 %token PARENT_RHS_AFTER
 %type <dummy> parent_rhs_before merged PARENT_RHS_AFTER
@@ -1057,11 +1037,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr12.c -rall glr-regr12.y]], 0, [],
-[[glr-regr12.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
-glr-regr12.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr12.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr12.c -rall glr-regr12.y]])
 AT_COMPILE([glr-regr12])
 
 AT_PARSER_CHECK([[glr-regr12]], 0, [], [])
@@ -1077,7 +1053,7 @@ AT_CLEANUP
 
 AT_SETUP([Incorrect lookahead during deterministic GLR])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr13.y],
 [[
 /* Tests:
@@ -1177,7 +1153,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr13.c -rall glr-regr13.y]], 0, [], [])
+AT_BISON_CHECK([[-o glr-regr13.c -rall glr-regr13.y]])
 AT_COMPILE([glr-regr13])
 
 AT_PARSER_CHECK([[glr-regr13]], 0,
@@ -1202,7 +1178,7 @@ AT_CLEANUP
 
 AT_SETUP([Incorrect lookahead during nondeterministic GLR])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr14.y],
 [[
 /* Tests:
@@ -1240,6 +1216,8 @@ AT_DATA_GRAMMAR([glr-regr14.y],
 %define parse.assert
 %type <value> 'a' 'b' 'c' 'd' stack_explosion
 %glr-parser
+%expect 0
+%expect-rr 5
 %locations
 
 %%
@@ -1390,10 +1368,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr14.c -rall glr-regr14.y]], 0, [],
-[[glr-regr14.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr14.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr14.c -rall glr-regr14.y]])
 AT_COMPILE([glr-regr14])
 
 AT_PARSER_CHECK([[glr-regr14]], 0,
@@ -1420,11 +1395,13 @@ AT_CLEANUP
 
 AT_SETUP([Leaked semantic values when reporting ambiguity])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr15.y],
 [[
 %define parse.assert
 %glr-parser
+%expect 0
+%expect-rr 2
 %destructor { parent_rhs_before_value = 0; } parent_rhs_before
 
 %{
@@ -1485,10 +1462,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr15.c -rall glr-regr15.y]], 0, [],
-[[glr-regr15.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr15.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr15.c -rall glr-regr15.y]])
 AT_COMPILE([glr-regr15])
 
 AT_PARSER_CHECK([[glr-regr15]], 0, [],
@@ -1504,11 +1478,13 @@ AT_CLEANUP
 
 AT_SETUP([Leaked lookahead after nondeterministic parse syntax error])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr16.y],
 [[
 %define parse.assert
 %glr-parser
+%expect 0
+%expect-rr 1
 %destructor { lookahead_value = 0; } 'b'
 
 %{
@@ -1547,10 +1523,7 @@ main (void)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr16.c -rall glr-regr16.y]], 0, [],
-[[glr-regr16.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-glr-regr16.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr16.c -rall glr-regr16.y]])
 AT_COMPILE([glr-regr16])
 
 AT_PARSER_CHECK([[glr-regr16]], 0, [],
@@ -1572,6 +1545,8 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 [[
 %define parse.assert
 %glr-parser
+%expect 0
+%expect-rr 3
 %locations
 %define api.pure
 %define parse.error verbose
@@ -1623,10 +1598,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr17.c -rall glr-regr17.y]], 0, [],
-[[glr-regr17.y: warning: 3 reduce/reduce conflicts [-Wconflicts-rr]
-glr-regr17.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o glr-regr17.c -rall glr-regr17.y]])
 AT_COMPILE([glr-regr17])
 
 AT_PARSER_CHECK([[glr-regr17]], 1, [],
@@ -1642,7 +1614,7 @@ AT_CLEANUP
 
 AT_SETUP([Missed %merge type warnings when LHS type is declared later])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([glr-regr18.y],
 [[%define parse.assert
 %glr-parser
@@ -1691,7 +1663,7 @@ AT_CLEANUP
 
 AT_SETUP([Ambiguity reports])
 
-AT_BISON_OPTION_PUSHDEFS([%debug])
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %debug])
 AT_DATA_GRAMMAR([input.y],
 [[%{
   #include <stdio.h>
@@ -1703,6 +1675,8 @@ AT_DATA_GRAMMAR([input.y],
 %define parse.assert
 %debug
 %glr-parser
+%expect 0
+%expect-rr 1
 
 %%
 start:
@@ -1717,10 +1691,7 @@ d: /* nada.  */;
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([[-o input.c input.y]], 0, [],
-[[input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
-input.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-]])
+AT_BISON_CHECK([[-o input.c input.y]])
 AT_COMPILE([input])
 
 AT_PARSER_CHECK([[input --debug]], 1, [],
@@ -1734,7 +1705,7 @@ Reading a token
 Next token is token 'b' ()
 Shifting token 'b' ()
 Entering state 3
-Reducing stack 0 by rule 3 (line 27):
+Reducing stack 0 by rule 3 (line 29):
    $1 = token 'b' ()
 -> $$ = nterm b ()
 Entering state 4
@@ -1742,7 +1713,7 @@ Reading a token
 Next token is token 'c' ()
 Shifting token 'c' ()
 Entering state 6
-Reducing stack 0 by rule 4 (line 28):
+Reducing stack 0 by rule 4 (line 30):
 -> $$ = nterm d ()
 Entering state 7
 Reading a token
@@ -1750,10 +1721,10 @@ Now at end of input.
 Stack 0 Entering state 7
 Now at end of input.
 Splitting off stack 1 from 0.
-Reduced stack 1 by rule 2 (line 24); action deferred.  Now in state 2.
+Reduced stack 1 by rule 2 (line 26); action deferred.  Now in state 2.
 Stack 1 Entering state 2
 Now at end of input.
-Reduced stack 0 by rule 1 (line 24); action deferred.  Now in state 2.
+Reduced stack 0 by rule 1 (line 26); action deferred.  Now in state 2.
 Merging stack 0 into stack 1.
 Stack 1 Entering state 2
 Now at end of input.
@@ -1798,7 +1769,7 @@ AT_CLEANUP
 
 AT_SETUP([Predicates])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%glr-parser])
 AT_DATA_GRAMMAR([input.y],
 [[%define parse.assert
 %glr-parser
