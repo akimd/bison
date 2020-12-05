@@ -86,10 +86,8 @@ yylex (void)
   return *input++;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr1.c -rall glr-regr1.y]])
-AT_COMPILE([glr-regr1])
+AT_FULL_COMPILE([glr-regr1])
 AT_PARSER_CHECK([[glr-regr1 BPBPB]], 0,
 [[E -> 'B'
 E -> 'B'
@@ -102,6 +100,7 @@ E -> E 'P' E
 <OR>
 ]], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 ## -------------------------------------------------------------- ##
@@ -209,10 +208,8 @@ main (int argc, char **argv)
   return res;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr2a.c -rall glr-regr2a.y]])
-AT_COMPILE([glr-regr2a])
+AT_FULL_COMPILE([glr-regr2a],,,,[-rall])
 
 AT_DATA([input1.txt],
 [[s VARIABLE_1 t v x q
@@ -237,6 +234,7 @@ AT_PARSER_CHECK([[glr-regr2a input3.txt]], 0,
 ]])
 
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 ## --------------------------------------------- ##
@@ -343,10 +341,8 @@ main (int argc, char* argv[])
   return res;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr3.c -rall glr-regr3.y]])
-AT_COMPILE([glr-regr3])
+AT_FULL_COMPILE([glr-regr3],,,,[-rall])
 
 AT_DATA([input.txt],
 [[p1 t4 o2 p1 p1 t1 o1 t2 p2 o1 t3 p2 p2
@@ -356,6 +352,7 @@ AT_PARSER_CHECK([[glr-regr3 input.txt]],
 [[Result: 1c04
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -437,15 +434,14 @@ merge (YYSTYPE s1, YYSTYPE s2)
   return value;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr4.c -rall glr-regr4.y]])
-AT_COMPILE([glr-regr4])
+AT_FULL_COMPILE([glr-regr4],,,,[-rall])
 
 AT_PARSER_CHECK([[glr-regr4]], 0,
 [[merge{ S <- merge{ A <- A1 <- 'a' and A <- A2 <- 'a' } and S <- B <- 'a' }
 ]], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -494,15 +490,14 @@ start:
 ]AT_YYLEX_DEFINE(["a"])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr5.c -rall glr-regr5.y]])
-AT_COMPILE([glr-regr5])
+AT_FULL_COMPILE([glr-regr5],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr5]], 1, [],
 [syntax is ambiguous
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -542,10 +537,8 @@ start: 'a' | 'a' ;
 ]AT_YYLEX_DEFINE(["a"])[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr6.c -rall glr-regr6.y]])
-AT_COMPILE([glr-regr6])
+AT_FULL_COMPILE([glr-regr6],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr6]], 1,
 [Destructor called.
@@ -553,6 +546,7 @@ AT_PARSER_CHECK([[glr-regr6]], 1,
 [syntax is ambiguous
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -631,15 +625,14 @@ main (void)
   return status;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr7.c -rall glr-regr7.y]])
-AT_COMPILE([glr-regr7])
+AT_FULL_COMPILE([glr-regr7],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr7]], 2, [],
 [memory exhausted
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -720,10 +713,8 @@ int yylex (void)
 
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr8.c -rall glr-regr8.y]])
-AT_COMPILE([glr-regr8])
+AT_FULL_COMPILE([glr-regr8],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr8]], 0,
 [empty: 9/9
@@ -731,6 +722,7 @@ AT_PARSER_CHECK([[glr-regr8]], 0,
 ],
 [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -800,15 +792,14 @@ main (void)
   return !exit_status;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr9.c -rall glr-regr9.y]])
-AT_COMPILE([glr-regr9])
+AT_FULL_COMPILE([glr-regr9],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr9]], 0, [],
 [memory exhausted
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -856,13 +847,12 @@ main (void)
   return yyparse ();
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr10.c -rall glr-regr10.y]])
-AT_COMPILE([glr-regr10])
+AT_FULL_COMPILE([glr-regr10],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr10]], 0, [], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -914,13 +904,12 @@ main (void)
   return exit_status;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr11.c -rall glr-regr11.y]])
-AT_COMPILE([glr-regr11])
+AT_FULL_COMPILE([glr-regr11],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr11]], 0, [], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1035,13 +1024,12 @@ main (void)
   return exit_status;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr12.c -rall glr-regr12.y]])
-AT_COMPILE([glr-regr12])
+AT_FULL_COMPILE([glr-regr12],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr12]], 0, [], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1151,10 +1139,8 @@ main (void)
   return yyparse ();
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr13.c -rall glr-regr13.y]])
-AT_COMPILE([glr-regr13])
+AT_FULL_COMPILE([glr-regr13],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr13]], 0,
 [defstate_init <- empty string:
@@ -1169,6 +1155,7 @@ start <- defstate_init defstate_shift 'b':
   yychar=YYEMPTY
 ], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1366,10 +1353,8 @@ main (void)
   return yyparse ();
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr14.c -rall glr-regr14.y]])
-AT_COMPILE([glr-regr14])
+AT_FULL_COMPILE([glr-regr14],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr14]], 0,
 [conflict <- empty string:
@@ -1386,6 +1371,7 @@ start <- merge 'c' stack_explosion:
   yychar=YYEOF
 ], [])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1460,15 +1446,14 @@ main (void)
   return exit_status;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr15.c -rall glr-regr15.y]])
-AT_COMPILE([glr-regr15])
+AT_FULL_COMPILE([glr-regr15],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr15]], 0, [],
 [syntax is ambiguous
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1521,15 +1506,14 @@ main (void)
   return exit_status;
 }
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr16.c -rall glr-regr16.y]])
-AT_COMPILE([glr-regr16])
+AT_FULL_COMPILE([glr-regr16],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr16]], 0, [],
 [syntax error
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1596,15 +1580,14 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([[-o glr-regr17.c -rall glr-regr17.y]])
-AT_COMPILE([glr-regr17])
+AT_FULL_COMPILE([glr-regr17],,,, [-rall])
 
 AT_PARSER_CHECK([[glr-regr17]], 1, [],
 [1.1-2.2: syntax is ambiguous
 ])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1645,7 +1628,6 @@ sym3: %merge<merge> { $$ = 0; } ;
 ]AT_YYLEX_DEFINE[
 ]AT_MAIN_DEFINE[
 ]])
-AT_BISON_OPTION_POPDEFS
 
 AT_BISON_CHECK([[-o glr-regr18.c -rall glr-regr18.y]], 1, [],
 [[glr-regr18.y:28.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
@@ -1654,6 +1636,7 @@ glr-regr18.y:29.13-19: error: result type clash on merge function 'merge': <type
 glr-regr18.y:28.18-24: note: previous declaration
 ]])
 
+AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 
 
@@ -1691,8 +1674,7 @@ d: /* nada.  */;
 ]AT_MAIN_DEFINE[
 ]])
 
-AT_BISON_CHECK([[-o input.c input.y]])
-AT_COMPILE([input])
+AT_FULL_COMPILE([input])
 
 AT_PARSER_CHECK([[input --debug]], 1, [],
 [Starting parse
@@ -1813,8 +1795,7 @@ main (int argc, const char* argv[])
 }
 ]])
 
-AT_BISON_CHECK([[-o input.c input.y]])
-AT_COMPILE([input])
+AT_FULL_COMPILE([input])
 AT_PARSER_CHECK([[input Nwin]], [0], [new])
 AT_PARSER_CHECK([[input Owin]], [1], [], [[syntax error, unexpected 'n', expecting 'o'
 ]])
