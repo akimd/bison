@@ -241,12 +241,12 @@ read_integer (]AT_YYLEX_FORMALS[)
     {
       unget_char (]AT_YYLEX_PRE_ARGS[ c);
       ]AT_VAL[.]AT_VALUE_UNION_IF([NUM], [ival])[ = read_integer (]AT_YYLEX_ARGS[);
-      return ]AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[NUM;
+      return ]AT_TOKEN([NUM])[;
     }
 
   /* Return end-of-file.  */
   if (c == EOF)
-    return ]AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[CALC_EOF;
+    return ]AT_TOKEN([CALC_EOF])[;
 
   /* An explicit error raised by the scanner. */
   if (c == '#')
@@ -254,7 +254,7 @@ read_integer (]AT_YYLEX_FORMALS[)
       fprintf (stderr, "%d.%d: ",
                AT_LOC_FIRST_LINE, AT_LOC_FIRST_COLUMN);])[
       fputs ("syntax error: invalid character: '#'\n", stderr);
-      return ]AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[]AT_API_PREFIX[error;
+      return ]AT_TOKEN(AT_API_PREFIX[][error])[;
     }
 
   /* Return single chars. */

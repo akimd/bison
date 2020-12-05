@@ -445,13 +445,13 @@ namespace yy
         return parser::make_END_OF_FILE (]AT_LOCATION_IF([location ()])[);]],
 [AT_LOCATION_IF([
         *llocp = location ();])[
-        return parser::token::END_OF_FILE;]])[
+        return ]AT_TOKEN([END_OF_FILE])[;]])[
 
       case ',':]AT_TOKEN_CTOR_IF([[
         return parser::make_COMMA (]AT_LOCATION_IF([location ()])[);]],
 [AT_LOCATION_IF([
         *llocp = location ();])[
-        return parser::token::COMMA;]])[
+        return ]AT_TOKEN([COMMA])[;]])[
 
       default:
         stage = stage - '0';
@@ -460,14 +460,14 @@ namespace yy
            return parser::make_NUMBER (stage]AT_LOCATION_IF([, location ()])[);]], [[
            lvalp->BUILD (int, stage);]AT_LOCATION_IF([
            *llocp = location ();])[
-           return parser::token::NUMBER;]])[
+           return ]AT_TOKEN(NUMBER)[;]])[
          }
        else
          {]AT_TOKEN_CTOR_IF([[
            return parser::make_TEXT (to_string (stage)]AT_LOCATION_IF([, location ()])[);]], [[
            lvalp->BUILD (string, to_string (stage));]AT_LOCATION_IF([
            *llocp = location ();])[
-           return parser::token::TEXT;]])[
+           return ]AT_TOKEN([TEXT])[;]])[
          }
     }
   }
@@ -1369,7 +1369,7 @@ m4_popdef([AT_TEST])
 
 AT_SETUP([[C++ GLR parser identifier shadowing]])
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%skeleton "glr.cc"])
 AT_DATA_GRAMMAR([input.yy], [
 %skeleton "glr.cc"
 
@@ -1396,7 +1396,7 @@ int yylex (yy::parser::semantic_type *lvalp)
   // bug with a macro that erroneously expanded this identifier to
   // yystackp->yyval.
   YYUSE (lvalp);
-  return yy::parser::token::ZERO;
+  return ]AT_TOKEN([ZERO])[;
 }
 
 void yy::parser::error (std::string const&)

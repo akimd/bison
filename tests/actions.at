@@ -1827,10 +1827,7 @@ float: UNTYPED INT
 };
 %%
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE(AT_CXX_IF([[{yy::parser::token::UNTYPED,
-                                 yy::parser::token::INT,
-                                  EOF}]],
-                               [[{UNTYPED, INT, EOF}]]),
+]AT_YYLEX_DEFINE([[{]AT_TOKEN([UNTYPED])[, ]AT_TOKEN([INT])[, EOF}]],
                  [AT_VAL.ival = toknum * 10;
                   AT_VAL.fval = YY_CAST (float, toknum) / 10.0f;])[
 ]AT_MAIN_DEFINE[
