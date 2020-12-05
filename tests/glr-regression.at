@@ -18,6 +18,19 @@
 
 AT_BANNER([[GLR Regression Tests]])
 
+m4_pushdef([AT_YYPARSE_DEFINE],
+[AT_CXX_IF([[
+static int
+yyparse ()
+{
+  ]AT_NAMESPACE[::parser p;]AT_DEBUG_IF([[
+  int debug = !!getenv ("YYDEBUG");
+  p.set_debug_level (debug);]])[
+  return p.parse ();
+}
+]])])
+
+
 ## ---------------------------- ##
 ## Badly Collapsed GLR States.  ##
 ## ---------------------------- ##
@@ -68,7 +81,16 @@ static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
   return 0;
 }
 
+]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
+
 const char *input = YY_NULLPTR;
+
+]AT_YYLEX_PROTOTYPE[
+{
+  ]AT_USE_LEX_ARGS[
+  return *input++;
+}
 
 int
 main (int argc, const char* argv[])
@@ -76,14 +98,6 @@ main (int argc, const char* argv[])
   assert (argc == 2); (void) argc;
   input = argv[1];
   return yyparse ();
-}
-
-]AT_YYERROR_DEFINE[
-
-]AT_YYLEX_PROTOTYPE[
-{
-  ]AT_USE_LEX_ARGS[
-  return *input++;
 }
 ]])
 
@@ -105,6 +119,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -196,12 +211,14 @@ FILE *input;
         assert (strlen (buf) < sizeof buf - 1);
         s = YY_CAST (char *, malloc (strlen (buf) + 1));
         strcpy (s, buf);
-        yylval = s;
+        ]AT_VAL[ = s;
         return 'V';
       }
     break;
   }
 }
+
+]AT_YYPARSE_DEFINE[
 
 int
 main (int argc, char **argv)
@@ -246,6 +263,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -322,13 +340,14 @@ MergeRule (int x0, int x1)
 
 FILE *input = YY_NULLPTR;
 
-int P[] = { P1, P2 };
-int O[] = { O1, O2 };
-int T[] = { T1, T2, T3, T4 };
+int P[] = { ]AT_TOKEN([P1])[, ]AT_TOKEN([P2])[ };
+int O[] = { ]AT_TOKEN([O1])[, ]AT_TOKEN([O2])[ };
+int T[] = { ]AT_TOKEN([T1])[, ]AT_TOKEN([T2])[, ]AT_TOKEN([T3])[, ]AT_TOKEN([T4])[ };
 
-int yylex (void)
+]AT_YYLEX_PROTOTYPE[
 {
   char inp[3];
+  ]AT_USE_LEX_ARGS[
   assert (!feof (stdin));
   if (fscanf (input, "%2s", inp) == EOF)
     return 0;
@@ -338,8 +357,10 @@ int yylex (void)
     case 't': return T[inp[1] - '1'];
     case 'o': return O[inp[1] - '1'];
     }
-  return BAD_CHAR;
+  return ]AT_TOKEN([BAD_CHAR])[;
 }
+
+]AT_YYPARSE_DEFINE[
 
 int
 main (int argc, char* argv[])
@@ -370,6 +391,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -422,6 +444,7 @@ B:  'a' { $$ = make_value ("B", "'a'");  } ;
 
 %%
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[
 
 int
@@ -465,6 +488,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -527,6 +551,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -583,6 +608,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -638,22 +664,24 @@ stack2: 'a' ;
 
 %%
 
-static int
-yylex (void)
+]AT_YYLEX_PROTOTYPE[
 {
-  yylval.node = YY_CAST (count_node*, malloc (sizeof *yylval.node));
-  if (!yylval.node)
+  ]AT_USE_LEX_ARGS[
+  ]AT_VAL[.node = YY_CAST (count_node*, malloc (sizeof *]AT_VAL[.node));
+  if (!]AT_VAL[.node)
     {
       fprintf (stderr, "Test inconclusive.\n");
       exit (EXIT_FAILURE);
     }
-  yylval.node->count = 0;
-  yylval.node->prev = tail;
-  tail = yylval.node;
+  ]AT_VAL[.node->count = 0;
+  ]AT_VAL[.node->prev = tail;
+  tail = ]AT_VAL[.node;
   return 'a';
 }
 
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
+
 int
 main (void)
 {
@@ -679,6 +707,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -694,7 +723,7 @@ m4_popdef([AT_TEST])
 m4_pushdef([AT_TEST],
 [AT_SETUP([Incorrectly initialized location for empty right-hand side in GLR: $1])
 
-AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations $1])
 AT_DATA_GRAMMAR([glr-regr8.y],
 [[
 %code {
@@ -716,9 +745,9 @@ AT_DATA_GRAMMAR([glr-regr8.y],
 
 PortClause      : T_PORT InterfaceDeclaration T_PORT
                 { printf("%d/%d - %d/%d - %d/%d\n",
-                         @1.first_column, @1.last_column,
-                         @2.first_column, @2.last_column,
-                         @3.first_column, @3.last_column); }
+                         @1.]AT_FIRST_COLUMN[, @1.]AT_LAST_COLUMN[,
+                         @2.]AT_FIRST_COLUMN[, @2.]AT_LAST_COLUMN[,
+                         @3.]AT_FIRST_COLUMN[, @3.]AT_LAST_COLUMN[); }
         ;
 
 InterfaceDeclaration    : OptConstantWord       %dprec 1
@@ -730,7 +759,7 @@ OptConstantWord : %empty
         ;
 
 OptSignalWord   : %empty
-                { printf("empty: %d/%d\n", @$.first_column, @$.last_column); }
+                { printf("empty: %d/%d\n", @$.]AT_FIRST_COLUMN[, @$.]AT_LAST_COLUMN[); }
         | T_SIGNAL
         ;
 
@@ -739,21 +768,22 @@ OptSignalWord   : %empty
 ]AT_YYERROR_DEFINE[
 static int lexIndex;
 
-int yylex (void)
+]AT_YYLEX_PROTOTYPE[
 {
+  ]AT_USE_LEX_ARGS[
   lexIndex += 1;
   switch (lexIndex)
     {
     default:
       abort ();
     case 1:
-      yylloc.first_column = 1;
-      yylloc.last_column = 9;
-      return T_PORT;
+      ]AT_LOC_FIRST_COLUMN[ = 1;
+      ]AT_LOC_LAST_COLUMN[ = 9;
+      return ]AT_TOKEN([T_PORT])[;
     case 2:
-      yylloc.first_column = 13;
-      yylloc.last_column = 17;
-      return T_PORT;
+      ]AT_LOC_FIRST_COLUMN[ = 13;
+      ]AT_LOC_LAST_COLUMN[ = 17;
+      return ]AT_TOKEN([T])[_PORT;
     case 3:
       return 0;
     }
@@ -775,6 +805,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -826,14 +857,16 @@ ambig2: 'a' ;
 
 %%
 
-static int
-yylex (void)
+]AT_YYLEX_PROTOTYPE[
 {
+  ]AT_USE_LEX_ARGS[
   tokens += 1;
   return 'a';
 }
 
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
+
 int
 main (void)
 {
@@ -859,6 +892,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -898,6 +932,7 @@ start:
 
 %%
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 ]AT_YYLEX_DEFINE[
 
 int
@@ -919,6 +954,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -960,6 +996,7 @@ start:
 %%
 
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 ]AT_YYLEX_DEFINE(["a"])[
 
 int
@@ -984,6 +1021,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1076,8 +1114,9 @@ merge (YYSTYPE s1, YYSTYPE s2)
 }
 
 ]AT_YYERROR_DEFINE[
-]AT_YYLEX_DEFINE([{ PARENT_RHS_AFTER, 0 }],
- [if (res == PARENT_RHS_AFTER)
+]AT_YYPARSE_DEFINE[
+]AT_YYLEX_DEFINE([{ ]AT_TOKEN([PARENT_RHS_AFTER])[, 0 }],
+ [if (res == ]AT_TOKEN([PARENT_RHS_AFTER])[)
     parent_rhs_after_value = 1;])[
 
 int
@@ -1112,6 +1151,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1126,7 +1166,7 @@ m4_popdef([AT_TEST])
 m4_pushdef([AT_TEST],
 [AT_SETUP([Incorrect lookahead during deterministic GLR: $1])
 
-AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations $1])
 AT_DATA_GRAMMAR([glr-regr13.y],
 [[
 /* Tests:
@@ -1140,7 +1180,9 @@ AT_DATA_GRAMMAR([glr-regr13.y],
   #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-  static void print_lookahead (char const *);
+  static void
+  print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                   char const *reduction);
   #define USE(value)
 }
 
@@ -1157,32 +1199,32 @@ AT_DATA_GRAMMAR([glr-regr13.y],
 start:
   defstate_init defstate_shift 'b' change_lookahead 'a' {
     USE ($][3);
-    print_lookahead ("start <- defstate_init defstate_shift 'b'");
+    print_lookahead (yychar, &yylval, &yylloc, "start <- defstate_init defstate_shift 'b'");
   }
   ;
 defstate_init:
   {
-    print_lookahead ("defstate_init <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "defstate_init <- empty string");
   }
   ;
 defstate_shift:
   nondefstate defstate_look 'a' {
     USE ($][3);
-    print_lookahead ("defstate_shift <- nondefstate defstate_look 'a'");
+    print_lookahead (yychar, &yylval, &yylloc, "defstate_shift <- nondefstate defstate_look 'a'");
   }
   ;
 defstate_look:
   {
-    print_lookahead ("defstate_look <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "defstate_look <- empty string");
   }
   ;
 nondefstate:
   {
-    print_lookahead ("nondefstate <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "nondefstate <- empty string");
   }
   | 'b' {
     USE ($][1);
-    print_lookahead ("nondefstate <- 'b'");
+    print_lookahead (yychar, &yylval, &yylloc, "nondefstate <- 'b'");
   }
   ;
 change_lookahead:
@@ -1194,25 +1236,27 @@ change_lookahead:
 %%
 
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 ]AT_YYLEX_DEFINE(["ab"],
-                 [yylval.value = YY_CAST (char, res + 'A' - 'a')])[
+                 []AT_VAL[.value = YY_CAST (char, res + 'A' - 'a')])[
 
 static void
-print_lookahead (char const *reduction)
+print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                 char const *reduction)
 {
   printf ("%s:\n  yychar=", reduction);
-  if (yychar == YYEMPTY)
+  if (yychr == ]AT_TOKEN([YYEMPTY])[)
     printf ("YYEMPTY");
-  else if (yychar == YYEOF)
+  else if (yychr == ]AT_TOKEN([YYEOF])[)
     printf ("YYEOF");
   else
     {
-      printf ("'%c', yylval='", yychar);
-      if (yylval.value > ' ')
-        printf ("%c", yylval.value);
+      printf ("'%c', yylval='", yychr);
+      if (yylvalp->value > ' ')
+        printf ("%c", yylvalp->value);
       printf ("', yylloc=(%d,%d),(%d,%d)",
-              yylloc.first_line, yylloc.first_column,
-              yylloc.last_line, yylloc.last_column);
+              yyllocp->]AT_FIRST_LINE[, yyllocp->]AT_FIRST_COLUMN[,
+              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);
     }
   printf ("\n");
 }
@@ -1220,8 +1264,10 @@ print_lookahead (char const *reduction)
 int
 main (void)
 {
+]AT_CXX_IF([], [[
   yychar = '#'; /* Not a token in the grammar.  */
   yylval.value = '!';
+]])[
   return yyparse ();
 }
 ]])
@@ -1246,6 +1292,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1258,7 +1305,7 @@ m4_popdef([AT_TEST])
 m4_pushdef([AT_TEST],
 [AT_SETUP([Incorrect lookahead during nondeterministic GLR: $1])
 
-AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations $1])
 AT_DATA_GRAMMAR([glr-regr14.y],
 [[
 /* Tests:
@@ -1294,7 +1341,9 @@ AT_DATA_GRAMMAR([glr-regr14.y],
   #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-  static void print_lookahead (char const *);
+  static void
+  print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                   char const *reduction);
   static char merge (union YYSTYPE, union YYSTYPE);
   #define USE(value)
 }
@@ -1304,7 +1353,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
 start:
   merge 'c' stack_explosion {
     USE ($][2); USE ($][3);
-    print_lookahead ("start <- merge 'c' stack_explosion");
+    print_lookahead (yychar, &yylval, &yylloc, "start <- merge 'c' stack_explosion");
   }
   ;
 
@@ -1312,44 +1361,44 @@ start:
 merge:
   nonconflict1 'a' 'b' nonconflict2 %dprec 1 {
     USE ($][2); USE ($][3);
-    print_lookahead ("merge <- nonconflict1 'a' 'b' nonconflict2");
+    print_lookahead (yychar, &yylval, &yylloc, "merge <- nonconflict1 'a' 'b' nonconflict2");
   }
   | conflict defstate_look 'a' nonconflict2 'b' defstate_shift %dprec 2 {
     USE ($][3); USE ($][5);
-    print_lookahead ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
+    print_lookahead (yychar, &yylval, &yylloc, "merge <- conflict defstate_look 'a' nonconflict2 'b'"
                       " defstate_shift");
   }
   ;
 
 nonconflict1:
   {
-    print_lookahead ("nonconflict1 <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "nonconflict1 <- empty string");
   }
   ;
 nonconflict2:
   {
-    print_lookahead ("nonconflict2 <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "nonconflict2 <- empty string");
   }
   | 'a' {
     USE ($][1);
-    print_lookahead ("nonconflict2 <- 'a'");
+    print_lookahead (yychar, &yylval, &yylloc, "nonconflict2 <- 'a'");
   }
   ;
 conflict:
   {
-    print_lookahead ("conflict <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "conflict <- empty string");
   }
   ;
 defstate_look:
   {
-    print_lookahead ("defstate_look <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "defstate_look <- empty string");
   }
   ;
 
 /* yychar != YYEMPTY but lookahead need is yyfalse.  */
 defstate_shift:
   {
-    print_lookahead ("defstate_shift <- empty string");
+    print_lookahead (yychar, &yylval, &yylloc, "defstate_shift <- empty string");
   }
   ;
 
@@ -1399,36 +1448,17 @@ no_look:
 %%
 
 ]AT_YYERROR_DEFINE[
-static int
-yylex (void)
+]AT_YYPARSE_DEFINE[
+]AT_YYLEX_PROTOTYPE[
 {
+  ]AT_USE_LEX_ARGS[
   static char const input[] = "abcdddd";
   static int toknum = 0;
   assert (toknum < YY_CAST (int, sizeof input));
-  yylloc.first_line = yylloc.last_line = 1;
-  yylloc.first_column = yylloc.last_column = toknum + 1;
-  yylval.value = YY_CAST (char, input[toknum] + 'A' - 'a');
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 1;
+  ]AT_LOC_FIRST_COLUMN[ = ]AT_LOC_LAST_COLUMN[ = toknum + 1;
+  ]AT_VAL[.value = YY_CAST (char, input[toknum] + 'A' - 'a');
   return input[toknum++];
-}
-
-static void
-print_lookahead (char const *reduction)
-{
-  printf ("%s:\n  yychar=", reduction);
-  if (yychar == YYEMPTY)
-    printf ("YYEMPTY");
-  else if (yychar == YYEOF)
-    printf ("YYEOF");
-  else
-    {
-      printf ("'%c', yylval='", yychar);
-      if (yylval.value > ' ')
-        printf ("%c", yylval.value);
-      printf ("', yylloc=(%d,%d),(%d,%d)",
-              yylloc.first_line, yylloc.first_column,
-              yylloc.last_line, yylloc.last_column);
-    }
-  printf ("\n");
 }
 
 static char
@@ -1437,11 +1467,35 @@ merge (union YYSTYPE s1, union YYSTYPE s2)
   return YY_CAST (char, s1.value + s2.value);
 }
 
+/* FIXME: Factor duplicate.  Possibly use yy_symbol_print. */
+static void
+print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                 char const *reduction)
+{
+  printf ("%s:\n  yychar=", reduction);
+  if (yychr == ]AT_TOKEN([YYEMPTY])[)
+    printf ("YYEMPTY");
+  else if (yychr == ]AT_TOKEN([YYEOF])[)
+    printf ("YYEOF");
+  else
+    {
+      printf ("'%c', yylval='", yychr);
+      if (yylvalp->value > ' ')
+        printf ("%c", yylvalp->value);
+      printf ("', yylloc=(%d,%d),(%d,%d)",
+              yyllocp->]AT_FIRST_LINE[, yyllocp->]AT_FIRST_COLUMN[,
+              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);
+    }
+  printf ("\n");
+}
+
 int
 main (void)
 {
+]AT_CXX_IF([], [[
   yychar = '#'; /* Not a token in the grammar.  */
   yylval.value = '!';
+]])[
   return yyparse ();
 }
 ]])
@@ -1468,6 +1522,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1532,6 +1587,7 @@ ambiguity2: ;
 
 %%
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 ]AT_YYLEX_DEFINE[
 
 int
@@ -1558,6 +1614,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1598,6 +1655,7 @@ alt2: ;
 %%
 
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 ]AT_YYLEX_DEFINE(["ab"],
   [if (res == 'b')
     lookahead_value = 1])[
@@ -1626,6 +1684,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1638,7 +1697,7 @@ m4_popdef([AT_TEST])
 m4_pushdef([AT_TEST],
 [AT_SETUP([Uninitialized location when reporting ambiguity: $1])
 
-AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations %define api.pure $1])
+AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations $1])
 
 AT_DATA_GRAMMAR([glr-regr17.y],
 [[
@@ -1648,7 +1707,6 @@ AT_DATA_GRAMMAR([glr-regr17.y],
 %expect-rr 3
 ]$1[
 %locations
-%define api.pure
 %define parse.error verbose
 
 %union { int dummy; }
@@ -1681,16 +1739,17 @@ empty2: ;
 # include <assert.h>
 
 ]AT_YYERROR_DEFINE[
-static int
-yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
+
+]AT_YYLEX_PROTOTYPE[
 {
   static char const input[] = "ab";
   static int toknum = 0;
+  ]AT_USE_LEX_ARGS[
   assert (toknum < YY_CAST (int, sizeof input));
   lvalp->dummy = 0;
-  llocp->first_line = llocp->last_line = 2;
-  llocp->first_column = toknum + 1;
-  llocp->last_column = llocp->first_column + 1;
+  ]AT_LOC_FIRST_LINE[ = ]AT_LOC_LAST_LINE[ = 2;
+  ]AT_LOC_FIRST_COLUMN[ = toknum + 1;
+  ]AT_LOC_LAST_COLUMN[ = ]AT_LOC_FIRST_COLUMN[ + 1;
   return input[toknum++];
 }
 
@@ -1707,7 +1766,8 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.c" %define api.pure])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1736,6 +1796,9 @@ AT_DATA_GRAMMAR([glr-regr18.y],
   int type2;
   int type3;
 }
+]AT_CXX_IF([[
+// In C++ we need one more line for the line numbers to match.
+]])[
 %%
 
 sym1: sym2 %merge<merge> { $$ = $][1; } ;
@@ -1753,10 +1816,10 @@ sym3: %merge<merge> { $$ = 0; } ;
 ]])
 
 AT_BISON_CHECK([[-o glr-regr18.c -rall glr-regr18.y]], 1, [],
-[[glr-regr18.y:28.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
-glr-regr18.y:27.18-24: note: previous declaration
-glr-regr18.y:29.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
+[[glr-regr18.y:29.18-24: error: result type clash on merge function 'merge': <type2> != <type1>
 glr-regr18.y:28.18-24: note: previous declaration
+glr-regr18.y:30.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
+glr-regr18.y:29.18-24: note: previous declaration
 ]])
 
 AT_BISON_OPTION_POPDEFS
@@ -1764,6 +1827,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1789,7 +1853,9 @@ AT_DATA_GRAMMAR([input.y],
 %expect 0
 %expect-rr 1
 ]$1[
-
+]AT_CXX_IF([[
+// In C++ we need two more lines for the line numbers in the trace to match.
+]])[
 %%
 
 start:
@@ -1873,6 +1939,7 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1896,7 +1963,7 @@ AT_DATA_GRAMMAR([input.y],
 %expect-rr 1
 ]$1[
 
-%code requires
+%code
 {
   #include <assert.h>
   #include <stdbool.h>
@@ -1915,10 +1982,11 @@ new_args: 'n';
 old_args: 'o';
 %%
 ]AT_YYERROR_DEFINE[
+]AT_YYPARSE_DEFINE[
 
-int
-yylex (void)
+]AT_YYLEX_PROTOTYPE[
 {
+  ]AT_USE_LEX_ARGS[
   return *input++;
 }
 
@@ -1947,5 +2015,9 @@ AT_CLEANUP
 ])
 
 AT_TEST([%skeleton "glr.c"])
+AT_TEST([%skeleton "glr.cc"])
 
 m4_popdef([AT_TEST])
+
+
+m4_popdef([AT_YYPARSE_DEFINE])
