@@ -1155,7 +1155,8 @@ class glr_stack_item
 {
 public:
   glr_stack_item (bool state = true)
-    : is_state_ (state)
+    : is_state_ (state)]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {
     if (is_state_)
       new (&raw_) glr_state;
@@ -1163,21 +1164,26 @@ public:
       new (&raw_) semantic_option;
   }
 
-  glr_stack_item(const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
-    : is_state_(other.is_state_)
-  {
-    std::memcpy(raw_, other.raw_, union_size);
+  glr_stack_item (const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
+    : is_state_ (other.is_state_)]b4_parse_assert_if([[
+    , magic_ (0xDEAD1ACC)]])[
+  {]b4_parse_assert_if([[
+    other.check_ ();]])[
+    std::memcpy (raw_, other.raw_, union_size);
   }
 
-  glr_stack_item& operator=(glr_stack_item other)
-  {
-    std::swap(is_state_, other.is_state_);
-    std::swap(raw_, other.raw_);
+  glr_stack_item& operator= (glr_stack_item other)
+  {]b4_parse_assert_if([[
+    check_ ();
+    other.check_ ();]])[
+    std::swap (is_state_, other.is_state_);
+    std::swap (raw_, other.raw_);
     return *this;
   }
 
-  ~glr_stack_item()
-  {
+  ~glr_stack_item ()
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     if (is_state())
       getState().~glr_state();
     else
@@ -1185,44 +1191,48 @@ public:
   }
 
   glr_state& getState ()
-  {
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     YYDASSERT (is_state ());
     void *yyp = raw_;
     return *static_cast<glr_state*> (yyp);
   }
   const glr_state& getState () const
-  {
-    YYDASSERT (is_state());
+  {]b4_parse_assert_if([[
+    check_ ();]])[
+    YYDASSERT (is_state ());
     const void *yyp = raw_;
     return *static_cast<const glr_state*> (yyp);
   }
 
   semantic_option& getOption ()
-  {
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     YYDASSERT (!is_state ());
     void *yyp = raw_;
     return *static_cast<semantic_option*> (yyp);
   }
   const semantic_option& getOption () const
-  {
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     YYDASSERT (!is_state ());
     const void *yyp = raw_;
     return *static_cast<const semantic_option*> (yyp);
   }
   bool is_state () const
-  {
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     return is_state_;
   }
  private:
   /// The possible contents of raw_. Since they have constructors, they cannot
   /// be directly included in the union.
-  struct contents {
-    union {
-      char yystate[sizeof(glr_state)];
-      char yyoption[sizeof(semantic_option)];
-    };
+  union contents
+  {
+    char yystate[sizeof (glr_state)];
+    char yyoption[sizeof (semantic_option)];
   };
-  enum { union_size = sizeof(contents) };
+  enum { union_size = sizeof (contents) };
   union {
     /// Strongest alignment constraints.
     long double yyalign_me;
@@ -1231,6 +1241,17 @@ public:
   };
   /** Type tag for the union. */
   bool is_state_;
+
+]b4_parse_assert_if([[
+  // Check invariants.
+  void check_ () const
+  {
+    YYASSERT (this->magic_ == MAGIC);
+    YYASSERT (this->is_state_ == false || this->is_state_ == true);
+  }
+  // A magic number to check our pointer arithmetics is sane.
+  enum { MAGIC = 0xDEAD1ACC };
+  const unsigned int magic_;]])[
 };
 
 glr_state* glr_state::pred ()
@@ -1272,7 +1293,9 @@ std::ptrdiff_t semantic_option::indexIn(glr_stack_item* array) {
 }
 
 glr_state* semantic_option::state() {
+  YY_IGNORE_NULL_DEREFERENCE_BEGIN
   return yystate ? &(asItem(this) - yystate)->getState() : YY_NULLPTR;
+  YY_IGNORE_NULL_DEREFERENCE_END
 }
 
 const glr_state* semantic_option::state() const {
