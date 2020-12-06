@@ -187,6 +187,12 @@ And use YYCDEBUG rather than YY_DEBUG_STREAM.
 
 *** Avoid pointers
 There are many places where pointers should be replaced with references.
+Some occurrences were fixed, but now some have improper names:
+
+-yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[)
++yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[)
+
+yycharp is no longer a Pointer.  And yystackp should probably also be a reference.
 
 *** Use proper type names
 Don't use YYSTYPE and YYLTYPE but parser::semantic_type and

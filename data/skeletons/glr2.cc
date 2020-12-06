@@ -727,10 +727,10 @@ state_set_index create_state_set_index(std::ptrdiff_t value) {
   ]b4_table_value_equals([[table]], [[Yytable_value]], [b4_table_ninf], [YYTABLE_NINF])[
 
 ]m4_define([b4_yygetToken_call],
-           [[yygetToken (&yychar, yyparser][]b4_pure_if([, yystackp])[]b4_user_args[)]])[
+           [[yygetToken (yychar, yyparser][]b4_pure_if([, yystackp])[]b4_user_args[)]])[
 
 static inline yysymbol_kind_t
-yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[);
+yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[);
 
 static inline bool
 yyisShiftAction (int yyaction)
@@ -745,7 +745,7 @@ yyisErrorAction (int yyaction)
 }
 
 static inline int
-yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short** yyconflicts);
+yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts);
 
 /** True iff LR state YYSTATE has only a default reduction (regardless
  *  of token).  */
@@ -1038,14 +1038,14 @@ class semantic_option {
    *  That is, they represent the same rule applied to RHS symbols
    *  that produce the same terminal symbols.  */
   bool
-  isIdenticalTo (semantic_option* yyy1)
+  isIdenticalTo (const semantic_option& yyy1) const
   {
-    if (this->yyrule == yyy1->yyrule)
+    if (this->yyrule == yyy1.yyrule)
       {
         const glr_state *yys0, *yys1;
         int yyn;
         for (yys0 = this->state(),
-             yys1 = yyy1->state(),
+             yys1 = yyy1.state(),
              yyn = yyrhsLength (this->yyrule);
              yyn > 0;
              yys0 = yys0->pred(),
@@ -1061,10 +1061,10 @@ class semantic_option {
   /** Assuming identicalOptions (YYY0,YYY1), destructively merge the
    *  alternative semantic values for the RHS-symbols of YYY1 and YYY0.  */
   void
-  mergeWith (semantic_option* yyy1)
+  mergeWith (semantic_option& yyy1)
   {
     glr_state *yys0 = this->state();
-    glr_state *yys1 = yyy1->state();
+    glr_state *yys1 = yyy1.state();
     for (int yyn = yyrhsLength (this->yyrule);
          yyn > 0;
          yyn -= 1,
@@ -1311,7 +1311,7 @@ void glr_state::destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class
 
 
 static int
-yypreference (semantic_option* y0, semantic_option* y1);
+yypreference (const semantic_option& y0, const semantic_option& y1);
 
 static void
 yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1);
@@ -1328,7 +1328,7 @@ static inline state_num
 yyLRgotoState (state_num yystate, yysymbol_kind_t yysym);
 
 #undef YYFILL
-#define YYFILL(N) yyfill (yyvsp, &yylow, (N), yynormal)
+#define YYFILL(N) yyfill (yyvsp, yylow, (N), yynormal)
 
 class state_stack {
  public:
@@ -1522,12 +1522,12 @@ class state_stack {
    * YYVSP[YYLOW1 .. *YYLOW-1] as in yyfillin and set *YYLOW = YYLOW1.
    * For convenience, always return YYLOW1.  */
   inline int
-  yyfill (glr_stack_item *yyvsp, int *yylow, int yylow1, bool yynormal)
+  yyfill (glr_stack_item *yyvsp, int &yylow, int yylow1, bool yynormal)
   {
-    if (!yynormal && yylow1 < *yylow)
+    if (!yynormal && yylow1 < yylow)
       {
-        yyfillin (yyvsp, *yylow, yylow1);
-        *yylow = yylow1;
+        yyfillin (yyvsp, yylow, yylow1);
+        yylow = yylow1;
       }
     return yylow1;
   }
@@ -1644,9 +1644,9 @@ class state_stack {
 #if ]b4_api_PREFIX[DEBUG
     std::cerr << "Ambiguity detected.\n";
     std::cerr << "Option 1,\n";
-    yyreportTree (yyx0, 2);
+    yyreportTree (*yyx0, 2);
     std::cerr << "\nOption 2,\n";
-    yyreportTree (yyx1, 2);
+    yyreportTree (*yyx1, 2);
     std::cerr << "\n";
 #endif
 
@@ -1687,14 +1687,14 @@ class state_stack {
 
 #if ]b4_api_PREFIX[DEBUG
   void
-  yyreportTree (semantic_option* yyx, size_t yyindent)
+  yyreportTree (const semantic_option& yyx, size_t yyindent) const
   {
-    int yynrhs = yyrhsLength (yyx->yyrule);
-    glr_state* yystates[1 + YYMAXRHS];
+    int yynrhs = yyrhsLength (yyx.yyrule);
+    const glr_state* yystates[1 + YYMAXRHS];
     glr_state yyleftmost_state;
 
     {
-      glr_state* yys = yyx->state();
+      const glr_state* yys = yyx.state();
       for (int yyi = yynrhs; 0 < yyi; yyi -= 1)
         {
           yystates[yyi] = yys;
@@ -1709,16 +1709,16 @@ class state_stack {
         yystates[0] = yys;
     }
 
-    std::string yylhs = ]b4_namespace_ref::b4_parser_class[::symbol_name (yylhsNonterm (yyx->yyrule));
-    YYASSERT(yyx->state());
-    if (yyx->state()->yyposn < yystates[0]->yyposn + 1)
+    std::string yylhs = ]b4_namespace_ref::b4_parser_class[::symbol_name (yylhsNonterm (yyx.yyrule));
+    YYASSERT(yyx.state());
+    if (yyx.state()->yyposn < yystates[0]->yyposn + 1)
       std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
-                << yyx->yyrule - 1 << ", empty>\n";
+                << yyx.yyrule - 1 << ", empty>\n";
     else
       std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
-                << yyx->yyrule - 1 << ", tokens "
+                << yyx.yyrule - 1 << ", tokens "
                 << yystates[0]->yyposn + 1 << " .. "
-                << yyx->state()->yyposn << ">\n";
+                << yyx.state()->yyposn << ">\n";
     for (int yyi = 1; yyi <= yynrhs; yyi += 1)
       {
         if (yystates[yyi]->yyresolved)
@@ -1733,7 +1733,7 @@ class state_stack {
                         << " .. " << yystates[yyi]->yyposn << ">\n";
           }
         else
-          yyreportTree (yystates[yyi]->firstVal(),
+          yyreportTree (*yystates[yyi]->firstVal(),
                         yyindent+2);
       }
   }
@@ -1747,7 +1747,7 @@ class state_stack {
 };
 
 #undef YYFILL
-#define YYFILL(N) yystateStack.yyfill (yyvsp, &yylow, (N), yynormal)
+#define YYFILL(N) yystateStack.yyfill (yyvsp, yylow, (N), yynormal)
 
 #define yystackp this
 class glr_stack
@@ -2006,7 +2006,7 @@ public:
                 YY_SYMBOL_PRINT ("Shifting", static_cast<yysymbol_kind_t>(yystos[yytable[yyj]]),
                                  &yylval, &yyerrloc);
                 yyglrShift (create_state_set_index(0), yytable[yyj],
-                            yys->yyposn, &yylval]b4_locations_if([, &yyerrloc])[);
+                            yys->yyposn, yylval]b4_locations_if([, &yyerrloc])[);
                 yys = firstTopState();
                 break;
               }
@@ -2059,7 +2059,7 @@ public:
             yystateStack.yytops.setLookaheadNeeds(yyk, true);
             const yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
             const short* yyconflicts;
-            int yyaction = yygetLRActions (yystate, yytoken, &yyconflicts);
+            const int yyaction = yygetLRActions (yystate, yytoken, yyconflicts);
 
             for (; *yyconflicts != 0; ++yyconflicts)
               {
@@ -2188,7 +2188,7 @@ public:
              yys != yystateStack.yysplitPoint;
              yys = yys->pred())
           yyn += 1;
-        YYCHK (yyresolveStates (firstTopState(), yyn));
+        YYCHK (yyresolveStates (*firstTopState(), yyn));
       }
     return yyok;
   }
@@ -2272,7 +2272,7 @@ public:
         yyglrShift (yyk,
                     yyLRgotoState (topState(yyk)->yylrState,
                                    yylhsNonterm (yyrule)),
-                    yyposn, &yysval]b4_locations_if([, &loc])[);
+                    yyposn, yysval]b4_locations_if([, &loc])[);
       }
     else
       {
@@ -2337,10 +2337,10 @@ public:
   inline void
   yyglrShift (state_set_index yyk, state_num yylrState,
               size_t yyposn,
-              YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
+              YYSTYPE& yyval_arg]b4_locations_if([, YYLTYPE* yylocp])[)
   {
     glr_state& yynewState = yystateStack.yynewGLRState(
-      glr_state(yylrState, yyposn, *yyvalp
+      glr_state(yylrState, yyposn, yyval_arg
                  ]b4_locations_if([, *yylocp])[));
     yynewState.setPred(yystateStack.topAt(yyk));
     yystateStack.setTopAt(yyk, &yynewState);
@@ -2391,13 +2391,13 @@ public:
    *  of whether result = yyok, each state has been left with consistent
    *  data so that destroy can be invoked if necessary.  */
   YYRESULTTAG
-  yyresolveStates (glr_state* yys, int yyn)
+  yyresolveStates (glr_state& yys, int yyn)
   {
     if (0 < yyn)
       {
-        YYASSERT (yys->pred() != YY_NULLPTR);
-        YYCHK (yyresolveStates (yys->pred(), yyn-1));
-        if (! yys->yyresolved)
+        YYASSERT (yys.pred() != YY_NULLPTR);
+        YYCHK (yyresolveStates (*yys.pred(), yyn-1));
+        if (! yys.yyresolved)
           YYCHK (yyresolveValue (yys));
       }
     return yyok;
@@ -2411,27 +2411,27 @@ public:
    *  result = yyok, YYS has been left with consistent data so that
    *  destroy can be invoked if necessary.  */
   YYRESULTTAG
-  yyresolveValue (glr_state* yys)
+  yyresolveValue (glr_state& yys)
   {
-    semantic_option* yybest = yys->firstVal();
+    semantic_option* yybest = yys.firstVal();
     YYASSERT(yybest != YY_NULLPTR);
     bool yymerge = false;
     YYSTYPE yysval;
     YYRESULTTAG yyflag;]b4_locations_if([
-    YYLTYPE *yylocp = &yys->yyloc;])[
+    YYLTYPE *yylocp = &yys.yyloc;])[
 
     semantic_option* yypPrev = yybest;
     for (semantic_option* yyp = yybest->next();
          yyp != YY_NULLPTR; )
       {
-        if (yybest->isIdenticalTo (yyp))
+        if (yybest->isIdenticalTo (*yyp))
           {
-            yybest->mergeWith (yyp);
+            yybest->mergeWith (*yyp);
             yypPrev->setNext(yyp->next());
           }
         else
           {
-            switch (yypreference (yybest, yyp))
+            switch (yypreference (*yybest, *yyp))
               {
               case 0:]b4_locations_if([[
                 yyresolveLocations (yys, 1);]])[
@@ -2460,7 +2460,7 @@ public:
     if (yymerge)
       {
         int yyprec = yydprec[yybest->yyrule];
-        yyflag = yyresolveAction (yybest, &yysval]b4_locations_if([, yylocp])[);
+        yyflag = yyresolveAction (*yybest, &yysval]b4_locations_if([, yylocp])[);
         if (yyflag == yyok)
           for (semantic_option* yyp = yybest->next();
                yyp != YY_NULLPTR;
@@ -2470,11 +2470,11 @@ public:
                 {
                   YYSTYPE yysval_other;]b4_locations_if([
                   YYLTYPE yydummy;])[
-                  yyflag = yyresolveAction (yyp, &yysval_other]b4_locations_if([, &yydummy])[);
+                  yyflag = yyresolveAction (*yyp, &yysval_other]b4_locations_if([, &yydummy])[);
                   if (yyflag != yyok)
                     {
                       yyparser.yy_destroy_ ("Cleanup: discarding incompletely merged value for",
-                                  static_cast<yysymbol_kind_t>(yystos[yys->yylrState]),
+                                  static_cast<yysymbol_kind_t>(yystos[yys.yylrState]),
                                   &yysval]b4_locations_if([, yylocp])[);
                       break;
                     }
@@ -2483,17 +2483,17 @@ public:
             }
       }
     else
-      yyflag = yyresolveAction (yybest, &yysval]b4_locations_if([, yylocp])[);
+      yyflag = yyresolveAction (*yybest, &yysval]b4_locations_if([, yylocp])[);
 
     if (yyflag == yyok)
       {
-        yys->yyresolved = true;
+        yys.yyresolved = true;
         YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-        yys->semanticVal() = yysval;
+        yys.semanticVal() = yysval;
         YY_IGNORE_MAYBE_UNINITIALIZED_END
       }
     else
-      yys->setFirstVal(YY_NULLPTR);
+      yys.setFirstVal(YY_NULLPTR);
     return yyflag;
   }
 
@@ -2503,13 +2503,14 @@ public:
    *  have been destroyed (assuming the user action destroys all RHS
    *  semantic values if invoked).  */
   YYRESULTTAG
-  yyresolveAction (semantic_option* yyopt, YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
+  yyresolveAction (semantic_option& yyopt, YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
   {
-    glr_state* yyoptState = yyopt->state();
+    glr_state* yyoptState = yyopt.state();
+    YYASSERT(yyoptState != YY_NULLPTR);
     glr_stack_item yyrhsVals[YYMAXRHS + YYMAXLEFT + 1];
-    int yynrhs = yyrhsLength (yyopt->yyrule);
+    int yynrhs = yyrhsLength (yyopt.yyrule);
     YYRESULTTAG yyflag =
-      yyresolveStates (yyoptState, yynrhs);
+      yyresolveStates (*yyoptState, yynrhs);
     if (yyflag != yyok)
       {
         for (glr_state *yys = yyoptState; yynrhs > 0; yys = yys->pred(), yynrhs -= 1)
@@ -2517,7 +2518,7 @@ public:
         return yyflag;
       }
 
-    yyrhsVals[YYMAXRHS + YYMAXLEFT].getState().setPred(yyopt->state());]b4_locations_if([[
+    yyrhsVals[YYMAXRHS + YYMAXLEFT].getState().setPred(yyopt.state());]b4_locations_if([[
     if (yynrhs == 0)
       /* Set default location.  */
       yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].getState().yyloc = yyoptState->yyloc;]])[
@@ -2525,10 +2526,10 @@ public:
       int yychar_current = yychar;
       YYSTYPE yylval_current = yylval;]b4_locations_if([
       YYLTYPE yylloc_current = yylloc;])[
-      yychar = yyopt->yyrawchar;
-      yylval = yyopt->yyval;]b4_locations_if([
-      yylloc = yyopt->yyloc;])[
-      yyflag = yyuserAction (yyopt->yyrule, yynrhs,
+      yychar = yyopt.yyrawchar;
+      yylval = yyopt.yyval;]b4_locations_if([
+      yylloc = yyopt.yyloc;])[
+      yyflag = yyuserAction (yyopt.yyrule, yynrhs,
                              yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyvalp]b4_locations_if([, yylocp])[);
       yychar = yychar_current;
       yylval = yylval_current;]b4_locations_if([
@@ -2541,22 +2542,21 @@ public:
    *  ending at YYS1.  Has no effect on previously resolved states.
    *  The first semantic option of a state is always chosen.  */
   void
-  yyresolveLocations (glr_state *yys1, int yyn1)
+  yyresolveLocations (glr_state &yys1, int yyn1)
   {
     if (0 < yyn1)
       {
-        yyresolveLocations (yys1->pred(), yyn1 - 1);
-        if (!yys1->yyresolved)
+        yyresolveLocations (*yys1.pred(), yyn1 - 1);
+        if (!yys1.yyresolved)
           {
             glr_stack_item yyrhsloc[1 + YYMAXRHS];
-            int yynrhs;
-            semantic_option* yyoption = yys1->firstVal();
-            YYASSERT (yyoption != YY_NULLPTR);
-            yynrhs = yyrhsLength (yyoption->yyrule);
+            YYASSERT (yys1.firstVal() != YY_NULLPTR);
+            semantic_option& yyoption = *yys1.firstVal();
+            const int yynrhs = yyrhsLength (yyoption.yyrule);
             if (0 < yynrhs)
               {
-                yyresolveLocations (yyoption->state(), yynrhs);
-                glr_state *yys = yyoption->state();
+                yyresolveLocations (*yyoption.state(), yynrhs);
+                const glr_state *yys = yyoption.state();
                 for (int yyn = yynrhs; yyn > 0; yyn -= 1)
                 {
                   yyrhsloc[yyn].getState().yyloc = yys->yyloc;
@@ -2573,10 +2573,10 @@ public:
                    necessarily the previous state itself) is guaranteed to be
                    resolved already.  */
                 YY_IGNORE_NULL_DEREFERENCE_BEGIN
-                yyrhsloc[0].getState().yyloc = yyoption->state()->yyloc;
+                yyrhsloc[0].getState().yyloc = yyoption.state()->yyloc;
                 YY_IGNORE_NULL_DEREFERENCE_END
               }
-            YYLLOC_DEFAULT ((yys1->yyloc), yyrhsloc, yynrhs);
+            YYLLOC_DEFAULT ((yys1.yyloc), yyrhsloc, yynrhs);
           }
       }
   }]])[
@@ -2590,18 +2590,18 @@ public:
 
 /** If yychar is empty, fetch the next token.  */
 static inline yysymbol_kind_t
-yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[)
+yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[)
 {
   yysymbol_kind_t yytoken;
 ]b4_parse_param_use()dnl
-[  if (*yycharp == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
+[  if (yycharp == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
     {
       YY_DEBUG_STREAM <<  "Reading a token\n";
 #if YY_EXCEPTIONS
       try
         {
 #endif // YY_EXCEPTIONS
-          *yycharp = ]b4_lex[;
+          yycharp = ]b4_lex[;
 #if YY_EXCEPTIONS
         }
       catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
@@ -2611,19 +2611,19 @@ yygetToken (int *yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_p
           yyparser.error (]b4_locations_if([yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
           // handling is started.
-          *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(error, id)[;
+          yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(error, id)[;
         }
 #endif // YY_EXCEPTIONS
     }
-  if (*yycharp <= ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[)
+  if (yycharp <= ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[)
     {
-      *yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[;
+      yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[;
       yytoken = ]b4_namespace_ref::b4_parser_class::b4_symbol(eof, kind)[;
       YY_DEBUG_STREAM << "Now at end of input.\n";
     }
   else
     {
-      yytoken = YYTRANSLATE (*yycharp);
+      yytoken = YYTRANSLATE (yycharp);
       YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
     }
   return yytoken;
@@ -2662,29 +2662,29 @@ yyrhsLength (rule_num yyrule)
  *  of conflicting reductions.
  */
 static inline int
-yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short** yyconflicts)
+yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts)
 {
   int yyindex = yypact[yystate] + yytoken;
   if (yytoken == ]b4_namespace_ref::b4_parser_class[::]b4_symbol(error, kind)[)
     {
       // This is the error token.
-      *yyconflicts = yyconfl;
+      yyconflicts = yyconfl;
       return 0;
     }
   else if (yyisDefaultedState (yystate)
            || yyindex < 0 || YYLAST < yyindex || yycheck[yyindex] != yytoken)
     {
-      *yyconflicts = yyconfl;
+      yyconflicts = yyconfl;
       return -yydefact[yystate];
     }
   else if (! yytable_value_is_error (yytable[yyindex]))
     {
-      *yyconflicts = yyconfl + yyconflp[yyindex];
+      yyconflicts = yyconfl + yyconflp[yyindex];
       return yytable[yyindex];
     }
   else
     {
-      *yyconflicts = yyconfl + yyconflp[yyindex];
+      yyconflicts = yyconfl + yyconflp[yyindex];
       return 0;
     }
 }
@@ -2709,9 +2709,9 @@ yyLRgotoState (state_num yystate, yysymbol_kind_t yysym)
  *  parsing state; return 0 if no combination is possible,
  *  1 if user-mergeable, 2 if Y0 is preferred, 3 if Y1 is preferred.  */
 static int
-yypreference (semantic_option* y0, semantic_option* y1)
+yypreference (const semantic_option& y0, const semantic_option& y1)
 {
-  rule_num r0 = y0->yyrule, r1 = y1->yyrule;
+  rule_num r0 = y0.yyrule, r1 = y1.yyrule;
   int p0 = yydprec[r0], p1 = yydprec[r1];
 
   if (p0 == p1)
@@ -2776,7 +2776,7 @@ b4_dollar_popdef])[]dnl
     case 2: goto yyexhaustedlab;
     default: goto yybuglab;
     }
-  yystack.yyglrShift (create_state_set_index(0), 0, 0, &yylval]b4_locations_if([, &yylloc])[);
+  yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval]b4_locations_if([, &yylloc])[);
   yyposn = 0;
 
   while (true)
@@ -2806,7 +2806,7 @@ b4_dollar_popdef])[]dnl
             {
               const yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
               const short* yyconflicts;
-              int yyaction = yygetLRActions (yystate, yytoken, &yyconflicts);
+              const int yyaction = yygetLRActions (yystate, yytoken, yyconflicts);
               if (*yyconflicts != 0)
                 break;
               if (yyisShiftAction (yyaction))
@@ -2814,7 +2814,7 @@ b4_dollar_popdef])[]dnl
                   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
                   yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
                   yyposn += 1;
-                  yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, &yylval]b4_locations_if([, &yylloc])[);
+                  yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yylval]b4_locations_if([, &yylloc])[);
                   if (0 < yystack.yyerrState)
                     yystack.yyerrState -= 1;
                 }
@@ -2885,13 +2885,13 @@ b4_dollar_popdef])[]dnl
             {
               const state_num yystate = yystack.topState(yys)->yylrState;
               const short* yyconflicts;
-              int yyaction = yygetLRActions (yystate, yytoken_to_shift,
-                              &yyconflicts);
+              const int yyaction = yygetLRActions (yystate, yytoken_to_shift,
+                              yyconflicts);
               /* Note that yyconflicts were handled by yyprocessOneStack.  */
               YY_DEBUG_STREAM << "On stack " << yys.get() << ", ";
               YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yylval, &yylloc);
               yystack.yyglrShift (yys, yyaction, yyposn,
-                          &yylval]b4_locations_if([, &yylloc])[);
+                          yylval]b4_locations_if([, &yylloc])[);
               YY_DEBUG_STREAM << "Stack " << yys.get() << " now in state #"
                         << yystack.topState(yys)->yylrState << '\n';
             }
