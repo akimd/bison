@@ -1364,8 +1364,9 @@ class state_stack {
   }
  public:
 #else
-  bool yyexpandGLRStackIfNeeded() {
-    return yystateStack.spaceLeft() < YYHEADROOM;
+  bool yyexpandGLRStackIfNeeded ()
+  {
+    return spaceLeft () < YYHEADROOM;
   }
 #endif
 
