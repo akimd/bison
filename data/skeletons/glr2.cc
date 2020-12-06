@@ -1042,7 +1042,7 @@ class semantic_option {
   {
     if (this->yyrule == yyy1->yyrule)
       {
-        glr_state *yys0, *yys1;
+        const glr_state *yys0, *yys1;
         int yyn;
         for (yys0 = this->state(),
              yys1 = yyy1->state(),
@@ -1880,19 +1880,18 @@ public:
     */
     if (yytoken != ]b4_namespace_ref::b4_parser_class::b4_symbol(empty, kind)[)
       {
-        int yyn = yypact[firstTopState()->yylrState];
+        const int yyn = yypact[firstTopState()->yylrState];
         yyarg[yycount++] = yytoken;
         if (!yypact_value_is_default (yyn))
           {
             /* Start YYX at -YYN if negative to avoid negative indexes in
                YYCHECK.  In other words, skip the first -YYN actions for this
                state because they are default actions.  */
-            int yyxbegin = yyn < 0 ? -yyn : 0;
+            const int yyxbegin = yyn < 0 ? -yyn : 0;
             /* Stay within bounds of both yycheck and yytname.  */
-            int yychecklim = YYLAST - yyn + 1;
-            int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-            int yyx;
-            for (yyx = yyxbegin; yyx < yyxend; ++yyx)
+            const int yychecklim = YYLAST - yyn + 1;
+            const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+            for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
               if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref::b4_parser_class::b4_symbol(error, kind)[
                   && !yytable_value_is_error (yytable[yyx + yyn]))
                 {
@@ -2028,7 +2027,7 @@ public:
   {
     while (yystateStack.topAt(yyk) != YY_NULLPTR)
       {
-        state_num yystate = topState(yyk)->yylrState;
+        const state_num yystate = topState(yyk)->yylrState;
         YY_DEBUG_STREAM << "Stack " << yyk.get()
                         << " Entering state " << yystate << '\n';
 
@@ -2036,14 +2035,14 @@ public:
 
         if (yyisDefaultedState (yystate))
           {
-            rule_num yyrule = yydefaultAction (yystate);
+            const rule_num yyrule = yydefaultAction (yystate);
             if (yyrule == 0)
               {
                 YY_DEBUG_STREAM << "Stack " << yyk.get() << " dies.\n";
                 yystateStack.yytops.yymarkStackDeleted (yyk);
                 return yyok;
               }
-            YYRESULTTAG yyflag = yyglrReduce (yyk, yyrule,
+            const YYRESULTTAG yyflag = yyglrReduce (yyk, yyrule,
                                               yyimmediate[yyrule]);
             if (yyflag == yyerr)
               {
@@ -2058,7 +2057,7 @@ public:
         else
           {
             yystateStack.yytops.setLookaheadNeeds(yyk, true);
-            yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
+            const yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
             const short* yyconflicts;
             int yyaction = yygetLRActions (yystate, yytoken, &yyconflicts);
 
@@ -2204,7 +2203,7 @@ public:
   yydoAction (state_set_index yyk, rule_num yyrule,
               YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
   {
-    int yynrhs = yyrhsLength (yyrule);
+    const int yynrhs = yyrhsLength (yyrule);
 
     if (!yystateStack.isSplit())
       {
@@ -2212,8 +2211,8 @@ public:
         YYASSERT (yyk.get() == 0);
         glr_stack_item* yyrhs = yystateStack.firstTop()->asItem();
         YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser));
-        YYRESULTTAG res =  yyuserAction (yyrule, yynrhs, yyrhs,
-                             yyvalp]b4_locations_if([, yylocp])[);
+        const YYRESULTTAG res = yyuserAction (yyrule, yynrhs, yyrhs,
+                                yyvalp]b4_locations_if([, yylocp])[);
         yystateStack.pop_back(static_cast<size_t>(yynrhs));
         yystateStack.setFirstTop(&yystateStack[yystateStack.size() - 1].getState());
         return res;
@@ -2697,7 +2696,7 @@ yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short** yyconf
 static inline state_num
 yyLRgotoState (state_num yystate, yysymbol_kind_t yysym)
 {
-  int yyr = yypgoto[yysym - YYNTOKENS] + yystate;
+  const int yyr = yypgoto[yysym - YYNTOKENS] + yystate;
   if (0 <= yyr && yyr <= YYLAST && yycheck[yyr] == yystate)
     return yytable[yyr];
   else
@@ -2788,13 +2787,13 @@ b4_dollar_popdef])[]dnl
       /* Standard mode */
       while (true)
         {
-          state_num yystate = yystack.firstTopState()->yylrState;
+          const state_num yystate = yystack.firstTopState()->yylrState;
           YY_DEBUG_STREAM << "Entering state " << yystate << "\n";
           if (yystate == YYFINAL)
             goto yyacceptlab;
           if (yyisDefaultedState (yystate))
             {
-              rule_num yyrule = yydefaultAction (yystate);
+              const rule_num yyrule = yydefaultAction (yystate);
               if (yyrule == 0)
                 {]b4_locations_if([[
                   yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
@@ -2805,7 +2804,7 @@ b4_dollar_popdef])[]dnl
             }
           else
             {
-              yysymbol_kind_t yytoken = ]b4_yygetToken_call;[
+              const yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
               const short* yyconflicts;
               int yyaction = yygetLRActions (yystate, yytoken, &yyconflicts);
               if (*yyconflicts != 0)
@@ -2884,7 +2883,7 @@ b4_dollar_popdef])[]dnl
           yyposn += 1;
           for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
             {
-              state_num yystate = yystack.topState(yys)->yylrState;
+              const state_num yystate = yystack.topState(yys)->yylrState;
               const short* yyconflicts;
               int yyaction = yygetLRActions (yystate, yytoken_to_shift,
                               &yyconflicts);
