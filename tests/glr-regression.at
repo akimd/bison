@@ -419,7 +419,6 @@ m4_pushdef([AT_TEST],
 [AT_SETUP([Duplicate representation of merged trees: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
-AT_GLR2_CC_IF([AT_XFAIL_IF([true])])
 
 AT_DATA_GRAMMAR([glr-regr4.y],
 [[

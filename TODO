@@ -202,6 +202,9 @@ parser::location_type.  Undefine YYSTYPE and YYLTYPE.
 Currently all the assertions are enabled.  Once we are confident in glr2.cc,
 let parse.assert use the same approach as in lalr1.cc.
 
+*** debug_stream
+Stop using std::cerr everywhere.
+
 *** glr.c
 When glr2.cc fully replaces glr.cc, get rid of the glr.cc scaffolding in
 glr.c.

@@ -877,6 +877,14 @@ public:
   static glr_stack_item* asItem(T* state) {
     return reinterpret_cast<glr_stack_item*>(state);
   }
+  static const char *as_pointer_ (const glr_state *state)
+  {
+    return reinterpret_cast<const char *>(state);
+  }
+  static char *as_pointer_ (glr_state *state)
+  {
+    return reinterpret_cast<char *>(state);
+  }
   /** Preceding state in this stack */
   std::ptrdiff_t yypred;
   union {
@@ -1285,7 +1293,7 @@ glr_state* glr_state::pred ()
 {]b4_parse_assert_if([[
   check_ ();]])[
   YY_IGNORE_NULL_DEREFERENCE_BEGIN
-  return yypred ? &(asItem (this) - yypred)->getState () : YY_NULLPTR;
+  return yypred ? &asItem (as_pointer_ (this) - yypred)->getState () : YY_NULLPTR;
   YY_IGNORE_NULL_DEREFERENCE_END
 }
 
@@ -1293,14 +1301,14 @@ const glr_state* glr_state::pred () const
 {]b4_parse_assert_if([[
   check_ ();]])[
   YY_IGNORE_NULL_DEREFERENCE_BEGIN
-  return yypred ? &(asItem (this) - yypred)->getState () : YY_NULLPTR;
+  return yypred ? &asItem (as_pointer_ (this) - yypred)->getState () : YY_NULLPTR;
   YY_IGNORE_NULL_DEREFERENCE_END
 }
 
 void glr_state::setPred (const glr_state* state)
 {]b4_parse_assert_if([[
   check_ ();]])[
-  yypred = state ? asItem(this) - asItem(state) : 0;
+  yypred = state ? as_pointer_ (this) - as_pointer_ (state) : 0;
 }
 
 semantic_option* glr_state::firstVal ()

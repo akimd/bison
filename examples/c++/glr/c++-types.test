@@ -30,8 +30,6 @@ run 0 "\
 5.0-6: <init-declare>(T, x, y)
 7.0-4: =(x, y)"
 
-exit 77
-
 cat >input <<EOF
 T (x) + y;
 
