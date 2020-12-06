@@ -1315,45 +1315,51 @@ const semantic_option* glr_state::firstVal () const
   return yyfirstVal ? &(asItem(this) - yyfirstVal)->getOption() : YY_NULLPTR;
 }
 
-void glr_state::setFirstVal(const semantic_option* option)
+void glr_state::setFirstVal (const semantic_option* option)
 {]b4_parse_assert_if([[
   check_ ();]])[
   yyfirstVal = option ? asItem(this) - asItem(option) : 0;
 }
 
-std::ptrdiff_t glr_state::indexIn(glr_stack_item* array)
+std::ptrdiff_t glr_state::indexIn (glr_stack_item* array)
 {]b4_parse_assert_if([[
   check_ ();]])[
   return asItem(this) - array;
 }
 
-std::ptrdiff_t semantic_option::indexIn(glr_stack_item* array) {
+std::ptrdiff_t semantic_option::indexIn (glr_stack_item* array)
+{
   return asItem(this) - array;
 }
 
-glr_state* semantic_option::state() {
+glr_state* semantic_option::state ()
+{
   YY_IGNORE_NULL_DEREFERENCE_BEGIN
   return yystate ? &(asItem(this) - yystate)->getState() : YY_NULLPTR;
   YY_IGNORE_NULL_DEREFERENCE_END
 }
 
-const glr_state* semantic_option::state() const {
+const glr_state* semantic_option::state () const
+{
   return yystate ? &(asItem(this) - yystate)->getState() : YY_NULLPTR;
 }
 
-void semantic_option::setState(const glr_state* s) {
+void semantic_option::setState (const glr_state* s)
+{
   yystate = s ? asItem(this) - asItem(s) : 0;
 }
 
-semantic_option* semantic_option::next() {
+semantic_option* semantic_option::next ()
+{
   return yynext ? &(asItem(this) - yynext)->getOption() : YY_NULLPTR;
 }
 
-void semantic_option::setNext(const semantic_option* s) {
+void semantic_option::setNext (const semantic_option* s)
+{
   yynext = s ? asItem(this) - asItem(s) : 0;
 }
 
-void glr_state::destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[)
+void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[)
 {]b4_parse_assert_if([[
   check_ ();]])[
   if (yyresolved)
@@ -1843,7 +1849,7 @@ public:
     if (yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
       yyparser.yy_destroy_ ("Cleanup: discarding lookahead",
                   YYTRANSLATE (yychar), &yylval]b4_locations_if([, &yylloc])[);
-    popall();
+    popall_ ();
   }
 
   int yyerrState;
@@ -2442,7 +2448,8 @@ public:
 
  private:
 
-  void popall() {
+  void popall_ ()
+  {
     /* If the stack is well-formed, pop the stack until it is empty,
        destroying its entries as we go.  But free the stack regardless
        of whether it is well-formed.  */
@@ -2452,7 +2459,7 @@ public:
           while (yystateStack.topAt(k) != YY_NULLPTR)
             {
               glr_state* state = topState(k);]b4_locations_if([[
-                yyerror_range[1].getState().yyloc = state->yyloc;]])[
+              yyerror_range[1].getState().yyloc = state->yyloc;]])[
               if (state->pred() != YY_NULLPTR)
                 state->destroy ("Cleanup: popping", yyparser]b4_user_args[);
               yystateStack.setTopAt(k, state->pred());
@@ -2586,8 +2593,7 @@ public:
     glr_state* yyoptState = yyopt.state();
     YYASSERT(yyoptState != YY_NULLPTR);
     int yynrhs = yyrhsLength (yyopt.yyrule);
-    YYRESULTTAG yyflag =
-      yyresolveStates (*yyoptState, yynrhs);
+    YYRESULTTAG yyflag = yyresolveStates (*yyoptState, yynrhs);
     if (yyflag != yyok)
       {
         for (glr_state *yys = yyoptState; yynrhs > 0; yys = yys->pred(), yynrhs -= 1)
