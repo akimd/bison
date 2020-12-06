@@ -1,4 +1,10 @@
 * Soon
+** glr
+There is no test with "Parse on stack %ld rejected by rule %d" in it.
+
+** yyrline etc.
+Clarify that rule numbers in the skeletons are 1-based.
+
 ** Macros in C++
 There are many macros that should obey api.prefix: YY_CPLUSPLUS, YY_MOVE,
 etc.

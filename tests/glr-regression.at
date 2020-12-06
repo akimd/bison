@@ -1899,7 +1899,7 @@ Now at end of input.
 Stack 0 Entering state 7
 Now at end of input.
 Splitting off stack 1 from 0.
-Reduced stack 1 by rule 2 (line 26); action deferred.  Now in state 2.
+Reduced stack 1 by rule 2 (line 27); action deferred.  Now in state 2.
 Stack 1 Entering state 2
 Now at end of input.
 Reduced stack 0 by rule 1 (line 26); action deferred.  Now in state 2.
