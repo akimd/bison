@@ -244,6 +244,8 @@ m4_pushdef([AT_LALR1_CC_IF],
            [AT_CXX_IF([AT_GLR_IF([$2], [$1])], [$2])])
 m4_pushdef([AT_GLR_CC_IF],
            [AT_CXX_IF([AT_GLR_IF([$1], [$2])], [$2])])
+m4_pushdef([AT_GLR2_CC_IF],
+           [m4_bmatch([$3], [%skeleton "glr2\.cc"], [$1], [$2])])
 # Using yacc.c?
 m4_pushdef([AT_YACC_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
@@ -460,6 +462,7 @@ m4_popdef([AT_CXX_IF])
 m4_popdef([AT_C_IF])
 m4_popdef([AT_LANG])
 m4_popdef([AT_JAVA_IF])
+m4_popdef([AT_GLR2_CC_IF])
 m4_popdef([AT_GLR_CC_IF])
 m4_popdef([AT_LALR1_CC_IF])
 m4_popdef([AT_ERROR_SIMPLE_IF])
