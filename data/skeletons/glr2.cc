@@ -774,7 +774,8 @@ public:
     : yyresolved(false)
     , yylrState(0)
     , yyposn(0)
-    , yypred(0)
+    , yypred(0)]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {}
 
   /// Build with a semantic value.
@@ -783,7 +784,8 @@ public:
     , yylrState(lrState)
     , yyposn(posn)
     , yypred(0)]b4_locations_if([[
-    , yyloc(loc)]])[
+    , yyloc(loc)]])[]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {
     semanticVal() = sval;
   }
@@ -794,10 +796,13 @@ public:
     , yylrState(lrState)
     , yyposn(posn)
     , yypred(0)
-    , yyfirstVal(0)
+    , yyfirstVal(0)]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {}
 
-  void copyFrom(const glr_state& other) {
+  void copyFrom(const glr_state& other)
+  {]b4_parse_assert_if([[
+    other.check_ ();]])[
     *this = other;
     setPred(other.pred());
     if (other.yyresolved) {
@@ -826,11 +831,15 @@ public:
   const semantic_option* firstVal() const;
   void setFirstVal(const semantic_option* option);
 
-  YYSTYPE& semanticVal() {
+  YYSTYPE& semanticVal()
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     return yysval;
   }
 
-  const YYSTYPE& semanticVal() const {
+  const YYSTYPE& semanticVal() const
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     return yysval;
   }
 
@@ -840,7 +849,8 @@ public:
   /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
   void yy_yypstack() const
-  {
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     if (pred() != YY_NULLPTR)
       {
         pred()->yy_yypstack();
@@ -852,7 +862,9 @@ public:
 
   std::ptrdiff_t indexIn(glr_stack_item* array);
 
-  glr_stack_item* asItem() {
+  glr_stack_item* asItem()
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     return asItem(this);
   }
 
@@ -875,9 +887,24 @@ public:
     /** Semantic value for this state.  */
     YYSTYPE yysval;
   };]b4_locations_if([[
+ // FIXME: Why public?
  public:
   /** Source location for this state.  */
   YYLTYPE yyloc;]])[
+
+]b4_parse_assert_if([[
+private:
+  // Check invariants.
+  void check_ () const
+  {
+    YY_IGNORE_NULL_DEREFERENCE_BEGIN
+    YYASSERT (this->magic_ == MAGIC);
+    YY_IGNORE_NULL_DEREFERENCE_END
+  }
+
+  // A magic number to check our pointer arithmetics is sane.
+  enum { MAGIC = 0x713705 };
+  unsigned int magic_;]])[
 };
 
 /** A stack of GLRState representing the different heads during
@@ -1255,36 +1282,48 @@ public:
 };
 
 glr_state* glr_state::pred ()
-{
+{]b4_parse_assert_if([[
+  check_ ();]])[
   YY_IGNORE_NULL_DEREFERENCE_BEGIN
   return yypred ? &(asItem (this) - yypred)->getState () : YY_NULLPTR;
   YY_IGNORE_NULL_DEREFERENCE_END
 }
 
 const glr_state* glr_state::pred () const
-{
+{]b4_parse_assert_if([[
+  check_ ();]])[
   YY_IGNORE_NULL_DEREFERENCE_BEGIN
   return yypred ? &(asItem (this) - yypred)->getState () : YY_NULLPTR;
   YY_IGNORE_NULL_DEREFERENCE_END
 }
 
-void glr_state::setPred(const glr_state* state) {
+void glr_state::setPred (const glr_state* state)
+{]b4_parse_assert_if([[
+  check_ ();]])[
   yypred = state ? asItem(this) - asItem(state) : 0;
 }
 
-semantic_option* glr_state::firstVal() {
+semantic_option* glr_state::firstVal ()
+{]b4_parse_assert_if([[
+  check_ ();]])[
   return yyfirstVal ? &(asItem(this) - yyfirstVal)->getOption() : YY_NULLPTR;
 }
 
-const semantic_option* glr_state::firstVal() const {
+const semantic_option* glr_state::firstVal () const
+{]b4_parse_assert_if([[
+  check_ ();]])[
   return yyfirstVal ? &(asItem(this) - yyfirstVal)->getOption() : YY_NULLPTR;
 }
 
-void glr_state::setFirstVal(const semantic_option* option) {
+void glr_state::setFirstVal(const semantic_option* option)
+{]b4_parse_assert_if([[
+  check_ ();]])[
   yyfirstVal = option ? asItem(this) - asItem(option) : 0;
 }
 
-std::ptrdiff_t glr_state::indexIn(glr_stack_item* array) {
+std::ptrdiff_t glr_state::indexIn(glr_stack_item* array)
+{]b4_parse_assert_if([[
+  check_ ();]])[
   return asItem(this) - array;
 }
 
@@ -1315,7 +1354,8 @@ void semantic_option::setNext(const semantic_option* s) {
 }
 
 void glr_state::destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[)
-{
+{]b4_parse_assert_if([[
+  check_ ();]])[
   if (yyresolved)
     yyparser.yy_destroy_ (yymsg, static_cast<yysymbol_kind_t>(yystos[yylrState]),
                 &semanticVal()]b4_locations_if([, &yyloc])[);
