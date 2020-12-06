@@ -1589,7 +1589,8 @@ class state_stack {
     int yynrhs = yyrhsLength (yyrule);]b4_locations_if([
     int yylow = 1;])[
     int yyi;
-    std::cerr << "Reducing stack " << yyk.get() << " by rule " << yyrule - 1 << " (line " << yyrline[yyrule] << "):\n";
+    std::cerr << "Reducing stack " << yyk.get() << " by rule " << yyrule - 1
+              << " (line " << int (yyrline[yyrule]) << "):\n";
     if (! yynormal)
       yyfillin (yyvsp, 1, -yynrhs);
     /* The symbols being reduced.  */
@@ -2077,7 +2078,7 @@ public:
               {
                 state_set_index yynewStack = yystateStack.yysplitStack (yyk);
                 YY_DEBUG_STREAM << "Splitting off stack " << yynewStack.get()
-                                << " from " << yyk.get() << '\n';
+                                << " from " << yyk.get() << ".\n";
                 YYRESULTTAG yyflag =
                   yyglrReduce (yynewStack, *yyconflicts,
                                yyimmediate[*yyconflicts]);
@@ -2274,10 +2275,11 @@ public:
 
         YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &yysval]b4_locations_if([, &loc])[);
         if (yyflag == yyerr && yystateStack.isSplit())
-          {
+          {]b4_parse_trace_if([[
             YY_DEBUG_STREAM << "Parse on stack " << yyk.get()
-                            << " rejected by rule #" << yyrule - 1 << ".\n";
-          }
+                            << " rejected by rule " << yyrule - 1
+                            << " (line " << int (yyrline[yyrule]) << ").\n";
+          ]])[}
         if (yyflag != yyok)
           return yyflag;
         YY_SYMBOL_PRINT ("-> $$ =", static_cast<yysymbol_kind_t>(yyr1[yyrule]), &yysval, &loc);
@@ -2296,11 +2298,11 @@ public:
             YYASSERT (yys != YY_NULLPTR);
           }
         yystateStack.yyupdateSplit (*yys);
-        state_num yynewLRState = yyLRgotoState (yys->yylrState, yylhsNonterm (yyrule));
+        state_num yynewLRState = yyLRgotoState (yys->yylrState, yylhsNonterm (yyrule));]b4_parse_trace_if([[
         YY_DEBUG_STREAM << "Reduced stack " << yyk.get()
-                        << " by rule #" << yyrule - 1
-                        << "; action deferred.  Now in state " << yynewLRState
-                        << ".\n";
+                        << " by rule " << yyrule - 1 << " (line " << int (yyrline[yyrule])
+                        << "); action deferred.  Now in state " << yynewLRState
+                        << ".\n";]])[
         for (state_set_index yyi = create_state_set_index(0); yyi.uget() < yystateStack.numTops(); ++yyi)
           if (yyi != yyk && yystateStack.topAt(yyi) != YY_NULLPTR)
             {
