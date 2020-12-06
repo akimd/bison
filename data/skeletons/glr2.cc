@@ -2439,6 +2439,7 @@ public:
           {
             yybest->mergeWith (*yyp);
             yypPrev->setNext(yyp->next());
+            yyp = yypPrev->next();
           }
         else
           {
