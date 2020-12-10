@@ -420,8 +420,6 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
    */
   public bool parse ()
   {
-    // Lookahead token kind.
-    int yychar = TokenKind.]b4_symbol(empty, id)[;
     // Lookahead symbol kind.
     SymbolKind yytoken = ]b4_symbol(empty, kind)[;
 
@@ -489,17 +487,16 @@ m4_popdef([b4_at_dollar])])dnl
         }
 
         /* Read a lookahead token.  */
-        if (yychar == TokenKind.]b4_symbol(empty, id)[)
+        if (yytoken == ]b4_symbol(empty, kind)[)
         {]b4_parse_trace_if([[
           yycdebugln ("Reading a token");]])[
           Symbol yysymbol = yylex();
-          yychar = yysymbol.token();
+          yytoken = yysymbol.token();
           yylval = yysymbol.value();]b4_locations_if([[
           yylloc = yysymbol.location();]])[
         }
 
-        /* Convert token to internal form.  */
-        yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
+        /* Token already converted to internal form.  */]b4_parse_trace_if([[
         yy_symbol_print ("Next token is", yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
         if (yytoken == ]b4_symbol(error, kind)[)
@@ -508,7 +505,6 @@ m4_popdef([b4_at_dollar])])dnl
           // to error recovery.  But do not keep the error token as
           // lookahead, it is too special and may lead us to an endless
           // loop in error recovery. */
-          yychar = TokenKind.]b4_symbol(undef, id)[;
           yytoken = ]b4_symbol(undef, kind)[;]b4_locations_if([[
           yyerrloc = yylloc;]])[
           label = YYERRLAB1;
@@ -543,7 +539,7 @@ m4_popdef([b4_at_dollar])])dnl
             yy_symbol_print ("Shifting", yytoken, yylval]b4_locations_if([, yylloc])[);]])[
 
             /* Discard the token being shifted.  */
-            yychar = TokenKind.]b4_symbol(empty, id)[;
+            yytoken = ]b4_symbol(empty, kind)[;
 
             /* Count tokens shifted since error; after three, turn off error
              * status.  */
@@ -586,8 +582,6 @@ m4_popdef([b4_at_dollar])])dnl
         if (yyerrstatus_ == 0)
         {
           ++yynerrs_;
-          if (yychar == TokenKind.]b4_symbol(empty, id)[)
-            yytoken = ]b4_symbol(empty, kind)[;
           yyreportSyntaxError(new Context(]b4_lac_if([[this, ]])[yystack, yytoken]b4_locations_if([[, yylloc]])[));
         }
 ]b4_locations_if([
@@ -597,14 +591,14 @@ m4_popdef([b4_at_dollar])])dnl
           /* If just tried and failed to reuse lookahead token after an
            * error, discard it.  */
 
-          if (yychar <= TokenKind.]b4_symbol(eof, [id])[)
+          if (yytoken <= ]b4_symbol(eof, [kind])[)
           {
             /* Return failure if at end of input.  */
-            if (yychar == TokenKind.]b4_symbol(eof, [id])[)
+            if (yytoken == ]b4_symbol(eof, [kind])[)
              return false;
           }
           else
-            yychar = TokenKind.]b4_symbol(empty, id)[;
+            yytoken = ]b4_symbol(empty, kind)[;
         }
 
         /* Else will try to reuse lookahead token after shifting the error
