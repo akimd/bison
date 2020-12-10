@@ -409,9 +409,8 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
       yycdebugln (message);
     }
   }
-]])
-b4_symbol_type_define
-[
+]])[
+]b4_symbol_type_define[
   /**
    * Parse input from the scanner that was specified at object construction
    * time.  Return whether the end of the input was reached successfully.
