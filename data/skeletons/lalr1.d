@@ -493,7 +493,7 @@ m4_popdef([b4_at_dollar])])dnl
           yycdebugln ("Reading a token");]])[
           Symbol yysymbol = yylex();
           yychar = yysymbol.token();
-          yylval = yysymbol.semanticValue();]b4_locations_if([[
+          yylval = yysymbol.value();]b4_locations_if([[
           yylloc = yysymbol.location();]])[
         }
 

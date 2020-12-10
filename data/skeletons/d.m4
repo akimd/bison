@@ -460,7 +460,7 @@ m4_define([b4_symbol_type_define],
   struct Symbol
   {
     private SymbolKind kind;
-    private ]b4_yystype[ value;]b4_locations_if([[
+    private ]b4_yystype[ value_;]b4_locations_if([[
     private YYLocation location_;]])[
     this(TokenKind token]b4_locations_if([[, YYLocation loc]])[)
     {
@@ -472,12 +472,12 @@ m4_define([b4_symbol_type_define],
       this(TokenKind token, typeof(mixin("YYSemanticType." ~ member)) val]b4_locations_if([[, YYLocation loc]])[)
       {
         kind = yytranslate_(token);
-        mixin("value." ~ member ~ " = val;");]b4_locations_if([
+        mixin("value_." ~ member ~ " = val;");]b4_locations_if([
         location_ = loc;])[
       }
     }
     SymbolKind token() { return kind; }
-    ]b4_yystype[ semanticValue() { return value; }]b4_locations_if([[
+    ]b4_yystype[ value() { return value_; }]b4_locations_if([[
     YYLocation location() { return location_; }]])[
   }
 ]])
