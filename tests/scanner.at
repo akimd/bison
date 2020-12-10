@@ -121,12 +121,12 @@ class YYLexer(R) : Lexer
     return semanticVal_;
   }
 
-  YYParser.Symbol yylex ()
+  Symbol yylex ()
   {
     import std.uni : isNumber;
     // Handle EOF.
     if (input.empty)
-      return YYParser.Symbol(TokenKind.END);
+      return Symbol(TokenKind.END);
 
     auto c = input.front;
     input.popFront;
@@ -136,13 +136,13 @@ class YYLexer(R) : Lexer
     {
     case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
       semanticVal_.val = c - '0';
-      return YYParser.Symbol(TokenKind.NUM, semanticVal_.val);
-    case '+': return YYParser.Symbol(TokenKind.PLUS);
-    case '-': return YYParser.Symbol(TokenKind.MINUS);
-    case '*': return YYParser.Symbol(TokenKind.STAR);
-    case '/': return YYParser.Symbol(TokenKind.SLASH);
-    case '(': return YYParser.Symbol(TokenKind.LPAR);
-    case ')': return YYParser.Symbol(TokenKind.RPAR);
+      return Symbol(TokenKind.NUM, semanticVal_.val);
+    case '+': return Symbol(TokenKind.PLUS);
+    case '-': return Symbol(TokenKind.MINUS);
+    case '*': return Symbol(TokenKind.STAR);
+    case '/': return Symbol(TokenKind.SLASH);
+    case '(': return Symbol(TokenKind.LPAR);
+    case ')': return Symbol(TokenKind.RPAR);
     default: assert(0);
     }
   }

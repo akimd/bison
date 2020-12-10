@@ -447,6 +447,14 @@ m4_define([b4_var_decls],
 m4_define([b4_var_decl],
           [    protected $1;])
 
+# b4_public_types_declare
+# -----------------------
+# Define the public types: token, semantic value, location, and so forth.
+# Depending on %define token_lex, may be output in the header or source file.
+m4_define([b4_public_types_declare],
+[[
+alias Symbol = ]b4_parser_class[.Symbol;
+]])
 
 # b4_symbol_type_define
 # ---------------------

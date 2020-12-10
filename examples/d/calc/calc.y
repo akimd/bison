@@ -114,7 +114,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     return semanticVal_;
   }
 
-  Calc.Symbol yylex()
+  Symbol yylex()
   {
     import std.uni : isWhite, isNumber;
 
@@ -127,7 +127,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     }
 
     if (input.empty)
-      return Calc.Symbol(TokenKind.YYEOF, YYLocation(startPos, endPos));
+      return Symbol(TokenKind.YYEOF, YYLocation(startPos, endPos));
 
     // Numbers.
     if (input.front.isNumber)
@@ -143,7 +143,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
       }
       start = end;
       end.column += lenChars;
-      return Calc.Symbol(TokenKind.NUM, semanticVal_.ival, YYLocation(startPos, endPos));
+      return Symbol(TokenKind.NUM, semanticVal_.ival, YYLocation(startPos, endPos));
     }
 
     // Individual characters
@@ -153,17 +153,17 @@ if (isInputRange!R && is(ElementType!R : dchar))
     end.column++;
     switch (ch)
     {
-      case '+':  return Calc.Symbol(TokenKind.PLUS, YYLocation(startPos, endPos));
-      case '-':  return Calc.Symbol(TokenKind.MINUS, YYLocation(startPos, endPos));
-      case '*':  return Calc.Symbol(TokenKind.STAR, YYLocation(startPos, endPos));
-      case '/':  return Calc.Symbol(TokenKind.SLASH, YYLocation(startPos, endPos));
-      case '(':  return Calc.Symbol(TokenKind.LPAR, YYLocation(startPos, endPos));
-      case ')':  return Calc.Symbol(TokenKind.RPAR, YYLocation(startPos, endPos));
+      case '+':  return Symbol(TokenKind.PLUS, YYLocation(startPos, endPos));
+      case '-':  return Symbol(TokenKind.MINUS, YYLocation(startPos, endPos));
+      case '*':  return Symbol(TokenKind.STAR, YYLocation(startPos, endPos));
+      case '/':  return Symbol(TokenKind.SLASH, YYLocation(startPos, endPos));
+      case '(':  return Symbol(TokenKind.LPAR, YYLocation(startPos, endPos));
+      case ')':  return Symbol(TokenKind.RPAR, YYLocation(startPos, endPos));
       case '\n':
       {
         end.line++;
         end.column = 1;
-        return Calc.Symbol(TokenKind.EOL, YYLocation(startPos, endPos));
+        return Symbol(TokenKind.EOL, YYLocation(startPos, endPos));
       }
       default: assert(0);
     }

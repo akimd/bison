@@ -75,7 +75,7 @@ public interface Lexer
    * to the next token and prepares to return the semantic value
    * ]b4_locations_if([and beginning/ending positions ])[of the token.
    * @@return the token identifier corresponding to the next token. */
-  ]b4_parser_class[.Symbol yylex ();
+  Symbol yylex ();
 
   /**
    * Entry point for error reporting.  Emits an error
@@ -94,6 +94,8 @@ public interface Lexer
   void reportSyntaxError(]b4_parser_class[.Context ctx);
 ]])[
 }
+
+]b4_public_types_declare[
 
 ]b4_locations_if([b4_position_type_if([[
 static assert(__traits(compiles,
