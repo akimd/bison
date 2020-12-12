@@ -73,6 +73,18 @@ m4_defn([b4_initial_action])]))])[
            b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol($1, kind_base))
 ])
 
+# b4_lex
+# ------
+# Call yylex.
+m4_define([b4_lex],
+[b4_token_ctor_if(
+[b4_function_call([yylex],
+                  [symbol_type], m4_ifdef([b4_lex_param], b4_lex_param))],
+[b4_function_call([yylex], [int],
+                  [b4_api_PREFIX[STYPE*], [&yylval]][]dnl
+b4_locations_if([, [[location*], [&yylloc]]])dnl
+m4_ifdef([b4_lex_param], [, ]b4_lex_param))])])
+
 
 # b4_shared_declarations(hh|cc)
 # -----------------------------
@@ -314,11 +326,9 @@ m4_define_default([b4_stack_depth_init],  [200])
 
 
 
-## ------------------------ ##
-## Pure/impure interfaces.  ##
-## ------------------------ ##
-
-b4_define_flag_if([pure])
+## ------------ ##
+## Interfaces.  ##
+## ------------ ##
 
 # b4_user_formals
 # ---------------
@@ -421,11 +431,7 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 #define yyparse ]b4_prefix[parse
 #define yylex   ]b4_prefix[lex
 #define yyerror ]b4_prefix[error
-#define yydebug ]b4_prefix[debug]]b4_pure_if([], [[
-#define yylval  ]b4_prefix[lval
-#define yychar  ]b4_prefix[char
-#define yynerrs ]b4_prefix[nerrs]b4_locations_if([[
-#define yylloc  ]b4_prefix[lloc]])]))[
+#define yydebug ]b4_prefix[debug]])[
 
 ]b4_user_pre_prologue[
 
@@ -613,8 +619,6 @@ dnl We probably ought to introduce a type for confl.
 # define YYRHSLOC(Rhs, K) ((Rhs)[K].getState().yyloc)
 ]])[
 
-]b4_pure_if(
-[
 #undef yynerrs
 #define yynerrs (yystackp->yyerrcnt)
 #undef yychar
@@ -623,16 +627,12 @@ dnl We probably ought to introduce a type for confl.
 #define yylval (yystackp->yyval)
 #undef yylloc
 #define yylloc (yystackp->yyloc)
-m4_if(b4_prefix[], [yy], [],
-[#define b4_prefix[]nerrs yynerrs
-#define b4_prefix[]char yychar
-#define b4_prefix[]lval yylval
-#define b4_prefix[]lloc yylloc])],
-[YYSTYPE yylval;]b4_locations_if([[
-YYLTYPE yylloc;]])[
 
-int yynerrs;
-int yychar;])[
+]m4_if(b4_prefix[], [yy], [],
+[[#define ]b4_prefix[nerrs yynerrs
+#define ]b4_prefix[char yychar
+#define ]b4_prefix[lval yylval
+#define ]b4_prefix[lloc yylloc]])[
 
 enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
 
@@ -728,10 +728,10 @@ state_set_index create_state_set_index(std::ptrdiff_t value) {
   ]b4_table_value_equals([[table]], [[Yytable_value]], [b4_table_ninf], [YYTABLE_NINF])[
 
 ]m4_define([b4_yygetToken_call],
-           [[yygetToken (yychar, yyparser][]b4_pure_if([, yystackp])[]b4_user_args[)]])[
+           [[yygetToken (yychar, yyparser, yystackp]b4_user_args[)]])[
 
 static inline yysymbol_kind_t
-yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[);
+yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack* yystackp]b4_user_formals[);
 
 static inline bool
 yyisShiftAction (int yyaction)
@@ -1876,14 +1876,11 @@ public:
   int yyerrState;
 ]b4_locations_if([[  /* To compute the location of the error token.  */
   glr_stack_item yyerror_range[3];]])[
-]b4_pure_if(
-[
   state_stack yystateStack;
   int yyerrcnt;
   int yyrawchar;
   YYSTYPE yyval;]b4_locations_if([[
   YYLTYPE yyloc;]])[
-])[
   YYJMP_BUF yyexception_buffer;
   ]b4_namespace_ref[::]b4_parser_class[& yyparser;
 
@@ -2695,7 +2692,7 @@ public:
 
 /** If yychar is empty, fetch the next token.  */
 static inline yysymbol_kind_t
-yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser][]b4_pure_if([, glr_stack* yystackp])[]b4_user_formals[)
+yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack* yystackp]b4_user_formals[)
 {
   yysymbol_kind_t yytoken;
 ]b4_parse_param_use()dnl
@@ -2962,13 +2959,13 @@ b4_dollar_popdef])[]dnl
              on yylval in the event of memory exhaustion.  */
 
           for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
-            YYCHK1 (yystack.yyprocessOneStack (yys, yyposn]b4_pure_if([b4_locations_if([, &yylloc])])[));
+            YYCHK1 (yystack.yyprocessOneStack (yys, yyposn]b4_locations_if([, &yylloc])[));
           yystack.yystateStack.yytops.yyremoveDeletes ();
           if (yystack.yystateStack.yytops.size() == 0)
             {
               yystack.yystateStack.yytops.yyundeleteLastStack ();
               if (yystack.yystateStack.yytops.size() == 0)
-                yystack.yyFail (]b4_pure_if([b4_locations_if([&yylloc, ])])[YY_("syntax error"));
+                yystack.yyFail (]b4_locations_if([&yylloc, ])[YY_("syntax error"));
               YYCHK1 (yystack.yyresolveStack ());
               YY_DEBUG_STREAM << "Returning to deterministic operation.\n";]b4_locations_if([[
               yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
@@ -3009,7 +3006,7 @@ b4_dollar_popdef])[]dnl
         }
       continue;
     yyuser_error:
-      yystack.yyrecoverSyntaxError (]b4_pure_if([b4_locations_if([&yylloc])])[);
+      yystack.yyrecoverSyntaxError (]b4_locations_if([&yylloc])[);
       yyposn = yystack.firstTopState()->yyposn;
     }
 
