@@ -142,7 +142,6 @@ m4_pushdef([AT_TEST],
 [AT_SETUP([Improper handling of embedded actions and dollar(-N) in GLR parsers: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
-AT_GLR2_CC_IF([AT_XFAIL_IF([true])])
 
 AT_DATA_GRAMMAR([glr-regr2a.y],
 [[/* Regression Test: Improper handling of embedded actions and $-N  */
@@ -744,7 +743,6 @@ m4_pushdef([AT_TEST],
 [AT_SETUP([Incorrectly initialized location for empty right-hand side in GLR: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations $1])
-AT_GLR2_CC_IF([AT_XFAIL_IF([true])])
 
 AT_DATA_GRAMMAR([glr-regr8.y],
 [[

@@ -800,7 +800,7 @@ public:
     , magic_ (MAGIC)]])[
   {}
 
-  void copyFrom(const glr_state& other)
+  void copyFrom (const glr_state& other)
   {]b4_parse_assert_if([[
     other.check_ ();]])[
     *this = other;
@@ -1225,6 +1225,18 @@ public:
       getOption().~semantic_option();
   }
 
+  void setState (const glr_state &state)
+  {]b4_parse_assert_if([[
+    check_ ();]])[
+    // FIXME: What about the previous content?  Shouldn't it be freed?
+    // It might be useful to have an explicit "void" state when this item
+    // is in unused state (in the list of free items), when parse.assert
+    // is set.
+    is_state_ = true;
+    void *yyp = raw_;
+    static_cast<glr_state*> (yyp)->copyFrom (state);
+  }
+
   glr_state& getState ()
   {]b4_parse_assert_if([[
     check_ ();]])[
@@ -1232,6 +1244,7 @@ public:
     void *yyp = raw_;
     return *static_cast<glr_state*> (yyp);
   }
+
   const glr_state& getState () const
   {]b4_parse_assert_if([[
     check_ ();]])[
@@ -1496,8 +1509,8 @@ class state_stack {
 
     while (yyr != YY_NULLPTR)
       {
+        nextFreeItem->setState(*yyr);
         glr_state& nextFreeState = nextFreeItem->getState();
-        nextFreeState.copyFrom(*yyr);
         yyr = yyr->pred();
         nextFreeState.setPred(&(nextFreeItem - 1)->getState());
         setFirstTop(&nextFreeState);
