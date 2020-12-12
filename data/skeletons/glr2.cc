@@ -2849,189 +2849,6 @@ yypreference (const semantic_option& y0, const semantic_option& y1)
   } while (0)
 
 
-/*----------.
-| yyparse.  |
-`----------*/
-
-int
-yyparse (]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[)
-{
-  int yyresult;
-  glr_stack yystack(YYINITDEPTH, yyparser]b4_user_args[);
-  glr_stack* const yystackp = &yystack;
-  size_t yyposn;
-
-  YY_DEBUG_STREAM << "Starting parse\n";
-
-  yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
-  yylval = yyval_default;]b4_locations_if([
-  yylloc = yyloc_default;])[
-]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
-  b4_user_initial_action
-b4_dollar_popdef])[]dnl
-[
-  switch (YYSETJMP (yystack.yyexception_buffer))
-    {
-    case 0: break;
-    case 1: goto yyabortlab;
-    case 2: goto yyexhaustedlab;
-    default: goto yybuglab;
-    }
-  yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval]b4_locations_if([, &yylloc])[);
-  yyposn = 0;
-
-  while (true)
-    {
-      /* For efficiency, we have two loops, the first of which is
-         specialized to deterministic operation (single stack, no
-         potential ambiguity).  */
-      /* Standard mode */
-      while (true)
-        {
-          const state_num yystate = yystack.firstTopState()->yylrState;
-          YY_DEBUG_STREAM << "Entering state " << yystate << "\n";
-          if (yystate == YYFINAL)
-            goto yyacceptlab;
-          if (yyisDefaultedState (yystate))
-            {
-              const rule_num yyrule = yydefaultAction (yystate);
-              if (yyrule == 0)
-                {]b4_locations_if([[
-                  yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
-                  yystack.yyreportSyntaxError ();
-                  goto yyuser_error;
-                }
-              YYCHK1 (yystack.yyglrReduce (create_state_set_index(0), yyrule, true));
-            }
-          else
-            {
-              const yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
-              const short* yyconflicts;
-              const int yyaction = yygetLRActions (yystate, yytoken, yyconflicts);
-              if (*yyconflicts != 0)
-                break;
-              if (yyisShiftAction (yyaction))
-                {
-                  YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
-                  yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
-                  yyposn += 1;
-                  yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yylval]b4_locations_if([, &yylloc])[);
-                  if (0 < yystack.yyerrState)
-                    yystack.yyerrState -= 1;
-                }
-              else if (yyisErrorAction (yyaction))
-                {]b4_locations_if([[
-                  yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
-                  /* Don't issue an error message again for exceptions
-                     thrown from the scanner.  */
-                  if (yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(error, id)[)
-                    yystack.yyreportSyntaxError ();
-                  goto yyuser_error;
-                }
-              else
-                YYCHK1 (yystack.yyglrReduce (create_state_set_index(0), -yyaction, true));
-            }
-        }
-
-      while (true)
-        {
-          for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
-            yystackp->yystateStack.yytops.setLookaheadNeeds(yys, yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[);
-
-          /* yyprocessOneStack returns one of three things:
-
-              - An error flag.  If the caller is yyprocessOneStack, it
-                immediately returns as well.  When the caller is finally
-                yyparse, it jumps to an error label via YYCHK1.
-
-              - yyok, but yyprocessOneStack has invoked yymarkStackDeleted
-                (yys), which sets the top state of yys to NULL.  Thus,
-                yyparse's following invocation of yyremoveDeletes will remove
-                the stack.
-
-              - yyok, when ready to shift a token.
-
-             Except in the first case, yyparse will invoke yyremoveDeletes and
-             then shift the next token onto all remaining stacks.  This
-             synchronization of the shift (that is, after all preceding
-             reductions on all stacks) helps prevent double destructor calls
-             on yylval in the event of memory exhaustion.  */
-
-          for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
-            YYCHK1 (yystack.yyprocessOneStack (yys, yyposn]b4_locations_if([, &yylloc])[));
-          yystack.yystateStack.yytops.yyremoveDeletes ();
-          if (yystack.yystateStack.yytops.size() == 0)
-            {
-              yystack.yystateStack.yytops.yyundeleteLastStack ();
-              if (yystack.yystateStack.yytops.size() == 0)
-                yystack.yyFail (]b4_locations_if([&yylloc, ])[YY_("syntax error"));
-              YYCHK1 (yystack.yyresolveStack ());
-              YY_DEBUG_STREAM << "Returning to deterministic operation.\n";]b4_locations_if([[
-              yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
-              yystack.yyreportSyntaxError ();
-              goto yyuser_error;
-            }
-
-          /* If any yyglrShift call fails, it will fail after shifting.  Thus,
-             a copy of yylval will already be on stack 0 in the event of a
-             failure in the following loop.  Thus, yychar is set to ]b4_symbol(empty, id)[
-             before the loop to make sure the user destructor for yylval isn't
-             called twice.  */
-          yysymbol_kind_t yytoken_to_shift = YYTRANSLATE (yychar);
-          yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
-          yyposn += 1;
-          for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
-            {
-              const state_num yystate = yystack.topState(yys)->yylrState;
-              const short* yyconflicts;
-              const int yyaction = yygetLRActions (yystate, yytoken_to_shift,
-                              yyconflicts);
-              /* Note that yyconflicts were handled by yyprocessOneStack.  */
-              YY_DEBUG_STREAM << "On stack " << yys.get() << ", ";
-              YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yylval, &yylloc);
-              yystack.yyglrShift (yys, yyaction, yyposn,
-                          yylval]b4_locations_if([, &yylloc])[);
-              YY_DEBUG_STREAM << "Stack " << yys.get() << " now in state #"
-                        << yystack.topState(yys)->yylrState << '\n';
-            }
-
-          if (yystack.yystateStack.yytops.size() == 1)
-            {
-              YYCHK1 (yystack.yyresolveStack ());
-              YY_DEBUG_STREAM  << "Returning to deterministic operation.\n";
-              yystack.yystateStack.yycompressStack ();
-              break;
-            }
-        }
-      continue;
-    yyuser_error:
-      yystack.yyrecoverSyntaxError (]b4_locations_if([&yylloc])[);
-      yyposn = yystack.firstTopState()->yyposn;
-    }
-
- yyacceptlab:
-  yyresult = 0;
-  goto yyreturn;
-
- yybuglab:
-  YYASSERT (false);
-  goto yyabortlab;
-
- yyabortlab:
-  yyresult = 1;
-  goto yyreturn;
-
- yyexhaustedlab:
-  yyparser.error (]b4_locations_if([yylloc, ])[YY_("memory exhausted"));
-  yyresult = 2;
-  goto yyreturn;
-
- yyreturn:
-  return yyresult;
-}
-
-
 /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
 static void
@@ -3044,23 +2861,6 @@ static void yypdumpstack (glr_stack* yystackp) {
 }
 
 #endif
-
-#undef yylval
-#undef yychar
-#undef yynerrs]b4_locations_if([
-#undef yylloc])
-
-m4_if(b4_prefix, [yy], [],
-[[/* Substitute the variable and function names.  */
-#define yyparse ]b4_prefix[parse
-#define yylex   ]b4_prefix[lex
-#define yyerror ]b4_prefix[error
-#define yylval  ]b4_prefix[lval
-#define yychar  ]b4_prefix[char
-#define yydebug ]b4_prefix[debug
-#define yynerrs ]b4_prefix[nerrs]b4_locations_if([[
-#define yylloc  ]b4_prefix[lloc]])])[
-
 
 ]b4_namespace_open[
 ]dnl In this section, the parse params are the original parse_params.
@@ -3088,8 +2888,186 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
   int
   ]b4_parser_class[::parse ()
   {
-    return ::yyparse (*this]b4_user_args[);
-  }
+    ]b4_parser_class[ &yyparser = *this;
+    int yyresult;
+    glr_stack yystack(YYINITDEPTH, *this]b4_user_args[);
+    glr_stack* const yystackp = &yystack;
+    size_t yyposn;
+
+    YY_DEBUG_STREAM << "Starting parse\n";
+
+    yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
+    yylval = yyval_default;]b4_locations_if([
+    yylloc = yyloc_default;])[
+]m4_ifdef([b4_initial_action], [
+b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
+    b4_user_initial_action
+b4_dollar_popdef])[]dnl
+[
+    switch (YYSETJMP (yystack.yyexception_buffer))
+      {
+      case 0: break;
+      case 1: goto yyabortlab;
+      case 2: goto yyexhaustedlab;
+      default: goto yybuglab;
+      }
+    yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval]b4_locations_if([, &yylloc])[);
+    yyposn = 0;
+
+    while (true)
+      {
+        /* For efficiency, we have two loops, the first of which is
+           specialized to deterministic operation (single stack, no
+           potential ambiguity).  */
+        /* Standard mode */
+        while (true)
+          {
+            const state_num yystate = yystack.firstTopState()->yylrState;
+            YY_DEBUG_STREAM << "Entering state " << yystate << "\n";
+            if (yystate == YYFINAL)
+              goto yyacceptlab;
+            if (yyisDefaultedState (yystate))
+              {
+                const rule_num yyrule = yydefaultAction (yystate);
+                if (yyrule == 0)
+                  {]b4_locations_if([[
+                    yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
+                    yystack.yyreportSyntaxError ();
+                    goto yyuser_error;
+                  }
+                YYCHK1 (yystack.yyglrReduce (create_state_set_index(0), yyrule, true));
+              }
+            else
+              {
+                const yysymbol_kind_t yytoken = ]b4_yygetToken_call[;
+                const short* yyconflicts;
+                const int yyaction = yygetLRActions (yystate, yytoken, yyconflicts);
+                if (*yyconflicts != 0)
+                  break;
+                if (yyisShiftAction (yyaction))
+                  {
+                    YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+                    yychar = token::]b4_symbol(empty, id)[;
+                    yyposn += 1;
+                    yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yylval]b4_locations_if([, &yylloc])[);
+                    if (0 < yystack.yyerrState)
+                      yystack.yyerrState -= 1;
+                  }
+                else if (yyisErrorAction (yyaction))
+                  {]b4_locations_if([[
+                    yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
+                    /* Don't issue an error message again for exceptions
+                       thrown from the scanner.  */
+                    if (yychar != token::]b4_symbol(error, id)[)
+                      yystack.yyreportSyntaxError ();
+                    goto yyuser_error;
+                  }
+                else
+                  YYCHK1 (yystack.yyglrReduce (create_state_set_index(0), -yyaction, true));
+              }
+          }
+
+        while (true)
+          {
+            for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
+              yystackp->yystateStack.yytops.setLookaheadNeeds(yys, yychar != token::]b4_symbol(empty, id)[);
+
+            /* yyprocessOneStack returns one of three things:
+
+                - An error flag.  If the caller is yyprocessOneStack, it
+                  immediately returns as well.  When the caller is finally
+                  yyparse, it jumps to an error label via YYCHK1.
+
+                - yyok, but yyprocessOneStack has invoked yymarkStackDeleted
+                  (yys), which sets the top state of yys to NULL.  Thus,
+                  yyparse's following invocation of yyremoveDeletes will remove
+                  the stack.
+
+                - yyok, when ready to shift a token.
+
+               Except in the first case, yyparse will invoke yyremoveDeletes and
+               then shift the next token onto all remaining stacks.  This
+               synchronization of the shift (that is, after all preceding
+               reductions on all stacks) helps prevent double destructor calls
+               on yylval in the event of memory exhaustion.  */
+
+            for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
+              YYCHK1 (yystack.yyprocessOneStack (yys, yyposn]b4_locations_if([, &yylloc])[));
+            yystack.yystateStack.yytops.yyremoveDeletes ();
+            if (yystack.yystateStack.yytops.size() == 0)
+              {
+                yystack.yystateStack.yytops.yyundeleteLastStack ();
+                if (yystack.yystateStack.yytops.size() == 0)
+                  yystack.yyFail (]b4_locations_if([&yylloc, ])[YY_("syntax error"));
+                YYCHK1 (yystack.yyresolveStack ());
+                YY_DEBUG_STREAM << "Returning to deterministic operation.\n";]b4_locations_if([[
+                yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
+                yystack.yyreportSyntaxError ();
+                goto yyuser_error;
+              }
+
+            /* If any yyglrShift call fails, it will fail after shifting.  Thus,
+               a copy of yylval will already be on stack 0 in the event of a
+               failure in the following loop.  Thus, yychar is set to ]b4_symbol(empty, id)[
+               before the loop to make sure the user destructor for yylval isn't
+               called twice.  */
+            yysymbol_kind_t yytoken_to_shift = YYTRANSLATE (yychar);
+            yychar = token::]b4_symbol(empty, id)[;
+            yyposn += 1;
+            for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
+              {
+                const state_num yystate = yystack.topState(yys)->yylrState;
+                const short* yyconflicts;
+                const int yyaction = yygetLRActions (yystate, yytoken_to_shift,
+                                yyconflicts);
+                /* Note that yyconflicts were handled by yyprocessOneStack.  */
+                YY_DEBUG_STREAM << "On stack " << yys.get() << ", ";
+                YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yylval, &yylloc);
+                yystack.yyglrShift (yys, yyaction, yyposn,
+                            yylval]b4_locations_if([, &yylloc])[);
+                YY_DEBUG_STREAM << "Stack " << yys.get() << " now in state #"
+                          << yystack.topState(yys)->yylrState << '\n';
+              }
+
+            if (yystack.yystateStack.yytops.size() == 1)
+              {
+                YYCHK1 (yystack.yyresolveStack ());
+                YY_DEBUG_STREAM  << "Returning to deterministic operation.\n";
+                yystack.yystateStack.yycompressStack ();
+                break;
+              }
+          }
+        continue;
+      yyuser_error:
+        yystack.yyrecoverSyntaxError (]b4_locations_if([&yylloc])[);
+        yyposn = yystack.firstTopState()->yyposn;
+      }
+
+  yyacceptlab:
+    yyresult = 0;
+    goto yyreturn;
+
+  yybuglab:
+    YYASSERT (false);
+    goto yyabortlab;
+
+  yyabortlab:
+    yyresult = 1;
+    goto yyreturn;
+
+  yyexhaustedlab:
+    error (]b4_locations_if([yylloc, ])[YY_("memory exhausted"));
+    yyresult = 2;
+    goto yyreturn;
+
+  yyreturn:
+    return yyresult;
+}
+
+#undef yylval
+#undef yychar
+#undef yynerrs]b4_locations_if([
+#undef yylloc])[
 
 ]b4_parse_error_bmatch([custom\|detailed],
 [[  const char *
