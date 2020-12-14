@@ -15,40 +15,38 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <cstddef> // nullptr_t
 #include <iostream>
+#include <memory>
 
-#if __cplusplus < 201103L
-# define nullptr 0
-#endif
+// Type erasure 101 <https://stackoverflow.com/a/26199467/1353549>.
+class NodeInterface;
 
 class Node
 {
 public:
-  Node ()
-    : parents_ (0)
-  {}
+  Node (const Node& node) = default;
+  Node (Node&& node) = default;
+  Node () = default;
+  ~Node () = default;
 
-  virtual ~Node ();
+  template <typename T,
+            // SFINAE block using this ctor as a copy/move ctor:
+            std::enable_if_t<!std::is_same<Node, std::decay_t<T>>::value, int>* = nullptr>
+  Node (T&& t);
 
-  void free ()
+  Node& operator= (const Node& node) = default;
+  Node& operator= (Node&& node) = default;
+
+  explicit operator bool () const
   {
-    parents_ -= 1;
-    /* Free only if 0 (last parent) or -1 (no parents).  */
-    if (parents_ <= 0)
-      delete this;
+    return impl_ != nullptr;
   }
 
-  virtual std::ostream& print (std::ostream& o) const = 0;
+  std::ostream& print (std::ostream& o) const;
 
-protected:
-  friend class Nterm;
-  friend class Term;
-  int parents_;
+  std::shared_ptr<NodeInterface> impl_;
 };
-
-Node::~Node ()
-{}
-
 
 static std::ostream&
 operator<< (std::ostream& o, const Node &node)
@@ -56,72 +54,120 @@ operator<< (std::ostream& o, const Node &node)
   return node.print (o);
 }
 
-class Nterm : public Node
+class NodeInterface
 {
 public:
-  Nterm (char const *form,
-         Node *child0 = nullptr, Node *child1 = nullptr, Node *child2 = nullptr)
-    : form_ (form)
+  virtual ~NodeInterface () = default;
+  virtual std::ostream& print (std::ostream& o) const = 0;
+};
+
+
+std::ostream& Node::print (std::ostream& o) const
+{
+  if (impl_)
+    impl_->print (o);
+  return o;
+}
+
+
+template <typename T,
+          std::enable_if_t<!std::is_same<std::nullptr_t, std::decay_t<T>>::value, int>* = nullptr>
+struct NodeImpl : public NodeInterface
+{
+  template <typename U>
+  explicit NodeImpl (U&& u)
+    : t{std::forward<U> (u)}
+  {}
+  virtual ~NodeImpl () = default;
+  virtual std::ostream& print (std::ostream& o) const
   {
-    children_[0] = child0;
-    if (child0)
-      child0->parents_ += 1;
-    children_[1] = child1;
-    if (child1)
-      child1->parents_ += 1;
-    children_[2] = child2;
-    if (child2)
-      child2->parents_ += 1;
+    return o << t;
   }
 
-  ~Nterm ();
+  T t;
+};
 
-  std::ostream& print (std::ostream& o) const
+
+template <typename T,
+          std::enable_if_t<!std::is_same<Node, std::decay_t<T>>::value, int>*>
+Node::Node (T&& t)
+  : impl_ (new NodeImpl<std::decay_t<T>>{std::forward<T> (t)})
+{}
+
+class Nterm
+{
+public:
+  Nterm (std::string form,
+         Node child0 = Node (), Node child1 = Node (), Node child2 = Node ())
+    : form_ (std::move (form))
   {
-    o << form_;
-    if (children_[0])
+    children_[0] = child0;
+    children_[1] = child1;
+    children_[2] = child2;
+  }
+
+  friend std::ostream& operator<< (std::ostream& o, const Nterm& t)
+  {
+    o << t.form_;
+    if (t.children_[0])
       {
-        o << '(' << *children_[0];
-        if (children_[1])
-          o << ", " << *children_[1];
-        if (children_[2])
-            o << ", " << *children_[2];
+        o << '(' << t.children_[0];
+        if (t.children_[1])
+          o << ", " << t.children_[1];
+        if (t.children_[2])
+          o << ", " << t.children_[2];
         o << ')';
       }
     return o;
   }
 
 private:
-  char const *form_;
-  Node *children_[3];
+  std::string form_;
+  Node children_[3];
 };
 
-Nterm::~Nterm ()
-{
-  for (int i = 0; i < 3; ++i)
-    if (children_[i])
-      children_[i]->free ();
-}
 
 
-class Term : public Node
+class Term
 {
 public:
-  Term (const std::string &text)
-    : text_ (text)
+  Term (std::string text)
+    : text_ (std::move (text))
   {}
-  ~Term();
 
-  std::ostream& print (std::ostream& o) const
+  friend std::ostream& operator<< (std::ostream& o, const Term& t)
   {
-    o << text_;
-    return o;
+    return o << t.text_;
   }
 
 private:
   std::string text_;
 };
 
-Term::~Term ()
+#ifdef TEST
+int main ()
 {
+  Node n0;
+  std::cout << n0 << '\n';
+
+  Node n;
+  n = n0;
+  std::cout << n0 << '\n';
+
+  Term t1 = Term ("T");
+  std::cout << t1 << '\n';
+
+  n = t1;
+  std::cout << n << '\n';
+  std::cout << Nterm ("+", t1, t1) << '\n';
+
+  auto n1
+    = Nterm ("<OR>",
+             Nterm ("<declare>", Term ("T"), Term ("x")),
+             Nterm ("<cast>", Term ("x"), Term ("T")));
+  std::cout << n1 << '\n';
+
+  n = n1;
+  std::cout << n1 << '\n';
 }
+#endif

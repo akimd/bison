@@ -30,7 +30,7 @@ simple_extracted = %D%/simple.yy
 simple_sources = $(simple_extracted)
 extracted += $(simple_extracted)
 
-if ENABLE_CXX14
+if ENABLE_CXX11
   check_PROGRAMS += %D%/simple
   nodist_%C%_simple_SOURCES = $(simple_sources)
 

@@ -34,7 +34,7 @@ CLEANDIRS += %D%/*.dSYM
 # Avoid using BUILT_SOURCES which is too global.
 $(%C%_c___types_OBJECTS): $(cxx_types_sources_generated)
 
-if ENABLE_CXX
+if ENABLE_CXX14
   check_PROGRAMS += %D%/c++-types
   dist_%C%_c___types_SOURCES =			\
     %D%/ast.hh
@@ -43,6 +43,7 @@ if ENABLE_CXX
     %D%/c++-types.hh
   # Don't use gnulib's system headers.
   %C%_c___types_CPPFLAGS = -I$(top_srcdir)/%D% -I$(top_builddir)/%D%
+  %C%_c___types_CXXFLAGS = $(CXX14_CXXFLAGS) $(WARN_CXXFLAGS_TEST)
   TESTS += %D%/c++-types.test
-endif ENABLE_CXX
+endif ENABLE_CXX14
 EXTRA_DIST += %D%/c++-types.yy %D%/c++-types.test

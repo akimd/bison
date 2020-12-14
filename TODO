@@ -9,6 +9,23 @@ Clarify that rule numbers in the skeletons are 1-based.
 There are many macros that should obey api.prefix: YY_CPLUSPLUS, YY_MOVE,
 etc.
 
+** YYDEBUG etc. in C++
+Discourage the use of YYDEBUG in C++ (see thread with Jot).  Stop supporting
+#define YYSTYPE by the user.
+
+Add value_type as a synonym for semantic_type.
+
+** Asymmetries
+In glr_state, we have yysval and yylloc.  It should be yyval/yyloc (and
+yylval/yylloc when referring to the lookahead).  glr.c should
+s/yysval/yyval/.
+
+Also
+
+    yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval, &yylloc);
+
+Why are yylval and yylloc treated differently?
+
 ** yyerrok in Java
 And add tests in calc.at, to prepare work for D.
 

@@ -20,6 +20,7 @@
 
 %glr-parser
 %skeleton "glr2.cc"
+%define parse.assert
 %header
 %locations
 %debug
@@ -32,7 +33,7 @@
   #include "ast.hh"
 }
 
-%define api.value.type {Node *}
+%define api.value.type {Node}
 
 %code
 {
@@ -61,32 +62,29 @@
 %right '='
 %left '+'
 
-%destructor { $$->free (); } stmt expr decl declarator TYPENAME ID
-
 %%
 
 prog : %empty
-     | prog stmt   { std::cout << @2 << ": " << *$2 << '\n'; $2->free (); }
+     | prog stmt   { std::cout << @2 << ": " << $2 << '\n'; }
      ;
 
 stmt : expr ';'  %merge <stmtMerge>     { $$ = $1; }
      | decl      %merge <stmtMerge>
-     | error ';'        { $$ = new Nterm ("<error>"); }
+     | error ';'        { $$ = Nterm ("<error>"); }
      | '@'              { $$ = $1; YYACCEPT; }
      ;
 
 expr : ID
      | TYPENAME '(' expr ')'
-                        { $$ = new Nterm ("<cast>", $3, $1); }
-     | expr '+' expr    { $$ = new Nterm ("+", $1, $3); }
-     | expr '=' expr    { $$ = new Nterm ("=", $1, $3); }
+                        { $$ = Nterm ("<cast>", $3, $1); }
+     | expr '+' expr    { $$ = Nterm ("+", $1, $3); }
+     | expr '=' expr    { $$ = Nterm ("=", $1, $3); }
      ;
 
 decl : TYPENAME declarator ';'
-                        { $$ = new Nterm ("<declare>", $1, $2); }
+                        { $$ = Nterm ("<declare>", $1, $2); }
      | TYPENAME declarator '=' expr ';'
-                        { $$ = new Nterm ("<init-declare>", $1,
-                                          $2, $4); }
+                        { $$ = Nterm ("<init-declare>", $1, $2, $4); }
      ;
 
 declarator
@@ -149,13 +147,13 @@ yylex (yy::parser::semantic_type* lvalp, yy::parser::location_type* llocp)
                   = isupper (static_cast <unsigned char> (form[0]))
                   ? yy::parser::token::TYPENAME
                   : yy::parser::token::ID;
-                *lvalp = new Term (form);
+                *lvalp = Term (form);
               }
             else
               {
                 colNum += 1;
                 tok = c;
-                *lvalp = nullptr;
+                lvalp = nullptr;
               }
             llocp->end.column = colNum-1;
             return tok;
@@ -167,7 +165,7 @@ yylex (yy::parser::semantic_type* lvalp, yy::parser::location_type* llocp)
 static yy::parser::semantic_type
 stmtMerge (const yy::parser::semantic_type& x0, const yy::parser::semantic_type& x1)
 {
-  return new Nterm ("<OR>", x0, x1);
+  return Nterm ("<OR>", x0, x1);
 }
 
 int
