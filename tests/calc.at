@@ -560,7 +560,7 @@ class CalcLexer(R) : Lexer
   ]AT_YYERROR_DEFINE[
 
   YYSemanticType semanticVal_;]AT_LOCATION_IF([[
-  YYLocation location;
+  Location location;
 
   public final @property YYPosition startPos()
   {

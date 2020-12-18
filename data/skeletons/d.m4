@@ -447,14 +447,17 @@ m4_define([b4_var_decls],
 m4_define([b4_var_decl],
           [    protected $1;])
 
+
 # b4_public_types_declare
 # -----------------------
 # Define the public types: token, semantic value, location, and so forth.
 # Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
 [[
-alias Symbol = ]b4_parser_class[.Symbol;
+alias Symbol = ]b4_parser_class[.Symbol;]b4_locations_if([[
+alias Location = ]b4_location_type[;]])[
 ]])
+
 
 # b4_symbol_type_define
 # ---------------------
@@ -469,15 +472,15 @@ m4_define([b4_symbol_type_define],
   {
     private SymbolKind kind;
     private ]b4_yystype[ value_;]b4_locations_if([[
-    private YYLocation location_;]])[
-    this(TokenKind token]b4_locations_if([[, YYLocation loc]])[)
+    private Location location_;]])[
+    this(TokenKind token]b4_locations_if([[, Location loc]])[)
     {
       kind = yytranslate_(token);]b4_locations_if([
       location_ = loc;])[
     }
     static foreach (member; __traits(allMembers, YYSemanticType))
     {
-      this(TokenKind token, typeof(mixin("YYSemanticType." ~ member)) val]b4_locations_if([[, YYLocation loc]])[)
+      this(TokenKind token, typeof(mixin("YYSemanticType." ~ member)) val]b4_locations_if([[, Location loc]])[)
       {
         kind = yytranslate_(token);
         mixin("value_." ~ member ~ " = val;");]b4_locations_if([
@@ -486,6 +489,6 @@ m4_define([b4_symbol_type_define],
     }
     SymbolKind token() { return kind; }
     ]b4_yystype[ value() { return value_; }]b4_locations_if([[
-    YYLocation location() { return location_; }]])[
+    Location location() { return location_; }]])[
   }
 ]])

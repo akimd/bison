@@ -13847,20 +13847,20 @@ When the directive @code{%locations} is used, the D parser supports
 location tracking, see @ref{Tracking Locations}.  The position and
 the location structures are provided.
 
-@deftypeivar {YYLocation} {YYPosition} begin
-@deftypeivarx {YYLocation} {YYPosition} end
+@deftypeivar {Location} {YYPosition} begin
+@deftypeivarx {Location} {YYPosition} end
 The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
-@deftypeop {Constructor} {YYLocation} {} this(@code{YYPosition} @var{loc})
-Create a @code{YYLocation} denoting an empty range located at a given point.
+@deftypeop {Constructor} {Location} {} this(@code{YYPosition} @var{loc})
+Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypeop {Constructor} {YYLocation} {} this(@code{YYPosition} @var{begin}, @code{YYPosition} @var{end})
-Create a @code{YYLocation} from the endpoints of the range.
+@deftypeop {Constructor} {Location} {} this(@code{YYPosition} @var{begin}, @code{YYPosition} @var{end})
+Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
-@deftypemethod {YYLocation} {string} toString()
+@deftypemethod {Location} {string} toString()
 Prints the range represented by the location.
 @end deftypemethod
 
@@ -13916,9 +13916,9 @@ which also turns on verbose error messages.
 @end deftypemethod
 
 @deftypemethod {YYParser} {void} yyerror(@code{string} @var{msg})
-@deftypemethodx {YYParser} {void} yyerror(@code{YYLocation} @var{loc}, @code{string} @var{msg})
+@deftypemethodx {YYParser} {void} yyerror(@code{Location} @var{loc}, @code{string} @var{msg})
 Print an error message using the @code{yyerror} method of the scanner
-instance in use. The @code{YYLocation} and @code{YYPosition} parameters are
+instance in use. The @code{Location} and @code{YYPosition} parameters are
 available only if location tracking is active.
 @end deftypemethod
 
@@ -14006,7 +14006,7 @@ case.
 
 In both cases, the scanner has to implement the following methods.
 
-@deftypemethod {Lexer} {void} yyerror(@code{YYLocation} @var{loc}, @code{string} @var{msg})
+@deftypemethod {Lexer} {void} yyerror(@code{Location} @var{loc}, @code{string} @var{msg})
 This method is defined by the user to emit an error message.  The first
 parameter is omitted if location tracking is not active.
 @end deftypemethod
@@ -16465,7 +16465,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: colorYellow rgbRed colorRed rgbBlue colorBlue rgbPurple Ddoc
 @c LocalWords: colorPurple ifhtml ifnothtml situ rcex MERCHANTABILITY Wnone
 @c LocalWords: diagError diagNotice diagWarning diagOff danglingElseCex
-@c LocalWords: YYLocation YYPosition nonunifying
+@c LocalWords: YYPosition nonunifying
 
 @c Local Variables:
 @c ispell-dictionary: "american"

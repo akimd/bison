@@ -95,12 +95,12 @@ if (isInputRange!R && is(ElementType!R : dchar))
 
   this(R r) { input = r; }
 
-  YYLocation location;
+  Location location;
 
   // Should be a local in main, shared with %parse-param.
   int exit_status = 0;
 
-  void yyerror(const YYLocation loc, string s)
+  void yyerror(const Location loc, string s)
   {
     exit_status = 1;
     stderr.writeln(loc.toString(), ": ", s);
