@@ -168,12 +168,12 @@ if (isInputRange!R && is(ElementType!R : dchar))
     }
   }
 
-  YYPosition startPos() const
+  Position startPos() const
   {
     return location.begin;
   }
 
-  YYPosition endPos() const
+  Position endPos() const
   {
     return location.end;
   }

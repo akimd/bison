@@ -57,12 +57,12 @@ public interface Lexer
   /**
    * Method to retrieve the beginning position of the last scanned token.
    * @@return the position at which the last scanned token starts.  */
-  ]b4_position_type[ startPos ();
+  Position startPos ();
 
   /**
    * Method to retrieve the ending position of the last scanned token.
    * @@return the first position beyond the last scanned token.  */
-  ]b4_position_type[ endPos ();
+  Position endPos ();
 
 ]])[
   /**

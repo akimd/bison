@@ -562,12 +562,12 @@ class CalcLexer(R) : Lexer
   Value semanticVal_;]AT_LOCATION_IF([[
   Location location;
 
-  public final @property YYPosition startPos()
+  public final @property Position startPos()
   {
     return location.begin;
   }
 
-  public final @property YYPosition endPos()
+  public final @property Position endPos()
   {
     return location.end;
   }

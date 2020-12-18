@@ -13847,16 +13847,16 @@ When the directive @code{%locations} is used, the D parser supports
 location tracking, see @ref{Tracking Locations}.  The position and
 the location structures are provided.
 
-@deftypeivar {Location} {YYPosition} begin
-@deftypeivarx {Location} {YYPosition} end
+@deftypeivar {Location} {Position} begin
+@deftypeivarx {Location} {Position} end
 The first, inclusive, position of the range, and the first beyond.
 @end deftypeivar
 
-@deftypeop {Constructor} {Location} {} this(@code{YYPosition} @var{loc})
+@deftypeop {Constructor} {Location} {} this(@code{Position} @var{loc})
 Create a @code{Location} denoting an empty range located at a given point.
 @end deftypeop
 
-@deftypeop {Constructor} {Location} {} this(@code{YYPosition} @var{begin}, @code{YYPosition} @var{end})
+@deftypeop {Constructor} {Location} {} this(@code{Position} @var{begin}, @code{Position} @var{end})
 Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
@@ -13918,7 +13918,7 @@ which also turns on verbose error messages.
 @deftypemethod {YYParser} {void} yyerror(@code{string} @var{msg})
 @deftypemethodx {YYParser} {void} yyerror(@code{Location} @var{loc}, @code{string} @var{msg})
 Print an error message using the @code{yyerror} method of the scanner
-instance in use. The @code{Location} and @code{YYPosition} parameters are
+instance in use. The @code{Location} and @code{Position} parameters are
 available only if location tracking is active.
 @end deftypemethod
 
@@ -14016,8 +14016,8 @@ Return the next token. The return value is of type @code{Symbol}, which
 binds together the kind, the semantic value and the location.
 @end deftypemethod
 
-@deftypemethod {Lexer} {YYPosition} getStartPos()
-@deftypemethodx {Lexer} {YYPosition} getEndPos()
+@deftypemethod {Lexer} {Position} getStartPos()
+@deftypemethodx {Lexer} {Position} getEndPos()
 Return respectively the first position of the last token that @code{yylex}
 returned, and the first position beyond it.  These methods are not needed
 unless location tracking is active.
@@ -16465,7 +16465,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: colorYellow rgbRed colorRed rgbBlue colorBlue rgbPurple Ddoc
 @c LocalWords: colorPurple ifhtml ifnothtml situ rcex MERCHANTABILITY Wnone
 @c LocalWords: diagError diagNotice diagWarning diagOff danglingElseCex
-@c LocalWords: YYPosition nonunifying
+@c LocalWords: nonunifying
 
 @c Local Variables:
 @c ispell-dictionary: "american"

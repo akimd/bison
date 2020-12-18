@@ -456,7 +456,8 @@ m4_define([b4_public_types_declare],
 [[
 alias Symbol = ]b4_parser_class[.Symbol;
 alias Value = ]b4_yystype[;]b4_locations_if([[
-alias Location = ]b4_location_type[;]])[
+alias Location = ]b4_location_type[;
+alias Position = ]b4_position_type[;]])[
 ]])
 
 
