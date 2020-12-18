@@ -230,6 +230,8 @@
 /obstack.h
 /obstack_printf.c
 /open.c
+/os2-spawn.c
+/os2-spawn.h
 /pathmax.h
 /perror.c
 /pipe-safer.c

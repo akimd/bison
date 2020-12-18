@@ -36,8 +36,9 @@ $(%C%_c___types_OBJECTS): $(cxx_types_sources_generated)
 
 if ENABLE_CXX
   check_PROGRAMS += %D%/c++-types
+  dist_%C%_c___types_SOURCES =			\
+    %D%/ast.hh
   nodist_%C%_c___types_SOURCES =		\
-    %D%/ast.hh                                  \
     %D%/c++-types.cc				\
     %D%/c++-types.hh
   # Don't use gnulib's system headers.
