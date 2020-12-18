@@ -78,8 +78,8 @@ class CalcLexer(R) : Lexer
 
   void yyerror(string s) {}
 
-  YYSemanticType semanticVal_;
-  YYSemanticType semanticVal() @property { return semanticVal_; }
+  Value semanticVal_;
+  Value semanticVal() @property { return semanticVal_; }
 
   Symbol yylex()
   {

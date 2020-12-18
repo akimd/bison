@@ -106,9 +106,9 @@ if (isInputRange!R && is(ElementType!R : dchar))
     stderr.writeln(loc.toString(), ": ", s);
   }
 
-  YYSemanticType semanticVal_;
+  Value semanticVal_;
 
-  public final YYSemanticType semanticVal()
+  public final Value semanticVal()
   {
     return semanticVal_;
   }

@@ -559,7 +559,7 @@ class CalcLexer(R) : Lexer
 
   ]AT_YYERROR_DEFINE[
 
-  YYSemanticType semanticVal_;]AT_LOCATION_IF([[
+  Value semanticVal_;]AT_LOCATION_IF([[
   Location location;
 
   public final @property YYPosition startPos()
@@ -572,7 +572,7 @@ class CalcLexer(R) : Lexer
     return location.end;
   }
 ]])[
-  public final @property YYSemanticType semanticVal()
+  public final @property Value semanticVal()
   {
     return semanticVal_;
   }

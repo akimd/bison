@@ -115,8 +115,8 @@ class YYLexer(R) : Lexer
 
   ]AT_YYERROR_DEFINE[
 
-  YYSemanticType semanticVal_;
-  public final @property YYSemanticType semanticVal ()
+  Value semanticVal_;
+  public final @property Value semanticVal ()
   {
     return semanticVal_;
   }

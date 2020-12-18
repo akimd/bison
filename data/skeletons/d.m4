@@ -454,7 +454,8 @@ m4_define([b4_var_decl],
 # Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
 [[
-alias Symbol = ]b4_parser_class[.Symbol;]b4_locations_if([[
+alias Symbol = ]b4_parser_class[.Symbol;
+alias Value = ]b4_yystype[;]b4_locations_if([[
 alias Location = ]b4_location_type[;]])[
 ]])
 
@@ -471,7 +472,7 @@ m4_define([b4_symbol_type_define],
   struct Symbol
   {
     private SymbolKind kind;
-    private ]b4_yystype[ value_;]b4_locations_if([[
+    private Value value_;]b4_locations_if([[
     private Location location_;]])[
     this(TokenKind token]b4_locations_if([[, Location loc]])[)
     {
@@ -488,7 +489,7 @@ m4_define([b4_symbol_type_define],
       }
     }
     SymbolKind token() { return kind; }
-    ]b4_yystype[ value() { return value_; }]b4_locations_if([[
+    Value value() { return value_; }]b4_locations_if([[
     Location location() { return location_; }]])[
   }
 ]])

@@ -68,7 +68,7 @@ public interface Lexer
   /**
    * Method to retrieve the semantic value of the last scanned token.
    * @@return the semantic value of the last scanned token.  */
-  ]b4_yystype[ semanticVal ();
+  Value semanticVal ();
 
   /**
    * Entry point for the scanner.  Returns the token identifier corresponding
@@ -351,7 +351,7 @@ b4_user_union_members
 
   private int yyaction (int yyn, ref YYStack yystack, int yylen)
   {
-    ]b4_yystype[ yyval;]b4_locations_if([[
+    Value yyval;]b4_locations_if([[
     ]b4_location_type[ yyloc = yylloc_from_stack (yystack, yylen);]])[
 
     /* If YYLEN is nonzero, implement the default value of the action:
@@ -393,7 +393,7 @@ b4_user_union_members
   `--------------------------------*/
 
   private final void yy_symbol_print (string s, SymbolKind yykind,
-    ref ]b4_yystype[ yyvaluep]dnl
+    ref Value yyvaluep]dnl
 b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
   {
     if (0 < yydebug)
@@ -442,7 +442,7 @@ b4_locations_if([, ref ]b4_location_type[ yylocationp])[)
     ]b4_location_type[ yyloc;]])[
 
     /// Semantic value of the lookahead.
-    ]b4_yystype[ yylval;
+    Value yylval;
 
     bool yyresult;]b4_lac_if([[
     // Discard the LAC context in case there still is one left from a
@@ -1088,7 +1088,7 @@ m4_popdef([b4_at_dollar])])dnl
 
   private final struct YYStackElement {
     int state;
-    ]b4_yystype[ value;]b4_locations_if(
+    Value value;]b4_locations_if(
     b4_location_type[[] location;])[
   }
 
@@ -1100,7 +1100,7 @@ m4_popdef([b4_at_dollar])])dnl
       return stack.length;
     }
 
-    public final void push (int state, ]b4_yystype[ value]dnl
+    public final void push (int state, Value value]dnl
   b4_locations_if([, ref ]b4_location_type[ loc])[)
     {
       stack ~= YYStackElement(state, value]b4_locations_if([, loc])[);
@@ -1127,7 +1127,7 @@ m4_popdef([b4_at_dollar])])dnl
       return stack[$-i-1].location;
     }]])[
 
-    public final ref ]b4_yystype[ valueAt (int i)
+    public final ref Value valueAt (int i)
     {
       return stack[$-i-1].value;
     }
