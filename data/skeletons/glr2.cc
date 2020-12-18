@@ -1235,8 +1235,7 @@ public:
     // is in unused state (in the list of free items), when parse.assert
     // is set.
     is_state_ = true;
-    void *yyp = raw_;
-    static_cast<glr_state*> (yyp)->copyFrom (state);
+    new (&raw_) glr_state (state);
   }
 
   glr_state& getState ()
