@@ -802,6 +802,7 @@ public:
 
   void copyFrom (const glr_state& other)
   {]b4_parse_assert_if([[
+    check_ ();
     other.check_ ();]])[
     *this = other;
     setPred(other.pred());
@@ -901,7 +902,7 @@ public:
   YYLTYPE yyloc;]])[
 
 ]b4_parse_assert_if([[
-private:
+public:
   // Check invariants.
   void check_ () const
   {
@@ -1184,7 +1185,7 @@ class semantic_option {
 };
 
 /** Type of the items in the GLR stack.
- *  It can be either a glr_state or a semantic_union. The is_state_ field
+ *  It can be either a glr_state or a semantic_option. The is_state_ field
  *  indicates which item of the union is valid.  */
 class glr_stack_item
 {
@@ -1227,7 +1228,8 @@ public:
 
   void setState (const glr_state &state)
   {]b4_parse_assert_if([[
-    check_ ();]])[
+    check_ ();
+    state.check_ ();]])[
     // FIXME: What about the previous content?  Shouldn't it be freed?
     // It might be useful to have an explicit "void" state when this item
     // is in unused state (in the list of free items), when parse.assert
@@ -1272,6 +1274,7 @@ public:
     check_ ();]])[
     return is_state_;
   }
+
  private:
   /// The possible contents of raw_. Since they have constructors, they cannot
   /// be directly included in the union.
@@ -1289,8 +1292,8 @@ public:
   };
   /** Type tag for the union. */
   bool is_state_;
-
 ]b4_parse_assert_if([[
+public:
   // Check invariants.
   void check_ () const
   {
@@ -1320,7 +1323,9 @@ const glr_state* glr_state::pred () const
 
 void glr_state::setPred (const glr_state* state)
 {]b4_parse_assert_if([[
-  check_ ();]])[
+  check_ ();
+  if (state)
+    state->check_ ();]])[
   yypred = state ? as_pointer_ (this) - as_pointer_ (state) : 0;
 }
 
