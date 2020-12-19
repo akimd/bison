@@ -649,12 +649,12 @@ enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
 
 #define YY_DEBUG_STREAM if (!yydebug) {} else std::cerr
 
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)                  \
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                  \
   do {                                                                  \
     if (yydebug)                                                        \
       {                                                                 \
         std::cerr << Title << ' ';                                      \
-        yyparser.yy_symbol_print_ (Type, Value]b4_locations_if([, Location])[); \
+        yyparser.yy_symbol_print_ (Kind, Value]b4_locations_if([, Location])[); \
         std::cerr << '\n';                                              \
       }                                                                 \
   } while (0)
@@ -672,7 +672,7 @@ static void yypdumpstack (glr_stack* yystackp)
 #else /* !]b4_api_PREFIX[DEBUG */
 
 # define YY_DEBUG_STREAM if (true) {} else std::cerr
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)
 
 #endif /* !]b4_api_PREFIX[DEBUG */
 
