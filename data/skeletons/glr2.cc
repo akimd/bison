@@ -1449,7 +1449,7 @@ class state_stack {
   /** Returns false if it tried to expand but could not. */
   bool
   yyexpandGLRStackIfNeeded() {
-    return spaceLeft() < YYHEADROOM && yyexpandGLRStack();
+    return YYHEADROOM <= spaceLeft() || yyexpandGLRStack();
   }
 
  private:
@@ -1471,7 +1471,7 @@ class state_stack {
 #else
   bool yyexpandGLRStackIfNeeded ()
   {
-    return spaceLeft () < YYHEADROOM;
+    return YYHEADROOM <= spaceLeft ();
   }
 #endif
 
@@ -1895,7 +1895,7 @@ public:
   ]b4_namespace_ref[::]b4_parser_class[& yyparser;
 
   void yyreserveGlrStack() {
-    if (yystateStack.yyexpandGLRStackIfNeeded ())
+    if (!yystateStack.yyexpandGLRStackIfNeeded ())
       yyMemoryExhausted();
   }
 
