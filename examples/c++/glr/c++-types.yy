@@ -36,20 +36,20 @@
 
 %code
 {
+  #include <cassert>
+  #include <cctype>
+  #include <fstream>
+  #include <cstring>
 
-#include <cassert>
-#include <cctype>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+  #if __cplusplus < 201103L
+  # define nullptr 0
+  #endif
 
-#if __cplusplus < 201103L
-# define nullptr 0
-#endif
+  static yy::parser::semantic_type
+  stmtMerge (const yy::parser::semantic_type& x0, const yy::parser::semantic_type& x1);
 
-  static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
-
-  static int yylex (YYSTYPE *lvalp, YYLTYPE *llocp);
+  static int
+  yylex (yy::parser::semantic_type* val, yy::parser::location_type* loc);
 }
 
 %expect-rr 1
@@ -95,22 +95,25 @@ declarator
      ;
 
 %%
+std::istream* input = nullptr;
+
 /* A C error reporting function.  */
-void yy::parser::error (const location_type& l, const std::string& m)
+void
+yy::parser::error (const location_type& l, const std::string& m)
 {
   std::cerr << l << ": " << m << '\n';
 }
 
-int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
+static int
+yylex (yy::parser::semantic_type* lvalp, yy::parser::location_type* llocp)
 {
   static int lineNum = 1;
   static int colNum = 0;
 
   while (1)
     {
-      int c;
-      assert (!feof (stdin));
-      c = getchar ();
+      assert (!input->eof ());
+      int c = input->get ();
       switch (c)
         {
         case EOF:
@@ -127,9 +130,9 @@ int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
           break;
         default:
           {
-            int tok;
             llocp->begin.line = llocp->end.line = lineNum;
             llocp->begin.column = colNum;
+            int tok;
             if (isalpha (c))
               {
                 std::string form;
@@ -137,11 +140,11 @@ int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
                   {
                     form += static_cast<char> (c);
                     colNum += 1;
-                    c = getchar ();
+                    c = input->get ();
                   }
                 while (isalnum (c) || c == '_');
 
-                ungetc (c, stdin);
+                input->unget ();
                 tok
                   = isupper (static_cast <unsigned char> (form[0]))
                   ? yy::parser::token::TYPENAME
@@ -161,18 +164,52 @@ int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
     }
 }
 
-static YYSTYPE
-stmtMerge (YYSTYPE x0, YYSTYPE x1)
+static yy::parser::semantic_type
+stmtMerge (const yy::parser::semantic_type& x0, const yy::parser::semantic_type& x1)
 {
   return new Nterm ("<OR>", x0, x1);
 }
 
 int
+process (yy::parser& parse, const std::string& file)
+{
+  bool is_stdin = file == "-" || file.empty ();
+  if (is_stdin)
+    input = &std::cin;
+  else
+    input = new std::ifstream (file.c_str ());
+  int status = parse ();
+  if (!is_stdin)
+    delete input;
+  return status;
+}
+
+int
 main (int argc, char **argv)
 {
-  // Enable parse traces on option -p.
-  if (1 < argc && strcmp (argv[1], "-p") == 0)
-    yydebug = 1;
-  yy::parser parser;
-  return !!parser.parse ();
+  yy::parser parse;
+
+  if (getenv ("YYDEBUG"))
+    parse.set_debug_level (1);
+
+  bool ran = false;
+  for (int i = 1; i < argc; ++i)
+    // Enable parse traces on option -p.
+    if (strcmp (argv[1], "-p") == 0)
+      parse.set_debug_level (1);
+    else
+      {
+        int status = process (parse, argv[1]);
+        ran = true;
+        if (!status)
+          return status;
+      }
+
+  if (!ran)
+    {
+      int status = process (parse, "");
+      if (!status)
+        return status;
+    }
+  return 0;
 }
