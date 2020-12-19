@@ -11,8 +11,7 @@ public:
     : parents_ (0)
   {}
 
-  virtual ~Node ()
-  {}
+  virtual ~Node ();
 
   void free ()
   {
@@ -29,6 +28,9 @@ protected:
   friend class Term;
   int parents_;
 };
+
+Node::~Node ()
+{}
 
 
 static std::ostream&
@@ -55,12 +57,7 @@ public:
       child2->parents_ += 1;
   }
 
-  ~Nterm ()
-  {
-    for (int i = 0; i < 3; ++i)
-      if (children_[i])
-        children_[i]->free ();
-  }
+  ~Nterm ();
 
   std::ostream& print (std::ostream& o) const
   {
@@ -82,12 +79,21 @@ private:
   Node *children_[3];
 };
 
+Nterm::~Nterm ()
+{
+  for (int i = 0; i < 3; ++i)
+    if (children_[i])
+      children_[i]->free ();
+}
+
+
 class Term : public Node
 {
 public:
   Term (const std::string &text)
     : text_ (text)
   {}
+  ~Term();
 
   std::ostream& print (std::ostream& o) const
   {
@@ -98,3 +104,7 @@ public:
 private:
   std::string text_;
 };
+
+Term::~Term ()
+{
+}
