@@ -485,7 +485,7 @@ m4_define([b4_null], [YY_NULLPTR])
 # -------------------------------------------------------------
 # Define "yy<TABLE-NAME>" whose contents is CONTENT.
 m4_define([b4_integral_parser_table_define],
-[m4_ifvaln([$3], [b4_comment([$3], [  ])])dnl
+[m4_ifvaln([$3], [b4_comment([$3])])dnl
 static const b4_int_type_for([$2]) yy$1[[]] =
 {
   $2

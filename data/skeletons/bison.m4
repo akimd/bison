@@ -332,14 +332,14 @@ number is the opposite.  If YYTABLE_NINF, syntax error.]])
 $1([check], [b4_check])
 
 $1([stos], [b4_stos],
-   [[YYSTOS[STATE-NUM] -- The (internal number of the) accessing
-symbol of state STATE-NUM.]])
+   [[YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
+state STATE-NUM.]])
 
 $1([r1], [b4_r1],
-   [[YYR1[YYN] -- Symbol number of symbol that rule YYN derives.]])
+   [[YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.]])
 
 $1([r2], [b4_r2],
-   [[YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.]])
+   [[YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.]])
 ])
 
 
