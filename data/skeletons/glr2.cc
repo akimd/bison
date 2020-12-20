@@ -793,12 +793,12 @@ public:
   {}
 
   /// Build with a semantic option.
-  glr_state(state_num lrState, size_t posn)
-    : yyresolved(false)
-    , yylrState(lrState)
-    , yyposn(posn)
-    , yypred(0)
-    , yyfirstVal(0)]b4_parse_assert_if([[
+  glr_state (state_num lrState, size_t posn)
+    : yyresolved (false)
+    , yylrState (lrState)
+    , yyposn (posn)
+    , yypred (0)
+    , yyfirstVal (0)]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
@@ -832,12 +832,11 @@ public:
     yyresolved = other.yyresolved;
     yylrState = other.yylrState;
     yyposn = other.yyposn;
-    setPred(other.pred());
-    if (other.yyresolved) {
-      semanticVal() = other.semanticVal();
-    } else {
-      setFirstVal(other.firstVal());
-    }]b4_locations_if([[
+    setPred (other.pred ());
+    if (other.yyresolved)
+      semanticVal () = other.semanticVal ();
+    else
+      setFirstVal (other.firstVal ());]b4_locations_if([[
     yyloc = other.yyloc;]])[
   }
 
@@ -850,15 +849,15 @@ public:
   size_t yyposn;
 
   /// Only call pred() and setPred() on objects in yyitems, not temporaries.
-  glr_state* pred();
-  const glr_state* pred() const;
-  void setPred(const glr_state* state);
+  glr_state* pred ();
+  const glr_state* pred () const;
+  void setPred (const glr_state* state);
 
   /// Only call firstVal() and setFirstVal() on objects in yyitems, not
   /// temporaries.
-  semantic_option* firstVal();
-  const semantic_option* firstVal() const;
-  void setFirstVal(const semantic_option* option);
+  semantic_option* firstVal ();
+  const semantic_option* firstVal () const;
+  void setFirstVal (const semantic_option* option);
 
   value_type& semanticVal ()
   {]b4_parse_assert_if([[
@@ -877,21 +876,21 @@ public:
 
   /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
-  void yy_yypstack() const
+  void yy_yypstack () const
   {]b4_parse_assert_if([[
     check_ ();]])[
-    if (pred() != YY_NULLPTR)
+    if (pred () != YY_NULLPTR)
       {
-        pred()->yy_yypstack();
+        pred ()->yy_yypstack ();
         std::cerr << " -> ";
       }
     std::cerr << yylrState << "@@" << yyposn;
   }
 #endif
 
-  std::ptrdiff_t indexIn(glr_stack_item* array);
+  std::ptrdiff_t indexIn (glr_stack_item* array);
 
-  glr_stack_item* asItem()
+  glr_stack_item* asItem ()
   {]b4_parse_assert_if([[
     check_ ();]])[
     return asItem(this);
@@ -899,20 +898,22 @@ public:
 
  private:
   template <typename T>
-  static const glr_stack_item* asItem(const T* state) {
+  static const glr_stack_item* asItem (const T* state)
+  {
     return reinterpret_cast<const glr_stack_item*>(state);
   }
   template <typename T>
-  static glr_stack_item* asItem(T* state) {
-    return reinterpret_cast<glr_stack_item*>(state);
+  static glr_stack_item* asItem (T* state)
+  {
+    return reinterpret_cast<glr_stack_item*> (state);
   }
   static const char *as_pointer_ (const glr_state *state)
   {
-    return reinterpret_cast<const char *>(state);
+    return reinterpret_cast<const char *> (state);
   }
   static char *as_pointer_ (glr_state *state)
   {
-    return reinterpret_cast<char *>(state);
+    return reinterpret_cast<char *> (state);
   }
   /** Preceding state in this stack */
   std::ptrdiff_t yypred;
@@ -940,7 +941,7 @@ public:
   }
 
   // A magic number to check our pointer arithmetics is sane.
-  enum { MAGIC = 0x713705 };
+  enum { MAGIC = 713705 };
   unsigned int magic_;]])[
 };
 
