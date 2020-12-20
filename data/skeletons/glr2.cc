@@ -1467,13 +1467,34 @@ class state_stack {
   bool
   yyexpandGLRStack()
   {
-    if (YYMAXDEPTH - YYHEADROOM < yyitems.size())
+    const size_t oldsize = yyitems.size();
+    if (YYMAXDEPTH - YYHEADROOM < oldsize)
       return false;
-    const size_t yynewSize = YYMAXDEPTH < 2 * yyitems.size() ? YYMAXDEPTH : 2 * yyitems.size();
-    yyitems.reserve(yynewSize);
+    const size_t yynewSize = YYMAXDEPTH < 2 * oldsize ? YYMAXDEPTH : 2 * oldsize;
+    const glr_stack_item *oldbase = &yyitems[0];
+
+    yyitems.reserve (yynewSize);
+    const glr_stack_item *newbase = &yyitems[0];
+
+    // Adjust the pointers.  Perform raw pointer arithmetics, as there
+    // is no reason for objects to be aligned on their size.
+    const ptrdiff_t disp
+      = reinterpret_cast<const char*> (newbase) - reinterpret_cast<const char*> (oldbase);
+    if (yysplitPoint)
+      const_cast<glr_state*&> (yysplitPoint)
+        = reinterpret_cast<glr_state*> (reinterpret_cast<char*> (const_cast<glr_state*> (yysplitPoint)) + disp);
+
+    for (std::vector<glr_state*>::iterator
+           i = yytops.begin (),
+           yyend = yytops.end ();
+         i != yyend; ++i)
+      if (glr_state_not_null (*i))
+        *i = reinterpret_cast<glr_state*>(reinterpret_cast<char*>(*i) + disp);
+
     return true;
   }
- public:
+
+public:
 #else
   bool yyexpandGLRStackIfNeeded ()
   {
@@ -1486,11 +1507,12 @@ class state_stack {
   }
 
   bool
-  reduceToOneStack() {
-    const std::vector<glr_state*>::iterator yybegin = yytops.begin();
-    const std::vector<glr_state*>::iterator yyend = yytops.end();
-    const std::vector<glr_state*>::iterator yyit =
-      std::find_if(yybegin, yyend, glr_state_not_null);
+  reduceToOneStack ()
+  {
+    typedef std::vector<glr_state*>::iterator iterator;
+    const iterator yybegin = yytops.begin();
+    const iterator yyend = yytops.end();
+    const iterator yyit = std::find_if(yybegin, yyend, glr_state_not_null);
     if (yyit == yyend)
       return false;
     for (state_set_index yyk = create_state_set_index(yyit + 1 - yybegin);
