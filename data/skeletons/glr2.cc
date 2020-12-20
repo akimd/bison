@@ -770,16 +770,19 @@ yyrhsLength (rule_num yyrule);
 class glr_state
 {
 public:
-  glr_state()
-    : yyresolved(false)
-    , yylrState(0)
-    , yyposn(0)
-    , yypred(0)]b4_parse_assert_if([[
+  typedef ]b4_namespace_ref[::]b4_parser_class[::semantic_type value_type;]b4_locations_if([[
+  typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
+
+  glr_state ()
+    : yyresolved (false)
+    , yylrState (0)
+    , yyposn (0)
+    , yypred (0)]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
   /// Build with a semantic value.
-  glr_state (state_num lrState, size_t posn, YYSTYPE sval]b4_locations_if([[, YYLTYPE loc]])[)
+  glr_state (state_num lrState, size_t posn, value_type sval]b4_locations_if([[, location_type loc]])[)
     : yyresolved (true)
     , yylrState (lrState)
     , yyposn (posn)
@@ -811,7 +814,7 @@ public:
     check_ ();
     magic_ = 0;]])[
     if (yyresolved)
-      yysval.YYSTYPE::~semantic_type ();
+      yysval.~value_type ();
   }
 
   glr_state& operator= (const glr_state& other)
@@ -825,7 +828,7 @@ public:
     check_ ();
     other.check_ ();]])[
     if (!yyresolved && other.yyresolved)
-      new (&yysval) YYSTYPE;
+      new (&yysval) value_type;
     yyresolved = other.yyresolved;
     yylrState = other.yylrState;
     yyposn = other.yyposn;
@@ -857,13 +860,13 @@ public:
   const semantic_option* firstVal() const;
   void setFirstVal(const semantic_option* option);
 
-  YYSTYPE& semanticVal()
+  value_type& semanticVal ()
   {]b4_parse_assert_if([[
     check_ ();]])[
     return yysval;
   }
 
-  const YYSTYPE& semanticVal() const
+  const value_type& semanticVal () const
   {]b4_parse_assert_if([[
     check_ ();]])[
     return yysval;
@@ -919,12 +922,12 @@ public:
      *  yyfirstVal.  */
     std::ptrdiff_t yyfirstVal;
     /** Semantic value for this state.  */
-    YYSTYPE yysval;
+    value_type yysval;
   };]b4_locations_if([[
  // FIXME: Why public?
  public:
   /** Source location for this state.  */
-  YYLTYPE yyloc;]])[
+  location_type yyloc;]])[
 
 ]b4_parse_assert_if([[
 public:
