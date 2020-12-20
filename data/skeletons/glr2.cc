@@ -1190,6 +1190,13 @@ class semantic_option {
   YYLTYPE yyloc;]])[
 };
 
+/** Accessing symbol of state YYSTATE.  */
+static inline yysymbol_kind_t
+yy_accessing_symbol (state_num yystate)
+{
+  return YY_CAST (yysymbol_kind_t, yystos[yystate]);
+}
+
 /** Type of the items in the GLR stack.
  *  It can be either a glr_state or a semantic_option. The is_state_ field
  *  indicates which item of the union is valid.  */
@@ -1394,12 +1401,12 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
 {]b4_parse_assert_if([[
   check_ ();]])[
   if (yyresolved)
-    yyparser.yy_destroy_ (yymsg, static_cast<yysymbol_kind_t>(yystos[yylrState]),
+    yyparser.yy_destroy_ (yymsg, yy_accessing_symbol(yylrState),
                 &semanticVal()]b4_locations_if([, &yyloc])[);
   else
     {
       YY_SYMBOL_PRINT (yymsg << (firstVal() ? " unresolved" : " incomplete"),
-                       static_cast<yysymbol_kind_t>(yystos[yylrState]), YY_NULLPTR, &yyloc);
+                       yy_accessing_symbol(yylrState), YY_NULLPTR, &yyloc);
 
       if (firstVal() != YY_NULLPTR)
         {
@@ -1420,7 +1427,6 @@ yypreference (const semantic_option& y0, const semantic_option& y1);
 
 static void
 yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1);
-
 
 /** Left-hand-side symbol for rule #YYRULE.  */
 static inline yysymbol_kind_t
@@ -1698,7 +1704,7 @@ class state_stack {
       {
         std::cerr << "   $" << yyi + 1 << " = ";
         yyparser.yy_symbol_print_
-          (static_cast<yysymbol_kind_t>(yystos[yyvsp[yyi - yynrhs + 1].getState().yylrState]),
+          (yy_accessing_symbol (yyvsp[yyi - yynrhs + 1].getState().yylrState),
            &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([[,
            &]b4_rhs_location(yynrhs, yyi + 1)])[);
         if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
@@ -1835,7 +1841,7 @@ class state_stack {
       {
         if (yystates[yyi]->yyresolved)
           {
-            std::string yysym = ]b4_namespace_ref::b4_parser_class[::symbol_name (static_cast<yysymbol_kind_t>(yystos[yystates[yyi]->yylrState]));
+            std::string yysym = ]b4_namespace_ref::b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
             if (yystates[yyi-1]->yyposn+1 > yystates[yyi]->yyposn)
               std::cerr << std::string(yyindent + 2, ' ') << yysym
                         << " <empty>\n";
@@ -2113,7 +2119,7 @@ public:
                 YYLTYPE yyerrloc;
                 yyerror_range[2].getState().yyloc = yylloc;
                 YYLLOC_DEFAULT (yyerrloc, (yyerror_range), 2);]])[
-                YY_SYMBOL_PRINT ("Shifting", static_cast<yysymbol_kind_t>(yystos[yytable[yyj]]),
+                YY_SYMBOL_PRINT ("Shifting", yy_accessing_symbol(yytable[yyj]),
                                  &yylval, &yyerrloc);
                 yyglrShift (create_state_set_index(0), yytable[yyj],
                             yys->yyposn, yylval]b4_locations_if([, &yyerrloc])[);
@@ -2587,7 +2593,7 @@ public:
                   if (yyflag != yyok)
                     {
                       yyparser.yy_destroy_ ("Cleanup: discarding incompletely merged value for",
-                                  static_cast<yysymbol_kind_t>(yystos[yys.yylrState]),
+                                  yy_accessing_symbol(yys.yylrState),
                                   &yysval]b4_locations_if([, yylocp])[);
                       break;
                     }
