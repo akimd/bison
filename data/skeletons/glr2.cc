@@ -918,51 +918,58 @@ public:
 
 /** A stack of GLRState representing the different heads during
   * nondeterministic evaluation. */
-class glr_state_set {
+class glr_state_set
+{
  public:
   /** Initialize YYSET to a singleton set containing an empty stack.  */
-  glr_state_set()
-    : yylastDeleted(YY_NULLPTR)
+  glr_state_set ()
+    : yylastDeleted (YY_NULLPTR)
   {
-    yystates.push_back(YY_NULLPTR);
-    yylookaheadNeeds.push_back(false);
+    yystates.push_back (YY_NULLPTR);
+    yylookaheadNeeds.push_back (false);
   }
 
   // Behave like a vector of states.
-  glr_state*& operator[](state_set_index index) {
+  glr_state*& operator[] (state_set_index index)
+  {
     return yystates[index.uget()];
   }
 
-  glr_state* operator[](state_set_index index) const {
+  glr_state* operator[] (state_set_index index) const
+  {
     return yystates[index.uget()];
   }
 
-  size_t size() const {
-    return yystates.size();
+  size_t size () const
+  {
+    return yystates.size ();
   }
 
-  std::vector<glr_state*>::iterator begin() {
-    return yystates.begin();
+  std::vector<glr_state*>::iterator begin ()
+  {
+    return yystates.begin ();
   }
 
-  std::vector<glr_state*>::iterator end() {
-    return yystates.end();
+  std::vector<glr_state*>::iterator end ()
+  {
+    return yystates.end ();
   }
 
-
-  bool lookaheadNeeds(state_set_index index) const {
-    return yylookaheadNeeds[index.uget()];
+  bool lookaheadNeeds (state_set_index index) const
+  {
+    return yylookaheadNeeds[index.uget ()];
   }
 
-  bool setLookaheadNeeds(state_set_index index, bool value) {
-    return yylookaheadNeeds[index.uget()] = value;
+  bool setLookaheadNeeds (state_set_index index, bool value)
+  {
+    return yylookaheadNeeds[index.uget ()] = value;
   }
 
   /** Invalidate stack #YYK.  */
   inline void
   yymarkStackDeleted (state_set_index yyk)
   {
-    size_t k = yyk.uget();
+    size_t k = yyk.uget ();
     if (yystates[k] != YY_NULLPTR)
       yylastDeleted = yystates[k];
     yystates[k] = YY_NULLPTR;
@@ -974,11 +981,11 @@ class glr_state_set {
   void
   yyundeleteLastStack ()
   {
-    if (yylastDeleted == YY_NULLPTR || !yystates.empty())
+    if (yylastDeleted == YY_NULLPTR || !yystates.empty ())
       return;
-    yystates.push_back(yylastDeleted);
+    yystates.push_back (yylastDeleted);
     YY_DEBUG_STREAM <<  "Restoring last deleted stack as stack #0.\n";
-    clearLastDeleted();
+    clearLastDeleted ();
   }
 
   /** Remove the dead stacks (yystates[i] == YY_NULLPTR) and shift the later
@@ -986,7 +993,7 @@ class glr_state_set {
   inline void
   yyremoveDeletes ()
   {
-    size_t newsize = yystates.size();
+    size_t newsize = yystates.size ();
     /* j is the number of live stacks we have seen.  */
     for (size_t i = 0, j = 0; j < newsize; ++i)
       {
@@ -1014,22 +1021,23 @@ class glr_state_set {
             j += 1;
           }
       }
-    yystates.erase(yystates.begin() + static_cast<std::ptrdiff_t>(newsize), yystates.end());
-    yylookaheadNeeds.erase(yylookaheadNeeds.begin() + static_cast<std::ptrdiff_t>(newsize),
-                           yylookaheadNeeds.end());
+    yystates.erase (yystates.begin () + static_cast<std::ptrdiff_t> (newsize), yystates.end ());
+    yylookaheadNeeds.erase (yylookaheadNeeds.begin () + static_cast<std::ptrdiff_t> (newsize),
+                            yylookaheadNeeds.end ());
   }
 
 
   state_set_index
   yysplitStack (state_set_index yyk)
   {
-    const size_t k = yyk.uget();
-    yystates.push_back(yystates[k]);
-    yylookaheadNeeds.push_back(yylookaheadNeeds[k]);
-    return create_state_set_index(static_cast<std::ptrdiff_t>(yystates.size() - 1));
+    const size_t k = yyk.uget ();
+    yystates.push_back (yystates[k]);
+    yylookaheadNeeds.push_back (yylookaheadNeeds[k]);
+    return create_state_set_index (static_cast<std::ptrdiff_t> (yystates.size () - 1));
   }
 
-  void clearLastDeleted() {
+  void clearLastDeleted ()
+  {
     yylastDeleted = YY_NULLPTR;
   }
 
@@ -1044,8 +1052,6 @@ class glr_state_set {
 
   /** The last stack we invalidated.  */
   glr_state* yylastDeleted;
-
-  static const size_t INITIAL_NUMBER_STATES = 16;
 };
 
 class semantic_option {
