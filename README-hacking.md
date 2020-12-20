@@ -487,6 +487,16 @@ useful.  Here's one way to set ASAN up with GCC 10 on Mac Ports
 
     $ make check-local TESTSUITEFLAGS='-j5 -k cex' ASAN_OPTIONS=detect_leaks=1
 
+5. You might need a suppression file.  See
+   https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer#suppressions.
+   With G++ on a Mac, you might need a suppression file (say
+   leak.suppression) that contains:
+
+   leak:std::clog
+
+   and pass the additional flags
+   `LSAN_OPTIONS=suppressions=$PWD/leak.suppressions,print_suppressions=0`
+
 ## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
 

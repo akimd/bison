@@ -1215,7 +1215,7 @@ public:
 
   glr_stack_item (const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
     : is_state_ (other.is_state_)]b4_parse_assert_if([[
-    , magic_ (0xDEAD1ACC)]])[
+    , magic_ (MAGIC)]])[
   {]b4_parse_assert_if([[
     other.check_ ();]])[
     std::memcpy (raw_, other.raw_, union_size);
@@ -1256,7 +1256,9 @@ public:
     check_ ();]])[
     YYDASSERT (is_state ());
     void *yyp = raw_;
-    return *static_cast<glr_state*> (yyp);
+    glr_state& res = *static_cast<glr_state*> (yyp);]b4_parse_assert_if([[
+    res.check_ ();]])[
+    return res;
   }
 
   const glr_state& getState () const
@@ -1264,7 +1266,9 @@ public:
     check_ ();]])[
     YYDASSERT (is_state ());
     const void *yyp = raw_;
-    return *static_cast<const glr_state*> (yyp);
+    const glr_state& res = *static_cast<const glr_state*> (yyp);]b4_parse_assert_if([[
+    res.check_ ();]])[
+    return res;
   }
 
   semantic_option& getOption ()
@@ -1313,7 +1317,7 @@ public:
     YYASSERT (this->is_state_ == false || this->is_state_ == true);
   }
   // A magic number to check our pointer arithmetics is sane.
-  enum { MAGIC = 0xDEAD1ACC };
+  enum { MAGIC = 0xDEAD1ACC }; // 3735886540.
   const unsigned int magic_;]])[
 };
 
@@ -2349,8 +2353,7 @@ public:
         YYASSERT (yyk.get() == 0);
         glr_stack_item* yyrhs = yystateStack.firstTop()->asItem();
         YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser));
-        const YYRESULTTAG res = yyuserAction (yyrule, yynrhs, yyrhs,
-                                yyvalp]b4_locations_if([, yylocp])[);
+        const YYRESULTTAG res = yyuserAction (yyrule, yynrhs, yyrhs, yyvalp]b4_locations_if([, yylocp])[);
         yystateStack.pop_back(static_cast<size_t>(yynrhs));
         yystateStack.setFirstTop(&yystateStack[yystateStack.size() - 1].getState());
         return res;
