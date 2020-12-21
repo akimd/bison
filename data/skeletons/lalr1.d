@@ -591,12 +591,9 @@ m4_popdef([b4_at_dollar])])dnl
           /* If just tried and failed to reuse lookahead token after an
            * error, discard it.  */
 
-          if (yytoken <= ]b4_symbol(eof, [kind])[)
-          {
-            /* Return failure if at end of input.  */
-            if (yytoken == ]b4_symbol(eof, [kind])[)
-             return false;
-          }
+          /* Return failure if at end of input.  */
+          if (yytoken == ]b4_symbol(eof, [kind])[)
+            return false;
           else
             yytoken = ]b4_symbol(empty, kind)[;
         }
