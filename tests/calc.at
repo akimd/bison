@@ -84,6 +84,10 @@ int global_count = 0;
 /* Total number of errors.  */
 int global_nerrs = 0;
 
+#ifndef EX_NOINPUT
+# define EX_NOINPUT 66
+#endif
+
 static FILE *
 open_file (const char *file)
 {
@@ -91,7 +95,7 @@ open_file (const char *file)
   if (!res)
     {
       perror (file);
-      exit (3);
+      exit (EX_NOINPUT);
     }
   return res;
 }
@@ -424,14 +428,14 @@ exp:
         {
           YYLTYPE old_yylloc = yylloc;
           yylloc = @3;
-          yyerror (]AT_PARAM_IF([result, count, nerrs, ])["error: null divisor");
+          yyerr][or (]AT_PARAM_IF([result, count, nerrs, ])["error: null divisor");
           yylloc = old_yylloc;
         }
         ]])[
       }]],
       [c++], [[
       {
-        ]AT_GLR_IF([[yyparser.]])[error (]AT_LOCATION_IF([[@3, ]])["error: null divisor");
+        ]AT_GLR_IF([[yyparser.]])[err][or (]AT_LOCATION_IF([[@3, ]])["error: null divisor");
       }]])[
     else
       $$ = $1 / $3;

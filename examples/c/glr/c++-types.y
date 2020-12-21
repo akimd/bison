@@ -295,4 +295,3 @@ stmtMerge (YYSTYPE x0, YYSTYPE x1)
 {
   return new_nterm ("<OR>(%s,%s)", x0, x1, NULL);
 }
-
