@@ -108,11 +108,6 @@ if (isInputRange!R && is(ElementType!R : dchar))
 
   Value semanticVal_;
 
-  public final Value semanticVal()
-  {
-    return semanticVal_;
-  }
-
   Symbol yylex()
   {
     import std.uni : isWhite, isNumber;
@@ -166,16 +161,6 @@ if (isInputRange!R && is(ElementType!R : dchar))
       }
       default: assert(0);
     }
-  }
-
-  Position startPos() const
-  {
-    return location.begin;
-  }
-
-  Position endPos() const
-  {
-    return location.end;
   }
 }
 

@@ -53,23 +53,7 @@ import std.format;
  * parser <tt>]b4_parser_class[</tt>.
  */
 public interface Lexer
-{]b4_locations_if([[
-  /**
-   * Method to retrieve the beginning position of the last scanned token.
-   * @@return the position at which the last scanned token starts.  */
-  Position startPos ();
-
-  /**
-   * Method to retrieve the ending position of the last scanned token.
-   * @@return the first position beyond the last scanned token.  */
-  Position endPos ();
-
-]])[
-  /**
-   * Method to retrieve the semantic value of the last scanned token.
-   * @@return the semantic value of the last scanned token.  */
-  Value semanticVal ();
-
+{
   /**
    * Entry point for the scanner.  Returns the token identifier corresponding
    * to the next token and prepares to return the semantic value

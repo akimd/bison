@@ -79,7 +79,6 @@ class CalcLexer(R) : Lexer
   void yyerror(string s) {}
 
   Value semanticVal_;
-  Value semanticVal() @property { return semanticVal_; }
 
   Symbol yylex()
   {

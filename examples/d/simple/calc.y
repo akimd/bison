@@ -102,13 +102,6 @@ if (isInputRange!R && is(ElementType!R : dchar))
     stderr.writeln(s);
   }
 
-  Value semanticVal_;
-
-  public final Value semanticVal()
-  {
-    return semanticVal_;
-  }
-
   Symbol yylex()
   {
     import std.uni : isWhite, isNumber;

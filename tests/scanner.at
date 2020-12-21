@@ -116,10 +116,6 @@ class YYLexer(R) : Lexer
   ]AT_YYERROR_DEFINE[
 
   Value semanticVal_;
-  public final @property Value semanticVal ()
-  {
-    return semanticVal_;
-  }
 
   Symbol yylex ()
   {

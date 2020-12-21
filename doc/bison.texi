@@ -14016,16 +14016,6 @@ Return the next token. The return value is of type @code{Symbol}, which
 binds together the kind, the semantic value and the location.
 @end deftypemethod
 
-@deftypemethod {Lexer} {Position} getStartPos()
-@deftypemethodx {Lexer} {Position} getEndPos()
-Return respectively the first position of the last token that @code{yylex}
-returned, and the first position beyond it.  These methods are not needed
-unless location tracking is active.
-
-They should return new objects for each call, to avoid that all the symbol
-share the same Position boundaries.
-@end deftypemethod
-
 @deftypemethod {Lexer} {void} reportSyntaxError(@code{YYParser.Context} @var{ctx})
 If you invoke @samp{%define parse.error custom} (@pxref{Bison
 Declarations}), then the parser no longer passes syntax error messages to
