@@ -1820,7 +1820,7 @@ public:
     yyreportTree (*yyx0, 2);
     std::cerr << "\nOption 2,\n";
     yyreportTree (*yyx1, 2);
-    std::cerr << "\n";
+    std::cerr << '\n';
 #endif
 
     yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax is ambiguous"));
@@ -1829,14 +1829,15 @@ public:
 
   /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
+  /* Print YYS (possibly NULL) and its predecessors. */
   void
-  yypstates (const glr_state* yyst)
+  yypstates (const glr_state* yys)
   {
-    if (yyst != YY_NULLPTR)
-      yyst->yy_yypstack();
+    if (yys != YY_NULLPTR)
+      yys->yy_yypstack();
     else
       std::cerr << "<null>";
-    std::cerr << "\n";
+    std::cerr << '\n';
   }
 #endif
 
@@ -2778,7 +2779,7 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
         }
       catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
         {
-          YY_DEBUG_STREAM <<  "Caught exception: " << yyexc.what() << "\n";]b4_locations_if([
+          YY_DEBUG_STREAM <<  "Caught exception: " << yyexc.what() << '\n';]b4_locations_if([
           yylloc = yyexc.location;])[
           yyparser.error (]b4_locations_if([yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
@@ -2993,7 +2994,7 @@ b4_dollar_popdef])[]dnl
         while (true)
           {
             const state_num yystate = yystack.firstTopState()->yylrState;
-            YY_DEBUG_STREAM << "Entering state " << yystate << "\n";
+            YY_DEBUG_STREAM << "Entering state " << yystate << '\n';
             if (yystate == YYFINAL)
               goto yyacceptlab;
             if (yyisDefaultedState (yystate))
