@@ -802,11 +802,20 @@ public:
     , magic_ (MAGIC)]])[
   {}
 
-  glr_state (const glr_state& other)]b4_parse_assert_if([[
-    : magic_ (MAGIC)]])[
+  glr_state (const glr_state& other)
+    : yyresolved (other.yyresolved)
+    , yylrState (other.yylrState)
+    , yyposn (other.yyposn)
+    , yypred (0)]b4_locations_if([[
+    , yyloc (other.yyloc)]])[]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {
-    // FIXME: Do it right.
-    copyFrom (other);
+    setPred (other.pred ());
+    if (other.yyresolved)
+      new (&yysval) value_type (other.semanticVal ());
+    else
+      setFirstVal (other.firstVal ());]b4_parse_assert_if([[
+    check_();]])[
   }
 
   ~glr_state ()
