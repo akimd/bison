@@ -896,6 +896,12 @@ public:
     return asItem(this);
   }
 
+  const glr_stack_item* asItem () const
+  {]b4_parse_assert_if([[
+    check_ ();]])[
+    return asItem (this);
+  }
+
  private:
   template <typename T>
   static const glr_stack_item* asItem (const T* state)
@@ -1272,12 +1278,15 @@ public:
   {]b4_parse_assert_if([[
     check_ ();
     state.check_ ();]])[
-    // FIXME: What about the previous content?  Shouldn't it be freed?
-    // It might be useful to have an explicit "void" state when this item
-    // is in unused state (in the list of free items), when parse.assert
-    // is set.
-    is_state_ = true;
-    new (&raw_) glr_state (state);
+    if (this != state.asItem ())
+      {
+        is_state_ = true;
+        // FIXME: What about the previous content?  Shouldn't it be
+        // freed?  It might be useful to have an explicit "void" state
+        // when this item is in unused state (in the list of free
+        // items), when parse.assert is set.
+        new (&raw_) glr_state (state);
+      }
   }
 
   glr_state& getState ()
