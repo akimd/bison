@@ -40,21 +40,14 @@ m4_define([b4_tname_if],
 #   (b4_parse_param_orig).  Note that b4_parse_param is overquoted
 #   (and c.m4 strips one level of quotes).  This is a PITA, and
 #   explains why there are so many levels of quotes.
-#
-# The locations
-#
-#   We use location.cc just like lalr1.cc, but because glr.c stores
-#   the locations in a union, the position and location classes
-#   must not have a constructor.  Therefore, contrary to lalr1.cc, we
-#   must not define "b4_location_constructors".  As a consequence the
-#   user must initialize the first positions (in particular the
-#   filename member).
 
 # We require a pure interface.
 m4_define([b4_pure_flag], [1])
 
 m4_include(b4_skeletonsdir/[c++.m4])
-b4_bison_locations_if([m4_include(b4_skeletonsdir/[location.cc])])
+b4_bison_locations_if([
+   m4_define([b4_location_constructors])
+   m4_include(b4_skeletonsdir/[location.cc])])
 
 m4_define([b4_parser_class],
           [b4_percent_define_get([[api.parser.class]])])
@@ -777,7 +770,8 @@ public:
     : yyresolved (false)
     , yylrState (0)
     , yyposn (0)
-    , yypred (0)]b4_parse_assert_if([[
+    , yypred (0)]b4_locations_if([[
+    , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
@@ -798,7 +792,8 @@ public:
     , yylrState (lrState)
     , yyposn (posn)
     , yypred (0)
-    , yyfirstVal (0)]b4_parse_assert_if([[
+    , yyfirstVal (0)]b4_locations_if([[
+    , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
