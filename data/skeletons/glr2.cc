@@ -389,17 +389,6 @@ m4_define([b4_rhs_location],
 ## Output files.  ##
 ## -------------- ##
 
-# Unfortunately the order of generation between the header and the
-# implementation file matters (for glr.c) because of the current
-# implementation of api.value.type=union.  In that case we still use a
-# union for YYSTYPE, but we generate the contents of this union when
-# setting up YYSTYPE.  This is needed for other aspects, such as
-# defining yy_symbol_value_print, since we need to now the name of the
-# members of this union.
-#
-# To avoid this issue, just generate the header before the
-# implementation file.  But we should also make them more independant.
-
 
 # ------------------------- #
 # The implementation file.  #
@@ -415,10 +404,6 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 ]b4_identification[
 
 ]b4_percent_code_get([[top]])[
-]m4_if(b4_api_prefix, [yy], [],
-[[/* Substitute the type names.  */
-#define YYSTYPE ]b4_api_PREFIX[STYPE]b4_locations_if([[
-#define YYLTYPE ]b4_api_PREFIX[LTYPE]])])[
 ]m4_if(b4_prefix, [yy], [],
 [[/* Substitute the variable and function names.  */
 #define yyparse ]b4_prefix[parse
@@ -433,21 +418,14 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
 ]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
                [b4_shared_declarations])[
 
-#ifndef ]b4_api_PREFIX[STYPE
-# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::value_type
-#endif
-#ifndef ]b4_api_PREFIX[LTYPE
-# define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
-#endif
-
 typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
 
 /* Default (constant) value used for initialization for null
    right-hand sides.  Unlike the standard yacc.c template, here we set
    the default value of $$ to a zeroed-out value.  Since the default
    value is undefined, this behavior is technically correct.  */
-static YYSTYPE yyval_default;]b4_locations_if([[
-static YYLTYPE yyloc_default][]b4_yyloc_default;])[
+static ]b4_namespace_ref[::]b4_parser_class[::value_type yyval_default;]b4_locations_if([[
+static ]b4_namespace_ref[::]b4_parser_class[::location_type yyloc_default][]b4_yyloc_default;])[
 
 ]b4_user_post_prologue[
 ]b4_percent_code_get[]dnl
@@ -1087,8 +1065,12 @@ class glr_state_set
   glr_state* yylastDeleted;
 };
 
-class semantic_option {
- public:
+class semantic_option
+{
+public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
+  typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
+
   semantic_option()
     : yyrule(0)
     , yystate(0)
@@ -1219,8 +1201,8 @@ class semantic_option {
  public:
   /** The lookahead for this reduction.  */
   int yyrawchar;
-  YYSTYPE yyval;]b4_locations_if([[
-  YYLTYPE yyloc;]])[
+  value_type yyval;]b4_locations_if([[
+  location_type yyloc;]])[
 };
 
 /** Accessing symbol of state YYSTATE.  */
@@ -1465,9 +1447,6 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
 static int
 yypreference (const semantic_option& y0, const semantic_option& y1);
 
-static void
-yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1);
-
 /** Left-hand-side symbol for rule #YYRULE.  */
 static inline yysymbol_kind_t
 yylhsNonterm (rule_num yyrule)
@@ -1481,8 +1460,12 @@ yyLRgotoState (state_num yystate, yysymbol_kind_t yysym);
 #undef YYFILL
 #define YYFILL(N) yyfill (yyvsp, yylow, (N), yynormal)
 
-class state_stack {
- public:
+class state_stack
+{
+public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
+  typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
+
   /** Initialize to a single empty stack, with total maximum
    *  capacity for all stacks of YYSIZE.  */
   state_stack (size_t yysize)
@@ -1727,7 +1710,7 @@ public:
 #endif
         yys.yyresolved = s->yyresolved;
         if (s->yyresolved)
-          new (&yys.semanticVal()) YYSTYPE(s->semanticVal());
+          new (&yys.semanticVal ()) value_type (s->semanticVal ());
         else
           /* The effect of using semanticVal or yyloc (in an immediate rule) is
            * undefined.  */
@@ -1816,7 +1799,7 @@ public:
 
   YYRESULTTAG
   yyreportAmbiguity (semantic_option* yyx0,
-                     semantic_option* yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, YYLTYPE *yylocp])[)
+                     semantic_option* yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, location_type *yylocp])[)
   {
     YYUSE (yyx0);
     YYUSE (yyx1);
@@ -1935,6 +1918,8 @@ public:
 class glr_stack
 {
 public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
+  typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
   glr_stack (size_t yysize, ]b4_namespace_ref[::]b4_parser_class[& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
     : yyerrState (0)
@@ -1958,8 +1943,8 @@ public:
   state_stack yystateStack;
   int yyerrcnt;
   int yyrawchar;
-  YYSTYPE yyval;]b4_locations_if([[
-  YYLTYPE yyloc;]])[
+  value_type yyval;]b4_locations_if([[
+  location_type yyloc;]])[
   YYJMP_BUF yyexception_buffer;
   ]b4_namespace_ref[::]b4_parser_class[& yyparser;
 
@@ -1975,7 +1960,7 @@ public:
   }
 
   _Noreturn void
-  yyFail (]b4_locations_if([YYLTYPE* yylocp, ])[const char* yymsg)
+  yyFail (]b4_locations_if([location_type* yylocp, ])[const char* yymsg)
   {
     if (yymsg != YY_NULLPTR)
       yyparser.error (]b4_locations_if([*yylocp, ])[yymsg);
@@ -2124,7 +2109,7 @@ public:
      yylval, and yylloc are the syntactic category, semantic value, and location
      of the lookahead.  */
   void
-  yyrecoverSyntaxError (]b4_locations_if([YYLTYPE* yylocp])[)
+  yyrecoverSyntaxError (]b4_locations_if([location_type* yylocp])[)
   {
     if (yyerrState == 3)
       /* We just shifted the error token and (perhaps) took some
@@ -2179,7 +2164,7 @@ public:
               {
                 /* Shift the error token.  */]b4_locations_if([[
                 /* First adjust its location.*/
-                YYLTYPE yyerrloc;
+                location_type yyerrloc;
                 yyerror_range[2].getState().yyloc = yylloc;
                 YYLLOC_DEFAULT (yyerrloc, (yyerror_range), 2);]])[
                 YY_SYMBOL_PRINT ("Shifting", yy_accessing_symbol(yytable[yyj]),
@@ -2202,7 +2187,7 @@ public:
 
   YYRESULTTAG
   yyprocessOneStack (state_set_index yyk,
-                     size_t yyposn]b4_locations_if([, YYLTYPE* yylocp])[)
+                     size_t yyposn]b4_locations_if([, location_type* yylocp])[)
   {
     while (yystateStack.topAt(yyk) != YY_NULLPTR)
       {
@@ -2294,7 +2279,7 @@ public:
    *  yyerr for YYERROR, yyabort for YYABORT.  */
   YYRESULTTAG
   yyuserAction (rule_num yyn, int yyrhslen, glr_stack_item* yyvsp,
-                YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
+                value_type* yyvalp]b4_locations_if([, location_type* yylocp])[)
   {
     bool yynormal YY_ATTRIBUTE_UNUSED = !yystateStack.isSplit();
     int yylow;
@@ -2380,7 +2365,7 @@ public:
    *  for userAction.  */
   inline YYRESULTTAG
   yydoAction (state_set_index yyk, rule_num yyrule,
-              YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
+              value_type* yyvalp]b4_locations_if([, location_type* yylocp])[)
   {
     const int yynrhs = yyrhsLength (yyrule);
 
@@ -2435,8 +2420,8 @@ public:
 
     if (yyforceEval || !yystateStack.isSplit())
       {
-        YYSTYPE yysval;]b4_locations_if([[
-        YYLTYPE loc;]])[
+        value_type yysval;]b4_locations_if([[
+        location_type loc;]])[
 
         YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &yysval]b4_locations_if([, &loc])[);
         if (yyflag == yyerr && yystateStack.isSplit())
@@ -2516,7 +2501,7 @@ public:
   inline void
   yyglrShift (state_set_index yyk, state_num yylrState,
               size_t yyposn,
-              YYSTYPE& yyval_arg]b4_locations_if([, YYLTYPE* yylocp])[)
+              value_type& yyval_arg]b4_locations_if([, location_type* yylocp])[)
   {
     glr_state& yynewState = yystateStack.yynewGLRState(
       glr_state(yylrState, yyposn, yyval_arg
@@ -2583,6 +2568,19 @@ public:
     return yyok;
   }
 
+  static void
+  yyuserMerge (int yyn, value_type* yy0, value_type* yy1)
+  {
+    YYUSE (yy0);
+    YYUSE (yy1);
+
+    switch (yyn)
+      {
+]b4_mergers[
+        default: break;
+      }
+  }
+
   /** Resolve the ambiguity represented in state YYS in *YYSTACKP,
    *  perform the indicated actions, and set the semantic value of YYS.
    *  If result != yyok, the chain of semantic options in YYS has been
@@ -2596,9 +2594,9 @@ public:
     semantic_option* yybest = yys.firstVal();
     YYASSERT(yybest != YY_NULLPTR);
     bool yymerge = false;
-    YYSTYPE yysval;
+    value_type yysval;
     YYRESULTTAG yyflag;]b4_locations_if([
-    YYLTYPE *yylocp = &yys.yyloc;])[
+    location_type *yylocp = &yys.yyloc;])[
 
     semantic_option* yypPrev = yybest;
     for (semantic_option* yyp = yybest->next();
@@ -2649,8 +2647,8 @@ public:
             {
               if (yyprec == yydprec[yyp->yyrule])
                 {
-                  YYSTYPE yysval_other;]b4_locations_if([
-                  YYLTYPE yydummy;])[
+                  value_type yysval_other;]b4_locations_if([
+                  location_type yydummy;])[
                   yyflag = yyresolveAction (*yyp, &yysval_other]b4_locations_if([, &yydummy])[);
                   if (yyflag != yyok)
                     {
@@ -2670,7 +2668,7 @@ public:
       {
         yys.yyresolved = true;
         YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-        new (&yys.semanticVal()) YYSTYPE(yysval);
+        new (&yys.semanticVal ()) value_type (yysval);
         YY_IGNORE_MAYBE_UNINITIALIZED_END
       }
     else
@@ -2684,7 +2682,7 @@ public:
    *  have been destroyed (assuming the user action destroys all RHS
    *  semantic values if invoked).  */
   YYRESULTTAG
-  yyresolveAction (semantic_option& yyopt, YYSTYPE* yyvalp]b4_locations_if([, YYLTYPE* yylocp])[)
+  yyresolveAction (semantic_option& yyopt, value_type* yyvalp]b4_locations_if([, location_type* yylocp])[)
   {
     glr_state* yyoptState = yyopt.state();
     YYASSERT(yyoptState != YY_NULLPTR);
@@ -2704,8 +2702,8 @@ public:
       yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].getState().yyloc = yyoptState->yyloc;]])[
     {
       int yychar_current = yychar;
-      YYSTYPE yylval_current = yylval;]b4_locations_if([
-      YYLTYPE yylloc_current = yylloc;])[
+      value_type yylval_current = yylval;]b4_locations_if([
+      location_type yylloc_current = yylloc;])[
       yychar = yyopt.yyrawchar;
       yylval = yyopt.yyval;]b4_locations_if([
       yylloc = yyopt.yyloc;])[
@@ -2809,20 +2807,6 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
   return yytoken;
 }
 
-
-
-static void
-yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1)
-{
-  YYUSE (yy0);
-  YYUSE (yy1);
-
-  switch (yyn)
-    {
-]b4_mergers[
-      default: break;
-    }
-}
 
                               /* Bison grammar-table manipulation.  */
 
