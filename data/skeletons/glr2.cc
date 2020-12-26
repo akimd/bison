@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+m4_include(b4_skeletonsdir/[c++.m4])
+
 # b4_tname_if(TNAME-NEEDED, TNAME-NOT-NEEDED)
 # -------------------------------------------
 m4_define([b4_tname_if],
@@ -23,10 +25,6 @@ m4_define([b4_tname_if],
          [b4_token_table_if([$1],
                             [$2])])])
 
-# We require a pure interface.
-m4_define([b4_pure_flag], [1])
-
-m4_include(b4_skeletonsdir/[c++.m4])
 b4_bison_locations_if([
    m4_define([b4_location_constructors])
    m4_include(b4_skeletonsdir/[location.cc])])
@@ -47,6 +45,82 @@ m4_defn([b4_initial_action])]))])[
            b4_symbol($][1, kind_base),
            b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol($1, kind_base))
 ])
+
+## ---------------- ##
+## Default values.  ##
+## ---------------- ##
+
+# Stack parameters.
+m4_define_default([b4_stack_depth_max], [10000])
+m4_define_default([b4_stack_depth_init],  [200])
+
+
+
+## ------------ ##
+## Interfaces.  ##
+## ------------ ##
+
+# b4_user_formals
+# ---------------
+# The possible parse-params formal arguments preceded by a comma.
+#
+# This is not shared with yacc.c in c.m4 because  GLR relies on ISO C
+# formal argument declarations.
+m4_define([b4_user_formals],
+[m4_ifset([b4_parse_param], [, b4_formals(b4_parse_param)])])
+
+
+# b4_symbol_kind(NUM)
+# -------------------
+m4_define([b4_symbol_kind],
+[symbol_kind::b4_symbol_kind_base($@)])
+
+
+## ----------------- ##
+## Semantic Values.  ##
+## ----------------- ##
+
+
+# b4_lhs_value(SYMBOL-NUM, [TYPE])
+# --------------------------------
+# See README.
+m4_define([b4_lhs_value],
+[b4_symbol_value([(*yyvalp)], [$1], [$2])])
+
+
+# b4_rhs_data(RULE-LENGTH, POS)
+# -----------------------------
+# See README.
+m4_define([b4_rhs_data],
+[(static_cast<glr_stack_item const *>(yyvsp))@{YYFILL (b4_subtract([$2], [$1]))@}.getState()])
+
+
+# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
+# --------------------------------------------------
+# Expansion of $$ or $<TYPE>$, for symbol SYMBOL-NUM.
+m4_define([b4_rhs_value],
+[b4_symbol_value([b4_rhs_data([$1], [$2]).value ()], [$3], [$4])])
+
+
+
+## ----------- ##
+## Locations.  ##
+## ----------- ##
+
+# b4_lhs_location()
+# -----------------
+# Expansion of @$.
+m4_define([b4_lhs_location],
+[(*yylocp)])
+
+
+# b4_rhs_location(RULE-LENGTH, NUM)
+# ---------------------------------
+# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
+# on RHS.
+m4_define([b4_rhs_location],
+[(b4_rhs_data([$1], [$2]).yyloc)])
+
 
 # b4_lex
 # ------
@@ -279,9 +353,19 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 ]m4_popdef([b4_parse_param])dnl
 ])[
 
-]b4_header_if(
-[b4_output_begin([b4_spec_header_file])
-b4_copyright([Skeleton interface for Bison GLR parsers in C++],
+
+## -------------- ##
+## Output files.  ##
+## -------------- ##
+
+
+# ------------- #
+# Header file.  #
+# ------------- #
+
+]b4_header_if([[
+]b4_output_begin([b4_spec_header_file])[
+]b4_copyright([Skeleton interface for Bison GLR parsers in C++],
              [2002-2015, 2018-2020])[
 // C++ GLR parser skeleton written by Valentin Tolmer.
 
@@ -289,98 +373,17 @@ b4_copyright([Skeleton interface for Bison GLR parsers in C++],
 ]b4_cpp_guard_open([b4_spec_mapped_header_file])[
 ]b4_shared_declarations[
 ]b4_cpp_guard_close([b4_spec_mapped_header_file])[
-]b4_output_end])
-
-## ---------------- ##
-## Default values.  ##
-## ---------------- ##
-
-# Stack parameters.
-m4_define_default([b4_stack_depth_max], [10000])
-m4_define_default([b4_stack_depth_init],  [200])
+]b4_output_end])[
 
 
+# --------------------- #
+# Implementation file.  #
+# --------------------- #
 
-## ------------ ##
-## Interfaces.  ##
-## ------------ ##
-
-# b4_user_formals
-# ---------------
-# The possible parse-params formal arguments preceded by a comma.
-#
-# This is not shared with yacc.c in c.m4 because  GLR relies on ISO C
-# formal argument declarations.
-m4_define([b4_user_formals],
-[m4_ifset([b4_parse_param], [, b4_formals(b4_parse_param)])])
-
-
-# b4_symbol_kind(NUM)
-# -------------------
-m4_define([b4_symbol_kind],
-[symbol_kind::b4_symbol_kind_base($@)])
-
-
-## ----------------- ##
-## Semantic Values.  ##
-## ----------------- ##
-
-
-# b4_lhs_value(SYMBOL-NUM, [TYPE])
-# --------------------------------
-# See README.
-m4_define([b4_lhs_value],
-[b4_symbol_value([(*yyvalp)], [$1], [$2])])
-
-
-# b4_rhs_data(RULE-LENGTH, POS)
-# -----------------------------
-# See README.
-m4_define([b4_rhs_data],
-[(static_cast<glr_stack_item const *>(yyvsp))@{YYFILL (b4_subtract([$2], [$1]))@}.getState()])
-
-
-# b4_rhs_value(RULE-LENGTH, POS, SYMBOL-NUM, [TYPE])
-# --------------------------------------------------
-# Expansion of $$ or $<TYPE>$, for symbol SYMBOL-NUM.
-m4_define([b4_rhs_value],
-[b4_symbol_value([b4_rhs_data([$1], [$2]).value ()], [$3], [$4])])
-
-
-
-## ----------- ##
-## Locations.  ##
-## ----------- ##
-
-# b4_lhs_location()
-# -----------------
-# Expansion of @$.
-m4_define([b4_lhs_location],
-[(*yylocp)])
-
-
-# b4_rhs_location(RULE-LENGTH, NUM)
-# ---------------------------------
-# Expansion of @NUM, where the current rule has RULE-LENGTH symbols
-# on RHS.
-m4_define([b4_rhs_location],
-[(b4_rhs_data([$1], [$2]).yyloc)])
-
-
-## -------------- ##
-## Output files.  ##
-## -------------- ##
-
-
-# ------------------------- #
-# The implementation file.  #
-# ------------------------- #
-
-b4_output_begin([b4_parser_file_name])
-b4_copyright([Skeleton implementation for Bison GLR parsers in C],
-             [2002-2015, 2018-2019])[
-/* New C++ GLR parser skeleton written by Akim Demaille, adapted by Valentin
- * Tolmer.  */
+]b4_output_begin([b4_parser_file_name])[
+]b4_copyright([Skeleton implementation for Bison GLR parsers in C],
+              [2002-2015, 2018-2019])[
+// C++ GLR parser skeleton written by Valentin Tolmer.
 
 ]b4_disclaimer[
 ]b4_identification[

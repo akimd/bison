@@ -493,16 +493,21 @@ m4_define([b4_shared_declarations],
 ]b4_namespace_close[
 
 ]b4_percent_code_get([[provides]])[
-]])
+]])[
+
 
 ## -------------- ##
 ## Output files.  ##
 ## -------------- ##
 
-b4_header_if(
-[b4_output_begin([b4_spec_header_file])
-b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
-[
+# ------------- #
+# Header file.  #
+# ------------- #
+
+]b4_header_if([[
+]b4_output_begin([b4_spec_header_file])[
+]b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])[
+
 /**
  ** \file ]b4_spec_mapped_header_file[
  ** Define the ]b4_namespace_ref[::parser class.
@@ -515,10 +520,14 @@ b4_copyright([Skeleton interface for Bison LALR(1) parsers in C++])
 ]b4_shared_declarations(hh)[
 ]b4_cpp_guard_close([b4_spec_mapped_header_file])[
 ]b4_output_end[
-]])
+]])[
 
 
-b4_output_begin([b4_parser_file_name])[
+# --------------------- #
+# Implementation file.  #
+# --------------------- #
+
+]b4_output_begin([b4_parser_file_name])[
 ]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in C++])[
 ]b4_disclaimer[
 ]b4_percent_code_get([[top]])[]dnl
