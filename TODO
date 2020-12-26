@@ -200,7 +200,6 @@ not yyGLRStack.
 *** yydebug
 It should be a member of the parser object, see lalr1.cc.  Let the parser
 object decide what the debug stream is, rather than open coding std::cerr.
-And use YYCDEBUG rather than YY_DEBUG_STREAM.
 
 *** Avoid pointers
 There are many places where pointers should be replaced with references.

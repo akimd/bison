@@ -618,7 +618,7 @@ enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
 
 ]b4_yy_location_print_define[
 
-#define YY_DEBUG_STREAM if (!yydebug) {} else std::cerr
+#define YYCDEBUG if (!yydebug) {} else std::cerr
 
 # define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                  \
   do {                                                                  \
@@ -642,7 +642,7 @@ static void yypdumpstack (glr_stack* yystackp)
 
 #else /* !]b4_api_PREFIX[DEBUG */
 
-# define YY_DEBUG_STREAM if (true) {} else std::cerr
+# define YYCDEBUG if (true) {} else std::cerr
 # define YY_SYMBOL_PRINT(Title, Kind, Value, Location)
 
 #endif /* !]b4_api_PREFIX[DEBUG */
@@ -996,7 +996,7 @@ public:
     if (yylastDeleted == YY_NULLPTR || !yystates.empty ())
       return;
     yystates.push_back (yylastDeleted);
-    YY_DEBUG_STREAM <<  "Restoring last deleted stack as stack #0.\n";
+    YYCDEBUG << "Restoring last deleted stack as stack #0.\n";
     clearLastDeleted ();
   }
 
@@ -1013,7 +1013,7 @@ public:
           {
             if (i == j)
               {
-                YY_DEBUG_STREAM <<  "Removing dead stacks.\n";
+                YYCDEBUG << "Removing dead stacks.\n";
               }
             newsize -= 1;
           }
@@ -1028,7 +1028,7 @@ public:
             yylookaheadNeeds[j] = yylookaheadNeeds[i];
             if (j != i)
               {
-                YY_DEBUG_STREAM << "Rename stack " << i << " -> " << j << ".\n";
+                YYCDEBUG << "Rename stack " << i << " -> " << j << ".\n";
               }
             j += 1;
           }
@@ -1761,8 +1761,8 @@ public:
            &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([[,
            &]b4_rhs_location(yynrhs, yyi + 1)])[);
         if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
-          std::cerr <<  " (unresolved)";
-        std::cerr <<  '\n';
+          std::cerr << " (unresolved)";
+        std::cerr << '\n';
       }
   }
 
@@ -2201,8 +2201,8 @@ public:
     while (yystateStack.topAt(yyk) != YY_NULLPTR)
       {
         const state_num yystate = topState(yyk)->yylrState;
-        YY_DEBUG_STREAM << "Stack " << yyk.get()
-                        << " Entering state " << yystate << '\n';
+        YYCDEBUG << "Stack " << yyk.get()
+                 << " Entering state " << yystate << '\n';
 
         YYASSERT (yystate != YYFINAL);
 
@@ -2211,7 +2211,7 @@ public:
             const rule_num yyrule = yydefaultAction (yystate);
             if (yyrule == 0)
               {
-                YY_DEBUG_STREAM << "Stack " << yyk.get() << " dies.\n";
+                YYCDEBUG << "Stack " << yyk.get() << " dies.\n";
                 yystateStack.yytops.yymarkStackDeleted (yyk);
                 return yyok;
               }
@@ -2219,8 +2219,8 @@ public:
               = yyglrReduce (yyk, yyrule, yyimmediate[yyrule]);
             if (yyflag == yyerr)
               {
-                YY_DEBUG_STREAM << "Stack " << yyk.get() << " dies "
-                                "(predicate failure or explicit user error).\n";
+                YYCDEBUG << "Stack " << yyk.get() << " dies"
+                  " (predicate failure or explicit user error).\n";
                 yystateStack.yytops.yymarkStackDeleted (yyk);
                 return yyok;
               }
@@ -2237,8 +2237,8 @@ public:
             for (; *yyconflicts != 0; ++yyconflicts)
               {
                 state_set_index yynewStack = yystateStack.yysplitStack (yyk);
-                YY_DEBUG_STREAM << "Splitting off stack " << yynewStack.get()
-                                << " from " << yyk.get() << ".\n";
+                YYCDEBUG << "Splitting off stack " << yynewStack.get()
+                         << " from " << yyk.get() << ".\n";
                 YYRESULTTAG yyflag =
                   yyglrReduce (yynewStack, *yyconflicts, yyimmediate[*yyconflicts]);
                 if (yyflag == yyok)
@@ -2246,7 +2246,7 @@ public:
                                             yyposn]b4_locations_if([, yylocp])[));
                 else if (yyflag == yyerr)
                   {
-                    YY_DEBUG_STREAM << "Stack " << yynewStack.get() << " dies.\n";
+                    YYCDEBUG << "Stack " << yynewStack.get() << " dies.\n";
                     yystateStack.yytops.yymarkStackDeleted (yynewStack);
                   }
                 else
@@ -2257,7 +2257,7 @@ public:
               break;
             else if (yyisErrorAction (yyaction))
               {
-                YY_DEBUG_STREAM << "Stack " << yyk.get() << " dies\n";
+                YYCDEBUG << "Stack " << yyk.get() << " dies.\n";
                 yystateStack.yytops.yymarkStackDeleted (yyk);
                 break;
               }
@@ -2267,8 +2267,8 @@ public:
                   = yyglrReduce (yyk, -yyaction, yyimmediate[-yyaction]);
                 if (yyflag == yyerr)
                   {
-                    YY_DEBUG_STREAM << "Stack " << yyk.get() << " dies "
-                                    "(predicate failure or explicit user error).\n";
+                    YYCDEBUG << "Stack " << yyk.get() << " dies"
+                      " (predicate failure or explicit user error).\n";
                     yystateStack.yytops.yymarkStackDeleted (yyk);
                     break;
                   }
@@ -2333,7 +2333,7 @@ public:
     }
     catch (const syntax_error& yyexc)
       {
-        YY_DEBUG_STREAM  << "Caught exception: " << yyexc.what() << '\n';]b4_locations_if([
+        YYCDEBUG << "Caught exception: " << yyexc.what() << '\n';]b4_locations_if([
         *yylocp = yyexc.location;])[
         yyparser.error (]b4_locations_if([*yylocp, ])[yyexc.what ());
         YYERROR;
@@ -2433,9 +2433,9 @@ public:
         YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &yysval]b4_locations_if([, &loc])[);
         if (yyflag == yyerr && yystateStack.isSplit())
           {]b4_parse_trace_if([[
-            YY_DEBUG_STREAM << "Parse on stack " << yyk.get()
-                            << " rejected by rule " << yyrule - 1
-                            << " (line " << int (yyrline[yyrule]) << ").\n";
+            YYCDEBUG << "Parse on stack " << yyk.get ()
+                     << " rejected by rule " << yyrule - 1
+                     << " (line " << int (yyrline[yyrule]) << ").\n";
           ]])[}
         if (yyflag != yyok)
           return yyflag;
@@ -2456,10 +2456,10 @@ public:
           }
         yystateStack.yyupdateSplit (*yys);
         state_num yynewLRState = yyLRgotoState (yys->yylrState, yylhsNonterm (yyrule));]b4_parse_trace_if([[
-        YY_DEBUG_STREAM << "Reduced stack " << yyk.get()
-                        << " by rule " << yyrule - 1 << " (line " << int (yyrline[yyrule])
-                        << "); action deferred.  Now in state " << yynewLRState
-                        << ".\n";]])[
+        YYCDEBUG << "Reduced stack " << yyk.get ()
+                 << " by rule " << yyrule - 1 << " (line " << int (yyrline[yyrule])
+                 << "); action deferred.  Now in state " << yynewLRState
+                 << ".\n";]])[
         for (state_set_index yyi = create_state_set_index(0); yyi.uget() < yystateStack.numTops(); ++yyi)
           if (yyi != yyk && yystateStack.topAt(yyi) != YY_NULLPTR)
             {
@@ -2473,8 +2473,8 @@ public:
                     {
                       yyaddDeferredAction (yyk, yyp, yys0, yyrule);
                       yystateStack.yytops.yymarkStackDeleted (yyk);
-                      YY_DEBUG_STREAM  << "Merging stack " << yyk.get()
-                                       << " into stack " << yyi.get() << ".\n";
+                      YYCDEBUG << "Merging stack " << yyk.get ()
+                               << " into stack " << yyi.get () << ".\n";
                       return yyok;
                     }
                   yyp = yyp->pred();
@@ -2781,7 +2781,7 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
 ]b4_parse_param_use()dnl
 [  if (yycharp == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
     {
-      YY_DEBUG_STREAM <<  "Reading a token\n";
+      YYCDEBUG << "Reading a token\n";
 #if YY_EXCEPTIONS
       try
         {
@@ -2791,7 +2791,7 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
         }
       catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
         {
-          YY_DEBUG_STREAM <<  "Caught exception: " << yyexc.what() << '\n';]b4_locations_if([
+          YYCDEBUG << "Caught exception: " << yyexc.what () << '\n';]b4_locations_if([
           yylloc = yyexc.location;])[
           yyparser.error (]b4_locations_if([yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
@@ -2804,7 +2804,7 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
     {
       yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[;
       yytoken = ]b4_namespace_ref::b4_parser_class::b4_symbol(eof, kind)[;
-      YY_DEBUG_STREAM << "Now at end of input.\n";
+      YYCDEBUG << "Now at end of input.\n";
     }
   else
     {
@@ -2963,7 +2963,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
     glr_stack* const yystackp = &yystack;
     size_t yyposn;
 
-    YY_DEBUG_STREAM << "Starting parse\n";
+    YYCDEBUG << "Starting parse\n";
 
     yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
     yylval = yyval_default;]b4_locations_if([
@@ -2992,7 +2992,7 @@ b4_dollar_popdef])[]dnl
         while (true)
           {
             const state_num yystate = yystack.firstTopState()->yylrState;
-            YY_DEBUG_STREAM << "Entering state " << yystate << '\n';
+            YYCDEBUG << "Entering state " << yystate << '\n';
             if (yystate == YYFINAL)
               goto yyacceptlab;
             if (yyisDefaultedState (yystate))
@@ -3069,7 +3069,7 @@ b4_dollar_popdef])[]dnl
                 if (yystack.yystateStack.yytops.size() == 0)
                   yystack.yyFail (]b4_locations_if([&yylloc, ])[YY_("syntax error"));
                 YYCHK1 (yystack.yyresolveStack ());
-                YY_DEBUG_STREAM << "Returning to deterministic operation.\n";]b4_locations_if([[
+                YYCDEBUG << "Returning to deterministic operation.\n";]b4_locations_if([[
                 yystack.yyerror_range[1].getState().yyloc = yylloc;]])[
                 yystack.yyreportSyntaxError ();
                 goto yyuser_error;
@@ -3090,18 +3090,18 @@ b4_dollar_popdef])[]dnl
                 const int yyaction = yygetLRActions (yystate, yytoken_to_shift,
                                 yyconflicts);
                 /* Note that yyconflicts were handled by yyprocessOneStack.  */
-                YY_DEBUG_STREAM << "On stack " << yys.get() << ", ";
+                YYCDEBUG << "On stack " << yys.get() << ", ";
                 YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yylval, &yylloc);
                 yystack.yyglrShift (yys, yyaction, yyposn,
                             yylval]b4_locations_if([, &yylloc])[);
-                YY_DEBUG_STREAM << "Stack " << yys.get() << " now in state #"
-                          << yystack.topState(yys)->yylrState << '\n';
+                YYCDEBUG << "Stack " << yys.get() << " now in state #"
+                         << yystack.topState(yys)->yylrState << '\n';
               }
 
             if (yystack.yystateStack.yytops.size() == 1)
               {
                 YYCHK1 (yystack.yyresolveStack ());
-                YY_DEBUG_STREAM  << "Returning to deterministic operation.\n";
+                YYCDEBUG << "Returning to deterministic operation.\n";
                 yystack.yystateStack.yycompressStack ();
                 break;
               }
