@@ -2161,7 +2161,7 @@ public:
                 YY_SYMBOL_PRINT ("Shifting", yy_accessing_symbol(yytable[yyj]),
                                  &yylval, &yyerrloc);
                 yyglrShift (create_state_set_index(0), yytable[yyj],
-                            yys->yyposn, yylval]b4_locations_if([, &yyerrloc])[);
+                            yys->yyposn, yylval]b4_locations_if([, yyerrloc])[);
                 yys = firstTopState();
                 break;
               }
@@ -2425,7 +2425,7 @@ public:
         yyglrShift (yyk,
                     yyLRgotoState (topState(yyk)->yylrState,
                                    yylhsNonterm (yyrule)),
-                    yyposn, yysval]b4_locations_if([, &loc])[);
+                    yyposn, yysval]b4_locations_if([, loc])[);
       }
     else
       {
@@ -2486,15 +2486,14 @@ public:
 
   /** Shift to a new state on stack #YYK of *YYSTACKP, corresponding to LR
    * state YYLRSTATE, at input position YYPOSN, with (resolved) semantic
-   * value *YYVALP and source location *YYLOCP.  */
+   * value YYVAL_ARG and source location YYLOC_ARG.  */
   void
   yyglrShift (state_set_index yyk, state_num yylrState,
               size_t yyposn,
-              value_type& yyval_arg]b4_locations_if([, location_type* yylocp])[)
+              value_type& yyval_arg]b4_locations_if([, const location_type& yyloc_arg])[)
   {
     glr_state& yynewState = yystateStack.yynewGLRState (
-      glr_state(yylrState, yyposn, yyval_arg
-                 ]b4_locations_if([, *yylocp])[));
+      glr_state (yylrState, yyposn, yyval_arg]b4_locations_if([, yyloc_arg])[));
     yynewState.setPred (yystateStack.topAt(yyk));
     yystateStack.setTopAt (yyk, &yynewState);
     yyreserveGlrStack ();
@@ -2962,7 +2961,7 @@ b4_dollar_popdef])[]dnl
       case 2: goto yyexhaustedlab;
       default: goto yybuglab;
       }
-    yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval]b4_locations_if([, &yylloc])[);
+    yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval]b4_locations_if([, yylloc])[);
     yyposn = 0;
 
     while (true)
@@ -3000,7 +2999,7 @@ b4_dollar_popdef])[]dnl
                     YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
                     yychar = token::]b4_symbol(empty, id)[;
                     yyposn += 1;
-                    yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yylval]b4_locations_if([, &yylloc])[);
+                    yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yylval]b4_locations_if([, yylloc])[);
                     if (0 < yystack.yyerrState)
                       yystack.yyerrState -= 1;
                   }
@@ -3074,8 +3073,7 @@ b4_dollar_popdef])[]dnl
                 /* Note that yyconflicts were handled by yyprocessOneStack.  */
                 YYCDEBUG << "On stack " << yys.get() << ", ";
                 YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yylval, &yylloc);
-                yystack.yyglrShift (yys, yyaction, yyposn,
-                            yylval]b4_locations_if([, &yylloc])[);
+                yystack.yyglrShift (yys, yyaction, yyposn, yylval]b4_locations_if([, yylloc])[);
                 YYCDEBUG << "Stack " << yys.get() << " now in state #"
                          << yystack.topState(yys)->yylrState << '\n';
               }
