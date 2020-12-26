@@ -3864,7 +3864,7 @@ type, define the @code{%define} variable @code{api.value.type} like this:
 or
 
 @example
-%define api.value.type @{struct semantic_type@}
+%define api.value.type @{struct semantic_value_type@}
 @end example
 
 The value of @code{api.value.type} should be a type name that does not
@@ -6259,7 +6259,7 @@ For example, if you specify:
 Bison uses @code{foo::bar} verbatim in references such as:
 
 @example
-foo::bar::parser::semantic_type
+foo::bar::parser::value_type
 @end example
 
 However, to open a namespace, Bison removes any leading @code{::} and then
@@ -12302,7 +12302,7 @@ typedef token::token_kind_type token_kind_type;
 @end example
 @end defcv
 
-@defcv {Type} {parser} {semantic_type}
+@defcv {Type} {parser} {value_type}
 The types for semantic values. @xref{C++ Semantic Values}.
 @end defcv
 
@@ -12393,7 +12393,7 @@ features in C++.
 @item
 The type @code{YYSTYPE} is defined but its use is discouraged: rather you
 should refer to the parser's encapsulated type
-@code{yy::parser::semantic_type}.
+@code{yy::parser::value_type}.
 @item
 Non POD (Plain Old Data) types cannot be used.  C++98 forbids any instance
 of classes with constructors in unions: only @emph{pointers} to such objects
@@ -12453,14 +12453,14 @@ of alternative types such as @samp{$<int>2} or @samp{$<std::string>$}, even
 in midrule actions.  It is mandatory to use typed midrule actions
 (@pxref{Typed Midrule Actions}).
 
-@deftypemethod {semantic_type} {T&} {emplace<T>} ()
-@deftypemethodx {semantic_type} {T&} {emplace<T>} (@code{const T&} @var{t})
+@deftypemethod {value_type} {T&} {emplace<T>} ()
+@deftypemethodx {value_type} {T&} {emplace<T>} (@code{const T&} @var{t})
 Available in C++98/C++03 only.  Default construct/copy-construct from
 @var{t}.  Return a reference to where the actual value may be stored.
 Requires that the variant was not initialized yet.
 @end deftypemethod
 
-@deftypemethod {semantic_type} {T&} {emplace<T, U>} (@code{U&&...} @var{u})
+@deftypemethod {value_type} {T&} {emplace<T, U>} (@code{U&&...} @var{u})
 Available in C++11 and later only.  Build a variant of type @code{T} from
 the variadic forwarding references @var{u...}.
 @end deftypemethod
@@ -12872,8 +12872,8 @@ depends whether you use unions, or variants.
 
 The generated parser expects @code{yylex} to have the following prototype.
 
-@deftypefun {int} yylex (@code{semantic_type*} @var{yylval}, @code{location_type*} @var{yylloc}, @var{type1} @var{arg1}, @dots{})
-@deftypefunx {int} yylex (@code{semantic_type*} @var{yylval}, @var{type1} @var{arg1}, @dots{})
+@deftypefun {int} yylex (@code{value_type*} @var{yylval}, @code{location_type*} @var{yylloc}, @var{type1} @var{arg1}, @dots{})
+@deftypefunx {int} yylex (@code{value_type*} @var{yylval}, @var{type1} @var{arg1}, @dots{})
 Return the next token.  Its kind is the return value, its semantic value and
 location (if enabled) being @var{yylval} and @var{yylloc}.  Invocations of
 @samp{%lex-param @{@var{type1} @var{arg1}@}} yield additional arguments.

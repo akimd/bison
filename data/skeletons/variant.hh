@@ -94,28 +94,28 @@ m4_define([b4_variant_includes],
 
 # b4_value_type_declare
 # ---------------------
-# Define semantic_type.
+# Define value_type.
 m4_define([b4_value_type_declare],
 [[  /// A buffer to store and retrieve objects.
   ///
   /// Sort of a variant, but does not keep track of the nature
   /// of the stored data, since that knowledge is available
   /// via the current parser state.
-  class semantic_type
+  class value_type
   {
   public:
     /// Type of *this.
-    typedef semantic_type self_type;
+    typedef value_type self_type;
 
     /// Empty construction.
-    semantic_type () YY_NOEXCEPT
+    value_type () YY_NOEXCEPT
       : yyraw_ ()]b4_parse_assert_if([
       , yytypeid_ (YY_NULLPTR)])[
     {}
 
     /// Construct and fill.
     template <typename T>
-    semantic_type (YY_RVREF (T) t)]b4_parse_assert_if([
+    value_type (YY_RVREF (T) t)]b4_parse_assert_if([
       : yytypeid_ (&typeid (T))])[
     {]b4_parse_assert_if([[
       ]b4_assert[ (sizeof (T) <= size);]])[
@@ -124,13 +124,13 @@ m4_define([b4_value_type_declare],
 
 #if 201103L <= YY_CPLUSPLUS
     /// Non copyable.
-    semantic_type (const self_type&) = delete;
+    value_type (const self_type&) = delete;
     /// Non copyable.
     self_type& operator= (const self_type&) = delete;
 #endif
 
     /// Destruction, allowed only if empty.
-    ~semantic_type () YY_NOEXCEPT
+    ~value_type () YY_NOEXCEPT
     {]b4_parse_assert_if([
       ]b4_assert[ (!yytypeid_);
     ])[}
@@ -274,7 +274,7 @@ m4_define([b4_value_type_declare],
   private:
 #if YY_CPLUSPLUS < 201103L
     /// Non copyable.
-    semantic_type (const self_type&);
+    value_type (const self_type&);
     /// Non copyable.
     self_type& operator= (const self_type&);
 #endif

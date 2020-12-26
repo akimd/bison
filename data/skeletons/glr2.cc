@@ -250,14 +250,14 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
     virtual void yy_symbol_value_print_ (symbol_kind_type yykind,
-                                         const semantic_type* yyvaluep]b4_locations_if([[,
+                                         const value_type* yyvaluep]b4_locations_if([[,
                                          const location_type* yylocationp]])[) const;
     /// \brief Report a symbol on the debug stream.
     /// \param yykind       The symbol kind.
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
     virtual void yy_symbol_print_ (symbol_kind_type yykind,
-                                   const semantic_type* yyvaluep]b4_locations_if([[,
+                                   const value_type* yyvaluep]b4_locations_if([[,
                                    const location_type* yylocationp]])[) const;
   private:
     /// Debug stream.
@@ -285,7 +285,7 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
     ///                  If null, print nothing.
     /// \param yykind    The symbol kind.
     void yy_destroy_ (const char* yymsg, symbol_kind_type yykind,
-                      const semantic_type* yyvaluep]b4_locations_if([[,
+                      const value_type* yyvaluep]b4_locations_if([[,
                       const location_type* yylocationp]])[);
 
 ]b4_parse_param_vars[
@@ -434,7 +434,7 @@ b4_copyright([Skeleton implementation for Bison GLR parsers in C],
                [b4_shared_declarations])[
 
 #ifndef ]b4_api_PREFIX[STYPE
-# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
+# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::value_type
 #endif
 #ifndef ]b4_api_PREFIX[LTYPE
 # define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
@@ -763,7 +763,7 @@ yyrhsLength (rule_num yyrule);
 class glr_state
 {
 public:
-  typedef ]b4_namespace_ref[::]b4_parser_class[::semantic_type value_type;]b4_locations_if([[
+  typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
   glr_state ()
@@ -3238,7 +3238,7 @@ b4_dollar_popdef])[]dnl
 
   void
   ]b4_parser_class[::yy_destroy_ (const char* yymsg, symbol_kind_type yykind,
-                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
   {
     YYUSE (yyvaluep);]b4_locations_if([[
@@ -3261,7 +3261,7 @@ b4_dollar_popdef])[]dnl
 
   void
   ]b4_parser_class[::yy_symbol_value_print_ (symbol_kind_type yykind,
-                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[) const
   {]b4_locations_if([[
     YYUSE (yylocationp);]])[
@@ -3274,7 +3274,7 @@ b4_dollar_popdef])[]dnl
 
   void
   ]b4_parser_class[::yy_symbol_print_ (symbol_kind_type yykind,
-                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[) const
   {
     *yycdebug_ << (yykind < YYNTOKENS ? "token" : "nterm")

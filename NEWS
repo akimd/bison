@@ -4,22 +4,27 @@ GNU Bison NEWS
 
 ** Changes
 
+*** C++ value_type
+
+  Prefer value_type to semantic_type to denote the semantic value type,
+  specified by the `api.value.type` %define variable.
+
 ** New features
 
 *** Option -H, --header and directive %header
 
-  The option -H/--header supersedes the option --defines, and the directive
-  %header supersedes %defines.  Both --defines and %defines are, of course,
-  maintained for backward compatibility.
+  The option `-H`/`--header` supersedes the option `--defines`, and the
+  directive %header supersedes %defines.  Both `--defines` and `%defines`
+  are, of course, maintained for backward compatibility.
 
 *** Option --html
 
   Since version 2.4 Bison can be used to generate HTML reports.  However it
-  was a two-step process: first bison must be invoked with option --xml, and
-  then xsltproc must be run to the convert the XML reports into HTML.
+  was a two-step process: first bison must be invoked with option `--xml`,
+  and then xsltproc must be run to the convert the XML reports into HTML.
 
-  The new option --html combines these steps.  The xsltproc program must be
-  available.
+  The new option `--html` combines these steps.  The xsltproc program must
+  be available.
 
 *** A C++ native GLR parser
 
@@ -51,8 +56,8 @@ GNU Bison NEWS
 
 *** Lookahead correction in Java
 
-  The Java skeleton (lalr1.java) now supports LAC, via the %define variable
-  parse.lac.
+  The Java skeleton (lalr1.java) now supports LAC, via the `parse.lac`
+  %define variable.
 
 
 * Noteworthy changes in release 3.7.4 (2020-11-14) [stable]
@@ -795,7 +800,7 @@ GNU Bison NEWS
   Also, because string aliases need not be defined, typos such as "baz"
   instead of "bar" will be not reported.
 
-  The option -Wdangling-alias catches these situations.  On
+  The option `-Wdangling-alias` catches these situations.  On
 
     %token BAR "bar"
     %type <ival> foo "foo"
@@ -811,7 +816,7 @@ GNU Bison NEWS
           | foo: "baz" {}
           |      ^~~~~
 
-   The -Wall option does not (yet?) include -Wdangling-alias.
+   The `-Wall` option does not (yet?) include `-Wdangling-alias`.
 
 *** Better POSIX Yacc compatibility diagnostics
 

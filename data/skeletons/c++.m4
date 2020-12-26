@@ -206,16 +206,16 @@ m4_define([b4_declare_symbol_enum],
 
 # b4_value_type_declare
 # ---------------------
-# Declare semantic_type.
+# Declare value_type.
 m4_define([b4_value_type_declare],
 [b4_value_type_setup[]dnl
 [    /// Symbol semantic values.
 ]m4_bmatch(b4_percent_define_get_kind([[api.value.type]]),
 [code],
-[[    typedef ]b4_percent_define_get([[api.value.type]])[ semantic_type;]],
+[[    typedef ]b4_percent_define_get([[api.value.type]])[ value_type;]],
 [m4_bmatch(b4_percent_define_get([[api.value.type]]),
 [union\|union-directive],
-[[    union semantic_type
+[[    union value_type
     {
 ]b4_user_union_members[
     };]])])dnl
@@ -230,8 +230,10 @@ m4_define([b4_public_types_declare],
 [[#ifndef ]b4_api_PREFIX[STYPE
 ]b4_value_type_declare[
 #else
-    typedef ]b4_api_PREFIX[STYPE semantic_type;
-#endif]b4_locations_if([
+    typedef ]b4_api_PREFIX[STYPE value_type;
+#endif
+    /// Backward compatibility (Bison 3.8).
+    typedef value_type semantic_type;]b4_locations_if([
     /// Symbol locations.
     typedef b4_percent_define_get([[api.location.type]],
                                   [[location]]) location_type;])[
@@ -329,7 +331,7 @@ m4_define([b4_symbol_type_define],
 
       /// Constructor for symbols with semantic value.
       basic_symbol (typename Base::kind_type t,
-                    YY_RVREF (semantic_type) v]b4_locations_if([,
+                    YY_RVREF (value_type) v]b4_locations_if([,
                     YY_RVREF (location_type) l])[);
 ]])[
       /// Destroy the symbol.
@@ -390,7 +392,7 @@ m4_define([b4_symbol_type_define],
       void move (basic_symbol& s);
 
       /// The semantic value.
-      semantic_type value;]b4_locations_if([
+      value_type value;]b4_locations_if([
 
       /// The location.
       location_type location;])[
@@ -487,7 +489,7 @@ m4_define([b4_public_types_define],
   template <typename Base>
   ]b4_parser_class[::basic_symbol<Base>::basic_symbol (]b4_join(
           [typename Base::kind_type t],
-          [YY_RVREF (semantic_type) v],
+          [YY_RVREF (value_type) v],
           b4_locations_if([YY_RVREF (location_type) l]))[)
     : Base (t)
     , value (]b4_variant_if([], [YY_MOVE (v)])[)]b4_locations_if([

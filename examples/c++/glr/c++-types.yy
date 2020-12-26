@@ -46,11 +46,11 @@
   # define nullptr 0
   #endif
 
-  static yy::parser::semantic_type
-  stmtMerge (const yy::parser::semantic_type& x0, const yy::parser::semantic_type& x1);
+  static yy::parser::value_type
+  stmtMerge (const yy::parser::value_type& x0, const yy::parser::value_type& x1);
 
   static int
-  yylex (yy::parser::semantic_type* val, yy::parser::location_type* loc);
+  yylex (yy::parser::value_type* val, yy::parser::location_type* loc);
 }
 
 %expect-rr 1
@@ -103,7 +103,7 @@ yy::parser::error (const location_type& l, const std::string& m)
 }
 
 static int
-yylex (yy::parser::semantic_type* lvalp, yy::parser::location_type* llocp)
+yylex (yy::parser::value_type* lvalp, yy::parser::location_type* llocp)
 {
   static int lineNum = 1;
   static int colNum = 0;
@@ -162,8 +162,8 @@ yylex (yy::parser::semantic_type* lvalp, yy::parser::location_type* llocp)
     }
 }
 
-static yy::parser::semantic_type
-stmtMerge (const yy::parser::semantic_type& x0, const yy::parser::semantic_type& x1)
+static yy::parser::value_type
+stmtMerge (const yy::parser::value_type& x0, const yy::parser::value_type& x1)
 {
   return Nterm ("<OR>", x0, x1);
 }

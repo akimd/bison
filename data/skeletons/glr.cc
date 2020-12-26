@@ -78,7 +78,7 @@ m4_define([b4_yy_symbol_print_define],
 
 static void
 yy_symbol_print (FILE *, ]b4_namespace_ref::b4_parser_class[::symbol_kind_type yytoken,
-                 const ]b4_namespace_ref::b4_parser_class[::semantic_type *yyvaluep]b4_locations_if([[,
+                 const ]b4_namespace_ref::b4_parser_class[::value_type *yyvaluep]b4_locations_if([[,
                  const ]b4_namespace_ref::b4_parser_class[::location_type *yylocationp]])[]b4_user_formals[)
 {
 ]b4_parse_param_use[]dnl
@@ -154,7 +154,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   void
   ]b4_parser_class[::yy_symbol_value_print_ (symbol_kind_type yykind,
-                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[) const
   {]b4_locations_if([[
     YYUSE (yylocationp);]])[
@@ -168,7 +168,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
   void
   ]b4_parser_class[::yy_symbol_print_ (symbol_kind_type yykind,
-                           const semantic_type* yyvaluep]b4_locations_if([[,
+                           const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[) const
   {
     *yycdebug_ << (yykind < YYNTOKENS ? "token" : "nterm")
@@ -247,7 +247,7 @@ m4_define([b4_glr_cc_setup],
 #define ]b4_symbol(error, [id])[ ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, [id])[
 
 #ifndef ]b4_api_PREFIX[STYPE
-# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::semantic_type
+# define ]b4_api_PREFIX[STYPE ]b4_namespace_ref[::]b4_parser_class[::value_type
 #endif
 #ifndef ]b4_api_PREFIX[LTYPE
 # define ]b4_api_PREFIX[LTYPE ]b4_namespace_ref[::]b4_parser_class[::location_type
@@ -355,14 +355,14 @@ b4_percent_code_get([[requires]])[
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
     virtual void yy_symbol_value_print_ (symbol_kind_type yykind,
-                                         const semantic_type* yyvaluep]b4_locations_if([[,
+                                         const value_type* yyvaluep]b4_locations_if([[,
                                          const location_type* yylocationp]])[) const;
     /// \brief Report a symbol on the debug stream.
     /// \param yykind       The symbol kind.
     /// \param yyvaluep     Its semantic value.]b4_locations_if([[
     /// \param yylocationp  Its location.]])[
     virtual void yy_symbol_print_ (symbol_kind_type yykind,
-                                   const semantic_type* yyvaluep]b4_locations_if([[,
+                                   const value_type* yyvaluep]b4_locations_if([[,
                                    const location_type* yylocationp]])[) const;
   private:
     /// Debug stream.
