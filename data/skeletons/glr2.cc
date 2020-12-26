@@ -741,7 +741,7 @@ public:
     , yylrState (lrState)
     , yyposn (posn)
     , yypred (0)
-    , yysval (sval)]b4_locations_if([[
+    , yyval (sval)]b4_locations_if([[
     , yyloc (loc)]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
@@ -767,7 +767,7 @@ public:
   {
     setPred (other.pred ());
     if (other.yyresolved)
-      new (&yysval) value_type (other.value ());
+      new (&yyval) value_type (other.value ());
     else
       setFirstVal (other.firstVal ());]b4_parse_assert_if([[
     check_();]])[
@@ -778,7 +778,7 @@ public:
     check_ ();
     magic_ = 0;]])[
     if (yyresolved)
-      yysval.~value_type ();
+      yyval.~value_type ();
   }
 
   glr_state& operator= (const glr_state& other)
@@ -786,7 +786,7 @@ public:
     check_ ();
     other.check_ ();]])[
     if (!yyresolved && other.yyresolved)
-      new (&yysval) value_type;
+      new (&yyval) value_type;
     yyresolved = other.yyresolved;
     yylrState = other.yylrState;
     yyposn = other.yyposn;
@@ -799,7 +799,7 @@ public:
     return *this;
   }
 
-  /** Type tag for the semantic value.  If true, yysval applies, otherwise
+  /** Type tag for the semantic value.  If true, yyval applies, otherwise
    *  yyfirstVal applies.  */
   bool yyresolved;
   /** Number of corresponding LALR(1) machine state.  */
@@ -821,13 +821,13 @@ public:
   value_type& value ()
   {]b4_parse_assert_if([[
     check_ ();]])[
-    return yysval;
+    return yyval;
   }
 
   const value_type& value () const
   {]b4_parse_assert_if([[
     check_ ();]])[
-    return yysval;
+    return yyval;
   }
 
   void
@@ -888,7 +888,7 @@ private:
      *  yyfirstVal.  */
     std::ptrdiff_t yyfirstVal;
     /** Semantic value for this state.  */
-    value_type yysval;
+    value_type yyval;
   };]b4_locations_if([[
  // FIXME: Why public?
  public:
@@ -1702,7 +1702,7 @@ public:
         if (s->yyresolved)
           new (&yys.value ()) value_type (s->value ());
         else
-          /* The effect of using yysval or yyloc (in an immediate
+          /* The effect of using yyval or yyloc (in an immediate
            * rule) is undefined.  */
           yys.setFirstVal (YY_NULLPTR);]b4_locations_if([[
         yys.yyloc = s->yyloc;]])[
@@ -2409,10 +2409,10 @@ public:
 
     if (yyforceEval || !yystateStack.isSplit())
       {
-        value_type yysval;]b4_locations_if([[
+        value_type val;]b4_locations_if([[
         location_type loc;]])[
 
-        YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &yysval]b4_locations_if([, &loc])[);
+        YYRESULTTAG yyflag = yydoAction (yyk, yyrule, &val]b4_locations_if([, &loc])[);
         if (yyflag == yyerr && yystateStack.isSplit())
           {]b4_parse_trace_if([[
             YYCDEBUG << "Parse on stack " << yyk.get ()
@@ -2421,11 +2421,11 @@ public:
           ]])[}
         if (yyflag != yyok)
           return yyflag;
-        YY_SYMBOL_PRINT ("-> $$ =", static_cast<yysymbol_kind_t>(yyr1[yyrule]), &yysval, &loc);
+        YY_SYMBOL_PRINT ("-> $$ =", static_cast<yysymbol_kind_t>(yyr1[yyrule]), &val, &loc);
         yyglrShift (yyk,
                     yyLRgotoState (topState(yyk)->yylrState,
                                    yylhsNonterm (yyrule)),
-                    yyposn, yysval]b4_locations_if([, loc])[);
+                    yyposn, val]b4_locations_if([, loc])[);
       }
     else
       {
@@ -2582,7 +2582,7 @@ private:
     semantic_option* yybest = yys.firstVal();
     YYASSERT(yybest != YY_NULLPTR);
     bool yymerge = false;
-    value_type yysval;
+    value_type val;
     YYRESULTTAG yyflag;]b4_locations_if([
     location_type *yylocp = &yys.yyloc;])[
 
@@ -2627,7 +2627,7 @@ private:
     if (yymerge)
       {
         int yyprec = yydprec[yybest->yyrule];
-        yyflag = yyresolveAction (*yybest, &yysval]b4_locations_if([, yylocp])[);
+        yyflag = yyresolveAction (*yybest, &val]b4_locations_if([, yylocp])[);
         if (yyflag == yyok)
           for (semantic_option* yyp = yybest->next();
                yyp != YY_NULLPTR;
@@ -2635,28 +2635,28 @@ private:
             {
               if (yyprec == yydprec[yyp->yyrule])
                 {
-                  value_type yysval_other;]b4_locations_if([
+                  value_type yyval_other;]b4_locations_if([
                   location_type yydummy;])[
-                  yyflag = yyresolveAction (*yyp, &yysval_other]b4_locations_if([, &yydummy])[);
+                  yyflag = yyresolveAction (*yyp, &yyval_other]b4_locations_if([, &yydummy])[);
                   if (yyflag != yyok)
                     {
                       yyparser.yy_destroy_ ("Cleanup: discarding incompletely merged value for",
-                                  yy_accessing_symbol(yys.yylrState),
-                                  &yysval]b4_locations_if([, yylocp])[);
+                                            yy_accessing_symbol(yys.yylrState),
+                                            &yyval]b4_locations_if([, yylocp])[);
                       break;
                     }
-                  yyuserMerge (yymerger[yyp->yyrule], &yysval, &yysval_other);
+                  yyuserMerge (yymerger[yyp->yyrule], &val, &yyval_other);
                 }
             }
       }
     else
-      yyflag = yyresolveAction (*yybest, &yysval]b4_locations_if([, yylocp])[);
+      yyflag = yyresolveAction (*yybest, &val]b4_locations_if([, yylocp])[);
 
     if (yyflag == yyok)
       {
         yys.yyresolved = true;
         YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-        new (&yys.value ()) value_type (yysval);
+        new (&yys.value ()) value_type (val);
         YY_IGNORE_MAYBE_UNINITIALIZED_END
       }
     else

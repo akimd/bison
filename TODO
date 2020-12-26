@@ -16,15 +16,9 @@ Discourage the use of YYDEBUG in C++ (see thread with Jot).  Stop supporting
 Add value_type as a synonym for semantic_type.
 
 ** Asymmetries
-In glr_state, we have yysval and yylloc.  It should be yyval/yyloc (and
-yylval/yylloc when referring to the lookahead).  glr.c should
-s/yysval/yyval/.
-
-Also
+Why are yylval and yylloc treated differently?
 
     yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval, &yylloc);
-
-Why are yylval and yylloc treated differently?
 
 ** yyerrok in Java
 And add tests in calc.at, to prepare work for D.
