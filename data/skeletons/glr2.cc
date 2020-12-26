@@ -822,12 +822,6 @@ public:
   }
 
   glr_state& operator= (const glr_state& other)
-  {
-    copyFrom (other);
-    return *this;
-  }
-
-  void copyFrom (const glr_state& other)
   {]b4_parse_assert_if([[
     check_ ();
     other.check_ ();]])[
@@ -842,6 +836,7 @@ public:
     else
       setFirstVal (other.firstVal ());]b4_locations_if([[
     yyloc = other.yyloc;]])[
+    return *this;
   }
 
   /** Type tag for the semantic value.  If true, yysval applies, otherwise
@@ -1060,9 +1055,8 @@ class glr_state_set
             j += 1;
           }
       }
-    yystates.erase (yystates.begin () + static_cast<std::ptrdiff_t> (newsize), yystates.end ());
-    yylookaheadNeeds.erase (yylookaheadNeeds.begin () + static_cast<std::ptrdiff_t> (newsize),
-                            yylookaheadNeeds.end ());
+    yystates.resize (newsize);
+    yylookaheadNeeds.resize (newsize);
   }
 
 
