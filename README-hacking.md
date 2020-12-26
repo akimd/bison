@@ -464,38 +464,55 @@ Use the `javaexec.sh` script.  For instance to run the parser of test case
 
 ## Using Sanitizers
 Address sanitizer (ASAN) and undefined-behavior sanitizer (UBSAN) are very
-useful.  Here's one way to set ASAN up with GCC 10 on Mac Ports
+useful.  Here's one way to set them up with GCC 10 on Mac Ports
 
 1. Configure with
-
-    $ ./configure -C --enable-gcc-warnings \
-        CPPFLAGS='-isystem /opt/local/include' \
-        CC='gcc-mp-10 -fsanitize=address' \
-        CFLAGS='-ggdb' \
-        CXX='g++-mp-10.0 -fsanitize=address' \
-        CXXFLAGS='-ggdb' \
-        LDFLAGS='-L/opt/local/lib'
+   ```
+   $ ./configure -C --enable-gcc-warnings \
+       CPPFLAGS='-isystem /opt/local/include' \
+       CC='gcc-mp-10 -fsanitize=address -fsanitize=undefined' \
+       CFLAGS='-ggdb' \
+       CXX='g++-mp-10.0 -fsanitize=address -fsanitize=undefined' \
+       CXXFLAGS='-ggdb' \
+       LDFLAGS='-L/opt/local/lib'
+   ```
 
 2. Compile
 
 3. Generate debug symbols:
 
-    $ dsymutil src/bison
+   ```
+   $ dsymutil src/bison
+   ```
 
 4. Run the tests with leak detection enabled
    (`ASAN_OPTIONS=detect_leaks=1`).  E.g. for counterexamples:
-
-    $ make check-local TESTSUITEFLAGS='-j5 -k cex' ASAN_OPTIONS=detect_leaks=1
+   ```
+   $ make check-local TESTSUITEFLAGS='-j5 -k cex' ASAN_OPTIONS=detect_leaks=1
+   ```
 
 5. You might need a suppression file.  See
    https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer#suppressions.
-   With G++ on a Mac, you might need a suppression file (say
-   leak.suppression) that contains:
+   With G++ on a Mac, you might need a suppression file (say `leak.supp`)
+   that contains:
 
+   ```
    leak:std::clog
+   ```
 
    and pass the additional flags
-   `LSAN_OPTIONS=suppressions=$PWD/leak.suppressions,print_suppressions=0`
+   `LSAN_OPTIONS=suppressions=$PWD/leak.supp,print_suppressions=0`
+
+6. To run the debugger, you might want something like this:
+   ```
+   $ YYDEBUG=1 \
+     UBSAN_OPTIONS=print_stacktrace=1 \
+     LSAN_OPTIONS=suppressions=$PWD/leak.supp,print_suppressions=0 \
+     ASAN_OPTIONS=detect_leaks=1 \
+     lldb -- ./_build/tests/testsuite.dir/712/glr-regr2a ./_build/tests/testsuite.dir/712/input1.txt
+   ```
+
+   In lldb to set a break on ubsan, try `rbreak ^__ubsan_handle_`.
 
 ## make maintainer-check-valgrind
 This target uses valgrind both to check bison, and the generated parsers.
