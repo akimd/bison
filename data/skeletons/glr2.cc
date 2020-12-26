@@ -1788,8 +1788,8 @@ public:
 #endif
 
   YYRESULTTAG
-  yyreportAmbiguity (semantic_option* yyx0,
-                     semantic_option* yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, location_type *yylocp])[)
+  yyreportAmbiguity (const semantic_option& yyx0,
+                     const semantic_option& yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, const location_type& yyloc])[)
   {
     YYUSE (yyx0);
     YYUSE (yyx1);
@@ -1797,13 +1797,13 @@ public:
 #if ]b4_api_PREFIX[DEBUG
     std::cerr << "Ambiguity detected.\n";
     std::cerr << "Option 1,\n";
-    yyreportTree (*yyx0, 2);
+    yyreportTree (yyx0, 2);
     std::cerr << "\nOption 2,\n";
-    yyreportTree (*yyx1, 2);
+    yyreportTree (yyx1, 2);
     std::cerr << '\n';
 #endif
 
-    yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax is ambiguous"));
+    yyparser.error (]b4_locations_if([yyloc, ])[YY_("syntax is ambiguous"));
     return yyabort;
   }
 
@@ -2602,7 +2602,7 @@ private:
               {
               case 0:]b4_locations_if([[
                 yyresolveLocations (yys, 1);]])[
-                return yystateStack.yyreportAmbiguity (yybest, yyp, yyparser]b4_locations_if([, yylocp])[);
+                return yystateStack.yyreportAmbiguity (*yybest, *yyp, yyparser]b4_locations_if([, *yylocp])[);
                 break;
               case 1:
                 yymerge = true;
