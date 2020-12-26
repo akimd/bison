@@ -56,7 +56,7 @@ AT_DATA_GRAMMAR([glr-regr1.y],
 %code {
 #include <assert.h>
 
-static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1);
+static ]AT_YYSTYPE[ exprMerge (]AT_YYSTYPE[ x0, ]AT_YYSTYPE[ x1);
 ]AT_YYERROR_DECLARE[
 ]AT_YYLEX_DECLARE[
 }
@@ -82,7 +82,7 @@ E: E 'P' E { $$=1; printf("E -> E 'P' E\n"); }  %merge <exprMerge>
 /* ---------- C code ----------- */
 %%
 
-static YYSTYPE exprMerge (YYSTYPE x0, YYSTYPE x1)
+static ]AT_YYSTYPE[ exprMerge (]AT_YYSTYPE[ x0, ]AT_YYSTYPE[ x1)
 {
   (void) x0;
   (void) x1;
@@ -440,7 +440,7 @@ AT_DATA_GRAMMAR([glr-regr4.y],
 
 %code {
   #include <string.h>
-  static char *merge (YYSTYPE, YYSTYPE);
+  static char *merge (]AT_YYSTYPE[, ]AT_YYSTYPE[);
   static char *make_value (char const *, char const *);
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
@@ -494,7 +494,7 @@ make_value (char const *parent, char const *child)
 }
 
 static char *
-merge (YYSTYPE s1, YYSTYPE s2)
+merge (]AT_YYSTYPE[ s1, ]AT_YYSTYPE[ s2)
 {
   char const format[] = "merge{ %s and %s }";
   char *value = *ptrs_next++ =
@@ -1126,7 +1126,7 @@ AT_DATA_GRAMMAR([glr-regr12.y],
 
 %code {
 # include <assert.h>
-  static int merge (YYSTYPE, YYSTYPE);
+  static int merge (]AT_YYSTYPE[, ]AT_YYSTYPE[);
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
   static int parent_rhs_before_value = 0;
@@ -1181,7 +1181,7 @@ cut: { YYACCEPT; } ;
 %%
 
 static int
-merge (YYSTYPE s1, YYSTYPE s2)
+merge (]AT_YYSTYPE[ s1, ]AT_YYSTYPE[ s2)
 {
   /* Not invoked. */
   return s1.dummy + s2.dummy;
@@ -1428,7 +1428,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
   static void
   print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
                    char const *reduction);
-  static char merge (union YYSTYPE, union YYSTYPE);
+  static char merge (]AT_YYSTYPE[, ]AT_YYSTYPE[);
   #define USE(value)
 }
 
@@ -1546,7 +1546,7 @@ no_look:
 }
 
 static char
-merge (union YYSTYPE s1, union YYSTYPE s2)
+merge (]AT_YYSTYPE[ s1, ]AT_YYSTYPE[ s2)
 {
   return YY_CAST (char, s1.value + s2.value);
 }
