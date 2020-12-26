@@ -23,24 +23,6 @@ m4_define([b4_tname_if],
          [b4_token_table_if([$1],
                             [$2])])])
 
-# This skeleton produces a C++ class that encapsulates a C glr parser.
-# This is in order to reduce the maintenance burden.  The glr.c
-# skeleton is clean and pure enough so that there are no real
-# problems.  The C++ interface is the same as that of lalr1.cc.  In
-# fact, glr.c can replace yacc.c without the user noticing any
-# difference, and similarly for glr.cc replacing lalr1.cc.
-#
-# The passing of parse-params
-#
-#   The additional arguments are stored as members of the parser
-#   object, yyparser.  The C routines need to carry yyparser
-#   throughout the C parser; that's easy: make yyparser an
-#   additional parse-param.  But because the C++ skeleton needs to
-#   know the "real" original parse-param, we save them
-#   (b4_parse_param_orig).  Note that b4_parse_param is overquoted
-#   (and c.m4 strips one level of quotes).  This is a PITA, and
-#   explains why there are so many levels of quotes.
-
 # We require a pure interface.
 m4_define([b4_pure_flag], [1])
 
