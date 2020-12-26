@@ -106,7 +106,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     stderr.writeln(loc.toString(), ": ", s);
   }
 
-  Value semanticVal_;
+  Value value_;
 
   Symbol yylex()
   {
@@ -129,7 +129,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
       int lenChars = 0;
       auto copy = input;
       import std.conv : parse;
-      semanticVal_.ival = input.parse!int;
+      value_.ival = input.parse!int;
       while (!input.empty && copy.front != input.front)
       {
         lenChars++;
@@ -137,7 +137,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
       }
       location.begin = location.end;
       location.end.column += lenChars;
-      return Symbol(TokenKind.NUM, semanticVal_.ival, location);
+      return Symbol(TokenKind.NUM, value_.ival, location);
     }
 
     // Individual characters

@@ -115,7 +115,7 @@ class YYLexer(R) : Lexer
 
   ]AT_YYERROR_DEFINE[
 
-  Value semanticVal_;
+  Value value_;
 
   Symbol yylex ()
   {
@@ -131,8 +131,8 @@ class YYLexer(R) : Lexer
     switch (c)
     {
     case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-      semanticVal_.val = c - '0';
-      return Symbol(TokenKind.NUM, semanticVal_.val);
+      value_.val = c - '0';
+      return Symbol(TokenKind.NUM, value_.val);
     case '+': return Symbol(TokenKind.PLUS);
     case '-': return Symbol(TokenKind.MINUS);
     case '*': return Symbol(TokenKind.STAR);

@@ -78,8 +78,6 @@ class CalcLexer(R) : Lexer
 
   void yyerror(string s) {}
 
-  Value semanticVal_;
-
   Symbol yylex()
   {
     $2

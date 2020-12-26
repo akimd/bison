@@ -563,7 +563,7 @@ class CalcLexer(R) : Lexer
 
   ]AT_YYERROR_DEFINE[
 
-  Value semanticVal_;]AT_LOCATION_IF([[
+  Value value_;]AT_LOCATION_IF([[
   Location location;
 ]])[
   int parseInt ()
@@ -600,8 +600,8 @@ class CalcLexer(R) : Lexer
     // Numbers.
     if (input.front.isNumber)
       {
-        semanticVal_.ival = parseInt;
-        return Symbol(TokenKind.]AT_TOKEN_PREFIX[NUM, semanticVal_.ival]AT_LOCATION_IF([[, location]])[);
+        value_.ival = parseInt;
+        return Symbol(TokenKind.]AT_TOKEN_PREFIX[NUM, value_.ival]AT_LOCATION_IF([[, location]])[);
       }
 
     // Individual characters

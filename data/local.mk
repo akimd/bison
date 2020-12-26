@@ -41,7 +41,6 @@ dist_skeletons_DATA =                           \
 
 # Experimental support for the D language.
 dist_skeletons_DATA +=                          \
-  data/skeletons/README-D.txt                   \
   data/skeletons/d-skel.m4                      \
   data/skeletons/d.m4                           \
   data/skeletons/lalr1.d

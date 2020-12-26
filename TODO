@@ -786,7 +786,7 @@ Equip the parser with a means to create the (visual) parse tree.
 # LocalWords:  nterm bitsetv ielr ritem nstates nrules nritems yysymbol EQ
 # LocalWords:  SymbolKind YYEMPTY YYUNDEF YYTNAME NUM yyntokens yytname sed
 # LocalWords:  nonterminals yykind yycode YYNAMES yynames init getName conv
-# LocalWords:  TokenKind semanticVal ival yychar yylval yylexer Tolmer hoc
+# LocalWords:  TokenKind ival yychar yylval yylexer Tolmer hoc
 # LocalWords:  Sobisch YYPTRDIFF ptrdiff Autotest YYPRINT toknum yytoknum
 # LocalWords:  sym Wother stderr FP fixits xgettext fdiagnostics Graphviz
 # LocalWords:  graphviz VCG bitset xml bw maint yytoken YYABORT deps

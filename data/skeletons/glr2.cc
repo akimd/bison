@@ -344,7 +344,7 @@ m4_define([b4_rhs_data],
 # --------------------------------------------------
 # Expansion of $$ or $<TYPE>$, for symbol SYMBOL-NUM.
 m4_define([b4_rhs_value],
-[b4_symbol_value([b4_rhs_data([$1], [$2]).semanticVal()], [$3], [$4])])
+[b4_symbol_value([b4_rhs_data([$1], [$2]).value ()], [$3], [$4])])
 
 
 
@@ -767,7 +767,7 @@ public:
   {
     setPred (other.pred ());
     if (other.yyresolved)
-      new (&yysval) value_type (other.semanticVal ());
+      new (&yysval) value_type (other.value ());
     else
       setFirstVal (other.firstVal ());]b4_parse_assert_if([[
     check_();]])[
@@ -792,7 +792,7 @@ public:
     yyposn = other.yyposn;
     setPred (other.pred ());
     if (other.yyresolved)
-      semanticVal () = other.semanticVal ();
+      value () = other.value ();
     else
       setFirstVal (other.firstVal ());]b4_locations_if([[
     yyloc = other.yyloc;]])[
@@ -818,13 +818,13 @@ public:
   const semantic_option* firstVal () const;
   void setFirstVal (const semantic_option* option);
 
-  value_type& semanticVal ()
+  value_type& value ()
   {]b4_parse_assert_if([[
     check_ ();]])[
     return yysval;
   }
 
-  const value_type& semanticVal () const
+  const value_type& value () const
   {]b4_parse_assert_if([[
     check_ ();]])[
     return yysval;
@@ -1119,12 +1119,12 @@ public:
         else if (yys0->yyresolved)
           {
             yys1->yyresolved = true;
-            yys1->semanticVal() = yys0->semanticVal();
+            yys1->value () = yys0->value ();
           }
         else if (yys1->yyresolved)
           {
             yys0->yyresolved = true;
-            yys0->semanticVal() = yys1->semanticVal();
+            yys0->value () = yys1->value ();
           }
         else
           {
@@ -1407,7 +1407,7 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
   check_ ();]])[
   if (yyresolved)
     yyparser.yy_destroy_ (yymsg, yy_accessing_symbol(yylrState),
-                &semanticVal()]b4_locations_if([, &yyloc])[);
+                &value ()]b4_locations_if([, &yyloc])[);
   else
     {
       YY_SYMBOL_PRINT (yymsg << (firstVal() ? " unresolved" : " incomplete"),
@@ -1700,10 +1700,10 @@ public:
 #endif
         yys.yyresolved = s->yyresolved;
         if (s->yyresolved)
-          new (&yys.semanticVal ()) value_type (s->semanticVal ());
+          new (&yys.value ()) value_type (s->value ());
         else
-          /* The effect of using semanticVal or yyloc (in an immediate rule) is
-           * undefined.  */
+          /* The effect of using yysval or yyloc (in an immediate
+           * rule) is undefined.  */
           yys.setFirstVal (YY_NULLPTR);]b4_locations_if([[
         yys.yyloc = s->yyloc;]])[
         yys.setPred(s->pred());
@@ -1740,7 +1740,7 @@ public:
         std::cerr << "   $" << yyi + 1 << " = ";
         yyparser.yy_symbol_print_
           (yy_accessing_symbol (yyvsp[yyi - yynrhs + 1].getState().yylrState),
-           &yyvsp[yyi - yynrhs + 1].getState().semanticVal()]b4_locations_if([[,
+           &yyvsp[yyi - yynrhs + 1].getState().value ()]b4_locations_if([[,
            &]b4_rhs_location(yynrhs, yyi + 1)])[);
         if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
           std::cerr << " (unresolved)";
@@ -2296,7 +2296,7 @@ public:
     if (yyrhslen == 0)
       *yyvalp = yyval_default;
     else
-      *yyvalp = yyvsp[YYFILL (1-yyrhslen)].getState().semanticVal();]b4_locations_if([[
+      *yyvalp = yyvsp[YYFILL (1-yyrhslen)].getState().value ();]b4_locations_if([[
     /* Default location. */
     YYLLOC_DEFAULT ((*yylocp), (yyvsp - yyrhslen), yyrhslen);
     yyerror_range[1].getState().yyloc = *yylocp;
@@ -2657,7 +2657,7 @@ private:
       {
         yys.yyresolved = true;
         YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-        new (&yys.semanticVal ()) value_type (yysval);
+        new (&yys.value ()) value_type (yysval);
         YY_IGNORE_MAYBE_UNINITIALIZED_END
       }
     else
