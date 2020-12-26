@@ -68,17 +68,15 @@ prog : %empty
      | prog stmt   { std::cout << @2 << ": " << $2 << '\n'; }
      ;
 
-stmt : expr ';'  %merge <stmtMerge>     { $$ = $1; }
+stmt : expr ';'  %merge <stmtMerge>   { $$ = $1; }
      | decl      %merge <stmtMerge>
-     | error ';'        { $$ = Nterm ("<error>"); }
-     | '@'              { $$ = $1; YYACCEPT; }
+     | error ';'                      { $$ = Nterm ("<error>"); }
      ;
 
 expr : ID
-     | TYPENAME '(' expr ')'
-                        { $$ = Nterm ("<cast>", $3, $1); }
-     | expr '+' expr    { $$ = Nterm ("+", $1, $3); }
-     | expr '=' expr    { $$ = Nterm ("=", $1, $3); }
+     | TYPENAME '(' expr ')'  { $$ = Nterm ("<cast>", $3, $1); }
+     | expr '+' expr          { $$ = Nterm ("+", $1, $3); }
+     | expr '=' expr          { $$ = Nterm ("=", $1, $3); }
      ;
 
 decl : TYPENAME declarator ';'

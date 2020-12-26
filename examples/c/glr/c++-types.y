@@ -84,7 +84,6 @@ prog : %empty
 stmt : expr ';'  %merge <stmtMerge>     { $$ = $1; }
      | decl      %merge <stmtMerge>
      | error ';'        { $$ = new_nterm ("<error>", NULL, NULL, NULL); }
-     | '@'              { $$ = $1; YYACCEPT; }
      ;
 
 expr : ID
