@@ -701,6 +701,13 @@ yyisErrorAction (int yyaction)
 static inline int
 yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts);
 
+/** Accessing symbol of state YYSTATE.  */
+static inline yysymbol_kind_t
+yy_accessing_symbol (state_num yystate)
+{
+  return YY_CAST (yysymbol_kind_t, yystos[yystate]);
+}
+
 /** True iff LR state YYSTATE has only a default reduction (regardless
  *  of token).  */
 static inline bool
@@ -714,6 +721,13 @@ static inline rule_num
 yydefaultAction (state_num yystate)
 {
   return yydefact[yystate];
+}
+
+/** Left-hand-side symbol for rule #YYRULE.  */
+static inline yysymbol_kind_t
+yylhsNonterm (rule_num yyrule)
+{
+  return static_cast<yysymbol_kind_t>(yyr1[yyrule]);
 }
 
 static inline int
@@ -1163,6 +1177,58 @@ public:
       }
   }
 
+#if ]b4_api_PREFIX[DEBUG
+  void yyreportTree (size_t yyindent = 2) const
+  {
+    int yynrhs = yyrhsLength (this->yyrule);
+    const glr_state* yystates[1 + YYMAXRHS];
+    glr_state yyleftmost_state;
+
+    {
+      const glr_state* yys = this->state();
+      for (int yyi = yynrhs; 0 < yyi; yyi -= 1)
+        {
+          yystates[yyi] = yys;
+          yys = yys->pred();
+        }
+      if (yys == YY_NULLPTR)
+        {
+          yyleftmost_state.yyposn = 0;
+          yystates[0] = &yyleftmost_state;
+        }
+      else
+        yystates[0] = yys;
+    }
+
+    std::string yylhs = ]b4_namespace_ref::b4_parser_class[::symbol_name (yylhsNonterm (this->yyrule));
+    YYASSERT(this->state());
+    if (this->state()->yyposn < yystates[0]->yyposn + 1)
+      std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
+                << this->yyrule - 1 << ", empty>\n";
+    else
+      std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
+                << this->yyrule - 1 << ", tokens "
+                << yystates[0]->yyposn + 1 << " .. "
+                << this->state()->yyposn << ">\n";
+    for (int yyi = 1; yyi <= yynrhs; yyi += 1)
+      {
+        if (yystates[yyi]->yyresolved)
+          {
+            std::string yysym = ]b4_namespace_ref::b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
+            if (yystates[yyi-1]->yyposn+1 > yystates[yyi]->yyposn)
+              std::cerr << std::string(yyindent + 2, ' ') << yysym
+                        << " <empty>\n";
+            else
+              std::cerr << std::string(yyindent + 2, ' ') << yysym
+                        << " <tokens " << yystates[yyi-1]->yyposn + 1
+                        << " .. " << yystates[yyi]->yyposn << ">\n";
+          }
+        else
+          yystates[yyi]->firstVal ()->yyreportTree (yyindent+2);
+      }
+  }
+#endif
+
   /** Rule number for this reduction */
   rule_num yyrule;
 
@@ -1187,13 +1253,6 @@ public:
   value_type yyval;]b4_locations_if([[
   location_type yyloc;]])[
 };
-
-/** Accessing symbol of state YYSTATE.  */
-static inline yysymbol_kind_t
-yy_accessing_symbol (state_num yystate)
-{
-  return YY_CAST (yysymbol_kind_t, yystos[yystate]);
-}
 
 /** Type of the items in the GLR stack.
  *  It can be either a glr_state or a semantic_option. The is_state_ field
@@ -1429,13 +1488,6 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
 
 static int
 yypreference (const semantic_option& y0, const semantic_option& y1);
-
-/** Left-hand-side symbol for rule #YYRULE.  */
-static inline yysymbol_kind_t
-yylhsNonterm (rule_num yyrule)
-{
-  return static_cast<yysymbol_kind_t>(yyr1[yyrule]);
-}
 
 static inline state_num
 yyLRgotoState (state_num yystate, yysymbol_kind_t yysym);
@@ -1795,11 +1847,11 @@ public:
     YYUSE (yyx1);
 
 #if ]b4_api_PREFIX[DEBUG
-    std::cerr << "Ambiguity detected.\n";
-    std::cerr << "Option 1,\n";
-    yyreportTree (yyx0, 2);
+    std::cerr << "Ambiguity detected.\n"
+      "Option 1,\n";
+    yyx0.yyreportTree ();
     std::cerr << "\nOption 2,\n";
-    yyreportTree (yyx1, 2);
+    yyx1.yyreportTree ();
     std::cerr << '\n';
 #endif
 
@@ -1839,60 +1891,6 @@ private:
     return yyitems.size() - 1;
   }
 
-
-#if ]b4_api_PREFIX[DEBUG
-  void
-  yyreportTree (const semantic_option& yyx, size_t yyindent) const
-  {
-    int yynrhs = yyrhsLength (yyx.yyrule);
-    const glr_state* yystates[1 + YYMAXRHS];
-    glr_state yyleftmost_state;
-
-    {
-      const glr_state* yys = yyx.state();
-      for (int yyi = yynrhs; 0 < yyi; yyi -= 1)
-        {
-          yystates[yyi] = yys;
-          yys = yys->pred();
-        }
-      if (yys == YY_NULLPTR)
-        {
-          yyleftmost_state.yyposn = 0;
-          yystates[0] = &yyleftmost_state;
-        }
-      else
-        yystates[0] = yys;
-    }
-
-    std::string yylhs = ]b4_namespace_ref::b4_parser_class[::symbol_name (yylhsNonterm (yyx.yyrule));
-    YYASSERT(yyx.state());
-    if (yyx.state()->yyposn < yystates[0]->yyposn + 1)
-      std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
-                << yyx.yyrule - 1 << ", empty>\n";
-    else
-      std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
-                << yyx.yyrule - 1 << ", tokens "
-                << yystates[0]->yyposn + 1 << " .. "
-                << yyx.state()->yyposn << ">\n";
-    for (int yyi = 1; yyi <= yynrhs; yyi += 1)
-      {
-        if (yystates[yyi]->yyresolved)
-          {
-            std::string yysym = ]b4_namespace_ref::b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
-            if (yystates[yyi-1]->yyposn+1 > yystates[yyi]->yyposn)
-              std::cerr << std::string(yyindent + 2, ' ') << yysym
-                        << " <empty>\n";
-            else
-              std::cerr << std::string(yyindent + 2, ' ') << yysym
-                        << " <tokens " << yystates[yyi-1]->yyposn + 1
-                        << " .. " << yystates[yyi]->yyposn << ">\n";
-          }
-        else
-          yyreportTree (*yystates[yyi]->firstVal(),
-                        yyindent+2);
-      }
-  }
-#endif
 
 public:
 
