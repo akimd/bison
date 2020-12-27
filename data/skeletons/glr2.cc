@@ -17,6 +17,9 @@
 
 m4_include(b4_skeletonsdir/[c++.m4])
 
+# api.value.type=variant is valid.
+m4_define([b4_value_type_setup_variant])
+
 # b4_tname_if(TNAME-NEEDED, TNAME-NOT-NEEDED)
 # -------------------------------------------
 m4_define([b4_tname_if],
@@ -28,6 +31,7 @@ m4_define([b4_tname_if],
 b4_bison_locations_if([
    m4_define([b4_location_constructors])
    m4_include(b4_skeletonsdir/[location.cc])])
+b4_variant_if([m4_include(b4_skeletonsdir/[variant.hh])])
 
 m4_define([b4_parser_class],
           [b4_percent_define_get([[api.parser.class]])])
@@ -127,8 +131,9 @@ m4_define([b4_rhs_location],
 m4_define([b4_call_merger],
 [b4_case([$1],
          [    b4_symbol_if([$3], [has_type],
-                           [yy0->b4_symbol($3, slot) = $2 (*yy0, *yy1);],
-                           [*yy0 = $2 (*yy0, *yy1);])])])
+                           [b4_variant_if([yy0.as<b4_symbol($3, type)> () = $2 (yy0.as<b4_symbol($3, type)>(), yy1.as<b4_symbol($3, type)>());],
+                                          [yy0.b4_symbol($3, slot) = $2 (yy0, yy1);])],
+                           [yy0 = $2 (yy0, yy1);])])])
 
 # b4_lex
 # ------
@@ -734,6 +739,7 @@ yyrhsLength (rule_num yyrule);
 class glr_state
 {
 public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -741,21 +747,24 @@ public:
     : yyresolved (false)
     , yylrState (0)
     , yyposn (0)
-    , yypred (0)]b4_locations_if([[
+    , yypred (0)
+    , yyfirstVal (0)]b4_locations_if([[
     , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
   /// Build with a semantic value.
-  glr_state (state_num lrState, size_t posn, value_type sval]b4_locations_if([[, location_type loc]])[)
+  glr_state (state_num lrState, size_t posn, const value_type& val]b4_locations_if([[, const location_type& loc]])[)
     : yyresolved (true)
     , yylrState (lrState)
     , yyposn (posn)
     , yypred (0)
-    , yyval (sval)]b4_locations_if([[
+    , yyval (]b4_variant_if([], [[val]])[)]b4_locations_if([[
     , yyloc (loc)]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
-  {}
+  {]b4_variant_if([[
+    ]b4_symbol_variant([yy_accessing_symbol (lrState)],
+                       [yyval], [copy], [val])])[}
 
   /// Build with a semantic option.
   glr_state (state_num lrState, size_t posn)
@@ -777,19 +786,33 @@ public:
     , magic_ (MAGIC)]])[
   {
     setPred (other.pred ());
-    if (other.yyresolved)
-      new (&yyval) value_type (other.value ());
+    if (other.yyresolved)]b4_variant_if([[
+      {
+        new (&yyval) value_type ();
+        ]b4_symbol_variant([yy_accessing_symbol (other.yylrState)],
+                           [yyval], [copy], [other.value ()])[
+      }]], [[
+      new (&yyval) value_type (other.value ());]])[
     else
-      setFirstVal (other.firstVal ());]b4_parse_assert_if([[
+      {
+        yyfirstVal = 0;
+        setFirstVal (other.firstVal ());
+      }]b4_parse_assert_if([[
     check_();]])[
   }
 
   ~glr_state ()
   {]b4_parse_assert_if([[
-    check_ ();
-    magic_ = 0;]])[
+    check_ ();]])[
     if (yyresolved)
-      yyval.~value_type ();
+      {]b4_variant_if([[
+        yysymbol_kind_t yykind = yy_accessing_symbol (yylrState);
+        // FIXME: User destructors.
+        // Value type destructor.
+        ]b4_symbol_variant([[yykind]], [[yyval]], [[template destroy]])])[
+        yyval.~value_type ();
+      }]b4_parse_assert_if([[
+    magic_ = 0;]])[
   }
 
   glr_state& operator= (const glr_state& other)
@@ -802,8 +825,10 @@ public:
     yylrState = other.yylrState;
     yyposn = other.yyposn;
     setPred (other.pred ());
-    if (other.yyresolved)
-      value () = other.value ();
+    if (other.yyresolved)]b4_variant_if([[
+      ]b4_symbol_variant([yy_accessing_symbol (other.yylrState)],
+                         [yyval], [copy], [other.value ()])], [[
+      value () = other.value ();]])[
     else
       setFirstVal (other.firstVal ());]b4_locations_if([[
     yyloc = other.yyloc;]])[
@@ -1061,6 +1086,7 @@ private:
 class semantic_option
 {
 public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -1068,7 +1094,9 @@ public:
     : yyrule (0)
     , yystate (0)
     , yynext (0)
-    , yychar (0)]b4_parse_assert_if([[
+    , yychar (0)
+    , yyval ()]b4_locations_if([[
+    , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
@@ -1076,9 +1104,41 @@ public:
     : yyrule (rule)
     , yystate (0)
     , yynext (0)
-    , yychar (rawChar)]b4_parse_assert_if([[
+    , yychar (rawChar)
+    , yyval ()]b4_locations_if([[
+    , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
+
+  semantic_option (const semantic_option& that)
+    : yyrule (that.yyrule)
+    , yystate (that.yystate)
+    , yynext (that.yynext)
+    , yychar (that.yychar)
+    , yyval (]b4_variant_if([], [[that.yyval]])[)]b4_locations_if([[
+    , yyloc (that.yyloc)]])[]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
+  {]b4_parse_assert_if([[
+    that.check_ ();]])[]b4_variant_if([[
+    ]b4_symbol_variant([YYTRANSLATE (yychar)],
+                       [yyval], [copy], [that.yyval])])[
+  }
+
+  // Needed for the assignment in yynewSemanticOption.
+  semantic_option& operator= (const semantic_option& that)
+  {]b4_parse_assert_if([[
+    check_ ();
+    that.check_ ();]])[
+    yyrule = that.yyrule;
+    yystate = that.yystate;
+    yynext = that.yynext;
+    yychar = that.yychar;]b4_variant_if([[
+    ]b4_symbol_variant([YYTRANSLATE (yychar)],
+                       [yyval], [copy], [that.yyval])], [[
+    yyval = that.yyval;]])[]b4_locations_if([[
+    yyloc = that.yyloc;]])[
+    return *this;
+  }
 
   /// Only call state() and setState() on objects in yyitems, not temporaries.
   glr_state* state();
@@ -1134,13 +1194,19 @@ public:
           break;
         else if (yys0->yyresolved)
           {
-            yys1->yyresolved = true;
-            yys1->value () = yys0->value ();
+            yys1->yyresolved = true;]b4_variant_if([[
+            YYASSERT (yys1->yylrState == yys0->yylrState);
+            ]b4_symbol_variant([yy_accessing_symbol (yys0->yylrState)],
+                               [yys1->value ()], [copy], [yys0->value ()])], [[
+            yys1->value () = yys0->value ();]])[
           }
         else if (yys1->yyresolved)
           {
-            yys0->yyresolved = true;
-            yys0->value () = yys1->value ();
+            yys0->yyresolved = true;]b4_variant_if([[
+            YYASSERT (yys0->yylrState == yys1->yylrState);
+            ]b4_symbol_variant([yy_accessing_symbol (yys1->yylrState)],
+                               [yys0->value ()], [copy], [yys1->value ()])], [[
+            yys0->value () = yys1->value ();]])[
           }
         else
           {
@@ -1300,6 +1366,7 @@ public:
     check_ ();
     other.check_ ();]])[
     std::swap (is_state_, other.is_state_);
+    // NB: swap on arrays is C++11.
     std::swap (raw_, other.raw_);
     return *this;
   }
@@ -1520,6 +1587,7 @@ yyLRgotoState (state_num yystate, yysymbol_kind_t yysym);
 class state_stack
 {
 public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -1721,10 +1789,11 @@ public:
   /** Return a fresh GLRState.
    * Callers should call yyreserveStack afterwards to make sure there is
    * sufficient headroom.  */
-  glr_state& yynewGLRState(glr_state newState) {
-    glr_state& state = yyitems[yynewGLRStackItem(true)].getState();
-#if 201103L <= YY_CPLUSPLUS
-    state = std::move(newState);
+  glr_state& yynewGLRState (const glr_state& newState)
+  {
+    glr_state& state = yyitems[yynewGLRStackItem (true)].getState ();
+#if false && 201103L <= YY_CPLUSPLUS
+    state = std::move (newState);
 #else
     state = newState;
 #endif
@@ -1775,7 +1844,12 @@ public:
 #endif
         yys.yyresolved = s->yyresolved;
         if (s->yyresolved)
-          new (&yys.value ()) value_type (s->value ());
+          {]b4_variant_if([[
+            new (&yys.value ()) value_type ();
+            ]b4_symbol_variant([yy_accessing_symbol (s->yylrState)],
+                               [yys.value ()], [copy], [s->value ()])], [[
+            new (&yys.value ()) value_type (s->value ());]])[
+          }
         else
           /* The effect of using yyval or yyloc (in an immediate
            * rule) is undefined.  */
@@ -1922,6 +1996,7 @@ public:
 class glr_stack
 {
 public:
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -1988,8 +2063,10 @@ public:
     yynewOption.setNext(yystate->firstVal());
     if (yystateStack.yytops.lookaheadNeeds(yyk))
       {
-        yynewOption.yychar = this->yychar;
-        yynewOption.yyval = this->yylval;]b4_locations_if([
+        yynewOption.yychar = this->yychar;]b4_variant_if([[
+        ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+                           [yynewOption.yyval], [copy], [this->yylval])], [[
+        yynewOption.yyval = this->yylval;]])[]b4_locations_if([
         yynewOption.yyloc = this->yylloc;])[
       }
     yystate->setFirstVal(&yynewOption);
@@ -2133,7 +2210,9 @@ public:
               YYLLOC_DEFAULT ((yys->yyloc), yyerror_range, 2);]])[
               yysymbol_kind_t yytoken = YYTRANSLATE (this->yychar);
               yyparser.yy_destroy_ ("Error: discarding",
-                                    yytoken, &yylval]b4_locations_if([, &yylloc])[);
+                                    yytoken, &yylval]b4_locations_if([, &yylloc])[);]b4_variant_if([[
+              // Value type destructor.
+              ]b4_symbol_variant([[YYTRANSLATE (this->yychar)]], [[yylval]], [[template destroy]])])[
               this->yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[;
             }
           yysymbol_kind_t yytoken = yygetToken (this->yychar, yyparser, *this]b4_user_args[);
@@ -2307,10 +2386,18 @@ public:
     return yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax error: cannot back up")),     \
            yyerrok, yyerr
 
+]b4_variant_if([[
+    /* Variants are always initialized to an empty instance of the
+       correct type. The default '$$ = $1' action is NOT applied
+       when using variants.  */
+    // However we really need to prepare yyvsp now if we want to get
+    // correct locations, so invoke YYFILL for $1 anyway.
+    (void) YYFILL (1-yyrhslen);
+    ]b4_symbol_variant([[yylhsNonterm (yyrule)]], [(*yyvalp)], [emplace])], [[
     if (yyrhslen == 0)
       *yyvalp = yyval_default;
     else
-      *yyvalp = yyvsp[YYFILL (1-yyrhslen)].getState().value ();]b4_locations_if([[
+      *yyvalp = yyvsp[YYFILL (1-yyrhslen)].getState().value ();]])[]b4_locations_if([[
     /* Default location. */
     YYLLOC_DEFAULT ((*yylocp), (yyvsp - yyrhslen), yyrhslen);
     yyerror_range[1].getState().yyloc = *yylocp;
@@ -2444,7 +2531,10 @@ public:
         yyglrShift (yyk,
                     yyLRgotoState (topState(yyk)->yylrState,
                                    yylhsNonterm (yyrule)),
-                    yyposn, val]b4_locations_if([, loc])[);
+                    yyposn, val]b4_locations_if([, loc])[);]b4_variant_if([[
+        // FIXME: User destructors.
+        // Value type destructor.
+        ]b4_symbol_variant([[yylhsNonterm (yyrule)]], [[val]], [[template destroy]])])[
       }
     else
       {
@@ -2509,7 +2599,7 @@ public:
   void
   yyglrShift (state_set_index yyk, state_num yylrState,
               size_t yyposn,
-              value_type& yyval_arg]b4_locations_if([, const location_type& yyloc_arg])[)
+              const value_type& yyval_arg]b4_locations_if([, const location_type& yyloc_arg])[)
   {
     glr_state& yynewState = yystateStack.yynewGLRState (
       glr_state (yylrState, yyposn, yyval_arg]b4_locations_if([, yyloc_arg])[));
@@ -2576,7 +2666,7 @@ private:
   }
 
   static void
-  yyuserMerge (int yyn, value_type* yy0, value_type* yy1)
+  yyuserMerge (int yyn, value_type& yy0, value_type& yy1)
   {
     YY_USE (yy0);
     YY_USE (yy1);
@@ -2664,7 +2754,10 @@ private:
                                             &this->yylval]b4_locations_if([, yylocp])[);
                       break;
                     }
-                  yyuserMerge (yymerger[yyp->yyrule], &val, &yyval_other);
+                  yyuserMerge (yymerger[yyp->yyrule], val, yyval_other);]b4_variant_if([[
+                  // FIXME: User destructors.
+                  // Value type destructor.
+                  ]b4_symbol_variant([[yy_accessing_symbol (yys.yylrState)]], [[yyval_other]], [[template destroy]])])[
                 }
             }
       }
@@ -2674,12 +2767,20 @@ private:
     if (yyflag == yyok)
       {
         yys.yyresolved = true;
-        YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-        new (&yys.value ()) value_type (val);
+        YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN]b4_variant_if([[
+        new (&yys.value ()) value_type ();
+        ]b4_symbol_variant([yy_accessing_symbol (yys.yylrState)],
+                           [yys.value ()], [copy], [val])], [[
+        new (&yys.value ()) value_type (val);]])[
+
         YY_IGNORE_MAYBE_UNINITIALIZED_END
       }
     else
       yys.setFirstVal(YY_NULLPTR);
+]b4_variant_if([[
+    // FIXME: User destructors.
+    // Value type destructor.
+    ]b4_symbol_variant([[yy_accessing_symbol (yys.yylrState)]], [[val]], [[template destroy]])])[
     return yyflag;
   }
 
@@ -2708,18 +2809,27 @@ private:
       /* Set default location.  */
       yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].getState().yyloc = yyoptState->yyloc;]])[
     {
-      int yychar_current = this->yychar;
-      value_type yylval_current = this->yylval;]b4_locations_if([
+      int yychar_current = this->yychar;]b4_variant_if([[
+      value_type yylval_current;
+      ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+                         [yylval_current], [move], [this->yylval])], [[
+      value_type yylval_current = this->yylval;]])[]b4_locations_if([
       location_type yylloc_current = this->yylloc;])[
-      this->yychar = yyopt.yychar;
-      this->yylval = yyopt.yyval;]b4_locations_if([
+
+      this->yychar = yyopt.yychar;]b4_variant_if([[
+      ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+                         [this->yylval], [move], [yyopt.yyval])], [[
+      this->yylval = yyopt.yyval;]])[]b4_locations_if([
       this->yylloc = yyopt.yyloc;])[
       yyflag = yyuserAction (yyopt.yyrule, yynrhs,
                              yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
                              create_state_set_index (-1),
                              yyvalp]b4_locations_if([, yylocp])[);
-      this->yychar = yychar_current;
-      this->yylval = yylval_current;]b4_locations_if([
+
+      this->yychar = yychar_current;]b4_variant_if([[
+      ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+                         [this->yylval], [move], [yylval_current])], [[
+      this->yylval = yylval_current;]])[]b4_locations_if([
       this->yylloc = yylloc_current;])[
     }
     return yyflag;
@@ -2967,8 +3077,8 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
     YYCDEBUG << "Starting parse\n";
 
-    yystack.yychar = ]b4_namespace_ref::b4_parser_class[::token::]b4_symbol(empty, id)[;
-    yystack.yylval = yyval_default;]b4_locations_if([
+    yystack.yychar = token::]b4_symbol(empty, id)[;]b4_variant_if([], [[
+    yystack.yylval = yyval_default;]])[]b4_locations_if([
     yystack.yylloc = yyloc_default;])[
 ]m4_ifdef([b4_initial_action], [
 b4_dollar_pushdef([yystack.yylval], [], [], [yystack.yylloc])dnl
@@ -3020,7 +3130,11 @@ b4_dollar_popdef])[]dnl
                     YY_SYMBOL_PRINT ("Shifting", yytoken, &yystack.yylval, &yystack.yylloc);
                     yystack.yychar = token::]b4_symbol(empty, id)[;
                     yyposn += 1;
-                    yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yystack.yylval]b4_locations_if([, yystack.yylloc])[);
+                    // FIXME: we should move yylval.
+                    yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yystack.yylval]b4_locations_if([, yystack.yylloc])[);]b4_variant_if([[
+                    // FIXME: User destructors.
+                    // Value type destructor.
+                    ]b4_symbol_variant([[yytoken]], [[yystack.yylval]], [[template destroy]])])[
                     if (0 < yystack.yyerrState)
                       yystack.yyerrState -= 1;
                   }
@@ -3098,6 +3212,10 @@ b4_dollar_popdef])[]dnl
                 YYCDEBUG << "Stack " << yys.get() << " now in state "
                          << yystack.topState(yys)->yylrState << '\n';
               }
+]b4_variant_if([[
+              // FIXME: User destructors.
+              // Value type destructor.
+              ]b4_symbol_variant([[yytoken_to_shift]], [[yystack.yylval]], [[template destroy]])])[
 
             if (yystack.yystateStack.yytops.size() == 1)
               {

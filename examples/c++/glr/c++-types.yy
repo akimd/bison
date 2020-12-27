@@ -34,7 +34,7 @@
   #include "ast.hh"
 }
 
-%define api.value.type {Node}
+%define api.value.type variant
 
 %code
 {
@@ -47,8 +47,8 @@
   # define nullptr 0
   #endif
 
-  static yy::parser::value_type
-  stmtMerge (const yy::parser::value_type& x0, const yy::parser::value_type& x1);
+  static Node
+  stmtMerge (const Node& x0, const Node& x1);
 
   static int
   yylex (yy::parser::value_type* val, yy::parser::location_type* loc);
@@ -56,11 +56,12 @@
 
 %expect-rr 1
 
+%type <Node> TYPENAME ID stmt expr decl declarator
+%printer { yyo << $$; } <Node>
+
 %token
   TYPENAME "typename"
   ID "identifier"
-
-%printer { yyo << $$; } TYPENAME ID stmt expr decl declarator
 
 %right '='
 %left '+'
@@ -148,7 +149,7 @@ yylex (yy::parser::value_type* lvalp, yy::parser::location_type* llocp)
                   = isupper (static_cast <unsigned char> (form[0]))
                   ? yy::parser::token::TYPENAME
                   : yy::parser::token::ID;
-                *lvalp = Term (form);
+                lvalp->emplace<Node> (Term (form));
               }
             else
               {
@@ -163,8 +164,8 @@ yylex (yy::parser::value_type* lvalp, yy::parser::location_type* llocp)
     }
 }
 
-static yy::parser::value_type
-stmtMerge (const yy::parser::value_type& x0, const yy::parser::value_type& x1)
+static Node
+stmtMerge (const Node& x0, const Node& x1)
 {
   return Nterm ("<OR>", x0, x1);
 }
