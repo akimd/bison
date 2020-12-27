@@ -987,11 +987,11 @@ b4_dollar_popdef])[]dnl
     yylen = yyr2_[yyn];
     {
       stack_symbol_type yylhs;
-      yylhs.state = yy_lr_goto_state_ (yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([
+      yylhs.state = yy_lr_goto_state_ (yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([[
       /* Variants are always initialized to an empty instance of the
          correct type. The default '$$ = $1' action is NOT applied
          when using variants.  */
-      b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [emplace])], [
+      ]b4_symbol_variant([[yyr1_@{yyn@}]], [yylhs.value], [emplace])], [[
       /* If YYLEN is nonzero, implement the default value of the
          action: '$$ = $1'.  Otherwise, use the top of the stack.
 
@@ -1001,7 +1001,7 @@ b4_dollar_popdef])[]dnl
       if (yylen)
         yylhs.value = yystack_@{yylen - 1@}.value;
       else
-        yylhs.value = yystack_@{0@}.value;])[
+        yylhs.value = yystack_@{0@}.value;]])[
 ]b4_locations_if([dnl
 [
       // Default location.
