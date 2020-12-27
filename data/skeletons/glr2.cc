@@ -507,7 +507,7 @@ static ]b4_namespace_ref[::]b4_parser_class[::location_type yyloc_default][]b4_y
 [[#define YYTRANSLATE(YYX)                                \
   (0 <= (YYX) && (YYX) <= ]b4_code_max[                     \
    ? static_cast<yysymbol_kind_t>(yytranslate[YYX])        \
-   : ]b4_namespace_ref::b4_parser_class::b4_symbol(empty, kind)[)
+   : ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex.  */
@@ -1186,7 +1186,7 @@ public:
         yystates[0] = yys;
     }
 
-    std::string yylhs = ]b4_namespace_ref::b4_parser_class[::symbol_name (yylhsNonterm (this->yyrule));
+    std::string yylhs = ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yylhsNonterm (this->yyrule));
     YYASSERT(this->state());
     if (this->state()->yyposn < yystates[0]->yyposn + 1)
       std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
@@ -1200,7 +1200,7 @@ public:
       {
         if (yystates[yyi]->yyresolved)
           {
-            std::string yysym = ]b4_namespace_ref::b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
+            std::string yysym = ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
             if (yystates[yyi-1]->yyposn+1 > yystates[yyi]->yyposn)
               std::cerr << std::string(yyindent + 2, ' ') << yysym
                         << " <empty>\n";
@@ -1910,7 +1910,7 @@ public:
 
   ~glr_stack ()
   {
-    if (this->yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
+    if (this->yychar != ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
       yyparser.yy_destroy_ ("Cleanup: discarding lookahead",
                   YYTRANSLATE (this->yychar), &this->yylval]b4_locations_if([, &this->yylloc])[);
     popall_ ();
@@ -1958,7 +1958,7 @@ public:
                        glr_state* yyrhs, rule_num yyrule)
   {
     semantic_option& yynewOption =
-      yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[));
+      yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[));
     yynewOption.setState(yyrhs);
     yynewOption.setNext(yystate->firstVal());
     if (yystateStack.yytops.lookaheadNeeds(yyk))
@@ -1988,13 +1988,13 @@ public:
 [[    yyparser.error (]b4_locations_if([this->yylloc, ])[YY_("syntax error"));]],
 [[    {
     yysymbol_kind_t yytoken
-      = this->yychar == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[
-      ? ]b4_namespace_ref::b4_parser_class::b4_symbol(empty, kind)[
+      = this->yychar == ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[
+      ? ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[
       : YYTRANSLATE (this->yychar);
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     /* Arguments of yyformat. */
     yysymbol_kind_t yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM]
-      = { ]b4_namespace_ref::b4_parser_class::b4_symbol(empty, kind)[ };
+      = { ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[ };
     /* Number of reported tokens (one for the "unexpected", one per
        "expected").  */
     int yycount = 0;
@@ -2022,7 +2022,7 @@ public:
          one exception: it will still contain any token that will not be
          accepted due to an error action in a later state.
     */
-    if (yytoken != ]b4_namespace_ref::b4_parser_class::b4_symbol(empty, kind)[)
+    if (yytoken != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
       {
         const int yyn = yypact[firstTopState()->yylrState];
         yyarg[yycount++] = yytoken;
@@ -2036,7 +2036,7 @@ public:
             const int yychecklim = YYLAST - yyn + 1;
             const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
             for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref::b4_parser_class::b4_symbol(error, kind)[
+              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[
                   && !yytable_value_is_error (yytable[yyx + yyn]))
                 {
                   if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
@@ -2073,7 +2073,7 @@ public:
     for (char const* yyp = yyformat; *yyp; ++yyp)
       if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
         {
-          yymsg += ]b4_namespace_ref::b4_parser_class[::symbol_name (yyarg[yyi++]);
+          yymsg += ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yyarg[yyi++]);
           ++yyp;
         }
       else
@@ -2096,9 +2096,9 @@ public:
          reductions.  Skip tokens until we can proceed.  */
       while (true)
         {
-          if (this->yychar == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[)
+          if (this->yychar == ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[)
             yyFail (]b4_locations_if([yylocp, ])[YY_NULLPTR);
-          if (this->yychar != ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
+          if (this->yychar != ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
             {]b4_locations_if([[
               /* We throw away the lookahead, but the error range
                  of the shifted error token must take it into account.  */
@@ -2109,7 +2109,7 @@ public:
               yysymbol_kind_t yytoken = YYTRANSLATE (this->yychar);
               yyparser.yy_destroy_ ("Error: discarding",
                           yytoken, &yylval]b4_locations_if([, &yylloc])[);
-              this->yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
+              this->yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[;
             }
           yysymbol_kind_t yytoken = yygetToken (this->yychar, yyparser, *this]b4_user_args[);
           int yyj = yypact[firstTopState()->yylrState];
@@ -2275,7 +2275,7 @@ public:
   # undef yychar
   # define yychar this->yychar
   # undef yyclearin
-  # define yyclearin (yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
+  # define yyclearin (yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
   # undef YYBACKUP
   # define YYBACKUP(Token, Value)                                              \
     return yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax error: cannot back up")),     \
@@ -2750,7 +2750,7 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
 {
   yysymbol_kind_t yytoken;
 ]b4_parse_param_use()dnl
-[  if (yycharp == ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[)
+[  if (yycharp == ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
     {
       YYCDEBUG << "Reading a token\n";
 #if YY_EXCEPTIONS
@@ -2767,14 +2767,14 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
           yyparser.error (]b4_locations_if([yystack.yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
           // handling is started.
-          yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(error, id)[;
+          yycharp = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, id)[;
         }
 #endif // YY_EXCEPTIONS
     }
-  if (yycharp <= ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[)
+  if (yycharp <= ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[)
     {
-      yycharp = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(eof, id)[;
-      yytoken = ]b4_namespace_ref::b4_parser_class::b4_symbol(eof, kind)[;
+      yycharp = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[;
+      yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[;
       YYCDEBUG << "Now at end of input.\n";
     }
   else
@@ -2807,7 +2807,7 @@ static inline int
 yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts)
 {
   int yyindex = yypact[yystate] + yytoken;
-  if (yytoken == ]b4_namespace_ref::b4_parser_class[::]b4_symbol(error, kind)[)
+  if (yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[)
     {
       // This is the error token.
       yyconflicts = yyconfl;
@@ -2936,7 +2936,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
     YYCDEBUG << "Starting parse\n";
 
-    yystack.yychar = ]b4_namespace_ref::b4_parser_class::token::b4_symbol(empty, id)[;
+    yystack.yychar = ]b4_namespace_ref::b4_parser_class[::token::]b4_symbol(empty, id)[;
     yystack.yylval = yyval_default;]b4_locations_if([
     yystack.yylloc = yyloc_default;])[
 ]m4_ifdef([b4_initial_action], [
