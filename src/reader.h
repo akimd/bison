@@ -31,7 +31,10 @@ typedef struct merger_list
 {
   struct merger_list* next;
   uniqstr name;
-  uniqstr type;
+  /* One symbol whose type is the one used by all the symbols on which
+     this merging function is used.  */
+  symbol *sym;
+  /* Where SYM was bound to this merging function.  */
   location type_declaration_loc;
 } merger_list;
 
