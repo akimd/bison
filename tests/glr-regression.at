@@ -1961,11 +1961,11 @@ AT_BISON_CHECK([[-o glr-regr18.c -rall -fcaret glr-regr18.y]], 1, [],
 glr-regr18.y:29.18-24: note: previous declaration
    29 | sym1: sym2 %merge<merge> { $$ = $][1; } ;
       |                  ^~~~~~~
-glr-regr18.y:31.13-19: error: result type clash on merge function 'merge': <type3> != <type2>
+glr-regr18.y:31.13-19: error: result type clash on merge function 'merge': <type3> != <type1>
    31 | sym3: %merge<merge> { $$ = 0; } ;
       |             ^~~~~~~
-glr-regr18.y:30.18-24: note: previous declaration
-   30 | sym2: sym3 %merge<merge> { $$ = $][1; } ;
+glr-regr18.y:29.18-24: note: previous declaration
+   29 | sym1: sym2 %merge<merge> { $$ = $][1; } ;
       |                  ^~~~~~~
 ]])
 
