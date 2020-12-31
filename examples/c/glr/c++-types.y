@@ -31,7 +31,7 @@
   typedef union Node Node;
 }
 
-%define api.value.type {Node *}
+%define api.value.type union
 
 %code
 {
@@ -47,11 +47,11 @@
   static Node *new_term (char *);
   static void free_node (Node *);
   static char *node_to_string (Node *);
-  static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
+  static Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
 
   static int location_print (FILE *yyo, YYLTYPE const * const yylocp);
   static void yyerror (YYLTYPE const * const llocp, const char *msg);
-  static int yylex (YYSTYPE *lvalp, YYLTYPE *llocp);
+  static yytoken_kind_t yylex (YYSTYPE *lvalp, YYLTYPE *llocp);
 }
 
 %expect-rr 1
@@ -65,7 +65,8 @@
 
 %glr-parser
 
-%destructor { free_node ($$); } stmt expr decl declarator TYPENAME ID
+%type <Node*> stmt expr decl declarator TYPENAME ID
+%destructor { free_node ($$); } <Node*>
 
 %%
 
@@ -152,7 +153,8 @@ void yyerror (YYLTYPE const * const llocp, const char *msg)
   fprintf (stderr, ": %s\n", msg);
 }
 
-int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
+yytoken_kind_t
+yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 {
   static int lineNum = 1;
   static int colNum = 0;
@@ -178,7 +180,7 @@ int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
           break;
         default:
           {
-            int tok;
+            yytoken_kind_t tok;
             llocp->first_line = llocp->last_line = lineNum;
             llocp->first_column = colNum;
             if (isalpha (c))
@@ -197,14 +199,21 @@ int yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
 
                 ungetc (c, stdin);
                 buffer[i++] = 0;
-                tok = isupper ((unsigned char) buffer[0]) ? TYPENAME : ID;
-                *lvalp = new_term (strcpy (malloc (i), buffer));
+                if (isupper ((unsigned char) buffer[0]))
+                  {
+                    tok = TYPENAME;
+                    lvalp->TYPENAME = new_term (strcpy (malloc (i), buffer));
+                  }
+                else
+                  {
+                    tok = ID;
+                    lvalp->ID = new_term (strcpy (malloc (i), buffer));
+                  }
               }
             else
               {
                 colNum += 1;
                 tok = c;
-                *lvalp = NULL;
               }
             llocp->last_column = colNum-1;
             return tok;
@@ -289,8 +298,8 @@ node_to_string (Node *node)
 }
 
 
-static YYSTYPE
+static Node*
 stmtMerge (YYSTYPE x0, YYSTYPE x1)
 {
-  return new_nterm ("<OR>(%s,%s)", x0, x1, NULL);
+  return new_nterm ("<OR>(%s,%s)", x0.stmt, x1.stmt, NULL);
 }
