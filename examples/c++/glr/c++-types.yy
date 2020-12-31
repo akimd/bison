@@ -18,6 +18,7 @@
 /* Simplified C++ Type and Expression Grammar.
    Written by Paul Hilfinger for Bison's test suite.  */
 
+%require "3.8"
 %glr-parser
 %skeleton "glr2.cc"
 %define parse.assert
