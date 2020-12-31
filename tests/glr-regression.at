@@ -46,6 +46,7 @@ m4_pushdef([AT_TEST],
 [AT_SETUP([Badly Collapsed GLR States: $1])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
+AT_KEYWORDS([%merge])
 
 AT_DATA_GRAMMAR([glr-regr1.y],
 [[/* Regression Test: Improper state compression */
@@ -291,6 +292,7 @@ m4_popdef([AT_TEST])
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Improper merging of GLR delayed action sets: $1])
+AT_KEYWORDS([%merge])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
 
@@ -425,6 +427,7 @@ m4_popdef([AT_TEST])
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Duplicate representation of merged trees: $1])
+AT_KEYWORDS([%merge])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
 
@@ -432,8 +435,7 @@ AT_DATA_GRAMMAR([glr-regr4.y],
 [[
 %define parse.assert
 %define parse.trace
-%union { char *ptr; }
-%type <ptr> S A A1 A2 B
+%type <]AT_VALUE_UNION_IF([char*], [ptr])[> S A A1 A2 B
 %glr-parser
 %expect-rr 2
 ]$1[
@@ -452,13 +454,11 @@ AT_DATA_GRAMMAR([glr-regr4.y],
 
 tree: S { printf ("%s\n", $][1); } ;
 
-S:
-  A   %merge<merge> { $$ = make_value ("S", $][1); }
+S : A %merge<merge> { $$ = make_value ("S", $][1); }
   | B %merge<merge> { $$ = make_value ("S", $][1); }
   ;
 
-A:
-  A1   %merge<merge> { $$ = make_value ("A", $][1); }
+A : A1 %merge<merge> { $$ = make_value ("A", $][1); }
   | A2 %merge<merge> { $$ = make_value ("A", $][1); }
   ;
 
@@ -496,11 +496,14 @@ make_value (char const *parent, char const *child)
 static char *
 merge (]AT_YYSTYPE[ s1, ]AT_YYSTYPE[ s2)
 {
-  char const format[] = "merge{ %s and %s }";
-  char *value = *ptrs_next++ =
+  char const format[] = "merge{ %s and %s }";]AT_VALUE_UNION_IF([[
+  char *res = *ptrs_next++ =
+    YY_CAST (char *, malloc (strlen (s1.S) + strlen (s2.S) + sizeof format));
+  sprintf (res, format, s1.S, s2.S);]], [[
+  char *res = *ptrs_next++ =
     YY_CAST (char *, malloc (strlen (s1.ptr) + strlen (s2.ptr) + sizeof format));
-  sprintf (value, format, s1.ptr, s2.ptr);
-  return value;
+  sprintf (res, format, s1.ptr, s2.ptr);]])[
+  return res;
 }
 ]])
 
@@ -514,9 +517,13 @@ AT_BISON_OPTION_POPDEFS
 AT_CLEANUP
 ])
 
-AT_TEST([%skeleton "glr.c"])
-AT_TEST([%skeleton "glr.cc"])
-AT_TEST([%skeleton "glr2.cc"])
+AT_TEST([%union { char *ptr; } %skeleton "glr.c"])
+AT_TEST([%union { char *ptr; } %skeleton "glr.cc"])
+AT_TEST([%union { char *ptr; } %skeleton "glr2.cc"])
+
+AT_TEST([%define api.value.type union %skeleton "glr.c"])
+AT_TEST([%define api.value.type union %skeleton "glr.cc"])
+AT_TEST([%define api.value.type union %skeleton "glr2.cc"])
 
 m4_popdef([AT_TEST])
 
@@ -1106,6 +1113,7 @@ m4_popdef([AT_TEST])
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Leaked semantic values if user action cuts parse: $1])
+AT_KEYWORDS([%merge])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
 AT_DATA_GRAMMAR([glr-regr12.y],
@@ -1386,6 +1394,7 @@ m4_popdef([AT_TEST])
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Incorrect lookahead during nondeterministic GLR: $1])
+AT_KEYWORDS([%merge])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser %locations $1])
 
@@ -1907,6 +1916,7 @@ m4_popdef([AT_TEST])
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Missed %merge type warnings when LHS type is declared later: $1])
+AT_KEYWORDS([%merge])
 
 AT_BISON_OPTION_PUSHDEFS([%glr-parser $1])
 AT_DATA_GRAMMAR([glr-regr18.y],
