@@ -9,6 +9,11 @@ GNU Bison NEWS
   Prefer value_type to semantic_type to denote the semantic value type,
   specified by the `api.value.type` %define variable.
 
+*** GLR traces
+
+  There were not debug traces for deferred calls to user actions.  They are
+  logged now.
+
 ** New features
 
 *** Option -H, --header and directive %header
