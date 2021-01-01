@@ -604,6 +604,12 @@ enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
       }                                                                 \
   } while (false)
 
+# define YY_REDUCE_PRINT(Args)                  \
+  do {                                          \
+    if (yydebug)                                \
+      yystateStack.yy_reduce_print Args;        \
+  } while (false)
+
 /* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
 int yydebug;
@@ -618,6 +624,7 @@ static void yypdumpstack (const glr_stack& yystack)
 
 # define YYCDEBUG if (true) {} else std::cerr
 # define YY_SYMBOL_PRINT(Title, Kind, Value, Location)
+# define YY_REDUCE_PRINT(Args)
 
 #endif /* !]b4_api_PREFIX[DEBUG */
 
@@ -1757,14 +1764,7 @@ public:
       }
   }
 
-#if !]b4_api_PREFIX[DEBUG
-# define YY_REDUCE_PRINT(Args)
-#else
-# define YY_REDUCE_PRINT(Args)          \
-  do {                                  \
-    if (yydebug)                        \
-      yystateStack.yy_reduce_print Args;             \
-  } while (0)
+#if ]b4_api_PREFIX[DEBUG
 
   /*----------------------------------------------------------------------.
   | Report that stack #YYK of *YYSTACKP is going to be reduced by YYRULE. |
@@ -2259,13 +2259,14 @@ public:
    *  (@@$).  Returns yyok for normal return, yyaccept for YYACCEPT,
    *  yyerr for YYERROR, yyabort for YYABORT.  */
   YYRESULTTAG
-  yyuserAction (rule_num yyn, int yyrhslen, glr_stack_item* yyvsp,
+  yyuserAction (rule_num yyrule, int yyrhslen, glr_stack_item* yyvsp, state_set_index yyk,
                 value_type* yyvalp]b4_locations_if([, location_type* yylocp])[)
   {
     bool yynormal YY_ATTRIBUTE_UNUSED = !yystateStack.isSplit();
     int yylow = 1;
   ]b4_parse_param_use([yyvalp], [yylocp])dnl
-  [  YYUSE (yyrhslen);
+  [  YYUSE (yyk);
+  YYUSE (yyrhslen);
   # undef yyerrok
   # define yyerrok (yyerrState = 0)
   # undef YYACCEPT
@@ -2293,12 +2294,16 @@ public:
     YYLLOC_DEFAULT ((*yylocp), (yyvsp - yyrhslen), yyrhslen);
     yyerror_range[1].getState().yyloc = *yylocp;
 ]])[
+  /* If yyk == -1, we are running a deferred action on a temporary
+     stack.  In that case, YY_REDUCE_PRINT must not play with YYFILL,
+     so pretend the stack is "normal". */
+  YY_REDUCE_PRINT ((yynormal || yyk == create_state_set_index (-1), yyvsp, yyk, yyrule, yyparser));
   #if YY_EXCEPTIONS
     typedef ]b4_namespace_ref[::]b4_parser_class[::syntax_error syntax_error;
     try
     {
   #endif // YY_EXCEPTIONS
-    switch (yyn)
+    switch (yyrule)
       {
   ]b4_user_actions[
         default: break;
@@ -2313,6 +2318,7 @@ public:
         YYERROR;
       }
   #endif // YY_EXCEPTIONS
+  YY_SYMBOL_PRINT ("-> $$ =", yylhsNonterm (yyrule), yyvalp, yylocp);
 
     return yyok;
   # undef yyerrok
@@ -2357,8 +2363,8 @@ public:
         /* Standard special case: single stack.  */
         YYASSERT (yyk.get() == 0);
         glr_stack_item* yyrhs = yystateStack.firstTop()->asItem();
-        YY_REDUCE_PRINT ((true, yyrhs, yyk, yyrule, yyparser));
-        const YYRESULTTAG res = yyuserAction (yyrule, yynrhs, yyrhs, yyvalp]b4_locations_if([, yylocp])[);
+        const YYRESULTTAG res
+          = yyuserAction (yyrule, yynrhs, yyrhs, yyk, yyvalp]b4_locations_if([, yylocp])[);
         yystateStack.pop_back(static_cast<size_t>(yynrhs));
         yystateStack.setFirstTop(&yystateStack[yystateStack.size() - 1].getState());
         return res;
@@ -2378,8 +2384,8 @@ public:
           }
         yystateStack.yyupdateSplit (*yys);
         yystateStack.setTopAt(yyk, yys);
-        YY_REDUCE_PRINT ((false, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyk, yyrule, yyparser));
         return yyuserAction (yyrule, yynrhs, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
+                             yyk,
                              yyvalp]b4_locations_if([, yylocp])[);
       }
   }
@@ -2414,7 +2420,6 @@ public:
           ]])[}
         if (yyflag != yyok)
           return yyflag;
-        YY_SYMBOL_PRINT ("-> $$ =", static_cast<yysymbol_kind_t>(yyr1[yyrule]), &val, &loc);
         yyglrShift (yyk,
                     yyLRgotoState (topState(yyk)->yylrState,
                                    yylhsNonterm (yyrule)),
@@ -2689,7 +2694,9 @@ private:
       this->yylval = yyopt.yyval;]b4_locations_if([
       this->yylloc = yyopt.yyloc;])[
       yyflag = yyuserAction (yyopt.yyrule, yynrhs,
-                             yyrhsVals + YYMAXRHS + YYMAXLEFT - 1, yyvalp]b4_locations_if([, yylocp])[);
+                             yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
+                             create_state_set_index (-1),
+                             yyvalp]b4_locations_if([, yylocp])[);
       this->yychar = yychar_current;
       this->yylval = yylval_current;]b4_locations_if([
       this->yylloc = yylloc_current;])[
