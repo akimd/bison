@@ -1,4 +1,22 @@
-/* Simplified C++ Type and Expression Grammar.  */
+/*                                                       -*- C -*-
+  Copyright (C) 2020 Free Software Foundation, Inc.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+/* Simplified C++ Type and Expression Grammar.
+   Written by Paul Hilfinger for Bison's test suite.  */
 
 %define api.pure
 %header
@@ -47,9 +65,9 @@
   static Node *new_term (char *);
   static void free_node (Node *);
   static char *node_to_string (Node *);
+  static void node_print (FILE *, Node *);
   static Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
 
-  static int location_print (FILE *yyo, YYLTYPE const * const yylocp);
   static void yyerror (YYLTYPE const * const llocp, const char *msg);
   static yytoken_kind_t yylex (YYSTYPE *lvalp, YYLTYPE *llocp);
 }
@@ -67,17 +85,16 @@
 
 %type <Node*> stmt expr decl declarator TYPENAME ID
 %destructor { free_node ($$); } <Node*>
+%printer { node_print (yyo, $$); } <Node*>
 
 %%
 
 prog : %empty
      | prog stmt   {
-                     char *output = node_to_string ($2);
-                     printf ("%d.%d-%d.%d: %s\n",
-                             @2.first_line, @2.first_column,
-                             @2.last_line, @2.last_column,
-                             output);
-                     free (output);
+                     YY_LOCATION_PRINT (stdout, @2);
+                     fputs (": ", stdout);
+                     node_print (stdout, $2);
+                     putc ('\n', stdout);
                      free_node ($2);
                    }
      ;
@@ -108,50 +125,16 @@ declarator
 
 %%
 
-int
-main (int argc, char **argv)
-{
-  // Enable parse traces on option -p.
-  if (1 < argc && strcmp (argv[1], "-p") == 0)
-    yydebug = 1;
-  return yyparse ();
-}
-
-
-/* Print *YYLOCP on YYO. */
-
-static int
-location_print (FILE *yyo, YYLTYPE const * const yylocp)
-{
-  int res = 0;
-  int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
-  if (0 <= yylocp->first_line)
-    {
-      res += fprintf (yyo, "%d", yylocp->first_line);
-      if (0 <= yylocp->first_column)
-        res += fprintf (yyo, ".%d", yylocp->first_column);
-    }
-  if (0 <= yylocp->last_line)
-    {
-      if (yylocp->first_line < yylocp->last_line)
-        {
-          res += fprintf (yyo, "-%d", yylocp->last_line);
-          if (0 <= end_col)
-            res += fprintf (yyo, ".%d", end_col);
-        }
-      else if (0 <= end_col && yylocp->first_column < end_col)
-        res += fprintf (yyo, "-%d", end_col);
-    }
-  return res;
-}
-
 /* A C error reporting function.  */
 static
 void yyerror (YYLTYPE const * const llocp, const char *msg)
 {
-  location_print (stderr, llocp);
+  YY_LOCATION_PRINT (stderr, *llocp);
   fprintf (stderr, ": %s\n", msg);
 }
+
+/* The input file. */
+FILE * input = NULL;
 
 yytoken_kind_t
 yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
@@ -162,8 +145,8 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
   while (1)
     {
       int c;
-      assert (!feof (stdin));
-      c = getchar ();
+      assert (!feof (input));
+      c = getc (input);
       switch (c)
         {
         case EOF:
@@ -193,11 +176,11 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
                     buffer[i++] = (char) c;
                     colNum += 1;
                     assert (i != sizeof buffer - 1);
-                    c = getchar ();
+                    c = getc (input);
                   }
                 while (isalnum (c) || c == '_');
 
-                ungetc (c, stdin);
+                ungetc (c, input);
                 buffer[i++] = 0;
                 if (isupper ((unsigned char) buffer[0]))
                   {
@@ -297,9 +280,59 @@ node_to_string (Node *node)
   return res;
 }
 
+static void node_print (FILE *out, Node *n)
+{
+  char *str = node_to_string (n);
+  fputs (str, out);
+  free (str);
+}
+
 
 static Node*
 stmtMerge (YYSTYPE x0, YYSTYPE x1)
 {
   return new_nterm ("<OR>(%s,%s)", x0.stmt, x1.stmt, NULL);
+}
+
+static int
+process (const char *file)
+{
+  int is_stdin = !file || strcmp (file, "-") == 0;
+  if (is_stdin)
+    input = stdin;
+  else
+    input = fopen (file, "r");
+  assert (input);
+  int status = yyparse ();
+  if (!is_stdin)
+    fclose (input);
+  return status;
+}
+
+int
+main (int argc, char **argv)
+{
+  if (getenv ("YYDEBUG"))
+    yydebug = 1;
+
+  int ran = 0;
+  for (int i = 1; i < argc; ++i)
+    // Enable parse traces on option -p.
+    if (strcmp (argv[i], "-p") == 0)
+      yydebug = 1;
+    else
+      {
+        int status = process (argv[i]);
+        ran = 1;
+        if (!status)
+          return status;
+      }
+
+  if (!ran)
+    {
+      int status = process (NULL);
+      if (!status)
+        return status;
+    }
+  return 0;
 }

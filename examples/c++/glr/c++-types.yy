@@ -192,11 +192,11 @@ main (int argc, char **argv)
   bool ran = false;
   for (int i = 1; i < argc; ++i)
     // Enable parse traces on option -p.
-    if (strcmp (argv[1], "-p") == 0)
+    if (strcmp (argv[i], "-p") == 0)
       parse.set_debug_level (1);
     else
       {
-        int status = process (parse, argv[1]);
+        int status = process (parse, argv[i]);
         ran = true;
         if (!status)
           return status;
