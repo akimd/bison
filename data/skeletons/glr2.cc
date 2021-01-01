@@ -1068,14 +1068,16 @@ public:
     : yyrule (0)
     , yystate (0)
     , yynext (0)
-    , yychar (0)
+    , yychar (0)]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {}
 
   semantic_option (rule_num rule, int rawChar)
     : yyrule (rule)
     , yystate (0)
     , yynext (0)
-    , yychar (rawChar)
+    , yychar (rawChar)]b4_parse_assert_if([[
+    , magic_ (MAGIC)]])[
   {}
 
   /// Only call state() and setState() on objects in yyitems, not temporaries.
@@ -1094,7 +1096,9 @@ public:
    *  that produce the same terminal symbols.  */
   bool
   isIdenticalTo (const semantic_option& yyy1) const
-  {
+  {]b4_parse_assert_if([[
+    check_ ();
+    yyy1.check_ ();]])[
     if (this->yyrule == yyy1.yyrule)
       {
         const glr_state *yys0, *yys1;
@@ -1117,9 +1121,11 @@ public:
    *  alternative semantic values for the RHS-symbols of YYY1 and YYY0.  */
   void
   mergeWith (semantic_option& yyy1)
-  {
-    glr_state *yys0 = this->state();
-    glr_state *yys1 = yyy1.state();
+  {]b4_parse_assert_if([[
+    check_ ();
+    yyy1.check_ ();]])[
+    glr_state *yys0 = this->state ();
+    glr_state *yys1 = yyy1.state ();
     for (int yyn = yyrhsLength (this->yyrule);
          yyn > 0;
          yyn -= 1, yys0 = yys0->pred (), yys1 = yys1->pred ())
@@ -1173,7 +1179,8 @@ public:
 
 #if ]b4_api_PREFIX[DEBUG
   void yyreportTree (size_t yyindent = 2) const
-  {
+  {]b4_parse_assert_if([[
+    check_ ();]])[
     int yynrhs = yyrhsLength (this->yyrule);
     const glr_state* yystates[1 + YYMAXRHS];
     glr_state yyleftmost_state;
@@ -1248,6 +1255,20 @@ public:
   int yychar;
   value_type yyval;]b4_locations_if([[
   location_type yyloc;]])[
+
+]b4_parse_assert_if([[
+public:
+  // Check invariants.
+  void check_ () const
+  {
+    YY_IGNORE_NULL_DEREFERENCE_BEGIN
+    YYASSERT (this->magic_ == MAGIC);
+    YY_IGNORE_NULL_DEREFERENCE_END
+  }
+
+  // A magic number to check our pointer arithmetics is sane.
+  enum { MAGIC = 0xeff1cace };
+  unsigned int magic_;]])[
 };
 
 /** Type of the items in the GLR stack.
