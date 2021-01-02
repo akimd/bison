@@ -129,13 +129,27 @@ if (isInputRange!R && is(ElementType!R : dchar))
     if (input.front.isNumber)
     {
       int lenChars = 0;
-      auto copy = input;
-      import std.conv : parse;
-      value_.ival = input.parse!int;
-      while (!input.empty && copy.front != input.front)
+      import std.compiler : version_minor;
+      static if (version_minor >= 95)
       {
-        lenChars++;
-        copy.popFront;
+        // from Dlang v2.095.0 onwards std.conv.parse reports
+        // the number of consumed characters
+        import std.typecons : Flag, Yes;
+        import std.conv : parse;
+        auto parsed = parse!(int, R, Yes.doCount)(input);
+        value_.ival = parsed.data;
+        lenChars = cast(int) parsed.count;
+      }
+      else
+      {
+        auto copy = input;
+        import std.conv : parse;
+        value.ival = input.parse!int;
+        while (!input.empty && copy.front != input.front)
+        {
+          lenChars++;
+          copy.popFront;
+        }
       }
       location.begin = location.end;
       location.end.column += lenChars;
