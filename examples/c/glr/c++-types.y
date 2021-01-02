@@ -106,15 +106,15 @@ stmt : expr ';'  %merge <stmtMerge>     { $$ = $1; }
 
 expr : ID
      | TYPENAME '(' expr ')'
-                        { $$ = new_nterm ("<cast>(%s,%s)", $3, $1, NULL); }
-     | expr '+' expr    { $$ = new_nterm ("+(%s,%s)", $1, $3, NULL); }
-     | expr '=' expr    { $$ = new_nterm ("=(%s,%s)", $1, $3, NULL); }
+                        { $$ = new_nterm ("<cast>(%s, %s)", $3, $1, NULL); }
+     | expr '+' expr    { $$ = new_nterm ("+(%s, %s)", $1, $3, NULL); }
+     | expr '=' expr    { $$ = new_nterm ("=(%s, %s)", $1, $3, NULL); }
      ;
 
 decl : TYPENAME declarator ';'
-                        { $$ = new_nterm ("<declare>(%s,%s)", $1, $2, NULL); }
+                        { $$ = new_nterm ("<declare>(%s, %s)", $1, $2, NULL); }
      | TYPENAME declarator '=' expr ';'
-                        { $$ = new_nterm ("<init-declare>(%s,%s,%s)", $1,
+                        { $$ = new_nterm ("<init-declare>(%s, %s, %s)", $1,
                                           $2, $4); }
      ;
 
@@ -291,7 +291,7 @@ static void node_print (FILE *out, Node *n)
 static Node*
 stmtMerge (YYSTYPE x0, YYSTYPE x1)
 {
-  return new_nterm ("<OR>(%s,%s)", x0.stmt, x1.stmt, NULL);
+  return new_nterm ("<OR>(%s, %s)", x0.stmt, x1.stmt, NULL);
 }
 
 static int
