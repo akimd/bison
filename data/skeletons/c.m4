@@ -165,11 +165,11 @@ m4_popdef([$1])dnl
 
 # b4_parse_param_use([VAL], [LOC])
 # --------------------------------
-# 'YYUSE' VAL, LOC if locations are enabled, and all the parse-params.
+# 'YY_USE' VAL, LOC if locations are enabled, and all the parse-params.
 m4_define([b4_parse_param_use],
-[m4_ifvaln([$1], [  YYUSE ([$1]);])dnl
-b4_locations_if([m4_ifvaln([$2], [  YYUSE ([$2]);])])dnl
-b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
+[m4_ifvaln([$1], [  YY_USE ([$1]);])dnl
+b4_locations_if([m4_ifvaln([$2], [  YY_USE ([$2]);])])dnl
+b4_parse_param_for([Decl], [Formal], [  YY_USE (Formal);
 ])dnl
 ])
 
@@ -389,9 +389,9 @@ dnl use C' _Noreturn in C++, to avoid -Wc11-extensions warnings.
 
 ]])[/* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
-# define YYUSE(E) ((void) (E))
+# define YY_USE(E) ((void) (E))
 #else
-# define YYUSE(E) /* empty */
+# define YY_USE(E) /* empty */
 #endif
 
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */

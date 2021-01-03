@@ -555,7 +555,7 @@ m4_defn([b4_actions_])[]dnl
         break;
     }dnl
 ],
-[YYUSE (m4_default([$2], [yykind]));])dnl
+[YY_USE (m4_default([$2], [yykind]));])dnl
 m4_popdef([b4_actions_])dnl
 ])
 

@@ -1859,8 +1859,8 @@ public:
   yyreportAmbiguity (const semantic_option& yyx0,
                      const semantic_option& yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, const location_type& yyloc])[)
   {
-    YYUSE (yyx0);
-    YYUSE (yyx1);
+    YY_USE (yyx0);
+    YY_USE (yyx1);
 
 #if ]b4_api_PREFIX[DEBUG
     std::cerr << "Ambiguity detected.\n"
@@ -2286,8 +2286,8 @@ public:
     bool yynormal YY_ATTRIBUTE_UNUSED = !yystateStack.isSplit();
     int yylow = 1;
   ]b4_parse_param_use([yyvalp], [yylocp])dnl
-  [  YYUSE (yyk);
-  YYUSE (yyrhslen);
+  [  YY_USE (yyk);
+  YY_USE (yyrhslen);
   # undef yyerrok
   # define yyerrok (yyerrState = 0)
   # undef YYACCEPT
@@ -2578,8 +2578,8 @@ private:
   static void
   yyuserMerge (int yyn, value_type* yy0, value_type* yy1)
   {
-    YYUSE (yy0);
-    YYUSE (yy1);
+    YY_USE (yy0);
+    YY_USE (yy1);
 
     switch (yyn)
       {
@@ -3228,12 +3228,12 @@ b4_dollar_popdef])[]dnl
                            const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[)
   {
-    YYUSE (yyvaluep);]b4_locations_if([[
-    YYUSE (yylocationp);]])[
+    YY_USE (yyvaluep);]b4_locations_if([[
+    YY_USE (yylocationp);]])[
     if (!yymsg)
       yymsg = "Deleting";
     ]b4_parser_class[& yyparser = *this;
-    YYUSE (yyparser);
+    YY_USE (yyparser);
     YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
 
     YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
@@ -3251,11 +3251,11 @@ b4_dollar_popdef])[]dnl
                            const value_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[) const
   {]b4_locations_if([[
-    YYUSE (yylocationp);]])[
-    YYUSE (yyvaluep);
+    YY_USE (yylocationp);]])[
+    YY_USE (yyvaluep);
     std::ostream& yyo = debug_stream ();
     std::ostream& yyoutput = yyo;
-    YYUSE (yyoutput);
+    YY_USE (yyoutput);
     ]b4_symbol_actions([printer])[
   }
 

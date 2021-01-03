@@ -339,9 +339,8 @@ AT_PERL_CHECK([[-n -0777 -e '
       |YYNTOKENS  # This is actual scoped in a C++ class.
       |YYPUSH_MORE(?:_DEFINED)?
       |S_(YY(ACCEPT|EMPTY|EOF|error|UNDEF))  # These guys are scoped.
-      |YYUSE
-      |YY_ATTRIBUTE(?:_PURE|_UNUSED)
       |YY(?:_REINTERPRET)?_CAST
+      |YY_ATTRIBUTE(?:_PURE|_UNUSED)
       |YY_CONSTEXPR
       |YY_COPY
       |YY_CPLUSPLUS
@@ -354,6 +353,7 @@ AT_PERL_CHECK([[-n -0777 -e '
       |YY_NOTHROW
       |YY_NULLPTR
       |YY_RVREF
+      |YY_USE
       |YY_\w+_INCLUDED
       |FILE\ \*yyo   # Function argument.
       |const\ yylocp # Function argument.

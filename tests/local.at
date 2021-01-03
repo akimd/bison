@@ -584,11 +584,11 @@ m4_define([AT_YYLEX_DEFINE],  [AT_LANG_DISPATCH([$0], $@)])
 # AT_YYERROR_DEFINE
 # -------------------------
 # Must be called inside a AT_BISON_OPTION_PUSHDEFS/POPDEFS pair.
-m4_define([AT_YYERROR_FORMALS],  [AT_LANG_DISPATCH([$0], $@)])
-m4_define([AT_YYERROR_PROTOTYPE],[AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_YYERROR_FORMALS],        [AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_YYERROR_PROTOTYPE],      [AT_LANG_DISPATCH([$0], $@)])
 m4_define([AT_YYERROR_DECLARE_EXTERN], [AT_LANG_DISPATCH([$0], $@)])
-m4_define([AT_YYERROR_DECLARE],  [AT_LANG_DISPATCH([$0], $@)])
-m4_define([AT_YYERROR_DEFINE],   [AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_YYERROR_DECLARE],        [AT_LANG_DISPATCH([$0], $@)])
+m4_define([AT_YYERROR_DEFINE],         [AT_LANG_DISPATCH([$0], $@)])
 
 # AT_MAIN_DEFINE
 # --------------
@@ -671,7 +671,7 @@ yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[
 {
   int res = 0;]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
-  YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  YY_USE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
   ++global_nerrs;
   ++*nerrs;]])[]AT_LOCATION_IF([[
   LOCATION_PRINT (stderr, *yypcontext_location (ctx));
@@ -707,11 +707,11 @@ static
 ]AT_YYERROR_PROTOTYPE[
 {]m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
-  YYUSE (\1);])dnl
+  YY_USE (\1);])dnl
 AT_YYERROR_SEES_LOC_IF([[
   LOCATION_PRINT (stderr, ]AT_LOC[);
   fprintf (stderr, ": ");]])[
-  fprintf (stderr, "%s\n", msg);]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  fprintf (stderr, "%s\n", msg);]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
   ++global_nerrs;
   ++*nerrs;]])[
 }]])])
@@ -779,7 +779,7 @@ m4_define([AT_YYERROR_DEFINE(c++)],
 [[/* A C++ error reporting function.  */
 void
 ]AT_NAMESPACE[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
-{]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+{]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
   ++global_nerrs;
   ++*nerrs;]])[
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
@@ -788,7 +788,7 @@ void
 ]AT_NAMESPACE[::parser::report_syntax_error (const context& ctx) const
 {]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
-  YYUSE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  YY_USE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
   ++global_nerrs;
   ++*nerrs;]])[]AT_LOCATION_IF([[
   std::cerr << ctx.location () << ": ";]])[
@@ -1047,7 +1047,7 @@ m4_define([AT_YYERROR_DEFINE(java)],
   }
 ]], [[
   public void yyerror (String m)
-  {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs],[[
+  {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
     ++global_nerrs;
     ++*nerrs;]])[
     System.err.println (m);

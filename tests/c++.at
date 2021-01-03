@@ -1233,10 +1233,10 @@ list:
 
 item:
   'a'     { $$ = $][1; }
-| 'e'     { YYUSE ($$); YYUSE ($][1); error ("syntax error"); }
+| 'e'     { YY_USE ($$); YY_USE ($][1); error ("syntax error"); }
 // Not just 'E', otherwise we reduce when 'E' is the lookahead, and
 // then the stack is emptied, defeating the point of the test.
-| 'E' 'a' { YYUSE ($][1); $$ = $][2; }
+| 'E' 'a' { YY_USE ($][1); $$ = $][2; }
 | 'R'     { ]AT_VARIANT_IF([], [$$ = YY_NULLPTR; delete $][1]; )[YYERROR; }
 | 'p'     { $$ = $][1; }
 | 's'     { $$ = $][1; throw std::runtime_error ("reduction"); }
@@ -1395,7 +1395,7 @@ int yylex (yy::parser::semantic_type *lvalp)
   // Note: this argument is unused, but named on purpose.  There used to be a
   // bug with a macro that erroneously expanded this identifier to
   // yystackp->yyval.
-  YYUSE (lvalp);
+  YY_USE (lvalp);
   return ]AT_TOKEN([ZERO])[;
 }
 
