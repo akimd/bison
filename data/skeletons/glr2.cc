@@ -3095,7 +3095,7 @@ b4_dollar_popdef])[]dnl
                 YYCDEBUG << "On stack " << yys.get() << ", ";
                 YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yystack.yylval, &yystack.yylloc);
                 yystack.yyglrShift (yys, yyaction, yyposn, yystack.yylval]b4_locations_if([, yystack.yylloc])[);
-                YYCDEBUG << "Stack " << yys.get() << " now in state #"
+                YYCDEBUG << "Stack " << yys.get() << " now in state "
                          << yystack.topState(yys)->yylrState << '\n';
               }
 

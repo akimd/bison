@@ -2058,7 +2058,7 @@ Now at end of input.
 Removing dead stacks.
 Rename stack 1 -> 0.
 On stack 0, shifting token "end of file" ()
-Stack 0 now in state #5
+Stack 0 now in state 5
 Ambiguity detected.
 Option 1,
   start -> <Rule 1, tokens 1 .. 3>
