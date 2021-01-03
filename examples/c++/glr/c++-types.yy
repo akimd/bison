@@ -60,6 +60,8 @@
   TYPENAME "typename"
   ID "identifier"
 
+%printer { yyo << $$; } TYPENAME ID stmt expr decl declarator
+
 %right '='
 %left '+'
 
