@@ -13919,7 +13919,7 @@ Run the syntactic analysis, and return @code{true} on success,
 @deftypemethod {YYParser} {boolean} getErrorVerbose()
 @deftypemethodx {YYParser} {void} setErrorVerbose(boolean @var{verbose})
 Get or set the option to produce verbose error messages.  These are only
-available with @samp{%define parse.error detailed} (or @samp{verbose}),
+available with @samp{%define parse.error detailed},
 which also turns on verbose error messages.
 @end deftypemethod
 

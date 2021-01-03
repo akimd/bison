@@ -693,7 +693,7 @@ m4_popdef([b4_at_dollar])])dnl
   {]b4_parse_error_bmatch(
 [custom], [[
     yylexer.reportSyntaxError(yyctx);]],
-[detailed\|verbose], [[
+[detailed], [[
     if (yyctx.getToken() != ]b4_symbol(empty, kind)[)
     {
       // FIXME: This method of building the message is not compatible
@@ -735,7 +735,7 @@ m4_popdef([b4_at_dollar])])dnl
   }
 
 ]b4_parse_error_bmatch(
-[detailed\|verbose], [[
+[detailed], [[
   private int yysyntaxErrorArguments(Context yyctx, SymbolKind[] yyarg, int yyargn) {
     /* There are many possibilities here to consider:
        - If this state is a consistent state with a default action,
