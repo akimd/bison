@@ -13555,6 +13555,14 @@ then the parser's to get the set of defined tokens.
 #  pragma GCC diagnostic ignored "-Wsign-conversion"
 # endif
 #endif
+
+// Flex 2.6.4, GCC 9
+// warning: useless cast to type 'int' [-Wuseless-cast]
+// 1361 |   YY_CURRENT_BUFFER_LVALUE->yy_buf_size = (int) (new_size - 2);
+//      |                                                 ^
+#if defined GCC_VERSION && 900 <= GCC_VERSION
+# pragma GCC diagnostic ignored "-Wuseless-cast"
+#endif
 %@}
 @end example
 @end ignore
