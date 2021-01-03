@@ -902,10 +902,13 @@ public string transformToken(]AT_API_PREFIX[Parser.SymbolKind token)
 
 public void reportSyntaxError(]AT_API_PREFIX[Parser.Context ctx)
 {
-  stderr.write(]AT_LOCATION_IF([[ctx.getLocation(), ": ",]])["syntax error");
+  // Buffer and print the message at the end, to avoid being intertwined
+  // with debug traces from getExpectedTokens.
+  string msg;
+  msg ~=]AT_LOCATION_IF([[ ctx.getLocation().toString() ~ ": " ~]])[ "syntax error";
   {
     ]AT_API_PREFIX[Parser.SymbolKind token = ctx.getToken();
-    stderr.write(" on token @<:@", transformToken(token), "@:>@");
+    msg ~= " on token @<:@" ~ transformToken(token) ~ "@:>@";
   }
   {
     immutable int argmax = 7;
@@ -913,12 +916,13 @@ public void reportSyntaxError(]AT_API_PREFIX[Parser.Context ctx)
     int n = ctx.getExpectedTokens(arg, argmax);
     if (0 < n)
     {
-      stderr.write(" (expected:");
+      msg ~= " (expected:";
       for (int i = 0; i < n; ++i)
-        stderr.write(" @<:@", transformToken(arg[i]), "@:>@");
-      stderr.writeln(")");
+        msg ~= " @<:@" ~ transformToken(arg[i]) ~ "@:>@";
+      msg ~= ")";
     }
   }
+  stderr.writeln(msg);
 }
 ]])[]])
 
