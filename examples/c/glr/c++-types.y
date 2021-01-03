@@ -64,8 +64,8 @@
   static Node *new_nterm (char const *, Node *, Node *, Node *);
   static Node *new_term (char *);
   static void free_node (Node *);
-  static char *node_to_string (Node *);
-  static void node_print (FILE *, Node *);
+  static char *node_to_string (const Node *);
+  static void node_print (FILE *, const Node *);
   static Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
 
   static void yyerror (YYLTYPE const * const llocp, const char *msg);
@@ -95,6 +95,7 @@ prog : %empty
                      fputs (": ", stdout);
                      node_print (stdout, $2);
                      putc ('\n', stdout);
+                     fflush (stdout);
                      free_node ($2);
                    }
      ;
@@ -255,7 +256,7 @@ free_node (Node *node)
 }
 
 static char *
-node_to_string (Node *node)
+node_to_string (const Node *node)
 {
   char *res;
   if (!node)
@@ -280,7 +281,8 @@ node_to_string (Node *node)
   return res;
 }
 
-static void node_print (FILE *out, Node *n)
+static void
+node_print (FILE *out, const Node *n)
 {
   char *str = node_to_string (n);
   fputs (str, out);
