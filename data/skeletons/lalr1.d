@@ -382,7 +382,6 @@ b4_user_union_members
     }
 
 ]b4_parse_trace_if([[
-    import std.conv : to;
     yy_symbol_print ("-> $$ =", to!SymbolKind (yyr1_[yyn]), yyval]b4_locations_if([, yyloc])[);]])[
 
     yystack.pop (yylen);
@@ -664,7 +663,6 @@ m4_popdef([b4_at_dollar])])dnl
 
         /* Shift the error token.  */]b4_lac_if([[
         yylacDiscard("error recovery");]])[]b4_parse_trace_if([[
-        import std.conv : to;
         yy_symbol_print ("Shifting", to!SymbolKind (yystos_[yyn]), yylval]b4_locations_if([, yyloc])[);]])[
         yystate = yyn;
         yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
@@ -704,7 +702,6 @@ m4_popdef([b4_at_dollar])])dnl
       SymbolKind[] yyarg = new SymbolKind[argmax];
       int yycount = yysyntaxErrorArguments(yyctx, yyarg, argmax);
       string res, yyformat;
-      import std.string;
       switch (yycount)
       {
         case  1:
@@ -882,7 +879,6 @@ m4_popdef([b4_at_dollar])])dnl
     destroy(yylacStack);
     // Reduce until we encounter a shift and thereby accept the token.
 ]b4_parse_trace_if([[
-    import std.conv;
     yycdebug("LAC: checking lookahead " ~ format("%s", yytoken) ~ ":");]])[
     int lacTop = 0;
     while (true)
@@ -1073,7 +1069,6 @@ m4_popdef([b4_at_dollar])])dnl
                 yyrule - 1, yylno));
 
     /* The symbols being reduced.  */
-    import std.conv : to;
     for (int yyi = 0; yyi < yynrhs; yyi++)
       yy_symbol_print (format("   $%d =", yyi + 1),
                        to!SymbolKind (yystos_[yystack.stateAt(yynrhs - (yyi + 1))]),
