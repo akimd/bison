@@ -243,12 +243,6 @@ m4_define([b4_declare_symbol_enum],
       yycode_ = code;
     }
 
-    /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-       First, the terminals, then, starting at \a YYNTOKENS_, nonterminals.  */
-    static immutable string[] yytname_ = @{
-  ]b4_tname[
-    @};
-
     /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
      that double-quoting is unnecessary unless the string contains an
@@ -264,37 +258,9 @@ m4_define([b4_declare_symbol_enum],
         internationalizable.  */
       immutable ]b4_int_type_for([b4_translatable])[[] yytranslatable = @{
   ]b4_translatable[
-      @};
+      @};]])[
 
-        put(sink, yy_sname[yycode_]);]], [[
-      string yystr = yytname_[yycode_];
-      if (yystr[0] == '"')
-        {
-        strip_quotes:
-          for (int i = 1; i < yystr.length; i++)
-            switch (yystr[i])
-              {
-              case '\'':
-              case ',':
-                break strip_quotes;
-
-              case '\\':
-                if (yystr[++i] != '\\')
-                  break strip_quotes;
-                goto default;
-              default:
-                put(sink, yystr[i]);
-                break;
-
-              case '"':
-                return;
-              }
-        }
-      else if (yystr == "$end")
-      {
-        put(sink, "end of input");
-        return;
-      }]])[
+      put(sink, yy_sname[yycode_]);
     }
   }
 ]])
