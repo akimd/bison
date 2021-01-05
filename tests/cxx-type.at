@@ -28,6 +28,7 @@ m4_define([_AT_TEST_GLR_CXXTYPES],
 AT_DATA_GRAMMAR([types.y],
 [[/* Simplified C++ Type and Expression Grammar.  */
 
+%define parse.trace
 $1
 
 %code requires
@@ -127,10 +128,21 @@ declarator : ID
 int
 main (int argc, char **argv)
 {
-  assert (argc == 2); (void) argc;
-  if (!freopen (argv[1], "r", stdin))
-    return 3;
-  return yyparse ();
+  if (getenv ("YYDEBUG"))
+    yydebug = 1;
+  for (int i = 1; i < argc; ++i)
+    // Enable parse traces on option -p.
+    if (strcmp (argv[i], "-p") == 0)
+      yydebug = 1;
+    else
+      {
+        if (!freopen (argv[i], "r", stdin))
+          return 3;
+        int status = yyparse ();
+        if (!status)
+          return status;
+      }
+  return 0;
 }
 
 ]AT_YYERROR_DEFINE[
@@ -383,67 +395,67 @@ m4_define([_AT_VERBOSE_GLR_STDERR_WITH_LOC],
 [[17.5: syntax error, unexpected ID, expecting '=' or '+' or ')'
 ]])
 
+
 ## ---------------------------------------------------- ##
 ## Compile the grammar described in the documentation.  ##
 ## ---------------------------------------------------- ##
 
+# AT_TEST([STDOUT], [STDERR])
+m4_pushdef([AT_TEST],
+[AT_PARSER_CHECK([[types test-input]],   0, [$1], [$2])
+AT_PARSER_CHECK([[types -p test-input]], 0, [$1], [ignore])
+])
+
 AT_SETUP([GLR: Resolve ambiguity, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([],
                       [%dprec 1], [%dprec 2])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_RESOLVED_GLR_OUTPUT], [_AT_GLR_STDERR])
+AT_TEST([_AT_RESOLVED_GLR_OUTPUT], [_AT_GLR_STDERR])
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, impure, locations])
 _AT_TEST_GLR_CXXTYPES([%locations],[%dprec 1],[%dprec 2])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_RESOLVED_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
+AT_TEST([_AT_RESOLVED_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure],
                       [%dprec 1], [%dprec 2])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_RESOLVED_GLR_OUTPUT], [_AT_GLR_STDERR])
+AT_TEST([_AT_RESOLVED_GLR_OUTPUT], [_AT_GLR_STDERR])
 AT_CLEANUP
 
 AT_SETUP([GLR: Resolve ambiguity, pure, locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
                       [%dprec 1], [%dprec 2])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_RESOLVED_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
+AT_TEST([_AT_RESOLVED_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([],
                       [%merge <stmtMerge>], [%merge <stmtMerge>])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_AMBIG_GLR_OUTPUT], [_AT_GLR_STDERR])
+AT_TEST([_AT_AMBIG_GLR_OUTPUT], [_AT_GLR_STDERR])
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, locations])
 _AT_TEST_GLR_CXXTYPES([%locations],
                       [%merge <stmtMerge>], [%merge <stmtMerge>])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_AMBIG_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
+AT_TEST([_AT_AMBIG_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, pure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure],
                       [%merge <stmtMerge>], [%merge <stmtMerge>])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_AMBIG_GLR_OUTPUT], [_AT_GLR_STDERR])
+AT_TEST([_AT_AMBIG_GLR_OUTPUT], [_AT_GLR_STDERR])
 AT_CLEANUP
 AT_SETUP([GLR: Merge conflicting parses, pure, locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
                       [%merge <stmtMerge>],[%merge <stmtMerge>])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_AMBIG_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
+AT_TEST([_AT_AMBIG_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define parse.error verbose],
                       [%merge <stmtMerge>], [%merge <stmtMerge>])
-AT_PARSER_CHECK([[types test-input]], 0,
-                [_AT_AMBIG_GLR_OUTPUT], [_AT_VERBOSE_GLR_STDERR])
+AT_TEST([_AT_AMBIG_GLR_OUTPUT], [_AT_VERBOSE_GLR_STDERR])
 AT_CLEANUP
+
+m4_popdef([AT_TEST])
