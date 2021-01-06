@@ -399,20 +399,17 @@ b4_user_union_members
   `--------------------------------*/
 
   private final void yy_symbol_print (string s, SymbolKind yykind,
-    ref Value yyvaluep]dnl
-b4_locations_if([, ref Location yylocationp])[)
+    ref Value yyval]b4_locations_if([, ref Location yyloc])[)
   {
     if (0 < yydebug)
     {
-      string message = s ~ (yykind < yyntokens_ ? " token " : " nterm ")
-              ~ format("%s", yykind) ~ " ("]b4_locations_if([
-              ~ yylocationp.toString() ~ ": "])[;
-      static if (__traits(compiles, message ~= yyvaluep.toString()))
-              message ~= yyvaluep.toString();
-      else
-              message ~= format("%s", &yyvaluep);
-      message ~= ")";
-      yycdebugln (message);
+      File yyo = yyDebugStream;
+      yyo.write(s);
+      yyo.write(yykind < yyntokens_ ? " token " : " nterm ");
+      yyo.write(format("%s", yykind));
+      yyo.write(" ("]b4_locations_if([ ~ yyloc.toString() ~ ": "])[);
+      ]b4_symbol_actions([printer])[
+      yyo.write(")\n");
     }
   }
 ]])[

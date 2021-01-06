@@ -18,24 +18,33 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# _b4_comment(TEXT, OPEN, CONTINUE, END)
-# --------------------------------------
-# Put TEXT in comment.  Avoid trailing spaces: don't indent empty lines.
-# Avoid adding indentation to the first line, as the indentation comes
-# from OPEN.  That's why we don't patsubst([$1], [^\(.\)], [   \1]).
-#
-# Prefix all the output lines with PREFIX.
-m4_define([_b4_comment],
-[$2[]m4_bpatsubst(m4_expand([[$1]]), [
-\(.\)], [
-$3\1])$4])
+m4_include(b4_skeletonsdir/[c-like.m4])
 
 
-# b4_comment(TEXT, [PREFIX])
-# --------------------------
-# Put TEXT in comment.  Prefix all the output lines with PREFIX.
-m4_define([b4_comment],
-[_b4_comment([$1], [$2/* ], [$2   ], [  */])])
+# b4_symbol_action(SYMBOL-NUM, ACTION)
+# ------------------------------------
+# Run the action ACTION ("destructor" or "printer") for SYMBOL-NUM.
+m4_define([b4_symbol_action],
+[b4_symbol_if([$1], [has_$2],
+[b4_dollar_pushdef([yyval],
+                   [$1],
+                   [],
+                   [yyloc])dnl
+    _b4_symbol_case([$1])[]dnl
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
+b4_symbol([$1], [$2])
+b4_syncline([@oline@], [@ofile@])dnl
+        break;
+
+b4_dollar_popdef[]dnl
+])])
+
+
+# b4_use(EXPR)
+# ------------
+# Pacify the compiler about some maybe unused value.
+m4_define([b4_use],
+[])
 
 
 # b4_sync_start(LINE, FILE)

@@ -652,7 +652,7 @@ m4_define([_AT_DATA_CALC_Y(d)],
 {
   semantic_value ival;
 };
-%printer { fprintf (yyo, "%d", $$); } <ival>;
+%printer { yyo.write($$); } <ival>;
 
 %code {
 ]AT_TOKEN_TRANSLATE_IF([[

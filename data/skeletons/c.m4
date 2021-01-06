@@ -163,13 +163,20 @@ m4_popdef([$2])dnl
 m4_popdef([$1])dnl
 ])])
 
+
+# b4_use(EXPR)
+# ------------
+# Pacify the compiler about some maybe unused value.
+m4_define([b4_use],
+[YY_USE ($1)])
+
 # b4_parse_param_use([VAL], [LOC])
 # --------------------------------
 # 'YY_USE' VAL, LOC if locations are enabled, and all the parse-params.
 m4_define([b4_parse_param_use],
-[m4_ifvaln([$1], [  YY_USE ([$1]);])dnl
-b4_locations_if([m4_ifvaln([$2], [  YY_USE ([$2]);])])dnl
-b4_parse_param_for([Decl], [Formal], [  YY_USE (Formal);
+[m4_ifvaln([$1], [  b4_use([$1]);])dnl
+b4_locations_if([m4_ifvaln([$2], [  b4_use([$2]);])])dnl
+b4_parse_param_for([Decl], [Formal], [  b4_use(Formal);
 ])dnl
 ])
 

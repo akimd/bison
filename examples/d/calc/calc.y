@@ -21,6 +21,7 @@
 
 %define api.parser.class {Calc}
 %define parse.error verbose
+%define parse.trace
 
 %locations
 
@@ -38,6 +39,7 @@
        EOL    "end of line"
 %token <ival> NUM "number"
 %type  <ival> exp
+%printer { yyo.write($$); } <ival>
 
 %left "-" "+"
 %left "*" "/"
@@ -168,6 +170,9 @@ int main()
 {
   auto l = calcLexer(stdin);
   auto p = new Calc(l);
+  import core.stdc.stdlib : getenv;
+  if (getenv("YYDEBUG"))
+    p.setDebugLevel(1);
   p.parse();
   return l.exit_status;
 }
