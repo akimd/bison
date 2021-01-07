@@ -1462,8 +1462,6 @@ AT_CHECK_CALC_LALR1_D([%locations %define parse.error custom])
 AT_CHECK_CALC_LALR1_D([%locations %define parse.error detailed])
 AT_CHECK_CALC_LALR1_D([%locations %define parse.error simple])
 AT_CHECK_CALC_LALR1_D([%define parse.error detailed %debug %verbose])
-AT_CHECK_CALC_LALR1_D([%define parse.error detailed %debug %define api.token.prefix {TOK_} %verbose])
-AT_CHECK_CALC_LALR1_D([%define parse.error detailed %debug %define api.symbol.prefix {SYMB_} %verbose])
 AT_CHECK_CALC_LALR1_D([%define parse.error detailed %debug %define api.symbol.prefix {SYMB_} %define api.token.prefix {TOK_} %verbose])
 
 AT_CHECK_CALC_LALR1_D([%locations %define parse.lac full %define parse.error detailed])
