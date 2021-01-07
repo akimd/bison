@@ -304,6 +304,12 @@ b4_user_union_members
   }
 
   /**
+   * The number of syntax errors so far.
+   */
+  public int numberOfErrors() const { return yynerrs_; }
+  private int yynerrs_ = 0;
+
+  /**
    * Returned by a Bison action in order to stop the parsing process and
    * return success (<tt>true</tt>).  */
   public static immutable int YYACCEPT = 0;
@@ -434,7 +440,7 @@ b4_user_union_members
     YYStack yystack;
 
     /* Error handling.  */
-    int yynerrs_ = 0;]b4_locations_if([[
+]b4_locations_if([[
     /// The location where the error started.
     Location yyerrloc;
 
