@@ -20,7 +20,7 @@
 %language "D"
 
 %define api.parser.class {Calc}
-%define parse.error verbose
+%define parse.error detailed
 
 %union {
   int ival;
