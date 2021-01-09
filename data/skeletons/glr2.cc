@@ -1374,10 +1374,10 @@ public:
   ~glr_stack_item ()
   {]b4_parse_assert_if([[
     check_ ();]])[
-    if (is_state())
-      getState().~glr_state();
+    if (is_state ())
+      getState ().~glr_state ();
     else
-      getOption().~semantic_option();
+      getOption ().~semantic_option ();
   }
 
   void setState (const glr_state &state)
@@ -1386,12 +1386,12 @@ public:
     state.check_ ();]])[
     if (this != state.asItem ())
       {
-        is_state_ = true;
-        // FIXME: What about the previous content?  Shouldn't it be
-        // freed?  It might be useful to have an explicit "void" state
-        // when this item is in unused state (in the list of free
-        // items), when parse.assert is set.
+        if (is_state_)
+          getState ().~glr_state ();
+        else
+          getOption ().~semantic_option ();
         new (&raw_) glr_state (state);
+        is_state_ = true;
       }
   }
 
