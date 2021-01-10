@@ -157,7 +157,7 @@ yylex (yy::parser::value_type* lvalp, yy::parser::location_type* llocp)
                 tok = c;
                 lvalp = nullptr;
               }
-            llocp->end.column = colNum-1;
+            llocp->end.column = colNum;
             return tok;
           }
         }

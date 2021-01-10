@@ -208,7 +208,7 @@ main (int argc, char **argv)
                 tok = c;
                 yylval = YY_NULLPTR;
               }]AT_LOCATION_IF([[
-            yylloc.last_column = colNum-1;]])[
+            yylloc.last_column = colNum;]])[
             return tok;
           }
         }
@@ -344,15 +344,15 @@ m4_define([_AT_RESOLVED_GLR_OUTPUT],
 ]])
 
 m4_define([_AT_RESOLVED_GLR_OUTPUT_WITH_LOC],
-[[3.0-3.5: +(z,q)
-5.0-5.3: <declare>(T,x)
-7.0-7.7: <init-declare>(T,x,y)
-9.0-9.5: =(x,y)
-11.0-11.9: +(<cast>(x,T),y)
-13.0-13.5: <declare>(T,x)
-15.0-15.13: <init-declare>(T,y,+(z,q))
-17.0-17.15: <error>
-19.0-19.5: +(z,q)
+[[3.0-3.6: +(z,q)
+5.0-5.4: <declare>(T,x)
+7.0-7.8: <init-declare>(T,x,y)
+9.0-9.6: =(x,y)
+11.0-11.10: +(<cast>(x,T),y)
+13.0-13.6: <declare>(T,x)
+15.0-15.14: <init-declare>(T,y,+(z,q))
+17.0-17.16: <error>
+19.0-19.6: +(z,q)
 ]])
 
 m4_define([_AT_AMBIG_GLR_OUTPUT],
@@ -368,15 +368,15 @@ m4_define([_AT_AMBIG_GLR_OUTPUT],
 ]])
 
 m4_define([_AT_AMBIG_GLR_OUTPUT_WITH_LOC],
-[[3.0-3.5: +(z,q)
-5.0-5.3: <declare>(T,x)
-7.0-7.7: <init-declare>(T,x,y)
-9.0-9.5: =(x,y)
-11.0-11.9: +(<cast>(x,T),y)
-13.0-13.5: <OR>(<declare>(T,x),<cast>(x,T))
-15.0-15.13: <OR>(<init-declare>(T,y,+(z,q)),=(<cast>(y,T),+(z,q)))
-17.0-17.15: <error>
-19.0-19.5: +(z,q)
+[[3.0-3.6: +(z,q)
+5.0-5.4: <declare>(T,x)
+7.0-7.8: <init-declare>(T,x,y)
+9.0-9.6: =(x,y)
+11.0-11.10: +(<cast>(x,T),y)
+13.0-13.6: <OR>(<declare>(T,x),<cast>(x,T))
+15.0-15.14: <OR>(<init-declare>(T,y,+(z,q)),=(<cast>(y,T),+(z,q)))
+17.0-17.16: <error>
+19.0-19.6: +(z,q)
 ]])
 
 m4_define([_AT_GLR_STDERR],

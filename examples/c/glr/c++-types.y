@@ -199,7 +199,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
                 colNum += 1;
                 tok = c;
               }
-            llocp->last_column = colNum-1;
+            llocp->last_column = colNum;
             return tok;
           }
         }
