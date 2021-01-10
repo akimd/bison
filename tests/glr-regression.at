@@ -69,11 +69,22 @@ print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
 ]])[
 {
 ]AT_GLR2_CC_IF([[
+  // We use -2 and 0 to avoid this warning:
+  //
+  // glr-regr13.y:114:53: error: enumeral and non-enumeral type in conditional expression [-Werror=extra]
+  //   114 |     : yytoken == yy::parser::symbol_kind::S_YYEOF   ? yy::parser::token::YYEOF
+  //       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+  //   115 |     : yytoken == yy::parser::yytranslate_ ('a')     ? 'a'
+  //       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //   116 |     : yytoken == yy::parser::yytranslate_ ('b')     ? 'b'
+  //       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  //   117 |     : '?';
+  //       |     ~~~~~
   int yychr
-    = yytoken == YYTRANSLATE (]AT_TOKEN([YYEMPTY])[) ? -2
-    : yytoken == YYTRANSLATE (]AT_TOKEN([YYEOF])[)   ? 0
-    : yytoken == YYTRANSLATE ('a')                   ? 'a'
-    : yytoken == YYTRANSLATE ('b')                   ? 'b'
+    = yytoken == yy::parser::symbol_kind::S_YYEMPTY ? -2
+    : yytoken == yy::parser::symbol_kind::S_YYEOF   ? 0
+    : yytoken == yy::parser::yytranslate_ ('a')     ? 'a'
+    : yytoken == yy::parser::yytranslate_ ('b')     ? 'b'
     : '?';
 ]])[
   printf ("%s:\n  yychar=", reduction);
@@ -1383,7 +1394,7 @@ nondefstate:
 change_lookahead:
   %empty
     {
-      ]AT_GLR2_CC_IF([[yytoken = YYTRANSLATE ('a')]], [[yychar = 'a']])[;
+      ]AT_GLR2_CC_IF([[yytoken = yy::parser::yytranslate_ ('a')]], [[yychar = 'a']])[;
     }
 ;
 
@@ -1564,7 +1575,7 @@ alt1:
     {
       USE ($][1);
       if (]AT_GLR2_CC_IF(
-        [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
+        [[yytoken != yy::parser::yytranslate_ ('d') && yytoken != symbol_kind::S_YYEOF]],
         [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([token::])[YYEOF]])[)
         PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
@@ -1575,7 +1586,7 @@ alt2:
     {
       USE ($][1);
       if (]AT_GLR2_CC_IF(
-        [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
+        [[yytoken != yy::parser::yytranslate_ ('d') && yytoken != symbol_kind::S_YYEOF]],
         [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([token::])[YYEOF]])[)
         PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
@@ -1586,7 +1597,7 @@ alt3:
     {
       USE ($][1);
         if (]AT_GLR2_CC_IF(
-          [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
+          [[yytoken != yy::parser::yytranslate_ ('d') && yytoken != symbol_kind::S_YYEOF]],
           [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([token::])[YYEOF]])[)
         PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }

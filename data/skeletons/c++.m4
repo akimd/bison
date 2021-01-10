@@ -602,7 +602,7 @@ m4_define([b4_yytranslate_define],
     if (t <= 0)
       return symbol_kind::]b4_symbol_prefix[YYEOF;
     else if (t <= code_max)
-      return YY_CAST (symbol_kind_type, translate_table[t]);
+      return static_cast <symbol_kind_type> (translate_table[t]);
     else
       return symbol_kind::]b4_symbol_prefix[YYUNDEF;]])[
   }

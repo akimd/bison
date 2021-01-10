@@ -354,6 +354,11 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 #endif
 
   public: // FIXME: Private
+    /// Convert a scanner token kind \a t to a symbol kind.
+    /// In theory \a t should be a token_kind_type, but character literals
+    /// are valid, yet not members of the token_type enum.
+    static symbol_kind_type yytranslate_ (int t);
+
 ]b4_parse_error_bmatch(
 [simple],
 [[#if ]b4_api_PREFIX[DEBUG || ]b4_token_table_flag[
@@ -404,7 +409,7 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 
 ]b4_disclaimer[
 ]b4_cpp_guard_open([b4_spec_mapped_header_file])[
-]b4_shared_declarations[
+]b4_shared_declarations([hh])[
 ]b4_cpp_guard_close([b4_spec_mapped_header_file])[
 ]b4_output_end])[
 
@@ -434,7 +439,7 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 ]b4_null_define[
 
 ]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
-               [b4_shared_declarations])[
+              [b4_shared_declarations([cc])])[
 
 typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
 
@@ -528,22 +533,6 @@ static ]b4_namespace_ref[::]b4_parser_class[::location_type yyloc_default][]b4_y
 /* YYMAXLEFT -- Maximum number of symbols to the left of a handle
    accessed by $0, $-1, etc., in any rule.  */
 #define YYMAXLEFT ]b4_max_left_semantic_context[
-
-/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, with out-of-bounds checking.  */
-]b4_api_token_raw_if(dnl
-[[#define YYTRANSLATE(YYX) static_cast<yysymbol_kind_t>(YYX)]],
-[[#define YYTRANSLATE(YYX)                                \
-  (0 <= (YYX) && (YYX) <= ]b4_code_max[                     \
-   ? static_cast<yysymbol_kind_t>(yytranslate[YYX])        \
-   : ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
-
-/* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex.  */
-static const ]b4_int_type_for([b4_translate])[ yytranslate[] =
-{
-  ]b4_translate[
-};]])[
 
 #if ]b4_api_PREFIX[DEBUG
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
@@ -2936,9 +2925,7 @@ yygetToken (]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]
         }
 #endif // YY_EXCEPTIONS
       yystack.yytoken
-        = (yychar <= ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[)
-          ? ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[
-          : YYTRANSLATE (yychar);
+        = ]b4_namespace_ref[::]b4_parser_class[::yytranslate_ (yychar);
     }
   if (yystack.yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[)
     YYCDEBUG << "Now at end of input.\n";
@@ -3433,8 +3420,9 @@ b4_dollar_popdef])[]dnl
     // Actually, it is yydebug which is really used.
     yydebug = l;
   }
+#endif // ]b4_api_PREFIX[DEBUG
 
-#endif
+]b4_token_ctor_if([], [b4_yytranslate_define([cc])])[
 ]m4_popdef([b4_parse_param])dnl
 b4_namespace_close[]dnl
 b4_epilogue[]dnl
