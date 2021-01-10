@@ -36,14 +36,6 @@ b4_variant_if([m4_include(b4_skeletonsdir/[variant.hh])])
 m4_define([b4_parser_class],
           [b4_percent_define_get([[api.parser.class]])])
 
-# Save the parse parameters.
-m4_define([b4_parse_param_orig], m4_defn([b4_parse_param]))
-
-# Hijack the initial action to initialize the locations.
-]b4_bison_locations_if([m4_define([b4_initial_action],
-[yystack.yylloc.initialize ();]m4_ifdef([b4_initial_action], [
-m4_defn([b4_initial_action])]))])[
-
 ]m4_define([b4_define_symbol_kind],
 [m4_format([#define %-15s %s],
            b4_symbol($][1, kind_base),
@@ -173,8 +165,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))])])
 # Declaration that might either go into the header (if --header, $1 = hh)
 # or in the implementation file.
 m4_define([b4_shared_declarations],
-[m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
-b4_percent_code_get([[requires]])[
+[b4_percent_code_get([[requires]])[
 #include <algorithm>
 #include <cstddef> // ptrdiff_t
 #include <cstring> // memcpy
@@ -391,8 +382,7 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 ]b4_namespace_close[
 
 ]b4_percent_code_get([[provides]])[
-]m4_popdef([b4_parse_param])dnl
-])[
+]])[
 
 
 ## -------------- ##
@@ -3067,9 +3057,7 @@ static void yypdumpstack (const glr_stack& yystack)
 #endif
 
 ]b4_namespace_open[
-]dnl In this section, the parse params are the original parse_params.
-m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
-[  /// Build a parser object.
+  /// Build a parser object.
   ]b4_parser_class::b4_parser_class[ (]b4_parse_param_decl[)]m4_ifset([b4_parse_param], [
     :])[
 #if ]b4_api_PREFIX[DEBUG
@@ -3438,10 +3426,7 @@ b4_dollar_popdef])[]dnl
 #endif // ]b4_api_PREFIX[DEBUG
 
 ]b4_token_ctor_if([], [b4_yytranslate_define([cc])])[
-]m4_popdef([b4_parse_param])dnl
-b4_namespace_close[]dnl
+]b4_namespace_close[]dnl
 b4_epilogue[]dnl
 b4_output_end
 
-
-m4_popdef([b4_parse_param])
