@@ -26,7 +26,7 @@
 %locations
 %debug
 
-/* Nice error messages with details. */
+// Nice error messages with details.
 %define parse.error detailed
 
 %code requires
@@ -42,10 +42,6 @@
   #include <cctype>
   #include <fstream>
   #include <cstring>
-
-  #if __cplusplus < 201103L
-  # define nullptr 0
-  #endif
 
   static Node
   stmtMerge (const Node& x0, const Node& x1);
@@ -97,7 +93,7 @@ declarator
 %%
 std::istream* input = nullptr;
 
-/* A C error reporting function.  */
+// An error reporting function.
 void
 yy::parser::error (const location_type& l, const std::string& m)
 {
@@ -110,11 +106,10 @@ yylex (yy::parser::value_type* lvalp, yy::parser::location_type* llocp)
   static int lineNum = 1;
   static int colNum = 0;
 
-  while (1)
+  while (true)
     {
       assert (!input->eof ());
-      int c = input->get ();
-      switch (c)
+      switch (int c = input->get ())
         {
         case EOF:
           return 0;
