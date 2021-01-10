@@ -648,8 +648,8 @@ static void yypdumpstack (const glr_stack& yystack)
 #else /* !]b4_api_PREFIX[DEBUG */
 
 # define YYCDEBUG if (true) {} else std::cerr
-# define YY_SYMBOL_PRINT(Title, Kind, Value, Location)
-# define YY_REDUCE_PRINT(Args)
+# define YY_SYMBOL_PRINT(Title, Kind, Value, Location) {}
+# define YY_REDUCE_PRINT(Args) {}
 
 #endif /* !]b4_api_PREFIX[DEBUG */
 
@@ -705,8 +705,8 @@ state_set_index create_state_set_index(std::ptrdiff_t value)
 #define yytable_value_is_error(Yytable_value) \
   ]b4_table_value_equals([[table]], [[Yytable_value]], [b4_table_ninf], [YYTABLE_NINF])[
 
-static inline yysymbol_kind_t
-yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]b4_user_formals[);
+static inline void
+yygetToken (]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]b4_user_formals[);
 
 static inline bool
 yyisShiftAction (int yyaction)
@@ -760,6 +760,7 @@ class glr_state
 {
 public:
   typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -1096,7 +1097,7 @@ private:
   /** During nondeterministic operation, yylookaheadNeeds tracks which
    *  stacks have actually needed the current lookahead.  During deterministic
    *  operation, yylookaheadNeeds[0] is not maintained since it would merely
-   *  duplicate yychar != ]b4_symbol(empty, id)[.  */
+   *  duplicate yytoken != ]b4_symbol(empty, kind)[.  */
   std::vector<bool> yylookaheadNeeds;
 
   /** The last stack we invalidated.  */
@@ -1107,6 +1108,7 @@ class semantic_option
 {
 public:
   typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -1114,17 +1116,17 @@ public:
     : yyrule (0)
     , yystate (0)
     , yynext (0)
-    , yychar (0)
+    , yytoken (]b4_symbol(empty, kind)[)
     , yyval ()]b4_locations_if([[
     , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {}
 
-  semantic_option (rule_num rule, int rawChar)
+  semantic_option (rule_num rule, symbol_kind_type token)
     : yyrule (rule)
     , yystate (0)
     , yynext (0)
-    , yychar (rawChar)
+    , yytoken (token)
     , yyval ()]b4_locations_if([[
     , yyloc ()]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
@@ -1134,13 +1136,13 @@ public:
     : yyrule (that.yyrule)
     , yystate (that.yystate)
     , yynext (that.yynext)
-    , yychar (that.yychar)
+    , yytoken (that.yytoken)
     , yyval (]b4_variant_if([], [[that.yyval]])[)]b4_locations_if([[
     , yyloc (that.yyloc)]])[]b4_parse_assert_if([[
     , magic_ (MAGIC)]])[
   {]b4_parse_assert_if([[
     that.check_ ();]])[]b4_variant_if([[
-    ]b4_symbol_variant([YYTRANSLATE (yychar)],
+    ]b4_symbol_variant([yytoken],
                        [yyval], [copy], [that.yyval])])[
   }
 
@@ -1152,8 +1154,8 @@ public:
     yyrule = that.yyrule;
     yystate = that.yystate;
     yynext = that.yynext;
-    yychar = that.yychar;]b4_variant_if([[
-    ]b4_symbol_variant([YYTRANSLATE (yychar)],
+    yytoken = that.yytoken;]b4_variant_if([[
+    ]b4_symbol_variant([yytoken],
                        [yyval], [copy], [that.yyval])], [[
     yyval = that.yyval;]])[]b4_locations_if([[
     yyloc = that.yyloc;]])[
@@ -1338,7 +1340,7 @@ private:
 
 public:
   /** The lookahead for this reduction.  */
-  int yychar;
+  symbol_kind_type yytoken;
   value_type yyval;]b4_locations_if([[
   location_type yyloc;]])[
 
@@ -2023,6 +2025,7 @@ class glr_stack
 {
 public:
   typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
+  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
   typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
   typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
@@ -2030,15 +2033,15 @@ public:
     : yyerrState (0)
     , yystateStack (yysize)
     , yyerrcnt (0)
-    , yychar (0)
+    , yytoken (]b4_symbol(empty, kind)[)
     , yyparser (yyparser_yyarg)]m4_ifset([b4_parse_param], [,b4_parse_param_cons])[
   {}
 
   ~glr_stack ()
   {
-    if (this->yychar != ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
+    if (this->yytoken != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
       yyparser.yy_destroy_ ("Cleanup: discarding lookahead",
-                            YYTRANSLATE (this->yychar), this->yylval]b4_locations_if([, this->yylloc])[);
+                            this->yytoken, this->yylval]b4_locations_if([, this->yylloc])[);
     popall_ ();
   }
 
@@ -2047,7 +2050,7 @@ public:
   glr_stack_item yyerror_range[3];]])[
   state_stack yystateStack;
   int yyerrcnt;
-  int yychar;
+  symbol_kind_type yytoken;
   value_type yylval;]b4_locations_if([[
   location_type yylloc;]])[
   YYJMP_BUF yyexception_buffer;
@@ -2084,13 +2087,13 @@ public:
                        glr_state* yyrhs, rule_num yyrule)
   {
     semantic_option& yynewOption =
-      yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[));
+      yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[));
     yynewOption.setState(yyrhs);
     yynewOption.setNext(yystate->firstVal());
     if (yystateStack.yytops.lookaheadNeeds(yyk))
       {
-        yynewOption.yychar = this->yychar;]b4_variant_if([[
-        ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+        yynewOption.yytoken = this->yytoken;]b4_variant_if([[
+        ]b4_symbol_variant([this->yytoken],
                            [yynewOption.yyval], [copy], [this->yylval])], [[
         yynewOption.yyval = this->yylval;]])[]b4_locations_if([
         yynewOption.yyloc = this->yylloc;])[
@@ -2115,10 +2118,6 @@ public:
 [simple],
 [[    yyparser.error (]b4_locations_if([this->yylloc, ])[YY_("syntax error"));]],
 [[    {
-    yysymbol_kind_t yytoken
-      = this->yychar == ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[
-      ? ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[
-      : YYTRANSLATE (this->yychar);
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     /* Arguments of yyformat. */
     yysymbol_kind_t yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM]
@@ -2132,7 +2131,7 @@ public:
          the only way this function was invoked is if the default action
          is an error action.  In that case, don't check for expected
          tokens because there are none.
-       - The only way there can be no lookahead present (in yychar) is if
+       - The only way there can be no lookahead present (in yytoken) is if
          this state is a consistent state with a default action.  Thus,
          detecting the absence of a lookahead is sufficient to determine
          that there is no unexpected or expected token to report.  In that
@@ -2140,7 +2139,7 @@ public:
        - Don't assume there isn't a lookahead just because this state is a
          consistent state with a default action.  There might have been a
          previous inconsistent state, consistent state with a non-default
-         action, or user semantic action that manipulated yychar.
+         action, or user semantic action that manipulated yytoken.
        - Of course, the expected token list depends on states to have
          correct lookahead information, and it depends on the parser not
          to perform extra reductions after fetching a lookahead from the
@@ -2213,7 +2212,7 @@ public:
   }
 
 
-  /* Recover from a syntax error on this, assuming that YYTOKENP,
+  /* Recover from a syntax error on this, assuming that yytoken,
      yylval, and yylloc are the syntactic category, semantic value, and location
      of the lookahead.  */
   void
@@ -2224,9 +2223,9 @@ public:
          reductions.  Skip tokens until we can proceed.  */
       while (true)
         {
-          if (this->yychar == ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[)
+          if (this->yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[)
             yyFail (]b4_locations_if([yylocp, ])[YY_NULLPTR);
-          if (this->yychar != ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
+          if (this->yytoken != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
             {]b4_locations_if([[
               /* We throw away the lookahead, but the error range
                  of the shifted error token must take it into account.  */
@@ -2234,19 +2233,18 @@ public:
               yyerror_range[1].getState().yyloc = yys->yyloc;
               yyerror_range[2].getState().yyloc = this->yylloc;
               YYLLOC_DEFAULT ((yys->yyloc), yyerror_range, 2);]])[
-              yysymbol_kind_t yytoken = YYTRANSLATE (this->yychar);
               yyparser.yy_destroy_ ("Error: discarding",
-                                    yytoken, yylval]b4_locations_if([, yylloc])[);]b4_variant_if([[
+                                    this->yytoken, this->yylval]b4_locations_if([, this->yylloc])[);]b4_variant_if([[
               // Value type destructor.
-              ]b4_symbol_variant([[YYTRANSLATE (this->yychar)]], [[yylval]], [[template destroy]])])[
-              this->yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[;
+              ]b4_symbol_variant([[this->yytoken]], [[this->yylval]], [[template destroy]])])[
+              this->yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[;
             }
-          yysymbol_kind_t yytoken = yygetToken (this->yychar, yyparser, *this]b4_user_args[);
+          yygetToken (yyparser, *this]b4_user_args[);
           int yyj = yypact[firstTopState()->yylrState];
           if (yypact_value_is_default (yyj))
             return;
-          yyj += yytoken;
-          if (yyj < 0 || YYLAST < yyj || yycheck[yyj] != yytoken)
+          yyj += this->yytoken;
+          if (yyj < 0 || YYLAST < yyj || yycheck[yyj] != this->yytoken)
             {
               if (yydefact[firstTopState()->yylrState] != 0)
                 return;
@@ -2329,9 +2327,9 @@ public:
         else
           {
             yystateStack.yytops.setLookaheadNeeds(yyk, true);
-            const yysymbol_kind_t yytoken = yygetToken (this->yychar, yyparser, *this]b4_user_args[);
+            yygetToken (yyparser, *this]b4_user_args[);
             const short* yyconflicts;
-            const int yyaction = yygetLRActions (yystate, yytoken, yyconflicts);
+            const int yyaction = yygetLRActions (yystate, this->yytoken, yyconflicts);
 
             for (; *yyconflicts != 0; ++yyconflicts)
               {
@@ -2403,10 +2401,10 @@ public:
   # define YYERROR return yyerrok, yyerr
   # undef YYRECOVERING
   # define YYRECOVERING() (yyerrState != 0)
-  # undef yychar
-  # define yychar this->yychar
+  # undef yytoken
+  # define yytoken this->yytoken
   # undef yyclearin
-  # define yyclearin (yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
+  # define yyclearin (yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
   # undef YYBACKUP
   # define YYBACKUP(Token, Value)                                              \
     return yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax error: cannot back up")),     \
@@ -2460,7 +2458,7 @@ public:
   # undef YYACCEPT
   # undef YYERROR
   # undef YYBACKUP
-  # undef yychar
+  # undef yytoken
   # undef yyclearin
   # undef YYRECOVERING
   }
@@ -2835,15 +2833,15 @@ private:
       /* Set default location.  */
       yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].getState().yyloc = yyoptState->yyloc;]])[
     {
-      int yychar_current = this->yychar;]b4_variant_if([[
+      symbol_kind_type yytoken_current = this->yytoken;]b4_variant_if([[
       value_type yylval_current;
-      ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+      ]b4_symbol_variant([this->yytoken],
                          [yylval_current], [move], [this->yylval])], [[
       value_type yylval_current = this->yylval;]])[]b4_locations_if([
       location_type yylloc_current = this->yylloc;])[
 
-      this->yychar = yyopt.yychar;]b4_variant_if([[
-      ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+      this->yytoken = yyopt.yytoken;]b4_variant_if([[
+      ]b4_symbol_variant([this->yytoken],
                          [this->yylval], [move], [yyopt.yyval])], [[
       this->yylval = yyopt.yyval;]])[]b4_locations_if([
       this->yylloc = yyopt.yyloc;])[
@@ -2852,8 +2850,8 @@ private:
                              create_state_set_index (-1),
                              yyvalp]b4_locations_if([, yylocp])[);
 
-      this->yychar = yychar_current;]b4_variant_if([[
-      ]b4_symbol_variant([YYTRANSLATE (this->yychar)],
+      this->yytoken = yytoken_current;]b4_variant_if([[
+      ]b4_symbol_variant([this->yytoken],
                          [this->yylval], [move], [yylval_current])], [[
       this->yylval = yylval_current;]])[]b4_locations_if([
       this->yylloc = yylloc_current;])[
@@ -2911,20 +2909,20 @@ private:
 #undef YYSTACKEXPANDABLE
 
 
-/** If yychar is empty, fetch the next token.  */
-static inline yysymbol_kind_t
-yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]b4_user_formals[)
+/** If yytoken is empty, fetch the next token.  */
+static inline void
+yygetToken (]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]b4_user_formals[)
 {
-  yysymbol_kind_t yytoken;
 ]b4_parse_param_use()dnl
-[  if (yycharp == ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
+[  if (yystack.yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
     {
       YYCDEBUG << "Reading a token\n";
+      int yychar;
 #if YY_EXCEPTIONS
       try
         {
 #endif // YY_EXCEPTIONS
-          yycharp = ]b4_lex[;
+          yychar = ]b4_lex[;
 #if YY_EXCEPTIONS
         }
       catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
@@ -2934,22 +2932,18 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
           yyparser.error (]b4_locations_if([yystack.yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
           // handling is started.
-          yycharp = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, id)[;
+          yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, id)[;
         }
 #endif // YY_EXCEPTIONS
+      yystack.yytoken
+        = (yychar <= ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[)
+          ? ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[
+          : YYTRANSLATE (yychar);
     }
-  if (yycharp <= ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[)
-    {
-      yycharp = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(eof, id)[;
-      yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[;
-      YYCDEBUG << "Now at end of input.\n";
-    }
+  if (yystack.yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[)
+    YYCDEBUG << "Now at end of input.\n";
   else
-    {
-      yytoken = YYTRANSLATE (yycharp);
-      YY_SYMBOL_PRINT ("Next token is", yytoken, yystack.yylval, yystack.yylloc);
-    }
-  return yytoken;
+    YY_SYMBOL_PRINT ("Next token is", yystack.yytoken, yystack.yylval, yystack.yylloc);
 }
 
 
@@ -3103,7 +3097,7 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
 
     YYCDEBUG << "Starting parse\n";
 
-    yystack.yychar = token::]b4_symbol(empty, id)[;]b4_variant_if([], [[
+    yystack.yytoken = ]b4_symbol(empty, kind)[;]b4_variant_if([], [[
     yystack.yylval = yyval_default;]])[]b4_locations_if([
     yystack.yylloc = yyloc_default;])[
 ]m4_ifdef([b4_initial_action], [
@@ -3146,21 +3140,21 @@ b4_dollar_popdef])[]dnl
               }
             else
               {
-                const yysymbol_kind_t yytoken = yygetToken (yystack.yychar, yyparser, yystack]b4_user_args[);
+                yygetToken (yyparser, yystack]b4_user_args[);
                 const short* yyconflicts;
-                const int yyaction = yygetLRActions (yystate, yytoken, yyconflicts);
+                const int yyaction = yygetLRActions (yystate, yystack.yytoken, yyconflicts);
                 if (*yyconflicts != 0)
                   break;
                 if (yyisShiftAction (yyaction))
                   {
-                    YY_SYMBOL_PRINT ("Shifting", yytoken, yystack.yylval, yystack.yylloc);
-                    yystack.yychar = token::]b4_symbol(empty, id)[;
+                    YY_SYMBOL_PRINT ("Shifting", yystack.yytoken, yystack.yylval, yystack.yylloc);
                     yyposn += 1;
                     // FIXME: we should move yylval.
                     yystack.yyglrShift (create_state_set_index(0), yyaction, yyposn, yystack.yylval]b4_locations_if([, yystack.yylloc])[);]b4_variant_if([[
                     // FIXME: User destructors.
                     // Value type destructor.
-                    ]b4_symbol_variant([[yytoken]], [[yystack.yylval]], [[template destroy]])])[
+                    ]b4_symbol_variant([[yystack.yytoken]], [[yystack.yylval]], [[template destroy]])])[
+                    yystack.yytoken = ]b4_symbol(empty, kind)[;
                     if (0 < yystack.yyerrState)
                       yystack.yyerrState -= 1;
                   }
@@ -3169,7 +3163,7 @@ b4_dollar_popdef])[]dnl
                     yystack.yyerror_range[1].getState().yyloc = yystack.yylloc;]])[
                     /* Don't issue an error message again for exceptions
                        thrown from the scanner.  */
-                    if (yystack.yychar != token::]b4_symbol(error, id)[)
+                    if (yystack.yytoken != ]b4_symbol(error, kind)[)
                       yystack.yyreportSyntaxError ();
                     goto yyuser_error;
                   }
@@ -3181,7 +3175,7 @@ b4_dollar_popdef])[]dnl
         while (true)
           {
             for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
-              yystack.yystateStack.yytops.setLookaheadNeeds(yys, yystack.yychar != token::]b4_symbol(empty, id)[);
+              yystack.yystateStack.yytops.setLookaheadNeeds(yys, yystack.yytoken != ]b4_symbol(empty, kind)[);
 
             /* yyprocessOneStack returns one of three things:
 
@@ -3219,11 +3213,11 @@ b4_dollar_popdef])[]dnl
 
             /* If any yyglrShift call fails, it will fail after shifting.  Thus,
                a copy of yylval will already be on stack 0 in the event of a
-               failure in the following loop.  Thus, yychar is set to ]b4_symbol(empty, id)[
+               failure in the following loop.  Thus, yytoken is set to ]b4_symbol(empty, kind)[
                before the loop to make sure the user destructor for yylval isn't
                called twice.  */
-            yysymbol_kind_t yytoken_to_shift = YYTRANSLATE (yystack.yychar);
-            yystack.yychar = token::]b4_symbol(empty, id)[;
+            yysymbol_kind_t yytoken_to_shift = yystack.yytoken;
+            yystack.yytoken = ]b4_symbol(empty, kind)[;
             yyposn += 1;
             for (state_set_index yys = create_state_set_index(0); yys.uget() < yystack.yystateStack.numTops(); ++yys)
               {

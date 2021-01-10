@@ -38,6 +38,63 @@ yyparse ()
 ]])])
 
 
+# AT_PRINT_LOOKAHEAD_DECLARE
+# --------------------------
+m4_define([AT_PRINT_LOOKAHEAD_DECLARE],
+[AT_GLR2_CC_IF(
+[[  static void
+  print_lookahead (int yytoken, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                   char const *reduction);
+#define PRINT_LOOKAHEAD(Msg) \
+  print_lookahead (yytoken, &yylval, &yylloc, Msg)
+]],
+[[  static void
+  print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                   char const *reduction);
+#define PRINT_LOOKAHEAD(Msg) \
+  print_lookahead (yychar, &yylval, &yylloc, Msg)
+]])])
+
+# AT_PRINT_LOOKAHEAD_DEFINE
+# -------------------------
+m4_define([AT_PRINT_LOOKAHEAD_DEFINE],
+[AT_GLR2_CC_IF(
+[[static void
+print_lookahead (int yytoken, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                 char const *reduction)
+]],
+[[static void
+print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
+                 char const *reduction)
+]])[
+{
+]AT_GLR2_CC_IF([[
+  int yychr
+    = yytoken == YYTRANSLATE (]AT_TOKEN([YYEMPTY])[) ? -2
+    : yytoken == YYTRANSLATE (]AT_TOKEN([YYEOF])[)   ? 0
+    : yytoken == YYTRANSLATE ('a')                   ? 'a'
+    : yytoken == YYTRANSLATE ('b')                   ? 'b'
+    : '?';
+]])[
+  printf ("%s:\n  yychar=", reduction);
+  if (yychr == ]AT_TOKEN([YYEMPTY])[)
+    printf ("YYEMPTY");
+  else if (yychr == ]AT_TOKEN([YYEOF])[)
+    printf ("YYEOF");
+  else
+    {
+      printf ("'%c', yylval='", yychr);
+      if (yylvalp->value > ' ')
+        printf ("%c", yylvalp->value);
+      printf ("', yylloc=(%d,%d),(%d,%d)",
+              yyllocp->]AT_FIRST_LINE[, yyllocp->]AT_FIRST_COLUMN[,
+              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);
+    }
+  printf ("\n");
+}
+]])
+
+
 ## ---------------------------- ##
 ## Badly Collapsed GLR States.  ##
 ## ---------------------------- ##
@@ -1266,12 +1323,8 @@ AT_DATA_GRAMMAR([glr-regr13.y],
   #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-  static void
-  print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
-                   char const *reduction);
-#define PRINT_LOOKAHEAD(Msg) \
-  print_lookahead (yychar, &yylval, &yylloc, Msg)
-#define USE(value)
+  ]AT_PRINT_LOOKAHEAD_DECLARE[
+  #define USE(value)
 }
 
 %define parse.assert
@@ -1330,7 +1383,7 @@ nondefstate:
 change_lookahead:
   %empty
     {
-      yychar = 'a';
+      ]AT_GLR2_CC_IF([[yytoken = YYTRANSLATE ('a')]], [[yychar = 'a']])[;
     }
 ;
 
@@ -1338,29 +1391,9 @@ change_lookahead:
 
 ]AT_YYERROR_DEFINE[
 ]AT_YYPARSE_DEFINE[
+]AT_PRINT_LOOKAHEAD_DEFINE[
 ]AT_YYLEX_DEFINE(["ab"],
                  []AT_VAL[.value = YY_CAST (char, res + 'A' - 'a')])[
-
-static void
-print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
-                 char const *reduction)
-{
-  printf ("%s:\n  yychar=", reduction);
-  if (yychr == ]AT_TOKEN([YYEMPTY])[)
-    printf ("YYEMPTY");
-  else if (yychr == ]AT_TOKEN([YYEOF])[)
-    printf ("YYEOF");
-  else
-    {
-      printf ("'%c', yylval='", yychr);
-      if (yylvalp->value > ' ')
-        printf ("%c", yylvalp->value);
-      printf ("', yylloc=(%d,%d),(%d,%d)",
-              yyllocp->]AT_FIRST_LINE[, yyllocp->]AT_FIRST_COLUMN[,
-              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);
-    }
-  printf ("\n");
-}
 
 int
 main (void)
@@ -1448,11 +1481,7 @@ AT_DATA_GRAMMAR([glr-regr14.y],
   #include <assert.h>
   ]AT_YYERROR_DECLARE[
   ]AT_YYLEX_DECLARE[
-  static void
-  print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
-                   char const *reduction);
-#define PRINT_LOOKAHEAD(Msg) \
-  print_lookahead (yychar, &yylval, &yylloc, Msg)
+  ]AT_PRINT_LOOKAHEAD_DECLARE[
   static char merge (]AT_YYSTYPE[, ]AT_YYSTYPE[);
   #define USE(value)
 }
@@ -1534,8 +1563,10 @@ alt1:
   'd' no_look
     {
       USE ($][1);
-      if (yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF)
-        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+      if (]AT_GLR2_CC_IF(
+        [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
+        [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF]])[)
+        PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
 ;
 
@@ -1543,25 +1574,31 @@ alt2:
   'd' no_look
     {
       USE ($][1);
-      if (yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF)
-        fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
+      if (]AT_GLR2_CC_IF(
+        [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
+        [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF]])[)
+        PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
 ;
 
 alt3:
-  'd' no_look {
-    USE ($][1);
-    if (yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF)
-      fprintf (stderr, "Incorrect lookahead during stack explosion.\n");
-  }
+  'd' no_look
+    {
+      USE ($][1);
+        if (]AT_GLR2_CC_IF(
+          [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
+          [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF]])[)
+        PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
+    }
 ;
 
 no_look:
   %empty
     {
-      if (yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEMPTY)
-        fprintf (stderr,
-                 "Found lookahead where shouldn't during stack explosion.\n");
+      if (]AT_GLR2_CC_IF(
+        [[yytoken != symbol_kind::S_YYEMPTY]],
+        [[yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEMPTY]])[)
+        PRINT_LOOKAHEAD ("Found lookahead where shouldn't during stack explosion.");
     }
 ;
 
@@ -1569,6 +1606,8 @@ no_look:
 
 ]AT_YYERROR_DEFINE[
 ]AT_YYPARSE_DEFINE[
+]AT_PRINT_LOOKAHEAD_DEFINE[
+
 ]AT_YYLEX_PROTOTYPE[
 {
   ]AT_USE_LEX_ARGS[
@@ -1585,28 +1624,6 @@ static char
 merge (]AT_YYSTYPE[ s1, ]AT_YYSTYPE[ s2)
 {
   return YY_CAST (char, s1.value + s2.value);
-}
-
-/* FIXME: Factor duplicate.  Possibly use yy_symbol_print. */
-static void
-print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
-                 char const *reduction)
-{
-  printf ("%s:\n  yychar=", reduction);
-  if (yychr == ]AT_TOKEN([YYEMPTY])[)
-    printf ("YYEMPTY");
-  else if (yychr == ]AT_TOKEN([YYEOF])[)
-    printf ("YYEOF");
-  else
-    {
-      printf ("'%c', yylval='", yychr);
-      if (yylvalp->value > ' ')
-        printf ("%c", yylvalp->value);
-      printf ("', yylloc=(%d,%d),(%d,%d)",
-              yyllocp->]AT_FIRST_LINE[, yyllocp->]AT_FIRST_COLUMN[,
-              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);
-    }
-  printf ("\n");
 }
 
 int
