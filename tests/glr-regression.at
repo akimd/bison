@@ -1565,7 +1565,7 @@ alt1:
       USE ($][1);
       if (]AT_GLR2_CC_IF(
         [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
-        [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF]])[)
+        [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([token::])[YYEOF]])[)
         PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
 ;
@@ -1576,7 +1576,7 @@ alt2:
       USE ($][1);
       if (]AT_GLR2_CC_IF(
         [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
-        [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF]])[)
+        [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([token::])[YYEOF]])[)
         PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
 ;
@@ -1587,7 +1587,7 @@ alt3:
       USE ($][1);
         if (]AT_GLR2_CC_IF(
           [[yytoken != YYTRANSLATE('d') && yytoken != symbol_kind::S_YYEOF]],
-          [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEOF]])[)
+          [[yychar != 'd' && yychar != ]AT_GLR2_CC_IF([token::])[YYEOF]])[)
         PRINT_LOOKAHEAD ("Incorrect lookahead during stack explosion.");
     }
 ;
@@ -1597,7 +1597,7 @@ no_look:
     {
       if (]AT_GLR2_CC_IF(
         [[yytoken != symbol_kind::S_YYEMPTY]],
-        [[yychar != ]AT_GLR2_CC_IF([yy::parser::token::])[YYEMPTY]])[)
+        [[yychar != ]AT_GLR2_CC_IF([token::])[YYEMPTY]])[)
         PRINT_LOOKAHEAD ("Found lookahead where shouldn't during stack explosion.");
     }
 ;
