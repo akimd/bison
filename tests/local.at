@@ -281,7 +281,7 @@ m4_ifndef([AT_PARSE_PARAMS],
 m4_pushdef([AT_PARSER_CLASS],
 [m4_bmatch([$3], [%define  *api\.parser\.class {\([^\}]*\)}],
            [m4_bregexp([$3], [%define  *api\.parser\.class {\([^\}]*\)}], [\1])],
-           [AT_API_PREFIX[]Parser])])
+           [AT_JAVA_IF([AT_API_PREFIX[]Parser], [parser])])])
 
 m4_pushdef([AT_PURE_IF],
 [m4_bmatch([$3], [%define  *api\.pure\|%pure-parser],
@@ -358,22 +358,22 @@ m4_pushdef([AT_TOKEN_TRANSLATE_IF],
 [AT_ERROR_CUSTOM_IF([$1], [AT_ERROR_DETAILED_IF([$1], [$2])])])
 
 m4_pushdef([AT_TOKEN],
-           [AT_CXX_IF([AT_CXX_IF([AT_NAMESPACE::parser::token::])[]AT_TOKEN_PREFIX[$1]],
+           [AT_CXX_IF([AT_CXX_IF([AT_NAMESPACE::AT_PARSER_CLASS::token::])[]AT_TOKEN_PREFIX[$1]],
                       [AT_TOKEN_PREFIX[$1]])])
 
 
 m4_pushdef([AT_YYSTYPE],
-[AT_CXX_IF([AT_NAMESPACE[::parser::semantic_type]],
+[AT_CXX_IF([AT_NAMESPACE[::]AT_PARSER_CLASS[::semantic_type]],
                [AT_API_PREFIX[STYPE]])])
 m4_pushdef([AT_YYLTYPE],
-[AT_CXX_IF([AT_NAMESPACE[::parser::location_type]],
+[AT_CXX_IF([AT_NAMESPACE[::]AT_PARSER_CLASS[::location_type]],
                [AT_API_PREFIX[LTYPE]])])
 
 AT_TOKEN_CTOR_IF(
 [m4_pushdef([AT_LOC], [[(]AT_NAME_PREFIX[lloc)]])
  m4_pushdef([AT_VAL], [[(]AT_NAME_PREFIX[lval)]])
  m4_pushdef([AT_YYLEX_FORMALS],     [])
- m4_pushdef([AT_YYLEX_RETURN],      [AT_NAMESPACE::parser::symbol_type])
+ m4_pushdef([AT_YYLEX_RETURN],      [AT_NAMESPACE::AT_PARSER_CLASS::symbol_type])
  m4_pushdef([AT_YYLEX_ARGS],        [])
  m4_pushdef([AT_USE_LEX_ARGS],      [])
  m4_pushdef([AT_YYLEX_PRE_FORMALS], [])
@@ -778,14 +778,14 @@ m4_define([AT_YYERROR_DECLARE_EXTERN(c++)], [])
 m4_define([AT_YYERROR_DEFINE(c++)],
 [[/* A C++ error reporting function.  */
 void
-]AT_NAMESPACE[::parser::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
+]AT_NAMESPACE[::]AT_PARSER_CLASS[::error (]AT_LOCATION_IF([[const location_type& l, ]])[const std::string& m)
 {]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
   ++global_nerrs;
   ++*nerrs;]])[
   std::cerr << ]AT_LOCATION_IF([l << ": " << ])[m << '\n';
 }]AT_ERROR_CUSTOM_IF([[
 void
-]AT_NAMESPACE[::parser::report_syntax_error (const context& ctx) const
+]AT_NAMESPACE[::]AT_PARSER_CLASS[::report_syntax_error (const context& ctx) const
 {]AT_PARAM_IF([m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
   YY_USE (\1);])])[]m4_bmatch(m4_defn([AT_PARSE_PARAMS]), [nerrs], [[
@@ -826,7 +826,7 @@ m4_define([AT_MAIN_DEFINE(c++)],
 int
 main (int argc, char const* argv[])
 {
-  ]AT_NAMESPACE[::parser p;]AT_DEBUG_IF([[
+  ]AT_NAMESPACE[::]AT_PARSER_CLASS[ p;]AT_DEBUG_IF([[
   int debug = !!getenv ("YYDEBUG");
   for (int i = 1; i < argc; ++i)
     if (!strcmp (argv[i], "-p")

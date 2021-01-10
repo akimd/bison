@@ -30,7 +30,7 @@ m4_pushdef([AT_YYPARSE_DEFINE],
 static int
 yyparse ()
 {
-  ]AT_NAMESPACE[::parser p;]AT_DEBUG_IF([[
+  ]AT_NAMESPACE[::]AT_PARSER_CLASS[ p;]AT_DEBUG_IF([[
   int debug = !!getenv ("YYDEBUG");
   p.set_debug_level (debug);]])[
   return p.parse ();
