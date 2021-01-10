@@ -1269,7 +1269,9 @@ AT_DATA_GRAMMAR([glr-regr13.y],
   static void
   print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
                    char const *reduction);
-  #define USE(value)
+#define PRINT_LOOKAHEAD(Msg) \
+  print_lookahead (yychar, &yylval, &yylloc, Msg)
+#define USE(value)
 }
 
 %define parse.assert
@@ -1287,14 +1289,14 @@ start:
   defstate_init defstate_shift 'b' change_lookahead 'a'
     {
       USE ($][3);
-      print_lookahead (yychar, &yylval, &yylloc, "start <- defstate_init defstate_shift 'b'");
+      PRINT_LOOKAHEAD ("start <- defstate_init defstate_shift 'b'");
     }
 ;
 
 defstate_init:
   %empty
     {
-      print_lookahead (yychar, &yylval, &yylloc, "defstate_init <- empty string");
+      PRINT_LOOKAHEAD ("defstate_init <- empty string");
     }
 ;
 
@@ -1302,26 +1304,26 @@ defstate_shift:
   nondefstate defstate_look 'a'
     {
       USE ($][3);
-      print_lookahead (yychar, &yylval, &yylloc, "defstate_shift <- nondefstate defstate_look 'a'");
+      PRINT_LOOKAHEAD ("defstate_shift <- nondefstate defstate_look 'a'");
     }
 ;
 
 defstate_look:
   %empty
     {
-      print_lookahead (yychar, &yylval, &yylloc, "defstate_look <- empty string");
+      PRINT_LOOKAHEAD ("defstate_look <- empty string");
     }
 ;
 
 nondefstate:
   %empty
     {
-      print_lookahead (yychar, &yylval, &yylloc, "nondefstate <- empty string");
+      PRINT_LOOKAHEAD ("nondefstate <- empty string");
     }
 | 'b'
     {
       USE ($][1);
-      print_lookahead (yychar, &yylval, &yylloc, "nondefstate <- 'b'");
+      PRINT_LOOKAHEAD ("nondefstate <- 'b'");
     }
 ;
 
@@ -1449,6 +1451,8 @@ AT_DATA_GRAMMAR([glr-regr14.y],
   static void
   print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
                    char const *reduction);
+#define PRINT_LOOKAHEAD(Msg) \
+  print_lookahead (yychar, &yylval, &yylloc, Msg)
   static char merge (]AT_YYSTYPE[, ]AT_YYSTYPE[);
   #define USE(value)
 }
@@ -1459,7 +1463,7 @@ start:
   merge 'c' stack_explosion
     {
       USE ($][2); USE ($][3);
-      print_lookahead (yychar, &yylval, &yylloc, "start <- merge 'c' stack_explosion");
+      PRINT_LOOKAHEAD ("start <- merge 'c' stack_explosion");
     }
 ;
 
@@ -1468,12 +1472,12 @@ merge:
   nonconflict1 'a' 'b' nonconflict2 %dprec 1
     {
       USE ($][2); USE ($][3);
-      print_lookahead (yychar, &yylval, &yylloc, "merge <- nonconflict1 'a' 'b' nonconflict2");
+      PRINT_LOOKAHEAD ("merge <- nonconflict1 'a' 'b' nonconflict2");
     }
 | conflict defstate_look 'a' nonconflict2 'b' defstate_shift %dprec 2
     {
       USE ($][3); USE ($][5);
-      print_lookahead (yychar, &yylval, &yylloc, "merge <- conflict defstate_look 'a' nonconflict2 'b'"
+      PRINT_LOOKAHEAD ("merge <- conflict defstate_look 'a' nonconflict2 'b'"
                        " defstate_shift");
     }
 ;
@@ -1481,33 +1485,33 @@ merge:
 nonconflict1:
   %empty
     {
-      print_lookahead (yychar, &yylval, &yylloc, "nonconflict1 <- empty string");
+      PRINT_LOOKAHEAD ("nonconflict1 <- empty string");
     }
 ;
 
 nonconflict2:
   %empty
     {
-      print_lookahead (yychar, &yylval, &yylloc, "nonconflict2 <- empty string");
+      PRINT_LOOKAHEAD ("nonconflict2 <- empty string");
     }
 | 'a'
     {
       USE ($][1);
-      print_lookahead (yychar, &yylval, &yylloc, "nonconflict2 <- 'a'");
+      PRINT_LOOKAHEAD ("nonconflict2 <- 'a'");
     }
 ;
 
 conflict:
   %empty
   {
-    print_lookahead (yychar, &yylval, &yylloc, "conflict <- empty string");
+    PRINT_LOOKAHEAD ("conflict <- empty string");
   }
 ;
 
 defstate_look:
   %empty
   {
-    print_lookahead (yychar, &yylval, &yylloc, "defstate_look <- empty string");
+    PRINT_LOOKAHEAD ("defstate_look <- empty string");
   }
 ;
 
@@ -1515,7 +1519,7 @@ defstate_look:
 defstate_shift:
   %empty
   {
-    print_lookahead (yychar, &yylval, &yylloc, "defstate_shift <- empty string");
+    PRINT_LOOKAHEAD ("defstate_shift <- empty string");
   }
 ;
 
