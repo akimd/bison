@@ -505,12 +505,12 @@ script:
   # - env
   - sudo apt-get install -qq doxygen flex m4
   # Install and activate dmd.
-  - mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
-  - source $(source ~/dlang/install.sh dmd -a) || true
+  #- mkdir -p ~/dlang && wget https://dlang.org/install.sh -O ~/dlang/install.sh
+  #- source $(source ~/dlang/install.sh dmd -a) || true
 
   - $CC --version
   - $CXX --version
-  - dmd --version || true
+  #- dmd --version || true
   - doxygen --version
   - flex --version
   - ld --version
