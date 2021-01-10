@@ -126,6 +126,26 @@ m4_define([b4_rhs_location],
 [(b4_rhs_data([$1], [$2]).yyloc)])
 
 
+# b4_symbol_action(SYMBOL-NUM, KIND)
+# ----------------------------------
+# Run the action KIND (destructor or printer) for SYMBOL-NUM.
+# Same as in C, but using references instead of pointers.
+m4_define([b4_symbol_action],
+[b4_symbol_if([$1], [has_$2],
+[b4_dollar_pushdef([yyval],
+                   [$1],
+                   [],
+                   [yyloc])dnl
+      _b4_symbol_case([$1])[]dnl
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
+        b4_symbol([$1], [$2])
+b4_syncline([@oline@], [@ofile@])dnl
+        break;
+
+b4_dollar_popdef[]dnl
+])])
+
+
 # b4_call_merger(MERGER-NUM, MERGER-NAME, SYMBOL-SUM)
 # ---------------------------------------------------
 m4_define([b4_call_merger],
@@ -315,19 +335,19 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 # if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
-    /// \param yykind       The symbol kind.
-    /// \param yyvaluep     Its semantic value.]b4_locations_if([[
-    /// \param yylocationp  Its location.]])[
+    /// \param yykind   The symbol kind.
+    /// \param yyval    Its semantic value.]b4_locations_if([[
+    /// \param yyloc    Its location.]])[
     virtual void yy_symbol_value_print_ (symbol_kind_type yykind,
-                                         const value_type* yyvaluep]b4_locations_if([[,
-                                         const location_type* yylocationp]])[) const;
+                                         const value_type& yyval]b4_locations_if([[,
+                                         const location_type& yyloc]])[) const;
     /// \brief Report a symbol on the debug stream.
-    /// \param yykind       The symbol kind.
-    /// \param yyvaluep     Its semantic value.]b4_locations_if([[
-    /// \param yylocationp  Its location.]])[
+    /// \param yykind   The symbol kind.
+    /// \param yyval    Its semantic value.]b4_locations_if([[
+    /// \param yyloc    Its location.]])[
     virtual void yy_symbol_print_ (symbol_kind_type yykind,
-                                   const value_type* yyvaluep]b4_locations_if([[,
-                                   const location_type* yylocationp]])[) const;
+                                   const value_type& yyval]b4_locations_if([[,
+                                   const location_type& yyloc]])[) const;
   private:
     /// Debug stream.
     std::ostream* yycdebug_;
@@ -354,8 +374,8 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
     ///                  If null, print nothing.
     /// \param yykind    The symbol kind.
     void yy_destroy_ (const char* yymsg, symbol_kind_type yykind,
-                      const value_type* yyvaluep]b4_locations_if([[,
-                      const location_type* yylocationp]])[);
+                      value_type& yyval]b4_locations_if([[,
+                      location_type& yyloc]])[);
 
 ]b4_parse_param_vars[
   };
@@ -1555,12 +1575,18 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
   check_ ();]])[
   if (yyresolved)
     yyparser.yy_destroy_ (yymsg, yy_accessing_symbol(yylrState),
-                          &value ()]b4_locations_if([, &yyloc])[);
+                          value ()]b4_locations_if([, yyloc])[);
   else
     {
-      YY_SYMBOL_PRINT (yymsg << (firstVal() ? " unresolved" : " incomplete"),
-                       yy_accessing_symbol(yylrState), YY_NULLPTR, &yyloc);
-
+#if ]b4_api_PREFIX[DEBUG
+      YYCDEBUG << yymsg
+               << (firstVal() ? " unresolved " : " incomplete ")
+               << (yy_accessing_symbol (yylrState) < YYNTOKENS ? "token" : "nterm")
+               << ' ' << yyparser.symbol_name (yy_accessing_symbol (yylrState))
+               << " ("]b4_locations_if([[
+               << yyloc << ": "]])[
+               << ")\n";
+#endif
       if (firstVal() != YY_NULLPTR)
         {
           semantic_option& yyoption = *firstVal ();
@@ -1882,8 +1908,8 @@ public:
         std::cerr << "   $" << yyi + 1 << " = ";
         yyparser.yy_symbol_print_
           (yy_accessing_symbol (yyvsp[yyi - yynrhs + 1].getState().yylrState),
-           &yyvsp[yyi - yynrhs + 1].getState().value ()]b4_locations_if([[,
-           &]b4_rhs_location(yynrhs, yyi + 1)])[);
+           yyvsp[yyi - yynrhs + 1].getState().value ()]b4_locations_if([[,
+           ]b4_rhs_location(yynrhs, yyi + 1)])[);
         if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
           std::cerr << " (unresolved)";
         std::cerr << '\n';
@@ -2012,7 +2038,7 @@ public:
   {
     if (this->yychar != ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[)
       yyparser.yy_destroy_ ("Cleanup: discarding lookahead",
-                            YYTRANSLATE (this->yychar), &this->yylval]b4_locations_if([, &this->yylloc])[);
+                            YYTRANSLATE (this->yychar), this->yylval]b4_locations_if([, this->yylloc])[);
     popall_ ();
   }
 
@@ -2210,7 +2236,7 @@ public:
               YYLLOC_DEFAULT ((yys->yyloc), yyerror_range, 2);]])[
               yysymbol_kind_t yytoken = YYTRANSLATE (this->yychar);
               yyparser.yy_destroy_ ("Error: discarding",
-                                    yytoken, &yylval]b4_locations_if([, &yylloc])[);]b4_variant_if([[
+                                    yytoken, yylval]b4_locations_if([, yylloc])[);]b4_variant_if([[
               // Value type destructor.
               ]b4_symbol_variant([[YYTRANSLATE (this->yychar)]], [[yylval]], [[template destroy]])])[
               this->yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(empty, id)[;
@@ -2249,8 +2275,8 @@ public:
                 location_type yyerrloc;
                 yyerror_range[2].getState().yyloc = this->yylloc;
                 YYLLOC_DEFAULT (yyerrloc, (yyerror_range), 2);]])[
-                YY_SYMBOL_PRINT ("Shifting", yy_accessing_symbol(yytable[yyj]),
-                                 &yylval, &yyerrloc);
+                YY_SYMBOL_PRINT ("Shifting", yy_accessing_symbol (yytable[yyj]),
+                                 yylval, yyerrloc);
                 yyglrShift (create_state_set_index(0), yytable[yyj],
                             yys->yyposn, yylval]b4_locations_if([, yyerrloc])[);
                 yys = firstTopState();
@@ -2426,7 +2452,7 @@ public:
         YYERROR;
       }
   #endif // YY_EXCEPTIONS
-  YY_SYMBOL_PRINT ("-> $$ =", yylhsNonterm (yyrule), yyvalp, yylocp);
+  YY_SYMBOL_PRINT ("-> $$ =", yylhsNonterm (yyrule), *yyvalp, *yylocp);
 
     return yyok;
   # undef yyerrok
@@ -2751,7 +2777,7 @@ private:
                     {
                       yyparser.yy_destroy_ ("Cleanup: discarding incompletely merged value for",
                                             yy_accessing_symbol (yys.yylrState),
-                                            &this->yylval]b4_locations_if([, yylocp])[);
+                                            this->yylval]b4_locations_if([, *yylocp])[);
                       break;
                     }
                   yyuserMerge (yymerger[yyp->yyrule], val, yyval_other);]b4_variant_if([[
@@ -2921,7 +2947,7 @@ yygetToken (int& yycharp, ]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_s
   else
     {
       yytoken = YYTRANSLATE (yycharp);
-      YY_SYMBOL_PRINT ("Next token is", yytoken, &yystack.yylval, &yystack.yylloc);
+      YY_SYMBOL_PRINT ("Next token is", yytoken, yystack.yylval, yystack.yylloc);
     }
   return yytoken;
 }
@@ -3127,7 +3153,7 @@ b4_dollar_popdef])[]dnl
                   break;
                 if (yyisShiftAction (yyaction))
                   {
-                    YY_SYMBOL_PRINT ("Shifting", yytoken, &yystack.yylval, &yystack.yylloc);
+                    YY_SYMBOL_PRINT ("Shifting", yytoken, yystack.yylval, yystack.yylloc);
                     yystack.yychar = token::]b4_symbol(empty, id)[;
                     yyposn += 1;
                     // FIXME: we should move yylval.
@@ -3207,7 +3233,7 @@ b4_dollar_popdef])[]dnl
                   = yygetLRActions (yystate, yytoken_to_shift, yyconflicts);
                 /* Note that yyconflicts were handled by yyprocessOneStack.  */
                 YYCDEBUG << "On stack " << yys.get() << ", ";
-                YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yystack.yylval, &yystack.yylloc);
+                YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, yystack.yylval, yystack.yylloc);
                 yystack.yyglrShift (yys, yyaction, yyposn, yystack.yylval]b4_locations_if([, yystack.yylloc])[);
                 YYCDEBUG << "Stack " << yys.get() << " now in state "
                          << yystack.topState(yys)->yylrState << '\n';
@@ -3343,16 +3369,16 @@ b4_dollar_popdef])[]dnl
 
   void
   ]b4_parser_class[::yy_destroy_ (const char* yymsg, symbol_kind_type yykind,
-                           const value_type* yyvaluep]b4_locations_if([[,
-                           const location_type* yylocationp]])[)
+                           value_type& yyval]b4_locations_if([[,
+                           location_type& yyloc]])[)
   {
-    YY_USE (yyvaluep);]b4_locations_if([[
-    YY_USE (yylocationp);]])[
+    YY_USE (yyval);]b4_locations_if([[
+    YY_USE (yyloc);]])[
     if (!yymsg)
       yymsg = "Deleting";
     ]b4_parser_class[& yyparser = *this;
     YY_USE (yyparser);
-    YY_SYMBOL_PRINT (yymsg, yykind, yyvaluep, yylocationp);
+    YY_SYMBOL_PRINT (yymsg, yykind, yyval, yyloc);
 
     YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
     ]b4_symbol_actions([destructor])[
@@ -3366,26 +3392,25 @@ b4_dollar_popdef])[]dnl
 
   void
   ]b4_parser_class[::yy_symbol_value_print_ (symbol_kind_type yykind,
-                           const value_type* yyvaluep]b4_locations_if([[,
-                           const location_type* yylocationp]])[) const
+                           const value_type& yyval]b4_locations_if([[,
+                           const location_type& yyloc]])[) const
   {]b4_locations_if([[
-    YY_USE (yylocationp);]])[
-    YY_USE (yyvaluep);
+    YY_USE (yyloc);]])[
+    YY_USE (yyval);
     std::ostream& yyo = debug_stream ();
-    std::ostream& yyoutput = yyo;
-    YY_USE (yyoutput);
+    YY_USE (yyo);
     ]b4_symbol_actions([printer])[
   }
 
   void
   ]b4_parser_class[::yy_symbol_print_ (symbol_kind_type yykind,
-                           const value_type* yyvaluep]b4_locations_if([[,
-                           const location_type* yylocationp]])[) const
+                           const value_type& yyval]b4_locations_if([[,
+                           const location_type& yyloc]])[) const
   {
     *yycdebug_ << (yykind < YYNTOKENS ? "token" : "nterm")
                << ' ' << symbol_name (yykind) << " ("]b4_locations_if([[
-               << *yylocationp << ": "]])[;
-    yy_symbol_value_print_ (yykind, yyvaluep]b4_locations_if([[, yylocationp]])[);
+               << yyloc << ": "]])[;
+    yy_symbol_value_print_ (yykind, yyval]b4_locations_if([[, yyloc]])[);
     *yycdebug_ << ')';
   }
 
