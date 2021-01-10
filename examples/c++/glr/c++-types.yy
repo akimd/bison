@@ -22,6 +22,7 @@
 %glr-parser
 %skeleton "glr2.cc"
 %define parse.assert
+%define api.token.constructor
 %header
 %locations
 %debug
@@ -46,8 +47,8 @@
   static Node
   stmtMerge (const Node& x0, const Node& x1);
 
-  static int
-  yylex (yy::parser::value_type* val, yy::parser::location_type* loc);
+  static yy::parser::symbol_type
+  yylex ();
 }
 
 %expect-rr 1
@@ -56,11 +57,16 @@
 %printer { yyo << $$; } <Node>
 
 %token
-  TYPENAME "typename"
-  ID "identifier"
+  TYPENAME  "typename"
+  ID        "identifier"
+  SEMICOLON ";"
+  EQUAL     "="
+  PLUS      "+"
+  LPAREN    "("
+  RPAREN    ")"
 
-%right '='
-%left '+'
+%right "="
+%left "+"
 
 %%
 
@@ -68,30 +74,31 @@ prog : %empty
      | prog stmt   { std::cout << @2 << ": " << $2 << '\n'; }
      ;
 
-stmt : expr ';'  %merge <stmtMerge>   { $$ = $1; }
+stmt : expr ";"  %merge <stmtMerge>   { $$ = $1; }
      | decl      %merge <stmtMerge>
-     | error ';'                      { $$ = Nterm ("<error>"); }
+     | error ";"                      { $$ = Nterm ("<error>"); }
      ;
 
 expr : ID
-     | TYPENAME '(' expr ')'  { $$ = Nterm ("<cast>", $3, $1); }
-     | expr '+' expr          { $$ = Nterm ("+", $1, $3); }
-     | expr '=' expr          { $$ = Nterm ("=", $1, $3); }
+     | TYPENAME "(" expr ")"  { $$ = Nterm ("<cast>", $3, $1); }
+     | expr "+" expr          { $$ = Nterm ("+", $1, $3); }
+     | expr "=" expr          { $$ = Nterm ("=", $1, $3); }
      ;
 
-decl : TYPENAME declarator ';'
+decl : TYPENAME declarator ";"
                         { $$ = Nterm ("<declare>", $1, $2); }
-     | TYPENAME declarator '=' expr ';'
+     | TYPENAME declarator "=" expr ";"
                         { $$ = Nterm ("<init-declare>", $1, $2, $4); }
      ;
 
 declarator
      : ID
-     | '(' declarator ')' { $$ = $2; }
+     | "(" declarator ")" { $$ = $2; }
      ;
 
 %%
 std::istream* input = nullptr;
+yy::parser::location_type loc;
 
 // An error reporting function.
 void
@@ -100,61 +107,63 @@ yy::parser::error (const location_type& l, const std::string& m)
   std::cerr << l << ": " << m << '\n';
 }
 
-static int
-yylex (yy::parser::value_type* lvalp, yy::parser::location_type* llocp)
+static yy::parser::symbol_type
+yylex ()
 {
-  static int lineNum = 1;
-  static int colNum = 0;
-
   while (true)
     {
+      loc.step ();
+      loc += 1;
       assert (!input->eof ());
       switch (int c = input->get ())
         {
         case EOF:
-          return 0;
+          return yy::parser::make_YYEOF (loc);
         case '\t':
-          colNum = (colNum + 7) & ~7;
+          loc.end.column = (loc.end.column + 7) & ~7;
+          loc.step ();
           break;
         case ' ': case '\f':
-          colNum += 1;
+          loc.step ();
           break;
         case '\n':
-          lineNum += 1;
-          colNum = 0;
+          loc.lines (1);
+          loc.end.column = 0;
+          loc.step ();
           break;
+        case '+':
+          return yy::parser::make_PLUS (loc);
+        case '=':
+          return yy::parser::make_EQUAL (loc);
+        case '(':
+          return yy::parser::make_LPAREN (loc);
+        case ')':
+          return yy::parser::make_RPAREN (loc);
+        case ';':
+          return yy::parser::make_SEMICOLON (loc);
         default:
-          {
-            llocp->begin.line = llocp->end.line = lineNum;
-            llocp->begin.column = colNum;
-            int tok;
-            if (isalpha (c))
-              {
-                std::string form;
-                do
-                  {
-                    form += static_cast<char> (c);
-                    colNum += 1;
-                    c = input->get ();
-                  }
-                while (isalnum (c) || c == '_');
-
-                input->unget ();
-                tok
-                  = isupper (static_cast <unsigned char> (form[0]))
-                  ? yy::parser::token::TYPENAME
-                  : yy::parser::token::ID;
-                lvalp->emplace<Node> (Term (form));
-              }
-            else
-              {
-                colNum += 1;
-                tok = c;
-                lvalp = nullptr;
-              }
-            llocp->end.column = colNum;
-            return tok;
-          }
+          if (isalpha (c))
+            {
+              std::string form;
+              do
+                {
+                  form += static_cast<char> (c);
+                  loc += 1;
+                  c = input->get ();
+                }
+              while (isalnum (c) || c == '_');
+              input->unget ();
+              loc -= 1;
+              if (isupper (static_cast <unsigned char> (form[0])))
+                return yy::parser::make_TYPENAME (Term (form), loc);
+              else
+                return yy::parser::make_ID (Term (form), loc);
+            }
+          else
+            {
+              auto msg = "invalid character: " + std::string(1, static_cast<char> (c));
+              throw yy::parser::syntax_error (loc, msg);
+            }
         }
     }
 }
@@ -173,6 +182,7 @@ process (yy::parser& parse, const std::string& file)
     input = &std::cin;
   else
     input = new std::ifstream (file.c_str ());
+  loc.initialize (nullptr, 1, 0);
   int status = parse ();
   if (!is_stdin)
     delete input;

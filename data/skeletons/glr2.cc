@@ -332,6 +332,7 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
     /// YYSYMBOL.  No bounds checking.
     static std::string symbol_name (symbol_kind_type yysymbol);]])[
 
+]b4_token_constructor_define[
 # if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
@@ -385,6 +386,8 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 ]b4_parse_param_vars[
   };
 
+]b4_token_ctor_if([b4_yytranslate_define([$1])[
+]b4_public_types_define([$1])])[
 ]b4_namespace_close[
 
 ]b4_percent_code_get([[provides]])[
@@ -2911,7 +2914,18 @@ yygetToken (]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]
       try
         {
 #endif // YY_EXCEPTIONS
-          yychar = ]b4_lex[;
+          {]b4_token_ctor_if([[
+            typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_type symbol_type;
+            typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
+            symbol_type yylookahead = ]b4_lex[;
+            yystack.yytoken = yylookahead.kind ();]b4_variant_if([[
+            ]b4_symbol_variant([yystack.yytoken],
+                               [yystack.yylval], [move], [yylookahead.value])], [[
+            yystack.yylval = yylookahead.value;]])[]b4_locations_if([
+            yystack.yylloc = yylookahead.location;
+            yylookahead.kind_ = symbol_kind::S_YYEMPTY;])[]], [[
+            yychar = ]b4_lex[;]])[
+          }
 #if YY_EXCEPTIONS
         }
       catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
@@ -2920,12 +2934,13 @@ yygetToken (]b4_namespace_ref[::]b4_parser_class[& yyparser, glr_stack& yystack]
           yystack.yylloc = yyexc.location;])[
           yyparser.error (]b4_locations_if([yystack.yylloc, ])[yyexc.what ());
           // Map errors caught in the scanner to the error token, so that error
-          // handling is started.
-          yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, id)[;
+          // handling is started.]b4_token_ctor_if([[
+          yystack.yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[;]], [[
+          yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, id)[;]])[
         }
-#endif // YY_EXCEPTIONS
+#endif // YY_EXCEPTIONS]b4_token_ctor_if([], [[
       yystack.yytoken
-        = ]b4_namespace_ref[::]b4_parser_class[::yytranslate_ (yychar);
+        = ]b4_namespace_ref[::]b4_parser_class[::yytranslate_ (yychar);]])[
     }
   if (yystack.yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[)
     YYCDEBUG << "Now at end of input.\n";

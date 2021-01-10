@@ -28,11 +28,6 @@ Discourage the use of YYDEBUG in C++ (see thread with Jot).  Stop supporting
 
 Add value_type as a synonym for semantic_type.
 
-** Asymmetries
-Why are yylval and yylloc treated differently?
-
-    yystack.yyglrShift (create_state_set_index(0), 0, 0, yylval, &yylloc);
-
 ** yyerrok in Java
 And add tests in calc.at, to prepare work for D.
 
