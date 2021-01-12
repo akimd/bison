@@ -115,16 +115,16 @@ if (isInputRange!R && is(ElementType!R : dchar))
 
     // Numbers.
     if (input.front.isNumber)
-      {
-        import std.conv : parse;
-        return Symbol(TokenKind.NUM, input.parse!int);
-      }
+    {
+      import std.conv : parse;
+      return Symbol(TokenKind.NUM, input.parse!int);
+    }
 
     // Individual characters
     auto ch = input.front;
     input.popFront;
     switch (ch)
-      {
+    {
       case '+':  return Symbol(TokenKind.PLUS);
       case '-':  return Symbol(TokenKind.MINUS);
       case '*':  return Symbol(TokenKind.STAR);
@@ -133,7 +133,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
       case ')':  return Symbol(TokenKind.RPAR);
       case '\n': return Symbol(TokenKind.EOL);
       default: assert(0);
-      }
+    }
   }
 }
 
