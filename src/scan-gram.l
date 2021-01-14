@@ -21,9 +21,8 @@
 %option prefix="gram_" outfile="lex.yy.c"
 
 %{
-#include <errno.h>
-
 #include <c-ctype.h>
+#include <errno.h>
 #include <mbswidth.h>
 #include <quote.h>
 #include <quotearg.h>

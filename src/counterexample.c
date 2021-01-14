@@ -23,6 +23,7 @@
 
 #include "system.h"
 
+#include <errno.h>
 #include <gl_linked_list.h>
 #include <gl_rbtreehash_list.h>
 #include <hash.h>
@@ -59,7 +60,7 @@
 #define ASSURANCE_LIMIT 2.0f
 
 /* The time limit before giving up looking for unifying counterexample. */
-#define TIME_LIMIT 5.0f
+static float time_limit = 5.0f;
 
 #define CUMULATIVE_TIME_LIMIT 120.0f
 
@@ -1171,7 +1172,7 @@ unifying_example (state_item_number itm1,
                          stderr);
                   assurance_printed = true;
                 }
-              if (time_passed > TIME_LIMIT)
+              if (time_passed > time_limit)
                 {
                   fprintf (stderr, "time limit exceeded: %f\n", time_passed);
                   goto cex_search_end;
@@ -1208,6 +1209,19 @@ static time_t cumulative_time;
 void
 counterexample_init (void)
 {
+  /* Recognize $TIME_LIMIT.  Not a public feature, just to help
+     debugging.  If we need something public, a %define/-D/-F variable
+     would be more appropriate. */
+  {
+    const char *cp = getenv ("TIME_LIMIT");
+    if (cp)
+      {
+        char *end = NULL;
+        float v = strtof (cp, &end);
+        if (*end == '\0' && errno == 0)
+          time_limit = v;
+      }
+    }
   time (&cumulative_time);
   scp_set = bitset_create (nstates, BITSET_FIXED);
   rpp_set = bitset_create (nstates, BITSET_FIXED);
