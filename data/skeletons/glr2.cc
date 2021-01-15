@@ -699,9 +699,6 @@ yyisErrorAction (int yyaction)
   return yyaction == 0;
 }
 
-static inline int
-yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts);
-
 /** Accessing symbol of state YYSTATE.  */
 static inline yysymbol_kind_t
 yy_accessing_symbol (state_num yystate)
@@ -731,9 +728,12 @@ yylhsNonterm (rule_num yyrule)
   return static_cast<yysymbol_kind_t>(yyr1[yyrule]);
 }
 
+/** Number of symbols composing the right hand side of rule #RULE.  */
 static inline int
-yyrhsLength (rule_num yyrule);
-
+yyrhsLength (rule_num yyrule)
+{
+  return yyr2[yyrule];
+}
 
 class glr_state
 {
@@ -1581,12 +1581,6 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
     }
 }
 
-
-static int
-yypreference (const semantic_option& y0, const semantic_option& y1);
-
-static inline state_num
-yyLRgotoState (state_num yystate, yysymbol_kind_t yysym);
 
 #undef YYFILL
 #define YYFILL(N) yyfill (yyvsp, yylow, (N), yynormal)
@@ -3130,96 +3124,90 @@ private:
       YY_SYMBOL_PRINT ("Next token is", this->yytoken, this->yylval, this->yylloc);
   }
 
+
+                              /* Bison grammar-table manipulation.  */
+
+  /** The action to take in YYSTATE on seeing YYTOKEN.
+   *  Result R means
+   *    R < 0:  Reduce on rule -R.
+   *    R = 0:  Error.
+   *    R > 0:  Shift to state R.
+   *  Set *YYCONFLICTS to a pointer into yyconfl to a 0-terminated list
+   *  of conflicting reductions.
+   */
+  static int
+  yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts)
+  {
+    int yyindex = yypact[yystate] + yytoken;
+    if (yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[)
+      {
+        // This is the error token.
+        yyconflicts = yyconfl;
+        return 0;
+      }
+    else if (yyisDefaultedState (yystate)
+             || yyindex < 0 || YYLAST < yyindex || yycheck[yyindex] != yytoken)
+      {
+        yyconflicts = yyconfl;
+        return -yydefact[yystate];
+      }
+    else if (! yytable_value_is_error (yytable[yyindex]))
+      {
+        yyconflicts = yyconfl + yyconflp[yyindex];
+        return yytable[yyindex];
+      }
+    else
+      {
+        yyconflicts = yyconfl + yyconflp[yyindex];
+        return 0;
+      }
+  }
+
+  /** Compute post-reduction state.
+   * \param yystate   the current state
+   * \param yysym     the nonterminal to push on the stack
+   */
+  static state_num
+  yyLRgotoState (state_num yystate, yysymbol_kind_t yysym)
+  {
+    const int yyr = yypgoto[yysym - YYNTOKENS] + yystate;
+    if (0 <= yyr && yyr <= YYLAST && yycheck[yyr] == yystate)
+      return yytable[yyr];
+    else
+      return yydefgoto[yysym - YYNTOKENS];
+  }
+
+                                  /* GLRStacks */
+
+  /** Y0 and Y1 represent two possible actions to take in a given
+   *  parsing state; return 0 if no combination is possible,
+   *  1 if user-mergeable, 2 if Y0 is preferred, 3 if Y1 is preferred.  */
+  static int
+  yypreference (const semantic_option& y0, const semantic_option& y1)
+  {
+    rule_num r0 = y0.yyrule, r1 = y1.yyrule;
+    int p0 = yydprec[r0], p1 = yydprec[r1];
+
+    if (p0 == p1)
+      {
+        if (yymerger[r0] == 0 || yymerger[r0] != yymerger[r1])
+          return 0;
+        else
+          return 1;
+      }
+    if (p0 == 0 || p1 == 0)
+      return 0;
+    if (p0 < p1)
+      return 3;
+    if (p1 < p0)
+      return 2;
+    return 0;
+  }
+
 ]b4_parse_param_vars[
 
 };
 
-
-                              /* Bison grammar-table manipulation.  */
-
-/** Number of symbols composing the right hand side of rule #RULE.  */
-static inline int
-yyrhsLength (rule_num yyrule)
-{
-  return yyr2[yyrule];
-}
-
-/** The action to take in YYSTATE on seeing YYTOKEN.
- *  Result R means
- *    R < 0:  Reduce on rule -R.
- *    R = 0:  Error.
- *    R > 0:  Shift to state R.
- *  Set *YYCONFLICTS to a pointer into yyconfl to a 0-terminated list
- *  of conflicting reductions.
- */
-static inline int
-yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts)
-{
-  int yyindex = yypact[yystate] + yytoken;
-  if (yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[)
-    {
-      // This is the error token.
-      yyconflicts = yyconfl;
-      return 0;
-    }
-  else if (yyisDefaultedState (yystate)
-           || yyindex < 0 || YYLAST < yyindex || yycheck[yyindex] != yytoken)
-    {
-      yyconflicts = yyconfl;
-      return -yydefact[yystate];
-    }
-  else if (! yytable_value_is_error (yytable[yyindex]))
-    {
-      yyconflicts = yyconfl + yyconflp[yyindex];
-      return yytable[yyindex];
-    }
-  else
-    {
-      yyconflicts = yyconfl + yyconflp[yyindex];
-      return 0;
-    }
-}
-
-/** Compute post-reduction state.
- * \param yystate   the current state
- * \param yysym     the nonterminal to push on the stack
- */
-static inline state_num
-yyLRgotoState (state_num yystate, yysymbol_kind_t yysym)
-{
-  const int yyr = yypgoto[yysym - YYNTOKENS] + yystate;
-  if (0 <= yyr && yyr <= YYLAST && yycheck[yyr] == yystate)
-    return yytable[yyr];
-  else
-    return yydefgoto[yysym - YYNTOKENS];
-}
-
-                                /* GLRStacks */
-
-/** Y0 and Y1 represent two possible actions to take in a given
- *  parsing state; return 0 if no combination is possible,
- *  1 if user-mergeable, 2 if Y0 is preferred, 3 if Y1 is preferred.  */
-static int
-yypreference (const semantic_option& y0, const semantic_option& y1)
-{
-  rule_num r0 = y0.yyrule, r1 = y1.yyrule;
-  int p0 = yydprec[r0], p1 = yydprec[r1];
-
-  if (p0 == p1)
-    {
-      if (yymerger[r0] == 0 || yymerger[r0] != yymerger[r1])
-        return 0;
-      else
-        return 1;
-    }
-  if (p0 == 0 || p1 == 0)
-    return 0;
-  if (p0 < p1)
-    return 3;
-  if (p1 < p0)
-    return 2;
-  return 0;
-}
 
 /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
@@ -3430,4 +3418,3 @@ static void yypdumpstack (const glr_stack& yystack)
 ]b4_namespace_close[]dnl
 b4_epilogue[]dnl
 b4_output_end
-
