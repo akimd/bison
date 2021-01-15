@@ -681,44 +681,11 @@ state_set_index create_state_set_index(std::ptrdiff_t value)
   return state_set_index::create(value);
 }
 
-#define yypact_value_is_default(Yystate) \
-  ]b4_table_value_equals([[pact]], [[Yystate]], [b4_pact_ninf], [YYPACT_NINF])[
-
-#define yytable_value_is_error(Yytable_value) \
-  ]b4_table_value_equals([[table]], [[Yytable_value]], [b4_table_ninf], [YYTABLE_NINF])[
-
-static inline bool
-yyisShiftAction (int yyaction)
-{
-  return 0 < yyaction;
-}
-
-static inline bool
-yyisErrorAction (int yyaction)
-{
-  return yyaction == 0;
-}
-
 /** Accessing symbol of state YYSTATE.  */
 static inline yysymbol_kind_t
 yy_accessing_symbol (state_num yystate)
 {
   return YY_CAST (yysymbol_kind_t, yystos[yystate]);
-}
-
-/** True iff LR state YYSTATE has only a default reduction (regardless
- *  of token).  */
-static inline bool
-yyisDefaultedState (state_num yystate)
-{
-  return yypact_value_is_default (yypact[yystate]);
-}
-
-/** The default reduction for YYSTATE, assuming it has one.  */
-static inline rule_num
-yydefaultAction (state_num yystate)
-{
-  return yydefact[yystate];
 }
 
 /** Left-hand-side symbol for rule #YYRULE.  */
@@ -2084,9 +2051,9 @@ b4_dollar_popdef])[]dnl
             YYCDEBUG << "Entering state " << yystate << '\n';
             if (yystate == YYFINAL)
               goto yyacceptlab;
-            if (yyisDefaultedState (yystate))
+            if (yy_is_defaulted_state (yystate))
               {
-                const rule_num yyrule = yydefaultAction (yystate);
+                const rule_num yyrule = yy_default_action (yystate);
                 if (yyrule == 0)
                   {]b4_locations_if([[
                     this->yyerror_range[1].getState().yyloc = this->yylloc;]])[
@@ -2102,7 +2069,7 @@ b4_dollar_popdef])[]dnl
                 const int yyaction = yygetLRActions (yystate, this->yytoken, yyconflicts);
                 if (*yyconflicts != 0)
                   break;
-                if (yyisShiftAction (yyaction))
+                if (yy_is_shift_action (yyaction))
                   {
                     YY_SYMBOL_PRINT ("Shifting", this->yytoken, this->yylval, this->yylloc);
                     yyposn += 1;
@@ -2115,7 +2082,7 @@ b4_dollar_popdef])[]dnl
                     if (0 < this->yyerrState)
                       this->yyerrState -= 1;
                   }
-                else if (yyisErrorAction (yyaction))
+                else if (yy_is_error_action (yyaction))
                   {]b4_locations_if([[
                     this->yyerror_range[1].getState().yyloc = this->yylloc;]])[
                     /* Don't issue an error message again for exceptions
@@ -2441,7 +2408,7 @@ b4_dollar_popdef])[]dnl
           {
             yyj += YYTERROR;
             if (0 <= yyj && yyj <= YYLAST && yycheck[yyj] == YYTERROR
-                && yyisShiftAction (yytable[yyj]))
+                && yy_is_shift_action (yytable[yyj]))
               {
                 /* Shift the error token.  */]b4_locations_if([[
                 /* First adjust its location.*/
@@ -2478,9 +2445,9 @@ b4_dollar_popdef])[]dnl
 
         YYASSERT (yystate != YYFINAL);
 
-        if (yyisDefaultedState (yystate))
+        if (yy_is_defaulted_state (yystate))
           {
-            const rule_num yyrule = yydefaultAction (yystate);
+            const rule_num yyrule = yy_default_action (yystate);
             if (yyrule == 0)
               {
                 YYCDEBUG << "Stack " << yyk.get() << " dies.\n";
@@ -2525,9 +2492,9 @@ b4_dollar_popdef])[]dnl
                   return yyflag;
               }
 
-            if (yyisShiftAction (yyaction))
+            if (yy_is_shift_action (yyaction))
               break;
-            else if (yyisErrorAction (yyaction))
+            else if (yy_is_error_action (yyaction))
               {
                 YYCDEBUG << "Stack " << yyk.get() << " dies.\n";
                 yystateStack.yytops.yymarkStackDeleted (yyk);
@@ -3145,7 +3112,7 @@ private:
         yyconflicts = yyconfl;
         return 0;
       }
-    else if (yyisDefaultedState (yystate)
+    else if (yy_is_defaulted_state (yystate)
              || yyindex < 0 || YYLAST < yyindex || yycheck[yyindex] != yytoken)
       {
         yyconflicts = yyconfl;
@@ -3175,6 +3142,45 @@ private:
       return yytable[yyr];
     else
       return yydefgoto[yysym - YYNTOKENS];
+  }
+
+  static bool
+  yypact_value_is_default (state_num yystate)
+  {
+    return ]b4_table_value_equals([[pact]], [[yystate]], [b4_pact_ninf], [YYPACT_NINF])[;
+  }
+
+  static bool
+  yytable_value_is_error (int yytable_value YY_ATTRIBUTE_UNUSED)
+  {
+    return ]b4_table_value_equals([[table]], [[yytable_value]], [b4_table_ninf], [YYTABLE_NINF])[;
+  }
+
+  static bool
+  yy_is_shift_action (int yyaction)
+  {
+    return 0 < yyaction;
+  }
+
+  static bool
+  yy_is_error_action (int yyaction)
+  {
+    return yyaction == 0;
+  }
+
+  /** Whether LR state YYSTATE has only a default reduction
+   *  (regardless of token).  */
+  static bool
+  yy_is_defaulted_state (state_num yystate)
+  {
+    return yypact_value_is_default (yypact[yystate]);
+  }
+
+  /** The default reduction for YYSTATE, assuming it has one.  */
+  static rule_num
+  yy_default_action (state_num yystate)
+  {
+    return yydefact[yystate];
   }
 
                                   /* GLRStacks */
