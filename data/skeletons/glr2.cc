@@ -1718,43 +1718,50 @@ public:
     return yyitems[index];
   }
 
-  size_t numTops() const {
-    return yytops.size();
+  size_t numTops () const
+  {
+    return yytops.size ();
   }
 
-  glr_state* firstTop() const {
-    return yytops[create_state_set_index(0)];
+  glr_state* firstTop () const
+  {
+    return yytops[create_state_set_index (0)];
   }
 
-  glr_state* topAt(state_set_index i) const {
+  glr_state* topAt (state_set_index i) const
+  {
     return yytops[i];
   }
 
-  void setFirstTop(glr_state* value) {
-    yytops[create_state_set_index(0)] = value;
+  void setFirstTop (glr_state* value)
+  {
+    yytops[create_state_set_index (0)] = value;
   }
 
-  void setTopAt(state_set_index i, glr_state* value) {
+  void setTopAt (state_set_index i, glr_state* value)
+  {
     yytops[i] = value;
   }
 
-  void pop_back() {
-    yyitems.pop_back();
+  void pop_back ()
+  {
+    yyitems.pop_back ();
   }
 
-  void pop_back(size_t n) {
-    yyitems.resize(yyitems.size() - n);
+  void pop_back (size_t n)
+  {
+    yyitems.resize (yyitems.size () - n);
   }
 
   state_set_index
   yysplitStack (state_set_index yyk)
   {
-    if (!isSplit())
+    if (!isSplit ())
       {
-        YYASSERT (yyk.get() == 0);
-        yysplitPoint = topAt(yyk);
+        YYASSERT (yyk.get () == 0);
+        yysplitPoint = topAt (yyk);
       }
-    return yytops.yysplitStack(yyk);
+    return yytops.yysplitStack (yyk);
   }
 
   /** Assuming that YYS is a GLRState somewhere on *this, update the
@@ -2334,7 +2341,7 @@ b4_dollar_popdef])[]dnl
     const char *yyformat = YY_NULLPTR;
     switch (yycount)
       {
-#define YYCASE_(N, S)                   \
+#define YYCASE_(N, S)                     \
         case N:                           \
           yyformat = S;                   \
         break
@@ -2620,14 +2627,14 @@ b4_dollar_popdef])[]dnl
   YYRESULTTAG
   yyresolveStack ()
   {
-    if (yystateStack.isSplit())
+    if (yystateStack.isSplit ())
       {
         int yyn = 0;
-        for (glr_state* yys = firstTopState();
+        for (glr_state* yys = firstTopState ();
              yys != yystateStack.yysplitPoint;
-             yys = yys->pred())
+             yys = yys->pred ())
           yyn += 1;
-        YYCHK (yyresolveStates (*firstTopState(), yyn));
+        YYCHK (yyresolveStates (*firstTopState (), yyn));
       }
     return yyok;
   }
