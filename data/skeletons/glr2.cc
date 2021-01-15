@@ -195,76 +195,6 @@ m4_define([b4_shared_declarations],
 
 ]b4_namespace_open[
 
-template <typename Parameter>
-class strong_index_alias
-{
-public:
-  static strong_index_alias create(std::ptrdiff_t value) {
-    strong_index_alias result;
-    result.value_ = value;
-    return result;
-  }
-
-  std::ptrdiff_t const& get() const { return value_; }
-
-  size_t uget() const { return static_cast<size_t>(value_); }
-
-  strong_index_alias operator+(std::ptrdiff_t other) const {
-    return strong_index_alias(get() + other);
-  }
-
-  void operator+=(std::ptrdiff_t other) {
-    value_ += other;
-  }
-
-  strong_index_alias operator-(std::ptrdiff_t other) {
-    return strong_index_alias(get() - other);
-  }
-
-  void operator-=(std::ptrdiff_t other) {
-    value_ -= other;
-  }
-
-  size_t operator-(strong_index_alias other) {
-    return strong_index_alias(get() - other.get());
-  }
-
-  strong_index_alias& operator++() {
-    ++value_;
-    return *this;
-  }
-
-  bool isValid() const {
-    return value_ != INVALID_INDEX;
-  }
-
-  void setInvalid() {
-    value_ = INVALID_INDEX;
-  }
-
-  bool operator==(strong_index_alias other) {
-    return get() == other.get();
-  }
-
-  bool operator!=(strong_index_alias other) {
-    return get() != other.get();
-  }
-
-  bool operator<(strong_index_alias other) {
-    return get() < other.get();
-  }
-
-private:
-  static const std::ptrdiff_t INVALID_INDEX;
-
-  // WARNING: 0-initialized.
-  std::ptrdiff_t value_;
-};
-
-template<typename T>
-const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
-  std::numeric_limits<std::ptrdiff_t>::max();
-
 ]b4_bison_locations_if([m4_ifndef([b4_location_file],
                                   [b4_location_define])])[
 
@@ -662,6 +592,95 @@ static void yypdumpstack (const glr_stack& yystack)
 # define YYSTACKEXPANDABLE 1
 #endif
 
+template <typename Parameter>
+class strong_index_alias
+{
+public:
+  static strong_index_alias create (std::ptrdiff_t value)
+  {
+    strong_index_alias result;
+    result.value_ = value;
+    return result;
+  }
+
+  std::ptrdiff_t const& get () const { return value_; }
+
+  size_t uget () const { return static_cast<size_t> (value_); }
+
+  strong_index_alias operator+ (std::ptrdiff_t other) const
+  {
+    return strong_index_alias (get () + other);
+  }
+
+  void operator+= (std::ptrdiff_t other)
+  {
+    value_ += other;
+  }
+
+  strong_index_alias operator- (std::ptrdiff_t other)
+  {
+    return strong_index_alias (get () - other);
+  }
+
+  void operator-= (std::ptrdiff_t other)
+  {
+    value_ -= other;
+  }
+
+  size_t operator- (strong_index_alias other)
+  {
+    return strong_index_alias (get () - other.get ());
+  }
+
+  strong_index_alias& operator++ ()
+  {
+    ++value_;
+    return *this;
+  }
+
+  bool isValid () const
+  {
+    return value_ != INVALID_INDEX;
+  }
+
+  void setInvalid()
+  {
+    value_ = INVALID_INDEX;
+  }
+
+  bool operator== (strong_index_alias other)
+  {
+    return get () == other.get ();
+  }
+
+  bool operator!= (strong_index_alias other)
+  {
+    return get () != other.get ();
+  }
+
+  bool operator< (strong_index_alias other)
+  {
+    return get () < other.get ();
+  }
+
+private:
+  static const std::ptrdiff_t INVALID_INDEX;
+
+  // WARNING: 0-initialized.
+  std::ptrdiff_t value_;
+};
+
+template<typename T>
+const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
+  std::numeric_limits<std::ptrdiff_t>::max ();
+
+typedef strong_index_alias<struct glr_state_set_tag> state_set_index;
+
+state_set_index create_state_set_index (std::ptrdiff_t value)
+{
+  return state_set_index::create (value);
+}
+
 /** State numbers, as in LALR(1) machine */
 typedef int state_num;
 
@@ -673,13 +692,6 @@ class glr_state;
 class semantic_option;
 class glr_stack_item;
 class glr_stack;
-
-typedef ]b4_namespace_ref[::strong_index_alias<struct glr_state_set_tag> state_set_index;
-
-state_set_index create_state_set_index(std::ptrdiff_t value)
-{
-  return state_set_index::create(value);
-}
 
 /** Accessing symbol of state YYSTATE.  */
 static inline yysymbol_kind_t
