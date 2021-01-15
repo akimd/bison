@@ -1980,7 +1980,7 @@ public:
 
   ~glr_stack ()
   {
-    if (this->yytoken != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
+    if (this->yytoken != ]b4_symbol(empty, kind)[)
       yyparser.yy_destroy_ ("Cleanup: discarding lookahead",
                             this->yytoken, this->yylval]b4_locations_if([, this->yylloc])[);
     popall_ ();
@@ -2229,7 +2229,7 @@ b4_dollar_popdef])[]dnl
                        glr_state* yyrhs, rule_num yyrule)
   {
     semantic_option& yynewOption =
-      yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[));
+      yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_symbol(empty, kind)[));
     yynewOption.setState(yyrhs);
     yynewOption.setNext(yystate->firstVal());
     if (yystateStack.yytops.lookaheadNeeds(yyk))
@@ -2263,7 +2263,7 @@ b4_dollar_popdef])[]dnl
     enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
     /* Arguments of yyformat. */
     yysymbol_kind_t yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM]
-      = { ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[ };
+      = { ]b4_symbol(empty, kind)[ };
     /* Number of reported tokens (one for the "unexpected", one per
        "expected").  */
     int yycount = 0;
@@ -2291,7 +2291,7 @@ b4_dollar_popdef])[]dnl
          one exception: it will still contain any token that will not be
          accepted due to an error action in a later state.
     */
-    if (yytoken != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
+    if (yytoken != ]b4_symbol(empty, kind)[)
       {
         const int yyn = yypact[firstTopState()->yylrState];
         yyarg[yycount++] = yytoken;
@@ -2305,7 +2305,7 @@ b4_dollar_popdef])[]dnl
             const int yychecklim = YYLAST - yyn + 1;
             const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
             for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[
+              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[
                   && !yytable_value_is_error (yytable[yyx + yyn]))
                 {
                   if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
@@ -2365,9 +2365,9 @@ b4_dollar_popdef])[]dnl
          reductions.  Skip tokens until we can proceed.  */
       while (true)
         {
-          if (this->yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[)
+          if (this->yytoken == ]b4_symbol(eof, kind)[)
             yyFail (]b4_locations_if([yylocp, ])[YY_NULLPTR);
-          if (this->yytoken != ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
+          if (this->yytoken != ]b4_symbol(empty, kind)[)
             {]b4_locations_if([[
               /* We throw away the lookahead, but the error range
                  of the shifted error token must take it into account.  */
@@ -2379,7 +2379,7 @@ b4_dollar_popdef])[]dnl
                                     this->yytoken, this->yylval]b4_locations_if([, this->yylloc])[);]b4_variant_if([[
               // Value type destructor.
               ]b4_symbol_variant([[this->yytoken]], [[this->yylval]], [[template destroy]])])[
-              this->yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[;
+              this->yytoken = ]b4_symbol(empty, kind)[;
             }
           yyget_token ();
           int yyj = yypact[firstTopState()->yylrState];
@@ -2546,7 +2546,7 @@ b4_dollar_popdef])[]dnl
   # undef yytoken
   # define yytoken this->yytoken
   # undef yyclearin
-  # define yyclearin (yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
+  # define yyclearin (yytoken = ]b4_symbol(empty, kind)[)
   # undef YYBACKUP
   # define YYBACKUP(Token, Value)                                              \
     return yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax error: cannot back up")),     \
@@ -3049,7 +3049,7 @@ private:
   yyget_token ()
   {
 ]b4_parse_param_use()dnl
-[    if (this->yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(empty, kind)[)
+[    if (this->yytoken == ]b4_symbol(empty, kind)[)
       {
         YYCDEBUG << "Reading a token\n";
         int yychar;
@@ -3059,7 +3059,6 @@ private:
 #endif // YY_EXCEPTIONS
             {]b4_token_ctor_if([[
               typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_type symbol_type;
-              typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
               symbol_type yylookahead = ]b4_lex[;
               this->yytoken = yylookahead.kind ();]b4_variant_if([[
               ]b4_symbol_variant([this->yytoken],
@@ -3078,14 +3077,14 @@ private:
             yyparser.error (]b4_locations_if([this->yylloc, ])[yyexc.what ());
             // Map errors caught in the scanner to the error token, so that error
             // handling is started.]b4_token_ctor_if([[
-            this->yytoken = ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[;]], [[
+            this->yytoken = ]b4_symbol(error, kind)[;]], [[
             yychar = ]b4_namespace_ref[::]b4_parser_class[::token::]b4_symbol(error, id)[;]])[
           }
 #endif // YY_EXCEPTIONS]b4_token_ctor_if([], [[
         this->yytoken
           = ]b4_namespace_ref[::]b4_parser_class[::yytranslate_ (yychar);]])[
       }
-    if (this->yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(eof, kind)[)
+    if (this->yytoken == ]b4_symbol(eof, kind)[)
       YYCDEBUG << "Now at end of input.\n";
     else
       YY_SYMBOL_PRINT ("Next token is", this->yytoken, this->yylval, this->yylloc);
@@ -3106,7 +3105,7 @@ private:
   yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts)
   {
     int yyindex = yypact[yystate] + yytoken;
-    if (yytoken == ]b4_namespace_ref[::]b4_parser_class[::]b4_symbol(error, kind)[)
+    if (yytoken == ]b4_symbol(error, kind)[)
       {
         // This is the error token.
         yyconflicts = yyconfl;
