@@ -207,7 +207,7 @@ m4_define([b4_shared_declarations],
 
     /// Build a parser object.
     ]b4_parser_class[ (]b4_parse_param_decl[);
-    virtual ~]b4_parser_class[ ();
+    ~]b4_parser_class[ ();
 
     /// Parse.  An alias for parse ().
     /// \returns  0 iff parsing succeeded.
@@ -215,7 +215,7 @@ m4_define([b4_shared_declarations],
 
     /// Parse.
     /// \returns  0 iff parsing succeeded.
-    virtual int parse ();
+    int parse ();
 
 #if ]b4_api_PREFIX[DEBUG
     /// The current debugging stream.
@@ -234,7 +234,7 @@ m4_define([b4_shared_declarations],
     /// Report a syntax error.]b4_locations_if([[
     /// \param loc    where the syntax error is found.]])[
     /// \param msg    a description of the syntax error.
-    virtual void error (]b4_locations_if([[const location_type& loc, ]])[const std::string& msg);
+    void error (]b4_locations_if([[const location_type& loc, ]])[const std::string& msg);
 
 ]b4_parse_error_bmatch(
 [custom\|detailed],
@@ -260,16 +260,16 @@ m4_define([b4_shared_declarations],
     /// \param yykind   The symbol kind.
     /// \param yyval    Its semantic value.]b4_locations_if([[
     /// \param yyloc    Its location.]])[
-    virtual void yy_symbol_value_print_ (symbol_kind_type yykind,
-                                         const value_type& yyval]b4_locations_if([[,
-                                         const location_type& yyloc]])[) const;
+    void yy_symbol_value_print_ (symbol_kind_type yykind,
+                                 const value_type& yyval]b4_locations_if([[,
+                                 const location_type& yyloc]])[) const;
     /// \brief Report a symbol on the debug stream.
     /// \param yykind   The symbol kind.
     /// \param yyval    Its semantic value.]b4_locations_if([[
     /// \param yyloc    Its location.]])[
-    virtual void yy_symbol_print_ (symbol_kind_type yykind,
-                                   const value_type& yyval]b4_locations_if([[,
-                                   const location_type& yyloc]])[) const;
+    void yy_symbol_print_ (symbol_kind_type yykind,
+                           const value_type& yyval]b4_locations_if([[,
+                           const location_type& yyloc]])[) const;
   private:
     /// Debug stream.
     std::ostream* yycdebug_;
