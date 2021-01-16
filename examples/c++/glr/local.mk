@@ -23,8 +23,11 @@ glrxxdir = $(docdir)/%D%
 $(nodist_%C%_c___types_SOURCES): %D%/c++-types.stamp
 	@test -f $@ || rm -f %D%/c++-types.stamp
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) %D%/c++-types.stamp
-CLEANFILES += \
-  $(nodist_%C%_c___types_SOURCES) %D%/c++-types.stamp
+CLEANFILES +=					\
+  $(nodist_%C%_c___types_SOURCES)		\
+  %D%/c++-types.stamp				\
+  %D%/c++-types.output				\
+  %D%/location.hh
 CLEANDIRS += %D%/*.dSYM
 
 ## -------------------- ##

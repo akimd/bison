@@ -554,7 +554,7 @@ merger_output (FILE *out)
   int n;
   merger_list* p;
   for (n = 1, p = merge_functions; p != NULL; n += 1, p = p->next)
-    fprintf (out, "]b4_call_merger([%d], [%s], [%d])[\n",
+    fprintf (out, "]b4_call_merger""([%d], [%s], [%d])[\n",
              n, p->name, p->sym->content->number);
   fputs ("]])\n\n", out);
 }

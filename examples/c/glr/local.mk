@@ -30,5 +30,5 @@ nodist_%C%_c___types_SOURCES = %D%/c++-types.y
 %C%_c___types_CFLAGS = $(TEST_CFLAGS)
 
 dist_glr_DATA = %D%/c++-types.y %D%/Makefile %D%/README.md
-CLEANFILES += %D%/c++-types.c %D%/c++-types.output
+CLEANFILES += %D%/c++-types.[ch] %D%/c++-types.output
 CLEANDIRS += %D%/*.dSYM
