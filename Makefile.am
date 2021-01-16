@@ -133,9 +133,10 @@ gen-ChangeLog:
 	$(CC) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -o $@ -E $<
 
 .PHONY: codespell
+CODESPELL = codespell
 codespell:
 	$(AM_V_GEN) cd $(srcdir) \
-	&& codespell \
+	&& $(CODESPELL) \
 	     --regex "[\\w\\-'’\`]+\+*" \
 	     --ignore-words-list "ba,circularly,cloneable,copyable,define'd,dout,froms,iff,ifset,od,ois" \
 	     $$(git ls-files data doc lib src tests)
