@@ -2424,20 +2424,15 @@ yyrecoverSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
     yyFail (yystackp][]b4_lpure_args[, YY_NULLPTR);
 }
 
-#define YYCHK1(YYE)                                                          \
-  do {                                                                       \
-    switch (YYE) {                                                           \
-    case yyok:                                                               \
-      break;                                                                 \
-    case yyabort:                                                            \
-      goto yyabortlab;                                                       \
-    case yyaccept:                                                           \
-      goto yyacceptlab;                                                      \
-    case yyerr:                                                              \
-      goto yyuser_error;                                                     \
-    default:                                                                 \
-      goto yybuglab;                                                         \
-    }                                                                        \
+#define YYCHK1(YYE)                             \
+  do {                                          \
+    switch (YYE) {                              \
+    case yyok:     break;                       \
+    case yyabort:  goto yyabortlab;             \
+    case yyaccept: goto yyacceptlab;            \
+    case yyerr:    goto yyuser_error;           \
+    default:       goto yybuglab;               \
+    }                                           \
   } while (0)
 
 /*----------.
