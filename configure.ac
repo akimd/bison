@@ -1,6 +1,6 @@
 # Configure template for GNU Bison.                   -*-Autoconf-*-
 #
-# Copyright (C) 2001-2015, 2018-2020 Free Software Foundation, Inc.
+# Copyright (C) 2001-2015, 2018-2021 Free Software Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ AC_INIT([GNU Bison],
         [bug-bison@gnu.org],
         [],
         [https://www.gnu.org/software/bison/])
-AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2020])
+AC_SUBST([PACKAGE_COPYRIGHT_YEAR], [2021])
 AC_DEFINE_UNQUOTED([PACKAGE_COPYRIGHT_YEAR], [$PACKAGE_COPYRIGHT_YEAR],
                    [The copyright year for this package])
 
