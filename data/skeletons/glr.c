@@ -2606,7 +2606,7 @@ b4_dollar_popdef])[]dnl
 
  yyacceptlab:
   yyresult = 0;
-  goto yyreturn;
+  goto yyreturnlab;
 
  yybuglab:
   YY_ASSERT (yyfalse);
@@ -2614,14 +2614,14 @@ b4_dollar_popdef])[]dnl
 
  yyabortlab:
   yyresult = 1;
-  goto yyreturn;
+  goto yyreturnlab;
 
  yyexhaustedlab:
   yyerror (]b4_lyyerror_args[YY_("memory exhausted"));
   yyresult = 2;
-  goto yyreturn;
+  goto yyreturnlab;
 
- yyreturn:
+ yyreturnlab:
   if (yychar != ]b4_symbol(empty, id)[)
     yydestruct ("Cleanup: discarding lookahead",
                 YYTRANSLATE (yychar), &yylval]b4_locuser_args([&yylloc])[);
