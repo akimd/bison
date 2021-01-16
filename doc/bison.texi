@@ -13953,10 +13953,10 @@ or nonzero, full tracing.
 Identify the Bison version and skeleton used to generate this parser.
 @end deftypecv
 
-The internationalization in D is very simmilar to the one in C. The D
+The internationalization in D is very similar to the one in C. The D
 parser uses @code{dgettext} for translating Bison messages.
 
-To enable internationalisation, compile using
+To enable internationalization, compile using
 @code{-version ENABLE_NLS -version YYENABLE_NLS} and import
 @code{bindtextdomain} and @code{textdomain} from C:
 
@@ -13965,7 +13965,7 @@ extern(C) char* bindtextdomain(const char* domainname, const char* dirname);
 extern(C) char* textdomain(const char* domainname);
 @end example
 
-The main function should load the translation catalogues, similarly to the
+The main function should load the translation catalogs, similarly to the
 @file{c/bistromathic} example:
 
 @example
@@ -13975,10 +13975,10 @@ int main()
 
   // Set up internationalization.
   setlocale(LC_ALL, "");
-  // Use Bison's standard translation catalogue for error messages
+  // Use Bison's standard translation catalog for error messages
   // (the generated messages).
   bindtextdomain("bison-runtime", BISON_LOCALEDIR);
-  // For the translation catalogue of your own project, use the
+  // For the translation catalog of your own project, use the
   // name of your project.
   bindtextdomain("bison", LOCALEDIR);
   textdomain("bison");

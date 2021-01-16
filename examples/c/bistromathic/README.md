@@ -9,7 +9,7 @@ This example demonstrates best practices when using Bison.
   push-parser API to feed the parser with the incoming tokens.
 - It features an interactive command line with completion based on the
   parser state, based on `yyexpected_tokens`.
-- It uses Bison's standard catalogue for internationalization of generated
+- It uses Bison's standard catalog for internationalization of generated
   messages.
 - It uses a custom syntax error with location, lookahead correction and
   token internationalization.

@@ -10,7 +10,7 @@ XSLTPROC = xsltproc
 CPPFLAGS = -I/opt/local/include
 LDFLAGS = -L/opt/local/lib
 
-# Find the translation catalogue for Bison's generated messagess.
+# Find the translation catalog for Bison's generated messagess.
 BISON_LOCALEDIR = $(shell $(BISON) $(BISON_FLAGS) --print-localedir)
 CPPFLAGS += -DENABLE_NLS -DBISON_LOCALEDIR='"$(BISON_LOCALEDIR)"'
 

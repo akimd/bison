@@ -37,7 +37,7 @@
   # define YYENABLE_NLS 1
   # include <libintl.h>
   // Unless specified otherwise, we expect bistromathic's own
-  // catalogue to be installed in the same tree as Bison's catalogue.
+  // catalog to be installed in the same tree as Bison's catalog.
   # ifndef LOCALEDIR
   #  define LOCALEDIR BISON_LOCALEDIR
   # endif
@@ -638,10 +638,10 @@ main (int argc, char const* argv[])
 #if defined ENABLE_NLS && ENABLE_NLS
   // Set up internationalization.
   setlocale (LC_ALL, "");
-  // Use Bison's standard translation catalogue for error messages
+  // Use Bison's standard translation catalog for error messages
   // (the generated messages).
   bindtextdomain ("bison-runtime", BISON_LOCALEDIR);
-  // The translation catalogue of bistromathic is actually included in
+  // The translation catalog of bistromathic is actually included in
   // Bison's.  In your own project, use the name of your project.
   bindtextdomain ("bison", LOCALEDIR);
   textdomain ("bison");
