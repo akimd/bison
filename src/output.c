@@ -782,9 +782,12 @@ output_skeleton (void)
         fputc ('\n', stderr);
       }
 
-    /* The ugly cast is because gnulib gets the const-ness wrong.  */
-    pid = create_pipe_bidi ("m4", m4, (char **)(void*)argv, false, true,
-                            true, filter_fd);
+    pid = create_pipe_bidi ("m4", m4, argv,
+                            /* directory */ NULL,
+                            /* null_stderr */ false,
+                            /* slave_process */ true,
+                            /* exit_on_error */ true,
+                            filter_fd);
   }
 
   free (skeldir);

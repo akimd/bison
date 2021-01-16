@@ -564,11 +564,12 @@ print_html (void)
 
   int status
     = execute (argv[0],
-               argv[0], (char **)(void*)(argv),
+               argv[0], argv,
+               /* directory */ NULL,
                /* ignore_sigpipe */ false,
                /* null_stdin, null_stdout, null_stderr */ true, true, true,
                /* slave_process */ true, /* exit_on_error */ false,
-               NULL);
+               /* termsigp */ NULL);
   if (status)
     complain (NULL, complaint, _("%s failed with status %d"), argv[0], status);
   free (xml2html);
