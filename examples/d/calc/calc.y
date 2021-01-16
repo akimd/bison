@@ -108,8 +108,6 @@ if (isInputRange!R && is(ElementType!R : dchar))
     stderr.writeln(loc.toString(), ": ", s);
   }
 
-  Value value_;
-
   Symbol yylex()
   {
     import std.uni : isWhite, isNumber;
@@ -128,6 +126,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     // Numbers.
     if (input.front.isNumber)
     {
+      int ival;
       int lenChars = 0;
       import std.compiler : version_minor;
       static if (version_minor >= 95)
@@ -137,14 +136,14 @@ if (isInputRange!R && is(ElementType!R : dchar))
         import std.typecons : Flag, Yes;
         import std.conv : parse;
         auto parsed = parse!(int, R, Yes.doCount)(input);
-        value_.ival = parsed.data;
+        ival = parsed.data;
         lenChars = cast(int) parsed.count;
       }
       else
       {
         auto copy = input;
         import std.conv : parse;
-        value.ival = input.parse!int;
+        ival = input.parse!int;
         while (!input.empty && copy.front != input.front)
         {
           lenChars++;
@@ -153,7 +152,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
       }
       location.begin = location.end;
       location.end.column += lenChars;
-      return Symbol(TokenKind.NUM, value_.ival, location);
+      return Symbol(TokenKind.NUM, ival, location);
     }
 
     // Individual characters
