@@ -7,6 +7,8 @@ define a number of other macros to:
 - what skeleton is used
 
 # Keywords
+The following keywords are used to label tests.  Please follow them
+and avoid creating synonyms.
 - action
 - api.value.type
 - c++
@@ -24,3 +26,9 @@ define a number of other macros to:
 - report
 - %union
 - variant
+
+# Calculator
+The grammar features several special directives:
+- `!!` YYERROR
+- `!+` YYACCEPT
+- `!-` YYABORT
