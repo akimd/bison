@@ -111,7 +111,7 @@ lssi_print (lssi *l)
       symbol_number sin;
       BITSET_FOR_EACH (biter, l->lookahead, sin, 0)
         fprintf (out, "%s, \n", symbols[sin]->tag);
-      fprintf (out, "}");
+      fprintf (out, "}\n");
     }
 }
 #endif
@@ -253,7 +253,7 @@ shortest_path_from_start (state_item_number target, symbol_number next_sym)
 
   if (trace_flag & trace_cex)
     {
-      fputs ("REDUCE ITEM PATH:", stderr);
+      fputs ("REDUCE ITEM PATH:\n", stderr);
       gl_list_iterator_t it = gl_list_iterator (res);
       const void *sip;
       while (gl_list_iterator_next (&it, &sip, NULL))

@@ -499,9 +499,10 @@ state_items_report (FILE *out)
           if (SI_DISABLED (j))
             {
               item_print (si->item, NULL, out);
-              fputs (" DISABLED", out);
+              fputs (" DISABLED\n", out);
               continue;
             }
+          putc ('\n', out);
           if (si->trans >= 0)
             {
               fputs ("    -> ", out);
@@ -524,6 +525,7 @@ state_items_report (FILE *out)
                     }
                 }
             }
+          putc ('\n', out);
         }
     }
   fprintf (out, "FIRSTS\n");
@@ -535,7 +537,7 @@ state_items_report (FILE *out)
       BITSET_FOR_EACH (iter, FIRSTS (i), j, 0)
         fprintf (out, "    %s\n", symbols[j]->tag);
     }
-  fputc ('\n', out);
+  fputs ("\n\n", out);
 }
 
 void
