@@ -1,6 +1,6 @@
 # C++ GLR skeleton for Bison
 
-# Copyright (C) 2002-2015, 2018-2020 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2021 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -327,7 +327,7 @@ m4_define([b4_shared_declarations],
 ]b4_header_if([[
 ]b4_output_begin([b4_spec_header_file])[
 ]b4_copyright([Skeleton interface for Bison GLR parsers in C++],
-             [2002-2015, 2018-2020])[
+             [2002-2015, 2018-2021])[
 // C++ GLR parser skeleton written by Valentin Tolmer.
 
 ]b4_disclaimer[
@@ -343,7 +343,7 @@ m4_define([b4_shared_declarations],
 
 ]b4_output_begin([b4_parser_file_name])[
 ]b4_copyright([Skeleton implementation for Bison GLR parsers in C],
-              [2002-2015, 2018-2019])[
+              [2002-2015, 2018-2021])[
 // C++ GLR parser skeleton written by Valentin Tolmer.
 
 ]b4_disclaimer[

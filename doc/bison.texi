@@ -173,7 +173,7 @@
 This manual (@value{UPDATED}) is for GNU Bison (version @value{VERSION}),
 the GNU parser generator.
 
-Copyright @copyright{} 1988--1993, 1995, 1998--2015, 2018--2020 Free
+Copyright @copyright{} 1988--1993, 1995, 1998--2015, 2018--2021 Free
 Software Foundation, Inc.
 
 @quotation
@@ -1679,7 +1679,7 @@ after @samp{//}.
 @example
 /* Parser for rpcalc.   -*- C -*-
 
-   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2020 Free Software
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2021 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -2565,7 +2565,7 @@ Here are the C and Bison declarations for the multi-function calculator.
 @example
 /* Parser for mfcalc.   -*- C -*-
 
-   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2020 Free Software
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2021 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -2694,7 +2694,7 @@ provides for either functions or variables to be placed in the table.
 @example
 /* Functions for mfcalc.   -*- C -*-
 
-   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2020 Free Software
+   Copyright (C) 1988-1993, 1995, 1998-2015, 2018-2021 Free Software
    Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
@@ -12029,7 +12029,7 @@ generate C++.
 @example
 /* Simple variant-based parser.   -*- C++ -*-
 
-   Copyright (C) 2018-2020 Free Software Foundation, Inc.
+   Copyright (C) 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -13125,7 +13125,7 @@ library components, and the declaration of the parser class.
 @example
 /* Driver for calc++.   -*- C++ -*-
 
-   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -13221,7 +13221,7 @@ The implementation of the driver (@file{driver.cc}) is straightforward.
 @example
 /* Driver for calc++.   -*- C++ -*-
 
-   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -13288,7 +13288,7 @@ designed the grammar for.
 @example
 /* Parser for calc++.   -*- C++ -*-
 
-   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -13500,7 +13500,7 @@ then the parser's to get the set of defined tokens.
 @example
 /* Scanner for calc++.   -*- C++ -*-
 
-   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -13755,7 +13755,7 @@ The top level file, @file{calc++.cc}, poses no problem.
 @example
 /* Main for calc++.   -*- C++ -*-
 
-   Copyright (C) 2005--2015, 2018--2020 Free Software Foundation, Inc.
+   Copyright (C) 2005-2015, 2018-2021 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
