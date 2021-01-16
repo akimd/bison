@@ -732,6 +732,7 @@ enum { YYENOMEM = -2 };
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
 #define YYERROR         goto yyerrorlab
+#define YYNOMEM         goto yyexhaustedlab
 
 
 #define YYRECOVERING()  (!!yyerrstatus)
@@ -987,7 +988,7 @@ do {                                                                    \
       switch (yy_lac (yyesa, &yyes, &yyes_capacity, yyssp, yytoken))    \
         {                                                               \
         case YYENOMEM:                                                  \
-          goto yyexhaustedlab;                                          \
+          YYNOMEM;                                                      \
         case 1:                                                         \
           goto yyerrlab;                                                \
         }                                                               \
@@ -1707,7 +1708,7 @@ yysetstate:
 
   if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    goto yyexhaustedlab;
+    YYNOMEM;
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
@@ -1738,7 +1739,7 @@ yysetstate:
 # else /* defined YYSTACK_RELOCATE */
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
-        goto yyexhaustedlab;
+        YYNOMEM;
       yystacksize *= 2;
       if (YYMAXDEPTH < yystacksize)
         yystacksize = YYMAXDEPTH;
@@ -1749,7 +1750,7 @@ yysetstate:
           YY_CAST (union yyalloc *,
                    YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
         if (! yyptr)
-          goto yyexhaustedlab;
+          YYNOMEM;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);]b4_locations_if([
         YYSTACK_RELOCATE (yyls_alloc, yyls);])[
@@ -1980,8 +1981,8 @@ yyerrlab:
         if (yychar != ]b4_symbol(empty, id)[)
           YY_LAC_ESTABLISH;]])[
         if (yyreport_syntax_error (&yyctx]m4_ifset([b4_parse_param],
-                                  [[, ]b4_args(b4_parse_param)])[) == 2)
-          goto yyexhaustedlab;
+                                   [[, ]b4_args(b4_parse_param)])[) == 2)
+          YYNOMEM;
       }]],
          [simple],
 [[      yyerror (]b4_yyerror_args[YY_("syntax error"));]],
@@ -2016,7 +2017,7 @@ yyerrlab:
           }
         yyerror (]b4_yyerror_args[yymsgp);
         if (yysyntax_error_status == YYENOMEM)
-          goto yyexhaustedlab;
+          YYNOMEM;
       }]])[
     }
 ]b4_locations_if([[
@@ -2132,15 +2133,13 @@ yyabortlab:
   goto yyreturnlab;
 
 
-#if ]b4_lac_if([[1]], [b4_parse_error_case([simple], [[!defined yyoverflow]], [[1]])])[
-/*-------------------------------------------------.
-| yyexhaustedlab -- memory exhaustion comes here.  |
-`-------------------------------------------------*/
+/*-----------------------------------------------------------.
+| yyexhaustedlab -- YYNOMEM (memory exhaustion) comes here.  |
+`-----------------------------------------------------------*/
 yyexhaustedlab:
   yyerror (]b4_yyerror_args[YY_("memory exhausted"));
   yyresult = 2;
   goto yyreturnlab;
-#endif
 
 
 /*----------------------------------------------------------.

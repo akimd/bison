@@ -5239,10 +5239,10 @@ For instance, if your locations use a file name, you may use
 @findex %destructor
 @findex <*>
 @findex <>
-During error recovery (@pxref{Error Recovery}), symbols already pushed
-on the stack and tokens coming from the rest of the file are discarded
-until the parser falls on its feet.  If the parser runs out of memory,
-or if it returns via @code{YYABORT} or @code{YYACCEPT}, all the
+During error recovery (@pxref{Error Recovery}), symbols already pushed on
+the stack and tokens coming from the rest of the file are discarded until
+the parser falls on its feet.  If the parser runs out of memory, or if it
+returns via @code{YYABORT}, @code{YYACCEPT} or @code{YYNOMEM}, all the
 symbols on the stack must be discarded.  Even if the parser succeeds, it
 must discard the start symbol.
 
@@ -5368,8 +5368,8 @@ the start symbol, when the parser succeeds.
 @end itemize
 
 The parser can @dfn{return immediately} because of an explicit call to
-@code{YYABORT} or @code{YYACCEPT}, or failed error recovery, or memory
-exhaustion.
+@code{YYABORT}, @code{YYACCEPT} or @code{YYNOMEM}, or failed error recovery,
+or memory exhaustion.
 
 Right-hand side symbols of a rule that explicitly triggers a syntax
 error via @code{YYERROR} are not discarded automatically.  As a rule
@@ -7215,6 +7215,11 @@ Return immediately with value 0 (to report success).
 Return immediately with value 1 (to report failure).
 @end defmac
 
+@defmac YYNOMEM
+@findex YYNOMEM
+Return immediately with value 2 (to report memory exhaustion).
+@end defmac
+
 If you use a reentrant parser, you can optionally pass additional
 parameter information to it in a reentrant way.  To do so, use the
 declaration @code{%parse-param}:
@@ -7934,6 +7939,11 @@ recovery just as if the parser itself had detected an error; however, it
 does not call @code{yyerror}, and does not print any message.  If you
 want to print an error message, call @code{yyerror} explicitly before
 the @samp{YYERROR;} statement.  @xref{Error Recovery}.
+@end deffn
+
+@deffn {Macro} YYNOMEM @code{;}
+Return immediately from @code{yyparse}, indicating memory exhaustion.
+@xref{Parser Function}.
 @end deffn
 
 @deffn {Macro} YYRECOVERING
@@ -14676,10 +14686,10 @@ api.push-pull both" declaration is used (@pxref{%define
 Summary}).  The @code{Location} and @code{Position}
 parameters are available only if location tracking is active.
 
-The value returned by the @code{push_parse} method is one of the following
-four constants: @code{YYABORT}, @code{YYACCEPT}, @code{YYERROR}, or
-@code{YYPUSH_MORE}.  This new value, @code{YYPUSH_MORE}, may be returned if
-more input is required to finish parsing the grammar.
+The value returned by the @code{push_parse} method is one of the following:
+0 (success), 1 (abort), 2 (memory exhaustion), or @code{YYPUSH_MORE}.  This
+new value, @code{YYPUSH_MORE}, may be returned if more input is required to
+finish parsing the grammar.
 
 If api.push-pull is declared as @code{both}, then the generated parser class
 will also implement the @code{parse} method. This method's body is a loop
@@ -14719,13 +14729,12 @@ section summarizes these differences.
 
 @itemize
 @item
-Java lacks a preprocessor, so the @code{YYERROR}, @code{YYACCEPT},
-@code{YYABORT} symbols (@pxref{Table of Symbols}) cannot obviously be
-macros.  Instead, they should be preceded by @code{return} when they
-appear in an action.  The actual definition of these symbols is
-opaque to the Bison grammar, and it might change in the future.  The
-only meaningful operation that you can do, is to return them.
-@xref{Java Action Features}.
+Java lacks a preprocessor, so obviously the @code{YYERROR}, @code{YYACCEPT},
+@code{YYABORT} symbols (@pxref{Table of Symbols}) cannot be macros.
+Instead, they should be preceded by @code{return} when they appear in an
+action.  The actual definition of these symbols is opaque to the Bison
+grammar, and it might change in the future.  The only meaningful operation
+that you can do, is to return them.  @xref{Java Action Features}.
 
 Note that of these three symbols, only @code{YYACCEPT} and
 @code{YYABORT} will cause a return from the @code{yyparse}
@@ -16006,6 +16015,12 @@ pure push parser, it is a member of @code{yypstate}.)
 @xref{Error Reporting Function}.
 @end deffn
 
+@deffn {Macro} YYNOMEM
+Macro to pretend that memory is exhausted, by making @code{yyparse} return 2
+immediately.  The error reporting function @code{yyerror} is called.
+@xref{Parser Function}.
+@end deffn
+
 @deffn {Function} yyparse
 The parser function produced by Bison; call this function to start
 parsing.  @xref{Parser Function}.
@@ -16518,12 +16533,13 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: YYUNDEF SymbolKind yypcontext YYENOMEM TOKENMAX getBundle
 @c LocalWords: ResourceBundle myResources getString getName getToken ylwrap
 @c LocalWords: getLocation getExpectedTokens reportSyntaxError bistromathic
-@c LocalWords: TokenKind Automake's rtti Wcounterexamples Chinawat PLDI
+@c LocalWords: TokenKind Automake's rtti Wcounterexamples Chinawat PLDI buf
 @c LocalWords: Isradisaikul tcite pcite rgbGreen colorGreen rgbYellow Wcex
 @c LocalWords: colorYellow rgbRed colorRed rgbBlue colorBlue rgbPurple Ddoc
 @c LocalWords: colorPurple ifhtml ifnothtml situ rcex MERCHANTABILITY Wnone
 @c LocalWords: diagError diagNotice diagWarning diagOff danglingElseCex
-@c LocalWords: nonunifying
+@c LocalWords: nonunifying YYNOMEM Wuseless dgettext textdomain domainname
+@c LocalWords: dirname typeof writeln YYBISON
 
 @c Local Variables:
 @c ispell-dictionary: "american"

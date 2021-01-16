@@ -447,7 +447,8 @@ exp:
 | '-' error          { $$ = 0; YYERROR; }
 | '!' '!'            { $$ = 0; YYERROR; }
 | '!' '+'            { $$ = 0; YYACCEPT; }
-| '!' '-'            { $$ = 0; YYABORT; }
+| '!' '-'            { $$ = 0; YYABORT; }]AT_C_IF([[
+| '!' '*'            { $$ = 0; YYNOMEM; }]])[
 ;
 %%
 
@@ -1224,7 +1225,7 @@ _AT_CHECK_CALC_ERROR([$1], [0], [(* *) + (*) + (*)],
 
 # Special actions.
 # ----------------
-# !+ => YYACCEPT, !- => YYABORT, !! => YYERROR.
+# !+ => YYACCEPT, !- => YYABORT, !! => YYERROR, !* => YYNOMEM.
 
 # YYACCEPT.
 # Java lacks the traces at the end for cleaning the stack
@@ -1238,6 +1239,12 @@ _AT_CHECK_CALC([], [1 + 2 * 3 + !+ ++],
 _AT_CHECK_CALC_ERROR([$1], [1], [1 + 2 * 3 + !- ++],
                      [AT_PARAM_IF([final: 0 0 0])],
                      [102])
+AT_C_IF(
+[# YYNOMEM.
+_AT_CHECK_CALC_ERROR([$1], [2], [1 + 2 * 3 + !* ++],
+                     [AT_PARAM_IF([final: 0 0 1])],
+                     [102],
+                     [1.14: memory exhausted])])
 
 
 # YYerror.

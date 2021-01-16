@@ -32,3 +32,4 @@ The grammar features several special directives:
 - `!!` YYERROR
 - `!+` YYACCEPT
 - `!-` YYABORT
+- `!*` YYNOMEM

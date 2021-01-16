@@ -64,6 +64,11 @@ GNU Bison NEWS
   The Java skeleton (lalr1.java) now supports LAC, via the `parse.lac`
   %define variable.
 
+*** Abort parsing for memory exhaustion (C)
+
+  The user actions may now use YYNOMEM to abort the current parse with
+  memory exhaustion.
+
 
 * Noteworthy changes in release 3.7.4 (2020-11-14) [stable]
 

@@ -442,7 +442,7 @@ int yychar;])[
 
 enum { YYENOMEM = -2 };
 
-typedef enum { yyok, yyaccept, yyabort, yyerr } YYRESULTTAG;
+typedef enum { yyok, yyaccept, yyabort, yyerr, yynomem } YYRESULTTAG;
 
 #define YYCHK(YYE)                              \
   do {                                          \
@@ -898,7 +898,7 @@ yyfill (yyGLRStackItem *yyvsp, int *yylow, int yylow1, yybool yynormal)
  *  and top stack item YYVSP.  YYLVALP points to place to put semantic
  *  value ($$), and yylocp points to place for location information
  *  (@@$).  Returns yyok for normal return, yyaccept for YYACCEPT,
- *  yyerr for YYERROR, yyabort for YYABORT.  */
+ *  yyerr for YYERROR, yyabort for YYABORT, yynomem for YYNOMEM.  */
 static YYRESULTTAG
 yyuserAction (yyRuleNum yyrule, int yyrhslen, yyGLRStackItem* yyvsp,
               yyGLRStack* yystackp, YYPTRDIFF_T yyk,
@@ -915,6 +915,8 @@ yyuserAction (yyRuleNum yyrule, int yyrhslen, yyGLRStackItem* yyvsp,
 # define YYACCEPT return yyaccept
 # undef YYABORT
 # define YYABORT return yyabort
+# undef YYNOMEM
+# define YYNOMEM return yynomem
 # undef YYERROR
 # define YYERROR return yyerrok, yyerr
 # undef YYRECOVERING
@@ -965,6 +967,7 @@ yyuserAction (yyRuleNum yyrule, int yyrhslen, yyGLRStackItem* yyvsp,
 # undef yyerrok
 # undef YYABORT
 # undef YYACCEPT
+# undef YYNOMEM
 # undef YYERROR
 # undef YYBACKUP
 # undef yyclearin
@@ -2431,6 +2434,7 @@ yyrecoverSyntaxError (yyGLRStack* yystackp]b4_user_formals[)
     case yyabort:  goto yyabortlab;             \
     case yyaccept: goto yyacceptlab;            \
     case yyerr:    goto yyuser_error;           \
+    case yynomem:  goto yyexhaustedlab;         \
     default:       goto yybuglab;               \
     }                                           \
   } while (0)
