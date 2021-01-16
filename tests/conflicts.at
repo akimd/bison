@@ -1956,7 +1956,285 @@ empty_c2: %prec 'c' ;
 empty_c3: %prec 'c' ;
 ]])
 
-AT_BISON_CHECK([[--report=all -o input.c input.y]], 0, [], [ignore])
+AT_BISON_CHECK([[--trace=cex -fcaret --report=all -o input.c input.y]], 0, [],
+[[init: 0.000000
+# state items: 26
+State 0:
+    0 $accept: . start $end
+    ->     0 $accept: start . $end
+    =>     2 start: . empty_a 'a'
+    =>     4 start: . empty_b 'b'
+    =>     6 start: . empty_c1 'c'
+    =>     7 start: . empty_c2 'c'
+    =>     8 start: . empty_c3 'c'
+
+    1 start: . 'a'  DISABLED
+
+    2 start: . empty_a 'a'
+    ->     2 start: empty_a . 'a'
+    =>     9 empty_a: . %empty
+    <-     0 $accept: . start $end
+
+    3 start: . 'b'  DISABLED
+
+    4 start: . empty_b 'b'
+    ->     4 start: empty_b . 'b'
+    =>    10 empty_b: . %empty
+    <-     0 $accept: . start $end
+
+    5 start: . 'c'  DISABLED
+
+    6 start: . empty_c1 'c'
+    ->     6 start: empty_c1 . 'c'
+    =>    11 empty_c1: . %empty
+    <-     0 $accept: . start $end
+
+    7 start: . empty_c2 'c'
+    ->     7 start: empty_c2 . 'c'
+    =>    12 empty_c2: . %empty
+    <-     0 $accept: . start $end
+
+    8 start: . empty_c3 'c'
+    ->     8 start: empty_c3 . 'c'
+    =>    13 empty_c3: . %empty
+    <-     0 $accept: . start $end
+
+    9 empty_a: . %empty
+    <-     2 start: . empty_a 'a'
+
+   10 empty_b: . %empty
+    <-     4 start: . empty_b 'b'
+
+   11 empty_c1: . %empty
+    <-     6 start: . empty_c1 'c'
+
+   12 empty_c2: . %empty
+    <-     7 start: . empty_c2 'c'
+
+   13 empty_c3: . %empty
+    <-     8 start: . empty_c3 'c'
+
+State 1:
+    0 $accept: start . $end
+    ->     0 $accept: start $end .
+    <-     0 $accept: . start $end
+
+State 2:
+    2 start: empty_a . 'a'
+    ->     2 start: empty_a 'a' .
+    <-     2 start: . empty_a 'a'
+
+State 3:
+    4 start: empty_b . 'b'
+    ->     4 start: empty_b 'b' .
+    <-     4 start: . empty_b 'b'
+
+State 4:
+    6 start: empty_c1 . 'c'
+    ->     6 start: empty_c1 'c' .
+    <-     6 start: . empty_c1 'c'
+
+State 5:
+    7 start: empty_c2 . 'c'
+    ->     7 start: empty_c2 'c' .
+    <-     7 start: . empty_c2 'c'
+
+State 6:
+    8 start: empty_c3 . 'c'
+    ->     8 start: empty_c3 'c' .
+    <-     8 start: . empty_c3 'c'
+
+State 7:
+    0 $accept: start $end .
+    <-     0 $accept: start . $end
+
+State 8:
+    2 start: empty_a 'a' .
+    <-     2 start: empty_a . 'a'
+
+State 9:
+    4 start: empty_b 'b' .
+    <-     4 start: empty_b . 'b'
+
+State 10:
+    6 start: empty_c1 'c' .
+    <-     6 start: empty_c1 . 'c'
+
+State 11:
+    7 start: empty_c2 'c' .
+    <-     7 start: empty_c2 . 'c'
+
+State 12:
+    8 start: empty_c3 'c' .
+    <-     8 start: empty_c3 . 'c'
+
+FIRSTS
+  $accept firsts
+    'a'
+    'b'
+    'c'
+  start firsts
+    'a'
+    'b'
+    'c'
+  empty_a firsts
+  empty_b firsts
+  empty_c1 firsts
+  empty_c2 firsts
+  empty_c3 firsts
+
+
+input.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+input.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+input.y:4.5-7: warning: rule useless in parser due to conflicts [-Wother]
+    4 |     'a'
+      |     ^~~
+input.y:6.5-7: warning: rule useless in parser due to conflicts [-Wother]
+    6 |   | 'b'
+      |     ^~~
+input.y:8.5-7: warning: rule useless in parser due to conflicts [-Wother]
+    8 |   | 'c'
+      |     ^~~
+input.y:13.10-18: warning: rule useless in parser due to conflicts [-Wother]
+   13 | empty_a: %prec 'a' ;
+      |          ^~~~~~~~~
+input.y:14.10-18: warning: rule useless in parser due to conflicts [-Wother]
+   14 | empty_b: %prec 'b' ;
+      |          ^~~~~~~~~
+input.y:15.11-19: warning: rule useless in parser due to conflicts [-Wother]
+   15 | empty_c1: %prec 'c' ;
+      |           ^~~~~~~~~
+input.y:16.11-19: warning: rule useless in parser due to conflicts [-Wother]
+   16 | empty_c2: %prec 'c' ;
+      |           ^~~~~~~~~
+input.y:17.11-19: warning: rule useless in parser due to conflicts [-Wother]
+   17 | empty_c3: %prec 'c' ;
+      |           ^~~~~~~~~
+REDUCE ITEM PATH:
+    0 $accept: . start $end
+    7 start: . empty_c2 'c'
+   12 empty_c2: . %empty
+CONFLICT 1 (size 1 depth 0 rc 2)
+   12 empty_c2: . %empty
+   12 empty_c2: . %empty
+
+    .
+
+CONFLICT 2 (size 1 depth 0 rc 2)
+   13 empty_c3: . %empty
+   13 empty_c3: . %empty
+
+    .
+
+
+CONFLICT 1 (size 2 depth -1 rc 4)
+    7 start: . empty_c2 'c'
+    7 start: empty_c2 . 'c'
+
+    empty_c2
+    `-> .
+
+CONFLICT 2 (size 1 depth 0 rc 3)
+   13 empty_c3: . %empty
+   13 empty_c3: . %empty
+
+    .
+
+
+CONFLICT 1 (size 1 depth 0 rc 3)
+   12 empty_c2: . %empty
+   12 empty_c2: . %empty
+
+    .
+
+CONFLICT 2 (size 2 depth -1 rc 2)
+    8 start: . empty_c3 'c'
+    8 start: empty_c3 . 'c'
+
+    empty_c3
+    `-> .
+
+
+CONFLICT 1 (size 2 depth -1 rc 3)
+    7 start: . empty_c2 'c'
+    7 start: empty_c2 . 'c'
+
+    empty_c2
+    `-> .
+
+CONFLICT 2 (size 2 depth -1 rc 2)
+    8 start: . empty_c3 'c'
+    8 start: empty_c3 . 'c'
+
+    empty_c3
+    `-> .
+
+
+CONFLICT 1 (size 3 depth -1 rc 2)
+    7 start: . empty_c2 'c'
+    7 start: empty_c2 'c' .
+
+    empty_c2
+    `-> .
+
+CONFLICT 2 (size 3 depth -1 rc 2)
+    8 start: . empty_c3 'c'
+    8 start: empty_c3 'c' .
+
+    empty_c3
+    `-> .
+
+
+CONFLICT 1 (size 2 depth -1 rc 4)
+    0 $accept: . start $end
+    0 $accept: start . $end
+
+    start
+    `-> empty_c2 'c'
+        `-> .
+
+CONFLICT 2 (size 3 depth -1 rc 3)
+    8 start: . empty_c3 'c'
+    8 start: empty_c3 'c' .
+
+    empty_c3
+    `-> .
+
+
+CONFLICT 1 (size 3 depth -1 rc 3)
+    7 start: . empty_c2 'c'
+    7 start: empty_c2 'c' .
+
+    empty_c2
+    `-> .
+
+CONFLICT 2 (size 2 depth -1 rc 2)
+    0 $accept: . start $end
+    0 $accept: start . $end
+
+    start
+    `-> empty_c3 'c'
+        `-> .
+
+
+CONFLICT 1 (size 2 depth -1 rc 3)
+    0 $accept: . start $end
+    0 $accept: start . $end
+
+    start
+    `-> empty_c2 'c'
+        `-> .
+
+CONFLICT 2 (size 2 depth -1 rc 2)
+    0 $accept: . start $end
+    0 $accept: start . $end
+
+    start
+    `-> empty_c3 'c'
+        `-> .
+
+
+]])
 AT_CHECK([[cat input.output | sed -n '/^State 0$/,/^State 1$/p']], 0,
 [[State 0
 
