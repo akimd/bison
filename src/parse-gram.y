@@ -518,7 +518,7 @@ tag:
 // A non empty list of possibly tagged symbols for %nterm.
 //
 // Can easily be defined like symbol_decls but restricted to ID, but
-// using token_decls allows to reudce the number of rules, and also to
+// using token_decls allows to reduce the number of rules, and also to
 // make nicer error messages on "%nterm 'a'" or '%nterm FOO "foo"'.
 nterm_decls:
   token_decls

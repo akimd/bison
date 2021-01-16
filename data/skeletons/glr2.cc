@@ -920,7 +920,7 @@ public:
     YY_IGNORE_NULL_DEREFERENCE_END
   }
 
-  // A magic number to check our pointer arithmetics is sane.
+  // A magic number to check our pointer arithmetic is sane.
   enum { MAGIC = 713705 };
   unsigned int magic_;]])[
 };
@@ -1312,7 +1312,7 @@ public:
     YY_IGNORE_NULL_DEREFERENCE_END
   }
 
-  // A magic number to check our pointer arithmetics is sane.
+  // A magic number to check our pointer arithmetic is sane.
   enum { MAGIC = 0xeff1cace };
   unsigned int magic_;]])[
 };
@@ -1440,7 +1440,7 @@ public:
     YYASSERT (this->magic_ == MAGIC);
     YYASSERT (this->is_state_ == false || this->is_state_ == true);
   }
-  // A magic number to check our pointer arithmetics is sane.
+  // A magic number to check our pointer arithmetic is sane.
   enum { MAGIC = 0xDEAD1ACC }; // 3735886540.
   const unsigned int magic_;]])[
 };
@@ -1605,7 +1605,7 @@ private:
     yyitems.reserve (yynewSize);
     const glr_stack_item *newbase = &yyitems[0];
 
-    // Adjust the pointers.  Perform raw pointer arithmetics, as there
+    // Adjust the pointers.  Perform raw pointer arithmetic, as there
     // is no reason for objects to be aligned on their size.
     const ptrdiff_t disp
       = reinterpret_cast<const char*> (newbase) - reinterpret_cast<const char*> (oldbase);
