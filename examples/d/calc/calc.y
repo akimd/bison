@@ -115,10 +115,10 @@ if (isInputRange!R && is(ElementType!R : dchar))
     // Skip initial spaces
     while (!input.empty && input.front != '\n' && isWhite(input.front))
     {
-      location.begin = location.end;
       location.end.column++;
       input.popFront;
     }
+    location.step();
 
     if (input.empty)
       return Symbol(TokenKind.YYEOF, location);
@@ -126,8 +126,6 @@ if (isInputRange!R && is(ElementType!R : dchar))
     // Numbers.
     if (input.front.isNumber)
     {
-      int ival;
-      int lenChars = 0;
       import std.compiler : version_minor;
       static if (version_minor >= 95)
       {
@@ -136,29 +134,26 @@ if (isInputRange!R && is(ElementType!R : dchar))
         import std.typecons : Flag, Yes;
         import std.conv : parse;
         auto parsed = parse!(int, R, Yes.doCount)(input);
-        ival = parsed.data;
-        lenChars = cast(int) parsed.count;
+        int ival = parsed.data;
+        location.end.column += cast(int) parsed.count;
       }
       else
       {
         auto copy = input;
         import std.conv : parse;
-        ival = input.parse!int;
+        int ival = input.parse!int;
         while (!input.empty && copy.front != input.front)
         {
-          lenChars++;
+          location.end.column++;
           copy.popFront;
         }
       }
-      location.begin = location.end;
-      location.end.column += lenChars;
       return Symbol(TokenKind.NUM, ival, location);
     }
 
     // Individual characters
     auto ch = input.front;
     input.popFront;
-    location.begin = location.end;
     location.end.column++;
     switch (ch)
     {

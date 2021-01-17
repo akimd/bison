@@ -164,7 +164,8 @@ public struct ]b4_location_type[
    * Create a <code>Location</code> denoting an empty range located at
    * a given point.
    * @@param loc The position at which the range is anchored.  */
-  public this (Position loc) {
+  public this(Position loc)
+  {
     this.begin = this.end = loc;
   }
 
@@ -172,16 +173,25 @@ public struct ]b4_location_type[
    * Create a <code>Location</code> from the endpoints of the range.
    * @@param begin The first position included in the range.
    * @@param end   The first position beyond the range.  */
-  public this (Position begin, Position end)
+  public this(Position begin, Position end)
   {
     this.begin = begin;
     this.end = end;
   }
 
   /**
+   * Reset initial location to final location.
+   */
+  public void step()
+  {
+    this.begin = this.end;
+  }
+
+  /**
    * A representation of the location.
    */
-  public string toString () const {
+  public string toString() const
+  {
     auto end_col = 0 < end.column ? end.column - 1 : 0;
     auto res = begin.toString ();
     if (end.filename && begin.filename != end.filename)
