@@ -221,6 +221,16 @@ m4_define([_b4_token_maker_define_types],
 ])])
 
 
+# b4_union_define_types(SYMBOL-NUM)
+# ----------------------------------
+# Declare the union entry for SYMBOL-NUM values.
+m4_define([b4_union_define_types],
+[b4_token_visible_if([$1],
+  [b4_symbol_if([$1], [has_type],
+    [  ][b4_symbol([$1], [type])][ ][b4_symbol([$1], [id])][;], [dnl])
+])])
+
+
 # b4_token_constructor_define
 # ---------------------------
 # Define the overloaded versions of make_symbol for all the value types.
@@ -247,12 +257,12 @@ m4_define([b4_token_constructor_define],
         }
         else
         {]b4_locations_if([[
-          mixin("static auto " ~ member ~ "(typeof(YYSemanticType." ~
+          mixin("static auto " ~ member ~ "(]b4_variant_if([[]], [[typeof(YYSemanticType.]])[" ~
             visibleTokenTypes[mixin("TokenKind." ~ member)] ~ ") v, Location l)
           {
             return Symbol(TokenKind." ~ member ~ ", v, l);
           }");]], [[
-          mixin("static auto " ~ member ~ "(typeof(YYSemanticType." ~
+          mixin("static auto " ~ member ~ "(]b4_variant_if([[]], [[typeof(YYSemanticType.]])[" ~
              visibleTokenTypes[mixin("TokenKind." ~ member)] ~ ") v)
           {
             return Symbol(TokenKind." ~ member ~ ", v);
