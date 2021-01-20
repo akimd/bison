@@ -21,13 +21,15 @@
 
 %define api.parser.class {Calc}
 %define parse.error detailed
-%define parse.trace
-
+//%define parse.trace
+%define api.token.constructor
+%define api.value.type variant
 %locations
 
+/*
 %union {
   int ival;
-}
+}*/
 
 /* Bison Declarations */
 %token PLUS   "+"
@@ -37,9 +39,9 @@
        LPAR   "("
        RPAR   ")"
        EOL    "end of line"
-%token <ival> NUM "number"
-%type  <ival> exp
-%printer { yyo.write($$); } <ival>
+%token <int> NUM "number"
+%type  <int> exp
+%printer { yyo.write($$); } <int>
 
 %left "-" "+"
 %left "*" "/"
@@ -148,7 +150,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
           copy.popFront;
         }
       }
-      return Symbol(TokenKind.NUM, ival, location);
+      return Symbol.NUM(ival, location);
     }
 
     // Individual characters
@@ -157,7 +159,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     location.end.column++;
     switch (ch)
     {
-      case '+':  return Symbol(TokenKind.PLUS, location);
+      case '+':  return Symbol.PLUS(location);
       case '-':  return Symbol(TokenKind.MINUS, location);
       case '*':  return Symbol(TokenKind.STAR, location);
       case '/':  return Symbol(TokenKind.SLASH, location);
@@ -178,9 +180,9 @@ int main()
 {
   auto l = calcLexer(stdin);
   auto p = new Calc(l);
-  import core.stdc.stdlib : getenv;
+  /*import core.stdc.stdlib : getenv;
   if (getenv("YYDEBUG"))
-    p.setDebugLevel(1);
+    p.setDebugLevel(1);*/
   p.parse();
   return l.exit_status;
 }
