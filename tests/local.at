@@ -319,6 +319,8 @@ m4_pushdef([AT_UNION_IF],
 [m4_bmatch([$3], [%define api\.value\.type union], [$1], [$2])])
 m4_pushdef([AT_VARIANT_IF],
 [m4_bmatch([$3], [%define api\.value\.type variant], [$1], [$2])])
+m4_pushdef([AT_UNION_IF],
+[m4_bmatch([$3], [%define api\.value\.type union], [$1], [$2])])
 m4_pushdef([AT_API_prefix],
 [m4_bmatch([$3], [%define api\.prefix {.*}],
            [m4_bregexp([$3], [%define api\.prefix {\([^\}]*\)}], [\1])],

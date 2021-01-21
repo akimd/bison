@@ -206,7 +206,7 @@ public struct ]b4_location_type[
 
 private immutable bool yy_location_is_class = false;
 
-]])])m4_ifdef([b4_user_union_members], [private union YYSemanticType
+]])])[]b4_value_type_setup[]m4_ifdef([b4_user_union_members], [private union YYSemanticType
 {
 b4_user_union_members
 };],

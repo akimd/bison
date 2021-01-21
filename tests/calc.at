@@ -645,11 +645,11 @@ m4_define([_AT_DATA_CALC_Y(d)],
   alias semantic_value = int;
 }
 /* Exercise %union. */
-%union
+]AT_UNION_IF([[]], [[%union
 {
   semantic_value ival;
-};
-%printer { yyo.write($$); } <ival>;
+};]])[
+%printer { yyo.write($$); } <]AT_UNION_IF([[int]], [[ival]])[>;
 
 %code {
 ]AT_TOKEN_TRANSLATE_IF([[
@@ -670,8 +670,8 @@ m4_define([_AT_DATA_CALC_Y(d)],
 
 /* Bison Declarations */
 %token EOF 0 ]AT_TOKEN_TRANSLATE_IF([_("end of file")], ["end of input"])[
-%token <ival> NUM   "number"
-%type  <ival> exp
+%token <]AT_UNION_IF([[int]], [[ival]])[> NUM   "number"
+%type  <]AT_UNION_IF([[int]], [[ival]])[> exp
 
 %token EQUAL  "="
        MINUS  "-"
@@ -1499,6 +1499,7 @@ AT_CHECK_CALC_LALR1_D([%locations %define parse.lac full %define parse.error det
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error detailed %debug %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error detailed %debug %define api.prefix {calc} %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 
+AT_CHECK_CALC_LALR1_D([%define parse.error custom %define api.value.type union])
 
 # ----------------------- #
 # LALR1 Java Calculator.  #
