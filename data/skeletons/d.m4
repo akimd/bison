@@ -339,7 +339,7 @@ m4_define([b4_declare_symbol_enum],
 ]])
 
 
-# b4-case(ID, CODE, [COMMENTS])
+# b4_case(ID, CODE, [COMMENTS])
 # -----------------------------
 m4_define([b4_case], [    case $1:m4_ifval([$3], [ b4_comment([$3])])
 $2
@@ -365,6 +365,110 @@ m4_define([b4_location_type], b4_percent_define_ifdef([[location_type]],[b4_perc
 #b4_percent_define_default([[position_type]], [Position])])
 m4_define([b4_position_type], b4_percent_define_ifdef([[position_type]],[b4_percent_define_get([[position_type]])],[YYPosition]))
 
+
+## ---------------- ##
+## api.value.type.  ##
+## ---------------- ##
+
+
+# ---------------------- #
+# api.value.type=union.  #
+# ---------------------- #
+
+# b4_symbol_type_register(SYMBOL-NUM)
+# -----------------------------------
+# Symbol SYMBOL-NUM has a type (for union) instead of a type-tag.
+# Extend the definition of %union's body (b4_union_members) with a
+# field of that type, and extend the symbol's "type" field to point to
+# the field name, instead of the type name.
+m4_define([b4_symbol_type_register],
+[m4_define([b4_symbol($1, type_tag)],
+           [b4_symbol_if([$1], [has_id],
+                         [b4_symbol([$1], [id])],
+                         [yykind_[]b4_symbol([$1], [number])])])dnl
+m4_append([b4_union_members],
+m4_expand([m4_format([  %-40s %s],
+                     m4_expand([b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]),
+                     [b4_symbol_tag_comment([$1])])]))
+])
+
+
+# b4_type_define_tag(SYMBOL1-NUM, ...)
+# ------------------------------------
+# For the batch of symbols SYMBOL1-NUM... (which all have the same
+# type), enhance the %union definition for each of them, and set
+# there "type" field to the field tag name, instead of the type name.
+m4_define([b4_type_define_tag],
+[b4_symbol_if([$1], [has_type],
+              [m4_map([b4_symbol_type_register], [$@])])
+])
+
+
+# b4_symbol_value_union(VAL, SYMBOL-NUM, [TYPE])
+# ----------------------------------------------
+# Same of b4_symbol_value, but when api.value.type=union.
+m4_define([b4_symbol_value_union],
+[m4_ifval([$3],
+          [(*($3*)(&$1))],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [($1.b4_symbol([$2], [type_tag]))],
+                                  [$1])],
+                    [$1])])])
+
+
+# b4_value_type_setup_union
+# -------------------------
+# Setup support for api.value.type=union.  Symbols are defined with a
+# type instead of a union member name: build the corresponding union,
+# and give the symbols their tag.
+m4_define([b4_value_type_setup_union],
+[m4_define([b4_union_members])
+b4_type_foreach([b4_type_define_tag])
+m4_copy_force([b4_symbol_value_union], [b4_symbol_value])
+])
+
+
+# _b4_value_type_setup_keyword
+# ----------------------------
+# api.value.type is defined with a keyword/string syntax.  Check if
+# that is properly defined, and prepare its use.
+m4_define([_b4_value_type_setup_keyword],
+[b4_percent_define_check_values([[[[api.value.type]],
+                                  [[none]],
+                                  [[union]],
+                                  [[union-directive]],
+                                  [[yystype]]]])dnl
+m4_case(b4_percent_define_get([[api.value.type]]),
+        [union],   [b4_value_type_setup_union])])
+
+
+# b4_value_type_setup
+# -------------------
+# Check if api.value.type is properly defined, and possibly prepare
+# its use.
+b4_define_silent([b4_value_type_setup],
+[m4_errprintn(Here)
+# Define default value.
+b4_percent_define_ifdef([[api.value.type]], [],
+[# %union => api.value.type=union-directive
+m4_ifdef([b4_union_members],
+[m4_define([b4_percent_define_kind(api.value.type)], [keyword])
+m4_define([b4_percent_define(api.value.type)], [union-directive])],
+[# no tag seen => api.value.type={int}
+m4_if(b4_tag_seen_flag, 0,
+[m4_define([b4_percent_define_kind(api.value.type)], [code])
+m4_define([b4_percent_define(api.value.type)], [int])],
+[# otherwise api.value.type=yystype
+m4_define([b4_percent_define_kind(api.value.type)], [keyword])
+m4_define([b4_percent_define(api.value.type)], [yystype])])])])
+
+# Set up.
+m4_bmatch(b4_percent_define_get_kind([[api.value.type]]),
+   [keyword], [_b4_value_type_setup_keyword])
+])
+
+m4_errprintn(Here1)
 
 ## ----------------- ##
 ## Semantic Values.  ##

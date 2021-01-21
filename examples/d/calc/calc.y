@@ -23,7 +23,7 @@
 %define parse.error detailed
 //%define parse.trace
 %define api.token.constructor
-%define api.value.type variant
+%define api.value.type union
 %locations
 
 /*
