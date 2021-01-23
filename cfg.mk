@@ -156,6 +156,7 @@ exclude = \
 $(call exclude,                                                                 \
   bindtextdomain=^lib/main.c$$                                                  \
   cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
+  copyright_check=gnulib/lib/version-etc.c$$                                    \
   error_message_uppercase=etc/bench.pl.in$$                                     \
   po_check=^tests|(^po/POTFILES.in|.md)$$                                       \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
