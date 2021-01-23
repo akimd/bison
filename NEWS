@@ -4,6 +4,10 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** Counterexample Generation
+
+  In some cases counterexample generation could crash.  This is fixed.
+
 *** GLR parsers now support %merge together with api.value.type=union.
 
 *** C++ parsers use noexcept in more places.
