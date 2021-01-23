@@ -4,7 +4,16 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** GLR parsers now support %merge together with api.value.type=union.
+
+*** C++ parsers use noexcept in more places.
+
+*** Generated parsers avoid some warnings about signedness issues.
+
+*** C-language parsers no avoid warnings from pedantic clang.
+
 *** C-language parsers now work around quirks of HP-UX 11.23 (2003).
+
 
 * Noteworthy changes in release 3.7.4 (2020-11-14) [stable]
 
