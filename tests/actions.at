@@ -334,10 +334,10 @@ exp: { ]AT_CXX_IF([[std::cerr << @$ << '\n']],
 
 ]AT_YYLEX_PROTOTYPE[
 {]AT_PURE_IF([
-  YYUSE(lvalp);
-  YYUSE(llocp);], [AT_CXX_IF([
-  YYUSE(lvalp);
-  YYUSE(llocp);])])[
+  YY_USE(lvalp);
+  YY_USE(llocp);], [AT_CXX_IF([
+  YY_USE(lvalp);
+  YY_USE(llocp);])])[
   return 'x';
 }
 

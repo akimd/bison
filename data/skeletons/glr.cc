@@ -157,11 +157,11 @@ m4_pushdef([b4_parse_param], m4_defn([b4_parse_param_orig]))dnl
                            const semantic_type* yyvaluep]b4_locations_if([[,
                            const location_type* yylocationp]])[) const
   {]b4_locations_if([[
-    YYUSE (yylocationp);]])[
-    YYUSE (yyvaluep);
+    YY_USE (yylocationp);]])[
+    YY_USE (yyvaluep);
     std::ostream& yyo = debug_stream ();
     std::ostream& yyoutput = yyo;
-    YYUSE (yyoutput);
+    YY_USE (yyoutput);
     ]b4_symbol_actions([printer])[
   }
 
