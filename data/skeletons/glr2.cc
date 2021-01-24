@@ -143,7 +143,7 @@ b4_dollar_popdef[]dnl
 m4_define([b4_call_merger],
 [b4_case([$1],
          [    b4_symbol_if([$3], [has_type],
-                           [b4_variant_if([yy0.as<b4_symbol($3, type)> () = $2 (yy0.as<b4_symbol($3, type)>(), yy1.as<b4_symbol($3, type)>());],
+                           [b4_variant_if([yy0.as< b4_symbol($3, type) > () = $2 (yy0.as< b4_symbol($3, type) >(), yy1.as< b4_symbol($3, type) >());],
                                           [yy0.b4_symbol($3, slot) = $2 (yy0, yy1);])],
                            [yy0 = $2 (yy0, yy1);])])])
 
