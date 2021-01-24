@@ -122,7 +122,33 @@ m4_define([b4_rhs_location],
 # ----------------------------------
 # Run the action KIND (destructor or printer) for SYMBOL-NUM.
 # Same as in C, but using references instead of pointers.
+#
+# Currently we need two different b4_symbol_action: once for the
+# self-contained symbols, and another time for yy_destroy_ and
+# yy_symbol_value_print_, which don't use genuine symbols yet.
 m4_define([b4_symbol_action],
+[b4_symbol_if([$1], [has_$2],
+[m4_pushdef([b4_symbol_value], m4_defn([b4_symbol_value_template]))[]dnl
+b4_dollar_pushdef([yysym.value],
+                  [$1],
+                  [],
+                  [yysym.location])dnl
+      _b4_symbol_case([$1])[]dnl
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
+        b4_symbol([$1], [$2])
+b4_syncline([@oline@], [@ofile@])dnl
+        break;
+
+m4_popdef([b4_symbol_value])[]dnl
+b4_dollar_popdef[]dnl
+])])
+
+
+# b4_symbol_action_for_yyval(SYMBOL-NUM, KIND)
+# --------------------------------------------
+# Run the action KIND (destructor or printer) for SYMBOL-NUM.
+# Same as in C, but using references instead of pointers.
+m4_define([b4_symbol_action_for_yyval],
 [b4_symbol_if([$1], [has_$2],
 [b4_dollar_pushdef([yyval],
                    [$1],
@@ -3378,7 +3404,9 @@ static void yypdumpstack (const glr_stack& yystack)
     YY_SYMBOL_PRINT (yymsg, yykind, yyval, yyloc);
 
     YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-    ]b4_symbol_actions([destructor])[
+    ]m4_do([m4_pushdef([b4_symbol_action], m4_defn([b4_symbol_action_for_yyval]))],
+           [b4_symbol_actions([destructor])],
+           [m4_popdef([b4_symbol_action])])[
     YY_IGNORE_MAYBE_UNINITIALIZED_END
   }
 
@@ -3396,7 +3424,9 @@ static void yypdumpstack (const glr_stack& yystack)
     YY_USE (yyval);
     std::ostream& yyo = debug_stream ();
     YY_USE (yyo);
-    ]b4_symbol_actions([printer])[
+    ]m4_do([m4_pushdef([b4_symbol_action], m4_defn([b4_symbol_action_for_yyval]))],
+           [b4_symbol_actions([printer])],
+           [m4_popdef([b4_symbol_action])])[
   }
 
   void
