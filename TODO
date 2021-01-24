@@ -1,4 +1,26 @@
 * Soon
+** Missing tests
+commit c22902e360e0fbbe9fd5657dcf107e03166da309
+Author: Akim Demaille <akim.demaille@gmail.com>
+Date:   Sat Jan 23 18:40:15 2021 +0100
+
+    tables: fix handling for useless tokens
+
+See https://github.com/akimd/bison/issues/72#issuecomment-766153154
+
+commit 2c294c132528ede23d8ae4959783a67e9ff05ac5
+Author: Vincent Imbimbo <vmi6@cornell.edu>
+Date:   Sat Jan 23 13:25:18 2021 -0500
+
+    cex: fix state-item pruning
+
+See https://lists.gnu.org/r/bug-bison/2021-01/msg00002.html
+
+** pos_set_set
+The current approach is correct, but with poor performances.  Bitsets need
+to support 'assign' and 'shift'.  And instead of extending POS_SET just for
+the out-of-range new values, we need something like doubling the size.
+
 ** YY_LOCATION_PRINT
 This is an internal detail.  But it's very handy, we should make it public.
 It already has leaked in the documentation by accident.
