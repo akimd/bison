@@ -1,6 +1,27 @@
 GNU Bison NEWS
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 3.7.5 (2021-01-24) [stable]
+
+** Bug fixes
+
+*** Counterexample Generation
+
+  In some cases counterexample generation could crash.  This is fixed.
+
+*** Fix Table Generation
+
+  In some very rare conditions, when there are many useless tokens, it was
+  possible to generate incorrect parsers.
+
+*** GLR parsers now support %merge together with api.value.type=union.
+
+*** C++ parsers use noexcept in more places.
+
+*** Generated parsers avoid some warnings about signedness issues.
+
+*** C-language parsers now avoid warnings from pedantic clang.
+
+*** C-language parsers now work around quirks of HP-UX 11.23 (2003).
 
 ** Changes
 

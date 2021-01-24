@@ -111,9 +111,13 @@ base_number *base = NULL;
    computation equals to BASE_MINIMUM, later mapped to BASE_NINF to
    keep parser tables small.  */
 base_number base_ninf = 0;
+
 /* Bitset representing an integer set in the range
-   -nstates..table_size (as an upper bound) */
+   POS_SET_OFFSET..(POS_SET_OFFSET + SIZE).  POS_SET_OFFSET is
+   nonpositive. */
 static bitset pos_set = NULL;
+/* The integer denoted by bitno 0 in pos_set.  */
+static int pos_set_base = 0;
 
 static int *conflrow;
 int *conflict_table;
@@ -137,6 +141,71 @@ int high;
 
 state_number *yydefgoto;
 rule_number *yydefact;
+
+
+/*----------.
+| pos_set.  |
+`----------*/
+
+#if 0
+static void
+pos_set_dump (void)
+{
+  fprintf (stderr, "pos_set (%ld, %d) =", bitset_size (pos_set), pos_set_base);
+  bitset_iterator biter;
+  int i;
+  BITSET_FOR_EACH (biter, pos_set, i, 0)
+    fprintf (stderr, " %d", i + pos_set_base);
+  putc ('\n', stderr);
+}
+#endif
+
+
+/* The size and base of POS_SET are not known, we need to be able to
+   move the base farther "on the left", and grow "on the right".
+
+   It would be nice to be able to predict the base accurately, but it
+   seems difficult (-nstates seems to work most of the time, except
+   when there are useless tokens).
+
+   FIXME: The current approach is correct, but with poor performances.
+   Bitsets need to support 'assign' and 'shift'.  And instead of
+   extending POS_SET just for the out-of-range new values, we need
+   something like doubling the size.
+  */
+
+static void
+pos_set_set (int pos)
+{
+  int bitno = pos - pos_set_base;
+  if (bitno < 0)
+    {
+      const int delta = pos_set_base - pos;
+      const int old_size = bitset_size (pos_set);
+      const int new_size = old_size + delta;
+      bitset_resize (pos_set, new_size);
+      // Shift all the bits by DELTA.
+      // FIXME: add bitset_assign, and bitset_shift?
+      for (int i = new_size - 1; delta <= i ; --i)
+        if (bitset_test (pos_set, i))
+          bitset_set (pos_set, i + delta);
+        else
+          bitset_reset (pos_set, i + delta);
+      pos_set_base = pos;
+      bitno = 0;
+    }
+  else if (bitset_size (pos_set) <= bitno)
+    bitset_resize (pos_set, bitno + 1);
+  bitset_set (pos_set, bitno);
+}
+
+static bool
+pos_set_test (int pos)
+{
+  const int bitno = pos - pos_set_base;
+  return bitset_test (pos_set, bitno);
+}
+
 
 /*-------------------------------------------------------------------.
 | If TABLE, CONFLICT_TABLE, and CHECK are too small to be addressed  |
@@ -168,8 +237,6 @@ table_grow (int desired)
   check = xnrealloc (check, table_size, sizeof *check);
   for (int i = old_size; i < table_size; ++i)
     check[i] = -1;
-
-  bitset_resize (pos_set, table_size + nstates);
 }
 
 
@@ -672,7 +739,7 @@ pack_vector (vector_number vector)
               ok = false;
           }
 
-        if (ok && bitset_test (pos_set, nstates + res))
+        if (ok && pos_set_test (res))
           ok = false;
       }
 
@@ -732,6 +799,7 @@ pack_table (void)
 {
   base = xnmalloc (nvectors, sizeof *base);
   pos_set = bitset_create (table_size + nstates, BITSET_FRUGAL);
+  pos_set_base = -nstates;
   table = xcalloc (table_size, sizeof *table);
   conflict_table = xcalloc (table_size, sizeof *conflict_table);
   check = xnmalloc (table_size, sizeof *check);
@@ -757,12 +825,7 @@ pack_table (void)
         /* Action of I were already coded for S.  */
         place = base[s];
 
-      /* Store PLACE into POS_SET.  PLACE might not belong to the set
-         of possible values for instance with useless tokens.  It
-         would be more satisfying to eliminate the need for this
-         'if'.  */
-      if (0 <= nstates + place)
-        bitset_set (pos_set, nstates + place);
+      pos_set_set (place);
       base[order[i]] = place;
     }
 
