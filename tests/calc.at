@@ -519,6 +519,16 @@ m4_copy([_AT_DATA_CALC_Y(c)], [_AT_DATA_CALC_Y(c++)])
 ## Calc in D.  ##
 ## ----------- ##
 
+# AT_YYLEX_RETURN_VAL
+# -------------------
+# Produce the return value for yylex().
+m4_define([AT_YYLEX_RETURN_VAL],
+[return dnl
+AT_TOKEN_CTOR_IF(
+  [[Symbol.]AT_TOKEN_PREFIX[$1](m4_ifval([$2], [$2])[]AT_LOCATION_IF([m4_ifval([$2], [, ])[location]])[);]],
+  [[Symbol(TokenKind.]AT_TOKEN_PREFIX[$1]m4_ifval([$2], [, $2])[]AT_LOCATION_IF([[, location]])[);]])]
+)
+
 # AT_CALC_MAIN(d).
 m4_define([AT_CALC_MAIN(d)],
 [[int main (string[] args)
@@ -595,11 +605,10 @@ if (isInputRange!R && is (ElementType!R : dchar))
 
     // EOF.
     if (input.empty)
-      return Symbol(TokenKind.]AT_TOKEN_PREFIX[EOF]AT_LOCATION_IF([[, location]])[);
-
+      ]AT_YYLEX_RETURN_VAL([EOF])[
     // Numbers.
     if (input.front.isNumber)
-      return Symbol(TokenKind.]AT_TOKEN_PREFIX[NUM, parseInt]AT_LOCATION_IF([[, location]])[);
+      ]AT_YYLEX_RETURN_VAL([NUM], [parseInt])[
 
     // Individual characters
     auto c = input.front;]AT_LOCATION_IF([[
@@ -616,22 +625,22 @@ if (isInputRange!R && is (ElementType!R : dchar))
     if (c == '#')
     {
       stderr.writeln (]AT_LOCATION_IF([location, ": ", ])["syntax error: invalid character: '#'");
-      return Symbol(TokenKind.]AT_TOKEN_PREFIX[YYerror]AT_LOCATION_IF([[, location]])[);
+      ]AT_YYLEX_RETURN_VAL([YYerror])[
     }
 
     switch (c)
     {
-      case '+':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[PLUS]AT_LOCATION_IF([[, location]])[);
-      case '-':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[MINUS]AT_LOCATION_IF([[, location]])[);
-      case '*':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[STAR]AT_LOCATION_IF([[, location]])[);
-      case '/':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[SLASH]AT_LOCATION_IF([[, location]])[);
-      case '(':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[LPAR]AT_LOCATION_IF([[, location]])[);
-      case ')':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[RPAR]AT_LOCATION_IF([[, location]])[);
-      case '\n': return Symbol(TokenKind.]AT_TOKEN_PREFIX[EOL]AT_LOCATION_IF([[, location]])[);
-      case '=':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[EQUAL]AT_LOCATION_IF([[, location]])[);
-      case '^':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[POW]AT_LOCATION_IF([[, location]])[);
-      case '!':  return Symbol(TokenKind.]AT_TOKEN_PREFIX[NOT]AT_LOCATION_IF([[, location]])[);
-      default:   return Symbol(TokenKind.]AT_TOKEN_PREFIX[YYUNDEF]AT_LOCATION_IF([[, location]])[);
+      case '+':  ]AT_YYLEX_RETURN_VAL([PLUS])[
+      case '-':  ]AT_YYLEX_RETURN_VAL([MINUS])[
+      case '*':  ]AT_YYLEX_RETURN_VAL([STAR])[
+      case '/':  ]AT_YYLEX_RETURN_VAL([SLASH])[
+      case '(':  ]AT_YYLEX_RETURN_VAL([LPAR])[
+      case ')':  ]AT_YYLEX_RETURN_VAL([RPAR])[
+      case '\n': ]AT_YYLEX_RETURN_VAL([EOL])[
+      case '=':  ]AT_YYLEX_RETURN_VAL([EQUAL])[
+      case '^':  ]AT_YYLEX_RETURN_VAL([POW])[
+      case '!':  ]AT_YYLEX_RETURN_VAL([NOT])[
+      default:   ]AT_YYLEX_RETURN_VAL([YYUNDEF])[
     }
   }
 }
@@ -1499,7 +1508,8 @@ AT_CHECK_CALC_LALR1_D([%locations %define parse.lac full %define parse.error det
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error detailed %debug %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 #AT_CHECK_CALC_LALR1_D([%locations %define parse.error detailed %debug %define api.prefix {calc} %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
 
-AT_CHECK_CALC_LALR1_D([%define parse.error custom %define api.value.type union])
+AT_CHECK_CALC_LALR1_D([%define api.token.constructor %locations %define parse.error custom %define api.value.type union])
+AT_CHECK_CALC_LALR1_D([%define api.token.constructor %locations %define parse.error detailed])
 
 # ----------------------- #
 # LALR1 Java Calculator.  #

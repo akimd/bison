@@ -208,6 +208,32 @@ b4_symbol_foreach([b4_token_enum])dnl
 m4_define([b4_symbol_translate],
 [[_($1)]])
 
+
+# _b4_token_constructor_define
+# ----------------------------
+# Define make_symbol for a value type.
+m4_define([_b4_token_constructor_define],
+[b4_token_visible_if([$1],
+[[
+    static auto ]b4_symbol([$1], [id])[(]b4_symbol_if([$1], [has_type],
+[b4_union_if([b4_symbol([$1], [type]],
+[[typeof(YYSemanticType.]b4_symbol([$1], [type])[]])) [val]])dnl
+[]b4_locations_if([b4_symbol_if([$1], [has_type], [[, ]])[Location l]])[)
+    {
+      return Symbol(TokenKind.]b4_symbol([$1], [id])[]b4_symbol_if([$1], [has_type],
+      [[, val]])[]b4_locations_if([[, l]])[);
+    }]])])
+
+# b4_token_constructor_define
+# ---------------------------
+# Define the overloaded versions of make_symbol for all the value types.
+m4_define([b4_token_constructor_define],
+[[
+    /* Implementation of token constructors for each symbol type visible to
+     * the user. The code generates static methods that have the same names
+     * as the TokenKinds.
+     */]b4_symbol_foreach([_b4_token_constructor_define])])
+
 ## -------------- ##
 ## Symbol kinds.  ##
 ## -------------- ##
@@ -593,5 +619,6 @@ m4_define([b4_symbol_type_define],
     SymbolKind token() { return kind; }
     Value value() { return value_; }]b4_locations_if([[
     Location location() { return location_; }]])[
+]b4_token_ctor_if([b4_token_constructor_define])[
   }
 ]])
