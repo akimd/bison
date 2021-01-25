@@ -94,7 +94,7 @@ m4_define([AT_RAW_YYLEX(d)],
 import std.stdio;
 
 auto yyLexer(R)(R range)
-  if (isInputRange!R && is (ElementType!R : dchar))
+if (isInputRange!R && is (ElementType!R : dchar))
 {
   return new YYLexer!R(range);
 }
@@ -105,17 +105,13 @@ auto yyLexer ()
 }
 
 class YYLexer(R) : Lexer
-  if (isInputRange!R && is (ElementType!R : dchar))
+if (isInputRange!R && is (ElementType!R : dchar))
 {
   R input;
 
-  this(R r) {
-    input = r;
-  }
+  this(R r) { input = r; }
 
   ]AT_YYERROR_DEFINE[
-
-  Value value_;
 
   Symbol yylex ()
   {
@@ -131,8 +127,7 @@ class YYLexer(R) : Lexer
     switch (c)
     {
     case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-      value_.val = c - '0';
-      return Symbol(TokenKind.NUM, value_.val);
+      return Symbol(TokenKind.NUM, c - '0');
     case '+': return Symbol(TokenKind.PLUS);
     case '-': return Symbol(TokenKind.MINUS);
     case '*': return Symbol(TokenKind.STAR);

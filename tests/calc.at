@@ -539,7 +539,7 @@ m4_define([AT_CALC_YYLEX(d)],
 import std.stdio;
 
 auto calcLexer(R)(R range)
-  if (isInputRange!R && is (ElementType!R : dchar))
+if (isInputRange!R && is (ElementType!R : dchar))
 {
   return new CalcLexer!R(range);
 }
@@ -556,17 +556,14 @@ auto calcLexer (File f)
 }
 
 class CalcLexer(R) : Lexer
-  if (isInputRange!R && is (ElementType!R : dchar))
+if (isInputRange!R && is (ElementType!R : dchar))
 {
   R input;
 
-  this(R r) {
-    input = r;
-  }
+  this(R r) { input = r; }
 
   ]AT_YYERROR_DEFINE[
-
-  Value value_;]AT_LOCATION_IF([[
+]AT_LOCATION_IF([[
   Location location;
 ]])[
   int parseInt ()
@@ -574,27 +571,27 @@ class CalcLexer(R) : Lexer
     auto res = 0;
     import std.uni : isNumber;
     while (input.front.isNumber)
-      {
-        res = res * 10 + (input.front - '0');]AT_LOCATION_IF([[
-        location.end.column += 1;]])[
-        input.popFront;
-      }
+    {
+      res = res * 10 + (input.front - '0');]AT_LOCATION_IF([[
+      location.end.column += 1;]])[
+      input.popFront;
+    }
     return res;
   }
 
   Symbol yylex ()
   {]AT_LOCATION_IF([[
-    location.begin = location.end;]])[
+    location.step();]])[
 
     import std.uni : isWhite, isNumber;
 
     // Skip initial spaces
     while (!input.empty && input.front != '\n' && isWhite (input.front))
-      {
-        input.popFront;]AT_LOCATION_IF([[
-        location.begin.column += 1;
-        location.end.column += 1;]])[
-      }
+    {
+      input.popFront;]AT_LOCATION_IF([[
+      location.end.column += 1;]])[
+    }]AT_LOCATION_IF([[
+    location.step();]])[
 
     // EOF.
     if (input.empty)
@@ -602,28 +599,25 @@ class CalcLexer(R) : Lexer
 
     // Numbers.
     if (input.front.isNumber)
-      {
-        value_.ival = parseInt;
-        return Symbol(TokenKind.]AT_TOKEN_PREFIX[NUM, value_.ival]AT_LOCATION_IF([[, location]])[);
-      }
+      return Symbol(TokenKind.]AT_TOKEN_PREFIX[NUM, parseInt]AT_LOCATION_IF([[, location]])[);
 
     // Individual characters
     auto c = input.front;]AT_LOCATION_IF([[
     if (c == '\n')
-      {
-        location.end.line += 1;
-        location.end.column = 1;
-      }
+    {
+      location.end.line += 1;
+      location.end.column = 1;
+    }
     else
       location.end.column += 1;]])[
     input.popFront;
 
     // An explicit error raised by the scanner. */
     if (c == '#')
-      {
-        stderr.writeln (]AT_LOCATION_IF([location, ": ", ])["syntax error: invalid character: '#'");
-        return Symbol(TokenKind.]AT_TOKEN_PREFIX[YYerror]AT_LOCATION_IF([[, location]])[);
-      }
+    {
+      stderr.writeln (]AT_LOCATION_IF([location, ": ", ])["syntax error: invalid character: '#'");
+      return Symbol(TokenKind.]AT_TOKEN_PREFIX[YYerror]AT_LOCATION_IF([[, location]])[);
+    }
 
     switch (c)
     {
