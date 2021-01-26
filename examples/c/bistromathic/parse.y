@@ -187,7 +187,7 @@ exp:
   {
     if ($r == 0)
       {
-        yyerror (&@$, uctx, "error: division by zero");
+        yyerror (&@$, uctx, _("error: division by zero"));
         YYERROR;
       }
     else
@@ -345,7 +345,7 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc,
 
       // Stray characters.
     default:
-      yyerror (yylloc, uctx, "syntax error: invalid character: %c", c);
+      yyerror (yylloc, uctx, _("syntax error: invalid character: %c"), c);
       return TOK_YYerror;
     }
 }
