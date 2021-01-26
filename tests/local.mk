@@ -114,7 +114,8 @@ recheck: $(RUN_TESTSUITE_deps)
 	     -e 'eof && /^(\d+).*: FAILED/ && print "$$1 "'	\
 		%D%/testsuite.dir/*/testsuite.log)
 
-check-local: $(RUN_TESTSUITE_deps)
+.PHONY: check-tests
+check-local check-tests: $(RUN_TESTSUITE_deps)
 	$(RUN_TESTSUITE)
 
 # Run the test suite on the *installed* tree.

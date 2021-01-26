@@ -7,11 +7,12 @@ define a number of other macros to:
 - what skeleton is used
 
 # Keywords
-The following keywords are used to label tests.  Please follow them
-and avoid creating synonyms.
+The following keywords are used to label tests (with
+AT_KEYWORDS([[category]])).  Please follow them and avoid creating
+synonyms.
 - action
 - api.value.type
-- c++
+- c++: c++ language
 - cex: counterexamples.
 - d: d language
 - deprec: deprecated features.
@@ -23,7 +24,7 @@ and avoid creating synonyms.
 - %merge
 - multistart
 - push
-- report
+- report: for automaton dumps
 - %union
 - variant
 

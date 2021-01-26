@@ -388,6 +388,11 @@ In examples/, there is a number of ready-to-use examples (see
 suites run by `make check`.  The test results are in local `*.log` files
 (e.g., `$build/examples/c/calc/calc.log`).
 
+To check only the examples, run `make check-examples`.  To check just one
+example,
+
+    make check-examples TESTS='examples/c/bistromathic/bistromathic.test'
+
 ### The Main Test Suite
 The main test suite, in tests/, is written on top of GNU Autotest, which is
 part of Autoconf.  Run `info autoconf 'Using Autotest'` to read the
@@ -401,28 +406,23 @@ contains lots of details that should help diagnosing issues, including build
 issues.  The per-test logs are more convenient when working locally.
 
 #### TESTSUITEFLAGS
-To run just the main test suite, run `make check-local`.
+To run just the main test suite, run `make check-tests`.
 
-The default is for make check-local to run all tests sequentially.  This can
-be very time consuming when checking repeatedly or on slower setups.  This
-can be sped up in two ways:
+The default is for `make check-tests` to run all tests sequentially.  This
+can be very time consuming when checking repeatedly or on slower setups.
+This can be sped up in two ways.
 
-Using -j, in a make-like fashion, for example:
+1. Using -j, in a make-like fashion, for example:
 
-    $ make check-local TESTSUITEFLAGS='-j8'
+    $ make check-tests TESTSUITEFLAGS='-j8'
 
-Actually, when using GNU Make, TESTSUITEFLAGS defaults to the -jN passed to
-it, so you may simply run
+When using GNU Make, TESTSUITEFLAGS defaults to the -jN passed to it, so you
+may simply run
 
-    $ make check-local -j8
+    $ make check-tests -j8
 
-Running only the tests of a certain category, as specified in the AT files
-with AT_KEYWORDS([[category]]). Categories include:
-- c++, for c++ parsers
-- deprec, for tests concerning deprecated constructs.
-- glr, for glr parsers
-- java, for java parsers
-- report, for automaton dumps
+2. Running only the tests of a certain category. See
+[tests/README.md](tests/README.md#keywords) for the list of categories.
 
 To get a list of all the tests (and their keywords for -k), run
 
@@ -430,11 +430,11 @@ To get a list of all the tests (and their keywords for -k), run
 
 To run a specific set of tests, use -k (for "keyword"). For example:
 
-    $ make check-local TESTSUITEFLAGS='-k c++'
+    $ make check-tests TESTSUITEFLAGS='-k c++'
 
 Both can be combined.
 
-    $ make check-local TESTSUITEFLAGS='-j8 -k c++'
+    $ make check-tests TESTSUITEFLAGS='-j8 -k c++'
 
 To rerun the tests that failed:
 
@@ -488,7 +488,7 @@ useful.  Here's one way to set them up with GCC 10 on Mac Ports
 4. Run the tests with leak detection enabled
    (`ASAN_OPTIONS=detect_leaks=1`).  E.g. for counterexamples:
    ```
-   $ make check-local TESTSUITEFLAGS='-j5 -k cex' ASAN_OPTIONS=detect_leaks=1
+   $ make check-tests TESTSUITEFLAGS='-j5 -k cex' ASAN_OPTIONS=detect_leaks=1
    ```
 
 5. You might need a suppression file.  See

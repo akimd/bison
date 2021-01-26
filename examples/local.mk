@@ -93,6 +93,9 @@ dist_examples_DATA = %D%/README.md
 
 CLEANDIRS += %D%/*.dSYM
 
+.PHONY: check-examples
+check-examples: check-TESTS
+
 include %D%/c/local.mk
 include %D%/c++/local.mk
 include %D%/d/local.mk
