@@ -540,7 +540,7 @@ m4_define([AT_CALC_MAIN(d)],
   auto l = calcLexer (input);
   auto p = new YYParser (l);]AT_DEBUG_IF([[
   p.setDebugLevel (1);]])[
-  return !p.parse ();
+  return !p.parse();
 }
 ]])
 
@@ -1510,6 +1510,8 @@ AT_CHECK_CALC_LALR1_D([%locations %define parse.lac full %define parse.error det
 
 AT_CHECK_CALC_LALR1_D([%define api.token.constructor %locations %define parse.error custom %define api.value.type union])
 AT_CHECK_CALC_LALR1_D([%define api.token.constructor %locations %define parse.error detailed])
+AT_CHECK_CALC_LALR1_D([%define api.push-pull both])
+AT_CHECK_CALC_LALR1_D([%define parse.trace %define parse.error custom %locations %define api.push-pull both %define parse.lac full])
 
 # ----------------------- #
 # LALR1 Java Calculator.  #
