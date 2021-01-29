@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # In order for some versions of Sun Studio to compile our C++ test cases
 # correctly, we need Autoconf 2.64 or better to handle the restrict

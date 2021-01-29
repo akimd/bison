@@ -16,7 +16,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 =head1 NAME
 
@@ -1072,7 +1072,7 @@ sub help ($)
 {
   my ($verbose) = @_;
   use Pod::Usage;
-  # See <URL:http://perldoc.perl.org/pod2man.html#NOTES>.
+  # See <URL:https://perldoc.perl.org/pod2man.html#NOTES>.
   pod2usage( { -message => "Bench Bison parsers",
                -exitval => 0,
                -verbose => $verbose,

@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 #include "getargs.h"
@@ -446,7 +446,7 @@ Output Files:\n\
       printf (_("Report bugs to <%s>.\n"), PACKAGE_BUGREPORT);
       printf (_("%s home page: <%s>.\n"), PACKAGE_NAME, PACKAGE_URL);
       fputs (_("General help using GNU software: "
-               "<http://www.gnu.org/gethelp/>.\n"),
+               "<https://www.gnu.org/gethelp/>.\n"),
              stdout);
 
 #if (defined __GLIBC__ && __GLIBC__ >= 2) && !defined __UCLIBC__
@@ -455,13 +455,12 @@ Output Files:\n\
          man page.  */
       const char *lc_messages = setlocale (LC_MESSAGES, NULL);
       if (lc_messages && !STREQ (lc_messages, "en_"))
-        /* TRANSLATORS: Replace LANG_CODE in this URL with your language
-           code <http://translationproject.org/team/LANG_CODE.html> to
-           form one of the URLs at http://translationproject.org/team/.
+        /* TRANSLATORS: Replace LANG_CODE in this URL with your language code to
+           form one of the URLs at https://translationproject.org/team/.
            Otherwise, replace the entire URL with your translation team's
            email address.  */
         fputs (_("Report translation bugs to "
-                 "<http://translationproject.org/team/>.\n"), stdout);
+                 "<https://translationproject.org/team/>.\n"), stdout);
 #endif
       fputs (_("For complete documentation, run: info bison.\n"), stdout);
     }

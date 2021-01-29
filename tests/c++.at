@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[C++ Features.]])
 
@@ -74,7 +74,7 @@ main (void)
                            fail += check (loc - 5, "foo.txt:1.1");
   loc -= 5;                fail += check (loc, "foo.txt:1.1");
   // Check that we don't go below.
-  // http://lists.gnu.org/archive/html/bug-bison/2013-02/msg00000.html
+  // https://lists.gnu.org/r/bug-bison/2013-02/msg00000.html
   loc -= 10;         fail += check (loc, "foo.txt:1.1");
 
   loc.columns (10); loc.lines (10); fail += check (loc, "foo.txt:1.1-11.0");
@@ -437,7 +437,7 @@ namespace yy
   {
     // The 5 is a syntax error whose recovery requires that we discard
     // the lookahead.  This tests a regression, see
-    // <http://savannah.gnu.org/support/?108481>.
+    // <https://savannah.gnu.org/support/?108481>.
     static char const *input = "0,1,2,3,45,6";
     switch (int stage = *input++)
     {
@@ -583,7 +583,7 @@ m4_popdef([AT_TEST])
 
 AT_SETUP([Variants and Typed Midrule Actions])
 
-# See http://lists.gnu.org/archive/html/bug-bison/2017-06/msg00000.html.
+# See https://lists.gnu.org/r/bug-bison/2017-06/msg00000.html.
 #
 # Check that typed midrule actions behave properly (pre-construction
 # of $$ before the user action, support of %printer and %destructor,

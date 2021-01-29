@@ -2,7 +2,7 @@ This file attempts to describe the rules to use when hacking Bison.
 Don't put this file into the distribution.
 
 Everything related to the development of Bison is on Savannah:
-http://savannah.gnu.org/projects/bison/.
+https://savannah.gnu.org/projects/bison/.
 
 
 Working from the Repository
@@ -19,21 +19,21 @@ requirements on anyone wishing to build from the just-checked-out sources.
 For example, you have to use the latest stable versions of the maintainer
 tools we depend upon, including:
 
-- Autoconf <http://www.gnu.org/software/autoconf/>
-- Automake <http://www.gnu.org/software/automake/>
-- Flex <http://www.gnu.org/software/flex/>
-- Gettext <http://www.gnu.org/software/gettext/>
-- Gperf <http://www.gnu.org/software/gperf/>
-- Graphviz <http://www.graphviz.org>
-- Gzip <http://www.gnu.org/software/gzip/>
-- Help2man <http://www.gnu.org/software/help2man/>
-- Perl <http://www.cpan.org/>
-- Rsync <http://samba.anu.edu.au/rsync/>
-- Tar <http://www.gnu.org/software/tar/>
-- Texinfo <http://www.gnu.org/software/texinfo/>
+- Autoconf <https://www.gnu.org/software/autoconf/>
+- Automake <https://www.gnu.org/software/automake/>
+- Flex <https://www.gnu.org/software/flex/>
+- Gettext <https://www.gnu.org/software/gettext/>
+- Gperf <https://www.gnu.org/software/gperf/>
+- Graphviz <https://www.graphviz.org>
+- Gzip <https://www.gnu.org/software/gzip/>
+- Help2man <https://www.gnu.org/software/help2man/>
+- Perl <https://www.cpan.org/>
+- Rsync <https://rsync.samba.org/>
+- Tar <https://www.gnu.org/software/tar/>
+- Texinfo <https://www.gnu.org/software/texinfo/>
 
-Valgrind <http://valgrind.org/> is also highly recommended, if it supports
-your architecture.
+Valgrind <https://www.valgrind.org/> is also highly recommended, if it
+supports your architecture.
 
 If you're using a GNU/Linux distribution, the easiest way to install the
 above packages depends on your system.  The following shell command should
@@ -57,7 +57,7 @@ might be needed.
 
 Obviously, if you are reading these notes, you did manage to check out this
 package from the repository.  For the record, you will find all the relevant
-information on http://savannah.gnu.org/git/?group=bison.
+information on https://savannah.gnu.org/git/?group=bison.
 
 Bison uses Git submodules: subscriptions to other Git repositories.  In
 particular it uses gnulib, the GNU portability library.  To ask Git to
@@ -139,7 +139,7 @@ Register your changes.
 
 For a suggestion of what gnulib commit might be stable enough for a formal
 release, see the ChangeLog in the latest gnulib snapshot at
-http://erislabs.net/ianb/projects/gnulib/.
+https://erislabs.net/ianb/projects/gnulib/.
 
 The Autoconf files we use are currently:
 - m4/m4.m4
@@ -246,7 +246,7 @@ Prefer `res` as the name of the local variable that will be "return"ed by
 the function.
 
 In writing arithmetic comparisons, use "<" and "<=" rather than ">" and ">="
-(http://www.gelato.unsw.edu.au/archives/git/0505/4507.html).
+<https://public-inbox.org/git/7vfyw7yebj.fsf_-_@assigned-by-dhcp.cox.net/>.
 
 ### Bison
 Follow the GNU Coding Standards.
@@ -325,7 +325,7 @@ about the C standard introducing such a name.
 
 #### C++
 Follow the [C++ Core
-Guidelines](http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
+Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines).
 The [Google ones](https://google.github.io/styleguide/cppguide.html) may be
 interesting too.
 
@@ -541,7 +541,7 @@ release:
 - Maybe build with -DGNULIB_POSIXCHECK, which suggests gnulib modules that
   can fix portability issues.  See if you really want to pay attention to
   its warnings; there's no need to obey blindly to it
-  (<http://lists.gnu.org/archive/html/bison-patches/2012-05/msg00057.html>).
+  (<https://lists.gnu.org/r/bison-patches/2012-05/msg00057.html>).
 
 - Check with `make syntax-check` if there are issues diagnosed by gnulib.
 
@@ -654,7 +654,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Local Variables:
 mode: markdown

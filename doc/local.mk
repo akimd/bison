@@ -12,7 +12,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AM_MAKEINFOFLAGS =                                              \
   --no-split                                                    \
@@ -56,7 +56,7 @@ MAINTAINERCLEANFILES = $(CROSS_OPTIONS_TEXI)
 
 
 # Fix Info's @code in @deftype
-# https://lists.gnu.org/archive/html/help-texinfo/2019-11/msg00004.html
+# https://lists.gnu.org/r/help-texinfo/2019-11/msg00004.html
 all-local: $(srcdir)/$(%C%_bison).info.bak
 $(srcdir)/$(%C%_bison).info.bak: $(srcdir)/$(%C%_bison).info
 	$(AM_V_GEN) $(PERL) -pi.bak -0777	\

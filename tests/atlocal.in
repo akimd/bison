@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # We need 'testsuite.h' (srcdir/test).
 CPPFLAGS="-I$abs_top_srcdir/tests @CPPFLAGS@"
@@ -66,7 +66,7 @@ fi
 # cannot be checked in configure (gnulib is not parameterized yet),
 # and checking this in every C++ test in AC_COMPILE_CXX is too costly.
 #
-# http://lists.gnu.org/archive/html/bug-bison/2013-06/msg00001.html
+# https://lists.gnu.org/r/bug-bison/2013-06/msg00001.html
 #
 # FIXME: Check (say 2014) whether this is still needed.
 if $BISON_CXX_WORKS; then

@@ -15,7 +15,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 %option debug nodefault noinput nounput noyywrap never-interactive
 %option prefix="code_" outfile="lex.yy.c"
@@ -36,7 +36,7 @@
 #include "src/flex-scanner.h"
 
 /* Work around a bug in flex 2.5.31.  See Debian bug 333231
-   <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=333231>.  */
+   <https://bugs.debian.org/333231>.  */
 #undef code_wrap
 #define code_wrap() 1
 

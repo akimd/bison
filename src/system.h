@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #ifndef BISON_SYSTEM_H
 # define BISON_SYSTEM_H
@@ -78,7 +78,7 @@ typedef size_t uintptr_t;
 #  define GCC_VERSION (__GNUC__ * 100 + __GNUC_MINOR__)
 # endif
 
-// See https://lists.gnu.org/archive/html/bug-bison/2019-10/msg00061.html
+// See https://lists.gnu.org/r/bug-bison/2019-10/msg00061.html
 // and https://trac.macports.org/ticket/59927.
 # if defined GCC_VERSION && 405 <= GCC_VERSION
 #  define IGNORE_TYPE_LIMITS_BEGIN \
@@ -156,8 +156,8 @@ max_int (int a, int b)
    a failed assertion.  The rationale was that <assert.h>'s assertions
    were too heavyweight and could be disabled too easily.  See
    discussions at
-   <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00080.html>
-   <http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00111.html>.
+   <https://lists.gnu.org/r/bison-patches/2006-01/msg00080.html>
+   <https://lists.gnu.org/r/bison-patches/2006-09/msg00111.html>.
 
    However, normal assert output can be helpful during development and
    in bug reports from users.  Moreover, it's not clear now that
@@ -165,7 +165,7 @@ max_int (int a, int b)
    users want to experiment with disabling assertions, it's debatable
    whether it's our responsibility to stop them.  See discussion
    starting at
-   <http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00013.html>.
+   <https://lists.gnu.org/r/bison-patches/2009-09/msg00013.html>.
 
    For now, we use assert but we call it aver throughout Bison in case
    we later wish to try another scheme.

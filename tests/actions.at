@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[User Actions.]])
 
@@ -375,7 +375,7 @@ AT_TEST([glr2.cc])
 
 ## A very different test, based on PostgreSQL's implementation of the
 ## locations.  See
-## http://lists.gnu.org/archive/html/bug-bison/2012-11/msg00023.html
+## https://lists.gnu.org/r/bug-bison/2012-11/msg00023.html
 ##
 ## Weirdly enough, to trigger the warning with GCC 4.7, we must not
 ## use fprintf, so run the test twice: once to check the warning
@@ -1311,9 +1311,9 @@ AT_SETUP([Default %printer and %destructor for user-defined end token])
 # does not declare a specific %printer/%destructor.  Thus, the parser
 # uses it for token 0 if the user declares it but not if Bison
 # generates it as $end.  Discussed starting at
-# <http://lists.gnu.org/r/bison-patches/2006-02/msg00064.html>,
-# <http://lists.gnu.org/r/bison-patches/2006-06/msg00091.html>, and
-# <http://lists.gnu.org/r/bison-patches/2006-07/msg00019.html>.
+# <https://lists.gnu.org/r/bison-patches/2006-02/msg00064.html>,
+# <https://lists.gnu.org/r/bison-patches/2006-06/msg00091.html>, and
+# <https://lists.gnu.org/r/bison-patches/2006-07/msg00019.html>.
 
 # AT_TEST(TYPED)
 # --------------
