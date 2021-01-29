@@ -12,7 +12,7 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 dist_noinst_DATA = %D%/README.md
 nodist_noinst_SCRIPTS = %D%/bench.pl

@@ -1684,7 +1684,7 @@ after @samp{//}.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -2570,7 +2570,7 @@ Here are the C and Bison declarations for the multi-function calculator.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -2699,7 +2699,7 @@ provides for either functions or variables to be placed in the table.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -11874,8 +11874,8 @@ described under the @option{-v} and @option{-d} options.
 @item -g [@var{file}]
 @itemx --graph[=@var{file}]
 Output a graphical representation of the parser's automaton computed by
-Bison, in @uref{http://www.graphviz.org/, Graphviz}
-@uref{http://www.graphviz.org/doc/info/lang.html, DOT} format.
+Bison, in @uref{https://www.graphviz.org/, Graphviz}
+@uref{https://www.graphviz.org/doc/info/lang.html, DOT} format.
 @code{@var{file}} is optional.  If omitted and the grammar file is
 @file{foo.y}, the output file will be @file{foo.gv} if the @code{%required}
 version is 3.4 or better, @file{foo.dot} otherwise.
@@ -12008,7 +12008,7 @@ generate C++.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -13104,7 +13104,7 @@ library components, and the declaration of the parser class.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -13200,7 +13200,7 @@ The implementation of the driver (@file{driver.cc}) is straightforward.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -13267,7 +13267,7 @@ designed the grammar for.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -13479,7 +13479,7 @@ then the parser's to get the set of defined tokens.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -13734,7 +13734,7 @@ The top level file, @file{calc++.cc}, poses no problem.
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 @end example
 @end ignore
 
@@ -14576,7 +14576,7 @@ Portable C Compiler, pcc. The same person, Steven C. Johnson, wrote Yacc and
 the original pcc.
 
 According to the author
-@footnote{@url{https://lists.gnu.org/archive/html/bison-patches/2019-02/msg00061.html}},
+@footnote{@url{https://lists.gnu.org/r/bison-patches/2019-02/msg00061.html}},
 Yacc was first invented in 1971 and reached a form recognizably similar to
 the C version in 1973.  Johnson published @cite{A Portable Compiler: Theory
 and Practice} @pcite{Johnson 1978}.
@@ -15154,7 +15154,7 @@ systems are especially welcome.
 How do I join the help-bison and bug-bison mailing lists?
 @end quotation
 
-See @url{http://lists.gnu.org/}.
+See @url{https://lists.gnu.org/}.
 
 @c ================================================= Table of Symbols
 
@@ -15985,35 +15985,35 @@ Division, University of California, Berkeley, California
 @c when
 (June 1985).
 @c url
-@uref{http://xtf.lib.berkeley.edu/reports/TRWebData/accessPages/CSD-85-251.html}
+@uref{https://digicoll.lib.berkeley.edu/record/135875}
 
 @anchor{Denny 2008}
 @item [Denny 2008]
 Joel E. Denny and Brian A. Malloy, IELR(1): Practical LR(1) Parser Tables
 for Non-LR(1) Grammars with Conflict Resolution, in @cite{Proceedings of the
 2008 ACM Symposium on Applied Computing} (SAC'08), ACM, New York, NY, USA,
-pp.@: 240--245.  @uref{http://dx.doi.org/10.1145/1363686.1363747}
+pp.@: 240--245.  @uref{https://dx.doi.org/10.1145/1363686.1363747}
 
 @anchor{Denny 2010 May}
 @item [Denny 2010 May]
 Joel E. Denny, PSLR(1): Pseudo-Scannerless Minimal LR(1) for the
 Deterministic Parsing of Composite Languages, Ph.D. Dissertation, Clemson
 University, Clemson, SC, USA (May 2010).
-@uref{http://proquest.umi.com/pqdlink?did=2041473591&Fmt=7&clientId=79356&RQT=309&VName=PQD}
+@uref{https://tigerprints.clemson.edu/all_dissertations/519/}
 
 @anchor{Denny 2010 November}
 @item [Denny 2010 November]
 Joel E. Denny and Brian A. Malloy, The IELR(1) Algorithm for Generating
 Minimal LR(1) Parser Tables for Non-LR(1) Grammars with Conflict Resolution,
 in @cite{Science of Computer Programming}, Vol.@: 75, Issue 11 (November
-2010), pp.@: 943--979.  @uref{http://dx.doi.org/10.1016/j.scico.2009.08.001}
+2010), pp.@: 943--979.  @uref{https://dx.doi.org/10.1016/j.scico.2009.08.001}
 
 @anchor{DeRemer 1982}
 @item [DeRemer 1982]
 Frank DeRemer and Thomas Pennello, Efficient Computation of LALR(1)
 Look-Ahead Sets, in @cite{ACM Transactions on Programming Languages and
 Systems}, Vol.@: 4, No.@: 4 (October 1982), pp.@:
-615--649. @uref{http://dx.doi.org/10.1145/69622.357187}
+615--649. @uref{https://dx.doi.org/10.1145/69622.357187}
 
 @anchor{Isradisaikul 2015}
 @item [Isradisaikul 2015]
@@ -16037,14 +16037,14 @@ pp.@: 97--104.
 @item [Knuth 1965]
 Donald E. Knuth, On the Translation of Languages from Left to Right, in
 @cite{Information and Control}, Vol.@: 8, Issue 6 (December 1965), pp.@:
-607--639. @uref{http://dx.doi.org/10.1016/S0019-9958(65)90426-2}
+607--639. @uref{https://dx.doi.org/10.1016/S0019-9958(65)90426-2}
 
 @anchor{Scott 2000}
 @item [Scott 2000]
 Elizabeth Scott, Adrian Johnstone, and Shamsa Sadaf Hussain,
 @cite{Tomita-Style Generalised LR Parsers}, Royal Holloway, University of
 London, Department of Computer Science, TR-00-12 (December 2000).
-@uref{http://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps}
+@uref{https://www.cs.rhul.ac.uk/research/languages/publications/tomita_style_1.ps}
 @end table
 
 @node Index of Terms

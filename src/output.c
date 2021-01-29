@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 #include "system.h"
@@ -730,7 +730,7 @@ output_skeleton (void)
        extensions even when POSIXLY_CORRECT is set.
 
        See the thread starting at
-       <http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00000.html>
+       <https://lists.gnu.org/r/bug-bison/2008-07/msg00000.html>
        for details.  */
     if (*M4_GNU_OPTION)
       argv[i++] = M4_GNU_OPTION;
@@ -739,7 +739,7 @@ output_skeleton (void)
     argv[i++] = datadir;
     /* Some future version of GNU M4 (most likely 1.6) may treat the
        -dV in a position-dependent manner.  See the thread starting at
-       <http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00000.html>
+       <https://lists.gnu.org/r/bug-bison/2008-07/msg00000.html>
        for details.  */
     if (trace_flag & trace_m4_early)
       argv[i++] = "-dV";

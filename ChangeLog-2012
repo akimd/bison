@@ -77,7 +77,7 @@
 	Empty unions are not accepted by the ISO C99 grammar or by at
 	least some versions of Sun Studio.  Reported by Wolfgang S. Kechel
 	at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-08/msg00003.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-08/msg00003.html>.
 	* NEWS (2.5.1): Document fix.
 	* THANKS (Wolfgang S. Kechel): Add.
 	* tests/existing.at (GNU Cim Grammar)
@@ -104,7 +104,7 @@
 	build: avoid YACC typo inherited from Autoconf.
 	The typo shows up in the `configure --help' output.  Reported by
 	W.C.A. Wijngaards and Paul Eggert at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-07/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-07/msg00000.html>.
 	* README-hacking (Release Procedure): Remind about updating
 	maintainer tools before a release.
 	* THANKS (W.C.A. Wijngaards): Add.
@@ -115,7 +115,7 @@
 
 	build: create xz instead of bzip2 tarballs.
 	Suggested by Jim Meyering at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-06/msg00012.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-06/msg00012.html>.
 	* README-hacking (Release Procedure): Update example.
 	* configure.ac (AM_INIT_AUTOMAKE): Replace dist-bzip2 with
 	dist-xz.
@@ -153,7 +153,7 @@
 
 	doc: motivate named references.
 	Suggested by Hans Aberg at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-05/msg00008.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-05/msg00008.html>.
 	* doc/bison.texinfo (Named References): Explain briefly how
 	they're better than the traditional positional references.
 
@@ -161,7 +161,7 @@
 
 	doc: discuss named references after locations.
 	Reported by Hans Aberg at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-05/msg00008.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-05/msg00008.html>.
 	* NEWS (2.5.1): Document.
 	* doc/bison.texinfo (Named References): Because it discusses
 	locations in addition to semantic values, move this subsection out
@@ -187,7 +187,7 @@
 	configure with --enable-gcc-warnings) and the sources that Bison
 	users build.  Instead, use PACIFY_CC, which doesn't.  This change
 	fixes compiler warnings reported by Tys Lefering at
-	<http://lists.gnu.org/archive/html/bison-patches/2011-05/msg00004.html>.
+	<https://lists.gnu.org/r/bison-patches/2011-05/msg00004.html>.
 	* configure.ac: Don't AC_DEFINE lint regardless of the configure
 	options.  This change affects imported gnulib sources, where
 	IF_LINT still appears and depends on lint.
@@ -242,7 +242,7 @@
 
 	tests: pacify gcc 4.6.0's -Wunused-but-set-variable.
 	Reported by Jim Meyering at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-04/msg00002.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-04/msg00002.html>.
 	* tests/actions.at
 	(Default %printer and %destructor for mid-rule values): Define
 	YYLLOC_DEFAULT so that it uses its Rhs argument.
@@ -254,7 +254,7 @@
 	about yyresolveLocations's local yyrhsloc.  When locations are
 	enabled, there's no such warning because YYLLOC_DEFAULT then uses
 	yyrhsloc.  Reported by Jim Meyering at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-04/msg00002.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-04/msg00002.html>.
 	* data/glr.c (yyresolveLocations): Omit definition when locations
 	are disabled.
 	(yyresolveValue): Omit yyresolveLocations invocation when
@@ -282,7 +282,7 @@
 
 	Fix missing updates to GPLv3.
 	Reported by Tys Lefering at
-	<http://lists.gnu.org/archive/html/bison-patches/2011-04/msg00000.html>.
+	<https://lists.gnu.org/r/bison-patches/2011-04/msg00000.html>.
 	* src/print-xml.c, src/print-xml.h: In these files.
 
 2011-03-27  Joel E. Denny  <joeldenny@joeldenny.org>
@@ -291,7 +291,7 @@
 	Thus, conflict reports are now affected by -Werror and -Wnone
 	(unless %expect or %expect-rr is specified).  Reported by George
 	Neuner at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-08/msg00002.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-08/msg00002.html>.
 	* NEWS (2.5): Document.
 	* doc/bison.texinfo (Bison Options): Document.
 	* src/complain.c, src/complain.h (set_warning_issued): Export
@@ -327,7 +327,7 @@
 
 	Add -Wother so -Wnone suppresses all warnings.
 	Reported by George Neuner at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-08/msg00002.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-08/msg00002.html>.
 	* NEWS (2.5): Document.
 	* THANKS (George Neuner): Add.
 	* doc/bison.texinfo (Bison Options): Document.
@@ -356,7 +356,7 @@
 
 	Don't let -Wnone disable -Werror.
 	Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2010-08/msg00009.html>.
+	<https://lists.gnu.org/r/bison-patches/2010-08/msg00009.html>.
 	* NEWS (2.5): Document.
 	* src/getargs.c (flags_argmatch): Accept a new argument that
 	specifies what flags "all" and thus "none" affect.
@@ -397,7 +397,7 @@
 	named references: fix double free.
 	In `rhs[name]: "a" | "b"', do not free "name" twice.
 	Reported by Tys Lefering.
-	<http://lists.gnu.org/archive/html/bug-bison/2010-06/msg00002.html>
+	<https://lists.gnu.org/r/bug-bison/2010-06/msg00002.html>
 	* src/named-ref.h, src/named-ref.c (named_ref_copy): New.
 	* src/parse-gram.y (current_lhs): Rename as...
 	(current_lhs_symbol): this.
@@ -432,7 +432,7 @@
 
 	java: fix parser stack popping bug.
 	Reported at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-02/msg00005.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-02/msg00005.html>.
 	* THANKS (Angelo Borsotti): Add.
 	* data/lalr1.java (YYParser::YYStack::pop): Fix off-by-one error
 	in clearing the value stack.  Previously, the top element of the
@@ -520,7 +520,7 @@
 
 	java: fix location handling bug.
 	Reported at
-	<http://lists.gnu.org/archive/html/bison-patches/2011-02/msg00005.html>.
+	<https://lists.gnu.org/r/bison-patches/2011-02/msg00005.html>.
 	* data/lalr1.java (YYParser::yylloc): For non-empty RHS, fix
 	reversed access to location stack.
 	* THANKS (Bernd Kiefer): Add.
@@ -548,7 +548,7 @@
 
 	doc: finish splitting apart the manual's Decl Summary section.
 	Suggested by Akim Demaille at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00013.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-05/msg00013.html>.
 	* doc/bison.texinfo (Decl Summary): Extract most of the %define
 	entry into...
 	(%define Summary): ... this new subsection, and update all
@@ -562,7 +562,7 @@
 
 	doc: begin to split apart the manual's Decl Summary section.
 	Discussed in thread starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00013.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-05/msg00013.html>.
 	* doc/bison.texinfo (Decl Summary): Extract most of the %code
 	entry into...
 	(%code Summary): ... this new subsection, and update all
@@ -619,8 +619,8 @@
 	parses `%token ID -123' as `%token ID - 123' and handles `-' as an
 	identifier.  Now, `-' cannot be an identifier.  Discussed in
 	threads beginning at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-01/msg00000.html>,
-	<http://lists.gnu.org/archive/html/bug-bison/2011-01/msg00004.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-01/msg00000.html>,
+	<https://lists.gnu.org/r/bug-bison/2011-01/msg00004.html>.
 	* NEWS (2.5): Update entry describing the dash extension to
 	grammar symbol names.  Also, move that entry before the named
 	references entry because the latter mentions the former.
@@ -664,7 +664,7 @@
 	name.  In reality, this is a syntax error, so the reference is
 	invalid regardless of the symbols actually appearing in the
 	production.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2011-01/msg00012.html>.
+	<https://lists.gnu.org/r/bison-patches/2011-01/msg00012.html>.
 	* src/scan-code.l (parse_ref): Report the above case as a syntax
 	error.  Other than that, continue to handle this case like any
 	other invalid reference that Bison manages to parse because
@@ -675,7 +675,7 @@
 
 	doc: don't use @acronym.
 	Lately, many GNU packages are dropping it.  See
-	<http://lists.gnu.org/archive/html/bison-patches/2011-01/msg00003.html>.
+	<https://lists.gnu.org/r/bison-patches/2011-01/msg00003.html>.
 	* doc/bison.texinfo: Remove all uses.
 
 2011-01-05  Alex Rozenman  <rozenman@gmail.com>
@@ -683,7 +683,7 @@
 	Do not allow identifiers that start with a negative number.
 	Reported by Paul Hilfinger as a side effect of named references
 	support at
-	<http://lists.gnu.org/archive/html/bug-bison/2011-01/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2011-01/msg00000.html>.
 	Suggested by Paul Eggert.
 	* src/scan-code.l ({letter}, {id}): Adjust lexical definitions.
 	* src/scan-gram.l ({letter}, {id}): Likewise.
@@ -711,7 +711,7 @@
 	maint: prepare to use year ranges in copyright notices.
 	* README (Copyright statements): New section explaining the range
 	notation.  The GNU maintainers document requires this explanation:
-	<http://www.gnu.org/prep/maintain/maintain.html#Copyright-Notices>.
+	<https://www.gnu.org/prep/maintain/maintain.html#Copyright-Notices>.
 	I copied our explanation from coreutils.
 	* build-aux/update-b4-copyright: Revert 2010-06-17 changes that
 	disabled Bison's automated use of ranges.
@@ -791,7 +791,7 @@
 
 	parse.lac: implement as %define variable.
 	LAC = lookahead correction.  See discussion at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-09/msg00034.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-09/msg00034.html>.
 	However, one point there must be corrected: because of %nonassoc,
 	LAC is *not* always redundant for lr.type=canonical-lr.
 	* data/yacc.c: Accept values of "none" (default) or "full" for
@@ -919,7 +919,7 @@
 	Fix portability problem on OpenBSD 4.7.
 
 	Jim Meyering reported this in
-	<http://lists.gnu.org/archive/html/bug-bison/2010-10/msg00007.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-10/msg00007.html>.
 	* data/yacc.c: Use EXIT_SUCCESS as a witness for stdlib.h,
 	not _STDLIB_H.  EXIT_SUCCESS has been defined by the standard
 	for quite some time.
@@ -983,8 +983,8 @@
 
 	maint: add gettext version to release announcements.
 	Suggested by Paul Hilfinger at
-	<http://lists.gnu.org/archive/html/bison-patches/2010-07/msg00019.html>
-	<http://lists.gnu.org/archive/html/bison-patches/2010-08/msg00002.html>.
+	<https://lists.gnu.org/r/bison-patches/2010-07/msg00019.html>
+	<https://lists.gnu.org/r/bison-patches/2010-08/msg00002.html>.
 	* cfg.mk (bootstrap-tools): Add gettext.
 
 2010-08-04  Joel E. Denny  <joeldenny@joeldenny.org>
@@ -1112,10 +1112,10 @@
 	Update from GFDL GFDL 1.2 to 1.3.
 	* doc/bison.texinfo: Update GFDL version number.
 	* doc/fdl.texi: Update to version 1.3, taken from:
-	http://www.gnu.org/licenses/fdl.texi
+	https://www.gnu.org/licenses/fdl.texi
 
 	Do not use date ranges in copyright notices.
-	See http://www.gnu.org/prep/maintain/maintain.html#Copyright-Notices
+	See https://www.gnu.org/prep/maintain/maintain.html#Copyright-Notices
 
 	* HACKING, Makefile.am, NEWS, PACKAGING, README, README-alpha:
 	* TODO, bootstrap, bootstrap.conf:
@@ -1289,7 +1289,7 @@
 	That is, keep them as warnings because that should be sufficient
 	to satisfy POSIX without creating backward compatibility issues.
 	Suggested by Richard Stallman at
-	<http://lists.gnu.org/archive/html/bison-patches/2010-03/msg00033.html>.
+	<https://lists.gnu.org/r/bison-patches/2010-03/msg00033.html>.
 	* NEWS (2.5): Remove mention of complaint.
 	* src/reader.c (grammar_rule_check): Convert complaint back to
 	warning.
@@ -1299,7 +1299,7 @@
 
 	build: don't require src/bison during bootstrap.
 	Suggested by Eric Blake at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00003.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00003.html>.
 	* bootstrap.conf (bootstrap_epilogue): New function to make sure
 	src/parse-gram.[ch] are stamped later than src/parse-gram.y.
 
@@ -1307,7 +1307,7 @@
 
 	i18n: fix untranslatable string.
 	Reported by Goran Uddeborg at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00000.html>.
 	* src/muscle-tab.c (muscle_percent_define_insert): Here.
 
 2010-04-13  Akim Demaille  <demaille@gostai.com>
@@ -1366,7 +1366,7 @@
 
 	tests: fix for newer Sun Studio C++.
 	Reported by Dagobert Michelsen at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00023.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00023.html>.
 	* THANKS (Dagobert Michelsen): Add.
 	* configure.ac (AC_PREREQ): Set to 2.64 so we get the latest
 	Autoconf macro for handling the restrict keyword.
@@ -1377,7 +1377,7 @@
 
 	portability: fix pointer arithmetic to conform to C standard.
 	Reported by Tys Lefering at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00035.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00035.html>.
 	This fix is already implemented in glr.c and does not apply to
 	lalr1.java.
 	* data/lalr1.cc (yy::parser::parse): Increase size of
@@ -1401,7 +1401,7 @@
 
 	portability: fix test suite for GCC 4.5's new #error message.
 	Reported by Tys Lefering at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00030.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00030.html>.
 	* NEWS (2.4.3): Mention.
 	* tests/synclines.at (AT_TEST_SYNCLINE): Implement.
 
@@ -1421,7 +1421,7 @@
 
 	portability: fix for BSD make.
 	Reported by Johan van Selst at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00016.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00016.html>.
 	* tests/local.mk ($(TESTSUITE)): Qualify package.m4 in
 	this dependency list as in package.m4's target rule.
 
@@ -1429,7 +1429,7 @@
 
 	portability: fix spawning on at least FreeBSD 8 and FreeBSD 9.
 	Reported by Johan van Selst at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-03/msg00014.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-03/msg00014.html>.
 	* NEWS (2.4.3): New.
 	* THANKS (Johan van Selst): Add.
 	* etc/prefix-gnulib-mk (prefix): Adjust regex for makefile
@@ -1470,11 +1470,11 @@
 	then reported it.  However, there's some sort of race condition,
 	because the new test group occasionally succeeded.
 	Reported by Albert Chin at
-	<http://lists.gnu.org/archive/html/bug-bison/2010-02/msg00004.html>.
+	<https://lists.gnu.org/r/bug-bison/2010-02/msg00004.html>.
 
 	There were also problems with the test suite livelocking on
 	Tru64 5.1b.  Reported by Didier Godefroy at
-	<http://lists.gnu.org/archive/html/bug-bison/2009-05/msg00005.html>.
+	<https://lists.gnu.org/r/bug-bison/2009-05/msg00005.html>.
 	Switching to create_pipe_bidi suggested by Akim Demaille.
 
 	To attempt to solve both of these problems, switch to gnulib's
@@ -1603,7 +1603,7 @@
 
 	POSIX: warn if %prec's token was not defined.
 	Reported by Florian Krohm at
-	<http://lists.gnu.org/archive/html/bug-bison/2009-12/msg00005.html>.
+	<https://lists.gnu.org/r/bug-bison/2009-12/msg00005.html>.
 	* NEWS (2.4.2): Document.
 	* src/reader.c (grammar_rule_check): Implement.
 	(grammar_current_rule_prec_set): Add comments explaining that we
@@ -1755,9 +1755,9 @@
 
 	portability: use -DGNULIB_POSIXCHECK.
 	Reported by Eric Blake.  See discussions at
-	<http://lists.gnu.org/archive/html/bug-bison/2009-09/msg00008.html>
+	<https://lists.gnu.org/r/bug-bison/2009-09/msg00008.html>
 	and
-	<http://lists.gnu.org/archive/html/bug-gnulib/2009-10/msg00108.html>.
+	<https://lists.gnu.org/r/bug-gnulib/2009-10/msg00108.html>.
 	* HACKING (Release checks): Suggest -DGNULIB_POSIXCHECK.
 	* bootstrap.conf (gnulib_modules): Add all the printf modules
 	suggested by -DGNULIB_POSIXCHECK.  Add realloc-posix as
@@ -1785,7 +1785,7 @@
 
 	Expand GLR acronym in summary of Bison.
 	Based on discussion with Akim Demaille starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00087.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-04/msg00087.html>.
 	* doc/bison.texinfo (Introduction): Here.
 	* src/getargs.c (usage): Here.
 
@@ -1853,7 +1853,7 @@
 
 	tests: skip tests of file names that platform does not support.
 	Reported by Michael Raskin at
-	<http://lists.gnu.org/archive/html/bug-bison/2009-09/msg00001.html>.
+	<https://lists.gnu.org/r/bug-bison/2009-09/msg00001.html>.
 	* THANKS (Michael Raskin): Add.
 	* tests/output.at (AT_CHECK_OUTPUT_FILE_NAME): Fix.  Cygwin used
 	to fail at least for file names containing ":" or "\".
@@ -2155,7 +2155,7 @@
 
 	Fix gcc 3.4.4 shadowing warning reported by Eric Blake.
 	See
-	<http://lists.gnu.org/archive/html/bison-patches/2009-08/msg00093.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-08/msg00093.html>.
 	* src/scan-code.h (code_props_rule_action_init): Rename
 	named_ref arg to name so it doesn't shadow named_ref type.  This
 	makes it consistent with the function definition in scan-code.l
@@ -2334,7 +2334,7 @@
 
 	Fix complaints about escape sequences.
 	Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-08/msg00036.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-08/msg00036.html>.
 	* src/scan-gram.l (SC_ESCAPED_STRING, SC_ESCAPED_CHARACTER):
 	For a \0 and similar escape sequences meaning the null
 	character, report an invalid escape sequence instead of an
@@ -2368,7 +2368,7 @@
 	This patch simplifies "variables: rename namespace as
 	api.namespace", commit 67501061076ba46355cfd9f9361c7eed861b389c.
 	Suggested by Joel E. Denny in
-	http://lists.gnu.org/archive/html/bison-patches/2009-07/msg00006.html
+	https://lists.gnu.org/r/bison-patches/2009-07/msg00006.html
 
 	* src/muscle-tab.c (muscle_percent_variable_update): New.
 	(muscle_percent_define_insert): Use it in replacement of the
@@ -2432,7 +2432,7 @@
 	build: require gettext 0.17.
 
 	Suggested by Bruno Haible.
-	http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00009.html
+	https://lists.gnu.org/r/bug-bison/2009-08/msg00009.html
 	* configure.ac: require gettext 0.17 to ensure compatibility with
 	gnulib.
 
@@ -2443,7 +2443,7 @@
 	Bison was uselessly requiring the formatstring macros from
 	gettext, which resulted in mo files not being installed on systems
 	that perfectly supported Bison mo files.  Lower the requirement.
-	http://lists.gnu.org/archive/html/bug-bison/2009-08/msg00006.html
+	https://lists.gnu.org/r/bug-bison/2009-08/msg00006.html
 
 	* configure.ac: Require need-ngettext instead of
 	need-formatstring-macros.
@@ -2698,7 +2698,7 @@
 
 	Some M4 cleanup in the testsuite.
 	Suggested by Eric Blake at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00083.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-04/msg00083.html>.
 	* tests/existing.at (_AT_TEST_EXISTING_GRAMMAR): Do not
 	complicate the code by distinguishing between a missing value
 	and an empty string value for an optional argument.  This fix is
@@ -2718,7 +2718,7 @@
 
 	Revert unnecessary column realignment in --help output.
 	Reported by Akim Demaille at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-06/msg00010.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-06/msg00010.html>.
 	* src/getargs.c (usage): Here.
 
 2009-07-04  Alex Rozenman  <rozenman@gmail.com>
@@ -2813,7 +2813,7 @@
 
 	variables: rename namespace as api.namespace.
 	Discussed in
-	http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00033.html
+	https://lists.gnu.org/r/bison-patches/2009-04/msg00033.html
 
 	* data/bison.m4 (b4_percent_define_copy_, b4_percent_define_copy):
 	New.
@@ -2867,7 +2867,7 @@
 	cases.
 	Avoid this.
 	Addresses another form of nondeterminism reported by Joel E. Denny.
-	http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00023.html
+	https://lists.gnu.org/r/bison-patches/2009-05/msg00023.html
 
 	* tests/input.at (Numbered tokens): Split the hexadecimal/decimal
 	test in two.
@@ -2889,7 +2889,7 @@
 
 	deterministic user-token-number redeclaration errors.
 	Address nondeterminism reported by Joel E. Denny.
-	http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00023.html
+	https://lists.gnu.org/r/bison-patches/2009-05/msg00023.html
 
 	* src/uniqstr.h: Comment changes.
 	* src/location.h (boundary_cmp, location_cmp): New.
@@ -2970,7 +2970,7 @@
 
 	Rename token.prefix as api.tokens.prefix.
 	Discussed here.
-	http://lists.gnu.org/archive/html/bison-patches/2009-05/msg00024.html.
+	https://lists.gnu.org/r/bison-patches/2009-05/msg00024.html.
 
 	* NEWS, data/bison.m4, data/c.m4, data/java.m4, doc/bison.texinfo,
 	* tests/c++.at, tests/calc.at, tests/java.at, tests/local.at
@@ -3088,7 +3088,7 @@
 
 	List accepted values for a %define enum variable with an invalid value.
 	Suggested by Akim Demaille at
-	<http://lists.gnu.org/archive/html/bison-patches/2009-04/msg00082.html>.
+	<https://lists.gnu.org/r/bison-patches/2009-04/msg00082.html>.
 	* data/bison.m4 (_b4_percent_define_check_values): Implement.
 	* src/muscle-tab.c (muscle_percent_define_check_values): Implement.
 	* tests/input.at (%define lr.default_reductions invalid values): Merge
@@ -3488,9 +3488,9 @@
 
 	Fix strange %define locations for default values.
 	Reported by Akim Demaille at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-12/msg00001.html>
+	<https://lists.gnu.org/r/bug-bison/2007-12/msg00001.html>
 	and discussed again starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2008-11/msg00102.html>.
+	<https://lists.gnu.org/r/bison-patches/2008-11/msg00102.html>.
 	* data/bison.m4 (b4_percent_define_default): Leave syncline blank
 	because location information is bogus.
 	Use angle brackets to delimit fake file name because square brackets
@@ -4173,7 +4173,7 @@
 
 	Fix unexpanded macros in GLR defines file.
 	Reported by Csaba Raduly at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-11/msg00048.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-11/msg00048.html>.
 	* THANKS (Csaba Raduly): Add.
 	* data/glr.c: Fix overquoting on b4_prefix for yylval and yylloc.
 	* tests/calc.at (_AT_DATA_CALC_Y): If %defines is specified, generate
@@ -5376,7 +5376,7 @@
 
 	Fix user actions without a trailing semicolon.
 	Reported by Sergei Steshenko at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-11/msg00001.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-11/msg00001.html>.
 	* THANKS (Sergei Steshenko): Add.
 	* src/scan-code.l (SC_RULE_ACTION): Fix it.
 	* tests/regression.at (Fix user actions without a trailing semicolon):
@@ -5767,7 +5767,7 @@
 	Say %language is experimental.
 	We're thinking of extending it's effect on output file naming.  See the
 	thread at
-	<http://lists.gnu.org/archive/html/bison-patches/2008-10/msg00003.html>.
+	<https://lists.gnu.org/r/bison-patches/2008-10/msg00003.html>.
 	* NEWS: Say it's experimental.
 	* doc/bison.texinfo (Decl Summary): Say it's experimental, and so don't
 	recommend it over %skeleton for now.
@@ -5905,7 +5905,7 @@
 
 	Fix yyerror_range for user-defined location type in C++.  Reported by
 	Georg Sauthoff at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-08/msg00008.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-08/msg00008.html>.
 	* data/lalr1.cc (parse): Change type of yyerror_range to location_type.
 	* THANKS (Georg Sauthoff): Add.
 
@@ -6007,7 +6007,7 @@
 	* Makefile.am ($(top_srcdir)/.version): Declare configure as a
 	dependency, and add comments justifying this in more detail.  Discussed
 	starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2008-07/msg00022.html>.
+	<https://lists.gnu.org/r/bison-patches/2008-07/msg00022.html>.
 
 2008-08-06  Eric Blake  <ebb9@byu.net>
 
@@ -6052,7 +6052,7 @@
 	* configure.ac (AM_INIT_AUTOMAKE): Set gnu strictness during
 	development and gnits strictness for releases.  Based on Eric Blake's
 	suggestion at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00019.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-07/msg00019.html>.
 
 2008-07-31  Paolo Bonzini  <bonzini@gnu.org>
 
@@ -6139,7 +6139,7 @@
 
 	Fix untranslatable composition of sentences.  Reported by Goran
 	Uddeborg at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-06/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-06/msg00000.html>.
 	* THANKS (Goran Uddeborg): Add.
 	* src/reduce.c (reduce_print): Report the number of nonterminals and
 	rules useless in the grammar in separate sentences.
@@ -6171,7 +6171,7 @@
 2008-07-15  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Improve forward-compatibility with GNU M4.  Reported by Eric Blake at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-07/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-07/msg00000.html>.
 	* bootstrap.conf (gnulib_modules): Add unsetenv.
 	* lib/.gitignore, lib/.cvsignore (/unsetenv.c): Add.
 	* m4/.gitignore, m4/.cvsignore (/environ.m4): Add.
@@ -6253,7 +6253,7 @@
 
 	Work-around an Autoconf 2.62 AT_SETUP bug that was not present in
 	2.61.  Reported by Juan Manuel Guerrero at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-04/msg00011.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-04/msg00011.html>.
 	* tests/output.at ("Output file name: ("): Comment out test case for
 	now.
 	("Output file name: )"): Likewise.
@@ -6286,7 +6286,7 @@
 2008-04-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix make dist infinite loop reported by Juan Manuel Guerrero at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00009.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-01/msg00009.html>.
 	* .cvsignore: Add .version.
 	* .version.in: New.
 	* bootstrap.conf (gnulib_modules): Add git-version-gen.
@@ -6359,7 +6359,7 @@
 2008-02-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix impure push parser compile error reported by Bob Rossi at
-	<http://lists.gnu.org/archive/html/help-bison/2008-02/msg00023.html>.
+	<https://lists.gnu.org/r/help-bison/2008-02/msg00023.html>.
 	* data/yacc.c: Clean up whitespace in the output a little.
 	(yypstate_allocated): Define for impure push parsers regardless of
 	whether the pull interface is also requested.
@@ -6397,7 +6397,7 @@
 2008-02-16  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix documentation problems reported by Tim Josling at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00013.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-01/msg00013.html>.
 	* NEWS (2.3a+): Mention removal of --no-parser, -n, and %no-parser.
 	* doc/bison.texinfo (Token Decl): Token numbers are *nonnegative*
 	integers.  Explain the effect of literal string aliases on error
@@ -6408,7 +6408,7 @@
 
 	Accept a token number in a %left, %right, or %nonassoc for POSIX
 	conformance.  Reported by Tim Josling at
-	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00010.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-01/msg00010.html>.
 	* NEWS (2.3a+): Mention.
 	* doc/bison.texinfo (Precedence Decl): Describe how literal strings
 	and code numbers are treated by precedence declarations.
@@ -6450,7 +6450,7 @@
 
 	* data/yacc.c (yyparse): Correct the comment when locations aren't used.
 	Problem reported by Claudio Saavedra in
-	<http://lists.gnu.org/archive/html/bug-bison/2008-01/msg00003.html>.
+	<https://lists.gnu.org/r/bug-bison/2008-01/msg00003.html>.
 
 2008-01-05  Wojciech Polak  <polak@gnu.org>
 
@@ -6461,7 +6461,7 @@
 
 	Automate regression testing of the XML/XSLT implementation.  Discussed
 	starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-11/msg00021.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-11/msg00021.html>.
 	* configure.ac (XSLTPROC): New substitution.
 	* Makefile.am (maintainer-xml-check): New phony target invoking...
 	* tests/Makefile.am (maintainer-xml-check): ... this new phony target
@@ -6521,7 +6521,7 @@
 	* src/print-xml.h (xml_indent): Prototype.
 
 	* tests/existing.at (GNU pic Grammar): Fix a rule miscopied from
-	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00026.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-04/msg00026.html>.
 
 2007-12-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
@@ -6535,7 +6535,7 @@
 
 	In the XML output, don't print the list of rules where symbols appear.
 	Compute it in XSLT instead.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00024.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-09/msg00024.html>.
 	* data/xslt/bison.xsl (bison:ruleByLhs): New.
 	(bison:ruleByRhs): New.
 	* data/xslt/xml2text.xsl (xsl:template match="terminal"): Use
@@ -6559,7 +6559,7 @@
 
 	Don't let --report affect XML output; always print all information.
 	Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00020.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-09/msg00020.html>.
 	* src/conflicts.c (log_resolution): Implement.
 	* src/print-xml.c (print_core): Implement.
 	(print_state): Implement.
@@ -6577,7 +6577,7 @@
 
 	In the XML output, list useless and unused symbols and rules with the
 	useful ones and add a "usefulness" attribute.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00017.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-09/msg00017.html>.
 	* src/gram.c (grammar_rules_partial_print_xml): Remove.
 	(grammar_rules_print_xml): Print all rules instead of just those
 	useful in the grammar, and add a "usefulness" attribute.
@@ -6639,7 +6639,7 @@
 	When reporting useless rules and nonterminals, say "useless in grammar"
 	instead of "useless", and say "useless in parser" instead of "never
 	reduced".  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-10/msg00033.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-10/msg00033.html>.
 	* NEWS (2.3a+): Mention this change.
 	* data/xslt/xml2text.xsl: Update output text and expected input XML
 	element names to match changes below.
@@ -6744,7 +6744,7 @@
 
 	Deprecate %pure-parser and add `%define api.pure'.  Discussed starting
 	at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00006.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-09/msg00006.html>.
 	* NEWS (2.3a+): Mention.
 	* data/bison.m4 (b4_pure_if): Don't define it here.
 	* data/c.m4 (b4_identification): Depend on individual skeletons to
@@ -6788,7 +6788,7 @@
 2007-10-28  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	%define push_pull -> %define api.push_pull.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-09/msg00005.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-09/msg00005.html>.
 	* data/push.c: Expect the new name.
 	* data/yacc.c: Likewise.
 	* doc/bison.texinfo (Push Decl): Update.
@@ -6813,7 +6813,7 @@
 	For the XML output's terminal element, rename @number to @token-number,
 	and add @symbol-number.  In the nonterminal element, rename @number to
 	@symbol-number.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-10/msg00040.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-10/msg00040.html>.
 	* data/xslt/xml2text.xsl (xsl:template match="terminal"): Update for
 	renames.
 	(xsl:template match="nonterminal"): Likewise.
@@ -6947,7 +6947,7 @@
 2007-10-08  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Improve C++ namespace support.  Discussed starting at
-	<http://lists.gnu.org/archive/html/help-bison/2007-09/msg00016.html>.
+	<https://lists.gnu.org/r/help-bison/2007-09/msg00016.html>.
 	* data/c++.m4: (b4_namespace_ref, b4_namespace_open,
 	b4_namespace_close): New macros that interpret the %define variable
 	"namespace" so its value can contain "::" to indicate nested
@@ -7302,7 +7302,7 @@
 	* data/yacc.c (yyexhaustedlab): Define it when YYERROR_VERBOSE is
 	true since it's then always used regardless of whether yyoverflow is
 	defined.  Reported by Christian Burger at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-07/msg00031.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-07/msg00031.html>.
 	* THANKS: Add Christian Burger.
 
 	* ChangeLog: For changes in doc/bison.texinfo, consistently reference
@@ -7319,7 +7319,7 @@
 2007-07-27  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix push parsing memory leak reported by Brandon Lucia at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-07/msg00032.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-07/msg00032.html>.
 	* THANKS: Add Brandon Lucia.
 	* data/push.c (yypstate_delete): Free the stack if it was reallocated
 	but the parse never completed and thus freed it.
@@ -7376,7 +7376,7 @@
 2007-07-02  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Fix C++ test cases after recent Gnulib changes.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-07/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-07/msg00000.html>.
 	* examples/calc++/Makefile.am (DEFAULT_INCLUDES): Override Automake's
 	definition in order to avoid Gnulib headers since we don't use config.h
 	here.
@@ -7450,11 +7450,11 @@
 
 	* src/Makefile.am (yacc): Quote target action commands properly so
 	that the yacc script isn't corrupt.  Reported by Hans Aberg at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-05/msg00003.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-05/msg00003.html>.
 
 	* data/glr.c (yylval): As in yacc.c, don't extern in the header for
 	the case of pure parsers.  Reported by Frans Englich at
-	<http://lists.gnu.org/archive/html/help-bison/2007-05/msg00018.html>.
+	<https://lists.gnu.org/r/help-bison/2007-05/msg00018.html>.
 	* THANKS: Add Frans Englich.
 
 	* NEWS (2.3a+): In the %code entry, reference section `Bison
@@ -7664,7 +7664,7 @@
 
 	Use YYFPRINTF instead of fprintf where appropriate.  Reported by
 	Sebastien Fricker at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-02/msg00035.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-02/msg00035.html>.
 	* THANKS: Add Sebastien Fricker.
 	* data/glr.c, data/push.c, data/yacc.c (yy_reduce_print): Implement.
 	* doc/bison.texinfo (Tracing): Make it clearer that YYFPRINTF must
@@ -7699,7 +7699,7 @@
 
 	Enable the Java related testsuite tests when the only Java compiler
 	found is a gcj < 4.3.  Discussed at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-02/msg00016.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-02/msg00016.html>.
 	* configure.ac (gt_JAVACOMP): Don't specify a target_version.
 
 2007-02-11  Joel E. Denny  <jdenny@ces.clemson.edu>
@@ -7872,7 +7872,7 @@
 
 	Implement support for relative and absolute skeleton file names.
 	Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00071.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-12/msg00071.html>.
 	* doc/bison.texinfo (Decl Summary): Document in %skeleton entry.
 	(Bison Options): Document in --skeleton entry.
 	* src/output.c (output_skeleton): Use strncpy rather than strcpy since
@@ -7990,7 +7990,7 @@
 
 	Ignore YYSTACK_USE_ALLOCA for push parsers since the stacks can't be
 	locals.  Reported by Juan Manuel Guerrero at
-	<http://lists.gnu.org/archive/html/bug-bison/2007-01/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2007-01/msg00000.html>.
 	* data/push.c: Enclose the #ifdef YYSTACK_USE_ALLOCA in b4_push_if.
 	Fix some indentation also.
 	* tests/torture.at (Exploding the Stack Size with Alloca): Add comment
@@ -8035,7 +8035,7 @@
 	qualifiers in %code directives, and restrict the characters that are
 	allowed in them to M4-friendly ones.  For %define, continue to support
 	the quoted form as a deprecated feature.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-01/msg00023.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-01/msg00023.html>.
 	* NEWS (2.3a+): Add entry for the change to %define.  Update entry for
 	%code.
 	* doc/bison.texinfo (Prologue Alternatives): Update.
@@ -8206,7 +8206,7 @@
 	This provides more flexibility than m4_fatal, improves the error
 	message format, and captures messages for translation.  Discussed
 	starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00063.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-12/msg00063.html>.
 	* data/bison.m4 (b4_error): New, invoked by...
 	(b4_warn, b4_complain, b4_fatal): ... these new macros to wrap the
 	skeleton scanner's new @warn(...@), @complain(...@), and @fatal(...@)
@@ -8256,7 +8256,7 @@
 	Consolidate the 4 prologue alternative directives (%code, %requires,
 	%provides, and %code-top) into a single %code directive with an
 	optional qualifier field.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2007-01/msg00012.html>.
+	<https://lists.gnu.org/r/bison-patches/2007-01/msg00012.html>.
 	* NEWS (2.3a+): Rewrite the existing entry for the prologue
 	alternatives.
 	* doc/bison.texinfo (Prologue Alternatives): Update.
@@ -8370,7 +8370,7 @@
 	interface.  This patch merely implements code_props in scan-code.h and
 	scan-code.l.  Future patches will rewrite other modules to use it.
 	Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-11/msg00020.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-11/msg00020.html>.
 	* src/location.h (EMPTY_LOCATION_INIT): Define so that it's easier to
 	consistently initialize const structs that have an empty location
 	field.
@@ -8460,7 +8460,7 @@
 	instead of passing a yylexp argument to yypull_parse, and don't
 	generate yypull_parse or yyparse unless %push-pull-parser is declared.
 	Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00163.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-12/msg00163.html>.
 	* data/bison.m4 (b4_pull_if): New.
 	* data/c.m4 (b4_identification): Define YYPULL similar to YYPUSH.
 	* data/push.c: Improve M4 quoting a little.
@@ -8752,7 +8752,7 @@
 2006-12-16  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Make %push-parser imply %pure-parser.  This fixes several bugs; see
-	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00148.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-12/msg00148.html>.
 	* src/parse-gram.y (prologue_declaration): For %push-parser, also set
 	pure_parser = true.
 	* data/push.c: Don't bother testing b4_push_if when deciding whether
@@ -8906,7 +8906,7 @@
 
 	Document Yacc prologue alternatives and default %destructor's and
 	%printer's as experimental.  Don't mention Java yet.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-12/msg00002.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-12/msg00002.html>.
 	* NEWS (2.3a+): Say they're experimental.  Remove any mention of Java.
 	(2.3a): Annotate this entry to say the old forms of these features were
 	also experimental.
@@ -8918,7 +8918,7 @@
 
 	Support a file name argument to %defines.  Deprecate `=' in
 	%file-prefix, %name-prefix, and %output.  Discussed at
-	<http://lists.gnu.org/archive/html/help-bison/2006-09/msg00001.html>.
+	<https://lists.gnu.org/r/help-bison/2006-09/msg00001.html>.
 	* NEWS (2.3a+): Mention.
 	* doc/bison.texinfo (Decl Summary, Table of Symbols): Add entry for new
 	form of %defines, and remove `=' from entries for %file-prefix,
@@ -8948,7 +8948,7 @@
 2006-11-20  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Rename <!> to <>.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-11/msg00039.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-11/msg00039.html>.
 	* NEWS (2.3a+): Update.
 	* doc/bison.texinfo (Freeing Discarded Symbols, Table of Symbols):
 	Update.
@@ -8985,7 +8985,7 @@
 
 	Fix memory leaks in scanners generated by at least Flex 2.5.9 and
 	later.  Reported by Paul Eggert in
-	<http://lists.gnu.org/archive/html/bison-patches/2006-11/msg00014.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-11/msg00014.html>.
 	* src/flex-scanner.h (yylex_destroy): Define for Flex before 2.5.9.
 	* src/scan-code.l (translate_action): Don't bother invoking
 	yy_delete_buffer (YY_CURRENT_BUFFER) before creating the first buffer.
@@ -9079,7 +9079,7 @@
 
 	Disable unset/unused mid-rule value warnings by default, and recognize
 	--warnings=midrule-values to enable them.  Discussed starting at
-	<http://lists.gnu.org/archive/html/help-bison/2006-10/msg00030.html>.
+	<https://lists.gnu.org/r/help-bison/2006-10/msg00030.html>.
 	* NEWS (2.3a+): Mention.
 	* src/getargs.c, src/getargs.h (warnings_args, warnings_types, enum
 	warnings): Add entry for midrule-values subargument.
@@ -9122,7 +9122,7 @@
 
 	Split the default %destructor/%printer into two kinds: <*> and <!>.
 	Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00060.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-09/msg00060.html>.
 	* NEWS (2.3a+): Mention.
 	* doc/bison.texinfo (Freeing Discarded Symbols): Document this and the
 	previous change today related to mid-rules.
@@ -9168,7 +9168,7 @@
 
 	Don't apply the default %destructor/%printer to an unreferenced midrule
 	value.  Mentioned at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00104.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-09/msg00104.html>.
 	* src/symtab.c (dummy_symbol_get): Name all dummy symbols initially
 	like $@n instead of just @n so that the default %destructor/%printer
 	logic doesn't see them as user-defined symbols.
@@ -9206,7 +9206,7 @@
 
 	Similar to the recently removed %before-header, add %code-top as the
 	alternative to the pre-prologue.  Mentioned at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-10/msg00063.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-10/msg00063.html>.
 	Also, let the prologue alternatives appear in the grammar section.
 	* src/parse-gram.y (PERCENT_CODE_TOP): New token.
 	(prologue_declaration): Move the existing prologue alternatives to...
@@ -9234,7 +9234,7 @@
 2006-10-16  Paolo Bonzini  <bonzini@gnu.org>
 
 	Replace %*-header with %provides, %requires, %code.  See discussion at
-	http://lists.gnu.org/archive/html/bison-patches/2006-10/msg00002.html
+	https://lists.gnu.org/r/bison-patches/2006-10/msg00002.html
 
 	* data/bison.m4 (b4_user_requires, b4_user_provides): New.
 	(b4_user_start_header): Remove.
@@ -9346,7 +9346,7 @@
 	* doc/bison.texinfo (Understanding, Bison Options): Likewise.
 	* THANKS: Add Satya Kiran Popuri, who proposed the initial version
 	of this change in
-	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00158.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-09/msg00158.html>.
 	* TODO: Remove Graphviz entry.
 	* src/Makefile.am (bison_SOURCES): Add graphviz.c and graphviz.h;
 	remove vcg.c, vcg.h, vcg_defaults.h.
@@ -9408,7 +9408,7 @@
 2006-10-05  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Fix test failure reported by Tom Lane in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-10/msg00000.html>
+	<https://lists.gnu.org/r/bug-bison/2006-10/msg00000.html>
 	and try to make such failures easier to catch in the future.
 	* data/glr.c (YYTRANSLATE): Don't check for nonpositive arg;
 	that's now the caller's responsibility.
@@ -9533,7 +9533,7 @@
 
 
 	Port to GCC 2.95.  First two problems reported by Michael Deutschmann in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-09/msg00018.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-09/msg00018.html>.
 
 	* src/parse-gram.y (symbol_declaration): Don't put statements
 	before declarations; it's not portable to C89.
@@ -9622,7 +9622,7 @@
 	* data/glr.c (b4_shared_declarations): Put start-header first,
 	before any #includes that we generate, so that feature-test
 	macros work.  Problem reported by Michael Deutschmann in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-09/msg00004.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-09/msg00004.html>.
 	* data/lalr1.cc: Likewise.
 	* doc/bison.texinfo (Prologue): Document that feature-test macros
 	should be defined before any Bison declarations.
@@ -9632,7 +9632,7 @@
 
 	* doc/bison.texinfo (Calc++ Parser): Fix memory leak reported by
 	Sander Brandenburg in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-09/msg00002.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-09/msg00002.html>.
 	Also, fix minor white space and comment issues.
 	(Prologue): Mention that it's better to define feature-test macros
 	before Bison declarations.  Problem reported by Michael Deutschmann.
@@ -9646,9 +9646,9 @@
 
 	Finish implementation of per-type %destructor/%printer.  Discussed
 	starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-02/msg00064.html>
+	<https://lists.gnu.org/r/bison-patches/2006-02/msg00064.html>
 	and
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00091.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00091.html>.
 	* NEWS (2.3+): Add a description of this feature to the default
 	%destructor/%printer description.
 	* doc/bison.texinfo (Freeing Discarded Symbols): Likewise.
@@ -9676,7 +9676,7 @@
 	Require default %destructor/%printer to be declared using
 	%symbol-default instead of an empty symbol list, and start working on
 	new per-type %destructor/%printer.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-09/msg00007.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-09/msg00007.html>.
 	* NEWS (2.3+): Add %symbol-default to example.
 	* bison.texinfo (Freeing Discarded Symbols): Likewise.
 	(Table of Symbols): Add entry for %symbol-default.
@@ -9881,10 +9881,10 @@
 	not declare a specific %printer/%destructor.  Thus, the parser uses it
 	for token 0 if the user declares it but not if Bison generates it as
 	$end.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-02/msg00064.html>,
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00091.html>,
+	<https://lists.gnu.org/r/bison-patches/2006-02/msg00064.html>,
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00091.html>,
 	and
-	<http://lists.gnu.org/archive/html/bison-patches/2006-07/msg00019.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-07/msg00019.html>.
 	* NEWS (2.3+): Mention.
 	* doc/bison.texinfo (Actions in Mid-Rule): It's no longer impossible to
 	declare a %destructor for a mid-rule's semantic value.  It's just
@@ -9922,9 +9922,9 @@
 
 	Clean up handling of %destructor for the end token (token 0).
 	Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-07/msg00019.html>
+	<https://lists.gnu.org/r/bison-patches/2006-07/msg00019.html>
 	and
-	<http://lists.gnu.org/archive/html/help-bison/2006-07/msg00013.html>.
+	<https://lists.gnu.org/r/help-bison/2006-07/msg00013.html>.
 
 	Make the skeletons consistent in how they pop the end token and invoke
 	its %destructor.
@@ -10006,7 +10006,7 @@
 	rather than a for-loop that declares a local bool variable.  This
 	should work around a compatibility problem with a Cray x1e C++
 	compiler reported by Hung Nguyen in
-	<http://lists.gnu.org/archive/html/help-bison/2006-07/msg00022.html>.
+	<https://lists.gnu.org/r/help-bison/2006-07/msg00022.html>.
 	The for-loop was introduced in the 2004-11-17 change but I don't
 	know why it was needed.
 
@@ -10080,7 +10080,7 @@
 2006-07-09  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Change %merge result type clash warnings to errors.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-07/msg00026.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-07/msg00026.html>.
 	* src/reader.c (record_merge_function_type): Use complain_at.
 	* tests/glr-regression.at (Missed %merge type warnings when LHS type is
 	declared later): Update test case results.
@@ -10211,9 +10211,9 @@
 
 	Get action warnings (grammar_rule_check) right even when symbol
 	declarations appear after the rules.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00108.html>
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00108.html>
 	and
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00151.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00151.html>.
 	Don't mistake the type of $$ in a midrule to be that of its parent
 	rule's $$.
 	* src/reader.c (grammar_current_rule_end): Don't invoke
@@ -10280,7 +10280,7 @@
 
 	Fix bug that mistakes braced code in a declaration in the rules section
 	to be a rule action.  Mentioned at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00105.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00105.html>.
 	* src/scan-gram.l: Move midrule action detection from the start of the
 	scanning of any braced code to...
 	* src/parse-gram.y (rhs): ... the parsing of braced code as a rule
@@ -10308,7 +10308,7 @@
 	blocks from post-prologue blocks.  Add new order-independent
 	declarations %before-header and %after-header as alternatives to the
 	traditional Yacc pre-prologue and post-prologue blocks.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00110.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00110.html>.
 	* NEWS (2.3+): Update for these changes.
 	* data/glr.c (b4_before_definitions): Update to...
 	(b4_start_header): ... this.
@@ -10348,7 +10348,7 @@
 2006-06-22  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Add comparison operators for C++ location classes.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00092.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00092.html>.
 	* data/c++.m4 (b4_define_location_comparison): New boolean %define
 	declaration indicating whether filename_type has an operator==.  If
 	filename_type is `std::string', it defaults to `1', `0' otherwise.
@@ -10371,10 +10371,10 @@
 	the token definitions.  Add new %before-definitions and
 	%after-definitions to declare code that will go in both the header file
 	and code file.  Discussed at
-	<http://lists.gnu.org/archive/html/bison-patches/2005-12/msg00000.html>,
-	<http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00016.html>,
+	<https://lists.gnu.org/r/bison-patches/2005-12/msg00000.html>,
+	<https://lists.gnu.org/r/bison-patches/2006-01/msg00016.html>,
 	and
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00055.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00055.html>.
 	* NEWS (2.3+): Describe these changes.
 	* data/glr.c (b4_pre_prologue): Move from within to before...
 	(b4_shared_declarations): ... this.
@@ -10477,10 +10477,10 @@
 	For associating token numbers with token names for "yacc.c", don't use
 	#define statements unless `--yacc' is specified; always use enum
 	yytokentype.  Most important discussions start at:
-	<http://lists.gnu.org/archive/html/bison-patches/2005-09/msg00053.html>,
-	<http://lists.gnu.org/archive/html/bison-patches/2005-12/msg00052.html>,
+	<https://lists.gnu.org/r/bison-patches/2005-09/msg00053.html>,
+	<https://lists.gnu.org/r/bison-patches/2005-12/msg00052.html>,
 	and
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00043.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00043.html>.
 	* NEWS (2.3+): Mention.
 	* data/c.m4 (b4_yacc_if): New.
 	(b4_token_enums_defines): Use b4_yacc_if to decide whether to add the
@@ -10509,9 +10509,9 @@
 
 	For consistency, use `lookahead' instead of `look-ahead' or
 	`look_ahead'.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00049.html>
+	<https://lists.gnu.org/r/bison-patches/2006-01/msg00049.html>
 	and then at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-06/msg00017.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-06/msg00017.html>.
 	* NEWS: For the next release, note the change to `--report'.
 	* TODO, doc/bison.1: Update English.
 	* doc/bison.texinfo: Update English.
@@ -10687,14 +10687,14 @@
 
 	* src/getargs.c (usage): Mention GLR not just LALR(1) in --help output.
 	Use Akim's wording from
-	<http://lists.gnu.org/archive/html/bison-patches/2006-05/msg00056.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-05/msg00056.html>.
 
 2006-06-06  Joel E. Denny  <jdenny@ces.clemson.edu>
 
 	Between Bison releases, manually append `+' to the previous Bison
 	release number, and use that as a signal to automatically print the
 	ChangeLog's CVS Id keyword from --version.  Discussed starting at
-	<http://lists.gnu.org/archive/html/bison-patches/2006-05/msg00028.html>.
+	<https://lists.gnu.org/r/bison-patches/2006-05/msg00028.html>.
 	* ChangeLog: Add Id header.
 	* configure.ac (AC_INIT): Append `+' to `2.3'.
 	* src/.cvsignore: Add revision.c.
@@ -10716,7 +10716,7 @@
 	* data/glr.c (YYRECOVERING): Define to be a function-like macro
 	with no arguments, not as an object-like macro.  This is for
 	compatibility with data/yacc.c.  Problem reported by John P. Hartmann in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-05/msg00059.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-05/msg00059.html>.
 	* doc/bison.texinfo (Action Features, Error Recovery, Table of Symbols):
 	Document this.
 
@@ -10739,7 +10739,7 @@
 
 	* data/yacc.c (yy_reduce_print): Omit trailing white space in
 	generated source code.  Problem reported by Frans Englich in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-05/msg00049.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-05/msg00049.html>.
 
 2006-05-22  Paul Eggert  <eggert@cs.ucla.edu>
 
@@ -10765,7 +10765,7 @@
 	state before an empty RHS is always resolved here.  Only the location
 	of that state is guaranteed to be resolved, and that's enough.  This
 	fixes the remaining bug reported by Derek M. Jones in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-05/msg00027.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-05/msg00027.html>.
 	* tests/glr-regression.at (Uninitialized location when reporting
 	ambiguity): Test the above case.
 	Also, the embedded comments in this test case claim it checks the case
@@ -10780,7 +10780,7 @@
 	(b4_yy_symbol_print_generate): Use 'YYSTYPE const' rather than
 	'const YYSTYPE', and similarly for YYLTYPE.  This fixes one
 	of the bugs reported today by Derek M Jones in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-05/msg00027.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-05/msg00027.html>.
 	* doc/bison.texinfo (Value Type): Document that YYSTYPE must be
 	defined to be a type name without parens or brackets.
 	(Location Type): Similarly for YYLTYPE.
@@ -10798,7 +10798,7 @@
 	* data/glr.c (yyreportTree): Make room in yystates for the state
 	preceding the RHS.  This fixes the segmentation fault reported by Derek
 	M. Jones in
-	<http://lists.gnu.org/archive/html/help-bison/2006-05/msg00035.html>.
+	<https://lists.gnu.org/r/help-bison/2006-05/msg00035.html>.
 	(yyreportTree, yypdumpstack): Subtract 1 from yyrule before printing
 	to the user.  Reported for yyreportTree by Derek M. Jones later in the
 	same thread.
@@ -10812,7 +10812,7 @@
 	checking against YYLAST that caused the parser to miss a potential
 	alternative in its diagnostic.
 	Problem reported by Maria Jose Moron Fernandez in
-	<http://lists.gnu.org/archive/html/bug-bison/2006-05/msg00024.html>.
+	<https://lists.gnu.org/r/bug-bison/2006-05/msg00024.html>.
 	* data/lalr1.cc (yysyntax_error_): Likewise.
 	* data/yacc.c (yysyntax_error): Likewise.
 	* tests/regression.at (_AT_DATA_DANCER_Y): Use static array for
@@ -11096,7 +11096,7 @@
 	declarations of malloc and free, to avoid problems with
 	incompatible declarations (using 'throw') C++'s stdlib.h.  This
 	should fix Debian bug 340012
-	<http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=340012>,
+	<https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=340012>,
 	reported by Guillaume Melquiond.
 
 2006-02-13  Paul Eggert  <eggert@cs.ucla.edu>
@@ -11168,7 +11168,7 @@
 2006-02-01  Paul Eggert  <eggert@cs.ucla.edu>
 
 	Work around portability problems summarized by Nelson H. F. Beebe in
-	<http://lists.gnu.org/archive/html/bug-bison/2005-09/msg00021.html>.
+	<https://lists.gnu.org/r/bug-bison/2005-09/msg00021.html>.
 
 	* m4/cxx.m4 (BISON_TEST_FOR_WORKING_CXX_COMPILER): Check
 	that '#include <string>' works.
@@ -12621,7 +12621,7 @@
 	* tests/glr-regression.at
 	(User destructor after an error during a split parse):  New test case.
 	Problem reported by Joel E. Denny in:
-	http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html
+	https://lists.gnu.org/r/bison-patches/2005-08/msg00029.html
 
 2005-08-25  Paul Eggert  <eggert@cs.ucla.edu>
 
@@ -12648,7 +12648,7 @@
 	* tests/glr-regression.at
 	(User destructor for unresolved GLR semantic value): New test case.
 	Problem reported by Joel E. Denny in:
-	http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html
+	https://lists.gnu.org/r/bison-patches/2005-08/msg00016.html
 
 2005-08-21  Paul Eggert  <eggert@cs.ucla.edu>
 
@@ -12660,7 +12660,7 @@
 	* data/glr.c (yyreturn): Use "Cleanup:" rather than "Error:"
 	in yydestruct diagnostic, since it might not be an error.
 	Problem reported by Joel Denny near end of
-	<http://lists.gnu.org/archive/html/help-bison/2005-07/msg00040.html>.
+	<https://lists.gnu.org/r/help-bison/2005-07/msg00040.html>.
 	* data/lalr1.cc (yyerturn): Likewise.
 	* data/yacc.c (yyreturn): Likewise.
 	* tests/calc.at (_AT_CHECK_CALC_ERROR): Adjust to the above change.
@@ -12670,18 +12670,18 @@
 	* data/glr.c (YY_SYMBOL_PRINT): Append a newline, for consistency
 	with the other templates, and to fix bogus run-on messages such
 	as the one reported at the end of
-	<http://lists.gnu.org/archive/html/help-bison/2005-07/msg00040.html>.
+	<https://lists.gnu.org/r/help-bison/2005-07/msg00040.html>.
 	All callers changed to avoid the newline.
 	(yyprocessOneStack): Output two lines rather than one, to accommodate
 	the above change.  This changes the debug output format slightly.
 
 	* data/glr.c (yyresolveValue): Fix redundant parse tree problem
 	reported by Joel E. Denny in
-	<http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00004.html>
+	<https://lists.gnu.org/r/bison-patches/2005-08/msg00004.html>
 	(trivial change).
 	* tests/glr-regression.at (Duplicate representation of merged trees):
 	New test, from Joel E. Denny in:
-	<http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.
+	<https://lists.gnu.org/r/help-bison/2005-07/msg00013.html>.
 	* THANKS: Add Joel E. Denny.
 
 	* configure.ac (AC_INIT): Bump to 2.0c.
@@ -12705,7 +12705,7 @@
 	version of GCC, since the macro is used with non-GCC compilers.
 
 	Fix core dump reported by Pablo De Napoli in
-	<http://lists.gnu.org/archive/html/bug-bison/2005-07/msg00053.html>.
+	<https://lists.gnu.org/r/bug-bison/2005-07/msg00053.html>.
 	* tests/regression.at (Invalid inputs with {}): New test.
 	* src/parse-gram.y (token_name): Translate type before using
 	it as an index.
@@ -12949,7 +12949,7 @@
 	don't have to worry about garbage getting in that file.  We'll
 	make sure after the next official release that old msgids don't
 	get lost.  See
-	<http://lists.gnu.org/archive/html/bison-patches/2005-07/msg00119.html>.
+	<https://lists.gnu.org/r/bison-patches/2005-07/msg00119.html>.
 
 	* runtime-po/Makefile.in.in, runtime-po/bison-runtime.pot: Remove.
 	Now auto-generated.
@@ -13366,7 +13366,7 @@
 	* data/glr.c, data/lalr1.cc: Update copyright date.
 
 	Fix a destructor bug reported by Wolfgang Spraul in
-	<http://lists.gnu.org/archive/html/bug-bison/2005-05/msg00042.html>.
+	<https://lists.gnu.org/r/bug-bison/2005-05/msg00042.html>.
 	* data/yacc.c (yyabortlab): Don't call destructor, and
 	don't set yychar to EMPTY.
 	(yyoverflowlab): Don't call destructor.
@@ -13559,7 +13559,7 @@
 	(symbol_destructors_output, symbol_printers_output):
 	Escape symbol tags too.
 	Problem reported by Matyas Forstner in
-	<http://lists.gnu.org/archive/html/bug-bison/2005-03/msg00009.html>.
+	<https://lists.gnu.org/r/bug-bison/2005-03/msg00009.html>.
 
 	* src/muscle_tab.c (muscle_code_grow): Don't quote numbers; it's
 	not needed.
@@ -14145,7 +14145,7 @@
 
 	* doc/bison.texinfo (Language and Grammar): In example, "int" is a
 	keyword, not an identifier.  Problem reported by Baron Schwartz in
-	<http://lists.gnu.org/archive/html/bug-bison/2004-10/msg00017.html>.
+	<https://lists.gnu.org/r/bug-bison/2004-10/msg00017.html>.
 
 2004-10-11  Akim Demaille  <akim@epita.fr>
 
@@ -14441,7 +14441,7 @@
 
 	Fix bug with non-%union parsers that have printers or destructors,
 	which led to a Bison core dump.  Reported by Peter Fales in
-	<http://lists.gnu.org/archive/html/bug-bison/2004-07/msg00014.html>.
+	<https://lists.gnu.org/r/bug-bison/2004-07/msg00014.html>.
 
 	* data/c.m4 (b4_symbol_actions): Don't assume %union was used.
 	* data/lalr1.cc (yystype) [defined YYSTYPE]: Define to YYSTYPE,
@@ -14514,7 +14514,7 @@
 
 	Fix some "make check" problems with C++ reported by
 	Albert Chin-A-Young for Tru64 C++ in this thread:
-	http://lists.gnu.org/archive/html/bug-bison/2004-05/msg00049.html
+	https://lists.gnu.org/r/bug-bison/2004-05/msg00049.html
 
 	* m4/cxx.m4 (BISON_TEST_FOR_WORKING_CXX_COMPILER): Check for std::cerr.
 	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR):
@@ -14545,7 +14545,7 @@
 
 	* src/parse-gram.y (lloc_default): Rewrite to avoid compiler bug
 	in SGI MIPSpro 7.4.1m.  Problem reported by Albert Chin-A-Young in
-	<http://lists.gnu.org/archive/html/bug-bison/2004-05/msg00037.html>.
+	<https://lists.gnu.org/r/bug-bison/2004-05/msg00037.html>.
 
 	* configure.ac (AC_PREREQ): Bump to 2.58, since 2.57 doesn't work
 	(it fails with a Autoconf-without-aclocal-m4 diagnostic).
@@ -14596,7 +14596,7 @@
 	Ensure that the C++ compiler used for testing actually works on a
 	simple test program; if not, skip the C++-related tests.  Problem
 	reported by Vin Shelton in:
-	http://lists.gnu.org/archive/html/bug-bison/2004-05/msg00026.html
+	https://lists.gnu.org/r/bug-bison/2004-05/msg00026.html
 
 	* m4/cxx.m4: New file.
 	* configure.ac (BISON_TEST_FOR_WORKING_CXX_COMPILER): Add.
@@ -14607,8 +14607,7 @@
 
 	* data/glr.c (yylloc): Output this macro even if locations are not
 	being generated, as the GLR parser needs it even in that case.
-	Problem reported by Troy A. Johnson
-	<http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=195946>.
+	Problem reported by Troy A. Johnson <https://bugs.debian.org/195946>.
 
 	* configure.ac (AC_INIT): Update to 1.875e.
 
@@ -14883,7 +14882,7 @@
 2004-03-08  Paul Eggert  <eggert@gnu.org>
 
 	Add support for hex token numbers.  Suggested by Odd Arild Olsen in
-	<http://lists.gnu.org/archive/html/bison-patches/2004-03/msg00000.html>.
+	<https://lists.gnu.org/r/bison-patches/2004-03/msg00000.html>.
 
 	* NEWS: Document hexadecimal tokens, no NUL bytes, %destructor
 	in lalr1.cc.
@@ -14900,7 +14899,7 @@
 	* tests/local.at (AT_COMPILE, AT_COMPILE_CXX): Ignore stdout from
 	compilers.  This fixes a problem with Intel's C++ compiler being
 	chatty, reported by Guido Trentalancia in
-	<http://lists.gnu.org/archive/html/bug-bison/2004-02/msg00030.html>.
+	<https://lists.gnu.org/r/bug-bison/2004-02/msg00030.html>.
 
 2004-02-09  Alexandre Duret-Lutz  <adl@gnu.org>
 
@@ -15096,7 +15095,7 @@
 
 	Have lalr1.cc catch with Paul Eggert's patch to fix the infinite
 	error recovery loops.  This patch is based on
-	<http://lists.gnu.org/archive/html/bison-patches/2003-06/msg00000.html>.
+	<https://lists.gnu.org/r/bison-patches/2003-06/msg00000.html>.
 	Also, augment the similarity between lalr1.cc and yacc.c.
 	Note: the locations of error recovery rules are not correct yet.
 
@@ -15145,14 +15144,14 @@
 
 	* data/glr.c (yyglrReduce): Don't use C89 string concatenation,
 	for portability to K&R C (after ansi2knr, presumably).  See
-	<http://lists.gnu.org/archive/html/bison-patches/2003-06/msg00041.html>
+	<https://lists.gnu.org/r/bison-patches/2003-06/msg00041.html>
 	by Frank Heckenbach, though I have omitted the structure-initialization
 	part of his glr-knr.diff patch since I recall that the Portable
 	C Compiler didn't require that change.
 
 	Let the user specify how to allocate and free memory.
 	Derived from a suggestion by Frank Heckenbach in
-	<http://lists.gnu.org/archive/html/bison-patches/2003-06/msg00041.html>.
+	<https://lists.gnu.org/r/bison-patches/2003-06/msg00041.html>.
 	* data/glr.c (YYFREE, YYMALLOC, YYREALLOC): New macros.
 	All uses of free, malloc, realloc changed to use these macros,
 	and unnecessary casts removed.
@@ -15162,7 +15161,7 @@
 
 	* data/lalr1.cc (operator<<(std::ostream&, const Position&)):
 	use s.empty() rather than s == "" to test for empty string; see
-	<http://lists.gnu.org/archive/html/bison-patches/2003-07/msg00003.html>
+	<https://lists.gnu.org/r/bison-patches/2003-07/msg00003.html>
 	(trivial change)
 
 2003-06-25  Akim Demaille  <akim@epita.fr>
@@ -15185,7 +15184,7 @@
 	yyreportTree): Do not assume that size_t is the same width as int,
 	when printing sizes.  Print sizes using an unsigned format.
 	Problem reported by Frank Heckenbach in
-	<http://lists.gnu.org/archive/html/bison-patches/2003-06/msg00035.html>.
+	<https://lists.gnu.org/r/bison-patches/2003-06/msg00035.html>.
 
 	Port to Forte Developer 7 C compiler.
 	* data/glr.c (struct YYLTYPE): If locations are not being used,
@@ -15230,7 +15229,7 @@
 	(ATTRIBUTE_UNUSED): Define unconditionally.
 
 	Upgrade to 2003-06-08 libbitset, submitted by Michael Hayes in:
-	<http://lists.gnu.org/archive/html/bison-patches/2003-06/msg00005.html>
+	<https://lists.gnu.org/r/bison-patches/2003-06/msg00005.html>
 	* lib/Makefile.am (bitsets_sources): Add vbitset.c, vbitset.h.
 	* lib/vbitset.c, lib/vbitset.h: New files.
 	* lib/abitset.c, lib/bbitset.h, lib/bitset.c, lib/bitset.h,
@@ -15350,7 +15349,7 @@
 	* tests/local.at (AT_COMPILE_CXX): Use it instead of CFLAGS.
 
 	Fix a GLR parser bug I reported in February; see
-	<http://lists.gnu.org/archive/html/bison-patches/2003-02/msg00008.html>.
+	<https://lists.gnu.org/r/bison-patches/2003-02/msg00008.html>.
 	The problem was that GLR parsers did not conform to the C standard,
 	because actions like { $1 = $2 + $3; } expanded to expressions
 	that invoked YYFILL in separate subexpressions, and YYFILL assigned
@@ -15371,7 +15370,7 @@
 	parser can loop.  Provide a test case and a fix for yacc.c.  I
 	don't have a fix for lalr1.cc or for glr.c, unfortunately.
 	The original bug report is in:
-	<http://lists.gnu.org/archive/html/bison-patches/2003-02/msg00044.html>
+	<https://lists.gnu.org/r/bison-patches/2003-02/msg00044.html>
 
 	* data/yacc.c (YYERROR): Now just 'goto yyerrorlab', since the
 	macro's size was becoming unwieldy.
@@ -15504,14 +15503,14 @@
 	* lib/bitset.h (__INT_TO_PTR): Define to a value that presumes
 	C89.  This avoids a diagnostic on compilers that define __STDC__
 	to 0, fixing a problem with Tru64 cc reported by Martin Mokrejs in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00041.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-04/msg00041.html>.
 
 2003-05-03  Paul Eggert  <eggert@twinsun.com>
 
 	* lib/bitset.h (BITSET_FOR_EACH, BITSET_FOR_EACH_REVERSE):
 	Do not overrun array bounds.
 	This should fix a bug reported today by Olatunji Oluwabukunmi in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-05/msg00004.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-05/msg00004.html>.
 
 2003-04-29  Akim Demaille  <akim@epita.fr>
 
@@ -15543,7 +15542,7 @@
 2003-04-27  Paul Eggert  <eggert@twinsun.com>
 
 	Avoid gcc -Wundef warnings reported by Gerald Pfeifer in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00044.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-04/msg00044.html>.
 	* data/yacc.c (YYSTACK_ALLOC): Don't evaluate YYSTACK_USE_ALLOCA
 	if it is not defined.
 	(YYMAXDEPTH): Don't evaluate YYMAXDEPTH if it is not defined.
@@ -15555,13 +15554,13 @@
 	type suitable for the corresponding table, since the latter might
 	be unsigned but the ninf value might be negative.  This fixes a
 	bug reported by Alexandre Duret-Lutz in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00017.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-04/msg00017.html>.
 
 	* configure.ac (AC_FUNC_ERROR_AT_LINE): Remove, since gl_ERROR
 	invokes it.  We shouldn't invoke it twice because it will attempt
 	to put error.o in the archive twice.  This fixes a glitch reported
 	by Martin Mokrejs in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00041.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-04/msg00041.html>.
 
 2003-04-21  Paul Eggert  <eggert@twinsun.com>
 
@@ -15588,7 +15587,7 @@
 	* src/conflicts.c (set_conflicts): Resolve all conflicts, not just
 	the first one.  This change is from Paul Hilfinger, and it fixes
 	regression reported by Werner Lemberg in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-04/msg00026.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-04/msg00026.html>.
 
 	(resolve_sr_conflict): Don't invoke state_errs_set
 	unless one or more tokens have been explicitly made errors.
@@ -15637,7 +15636,7 @@
 	(<INITIAL><<EOF>>, <SC_PRE_CODE><<EOF>>): Set *loc to the scanner
 	cursor, instead of leaving it undefined.  This fixes a bug
 	reported by Tim Van Holder in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-03/msg00023.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-03/msg00023.html>.
 	* tests/input.at (Torturing the Scanner): Test the scanner on
 	an empty input file, which was Tim Van Holder's test case.
 
@@ -15645,7 +15644,7 @@
 	<sys/resource.h> can be included, include sys/time.h and
 	sys/times.h first, if available.  This works around the SunOS
 	4.1.4 porting bug reported by Bruce Becker in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-03/msg00018.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-03/msg00018.html>.
 
 	* m4/subpipe.m4 (BISON_PREREQ_SUBPIPE): Don't
 	AC_CHECK_HEADERS([sys/wait.h]), as this interferes with
@@ -15759,7 +15758,7 @@
 
 	* lib/mbswidth.c: Include <wchar.h> before "mbswidth.h", to work
 	around a UnixWare 7.1.1 porting bug reported by John Hughes in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-02/msg00030.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-02/msg00030.html>.
 
 2003-02-26  Paul Eggert  <eggert@twinsun.com>
 
@@ -15774,7 +15773,7 @@
 	* data/glr.c (yy_reduce_print): yylineno -> yylno,
 	to avoid collision with flex use of yylineno.
 	Problem reported by Bruce Lilly in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-02/msg00016.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-02/msg00016.html>.
 	* data/lalr1.cc (yy::]b4_parser_class_name[::parse): Likewise.
 	* data/yacc.c (yy_reduce_print): Likewise.
 
@@ -15844,13 +15843,13 @@
 	* tests/atlocal.in (LDFLAGS, LIBS): New vars.
 	* tests/testsuite.at (AT_COMPILE): Use them.
 	This fixes the testsuite problem reported by Robert Lentz in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-02/msg00011.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-02/msg00011.html>.
 
 2003-02-12  Paul Eggert  <eggert@twinsun.com>
 
 	* data/yacc.c (yyerrlab) [YYERROR_VERBOSE]:
 	Avoid subscript error in yycheck.  Bug reported by Andrew Suffield in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-02/msg00003.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-02/msg00003.html>.
 	* data/glr.c (yyreportSyntaxError) [YYERROR_VERBOSE]: Likewise.
 	Check for malloc failure, for consistency with yacc.c.
 	(yytname_size): Remove, for consistency with yacc.c.
@@ -15980,7 +15979,7 @@
 
 	Changes in response to error report by S. Eken: GLR mode does not
 	handle negative $ indices or $ indices in embedded rules correctly.
-	See <http://lists.gnu.org/archive/html/bug-bison/2003-01/msg00076.html>.
+	See <https://lists.gnu.org/r/bug-bison/2003-01/msg00076.html>.
 
 	* data/glr.c (b4_rhs_value): Change to use YYFILL macro.
 	(b4_rhs_location): Ditto.
@@ -16011,8 +16010,8 @@
 	* data/lalr1.cc: Do not use @output_header_name@ unless
 	b4_defines_flag is set.  This fixes two bugs reported by
 	Tim Van Holder in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-01/msg00071.html>
-	and <http://lists.gnu.org/archive/html/bug-bison/2003-01/msg00073.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-01/msg00071.html>
+	and <https://lists.gnu.org/r/bug-bison/2003-01/msg00073.html>.
 
 2003-01-21  Paul Eggert  <eggert@twinsun.com>
 
@@ -16030,7 +16029,7 @@
 
 	* src/output.c (symbol_printers_output): Fix typo that led
 	to core dump.  Problem reported by Antonio Rus in
-	<http://lists.gnu.org/archive/html/bug-bison/2003-01/msg00058.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-01/msg00058.html>.
 
 2003-01-13  Akim Demaille  <akim@epita.fr>,
 		Quoc Peyrot <chojin@lrde.epita.fr>,
@@ -16048,7 +16047,7 @@
 	* NEWS: %expect-violations are now just warnings, reverting
 	to Bison 1.30 and 1.75 behavior.  This fixes the GCC 3.2
 	bootstrapping problem reported by Matthias Klose; see
-	<http://lists.gnu.org/archive/html/bug-bison/2003-01/msg00053.html>.
+	<https://lists.gnu.org/r/bug-bison/2003-01/msg00053.html>.
 	* src/conflicts.c (conflicts_print): Likewise.
 	* tests/conflicts.at (%expect not enough, %expect too much,
 	%expect with reduce conflicts): Likewise.
@@ -16176,7 +16175,7 @@
 
 	Fix a bug where error locations were not being recorded correctly.
 	This problem was originally reported by Paul Hilfinger in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00086.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00086.html>.
 
 	* data/yacc.c (yyparse): New local var yylerrsp, to record the
 	top of the location stack's error locations.
@@ -16224,7 +16223,7 @@
 
 	Remove obsolete references to bison.simple and bison.hairy.
 	Problem mentioned by Aubin Mahe in
-	<http://lists.gnu.org/archive/html/help-bison/2002-12/msg00010.html>.
+	<https://lists.gnu.org/r/help-bison/2002-12/msg00010.html>.
 	* data/glr.c: Comment fix.
 	* doc/bison.1: Remove references.  Also, mention "yacc".
 
@@ -16359,7 +16358,7 @@
 	* config/install-sh: Sync with autotools.
 
 	Fix a bad interaction with flex 2.5.23 reported by Bruce Lilly in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00114.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00114.html>.
 	* data/yacc.c (YYLTYPE, struct yyltype): Do not define unless
 	locations are requested.
 	(union yyalloc): Do not depend on YYLTYPE_IS_TRIVIAL unless
@@ -16640,7 +16639,7 @@
 	sequences like "@" that are treated specially by src/scan-skel.l.
 	Instead, just use the file's basename.  This fixes the bug
 	reported by Martin Mokrejs in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-12/msg00007.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-12/msg00007.html>.
 
 2002-12-06  Paul Eggert  <eggert@twinsun.com>
 
@@ -16738,7 +16737,7 @@
 	* configure.ac (AC_REPLACE_FUNCS): Add strtoul.
 	* lib/strtoul.c: New file, from gnulib.
 	This fixes a porting bug reported by Peter Klein in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-12/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-12/msg00000.html>.
 
 2002-11-30  Paul Eggert  <eggert@twinsun.com>
 
@@ -16790,7 +16789,7 @@
 
 	* data/c.m4 (b4_yysymprint_generate): yyout -> yyoutput,
 	to avoid collision with lex macro described by Bruce Lilly in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00114.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00114.html>.
 	* tests/actions.at (_AT_CHECK_PRINTER_AND_DESTRUCTOR): Likewise.
 	* doc/bison.texinfo (Prologue, Tracing): yyprint -> print_token_value.
 	* src/parse-gram.y (print_token_value): Renamed from yyprint.
@@ -16888,7 +16887,7 @@
 	* data/glr.c (yygetLRActions): Replace `yyindex' with
 	`yytable[yyindex]' to fix typo introduced in my 2002-11-09 patch.
 	This fixes the regression with Sun ONE Studio 7 cc that I reported in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00077.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00077.html>.
 
 2002-11-18  Akim Demaille  <akim@epita.fr>
 
@@ -17006,7 +17005,7 @@
 	duplicating xfopen's body.
 
 	Fix bugs reported by Nelson H. F. Beebe in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00078.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00078.html>.
 
 	* tests/headers.at (AT_TEST_CPP_GUARD_H): Don't assume that
 	"$CC -E foo.h" is allowed, as this doesn't work with the Portland
@@ -17049,7 +17048,7 @@
 2002-11-13  Paul Eggert  <eggert@twinsun.com>
 
 	Fix some bugs reported by Albert Chin-A-Young in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00066.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00066.html>.
 
 	* tests/input.at (Torturing the Scanner): Don't invoke "cc a.c b.c
 	-o c"; the HP C compiler chatters during compilation.
@@ -17078,7 +17077,7 @@
 	(yyglrReduce): Return yyok, not 0.
 	This should avoid the enumerated-type warnings reported
 	by Nelson H. F. Beebe in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00057.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00057.html>.
 
 	* lib/bbitset.h (BITSET_INLINE): Remove.
 	* lib/bitset.h [! BITSET_INLINE]: Remove.
@@ -17088,12 +17087,12 @@
 	* data/glr.c (inline): Remove #define.  It's the user's
 	responsibility to #define it away, just like 'const'.
 	This fixes one of the bugs reported by Nelson H. F. Beebe in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00058.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00058.html>.
 
 	* Makefile.maint (po-check): Scan .l and .y files instead of the
 	.c and the .h files that they generate.  This fixes the bug
 	reported by Tim Van Holder in:
-	<http://lists.gnu.org/archive/html/bison-patches/2002-11/msg00062.html>
+	<https://lists.gnu.org/r/bison-patches/2002-11/msg00062.html>
 	Look for N_ as well as for _.  Try to avoid matching #define for
 	N_ and _.
 	* po/POTFILES.in: Remove src/parse-gram.c, src/scan-gram.c,
@@ -17254,7 +17253,7 @@
 	Revamp to fix many (but not all) of the C- and M4-related quoting
 	problems.  Among other things, this fixes the Bison bug reported
 	by Jan Hubicka when processing the Bash grammar; see:
-	<http://lists.gnu.org/archive/html/bison-patches/2002-11/msg00039.html>
+	<https://lists.gnu.org/r/bison-patches/2002-11/msg00039.html>
 
 	Use new @ escapes consistently.  Represent brackets with @{ and @}
 	rather than @<:@ and @:>@, since this works a bit better with dumb
@@ -17322,7 +17321,7 @@
 2002-11-09  Paul Eggert  <eggert@twinsun.com>
 
 	Fix the test failure due to GCC warnings described in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-11/msg00000.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-11/msg00000.html>.
 	* data/glr.c (yyis_pact_ninf, yyis_table_ninf): New macros, which
 	evaluate to 0 if it's impossible for NINF to be in the respective
 	table.
@@ -17674,8 +17673,8 @@
 	* data/glr.c (struct yyltype): Define members even when not
 	doing locations.  This is more consistent with yacc.c, and it
 	works around the following bug reports:
-	http://lists.gnu.org/archive/html/bug-bison/2002-10/msg00106.html
-	http://lists.gnu.org/archive/html/bug-bison/2002-10/msg00111.html
+	https://lists.gnu.org/r/bug-bison/2002-10/msg00106.html
+	https://lists.gnu.org/r/bug-bison/2002-10/msg00111.html
 
 	* doc/bison.texinfo: Minor spelling and typographical fixes.  Use
 	@acronym consistently.  Standardize on "Yacc" instead of "YACC",
@@ -18107,7 +18106,7 @@
 2002-10-13  Paul Eggert  <eggert@twinsun.com>
 
 	Fix problem reported by Henrik Grubbstroem in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-10/msg00098.html>:
+	<https://lists.gnu.org/r/bug-bison/2002-10/msg00098.html>:
 	"nonterm: { $$ = 123; } { $$ = $1; };" was wrongly rejected,
 	because the Bison parser reads the second action before reducing
 	the first one.
@@ -18124,7 +18123,7 @@
 	Include <sys/time.h> when checking for clock_t and struct tms.
 	Use same include order as source.
 	This is for the SunOS 4.1.4 porting bug reported by Peter Klein in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-10/msg00016.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-10/msg00016.html>.
 
 	* lib/timevar.c: Update copyright date and clarify comments.
 	(get_time) [IN_GCC]: Keep the GCC version for reference.
@@ -18137,13 +18136,13 @@
 	* src/reader.c (grammar_current_rule_check):
 	Don't worry about the default action if $$ is untyped.
 	Prevents bogus warnings reported by Jim Gifford in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-10/msg00015.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-10/msg00015.html>.
 
 	* data/c.m4 (b4_token_enum): Do not define YYTOKENTYPE.
 	* data/glr.c, data/lalr1.cc, data/yacc.c:
 	Output token definitions before the first part of user declarations.
 	Fixes compatibility problem reported by Jim Gifford for kbd in
-	<http://lists.gnu.org/archive/html/bug-bison/2002-10/msg00014.html>.
+	<https://lists.gnu.org/r/bug-bison/2002-10/msg00014.html>.
 
 2002-10-11  Paul Eggert  <eggert@twinsun.com>
 
@@ -18268,7 +18267,7 @@
 
 	* lib/bitset.h (bitset_reset): Do not assume that bitset_word is
 	the same width as int.  This reapplies a hunk of the 2002-08-12 patch
-	<http://lists.gnu.org/archive/html/bison-patches/2002-08/msg00007.html>,
+	<https://lists.gnu.org/r/bison-patches/2002-08/msg00007.html>,
 	which was inadvertently undone by the 2002-09-30 patch.
 	* lib/lbitset.c (debug_lbitset): Do not assume that bitset_word is
 	the same width as int.

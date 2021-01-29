@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 AT_BANNER([[Grammar Sets (Firsts etc.).]])
@@ -275,7 +275,7 @@ AT_SETUP([Build relations])
 # So we can "register" way more images than ngotos, leading to a crash
 # (heap buffer overflow).
 #
-# http://lists.gnu.org/archive/html/bug-bison/2019-03/msg00007.html
+# https://lists.gnu.org/r/bug-bison/2019-03/msg00007.html
 
 AT_DATA([input.y],
 [[%%

@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[Test reports.]])
 
@@ -1148,7 +1148,7 @@ if test x"$XSLTPROC" != x""; then
   AT_CHECK([cat input.html], [],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="http://www.gnu.org/software/bison/">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="https://www.gnu.org/software/bison/">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <title>input.yy - GNU Bison XML Automaton Report</title>
@@ -1496,7 +1496,7 @@ if test x"$XSLTPROC" != x""; then
 </p>
 
 <div id="footer"><hr />This document was generated using
-      <a href="http://www.gnu.org/software/bison/" title="GNU Bison">
+      <a href="https://www.gnu.org/software/bison/" title="GNU Bison">
       GNU Bison VERSION</a>
       XML Automaton Report.<br />
       Verbatim copying and distribution of this entire page is
@@ -2166,7 +2166,7 @@ if test x"$XSLTPROC" != x""; then
   AT_CHECK([cat input.html], [],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="http://www.gnu.org/software/bison/">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="https://www.gnu.org/software/bison/">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <title>input.y - GNU Bison XML Automaton Report</title>
@@ -2384,7 +2384,7 @@ if test x"$XSLTPROC" != x""; then
 </p>
 
 <div id="footer"><hr />This document was generated using
-      <a href="http://www.gnu.org/software/bison/" title="GNU Bison">
+      <a href="https://www.gnu.org/software/bison/" title="GNU Bison">
       GNU Bison VERSION</a>
       XML Automaton Report.<br />
       Verbatim copying and distribution of this entire page is

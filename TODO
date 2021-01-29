@@ -728,7 +728,7 @@ This is a popular demand.  We already made many changes in the parser that
 should make this reasonably easy to implement.
 
 Bruce Mardle <marblypup@yahoo.co.uk>
-https://lists.gnu.org/archive/html/bison-patches/2015-09/msg00000.html
+https://lists.gnu.org/r/bison-patches/2015-09/msg00000.html
 
 However, there are many other things to do before having such a feature,
 because I don't want a % equivalent to #include (which we all learned to
@@ -741,7 +741,7 @@ There is demand for push parsers in Java and C++.  And GLR I guess.
 
 ** Generate code instead of tables
 This is certainly quite a lot of work.  See
-http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.50.4539.
+https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.50.4539.
 
 ** $-1
 We should find a means to provide an access to values deep in the

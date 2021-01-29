@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[Diagnostics.]])
 
@@ -297,7 +297,7 @@ input.y: <warning>warning:</warning> fix-its can be applied.  Rerun with option 
 ## --------------- ##
 
 # Don't try to quote special files.
-# http://lists.gnu.org/archive/html/bug-bison/2019-04/msg00000.html
+# https://lists.gnu.org/r/bug-bison/2019-04/msg00000.html
 # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90034
 
 AT_TEST([[Special files]],
@@ -652,7 +652,7 @@ m4_popdef([AT_TEST])
 
 AT_SETUP([[Indentation with message suppression]])
 
-# https://lists.gnu.org/archive/html/bug-bison/2019-08/msg00002.html
+# https://lists.gnu.org/r/bug-bison/2019-08/msg00002.html
 
 AT_DATA([[input.y]],
 [[%define api.pure

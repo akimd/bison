@@ -3403,7 +3403,7 @@ GNU Bison NEWS
   inherent flaws when %error-verbose or "#define YYERROR_VERBOSE" is
   used.  For a more detailed discussion, see:
 
-    http://lists.gnu.org/archive/html/bison-patches/2009-12/msg00024.html
+    https://lists.gnu.org/r/bison-patches/2009-12/msg00024.html
 
   The upcoming Bison 2.5 will remove YYFAIL from Java parsers, but
   deterministic parsers in C will continue to implement it.  However,
@@ -4159,7 +4159,7 @@ GNU Bison NEWS
   error token.  The new behavior has long been the documented behavior,
   and has long been required by POSIX.  For more details, please see
   Paul Eggert, "Reductions during Bison error handling" (2002-05-20)
-  <http://lists.gnu.org/archive/html/bug-bison/2002-05/msg00038.html>.
+  <https://lists.gnu.org/r/bug-bison/2002-05/msg00038.html>.
 
 ** Traces
   Popped tokens and nonterminals are now reported.

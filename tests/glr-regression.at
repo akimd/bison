@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[GLR Regression Tests]])
 
@@ -367,7 +367,7 @@ AT_CLEANUP
 
 ## ---------------------------------------------------------------------- ##
 ## Duplicate representation of merged trees.  See                         ##
-## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00013.html>.  ##
+## <https://lists.gnu.org/r/help-bison/2005-07/msg00013.html>.            ##
 ## ---------------------------------------------------------------------- ##
 
 AT_SETUP([Duplicate representation of merged trees])
@@ -460,7 +460,7 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## User destructor for unresolved GLR semantic value.  See                   ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00016.html>.  ##
+## <https://lists.gnu.org/r/bison-patches/2005-08/msg00016.html>.            ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([User destructor for unresolved GLR semantic value])
@@ -518,7 +518,7 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## User destructor after an error during a split parse.  See                 ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00029.html>.  ##
+## <https://lists.gnu.org/r/bison-patches/2005-08/msg00029.html>.            ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([User destructor after an error during a split parse])
@@ -570,7 +570,7 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## Duplicated user destructor for lookahead.  See                            ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-08/msg00035.html>.  ##
+## <https://lists.gnu.org/r/bison-patches/2005-08/msg00035.html>.            ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Duplicated user destructor for lookahead])
@@ -660,8 +660,8 @@ AT_CLEANUP
 ## ------------------------------------------------------------------------- ##
 ## Incorrect default location for empty right-hand sides.  Adapted from bug  ##
 ## report by Claudia Hermann.                                                ##
-## See http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00069.html and ##
-## http://lists.gnu.org/archive/html/bug-bison/2005-10/msg00072.html         ##
+## See https://lists.gnu.org/r/bug-bison/2005-10/msg00069.html and           ##
+## https://lists.gnu.org/r/bug-bison/2005-10/msg00072.html                   ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Incorrectly initialized location for empty right-hand side in GLR])
@@ -752,7 +752,7 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## No users destructors if stack 0 deleted.  See                             ##
-## <http://lists.gnu.org/archive/html/bison-patches/2005-09/msg00109.html>.  ##
+## <https://lists.gnu.org/r/bison-patches/2005-09/msg00109.html>.            ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([No users destructors if stack 0 deleted])
@@ -1071,8 +1071,8 @@ AT_CLEANUP
 
 ## ------------------------------------------------------------------------- ##
 ## Incorrect lookahead during deterministic GLR.  See                        ##
-## <http://lists.gnu.org/archive/html/help-bison/2005-07/msg00017.html> and  ##
-## <http://lists.gnu.org/archive/html/bison-patches/2006-01/msg00060.html>.  ##
+## <https://lists.gnu.org/r/help-bison/2005-07/msg00017.html> and            ##
+## <https://lists.gnu.org/r/bison-patches/2006-01/msg00060.html>.            ##
 ## ------------------------------------------------------------------------- ##
 
 AT_SETUP([Incorrect lookahead during deterministic GLR])
@@ -1800,8 +1800,8 @@ AT_CLEANUP
 ## ----------------------------------------------------------------- ##
 ## Predicates.                                                       ##
 ##                                                                   ##
-## http://lists.gnu.org/archive/html/bug-bison/2013-10/msg00004.html ##
-## http://lists.gnu.org/archive/html/bug-bison/2018-05/msg00033.html ##
+## https://lists.gnu.org/r/bug-bison/2013-10/msg00004.html           ##
+## https://lists.gnu.org/r/bug-bison/2018-05/msg00033.html           ##
 ## ----------------------------------------------------------------- ##
 
 AT_SETUP([Predicates])

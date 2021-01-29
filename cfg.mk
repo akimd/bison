@@ -12,7 +12,7 @@
 ## GNU General Public License for more details.
 
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # Update version, then recompile so that tests/bison --version be
 # up-to-date, then compile our parser again with our up-to-date bison.

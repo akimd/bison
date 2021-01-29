@@ -14,7 +14,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 AT_BANNER([[Grammar Reduction.]])
 
@@ -228,7 +228,7 @@ AT_SETUP([Useless Parts])
 # symbols.  As a result, the evaluation of the skeleton failed because
 # it used non existing symbol numbers.  Which is the happy scenario:
 # we could use numbers of other existing symbols...
-# http://lists.gnu.org/archive/html/bug-bison/2019-01/msg00044.html
+# https://lists.gnu.org/r/bug-bison/2019-01/msg00044.html
 
 AT_BISON_OPTION_PUSHDEFS
 AT_DATA([[input.y]],
