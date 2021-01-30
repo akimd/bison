@@ -94,6 +94,9 @@ main (int argc, char *argv[])
 
   getargs (argc, argv);
 
+  if (trace_flag)
+    fprintf (stderr, "bison (GNU Bison) %s\n", VERSION);
+
   timevar_enabled = trace_flag & trace_time;
   timevar_init ();
   timevar_start (tv_total);

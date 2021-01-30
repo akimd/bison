@@ -1957,7 +1957,8 @@ empty_c3: %prec 'c' ;
 ]])
 
 AT_BISON_CHECK([[--trace=cex -fcaret --report=all -o input.c input.y]], 0, [],
-[[init: 0.000000
+[[bison (GNU Bison) ]AT_PACKAGE_VERSION[
+init: 0.000000
 # state items: 26
 State 0:
     0 $accept: . start $end

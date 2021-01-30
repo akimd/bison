@@ -2,9 +2,6 @@
 /atconfig
 /atlocal
 /bison
-/calc
-/calc.[chy]
-/calc.tab.*
 /package.m4
 /testsuite
 /testsuite.dir

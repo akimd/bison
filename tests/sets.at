@@ -323,7 +323,8 @@ fact: "num"
 ]])
 
 AT_BISON_CHECK([[--trace=grammar -o input.c input.y]], [], [],
-[[input.y: warning: 1 nonterminal useless in grammar [-Wother]
+[[bison (GNU Bison) ]AT_PACKAGE_VERSION[
+input.y: warning: 1 nonterminal useless in grammar [-Wother]
 input.y: warning: 1 rule useless in grammar [-Wother]
 input.y:4.1-7: warning: nonterminal useless in grammar: useless [-Wother]
 Reduced Grammar
@@ -409,7 +410,8 @@ exp:
 ]])
 
 AT_BISON_CHECK([[--trace=grammar -o input.c input.y]], [], [],
-[[Reduced Grammar
+[[bison (GNU Bison) ]AT_PACKAGE_VERSION[
+Reduced Grammar
 
 ntokens = 10, nnterms = 2, nsyms = 12, nrules = 8, nritems = 29
 
