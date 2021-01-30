@@ -1132,14 +1132,18 @@ m4_define([b4_parse_error_bmatch],
 
 
 
+# b4_union_if([IF-UNION-ARE-USED], [IF-NOT])
 # b4_variant_if([IF-VARIANT-ARE-USED], [IF-NOT])
 # ----------------------------------------------
-b4_percent_define_if_define([variant])
+# Depend on whether api.value.type is union, or variant.
+m4_define([b4_union_flag],   [[0]])
 m4_define([b4_variant_flag], [[0]])
 b4_percent_define_ifdef([[api.value.type]],
    [m4_case(b4_percent_define_get_kind([[api.value.type]]), [keyword],
-            [m4_case(b4_percent_define_get([[api.value.type]]), [variant],
-                    [m4_define([b4_variant_flag], [[1]])])])])
+            [m4_case(b4_percent_define_get([[api.value.type]]),
+                     [union],   [m4_define([b4_union_flag],   [[1]])],
+                     [variant], [m4_define([b4_variant_flag], [[1]])])])])
+b4_define_flag_if([union])
 b4_define_flag_if([variant])
 
 
