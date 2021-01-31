@@ -153,8 +153,8 @@ m4_define([b4_lex],
 [b4_function_call([yylex],
                   [symbol_type], m4_ifdef([b4_lex_param], b4_lex_param))],
 [b4_function_call([yylex], [int],
-                  [b4_api_PREFIX[STYPE*], [&yyla.value]][]dnl
-b4_locations_if([, [[location*], [&yyla.location]]])dnl
+                  [[value_type *], [&yyla.value]][]dnl
+b4_locations_if([, [[location_type *], [&yyla.location]]])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param))])])
 
 
