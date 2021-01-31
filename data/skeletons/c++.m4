@@ -227,10 +227,13 @@ m4_define([b4_value_type_declare],
 # Define the public types: token, semantic value, location, and so forth.
 # Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
-[[#ifndef ]b4_api_PREFIX[STYPE
-]b4_value_type_declare[
-#else
+[[#ifdef ]b4_api_PREFIX[STYPE
+# ifdef __GNUC__
+#  pragma GCC message "bison: do not #define ]b4_api_PREFIX[STYPE in C++, use %define api.value.type"
+# endif
     typedef ]b4_api_PREFIX[STYPE value_type;
+#else
+]b4_value_type_declare[
 #endif
     /// Backward compatibility (Bison 3.8).
     typedef value_type semantic_type;]b4_locations_if([

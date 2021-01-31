@@ -1777,8 +1777,6 @@ AT_DATA_GRAMMAR([[input.y]],
     float fval;
   } sem_type;
 
-# define YYSTYPE sem_type
-
 ]AT_CXX_IF([[
 # include <cstdio> // EOF.
 # include <iostream>
@@ -1799,6 +1797,8 @@ AT_DATA_GRAMMAR([[input.y]],
   }
 ]])[
 }
+
+%define api.value.type {sem_type}
 
 %code
 {

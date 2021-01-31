@@ -328,15 +328,18 @@ AT_TEST([xb], [%locations %define api.location.file none %language "c++" %define
 #   C++ output relies on namespaces and still uses yy a lot.
 #
 # - no 'YY' left.
-#   Ignore comments, YYChar (template parameter), YYPUSH_MORE(_DEFINED)?
-#   (constant definition), YY_\w+_INCLUDED (header guards).
+#   Ignore YYPUSH_MORE(_DEFINED)? (constant definition),
 #   YYDEBUG (not renamed) can be read, but not changed.
 AT_PERL_CHECK([[-n -0777 -e '
+  # Ignore comments.
   s{/\*.*?\*/}{}gs;
   s{//.*}{}g;
+  # Ignore warnings.
+  s{# *pragma .* message ".*"}{}g;
+
   s{\b((defined|if)\ YYDEBUG
-      |YYChar
-      |YYNTOKENS  # This is actual scoped in a C++ class.
+      |YYChar     # Template parameter.
+      |YYNTOKENS  # This is actually scoped in a C++ class.
       |YYPUSH_MORE(?:_DEFINED)?
       |S_(YY(ACCEPT|EMPTY|EOF|error|UNDEF))  # These guys are scoped.
       |YY(?:_REINTERPRET)?_CAST
@@ -354,9 +357,9 @@ AT_PERL_CHECK([[-n -0777 -e '
       |YY_NULLPTR
       |YY_RVREF
       |YY_USE
-      |YY_\w+_INCLUDED
-      |FILE\ \*yyo   # Function argument.
-      |const\ yylocp # Function argument.
+      |YY_\w+_INCLUDED  # Header guards.
+      |FILE\ \*yyo      # Function argument.
+      |const\ yylocp    # Function argument.
       )\b}{}gx;
   while (/^(.*YY.*)$/gm)
   {
