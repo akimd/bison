@@ -94,6 +94,10 @@
 
 // Emitted in the implementation file.
 %code {
+  // Print *LOC on OUT.
+  static void location_print (FILE *out, YYLTYPE const * const loc);
+  #define YY_LOCATION_PRINT(Out, Loc) location_print(Out, &(Loc))
+
   #if defined ENABLE_NLS && ENABLE_NLS
   # define _(Msgid)  gettext (Msgid)
   #else
@@ -266,6 +270,26 @@ symbol_count (void)
   for (symrec *p = sym_table; p; p = p->next)
     ++res;
   return res;
+}
+
+
+
+/*------------.
+| Locations.  |
+`------------*/
+
+// Print *LOC on OUT.  Do it in a compact way, that avoids redundancy.
+
+static void
+location_print (FILE *out, YYLTYPE const * const loc)
+{
+  fprintf (out, "%d.%d", loc->first_line, loc->first_column);
+
+  int end_col = 0 != loc->last_column ? loc->last_column - 1 : 0;
+  if (loc->first_line < loc->last_line)
+    fprintf (out, "-%d.%d", loc->last_line, end_col);
+  else if (loc->first_column < end_col)
+    fprintf (out, "-%d", end_col);
 }
 
 
