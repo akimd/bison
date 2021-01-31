@@ -3870,9 +3870,8 @@ or
 The value of @code{api.value.type} should be a type name that does not
 contain parentheses or square brackets.
 
-Alternatively, instead of relying of Bison's @code{%define} support, you may
-rely on the C/C++ preprocessor and define @code{YYSTYPE} as a macro, like
-this:
+Alternatively in C, instead of relying of Bison's @code{%define} support,
+you may rely on the C preprocessor and define @code{YYSTYPE} as a macro:
 
 @example
 #define YYSTYPE double
@@ -3883,7 +3882,7 @@ This macro definition must go in the prologue of the grammar file
 (@pxref{Grammar Outline}).  If compatibility with POSIX Yacc matters to you,
 use this.  Note however that Bison cannot know @code{YYSTYPE}'s value, not
 even whether it is defined, so there are services it cannot provide.
-Besides this works only for languages that have a preprocessor.
+Besides this works only for C.
 
 @node Multiple Types
 @subsection More Than One Value Type
@@ -4644,7 +4643,7 @@ actions to take when rules are matched.
 Defining a data type for locations is much simpler than for semantic values,
 since all tokens and groupings always use the same type.
 
-You can specify the type of locations by defining a macro called
+In C, you can specify the type of locations by defining a macro called
 @code{YYLTYPE}, just as you can specify the semantic value type by defining
 a @code{YYSTYPE} macro (@pxref{Value Type}).  When @code{YYLTYPE} is not
 defined, Bison uses a default structure type with four members:
@@ -6743,7 +6742,7 @@ Any valid identifier.
 Introduced in Bison 3.0.3.
 @end itemize
 @end deffn
-@c api.value.type
+@c api.value.union.name
 
 
 @c ================================================== lr.default-reduction
@@ -6979,16 +6978,19 @@ qualifiers produce an error.  Some of the accepted qualifiers are:
 @itemize @bullet
 @item Language(s): C, C++
 
-@item Purpose: This is the best place to write dependency code required for
-@code{YYSTYPE} and @code{YYLTYPE}.  In other words, it's the best place to
-define types referenced in @code{%union} directives.  If you use
-@code{#define} to override Bison's default @code{YYSTYPE} and @code{YYLTYPE}
-definitions, then it is also the best place.  However you should rather
-@code{%define} @code{api.value.type} and @code{api.location.type}.
+@item Purpose:
+This is the best place to write dependency code required for the value and
+location types (@code{YYSTYPE} and @code{YYLTYPE} in C).  In other words,
+it's the best place to define types referenced in @code{%union} directives.
+In C, if you use @code{#define} to override Bison's default @code{YYSTYPE}
+and @code{YYLTYPE} definitions, then it is also the best place.  However you
+should rather @code{%define} @code{api.value.type} and
+@code{api.location.type}.
 
-@item Location(s): The parser header file and the parser implementation file
-before the Bison-generated @code{YYSTYPE} and @code{YYLTYPE}
-definitions.
+@item Location(s):
+The parser header file and the parser implementation file before the
+Bison-generated definitions of the value and location types (@code{YYSTYPE}
+and @code{YYLTYPE} in C).
 @end itemize
 
 @item provides
@@ -7000,9 +7002,10 @@ definitions.
 @item Purpose: This is the best place to write additional definitions and
 declarations that should be provided to other modules.
 
-@item Location(s): The parser header file and the parser implementation
-file after the Bison-generated @code{YYSTYPE}, @code{YYLTYPE}, and
-token definitions.
+@item Location(s):
+The parser header file and the parser implementation file after the
+Bison-generated value and location types (@code{YYSTYPE} and @code{YYLTYPE}
+in C), and token definitions.
 @end itemize
 
 @item top
@@ -12379,9 +12382,6 @@ parser uses it to report a parser error occurring at @var{l}, described by
 
 @node C++ Semantic Values
 @subsection C++ Semantic Values
-@c - No objects in unions
-@c - YYSTYPE
-@c - Printer and destructor
 
 Bison supports two different means to handle semantic values in C++.  One is
 alike the C interface, and relies on unions.  As C++ practitioners know,
@@ -12401,9 +12401,7 @@ particular it produces a genuine @code{union}, which have a few specific
 features in C++.
 @itemize @minus
 @item
-The type @code{YYSTYPE} is defined but its use is discouraged: rather you
-should refer to the parser's encapsulated type
-@code{yy::parser::value_type}.
+The value type is @code{yy::parser::value_type}, not @code{YYSTYPE}.
 @item
 Non POD (Plain Old Data) types cannot be used.  C++98 forbids any instance
 of classes with constructors in unions: only @emph{pointers} to such objects
@@ -13840,9 +13838,6 @@ No header file can be generated for D parsers.  Do not use the
 
 @node D Semantic Values
 @subsection D Semantic Values
-@c - %union
-@c - YYSTYPE
-@c - Printer and destructor
 
 Semantic types are handled by %union, same as for C/C++ parsers.
 
@@ -14218,9 +14213,6 @@ report a bug so that the parser skeleton will be improved.
 
 @node Java Semantic Values
 @subsection Java Semantic Values
-@c - No %union, specify type in %nterm/%token.
-@c - YYSTYPE
-@c - Printer and destructor
 
 There is no @code{%union} directive in Java parsers.  Instead, the semantic
 values' types (class names) should be specified in the @code{%nterm} or
@@ -16082,8 +16074,8 @@ require some expertise in low-level implementation details.
 @end deffn
 
 @deffn {Type} YYSTYPE
+In C, data type of semantic values; @code{int} by default.
 Deprecated in favor of the @code{%define} variable @code{api.value.type}.
-Data type of semantic values; @code{int} by default.
 @xref{Value Type}.
 @end deffn
 

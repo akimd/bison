@@ -45,10 +45,7 @@ There are many macros that should obey api.prefix: YY_CPLUSPLUS, YY_MOVE,
 etc.
 
 ** YYDEBUG etc. in C++
-Discourage the use of YYDEBUG in C++ (see thread with Jot).  Stop supporting
-#define YYSTYPE by the user.
-
-Add value_type as a synonym for semantic_type.
+Discourage the use of YYDEBUG in C++ (see thread with Jot).
 
 ** yyerrok in Java
 And add tests in calc.at, to prepare work for D.

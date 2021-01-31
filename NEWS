@@ -2,6 +2,13 @@ GNU Bison NEWS
 
 * Noteworthy changes in release 3.7.5 (2021-01-24) [stable]
 
+** Deprecated features
+
+  It is always recommended to prefer `%define api.value.type foo` to
+  `#define YYSTYPE foo`.  The latter is supported in C for compatibility
+  with Yacc, but not in C++.  Warnings are now issued if `#define YYSTYPE`
+  is used in C++, and eventually support will be removed.
+
 ** Bug fixes
 
 *** Counterexample Generation
