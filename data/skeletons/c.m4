@@ -1076,7 +1076,7 @@ yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
         res += YYFPRINTF (yyo, "-%d", end_col);
     }
   return res;
- }
+}
 
 #   define YY_LOCATION_PRINT(File, Loc)          \
   yy_location_print_ (File, &(Loc))
@@ -1084,11 +1084,7 @@ yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
 #  else
 #   define YY_LOCATION_PRINT(File, Loc) ((void) 0)
 #  endif
-# endif /* !defined YY_LOCATION_PRINT */]],
-[[/* This macro is provided for backward compatibility. */
-# ifndef YY_LOCATION_PRINT
-#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
-# endif]])
+# endif /* !defined YY_LOCATION_PRINT */]])
 ])
 
 # b4_yyloc_default
