@@ -472,7 +472,6 @@ Tracing Your Parser
 
 * Enabling Traces::    Activating run-time trace support
 * Mfcalc Traces::      Extending @code{mfcalc} to support traces
-* The YYPRINT Macro::  Obsolete interface for semantic value reports
 
 Invoking Bison
 
@@ -10892,7 +10891,6 @@ When a Bison grammar compiles properly but parses ``incorrectly'', the
 @menu
 * Enabling Traces::    Activating run-time trace support
 * Mfcalc Traces::      Extending @code{mfcalc} to support traces
-* The YYPRINT Macro::  Obsolete interface for semantic value reports
 @end menu
 
 @node Enabling Traces
@@ -11155,49 +11153,6 @@ Cleanup: popping token $end ()
 Cleanup: popping nterm input ()
 @end example
 
-
-@node The YYPRINT Macro
-@subsection The @code{YYPRINT} Macro
-@findex YYPRINT
-
-The @code{%printer} directive was introduced in Bison 1.50 (November 2002).
-Before then, @code{YYPRINT} provided a similar feature, but only for
-terminal symbols and only with the @file{yacc.c} skeleton.
-
-@deffn {Macro} YYPRINT (@var{stream}, @var{token}, @var{value});
-@findex YYPRINT
-Deprecated, will be removed eventually.
-
-If you define @code{YYPRINT}, it should take three arguments.  The parser
-will pass a standard I/O stream, the numeric code for the token kind, and
-the token value (from @code{yylval}).
-
-For @file{yacc.c} only.  Obsoleted by @code{%printer}.
-@end deffn
-
-Here is an example of @code{YYPRINT} suitable for the multi-function
-calculator (@pxref{Mfcalc Declarations}):
-
-@example
-%@{
-  static void print_token_value (FILE *file, int type, YYSTYPE value);
-  #define YYPRINT(File, Type, Value)            \
-    print_token_value (File, Type, Value)
-%@}
-
-@dots{} %% @dots{} %% @dots{}
-
-static void
-print_token_value (FILE *file, yytoken_kind_t kind, YYSTYPE value)
-@{
-  if (kind == VAR)
-    fprintf (file, "%s", value.tptr->name);
-  else if (kind == NUM)
-    fprintf (file, "%d", value.val);
-@}
-@end example
-
-@xref{Mfcalc Traces}, for the proper use of @code{%printer}.
 
 @c ================================================= Invoking Bison
 
@@ -16018,12 +15973,6 @@ The parser function produced by Bison; call this function to start
 parsing.  @xref{Parser Function}.
 @end deffn
 
-@deffn {Macro} YYPRINT
-Macro used to output token semantic values.  For @file{yacc.c} only.
-Deprecated, use @code{%printer} instead (@pxref{Printer Decl}).
-@xref{The YYPRINT Macro}.
-@end deffn
-
 @deffn {Function} yypstate_delete
 The function to delete a parser instance, produced by Bison in push mode;
 call this function to delete the memory associated with a parser.
@@ -16465,7 +16414,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: symrec val tptr FUN func struct sym enum IEC syntaxes Byacc
 @c LocalWords: fun putsym getsym arith funs atan ptr malloc sizeof Lex pcc
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
-@c LocalWords: ptypes itype YYPRINT trigraphs yytname expseq vindex dtype Unary
+@c LocalWords: ptypes itype trigraphs yytname expseq vindex dtype Unary
 @c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs nonterminal
 @c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES reentrant
 @c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param yypstate

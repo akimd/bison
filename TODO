@@ -462,9 +462,6 @@ $ ./tests/testsuite -l | grep errors | sed q
   38: input.at:1730      errors
 
 * Short term
-** Get rid of YYPRINT and b4_toknum
-Besides yytoknum is wrong when api.token.raw is defined.
-
 ** Better design for diagnostics
 The current implementation of diagnostics is ad hoc, it grew organically.
 It works as a series of calls to several functions, with dependency of the
@@ -808,7 +805,7 @@ Equip the parser with a means to create the (visual) parse tree.
 # LocalWords:  SymbolKind YYEMPTY YYUNDEF YYTNAME NUM yyntokens yytname sed
 # LocalWords:  nonterminals yykind yycode YYNAMES yynames init getName conv
 # LocalWords:  TokenKind ival yychar yylval yylexer Tolmer hoc
-# LocalWords:  Sobisch YYPTRDIFF ptrdiff Autotest YYPRINT toknum yytoknum
+# LocalWords:  Sobisch YYPTRDIFF ptrdiff Autotest toknum yytoknum
 # LocalWords:  sym Wother stderr FP fixits xgettext fdiagnostics Graphviz
 # LocalWords:  graphviz VCG bitset xml bw maint yytoken YYABORT deps
 # LocalWords:  YYACCEPT yytranslate nonnegative destructors yyerrlab repo

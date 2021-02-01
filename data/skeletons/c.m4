@@ -761,13 +761,6 @@ yy_symbol_value_print (FILE *yyo,
 ]b4_parse_param_use([yyoutput], [yylocationp])dnl
 [  if (!yyvaluep)
     return;]
-dnl glr.c does not feature yytoknum.
-m4_if(b4_skeleton, ["yacc.c"],
-[[# ifdef YYPRINT
-  if (yykind < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yykind], *yyvaluep);
-# endif
-]])dnl
 b4_percent_code_get([[pre-printer]])dnl
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   b4_symbol_actions([printer])

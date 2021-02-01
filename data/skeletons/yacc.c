@@ -703,15 +703,6 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }]])[
 #endif
 
-#ifdef YYPRINT
-/* YYTOKNUM[NUM] -- (External) token number corresponding to the
-   (internal) symbol number NUM (which must be that of a token).  */
-static const ]b4_int_type_for([b4_toknum])[ yytoknum[] =
-{
-  ]b4_toknum[
-};
-#endif
-
 #define YYPACT_NINF (]b4_pact_ninf[)
 
 #define yypact_value_is_default(Yyn) \
