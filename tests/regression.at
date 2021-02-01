@@ -717,10 +717,6 @@ static const char *const yytname[] =
   "\"then\"", "\"else\"", "$accept", "statement", "struct_stat", "if",
   "else", YY_NULLPTR
 };
-static const yytype_int16 yytoknum[] =
-{
-       0,   256,   257,   258,   259,   260,   261
-};
 static const yytype_int8 yypact[] =
 {
       -2,    -1,     4,    -8,     0,     2,    -8,    -2,    -8,    -2,
