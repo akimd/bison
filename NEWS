@@ -15,6 +15,13 @@ GNU Bison NEWS
 
 ** Changes
 
+*** Graph output
+
+  In conformance with the recommendations of the Graphviz team
+  (https://marc.info/?l=graphviz-devel&m=129418103126092), `-g`/`--graph`
+  now generates a *.gv file by default, instead of *.dot.  A transition
+  started in Bison 3.4.
+
 *** C++ value_type
 
   Prefer value_type to semantic_type to denote the semantic value type,

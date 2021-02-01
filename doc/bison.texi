@@ -4973,12 +4973,6 @@ Some deprecated behaviors are disabled for some required @var{version}:
 @item @code{"3.2"} (or better)
 The C++ deprecated files @file{position.hh} and @file{stack.hh} are no
 longer generated.
-
-@item @code{"3.4"} (or better)
-To comply with the
-@uref{https://marc.info/?l=graphviz-devel&m=129418103126092, recommendations
-of the Graphviz team}, use the @code{.gv} extension instead of @code{.dot}
-for the name of the generated DOT file.  @xref{Graphviz}.
 @end table
 
 
@@ -11870,8 +11864,7 @@ Output a graphical representation of the parser's automaton computed by
 Bison, in @uref{https://www.graphviz.org/, Graphviz}
 @uref{https://www.graphviz.org/doc/info/lang.html, DOT} format.
 @code{@var{file}} is optional.  If omitted and the grammar file is
-@file{foo.y}, the output file will be @file{foo.gv} if the @code{%required}
-version is 3.4 or better, @file{foo.dot} otherwise.
+@file{foo.y}, the output file will be @file{foo.gv}.
 
 @item -x [@var{file}]
 @itemx --xml[=@var{file}]
