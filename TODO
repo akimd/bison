@@ -21,10 +21,6 @@ The current approach is correct, but with poor performances.  Bitsets need
 to support 'assign' and 'shift'.  And instead of extending POS_SET just for
 the out-of-range new values, we need something like doubling the size.
 
-** YY_LOCATION_PRINT
-This is an internal detail.  But it's very handy, we should make it public.
-It already has leaked in the documentation by accident.
-
 ** glr
 There is no test with "Parse on stack %ld rejected by rule %d" in it.
 

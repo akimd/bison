@@ -29,7 +29,7 @@ GNU Bison NEWS
 
 *** GLR traces
 
-  There were not debug traces for deferred calls to user actions.  They are
+  There were no debug traces for deferred calls to user actions.  They are
   logged now.
 
 ** New features
@@ -84,8 +84,17 @@ GNU Bison NEWS
 
 *** Abort parsing for memory exhaustion (C)
 
-  The user actions may now use YYNOMEM to abort the current parse with
-  memory exhaustion.
+  User actions may now use `YYNOMEM` (similar to `YYACCEPT` and `YYABORT`)
+  to abort the current parse with memory exhaustion.
+
+*** Printing locations in debug traces (C)
+
+  The `YYLOCATION_PRINT(File, Loc)` macro prints a location.  It is defined
+  when (i) locations are enabled, (ii) the default type for locations is
+  used, (iii) debug traces are enabled, and (iv) `YYLOCATION_PRINT` is not
+  already defined.
+
+  Users may define `YYLOCATION_PRINT` to cover other cases.
 
 
 * Noteworthy changes in release 3.7.5 (2021-01-24) [stable]

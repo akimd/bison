@@ -370,6 +370,7 @@ Tracking Locations
 
 * Location Type::               Specifying a data type for locations.
 * Actions and Locations::       Using locations in actions.
+* Printing Locations::          Defining how locations are printed.
 * Location Default Action::     Defining a general way to compute locations.
 
 Bison Declarations
@@ -3154,7 +3155,10 @@ Look again at the example of the previous section:
 Notice that there are two @var{Prologue} sections here, but there's a subtle
 distinction between their functionality.  For example, if you decide to
 override Bison's default definition for @code{YYLTYPE}, in which
-@var{Prologue} section should you write your new definition?  You should
+@var{Prologue} section should you write your new
+definition?@footnote{However, defining @code{YYLTYPE} via a C macro is not
+the recommended way.  @xref{Location Type}}
+You should
 write it in the first since Bison will insert that code into the parser
 implementation file @emph{before} the default @code{YYLTYPE} definition.  In
 which @var{Prologue} section should you prototype an internal function,
@@ -4631,6 +4635,7 @@ actions to take when rules are matched.
 @menu
 * Location Type::               Specifying a data type for locations.
 * Actions and Locations::       Using locations in actions.
+* Printing Locations::          Defining how locations are printed.
 * Location Default Action::     Defining a general way to compute locations.
 @end menu
 
@@ -4640,12 +4645,16 @@ actions to take when rules are matched.
 @cindex default location type
 
 Defining a data type for locations is much simpler than for semantic values,
-since all tokens and groupings always use the same type.
+since all tokens and groupings always use the same type.  The location type
+is specified using @samp{%define api.location.type}:
 
-In C, you can specify the type of locations by defining a macro called
-@code{YYLTYPE}, just as you can specify the semantic value type by defining
-a @code{YYSTYPE} macro (@pxref{Value Type}).  When @code{YYLTYPE} is not
-defined, Bison uses a default structure type with four members:
+@example
+%define api.location.type @{location_t@}
+@end example
+
+This defines, in the C generated code, the @code{YYLTYPE} type name.  When
+@code{YYLTYPE} is not defined, Bison uses a default structure type with four
+members:
 
 @example
 typedef struct YYLTYPE
@@ -4657,12 +4666,18 @@ typedef struct YYLTYPE
 @} YYLTYPE;
 @end example
 
-While default locations represent a range in the source file(s), this is not
-a requirement.  It could be a single point or just a line number, or even
-more complex structures.
+In C, you may also specify the type of locations by defining a macro called
+@code{YYLTYPE}, just as you can specify the semantic value type by defining
+a @code{YYSTYPE} macro (@pxref{Value Type}).  However, rather than using
+macros, we recommend the @code{api.value.type} and @code{api.location.type}
+@code{%define} variables.
 
-When @code{YYLTYPE} is not defined, at the beginning of the parsing, Bison
-initializes all these fields to 1 for @code{yylloc}.  To initialize
+Default locations represent a range in the source file(s), but this is not a
+requirement.  It could be a single point or just a line number, or even more
+complex structures.
+
+When the default location type is used, Bison initializes all these fields
+to 1 for @code{yylloc} at the beginning of the parsing.  To initialize
 @code{yylloc} with a custom location type (or to chose a different
 initialization), use the @code{%initial-action} directive.  @xref{Initial
 Action Decl}.
@@ -4749,6 +4764,29 @@ It is also possible to access the location of the lookahead token, if any,
 from a semantic action.
 This location is stored in @code{yylloc}.
 @xref{Action Features}.
+
+@node Printing Locations
+@subsection Printing Locations
+@vindex YYLOCATION_PRINT
+
+When using the default location type, the debug traces report the symbols'
+location.  The generated parser does so using the @code{YYLOCATION_PRINT}
+macro.
+
+@deffn {Macro} YYLOCATION_PRINT (@var{file}, @var{loc})@code{;}
+When traces are enabled, print @var{loc} (of type @samp{YYLTYPE const *}) on
+@var{file} (of type @samp{FILE *}).  Do nothing when traces are disabled, or
+if the location type is user defined.
+@end deffn
+
+To get locations in the debug traces with your user-defined location types,
+define the @code{YYLOCATION_PRINT} macro.  For instance:
+
+@example
+#define YYLOCATION_PRINT   location_print
+@end example
+
+
 
 @node Location Default Action
 @subsection Default Action for Locations
@@ -6223,7 +6261,7 @@ Introduced in Bison 3.2.
 @item Language(s): C, C++, Java
 
 @item Purpose: Define the location type.
-@xref{User Defined Location Type}.
+@xref{Location Type}, and @ref{User Defined Location Type}.
 
 @item Accepted Values: String
 
@@ -7835,7 +7873,7 @@ static int
 yyreport_syntax_error (const yypcontext_t *ctx)
 @{
   int res = 0;
-  YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
+  YYLOCATION_PRINT (stderr, *yypcontext_location (ctx));
   fprintf (stderr, ": syntax error");
   // Report the tokens expected at this point.
   @{
