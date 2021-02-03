@@ -768,7 +768,7 @@ do {                                            \
     YYFPRINTF Args;                             \
 } while (0)
 
-]b4_yy_location_print_define[
+]b4_yylocation_print_define[
 
 # define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                    \
 do {                                                                      \

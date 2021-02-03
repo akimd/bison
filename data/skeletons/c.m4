@@ -781,7 +781,7 @@ yy_symbol_print (FILE *yyo,
   YYFPRINTF (yyo, "%s %s (",
              yykind < YYNTOKENS ? "token" : "nterm", yysymbol_name (yykind));
 
-]b4_locations_if([  YY_LOCATION_PRINT (yyo, *yylocationp);
+]b4_locations_if([  YYLOCATION_PRINT (yyo, yylocationp);
   YYFPRINTF (yyo, ": ");
 ])dnl
 [  yy_symbol_value_print (yyo, yykind, yyvaluep]dnl
@@ -1038,17 +1038,24 @@ m4_define([b4_yylloc_default_define],
 #endif
 ]])
 
-# b4_yy_location_print_define
-# ---------------------------
-# Define YY_LOCATION_PRINT.
-m4_define([b4_yy_location_print_define],
+# b4_yylocation_print_define
+# --------------------------
+# Define YYLOCATION_PRINT.
+m4_define([b4_yylocation_print_define],
 [b4_locations_if([[
-/* YY_LOCATION_PRINT -- Print the location on the stream.
+/* YYLOCATION_PRINT -- Print the location on the stream.
    This macro was not mandated originally: define only if we know
    we won't break user code: when these are the locations we know.  */
 
-# ifndef YY_LOCATION_PRINT
-#  if defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
+# ifndef YYLOCATION_PRINT
+
+#  if defined YY_LOCATION_PRINT
+
+   /* Temporary convenience wrapper in case some people defined the
+      undocumented and private YY_LOCATION_PRINT macros.  */
+#   define YYLOCATION_PRINT(File, Loc)  YY_LOCATION_PRINT(File, *(Loc))
+
+#  elif defined ]b4_api_PREFIX[LTYPE_IS_TRIVIAL && ]b4_api_PREFIX[LTYPE_IS_TRIVIAL
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
@@ -1078,13 +1085,21 @@ yy_location_print_ (FILE *yyo, YYLTYPE const * const yylocp)
   return res;
 }
 
-#   define YY_LOCATION_PRINT(File, Loc)          \
-  yy_location_print_ (File, &(Loc))
+#   define YYLOCATION_PRINT  yy_location_print_
+
+    /* Temporary convenience wrapper in case some people defined the
+       undocumented and private YY_LOCATION_PRINT macros.  */
+#   define YY_LOCATION_PRINT(File, Loc)  YYLOCATION_PRINT(File, &(Loc))
 
 #  else
-#   define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+
+#   define YYLOCATION_PRINT(File, Loc) ((void) 0)
+    /* Temporary convenience wrapper in case some people defined the
+       undocumented and private YY_LOCATION_PRINT macros.  */
+#   define YY_LOCATION_PRINT  YYLOCATION_PRINT
+
 #  endif
-# endif /* !defined YY_LOCATION_PRINT */]])
+# endif /* !defined YYLOCATION_PRINT */]])
 ])
 
 # b4_yyloc_default

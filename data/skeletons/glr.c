@@ -683,7 +683,7 @@ yylhsNonterm (yyRuleNum yyrule)
     YY_IGNORE_USELESS_CAST_END                  \
   } while (0)
 
-]b4_yy_location_print_define[
+]b4_yylocation_print_define[
 
 ]b4_yy_symbol_print_define[
 

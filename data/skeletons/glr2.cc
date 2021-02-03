@@ -553,8 +553,6 @@ enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
 
 #if ]b4_api_PREFIX[DEBUG
 
-]b4_yy_location_print_define[
-
 #define YYCDEBUG if (!yydebug) {} else std::cerr
 
 # define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                  \
