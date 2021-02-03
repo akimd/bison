@@ -120,7 +120,7 @@ exp:
 
 void yyerror (YYLTYPE *loc, const char *msg)
 {
-  YY_LOCATION_PRINT (stderr, *loc);
+  YYLOCATION_PRINT (stderr, loc);
   fprintf (stderr, ": %s\n", msg);
 }
 

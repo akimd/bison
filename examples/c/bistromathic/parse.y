@@ -96,7 +96,7 @@
 %code {
   // Print *LOC on OUT.
   static void location_print (FILE *out, YYLTYPE const * const loc);
-  #define YY_LOCATION_PRINT(Out, Loc) location_print(Out, &(Loc))
+  #define YYLOCATION_PRINT location_print
 
   #if defined ENABLE_NLS && ENABLE_NLS
   # define _(Msgid)  gettext (Msgid)
@@ -427,7 +427,7 @@ yyreport_syntax_error (const yypcontext_t *ctx, const user_context *uctx)
     // %@: location.
     if (format[0] == '%' && format[1] == '@')
       {
-        YY_LOCATION_PRINT (stderr, *loc);
+        YYLOCATION_PRINT (stderr, loc);
         format += 2;
       }
     // %u: unexpected token.
@@ -471,7 +471,7 @@ void yyerror (YYLTYPE *loc, const user_context *uctx, char const *format, ...)
   if (uctx->silent)
     return;
 
-  YY_LOCATION_PRINT (stderr, *loc);
+  YYLOCATION_PRINT (stderr, loc);
   fputs (": ", stderr);
   va_list args;
   va_start (args, format);

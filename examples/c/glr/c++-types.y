@@ -91,7 +91,7 @@
 
 prog : %empty
      | prog stmt   {
-                     YY_LOCATION_PRINT (stdout, @2);
+                     YYLOCATION_PRINT (stdout, &@2);
                      fputs (": ", stdout);
                      node_print (stdout, $2);
                      putc ('\n', stdout);
@@ -127,10 +127,10 @@ declarator
 %%
 
 /* A C error reporting function.  */
-static
-void yyerror (YYLTYPE const * const llocp, const char *msg)
+static void
+yyerror (YYLTYPE const * const loc, const char *msg)
 {
-  YY_LOCATION_PRINT (stderr, *llocp);
+  YYLOCATION_PRINT (stderr, loc);
   fprintf (stderr, ": %s\n", msg);
 }
 
