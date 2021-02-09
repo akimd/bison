@@ -68,8 +68,8 @@
   static void node_print (FILE *, const Node *);
   static Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
 
-  static void yyerror (YYLTYPE const * const llocp, const char *msg);
-  static yytoken_kind_t yylex (YYSTYPE *lvalp, YYLTYPE *llocp);
+  static void yyerror (YYLTYPE const * const loc, const char *msg);
+  static yytoken_kind_t yylex (YYSTYPE *lval, YYLTYPE *lloc);
 }
 
 %expect-rr 1
@@ -138,7 +138,7 @@ yyerror (YYLTYPE const * const loc, const char *msg)
 FILE * input = NULL;
 
 yytoken_kind_t
-yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
+yylex (YYSTYPE *lval, YYLTYPE *lloc)
 {
   static int lineNum = 1;
   static int colNum = 0;
@@ -165,8 +165,8 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
         default:
           {
             yytoken_kind_t tok;
-            llocp->first_line = llocp->last_line = lineNum;
-            llocp->first_column = colNum;
+            lloc->first_line = lloc->last_line = lineNum;
+            lloc->first_column = colNum;
             if (isalpha (c))
               {
                 char buffer[256];
@@ -186,12 +186,12 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
                 if (isupper ((unsigned char) buffer[0]))
                   {
                     tok = TYPENAME;
-                    lvalp->TYPENAME = new_term (strcpy (malloc (i), buffer));
+                    lval->TYPENAME = new_term (strcpy (malloc (i), buffer));
                   }
                 else
                   {
                     tok = ID;
-                    lvalp->ID = new_term (strcpy (malloc (i), buffer));
+                    lval->ID = new_term (strcpy (malloc (i), buffer));
                   }
               }
             else
@@ -199,7 +199,7 @@ yylex (YYSTYPE *lvalp, YYLTYPE *llocp)
                 colNum += 1;
                 tok = c;
               }
-            llocp->last_column = colNum;
+            lloc->last_column = colNum;
             return tok;
           }
         }

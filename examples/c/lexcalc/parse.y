@@ -28,7 +28,7 @@
   yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc)
   YY_DECL;
 
-  void yyerror (YYLTYPE *loc, const char *msg);
+  void yyerror (const YYLTYPE *loc, const char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -118,7 +118,7 @@ exp:
 %%
 // Epilogue (C code).
 
-void yyerror (YYLTYPE *loc, const char *msg)
+void yyerror (const YYLTYPE *loc, const char *msg)
 {
   YYLOCATION_PRINT (stderr, loc);
   fprintf (stderr, ": %s\n", msg);

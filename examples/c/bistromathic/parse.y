@@ -87,7 +87,7 @@
   yytoken_kind_t
   yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc,
          const user_context *uctx);
-  void yyerror (YYLTYPE *loc, const user_context *uctx,
+  void yyerror (const YYLTYPE *loc, const user_context *uctx,
                 char const *format, ...)
     __attribute__ ((__format__ (__printf__, 3, 4)));
 }
@@ -466,7 +466,7 @@ yyreport_syntax_error (const yypcontext_t *ctx, const user_context *uctx)
 
 
 // Called by yyparse on error.
-void yyerror (YYLTYPE *loc, const user_context *uctx, char const *format, ...)
+void yyerror (const YYLTYPE *loc, const user_context *uctx, char const *format, ...)
 {
   if (uctx->silent)
     return;
