@@ -77,9 +77,7 @@ jobs:
       dist: bionic
       addons: &gcc11
         apt:
-          sources:
-            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          sources: ubuntu-toolchain-r-test
           packages: g++-11
       env:
         - CC=gcc-11
@@ -158,9 +156,7 @@ jobs:
       dist: bionic
       addons:
         apt:
-          sources:
-            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          sources: ubuntu-toolchain-r-test
           packages: g++-11
       env:
         - CC=gcc-11
@@ -190,9 +186,7 @@ jobs:
       dist: bionic
       addons:
         apt:
-          sources:
-            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          sources: ubuntu-toolchain-r-test
           packages: g++-10
       env:
         - CC='gcc-10 -fsanitize=undefined,address -fno-omit-frame-pointer'
