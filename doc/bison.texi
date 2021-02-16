@@ -11913,7 +11913,8 @@ If omitted and the grammar file is @file{foo.y}, the output file will be
 
 @item -M @var{old}=@var{new}
 @itemx --file-prefix-map=@var{old}=@var{new}
-Replace prefix @var{old} with @var{new} when writing file paths in output files
+Replace prefix @var{old} with @var{new} when writing file paths in output
+files.
 @end table
 
 @node Option Cross Key
