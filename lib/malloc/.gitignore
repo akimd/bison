@@ -1,0 +1,5 @@
+/scratch_buffer.h
+/scratch_buffer_dupfree.c
+/scratch_buffer_grow.c
+/scratch_buffer_grow_preserve.c
+/scratch_buffer_set_array_size.c
