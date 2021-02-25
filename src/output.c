@@ -531,9 +531,7 @@ user_actions_output (FILE *out)
           {
             fprintf (out, "b4_syncline(%d, ",
                      rules[r].action_loc.start.line);
-            char *f = map_file_name (rules[r].action_loc.start.file);
-            string_output (out, f);
-            free(f);
+            string_output (out, map_file_name (rules[r].action_loc.start.file));
             fprintf (out, ")dnl\n");
           }
         fprintf (out, "[%*s%s]],\n[[",
@@ -631,10 +629,8 @@ prepare_symbol_definitions (void)
 
           if (p->code)
             {
-              char *f = map_file_name (p->location.start.file);
               SET_KEY2 (pname, "file");
-              MUSCLE_INSERT_C_STRING (key, f);
-              free (f);
+              MUSCLE_INSERT_C_STRING (key, map_file_name (p->location.start.file));
 
               SET_KEY2 (pname, "line");
               MUSCLE_INSERT_INT (key, p->location.start.line);
@@ -851,6 +847,9 @@ prepare (void)
     MUSCLE_INSERT_STRING ("prefix", spec_name_prefix);
 
   MUSCLE_INSERT_STRING ("file_name_all_but_ext", all_but_ext);
+
+  const char *spec_mapped_header_file = map_file_name (spec_header_file);
+  const char *mapped_dir_prefix = map_file_name (dir_prefix);
 
 #define DEFINE(Name) MUSCLE_INSERT_STRING (#Name, Name ? Name : "")
   DEFINE (dir_prefix);

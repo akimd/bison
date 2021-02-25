@@ -269,7 +269,5 @@ fail_for_invalid_at (char const *at)
 static void
 output_mapped_file (char const *name)
 {
-  char *f = map_file_name (name);
-  fputs (quotearg_style (c_quoting_style, f), yyout);
-  free (f);
+  fputs (quotearg_style (c_quoting_style, map_file_name (name)), yyout);
 }

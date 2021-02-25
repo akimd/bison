@@ -162,10 +162,14 @@
 /gl_anytreehash_list2.h
 /gl_array_list.c
 /gl_array_list.h
+/gl_hash_map.c
+/gl_hash_map.h
 /gl_linked_list.c
 /gl_linked_list.h
 /gl_list.c
 /gl_list.h
+/gl_map.c
+/gl_map.h
 /gl_oset.c
 /gl_oset.h
 /gl_rbtree_ordered.h
@@ -175,6 +179,8 @@
 /gl_rbtreehash_list.h
 /gl_xlist.c
 /gl_xlist.h
+/gl_xmap.c
+/gl_xmap.h
 /gnulib.mk
 /hard-locale.c
 /hard-locale.h
