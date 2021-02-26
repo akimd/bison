@@ -201,12 +201,12 @@ map_file_name (char const *filename)
 
   size_t oldprefix_len = strlen (p->oldprefix);
   size_t newprefix_len = strlen (p->newprefix);
-  char *s = xmalloc (newprefix_len + strlen (filename) - oldprefix_len + 1);
+  char *res = xmalloc (newprefix_len + strlen (filename) - oldprefix_len + 1);
 
-  char *end = stpcpy (s, p->newprefix);
+  char *end = stpcpy (res, p->newprefix);
   stpcpy (end, filename + oldprefix_len);
 
-  return s;
+  return res;
 }
 
 static void
@@ -217,17 +217,16 @@ prefix_map_free (struct prefix_map *p)
   free (p);
 }
 
-/*  Adds a new file prefix mapping. If a file path starts with oldprefix, it
-    will be replaced with newprefix */
 void
 add_prefix_map (char const *oldprefix, char const *newprefix)
 {
   if (!prefix_maps)
-    prefix_maps = gl_list_create_empty (GL_ARRAY_LIST,
-                                        /* equals */ NULL,
-                                        /* hashcode */ NULL,
-                                        (gl_listelement_dispose_fn) prefix_map_free,
-                                        true);
+    prefix_maps
+      = gl_list_create_empty (GL_ARRAY_LIST,
+                              /* equals */ NULL,
+                              /* hashcode */ NULL,
+                              (gl_listelement_dispose_fn) prefix_map_free,
+                              true);
 
   struct prefix_map *p = xmalloc (sizeof (*p));
   p->oldprefix = xstrdup (oldprefix);

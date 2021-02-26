@@ -95,6 +95,9 @@ void xfclose (FILE *ptr);
 FILE *xfdopen (int fd, char const *mode);
 
 char *map_file_name (char const *filename);
+
+/* Add a new file prefix mapping. If a file path starts with
+   oldprefix, it will be replaced with newprefix.  */
 void add_prefix_map (char const *oldprefix, char const *newprefix);
 
 #endif /* !FILES_H_ */
