@@ -543,10 +543,10 @@ print_html (void)
   assert (xml_flag);
 
   char *xml2html = xpath_join (pkgdatadir (), "xslt/xml2xhtml.xsl");
-
+  char *xsltproc = muscle_percent_define_get ("tool.xsltproc");
   char const *argv[11];
   int i = 0;
-  argv[i++] = muscle_percent_define_get ("tool.xsltproc");
+  argv[i++] = xsltproc;
   argv[i++] = "-o";
   argv[i++] = spec_html_file;
   argv[i++] = xml2html;
@@ -572,5 +572,6 @@ print_html (void)
                /* termsigp */ NULL);
   if (status)
     complain (NULL, complaint, _("%s failed with status %d"), argv[0], status);
+  free (xsltproc);
   free (xml2html);
 }
