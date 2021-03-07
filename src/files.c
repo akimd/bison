@@ -235,9 +235,10 @@ string_hash (const void *x)
 }
 
 static void
-string_free (const void *p)
+string_free (const void *cp)
 {
-  free ((void*) p);
+  void *p = (void*) cp;
+  free (p);
 }
 
 const char *
