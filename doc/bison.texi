@@ -7813,7 +7813,7 @@ static int
 yyreport_syntax_error (const yypcontext_t *ctx)
 @{
   int res = 0;
-  YY_LOCATION_PRINT (stderr, *yypcontext_location (ctx));
+  location_print (stderr, yypcontext_location (ctx));
   fprintf (stderr, ": syntax error");
   // Report the tokens expected at this point.
   @{
