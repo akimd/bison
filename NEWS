@@ -4,10 +4,16 @@ GNU Bison NEWS
 
 ** Bug fixes
 
+*** Reused Push Parsers
+
+  When a push-parser state structure is used for multiple parses, it was
+  possible for some state to leak from one run into the following one.
+
 *** Fix Table Generation
 
   In some very rare conditions, when there are many useless tokens, it was
   possible to generate incorrect parsers.
+
 
 * Noteworthy changes in release 3.7.5 (2021-01-24) [stable]
 
@@ -290,7 +296,7 @@ GNU Bison NEWS
   parse errors, since `yynerrs` was also reset.  This can be especially
   troublesome when used in autocompletion, since a parser with error
   recovery would suggest (irrelevant) expected tokens even if there were
-  failure.
+  failures.
 
   Now the parser state can be examined when parsing is finished.  The parser
   state is reset when starting a new parse.

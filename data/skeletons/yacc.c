@@ -1573,14 +1573,16 @@ yyparse (]m4_ifset([b4_parse_param], [b4_formals(b4_parse_param)], [void])[)]])[
 
   switch (yyps->yynew)
     {
-    case 2:
-      yypstate_clear (yyps);
-      goto case_0;
-
-    case_0:
     case 0:
       yyn = yypact[yystate];
       goto yyread_pushed_token;
+
+    case 2:
+      yypstate_clear (yyps);
+      break;
+
+    default:
+      break;
     }]])[
 
   YYDPRINTF ((stderr, "Starting parse\n"));
