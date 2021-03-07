@@ -180,21 +180,26 @@ pos_set_set (int pos)
   int bitno = pos - pos_set_base;
   if (bitno < 0)
     {
+      // Need more room on the left.
+      // DELTA is positive.  Run 'pos_set >> delta'.
       const int delta = pos_set_base - pos;
       const int old_size = bitset_size (pos_set);
       const int new_size = old_size + delta;
       bitset_resize (pos_set, new_size);
-      // Shift all the bits by DELTA.
+      // Right-shift all the bits by DELTA.  Be sure to reset the new
+      // bits on the left.
+      //
       // FIXME: add bitset_assign, and bitset_shift?
-      for (int i = new_size - 1; delta <= i ; --i)
-        if (bitset_test (pos_set, i))
-          bitset_set (pos_set, i + delta);
+      for (int i = new_size - 1; 0 <= i ; --i)
+        if (delta <= i && bitset_test (pos_set, i - delta))
+          bitset_set (pos_set, i);
         else
-          bitset_reset (pos_set, i + delta);
+          bitset_reset (pos_set, i);
       pos_set_base = pos;
       bitno = 0;
     }
   else if (bitset_size (pos_set) <= bitno)
+    // Need more room on the right.
     bitset_resize (pos_set, bitno + 1);
   bitset_set (pos_set, bitno);
 }

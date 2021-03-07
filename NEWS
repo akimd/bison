@@ -2,6 +2,12 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+** Bug fixes
+
+*** Fix Table Generation
+
+  In some very rare conditions, when there are many useless tokens, it was
+  possible to generate incorrect parsers.
 
 * Noteworthy changes in release 3.7.5 (2021-01-24) [stable]
 
