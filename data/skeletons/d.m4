@@ -448,6 +448,22 @@ alias Position = ]b4_position_type[;]])[
 ]])
 
 
+# b4_basic_symbol_constructor_define
+# ----------------------------------
+# Create Symbol struct constructors for all the visible types.
+m4_define([b4_basic_symbol_constructor_define],
+[b4_token_visible_if([$1],
+[    this(TokenKind token]b4_symbol_if([$1], [has_type],
+[[, typeof(YYSemanticType.]b4_symbol([$1], [type])dnl
+[) val]])[]b4_locations_if([[, Location loc]])[)
+    {
+      kind = yytranslate_(token);]b4_symbol_if([$1], [has_type], [[
+      value_.]b4_symbol([$1], [type])[ = val;]])[]b4_locations_if([
+      location_ = loc;])[
+    }
+])])
+
+
 # b4_symbol_type_define
 # ---------------------
 # Define symbol_type, the external type for symbols used for symbol
@@ -462,20 +478,8 @@ m4_define([b4_symbol_type_define],
     private SymbolKind kind;
     private Value value_;]b4_locations_if([[
     private Location location_;]])[
-    this(TokenKind token]b4_locations_if([[, Location loc]])[)
-    {
-      kind = yytranslate_(token);]b4_locations_if([
-      location_ = loc;])[
-    }
-    static foreach (member; __traits(allMembers, YYSemanticType))
-    {
-      this(TokenKind token, typeof(mixin("YYSemanticType." ~ member)) val]b4_locations_if([[, Location loc]])[)
-      {
-        kind = yytranslate_(token);
-        mixin("value_." ~ member ~ " = val;");]b4_locations_if([
-        location_ = loc;])[
-      }
-    }
+
+]b4_type_foreach([b4_basic_symbol_constructor_define])[
     SymbolKind token() { return kind; }
     Value value() { return value_; }]b4_locations_if([[
     Location location() { return location_; }]])[
