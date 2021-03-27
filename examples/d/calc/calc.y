@@ -22,6 +22,7 @@
 %define api.parser.class {Calc}
 %define parse.error detailed
 %define parse.trace
+%define api.push-pull push
 
 %locations
 
@@ -181,6 +182,9 @@ int main()
   import core.stdc.stdlib : getenv;
   if (getenv("YYDEBUG"))
     p.setDebugLevel(1);
-  p.parse();
+  int status;
+  do {
+    status = p.pushParse(l.yylex());
+  } while (status == PUSH_MORE);
   return l.exit_status;
 }
