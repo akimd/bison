@@ -530,6 +530,8 @@ D Parsers
 * D Parser Context Interface:: Circumstances of a syntax error
 * D Scanner Interface::      Specifying the scanner for the parser
 * D Action Features::        Special features for use in actions
+* D Push Parser Interface::  Instantiating and running the push parser
+* D Complete Symbols::       Using token constructors
 
 Java Parsers
 
@@ -540,7 +542,7 @@ Java Parsers
 * Java Parser Context Interface:: Circumstances of a syntax error
 * Java Scanner Interface::      Specifying the scanner for the parser
 * Java Action Features::        Special features for use in actions
-* Java Push Parser Interface::  Instantiating and running the a push parser
+* Java Push Parser Interface::  Instantiating and running the push parser
 * Java Differences::            Differences between C/C++ and Java Grammars
 * Java Declarations Summary::   List of Bison declarations used with Java
 
@@ -5427,7 +5429,7 @@ Decl}).
 @c This is the same text as for %destructor.
 Invoke the braced @var{code} whenever the parser displays one of the
 @var{symbols}.  Within @var{code}, @code{yyo} denotes the output stream (a
-@code{FILE*} in C, and an @code{std::ostream&} in C++), @code{$$} (or
+@code{FILE*} in C, an @code{std::ostream&} in C++, and @code{stdout} in D), @code{$$} (or
 @code{$<@var{tag}>$}) designates the semantic value associated with the
 symbol, and @code{@@$} its location.  The additional parser parameters are
 also available (@pxref{Parser Function}).
@@ -6341,7 +6343,7 @@ Introduced in Bison 3.3 to replace @code{parser_class_name}.
 @deffn {Directive} {%define api.prefix} @{@var{prefix}@}
 
 @itemize @bullet
-@item Language(s): All
+@item Language(s): C, C++, Java
 
 @item Purpose: Rename exported symbols.
 @xref{Multiple Parsers}.
@@ -6412,7 +6414,7 @@ the @code{full} value was introduced in Bison 2.7
 @deffn Directive {%define api.push-pull} @var{kind}
 
 @itemize @bullet
-@item Language(s): C (deterministic parsers only), Java
+@item Language(s): C (deterministic parsers only), D, Java
 
 @item Purpose: Request a pull parser, a push parser, or both.
 @xref{Push Decl}.
@@ -6496,12 +6498,14 @@ introduced in Bison 3.6.
 
 @itemize @bullet
 @item Language(s):
-C++
+C++, D
 
 @item Purpose:
-When variant-based semantic values are enabled (@pxref{C++ Variants}),
-request that symbols be handled as a whole (type, value, and possibly
-location) in the scanner.  @xref{Complete Symbols}, for details.
+Request that symbols be handled as a whole (type, value, and possibly
+location) in the scanner. In the case of C++, it works only when
+variant-based semantic values are enabled
+(@pxref{C++ Variants}),  @xref{Complete Symbols}, for details. In D,
+token constructor works with both "%union" and "%define api.value.type union".
 
 @item Accepted Values:
 Boolean.
@@ -6885,7 +6889,7 @@ However, this report can often be incorrect when LAC is not enabled
 (@pxref{LAC}).  Token name internationalization is supported.
 
 @item @code{verbose}
-Similar (but inferior) to @code{detailed}.
+Similar (but inferior) to @code{detailed}. The D parser does not support this value.
 
 Error messages report the unexpected token, and possibly the expected ones.
 However, this report can often be incorrect when LAC is not enabled
@@ -13795,6 +13799,8 @@ main (int argc, char *argv[])
 * D Parser Context Interface:: Circumstances of a syntax error
 * D Scanner Interface::      Specifying the scanner for the parser
 * D Action Features::        Special features for use in actions
+* D Push Parser Interface::  Instantiating and running the push parser
+* D Complete Symbols::       Using token constructors
 @end menu
 
 @node D Bison Interface
@@ -13826,15 +13832,21 @@ No header file can be generated for D parsers.  Do not use the
 @node D Semantic Values
 @subsection D Semantic Values
 
-Semantic types are handled by %union, same as for C/C++ parsers.
+Semantic types are handled by "%union" and "%define api.value.type union",
+similat to C/C++ parsers. In the latter case, the union of the values is
+handled by the backend. In D, unions can hold classes, structs, etc., so
+this directive is more similar to "%define api.value.type variant" from C++.
 
 D parsers do not support @code{%destructor}, since the language
 adopts garbage collection.  The parser will try to hold references
 to semantic values for as little time as needed.
 
-D parsers do not support @code{%printer}, as @code{toString()}
-can be used to print the semantic values.  This however may change
-(in a backwards-compatible way) in future versions of Bison.
+D parsers support @code{%printer}. An example for the output of type @code{int},
+where @code{yyo} is the parser's debug output:
+
+@example
+%printer @{ yyo.write($$); @} <int>
+@end example
 
 
 @node D Location Values
@@ -13881,15 +13893,15 @@ The superclass and the implemented
 interfaces of the parser class can be specified with the @code{%define
 api.parser.extends} and @samp{%define api.parser.implements} directives.
 
-The parser class defines a inner
-interface, @code{Lexer} (see @ref{D Scanner Interface}).  Other than
-these inner class/interface, and the members described in the interface
+The parser class defines an interface,
+@code{Lexer} (see @ref{D Scanner Interface}).  Other than
+this interface and the members described in the interface
 below, all the other members and fields are preceded with a @code{yy} or
 @code{YY} prefix to avoid clashes with user code.
 
 The parser class can be extended using the @code{%parse-param}
 directive. Each occurrence of the directive will add a by default public field to the parser class, and an argument to its constructor,
-which initialize them automatically.
+which initializes them automatically.
 
 @deftypeop {Constructor} {YYParser} {} this(@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
 Build a new parser object with embedded @code{%code lexer}.  There are
@@ -14012,7 +14024,7 @@ invoke @samp{%define parse.error custom}.
 
 @defcv {Type} {YYParser} {SymbolKind}
 A struct containing an enum of all the grammar symbols, tokens and nonterminals.  Its
-enumerators are forged from the symbol names.  Use void toString(W)(W sink) to get
+enumerators are forged from the symbol names.  Use @code{void toString(W)(W sink)} to get
 the symbol names.
 @end defcv
 
@@ -14135,6 +14147,61 @@ errors.  This is useful primarily in error rules.
 @xref{Error Recovery}.
 @end deffn
 
+@node D Push Parser Interface
+@subsection D Push Parser Interface
+@c - define push_parse
+@findex %define api.push-pull
+
+Normally, Bison generates a pull parser for D.
+The following Bison declaration says that you want the parser to be a push
+parser (@pxref{%define Summary}):
+
+@example
+%define api.push-pull push
+@end example
+
+Most of the discussion about the D pull Parser Interface, (@pxref{D
+Parser Interface}) applies to the push parser interface as well.
+
+When generating a push parser, the method @code{pushParse} is created with
+the following signature:
+
+@deftypemethod {YYParser} {int} pushParse (@code{Symbol} @var{sym})
+@end deftypemethod
+
+The primary difference with respect to a pull parser is that the parser
+method @code{pushParse} is invoked repeatedly to parse each token.  This
+function is available if either the "%define api.push-pull push" or "%define
+api.push-pull both" declaration is used (@pxref{%define
+Summary}).
+
+The value returned by the @code{pushParse} method is one of the following:
+@code{ACCEPT}, @code{ABORT}, or @code{PUSH_MORE}.  This
+new value, @code{PUSH_MORE}, may be returned if more input is required to
+finish parsing the grammar.
+
+If api.push-pull is declared as @code{both}, then the generated parser class
+will also implement the @code{parse} method. This method's body is a loop
+that repeatedly invokes the scanner and then passes the values obtained from
+the scanner to the @code{pushParse} method.
+
+@node D Complete Symbols
+@subsection D Complete Symbols
+
+The user can return from yylex() by calling the Symbol method of the
+same name as the TokenKind reported, and adding the parameters for
+value and location if necessary.  These methods generate compile-time
+errors if the parameters are not correlated.  Token constructors work
+with both "%union" and "%define api.value.type union".
+
+The order of the parameters is the same as for the Symbol constructor.
+An example for the TokenKind @code{NUM}, which has value @code{ival} and with
+location tracking activated:
+
+@example
+Symbol.NUM(ival, location);
+@end example
+
 @node Java Parsers
 @section Java Parsers
 
@@ -14146,7 +14213,7 @@ errors.  This is useful primarily in error rules.
 * Java Parser Context Interface:: Circumstances of a syntax error
 * Java Scanner Interface::      Specifying the scanner for the parser
 * Java Action Features::        Special features for use in actions
-* Java Push Parser Interface::  Instantiating and running the a push parser
+* Java Push Parser Interface::  Instantiating and running the push parser
 * Java Differences::            Differences between C/C++ and Java Grammars
 * Java Declarations Summary::   List of Bison declarations used with Java
 @end menu
@@ -14313,7 +14380,7 @@ below, all the other members and fields are preceded with a @code{yy} or
 The parser class can be extended using the @code{%parse-param}
 directive. Each occurrence of the directive will add a @code{protected
 final} field to the parser class, and an argument to its constructor,
-which initialize them automatically.
+which initializes them automatically.
 
 @deftypeop {Constructor} {YYParser} {} YYParser (@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
 Build a new parser object with embedded @code{%code lexer}.  There are
