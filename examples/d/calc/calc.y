@@ -23,6 +23,7 @@
 %define parse.error detailed
 %define parse.trace
 %define api.push-pull push
+%define api.token.constructor
 
 %locations
 
@@ -122,7 +123,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
     location.step();
 
     if (input.empty)
-      return Symbol(TokenKind.YYEOF, location);
+      return Symbol.YYEOF(location);
 
     // Numbers.
     if (input.front.isNumber)
@@ -149,7 +150,7 @@ if (isInputRange!R && is(ElementType!R : dchar))
           copy.popFront;
         }
       }
-      return Symbol(TokenKind.NUM, ival, location);
+      return Symbol.NUM(ival, location);
     }
 
     // Individual characters
@@ -158,17 +159,17 @@ if (isInputRange!R && is(ElementType!R : dchar))
     location.end.column++;
     switch (ch)
     {
-      case '+':  return Symbol(TokenKind.PLUS, location);
-      case '-':  return Symbol(TokenKind.MINUS, location);
-      case '*':  return Symbol(TokenKind.STAR, location);
-      case '/':  return Symbol(TokenKind.SLASH, location);
-      case '(':  return Symbol(TokenKind.LPAR, location);
-      case ')':  return Symbol(TokenKind.RPAR, location);
+      case '+':  return Symbol.PLUS(location);
+      case '-':  return Symbol.MINUS(location);
+      case '*':  return Symbol.STAR(location);
+      case '/':  return Symbol.SLASH(location);
+      case '(':  return Symbol.LPAR(location);
+      case ')':  return Symbol.RPAR(location);
       case '\n':
       {
         location.end.line++;
         location.end.column = 1;
-        return Symbol(TokenKind.EOL, location);
+        return Symbol.EOL(location);
       }
       default: assert(0);
     }
