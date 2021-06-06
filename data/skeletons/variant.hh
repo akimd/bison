@@ -458,11 +458,11 @@ m4_define([b4_tok_in],
 
 
 
-# _b4_token_constructor_define(SYMBOL-NUM...)
-# -------------------------------------------
-# Define a unique make_symbol for all the SYMBOL-NUM (they
+# _b4_symbol_constructor_define(SYMBOL-NUM...)
+# --------------------------------------------
+# Define a symbol_type constructor common to all the SYMBOL-NUM (they
 # have the same type).  Use at class-level.
-m4_define([_b4_token_constructor_define],
+m4_define([_b4_symbol_constructor_define],
 [m4_ifval(_b4_includes_tokens($@),
 [[#if 201103L <= YY_CPLUSPLUS
       symbol_type (]b4_join(
@@ -517,7 +517,7 @@ m4_define([b4_basic_symbol_constructor_define],
 
 # b4_token_constructor_define
 # ---------------------------
-# Define the overloaded versions of make_symbol for all the value types.
+# Define the overloaded versions of make_FOO for all the token kinds.
 m4_define([b4_token_constructor_define],
-[    // Implementation of make_symbol for each symbol type.
+[    // Implementation of make_symbol for each token kind.
 b4_symbol_foreach([_b4_token_maker_define])])

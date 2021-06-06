@@ -458,7 +458,7 @@ m4_define([b4_symbol_type_define],
       symbol_type () {}
 
       /// Constructor for valueless symbols, and symbols from each type.
-]b4_type_foreach([_b4_token_constructor_define])dnl
+]b4_type_foreach([_b4_symbol_constructor_define])dnl
     ])[};
 ]])
 
@@ -576,7 +576,7 @@ m4_define([b4_public_types_define],
 
 # b4_token_constructor_define
 # ----------------------------
-# Define symbol constructors for all the value types.
+# Define make_FOO for all the token kinds.
 # Use at class-level.  Redefined in variant.hh.
 m4_define([b4_token_constructor_define], [])
 

@@ -209,9 +209,9 @@ m4_define([b4_symbol_translate],
 [[_($1)]])
 
 
-# _b4_token_constructor_define
-# ----------------------------
-# Define make_symbol for a value type.
+# _b4_token_constructor_define(SYMBOL-NUM)
+# ----------------------------------------
+# Define Symbol.FOO for SYMBOL-NUM.
 m4_define([_b4_token_constructor_define],
 [b4_token_visible_if([$1],
 [[
@@ -226,13 +226,14 @@ m4_define([_b4_token_constructor_define],
 
 # b4_token_constructor_define
 # ---------------------------
-# Define the overloaded versions of make_symbol for all the value types.
+# Define Symbol.FOO for each token kind FOO.
 m4_define([b4_token_constructor_define],
 [[
     /* Implementation of token constructors for each symbol type visible to
      * the user. The code generates static methods that have the same names
      * as the TokenKinds.
-     */]b4_symbol_foreach([_b4_token_constructor_define])])
+     */]b4_symbol_foreach([_b4_token_constructor_define])dnl
+])
 
 ## -------------- ##
 ## Symbol kinds.  ##
