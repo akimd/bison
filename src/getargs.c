@@ -478,7 +478,7 @@ version (void)
 {
   /* Some efforts were made to ease the translators' task, please
      continue.  */
-  printf (_("bison (GNU Bison) %s"), VERSION);
+  printf ("bison (GNU Bison) %s", VERSION);
   putc ('\n', stdout);
   fputs (_("Written by Robert Corbett and Richard Stallman.\n"), stdout);
   putc ('\n', stdout);
