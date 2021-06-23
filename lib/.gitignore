@@ -190,6 +190,8 @@
 /hash-triple.h
 /hash.c
 /hash.h
+/ialloc.c
+/ialloc.h
 /iconv.c
 /iconv.h
 /iconv.in.h
@@ -304,6 +306,7 @@
 /readline.h
 /readlink.c
 /realloc.c
+/reallocarray.c
 /ref-add.sed
 /ref-del.sed
 /relocatable.c
