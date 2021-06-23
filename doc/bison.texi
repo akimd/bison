@@ -6484,8 +6484,7 @@ with other members of the @code{SymbolKind} class.
 
 
 @item Default Value:
-@code{YYSYMBOL_} in C.  @code{S_} in C++ and Java.  The default prefix is
-removed from D.
+@code{YYSYMBOL_} in C, @code{S_} in C++ and Java, empty in D.
 @item History:
 introduced in Bison 3.6.
 @end itemize
@@ -6503,9 +6502,9 @@ C++, D
 @item Purpose:
 Request that symbols be handled as a whole (type, value, and possibly
 location) in the scanner. In the case of C++, it works only when
-variant-based semantic values are enabled
-(@pxref{C++ Variants}),  @xref{Complete Symbols}, for details. In D,
-token constructor works with both "%union" and "%define api.value.type union".
+variant-based semantic values are enabled (@pxref{C++ Variants}), see
+@ref{Complete Symbols}, for details. In D, token constructors work with both
+@samp{%union} and @samp{%define api.value.type union}.
 
 @item Accepted Values:
 Boolean.

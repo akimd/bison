@@ -20,16 +20,13 @@
 %language "D"
 
 %define api.parser.class {Calc}
-%define parse.error detailed
-%define parse.trace
 %define api.push-pull push
 %define api.token.constructor
+%define api.value.type union
+%define parse.error detailed
+%define parse.trace
 
 %locations
-
-%union {
-  int ival;
-}
 
 /* Bison Declarations */
 %token PLUS   "+"
@@ -39,9 +36,9 @@
        LPAR   "("
        RPAR   ")"
        EOL    "end of line"
-%token <ival> NUM "number"
-%type  <ival> exp
-%printer { yyo.write($$); } <ival>
+%token <int> NUM "number"
+%type  <int> exp
+%printer { yyo.write($$); } <int>
 
 %left "-" "+"
 %left "*" "/"
