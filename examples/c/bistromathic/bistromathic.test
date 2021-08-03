@@ -306,10 +306,17 @@ esac
 sed -e 's/\\t/	/g' >input <<EOF
 (1+\t\t
 EOF
-run 0 '> (1+
+# Nuke the possible trailing white spaces in the effective output.
+# This is to cope with some readlines that pad all the suggestions
+# with white spaces (for alignment), including the last one on a line.
+#
+# See for instance <https://trac.macports.org/ticket/59927#comment:48>
+# and its test-suite.log:
+# <https://trac.macports.org/attachment/ticket/59927/bison-3.7.6-test-10.13.test-suite.log>
+run -t 0 '> (1+
 (       -       atan    cos     exp     ln      number  sin     sqrt
 > (1+
-> ''
+>
 err: 1.4: syntax error: expected - or ( or number or function or variable before end of file
 err:     1 | (1+
 err:       |    ^'

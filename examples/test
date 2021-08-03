@@ -91,18 +91,21 @@ skip ()
 }
 
 
-# run [-noerr, -n] EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
-# ----------------------------------------------------------------------
+# run [-n, -noerr, -t] EXPECTED-EXIT-STATUS EXPECTED-OUTPUT [PARSER-OPTIONS]
+# --------------------------------------------------------------------------
+# -n: no final end-of-line in expected-output
 # -noerr: ignore stderr, otherwise merge it into effective output.
-# -n: not final end-of-line in expected-output
+# -t: nuke the possible trailing white spaces in the effective output.
 run ()
 {
-  noerr=false
   echo=echo
+  noerr=false
+  rstrip=false
   while true; do
     case $1 in
-      (-noerr) noerr=true; shift;;
       (-n)     echo=printf; shift;;
+      (-noerr) noerr=true; shift;;
+      (-t)     rstrip=true; shift;;
       (*)      break;;
     esac
   done
@@ -129,7 +132,11 @@ run ()
 
   # Combine effective output and error streams.
   {
-    cat out_eff
+    if $rstrip; then
+      sed -e 's/ *$//g' out_eff
+    else
+      cat out_eff
+    fi
     if ! $noerr; then
        sed -e 's/^/err: /g' \
            -e 's/Reducing stack by rule .* (line .*):/Reducing stack by rule XX (line XXX):/g' \
