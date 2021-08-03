@@ -6182,7 +6182,7 @@ An argument for @code{#include}.
 @item Default Value:
 @samp{"@var{header-basename}"}, unless the header file is @file{y.tab.h},
 where @var{header-basename} is the name of the generated header, without
-directory part.  For instance with @command{bison -d calc/parse.y},
+directory part.  For instance with @samp{bison -d calc/parse.y},
 @code{api.header.include} defaults to @samp{"parse.h"}, not
 @samp{"calc/parse.h"}.
 
@@ -11526,7 +11526,7 @@ foo: "baz" @{@}
 @end example
 
 @noindent
-@command{bison -Wdangling-alias} reports
+@samp{bison -Wdangling-alias} reports
 
 @example
 @dwarning{warning}: string literal not attached to a symbol
@@ -13826,22 +13826,23 @@ GLR parsers are currently unsupported in D.  Do not use the
 @code{glr-parser} directive.
 
 No header file can be generated for D parsers.  Do not use the
-@code{%defines} directive or the @option{-d}/@option{--defines} options.
+@code{%header} directive or the @option{-d}/@option{--header} options.
 
 @node D Semantic Values
 @subsection D Semantic Values
 
-Semantic types are handled by "%union" and "%define api.value.type union",
-similat to C/C++ parsers. In the latter case, the union of the values is
-handled by the backend. In D, unions can hold classes, structs, etc., so
-this directive is more similar to "%define api.value.type variant" from C++.
+Semantic types are handled by @code{%union} and @samp{%define api.value.type
+union}, similar to C/C++ parsers. In the latter case, the union of the
+values is handled by the backend. In D, unions can hold classes, structs,
+etc., so this directive is more similar to @samp{%define api.value.type
+variant} from C++.
 
 D parsers do not support @code{%destructor}, since the language
 adopts garbage collection.  The parser will try to hold references
 to semantic values for as little time as needed.
 
-D parsers support @code{%printer}. An example for the output of type @code{int},
-where @code{yyo} is the parser's debug output:
+D parsers support @code{%printer}.  An example for the output of type
+@code{int}, where @code{yyo} is the parser's debug output:
 
 @example
 %printer @{ yyo.write($$); @} <int>
@@ -13854,9 +13855,9 @@ where @code{yyo} is the parser's debug output:
 @c - class Position
 @c - class Location
 
-When the directive @code{%locations} is used, the D parser supports
-location tracking, see @ref{Tracking Locations}.  The position and
-the location structures are provided.
+When the directive @code{%locations} is used, the D parser supports location
+tracking, see @ref{Tracking Locations}.  The position and the location
+structures are provided.
 
 @deftypeivar {Location} {Position} begin
 @deftypeivarx {Location} {Position} end
@@ -13872,7 +13873,7 @@ Create a @code{Location} from the endpoints of the range.
 @end deftypeop
 
 @deftypemethod {Location} {string} toString()
-Prints the range represented by the location.
+The range represented by the location as a string.
 @end deftypemethod
 
 
@@ -13884,27 +13885,27 @@ The name of the generated parser class defaults to @code{YYParser}.  The
 Alternatively, use @samp{%define api.parser.class @{@var{name}@}} to give a
 custom name to the class.  The interface of this class is detailed below.
 
-By default, the parser class has public visibility.  You can use @code{api.parser.public}, @code{api.parser.abstract} and
-@code{api.parser.final} and the @code{%define} declaration to add
-modifiers to the parser class.
+By default, the parser class has public visibility.  To add modifiers to the
+parser class, @code{%define} @code{api.parser.public},
+@code{api.parser.abstract} and/or @code{api.parser.final}.
 
-The superclass and the implemented
-interfaces of the parser class can be specified with the @code{%define
-api.parser.extends} and @samp{%define api.parser.implements} directives.
+The superclass and the implemented interfaces of the parser class can be
+specified with the @samp{%define api.parser.extends} and @samp{%define
+api.parser.implements} directives.
 
-The parser class defines an interface,
-@code{Lexer} (see @ref{D Scanner Interface}).  Other than
-this interface and the members described in the interface
-below, all the other members and fields are preceded with a @code{yy} or
-@code{YY} prefix to avoid clashes with user code.
+The parser class defines an interface, @code{Lexer} (@pxref{D Scanner
+Interface}).  Other than this interface and the members described in the
+interface below, all the other members and fields are preceded with a
+@code{yy} or @code{YY} prefix to avoid clashes with user code.
 
 The parser class can be extended using the @code{%parse-param}
-directive. Each occurrence of the directive will add a by default public field to the parser class, and an argument to its constructor,
-which initializes them automatically.
+directive. Each occurrence of the directive will add a by default public
+field to the parser class, and an argument to its constructor, which
+initializes them automatically.
 
 @deftypeop {Constructor} {YYParser} {} this(@var{lex_param}, @dots{}, @var{parse_param}, @dots{})
-Build a new parser object with embedded @code{%code lexer}.  There are
-no parameters, unless @code{%param}s and/or @code{%parse-param}s and/or
+Build a new parser object with embedded @samp{%code lexer}.  There are no
+parameters, unless @code{%param}s and/or @code{%parse-param}s and/or
 @code{%lex-param}s are used.
 @end deftypeop
 
@@ -13959,9 +13960,9 @@ Identify the Bison version and skeleton used to generate this parser.
 The internationalization in D is very similar to the one in C. The D
 parser uses @code{dgettext} for translating Bison messages.
 
-To enable internationalization, compile using
-@code{-version ENABLE_NLS -version YYENABLE_NLS} and import
-@code{bindtextdomain} and @code{textdomain} from C:
+To enable internationalization, compile using @samp{-version ENABLE_NLS
+-version YYENABLE_NLS} and import @code{bindtextdomain} and
+@code{textdomain} from C:
 
 @example
 extern(C) char* bindtextdomain(const char* domainname, const char* dirname);
@@ -13991,9 +13992,9 @@ int main()
 @}
 @end example
 
-For user messages translations, the user must implement the
-@code{string} _(@code{const char*} @var{msg}) function and it is recommended
-to use @code{gettext}:
+For user message translations, the user must implement the @samp{string
+_(const char* @var{msg})} function.  It is recommended to use
+@code{gettext}:
 
 @example
 %code imports @{
@@ -14022,9 +14023,9 @@ The parser context provides information to build error reports when you
 invoke @samp{%define parse.error custom}.
 
 @defcv {Type} {YYParser} {SymbolKind}
-A struct containing an enum of all the grammar symbols, tokens and nonterminals.  Its
-enumerators are forged from the symbol names.  Use @code{void toString(W)(W sink)} to get
-the symbol names.
+A struct containing an enum of all the grammar symbols, tokens and
+nonterminals.  Its enumerators are forged from the symbol names.  Use
+@samp{void toString(W)(W sink)} to get the symbol names.
 @end defcv
 
 @deftypemethod {YYParser.Context} {YYParser.SymbolKind} getToken()
@@ -14170,32 +14171,32 @@ the following signature:
 
 The primary difference with respect to a pull parser is that the parser
 method @code{pushParse} is invoked repeatedly to parse each token.  This
-function is available if either the "%define api.push-pull push" or "%define
-api.push-pull both" declaration is used (@pxref{%define
+function is available if either the @samp{%define api.push-pull push} or
+@samp{%define api.push-pull both} declaration is used (@pxref{%define
 Summary}).
 
 The value returned by the @code{pushParse} method is one of the following:
-@code{ACCEPT}, @code{ABORT}, or @code{PUSH_MORE}.  This
-new value, @code{PUSH_MORE}, may be returned if more input is required to
-finish parsing the grammar.
+@code{ACCEPT}, @code{ABORT}, or @code{PUSH_MORE}.  This new value,
+@code{PUSH_MORE}, may be returned if more input is required to finish
+parsing the input.
 
-If api.push-pull is declared as @code{both}, then the generated parser class
-will also implement the @code{parse} method. This method's body is a loop
-that repeatedly invokes the scanner and then passes the values obtained from
-the scanner to the @code{pushParse} method.
+If @code{api.push-pull} is defined as @code{both}, then the generated parser
+class will also implement the @code{parse} method. This method's body is a
+loop that repeatedly invokes the scanner and then passes the values obtained
+from the scanner to the @code{pushParse} method.
 
 @node D Complete Symbols
 @subsection D Complete Symbols
 
-The user can return from yylex() by calling the Symbol method of the
-same name as the TokenKind reported, and adding the parameters for
-value and location if necessary.  These methods generate compile-time
-errors if the parameters are not correlated.  Token constructors work
-with both "%union" and "%define api.value.type union".
+To build return values for @code{yylex}, call the @code{Symbol} method of
+the same name as the token kind reported, and adding the parameters for
+value and location if necessary.  These methods generate compile-time errors
+if the parameters are inconsistent.  Token constructors work with both
+@code{%union} and @samp{%define api.value.type union}.
 
-The order of the parameters is the same as for the Symbol constructor.
-An example for the TokenKind @code{NUM}, which has value @code{ival} and with
-location tracking activated:
+The order of the parameters is the same as for the @code{Symbol}
+constructor.  An example for the token kind @code{NUM}, which has value
+@code{ival} and with location tracking activated:
 
 @example
 Symbol.NUM(ival, location);
@@ -14726,20 +14727,20 @@ the following signature (depending on if locations are enabled).
 
 The primary difference with respect to a pull parser is that the parser
 method @code{push_parse} is invoked repeatedly to parse each token.  This
-function is available if either the "%define api.push-pull push" or "%define
-api.push-pull both" declaration is used (@pxref{%define
-Summary}).  The @code{Location} and @code{Position}
-parameters are available only if location tracking is active.
+function is available if either the @samp{%define api.push-pull push} or
+@samp{%define api.push-pull both} declaration is used (@pxref{%define
+Summary}).  The @code{Location} and @code{Position} parameters are available
+only if location tracking is active.
 
 The value returned by the @code{push_parse} method is one of the following:
 0 (success), 1 (abort), 2 (memory exhaustion), or @code{YYPUSH_MORE}.  This
 new value, @code{YYPUSH_MORE}, may be returned if more input is required to
 finish parsing the grammar.
 
-If api.push-pull is declared as @code{both}, then the generated parser class
-will also implement the @code{parse} method. This method's body is a loop
-that repeatedly invokes the scanner and then passes the values obtained from
-the scanner to the @code{push_parse} method.
+If @code{api.push-pull} is defined as @code{both}, then the generated parser
+class will also implement the @code{parse} method. This method's body is a
+loop that repeatedly invokes the scanner and then passes the values obtained
+from the scanner to the @code{push_parse} method.
 
 There is one additional complication.  Technically, the push parser does not
 need to know about the scanner (i.e. an object implementing the
@@ -14774,10 +14775,10 @@ section summarizes these differences.
 
 @itemize
 @item
-Java lacks a preprocessor, so obviously the @code{YYERROR}, @code{YYACCEPT},
-@code{YYABORT} symbols (@pxref{Table of Symbols}) cannot be macros.
-Instead, they should be preceded by @code{return} when they appear in an
-action.  The actual definition of these symbols is opaque to the Bison
+Java has no a preprocessor, so obviously the @code{YYERROR},
+@code{YYACCEPT}, @code{YYABORT} symbols (@pxref{Table of Symbols}) cannot be
+macros.  Instead, they should be preceded by @code{return} when they appear
+in an action.  The actual definition of these symbols is opaque to the Bison
 grammar, and it might change in the future.  The only meaningful operation
 that you can do, is to return them.  @xref{Java Action Features}.
 
@@ -15560,8 +15561,8 @@ Will Bison ever have C++ and Java support?  How about @var{insert your
 favorite language here}?
 @end quotation
 
-C++, D and Java support is there now, and is documented.  We'd love to add other
-languages; contributions are welcome.
+C++, D and Java are supported.  We'd love to add other languages;
+contributions are welcome.
 
 @node Beta Testing
 @section Beta Testing
@@ -16578,7 +16579,8 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: colorPurple ifhtml ifnothtml situ rcex MERCHANTABILITY Wnone
 @c LocalWords: diagError diagNotice diagWarning diagOff danglingElseCex
 @c LocalWords: nonunifying YYNOMEM Wuseless dgettext textdomain domainname
-@c LocalWords: dirname typeof writeln YYBISON
+@c LocalWords: dirname typeof writeln YYBISON YYLOCATION backend structs
+@c LocalWords: pushParse
 
 @c Local Variables:
 @c ispell-dictionary: "american"
