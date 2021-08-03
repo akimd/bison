@@ -83,7 +83,8 @@ AT_CLEANUP
 AT_SETUP([Invalid inputs])
 
 AT_DATA([input.y],
-[[\000\001\002\377?
+[[%header "\360\000\200\210"
+\000\001\002\377?
 "\000"
 %%
 ?
@@ -98,37 +99,41 @@ AT_PERL_REQUIRE([[-pi -e 's/\\(\d{3})/chr(oct($1))/ge' input.y]])
 AT_BISON_CHECK([-fcaret input.y], [1], [], [stderr])
 
 # Autotest's diffing, when there are NUL bytes, just reports "binary
-# files differ".  So don't leave NUL bytes.
-AT_PERL_CHECK([[-p -e 's{([\0\377])}{sprintf "\\x%02x", ord($1)}ge' stderr]], [],
-[[input.y:1.1-2: error: invalid characters: '\0\001\002\377?'
-    1 | \x00\xff?
+# files differ".  So don't leave NUL bytes.  And don't leave invalid
+# mbchars either: escape raw binary.
+AT_PERL_CHECK([[-p -e 's{([\0\200\210\360\377])}{sprintf "\\x%02x", ord($1)}ge' stderr]], [],
+[[input.y:1.11: error: invalid null character
+    1 | %header "\xf0\x00\x80\x88"
+      |           ^
+input.y:2.1-2: error: invalid characters: '\0\001\002\377?'
+    2 | \x00\xff?
       | ^~
-input.y:2.2: error: invalid null character
-    2 | "\x00"
+input.y:3.2: error: invalid null character
+    3 | "\x00"
       |  ^
-input.y:4.1: error: invalid character: '?'
-    4 | ?
+input.y:5.1: error: invalid character: '?'
+    5 | ?
       | ^
-input.y:5.14: error: invalid character: '}'
-    5 | default: 'a' }
+input.y:6.14: error: invalid character: '}'
+    6 | default: 'a' }
       |              ^
-input.y:6.1: error: invalid character: '%'
-    6 | %&
+input.y:7.1: error: invalid character: '%'
+    7 | %&
       | ^
-input.y:6.2: error: invalid character: '&'
-    6 | %&
+input.y:7.2: error: invalid character: '&'
+    7 | %&
       |  ^
-input.y:7.1-17: error: invalid directive: '%a-does-not-exist'
-    7 | %a-does-not-exist
+input.y:8.1-17: error: invalid directive: '%a-does-not-exist'
+    8 | %a-does-not-exist
       | ^~~~~~~~~~~~~~~~~
-input.y:8.1: error: invalid character: '%'
-    8 | %-
+input.y:9.1: error: invalid character: '%'
+    9 | %-
       | ^
-input.y:8.2: error: invalid character: '-'
-    8 | %-
+input.y:9.2: error: invalid character: '-'
+    9 | %-
       |  ^
-input.y:9.1-10.0: error: missing '%}' at end of file
-    9 | %{
+input.y:10.1-11.0: error: missing '%}' at end of file
+   10 | %{
       | ^~
 ]])
 
