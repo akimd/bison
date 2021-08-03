@@ -431,7 +431,6 @@
 /unlink.c
 /unlocked-io.h
 /unsetenv.c
-/unused-parameter.h
 /vasnprintf.c
 /vasnprintf.h
 /vasprintf.c

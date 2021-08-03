@@ -256,4 +256,5 @@
 /xalloc.m4
 /xsize.m4
 /xstrndup.m4
+/year2038.m4
 /zzgnulib.m4
