@@ -15418,15 +15418,14 @@ invited to consult the dedicated literature.
 
 @quotation
 I have several closely related grammars, and I would like to share their
-implementations.  In fact, I could use a single grammar but with
-multiple entry points.
+implementations.  In fact, I could use a single grammar but with multiple
+entry points.
 @end quotation
 
-Bison does not support multiple start-symbols, but there is a very
-simple means to simulate them.  If @code{foo} and @code{bar} are the two
-pseudo start-symbols, then introduce two new tokens, say
-@code{START_FOO} and @code{START_BAR}, and use them as switches from the
-real start-symbol:
+Bison does not support multiple start-symbols, but there is a very simple
+means to simulate them.  If @code{foo} and @code{bar} are the two pseudo
+start-symbols, then introduce two new tokens, say @code{START_FOO} and
+@code{START_BAR}, and use them as switches from the real start-symbol:
 
 @example
 %token START_FOO START_BAR;
@@ -15436,7 +15435,7 @@ start:
 | START_BAR bar;
 @end example
 
-These tokens prevents the introduction of new conflicts.  As far as the
+These tokens prevent the introduction of new conflicts.  As far as the
 parser goes, that is all that is needed.
 
 Now the difficult part is ensuring that the scanner will send these tokens
