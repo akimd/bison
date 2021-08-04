@@ -488,10 +488,10 @@ AT_TEST([%skeleton "glr2.cc"])
 m4_popdef([AT_TEST])
 
 
-## ---------------------------------------------------------------------- ##
-## Duplicate representation of merged trees.  See                         ##
-## <https://lists.gnu.org/r/help-bison/2005-07/msg00013.html>.            ##
-## ---------------------------------------------------------------------- ##
+## ------------------------------------------------------------ ##
+## Duplicate representation of merged trees.  See               ##
+## <https://lists.gnu.org/r/help-bison/2005-07/msg00013.html>.  ##
+## ------------------------------------------------------------ ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Duplicate representation of merged trees: $1])
@@ -596,10 +596,10 @@ AT_TEST([%define api.value.type union %skeleton "glr2.cc"])
 m4_popdef([AT_TEST])
 
 
-## ------------------------------------------------------------------------- ##
-## User destructor for unresolved GLR semantic value.  See                   ##
-## <https://lists.gnu.org/r/bison-patches/2005-08/msg00016.html>.            ##
-## ------------------------------------------------------------------------- ##
+## --------------------------------------------------------------- ##
+## User destructor for unresolved GLR semantic value.  See         ##
+## <https://lists.gnu.org/r/bison-patches/2005-08/msg00016.html>.  ##
+## --------------------------------------------------------------- ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([User destructor for unresolved GLR semantic value: $1])
@@ -671,10 +671,10 @@ m4_popdef([AT_TEST])
 
 
 
-## ------------------------------------------------------------------------- ##
-## User destructor after an error during a split parse.  See                 ##
-## <https://lists.gnu.org/r/bison-patches/2005-08/msg00029.html>.            ##
-## ------------------------------------------------------------------------- ##
+## --------------------------------------------------------------- ##
+## User destructor after an error during a split parse.  See       ##
+## <https://lists.gnu.org/r/bison-patches/2005-08/msg00029.html>.  ##
+## --------------------------------------------------------------- ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([User destructor after an error during a split parse: $1])
@@ -739,10 +739,10 @@ m4_popdef([AT_TEST])
 
 
 
-## ------------------------------------------------------------------------- ##
-## Duplicated user destructor for lookahead.  See                            ##
-## <https://lists.gnu.org/r/bison-patches/2005-08/msg00035.html>.            ##
-## ------------------------------------------------------------------------- ##
+## --------------------------------------------------------------- ##
+## Duplicated user destructor for lookahead.  See                  ##
+## <https://lists.gnu.org/r/bison-patches/2005-08/msg00035.html>.  ##
+## --------------------------------------------------------------- ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Duplicated user destructor for lookahead: $1])
@@ -945,10 +945,10 @@ m4_popdef([AT_TEST])
 
 
 
-## ------------------------------------------------------------------------- ##
-## No users destructors if stack 0 deleted.  See                             ##
-## <https://lists.gnu.org/r/bison-patches/2005-09/msg00109.html>.            ##
-## ------------------------------------------------------------------------- ##
+## --------------------------------------------------------------- ##
+## No users destructors if stack 0 deleted.  See                   ##
+## <https://lists.gnu.org/r/bison-patches/2005-09/msg00109.html>.  ##
+## --------------------------------------------------------------- ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([No users destructors if stack 0 deleted: $1])
@@ -1311,11 +1311,11 @@ m4_popdef([AT_TEST])
 
 
 
-## ------------------------------------------------------------------------- ##
-## Incorrect lookahead during deterministic GLR.  See                        ##
-## <https://lists.gnu.org/r/help-bison/2005-07/msg00017.html> and            ##
-## <https://lists.gnu.org/r/bison-patches/2006-01/msg00060.html>.            ##
-## ------------------------------------------------------------------------- ##
+## --------------------------------------------------------------- ##
+## Incorrect lookahead during deterministic GLR.  See              ##
+## <https://lists.gnu.org/r/help-bison/2005-07/msg00017.html> and  ##
+## <https://lists.gnu.org/r/bison-patches/2006-01/msg00060.html>.  ##
+## --------------------------------------------------------------- ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Incorrect lookahead during deterministic GLR: $1])
@@ -2150,12 +2150,12 @@ m4_popdef([AT_TEST])
 
 
 
-## ----------------------------------------------------------------- ##
-## Predicates.                                                       ##
-##                                                                   ##
-## https://lists.gnu.org/r/bug-bison/2013-10/msg00004.html           ##
-## https://lists.gnu.org/r/bug-bison/2018-05/msg00033.html           ##
-## ----------------------------------------------------------------- ##
+## ------------------------------------------------------- ##
+## Predicates.                                             ##
+##                                                         ##
+## https://lists.gnu.org/r/bug-bison/2013-10/msg00004.html ##
+## https://lists.gnu.org/r/bug-bison/2018-05/msg00033.html ##
+## ------------------------------------------------------- ##
 
 m4_pushdef([AT_TEST],
 [AT_SETUP([Predicates: $1])
