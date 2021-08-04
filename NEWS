@@ -2,37 +2,45 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-** Deprecated features
-
-  It is always recommended to prefer `%define api.value.type foo` to
-  `#define YYSTYPE foo`.  The latter is supported in C for compatibility
-  with Yacc, but not in C++.  Warnings are now issued if `#define YYSTYPE`
-  is used in C++, and eventually support will be removed.
-
-  Support for the YYPRINT macro is removed. It worked only with yacc.c and
-  only for tokens.  It was obsoleted by %printer, introduced in Bison 1.50
-  (November 2002).
-
-** Changes
-
-*** Graph output
+** Backward incompatible changes
 
   In conformance with the recommendations of the Graphviz team
   (https://marc.info/?l=graphviz-devel&m=129418103126092), `-g`/`--graph`
   now generates a *.gv file by default, instead of *.dot.  A transition
   started in Bison 3.4.
 
-*** C++ value_type
+** Deprecated features
 
-  Prefer value_type to semantic_type to denote the semantic value type,
-  specified by the `api.value.type` %define variable.
+  Support for the YYPRINT macro is removed. It worked only with yacc.c and
+  only for tokens.  It was obsoleted by %printer, introduced in Bison 1.50
+  (November 2002).
 
-*** GLR traces
+  It has always been recommended to prefer `%define api.value.type foo` to
+  `#define YYSTYPE foo`.  The latter is supported in C for compatibility
+  with Yacc, but not in C++.  Warnings are now issued if `#define YYSTYPE`
+  is used in C++, and eventually support will be removed.
 
-  There were no debug traces for deferred calls to user actions.  They are
-  logged now.
+  In C++ code, prefer value_type to semantic_type to denote the semantic
+  value type, which is specified by the `api.value.type` %define variable.
 
 ** New features
+
+*** A skeleton for the D programming language
+
+  The "lalr1.d" skeleton is now officially part of Bison.
+
+  It was originally contributed by Oliver Mangold, based on Paolo Bonzini's
+  lalr1.java, and was improved by H. S. Teoh.  Adela Vais then took over
+  maintenance and invested a lot of efforts to complete, test and document
+  it.
+
+  It now supports all the bells and whistles of the other deterministic
+  parsers, which include: pull/push interfaces, verbose and custom error
+  messages, lookahead correction, token constructors, internationalization,
+  locations, printers, token and symbol prefixes, etc.
+
+  Two examples demonstrate the D parsers: a basic one (examples/d/simple),
+  and an advanced one (examples/d/calc).
 
 *** Option -H, --header and directive %header
 
@@ -61,6 +69,9 @@ GNU Bison NEWS
   and performance to "glr.cc". To try it out, simply use
 
   %skeleton "glr2.cc"
+
+  It will eventually replace "glr.cc".  However we need user feedback on
+  this skeleton.  _Please_ report your results and comments about it.
 
 *** Counterexamples
 
@@ -95,6 +106,11 @@ GNU Bison NEWS
   already defined.
 
   Users may define `YYLOCATION_PRINT` to cover other cases.
+
+*** GLR traces
+
+  There were no debug traces for deferred calls to user actions.  They are
+  logged now.
 
 
 * Noteworthy changes in release 3.7.6 (2021-03-08) [stable]
@@ -4668,7 +4684,7 @@ LocalWords:  pragmas noreturn untyped Rozenman unexpanded Wojciech Polak
 LocalWords:  Alexandre MERCHANTABILITY yytype emplace ptr automove lvalues
 LocalWords:  nonterminal yy args Pragma dereference yyformat rhs docdir bw
 LocalWords:  Redeclarations rpcalc Autoconf YFLAGS Makefiles PROG DECL num
-LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE
+LocalWords:  Heimbigner AST src ast Makefile srcdir MinGW xxlex XXSTYPE CVE
 LocalWords:  XXLTYPE strictfp IDEs ffixit fdiagnostics parseable fixits
 LocalWords:  Wdeprecated yytext Variadic variadic yyrhs yyphrs RCS README
 LocalWords:  noexcept constexpr ispell american deprecations backend Teoh
@@ -4679,6 +4695,8 @@ LocalWords:  symrec yypcontext TOKENMAX yyexpected YYEMPTY yypstate YYEOF
 LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
 LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
 LocalWords:  gotos readline Imbimbo Wcounterexamples Wcex Nonunifying rcex
+LocalWords:  Vais xsltproc YYNOMEM YYLOCATION signedness YYBISON MITRE's
+LocalWords:  libreadline YYMALLOC YYFREE MSVC redefinitions
 
 Local Variables:
 ispell-dictionary: "american"
