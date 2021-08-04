@@ -1162,7 +1162,10 @@ cannot be used within the same enumerated type declaration.
 @cindex conflicts
 @cindex reduce/reduce conflicts
 
-Let's consider an example, vastly simplified from a C++ grammar.
+Let's consider an example, vastly simplified from a C++
+grammar.@footnote{The sources of an extended version of this example are
+available in C as @file{examples/c/glr}, and in C++ as
+@file{examples/c++/glr}.}
 
 @example
 %@{
@@ -1675,6 +1678,14 @@ These examples are simple, but Bison grammars for real programming
 languages are written the same way.  You can copy these examples into a
 source file to try them.
 
+@sp 1
+
+Bison comes with several examples (including for the different target
+languages).  If this package is properly installed, you shall find them in
+@file{@var{prefix}/share/doc/bison/examples}, where @var{prefix} is the root
+of the installation, probably something like @file{/usr/local} or
+@file{/usr}.
+
 @menu
 * RPN Calc::               Reverse Polish Notation Calculator;
                              a first example with no operator precedence.
@@ -1693,7 +1704,9 @@ source file to try them.
 @cindex @code{rpcalc}
 @cindex calculator, simple
 
-The first example is that of a simple double-precision @dfn{Reverse Polish
+The first example@footnote{The sources of @command{rpcalc} are available as
+@file{examples/c/rpcalc}.} is that of a simple double-precision @dfn{Reverse
+Polish
 Notation} calculator (a calculator using postfix operators).  This example
 provides a good starting point, since operator precedence is not an issue.
 The second example will illustrate how operator precedence is handled.
@@ -2548,7 +2561,8 @@ valid input, in comments, in literal strings, and so on.
 @cindex calculator, multi-function
 
 Now that the basics of Bison have been discussed, it is time to move on to
-a more advanced problem.  The above calculators provided only five
+a more advanced problem.@footnote{The sources of @command{mfcalc} are available as
+@file{examples/c/mfcalc}.}  The above calculators provided only five
 functions, @samp{+}, @samp{-}, @samp{*}, @samp{/} and @samp{^}.  It would
 be nice to have a calculator that provides other mathematical functions such
 as @code{sin}, @code{cos}, etc.
@@ -2602,7 +2616,8 @@ Note that multiple assignment and nested function calls are permitted.
 @node Mfcalc Declarations
 @subsection Declarations for @code{mfcalc}
 
-Here are the C and Bison declarations for the multi-function calculator.
+Here are the C and Bison declarations for the multi-function
+calculator.
 
 @ignore
 @comment file: c/mfcalc/mfcalc.y
@@ -12048,9 +12063,10 @@ The Bison parser in C++ is an object, an instance of the class
 @subsection A Simple C++ Example
 
 This tutorial about C++ parsers is based on a simple, self contained
-example.  The following sections are the reference manual for Bison with
-C++, the last one showing a fully blown example (@pxref{A Complete C++
-Example}).
+example.@footnote{The sources of this example are available as
+@file{examples/c++/simple.yy}.}  The following sections are the reference
+manual for Bison with C++, the last one showing a fully blown example
+(@pxref{A Complete C++ Example}).
 
 To look nicer, our example will be in C++14.  It is not required: Bison
 supports the original C++98 standard.
@@ -13105,7 +13121,7 @@ including the end-of-file token.
 
 This section demonstrates the use of a C++ parser with a simple but complete
 example.  This example should be available on your system, ready to compile,
-in the directory @dfn{.../share/doc/bison/examples/calc++}.  It focuses on
+in the directory @file{examples/c++/calc++}.  It focuses on
 the use of Bison, therefore the design of the various C++ classes is very
 naive: no accessors, no encapsulation of members etc.  We will use a Lex
 scanner, and more precisely, a Flex scanner, to demonstrate the various
@@ -16554,7 +16570,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: symrec val tptr FUN func struct sym enum IEC syntaxes Byacc
 @c LocalWords: fun putsym getsym arith funs atan ptr malloc sizeof Lex pcc
 @c LocalWords: strlen strcpy fctn strcmp isalpha symbuf realloc isalnum DOTDOT
-@c LocalWords: ptypes itype trigraphs yytname expseq vindex dtype Unary
+@c LocalWords: ptypes itype trigraphs yytname expseq vindex dtype Unary usr
 @c LocalWords: Rhs YYRHSLOC LE nonassoc op deffn typeless yynerrs nonterminal
 @c LocalWords: yychar yydebug msg YYNTOKENS YYNNTS YYNRULES YYNSTATES reentrant
 @c LocalWords: cparse clex deftypefun NE defmac YYACCEPT YYABORT param yypstate
