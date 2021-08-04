@@ -28,15 +28,6 @@ the out-of-range new values, we need something like doubling the size.
 ** glr
 There is no test with "Parse on stack %ld rejected by rule %d" in it.
 
-** %merge
-Tests with typed %merge: 716 717 718 740 741 742 746 747 748
-
-716: Duplicate representation of merged trees: glr.c FAILED (glr-regression.at:517)
-740: Leaked semantic values if user action cuts parse: glr.c FAILED (glr-regression.at:1230)
-746: Incorrect lookahead during nondeterministic GLR: glr.c FAILED (glr-regression.at:1610)
-
-Document typed merges.
-
 ** yyrline etc.
 Clarify that rule numbers in the skeletons are 1-based.
 

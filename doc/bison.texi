@@ -1167,10 +1167,11 @@ Let's consider an example, vastly simplified from a C++ grammar.
 @example
 %@{
   #include <stdio.h>
-  #define YYSTYPE char const *
   int yylex (void);
   void yyerror (char const *);
 %@}
+
+%define api.value.type @{char const *@}
 
 %token TYPENAME ID
 
@@ -1302,7 +1303,6 @@ in the C declarations at the beginning of the file:
 
 @example
 %@{
-  #define YYSTYPE char const *
   static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
 %@}
 @end example
@@ -1320,6 +1320,48 @@ productions that participate in any particular merge have identical
 @samp{%merge} clauses.  Otherwise, the ambiguity would be unresolvable,
 and the parser will report an error during any parse that results in
 the offending merge.
+
+@sp 1
+
+The signature of the merger depends on the type of the symbol.  In the
+previous example, the merged-to symbol (@code{stmt}) does not have a
+specific type, and the merger is
+
+@example
+YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
+@end example
+
+@noindent
+However, if @code{stmt} had a declared type, e.g.,
+
+@example
+%type <Node *> stmt;
+@end example
+
+@noindent
+or
+
+@example
+@group
+%union @{
+  Node *node;
+  ...
+@};
+@end group
+%type <node> stmt;
+@end example
+
+@noindent
+then the prototype of the merger must be:
+
+@example
+Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
+@end example
+
+@noindent
+(This signature might be a mistake originally, and maybe it should have been
+@samp{Node *stmtMerge (Node *x0, Node *x1)}.  If you have an opinion about
+it, please let us know.)
 
 @node GLR Semantic Actions
 @subsection GLR Semantic Actions
