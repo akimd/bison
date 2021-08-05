@@ -112,8 +112,8 @@ b4_percent_define_default([[api.symbol.prefix]], [[YYSYMBOL_]])
 # All the yylex formal arguments.
 # b4_lex_param arrives quoted twice, but we want to keep only one level.
 m4_define([b4_lex_formals],
-[b4_pure_if([[[[YYSTYPE *yylvalp]], [[&yylval]]][]dnl
-b4_locations_if([, [[YYLTYPE *yyllocp], [&yylloc]]])])dnl
+[b4_pure_if([[[b4_api_PREFIX[STYPE *yylvalp]], [[&yylval]]][]dnl
+b4_locations_if([, [b4_api_PREFIX[LTYPE *yyllocp], [&yylloc]]])])dnl
 m4_ifdef([b4_lex_param], [, ]b4_lex_param)])
 
 
@@ -660,6 +660,14 @@ m4_define([b4_formals],
 
 m4_define([b4_formal],
 [$1])
+
+
+# b4_function_declare(NAME, RETURN-VALUE, [DECL1, NAME1], ...)
+# ------------------------------------------------------------
+# Declare the function NAME.
+m4_define([b4_function_declare],
+[$2 $1 (b4_formals(m4_shift2($@)));[]dnl
+])
 
 
 

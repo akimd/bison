@@ -27,6 +27,7 @@ synonyms.
 - report: for automaton dumps
 - %union
 - variant
+- yacc: POSIX yacc (%yacc)
 
 # Calculator
 The grammar features several special directives:

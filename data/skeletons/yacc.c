@@ -102,6 +102,16 @@ m4_define([b4_yyerror_arg_loc_if],
                           [1], [m4_ifset([b4_parse_param], [$1])],
                           [2], [$1])])])
 
+# b4_yyerror_formals
+# ------------------
+m4_define([b4_yyerror_formals],
+[b4_pure_if([b4_locations_if([, [[const ]b4_api_PREFIX[LTYPE *yyllocp], [&yylloc]]])[]dnl
+m4_ifdef([b4_parse_param], [, b4_parse_param])[]dnl
+,])dnl
+[[const char *msg], [msg]]])
+
+
+
 # b4_yyerror_args
 # ---------------
 # Arguments passed to yyerror: user args plus yylloc.
@@ -352,17 +362,32 @@ m4_define([b4_declare_yyparse],
 ])
 
 
+# b4_declare_yyerror_and_yylex
+# ----------------------------
+# Comply with POSIX Yacc.
+# <https://austingroupbugs.net/view.php?id=1388#c5220>
+m4_define([b4_declare_yyerror_and_yylex],
+[b4_yacc_if([[#if !defined ]b4_prefix[error && !defined ]b4_api_PREFIX[ERROR_IS_DECLARED
+]b4_function_declare([b4_prefix[error]], void, b4_yyerror_formals)[
+#endif
+#if !defined ]b4_prefix[lex && !defined ]b4_api_PREFIX[LEX_IS_DECLARED
+]b4_function_declare([b4_prefix[lex]], int, b4_lex_formals)[
+#endif
+]])dnl
+])
+
 
 # b4_shared_declarations
 # ----------------------
-# Declaration that might either go into the header (if --header)
-# or open coded in the parser body.
+# Declarations that might either go into the header (if --header)
+# or into the implementation file.
 m4_define([b4_shared_declarations],
 [b4_cpp_guard_open([b4_spec_mapped_header_file])[
 ]b4_declare_yydebug[
 ]b4_percent_code_get([[requires]])[
 ]b4_token_enums_defines[
 ]b4_declare_yylstype[
+]b4_declare_yyerror_and_yylex[
 ]b4_declare_yyparse[
 ]b4_percent_code_get([[provides]])[
 ]b4_cpp_guard_close([b4_spec_mapped_header_file])[]dnl

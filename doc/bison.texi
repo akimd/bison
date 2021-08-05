@@ -6117,11 +6117,13 @@ states and what is done for each type of lookahead token in that state.
 @end deffn
 
 @deffn {Directive} %yacc
-Pretend the option @option{--yacc} was given, i.e., imitate Yacc, including
-its naming conventions.  Only makes sense with the @file{yacc.c}
+Pretend the option @option{--yacc} was given
+(@pxref{option-yacc,,@option{--yacc}}), i.e., imitate Yacc, including its
+naming conventions.  Only makes sense with the @file{yacc.c}
 skeleton. @xref{Tuning the Parser}, for more.
 
-Of course @code{%yacc} is a Bison extension@dots{}
+Of course, being a Bison extension, @code{%yacc} is somewhat
+self-contradictory@dots{}
 @end deffn
 
 
@@ -11832,8 +11834,9 @@ Pretend that @code{%locations} was specified.  @xref{Decl Summary}.
 @item -p @var{prefix}
 @itemx --name-prefix=@var{prefix}
 Pretend that @code{%name-prefix "@var{prefix}"} was specified (@pxref{Decl
-Summary}).  Obsoleted by @option{-Dapi.prefix=@var{prefix}}.  @xref{Multiple
-Parsers}.
+Summary}).  The option @option{-p} is specified by POSIX.  When POSIX
+compatibility is not a requirement, @option{-Dapi.prefix=@var{prefix}} is a
+better option (@pxref{Multiple Parsers}).
 
 @item -l
 @itemx --no-lines
@@ -11865,26 +11868,46 @@ This is similar to how most shells resolve commands.
 Pretend that @code{%token-table} was specified.  @xref{Decl Summary}.
 
 @item -y
-@itemx --yacc
-Act more like the traditional @command{yacc} command.  This can cause
-different diagnostics to be generated (it implies @option{-Wyacc}), and may
-change behavior in other minor ways.  Most importantly, imitate Yacc's
-output file name conventions, so that the parser implementation file is
-called @file{y.tab.c}, and the other outputs are called @file{y.output} and
-@file{y.tab.h}.  Also, generate @code{#define} statements in addition to an
-@code{enum} to associate token codes with token kind names.  Thus, the
-following shell script can substitute for Yacc, and the Bison distribution
-contains such a script for compatibility with POSIX:
-
+@itemx @anchor{option-yacc} --yacc
+Act more like the traditional @command{yacc} command:
+@itemize
+@item
+Generate different diagnostics (it implies @option{-Wyacc}).
+@item
+Generate @code{#define} statements in addition to an @code{enum} to
+associate token codes with token kind names.
+@item
+Generate prototypes for @code{yyerror} and @code{yylex} (since Bison 3.8):
 @example
-#! /bin/sh
-bison -y "$@@"
+int yylex (void);
+void yyerror (const char *);
 @end example
+As a Bison extension, additional arguments required by @code{%pure-parser},
+@code{%locations}, @code{%lex-param} and @code{%parse-param} are taken into
+account.  You may disable @code{yyerror}'s prototype with @samp{#define
+yyerror yyerror} (as specified by POSIX), or with @samp{#define
+YYERROR_IS_DECLARED} (a Bison extension).  Likewise for @code{yylex}.
+@item
+Imitate Yacc's output file name conventions, so that the parser
+implementation file is called @file{y.tab.c}, and the other outputs are
+called @file{y.output} and @file{y.tab.h}.  Do not use @option{--yacc} just
+to change the output file names since it also triggers all the
+aforementioned behavior changes; rather use @samp{-o y.tab.c}.
+@end itemize
 
 The @option{-y}/@option{--yacc} option is intended for use with traditional
 Yacc grammars.  This option only makes sense for the default C skeleton,
 @file{yacc.c}.  If your grammar uses Bison extensions Bison cannot be
 Yacc-compatible, even if this option is specified.
+
+Thus, the following shell script can substitute for Yacc, and the Bison
+distribution contains such a @command{yacc} script for compatibility with
+POSIX:
+
+@example
+#! /bin/sh
+bison -y "$@@"
+@end example
 @end table
 
 @node Output Files

@@ -87,7 +87,7 @@ AT_SETUP([Early token definitions with --yacc])
 # Found in GCJ: they expect the tokens to be defined before the user
 # prologue, so that they can use the token definitions in it.
 
-AT_BISON_OPTION_PUSHDEFS
+AT_BISON_OPTION_PUSHDEFS([%yacc])
 
 # Not AT_DATA_GRAMMAR, which uses %code, which is not supported by Yacc.
 AT_DATA([input.y],
@@ -112,7 +112,7 @@ exp: MY_TOKEN;
 ]])
 AT_BISON_OPTION_POPDEFS
 
-AT_BISON_CHECK([-y -o input.c input.y])
+AT_BISON_CHECK([--yacc -o input.c input.y])
 AT_COMPILE([input.o])
 
 AT_CLEANUP

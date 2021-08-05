@@ -9,6 +9,14 @@ GNU Bison NEWS
   now generates a *.gv file by default, instead of *.dot.  A transition
   started in Bison 3.4.
 
+  To comply with the latest POSIX standard, in Yacc compatibility mode
+  (options `-y`/`--yacc`) Bison now generates prototypes for yyerror and
+  yylex.  In some situations, this is breaking compatibility: if the user
+  has already declared these functions but with some differences (e.g., to
+  declare them as static, or to use specific attributes), the generated
+  parser will fail to compile.  To disable these prototypes, #define yyerror
+  (to `yyerror`), and likewise for yylex.
+
 ** Deprecated features
 
   Support for the YYPRINT macro is removed. It worked only with yacc.c and

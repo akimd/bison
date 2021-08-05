@@ -1,8 +1,4 @@
 * Soon
-** POSIX updates
-See the recent changes about function prototypes in POSIX Yacc.  Implement
-them.
-
 ** scan-code
 The default case is scanning char-per-char.
 

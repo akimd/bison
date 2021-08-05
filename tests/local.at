@@ -275,6 +275,8 @@ m4_pushdef([AT_MULTISTART_IF],
 [m4_bmatch([$3], [%start [_a-zA-Z]+ [_a-zA-Z]+], [$1], [$2])])
 m4_pushdef([AT_PARAM_IF],
 [m4_bmatch([$3], [%parse-param], [$1], [$2])])
+m4_pushdef([AT_YACC_IF],
+[m4_bmatch([$3], [%yacc], [$1], [$2])])
 
 # Comma-terminated list of formals parse-parameters.
 # E.g., %parse-param { int x } %parse-param {int y} -> "int x, int y, ".
@@ -427,6 +429,7 @@ AT_LOCATION_TYPE_SPAN_IF(
 AT_GLR_IF([AT_KEYWORDS([glr])])
 AT_MULTISTART_IF([AT_KEYWORDS([multistart])])
 AT_PUSH_IF([AT_KEYWORDS([push])])
+AT_YACC_IF([AT_KEYWORDS([yacc])])
 ])# _AT_BISON_OPTION_PUSHDEFS
 
 
@@ -466,6 +469,7 @@ m4_popdef([AT_VALUE_UNION_IF])
 m4_popdef([AT_PUSH_IF])
 m4_popdef([AT_PURE_IF])
 m4_popdef([AT_PARSER_CLASS])
+m4_popdef([AT_YACC_IF])
 m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_MULTISTART_IF])
 m4_popdef([AT_LEXPARAM_IF])
@@ -683,7 +687,7 @@ m4_define([AT_YYERROR_DECLARE_EXTERN(c)],
 m4_define([AT_YYERROR_DECLARE(c)],
 [[#include <stdio.h>
 ]AT_LOCATION_PRINT_DECLARE[
-static ]AT_YYERROR_DECLARE_EXTERN])
+]AT_YACC_IF([], [[static ]AT_YYERROR_DECLARE_EXTERN])])
 
 
 # "%define parse.error custom" uses a different format, easy to check.
@@ -729,7 +733,7 @@ yyreport_syntax_error (const yypcontext_t *ctx]AT_PARAM_IF([, AT_PARSE_PARAMS])[
 ]])[
 
 /* A C error reporting function.  */
-static
+]AT_YACC_IF([], [static])[
 ]AT_YYERROR_PROTOTYPE[
 {]m4_bpatsubst(m4_defn([AT_PARSE_PARAMS]),
               [[^,]+[^A-Za-z_0-9]\([A-Za-z_][A-Za-z_0-9]*\),* *], [
