@@ -975,7 +975,7 @@ Parsing FAILED.
 # -------------------------------------
 # Upon stack overflow, all symbols on the stack should be destroyed.
 # Only check for yacc.c.
-AT_YACC_IF([
+AT_YACC_C_IF([
 AT_PARSER_CHECK([input '(x)(x)(x)(x)(x)(x)(x)'], 2, [],
 [[sending: '(' (0@0-9)
 sending: 'x' (1@10-19)

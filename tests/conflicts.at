@@ -423,7 +423,7 @@ AT_DATA_GRAMMAR([input.y],
 
 ]AT_CXX_IF([[%header]], [[%define api.pure]])])[
 
-]AT_YACC_IF([[
+]AT_YACC_C_IF([[
 %code {
   #if defined __GNUC__ && 8 <= __GNUC__
   # pragma GCC diagnostic ignored "-Wmaybe-uninitialized"

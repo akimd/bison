@@ -1112,7 +1112,7 @@ AT_BISON_OPTION_PUSHDEFS([$1])
 AT_DATA_CALC_Y([$1])
 AT_FULL_COMPILE(AT_JAVA_IF([[Calc]], [[calc]]), AT_HEADER_IF([[lex], [main]], [[], []]), [$2], [-Wno-deprecated])
 
-AT_YACC_IF(
+AT_YACC_C_IF(
   [# No direct calls to malloc/free.
   AT_CHECK([[$EGREP '(malloc|free) *\(' calc.[ch] | $EGREP -v 'INFRINGES ON USER NAME SPACE']],
            [1])])

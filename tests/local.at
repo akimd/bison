@@ -247,7 +247,7 @@ m4_pushdef([AT_GLR_CC_IF],
 m4_pushdef([AT_GLR2_CC_IF],
            [m4_bmatch([$3], [%skeleton "glr2\.cc"], [$1], [$2])])
 # Using yacc.c?
-m4_pushdef([AT_YACC_IF],
+m4_pushdef([AT_YACC_C_IF],
 [m4_bmatch([$3], [%language\|%glr-parser\|%skeleton], [$2], [$1])])
 
 
@@ -346,7 +346,7 @@ m4_pushdef([AT_YYERROR_ARG_LOC_IF],
 # When the parser is pure, yyerror sees the location if it is received as an
 # argument.
 m4_pushdef([AT_YYERROR_SEES_LOC_IF],
-[AT_LOCATION_IF([AT_YACC_IF([AT_PURE_IF([AT_YYERROR_ARG_LOC_IF([$1], [$2])],
+[AT_LOCATION_IF([AT_YACC_C_IF([AT_PURE_IF([AT_YYERROR_ARG_LOC_IF([$1], [$2])],
                                         [$1])],
                             [$1])],
                 [$2])])
@@ -416,8 +416,8 @@ AT_LOCATION_TYPE_SPAN_IF(
 
 
 AT_GLR_IF([AT_KEYWORDS([glr])])
-AT_PUSH_IF([AT_KEYWORDS([push])])
 AT_MULTISTART_IF([AT_KEYWORDS([multistart])])
+AT_PUSH_IF([AT_KEYWORDS([push])])
 ])# _AT_BISON_OPTION_PUSHDEFS
 
 
@@ -461,7 +461,7 @@ m4_popdef([AT_PARAM_IF])
 m4_popdef([AT_MULTISTART_IF])
 m4_popdef([AT_LEXPARAM_IF])
 m4_popdef([AT_LAC_IF])
-m4_popdef([AT_YACC_IF])
+m4_popdef([AT_YACC_C_IF])
 m4_popdef([AT_GLR_IF])
 m4_popdef([AT_CXX_IF])
 m4_popdef([AT_C_IF])
