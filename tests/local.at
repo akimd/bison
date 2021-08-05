@@ -614,31 +614,22 @@ m4_define([AT_DATA_GRAMMAR(c)],
 $2])
 ])
 
-m4_define([AT_YYERROR_FORMALS(c)],
-[AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE const * const llocp, ])AT_PARAM_IF([AT_PARSE_PARAMS, ])[const char *msg]])
-
-m4_define([AT_YYERROR_PROTOTYPE(c)],
-[[void ]AT_NAME_PREFIX[error (]AT_YYERROR_FORMALS[)]])
-
-m4_define([AT_YYERROR_DECLARE_EXTERN(c)],
-[AT_YYERROR_PROTOTYPE;])
-
-m4_define([AT_YYERROR_DECLARE(c)],
-[[#include <stdio.h>
-]AT_LOCATION_IF([[
+# AT_LOCATION_PRINT_DECLARE
+# -------------------------
+m4_define([AT_LOCATION_PRINT_DECLARE],
+[AT_LOCATION_IF([[
 #if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
 static int location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp);
 # ifndef LOCATION_PRINT
 #  define LOCATION_PRINT(File, Loc) location_print (File, &(Loc))
 # endif
 #endif
-]])[
-static ]AT_YYERROR_DECLARE_EXTERN])
+]])dnl
+])
 
-
-# "%define parse.error custom" uses a different format, easy to check.
-# The "verbose" one can be computed from it (see _AT_CHECK_CALC_ERROR).
-m4_define([AT_YYERROR_DEFINE(c)],
+# AT_LOCATION_PRINT_DEFINE
+# ------------------------
+m4_define([AT_LOCATION_PRINT_DEFINE],
 [AT_LOCATION_IF([[
 # if defined ]AT_YYLTYPE[_IS_TRIVIAL && ]AT_YYLTYPE[_IS_TRIVIAL
 /* Print *YYLOCP on YYO. */
@@ -668,7 +659,28 @@ location_print (FILE *yyo, ]AT_YYLTYPE[ const * const yylocp)
   return res;
 }
 #endif
-]])[
+]])])
+
+
+m4_define([AT_YYERROR_FORMALS(c)],
+[AT_YYERROR_ARG_LOC_IF([AT_YYLTYPE const * const llocp, ])AT_PARAM_IF([AT_PARSE_PARAMS, ])[const char *msg]])
+
+m4_define([AT_YYERROR_PROTOTYPE(c)],
+[[void ]AT_NAME_PREFIX[error (]AT_YYERROR_FORMALS[)]])
+
+m4_define([AT_YYERROR_DECLARE_EXTERN(c)],
+[AT_YYERROR_PROTOTYPE;])
+
+m4_define([AT_YYERROR_DECLARE(c)],
+[[#include <stdio.h>
+]AT_LOCATION_PRINT_DECLARE[
+static ]AT_YYERROR_DECLARE_EXTERN])
+
+
+# "%define parse.error custom" uses a different format, easy to check.
+# The "verbose" one can be computed from it (see _AT_CHECK_CALC_ERROR).
+m4_define([AT_YYERROR_DEFINE(c)],
+[AT_LOCATION_PRINT_DEFINE[
 
 ]AT_ERROR_CUSTOM_IF([[
 int
