@@ -2204,7 +2204,10 @@ $
 @cindex @code{calc}
 @cindex calculator, infix notation
 
-We now modify rpcalc to handle infix operators instead of postfix.  Infix
+We now modify rpcalc to handle infix operators instead of
+postfix.@footnote{A similar example, but using an unambiguous grammar rather
+than precedence and associativity annotations, is available as
+@file{examples/c/calc}.}  Infix
 notation involves the concept of operator precedence and the need for
 parentheses nested to arbitrary depth.  Here is the Bison code for
 @file{calc.y}, an infix desk-top calculator.
@@ -2560,12 +2563,12 @@ valid input, in comments, in literal strings, and so on.
 @cindex @code{mfcalc}
 @cindex calculator, multi-function
 
-Now that the basics of Bison have been discussed, it is time to move on to
-a more advanced problem.@footnote{The sources of @command{mfcalc} are available as
-@file{examples/c/mfcalc}.}  The above calculators provided only five
-functions, @samp{+}, @samp{-}, @samp{*}, @samp{/} and @samp{^}.  It would
-be nice to have a calculator that provides other mathematical functions such
-as @code{sin}, @code{cos}, etc.
+Now that the basics of Bison have been discussed, it is time to move on to a
+more advanced problem.@footnote{The sources of @command{mfcalc} are
+available as @file{examples/c/mfcalc}.}  The above calculators provided only
+five functions, @samp{+}, @samp{-}, @samp{*}, @samp{/} and @samp{^}.  It
+would be nice to have a calculator that provides other mathematical
+functions such as @code{sin}, @code{cos}, etc.
 
 It is easy to add new operators to the infix calculator as long as they are
 only single-character literals.  The lexical analyzer @code{yylex} passes
