@@ -1,1 +1,2 @@
-
+*.at   diff=autotest
+*.texi diff=texinfo

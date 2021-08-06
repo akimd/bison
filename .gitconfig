@@ -1,0 +1,12 @@
+# To use this gitconfig file, run
+#
+# git config --local include.path ../.gitconfig
+#
+# It adds an `[include]` section in .git/config.
+# See <https://git-scm.com/docs/git-config#_includes>.
+
+[diff "autotest"]
+        xfuncname = "^((m4_define|m4_pushdef|AT_SETUP).*)$"
+
+[diff "texinfo"]
+        xfuncname = "^@node .*$"
