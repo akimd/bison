@@ -207,6 +207,9 @@ jobs:
       dist: bionic
       addons:
         apt:
+          sources:
+            # See https://github.com/travis-ci/apt-source-safelist/issues/410.
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages: g++-9
       env:
         - CC=gcc-9
@@ -313,7 +316,7 @@ jobs:
     ## Clang.  ##
     ## ------- ##
 
-    - name: "Clang 10 -O3 and libc++"
+    - name: "Clang 10 -O3, libc++, part 1"
       stage: check
       os: linux
       dist: bionic
@@ -332,6 +335,7 @@ jobs:
         - CC='clang-10'
         - CXX='clang++-10 -stdlib=libc++'
         - CONFIGUREFLAGS='CPPFLAGS=-DNDEBUG CFLAGS=-O3 CXXFLAGS=-O3'
+        - PART=1
 
     - name: "Clang 9 and libc++"
       stage: check
