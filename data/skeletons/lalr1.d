@@ -300,6 +300,7 @@ b4_user_union_members
 ]b4_parse_param_cons[
   }
 ]b4_parse_trace_if([[
+  import std.stdio;
   private File yyDebugStream;
 
   /**

@@ -953,6 +953,26 @@ public void reportSyntaxError(]AT_API_PREFIX[Parser.Context ctx)
 ]])[]])
 
 
+# FIXME: this does not work.  It is a stub copied blindly from Java.
+m4_define([AT_YYLEX_DEFINE(d)],
+[[
+  /*--------.
+  | yylex.  |
+  `--------*/
+
+  public string input = ]$1[;
+  public int index = 0;
+  public int yylex() {
+    if (index < input.length())
+      return input.charAt(index++);
+    else
+      return 0;
+  }
+  public Object getLVal() {
+    ]m4_ifval([$2], [$2], [return null])[;
+  }
+]])
+
 m4_define([AT_MAIN_DEFINE(d)],
 [[int main ()
 {

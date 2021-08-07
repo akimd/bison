@@ -1337,7 +1337,10 @@ m4_pushdef([AT_LAC_CHECK], [
 AT_BISON_OPTION_PUSHDEFS([%debug $1])
 
 AT_DATA_GRAMMAR([input.y],
-[AT_JAVA_IF([[%code imports {
+[AT_LANG_CASE(
+[d], [[%define api.symbol.prefix {SYM_}
+]],
+[java], [[%code imports {
   import java.io.IOException;
 }
 
@@ -1418,6 +1421,11 @@ AT_LAC_CHECK([[%define api.push-pull both %define api.pure]])
 
 # C++.
 AT_LAC_CHECK([[%skeleton "lalr1.cc"]])
+
+# D.
+# FIXME: does not work.  lalr1.d cannot work with literal chars,
+# and AT_YYLEX_DEFINE(d) is incorrect.
+# AT_LAC_CHECK([[%skeleton "lalr1.d"]])
 
 # Java.
 AT_LAC_CHECK([[%skeleton "lalr1.java"]])
