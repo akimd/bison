@@ -92,8 +92,8 @@ splice   (\\[ \f\t\v]*\n)*
 /* C style identifier. Must start with letter. Will be used for
    named symbol references. Shall be kept synchronized with
    scan-gram.l "letter" and "id". */
-letter    [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
-id        {letter}({letter}|[-0-9])*
+letter   [.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_]
+id       {letter}({letter}|[-0-9])*
 ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 %%
@@ -203,7 +203,7 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
   /* By default, grow the string obstack with the input.  */
   .|\n        STRING_GROW ();
 
- /* End of processing. */
+  /* End of processing. */
   <<EOF>>     STRING_FINISH (); return last_string;
 }
 
