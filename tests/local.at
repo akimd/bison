@@ -157,6 +157,15 @@ m4_define([AT_SAVE_SPECIAL_FILES],    [at_save_special_files])
 m4_define([AT_RESTORE_SPECIAL_FILES], [at_restore_special_files])
 
 
+# AT_FOR_EACH_SKEL(BODY)
+# ----------------------
+m4_define([AT_FOR_EACH_SKEL],
+[m4_foreach([b4_skel],
+        [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc], [lalr1.d], [lalr1.java]],
+        [$1])
+])
+
+
 
 ## ------------------------------- ##
 ## Macros decoding Bison options.  ##

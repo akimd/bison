@@ -2682,7 +2682,7 @@ start: %empty;
 
 # Only "full" and "none" are accepted for parse.lac
 # Unknown values (such as "unsupported") are rejected
-m4_foreach([b4_skel], [[yacc.c], [lalr1.cc], [lalr1.java]],
+m4_foreach([b4_skel], [[yacc.c], [lalr1.cc], [lalr1.d], [lalr1.java]],
 [AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=none input.y]])
 AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=full input.y]])
 AT_BISON_CHECK([[-S]b4_skel[ -Dparse.lac=unsupported input.y]],
@@ -2926,9 +2926,8 @@ exp:
 
 # Disable -Wother to avoid the warnings about the suspicious presence
 # of `b4_canary` in the output.
-m4_foreach([b4_skel],
-           [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc], [lalr1.d], [lalr1.java]],
-[AT_BISON_CHECK([[-Wno-other -S ]b4_skel[ ]m4_bmatch(b4_skel, [.*\.java$], [], [-d])[ input.y]])
+AT_FOR_EACH_SKEL(
+[AT_BISON_CHECK([[-Wno-other -S ]b4_skel[ ]m4_bmatch(b4_skel, [.*\.\(d\|java\)$], [], [-d])[ input.y]])
 ])
 ])
 

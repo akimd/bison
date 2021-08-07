@@ -17,6 +17,8 @@
 
 m4_include(b4_skeletonsdir/[d.m4])
 
+b4_header_if([b4_complain([%header/%defines does not make sense in D])])
+
 # parse.lac
 b4_percent_define_default([[parse.lac]], [[none]])
 b4_percent_define_check_values([[[[parse.lac]], [[full]], [[none]]]])
