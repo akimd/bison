@@ -35,9 +35,6 @@ Clarify that rule numbers in the skeletons are 1-based.
 There are many macros that should obey api.prefix: YY_CPLUSPLUS, YY_MOVE,
 etc.
 
-** YYDEBUG etc. in C++
-Discourage the use of YYDEBUG in C++ (see thread with Jot).
-
 ** yyerrok in Java
 And add tests in calc.at, to prepare work for D.
 

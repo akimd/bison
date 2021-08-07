@@ -7000,8 +7000,8 @@ syntax error handling.  @xref{LAC}.
 
 In C/C++, define the macro @code{YYDEBUG} (or @code{@var{prefix}DEBUG} with
 @samp{%define api.prefix @{@var{prefix}@}}), see @ref{Multiple Parsers}) to
-1 in the parser implementation file if it is not already defined, so that
-the debugging facilities are compiled.
+1 (if it is not already defined) so that the debugging facilities are
+compiled.
 
 @item Accepted Values: Boolean
 
@@ -11010,8 +11010,8 @@ defines @code{YYDEBUG} to 1.
 @item the directive @samp{%debug} (deprecated)
 @findex %debug
 Add the @code{%debug} directive (@pxref{Decl Summary}).  This Bison
-extension is maintained for backward compatibility with previous versions of
-Bison; use @code{%define parse.trace} instead.
+extension is maintained for backward compatibility; use @code{%define
+parse.trace} instead.
 
 @item the macro @code{YYDEBUG} (C/C++ only)
 @findex YYDEBUG
@@ -11025,6 +11025,12 @@ Parsers}), for instance @samp{%define
 api.prefix @{c@}}, then if @code{CDEBUG} is defined, its value controls the
 tracing feature (enabled if and only if nonzero); otherwise tracing is
 enabled if and only if @code{YYDEBUG} is nonzero.
+
+In C++, where POSIX compliance makes no sense, avoid this option, and prefer
+@samp{%define parse.trace}.  If you @code{#define} the @code{YYDEBUG} macro
+at the wrong place (e.g., in @samp{%code top} instead of @samp{%code
+require}), the parser class will have two different definitions, thus
+leading to ODR violations and happy debugging times.
 @end table
 
 We suggest that you always enable the trace option so that debugging is
