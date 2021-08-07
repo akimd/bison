@@ -2889,26 +2889,26 @@ m4_pattern_allow([^m4_errprintn$])
 # Try to have MACRO be run by bison.
 m4_pushdef([AT_TEST],
 [AT_DATA([[input.y]],
-[[%type <$1(DEAD %type)> exp
-%token <$1(DEAD %token)> a
+[[%type <$1(%type)> exp
+%token <$1(%token)> a
 %token b
 %initial-action
 {
   $$;
-  $<$1(DEAD %initial-action)>$
+  $<$1(%initial-action)>$
 };
 %printer
 {
   $$
-  $<$1(DEAD %printer)>$
+  $<$1(%printer)>$
 } <> <*>;
 %lex-param
 {
-  $1(DEAD %lex-param)
+  $1(%lex-param)
 };
 %parse-param
 {
-  $1(DEAD %parse-param)
+  $1(%parse-param)
 };
 %%
 exp:
@@ -2916,25 +2916,24 @@ exp:
   {
     $$;
     $][1;
-    $<$1(DEAD action 1)>$
-    $<$1(DEAD action 2)>1
-    $<$1(DEAD action 3)>name
-    $<$1(DEAD action 4)>0
+    $<$1(action 1)>$
+    $<$1(action 2)>1
+    $<$1(action 3)>name
+    $<$1(action 4)>0
     ;
   };
 ]])
 
-# FIXME: Provide a means to iterate over all the skeletons.
-AT_BISON_CHECK([[-d               input.y]])
-AT_BISON_CHECK([[-d -S glr.c      input.y]])
-AT_BISON_CHECK([[-d -S lalr1.cc   input.y]])
-AT_BISON_CHECK([[-d -S glr.cc     input.y]])
-AT_BISON_CHECK([[-d -S glr2.cc    input.y]])
-AT_BISON_CHECK([[   -S lalr1.java input.y]])
+# Disable -Wother to avoid the warnings about the suspicious presence
+# of `b4_canary` in the output.
+m4_foreach([b4_skel],
+           [[yacc.c], [glr.c], [lalr1.cc], [glr.cc], [glr2.cc], [lalr1.d], [lalr1.java]],
+[AT_BISON_CHECK([[-Wno-other -S ]b4_skel[ ]m4_bmatch(b4_skel, [.*\.java$], [], [-d])[ input.y]])
+])
 ])
 
-AT_TEST([m4_errprintn])
-AT_TEST([@:>@m4_errprintn])
+AT_TEST([b4_canary])
+AT_TEST([@:>@b4_canary])
 
 m4_popdef([AT_TEST])
 

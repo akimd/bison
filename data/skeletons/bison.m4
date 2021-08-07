@@ -261,6 +261,13 @@ m4_define([b4_fatal_at],
 [b4_error([[fatal]], $@)dnl
 m4_exit(1)])
 
+# b4_canary(MSG)
+# --------------
+# Issue a warning on stderr and in the output.  Used in the test suite
+# to catch spurious m4 evaluations.
+m4_define([b4_canary],
+[m4_errprintn([dead canary: $1])DEAD CANARY($1)])
+
 
 ## ------------ ##
 ## Data Types.  ##

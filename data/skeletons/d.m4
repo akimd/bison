@@ -586,7 +586,7 @@ alias ACCEPT = ]b4_parser_class[.YYACCEPT;]])[]])[
 # Create Symbol struct constructors for all the visible types.
 m4_define([b4_basic_symbol_constructor_define],
 [b4_token_visible_if([$1],
-[    this(TokenKind token]b4_symbol_if([$1], [has_type],
+[[    this(TokenKind token]b4_symbol_if([$1], [has_type],
 [[, ]b4_union_if([], [[typeof(YYSemanticType.]])b4_symbol([$1], [type])dnl
 []b4_union_if([], [[) ]])[ val]])[]b4_locations_if([[, Location loc]])[)
     {
@@ -601,7 +601,7 @@ m4_define([b4_basic_symbol_constructor_define],
       value_.]b4_symbol([$1], [type])[ = val;]])])[]b4_locations_if([
       location_ = loc;])[
     }
-])])
+]])])
 
 
 # b4_symbol_type_define

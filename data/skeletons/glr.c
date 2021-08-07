@@ -2204,12 +2204,7 @@ yy_syntax_error_arguments (const yyGLRStack* yystackp,
      - Don't assume there isn't a lookahead just because this state is a
        consistent state with a default action.  There might have been a
        previous inconsistent state, consistent state with a non-default
-       action, or user semantic action that manipulated yychar.]b4_lac_if([[
-       In the first two cases, it might appear that the current syntax
-       error should have been detected in the previous state when yy_lac
-       was invoked.  However, at that time, there might have been a
-       different syntax error that discarded a different initial context
-       during error recovery, leaving behind the current lookahead.]], [[
+       action, or user semantic action that manipulated yychar.
      - Of course, the expected token list depends on states to have
        correct lookahead information, and it depends on the parser not
        to perform extra reductions after fetching a lookahead from the
@@ -2217,7 +2212,7 @@ yy_syntax_error_arguments (const yyGLRStack* yystackp,
        (from LALR or IELR) and default reductions corrupt the expected
        token list.  However, the list is correct for canonical LR with
        one exception: it will still contain any token that will not be
-       accepted due to an error action in a later state.]])[
+       accepted due to an error action in a later state.
   */
   if (yytoken != ]b4_symbol(empty, kind)[)
     {
