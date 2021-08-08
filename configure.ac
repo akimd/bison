@@ -133,7 +133,7 @@ if test "$enable_gcc_warnings" = yes; then
   warn_common='-Wall -Wextra
     -Wcast-align -Wchar-subscripts
     -fparse-all-comments -Wdocumentation
-    -Wformat -Wimplicit-fallthrough -Wnull-dereference
+    -Wformat -Wimplicit-fallthrough -Wmismatched-dealloc -Wnull-dereference
     -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare
     -Wpointer-arith -Wshadow -Wstrict-aliasing
     -Wwrite-strings
