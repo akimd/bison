@@ -371,7 +371,7 @@ m4_define([b4_declare_yyerror_and_yylex],
 ]b4_function_declare([b4_prefix[error]], void, b4_yyerror_formals)[
 #endif
 #if !defined ]b4_prefix[lex && !defined ]b4_api_PREFIX[LEX_IS_DECLARED
-]b4_function_declare([b4_prefix[lex]], int, b4_lex_formals)[
+]b4_function_declare([b4_prefix[lex]], int, b4_yylex_formals)[
 #endif
 ]])dnl
 ])
@@ -1532,7 +1532,7 @@ yypull_parse (yypstate *yyps]b4_user_formals[)
   int yystatus;
   do {
 ]b4_pure_if([[    YYSTYPE yylval;
-    int ]])[yychar = ]b4_lex[;
+    int ]])[yychar = ]b4_yylex[;
     yystatus = yypush_parse (yyps]b4_pure_if([[, yychar, &yylval]b4_locations_if([[, &yylloc]])])m4_ifset([b4_parse_param], [, b4_args(b4_parse_param)])[);
   } while (yystatus == YYPUSH_MORE);
   return yystatus;
@@ -1836,7 +1836,7 @@ yyread_pushed_token:]])[
         yylval = *yypushed_val;]b4_locations_if([[
       if (yypushed_loc)
         yylloc = *yypushed_loc;]])])], [[
-      yychar = ]b4_lex[;]])[
+      yychar = ]b4_yylex[;]])[
     }
 
   if (yychar <= ]b4_symbol(eof, [id])[)

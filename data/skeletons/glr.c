@@ -848,7 +848,7 @@ yygetToken (int *yycharp][]b4_pure_if([, yyGLRStack* yystackp])[]b4_user_formals
       try
         {
 #endif // YY_EXCEPTIONS
-          *yycharp = ]b4_lex[;
+          *yycharp = ]b4_yylex[;
 #if YY_EXCEPTIONS
         }
       catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
@@ -862,7 +862,7 @@ yygetToken (int *yycharp][]b4_pure_if([, yyGLRStack* yystackp])[]b4_user_formals
           *yycharp = ]b4_symbol(error, id)[;
         }
 #endif // YY_EXCEPTIONS]], [[
-      *yycharp = ]b4_lex[;]])[
+      *yycharp = ]b4_yylex[;]])[
     }
   if (*yycharp <= ]b4_symbol(eof, [id])[)
     {

@@ -145,10 +145,10 @@ b4_dollar_popdef[]dnl
 ])])
 
 
-# b4_lex
-# ------
+# b4_yylex
+# --------
 # Call yylex.
-m4_define([b4_lex],
+m4_define([b4_yylex],
 [b4_token_ctor_if(
 [b4_function_call([yylex],
                   [symbol_type], m4_ifdef([b4_lex_param], b4_lex_param))],
@@ -912,9 +912,9 @@ b4_dollar_popdef])[]dnl
         try
 #endif // YY_EXCEPTIONS
           {]b4_token_ctor_if([[
-            symbol_type yylookahead (]b4_lex[);
+            symbol_type yylookahead (]b4_yylex[);
             yyla.move (yylookahead);]], [[
-            yyla.kind_ = yytranslate_ (]b4_lex[);]])[
+            yyla.kind_ = yytranslate_ (]b4_yylex[);]])[
           }
 #if YY_EXCEPTIONS
         catch (const syntax_error& yyexc)

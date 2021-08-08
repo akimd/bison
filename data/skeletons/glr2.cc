@@ -173,10 +173,10 @@ m4_define([b4_call_merger],
                                           [yy0.b4_symbol($3, slot) = $2 (yy0, yy1);])],
                            [yy0 = $2 (yy0, yy1);])])])
 
-# b4_lex
-# ------
+# b4_yylex
+# --------
 # Call yylex.
-m4_define([b4_lex],
+m4_define([b4_yylex],
 [b4_token_ctor_if(
 [b4_function_call([yylex],
                   [symbol_type], m4_ifdef([b4_lex_param], b4_lex_param))],
@@ -3102,14 +3102,14 @@ private:
 #endif // YY_EXCEPTIONS
             {]b4_token_ctor_if([[
               typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_type symbol_type;
-              symbol_type yylookahead = ]b4_lex[;
+              symbol_type yylookahead = ]b4_yylex[;
               this->yytoken = yylookahead.kind ();]b4_variant_if([[
               ]b4_symbol_variant([this->yytoken],
                                  [this->yylval], [move], [yylookahead.value])], [[
               this->yylval = yylookahead.value;]])[]b4_locations_if([
               this->yylloc = yylookahead.location;
               yylookahead.kind_ = symbol_kind::S_YYEMPTY;])[]], [[
-              yychar = ]b4_lex[;]])[
+              yychar = ]b4_yylex[;]])[
             }
 #if YY_EXCEPTIONS
           }

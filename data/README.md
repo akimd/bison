@@ -73,6 +73,15 @@ skeletons.  If you are to write a new skeleton, please, implement them for
 your language.  Overall, be sure to follow the same patterns as the existing
 skeletons.
 
+## Vocabulary
+
+We use "formal arguments", or "formals" for short, to denote the declared
+parameters of a function (e.g., `int argc, const char **argv`).  Yes, this
+is somewhat contradictory with `param` in the `%param` directives.
+
+We use "effective arguments", or "args" for short, to denote the values
+passed in function calls (e.g., `argc, argv`).
+
 ## Symbols
 
 ### `b4_symbol(NUM, FIELD)`
