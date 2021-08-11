@@ -185,6 +185,8 @@ Line -1 and -3 should mention CATEGORIE, not CATEGORY.
 
 * Bison 3.8
 ** Rewrite glr.cc (currently glr2.cc)
+*** custom error messages
+
 *** Remove jumps
 We can probably replace setjmp/longjmp with exceptions.  That would help
 tremendously other languages such as D and Java that probably have no

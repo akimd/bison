@@ -2174,10 +2174,10 @@ yypcontext_token (const yyGLRStack *yystackp)
 }
 
 ]b4_locations_if([[/* The location of the lookahead of this context.  */
-static YYLTYPE *
+static const YYLTYPE *
 yypcontext_location (const yyGLRStack *yystackp) YY_ATTRIBUTE_UNUSED;
 
-static YYLTYPE *
+static const YYLTYPE *
 yypcontext_location (const yyGLRStack *yystackp)
 {
   YY_USE (yystackp);
