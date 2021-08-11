@@ -283,6 +283,25 @@ class glr_state;
     static std::string symbol_name (symbol_kind_type yysymbol);]])[
 
 ]b4_token_constructor_define[
+]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+    class context
+    {
+    public:
+      context (glr_stack& yystack, const symbol_type& yyla);
+      const symbol_type& lookahead () const YY_NOEXCEPT { return yyla_; }
+      symbol_kind_type token () const YY_NOEXCEPT { return yyla_.kind (); }]b4_locations_if([[
+      const location_type& location () const YY_NOEXCEPT { return yyla_.location; }
+]])[
+      /// Put in YYARG at most YYARGN of the expected tokens, and return the
+      /// number of tokens stored in YYARG.  If YYARG is null, return the
+      /// number of expected tokens (guaranteed to be less than YYNTOKENS).
+      int expected_tokens (symbol_kind_type yyarg[], int yyargn) const;
+
+    private:
+      glr_stack& yystack_;
+      const symbol_type& yyla_;
+    };
+]])[
 # if ]b4_api_PREFIX[DEBUG
   public:
     /// \brief Report a symbol value on the debug stream.
@@ -304,7 +323,22 @@ class glr_state;
     std::ostream* yycdebug_;
 #endif
 
-  public: // FIXME: Private
+]b4_parse_error_bmatch(
+[custom], [[
+  private:
+    /// Report a syntax error
+    /// \param yyctx     the context in which the error occurred.
+    void report_syntax_error (const context& yyctx) const;]],
+[detailed\|verbose], [[
+  private:
+    /// The arguments of the error message.
+    int yy_syntax_error_arguments_ (const context& yyctx,
+                                    symbol_kind_type yyarg[], int yyargn) const;
+
+    /// Generate an error message.
+    /// \param yyctx     the context in which the error occurred.
+    virtual std::string yysyntax_error_ (const context& yyctx) const;]])[
+
     /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_kind_type, but character literals
     /// are valid, yet not members of the token_kind_type enum.
@@ -2020,6 +2054,12 @@ public:
   typedef parser_type::value_type value_type;]b4_locations_if([[
   typedef parser_type::location_type location_type;]])[
 
+]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+  typedef parser_type::context context;
+  // Needs access to yypact_value_is_default, etc.
+  friend context;
+]])[
+
   glr_stack (size_t yysize, ]b4_namespace_ref[::]b4_parser_class[& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
     : yyerrState (0)
     , yystateStack (yysize)
@@ -2293,108 +2333,25 @@ b4_dollar_popdef])[]dnl
     yystateStack.dumpStack();
   }
 #endif
+
   void
   yyreportSyntaxError ()
   {
     if (yyerrState != 0)
       return;
-]b4_parse_error_bmatch(
-[simple],
-[[    yyparser.error (]b4_locations_if([this->yyla.location, ])[YY_("syntax error"));]],
-[[    {
-    enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
-    /* Arguments of yyformat. */
-    yysymbol_kind_t yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM]
-      = { ]b4_symbol(empty, kind)[ };
-    /* Number of reported tokens (one for the "unexpected", one per
-       "expected").  */
-    int yycount = 0;
-
-    /* There are many possibilities here to consider:
-       - If this state is a consistent state with a default action, then
-         the only way this function was invoked is if the default action
-         is an error action.  In that case, don't check for expected
-         tokens because there are none.
-       - The only way there can be no lookahead present (in yytoken) is if
-         this state is a consistent state with a default action.  Thus,
-         detecting the absence of a lookahead is sufficient to determine
-         that there is no unexpected or expected token to report.  In that
-         case, just report a simple "syntax error".
-       - Don't assume there isn't a lookahead just because this state is a
-         consistent state with a default action.  There might have been a
-         previous inconsistent state, consistent state with a non-default
-         action, or user semantic action that manipulated yytoken.
-       - Of course, the expected token list depends on states to have
-         correct lookahead information, and it depends on the parser not
-         to perform extra reductions after fetching a lookahead from the
-         scanner and before detecting a syntax error.  Thus, state merging
-         (from LALR or IELR) and default reductions corrupt the expected
-         token list.  However, the list is correct for canonical LR with
-         one exception: it will still contain any token that will not be
-         accepted due to an error action in a later state.
-    */
-    if (!yyla.empty ())
-      {
-        const int yyn = yypact[firstTopState()->yylrState];
-        yyarg[yycount++] = yyla.kind ();
-        if (!yypact_value_is_default (yyn))
-          {
-            /* Start YYX at -YYN if negative to avoid negative indexes in
-               YYCHECK.  In other words, skip the first -YYN actions for this
-               state because they are default actions.  */
-            const int yyxbegin = yyn < 0 ? -yyn : 0;
-            /* Stay within bounds of both yycheck and yytname.  */
-            const int yychecklim = YYLAST - yyn + 1;
-            const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
-            for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
-              if (yycheck[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[
-                  && !yytable_value_is_error (yytable[yyx + yyn]))
-                {
-                  if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
-                    {
-                      yycount = 1;
-                      break;
-                    }
-                  yyarg[yycount++] = static_cast<yysymbol_kind_t>(yyx);
-                }
-          }
-      }
-
-    /* Internationalized format string. */
-    const char *yyformat = YY_NULLPTR;
-    switch (yycount)
-      {
-#define YYCASE_(N, S)                     \
-        case N:                           \
-          yyformat = S;                   \
-        break
-      default: /* Avoid compiler warnings. */
-        YYCASE_(0, YY_("syntax error"));
-        YYCASE_(1, YY_("syntax error, unexpected %s"));
-        YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
-        YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
-        YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
-        YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
-#undef YYCASE_
-      }
-
-    std::string yymsg;
-    // Argument number.
-    std::ptrdiff_t yyi = 0;
-    for (char const* yyp = yyformat; *yyp; ++yyp)
-      if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
-        {
-          yymsg += ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yyarg[yyi++]);
-          ++yyp;
-        }
-      else
-        yymsg += *yyp;
-     yyparser.error (]b4_locations_if([[yyla.location, ]])[yymsg);
-    }
-]])[
+]b4_parse_error_case(
+[simple], [[
+    std::string msg = YY_("syntax error");
+    yyparser.error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]],
+[custom], [[
+    context yyctx (*this, yyla);
+    yyparser.report_syntax_error (yyctx);]],
+[[
+    context yyctx (*this, yyla);
+    std::string msg = yyparser.yysyntax_error_ (yyctx);
+    yyparser.error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]])[
     yyerrcnt += 1;
   }
-
 
   /* Recover from a syntax error on this, assuming that yytoken,
      yylval, and yylloc are the syntactic category, semantic value, and location
@@ -3364,6 +3321,120 @@ static void yypdumpstack (const glr_stack& yystack)
   };
 #endif
 ]])[
+
+]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+  // ]b4_parser_class[::context.
+  ]b4_parser_class[::context::context (glr_stack& yystack, const symbol_type& yyla)
+    : yystack_ (yystack)
+    , yyla_ (yyla)
+  {}
+
+  int
+  ]b4_parser_class[::context::expected_tokens (symbol_kind_type yyarg[], int yyargn) const
+  {
+    // Actual number of expected tokens
+    int yycount = 0;
+    const int yyn = yypact[yystack_.firstTopState()->yylrState];
+    if (!yystack_.yypact_value_is_default (yyn))
+      {
+        /* Start YYX at -YYN if negative to avoid negative indexes in
+           YYCHECK.  In other words, skip the first -YYN actions for this
+           state because they are default actions.  */
+        const int yyxbegin = yyn < 0 ? -yyn : 0;
+        /* Stay within bounds of both yycheck and yytname.  */
+        const int yychecklim = YYLAST - yyn + 1;
+        const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+        for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
+          if (yycheck[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[
+              && !yystack_.yytable_value_is_error (yytable[yyx + yyn]))
+            {
+              if (!yyarg)
+                ++yycount;
+              else if (yycount == yyargn)
+                return 0;
+              else
+                yyarg[yycount++] = YY_CAST (symbol_kind_type, yyx);
+            }
+      }
+    if (yyarg && yycount == 0 && 0 < yyargn)
+      yyarg[0] = ]b4_symbol(empty, kind)[;
+    return yycount;
+  }
+
+]])[
+
+]b4_parse_error_bmatch([detailed\|verbose], [[
+  int
+  ]b4_parser_class[::yy_syntax_error_arguments_ (const context& yyctx,
+                                                 symbol_kind_type yyarg[], int yyargn) const
+  {
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action, then
+         the only way this function was invoked is if the default action
+         is an error action.  In that case, don't check for expected
+         tokens because there are none.
+       - The only way there can be no lookahead present (in yyla) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this state is
+         a consistent state with a default action.  There might have
+         been a previous inconsistent state, consistent state with a
+         non-default action, or user semantic action that manipulated
+         yyla.  (However, yyla is currently not documented for users.)
+    */
+
+    if (!yyctx.lookahead ().empty ())
+      {
+        if (yyarg)
+          yyarg[0] = yyctx.token ();
+        int yyn = yyctx.expected_tokens (yyarg ? yyarg + 1 : yyarg, yyargn - 1);
+        return yyn + 1;
+      }
+    return 0;
+  }
+
+  // Generate an error message.
+  std::string
+  ]b4_parser_class[::yysyntax_error_ (const context& yyctx) const
+  {
+    // Its maximum.
+    enum { YYARGS_MAX = 5 };
+    // Arguments of yyformat.
+    symbol_kind_type yyarg[YYARGS_MAX];
+    int yycount = yy_syntax_error_arguments_ (yyctx, yyarg, YYARGS_MAX);
+
+    char const* yyformat = YY_NULLPTR;
+    switch (yycount)
+      {
+#define YYCASE_(N, S)                         \
+        case N:                               \
+          yyformat = S;                       \
+        break
+      default: // Avoid compiler warnings.
+        YYCASE_ (0, YY_("syntax error"));
+        YYCASE_ (1, YY_("syntax error, unexpected %s"));
+        YYCASE_ (2, YY_("syntax error, unexpected %s, expecting %s"));
+        YYCASE_ (3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+        YYCASE_ (4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+        YYCASE_ (5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+#undef YYCASE_
+      }
+
+    std::string yyres;
+    // Argument number.
+    std::ptrdiff_t yyi = 0;
+    for (char const* yyp = yyformat; *yyp; ++yyp)
+      if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
+        {
+          yyres += symbol_name (yyarg[yyi++]);
+          ++yyp;
+        }
+      else
+        yyres += *yyp;
+    return yyres;
+  }]])[
 
   void
   ]b4_parser_class[::yy_destroy_ (const char* yymsg, symbol_kind_type yykind,

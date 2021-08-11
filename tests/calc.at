@@ -1398,6 +1398,7 @@ AT_CHECK_CALC_GLR([%define api.pure %locations])
 AT_CHECK_CALC_GLR([%define parse.error verbose %locations])
 
 AT_CHECK_CALC_GLR([%define parse.error custom %locations %header %name-prefix "calc" %verbose])
+AT_CHECK_CALC_GLR([%define parse.error custom %locations %header %name-prefix "calc" %verbose %define api.pure])
 AT_CHECK_CALC_GLR([%define parse.error detailed %locations %header %name-prefix "calc" %verbose])
 AT_CHECK_CALC_GLR([%define parse.error verbose %locations %header %name-prefix "calc" %verbose])
 
@@ -1480,7 +1481,11 @@ AT_CHECK_CALC_GLR_CC([%define parse.error verbose %define api.prefix {calc} %ver
 
 AT_CHECK_CALC_GLR_CC([%debug])
 
+# parse.error.
+AT_CHECK_CALC_GLR_CC([%define parse.error detailed %debug %name-prefix "calc" %verbose])
 AT_CHECK_CALC_GLR_CC([%define parse.error verbose %debug %name-prefix "calc" %verbose])
+AT_CHECK_CALC([%skeleton "glr2.cc" %define parse.error custom %debug %name-prefix "calc" %verbose]) # Only glr2.cc.
+
 AT_CHECK_CALC_GLR_CC([%define parse.error verbose %debug %name-prefix "calc" %define api.token.prefix {TOK_} %verbose])
 
 AT_CHECK_CALC_GLR_CC([%locations %header %define parse.error verbose %debug %name-prefix "calc" %verbose %parse-param {semantic_value *result}{int *count}{int *nerrs}])
