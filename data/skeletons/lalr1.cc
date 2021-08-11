@@ -306,11 +306,11 @@ m4_define([b4_shared_declarations],
     /// Stored state numbers (used for stacks).
     typedef ]b4_int_type(0, m4_eval(b4_states_number - 1))[ state_type;
 ]b4_parse_error_bmatch(
-      [custom], [[
+[custom], [[
     /// Report a syntax error
     /// \param yyctx     the context in which the error occurred.
     void report_syntax_error (const context& yyctx) const;]],
-      [detailed\|verbose], [[
+[detailed\|verbose], [[
     /// The arguments of the error message.
     int yy_syntax_error_arguments_ (const context& yyctx,
                                     symbol_kind_type yyarg[], int yyargn) const;
@@ -1317,16 +1317,16 @@ b4_dollar_popdef])[]dnl
               yyarg[yycount++] = yysym;
           }
       }]], [[
-    int yyn = yypact_[+yyparser_.yystack_[0].state];
+    const int yyn = yypact_[+yyparser_.yystack_[0].state];
     if (!yy_pact_value_is_default_ (yyn))
       {
         /* Start YYX at -YYN if negative to avoid negative indexes in
            YYCHECK.  In other words, skip the first -YYN actions for
            this state because they are default actions.  */
-        int yyxbegin = yyn < 0 ? -yyn : 0;
+        const int yyxbegin = yyn < 0 ? -yyn : 0;
         // Stay within bounds of both yycheck and yytname.
-        int yychecklim = yylast_ - yyn + 1;
-        int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
+        const int yychecklim = yylast_ - yyn + 1;
+        const int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
         for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
           if (yycheck_[yyx + yyn] == yyx && yyx != ]b4_symbol(error, kind)[
               && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
@@ -1345,7 +1345,9 @@ b4_dollar_popdef])[]dnl
     return yycount;
   }
 
-]])b4_lac_if([[
+]])[
+
+]b4_lac_if([[
   bool
   ]b4_parser_class[::yy_lac_check_ (symbol_kind_type yytoken) const
   {
@@ -1484,8 +1486,9 @@ b4_dollar_popdef])[]dnl
                  << event << '\n';
         yy_lac_established_ = false;
       }
-  }]])b4_parse_error_bmatch([detailed\|verbose], [[
+  }]])[
 
+]b4_parse_error_bmatch([detailed\|verbose], [[
   int
   ]b4_parser_class[::yy_syntax_error_arguments_ (const context& yyctx,
                                                  symbol_kind_type yyarg[], int yyargn) const
