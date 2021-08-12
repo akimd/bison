@@ -62,32 +62,6 @@ fi
 : ${CXX17_CXXFLAGS='@CXX17_CXXFLAGS@'}
 : ${CXX2A_CXXFLAGS='@CXX2A_CXXFLAGS@'}
 
-# Be sure that the C++ compiler is not broken because of gnulib.  This
-# cannot be checked in configure (gnulib is not parameterized yet),
-# and checking this in every C++ test in AC_COMPILE_CXX is too costly.
-#
-# https://lists.gnu.org/r/bug-bison/2013-06/msg00001.html
-#
-# FIXME: Check (say 2014) whether this is still needed.
-if $BISON_CXX_WORKS; then
-  # See AT_DATA_SOURCE_PROLOGUE.
-  cat >conftest.cc <<EOF
-#include <testsuite.h>
-#include <iostream>
-
-int main ()
-{
-  std::cout << "Works\n";
-}
-EOF
-  $CXX $CXXFLAGS $CPPFLAGS $LDFLAGS $LIBS -o conftest conftest.cc
-  case $? in
-   0);;
-   *) BISON_CXX_WORKS="as_fn_error 77 cannot-compile-simple-program";;
-  esac
-  rm -fr conftest*
-fi
-
 # Whether the compiler supports POSIXLY_CORRECT defined.
 : ${C_COMPILER_POSIXLY_CORRECT='@C_COMPILER_POSIXLY_CORRECT@'}
 : ${CXX_COMPILER_POSIXLY_CORRECT='@CXX_COMPILER_POSIXLY_CORRECT@'}
