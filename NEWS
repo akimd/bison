@@ -67,14 +67,13 @@ GNU Bison NEWS
 
 *** A C++ native GLR parser
 
-  A new version of the generated C++ GLR parser was added as "glr2.cc". It
-  is forked from the existing glr.c/cc parser, with the objective of making
-  it a more modern, truly C++ parser (instead of a C++ wrapper around a C
-  parser).  Down the line, the goal is to support `%define api.value.type
-  variant` and maybe share code with lalr1.cc.
+  A new version of the C++ GLR parser was added: "glr2.cc".  It generates
+  "true C++11", instead of a C++ wrapper around a C parser as does the
+  existing "glr.cc" parser.  As a first significant consequence, it supports
+  `%define api.value.type variant`, contrary to glr.cc.
 
-  The current parser should be identical in terms of interface, functionality
-  and performance to "glr.cc". To try it out, simply use
+  It should be upward compatible in terms of interface, feature and
+  performance to "glr.cc". To try it out, simply use
 
   %skeleton "glr2.cc"
 
