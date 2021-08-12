@@ -881,7 +881,8 @@ for at_std in '' \
               ${CXX11_CXXFLAGS:+"$CXX11_CXXFLAGS"} \
               ${CXX14_CXXFLAGS:+"$CXX14_CXXFLAGS"} \
               ${CXX17_CXXFLAGS:+"$CXX17_CXXFLAGS"} \
-              ${CXX2A_CXXFLAGS:+"$CXX2A_CXXFLAGS"}
+              ${CXX20_CXXFLAGS:+"$CXX20_CXXFLAGS"} \
+              ${CXX2B_CXXFLAGS:+"$CXX2B_CXXFLAGS"}
 do
   ]AS_ECHO(["======== Testing with C++ standard flags: '$at_cxx_std'"])[
   CXXFLAGS="$at_for_each_std_CXXFLAGS_save $at_std"
@@ -1510,7 +1511,8 @@ m4_define([AT_REQUIRE_CXX_STD],
     [11], [201103],
     [14], [201402],
     [17], [201703],
-    [2a], [201709],
+    [20], [202002],
+    [2b], [202100],
     [m4_fatal([$0: invalid arguments: $@])])[
   return 1;
 #else
