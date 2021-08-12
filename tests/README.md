@@ -19,6 +19,7 @@ synonyms.
 - diagnostics
 - glr
 - graph
+- html: html reports
 - java
 - lac
 - %merge

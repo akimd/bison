@@ -17,6 +17,19 @@
 
 AT_BANNER([[Test reports.]])
 
+
+# AT_CHECK_HTML(FILE, EXPECTED-CONTENT)
+# -------------------------------------
+# Old versions of xsltproc emit 'content="text/html; charset=UTF-8"'
+# instead of 'content="text/html;charset=UTF-8"'.
+# <https://trac.macports.org/raw-attachment/ticket/59927/bison-test-results-20210811-95b72.log.xz>
+m4_define([AT_CHECK_HTML],
+[AT_KEYWORDS([html])
+AT_CHECK([sed -e 's|content="text/html; charset=UTF-8"|content="text/html;charset=UTF-8"|g' $1],
+          [],
+          [$2])])
+
+
 ## --------- ##
 ## Reports.  ##
 ## --------- ##
@@ -1140,7 +1153,7 @@ AT_CHECK([[cat input.xml]], [],
 ]])
 
 # Check HTML output.
-AT_CHECK([[cat input.html]], [],
+AT_CHECK_HTML([input.html],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="https://www.gnu.org/software/bison/">
@@ -2651,7 +2664,7 @@ if test x"$XSLTPROC" != x""; then
   AT_CHECK([[$XSLTPROC \
              `]]AT_SET_ENV[[ bison --print-datadir`/xslt/xml2xhtml.xsl \
              input.xml >input.html]])
-  AT_CHECK([cat input.html], [],
+  AT_CHECK_HTML([input.html],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="https://www.gnu.org/software/bison/">
@@ -3749,7 +3762,7 @@ AT_CHECK([[cat input.xml]], [],
 ]])
 
 
-AT_CHECK([[cat input.html]], [],
+AT_CHECK_HTML([input.html],
 [[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:bison="https://www.gnu.org/software/bison/">
