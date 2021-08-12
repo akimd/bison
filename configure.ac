@@ -20,7 +20,7 @@
 # keyword in at least string.h from gnulib.  We need Autoconf 2.68 or
 # better to avoid a typo in the 'configure --help' entry for the YACC
 # environment variable.
-AC_PREREQ([2.68])
+AC_PREREQ([2.71])
 m4_pattern_forbid([^_?(gl_[A-Z]|AX_|BISON_)])
 m4_pattern_allow([^BISON_USE_NLS$])
 
@@ -54,7 +54,7 @@ AM_SILENT_RULES([yes])
 AC_CONFIG_HEADERS([lib/config.h:lib/config.in.h])
 
 # Checks for the compiler.
-AC_PROG_CC_STDC
+AC_PROG_CC
 AC_PROG_CXX
 
 # Gnulib (early checks).
@@ -252,7 +252,7 @@ AM_CONDITIONAL([ENABLE_JAVA], [test x"$CONF_JAVAC" != x && test x"$CONF_JAVA" !=
 
 
 AC_ARG_ENABLE([yacc],
-  [AC_HELP_STRING([--disable-yacc],
+  [AS_HELP_STRING([--disable-yacc],
      [do not build a yacc command or an -ly library])],
   , [enable_yacc=yes])
 AM_CONDITIONAL([ENABLE_YACC], [test "$enable_yacc" = yes])
