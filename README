@@ -7,7 +7,7 @@ simple desk calculators to complex programming languages.
 
 Bison is upward compatible with Yacc: all properly-written Yacc grammars
 work with Bison with no change.  Anyone familiar with Yacc should be able to
-use Bison with little trouble.  You need to be fluent in C, C++ or Java
+use Bison with little trouble.  You need to be fluent in C, C++, D or Java
 programming in order to use Bison.
 
 Bison and the parsers it generates are portable, they do not require any
