@@ -157,6 +157,7 @@ $(call exclude,                                                                 
   bindtextdomain=^lib/main.c$$                                                  \
   cast_of_argument_to_free=^src/muscle-tab.c$$                                  \
   error_message_uppercase=etc/bench.pl.in$$                                     \
+  file_system=^doc/Doxyfile.in$$                                                \
   po_check=^tests|(^po/POTFILES.in|.md)$$                                       \
   preprocessor_indentation=^data/|^lib/|^src/parse-gram.[ch]$$                  \
   program_name=^lib/main.c$$                                                    \
