@@ -1362,8 +1362,10 @@ AT_CHECK(m4_join([ ],
 # otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
 # with trailing ".o" removed, and ".cc" appended.
 m4_define([AT_COMPILE_CXX],
-[AT_KEYWORDS(c++)
+[AT_KEYWORDS([c++])
 AT_SKIP_IF([[! $BISON_CXX_WORKS]])
+m4_ifdef([AT_GLR2_CC_IF],
+  [AT_GLR2_CC_IF([AT_SKIP_IF([[test x"$CXX11_CXXFLAGS" == x]])])])
 AT_CHECK(m4_join([ ],
                  [$CXX $CXXFLAGS $CPPFLAGS $3],
                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],

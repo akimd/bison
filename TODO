@@ -1,3 +1,6 @@
+* 3.8
+Don't showcase multi start.
+
 * Soon
 ** scan-code
 The default case is scanning char-per-char.
@@ -183,7 +186,7 @@ Les catégories d'avertissements incluent :
 
 Line -1 and -3 should mention CATEGORIE, not CATEGORY.
 
-* Bison 3.8
+* Bison 3.9
 ** Rewrite glr.cc (currently glr2.cc)
 *** custom error messages
 

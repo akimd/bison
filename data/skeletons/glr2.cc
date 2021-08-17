@@ -1370,7 +1370,6 @@ public:
     check_ ();
     other.check_ ();]])[
     std::swap (is_state_, other.is_state_);
-    // NB: swap on arrays is C++11.
     std::swap (raw_, other.raw_);
     return *this;
   }

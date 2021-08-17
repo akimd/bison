@@ -28,17 +28,13 @@ AC_DEFUN([BISON_TEST_FOR_WORKING_CXX_COMPILER],
     AC_COMPILE_IFELSE(
       [AC_LANG_PROGRAM(
          [[
-          #include <cassert>
           #include <cstdlib>
           #include <iostream>
           #include <map>
           #include <string>
-          #include <vector>
           using namespace std;]],
          [[std::cerr << "";
           cout << "";
-          std::vector<int> ints;
-          assert(ints.data () == &ints[0]);
           typedef std::pair<unsigned, int> uipair;
           std::map<unsigned, int> m;
           std::map<unsigned, int>::iterator i;

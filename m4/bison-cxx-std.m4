@@ -7,36 +7,22 @@
 # with or without modifications, as long as this notice is preserved.
 
 m4_define([_BISON_CXXSTD_98_snippet],
-[[#include <cassert>
-#include <vector>
-
-void cxx98_vector ()
-{
-  typedef std::vector<int> ints;
-
-  // Check support for std::vector<T,Allocator>::data.
-  // GCC 4.2 on macOS claims to support C++98, but does not feature it.
-  //
-  // input.cc: In member function 'void state_stack::yycompressStack()':
-  // input.cc:1774: error: 'class std::vector<glr_stack_item, std::allocator<glr_stack_item> >' has no member named 'data'
-  //
-  // <https://trac.macports.org/raw-attachment/ticket/59927/bison-test-results-20210811-95b72.log.xz>.
-  ints my_ints;
-  assert (my_ints.data () == &my_ints[0]);
-}
-]])
+[[]])
 
 m4_define([_BISON_CXXSTD_03_snippet],
-[])
+[[]])
 
 m4_define([_BISON_CXXSTD_11_snippet],
-[[#include <algorithm>
+[[  // C++11
+#include <algorithm>
+#include <cassert>
 #include <memory>
 #include <set>
 #include <sstream>
 #include <string>
+#include <utility> // std::swap
+#include <vector>
 
-  // C++11
   template <typename T>
   struct check
   {
@@ -80,6 +66,22 @@ m4_define([_BISON_CXXSTD_11_snippet],
 
   // GCC 4.8.2 on Solaris 11.3 does not support to_string.
   auto e = std::to_string(42);
+
+  // Needed by glr2.cc.
+  void cxx11_vector_data ()
+  {
+    std::vector<int> ints;
+    ints.emplace_back (42);
+    assert (ints.data () == &ints[0]);
+  }
+
+  // Needed by glr2.cc.
+  void cxx11_array_swap ()
+  {
+    int i0[4] = { 1, 2, 3, 4 };
+    int i1[4] = { 5, 6, 7, 8 };
+    std::swap (i0, i1);
+  }
 ]])
 
 m4_define([_BISON_CXXSTD_14_snippet],
@@ -177,7 +179,7 @@ m4_define([_BISON_CXXSTD_testbody],
 
 # BISON_CXXSTD(STD)
 # -----------------
-# Check whether the C++ compiler support STD (11, 98, 2b, etc.).
+# Check whether the C++ compiler supports STD (11, 98, 2b, etc.).
 # If it does, AC_SUBST 'CXX<STD>_CXXFLAGS' to the corresponding flags.
 AC_DEFUN([BISON_CXXSTD],
 [AC_REQUIRE([AC_PROG_CXX])

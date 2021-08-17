@@ -744,6 +744,7 @@ m4_popdef([AT_TEST])
 AT_SETUP([C++ Output File Prefix Mapping])
 
 # AT_TEST([PREFIX], [DIRECTIVES])
+# -------------------------------
 m4_pushdef([AT_TEST],
 [AT_BISON_OPTION_PUSHDEFS([%skeleton "lalr1.cc" %define api.namespace {$1} $2])
 AT_LOC_PUSHDEF([begin.line], [begin.column], [end.line], [end.column])
