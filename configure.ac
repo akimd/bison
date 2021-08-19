@@ -15,11 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# In order for some versions of Sun Studio to compile our C++ test cases
-# correctly, we need Autoconf 2.64 or better to handle the restrict
-# keyword in at least string.h from gnulib.  We need Autoconf 2.68 or
-# better to avoid a typo in the 'configure --help' entry for the YACC
-# environment variable.
 AC_PREREQ([2.71])
 m4_pattern_forbid([^_?(gl_[A-Z]|AX_|BISON_)])
 m4_pattern_allow([^BISON_USE_NLS$])
