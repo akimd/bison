@@ -25,10 +25,10 @@
 {
   // Tell Flex the expected prototype of yylex.
 #define YY_DECL                                 \
-  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc)
+  yytoken_kind_t yylex (YYSTYPE* yylval, YYLTYPE *yylloc, int *nerrs)
   YY_DECL;
 
-  void yyerror (const YYLTYPE *loc, const char *msg);
+  void yyerror (const YYLTYPE *loc, int *nerrs, const char *msg);
 }
 
 // Emitted on top of the implementation file.
@@ -62,6 +62,9 @@
 // Enable debug traces (see yydebug in main).
 %define parse.trace
 
+// Error count, exchanged between main, yyparse and yylex.
+%param {int *nerrs}
+
 %token
   PLUS   "+"
   MINUS  "-"
@@ -73,10 +76,8 @@
 ;
 
 %token <int> NUM "number"
-%type <int> exp expression line
+%type <int> exp
 %printer { fprintf (yyo, "%d", $$); } <int>
-
-%start input expression NUM
 
 // Precedence (from lowest to highest) and associativity.
 %left "+" "-"
@@ -90,12 +91,8 @@ input:
 ;
 
 line:
-  exp EOL   { $$ = $exp; printf ("%d\n", $$); }
-| error EOL { $$ = 0; yyerrok; }
-;
-
-expression:
-  exp EOL  { $$ = $exp; }
+  exp EOL   { printf ("%d\n", $exp); }
+| error EOL { yyerrok; }
 ;
 
 exp:
@@ -106,7 +103,7 @@ exp:
   {
     if ($3 == 0)
       {
-        yyerror (&@$, "error: division by zero");
+        yyerror (&@$, nerrs, "error: division by zero");
         YYERROR;
       }
     else
@@ -118,41 +115,24 @@ exp:
 %%
 // Epilogue (C code).
 
-void yyerror (const YYLTYPE *loc, const char *msg)
+void yyerror (const YYLTYPE *loc, int *nerrs, const char *msg)
 {
   YYLOCATION_PRINT (stderr, loc);
   fprintf (stderr, ": %s\n", msg);
+  ++*nerrs;
 }
 
 int main (int argc, const char *argv[])
 {
   // Possibly enable parser runtime debugging.
   yydebug = !!getenv ("YYDEBUG");
-  int parse_expression_p = 0;
-  int nerrs = 0;
-
   // Enable parse traces on option -p.
   for (int i = 1; i < argc; ++i)
-    if (strcmp (argv[i], "-e") == 0)
-      parse_expression_p = 1;
-    else if (strcmp (argv[i], "-p") == 0)
+    if (strcmp (argv[i], "-p") == 0)
       yydebug = 1;
 
-  if (parse_expression_p)
-    {
-      yyparse_expression_t res = yyparse_expression ();
-      nerrs = res.yynerrs;
-      if (res.yystatus == 0)
-        printf ("expression: %d\n", res.yyvalue);
-      else
-        printf ("expression: failure\n");
-    }
-  else
-    nerrs = yyparse_input ().yynerrs;
-
-  if (nerrs)
-    fprintf (stderr, "errors: %d\n", nerrs);
-
+  int nerrs = 0;
+  yyparse (&nerrs);
   // Exit on failure if there were errors.
   return !!nerrs;
 }

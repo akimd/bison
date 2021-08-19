@@ -61,7 +61,7 @@
   errno = 0;
   long n = strtol (yytext, NULL, 10);
   if (! (INT_MIN <= n && n <= INT_MAX && errno != ERANGE))
-    yyerror (yylloc, "integer is out of range");
+    yyerror (yylloc, nerrs, "integer is out of range");
   yylval->TOK_NUM = (int) n;
   return TOK_NUM;
 }
@@ -71,7 +71,7 @@
  /* Ignore white spaces. */
 [ \t]+   LOCATION_STEP (); continue;
 
-.        yyerror (yylloc, "syntax error, invalid character"); continue;
+.        yyerror (yylloc, nerrs, "syntax error, invalid character"); continue;
 
 <<EOF>>  return TOK_YYEOF;
 %%
