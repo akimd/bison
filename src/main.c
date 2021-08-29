@@ -63,6 +63,12 @@
 int
 main (int argc, char *argv[])
 {
+  {
+    char *cp = getenv ("BISON_PROGRAM_NAME");
+    if (cp)
+      argv[0] = cp;
+  }
+
 #define DEPENDS_ON_LIBINTL 1
   set_program_name (argv[0]);
   setlocale (LC_ALL, "");

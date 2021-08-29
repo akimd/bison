@@ -25,27 +25,13 @@ abs_top_builddir='@abs_top_builddir@'
 BISON_PKGDATADIR=$abs_top_srcdir/data
 export BISON_PKGDATADIR
 
-stderr=tmp-bison.$$
-
-# If stderr is a tty, force --color=yes to simulate --color=auto
-# although we save and modify stderr.
-if test -t 2; then
-    set x --color=yes ${1+"$@"}
-    shift
-fi
-
-# We redirect stderr, which breaks the computation of the terminal
-# screen width.  So export COLUMNS to Bison, hoping for the shell to
-# have defined it.
-: ${COLUMNS=`(tput cols) 2>/dev/null || echo 132`}
-export COLUMNS
-$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"} 2>"$stderr"
-status=$?
-
 # Neutralize path differences in error messages so that check and
 # installcheck behave the same way.
-sed -e "s,$abs_top_builddir/src/,,g" <"$stderr" >&2
-rm -f "$stderr"
+BISON_PROGRAM_NAME=bison
+export BISON_PROGRAM_NAME
+
+$PREBISON "$abs_top_builddir/src/bison" ${1+"$@"}
+status=$?
 
 # As a special dark magic, if we are actually using this wrapper to
 # compile Bison's src/parse-gram.y, post-process the synclines to
