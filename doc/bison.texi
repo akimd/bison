@@ -1283,17 +1283,17 @@ follows:
 
 @example
 stmt:
-  expr ';'  %merge <stmtMerge>
-| decl      %merge <stmtMerge>
+  expr ';'  %merge <stmt_merge>
+| decl      %merge <stmt_merge>
 ;
 @end example
 
 @noindent
-and define the @code{stmtMerge} function as:
+and define the @code{stmt_merge} function as:
 
 @example
 static YYSTYPE
-stmtMerge (YYSTYPE x0, YYSTYPE x1)
+stmt_merge (YYSTYPE x0, YYSTYPE x1)
 @{
   printf ("<OR> ");
   return "";
@@ -1306,7 +1306,7 @@ in the C declarations at the beginning of the file:
 
 @example
 %@{
-  static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
+  static YYSTYPE stmt_merge (YYSTYPE x0, YYSTYPE x1);
 %@}
 @end example
 
@@ -1331,7 +1331,7 @@ previous example, the merged-to symbol (@code{stmt}) does not have a
 specific type, and the merger is
 
 @example
-YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);
+YYSTYPE stmt_merge (YYSTYPE x0, YYSTYPE x1);
 @end example
 
 @noindent
@@ -1358,12 +1358,12 @@ or
 then the prototype of the merger must be:
 
 @example
-Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
+Node *stmt_merge (YYSTYPE x0, YYSTYPE x1);
 @end example
 
 @noindent
 (This signature might be a mistake originally, and maybe it should have been
-@samp{Node *stmtMerge (Node *x0, Node *x1)}.  If you have an opinion about
+@samp{Node *stmt_merge (Node *x0, Node *x1)}.  If you have an opinion about
 it, please let us know.)
 
 @node GLR Semantic Actions
@@ -16594,7 +16594,7 @@ London, Department of Computer Science, TR-00-12 (December 2000).
 @c LocalWords: rpcalc Lexer Expr ltcalc mfcalc yylex defaultprec Donnelly Gotos
 @c LocalWords: yyerror pxref LR yylval cindex dfn LALR samp gpl BNF xref yypush
 @c LocalWords: const int paren ifnotinfo AC noindent emph expr stmt findex lr
-@c LocalWords: glr YYSTYPE TYPENAME prog dprec printf decl init stmtMerge POSIX
+@c LocalWords: glr YYSTYPE TYPENAME prog dprec printf decl init POSIX ODR
 @c LocalWords: pre STDC GNUC endif yy YY alloca lf stddef stdlib YYDEBUG yypull
 @c LocalWords: NUM exp subsubsection kbd Ctrl ctype EOF getchar isdigit nonfree
 @c LocalWords: ungetc stdin scanf sc calc ulator ls lm cc NEG prec yyerrok rr

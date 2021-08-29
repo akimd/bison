@@ -66,7 +66,7 @@
   static void free_node (Node *);
   static char *node_to_string (const Node *);
   static void node_print (FILE *, const Node *);
-  static Node *stmtMerge (YYSTYPE x0, YYSTYPE x1);
+  static Node *stmt_merge (YYSTYPE x0, YYSTYPE x1);
 
   static void yyerror (YYLTYPE const * const loc, const char *msg);
   static yytoken_kind_t yylex (YYSTYPE *lval, YYLTYPE *lloc);
@@ -83,9 +83,9 @@
 
 %glr-parser
 
-%type <Node*> stmt expr decl declarator TYPENAME ID
-%destructor { free_node ($$); } <Node*>
-%printer { node_print (yyo, $$); } <Node*>
+%type <Node *> stmt expr decl declarator TYPENAME ID
+%destructor { free_node ($$); } <Node *>
+%printer { node_print (yyo, $$); } <Node *>
 
 %%
 
@@ -100,8 +100,8 @@ prog : %empty
                    }
      ;
 
-stmt : expr ';'  %merge <stmtMerge>     { $$ = $1; }
-     | decl      %merge <stmtMerge>
+stmt : expr ';'  %merge <stmt_merge>     { $$ = $1; }
+     | decl      %merge <stmt_merge>
      | error ';'        { $$ = new_nterm ("<error>", NULL, NULL, NULL); }
      ;
 
@@ -290,8 +290,8 @@ node_print (FILE *out, const Node *n)
 }
 
 
-static Node*
-stmtMerge (YYSTYPE x0, YYSTYPE x1)
+static Node *
+stmt_merge (YYSTYPE x0, YYSTYPE x1)
 {
   return new_nterm ("<OR>(%s, %s)", x0.stmt, x1.stmt, NULL);
 }

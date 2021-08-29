@@ -61,8 +61,8 @@ $1
   static Node *new_term (char *);
   static void free_node (Node *);
   static char *node_to_string (Node *);
-]m4_bmatch([$2], [stmtMerge],
-[ static YYSTYPE stmtMerge (YYSTYPE x0, YYSTYPE x1);])[
+]m4_bmatch([$2], [stmt_merge],
+[ static YYSTYPE stmt_merge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
   #define YYSTACKEXPANDABLE 1
   ]AT_YYERROR_DECLARE[
@@ -291,9 +291,9 @@ node_to_string (Node *node)
 }
 
 ]]
-m4_bmatch([$2], [stmtMerge],
+m4_bmatch([$2], [stmt_merge],
 [[static YYSTYPE
-stmtMerge (YYSTYPE x0, YYSTYPE x1)
+stmt_merge (YYSTYPE x0, YYSTYPE x1)
 {
   return new_nterm ("<OR>(%s,%s)", x0, x1, YY_NULLPTR);
 }
@@ -431,30 +431,30 @@ AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([],
-                      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmt_merge>], [%merge <stmt_merge>])
 AT_TEST([_AT_AMBIG_GLR_OUTPUT], [_AT_GLR_STDERR])
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, impure, locations])
 _AT_TEST_GLR_CXXTYPES([%locations],
-                      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmt_merge>], [%merge <stmt_merge>])
 AT_TEST([_AT_AMBIG_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
 AT_CLEANUP
 
 AT_SETUP([GLR: Merge conflicting parses, pure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure],
-                      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmt_merge>], [%merge <stmt_merge>])
 AT_TEST([_AT_AMBIG_GLR_OUTPUT], [_AT_GLR_STDERR])
 AT_CLEANUP
 AT_SETUP([GLR: Merge conflicting parses, pure, locations])
 _AT_TEST_GLR_CXXTYPES([%define api.pure %locations],
-                      [%merge <stmtMerge>],[%merge <stmtMerge>])
+                      [%merge <stmt_merge>],[%merge <stmt_merge>])
 AT_TEST([_AT_AMBIG_GLR_OUTPUT_WITH_LOC], [_AT_GLR_STDERR_WITH_LOC])
 AT_CLEANUP
 
 AT_SETUP([GLR: Verbose messages, resolve ambiguity, impure, no locations])
 _AT_TEST_GLR_CXXTYPES([%define parse.error verbose],
-                      [%merge <stmtMerge>], [%merge <stmtMerge>])
+                      [%merge <stmt_merge>], [%merge <stmt_merge>])
 AT_TEST([_AT_AMBIG_GLR_OUTPUT], [_AT_VERBOSE_GLR_STDERR])
 AT_CLEANUP
 

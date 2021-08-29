@@ -45,7 +45,7 @@
   #include <cstring>
 
   static Node
-  stmtMerge (const Node& x0, const Node& x1);
+  stmt_merge (const Node& x0, const Node& x1);
 
   static yy::parser::symbol_type
   yylex ();
@@ -74,9 +74,9 @@ prog : %empty
      | prog stmt   { std::cout << @2 << ": " << $2 << '\n'; }
      ;
 
-stmt : expr ";"  %merge <stmtMerge>   { $$ = $1; }
-     | decl      %merge <stmtMerge>
-     | error ";"                      { $$ = Nterm ("<error>"); }
+stmt : expr ";"  %merge <stmt_merge>   { $$ = $1; }
+     | decl      %merge <stmt_merge>
+     | error ";"                       { $$ = Nterm ("<error>"); }
      ;
 
 expr : ID
@@ -169,7 +169,7 @@ yylex ()
 }
 
 static Node
-stmtMerge (const Node& x0, const Node& x1)
+stmt_merge (const Node& x0, const Node& x1)
 {
   return Nterm ("<OR>", x0, x1);
 }
