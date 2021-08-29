@@ -484,7 +484,9 @@ m4_define([_b4_symbol_constructor_define],
                               b4_locations_if([l]))[)
 #endif
       {]b4_parse_assert_if([[
+#if !defined _MSC_VER || defined __clang__
         ]b4_assert[ (]b4_tok_in($@)[);
+#endif
       ]])[}
 ]])])
 

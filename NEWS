@@ -2,6 +2,7 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+  Portability issues in the test suite and in C++ skeletons.
 
 * Noteworthy changes in release 3.7.90 (2021-08-13) [beta]
 
