@@ -2162,7 +2162,7 @@ b4_dollar_popdef])[]dnl
                reductions on all stacks) helps prevent double destructor calls
                on yylval in the event of memory exhaustion.  */
 
-            for (state_set_index yys = create_state_set_index(0); yys.uget() < this->yystateStack.numTops(); ++yys)
+            for (state_set_index yys = create_state_set_index (0); yys.uget () < this->yystateStack.numTops (); ++yys)
               YYCHK1 (this->yyprocessOneStack (yys, yyposn]b4_locations_if([, &this->yylloc])[));
             this->yystateStack.yytops.yyremoveDeletes ();
             if (this->yystateStack.yytops.size() == 0)
@@ -2172,7 +2172,7 @@ b4_dollar_popdef])[]dnl
                   this->yyFail (]b4_locations_if([&this->yylloc, ])[YY_("syntax error"));
                 YYCHK1 (this->yyresolveStack ());
                 YYCDEBUG << "Returning to deterministic operation.\n";]b4_locations_if([[
-                this->yyerror_range[1].getState().yyloc = this->yylloc;]])[
+                this->yyerror_range[1].getState ().yyloc = this->yylloc;]])[
                 this->yyreportSyntaxError ();
                 goto yyuser_error;
               }
@@ -2185,12 +2185,11 @@ b4_dollar_popdef])[]dnl
             yysymbol_kind_t yytoken_to_shift = this->yytoken;
             this->yytoken = ]b4_symbol(empty, kind)[;
             yyposn += 1;
-            for (state_set_index yys = create_state_set_index(0); yys.uget() < this->yystateStack.numTops(); ++yys)
+            for (state_set_index yys = create_state_set_index (0); yys.uget () < this->yystateStack.numTops (); ++yys)
               {
-                const state_num yystate = this->topState(yys)->yylrState;
+                const state_num yystate = this->topState (yys)->yylrState;
                 const short* yyconflicts;
-                const int yyaction
-                  = yygetLRActions (yystate, yytoken_to_shift, yyconflicts);
+                const int yyaction = yygetLRActions (yystate, yytoken_to_shift, yyconflicts);
                 /* Note that yyconflicts were handled by yyprocessOneStack.  */
                 YYCDEBUG << "On stack " << yys.get() << ", ";
                 YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, this->yylval, this->yylloc);
@@ -2203,7 +2202,7 @@ b4_dollar_popdef])[]dnl
               // Value type destructor.
               ]b4_symbol_variant([[yytoken_to_shift]], [[this->yylval]], [[template destroy]])])[
 
-            if (this->yystateStack.yytops.size() == 1)
+            if (this->yystateStack.yytops.size () == 1)
               {
                 YYCHK1 (this->yyresolveStack ());
                 YYCDEBUG << "Returning to deterministic operation.\n";
