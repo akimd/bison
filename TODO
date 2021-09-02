@@ -518,6 +518,7 @@ https://lists.gnu.org/r/bison-patches/2013-09/msg00000.html and following
 
 ** Multiple start symbols
 Revert a70e75b8a41755ab96ab211a0ea111ac68a4aadd.
+Revert tests: disable "Multistart reports".
 
 Would be very useful when parsing closely related languages.  The idea is to
 declare several start symbols, for instance
