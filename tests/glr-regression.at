@@ -42,13 +42,12 @@ yyparse ()
 # --------------------------
 m4_define([AT_PRINT_LOOKAHEAD_DECLARE],
 [AT_GLR2_CC_IF(
-[[  static void
-  print_lookahead (int yytoken, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
-                   char const *reduction);
+[[static void
+  print_lookahead (yy::parser::symbol_type yylookahead, char const *reduction);
 #define PRINT_LOOKAHEAD(Msg) \
-  print_lookahead (yytoken, &yylval, &yylloc, Msg)
+  print_lookahead (yyla, Msg)
 ]],
-[[  static void
+[[static void
   print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
                    char const *reduction);
 #define PRINT_LOOKAHEAD(Msg) \
@@ -60,8 +59,7 @@ m4_define([AT_PRINT_LOOKAHEAD_DECLARE],
 m4_define([AT_PRINT_LOOKAHEAD_DEFINE],
 [AT_GLR2_CC_IF(
 [[static void
-print_lookahead (int yytoken, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
-                 char const *reduction)
+print_lookahead (yy::parser::symbol_type yylookahead, char const *reduction)
 ]],
 [[static void
 print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
@@ -80,11 +78,12 @@ print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
   //       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //   117 |     : '?';
   //       |     ~~~~~
+  int yytoken = yylookahead.kind ();
   int yychr
     = yytoken == yy::parser::symbol_kind::S_YYEMPTY ? -2
     : yytoken == yy::parser::symbol_kind::S_YYEOF   ? 0
-    : yytoken == yy::parser::yytranslate_ ('a')     ? 'a'
-    : yytoken == yy::parser::yytranslate_ ('b')     ? 'b'
+    : yytoken == yy::parser::symbol_kind::S_3_a_    ? 'a'
+    : yytoken == yy::parser::symbol_kind::S_4_b_    ? 'b'
     : '?';
 ]])[
   printf ("%s:\n  yychar=", reduction);
@@ -94,12 +93,17 @@ print_lookahead (int yychr, ]AT_YYSTYPE[ *yylvalp, ]AT_YYLTYPE[ *yyllocp,
     printf ("YYEOF");
   else
     {
-      printf ("'%c', yylval='", yychr);
+      printf ("'%c', yylval='", yychr);]AT_GLR2_CC_IF([[
+      if (yylookahead.value.value > ' ')
+        printf ("%c", yylookahead.value.value);
+      printf ("', yylloc=(%d,%d),(%d,%d)",
+              yylookahead.location.]AT_FIRST_LINE[, yylookahead.location.]AT_FIRST_COLUMN[,
+              yylookahead.location.]AT_LAST_LINE[,  yylookahead.location.]AT_LAST_COLUMN[);]], [[
       if (yylvalp->value > ' ')
         printf ("%c", yylvalp->value);
       printf ("', yylloc=(%d,%d),(%d,%d)",
               yyllocp->]AT_FIRST_LINE[, yyllocp->]AT_FIRST_COLUMN[,
-              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);
+              yyllocp->]AT_LAST_LINE[, yyllocp->]AT_LAST_COLUMN[);]])[
     }
   printf ("\n");
 }

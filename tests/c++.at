@@ -1031,6 +1031,7 @@ yylex (yy::parser::value_type *lval)
 AT_BISON_CHECK([[-o input.cc input.yy]])
 
 AT_FOR_EACH_CXX([
+  AT_GLR2_CC_IF([AT_REQUIRE_CXX_STD(11, [echo "$at_std not supported"; continue])])
   AT_LANG_COMPILE([[input]], [[input.cc scan.cc]])
 
   # Leave enough valid tokens to make sure we recovered from the

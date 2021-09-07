@@ -105,6 +105,7 @@ start: $3;
 ]])
 
 AT_LANG_FOR_EACH_STD([
+  AT_GLR2_CC_IF([AT_REQUIRE_CXX_STD(11, [echo "$at_std not supported"; continue])])
   $7
   AT_FULL_COMPILE([[test]])
   AT_PARSER_CHECK([[test]], 0, [[$6
