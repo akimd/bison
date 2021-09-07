@@ -823,11 +823,8 @@ void
   ++*nerrs;]])[]AT_LOCATION_IF([[
   std::cerr << ctx.location () << ": ";]])[
   std::cerr << "syntax error";
-  {
-    symbol_kind_type la = ctx.token ();
-    if (la != symbol_kind::S_YYEMPTY)
-      std::cerr << " on token [" << symbol_name (la) << ']';
-  }
+  if (!ctx.lookahead ().empty ())
+    std::cerr << " on token [" << ctx.lookahead ().name () << ']';
   {
     enum { TOKENMAX = 10 };
     symbol_kind_type expected[TOKENMAX];

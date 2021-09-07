@@ -465,8 +465,9 @@ yyreport_syntax_error (const yypcontext_t *ctx, const user_context *uctx)
 }
 
 
-// Called by yyparse on error.
-void yyerror (const YYLTYPE *loc, const user_context *uctx, char const *format, ...)
+// Called by yyparse on errors to report the error to the user.
+void
+yyerror (const YYLTYPE *loc, const user_context *uctx, char const *format, ...)
 {
   if (uctx->silent)
     return;

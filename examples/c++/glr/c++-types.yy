@@ -27,8 +27,8 @@
 %locations
 %debug
 
-// Nice error messages with details.
-%define parse.error detailed
+// Custom error messages.
+%define parse.error custom
 
 %code requires
 {
@@ -44,9 +44,11 @@
   #include <fstream>
   #include <cstring>
 
+  // Merge two semantic values.
   static Node
   stmt_merge (const Node& x0, const Node& x1);
 
+  // Fetch a token.
   static yy::parser::symbol_type
   yylex ();
 }
@@ -100,13 +102,41 @@ declarator
 std::istream* input = nullptr;
 yy::parser::location_type loc;
 
-// An error reporting function.
+
+/*---------.
+| Parser.  |
+`---------*/
+
+// Generate a custom error message.
+void
+yy::parser::report_syntax_error (const context& ctx) const
+{
+  std::cerr << ctx.location () << ": syntax error";
+  if (!ctx.lookahead ().empty ())
+    std::cerr << " on token " << ctx.lookahead ().name ();
+  {
+    enum { TOKENMAX = 10 };
+    symbol_kind_type expected[TOKENMAX];
+    int n = ctx.expected_tokens (expected, TOKENMAX);
+    if (0 < n)
+      {
+        for (int i = 0; i < n; ++i)
+          std::cerr << (i == 0 ? " (expected " : " or ")
+                    << symbol_name (expected[i]);
+        std::cerr << ')';
+      }
+  }
+  std::cerr << '\n';
+}
+
+// Report the error to the user.
 void
 yy::parser::error (const location_type& l, const std::string& m)
 {
   std::cerr << l << ": " << m << '\n';
 }
 
+// Fetch the next token.
 static yy::parser::symbol_type
 yylex ()
 {
@@ -168,12 +198,19 @@ yylex ()
     }
 }
 
+// Merge two semantic values as an AST including both alternatives.
 static Node
 stmt_merge (const Node& x0, const Node& x1)
 {
   return Nterm ("<OR>", x0, x1);
 }
 
+
+/*-------.
+| Main.  |
+`-------*/
+
+// Parse `file` using parser `parse`.
 int
 process (yy::parser& parse, const std::string& file)
 {

@@ -47,4 +47,4 @@ run 0 "\
 5.0-13: <OR>(<init-declare>(T, y, +(z, q)), =(<cast>(y, T), +(z, q)))
 7.0-15: <error>
 9.0-5: +(z, q)
-err: 7.5: syntax error, unexpected identifier, expecting = or + or )"
+err: 7.5: syntax error on token identifier (expected = or + or ))"

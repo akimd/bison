@@ -39,6 +39,15 @@ examples.
 Extracted from the documentation: [A Complete C++
 Example](https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html).
 
+## glr
+
+This example demonstrates the use of GLR parsers to handle (local)
+ambiguities in the C++ language.  See the node "Merging GLR Parses" in
+Bison's documentation.
+
+It uses (Bison) variants to store objects as semantic values.  It also
+demonstrates custom error messages in C++.
+
 <!---
 
 Local Variables:

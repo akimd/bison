@@ -4,6 +4,9 @@ This example demonstrates the use of GLR parsers to handle (local)
 ambiguities in the C++ language.  See the node "Merging GLR Parses" in
 Bison's documentation.
 
+It uses (Bison) variants to store objects as semantic values.  It also
+demonstrates custom error messages in C++.
+
 <!---
 Local Variables:
 fill-column: 76
