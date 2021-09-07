@@ -969,7 +969,7 @@ AT_DATA_GRAMMAR([[input.yy]],
 %code
 {
   #include <cstdlib>
-  int yylex (yy::parser::semantic_type *);
+  int yylex (yy::parser::value_type *);
 }
 
 %define parse.error verbose
@@ -1013,7 +1013,7 @@ AT_DATA_SOURCE([scan.cc],
 
 // 'a': valid item, 's': syntax error, 'l': lexical error.
 int
-yylex (yy::parser::semantic_type *lval)
+yylex (yy::parser::value_type *lval)
 {
   switch (int res = getchar ())
   {

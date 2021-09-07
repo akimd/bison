@@ -336,7 +336,7 @@ m4_define([b4_shared_declarations],
 
     /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_kind_type, but character literals
-    /// are valid, yet not members of the token_type enum.
+    /// are valid, yet not members of the token_kind_type enum.
     static symbol_kind_type yytranslate_ (int t);
 
 ]b4_parse_error_bmatch(
@@ -637,9 +637,9 @@ m4_if(b4_prefix, [yy], [],
   ]b4_parser_class[::syntax_error::~syntax_error () YY_NOEXCEPT YY_NOTHROW
   {}
 
-  /*---------------.
-  | symbol kinds.  |
-  `---------------*/
+  /*---------.
+  | symbol.  |
+  `---------*/
 
 ]b4_token_ctor_if([], [b4_public_types_define([cc])])[
 

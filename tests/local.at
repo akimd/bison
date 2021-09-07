@@ -378,7 +378,7 @@ m4_pushdef([AT_TOKEN],
 
 
 m4_pushdef([AT_YYSTYPE],
-[AT_CXX_IF([AT_NAMESPACE[::]AT_PARSER_CLASS[::semantic_type]],
+[AT_CXX_IF([AT_NAMESPACE[::]AT_PARSER_CLASS[::value_type]],
                [AT_API_PREFIX[STYPE]])])
 m4_pushdef([AT_YYLTYPE],
 [AT_CXX_IF([AT_NAMESPACE[::]AT_PARSER_CLASS[::location_type]],

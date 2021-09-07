@@ -304,7 +304,7 @@ m4_define([b4_shared_declarations],
   public: // FIXME: Private
     /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_kind_type, but character literals
-    /// are valid, yet not members of the token_type enum.
+    /// are valid, yet not members of the token_kind_type enum.
     static symbol_kind_type yytranslate_ (int t);
 
 ]b4_parse_error_bmatch(

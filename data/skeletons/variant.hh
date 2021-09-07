@@ -470,7 +470,7 @@ m4_define([_b4_symbol_constructor_define],
           b4_symbol_if([$1], [has_type],
                        [b4_symbol([$1], [type]) v]),
           b4_locations_if([location_type l]))[)
-        : super_type (]b4_join([token_type (tok)],
+        : super_type (]b4_join([token_kind_type (tok)],
                                b4_symbol_if([$1], [has_type], [std::move (v)]),
                                b4_locations_if([std::move (l)]))[)
 #else
@@ -479,7 +479,7 @@ m4_define([_b4_symbol_constructor_define],
           b4_symbol_if([$1], [has_type],
                        [const b4_symbol([$1], [type])& v]),
           b4_locations_if([const location_type& l]))[)
-        : super_type (]b4_join([token_type (tok)],
+        : super_type (]b4_join([token_kind_type (tok)],
                                b4_symbol_if([$1], [has_type], [v]),
                                b4_locations_if([l]))[)
 #endif

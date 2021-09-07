@@ -227,6 +227,8 @@ m4_define([b4_value_type_declare],
 # Define the public types: token, semantic value, location, and so forth.
 # Depending on %define token_lex, may be output in the header or source file.
 m4_define([b4_public_types_declare],
+[m4_if(b4_skeleton, ["glr2.cc"],
+[b4_value_type_declare],
 [[#ifdef ]b4_api_PREFIX[STYPE
 # ifdef __GNUC__
 #  pragma GCC message "bison: do not #define ]b4_api_PREFIX[STYPE in C++, use %define api.value.type"
@@ -236,7 +238,8 @@ m4_define([b4_public_types_declare],
 ]b4_value_type_declare[
 #endif
     /// Backward compatibility (Bison 3.8).
-    typedef value_type semantic_type;]b4_locations_if([
+    typedef value_type semantic_type;
+]])[]b4_locations_if([
     /// Symbol locations.
     typedef b4_percent_define_get([[api.location.type]],
                                   [[location]]) location_type;])[
@@ -262,16 +265,16 @@ m4_define([b4_public_types_declare],
     /// Token kinds.
     struct token
     {
-      ]b4_token_enums[
+      ]b4_token_enums[]m4_if(b4_skeleton, ["glr2.cc"], [], [[
       /// Backward compatibility alias (Bison 3.6).
-      typedef token_kind_type yytokentype;
+      typedef token_kind_type yytokentype;]])[
     };
 
     /// Token kind, as returned by yylex.
-    typedef token::yytokentype token_kind_type;
+    typedef token::token_kind_type token_kind_type;]m4_if(b4_skeleton, ["glr2.cc"], [], [[
 
     /// Backward compatibility alias (Bison 3.6).
-    typedef token_kind_type token_type;
+    typedef token_kind_type token_type;]])[
 
     /// Symbol kinds.
     struct symbol_kind
@@ -383,10 +386,10 @@ m4_define([b4_symbol_type_define],
       std::string name () const YY_NOEXCEPT
       {
         return ]b4_parser_class[::symbol_name (this->kind ());
-      }]])[
+      }]])[]m4_if(b4_skeleton, ["glr2.cc"], [], [[
 
       /// Backward compatibility (Bison 3.6).
-      symbol_kind_type type_get () const YY_NOEXCEPT;
+      symbol_kind_type type_get () const YY_NOEXCEPT;]])[
 
       /// Whether empty.
       bool empty () const YY_NOEXCEPT;
@@ -435,18 +438,18 @@ m4_define([b4_symbol_type_define],
 
       /// The (internal) type number (corresponding to \a type).
       /// \a empty when empty.
-      symbol_kind_type kind () const YY_NOEXCEPT;
+      symbol_kind_type kind () const YY_NOEXCEPT;]m4_if(b4_skeleton, ["glr2.cc"], [], [[
 
       /// Backward compatibility (Bison 3.6).
-      symbol_kind_type type_get () const YY_NOEXCEPT;
+      symbol_kind_type type_get () const YY_NOEXCEPT;]])[
 
       /// The symbol kind.
       /// \a ]b4_symbol_prefix[YYEMPTY when empty.
       symbol_kind_type kind_;
-    };
+    };]m4_if(b4_skeleton, ["glr2.cc"], [], [[
 
     /// Backward compatibility for a private implementation detail (Bison 3.6).
-    typedef by_kind by_type;
+    typedef by_kind by_type;]])[
 
     /// "External" symbols: returned by the scanner.
     struct symbol_type : basic_symbol<by_kind>
@@ -501,12 +504,14 @@ m4_define([b4_public_types_define],
     (void) v;
     ]b4_symbol_variant([this->kind ()], [value], [YY_MOVE_OR_COPY], [YY_MOVE (v)])])[}]])[
 
+]m4_if(b4_skeleton, ["glr2.cc"], [], [[
   template <typename Base>
   ]b4_parser_class[::symbol_kind_type
   ]b4_parser_class[::basic_symbol<Base>::type_get () const YY_NOEXCEPT
   {
     return this->kind ();
   }
+]])[
 
   template <typename Base>
   bool
@@ -566,11 +571,13 @@ m4_define([b4_public_types_define],
     return kind_;
   }
 
+]m4_if(b4_skeleton, ["glr2.cc"], [], [[
   ]b4_inline([$1])[]b4_parser_class[::symbol_kind_type
   ]b4_parser_class[::by_kind::type_get () const YY_NOEXCEPT
   {
     return this->kind ();
   }
+]])[
 ]])
 
 
