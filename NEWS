@@ -2,13 +2,6 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
-
-* Noteworthy changes in release 3.7.91 (2021-09-02) [beta]
-
-  Portability issues in the test suite and in C++ skeletons.
-
-* Noteworthy changes in release 3.7.90 (2021-08-13) [beta]
-
 ** Backward incompatible changes
 
   In conformance with the recommendations of the Graphviz team
