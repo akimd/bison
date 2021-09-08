@@ -242,6 +242,7 @@ exp:
 | 'x' 'a' { printf ("xa\n"); }
 | 'x' 'b' { printf ("xb\n"); }
 | 'x' 'c' { printf ("xc\n"); }
+| 'x' 'd' { printf ("xd\n"); }
 ;
 
 %%
@@ -281,6 +282,7 @@ extern "C"
 #include "xa.hh"
 #include "xb.hh"
 #include "xc.hh"
+#include "xd.hh"
 
 #define RUN(S)                                  \
   do {                                          \
@@ -309,6 +311,8 @@ main (void)
   RUN(pb.parse());
   xc_::parser pc;
   RUN(pc.parse());
+  xd_::parser pd;
+  RUN(pd.parse());
   return 0;
 }
 ]])# main.cc
@@ -325,6 +329,7 @@ AT_TEST([x9], [%locations %code requires {#include "location.hh"} %define api.lo
 AT_TEST([xa], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %language "c++" %define api.value.type variant])
 AT_TEST([xb], [%locations %define api.location.file none %language "c++" %define api.value.type variant])
 AT_TEST([xc], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %skeleton "glr2.cc"])
+AT_TEST([xd], [%locations %define api.location.file none %skeleton "glr2.cc"])
 
 # Check that api.prefix works properly:
 #
@@ -381,7 +386,7 @@ AT_PERL_CHECK([[-n -0777 -e '
 # Do this late, so that other checks have been performed.
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
 
-AT_COMPILE_CXX([parser], [[x[1-9a-c].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
+AT_COMPILE_CXX([parser], [[x[1-9a-d].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
 AT_PARSER_CHECK([parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])
