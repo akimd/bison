@@ -753,7 +753,10 @@ typedef int rule_num;
 
 // Forward declarations.
 class glr_state;
-class semantic_option;
+namespace
+{
+  class semantic_option;
+}
 class glr_stack_item;
 class glr_stack;
 
@@ -1126,260 +1129,263 @@ private:
   glr_state* yylastDeleted;
 };
 
-class semantic_option
+namespace
 {
-public:
-  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
-  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
-  typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
-  typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
+  class semantic_option
+  {
+  public:
+    typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
+    typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
+    typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
+    typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
 
-  semantic_option ()
-    : yyrule (0)
-    , yystate (0)
-    , yynext (0)
-    , yytoken (]b4_symbol(empty, kind)[)
-    , yyval ()]b4_locations_if([[
-    , yyloc ()]])[]b4_parse_assert_if([[
-    , magic_ (MAGIC)]])[
-  {}
+    semantic_option ()
+      : yyrule (0)
+      , yystate (0)
+      , yynext (0)
+      , yytoken (]b4_symbol(empty, kind)[)
+      , yyval ()]b4_locations_if([[
+      , yyloc ()]])[]b4_parse_assert_if([[
+      , magic_ (MAGIC)]])[
+    {}
 
-  semantic_option (rule_num rule, symbol_kind_type token)
-    : yyrule (rule)
-    , yystate (0)
-    , yynext (0)
-    , yytoken (token)
-    , yyval ()]b4_locations_if([[
-    , yyloc ()]])[]b4_parse_assert_if([[
-    , magic_ (MAGIC)]])[
-  {}
+    semantic_option (rule_num rule, symbol_kind_type token)
+      : yyrule (rule)
+      , yystate (0)
+      , yynext (0)
+      , yytoken (token)
+      , yyval ()]b4_locations_if([[
+      , yyloc ()]])[]b4_parse_assert_if([[
+      , magic_ (MAGIC)]])[
+    {}
 
-  semantic_option (const semantic_option& that)
-    : yyrule (that.yyrule)
-    , yystate (that.yystate)
-    , yynext (that.yynext)
-    , yytoken (that.yytoken)
-    , yyval (]b4_variant_if([], [[that.yyval]])[)]b4_locations_if([[
-    , yyloc (that.yyloc)]])[]b4_parse_assert_if([[
-    , magic_ (MAGIC)]])[
-  {]b4_parse_assert_if([[
-    that.check_ ();]])[]b4_variant_if([[
-    ]b4_symbol_variant([yytoken],
-                       [yyval], [copy], [that.yyval])])[
-  }
-
-  // Needed for the assignment in yynewSemanticOption.
-  semantic_option& operator= (const semantic_option& that)
-  {]b4_parse_assert_if([[
-    check_ ();
-    that.check_ ();]])[
-    yyrule = that.yyrule;
-    yystate = that.yystate;
-    yynext = that.yynext;
-    yytoken = that.yytoken;]b4_variant_if([[
-    ]b4_symbol_variant([yytoken],
-                       [yyval], [copy], [that.yyval])], [[
-    yyval = that.yyval;]])[]b4_locations_if([[
-    yyloc = that.yyloc;]])[
-    return *this;
-  }
-
-  /// Only call state() and setState() on objects in yyitems, not temporaries.
-  glr_state* state();
-  const glr_state* state() const;
-  void setState(const glr_state* s);
-
-  const semantic_option* next () const;
-  semantic_option* next ();
-  void setNext (const semantic_option* s);
-
-  std::ptrdiff_t indexIn (const glr_stack_item* array) const;
-
-  /** True iff YYY0 and YYY1 represent identical options at the top level.
-   *  That is, they represent the same rule applied to RHS symbols
-   *  that produce the same terminal symbols.  */
-  bool
-  isIdenticalTo (const semantic_option& yyy1) const
-  {]b4_parse_assert_if([[
-    check_ ();
-    yyy1.check_ ();]])[
-    if (this->yyrule == yyy1.yyrule)
-      {
-        const glr_state *yys0, *yys1;
-        int yyn;
-        for (yys0 = this->state(),
-             yys1 = yyy1.state(),
-             yyn = yyrhsLength (this->yyrule);
-             yyn > 0;
-             yys0 = yys0->pred(),
-             yys1 = yys1->pred(), yyn -= 1)
-          if (yys0->yyposn != yys1->yyposn)
-            return false;
-        return true;
-      }
-    else
-      return false;
-  }
-
-  /** Assuming identicalOptions (YYY0,YYY1), destructively merge the
-   *  alternative semantic values for the RHS-symbols of YYY1 and YYY0.  */
-  void
-  mergeWith (semantic_option& yyy1)
-  {]b4_parse_assert_if([[
-    check_ ();
-    yyy1.check_ ();]])[
-    glr_state *yys0 = this->state ();
-    glr_state *yys1 = yyy1.state ();
-    for (int yyn = yyrhsLength (this->yyrule);
-         yyn > 0;
-         yyn -= 1, yys0 = yys0->pred (), yys1 = yys1->pred ())
-      {
-        if (yys0 == yys1)
-          break;
-        else if (yys0->yyresolved)
-          {
-            yys1->yyresolved = true;]b4_variant_if([[
-            YYASSERT (yys1->yylrState == yys0->yylrState);
-            ]b4_symbol_variant([yy_accessing_symbol (yys0->yylrState)],
-                               [yys1->value ()], [copy], [yys0->value ()])], [[
-            yys1->value () = yys0->value ();]])[
-          }
-        else if (yys1->yyresolved)
-          {
-            yys0->yyresolved = true;]b4_variant_if([[
-            YYASSERT (yys0->yylrState == yys1->yylrState);
-            ]b4_symbol_variant([yy_accessing_symbol (yys1->yylrState)],
-                               [yys0->value ()], [copy], [yys1->value ()])], [[
-            yys0->value () = yys1->value ();]])[
-          }
-        else
-          {
-            semantic_option* yyz0prev = YY_NULLPTR;
-            semantic_option* yyz0 = yys0->firstVal();
-            semantic_option* yyz1 = yys1->firstVal();
-            while (true)
-              {
-                if (yyz1 == yyz0 || yyz1 == YY_NULLPTR)
-                  break;
-                else if (yyz0 == YY_NULLPTR)
-                  {
-                    if (yyz0prev != YY_NULLPTR)
-                      yyz0prev->setNext (yyz1);
-                    else
-                      yys0->setFirstVal (yyz1);
-                    break;
-                  }
-                else if (yyz0 < yyz1)
-                  {
-                    semantic_option* yyz = yyz0;
-                    if (yyz0prev != YY_NULLPTR)
-                      yyz0prev->setNext(yyz1);
-                    else
-                      yys0->setFirstVal(yyz1);
-                    yyz1 = yyz1->next();
-                    yyz0->setNext(yyz);
-                  }
-                yyz0prev = yyz0;
-                yyz0 = yyz0->next();
-              }
-            yys1->setFirstVal(yys0->firstVal());
-          }
-      }
-  }
-
-#if ]b4_api_PREFIX[DEBUG
-  void yyreportTree (size_t yyindent = 2) const
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    int yynrhs = yyrhsLength (this->yyrule);
-    const glr_state* yystates[1 + YYMAXRHS];
-    glr_state yyleftmost_state;
-
-    {
-      const glr_state* yys = this->state();
-      for (int yyi = yynrhs; 0 < yyi; yyi -= 1)
-        {
-          yystates[yyi] = yys;
-          yys = yys->pred();
-        }
-      if (yys == YY_NULLPTR)
-        {
-          yyleftmost_state.yyposn = 0;
-          yystates[0] = &yyleftmost_state;
-        }
-      else
-        yystates[0] = yys;
+    semantic_option (const semantic_option& that)
+      : yyrule (that.yyrule)
+      , yystate (that.yystate)
+      , yynext (that.yynext)
+      , yytoken (that.yytoken)
+      , yyval (]b4_variant_if([], [[that.yyval]])[)]b4_locations_if([[
+      , yyloc (that.yyloc)]])[]b4_parse_assert_if([[
+      , magic_ (MAGIC)]])[
+    {]b4_parse_assert_if([[
+      that.check_ ();]])[]b4_variant_if([[
+      ]b4_symbol_variant([yytoken],
+                         [yyval], [copy], [that.yyval])])[
     }
 
-    std::string yylhs = ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yylhsNonterm (this->yyrule));
-    YYASSERT(this->state());
-    if (this->state()->yyposn < yystates[0]->yyposn + 1)
-      std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
-                << this->yyrule - 1 << ", empty>\n";
-    else
-      std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
-                << this->yyrule - 1 << ", tokens "
-                << yystates[0]->yyposn + 1 << " .. "
-                << this->state()->yyposn << ">\n";
-    for (int yyi = 1; yyi <= yynrhs; yyi += 1)
+    // Needed for the assignment in yynewSemanticOption.
+    semantic_option& operator= (const semantic_option& that)
+    {]b4_parse_assert_if([[
+      check_ ();
+      that.check_ ();]])[
+      yyrule = that.yyrule;
+      yystate = that.yystate;
+      yynext = that.yynext;
+      yytoken = that.yytoken;]b4_variant_if([[
+      ]b4_symbol_variant([yytoken],
+                         [yyval], [copy], [that.yyval])], [[
+      yyval = that.yyval;]])[]b4_locations_if([[
+      yyloc = that.yyloc;]])[
+      return *this;
+    }
+
+    /// Only call state() and setState() on objects in yyitems, not temporaries.
+    glr_state* state();
+    const glr_state* state() const;
+    void setState(const glr_state* s);
+
+    const semantic_option* next () const YY_ATTRIBUTE_UNUSED;
+    semantic_option* next ();
+    void setNext (const semantic_option* s);
+
+    std::ptrdiff_t indexIn (const glr_stack_item* array) const YY_ATTRIBUTE_UNUSED;
+
+    /** True iff YYY0 and YYY1 represent identical options at the top level.
+     *  That is, they represent the same rule applied to RHS symbols
+     *  that produce the same terminal symbols.  */
+    bool
+    isIdenticalTo (const semantic_option& yyy1) const
+    {]b4_parse_assert_if([[
+      check_ ();
+      yyy1.check_ ();]])[
+      if (this->yyrule == yyy1.yyrule)
+        {
+          const glr_state *yys0, *yys1;
+          int yyn;
+          for (yys0 = this->state(),
+               yys1 = yyy1.state(),
+               yyn = yyrhsLength (this->yyrule);
+               yyn > 0;
+               yys0 = yys0->pred(),
+               yys1 = yys1->pred(), yyn -= 1)
+            if (yys0->yyposn != yys1->yyposn)
+              return false;
+          return true;
+        }
+      else
+        return false;
+    }
+
+    /** Assuming identicalOptions (YYY0,YYY1), destructively merge the
+     *  alternative semantic values for the RHS-symbols of YYY1 and YYY0.  */
+    void
+    mergeWith (semantic_option& yyy1)
+    {]b4_parse_assert_if([[
+      check_ ();
+      yyy1.check_ ();]])[
+      glr_state *yys0 = this->state ();
+      glr_state *yys1 = yyy1.state ();
+      for (int yyn = yyrhsLength (this->yyrule);
+           yyn > 0;
+           yyn -= 1, yys0 = yys0->pred (), yys1 = yys1->pred ())
+        {
+          if (yys0 == yys1)
+            break;
+          else if (yys0->yyresolved)
+            {
+              yys1->yyresolved = true;]b4_variant_if([[
+              YYASSERT (yys1->yylrState == yys0->yylrState);
+              ]b4_symbol_variant([yy_accessing_symbol (yys0->yylrState)],
+                                 [yys1->value ()], [copy], [yys0->value ()])], [[
+              yys1->value () = yys0->value ();]])[
+            }
+          else if (yys1->yyresolved)
+            {
+              yys0->yyresolved = true;]b4_variant_if([[
+              YYASSERT (yys0->yylrState == yys1->yylrState);
+              ]b4_symbol_variant([yy_accessing_symbol (yys1->yylrState)],
+                                 [yys0->value ()], [copy], [yys1->value ()])], [[
+              yys0->value () = yys1->value ();]])[
+            }
+          else
+            {
+              semantic_option* yyz0prev = YY_NULLPTR;
+              semantic_option* yyz0 = yys0->firstVal();
+              semantic_option* yyz1 = yys1->firstVal();
+              while (true)
+                {
+                  if (yyz1 == yyz0 || yyz1 == YY_NULLPTR)
+                    break;
+                  else if (yyz0 == YY_NULLPTR)
+                    {
+                      if (yyz0prev != YY_NULLPTR)
+                        yyz0prev->setNext (yyz1);
+                      else
+                        yys0->setFirstVal (yyz1);
+                      break;
+                    }
+                  else if (yyz0 < yyz1)
+                    {
+                      semantic_option* yyz = yyz0;
+                      if (yyz0prev != YY_NULLPTR)
+                        yyz0prev->setNext(yyz1);
+                      else
+                        yys0->setFirstVal(yyz1);
+                      yyz1 = yyz1->next();
+                      yyz0->setNext(yyz);
+                    }
+                  yyz0prev = yyz0;
+                  yyz0 = yyz0->next();
+                }
+              yys1->setFirstVal(yys0->firstVal());
+            }
+        }
+    }
+
+#if ]b4_api_PREFIX[DEBUG
+    void yyreportTree (size_t yyindent = 2) const
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      int yynrhs = yyrhsLength (this->yyrule);
+      const glr_state* yystates[1 + YYMAXRHS];
+      glr_state yyleftmost_state;
+
       {
-        if (yystates[yyi]->yyresolved)
+        const glr_state* yys = this->state();
+        for (int yyi = yynrhs; 0 < yyi; yyi -= 1)
           {
-            std::string yysym = ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
-            if (yystates[yyi-1]->yyposn+1 > yystates[yyi]->yyposn)
-              std::cerr << std::string(yyindent + 2, ' ') << yysym
-                        << " <empty>\n";
-            else
-              std::cerr << std::string(yyindent + 2, ' ') << yysym
-                        << " <tokens " << yystates[yyi-1]->yyposn + 1
-                        << " .. " << yystates[yyi]->yyposn << ">\n";
+            yystates[yyi] = yys;
+            yys = yys->pred();
+          }
+        if (yys == YY_NULLPTR)
+          {
+            yyleftmost_state.yyposn = 0;
+            yystates[0] = &yyleftmost_state;
           }
         else
-          yystates[yyi]->firstVal ()->yyreportTree (yyindent+2);
+          yystates[0] = yys;
       }
-  }
+
+      std::string yylhs = ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yylhsNonterm (this->yyrule));
+      YYASSERT(this->state());
+      if (this->state()->yyposn < yystates[0]->yyposn + 1)
+        std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
+                  << this->yyrule - 1 << ", empty>\n";
+      else
+        std::cerr << std::string(yyindent, ' ') << yylhs << " -> <Rule "
+                  << this->yyrule - 1 << ", tokens "
+                  << yystates[0]->yyposn + 1 << " .. "
+                  << this->state()->yyposn << ">\n";
+      for (int yyi = 1; yyi <= yynrhs; yyi += 1)
+        {
+          if (yystates[yyi]->yyresolved)
+            {
+              std::string yysym = ]b4_namespace_ref[::]b4_parser_class[::symbol_name (yy_accessing_symbol (yystates[yyi]->yylrState));
+              if (yystates[yyi-1]->yyposn+1 > yystates[yyi]->yyposn)
+                std::cerr << std::string(yyindent + 2, ' ') << yysym
+                          << " <empty>\n";
+              else
+                std::cerr << std::string(yyindent + 2, ' ') << yysym
+                          << " <tokens " << yystates[yyi-1]->yyposn + 1
+                          << " .. " << yystates[yyi]->yyposn << ">\n";
+            }
+          else
+            yystates[yyi]->firstVal ()->yyreportTree (yyindent+2);
+        }
+    }
 #endif
 
-  /** Rule number for this reduction */
-  rule_num yyrule;
+    /** Rule number for this reduction */
+    rule_num yyrule;
 
-private:
-  template <typename T>
-  static const glr_stack_item* asItem(const T* state)
-  {
-    return reinterpret_cast<const glr_stack_item*>(state);
-  }
-  template <typename T>
-  static glr_stack_item* asItem(T* state)
-  {
-    return reinterpret_cast<glr_stack_item*>(state);
-  }
-  /** The last RHS state in the list of states to be reduced.  */
-  std::ptrdiff_t yystate;
-  /** Next sibling in chain of options.  To facilitate merging,
-   *  options are chained in decreasing order by address.  */
-  std::ptrdiff_t yynext;
+  private:
+    template <typename T>
+    static const glr_stack_item* asItem(const T* state)
+    {
+      return reinterpret_cast<const glr_stack_item*>(state);
+    }
+    template <typename T>
+    static glr_stack_item* asItem(T* state)
+    {
+      return reinterpret_cast<glr_stack_item*>(state);
+    }
+    /** The last RHS state in the list of states to be reduced.  */
+    std::ptrdiff_t yystate;
+    /** Next sibling in chain of options.  To facilitate merging,
+     *  options are chained in decreasing order by address.  */
+    std::ptrdiff_t yynext;
 
-public:
-  /** The lookahead for this reduction.  */
-  symbol_kind_type yytoken;
-  value_type yyval;]b4_locations_if([[
-  location_type yyloc;]])[
+  public:
+    /** The lookahead for this reduction.  */
+    symbol_kind_type yytoken;
+    value_type yyval;]b4_locations_if([[
+    location_type yyloc;]])[
 
 ]b4_parse_assert_if([[
-public:
-  // Check invariants.
-  void check_ () const
-  {
-    YY_IGNORE_NULL_DEREFERENCE_BEGIN
-    YYASSERT (this->magic_ == MAGIC);
-    YY_IGNORE_NULL_DEREFERENCE_END
-  }
+  public:
+    // Check invariants.
+    void check_ () const
+    {
+      YY_IGNORE_NULL_DEREFERENCE_BEGIN
+      YYASSERT (this->magic_ == MAGIC);
+      YY_IGNORE_NULL_DEREFERENCE_END
+    }
 
-  // A magic number to check our pointer arithmetic is sane.
-  enum { MAGIC = 0xeff1cace };
-  unsigned int magic_;]])[
-};
+    // A magic number to check our pointer arithmetic is sane.
+    enum { MAGIC = 0xeff1cace };
+    unsigned int magic_;]])[
+  };
+}
 
 /** Type of the items in the GLR stack.
  *  It can be either a glr_state or a semantic_option. The is_state_ field
