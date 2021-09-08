@@ -760,9 +760,12 @@ const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
 
 typedef strong_index_alias<struct glr_state_set_tag> state_set_index;
 
-state_set_index create_state_set_index (std::ptrdiff_t value)
+namespace
 {
-  return state_set_index::create (value);
+  state_set_index create_state_set_index (std::ptrdiff_t value)
+  {
+    return state_set_index::create (value);
+  }
 }
 
 /** State numbers, as in LALR(1) machine */
