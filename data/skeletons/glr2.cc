@@ -42,6 +42,20 @@ m4_define([b4_parser_class],
            b4_namespace_ref[::]b4_parser_class[::symbol_kind::]b4_symbol($1, kind_base))
 ])
 
+
+# b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
+# -------------------------------------------------------------
+# Define "yy<TABLE-NAME>" whose contents is CONTENT.  Does not use "static",
+# should be in unnamed namespace.
+m4_define([b4_integral_parser_table_define],
+[m4_ifvaln([$3], [  b4_comment([$3])])dnl
+  const b4_int_type_for([$2]) yy$1[[]] =
+  {
+  $2
+  };dnl
+])
+
+
 ## ---------------- ##
 ## Default values.  ##
 ## ---------------- ##
@@ -523,12 +537,14 @@ static ]b4_namespace_ref[::]b4_parser_class[::value_type yyval_default;
    accessed by $0, $-1, etc., in any rule.  */
 #define YYMAXLEFT ]b4_max_left_semantic_context[
 
-#if ]b4_api_PREFIX[DEBUG
-/* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const ]b4_int_type_for([b4_rline])[ yyrline[] =
+namespace
 {
+#if ]b4_api_PREFIX[DEBUG
+  /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
+  const ]b4_int_type_for([b4_rline])[ yyrline[] =
+  {
   ]b4_rline[
-};
+  };
 #endif
 
 #define YYPACT_NINF ]b4_pact_ninf[
@@ -536,43 +552,45 @@ static const ]b4_int_type_for([b4_rline])[ yyrline[] =
 
 ]b4_parser_tables_define[
 
-/* YYDPREC[RULE-NUM] -- Dynamic precedence of rule #RULE-NUM (0 if none).  */
-static const ]b4_int_type_for([b4_dprec])[ yydprec[] =
-{
+  /* YYDPREC[RULE-NUM] -- Dynamic precedence of rule #RULE-NUM (0 if none).  */
+  const ]b4_int_type_for([b4_dprec])[ yydprec[] =
+  {
   ]b4_dprec[
-};
+  };
 
-/* YYMERGER[RULE-NUM] -- Index of merging function for rule #RULE-NUM.  */
-static const ]b4_int_type_for([b4_merger])[ yymerger[] =
-{
+  /* YYMERGER[RULE-NUM] -- Index of merging function for rule #RULE-NUM.  */
+  const ]b4_int_type_for([b4_merger])[ yymerger[] =
+  {
   ]b4_merger[
-};
+  };
 
-/* YYIMMEDIATE[RULE-NUM] -- True iff rule #RULE-NUM is not to be deferred, as
-   in the case of predicates.  */
-static const bool yyimmediate[] =
-{
+  /* YYIMMEDIATE[RULE-NUM] -- True iff rule #RULE-NUM is not to be deferred, as
+     in the case of predicates.  */
+  const bool yyimmediate[] =
+  {
   ]b4_immediate[
-};
+  };
 
-/* YYCONFLP[YYPACT[STATE-NUM]] -- Pointer into YYCONFL of start of
-   list of conflicting reductions corresponding to action entry for
-   state STATE-NUM in yytable.  0 means no conflicts.  The list in
-   yyconfl is terminated by a rule number of 0.  */
-static const ]b4_int_type_for([b4_conflict_list_heads])[ yyconflp[] =
-{
+  /* YYCONFLP[YYPACT[STATE-NUM]] -- Pointer into YYCONFL of start of
+     list of conflicting reductions corresponding to action entry for
+     state STATE-NUM in yytable.  0 means no conflicts.  The list in
+     yyconfl is terminated by a rule number of 0.  */
+  const ]b4_int_type_for([b4_conflict_list_heads])[ yyconflp[] =
+  {
   ]b4_conflict_list_heads[
-};
+  };
 
-/* YYCONFL[I] -- lists of conflicting rule numbers, each terminated by
-   0, pointed into by YYCONFLP.  */
-]dnl Do not use b4_int_type_for here, since there are places where
-dnl pointers onto yyconfl are taken, whose type is "short*".
-dnl We probably ought to introduce a type for confl.
-[static const short yyconfl[] =
-{
+  /* YYCONFL[I] -- lists of conflicting rule numbers, each terminated by
+     0, pointed into by YYCONFLP.  */
+  ]dnl Do not use b4_int_type_for here, since there are places where
+  dnl pointers onto yyconfl are taken, whose type is "short*".
+  dnl We probably ought to introduce a type for confl.
+  [const short yyconfl[] =
+  {
   ]b4_conflicting_rules[
-};
+  };
+}
+
 
 /* Error token number */
 #define YYTERROR 1
@@ -615,11 +633,13 @@ enum YYRESULTTAG { yyok, yyaccept, yyabort, yyerr };
    multiple parsers can coexist.  */
 int yydebug;
 
-class glr_stack;
-static void yypstack (const glr_stack& yystack, size_t yyk)
-  YY_ATTRIBUTE_UNUSED;
-static void yypdumpstack (const glr_stack& yystack)
-  YY_ATTRIBUTE_UNUSED;
+namespace
+{
+  void yypstack (const glr_stack& yystack, size_t yyk)
+    YY_ATTRIBUTE_UNUSED;
+  void yypdumpstack (const glr_stack& yystack)
+    YY_ATTRIBUTE_UNUSED;
+}
 
 #else /* !]b4_api_PREFIX[DEBUG */
 
@@ -3199,16 +3219,20 @@ private:
 
 /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
-static void
-yypstack (const glr_stack& yystack, size_t yyk)
+namespace
 {
-  yystack.yypstack (create_state_set_index (static_cast<std::ptrdiff_t> (yyk)));
-}
-static void yypdumpstack (const glr_stack& yystack)
-{
-  yystack.yypdumpstack ();
-}
+  void
+  yypstack (const glr_stack& yystack, size_t yyk)
+  {
+    yystack.yypstack (create_state_set_index (static_cast<std::ptrdiff_t> (yyk)));
+  }
 
+  void
+  yypdumpstack (const glr_stack& yystack)
+  {
+    yystack.yypdumpstack ();
+  }
+}
 #endif
 
 ]b4_namespace_open[
