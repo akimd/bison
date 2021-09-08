@@ -208,15 +208,6 @@ m4_define([b4_shared_declarations],
           [[# include ]b4_location_include])[
 ]b4_variant_if([b4_variant_includes])[
 
-// Whether we are compiled with exception support.
-#ifndef YY_EXCEPTIONS
-# if defined __GNUC__ && !defined __EXCEPTIONS
-#  define YY_EXCEPTIONS 0
-# else
-#  define YY_EXCEPTIONS 1
-# endif
-#endif
-
 ]b4_YYDEBUG_define[
 
 class glr_stack;
@@ -454,6 +445,15 @@ static ]b4_namespace_ref[::]b4_parser_class[::value_type yyval_default;
 # endif
 # ifndef YY_
 #  define YY_(Msgid) Msgid
+# endif
+#endif
+
+// Whether we are compiled with exception support.
+#ifndef YY_EXCEPTIONS
+# if defined __GNUC__ && !defined __EXCEPTIONS
+#  define YY_EXCEPTIONS 0
+# else
+#  define YY_EXCEPTIONS 1
 # endif
 #endif
 

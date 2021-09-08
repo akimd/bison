@@ -241,6 +241,7 @@ exp:
 | 'x' '9' { printf ("x9\n"); }
 | 'x' 'a' { printf ("xa\n"); }
 | 'x' 'b' { printf ("xb\n"); }
+| 'x' 'c' { printf ("xc\n"); }
 ;
 
 %%
@@ -279,6 +280,7 @@ extern "C"
 #include "x9.hh"
 #include "xa.hh"
 #include "xb.hh"
+#include "xc.hh"
 
 #define RUN(S)                                  \
   do {                                          \
@@ -305,6 +307,8 @@ main (void)
   RUN(pa.parse());
   xb_::parser pb;
   RUN(pb.parse());
+  xc_::parser pc;
+  RUN(pc.parse());
   return 0;
 }
 ]])# main.cc
@@ -320,7 +324,7 @@ AT_TEST([x8], [%define api.pure %define api.push-pull both])
 AT_TEST([x9], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %debug %language "c++"])
 AT_TEST([xa], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %language "c++" %define api.value.type variant])
 AT_TEST([xb], [%locations %define api.location.file none %language "c++" %define api.value.type variant])
-#AT_TEST([x5], [%locations %language "c++" %glr-parser])
+AT_TEST([xc], [%locations %code requires {#include "location.hh"} %define api.location.type {::x5_::location} %skeleton "glr2.cc"])
 
 # Check that api.prefix works properly:
 #
@@ -377,7 +381,7 @@ AT_PERL_CHECK([[-n -0777 -e '
 # Do this late, so that other checks have been performed.
 AT_SKIP_IF_CANNOT_LINK_C_AND_CXX
 
-AT_COMPILE_CXX([parser], [[x[1-9a-b].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
+AT_COMPILE_CXX([parser], [[x[1-9a-c].o -DCC_IS_CXX=$CC_IS_CXX main.cc]])
 AT_PARSER_CHECK([parser], [0], [[expout]])
 
 m4_popdef([AT_TEST])
