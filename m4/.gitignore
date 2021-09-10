@@ -216,6 +216,7 @@
 /strings_h.m4
 /strndup.m4
 /strnlen.m4
+/strtod.m4
 /strverscmp.m4
 /sys_ioctl_h.m4
 /sys_resource_h.m4

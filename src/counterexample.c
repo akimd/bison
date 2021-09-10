@@ -57,12 +57,12 @@
 
 /** The time limit before printing an assurance message to the user to
  *  indicate that the search is still running. */
-#define ASSURANCE_LIMIT 2.0f
+#define ASSURANCE_LIMIT 2.0
 
 /* The time limit before giving up looking for unifying counterexample. */
-static float time_limit = 5.0f;
+static double time_limit = 5.0;
 
-#define CUMULATIVE_TIME_LIMIT 120.0f
+#define CUMULATIVE_TIME_LIMIT 120.0
 
 // This is the fastest way to get the tail node from the gl_list API.
 static gl_list_node_t
@@ -1164,7 +1164,7 @@ unifying_example (state_item_number itm1,
             }
           if (TIME_LIMIT_ENFORCED)
             {
-              float time_passed = difftime (time (NULL), start);
+              double time_passed = difftime (time (NULL), start);
               if (!assurance_printed && time_passed > ASSURANCE_LIMIT
                   && stage3result)
                 {
@@ -1218,7 +1218,7 @@ counterexample_init (void)
     if (cp)
       {
         char *end = NULL;
-        float v = strtof (cp, &end);
+        double v = strtod (cp, &end);
         if (*end == '\0' && errno == 0)
           time_limit = v;
       }
