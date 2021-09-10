@@ -268,7 +268,7 @@ read_integer (]AT_YYLEX_FORMALS[)
 
 
 m4_define([_AT_DATA_CALC_Y(c)],
-[AT_DATA_GRAMMAR([calc.y],
+[AT_DATA_GRAMMAR([calc.y.tmp],
 [[/* Infix notation calculator--calc */
 ]$4[
 %code requires
@@ -492,6 +492,18 @@ location_print (FILE *o, Span s)
 ]AT_HEADER_IF([],
 [AT_CALC_YYLEX
 AT_CALC_MAIN])])
+
+# Remove the generated prototypes.
+AT_CHECK(
+  [AT_YACC_IF([[
+    if "$POSIXLY_CORRECT_IS_EXPORTED"; then
+      sed -e '/\/\* !POSIX \*\//d' calc.y.tmp >calc.y
+    else
+      mv calc.y.tmp calc.y
+    fi
+  ]],
+  [[mv calc.y.tmp calc.y]])
+])
 
 AT_HEADER_IF([AT_DATA_SOURCE([[calc-lex.]AT_LANG_EXT],
 [[#include "calc.]AT_LANG_HDR["

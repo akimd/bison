@@ -71,6 +71,18 @@ struct bison_language const *language = &valid_languages[0];
 
 typedef int* (xargmatch_fn) (const char *context, const char *arg);
 
+void
+set_yacc (location loc)
+{
+  yacc_loc = loc;
+  if (getenv ("POSIXLY_CORRECT"))
+    muscle_percent_define_insert ("posix",
+                                  loc,
+                                  muscle_keyword, "",
+                                  MUSCLE_PERCENT_DEFINE_D);
+}
+
+
 /** Decode an option's key.
  *
  *  \param opt        option being decoded.
@@ -631,8 +643,7 @@ static struct option const long_options[] =
 };
 
 /* Build a location for the current command line argument. */
-static
-location
+static location
 command_line_location (void)
 {
   location res;
@@ -835,7 +846,7 @@ getargs (int argc, char *argv[])
 
       case 'y':
         warning_argmatch ("yacc", 0, 0);
-        yacc_loc = loc;
+        set_yacc (loc);
         break;
 
       case COLOR_OPTION:

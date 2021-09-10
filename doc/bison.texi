@@ -11877,7 +11877,10 @@ Generate different diagnostics (it implies @option{-Wyacc}).
 Generate @code{#define} statements in addition to an @code{enum} to
 associate token codes with token kind names.
 @item
-Generate prototypes for @code{yyerror} and @code{yylex} (since Bison 3.8):
+If the @code{POSIXLY_CORRECT} environment variable is defined, generate
+prototypes for @code{yyerror} and @code{yylex}@footnote{See
+@url{https://austingroupbugs.net/view.php?id=1388#c5220}.} (since Bison
+3.8):
 @example
 int yylex (void);
 void yyerror (const char *);

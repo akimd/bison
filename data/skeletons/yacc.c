@@ -367,7 +367,7 @@ m4_define([b4_declare_yyparse],
 # Comply with POSIX Yacc.
 # <https://austingroupbugs.net/view.php?id=1388#c5220>
 m4_define([b4_declare_yyerror_and_yylex],
-[b4_yacc_if([[#if !defined ]b4_prefix[error && !defined ]b4_api_PREFIX[ERROR_IS_DECLARED
+[b4_posix_if([[#if !defined ]b4_prefix[error && !defined ]b4_api_PREFIX[ERROR_IS_DECLARED
 ]b4_function_declare([b4_prefix[error]], void, b4_yyerror_formals)[
 #endif
 #if !defined ]b4_prefix[lex && !defined ]b4_api_PREFIX[LEX_IS_DECLARED

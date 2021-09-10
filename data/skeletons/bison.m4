@@ -1110,6 +1110,7 @@ b4_percent_define_if_define([token_ctor], [api.token.constructor])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])
 b4_percent_define_if_define([parse.trace])
+b4_percent_define_if_define([posix])
 
 
 # b4_bison_locations_if([IF-TRUE])

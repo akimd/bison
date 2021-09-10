@@ -2,6 +2,14 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+  The generation of prototypes for yylex and yyerror in Yacc mode is
+  breaking existing grammar files.  To avoid breaking too many grammars, the
+  prototypes are now generated when `-y/--yacc` is used *and* the
+  `POSIXLY_CORRECT` environment variable is defined.
+
+  Avoid using `-y`/`--yacc` simply to comply with Yacc's file name
+  conventions, rather, use `-o y.tab.c`.  Autoconf's AC_PROG_YACC macro uses
+  `-y`.  Avoid it if possible, for instance by using gnulib's gl_PROG_BISON.
 
 * Noteworthy changes in release 3.8 (2021-09-07) [stable]
 
@@ -4706,7 +4714,7 @@ LocalWords:  autocompletion bistromathic submessages Cayuela lexcalc hoc
 LocalWords:  yytoken YYUNDEF YYerror basename Automake's UTF ifdef ffile
 LocalWords:  gotos readline Imbimbo Wcounterexamples Wcex Nonunifying rcex
 LocalWords:  Vais xsltproc YYNOMEM YYLOCATION signedness YYBISON MITRE's
-LocalWords:  libreadline YYMALLOC YYFREE MSVC redefinitions
+LocalWords:  libreadline YYMALLOC YYFREE MSVC redefinitions POSIXLY
 
 Local Variables:
 ispell-dictionary: "american"

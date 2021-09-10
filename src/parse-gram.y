@@ -1112,7 +1112,7 @@ handle_yacc (location const *loc)
   const char *directive = "%yacc";
   bison_directive (loc, directive);
   if (location_empty (yacc_loc))
-    yacc_loc = *loc;
+    set_yacc (*loc);
   else
     duplicate_directive (directive, yacc_loc, *loc);
 }

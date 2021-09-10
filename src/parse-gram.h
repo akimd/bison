@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.7.5.297-b46a.  */
+/* A Bison parser, made by GNU Bison 3.8.  */
 
 /* Bison interface for Yacc-like parsers in C
 
@@ -212,6 +212,7 @@ struct GRAM_LTYPE
 # define GRAM_LTYPE_IS_DECLARED 1
 # define GRAM_LTYPE_IS_TRIVIAL 1
 #endif
+
 
 
 

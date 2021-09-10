@@ -140,6 +140,7 @@ void getargs (int argc, char *argv[]);
 /* Used by parse-gram.y.  */
 void language_argmatch (char const *arg, int prio, location loc);
 void skeleton_arg (const char *arg, int prio, location loc);
+void set_yacc (location loc);
 
 /** In the string \c s, replace all characters \c from by \c to.  */
 void tr (char *s, char from, char to);
