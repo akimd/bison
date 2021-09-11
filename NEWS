@@ -1,6 +1,6 @@
 GNU Bison NEWS
 
-* Noteworthy changes in release ?.? (????-??-??) [?]
+* Noteworthy changes in release 3.8.1 (2021-09-11) [stable]
 
   The generation of prototypes for yylex and yyerror in Yacc mode is
   breaking existing grammar files.  To avoid breaking too many grammars, the
