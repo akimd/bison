@@ -1005,7 +1005,7 @@ namespace ]b4_namespace_ref[
     /** Source location for this state.  */
     location_type yyloc;]])[
 
-  ]b4_parse_assert_if([[
+]b4_parse_assert_if([[
   public:
     // Check invariants.
     void check_ () const
@@ -2088,10 +2088,10 @@ namespace ]b4_namespace_ref[
   class ]b4_parser_class[::glr_stack
   {
   public:
-  ]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
+]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
     // Needs access to yypact_value_is_default, etc.
     friend context;
-  ]])[
+]])[
 
     glr_stack (size_t yysize, parser_type& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
       : yyerrState (0)
@@ -2110,7 +2110,7 @@ namespace ]b4_namespace_ref[
     }
 
     int yyerrState;
-  ]b4_locations_if([[  /* To compute the location of the error token.  */
+]b4_locations_if([[  /* To compute the location of the error token.  */
     glr_stack_item yyerror_range[3];]])[
     state_stack yystateStack;
     int yyerrcnt;
@@ -2143,11 +2143,11 @@ namespace ]b4_namespace_ref[
       YYCDEBUG << "Starting parse\n";
 
       this->yyla.clear ();
-  ]m4_ifdef([b4_initial_action], [
-  b4_dollar_pushdef([yyla.value], [], [], [yyla.location])dnl
+]m4_ifdef([b4_initial_action], [
+b4_dollar_pushdef([yyla.value], [], [], [yyla.location])dnl
       b4_user_initial_action
-  b4_dollar_popdef])[]dnl
-  [
+b4_dollar_popdef])[]dnl
+[
       switch (YYSETJMP (this->yyexception_buffer))
         {
         case 0: break;
@@ -2271,7 +2271,7 @@ namespace ]b4_namespace_ref[
                   YYCDEBUG << "Stack " << yys.get() << " now in state "
                            << this->topState(yys)->yylrState << '\n';
                 }
-  ]b4_variant_if([[
+]b4_variant_if([[
                 // FIXME: User destructors.
                 // Value type destructor.
                 ]b4_symbol_variant([[yytoken_to_shift]], [[this->yyla.value]], [[template destroy]])])[
@@ -2372,14 +2372,14 @@ namespace ]b4_namespace_ref[
     {
       if (yyerrState != 0)
         return;
-  ]b4_parse_error_case(
-  [simple], [[
+]b4_parse_error_case(
+[simple], [[
       std::string msg = YY_("syntax error");
       yyparser.error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]],
-  [custom], [[
+[custom], [[
       context yyctx (*this, yyla);
       yyparser.report_syntax_error (yyctx);]],
-  [[
+[[
       context yyctx (*this, yyla);
       std::string msg = yyparser.yysyntax_error_ (yyctx);
       yyparser.error (]b4_join(b4_locations_if([yyla.location]), [[YY_MOVE (msg)]])[);]])[
@@ -3219,12 +3219,11 @@ namespace ]b4_namespace_ref[
         return 0;
     }
 
-    ]b4_parse_param_vars[
+]b4_parse_param_vars[
   }; // class ]b4_parser_class[::glr_stack
 } // namespace ]b4_namespace_ref[
 
 
-/* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
 namespace
 {
