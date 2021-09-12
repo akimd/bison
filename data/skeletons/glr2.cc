@@ -259,7 +259,7 @@ m4_define([b4_shared_declarations],
     void set_debug_stream (std::ostream &);
 
     /// Type for debugging levels.
-    typedef int debug_level_type;
+    using debug_level_type = int;
     /// The current debugging level.
     debug_level_type debug_level () const;
     /// Set the current debugging level.
@@ -435,7 +435,7 @@ m4_define([b4_shared_declarations],
 ]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
               [b4_shared_declarations([cc])])[
 
-typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type yysymbol_kind_t;
+using yysymbol_kind_t = ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type;
 
 /* Default (constant) value used for initialization for null
    right-hand sides.  Unlike the standard yacc.c template, here we set
@@ -760,7 +760,7 @@ template<typename T>
 const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
   std::numeric_limits<std::ptrdiff_t>::max ();
 
-typedef strong_index_alias<struct glr_state_set_tag> state_set_index;
+using state_set_index = strong_index_alias<struct glr_state_set_tag>;
 
 namespace
 {
@@ -771,15 +771,19 @@ namespace
 }
 
 /** State numbers, as in LALR(1) machine */
-typedef int state_num;
+using state_num = int;
 
 /** Rule numbers, as in LALR(1) machine */
-typedef int rule_num;
+using rule_num = int;
 
 namespace
 {
   using parser_type = ]b4_namespace_ref[::]b4_parser_class[;
   using glr_state = parser_type::glr_state;
+  using symbol_kind = parser_type::symbol_kind;
+  using symbol_kind_type = parser_type::symbol_kind_type;
+  using value_type = parser_type::value_type;]b4_locations_if([[
+  using location_type = parser_type::location_type;]])[
 
   // Forward declarations.
   class glr_stack_item;
@@ -812,11 +816,6 @@ namespace ]b4_namespace_ref[
   class ]b4_parser_class[::glr_state
   {
   public:
-    typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
-    typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
-    typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
-    typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
-
     glr_state ()
       : yyresolved (false)
       , yylrState (0)
@@ -1167,11 +1166,6 @@ namespace
   class semantic_option
   {
   public:
-    typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
-    typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type symbol_kind_type;
-    typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
-    typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
-
     semantic_option ()
       : yyrule (0)
       , yystate (0)
@@ -1748,7 +1742,7 @@ namespace
     bool
     reduceToOneStack ()
     {
-      typedef std::vector<glr_state*>::iterator iterator;
+      using iterator = std::vector<glr_state*>::iterator;
       const iterator yybegin = yytops.begin();
       const iterator yyend = yytops.end();
       const iterator yyit = std::find_if(yybegin, yyend, glr_state_not_null);
@@ -2093,15 +2087,7 @@ namespace ]b4_namespace_ref[
   class ]b4_parser_class[::glr_stack
   {
   public:
-    typedef ]b4_namespace_ref[::]b4_parser_class[ parser_type;
-    typedef parser_type::symbol_kind symbol_kind;
-    typedef parser_type::symbol_kind_type symbol_kind_type;
-    typedef parser_type::symbol_type symbol_type;
-    typedef parser_type::value_type value_type;]b4_locations_if([[
-    typedef parser_type::location_type location_type;]])[
-
   ]b4_parse_error_bmatch([custom\|detailed\|verbose], [[
-    typedef parser_type::context context;
     // Needs access to yypact_value_is_default, etc.
     friend context;
   ]])[
@@ -2575,9 +2561,9 @@ namespace ]b4_namespace_ref[
     {
       bool yynormal YY_ATTRIBUTE_UNUSED = !yystateStack.isSplit();
       int yylow = 1;
-    ]b4_parse_param_use([yyvalp], [yylocp])dnl
-    [  YY_USE (yyk);
-    YY_USE (yyrhslen);
+]b4_parse_param_use([yyvalp], [yylocp])dnl
+[      YY_USE (yyk);
+      YY_USE (yyrhslen);
     # undef yyerrok
     # define yyerrok (yyerrState = 0)
     # undef YYACCEPT
@@ -2597,7 +2583,7 @@ namespace ]b4_namespace_ref[
       return yyparser.error (]b4_locations_if([*yylocp, ])[YY_("syntax error: cannot back up")),     \
              yyerrok, yyerr
 
-  ]b4_variant_if([[
+]b4_variant_if([[
       /* Variants are always initialized to an empty instance of the
          correct type. The default '$$ = $1' action is NOT applied
          when using variants.  */
@@ -2612,13 +2598,12 @@ namespace ]b4_namespace_ref[
       /* Default location. */
       YYLLOC_DEFAULT ((*yylocp), (yyvsp - yyrhslen), yyrhslen);
       yyerror_range[1].getState().yyloc = *yylocp;
-  ]])[
+]])[
     /* If yyk == -1, we are running a deferred action on a temporary
        stack.  In that case, YY_REDUCE_PRINT must not play with YYFILL,
        so pretend the stack is "normal". */
     YY_REDUCE_PRINT ((yynormal || yyk == create_state_set_index (-1), yyvsp, yyk, yyrule, yyparser));
     #if YY_EXCEPTIONS
-      typedef parser_type::syntax_error syntax_error;
       try
       {
     #endif // YY_EXCEPTIONS
