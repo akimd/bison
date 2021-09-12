@@ -3202,8 +3202,8 @@ namespace ]b4_namespace_ref[
     static int
     yypreference (const semantic_option& y0, const semantic_option& y1)
     {
-      rule_num r0 = y0.yyrule, r1 = y1.yyrule;
-      int p0 = yydprec[r0], p1 = yydprec[r1];
+      const rule_num r0 = y0.yyrule, r1 = y1.yyrule;
+      const int p0 = yydprec[r0], p1 = yydprec[r1];
 
       if (p0 == p1)
         {
@@ -3212,13 +3212,14 @@ namespace ]b4_namespace_ref[
           else
             return 1;
         }
-      if (p0 == 0 || p1 == 0)
+      else if (p0 == 0 || p1 == 0)
         return 0;
-      if (p0 < p1)
+      else if (p0 < p1)
         return 3;
-      if (p1 < p0)
+      else if (p1 < p0)
         return 2;
-      return 0;
+      else
+        return 0;
     }
 
     ]b4_parse_param_vars[
