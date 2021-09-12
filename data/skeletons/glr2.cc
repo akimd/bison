@@ -941,7 +941,7 @@ namespace ]b4_namespace_ref[
     }
 
     void
-    destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[);
+    destroy (char const *yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser);
 
     /* DEBUGGING ONLY */
   #if ]b4_api_PREFIX[DEBUG
@@ -1630,7 +1630,7 @@ void semantic_option::setNext (const semantic_option* s)
   yynext = s ? asItem(this) - asItem(s) : 0;
 }
 
-void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_user_formals[)
+void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class[& yyparser)
 {]b4_parse_assert_if([[
   check_ ();]])[
   if (yyresolved)
@@ -1653,7 +1653,7 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
           glr_state *yyrh = yyoption.state ();
           for (int yyn = yyrhsLength (yyoption.yyrule); yyn > 0; yyn -= 1)
             {
-              yyrh->destroy (yymsg, yyparser]b4_user_args[);
+              yyrh->destroy (yymsg, yyparser);
               yyrh = yyrh->pred();
             }
         }
@@ -2457,7 +2457,7 @@ b4_dollar_popdef])[]dnl
             }]b4_locations_if([[
           yyerror_range[1].getState().yyloc = yys->yyloc;]])[
           if (yys->pred() != YY_NULLPTR)
-            yys->destroy ("Error: popping", yyparser]b4_user_args[);
+            yys->destroy ("Error: popping", yyparser);
           yystateStack.setFirstTop(yys->pred());
           yystateStack.pop_back();
         }
@@ -2836,7 +2836,7 @@ b4_dollar_popdef])[]dnl
                 glr_state* state = topState(k);]b4_locations_if([[
                 yyerror_range[1].getState().yyloc = state->yyloc;]])[
                 if (state->pred() != YY_NULLPTR)
-                  state->destroy ("Cleanup: popping", yyparser]b4_user_args[);
+                  state->destroy ("Cleanup: popping", yyparser);
                 yystateStack.setTopAt(k, state->pred());
                 yystateStack.pop_back();
               }
@@ -2996,7 +2996,7 @@ b4_dollar_popdef])[]dnl
       if (yyflag != yyok)
         {
           for (glr_state *yys = yyoptState; yynrhs > 0; yys = yys->pred(), yynrhs -= 1)
-            yys->destroy ("Cleanup: popping", yyparser]b4_user_args[);
+            yys->destroy ("Cleanup: popping", yyparser);
           return yyflag;
         }
 
