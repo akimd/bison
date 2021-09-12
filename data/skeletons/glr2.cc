@@ -776,12 +776,15 @@ typedef int state_num;
 /** Rule numbers, as in LALR(1) machine */
 typedef int rule_num;
 
-// Forward declarations.
 namespace
 {
+  using parser_type = ]b4_namespace_ref[::]b4_parser_class[;
+  using glr_state = parser_type::glr_state;
+
+  // Forward declarations.
+  class glr_stack_item;
   class semantic_option;
 }
-class glr_stack_item;
 
 /** Accessing symbol of state YYSTATE.  */
 static inline yysymbol_kind_t
@@ -954,7 +957,7 @@ namespace ]b4_namespace_ref[
     }
   #endif
 
-    std::ptrdiff_t indexIn (const glr_stack_item* array) const;
+    std::ptrdiff_t indexIn (const glr_stack_item* array) const YY_ATTRIBUTE_UNUSED;
 
     glr_stack_item* asItem ()
     {]b4_parse_assert_if([[
@@ -1015,146 +1018,149 @@ namespace ]b4_namespace_ref[
     // A magic number to check our pointer arithmetic is sane.
     enum { MAGIC = 713705 };
     unsigned int magic_;]])[
-  };
+  }; // class ]b4_parser_class[::glr_state
 } // namespace ]b4_namespace_ref[
 
 
-/** A stack of GLRState representing the different heads during
-  * nondeterministic evaluation. */
-class glr_state_set
+namespace
 {
-public:
-  /** Initialize YYSET to a singleton set containing an empty stack.  */
-  glr_state_set ()
-    : yylastDeleted (YY_NULLPTR)
+  /** A stack of GLRState representing the different heads during
+    * nondeterministic evaluation. */
+  class glr_state_set
   {
-    yystates.push_back (YY_NULLPTR);
-    yylookaheadNeeds.push_back (false);
-  }
+  public:
+    /** Initialize YYSET to a singleton set containing an empty stack.  */
+    glr_state_set ()
+      : yylastDeleted (YY_NULLPTR)
+    {
+      yystates.push_back (YY_NULLPTR);
+      yylookaheadNeeds.push_back (false);
+    }
 
-  // Behave like a vector of states.
-  glr_state*& operator[] (state_set_index index)
-  {
-    return yystates[index.uget()];
-  }
+    // Behave like a vector of states.
+    glr_state*& operator[] (state_set_index index)
+    {
+      return yystates[index.uget()];
+    }
 
-  glr_state* operator[] (state_set_index index) const
-  {
-    return yystates[index.uget()];
-  }
+    glr_state* operator[] (state_set_index index) const
+    {
+      return yystates[index.uget()];
+    }
 
-  size_t size () const
-  {
-    return yystates.size ();
-  }
+    size_t size () const
+    {
+      return yystates.size ();
+    }
 
-  std::vector<glr_state*>::iterator begin ()
-  {
-    return yystates.begin ();
-  }
+    std::vector<glr_state*>::iterator begin ()
+    {
+      return yystates.begin ();
+    }
 
-  std::vector<glr_state*>::iterator end ()
-  {
-    return yystates.end ();
-  }
+    std::vector<glr_state*>::iterator end ()
+    {
+      return yystates.end ();
+    }
 
-  bool lookaheadNeeds (state_set_index index) const
-  {
-    return yylookaheadNeeds[index.uget ()];
-  }
+    bool lookaheadNeeds (state_set_index index) const
+    {
+      return yylookaheadNeeds[index.uget ()];
+    }
 
-  bool setLookaheadNeeds (state_set_index index, bool value)
-  {
-    return yylookaheadNeeds[index.uget ()] = value;
-  }
+    bool setLookaheadNeeds (state_set_index index, bool value)
+    {
+      return yylookaheadNeeds[index.uget ()] = value;
+    }
 
-  /** Invalidate stack #YYK.  */
-  void
-  yymarkStackDeleted (state_set_index yyk)
-  {
-    size_t k = yyk.uget ();
-    if (yystates[k] != YY_NULLPTR)
-      yylastDeleted = yystates[k];
-    yystates[k] = YY_NULLPTR;
-  }
+    /** Invalidate stack #YYK.  */
+    void
+    yymarkStackDeleted (state_set_index yyk)
+    {
+      size_t k = yyk.uget ();
+      if (yystates[k] != YY_NULLPTR)
+        yylastDeleted = yystates[k];
+      yystates[k] = YY_NULLPTR;
+    }
 
-  /** Undelete the last stack in *this that was marked as deleted.  Can
-      only be done once after a deletion, and only when all other stacks have
-      been deleted.  */
-  void
-  yyundeleteLastStack ()
-  {
-    if (yylastDeleted == YY_NULLPTR || !yystates.empty ())
-      return;
-    yystates.push_back (yylastDeleted);
-    YYCDEBUG << "Restoring last deleted stack as stack #0.\n";
-    clearLastDeleted ();
-  }
+    /** Undelete the last stack in *this that was marked as deleted.  Can
+        only be done once after a deletion, and only when all other stacks have
+        been deleted.  */
+    void
+    yyundeleteLastStack ()
+    {
+      if (yylastDeleted == YY_NULLPTR || !yystates.empty ())
+        return;
+      yystates.push_back (yylastDeleted);
+      YYCDEBUG << "Restoring last deleted stack as stack #0.\n";
+      clearLastDeleted ();
+    }
 
-  /** Remove the dead stacks (yystates[i] == YY_NULLPTR) and shift the later
-   * ones.  */
-  void
-  yyremoveDeletes ()
-  {
-    size_t newsize = yystates.size ();
-    /* j is the number of live stacks we have seen.  */
-    for (size_t i = 0, j = 0; j < newsize; ++i)
-      {
-        if (yystates[i] == YY_NULLPTR)
-          {
-            if (i == j)
-              {
-                YYCDEBUG << "Removing dead stacks.\n";
-              }
-            newsize -= 1;
-          }
-        else
-          {
-            yystates[j] = yystates[i];
-            /* In the current implementation, it's unnecessary to copy
-               yylookaheadNeeds[i] since, after
-               yyremoveDeletes returns, the parser immediately either enters
-               deterministic operation or shifts a token.  However, it doesn't
-               hurt, and the code might evolve to need it.  */
-            yylookaheadNeeds[j] = yylookaheadNeeds[i];
-            if (j != i)
-              {
-                YYCDEBUG << "Rename stack " << i << " -> " << j << ".\n";
-              }
-            j += 1;
-          }
-      }
-    yystates.resize (newsize);
-    yylookaheadNeeds.resize (newsize);
-  }
+    /** Remove the dead stacks (yystates[i] == YY_NULLPTR) and shift the later
+     * ones.  */
+    void
+    yyremoveDeletes ()
+    {
+      size_t newsize = yystates.size ();
+      /* j is the number of live stacks we have seen.  */
+      for (size_t i = 0, j = 0; j < newsize; ++i)
+        {
+          if (yystates[i] == YY_NULLPTR)
+            {
+              if (i == j)
+                {
+                  YYCDEBUG << "Removing dead stacks.\n";
+                }
+              newsize -= 1;
+            }
+          else
+            {
+              yystates[j] = yystates[i];
+              /* In the current implementation, it's unnecessary to copy
+                 yylookaheadNeeds[i] since, after
+                 yyremoveDeletes returns, the parser immediately either enters
+                 deterministic operation or shifts a token.  However, it doesn't
+                 hurt, and the code might evolve to need it.  */
+              yylookaheadNeeds[j] = yylookaheadNeeds[i];
+              if (j != i)
+                {
+                  YYCDEBUG << "Rename stack " << i << " -> " << j << ".\n";
+                }
+              j += 1;
+            }
+        }
+      yystates.resize (newsize);
+      yylookaheadNeeds.resize (newsize);
+    }
 
 
-  state_set_index
-  yysplitStack (state_set_index yyk)
-  {
-    const size_t k = yyk.uget ();
-    yystates.push_back (yystates[k]);
-    yylookaheadNeeds.push_back (yylookaheadNeeds[k]);
-    return create_state_set_index (static_cast<std::ptrdiff_t> (yystates.size () - 1));
-  }
+    state_set_index
+    yysplitStack (state_set_index yyk)
+    {
+      const size_t k = yyk.uget ();
+      yystates.push_back (yystates[k]);
+      yylookaheadNeeds.push_back (yylookaheadNeeds[k]);
+      return create_state_set_index (static_cast<std::ptrdiff_t> (yystates.size () - 1));
+    }
 
-  void clearLastDeleted ()
-  {
-    yylastDeleted = YY_NULLPTR;
-  }
+    void clearLastDeleted ()
+    {
+      yylastDeleted = YY_NULLPTR;
+    }
 
-private:
+  private:
 
-  std::vector<glr_state*> yystates;
-  /** During nondeterministic operation, yylookaheadNeeds tracks which
-   *  stacks have actually needed the current lookahead.  During deterministic
-   *  operation, yylookaheadNeeds[0] is not maintained since it would merely
-   *  duplicate !yyla.empty ().  */
-  std::vector<bool> yylookaheadNeeds;
+    std::vector<glr_state*> yystates;
+    /** During nondeterministic operation, yylookaheadNeeds tracks which
+     *  stacks have actually needed the current lookahead.  During deterministic
+     *  operation, yylookaheadNeeds[0] is not maintained since it would merely
+     *  duplicate !yyla.empty ().  */
+    std::vector<bool> yylookaheadNeeds;
 
-  /** The last stack we invalidated.  */
-  glr_state* yylastDeleted;
-};
+    /** The last stack we invalidated.  */
+    glr_state* yylastDeleted;
+  }; // class glr_state_set
+} // namespace
 
 namespace
 {
@@ -1411,135 +1417,138 @@ namespace
     // A magic number to check our pointer arithmetic is sane.
     enum { MAGIC = 0xeff1cace };
     unsigned int magic_;]])[
-  };
-}
+  }; // class semantic_option
+} // namespace
 
-/** Type of the items in the GLR stack.
- *  It can be either a glr_state or a semantic_option. The is_state_ field
- *  indicates which item of the union is valid.  */
-class glr_stack_item
+namespace
 {
-public:
-  glr_stack_item (bool state = true)
-    : is_state_ (state)]b4_parse_assert_if([[
-    , magic_ (MAGIC)]])[
+  /** Type of the items in the GLR stack.
+   *  It can be either a glr_state or a semantic_option. The is_state_ field
+   *  indicates which item of the union is valid.  */
+  class glr_stack_item
   {
-    if (is_state_)
-      new (&raw_) glr_state;
-    else
-      new (&raw_) semantic_option;
-  }
+  public:
+    glr_stack_item (bool state = true)
+      : is_state_ (state)]b4_parse_assert_if([[
+      , magic_ (MAGIC)]])[
+    {
+      if (is_state_)
+        new (&raw_) glr_state;
+      else
+        new (&raw_) semantic_option;
+    }
 
-  glr_stack_item (const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
-    : is_state_ (other.is_state_)]b4_parse_assert_if([[
-    , magic_ (MAGIC)]])[
-  {]b4_parse_assert_if([[
-    other.check_ ();]])[
-    std::memcpy (raw_, other.raw_, union_size);
-  }
+    glr_stack_item (const glr_stack_item& other) YY_NOEXCEPT YY_NOTHROW
+      : is_state_ (other.is_state_)]b4_parse_assert_if([[
+      , magic_ (MAGIC)]])[
+    {]b4_parse_assert_if([[
+      other.check_ ();]])[
+      std::memcpy (raw_, other.raw_, union_size);
+    }
 
-  glr_stack_item& operator= (glr_stack_item other)
-  {]b4_parse_assert_if([[
-    check_ ();
-    other.check_ ();]])[
-    std::swap (is_state_, other.is_state_);
-    std::swap (raw_, other.raw_);
-    return *this;
-  }
+    glr_stack_item& operator= (glr_stack_item other)
+    {]b4_parse_assert_if([[
+      check_ ();
+      other.check_ ();]])[
+      std::swap (is_state_, other.is_state_);
+      std::swap (raw_, other.raw_);
+      return *this;
+    }
 
-  ~glr_stack_item ()
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    if (is_state ())
-      getState ().~glr_state ();
-    else
-      getOption ().~semantic_option ();
-  }
+    ~glr_stack_item ()
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      if (is_state ())
+        getState ().~glr_state ();
+      else
+        getOption ().~semantic_option ();
+    }
 
-  void setState (const glr_state &state)
-  {]b4_parse_assert_if([[
-    check_ ();
-    state.check_ ();]])[
-    if (this != state.asItem ())
-      {
-        if (is_state_)
-          getState ().~glr_state ();
-        else
-          getOption ().~semantic_option ();
-        new (&raw_) glr_state (state);
-        is_state_ = true;
-      }
-  }
+    void setState (const glr_state &state)
+    {]b4_parse_assert_if([[
+      check_ ();
+      state.check_ ();]])[
+      if (this != state.asItem ())
+        {
+          if (is_state_)
+            getState ().~glr_state ();
+          else
+            getOption ().~semantic_option ();
+          new (&raw_) glr_state (state);
+          is_state_ = true;
+        }
+    }
 
-  glr_state& getState ()
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    YYDASSERT (is_state ());
-    void *yyp = raw_;
-    glr_state& res = *static_cast<glr_state*> (yyp);]b4_parse_assert_if([[
-    res.check_ ();]])[
-    return res;
-  }
+    glr_state& getState ()
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      YYDASSERT (is_state ());
+      void *yyp = raw_;
+      glr_state& res = *static_cast<glr_state*> (yyp);]b4_parse_assert_if([[
+      res.check_ ();]])[
+      return res;
+    }
 
-  const glr_state& getState () const
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    YYDASSERT (is_state ());
-    const void *yyp = raw_;
-    const glr_state& res = *static_cast<const glr_state*> (yyp);]b4_parse_assert_if([[
-    res.check_ ();]])[
-    return res;
-  }
+    const glr_state& getState () const
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      YYDASSERT (is_state ());
+      const void *yyp = raw_;
+      const glr_state& res = *static_cast<const glr_state*> (yyp);]b4_parse_assert_if([[
+      res.check_ ();]])[
+      return res;
+    }
 
-  semantic_option& getOption ()
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    YYDASSERT (!is_state ());
-    void *yyp = raw_;
-    return *static_cast<semantic_option*> (yyp);
-  }
-  const semantic_option& getOption () const
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    YYDASSERT (!is_state ());
-    const void *yyp = raw_;
-    return *static_cast<const semantic_option*> (yyp);
-  }
-  bool is_state () const
-  {]b4_parse_assert_if([[
-    check_ ();]])[
-    return is_state_;
-  }
+    semantic_option& getOption ()
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      YYDASSERT (!is_state ());
+      void *yyp = raw_;
+      return *static_cast<semantic_option*> (yyp);
+    }
+    const semantic_option& getOption () const
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      YYDASSERT (!is_state ());
+      const void *yyp = raw_;
+      return *static_cast<const semantic_option*> (yyp);
+    }
+    bool is_state () const
+    {]b4_parse_assert_if([[
+      check_ ();]])[
+      return is_state_;
+    }
 
-private:
-  /// The possible contents of raw_. Since they have constructors, they cannot
-  /// be directly included in the union.
-  union contents
-  {
-    char yystate[sizeof (glr_state)];
-    char yyoption[sizeof (semantic_option)];
-  };
-  enum { union_size = sizeof (contents) };
-  union {
-    /// Strongest alignment constraints.
-    long double yyalign_me;
-    /// A buffer large enough to store the contents.
-    char raw_[union_size];
-  };
-  /** Type tag for the union. */
-  bool is_state_;
+  private:
+    /// The possible contents of raw_. Since they have constructors, they cannot
+    /// be directly included in the union.
+    union contents
+    {
+      char yystate[sizeof (glr_state)];
+      char yyoption[sizeof (semantic_option)];
+    };
+    enum { union_size = sizeof (contents) };
+    union {
+      /// Strongest alignment constraints.
+      long double yyalign_me;
+      /// A buffer large enough to store the contents.
+      char raw_[union_size];
+    };
+    /** Type tag for the union. */
+    bool is_state_;
 ]b4_parse_assert_if([[
-public:
-  // Check invariants.
-  void check_ () const
-  {
-    YYASSERT (this->magic_ == MAGIC);
-    YYASSERT (this->is_state_ == false || this->is_state_ == true);
-  }
-  // A magic number to check our pointer arithmetic is sane.
-  enum { MAGIC = 0xDEAD1ACC }; // 3735886540.
-  const unsigned int magic_;]])[
-};
+  public:
+    // Check invariants.
+    void check_ () const
+    {
+      YYASSERT (this->magic_ == MAGIC);
+      YYASSERT (this->is_state_ == false || this->is_state_ == true);
+    }
+    // A magic number to check our pointer arithmetic is sane.
+    enum { MAGIC = 0xDEAD1ACC }; // 3735886540.
+    const unsigned int magic_;]])[
+  }; // class glr_stack_item
+} // namespace
 
 glr_state* glr_state::pred ()
 {]b4_parse_assert_if([[
