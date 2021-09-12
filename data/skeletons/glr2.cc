@@ -1177,11 +1177,11 @@ namespace
       , magic_ (MAGIC)]])[
     {}
 
-    semantic_option (rule_num rule, symbol_kind_type token)
+    semantic_option (rule_num rule)
       : yyrule (rule)
       , yystate (0)
       , yynext (0)
-      , yytoken (token)
+      , yytoken (]b4_symbol(empty, kind)[)
       , yyval ()]b4_locations_if([[
       , yyloc ()]])[]b4_parse_assert_if([[
       , magic_ (MAGIC)]])[
@@ -2340,7 +2340,7 @@ b4_dollar_popdef])[]dnl
                          glr_state* yyrhs, rule_num yyrule)
     {
       semantic_option& yynewOption =
-        yystateStack.yynewSemanticOption(semantic_option(yyrule, ]b4_symbol(empty, kind)[));
+        yystateStack.yynewSemanticOption (semantic_option (yyrule));
       yynewOption.setState(yyrhs);
       yynewOption.setNext(yystate->firstVal());
       if (yystateStack.yytops.lookaheadNeeds(yyk))
