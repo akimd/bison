@@ -409,8 +409,12 @@ b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 # b4_glr_cc_if([IF-TRUE], [IF-FALSE])
 # -----------------------------------
 m4_define([b4_glr_cc_if],
-          [m4_if(m4_bregexp(b4_skeleton, [^"glr.cc"$]), [0], $@)])
+          [m4_if(b4_skeleton, ["glr.cc"], $@)])
 
+# b4_glr2_cc_if([IF-TRUE], [IF-FALSE])
+# ------------------------------------
+m4_define([b4_glr2_cc_if],
+          [m4_if(b4_skeleton, ["glr2.cc"], $@)])
 
 ## --------- ##
 ## Symbols.  ##
