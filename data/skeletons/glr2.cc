@@ -435,16 +435,19 @@ m4_define([b4_shared_declarations],
 ]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
               [b4_shared_declarations([cc])])[
 
-/* Default (constant) value used for initialization for null
-   right-hand sides.  Unlike the standard yacc.c template, here we set
-   the default value of $$ to a zeroed-out value.  Since the default
-   value is undefined, this behavior is technically correct.  */
-static ]b4_namespace_ref[::]b4_parser_class[::value_type yyval_default;
+namespace
+{
+  /* Default (constant) value used for initialization for null
+     right-hand sides.  Unlike the standard yacc.c template, here we set
+     the default value of $$ to a zeroed-out value.  Since the default
+     value is undefined, this behavior is technically correct.  */
+  ]b4_namespace_ref[::]b4_parser_class[::value_type yyval_default;
+}
 
 ]b4_user_post_prologue[
-]b4_percent_code_get[]dnl
+]b4_percent_code_get[
 
-[#include <cstdio>
+#include <cstdio>
 #include <cstdlib>
 
 #ifndef YY_
@@ -586,7 +589,7 @@ namespace
   {
   ]b4_conflicting_rules[
   };
-}
+} // namespace
 
 
 /* Error token number */
@@ -676,106 +679,103 @@ namespace
 # define YYSTACKEXPANDABLE 1
 #endif
 
-template <typename Parameter>
-class strong_index_alias
-{
-public:
-  static strong_index_alias create (std::ptrdiff_t value)
-  {
-    strong_index_alias result;
-    result.value_ = value;
-    return result;
-  }
-
-  std::ptrdiff_t const& get () const { return value_; }
-
-  size_t uget () const { return static_cast<size_t> (value_); }
-
-  strong_index_alias operator+ (std::ptrdiff_t other) const
-  {
-    return strong_index_alias (get () + other);
-  }
-
-  void operator+= (std::ptrdiff_t other)
-  {
-    value_ += other;
-  }
-
-  strong_index_alias operator- (std::ptrdiff_t other)
-  {
-    return strong_index_alias (get () - other);
-  }
-
-  void operator-= (std::ptrdiff_t other)
-  {
-    value_ -= other;
-  }
-
-  size_t operator- (strong_index_alias other)
-  {
-    return strong_index_alias (get () - other.get ());
-  }
-
-  strong_index_alias& operator++ ()
-  {
-    ++value_;
-    return *this;
-  }
-
-  bool isValid () const
-  {
-    return value_ != INVALID_INDEX;
-  }
-
-  void setInvalid()
-  {
-    value_ = INVALID_INDEX;
-  }
-
-  bool operator== (strong_index_alias other)
-  {
-    return get () == other.get ();
-  }
-
-  bool operator!= (strong_index_alias other)
-  {
-    return get () != other.get ();
-  }
-
-  bool operator< (strong_index_alias other)
-  {
-    return get () < other.get ();
-  }
-
-private:
-  static const std::ptrdiff_t INVALID_INDEX;
-
-  // WARNING: 0-initialized.
-  std::ptrdiff_t value_;
-};
-
-template<typename T>
-const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
-  std::numeric_limits<std::ptrdiff_t>::max ();
-
-using state_set_index = strong_index_alias<struct glr_state_set_tag>;
-
 namespace
 {
+  template <typename Parameter>
+  class strong_index_alias
+  {
+  public:
+    static strong_index_alias create (std::ptrdiff_t value)
+    {
+      strong_index_alias result;
+      result.value_ = value;
+      return result;
+    }
+
+    std::ptrdiff_t const& get () const { return value_; }
+
+    size_t uget () const { return static_cast<size_t> (value_); }
+
+    strong_index_alias operator+ (std::ptrdiff_t other) const
+    {
+      return strong_index_alias (get () + other);
+    }
+
+    void operator+= (std::ptrdiff_t other)
+    {
+      value_ += other;
+    }
+
+    strong_index_alias operator- (std::ptrdiff_t other)
+    {
+      return strong_index_alias (get () - other);
+    }
+
+    void operator-= (std::ptrdiff_t other)
+    {
+      value_ -= other;
+    }
+
+    size_t operator- (strong_index_alias other)
+    {
+      return strong_index_alias (get () - other.get ());
+    }
+
+    strong_index_alias& operator++ ()
+    {
+      ++value_;
+      return *this;
+    }
+
+    bool isValid () const
+    {
+      return value_ != INVALID_INDEX;
+    }
+
+    void setInvalid()
+    {
+      value_ = INVALID_INDEX;
+    }
+
+    bool operator== (strong_index_alias other)
+    {
+      return get () == other.get ();
+    }
+
+    bool operator!= (strong_index_alias other)
+    {
+      return get () != other.get ();
+    }
+
+    bool operator< (strong_index_alias other)
+    {
+      return get () < other.get ();
+    }
+
+  private:
+    static const std::ptrdiff_t INVALID_INDEX;
+
+    // WARNING: 0-initialized.
+    std::ptrdiff_t value_;
+  }; // class strong_index_alias
+
+  template<typename T>
+  const std::ptrdiff_t strong_index_alias<T>::INVALID_INDEX =
+    std::numeric_limits<std::ptrdiff_t>::max ();
+
+  using state_set_index = strong_index_alias<struct glr_state_set_tag>;
+
   state_set_index create_state_set_index (std::ptrdiff_t value)
   {
     return state_set_index::create (value);
   }
-}
 
-/** State numbers, as in LALR(1) machine */
-using state_num = int;
+  /** State numbers, as in LALR(1) machine */
+  using state_num = int;
 
-/** Rule numbers, as in LALR(1) machine */
-using rule_num = int;
+  /** Rule numbers, as in LALR(1) machine */
+  using rule_num = int;
 
-namespace
-{
   using parser_type = ]b4_namespace_ref[::]b4_parser_class[;
   using glr_state = parser_type::glr_state;
   using symbol_kind = parser_type::symbol_kind;
@@ -786,7 +786,7 @@ namespace
   // Forward declarations.
   class glr_stack_item;
   class semantic_option;
-}
+} // namespace
 
 namespace
 {
