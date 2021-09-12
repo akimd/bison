@@ -1660,419 +1660,421 @@ void glr_state::destroy (char const* yymsg, ]b4_namespace_ref[::]b4_parser_class
 #undef YYFILL
 #define YYFILL(N) yyfill (yyvsp, yylow, (N), yynormal)
 
-class state_stack
+namespace
 {
-public:
-  typedef ]b4_namespace_ref[::]b4_parser_class[::symbol_kind symbol_kind;
-  typedef ]b4_namespace_ref[::]b4_parser_class[::value_type value_type;]b4_locations_if([[
-  typedef ]b4_namespace_ref[::]b4_parser_class[::location_type location_type;]])[
-
-  /** Initialize to a single empty stack, with total maximum
-   *  capacity for all stacks of YYSIZE.  */
-  state_stack (size_t yysize)
-    : yysplitPoint (YY_NULLPTR)
+  class state_stack
   {
-    yyitems.reserve (yysize);
-  }
+  public:
+    using parser_type = ]b4_namespace_ref[::]b4_parser_class[;
+    using symbol_kind = parser_type::symbol_kind;
+    using value_type = parser_type::value_type;]b4_locations_if([[
+    using location_type = parser_type::location_type;]])[
+
+    /** Initialize to a single empty stack, with total maximum
+     *  capacity for all stacks of YYSIZE.  */
+    state_stack (size_t yysize)
+      : yysplitPoint (YY_NULLPTR)
+    {
+      yyitems.reserve (yysize);
+    }
 
 #if YYSTACKEXPANDABLE
-  /** Returns false if it tried to expand but could not. */
-  bool
-  yyexpandGLRStackIfNeeded ()
-  {
-    return YYHEADROOM <= spaceLeft () || yyexpandGLRStack ();
-  }
+    /** Returns false if it tried to expand but could not. */
+    bool
+    yyexpandGLRStackIfNeeded ()
+    {
+      return YYHEADROOM <= spaceLeft () || yyexpandGLRStack ();
+    }
 
-private:
-  /** If *this is expandable, extend it.  WARNING: Pointers into the
-      stack from outside should be considered invalid after this call.
-      We always expand when there are 1 or fewer items left AFTER an
-      allocation, so that we can avoid having external pointers exist
-      across an allocation.  */
-  bool
-  yyexpandGLRStack ()
-  {
-    const size_t oldsize = yyitems.size();
-    if (YYMAXDEPTH - YYHEADROOM < oldsize)
-      return false;
-    const size_t yynewSize = YYMAXDEPTH < 2 * oldsize ? YYMAXDEPTH : 2 * oldsize;
-    const glr_stack_item *oldbase = &yyitems[0];
+  private:
+    /** If *this is expandable, extend it.  WARNING: Pointers into the
+        stack from outside should be considered invalid after this call.
+        We always expand when there are 1 or fewer items left AFTER an
+        allocation, so that we can avoid having external pointers exist
+        across an allocation.  */
+    bool
+    yyexpandGLRStack ()
+    {
+      const size_t oldsize = yyitems.size();
+      if (YYMAXDEPTH - YYHEADROOM < oldsize)
+        return false;
+      const size_t yynewSize = YYMAXDEPTH < 2 * oldsize ? YYMAXDEPTH : 2 * oldsize;
+      const glr_stack_item *oldbase = &yyitems[0];
 
-    yyitems.reserve (yynewSize);
-    const glr_stack_item *newbase = &yyitems[0];
+      yyitems.reserve (yynewSize);
+      const glr_stack_item *newbase = &yyitems[0];
 
-    // Adjust the pointers.  Perform raw pointer arithmetic, as there
-    // is no reason for objects to be aligned on their size.
-    const ptrdiff_t disp
-      = reinterpret_cast<const char*> (newbase) - reinterpret_cast<const char*> (oldbase);
-    if (yysplitPoint)
-      const_cast<glr_state*&> (yysplitPoint)
-        = reinterpret_cast<glr_state*> (reinterpret_cast<char*> (const_cast<glr_state*> (yysplitPoint)) + disp);
+      // Adjust the pointers.  Perform raw pointer arithmetic, as there
+      // is no reason for objects to be aligned on their size.
+      const ptrdiff_t disp
+        = reinterpret_cast<const char*> (newbase) - reinterpret_cast<const char*> (oldbase);
+      if (yysplitPoint)
+        const_cast<glr_state*&> (yysplitPoint)
+          = reinterpret_cast<glr_state*> (reinterpret_cast<char*> (const_cast<glr_state*> (yysplitPoint)) + disp);
 
-    for (std::vector<glr_state*>::iterator
-           i = yytops.begin (),
-           yyend = yytops.end ();
-         i != yyend; ++i)
-      if (glr_state_not_null (*i))
-        *i = reinterpret_cast<glr_state*>(reinterpret_cast<char*>(*i) + disp);
+      for (std::vector<glr_state*>::iterator
+             i = yytops.begin (),
+             yyend = yytops.end ();
+           i != yyend; ++i)
+        if (glr_state_not_null (*i))
+          *i = reinterpret_cast<glr_state*>(reinterpret_cast<char*>(*i) + disp);
 
-    return true;
-  }
+      return true;
+    }
 
-public:
+  public:
 #else
-  bool yyexpandGLRStackIfNeeded ()
-  {
-    return YYHEADROOM <= spaceLeft ();
-  }
+    bool yyexpandGLRStackIfNeeded ()
+    {
+      return YYHEADROOM <= spaceLeft ();
+    }
 #endif
 #undef YYSTACKEXPANDABLE
 
-  static bool glr_state_not_null (glr_state* s)
-  {
-    return s != YY_NULLPTR;
-  }
+    static bool glr_state_not_null (glr_state* s)
+    {
+      return s != YY_NULLPTR;
+    }
 
-  bool
-  reduceToOneStack ()
-  {
-    typedef std::vector<glr_state*>::iterator iterator;
-    const iterator yybegin = yytops.begin();
-    const iterator yyend = yytops.end();
-    const iterator yyit = std::find_if(yybegin, yyend, glr_state_not_null);
-    if (yyit == yyend)
-      return false;
-    for (state_set_index yyk = create_state_set_index(yyit + 1 - yybegin);
-         yyk.uget() != numTops(); ++yyk)
-      yytops.yymarkStackDeleted (yyk);
-    yytops.yyremoveDeletes ();
-    yycompressStack ();
-    return true;
-  }
+    bool
+    reduceToOneStack ()
+    {
+      typedef std::vector<glr_state*>::iterator iterator;
+      const iterator yybegin = yytops.begin();
+      const iterator yyend = yytops.end();
+      const iterator yyit = std::find_if(yybegin, yyend, glr_state_not_null);
+      if (yyit == yyend)
+        return false;
+      for (state_set_index yyk = create_state_set_index(yyit + 1 - yybegin);
+           yyk.uget() != numTops(); ++yyk)
+        yytops.yymarkStackDeleted (yyk);
+      yytops.yyremoveDeletes ();
+      yycompressStack ();
+      return true;
+    }
 
-  /** Called when returning to deterministic operation to clean up the extra
-   * stacks. */
-  void
-  yycompressStack ()
-  {
-    if (yytops.size() != 1 || !isSplit())
-      return;
+    /** Called when returning to deterministic operation to clean up the extra
+     * stacks. */
+    void
+    yycompressStack ()
+    {
+      if (yytops.size() != 1 || !isSplit())
+        return;
 
-    // yyr is the state after the split point.
-    glr_state* yyr = YY_NULLPTR;
-    for (glr_state *yyp = firstTop(), *yyq = yyp->pred();
-         yyp != yysplitPoint;
-         yyr = yyp, yyp = yyq, yyq = yyp->pred())
-      yyp->setPred(yyr);
+      // yyr is the state after the split point.
+      glr_state* yyr = YY_NULLPTR;
+      for (glr_state *yyp = firstTop(), *yyq = yyp->pred();
+           yyp != yysplitPoint;
+           yyr = yyp, yyp = yyq, yyq = yyp->pred())
+        yyp->setPred(yyr);
 
-    // This const_cast is okay, since anyway we have access to the mutable
-    // yyitems into which yysplitPoint points.
-    glr_stack_item* nextFreeItem
-      = const_cast<glr_state*> (yysplitPoint)->asItem () + 1;
-    yysplitPoint = YY_NULLPTR;
-    yytops.clearLastDeleted ();
+      // This const_cast is okay, since anyway we have access to the mutable
+      // yyitems into which yysplitPoint points.
+      glr_stack_item* nextFreeItem
+        = const_cast<glr_state*> (yysplitPoint)->asItem () + 1;
+      yysplitPoint = YY_NULLPTR;
+      yytops.clearLastDeleted ();
 
-    while (yyr != YY_NULLPTR)
-      {
-        nextFreeItem->setState (*yyr);
-        glr_state& nextFreeState = nextFreeItem->getState();
-        yyr = yyr->pred();
-        nextFreeState.setPred(&(nextFreeItem - 1)->getState());
-        setFirstTop (&nextFreeState);
-        ++nextFreeItem;
-      }
-    yyitems.resize(static_cast<size_t>(nextFreeItem - yyitems.data()));
-  }
+      while (yyr != YY_NULLPTR)
+        {
+          nextFreeItem->setState (*yyr);
+          glr_state& nextFreeState = nextFreeItem->getState();
+          yyr = yyr->pred();
+          nextFreeState.setPred(&(nextFreeItem - 1)->getState());
+          setFirstTop (&nextFreeState);
+          ++nextFreeItem;
+        }
+      yyitems.resize(static_cast<size_t>(nextFreeItem - yyitems.data()));
+    }
 
-  bool isSplit() const {
-    return yysplitPoint != YY_NULLPTR;
-  }
+    bool isSplit() const {
+      return yysplitPoint != YY_NULLPTR;
+    }
 
-  // Present the interface of a vector of glr_stack_item.
-  std::vector<glr_stack_item>::const_iterator begin () const
-  {
-    return yyitems.begin ();
-  }
+    // Present the interface of a vector of glr_stack_item.
+    std::vector<glr_stack_item>::const_iterator begin () const
+    {
+      return yyitems.begin ();
+    }
 
-  std::vector<glr_stack_item>::const_iterator end () const
-  {
-    return yyitems.end ();
-  }
+    std::vector<glr_stack_item>::const_iterator end () const
+    {
+      return yyitems.end ();
+    }
 
-  size_t size() const
-  {
-    return yyitems.size ();
-  }
+    size_t size() const
+    {
+      return yyitems.size ();
+    }
 
-  glr_stack_item& operator[] (size_t i)
-  {
-    return yyitems[i];
-  }
+    glr_stack_item& operator[] (size_t i)
+    {
+      return yyitems[i];
+    }
 
-  glr_stack_item& stackItemAt (size_t index)
-  {
-    return yyitems[index];
-  }
+    glr_stack_item& stackItemAt (size_t index)
+    {
+      return yyitems[index];
+    }
 
-  size_t numTops () const
-  {
-    return yytops.size ();
-  }
+    size_t numTops () const
+    {
+      return yytops.size ();
+    }
 
-  glr_state* firstTop () const
-  {
-    return yytops[create_state_set_index (0)];
-  }
+    glr_state* firstTop () const
+    {
+      return yytops[create_state_set_index (0)];
+    }
 
-  glr_state* topAt (state_set_index i) const
-  {
-    return yytops[i];
-  }
+    glr_state* topAt (state_set_index i) const
+    {
+      return yytops[i];
+    }
 
-  void setFirstTop (glr_state* value)
-  {
-    yytops[create_state_set_index (0)] = value;
-  }
+    void setFirstTop (glr_state* value)
+    {
+      yytops[create_state_set_index (0)] = value;
+    }
 
-  void setTopAt (state_set_index i, glr_state* value)
-  {
-    yytops[i] = value;
-  }
+    void setTopAt (state_set_index i, glr_state* value)
+    {
+      yytops[i] = value;
+    }
 
-  void pop_back ()
-  {
-    yyitems.pop_back ();
-  }
+    void pop_back ()
+    {
+      yyitems.pop_back ();
+    }
 
-  void pop_back (size_t n)
-  {
-    yyitems.resize (yyitems.size () - n);
-  }
+    void pop_back (size_t n)
+    {
+      yyitems.resize (yyitems.size () - n);
+    }
 
-  state_set_index
-  yysplitStack (state_set_index yyk)
-  {
-    if (!isSplit ())
-      {
-        YYASSERT (yyk.get () == 0);
-        yysplitPoint = topAt (yyk);
-      }
-    return yytops.yysplitStack (yyk);
-  }
+    state_set_index
+    yysplitStack (state_set_index yyk)
+    {
+      if (!isSplit ())
+        {
+          YYASSERT (yyk.get () == 0);
+          yysplitPoint = topAt (yyk);
+        }
+      return yytops.yysplitStack (yyk);
+    }
 
-  /** Assuming that YYS is a GLRState somewhere on *this, update the
-   *  splitpoint of *this, if needed, so that it is at least as deep as
-   *  YYS.  */
-  void
-  yyupdateSplit (glr_state& yys)
-  {
-    if (isSplit() && &yys < yysplitPoint)
-      yysplitPoint = &yys;
-  }
+    /** Assuming that YYS is a GLRState somewhere on *this, update the
+     *  splitpoint of *this, if needed, so that it is at least as deep as
+     *  YYS.  */
+    void
+    yyupdateSplit (glr_state& yys)
+    {
+      if (isSplit() && &yys < yysplitPoint)
+        yysplitPoint = &yys;
+    }
 
-  /** Return a fresh GLRState.
-   * Callers should call yyreserveStack afterwards to make sure there is
-   * sufficient headroom.  */
-  glr_state& yynewGLRState (const glr_state& newState)
-  {
-    glr_state& state = yyitems[yynewGLRStackItem (true)].getState ();
+    /** Return a fresh GLRState.
+     * Callers should call yyreserveStack afterwards to make sure there is
+     * sufficient headroom.  */
+    glr_state& yynewGLRState (const glr_state& newState)
+    {
+      glr_state& state = yyitems[yynewGLRStackItem (true)].getState ();
 #if false && 201103L <= YY_CPLUSPLUS
-    state = std::move (newState);
+      state = std::move (newState);
 #else
-    state = newState;
+      state = newState;
 #endif
-    return state;
-  }
+      return state;
+    }
 
-  /** Return a fresh SemanticOption.
-   * Callers should call yyreserveStack afterwards to make sure there is
-   * sufficient headroom.  */
-  semantic_option& yynewSemanticOption (semantic_option newOption)
-  {
-    semantic_option& option = yyitems[yynewGLRStackItem (false)].getOption ();
+    /** Return a fresh SemanticOption.
+     * Callers should call yyreserveStack afterwards to make sure there is
+     * sufficient headroom.  */
+    semantic_option& yynewSemanticOption (semantic_option newOption)
+    {
+      semantic_option& option = yyitems[yynewGLRStackItem (false)].getOption ();
 #if 201103L <= YY_CPLUSPLUS
-    option = std::move (newOption);
+      option = std::move (newOption);
 #else
-    option = newOption;
+      option = newOption;
 #endif
-    return option;
-  }
+      return option;
+    }
 
-  /* Do nothing if YYNORMAL or if *YYLOW <= YYLOW1.  Otherwise, fill in
-   * YYVSP[YYLOW1 .. *YYLOW-1] as in yyfillin and set *YYLOW = YYLOW1.
-   * For convenience, always return YYLOW1.  */
-  int
-  yyfill (glr_stack_item *yyvsp, int &yylow, int yylow1, bool yynormal)
-  {
-    if (!yynormal && yylow1 < yylow)
-      {
-        yyfillin (yyvsp, yylow, yylow1);
-        yylow = yylow1;
-      }
-    return yylow1;
-  }
+    /* Do nothing if YYNORMAL or if *YYLOW <= YYLOW1.  Otherwise, fill in
+     * YYVSP[YYLOW1 .. *YYLOW-1] as in yyfillin and set *YYLOW = YYLOW1.
+     * For convenience, always return YYLOW1.  */
+    int
+    yyfill (glr_stack_item *yyvsp, int &yylow, int yylow1, bool yynormal)
+    {
+      if (!yynormal && yylow1 < yylow)
+        {
+          yyfillin (yyvsp, yylow, yylow1);
+          yylow = yylow1;
+        }
+      return yylow1;
+    }
 
-  /** Fill in YYVSP[YYLOW1 .. YYLOW0-1] from the chain of states starting
-   *  at YYVSP[YYLOW0].getState().pred().  Leaves YYVSP[YYLOW1].getState().pred()
-   *  containing the pointer to the next state in the chain.  */
-  void
-  yyfillin (glr_stack_item *yyvsp, int yylow0, int yylow1)
-  {
-    glr_state* s = yyvsp[yylow0].getState().pred();
-    YYASSERT(s != YY_NULLPTR);
-    for (int i = yylow0-1; i >= yylow1; i -= 1, s = s->pred())
-      {
-        glr_state& yys = yyvsp[i].getState();
+    /** Fill in YYVSP[YYLOW1 .. YYLOW0-1] from the chain of states starting
+     *  at YYVSP[YYLOW0].getState().pred().  Leaves YYVSP[YYLOW1].getState().pred()
+     *  containing the pointer to the next state in the chain.  */
+    void
+    yyfillin (glr_stack_item *yyvsp, int yylow0, int yylow1)
+    {
+      glr_state* s = yyvsp[yylow0].getState().pred();
+      YYASSERT(s != YY_NULLPTR);
+      for (int i = yylow0-1; i >= yylow1; i -= 1, s = s->pred())
+        {
+          glr_state& yys = yyvsp[i].getState();
 #if ]b4_api_PREFIX[DEBUG
-        yys.yylrState = s->yylrState;
+          yys.yylrState = s->yylrState;
 #endif
-        yys.yyresolved = s->yyresolved;
-        if (s->yyresolved)
-          {]b4_variant_if([[
-            new (&yys.value ()) value_type ();
-            ]b4_symbol_variant([yy_accessing_symbol (s->yylrState)],
-                               [yys.value ()], [copy], [s->value ()])], [[
-            new (&yys.value ()) value_type (s->value ());]])[
-          }
-        else
-          /* The effect of using yyval or yyloc (in an immediate
-           * rule) is undefined.  */
-          yys.setFirstVal (YY_NULLPTR);]b4_locations_if([[
-        yys.yyloc = s->yyloc;]])[
-        yys.setPred(s->pred());
-      }
-  }
+          yys.yyresolved = s->yyresolved;
+          if (s->yyresolved)
+            {]b4_variant_if([[
+              new (&yys.value ()) value_type ();
+              ]b4_symbol_variant([yy_accessing_symbol (s->yylrState)],
+                                 [yys.value ()], [copy], [s->value ()])], [[
+              new (&yys.value ()) value_type (s->value ());]])[
+            }
+          else
+            /* The effect of using yyval or yyloc (in an immediate
+             * rule) is undefined.  */
+            yys.setFirstVal (YY_NULLPTR);]b4_locations_if([[
+          yys.yyloc = s->yyloc;]])[
+          yys.setPred(s->pred());
+        }
+    }
 
 #if ]b4_api_PREFIX[DEBUG
 
-  /*----------------------------------------------------------------------.
-  | Report that stack #YYK of *YYSTACKP is going to be reduced by YYRULE. |
-  `----------------------------------------------------------------------*/
+    /*----------------------------------------------------------------------.
+    | Report that stack #YYK of *YYSTACKP is going to be reduced by YYRULE. |
+    `----------------------------------------------------------------------*/
 
-  void
-  yy_reduce_print (bool yynormal, glr_stack_item* yyvsp, state_set_index yyk,
-                   rule_num yyrule, ]b4_namespace_ref[::]b4_parser_class[& yyparser)
-  {
-    int yynrhs = yyrhsLength (yyrule);]b4_locations_if([
-    int yylow = 1;])[
-    int yyi;
-    std::cerr << "Reducing stack " << yyk.get() << " by rule " << yyrule - 1
-              << " (line " << int (yyrline[yyrule]) << "):\n";
-    if (! yynormal)
-      yyfillin (yyvsp, 1, -yynrhs);
-    /* The symbols being reduced.  */
-    for (yyi = 0; yyi < yynrhs; yyi++)
-      {
-        std::cerr << "   $" << yyi + 1 << " = ";
-        yyparser.yy_symbol_print_
-          (yy_accessing_symbol (yyvsp[yyi - yynrhs + 1].getState().yylrState),
-           yyvsp[yyi - yynrhs + 1].getState().value ()]b4_locations_if([[,
-           ]b4_rhs_location(yynrhs, yyi + 1)])[);
-        if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
-          std::cerr << " (unresolved)";
-        std::cerr << '\n';
-      }
-  }
+    void
+    yy_reduce_print (bool yynormal, glr_stack_item* yyvsp, state_set_index yyk,
+                     rule_num yyrule, parser_type& yyparser)
+    {
+      int yynrhs = yyrhsLength (yyrule);]b4_locations_if([
+      int yylow = 1;])[
+      int yyi;
+      std::cerr << "Reducing stack " << yyk.get() << " by rule " << yyrule - 1
+                << " (line " << int (yyrline[yyrule]) << "):\n";
+      if (! yynormal)
+        yyfillin (yyvsp, 1, -yynrhs);
+      /* The symbols being reduced.  */
+      for (yyi = 0; yyi < yynrhs; yyi++)
+        {
+          std::cerr << "   $" << yyi + 1 << " = ";
+          yyparser.yy_symbol_print_
+            (yy_accessing_symbol (yyvsp[yyi - yynrhs + 1].getState().yylrState),
+             yyvsp[yyi - yynrhs + 1].getState().value ()]b4_locations_if([[,
+             ]b4_rhs_location(yynrhs, yyi + 1)])[);
+          if (!yyvsp[yyi - yynrhs + 1].getState().yyresolved)
+            std::cerr << " (unresolved)";
+          std::cerr << '\n';
+        }
+    }
 
 
 #define YYINDEX(YYX)                                                         \
-    ((YYX) == YY_NULLPTR ? -1 : (YYX)->indexIn (yyitems.data ()))
+      ((YYX) == YY_NULLPTR ? -1 : (YYX)->indexIn (yyitems.data ()))
 
-  void
-  dumpStack () const
-  {
-    for (size_t yyi = 0; yyi < size(); ++yyi)
-      {
-        const glr_stack_item& item = yyitems[yyi];
-        std::cerr << std::setw(3) << yyi << ". ";
-        if (item.is_state())
-          {
-            std::cerr << "Res: " << item.getState().yyresolved
-                      << ", LR State: " << item.getState().yylrState
-                      << ", posn: " << item.getState().yyposn
-                      << ", pred: " << YYINDEX(item.getState().pred());
-            if (! item.getState().yyresolved)
-              std::cerr << ", firstVal: "
-                        << YYINDEX(item.getState().firstVal());
-          }
-        else
-          {
-            std::cerr << "Option. rule: " << item.getOption().yyrule - 1
-                      << ", state: " << YYINDEX(item.getOption().state())
-                      << ", next: " << YYINDEX(item.getOption().next());
-          }
-        std::cerr << '\n';
+    void
+    dumpStack () const
+    {
+      for (size_t yyi = 0; yyi < size(); ++yyi)
+        {
+          const glr_stack_item& item = yyitems[yyi];
+          std::cerr << std::setw(3) << yyi << ". ";
+          if (item.is_state())
+            {
+              std::cerr << "Res: " << item.getState().yyresolved
+                        << ", LR State: " << item.getState().yylrState
+                        << ", posn: " << item.getState().yyposn
+                        << ", pred: " << YYINDEX(item.getState().pred());
+              if (! item.getState().yyresolved)
+                std::cerr << ", firstVal: "
+                          << YYINDEX(item.getState().firstVal());
+            }
+          else
+            {
+              std::cerr << "Option. rule: " << item.getOption().yyrule - 1
+                        << ", state: " << YYINDEX(item.getOption().state())
+                        << ", next: " << YYINDEX(item.getOption().next());
+            }
+          std::cerr << '\n';
+        }
+      std::cerr << "Tops:";
+      for (state_set_index yyi = create_state_set_index(0); yyi.uget() < numTops(); ++yyi) {
+        std::cerr << yyi.get() << ": " << YYINDEX(topAt(yyi)) << "; ";
       }
-    std::cerr << "Tops:";
-    for (state_set_index yyi = create_state_set_index(0); yyi.uget() < numTops(); ++yyi) {
-      std::cerr << yyi.get() << ": " << YYINDEX(topAt(yyi)) << "; ";
+      std::cerr << '\n';
     }
-    std::cerr << '\n';
-  }
 
 #undef YYINDEX
 #endif
 
-  YYRESULTTAG
-  yyreportAmbiguity (const semantic_option& yyx0,
-                     const semantic_option& yyx1, ]b4_namespace_ref[::]b4_parser_class[& yyparser]b4_locations_if([, const location_type& yyloc])[)
-  {
-    YY_USE (yyx0);
-    YY_USE (yyx1);
+    YYRESULTTAG
+    yyreportAmbiguity (const semantic_option& yyx0,
+                       const semantic_option& yyx1, parser_type& yyparser]b4_locations_if([, const location_type& yyloc])[)
+    {
+      YY_USE (yyx0);
+      YY_USE (yyx1);
 
 #if ]b4_api_PREFIX[DEBUG
-    std::cerr << "Ambiguity detected.\n"
-      "Option 1,\n";
-    yyx0.yyreportTree ();
-    std::cerr << "\nOption 2,\n";
-    yyx1.yyreportTree ();
-    std::cerr << '\n';
+      std::cerr << "Ambiguity detected.\n"
+        "Option 1,\n";
+      yyx0.yyreportTree ();
+      std::cerr << "\nOption 2,\n";
+      yyx1.yyreportTree ();
+      std::cerr << '\n';
 #endif
 
-    yyparser.error (]b4_locations_if([yyloc, ])[YY_("syntax is ambiguous"));
-    return yyabort;
-  }
+      yyparser.error (]b4_locations_if([yyloc, ])[YY_("syntax is ambiguous"));
+      return yyabort;
+    }
 
-  /* DEBUGGING ONLY */
 #if ]b4_api_PREFIX[DEBUG
-  /* Print YYS (possibly NULL) and its predecessors. */
-  void
-  yypstates (const glr_state* yys) const
-  {
-    if (yys != YY_NULLPTR)
-      yys->yy_yypstack();
-    else
-      std::cerr << "<null>";
-    std::cerr << '\n';
-  }
+    /* Print YYS (possibly NULL) and its predecessors. */
+    void
+    yypstates (const glr_state* yys) const
+    {
+      if (yys != YY_NULLPTR)
+        yys->yy_yypstack();
+      else
+        std::cerr << "<null>";
+      std::cerr << '\n';
+    }
 #endif
 
-private:
-  size_t spaceLeft() const
-  {
-    return yyitems.capacity() - yyitems.size();
-  }
+  private:
+    size_t spaceLeft() const
+    {
+      return yyitems.capacity() - yyitems.size();
+    }
 
-  /** Return a fresh GLRStackItem in this.  The item is an LR state
-   *  if YYIS_STATE, and otherwise a semantic option.  Callers should call
-   *  yyreserveStack afterwards to make sure there is sufficient
-   *  headroom.  */
-  size_t
-  yynewGLRStackItem (bool yyis_state)
-  {
-    YYDASSERT(yyitems.size() < yyitems.capacity());
-    yyitems.push_back(glr_stack_item(yyis_state));
-    return yyitems.size() - 1;
-  }
+    /** Return a fresh GLRStackItem in this.  The item is an LR state
+     *  if YYIS_STATE, and otherwise a semantic option.  Callers should call
+     *  yyreserveStack afterwards to make sure there is sufficient
+     *  headroom.  */
+    size_t
+    yynewGLRStackItem (bool yyis_state)
+    {
+      YYDASSERT(yyitems.size() < yyitems.capacity());
+      yyitems.push_back(glr_stack_item(yyis_state));
+      return yyitems.size() - 1;
+    }
 
 
-public:
-
-  std::vector<glr_stack_item> yyitems;
-  // Where the stack splits. Anything below this address is deterministic.
-  const glr_state* yysplitPoint;
-  glr_state_set yytops;
-};
+  public:
+    std::vector<glr_stack_item> yyitems;
+    // Where the stack splits. Anything below this address is deterministic.
+    const glr_state* yysplitPoint;
+    glr_state_set yytops;
+  }; // class state_stack
+} // namespace
 
 #undef YYFILL
 #define YYFILL(N) yystateStack.yyfill (yyvsp, yylow, (N), yynormal)
@@ -2095,7 +2097,7 @@ namespace ]b4_namespace_ref[
     friend context;
   ]])[
 
-    glr_stack (size_t yysize, ]b4_namespace_ref[::]b4_parser_class[& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
+    glr_stack (size_t yysize, parser_type& yyparser_yyarg]m4_ifset([b4_parse_param], [, b4_parse_param_decl])[)
       : yyerrState (0)
       , yystateStack (yysize)
       , yyerrcnt (0)
@@ -2118,7 +2120,7 @@ namespace ]b4_namespace_ref[
     int yyerrcnt;
     symbol_type yyla;
     YYJMP_BUF yyexception_buffer;
-    ]b4_namespace_ref[::]b4_parser_class[& yyparser;
+    parser_type& yyparser;
 
   #define YYCHK1(YYE)                                                          \
     do {                                                                       \
@@ -2607,7 +2609,7 @@ namespace ]b4_namespace_ref[
        so pretend the stack is "normal". */
     YY_REDUCE_PRINT ((yynormal || yyk == create_state_set_index (-1), yyvsp, yyk, yyrule, yyparser));
     #if YY_EXCEPTIONS
-      typedef ]b4_namespace_ref[::]b4_parser_class[::syntax_error syntax_error;
+      typedef parser_type::syntax_error syntax_error;
       try
       {
     #endif // YY_EXCEPTIONS
@@ -3085,7 +3087,7 @@ namespace ]b4_namespace_ref[
               yyla.kind_ = yyparser.yytranslate_ (]b4_yylex[);]])[
             }
 #if YY_EXCEPTIONS
-          catch (const ]b4_namespace_ref[::]b4_parser_class[::syntax_error& yyexc)
+          catch (const parser_type::syntax_error& yyexc)
             {
               YYCDEBUG << "Caught exception: " << yyexc.what () << '\n';]b4_locations_if([
               this->yyla.location = yyexc.location;])[
