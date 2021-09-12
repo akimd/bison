@@ -435,8 +435,6 @@ m4_define([b4_shared_declarations],
 ]b4_header_if([[#include "@basename(]b4_spec_header_file[@)"]],
               [b4_shared_declarations([cc])])[
 
-using yysymbol_kind_t = ]b4_namespace_ref[::]b4_parser_class[::symbol_kind_type;
-
 /* Default (constant) value used for initialization for null
    right-hand sides.  Unlike the standard yacc.c template, here we set
    the default value of $$ to a zeroed-out value.  Since the default
@@ -790,25 +788,28 @@ namespace
   class semantic_option;
 }
 
-/** Accessing symbol of state YYSTATE.  */
-static inline yysymbol_kind_t
-yy_accessing_symbol (state_num yystate)
+namespace
 {
-  return YY_CAST (yysymbol_kind_t, yystos[yystate]);
-}
+  /** Accessing symbol of state YYSTATE.  */
+  inline symbol_kind_type
+  yy_accessing_symbol (state_num yystate)
+  {
+    return YY_CAST (symbol_kind_type, yystos[yystate]);
+  }
 
-/** Left-hand-side symbol for rule #YYRULE.  */
-static inline yysymbol_kind_t
-yylhsNonterm (rule_num yyrule)
-{
-  return static_cast<yysymbol_kind_t>(yyr1[yyrule]);
-}
+  /** Left-hand-side symbol for rule #YYRULE.  */
+  inline symbol_kind_type
+  yylhsNonterm (rule_num yyrule)
+  {
+    return static_cast<symbol_kind_type>(yyr1[yyrule]);
+  }
 
-/** Number of symbols composing the right hand side of rule #RULE.  */
-static inline int
-yyrhsLength (rule_num yyrule)
-{
-  return yyr2[yyrule];
+  /** Number of symbols composing the right hand side of rule #RULE.  */
+  inline int
+  yyrhsLength (rule_num yyrule)
+  {
+    return yyr2[yyrule];
+  }
 }
 
 namespace ]b4_namespace_ref[
@@ -879,7 +880,7 @@ namespace ]b4_namespace_ref[
       check_ ();]])[
       if (yyresolved)
         {]b4_variant_if([[
-          yysymbol_kind_t yykind = yy_accessing_symbol (yylrState);
+          symbol_kind_type yykind = yy_accessing_symbol (yylrState);
           // FIXME: User destructors.
           // Value type destructor.
           ]b4_symbol_variant([[yykind]], [[yyval]], [[template destroy]])])[
@@ -2255,7 +2256,7 @@ namespace ]b4_namespace_ref[
                  failure in the following loop.  Thus, yyla is emptied
                  before the loop to make sure the user destructor for yylval isn't
                  called twice.  */
-              yysymbol_kind_t yytoken_to_shift = this->yyla.kind ();
+              symbol_kind_type yytoken_to_shift = this->yyla.kind ();
               this->yyla.kind_ = ]b4_symbol(empty, kind)[;
               yyposn += 1;
               for (state_set_index yys = create_state_set_index (0); yys.uget () < this->yystateStack.numTops (); ++yys)
@@ -3110,7 +3111,7 @@ namespace ]b4_namespace_ref[
      *  of conflicting reductions.
      */
     static int
-    yygetLRActions (state_num yystate, yysymbol_kind_t yytoken, const short*& yyconflicts)
+    yygetLRActions (state_num yystate, symbol_kind_type yytoken, const short*& yyconflicts)
     {
       int yyindex = yypact[yystate] + yytoken;
       if (yytoken == ]b4_symbol(error, kind)[)
@@ -3142,7 +3143,7 @@ namespace ]b4_namespace_ref[
      * \param yysym     the nonterminal to push on the stack
      */
     static state_num
-    yyLRgotoState (state_num yystate, yysymbol_kind_t yysym)
+    yyLRgotoState (state_num yystate, symbol_kind_type yysym)
     {
       const int yyr = yypgoto[yysym - YYNTOKENS] + yystate;
       if (0 <= yyr && yyr <= YYLAST && yycheck[yyr] == yystate)
