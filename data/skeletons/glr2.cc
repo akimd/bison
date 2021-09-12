@@ -1897,11 +1897,7 @@ namespace
     semantic_option& yynewSemanticOption (semantic_option newOption)
     {
       semantic_option& option = yyitems[yynewGLRStackItem (false)].getOption ();
-#if 201103L <= YY_CPLUSPLUS
       option = std::move (newOption);
-#else
-      option = newOption;
-#endif
       return option;
     }
 
