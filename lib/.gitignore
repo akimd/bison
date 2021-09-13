@@ -362,6 +362,7 @@
 /stat-w32.c
 /stat-w32.h
 /stat.c
+/stdalign.in.h
 /stdbool.h
 /stdbool.in.h
 /stddef.h
