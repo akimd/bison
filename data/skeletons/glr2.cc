@@ -780,6 +780,7 @@ namespace
   using glr_state = parser_type::glr_state;
   using symbol_kind = parser_type::symbol_kind;
   using symbol_kind_type = parser_type::symbol_kind_type;
+  using symbol_type = parser_type::symbol_type;
   using value_type = parser_type::value_type;]b4_locations_if([[
   using location_type = parser_type::location_type;]])[
 
@@ -1171,9 +1172,7 @@ namespace
       : yyrule (0)
       , yystate (0)
       , yynext (0)
-      , yytoken (]b4_symbol(empty, kind)[)
-      , yyval ()]b4_locations_if([[
-      , yyloc ()]])[]b4_parse_assert_if([[
+      , yyla ()]b4_parse_assert_if([[
       , magic_ (MAGIC)]])[
     {}
 
@@ -1181,9 +1180,7 @@ namespace
       : yyrule (rule)
       , yystate (0)
       , yynext (0)
-      , yytoken (]b4_symbol(empty, kind)[)
-      , yyval ()]b4_locations_if([[
-      , yyloc ()]])[]b4_parse_assert_if([[
+      , yyla ()]b4_parse_assert_if([[
       , magic_ (MAGIC)]])[
     {}
 
@@ -1191,14 +1188,10 @@ namespace
       : yyrule (that.yyrule)
       , yystate (that.yystate)
       , yynext (that.yynext)
-      , yytoken (that.yytoken)
-      , yyval (]b4_variant_if([], [[that.yyval]])[)]b4_locations_if([[
-      , yyloc (that.yyloc)]])[]b4_parse_assert_if([[
+      , yyla (that.yyla)]b4_parse_assert_if([[
       , magic_ (MAGIC)]])[
     {]b4_parse_assert_if([[
-      that.check_ ();]])[]b4_variant_if([[
-      ]b4_symbol_variant([yytoken],
-                         [yyval], [copy], [that.yyval])])[
+      that.check_ ();]])[
     }
 
     // Needed for the assignment in yynewSemanticOption.
@@ -1209,11 +1202,7 @@ namespace
       yyrule = that.yyrule;
       yystate = that.yystate;
       yynext = that.yynext;
-      yytoken = that.yytoken;]b4_variant_if([[
-      ]b4_symbol_variant([yytoken],
-                         [yyval], [copy], [that.yyval])], [[
-      yyval = that.yyval;]])[]b4_locations_if([[
-      yyloc = that.yyloc;]])[
+      yyla = that.yyla;
       return *this;
     }
 
@@ -1395,9 +1384,7 @@ namespace
 
   public:
     /** The lookahead for this reduction.  */
-    symbol_kind_type yytoken;
-    value_type yyval;]b4_locations_if([[
-    location_type yyloc;]])[
+    symbol_type yyla;
 
 ]b4_parse_assert_if([[
   public:
@@ -2339,19 +2326,12 @@ b4_dollar_popdef])[]dnl
     yyaddDeferredAction (state_set_index yyk, glr_state* yystate,
                          glr_state* yyrhs, rule_num yyrule)
     {
-      semantic_option& yynewOption =
-        yystateStack.yynewSemanticOption (semantic_option (yyrule));
-      yynewOption.setState(yyrhs);
-      yynewOption.setNext(yystate->firstVal());
-      if (yystateStack.yytops.lookaheadNeeds(yyk))
-        {
-          yynewOption.yytoken = this->yyla.kind ();]b4_variant_if([[
-          ]b4_symbol_variant([this->yyla.kind ()],
-                             [yynewOption.yyval], [copy], [this->yyla.value])], [[
-          yynewOption.yyval = this->yyla.value;]])[]b4_locations_if([
-          yynewOption.yyloc = this->yyla.location;])[
-        }
-      yystate->setFirstVal (&yynewOption);
+      semantic_option& yyopt = yystateStack.yynewSemanticOption (semantic_option (yyrule));
+      yyopt.setState (yyrhs);
+      yyopt.setNext (yystate->firstVal ());
+      if (yystateStack.yytops.lookaheadNeeds (yyk))
+        yyopt.yyla = this->yyla;
+      yystate->setFirstVal (&yyopt);
 
       yyreserveGlrStack ();
     }
@@ -3003,16 +2983,11 @@ b4_dollar_popdef])[]dnl
         yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].getState().yyloc = yyoptState->yyloc;]])[
       {
         symbol_type yyla_current = std::move (this->yyla);
-        this->yyla.kind_ = yyopt.yytoken;]b4_variant_if([[
-        ]b4_symbol_variant([this->yyla.kind ()],
-                           [this->yyla.value], [move], [yyopt.yyval])], [[
-        this->yyla.value = yyopt.yyval;]])[]b4_locations_if([
-        this->yyla.location = yyopt.yyloc;])[
+        this->yyla = std::move (yyopt.yyla);
         yyflag = yyuserAction (yyopt.yyrule, yynrhs,
                                yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
                                create_state_set_index (-1),
                                yyvalp]b4_locations_if([, yylocp])[);
-
         this->yyla = std::move (yyla_current);
       }
       return yyflag;

@@ -347,6 +347,17 @@ m4_define([b4_symbol_type_define],
       }
 
 ]b4_glr2_cc_if([[
+      /// Copy assignment.
+      basic_symbol& operator= (const basic_symbol& that)
+      {
+        Base::operator= (that);]b4_variant_if([[
+        ]b4_symbol_variant([this->kind ()], [value], [copy],
+                           [that.value])], [[
+        value = that.value]])[;]b4_locations_if([[
+        location = that.location;]])[
+        return *this;
+      }
+
       /// Move assignment.
       basic_symbol& operator= (basic_symbol&& that)
       {
@@ -438,6 +449,9 @@ m4_define([b4_symbol_type_define],
       by_kind (const by_kind& that);
 
 ]b4_glr2_cc_if([[
+      /// Copy assignment.
+      by_kind& operator= (const by_kind& that);
+
       /// Move assignment.
       by_kind& operator= (by_kind&& that);
 ]])[
@@ -571,6 +585,13 @@ m4_define([b4_public_types_define],
   {}
 
 ]b4_glr2_cc_if([[
+  ]b4_inline([$1])]b4_parser_class[::by_kind&
+  b4_parser_class[::by_kind::by_kind::operator= (const by_kind& that)
+  {
+    kind_ = that.kind_;
+    return *this;
+  }
+
   ]b4_inline([$1])]b4_parser_class[::by_kind&
   b4_parser_class[::by_kind::by_kind::operator= (by_kind&& that)
   {
