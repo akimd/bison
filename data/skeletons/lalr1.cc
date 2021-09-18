@@ -325,11 +325,11 @@ m4_define([b4_shared_declarations],
 
     /// Whether the given \c yypact_ value indicates a defaulted state.
     /// \param yyvalue   the value to check
-    static bool yy_pact_value_is_default_ (int yyvalue);
+    static bool yy_pact_value_is_default_ (int yyvalue) YY_NOEXCEPT;
 
     /// Whether the given \c yytable_ value indicates a syntax error.
     /// \param yyvalue   the value to check
-    static bool yy_table_value_is_error_ (int yyvalue);
+    static bool yy_table_value_is_error_ (int yyvalue) YY_NOEXCEPT;
 
     static const ]b4_int_type(b4_pact_ninf, b4_pact_ninf)[ yypact_ninf_;
     static const ]b4_int_type(b4_table_ninf, b4_table_ninf)[ yytable_ninf_;
@@ -337,7 +337,7 @@ m4_define([b4_shared_declarations],
     /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_kind_type, but character literals
     /// are valid, yet not members of the token_kind_type enum.
-    static symbol_kind_type yytranslate_ (int t);
+    static symbol_kind_type yytranslate_ (int t) YY_NOEXCEPT;
 
 ]b4_parse_error_bmatch(
 [simple],
@@ -474,7 +474,7 @@ m4_define([b4_shared_declarations],
     void yypush_ (const char* m, state_type s, YY_MOVE_REF (symbol_type) sym);
 
     /// Pop \a n symbols from the stack.
-    void yypop_ (int n = 1);
+    void yypop_ (int n = 1) YY_NOEXCEPT;
 
     /// Constants.
     enum
@@ -779,7 +779,7 @@ m4_if(b4_prefix, [yy], [],
   }
 
   void
-  ]b4_parser_class[::yypop_ (int n)
+  ]b4_parser_class[::yypop_ (int n) YY_NOEXCEPT
   {
     yystack_.pop (n);
   }
@@ -822,13 +822,13 @@ m4_if(b4_prefix, [yy], [],
   }
 
   bool
-  ]b4_parser_class[::yy_pact_value_is_default_ (int yyvalue)
+  ]b4_parser_class[::yy_pact_value_is_default_ (int yyvalue) YY_NOEXCEPT
   {
     return yyvalue == yypact_ninf_;
   }
 
   bool
-  ]b4_parser_class[::yy_table_value_is_error_ (int yyvalue)
+  ]b4_parser_class[::yy_table_value_is_error_ (int yyvalue) YY_NOEXCEPT
   {
     return yyvalue == yytable_ninf_;
   }

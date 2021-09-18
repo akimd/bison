@@ -348,7 +348,7 @@ m4_define([b4_shared_declarations],
     /// Convert a scanner token kind \a t to a symbol kind.
     /// In theory \a t should be a token_kind_type, but character literals
     /// are valid, yet not members of the token_kind_type enum.
-    static symbol_kind_type yytranslate_ (int t);
+    static symbol_kind_type yytranslate_ (int t) YY_NOEXCEPT;
 
 ]b4_parse_error_bmatch(
 [simple],
@@ -3136,13 +3136,13 @@ b4_dollar_popdef])[]dnl
     }
 
     static bool
-    yy_is_shift_action (int yyaction)
+    yy_is_shift_action (int yyaction) YY_NOEXCEPT
     {
       return 0 < yyaction;
     }
 
     static bool
-    yy_is_error_action (int yyaction)
+    yy_is_error_action (int yyaction) YY_NOEXCEPT
     {
       return yyaction == 0;
     }
