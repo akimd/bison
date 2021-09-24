@@ -2,6 +2,10 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+  Fixed portability issues of bison on Cygwin.
+
+  Improvements in glr2.cc: add support for custom error messages (`%define
+  parse.error custom`), allow linking several parsers together.
 
 * Noteworthy changes in release 3.8.1 (2021-09-11) [stable]
 
