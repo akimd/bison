@@ -1358,13 +1358,19 @@ AT_CHECK(m4_join([ ],
 # If OUTPUT does not contain '.', assume that we are linking too,
 # otherwise pass "-c"; this is a hack.  The default SOURCES is OUTPUT
 # with trailing ".o" removed, and ".cc" appended.
+#
+# glr2.cc require C++11.
 m4_define([AT_COMPILE_CXX],
 [AT_KEYWORDS([c++])
 AT_SKIP_IF([[! $BISON_CXX_WORKS]])
 m4_ifdef([AT_GLR2_CC_IF],
   [AT_GLR2_CC_IF([AT_SKIP_IF([[test x"$CXX11_CXXFLAGS" == x]])])])
 AT_CHECK(m4_join([ ],
-                 [$CXX $CXXFLAGS $CPPFLAGS $3],
+                 [$CXX],
+                 [$CPPFLAGS],
+                 [m4_ifdef([AT_GLR2_CC_IF], [AT_GLR2_CC_IF([$CXX11_CXXFLAGS])])],
+                 [$CXXFLAGS],
+                 [$3],
                  [m4_bmatch([$1], [[.]], [-c], [$LDFLAGS])],
                  [-o $1],
                  [m4_default([$2], [m4_bpatsubst([$1], [\.o$]).cc])],
