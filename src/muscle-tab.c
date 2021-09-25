@@ -517,8 +517,9 @@ muscle_percent_define_insert (char const *var, location variable_loc,
       char const *current_value = muscle_find_const (name);
       if (current_value)
         {
+          long l = strtol (muscle_find_const (how_name), NULL, 10);
           muscle_percent_define_how how_old
-            = atoi (muscle_find_const (how_name));
+            = 0 <= l && l <= INT_MAX ? l : INT_MAX;
           if (how_old == MUSCLE_PERCENT_DEFINE_F)
             goto end;
           /* If assigning the same value, make it a warning.  */

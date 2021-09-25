@@ -512,22 +512,28 @@ location_empty (location loc)
     && !loc.end.file && !loc.end.line && !loc.end.column;
 }
 
+static inline int
+str_to_int (const char *s)
+{
+  long l = strtol (s, NULL, 10);
+  return l < 0 ? -1 : l <= INT_MAX ? l : INT_MAX;
+}
+
 void
 boundary_set_from_string (boundary *bound, char *str)
 {
-  /* Must search in reverse since the file name field may contain '.'
-     or ':'.  */
+  /* Search backwards: the file name may contain '.'  or ':'.  */
   char *at = strrchr (str, '@');
   if (at)
     {
       *at = '\0';
-      bound->byte = atoi (at+1);
+      bound->byte = str_to_int (at + 1);
     }
   {
     char *dot = strrchr (str, '.');
     aver (dot);
     *dot = '\0';
-    bound->column = atoi (dot+1);
+    bound->column = str_to_int (dot + 1);
     if (!at)
       bound->byte = bound->column;
   }
@@ -535,7 +541,7 @@ boundary_set_from_string (boundary *bound, char *str)
     char *colon = strrchr (str, ':');
     aver (colon);
     *colon = '\0';
-    bound->line = atoi (colon+1);
+    bound->line = str_to_int (colon + 1);
   }
   bound->file = uniqstr_new (str);
 }

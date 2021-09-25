@@ -42,7 +42,7 @@ url_dir_list = \
 # Tests not to run as part of "make distcheck".
 local-checks-to-skip =			\
   sc_immutable_NEWS			\
-  sc_prohibit_atoi_atof
+  sc_indent
 
 # The local directory containing the checked-out copy of gnulib used in
 # this release.  Used solely to get a date for the "announcement" target.
@@ -164,6 +164,7 @@ $(call exclude,                                                                 
   prohibit_always-defined_macros=^data/skeletons/yacc.c$$                       \
   prohibit_always-defined_macros+=?|^src/(parse-gram.c|system.h)$$              \
   prohibit_always-defined_macros+=?|^tests/regression.at$$                      \
+  prohibit_atoi_atof=^(doc|etc|examples|tests)/                                 \
   prohibit_doubled_word=^tests/named-refs.at$$                                  \
   prohibit_magic_number_exit=^doc/bison.texi$$                                  \
   prohibit_magic_number_exit+=?|^tests/(conflicts|regression).at$$              \
