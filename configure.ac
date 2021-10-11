@@ -137,7 +137,8 @@ if test "$enable_gcc_warnings" = yes; then
   warn_c='-Wbad-function-cast
     -Wmissing-prototypes
     -Wstrict-prototypes'
-  warn_cxx='-Wextra-semi -Wnoexcept -Wold-style-cast -Wundefined-func-template
+  warn_cxx='-Wextra-semi -Wnoexcept -Wsubobject-linkage
+    -Wold-style-cast -Wundefined-func-template
     -Wweak-vtables'
   # Warnings for the test suite only.
   #

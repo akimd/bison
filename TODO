@@ -1,4 +1,8 @@
 * Soon
+** yyerror_range in GLR
+It seems useless that it is based on glr_stack_item, it should be doable
+with location only.
+
 ** scan-code
 The default case is scanning char-per-char.
 
