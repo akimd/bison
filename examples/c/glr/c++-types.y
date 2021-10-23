@@ -29,24 +29,24 @@
 
 %code requires
 {
-  union Node {
+  union node {
     struct {
-      int isNterm;
+      int is_nterm;
       int parents;
-    } nodeInfo;
+    } node_info;
     struct {
-      int isNterm; /* 1 */
+      int is_nterm; /* 1 */
       int parents;
       char const *form;
-      union Node *children[3];
+      union node *children[3];
     } nterm;
     struct {
-      int isNterm; /* 0 */
+      int is_nterm; /* 0 */
       int parents;
       char *text;
     } term;
   };
-  typedef union Node Node;
+  typedef union node node_t;
 }
 
 %define api.value.type union
@@ -61,12 +61,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-  static Node *new_nterm (char const *, Node *, Node *, Node *);
-  static Node *new_term (char *);
-  static void free_node (Node *);
-  static char *node_to_string (const Node *);
-  static void node_print (FILE *, const Node *);
-  static Node *stmt_merge (YYSTYPE x0, YYSTYPE x1);
+  static node_t *new_nterm (char const *, node_t *, node_t *, node_t *);
+  static node_t *new_term (char *);
+  static void free_node (node_t *);
+  static char *node_to_string (const node_t *);
+  static void node_print (FILE *, const node_t *);
+  static node_t *stmt_merge (YYSTYPE x0, YYSTYPE x1);
 
   static void yyerror (YYLTYPE const * const loc, const char *msg);
   static yytoken_kind_t yylex (YYSTYPE *lval, YYLTYPE *lloc);
@@ -83,9 +83,9 @@
 
 %glr-parser
 
-%type <Node *> stmt expr decl declarator TYPENAME ID
-%destructor { free_node ($$); } <Node *>
-%printer { node_print (yyo, $$); } <Node *>
+%type <node_t *> stmt expr decl declarator TYPENAME ID
+%destructor { free_node ($$); } <node_t *>
+%printer { node_print (yyo, $$); } <node_t *>
 
 %%
 
@@ -186,12 +186,12 @@ yylex (YYSTYPE *lval, YYLTYPE *lloc)
                 if (isupper ((unsigned char) buffer[0]))
                   {
                     tok = TYPENAME;
-                    lval->TYPENAME = new_term (strcpy (malloc (i), buffer));
+                    lval->TYPENAME = new_term (strdup (buffer));
                   }
                 else
                   {
                     tok = ID;
-                    lval->ID = new_term (strcpy (malloc (i), buffer));
+                    lval->ID = new_term (strdup (buffer));
                   }
               }
             else
@@ -206,45 +206,45 @@ yylex (YYSTYPE *lval, YYLTYPE *lloc)
     }
 }
 
-static Node *
-new_nterm (char const *form, Node *child0, Node *child1, Node *child2)
+static node_t *
+new_nterm (char const *form, node_t *child0, node_t *child1, node_t *child2)
 {
-  Node *res = malloc (sizeof *res);
-  res->nterm.isNterm = 1;
+  node_t *res = malloc (sizeof *res);
+  res->nterm.is_nterm = 1;
   res->nterm.parents = 0;
   res->nterm.form = form;
   res->nterm.children[0] = child0;
   if (child0)
-    child0->nodeInfo.parents += 1;
+    child0->node_info.parents += 1;
   res->nterm.children[1] = child1;
   if (child1)
-    child1->nodeInfo.parents += 1;
+    child1->node_info.parents += 1;
   res->nterm.children[2] = child2;
   if (child2)
-    child2->nodeInfo.parents += 1;
+    child2->node_info.parents += 1;
   return res;
 }
 
-static Node *
+static node_t *
 new_term (char *text)
 {
-  Node *res = malloc (sizeof *res);
-  res->term.isNterm = 0;
+  node_t *res = malloc (sizeof *res);
+  res->term.is_nterm = 0;
   res->term.parents = 0;
   res->term.text = text;
   return res;
 }
 
 static void
-free_node (Node *node)
+free_node (node_t *node)
 {
   if (!node)
     return;
-  node->nodeInfo.parents -= 1;
+  node->node_info.parents -= 1;
   /* Free only if 0 (last parent) or -1 (no parents).  */
-  if (node->nodeInfo.parents > 0)
+  if (node->node_info.parents > 0)
     return;
-  if (node->nodeInfo.isNterm == 1)
+  if (node->node_info.is_nterm == 1)
     {
       free_node (node->nterm.children[0]);
       free_node (node->nterm.children[1]);
@@ -256,15 +256,12 @@ free_node (Node *node)
 }
 
 static char *
-node_to_string (const Node *node)
+node_to_string (const node_t *node)
 {
   char *res;
   if (!node)
-    {
-      res = malloc (1);
-      res[0] = 0;
-    }
-  else if (node->nodeInfo.isNterm == 1)
+    res = strdup ("");
+  else if (node->node_info.is_nterm)
     {
       char *child0 = node_to_string (node->nterm.children[0]);
       char *child1 = node_to_string (node->nterm.children[1]);
@@ -282,7 +279,7 @@ node_to_string (const Node *node)
 }
 
 static void
-node_print (FILE *out, const Node *n)
+node_print (FILE *out, const node_t *n)
 {
   char *str = node_to_string (n);
   fputs (str, out);
@@ -290,7 +287,7 @@ node_print (FILE *out, const Node *n)
 }
 
 
-static Node *
+static node_t *
 stmt_merge (YYSTYPE x0, YYSTYPE x1)
 {
   return new_nterm ("<OR>(%s, %s)", x0.stmt, x1.stmt, NULL);

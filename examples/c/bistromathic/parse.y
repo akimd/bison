@@ -244,7 +244,7 @@ init_table (void)
 symrec *
 putsym (char const *name, int sym_type)
 {
-  symrec *res = (symrec *) malloc (sizeof (symrec));
+  symrec *res = malloc (sizeof *res);
   res->name = strdup (name);
   res->type = sym_type;
   res->value.var = 0; // Set value to 0 even if fun.
