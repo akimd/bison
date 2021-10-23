@@ -294,9 +294,8 @@ FILE *input;
       return 0;
     else
       {
-        char *s;
         assert (strlen (buf) < sizeof buf - 1);
-        s = YY_CAST (char *, malloc (strlen (buf) + 1));
+        char *s = YY_CAST (char *, malloc (strlen (buf) + 1));
         strcpy (s, buf);
         ]AT_VAL[ = s;
         return 'V';

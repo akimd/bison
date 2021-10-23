@@ -34,33 +34,33 @@ $1
 %code requires
 {
   #include <stdio.h>
-  union Node {
+  union node_t {
     struct {
-      int isNterm;
+      int is_nterm;
       int parents;
-    } nodeInfo;
+    } node_info;
     struct {
-      int isNterm; /* 1 */
+      int is_nterm; /* 1 */
       int parents;
       char const *form;
-      union Node *children[3];
+      union node_t *children[3];
     } nterm;
     struct {
-      int isNterm; /* 0 */
+      int is_nterm; /* 0 */
       int parents;
       char *text;
     } term;
   };
-  typedef union Node Node;
-  #define YYSTYPE Node *
+  typedef union node_t node_t;
+  #define YYSTYPE node_t *
 }
 
 %code
 {
-  static Node *new_nterm (char const *, Node *, Node *, Node *);
-  static Node *new_term (char *);
-  static void free_node (Node *);
-  static char *node_to_string (Node *);
+  static node_t *new_nterm (char const *, node_t *, node_t *, node_t *);
+  static node_t *new_term (char *);
+  static void free_node (node_t *);
+  static char *node_to_string (node_t *);
 ]m4_bmatch([$2], [stmt_merge],
 [ static YYSTYPE stmt_merge (YYSTYPE x0, YYSTYPE x1);])[
   #define YYINITDEPTH 10
@@ -200,7 +200,7 @@ main (int argc, char **argv)
                 ungetc (c, stdin);
                 buffer[i++] = 0;
                 tok = isupper (YY_CAST (unsigned char, buffer[0])) ? TYPENAME : ID;
-                yylval = new_term (strcpy (YY_CAST (char *, malloc (i)), buffer));
+                yylval = new_term (strdup (buffer));
               }
             else
               {
@@ -215,45 +215,45 @@ main (int argc, char **argv)
     }
 }
 
-static Node *
-new_nterm (char const *form, Node *child0, Node *child1, Node *child2)
+static node_t *
+new_nterm (char const *form, node_t *child0, node_t *child1, node_t *child2)
 {
-  Node *node = YY_CAST (Node *, malloc (sizeof (Node)));
-  node->nterm.isNterm = 1;
-  node->nterm.parents = 0;
-  node->nterm.form = form;
-  node->nterm.children[0] = child0;
+  node_t *res = YY_CAST (node_t *, malloc (sizeof *res));
+  res->nterm.is_nterm = 1;
+  res->nterm.parents = 0;
+  res->nterm.form = form;
+  res->nterm.children[0] = child0;
   if (child0)
-    child0->nodeInfo.parents += 1;
-  node->nterm.children[1] = child1;
+    child0->node_info.parents += 1;
+  res->nterm.children[1] = child1;
   if (child1)
-    child1->nodeInfo.parents += 1;
-  node->nterm.children[2] = child2;
+    child1->node_info.parents += 1;
+  res->nterm.children[2] = child2;
   if (child2)
-    child2->nodeInfo.parents += 1;
-  return node;
+    child2->node_info.parents += 1;
+  return res;
 }
 
-static Node *
+static node_t *
 new_term (char *text)
 {
-  Node *node = YY_CAST (Node *, malloc (sizeof (Node)));
-  node->term.isNterm = 0;
-  node->term.parents = 0;
-  node->term.text = text;
-  return node;
+  node_t *res = YY_CAST (node_t *, malloc (sizeof *res));
+  res->term.is_nterm = 0;
+  res->term.parents = 0;
+  res->term.text = text;
+  return res;
 }
 
 static void
-free_node (Node *node)
+free_node (node_t *node)
 {
   if (!node)
     return;
-  node->nodeInfo.parents -= 1;
+  node->node_info.parents -= 1;
   /* Free only if 0 (last parent) or -1 (no parents).  */
-  if (node->nodeInfo.parents > 0)
+  if (node->node_info.parents > 0)
     return;
-  if (node->nodeInfo.isNterm == 1)
+  if (node->node_info.is_nterm == 1)
     {
       free_node (node->nterm.children[0]);
       free_node (node->nterm.children[1]);
@@ -265,15 +265,12 @@ free_node (Node *node)
 }
 
 static char *
-node_to_string (Node *node)
+node_to_string (node_t *node)
 {
   char *res;
   if (!node)
-    {
-      res = YY_CAST (char *, malloc (1));
-      res[0] = 0;
-    }
-  else if (node->nodeInfo.isNterm == 1)
+    res = strdup ("");
+  else if (node->node_info.is_nterm)
     {
       char *child0 = node_to_string (node->nterm.children[0]);
       char *child1 = node_to_string (node->nterm.children[1]);
