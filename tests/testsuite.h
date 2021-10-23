@@ -10,3 +10,8 @@
 #  pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 # endif
 #endif
+
+/* We use strdup, make it available.  */
+#ifndef _XOPEN_SOURCE
+# define _XOPEN_SOURCE 600
+#endif

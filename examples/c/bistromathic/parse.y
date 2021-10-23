@@ -21,6 +21,11 @@
 
 // Emitted on top of the implementation file.
 %code top {
+  /* Portability issues for strdup. */
+  #ifndef _XOPEN_SOURCE
+  # define _XOPEN_SOURCE 600
+  #endif
+
   #include <ctype.h>  // isdigit
   #include <locale.h> // LC_ALL
   #include <math.h>   // cos, sin, etc.

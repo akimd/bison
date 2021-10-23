@@ -2644,6 +2644,13 @@ calculator.
 
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+
+%code top {
+  /* Portability issues for strdup. */
+#ifndef _XOPEN_SOURCE
+# define _XOPEN_SOURCE 600
+#endif
+}
 @end example
 @end ignore
 
@@ -2875,7 +2882,7 @@ found, a pointer to that symbol is returned; otherwise zero is returned.
    not make these assumptions.  */
 #include <assert.h>
 #include <stdlib.h> /* malloc, realloc. */
-#include <string.h> /* strlen. */
+#include <string.h> /* strdup, strlen. */
 @end group
 
 @group
