@@ -54,7 +54,9 @@ static void output_mapped_file (char const *name);
 %}
 
 /* Identifiers of our M4 macros.  */
-macro    [bm]4_[a-zA-Z_0-9]*
+macro      [bm]4_[a-zA-Z_0-9]*
+/* Safe sequence of word-constituent characters.  */
+identifier [A-Za-z_0-9]+
 
 %x SC_AT_DIRECTIVE_ARGS
 %x SC_AT_DIRECTIVE_SKIP_WS
@@ -90,7 +92,7 @@ macro    [bm]4_[a-zA-Z_0-9]*
   /* This pattern must not match more than the previous @ patterns. */
 @[^@{}''(\n]*   fail_for_invalid_at (yytext);
 \n              out_lineno++; ECHO;
-[^bm@\n]+       ECHO;
+[^a-z@\n]+      ECHO;
 
   /* If there are still identifiers that look like macros, such as
      b4_synbol, this probably an error, say a typo in M4, or
@@ -104,6 +106,7 @@ macro    [bm]4_[a-zA-Z_0-9]*
                             "suspicious sequence in the output: %s", yytext);
                   ECHO;
                 }
+{identifier}    ECHO;
 .               ECHO;
 
 <INITIAL><<EOF>> {

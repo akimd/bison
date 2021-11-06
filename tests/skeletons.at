@@ -324,3 +324,44 @@ AT_BISON_CHECK([[input.y]], [[1]], [[]],
 ]])
 
 AT_CLEANUP
+
+
+## ---------------------- ##
+## Suspicious sequences.  ##
+## ---------------------- ##
+
+AT_SETUP([[Suspicious sequences]])
+
+AT_DATA([[skel.c]],
+[[m4@&t@_include(b4_skeletonsdir/[c.m4])
+m4@&t@_divert_push(0)d@&t@nl
+@output(b4_parser_file_name@)d@&t@nl
+]b4_user_pre_prologue[
+]b4_user_post_prologue[
+b4_unevaluated
+m4@&t@_unevaluated
+]b4_epilogue[
+
+m4@&t@_divert_pop(0)
+]])
+
+AT_DATA([[input1.y]],
+[[%skeleton "./skel.c"
+%{
+  myb4_unevaluated
+  mym4_unevaluated
+%}
+%%
+start: ;
+%%
+myb4_unevaluated
+mym4_unevaluated
+]])
+
+AT_BISON_CHECK([[input1.y]], [], [],
+[[input1.tab.c:10: warning: suspicious sequence in the output: b4_unevaluated [-Wother]
+input1.tab.c:11: warning: suspicious sequence in the output: m4@&t@_unevaluated [-Wother]
+]])
+
+
+AT_CLEANUP
