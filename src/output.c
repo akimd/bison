@@ -104,20 +104,45 @@ GENERATE_MUSCLE_INSERT_TABLE (muscle_insert_symbol_number_table, symbol_number)
 GENERATE_MUSCLE_INSERT_TABLE (muscle_insert_item_number_table, item_number)
 GENERATE_MUSCLE_INSERT_TABLE (muscle_insert_state_number_table, state_number)
 
+
 /*----------------------------------------------------------------.
 | Print to OUT a representation of CP quoted and escaped for M4.  |
+|                                                                 |
+| Keep sync'ed with obstack_escape.                               |
 `----------------------------------------------------------------*/
 
 static void
 output_escaped (FILE *out, const char *cp)
 {
-  for (; *cp; cp++)
+  for (; *cp; ++cp)
     switch (*cp)
       {
       case '$': fputs ("$][", out); break;
       case '@': fputs ("@@",  out); break;
       case '[': fputs ("@{",  out); break;
       case ']': fputs ("@}",  out); break;
+
+      case 'b':
+        if (STRPREFIX_LIT ("b4_", cp))
+          {
+            fputs ("b4@'_", out);
+            cp += strlen ("b4_") - 1;
+            break;
+          }
+        else
+          goto append;
+
+      case 'm':
+        if (STRPREFIX_LIT ("m4_", cp))
+          {
+            fputs ("m4@'_", out);
+            cp += strlen ("m4_") - 1;
+            break;
+          }
+        else
+          goto append;
+
+      append:
       default:  fputc (*cp,   out); break;
       }
 }

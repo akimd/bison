@@ -106,6 +106,9 @@ static struct obstack obstack_for_string;
 # define STRING_GROW()                                  \
   obstack_grow (&obstack_for_string, yytext, yyleng)
 
+# define STRING_SGROW(String)                   \
+  obstack_sgrow (&obstack_for_string, String)
+
 # define STRING_FINISH()                                \
   (last_string = obstack_finish0 (&obstack_for_string))
 

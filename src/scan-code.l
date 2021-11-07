@@ -197,6 +197,9 @@ ref      -?[0-9]+|{id}|"["{id}"]"|"$"
 
 <*>
 {
+  "b4_"   STRING_SGROW ("b4@'_");
+  "m4_"   STRING_SGROW ("m4@'_");
+
   /* Escape M4 quoting characters in C code.  */
   [$@\[\]]    obstack_escape (&obstack_for_string, yytext);
 

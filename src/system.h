@@ -204,24 +204,53 @@ max_int (int a, int b)
   } while (0)
 
 
-/* Output Str escaped for our postprocessing (i.e., escape M4 special
+/* Output CP escaped for our postprocessing (i.e., escape M4 special
    characters).
 
-   For instance "[foo]" -> "@{foo@}", "$$" -> "$][$][". */
+   For instance "[foo]" -> "@{foo@}", "$$" -> "$][$][".
 
-# define obstack_escape(Obs, Str)                       \
-  do {                                                  \
-    char const *p__;                                    \
-    for (p__ = Str; *p__; p__++)                        \
-      switch (*p__)                                     \
-        {                                               \
-        case '$': obstack_sgrow (Obs, "$]["); break;    \
-        case '@': obstack_sgrow (Obs, "@@" ); break;    \
-        case '[': obstack_sgrow (Obs, "@{" ); break;    \
-        case ']': obstack_sgrow (Obs, "@}" ); break;    \
-        default:  obstack_1grow (Obs, *p__ ); break;    \
-        }                                               \
-  } while (0)
+   All the user's input passed to m4 is processed by this function or
+   by output_escaped, except user actions.  Because of the specific
+   handling of @$, @1, etc., user actions are processed (and escaped)
+   by scan-code.l.
+
+   Keep output_escaped and obstack_escape sync'ed.
+ */
+
+static inline void
+obstack_escape (struct obstack* obs, const char *cp)
+{
+  for (; *cp; ++cp)
+    switch (*cp)
+      {
+      case '$': obstack_sgrow (obs, "$]["); break;
+      case '@': obstack_sgrow (obs, "@@" ); break;
+      case '[': obstack_sgrow (obs, "@{" ); break;
+      case ']': obstack_sgrow (obs, "@}" ); break;
+      case 'b':
+        if (STRPREFIX_LIT ("b4_", cp))
+          {
+            obstack_sgrow (obs, "b4@'_");
+            cp += strlen ("b4_") - 1;
+            break;
+          }
+        else
+          goto append;
+
+      case 'm':
+        if (STRPREFIX_LIT ("m4_", cp))
+          {
+            obstack_sgrow (obs, "m4@'_");
+            cp += strlen ("m4_") - 1;
+            break;
+          }
+        else
+          goto append;
+
+      append:
+      default:  obstack_1grow (obs, *cp); break;
+      }
+}
 
 
 /* Output Str both quoted for M4 (i.e., embed in [[...]]), and escaped

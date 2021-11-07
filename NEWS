@@ -2,6 +2,9 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+  Fixed portability issues of the test suite on Solaris.
+
+  Fixed spurious warnings about input containing `m4_` or `b4_`.
 
 * Noteworthy changes in release 3.8.2 (2021-09-25) [stable]
 
