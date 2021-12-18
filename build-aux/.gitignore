@@ -19,7 +19,6 @@
 /libtool-reloc
 /mdate-sh
 /missing
-/prefix-gnulib-mk
 /reloc-ldflags
 /relocatable.sh.in
 /test-driver
