@@ -238,6 +238,7 @@
 /unistd_h.m4
 /unlink.m4
 /unlocked-io.m4
+/vararrays.m4
 /vasnprintf.m4
 /vasprintf-posix.m4
 /vasprintf.m4
