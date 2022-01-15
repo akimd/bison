@@ -7516,22 +7516,41 @@ numeric code for that character is also the code for the token kind.  So
 @code{unsigned char} to avoid sign-extension.  The null character must not
 be used this way, because its code is zero and that signifies end-of-input.
 
-Here is an example showing these things:
+A simple program might use the following declaration:
 
 @example
+%code provides @{
+  int yylex (void);
+@}
+@end example
+
+@noindent
+and the following definition, either in the grammar file itself or in some
+other module that has @code{#include "y.tab.h"}:
+
+@example
+#include <stdio.h>
+
 int
 yylex (void)
 @{
-  @dots{}
-  if (c == EOF)    /* Detect end-of-input. */
-    return YYEOF;
-  @dots{}
-  else if (c == '+' || c == '-')
-    return c;      /* Assume token kind for '+' is '+'. */
-  @dots{}
-  else
-    return INT;    /* Return the kind of the token. */
-  @dots{}
+  for (;;)
+    @{
+      int c = getchar ();
+      if (c == EOF)
+        return YYEOF;  /* Report end-of-input. */
+      if (c == '+' || c == '-')
+        return c;      /* Assume token kind for '+' is '+'. */
+      if ('0' <= c && c <= '9')
+        @{
+          yylval = c - '0';
+          while ('0' <= (c = getchar ()) && c <= '9')
+            yylval = yylval * 10 + (c - '0');
+          ungetc (c, stdin);
+          return INT;  /* Return the kind of the token. */
+        @}
+      @dots{}
+    @}
 @}
 @end example
 
@@ -7809,10 +7828,22 @@ In some cases diagnostics like @w{@code{"syntax error"}} are
 translated automatically from English to some other language before
 they are passed to @code{yyerror}.  @xref{Internationalization}.
 
-The following definition suffices in simple programs:
+A simple program might use the following declaration:
+
+@example
+%code provides @{
+  void yyerror (char const *);
+@}
+@end example
+
+@noindent
+and the following definition, either in the grammar file itself or in some
+other module that has @code{#include "y.tab.h"}:
 
 @example
 @group
+#include <stdio.h>
+
 void
 yyerror (char const *s)
 @{
