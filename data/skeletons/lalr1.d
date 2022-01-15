@@ -1,6 +1,6 @@
 # D skeleton for Bison -*- autoconf -*-
 
-# Copyright (C) 2007-2012, 2019-2021 Free Software Foundation, Inc.
+# Copyright (C) 2007-2012, 2019-2022 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ b4_use_push_for_pull_if([
 # or as class instance variable when doing push parsing.
 b4_output_begin([b4_parser_file_name])
 b4_copyright([Skeleton implementation for Bison LALR(1) parsers in D],
-             [2007-2012, 2019-2021])[
+             [2007-2012, 2019-2022])[
 ]b4_disclaimer[
 ]b4_percent_define_ifdef([package], [module b4_percent_define_get([package]);
 ])[

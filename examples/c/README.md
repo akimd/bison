@@ -81,7 +81,7 @@ fill-column: 76
 ispell-dictionary: "american"
 End:
 
-Copyright (C) 2018-2021 Free Software Foundation, Inc.
+Copyright (C) 2018-2022 Free Software Foundation, Inc.
 
 This file is part of GNU bison, the GNU Compiler Compiler.
 

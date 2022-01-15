@@ -4735,7 +4735,7 @@ mode: outline
 fill-column: 76
 End:
 
-Copyright (C) 1995-2015, 2018-2021 Free Software Foundation, Inc.
+Copyright (C) 1995-2015, 2018-2022 Free Software Foundation, Inc.
 
 This file is part of Bison, the GNU Parser Generator.
 

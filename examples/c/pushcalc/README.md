@@ -20,7 +20,7 @@ fill-column: 76
 ispell-dictionary: "american"
 End:
 
-Copyright (C) 2020-2021 Free Software Foundation, Inc.
+Copyright (C) 2020-2022 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.3 or

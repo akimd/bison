@@ -1,6 +1,6 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2015, 2018-2021 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2022 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 m4_pushdef([b4_copyright_years],
-           [2002-2015, 2018-2021])
+           [2002-2015, 2018-2022])
 
 
 # b4_location_file

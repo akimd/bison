@@ -1,4 +1,4 @@
-## Copyright (C) 2001-2003, 2005-2015, 2018-2021 Free Software
+## Copyright (C) 2001-2003, 2005-2015, 2018-2022 Free Software
 ## Foundation, Inc.
 
 ## This program is free software: you can redistribute it and/or modify

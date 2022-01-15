@@ -1,6 +1,6 @@
 /* Locations for Bison
 
-   Copyright (C) 2002, 2005-2015, 2018-2021 Free Software Foundation,
+   Copyright (C) 2002, 2005-2015, 2018-2022 Free Software Foundation,
    Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
