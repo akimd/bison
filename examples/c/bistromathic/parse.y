@@ -308,14 +308,15 @@ yylex (const char **line, YYSTYPE *yylval, YYLTYPE *yylloc,
 {
   int c;
 
-  // Ignore white space, get first nonwhite character.
+  // Get next character, ignore white spaces.
   do {
     // Move the first position onto the last.
     yylloc->first_line = yylloc->last_line;
     yylloc->first_column = yylloc->last_column;
-
-    yylloc->last_column += 1;
     c = *((*line)++);
+    // Tab characters go to the next column multiple of 8.
+    yylloc->last_column +=
+      c == '\t' ? 8 - ((yylloc->last_column - 1) & 7) : 1;
   } while (c == ' ' || c == '\t');
 
   switch (c)

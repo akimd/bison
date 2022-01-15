@@ -366,3 +366,26 @@ err: 1.15: syntax error: expected - or ( or number or function or variable befor
 err:     1 | (1++2) + 3 +  ''
 err:       |               ^
 '
+
+# Check handling of literal tabs.  "Escape" them with a C-v, so that
+# they are not processed as completion requests.
+cat >input<<EOF
+        *1
+	*2
+     	*3
+EOF
+# readline processes the tabs itself, and replaces then with spaces.
+run -n 0 '>         *1
+>       *2
+>       *3
+> ''
+err: 1.9: syntax error: expected end of file or - or ( or exit or number or function etc., before *
+err:     1 |         *1
+err:       |         ^
+err: 2.9: syntax error: expected end of file or - or ( or exit or number or function etc., before *
+err:     2 | 	*2
+err:       |         ^
+err: 3.9: syntax error: expected end of file or - or ( or exit or number or function etc., before *
+err:     3 |      	*3
+err:       |         ^
+'

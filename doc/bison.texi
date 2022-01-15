@@ -2365,6 +2365,8 @@ analyzer.
 * Ltcalc Lexer::           The lexical analyzer.
 @end menu
 
+See @ref{Tracking Locations} for details about locations.
+
 @node Ltcalc Declarations
 @subsection Declarations for @code{ltcalc}
 
@@ -2488,7 +2490,7 @@ yylex (void)
 @group
   /* Skip white space. */
   while ((c = getchar ()) == ' ' || c == '\t')
-    ++yylloc.last_column;
+    yylloc.last_column += c == '\t' ? 8 - ((yylloc.last_column - 1) & 7) : 1;
 @end group
 
 @group
@@ -4751,6 +4753,33 @@ to 1 for @code{yylloc} at the beginning of the parsing.  To initialize
 initialization), use the @code{%initial-action} directive.  @xref{Initial
 Action Decl}.
 
+@sp 1
+
+@cindex column
+The meaning of ``column'' is deliberately left vague since there are several
+options, depending on the use cases.
+
+With multibyte input (say UTF-8), simply counting the number of bytes does
+not match character positions on the screen.  One needs advanced functions
+mapping multibyte characters to their visual width (see for instance
+Gnulib's @code{mbswidth} and @code{mbsnwidth} functions).  Tabulation
+characters probably need a dedicated implementation, to match the ``go to
+next multiple of 8'' behavior.
+
+However to quote input in error messages, as @command{bison} does:
+
+@example
+@group
+1.10-12: @derror{error}: invalid identifier: ‘3.8’
+    1 | %require @derror{3.8}
+      |          @derror{^~~}
+@end group
+@end example
+
+@noindent
+then byte positions are more handy.  So in some cases, tracking both visual
+character position @emph{and} byte position is the best option.  This is
+what @command{bison} does.
 
 @node Actions and Locations
 @subsection Actions and Locations
@@ -13776,8 +13805,14 @@ the blanks preceding tokens.  Comments would be treated equally.
 @example
 @group
 %@{
+  // Take 8-space tabulations into account.
+  void add_columns (yy::location& loc, const char *buf, int bufsize)
+  @{
+    for (int i = 0; i < bufsize; ++i)
+      loc.columns (buf[i] == '\t' ? 8 - ((loc.end.column - 1) & 7) : 1);
+  @}
   // Code run each time a pattern is matched.
-  # define YY_USER_ACTION  loc.columns (yyleng);
+  #define YY_USER_ACTION  add_columns (loc, yytext, yyleng);
 %@}
 @end group
 %%
