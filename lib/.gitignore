@@ -371,7 +371,9 @@
 /stdint.in.h
 /stdio--.h
 /stdio-impl.h
+/stdio-read.c
 /stdio-safer.h
+/stdio-write.c
 /stdio.h
 /stdio.in.h
 /stdlib.h
