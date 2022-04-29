@@ -346,7 +346,7 @@ m4_define([b4_symbol_type_define],
         clear ();
       }
 
-]b4_glr2_cc_if([[
+#if 201103L <= YY_CPLUSPLUS
       /// Copy assignment.
       basic_symbol& operator= (const basic_symbol& that)
       {
@@ -368,7 +368,7 @@ m4_define([b4_symbol_type_define],
         location = std::move (that.location);]])[
         return *this;
       }
-]])[
+#endif
 
       /// Destroy contents, and record that is empty.
       void clear () YY_NOEXCEPT
@@ -454,13 +454,13 @@ m4_define([b4_symbol_type_define],
       /// Constructor from (external) token numbers.
       by_kind (kind_type t) YY_NOEXCEPT;
 
-]b4_glr2_cc_if([[
+#if 201103L <= YY_CPLUSPLUS
       /// Copy assignment.
       by_kind& operator= (const by_kind& that);
 
       /// Move assignment.
       by_kind& operator= (by_kind&& that);
-]])[
+#endif
 
       /// Record that this symbol is empty.
       void clear () YY_NOEXCEPT;
@@ -584,7 +584,7 @@ m4_define([b4_public_types_define],
     : kind_ (yytranslate_ (t))
   {}
 
-]b4_glr2_cc_if([[
+#if 201103L <= YY_CPLUSPLUS
   ]b4_inline([$1])]b4_parser_class[::by_kind&
   b4_parser_class[::by_kind::by_kind::operator= (const by_kind& that)
   {
@@ -599,7 +599,7 @@ m4_define([b4_public_types_define],
     that.clear ();
     return *this;
   }
-]])[
+#endif
 
   ]b4_inline([$1])[void
   ]b4_parser_class[::by_kind::clear () YY_NOEXCEPT
