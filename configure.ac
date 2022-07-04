@@ -55,9 +55,6 @@ AC_PROG_CXX
 # Gnulib (early checks).
 gl_EARLY
 
-# We want ostream_printf and hyperlink support.
-gl_LIBTEXTSTYLE_OPTIONAL([0.20.5])
-
 # Gnulib uses '#pragma GCC diagnostic push' to silence some
 # warnings, but older gcc doesn't support this.
 AC_CACHE_CHECK([whether pragma GCC diagnostic push works],
@@ -284,6 +281,9 @@ AC_C_INLINE
 # Gnulib (later checks).  Putting them here rather than right after
 # gl_EARLY avoids some redundant checks.
 gl_INIT
+
+# We want ostream_printf and hyperlink support.
+gl_LIBTEXTSTYLE_OPTIONAL([0.20.5])
 
 # Checks for library functions.
 AC_CHECK_FUNCS_ONCE([setlocale])
