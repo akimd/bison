@@ -226,6 +226,16 @@ if test "$enable_gcc_warnings" = yes; then
   gl_WARN_ADD([-Wno-deprecated], [WNO_DEPRECATED_CXXFLAGS])
   CXXFLAGS=$save_CXXFLAGS
   AC_LANG_POP([C++])
+
+  AC_DEFINE([lint], [1], [Define to 1 if the compiler is checking for lint.])
+  AH_VERBATIM([FORTIFY_SOURCE],
+    [/* Enable compile-time and run-time bounds-checking, and some warnings,
+        without upsetting glibc 2.15+. */
+     #if !defined _FORTIFY_SOURCE && defined __OPTIMIZE__ && __OPTIMIZE__
+     # define _FORTIFY_SOURCE 2
+     #endif
+    ])
+  AC_DEFINE([GNULIB_PORTCHECK], [1], [Enable some gnulib portability checks.])
 fi
 
 
