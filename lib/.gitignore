@@ -419,6 +419,7 @@
 /timevar.h
 /unicodeio.c
 /unicodeio.h
+/unictype/
 /unistd--.h
 /unistd-safer.h
 /unistd.c
