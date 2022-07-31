@@ -308,7 +308,7 @@ AT_FULL_COMPILE([input])
 # lalr1.cc uses 'translate_table' (and yytranslate_).
 # lalr1.d uses 'byte[] translate_table =' (and yytranslate_).
 # lalr1.java uses 'byte[] translate_table_ =' (and yytranslate_).
-AT_CHECK([[$EGREP -c 'yytranslate\[\]|translate_table\[\]|translate_table =|translate_table_ =' input.]AT_LANG_EXT],
+AT_CHECK([[$EGREP -c 'yytranslate\[]|translate_table\[]|translate_table =|translate_table_ =' input.]AT_LANG_EXT],
          [ignore],
          [AT_D_IF([AT_TOKEN_RAW_IF([0], [0])],
                   [AT_TOKEN_RAW_IF([0], [1])])[

@@ -674,7 +674,7 @@ else: "else" statement;
 AT_BISON_CHECK([-v -o input.c input.y])
 
 # Check only the tables.
-[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p;/#define YY.*NINF/p' input.c >tables.c]
+[sed -n 's/  *$//;/^static const.*\[] =/,/^}/p;/#define YY.*NINF/p' input.c >tables.c]
 
 AT_CHECK([[cat tables.c]], 0,
 [[static const yytype_int8 yytranslate[] =
@@ -777,8 +777,8 @@ AT_CLEANUP
 #
 # LC_ALL=C /usr/local/stow/bison-3.7.5/bin/bison input.y -o old.c &&
 # LC_ALL=C                                 bison input.y -o new.c &&
-# sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' old.c >old.tables &&
-# sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p' new.c >new.tables &&
+# sed -n 's/  *$//;/^static const.*\[] =/,/^}/p' old.c >old.tables &&
+# sed -n 's/  *$//;/^static const.*\[] =/,/^}/p' new.c >new.tables &&
 # diff old.tables new.tables
 #
 # The following Ruby script normalizes token and nterm names.
@@ -912,7 +912,7 @@ n84: T46 T88 T89;
 AT_BISON_CHECK([-Wno-other -o input.c input.y])
 
 # Check only the tables.
-[sed -n 's/  *$//;/^static const.*\[\] =/,/^}/p;/#define YY.*NINF/p' input.c >tables.c]
+[sed -n 's/  *$//;/^static const.*\[] =/,/^}/p;/#define YY.*NINF/p' input.c >tables.c]
 
 AT_CHECK([[cat tables.c]], 0,
 [[static const yytype_int8 yytranslate[] =

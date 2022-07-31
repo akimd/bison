@@ -45,7 +45,7 @@ jobs:
         - git submodule update --init --recursive
 
         # As of 2021-08, we don't have Autoconf 2.71 on Ubuntu.
-        - sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' configure.ac
+        - sed -i 's/AC_PREREQ(\[2\.71])/AC_PREREQ([2.69])/g' configure.ac
         - ./bootstrap
         - ./configure --enable-gcc-warnings || { cat config.log && false; }
         - make -j2

@@ -114,7 +114,7 @@ $(top_srcdir)/%D%/bison.help: src/bison$(EXEEXT)
 	$(AM_V_at) LC_ALL=C tests/bison --version >%D%/bison.help.tmp
 	$(AM_V_at) LC_ALL=C tests/bison --help | \
 ## Avoid depending on the path to Bison.
-	  sed -e 's,^Usage: .*/bison \[OPTION\],Usage: bison [OPTION],g' \
+	  sed -e 's,^Usage: .*/bison \[OPTION],Usage: bison [OPTION],g' \
 ## Avoid variations in the output depending on whether we are
 ## on a glibc system.
 	      -e '/translation bugs/d'  >>%D%/bison.help.tmp
