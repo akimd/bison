@@ -144,8 +144,8 @@ FILE * input = NULL;
 yytoken_kind_t
 yylex (YYSTYPE *lval, YYLTYPE *lloc)
 {
-  static int lineNum = 1;
-  static int colNum = 0;
+  static int line_num = 1;
+  static int col_num = 0;
 
   while (1)
     {
@@ -157,20 +157,20 @@ yylex (YYSTYPE *lval, YYLTYPE *lloc)
         case EOF:
           return 0;
         case '\t':
-          colNum = (colNum + 7) & ~7;
+          col_num = (col_num + 7) & ~7;
           break;
         case ' ': case '\f':
-          colNum += 1;
+          col_num += 1;
           break;
         case '\n':
-          lineNum += 1;
-          colNum = 0;
+          line_num += 1;
+          col_num = 0;
           break;
         default:
           {
             yytoken_kind_t tok;
-            lloc->first_line = lloc->last_line = lineNum;
-            lloc->first_column = colNum;
+            lloc->first_line = lloc->last_line = line_num;
+            lloc->first_column = col_num;
             if (isalpha (c))
               {
                 char buffer[256];
@@ -179,7 +179,7 @@ yylex (YYSTYPE *lval, YYLTYPE *lloc)
                 do
                   {
                     buffer[i++] = (char) c;
-                    colNum += 1;
+                    col_num += 1;
                     assert (i != sizeof buffer - 1);
                     c = getc (input);
                   }
@@ -200,10 +200,10 @@ yylex (YYSTYPE *lval, YYLTYPE *lloc)
               }
             else
               {
-                colNum += 1;
+                col_num += 1;
                 tok = c;
               }
-            lloc->last_column = colNum;
+            lloc->last_column = col_num;
             return tok;
           }
         }
