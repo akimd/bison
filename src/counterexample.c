@@ -890,11 +890,11 @@ search_state_prepend (search_state *ss, symbol_number sym, bitset guide)
       gl_list_free (prev);
       return;
     }
+
   // The parse state heads are either both production items or both
   // transition items. So all prepend options will either be
   // reverse transitions or reverse productions
-  int complexity_cost = prod1 ? PRODUCTION_COST : UNSHIFT_COST;
-  complexity_cost *= 2;
+  const int complexity_cost = 2 * (prod1 ? PRODUCTION_COST : UNSHIFT_COST);
 
   parse_state_list prev1 = parser_prepend (ss->states[0]);
   parse_state_list prev2 = parser_prepend (ss->states[1]);
@@ -926,11 +926,7 @@ search_state_prepend (search_state *ss, symbol_number sym, bitset guide)
           if (psi1->state != psi2->state)
             continue;
 
-          int complexity = ss->complexity;
-          if (prod1)
-            complexity += PRODUCTION_COST * 2;
-          else
-            complexity += UNSHIFT_COST * 2;
+          int complexity = ss->complexity + complexity_cost;
           // penalty for not being along the guide path
           if (!guided1 || !guided2)
             complexity += EXTENDED_COST;

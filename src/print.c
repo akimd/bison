@@ -419,11 +419,9 @@ print_nonterminal_symbols (FILE *out)
             break;
         }
 
-      int column = 4 + mbswidth (tag, 0);
       fprintf (out, "%4s%s", "", tag);
       if (sym->content->type_name)
-        column += fprintf (out, " <%s>",
-                           sym->content->type_name);
+        fprintf (out, " <%s>", sym->content->type_name);
       fprintf (out, " (%d)\n", i);
 
       if (on_left)
