@@ -129,6 +129,7 @@ if test "$enable_gcc_warnings" = yes; then
     -Wformat -Wimplicit-fallthrough -Wmismatched-dealloc -Wnull-dereference
     -Wno-sign-compare -Wno-tautological-constant-out-of-range-compare
     -Wpointer-arith -Wshadow -Wstrict-aliasing
+    -Wunused-but-set-variable
     -Wwrite-strings
     -wr188 -wr2259 -wr3179'
   warn_c='-Wbad-function-cast

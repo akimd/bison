@@ -148,13 +148,13 @@ main (int argc, char **argv)
 ]AT_YYERROR_DEFINE[
 
 ]AT_YYLEX_PROTOTYPE[
-{
+{]AT_LOCATION_IF([[
   static int lineNum = 1;
   static int colNum = 0;
-
-#if YYPURE
+]])[
+#if YYPURE]AT_LOCATION_IF([[
 # undef yylloc
-# define yylloc (*llocp)
+# define yylloc (*llocp)]])[
 # undef yylval
 # define yylval (*lvalp)
 #endif
@@ -168,15 +168,15 @@ main (int argc, char **argv)
         {
         case EOF:
           return 0;
-        case '\t':
-          colNum = (colNum + 7) & ~7;
+        case '\t':]AT_LOCATION_IF([[
+          colNum = (colNum + 7) & ~7;]])[
           break;
-        case ' ': case '\f':
-          colNum += 1;
+        case ' ': case '\f':]AT_LOCATION_IF([[
+          colNum += 1;]])[
           break;
-        case '\n':
+        case '\n':]AT_LOCATION_IF([[
           lineNum += 1;
-          colNum = 0;
+          colNum = 0;]])[
           break;
         default:
           {
@@ -190,8 +190,8 @@ main (int argc, char **argv)
 
                 do
                   {
-                    buffer[i++] = YY_CAST (char, c);
-                    colNum += 1;
+                    buffer[i++] = YY_CAST (char, c);]AT_LOCATION_IF([[
+                    colNum += 1;]])[
                     assert (i != sizeof buffer - 1);
                     c = getchar ();
                   }
@@ -203,8 +203,8 @@ main (int argc, char **argv)
                 yylval = new_term (strdup (buffer));
               }
             else
-              {
-                colNum += 1;
+              {]AT_LOCATION_IF([[
+                colNum += 1;]])[
                 tok = c;
                 yylval = YY_NULLPTR;
               }]AT_LOCATION_IF([[
