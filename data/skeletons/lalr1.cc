@@ -425,7 +425,7 @@ m4_define([b4_shared_declarations],
       /// Superclass.
       typedef basic_symbol<by_state> super_type;
       /// Construct an empty symbol.
-      stack_symbol_type ();
+      stack_symbol_type () YY_NOEXCEPT;
       /// Move or copy construction.
       stack_symbol_type (YY_RVREF (stack_symbol_type) that);
       /// Steal the contents from \a sym to build this.
@@ -678,7 +678,7 @@ m4_if(b4_prefix, [yy], [],
       return YY_CAST (symbol_kind_type, yystos_[+state]);
   }
 
-  ]b4_parser_class[::stack_symbol_type::stack_symbol_type ()
+  ]b4_parser_class[::stack_symbol_type::stack_symbol_type () YY_NOEXCEPT
   {}
 
   ]b4_parser_class[::stack_symbol_type::stack_symbol_type (YY_RVREF (stack_symbol_type) that)
