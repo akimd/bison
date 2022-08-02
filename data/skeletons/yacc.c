@@ -256,7 +256,7 @@ int yynerrs;]])])
 m4_define([b4_declare_parser_state_variables],
 [b4_pure_if([[
     /* Number of syntax errors so far.  */
-    int yynerrs]m4_ifval([$1], [ = 0])[;
+    int yynerrs YY_ATTRIBUTE_UNUSED]m4_ifval([$1], [ = 0])[;
 ]])[
     yy_state_fast_t yystate]m4_ifval([$1], [ = 0])[;
     /* Number of tokens to shift before error messages enabled.  */
