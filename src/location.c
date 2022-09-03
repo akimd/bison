@@ -268,13 +268,13 @@ caret_set_file (const char *file)
   if (!caret_info.pos.file)
     {
       caret_info.pos.file = file;
-      if ((caret_info.file = fopen (caret_info.pos.file, "r")))
+      if ((caret_info.file = fopen (caret_info.pos.file, "rb")))
         {
           /* If the file is not regular (imagine #line 1 "/dev/stdin"
              in the input file for instance), don't try to quote the
-             file.  Keep caret_info.file set so that we don't try to
-             open it again, but leave caret_info.file NULL so that we
-             don't try to quote it. */
+             file.  Keep caret_info.pos.file set so that we don't try
+             to open it again, but leave caret_info.file NULL so that
+             we don't try to quote it. */
           struct stat buf;
           if (fstat (fileno (caret_info.file), &buf) == 0
               && buf.st_mode & S_IFREG)
