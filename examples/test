@@ -137,10 +137,13 @@ run ()
     else
       cat out_eff
     fi
+    # Ignore informational messages from the JVM.
     if ! $noerr; then
-       sed -e 's/^/err: /g' \
-           -e 's/Reducing stack by rule .* (line .*):/Reducing stack by rule XX (line XXX):/g' \
-           err_eff
+      sed \
+        -e '/^Picked up _JAVA_OPTIONS: /d' \
+        -e 's/Reducing stack by rule .* (line .*):/Reducing stack by rule XX (line XXX):/g' \
+        -e 's/^/err: /g' \
+        err_eff
     fi
   } >eff
 
