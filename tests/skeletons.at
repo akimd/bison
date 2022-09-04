@@ -369,5 +369,20 @@ AT_BISON_CHECK([[input1.y]], [], [],
 input1.tab.c:13: warning: suspicious sequence in the output: m4@&t@_poison [-Wother]
 ]])
 
+# Regression test for <https://github.com/akimd/bison/issues/91>.
+AT_DATA([[input2.y]],
+[[%define parse.trace {m4@&t@_foo}
+%debug
+%%
+exp:
+]])
+
+AT_BISON_CHECK([[input2.y]], [1], [],
+[[input2.y:1.1-28: warning: %define variable 'parse.trace' requires keyword values [-Wdeprecated]
+input2.y:1.1-28: error: invalid value for %define Boolean variable 'parse.trace'
+input2.y:2.1-6: error: %define variable 'parse.trace' redefined
+input2.y:1.1-28: note: previous definition
+input2.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+]])
 
 AT_CLEANUP

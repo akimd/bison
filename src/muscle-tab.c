@@ -294,10 +294,11 @@ muscle_location_grow (char const *key, location loc)
   case '@':                                                     \
     switch (*++(Value))                                         \
       {                                                         \
-        case '@': obstack_sgrow (&muscle_obstack, "@" ); break; \
-        case '{': obstack_sgrow (&muscle_obstack, "[" ); break; \
-        case '}': obstack_sgrow (&muscle_obstack, "]" ); break; \
-        default: aver (false); break;                           \
+      case '\'': /* Ignore "@'" */ break;                       \
+      case '@': obstack_sgrow (&muscle_obstack, "@" ); break;   \
+      case '{': obstack_sgrow (&muscle_obstack, "[" ); break;   \
+      case '}': obstack_sgrow (&muscle_obstack, "]" ); break;   \
+      default: aver (false); break;                             \
       }                                                         \
     break;                                                      \
   default:                                                      \
