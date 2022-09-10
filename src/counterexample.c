@@ -1165,7 +1165,7 @@ unifying_example (state_item_number itm1,
                   && stage3result)
                 {
                   fputs ("Productions leading up to the conflict state found.  "
-                         "Still finding a possible unifying counterexample...",
+                         "Still searching for a possible unifying counterexample...",
                          stderr);
                   assurance_printed = true;
                 }
