@@ -954,6 +954,10 @@ check_and_convert_grammar (void)
   if (!eoftoken)
     {
       eoftoken = symbol_get ("YYEOF", empty_loc);
+      if (eoftoken->content->class == nterm_sym)
+        complain (&eoftoken->location, complaint,
+                  _("rule given for %s, which is a token"),
+                  eoftoken->tag);
       eoftoken->content->class = token_sym;
       eoftoken->content->number = 0;
       /* Value specified by POSIX.  */

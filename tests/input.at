@@ -1888,6 +1888,38 @@ input.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wothe
 AT_CLEANUP
 
 
+## ---------------- ##
+## Rule for YYEOF.  ##
+## ---------------- ##
+
+AT_SETUP([Rule for YYEOF])
+
+# We crashed when rules were given on YYEOF.
+# https://github.com/akimd/bison/issues/92.
+
+AT_DATA([input1.y],
+[[%%
+start: YYEOF;
+YYEOF: 'x';
+]])
+
+AT_BISON_CHECK([input1.y], [1], [],
+[[input1.y:3.1-5: error: rule given for YYEOF, which is a token
+]])
+
+# This is ok, YYEOF is not special.
+AT_DATA([input2.y],
+[[%token MYEOF 0
+%%
+start: YYEOF;
+YYEOF: 'x';
+]])
+
+AT_BISON_CHECK([input2.y])
+
+AT_CLEANUP
+
+
 ## --------------------- ##
 ## %prec takes a token.  ##
 ## --------------------- ##
