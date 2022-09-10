@@ -5318,15 +5318,27 @@ exclusively nonterminal symbols, use the safer @code{%nterm}:
 The syntax of the various directives to declare symbols is as follows.
 
 @example
-%token @var{tag}? ( @var{id} @var{number}? @var{string}? )+ ( @var{tag} ( @var{id} @var{number}? @var{string}? )+ )*
-%left  @var{tag}? ( @var{id} @var{number}?)+ ( @var{tag} ( @var{id} @var{number}? )+ )*
-%type  @var{tag}? ( @var{id} | @var{char} | @var{string} )+ ( @var{tag} ( @var{id} | @var{char} | @var{string} )+ )*
-%nterm @var{tag}? @var{id}+ ( @var{tag} @var{id}+ )*
+@group
+%token @var{tag}? ( (@var{id}|@var{char}) @var{number}? @var{string}? )+ \
+     ( @var{tag}  ( (@var{id}|@var{char}) @var{number}? @var{string}? )+ )*
+@end group
+@group
+%left  @var{tag}? ( (@var{id}|@var{char}|@var{string}) @var{number}? )+ \
+     ( @var{tag}  ( (@var{id}|@var{char}|@var{string}) @var{number}? )+ )*
+@end group
+@group
+%type  @var{tag}? (@var{id}|@var{char}|@var{string})+ \
+     ( @var{tag}  (@var{id}|@var{char}|@var{string})+ )*
+@end group
+@group
+%nterm @var{tag}? @var{id}+ \
+     ( @var{tag}  @var{id}+ )*
+@end group
 @end example
 
 @noindent
 where @var{tag} denotes a type tag such as @samp{<ival>}, @var{id} denotes
-an identifier such as @samp{NUM}, @var{number} a decimal or hexadecimal
+an identifier such as @samp{NUM} or @samp{exp}, @var{number} a decimal or hexadecimal
 integer such as @samp{300} or @samp{0x12d}, @var{char} a character literal
 such as @samp{'+'}, and @var{string} a string literal such as
 @samp{"number"}.  The postfix quantifiers are @samp{?} (zero or one),
