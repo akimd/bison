@@ -213,6 +213,7 @@
 /integer_length.c
 /integer_length.h
 /integer_length_l.c
+/intprops-internal.h
 /intprops.h
 /inttypes.h
 /inttypes.in.h
@@ -365,6 +366,7 @@
 /stdalign.in.h
 /stdbool.h
 /stdbool.in.h
+/stdckdint.in.h
 /stddef.h
 /stddef.in.h
 /stdint.h
