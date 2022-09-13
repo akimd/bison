@@ -127,6 +127,9 @@ muscle_init (void)
 
   muscle_table = hash_xinitialize (HT_INITIAL_CAPACITY, NULL, hash_muscle,
                                    hash_compare_muscles, muscle_entry_free);
+  /* Avoid warnings if the user defined this variable, but did not
+     actually call -Wcex.  */
+  free (muscle_percent_define_get ("cex.timeout"));
 }
 
 

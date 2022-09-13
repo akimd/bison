@@ -23,7 +23,9 @@
 
 #include "system.h"
 
+#include <c-strtod.h>
 #include <errno.h>
+#include <gethrxtime.h>
 #include <gl_linked_list.h>
 #include <gl_rbtreehash_list.h>
 #include <hash.h>
@@ -39,6 +41,7 @@
 #include "gram.h"
 #include "lalr.h"
 #include "lssi.h"
+#include "muscle-tab.h"
 #include "nullable.h"
 #include "parse-simulation.h"
 
@@ -1115,7 +1118,7 @@ unifying_example (state_item_number itm1,
                      (Hash_comparator) visited_comparator,
                      (Hash_data_freer) search_state_free);
   ssb_append (initial);
-  time_t start = time (NULL);
+  xtime_t start = gethrxtime ();
   bool assurance_printed = false;
   search_state *stage3result = NULL;
   counterexample *cex = NULL;
@@ -1160,7 +1163,7 @@ unifying_example (state_item_number itm1,
             }
           if (TIME_LIMIT_ENFORCED)
             {
-              double time_passed = difftime (time (NULL), start);
+              double time_passed = (gethrxtime () - start) / 1e9;
               if (!assurance_printed && time_passed > ASSURANCE_LIMIT
                   && stage3result)
                 {
@@ -1201,25 +1204,24 @@ cex_search_end:;
   return cex;
 }
 
-static time_t cumulative_time;
+static xtime_t cumulative_time;
 
 void
 counterexample_init (void)
 {
-  /* Recognize $TIME_LIMIT.  Not a public feature, just to help
-     debugging.  If we need something public, a %define/-D/-F variable
-     would be more appropriate. */
   {
-    const char *cp = getenv ("TIME_LIMIT");
-    if (cp)
+    char *cp = muscle_percent_define_get ("cex.timeout");
+    if (*cp != '\0')
       {
         char *end = NULL;
-        double v = strtod (cp, &end);
+        double v = c_strtod (cp, &end);
         if (*end == '\0' && errno == 0)
           time_limit = v;
+        fprintf (stderr, "lim: %f from %s\n", time_limit, cp);
       }
-    }
-  time (&cumulative_time);
+    free (cp);
+  }
+  cumulative_time = gethrxtime ();
   scp_set = bitset_create (nstates, BITSET_FIXED);
   rpp_set = bitset_create (nstates, BITSET_FIXED);
   state_items_init ();
@@ -1266,9 +1268,8 @@ counterexample_report (state_item_number itm1, state_item_number itm2,
       if (reduce_prod_reached)
         bitset_set (rpp_set, si->state->number);
     }
-  time_t t = time (NULL);
   counterexample *cex
-    = difftime (t, cumulative_time) < CUMULATIVE_TIME_LIMIT
+    = (gethrxtime () - cumulative_time) / 1e9 < CUMULATIVE_TIME_LIMIT
     ? unifying_example (itm1, itm2, shift_reduce, shortest_path, next_sym)
     : example_from_path (shift_reduce, itm2, shortest_path, next_sym);
 

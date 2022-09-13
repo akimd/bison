@@ -7,6 +7,7 @@
 /asm-underscore.m4
 /assert.m4
 /builtin-expect.m4
+/c-strtod.m4
 /calloc.m4
 /canonicalize.m4
 /chdir-long.m4
@@ -83,6 +84,7 @@
 /include_next.m4
 /inline.m4
 /intdiv0.m4
+/intl-thread-locale.m4
 /intl.m4
 /intldir.m4
 /intlmacosx.m4

@@ -22,6 +22,7 @@
 #include "state-item.h"
 
 #include <assert.h>
+#include <gethrxtime.h>
 #include <gl_linked_list.h>
 #include <gl_xlist.h>
 #include <stdlib.h>
@@ -533,7 +534,7 @@ state_items_report (FILE *out)
 void
 state_items_init (void)
 {
-  time_t start = time (NULL);
+  xtime_t start = gethrxtime ();
   init_state_items ();
   init_trans ();
   init_prods ();
@@ -542,7 +543,7 @@ state_items_init (void)
   prune_disabled_paths ();
   if (trace_flag & trace_cex)
     {
-      fprintf (stderr, "init: %f\n", difftime (time (NULL), start));
+      fprintf (stderr, "state_items_init: %.3fs\n", (gethrxtime () - start) / 1e9);
       state_items_report (stderr);
     }
 }

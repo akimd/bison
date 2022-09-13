@@ -40,6 +40,8 @@
 /c-strcasecmp.c
 /c-strcaseeq.h
 /c-strncasecmp.c
+/c-strtod.c
+/c-strtod.h
 /calloc.c
 /canonicalize-lgpl.c
 /canonicalize.c

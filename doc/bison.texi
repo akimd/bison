@@ -6894,6 +6894,23 @@ Introduced in Bison 3.0.3.
 @c api.value.union.name
 
 
+@c ================================================== cex.timeout
+
+@deffn Directive {%define cex.timeout} @var{duration}
+
+@itemize @bullet
+@item Language(s): all
+
+@item Purpose:
+Define the time limit for finding unifying counterexamples.
+
+@item Accepted Values: duration in seconds, e.g., @samp{1}, @samp{0.5}.
+
+@item Default Value: 5
+@end itemize
+@end deffn
+
+
 @c ================================================== lr.default-reduction
 
 @deffn Directive {%define lr.default-reduction} @var{when}

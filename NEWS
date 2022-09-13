@@ -8,6 +8,10 @@ GNU Bison NEWS
 
   The C++ skeletons now expose copy and move operators for symbols.
 
+  The `cex.timeout` %define variable allows to control when we give up
+  finding a unifying counterexample.  For instance `bison -Wcex
+  -Dcex.timeout=.5 gram.y` to limit to 1/2s.
+
 * Noteworthy changes in release 3.8.2 (2021-09-25) [stable]
 
   Fixed portability issues of bison on Cygwin.
