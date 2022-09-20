@@ -30,6 +30,7 @@
 #include <gl_rbtreehash_list.h>
 #include <hash.h>
 #include <mbswidth.h>
+#include <quote.h>
 #include <stdlib.h>
 #include <textstyle.h>
 #include <time.h>
@@ -1209,15 +1210,23 @@ static xtime_t cumulative_time;
 void
 counterexample_init (void)
 {
+  // Check cex.timeout.
   {
-    char *cp = muscle_percent_define_get ("cex.timeout");
+    const char *variable = "cex.timeout";
+    char *cp = muscle_percent_define_get (variable);
     if (*cp != '\0')
       {
         char *end = NULL;
         double v = c_strtod (cp, &end);
-        if (*end == '\0' && errno == 0)
+        if (*end == '\0' && errno == 0 && v >= 0)
           time_limit = v;
-        fprintf (stderr, "lim: %f from %s\n", time_limit, cp);
+        else
+          {
+            location loc = muscle_percent_define_get_loc (variable);
+            complain (&loc, complaint,
+                      _("invalid value for %%define variable %s: %s"),
+                      quote (variable), quote_n (1, cp));
+          }
       }
     free (cp);
   }

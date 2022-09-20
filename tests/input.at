@@ -3283,3 +3283,39 @@ AT_TEST([-M foo= -M baz], [baz], [<command line>:6])
 m4_popdef([AT_TEST])
 
 AT_CLEANUP
+
+
+## --------------- ##
+## -Dcex.timeout.  ##
+## --------------- ##
+
+AT_SETUP([[-Dcex.timeout]])
+
+AT_KEYWORDS([cex])
+
+# AT_TEST(OPTIONS)
+# ----------------
+m4_pushdef([AT_TEST],
+[AT_DATA([[input.y]],
+[[
+%%
+exp: %empty;
+]])
+AT_BISON_CHECK([[$1 input.y]], [[$2]], [[]], [m4_ifvaln([$3], [$3])])
+])
+
+# It's ok to define the timeout even if we don't run -Wcex.
+AT_TEST([-Dcex.timeout=1], [0])
+AT_TEST([-Dcex.timeout=1 -Wcex], [0])
+AT_TEST([-Dcex.timeout=1.5 -Wcex], [0])
+# No time at all.  Not really wrong.
+AT_TEST([-Dcex.timeout=0 -Wcex], [0])
+
+AT_TEST([-Dcex.timeout=foo -Wcex], [1],
+        [[<command line>:3: error: invalid value for %define variable 'cex.timeout': 'foo']])
+AT_TEST([-Dcex.timeout=-1.5 -Wcex], [1],
+        [[<command line>:3: error: invalid value for %define variable 'cex.timeout': '-1.5']])
+
+m4_popdef([AT_TEST])
+
+AT_CLEANUP
