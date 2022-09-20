@@ -2,15 +2,22 @@ GNU Bison NEWS
 
 * Noteworthy changes in release ?.? (????-??-??) [?]
 
+  The `cex.timeout` %define variable allows to control when we give up
+  finding a unifying counterexample.  For instance `bison -Wcex
+  -Dcex.timeout=.5 gram.y` to limit to 1/2s.
+
+  The C++ skeletons now expose copy and move operators for symbols.
+
   Fixed portability issues of the test suite on Solaris.
 
   Fixed spurious warnings about input containing `m4_` or `b4_`.
 
-  The C++ skeletons now expose copy and move operators for symbols.
+  Fixed assertion violations found by fuzzing.
 
-  The `cex.timeout` %define variable allows to control when we give up
-  finding a unifying counterexample.  For instance `bison -Wcex
-  -Dcex.timeout=.5 gram.y` to limit to 1/2s.
+  Fixed issues with the D skeleton.
+
+  Fixed new compiler warnings in the generated parsers (yacc.c, lalr1.cc,
+  glr2.cc).
 
 * Noteworthy changes in release 3.8.2 (2021-09-25) [stable]
 
