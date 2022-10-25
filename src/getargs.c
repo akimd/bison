@@ -38,6 +38,8 @@
 #include "output.h"
 #include "uniqstr.h"
 
+bool rrebnf_flag = false;
+bool naked_flag = false;
 bool header_flag = false;
 bool graph_flag = false;
 bool html_flag = false;
@@ -437,6 +439,8 @@ Tuning the Parser:\n\
 
       fputs (_("\
 Output Files:\n\
+  -e                            generate RREBNF\n\
+  -n                            generate naked grammar\n\
   -H, --header=[FILE]           also produce a header file\n\
   -d                            likewise but cannot specify FILE (for POSIX Yacc)\n\
   -r, --report=THINGS           also produce details on the automaton\n\
@@ -564,6 +568,8 @@ static char const short_options[] =
   "W::"
   "b:"
   "d"
+  "e"
+  "n"
   "f::"
   "g::"
   "h"
@@ -622,6 +628,8 @@ static struct option const long_options[] =
   { "yacc",           no_argument,         0, 'y' },
 
   /* Output Files. */
+  { "rrebnf",          optional_argument,   0,   'e' },
+  { "naked",           optional_argument,   0,   'n' },
   { "header",          optional_argument,   0,   'H' },
   { "defines",         optional_argument,   0,   'd' },
   { "report",          required_argument,   0,   'r' },
@@ -785,6 +793,14 @@ getargs (int argc, char *argv[])
 
       case 'b':
         spec_file_prefix = optarg;
+        break;
+
+      case 'e':
+        rrebnf_flag = true;
+        break;
+
+      case 'n':
+        naked_flag = true;
         break;
 
       case 'g':

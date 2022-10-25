@@ -816,6 +816,63 @@ find_start_symbol (void)
   return res->content.sym;
 }
 
+static void
+print_naked_rules(void)
+{
+  int starting_new_rule = 1, rhs_count = 1;
+  uniqstr prev_rule = NULL;
+  for (symbol_list *sym = grammar; sym; sym = sym->next) {
+      if(sym->content_type == SYMLIST_SYMBOL) {
+          if(!sym->content.sym) {
+              starting_new_rule = 1;
+              continue;
+          }
+          if(starting_new_rule) {
+            if(rhs_count == 0) printf("/* empty */");
+            if(prev_rule && prev_rule != sym->content.sym->tag)
+                printf("\n\t;");
+            if(prev_rule == sym->content.sym->tag) printf("\n\t| ");
+            else printf("\n\n%s :\n\t", sym->content.sym->tag);
+            starting_new_rule = rhs_count = 0;
+            prev_rule = sym->content.sym->tag;
+          }
+          else {
+            printf("%s ", sym->content.sym->tag);
+            ++rhs_count;
+          }
+      }
+  }
+  printf("\n\t;\n");
+  fflush(stdout);
+}
+
+static void
+print_rrebnf(void)
+{
+  int starting_new_rule = 1, rhs_count = 1;
+  uniqstr prev_rule = NULL;
+  for (symbol_list *sym = grammar; sym; sym = sym->next) {
+      if(sym->content_type == SYMLIST_SYMBOL) {
+          if(!sym->content.sym) {
+              starting_new_rule = 1;
+              continue;
+          }
+          if(starting_new_rule) {
+            if(rhs_count == 0) printf("/* empty */");
+            if(prev_rule == sym->content.sym->tag) printf("\n\t| ");
+            else printf("\n\n%s ::=\n\t", sym->content.sym->tag);
+            starting_new_rule = rhs_count = 0;
+            prev_rule = sym->content.sym->tag;
+          }
+          else {
+            printf("%s ", sym->content.sym->tag);
+            ++rhs_count;
+          }
+      }
+  }
+  printf("\n\n");
+  fflush(stdout);
+}
 
 /* Insert an initial rule, whose location is that of the first rule
    (not that of the start symbol):
@@ -974,6 +1031,9 @@ check_and_convert_grammar (void)
 
   /* Report any undefined symbols and consider them nonterminals.  */
   symbols_check_defined ();
+
+  if(rrebnf_flag) print_rrebnf();
+  if(naked_flag) print_naked_rules();
 
   if (SYMBOL_NUMBER_MAXIMUM - nnterms < ntokens)
     complain (NULL, fatal, "too many symbols in input grammar (limit is %d)",

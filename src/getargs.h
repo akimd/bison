@@ -34,6 +34,8 @@ extern int skeleton_prio;
 /* for -I */
 extern char const *include;
 
+extern bool rrebnf_flag;                /* for -e */
+extern bool naked_flag;                 /* for -n */
 extern bool header_flag;                /* for -d/-H */
 extern bool graph_flag;                 /* for -g */
 extern bool html_flag;                  /* for --html */
