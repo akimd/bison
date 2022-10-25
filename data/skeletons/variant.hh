@@ -401,7 +401,15 @@ m4_define([_b4_token_constructor_define],
                               b4_symbol_if([$1], [has_type], [std::move (v)]),
                               b4_locations_if([std::move (l)]))[)
       {
-        YYASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+        bool _inlist = false;
+        if( ]m4_join([ ) {
+          _inlist = true;
+        }
+        if ( ], m4_map_sep([_b4_type_clause], [, ], [$@]))[ ) {
+          _inlist = true;
+        }
+
+        YYASSERT (_inlist);
       }
 #else
       symbol_type (]b4_join(
@@ -413,7 +421,15 @@ m4_define([_b4_token_constructor_define],
                               b4_symbol_if([$1], [has_type], [v]),
                               b4_locations_if([l]))[)
       {
-        YYASSERT (]m4_join([ || ], m4_map_sep([_b4_type_clause], [, ], [$@]))[);
+        bool _inlist = false;
+        if( ]m4_join([ ) {
+          _inlist = true;
+        }
+        if ( ], m4_map_sep([_b4_type_clause], [, ], [$@]))[ ) {
+          _inlist = true;
+        }
+
+        YYASSERT (_inlist);
       }
 #endif
 ]])])
