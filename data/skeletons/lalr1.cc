@@ -1,6 +1,7 @@
 # C++ skeleton for Bison
 
-# Copyright (C) 2002-2015, 2018-2022 Free Software Foundation, Inc.
+# Copyright (C) 2002-2015, 2018-2022, 2025-2026 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -159,7 +160,7 @@ m4_ifdef([b4_lex_param], [, ]b4_lex_param))])])
 
 
 m4_pushdef([b4_copyright_years],
-           [2002-2015, 2018-2022])
+           [2002-2015, 2018-2022, 2025-2026])
 
 m4_define([b4_parser_class],
           [b4_percent_define_get([[api.parser.class]])])
@@ -986,6 +987,7 @@ b4_dollar_popdef])[]dnl
   yyreduce:
     yylen = yyr2_[yyn];
     {
+      YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
       stack_symbol_type yylhs;
       yylhs.state = yy_lr_goto_state_ (yystack_[yylen].state, yyr1_[yyn]);]b4_variant_if([[
       /* Variants are always initialized to an empty instance of the
@@ -1038,6 +1040,7 @@ b4_dollar_popdef])[]dnl
 
       // Shift the result of the reduction.
       yypush_ (YY_NULLPTR, YY_MOVE (yylhs));
+      YY_IGNORE_MAYBE_UNINITIALIZED_END
     }
     goto yynewstate;
 

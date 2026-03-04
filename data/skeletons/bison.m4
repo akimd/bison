@@ -2,8 +2,8 @@
 
 # Language-independent M4 Macros for Bison.
 
-# Copyright (C) 2002, 2004-2015, 2018-2022 Free Software Foundation,
-# Inc.
+# Copyright (C) 2002, 2004-2015, 2018-2022, 2025-2026 Free Software
+# Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

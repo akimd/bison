@@ -1,7 +1,7 @@
 /* Symbol table manager for Bison.
 
-   Copyright (C) 1984, 1989, 2000-2002, 2004-2015, 2018-2022 Free
-   Software Foundation, Inc.
+   Copyright (C) 1984, 1989, 2000-2002, 2004-2015, 2018-2022, 2025-2026
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -284,7 +284,7 @@ symbol_print (symbol const *s, FILE *f)
 static bool
 is_identifier (uniqstr s)
 {
-  static char const alphanum[26 + 26 + 1 + 10] =
+  static char const alphanum[26 + 26 + 1 + 10] ATTRIBUTE_NONSTRING =
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "_"

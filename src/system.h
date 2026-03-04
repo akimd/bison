@@ -1,7 +1,7 @@
 /* System-dependent definitions for Bison.
 
-   Copyright (C) 2000-2007, 2009-2015, 2018-2022 Free Software
-   Foundation, Inc.
+   Copyright (C) 2000-2007, 2009-2015, 2018-2022, 2025-2026 Free
+   Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -307,5 +307,14 @@ obstack_escape (struct obstack* obs, const char *cp)
         free (_node);                           \
       }                                         \
   } while (0)
+
+/* Gnulib generic list functions sometimes want args to be void const *.
+   We sometimes want void *, for 'free', or possibly because we plan
+   to cheat and modify the storage.  Cast to satisfy C's static checking.  */
+static inline void *
+deconst (void const *p)
+{
+  return (void *) p;
+}
 
 #endif  /* ! BISON_SYSTEM_H */

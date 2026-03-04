@@ -1,6 +1,7 @@
 #! /bin/sh
 
-# Copyright (C) 2005-2015, 2018-2022 Free Software Foundation, Inc.
+# Copyright (C) 2005-2015, 2018-2022, 2025-2026 Free Software
+# Foundation, Inc.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -53,6 +54,15 @@ if test -x "$abs_medir/$me"; then
 elif test -f "$abs_medir/$me.class"; then
     prog ()
     {
+        # In Cygwin-based environments, the Java implementation still is a
+        # native Windows Java.  Therefore we need to convert the elements
+        # of the class path from Cygwin syntax to native Windows syntax.
+        # The javaexec.sh script does not do this for us.
+        case `uname -s` in
+            CYGWIN*)
+                abs_medir=`cygpath -w "$abs_medir"`
+                ;;
+        esac
         "$SHELL" "$cwd/javaexec.sh" -cp "$abs_medir" "$me" "$@"
     }
 else

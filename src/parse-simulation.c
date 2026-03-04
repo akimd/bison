@@ -1,6 +1,6 @@
 /* Parser simulator for unifying counterexample search
 
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+   Copyright (C) 2020-2022, 2025-2026 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -194,8 +194,9 @@ parse_state_free_contents_early (parse_state *ps)
 }
 
 void
-free_parse_state (parse_state *original_ps)
+free_parse_state (void const *voriginal_ps)
 {
+  parse_state *original_ps = deconst (voriginal_ps);
   bool free_contents = true;
   parse_state *parent_ps = NULL;
   for (parse_state *ps = original_ps; ps && free_contents; ps = parent_ps)
@@ -311,8 +312,7 @@ static parse_state_list
 parse_state_list_new (void)
 {
   return gl_list_create_empty (GL_LINKED_LIST, NULL, NULL,
-                               (gl_listelement_dispose_fn)free_parse_state,
-                               true);
+                               free_parse_state, true);
 }
 
 static void
@@ -320,6 +320,13 @@ parse_state_list_append (parse_state_list pl, parse_state *ps)
 {
   parse_state_retain (ps);
   gl_list_add_last (pl, ps);
+}
+
+static void
+vc_derivation_list_append (derivation_list dl, void const *vcd)
+{
+  derivation *d = deconst (vcd);
+  return derivation_list_append (dl, d);
 }
 
 // Emulates a reduction on a parse state by popping some amount of
@@ -351,7 +358,7 @@ parser_pop (parse_state *ps, int deriv_index,
   list_flatten_and_split (chunks, ret_chunks, si_index, 2,
                           list_add_last);
   list_flatten_and_split (chunks + 2, ret_chunks + 2, deriv_index, 2,
-                          (chunk_append_fn)derivation_list_append);
+                          vc_derivation_list_append);
   size_t s_size = gl_list_size (ret->state_items.contents);
   ret->state_items.total_size = s_size;
   if (s_size > 0)

@@ -1,6 +1,7 @@
 /* Bison Grammar Scanner                             -*- C -*-
 
-   Copyright (C) 2002-2015, 2018-2022 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2022, 2025-2026 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -683,7 +684,7 @@ eqopt    ({sp}=)?
   \\(.|{eol})      {
     char const *p = yytext + 1;
     /* Quote only if escaping won't make the character visible.  */
-    if (c_isspace ((unsigned char) *p) && c_isprint ((unsigned char) *p))
+    if (c_isspace (*p) && c_isprint (*p))
       p = quote (p);
     else
       p = quotearg_style_mem (escape_quoting_style, p, 1);

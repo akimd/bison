@@ -2,48 +2,49 @@
 bison \- GNU Project parser generator (yacc replacement)
 
 [description]
-.I Bison
-is a parser generator in the style of
-.IR yacc (1).
-It should be upwardly compatible with input files designed
-for
-.IR yacc .
+The
+.B bison
+parser generator inputs grammars in the style of
+.BR yacc (1)
+and outputs parsers for those grammers.
 .PP
 Input files should follow the
-.I yacc
+.B yacc
 convention of ending in
-.BR .y .
+.IR .y .
 Unlike
-.IR yacc ,
+.BR yacc ,
 the generated files do not have fixed names, but instead use the prefix
 of the input file.
-Moreover, if you need to put
-.I C++
-code in the input file, you can end his name by a C++-like extension
-(.ypp or .y++), then bison will follow your extension to name the
-output file (.cpp or .c++).
+Moreover, if you need to put C++
+code in the input file, you can end its name by a C++-like extension
+.RI ( .ypp
+or
+.IR .y++ ),
+and then
+.B bison
+will follow your extension to name the
+output file
+.RI ( .cpp
+or
+.IR .c++ ).
 For instance, a grammar description file named
-.B parse.yxx
+.I parse.yxx
 would produce the generated parser in a file named
-.BR parse.tab.cxx ,
+.IR parse.tab.cxx ,
 instead of
-.IR yacc 's
-.B y.tab.c
-or old
-.I Bison
-version's
-.BR parse.tab.c .
+.BR yacc 's
+.IR y.tab.c .
 .PP
 This description of the options that can be given to
-.I bison
+.B bison
 is adapted from the node
 .B Invocation
-in the
-.B bison.texi
-manual, which should be taken as authoritative.
+in the Bison manual, which should be taken as authoritative.
 .PP
-.I Bison
-supports both traditional single-letter options and mnemonic long
+The
+.B bison
+command supports both traditional single-letter options and mnemonic long
 option names.  Long option names are indicated with
 .B \-\-
 instead of

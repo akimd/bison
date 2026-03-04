@@ -5,14 +5,15 @@ yacc \- GNU Project parser generator
 .B yacc
 [\fIOPTION\fR]... \fIFILE\fR
 .SH DESCRIPTION
-.I Yacc
+The program
+.B yacc
 (Yet Another Compiler Compiler) is a parser generator.  This
 version is a simple wrapper around
-.IR bison (1).
+.BR bison (1).
 It passes option
 \fB\-y\fR, \fB\-\-yacc\fR
 to activate the upward compatibility mode.  See
-.IR bison (1)
+.BR bison (1)
 for more information.
 .SH AUTHOR
 Written by Paul Eggert.

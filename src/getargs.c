@@ -1,7 +1,7 @@
 /* Parse command line arguments for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2022 Free
-   Software Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2022, 2025-2026
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -69,7 +69,7 @@ const char *skeleton = NULL;
 int language_prio = default_prio;
 struct bison_language const *language = &valid_languages[0];
 
-typedef int* (xargmatch_fn) (const char *context, const char *arg);
+typedef int const *(xargmatch_fn) (char const *context, char const *arg);
 
 void
 set_yacc (location loc)
@@ -164,7 +164,7 @@ flags_argmatch (const char *opt,
  */
 #define FLAGS_ARGMATCH(FlagName, Args, All)                             \
   flags_argmatch ("--" #FlagName,                                       \
-                  (xargmatch_fn*) argmatch_## FlagName ## _value,       \
+                  argmatch_ ## FlagName ## _value,                      \
                   argmatch_ ## FlagName ## _usage,                      \
                   All, &FlagName ## _flag, Args)
 
@@ -179,7 +179,7 @@ enum color
     color_auto
   };
 
-ARGMATCH_DEFINE_GROUP (color, enum color)
+ARGMATCH_DEFINE_GROUP (color, int)
 
 static const argmatch_color_doc argmatch_color_docs[] =
 {
@@ -215,7 +215,7 @@ const argmatch_color_group_type argmatch_color_group =
 | --report's handling.  |
 `----------------------*/
 
-ARGMATCH_DEFINE_GROUP (report, enum report)
+ARGMATCH_DEFINE_GROUP (report, int)
 
 static const argmatch_report_doc argmatch_report_docs[] =
 {
@@ -256,7 +256,7 @@ const argmatch_report_group_type argmatch_report_group =
 | --trace's handling.  |
 `---------------------*/
 
-ARGMATCH_DEFINE_GROUP (trace, enum trace)
+ARGMATCH_DEFINE_GROUP (trace, int)
 
 static const argmatch_trace_doc argmatch_trace_docs[] =
 {
@@ -319,7 +319,7 @@ const argmatch_trace_group_type argmatch_trace_group =
 | --feature's handling.  |
 `-----------------------*/
 
-ARGMATCH_DEFINE_GROUP (feature, enum feature)
+ARGMATCH_DEFINE_GROUP (feature, int)
 
 static const argmatch_feature_doc argmatch_feature_docs[] =
 {
@@ -422,12 +422,12 @@ Diagnostics:\n\
 Tuning the Parser:\n\
   -L, --language=LANGUAGE          specify the output programming language\n\
   -S, --skeleton=FILE              specify the skeleton to use\n\
-  -t, --debug                      instrument the parser for tracing\n\
+  -t, --debug                      instrument the parser for tracing;\n\
                                    same as '-Dparse.trace'\n\
       --locations                  enable location support\n\
   -D, --define=NAME[=VALUE]        similar to '%define NAME VALUE'\n\
   -F, --force-define=NAME[=VALUE]  override '%define NAME VALUE'\n\
-  -p, --name-prefix=PREFIX         prepend PREFIX to the external symbols\n\
+  -p, --name-prefix=PREFIX         prepend PREFIX to the external symbols;\n\
                                    deprecated by '-Dapi.prefix={PREFIX}'\n\
   -l, --no-lines                   don't generate '#line' directives\n\
   -k, --token-table                include a table of token names\n\
@@ -443,7 +443,7 @@ Output Files:\n\
       --report-file=FILE        write report to FILE\n\
   -v, --verbose                 same as '--report=state'\n\
   -b, --file-prefix=PREFIX      specify a PREFIX for output files\n\
-  -o, --output=FILE             leave output to FILE\n\
+  -o, --output=FILE             output to FILE\n\
   -g, --graph[=FILE]            also output a graph of the automaton\n\
       --html[=FILE]             also output an HTML report of the automaton\n\
   -x, --xml[=FILE]              also output an XML report of the automaton\n\

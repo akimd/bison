@@ -7,6 +7,7 @@
 /config.sub
 /depcomp
 /do-release-commit-and-tag
+/epsf.tex
 /gendocs.sh
 /git-version-gen
 /gitlog-to-changelog

@@ -1,6 +1,6 @@
 /* Parser simulator for unifying counterexample search
 
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+   Copyright (C) 2020-2022, 2025-2026 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -99,7 +99,7 @@ void parse_state_retain (parse_state *ps);
  * when its reference count reaches 1. This is used to
  * free memory while the parse state is in a hash set. */
 void parse_state_free_contents_early (parse_state *ps);
-void free_parse_state (parse_state *ps);
+void free_parse_state (void const *ps);
 
 /* counts the amount of shift and production steps in this parse state */
 void parse_state_completed_steps (const parse_state *ps, int *shifts, int *productions);

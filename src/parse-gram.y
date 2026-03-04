@@ -1,6 +1,7 @@
 /* Bison Grammar Parser                             -*- C -*-
 
-   Copyright (C) 2002-2015, 2018-2022 Free Software Foundation, Inc.
+   Copyright (C) 2002-2015, 2018-2022, 2025-2026 Free Software
+   Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -928,11 +929,11 @@ add_param (param_type type, char *decl, location loc)
     /* Strip the surrounding '{' and '}', and any blanks just inside
        the braces.  */
     --p;
-    while (c_isspace ((unsigned char) *p))
+    while (c_isspace (*p))
       --p;
     p[1] = '\0';
     ++decl;
-    while (c_isspace ((unsigned char) *decl))
+    while (c_isspace (*decl))
       ++decl;
   }
 

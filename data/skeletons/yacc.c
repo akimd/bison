@@ -1,11 +1,11 @@
 #                                                            -*- C -*-
 # Yacc compatible skeleton for Bison
 
-# Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2022 Free Software
-# Foundation, Inc.
+# Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2022, 2025-2026 Free
+# Software Foundation, Inc.
 
 m4_pushdef([b4_copyright_years],
-           [1984, 1989-1990, 2000-2015, 2018-2022])
+           [1984, 1989-1990, 2000-2015, 2018-2022, 2025-2026])
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1531,9 +1531,11 @@ yypull_parse (yypstate *yyps]b4_user_formals[)
   YYLTYPE yylloc = yyloc_default;]])])[
   int yystatus;
   do {
-]b4_pure_if([[    YYSTYPE yylval;
+]b4_pure_if([[    YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+    YYSTYPE yylval;
     int ]])[yychar = ]b4_yylex[;
-    yystatus = yypush_parse (yyps]b4_pure_if([[, yychar, &yylval]b4_locations_if([[, &yylloc]])])m4_ifset([b4_parse_param], [, b4_args(b4_parse_param)])[);
+    yystatus = yypush_parse (yyps]b4_pure_if([[, yychar, &yylval]b4_locations_if([[, &yylloc]])])m4_ifset([b4_parse_param], [, b4_args(b4_parse_param)])[);]b4_pure_if([[
+    YY_IGNORE_MAYBE_UNINITIALIZED_END]])[
   } while (yystatus == YYPUSH_MORE);
   return yystatus;
 }]])[

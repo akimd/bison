@@ -1,6 +1,6 @@
 /* Conflict counterexample generation
 
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+   Copyright (C) 2020-2022, 2025-2026 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -206,8 +206,9 @@ si_bfs_contains (const si_bfs_node *n, state_item_number sin)
 }
 
 static void
-si_bfs_free (si_bfs_node *n)
+si_bfs_free (void const *vn)
 {
+  si_bfs_node *n = deconst (vn);
   if (n == NULL)
     return;
   --n->reference_count;
@@ -231,12 +232,10 @@ typedef gl_list_t si_bfs_node_list;
 static inline derivation_list
 expand_to_conflict (state_item_number start, symbol_number conflict_sym)
 {
-  si_bfs_node *init = si_bfs_new (start, NULL);
-
+  void const *init = si_bfs_new (start, NULL);
   si_bfs_node_list queue
     = gl_list_create (GL_LINKED_LIST, NULL, NULL,
-                      (gl_listelement_dispose_fn) si_bfs_free,
-                      true, 1, (const void **) &init);
+                      si_bfs_free, true, 1, &init);
   si_bfs_node *node = NULL;
   // breadth-first search for a path of productions to the conflict symbol
   while (gl_list_size (queue) > 0)
@@ -471,11 +470,10 @@ nonunifying_shift_path (state_item_list reduce_path, state_item *shift_conflict)
         continue;
 
       // bfs to find a shift to the right state
-      si_bfs_node *init = si_bfs_new (si - state_items, NULL);
+      void const *init = si_bfs_new (si - state_items, NULL);
       si_bfs_node_list queue
         = gl_list_create (GL_LINKED_LIST, NULL, NULL,
-                          (gl_listelement_dispose_fn) si_bfs_free,
-                          true, 1, (const void **) &init);
+                          si_bfs_free, true, 1, &init);
       si_bfs_node *sis = NULL;
       state_item *prevsi = NULL;
       while (gl_list_size (queue) > 0)
@@ -604,15 +602,17 @@ copy_search_state (search_state *parent)
 }
 
 static void
-search_state_free_children (search_state *ss)
+search_state_free_children (void const *vss)
 {
+  search_state const *ss = vss;
   free_parse_state (ss->states[0]);
   free_parse_state (ss->states[1]);
 }
 
 static void
-search_state_free (search_state *ss)
+search_state_free (void *vss)
 {
+  search_state *ss = vss;
   if (ss == NULL)
     return;
   search_state_free_children (ss);
@@ -691,42 +691,51 @@ typedef struct
 } search_state_bundle;
 
 static void
-ssb_free (search_state_bundle *ssb)
+ssb_free (void const *vssb)
 {
+  search_state_bundle *ssb = deconst (vssb);
   gl_list_free (ssb->states);
   free (ssb);
 }
 
 static size_t
-ssb_hasher (search_state_bundle *ssb)
+ssb_hasher (void const *vssb)
 {
+  search_state_bundle const *ssb = vssb;
   return ssb->complexity;
 }
 
 static int
-ssb_comp (const search_state_bundle *s1, const search_state_bundle *s2)
+ssb_comp (void const *vs1, void const *vs2)
 {
+  search_state_bundle const *s1 = vs1;
+  search_state_bundle const *s2 = vs2;
   return s1->complexity - s2->complexity;
 }
 
 static bool
-ssb_equals (const search_state_bundle *s1, const search_state_bundle *s2)
+ssb_equals (void const *vs1, void const *vs2)
 {
+  search_state_bundle const *s1 = vs1;
+  search_state_bundle const *s2 = vs2;
   return s1->complexity == s2->complexity;
 }
 
 typedef gl_list_t ssb_list;
 
 static size_t
-visited_hasher (const search_state *ss, size_t max)
+visited_hasher (void const *vss, size_t max)
 {
+  search_state const *ss = vss;
   return (parse_state_hasher (ss->states[0], max)
           + parse_state_hasher (ss->states[1], max)) % max;
 }
 
 static bool
-visited_comparator (const search_state *ss1, const search_state *ss2)
+visited_comparator (void const *vss1, void const *vss2)
 {
+  search_state const *ss1 = vss1;
+  search_state const *ss2 = vss2;
   return parse_state_comparator (ss1->states[0], ss2->states[0])
     && parse_state_comparator (ss1->states[1], ss2->states[1]);
 }
@@ -762,9 +771,8 @@ ssb_append (search_state *ss)
     {
       ssb->states =
         gl_list_create_empty (GL_LINKED_LIST, NULL, NULL,
-                              (gl_listelement_dispose_fn)search_state_free_children,
-                              true);
-      gl_sortedlist_add (ssb_queue, (gl_listelement_compar_fn) ssb_comp, ssb);
+                              search_state_free_children, true);
+      gl_sortedlist_add (ssb_queue, ssb_comp, ssb);
     }
   else
     {
@@ -1109,15 +1117,12 @@ unifying_example (state_item_number itm1,
   state_item *conflict1 = &state_items[itm1];
   state_item *conflict2 = &state_items[itm2];
   search_state *initial = initial_search_state (conflict1, conflict2);
-  ssb_queue = gl_list_create_empty (GL_RBTREEHASH_LIST,
-                                    (gl_listelement_equals_fn) ssb_equals,
-                                    (gl_listelement_hashcode_fn) ssb_hasher,
-                                    (gl_listelement_dispose_fn) ssb_free,
-                                    false);
+  ssb_queue = gl_list_create_empty (GL_RBTREEHASH_LIST, ssb_equals,
+                                    ssb_hasher, ssb_free, false);
   visited =
-    hash_initialize (32, NULL, (Hash_hasher) visited_hasher,
-                     (Hash_comparator) visited_comparator,
-                     (Hash_data_freer) search_state_free);
+    hash_initialize (32, NULL, visited_hasher,
+                     visited_comparator,
+                     search_state_free);
   ssb_append (initial);
   xtime_t start = gethrxtime ();
   bool assurance_printed = false;
@@ -1181,8 +1186,7 @@ unifying_example (state_item_number itm1,
             }
           generate_next_states (ss, conflict1, conflict2);
         }
-      gl_sortedlist_remove (ssb_queue,
-                            (gl_listelement_compar_fn) ssb_comp, ssb);
+      gl_sortedlist_remove (ssb_queue, ssb_comp, ssb);
     }
 cex_search_end:;
   if (!cex)

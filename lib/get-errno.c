@@ -1,7 +1,7 @@
 /* get-errno.c - get and set errno.
 
-   Copyright (C) 2002, 2006, 2009-2015, 2018-2022 Free Software
-   Foundation, Inc.
+   Copyright (C) 2002, 2006, 2009-2015, 2018-2022, 2025-2026 Free
+   Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

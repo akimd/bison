@@ -1,6 +1,6 @@
 /* Counterexample Generation Search Nodes
 
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+   Copyright (C) 2020-2022, 2025-2026 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -44,20 +44,24 @@ typedef struct
 } hash_pair;
 
 static size_t
-hash_pair_hasher (const hash_pair *sl, size_t max)
+hash_pair_hasher (void const *vsl, size_t max)
 {
+  hash_pair const *sl = vsl;
   return sl->key % max;
 }
 
 static bool
-hash_pair_comparator (const hash_pair *l, const hash_pair *r)
+hash_pair_comparator (void const *vl, void const *vr)
 {
+  hash_pair const *l = vl;
+  hash_pair const *r = vr;
   return l->key == r->key;
 }
 
 static void
-hash_pair_free (hash_pair *hp)
+hash_pair_free (void *vhp)
 {
+  hash_pair *hp = vhp;
   bitset_free (hp->l);
   free (hp);
 }
@@ -65,11 +69,8 @@ hash_pair_free (hash_pair *hp)
 static Hash_table *
 hash_pair_table_create (int size)
 {
-  return hash_xinitialize (size,
-                           NULL,
-                           (Hash_hasher) hash_pair_hasher,
-                           (Hash_comparator) hash_pair_comparator,
-                           (Hash_data_freer) hash_pair_free);
+  return hash_xinitialize (size, NULL, hash_pair_hasher,
+                           hash_pair_comparator, hash_pair_free);
 }
 
 static bitset

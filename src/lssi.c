@@ -1,6 +1,6 @@
 /* Lookahead sensitive state item searches for counterexample generation
 
-   Copyright (C) 2020-2022 Free Software Foundation, Inc.
+   Copyright (C) 2020-2022, 2025-2026 Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -50,8 +50,9 @@ new_lssi (state_item_number si, lssi *p, bitset l, bool free_l)
 }
 
 static void
-lssi_free (lssi *sn)
+lssi_free (void *vsn)
 {
+  lssi *sn = vsn;
   if (sn == NULL)
     return;
   if (sn->free_lookahead)
@@ -60,8 +61,9 @@ lssi_free (lssi *sn)
 }
 
 static size_t
-lssi_hasher (lssi *sn, size_t max)
+lssi_hasher (void const *vsn, size_t max)
 {
+  lssi const *sn = vsn;
   size_t hash = sn->si;
   bitset_iterator biter;
   symbol_number syn;
@@ -71,8 +73,10 @@ lssi_hasher (lssi *sn, size_t max)
 }
 
 static bool
-lssi_comparator (lssi *s1, lssi *s2)
+lssi_comparator (void const *vs1, void const *vs2)
 {
+  lssi const *s1 = vs1;
+  lssi const *s2 = vs2;
   if (s1->si == s2->si)
     {
       if (s1->lookahead == s2->lookahead)
@@ -154,11 +158,8 @@ state_item_list
 shortest_path_from_start (state_item_number target, symbol_number next_sym)
 {
   bitset eligible = eligible_state_items (&state_items[target]);
-  Hash_table *visited = hash_initialize (32,
-                                         NULL,
-                                         (Hash_hasher) lssi_hasher,
-                                         (Hash_comparator) lssi_comparator,
-                                         (Hash_data_freer) lssi_free);
+  Hash_table *visited = hash_initialize (32, NULL, lssi_hasher,
+                                         lssi_comparator, lssi_free);
   bitset il = bitset_create (nsyms, BITSET_FIXED);
   bitset_set (il, 0);
   lssi *init = new_lssi (0, NULL, il, true);

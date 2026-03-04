@@ -1,7 +1,7 @@
 /* Open and close files for Bison.
 
-   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2022 Free
-   Software Foundation, Inc.
+   Copyright (C) 1984, 1986, 1989, 1992, 2000-2015, 2018-2022, 2025-2026
+   Free Software Foundation, Inc.
 
    This file is part of Bison, the GNU Compiler Compiler.
 
@@ -261,8 +261,9 @@ map_file_name (char const *filename)
 }
 
 static void
-prefix_map_free (struct prefix_map *p)
+prefix_map_free (void const *vp)
 {
+  struct prefix_map *p = deconst (vp);
   free (p->oldprefix);
   free (p->newprefix);
   free (p);
@@ -273,11 +274,8 @@ add_prefix_map (char const *oldprefix, char const *newprefix)
 {
   if (!prefix_maps)
     prefix_maps
-      = gl_list_create_empty (GL_ARRAY_LIST,
-                              /* equals */ NULL,
-                              /* hashcode */ NULL,
-                              (gl_listelement_dispose_fn) prefix_map_free,
-                              true);
+      = gl_list_create_empty (GL_ARRAY_LIST, NULL, NULL,
+                              prefix_map_free, true);
 
   struct prefix_map *p = xmalloc (sizeof (*p));
   p->oldprefix = xstrdup (oldprefix);
