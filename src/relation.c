@@ -118,9 +118,11 @@ relation_digraph (relation r, relation_node size, bitsetv function)
       traverse (i);
 
   free (indexes);
+  indexes = NULL;
   free (vertices);
-
-  function = F;
+  vertices = NULL;
+  R = NULL;
+  F = NULL;
 }
 
 
